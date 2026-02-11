@@ -9,7 +9,7 @@ import "./index.css";
 import { ToastProvider } from "./components/Toast";
 
 function AppShell() {
-  const { theme, mode } = useTheme();
+  const { theme } = useTheme();
 
  return (
   <div

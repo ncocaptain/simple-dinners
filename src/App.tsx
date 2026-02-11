@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import WeekPage from "./pages/WeekPage";
 import CookbookPage from "./pages/CookbookPage";
-import { useTheme } from "./theme";
+
 
 
 export type Meal = { name: string; ingredients: string };
@@ -148,7 +148,7 @@ function PreferencesPanel({
   toggleAllergen: (key: string) => void;
   suggestionCount: number;
 }) {
-  const { theme } = useTheme();
+  
 
   return (
     <div style={{ marginTop: 14, marginBottom: 16, padding: 12, borderRadius: 10, border: "1px solid #e5e7eb" }}>
@@ -216,7 +216,7 @@ export default function App() {
     return [];
   }
 });
-
+  
 
    const COOKBOOK_KEY = "simpleDinnersCookbook";
 

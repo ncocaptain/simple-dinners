@@ -10,6 +10,7 @@ import { uploadImageToCloudinary } from "../utils/uploadImage";
 export default function CookbookPage({
   setMeals,
   cookbook,
+  setCookbook,
   prefs,
   allergenKeywords,
   violatesAllergens,
@@ -24,6 +25,7 @@ export default function CookbookPage({
   violatesAllergens: (ingredients: string) => boolean;
   isVegetarianByHeuristic: (ingredients: string) => boolean;
 }) {
+
   const toast = useToast();
   const { base, theme } = useInputStyles();
 
@@ -38,12 +40,14 @@ export default function CookbookPage({
 
   const [cookbookSearch, setCookbookSearch] = React.useState<string>("");
 
-  const [cookbookFavoritesFirst, setCookbookFavoritesFirst] = React.useState<boolean>(() => {
+  const [cookbookFavoritesFirst] = React.useState<boolean>(() => {
+
     const saved = localStorage.getItem("cookbookFavoritesFirst");
     return saved ? saved === "true" : true;
   });
 
-  const [cookbookMatchPrefsOnly, setCookbookMatchPrefsOnly] = React.useState<boolean>(() => {
+  const [cookbookMatchPrefsOnly] =
+  React.useState<boolean>(() => {
     const saved = localStorage.getItem("cookbookMatchPrefsOnly");
     return saved ? saved === "true" : true;
   });
