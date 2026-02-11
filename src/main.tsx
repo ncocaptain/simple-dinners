@@ -11,37 +11,59 @@ import { ToastProvider } from "./components/Toast";
 function AppShell() {
   const { theme, mode } = useTheme();
 
-  return (
-   <div
-  style={{
-    minHeight: "100vh",
-    background: "transparent",
-    color: theme.colors.text,
-    padding: 12,
-  }}
->
+ return (
+  <div
+    style={{
+      minHeight: "100vh",
+      color: theme.colors.text,
+      position: "relative",
+      overflow: "hidden",
+    }}
+  >
+    {/* Background image */}
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        backgroundImage: `url("/moody-kitchen.jpg")`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        zIndex: 0,
+      }}
+    />
 
-      <div style={{ fontWeight: 900, marginBottom: 12 }}>
-        ✅ AppShell mounted — mode: {mode}
-      </div>
+    {/* Dark overlay */}
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(0,0,0,0.55)",
+        zIndex: 1,
+      }}
+    />
 
+    {/* App content */}
+    <div style={{ position: "relative", zIndex: 2, minHeight: "100vh" }}>
       <ThemeToggleFab />
 
-      <div style={{ marginTop: 12 }}>
-        <div
-  style={{
-    maxWidth: 980,
-    margin: "0 auto",
-    backdropFilter: "blur(6px)",
-    WebkitBackdropFilter: "blur(6px)",
-  }}
->
-  <App />
-</div>
-
+      <div
+        style={{
+          marginTop: 12,
+          maxWidth: 980,
+          marginLeft: "auto",
+          marginRight: "auto",
+          backdropFilter: "blur(6px)",
+          WebkitBackdropFilter: "blur(6px)",
+        }}
+      >
+        <App />
       </div>
     </div>
-  );
+  </div>
+);
+
+
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

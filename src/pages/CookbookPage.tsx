@@ -8,10 +8,8 @@ import { useToast } from "../components/Toast";
 import { uploadImageToCloudinary } from "../utils/uploadImage";
 
 export default function CookbookPage({
-  meals,
   setMeals,
   cookbook,
-  setCookbook,
   prefs,
   allergenKeywords,
   violatesAllergens,
