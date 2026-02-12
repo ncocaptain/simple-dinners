@@ -4,12 +4,12 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import ErrorBoundary from "./ErrorBoundary";
 import { ThemeProvider, useTheme } from "./theme";
-import ThemeToggleFab from "./components/ThemeToggleFab";
 import "./index.css";
 import { ToastProvider } from "./components/Toast";
 
 function AppShell() {
-  const { theme } = useTheme();
+  const { theme, mode } = useTheme();
+
 
  return (
   <div
@@ -33,19 +33,24 @@ function AppShell() {
       }}
     />
 
-    {/* Dark overlay */}
-    <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0,0,0,0.55)",
-        zIndex: 1,
-      }}
-    />
+    {/* Adaptive overlay */}
+<div
+  style={{
+    position: "fixed",
+    inset: 0,
+    background:
+  mode === "light"
+    ? "rgba(255,255,255,0.55)"
+    : "rgba(0,0,0,0.55)",
+
+    zIndex: 1,
+  }}
+/>
+
 
     {/* App content */}
     <div style={{ position: "relative", zIndex: 2, minHeight: "100vh" }}>
-      <ThemeToggleFab />
+      
 
       <div
         style={{

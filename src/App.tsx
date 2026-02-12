@@ -17,6 +17,8 @@ export type Recipe = {
   favorite?: boolean;
   createdAt: number;
   updatedAt?: number;
+  sourceUrl?: string;
+
 };
 
 

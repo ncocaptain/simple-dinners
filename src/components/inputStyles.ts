@@ -9,8 +9,9 @@ export function useInputStyles() {
     padding: "10px 12px",
     borderRadius: theme.radius.md,
     border: `1px solid ${theme.colors.border}`,
-    background: theme.colors.inputBg,
-    color: theme.colors.inputText,
+    background: theme.colors.card,
+color: theme.colors.text,
+
     outline: "none",
   };
 

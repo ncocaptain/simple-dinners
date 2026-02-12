@@ -36,6 +36,9 @@ export default function CookbookPage({
   const [editIngredients, setEditIngredients] = React.useState<string>("");
   const [editPhotoUrl, setEditPhotoUrl] = React.useState<string>("");
   const [isUploading, setIsUploading] = React.useState(false);
+  const [importUrl, setImportUrl] = React.useState("");
+  const [isImporting, setIsImporting] = React.useState(false);
+
   
 
   const [cookbookSearch, setCookbookSearch] = React.useState<string>("");
@@ -186,6 +189,62 @@ export default function CookbookPage({
           style={{ ...base, width: "100%" }}
         />
       </div>
+
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
+  <input
+    placeholder="Paste recipe URL…"
+    value={importUrl}
+    onChange={(e) => setImportUrl(e.target.value)}
+    style={{ ...base, flex: 1, minWidth: 220 }}
+  />
+  <Button
+    onClick={async () => {
+      const url = importUrl.trim();
+      if (!url) return;
+
+      try {
+        setIsImporting(true);
+        const resp = await fetch("/api/recipe-import", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url }),
+        });
+
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data?.error ?? "Import failed");
+
+        const r = data.recipe;
+
+        // Create a new recipe entry in your cookbook
+        setCookbook((prev) => [
+          {
+            id: crypto.randomUUID(),
+            name: r.name,
+            ingredients: r.ingredients || "",
+            instructions: r.instructions || "",
+            photoUrl: r.photoUrl || "",
+            favorite: false,
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+            sourceUrl: r.sourceUrl,
+          },
+          ...prev,
+        ]);
+
+        setImportUrl("");
+        toast("Imported recipe!");
+      } catch (err: any) {
+        toast(err?.message ?? "Import failed", "error");
+      } finally {
+        setIsImporting(false);
+      }
+    }}
+    disabled={isImporting}
+  >
+    {isImporting ? "Importing…" : "Import"}
+  </Button>
+</div>
+
 
       <div style={{ marginBottom: 12, opacity: 0.8 }}>
         Recipes: <b>{filteredCookbook.length}</b>
