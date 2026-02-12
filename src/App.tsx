@@ -6,7 +6,8 @@ import CookbookPage from "./pages/CookbookPage";
 
 
 
-export type Meal = { name: string; ingredients: string };
+export type Meal = { name: string; ingredients: string; instructions?: string; photoUrl?: string };
+
 
 export type Recipe = {
   id: string;
@@ -231,6 +232,8 @@ const [cookbook, setCookbook] = React.useState<Recipe[]>(() => {
   }
 });
 
+
+
 React.useEffect(() => {
   localStorage.setItem(COOKBOOK_KEY, JSON.stringify(cookbook));
 }, [cookbook]);
@@ -254,12 +257,13 @@ React.useEffect(() => {
     }
   });
 
+
+  
   const safeAllergens = Array.isArray(prefs.allergens) ? prefs.allergens : [];
 
   // Persist
   useEffect(() => localStorage.setItem("meals", JSON.stringify(meals)), [meals]);
   useEffect(() => localStorage.setItem("checkedItems", JSON.stringify(checkedItems)), [checkedItems]);
-  useEffect(() => localStorage.setItem("cookbook", JSON.stringify(cookbook)), [cookbook]);
   useEffect(() => localStorage.setItem("prefs", JSON.stringify({ ...prefs, allergens: safeAllergens })), [prefs, safeAllergens]);
 
   // Derived: allergen keywords
@@ -277,6 +281,8 @@ React.useEffect(() => {
     const ing = normalize(ingredients);
     return !MEAT_WORDS.some((w) => ing.includes(w));
   };
+  
+
 
   // Candidate library for auto-fill
   const candidateLibrary = useMemo(() => {
@@ -300,6 +306,54 @@ React.useEffect(() => {
   }, [prefs.vegetarian, prefs.allowSubstitutions, allergenKeywords]);
 
   const suggestionCount = candidateLibrary.length;
+
+  useEffect(() => {
+  const isEmptyMeal = (m?: Meal) => !m || (!m.name?.trim() && !m.ingredients?.trim());
+
+  setMeals((prev) => {
+    const next = { ...prev };
+
+    // Prefer cookbook recipes that match prefs
+    const cookbookPool = (cookbook ?? []).filter((r) => {
+      if (violatesAllergens(r.ingredients)) return false;
+      if (!prefs.vegetarian) return true;
+      if (isVegetarianByHeuristic(r.ingredients)) return true;
+      return prefs.allowSubstitutions;
+    });
+
+    // Fallback to candidate library (your built-in meal library)
+    const pool: Meal[] = [
+      ...cookbookPool.map((r) => ({ name: r.name, ingredients: r.ingredients })),
+      ...candidateLibrary,
+    ].filter((m) => !violatesAllergens(m.ingredients));
+
+    if (pool.length === 0) return prev;
+
+    // Stable pick so refresh doesn't reshuffle constantly
+    const seed = new Date().toDateString().length;
+
+    let changed = false;
+    days.forEach((d, i) => {
+      if (isEmptyMeal(prev[d])) {
+        const picked = pool[(seed + i) % pool.length];
+        next[d] = { name: picked.name, ingredients: picked.ingredients };
+        changed = true;
+      }
+    });
+
+    return changed ? next : prev;
+  });
+}, [
+  cookbook,
+  prefs.vegetarian,
+  prefs.allowSubstitutions,
+  prefs.allergens,
+  candidateLibrary,
+  violatesAllergens,
+  isVegetarianByHeuristic,
+  setMeals,
+]);
+
 
   // Actions
   const toggleAllergen = (key: string) => {
