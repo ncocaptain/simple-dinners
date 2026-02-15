@@ -54,15 +54,17 @@ function Badge({
 }
 
 export default function CookbookPage({
-  meals,
+  meals: _meals,
   setMeals,
   cookbook,
   setCookbook,
   prefs,
-  allergenKeywords, // ok to keep even if unused
+  allergenKeywords: _allergenKeywords,
   violatesAllergens,
   isVegetarianByHeuristic,
 }: {
+
+
   meals: Record<string, Meal>;
   setMeals: React.Dispatch<React.SetStateAction<Record<string, Meal>>>;
   cookbook: Recipe[];
