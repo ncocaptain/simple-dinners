@@ -7,7 +7,51 @@ import { useInputStyles } from "../components/inputStyles";
 import { useToast } from "../components/Toast";
 import { uploadImageToCloudinary } from "../utils/uploadImage";
 
+
+function Badge({
+  children,
+  tone = "default",
+}: {
+  children: React.ReactNode;
+  tone?: "default" | "good" | "warn" | "bad";
+}) {
+  const bg =
+    tone === "good" ? "rgba(34,197,94,.16)" :
+    tone === "warn" ? "rgba(245,158,11,.18)" :
+    tone === "bad" ? "rgba(239,68,68,.16)" :
+    "rgba(148,163,184,.18)";
+
+  const border =
+    tone === "good" ? "rgba(34,197,94,.35)" :
+    tone === "warn" ? "rgba(245,158,11,.35)" :
+    tone === "bad" ? "rgba(239,68,68,.35)" :
+    "rgba(148,163,184,.30)";
+
+  return (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 6,
+        padding: "4px 10px",
+        borderRadius: 999,
+        fontSize: 12,
+        fontWeight: 800,
+        background: bg,
+        border: `1px solid ${border}`,
+        lineHeight: 1.2,
+        whiteSpace: "nowrap",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+
+
 export default function CookbookPage({
+  meals,
   setMeals,
   cookbook,
   setCookbook,
@@ -63,6 +107,7 @@ export default function CookbookPage({
     localStorage.setItem("cookbookMatchPrefsOnly", String(cookbookMatchPrefsOnly));
   }, [cookbookMatchPrefsOnly]);
 
+  
   const recipeMatchesPreferences = (r: { ingredients: string }) => {
     if (violatesAllergens(r.ingredients)) return false;
     if (!prefs.vegetarian) return true;
@@ -77,6 +122,7 @@ export default function CookbookPage({
 
     if (q) list = list.filter((r) => normalize(r.name).includes(q) || normalize(r.ingredients).includes(q));
     if (cookbookMatchPrefsOnly) list = list.filter(recipeMatchesPreferences);
+
 
     list.sort((a, b) => {
       if (cookbookFavoritesFirst && a.favorite !== b.favorite) return a.favorite ? -1 : 1;
@@ -169,12 +215,30 @@ export default function CookbookPage({
   };
 
   const addRecipeToDay = (recipe: Recipe, day: string) => {
-    setMeals((prev) => ({
+      setMeals((prev) => ({
       ...prev,
       [day]: { name: recipe.name, ingredients: recipe.ingredients },
     }));
     toast(`Added to ${day}!`);
   };
+
+    const firstEmptyDay = () =>
+    days.find((d) => {
+      const m = meals[d];
+      const name = (m?.name || "").trim();
+      const ing = (m?.ingredients || "").trim();
+      return name.length === 0 && ing.length === 0;
+    });
+
+  const addRecipeToFirstEmpty = (recipe: Recipe) => {
+    const d = firstEmptyDay();
+    if (!d) {
+      toast("No empty days available", "warning");
+      return;
+    }
+    addRecipeToDay(recipe, d);
+  };
+
 
   return (
     <Card
@@ -189,6 +253,16 @@ export default function CookbookPage({
           style={{ ...base, width: "100%" }}
         />
       </div>
+      <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center", marginBottom: 12 }}>
+  <input
+    placeholder="Search recipes…"
+    value={cookbookSearch}
+    onChange={(e) => setCookbookSearch(e.target.value)}
+    style={{ ...base, flex: 1, minWidth: 220 }}
+  />
+  <Badge>{filteredCookbook.length} recipes</Badge>
+</div>
+
 
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
   <input
@@ -255,149 +329,172 @@ export default function CookbookPage({
           Your cookbook is empty. Add one from the Week page.
         </div>
       ) : (
-        <div style={{ display: "grid", gap: 10 }}>
+        <div
+              style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+              gap: 12,
+              marginTop: 12,
+  }}
+>
           {/* ✅ IMPORTANT: use { } map so we can declare variables */}
           {filteredCookbook.map((r) => {
             const isEditing = editingId === r.id;
 
             return (
-              <Card key={r.id} style={{ padding: theme.spacing.md }}>
-                {/* Image outside edit mode */}
-                {!isEditing && r.photoUrl && (
-                  <img
-                    src={r.photoUrl}
-                    alt={r.name}
-                    style={{
-                      width: "100%",
-                      maxHeight: 220,
-                      objectFit: "cover",
-                      borderRadius: 12,
-                      marginBottom: 10,
-                      border: `1px solid ${theme.colors.border}`,
-                    }}
-                  />
-                )}
+              <Card
+  key={r.id}
+  style={{
+    padding: 0,
+    overflow: "hidden",
+    border: `1px solid ${theme.colors.border}`,
+  }}
+>
+  {/* Banner image */}
+  {r.photoUrl ? (
+    <div style={{ position: "relative" }}>
+      <img
+        src={r.photoUrl}
+        alt={r.name}
+        style={{
+          width: "100%",
+          height: 180,
+          objectFit: "cover",
+          display: "block",
+        }}
+      />
+      {/* subtle gradient so text/actions pop if you ever overlay */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.25))",
+        }}
+      />
+    </div>
+  ) : null}
 
-                {!isEditing ? (
-                  <>
-                    <div style={{ fontWeight: 900 }}>{r.name}</div>
-                    <div style={{ opacity: 0.85, marginTop: 6 }}>{r.ingredients}</div>
-                    {r.instructions && r.instructions.trim() && (
-                      <div style={{ marginTop: 10, opacity: 0.92, whiteSpace: "pre-wrap" }}>
-                      <div style={{ fontWeight: 800, marginBottom: 4 }}>Instructions</div>
-                      <div>{r.instructions}</div>
-                      </div>
-                )}
+  {/* Body */}
+  <div style={{ padding: theme.spacing.md }}>
+    {/* Title row */}
+    <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+      <div style={{ flex: 1 }}>
+        <div style={{ fontWeight: 950, fontSize: 18, lineHeight: 1.15 }}>
+          {r.name}
+        </div>
+
+        {/* Badges */}
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}>
+          {violatesAllergens(r.ingredients) ? (
+            <Badge tone="warn">⚠️ Contains allergens</Badge>
+          ) : (
+            <Badge tone="good">✅ Allergen-safe</Badge>
+          )}
+
+          {prefs.vegetarian ? (
+            isVegetarianByHeuristic(r.ingredients) ? (
+              <Badge tone="good">🥦 Vegetarian</Badge>
+            ) : (
+              <Badge tone="warn">🍖 Non-veg</Badge>
+            )
+          ) : (
+            <Badge>🍽️ Any diet</Badge>
+          )}
+
+          {r.sourceUrl ? <Badge>🔗 Source</Badge> : null}
+        </div>
+      </div>
+
+      {/* Favorite button */}
+      <Button
+        variant="secondary"
+        onClick={() => toggleFavoriteRecipe(r.id)}
+        title={r.favorite ? "Unfavorite" : "Favorite"}
+        style={{ padding: "8px 10px" }}
+      >
+        {r.favorite ? "⭐" : "☆"}
+      </Button>
+    </div>
+
+    {/* Ingredients section */}
+    <div style={{ marginTop: 14 }}>
+      <div style={{ fontWeight: 900, fontSize: 12, opacity: 0.8, letterSpacing: 0.6 }}>
+        INGREDIENTS
+      </div>
+      <div style={{ marginTop: 6, opacity: 0.92, lineHeight: 1.45 }}>
+        {r.ingredients}
+      </div>
+    </div>
+
+    {/* Instructions collapsible */}
+    {r.instructions && r.instructions.trim() ? (
+      <div style={{ marginTop: 12 }}>
+        <details>
+          <summary style={{ cursor: "pointer", fontWeight: 900 }}>
+            📋 Instructions
+          </summary>
+          <div style={{ marginTop: 8, whiteSpace: "pre-wrap", opacity: 0.92, lineHeight: 1.5 }}>
+            {r.instructions}
+          </div>
+        </details>
+      </div>
+    ) : null}
+
+    {/* Footer actions */}
+    <div
+      style={{
+        display: "flex",
+        gap: 8,
+        flexWrap: "wrap",
+        marginTop: 14,
+        paddingTop: 12,
+        borderTop: `1px solid ${theme.colors.border}`,
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+    >
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        <Button variant="secondary" onClick={() => startEditRecipe(r)}>
+          ✏️ Edit
+        </Button>
+        <Button variant="danger" onClick={() => removeFromCookbook(r.id)}>
+          🗑️ Delete
+        </Button>
+      </div>
+
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+        <Button onClick={() => addRecipeToFirstEmpty(r)}>➕ Add to first empty</Button>
 
 
-                    <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
-                      <Button variant="secondary" onClick={() => startEditRecipe(r)}>
-                        ✏️ Edit
-                      </Button>
+        <select
+          defaultValue=""
+          onChange={(e) => {
+            const day = e.target.value;
+            if (!day) return;
+            addRecipeToDay(r, day);
+            e.currentTarget.value = "";
+          }}
+          style={{ ...base, width: "auto" }}
+        >
+          <option value="">Pick day…</option>
+          {days.map((d) => (
+            <option key={d} value={d}>
+              {d}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
 
-                      <Button variant="secondary" onClick={() => toggleFavoriteRecipe(r.id)}>
-                        {r.favorite ? "⭐ Favorited" : "☆ Favorite"}
-                      </Button>
+    {/* tiny meta */}
+    <div style={{ fontSize: 11, opacity: 0.6, marginTop: 10 }}>
+      Created: {new Date(r.createdAt).toLocaleDateString()}
+      {r.updatedAt ? ` • Updated: ${new Date(r.updatedAt).toLocaleDateString()}` : ""}
+    </div>
+  </div>
+</Card>
 
-                      <Button variant="danger" onClick={() => removeFromCookbook(r.id)}>
-                        🗑️ Delete
-                      </Button>
-                    </div>
-
-                    <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
-                      <Button onClick={() => addRecipeToDay(r, days[0])} variant="secondary">
-                        ➕ Add to Monday
-                      </Button>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div style={{ fontWeight: 900, marginBottom: 8 }}>Editing</div>
-
-                    <input
-                      value={editName}
-                      onChange={(e) => setEditName(e.target.value)}
-                      placeholder="Recipe name"
-                      style={{ ...base, width: "100%", marginBottom: 8 }}
-                    />
-
-                    <input
-                      value={editIngredients}
-                      onChange={(e) => setEditIngredients(e.target.value)}
-                      placeholder="Ingredients (comma separated)"
-                      style={{ ...base, width: "100%", marginBottom: 10 }}
-                    />
-                    <textarea
-                      value={editInstructions}
-                      onChange={(e) => setEditInstructions(e.target.value)}
-                      placeholder="Instructions (step-by-step)…"
-                      rows={6}
-                      style={{ ...base, width: "100%", marginBottom: 10 }}
-/>
-
-                    {editPhotoUrl && (
-                      <img
-                        src={editPhotoUrl}
-                        alt="Recipe"
-                        style={{
-                          width: "100%",
-                          maxHeight: 220,
-                          objectFit: "cover",
-                          borderRadius: 12,
-                          marginBottom: 8,
-                          border: `1px solid ${theme.colors.border}`,
-                        }}
-                      />
-                    )}
-
-                    <input
-                      type="file"
-                      accept="image/*"
-                      disabled={isUploading}
-                      onChange={async (e) => {
-                        const file = e.target.files?.[0];
-                        if (!file) return;
-
-                        try {
-                          setIsUploading(true);
-                          const url = await uploadImageToCloudinary(file);
-                          setEditPhotoUrl(url);
-                          toast("Photo uploaded!");
-                        } catch (err: any) {
-                          toast(err?.message ?? "Upload failed", "error");
-                        } finally {
-                          setIsUploading(false);
-                          e.currentTarget.value = "";
-                        }
-                      }}
-                      style={{ ...base, width: "100%" }}
-                    />
-
-                    {isUploading && (
-                      <div style={{ marginTop: 6, fontSize: 12, opacity: 0.8 }}>
-                        Uploading…
-                      </div>
-                    )}
-
-                    <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
-                      <Button onClick={() => saveEditRecipe(r.id)}>Save</Button>
-                      <Button variant="secondary" onClick={cancelEditRecipe}>
-                        Cancel
-                      </Button>
-
-                      <Button
-                        variant="secondary"
-                        onClick={() => {
-                          setEditPhotoUrl("");
-                          toast("Photo removed");
-                        }}
-                      >
-                        Remove photo
-                      </Button>
-                    </div>
-                  </>
-                )}
-              </Card>
             );
           })}
         </div>

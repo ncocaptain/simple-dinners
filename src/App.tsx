@@ -1,12 +1,9 @@
-import React from "react";
 import { useEffect, useMemo, useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import WeekPage from "./pages/WeekPage";
 import CookbookPage from "./pages/CookbookPage";
 
-
-
-export type Meal = { name: string; ingredients: string; instructions?: string; photoUrl?: string };
 
 
 export type Recipe = {
@@ -28,6 +25,24 @@ export type Preferences = {
   allowSubstitutions: boolean;
   allergens: string[];
 };
+
+export type Effort = "quick" | "normal" | "big" | "takeout";
+
+export type Meal = {
+  name: string;
+  ingredients: string;
+  instructions?: string;
+  photoUrl?: string;
+
+  // optional “card” fields
+  description?: string;
+  prepMinutes?: number;
+  servings?: number;
+  rating?: number; // 0–5
+  effort?: Effort; // Added this
+};
+
+
 
 export const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] as const;
 
@@ -60,33 +75,14 @@ export const MEAT_WORDS = [
 ];
 
 export const MEAL_LIBRARY: Meal[] = [
-  { name: "Tacos", ingredients: "tortillas, ground beef, taco seasoning, lettuce, cheese, salsa" },
-  { name: "Spaghetti", ingredients: "spaghetti, marinara sauce, garlic, parmesan, ground beef" },
-  { name: "Chicken Stir Fry", ingredients: "chicken, soy sauce, broccoli, bell pepper, rice, garlic" },
-  { name: "Burgers", ingredients: "burger buns, ground beef, cheese, lettuce, tomato, pickles" },
-  { name: "BBQ Chicken", ingredients: "chicken, bbq sauce, corn, potatoes, butter" },
-  { name: "Chicken Alfredo", ingredients: "chicken, fettuccine, alfredo sauce, parmesan, broccoli" },
-  { name: "Chili", ingredients: "ground beef, beans, tomatoes, chili seasoning, onion, cheddar" },
-  { name: "Salmon + Veg", ingredients: "salmon, lemon, asparagus, olive oil, garlic" },
-  { name: "Pizza Night", ingredients: "pizza dough, sauce, mozzarella, pepperoni, mushrooms" },
-  { name: "Sheet Pan Sausage", ingredients: "sausage, potatoes, carrots, onion, olive oil" },
-  { name: "Fajitas", ingredients: "chicken, bell peppers, onion, tortillas, fajita seasoning" },
-  { name: "Quesadillas", ingredients: "tortillas, cheese, chicken, salsa, sour cream" },
-  { name: "Breakfast for Dinner", ingredients: "eggs, bacon, pancake mix, syrup, butter" },
-  { name: "Meatballs", ingredients: "meatballs, marinara sauce, pasta, parmesan, garlic bread" },
+  { name: "Tacos", ingredients: "tortillas, ground beef, taco seasoning, lettuce, cheese, salsa", effort: "quick" },
+  { name: "Spaghetti", ingredients: "spaghetti, marinara sauce, garlic, parmesan, ground beef", effort: "normal" },
+  { name: "Chicken Alfredo", ingredients: "chicken, fettuccine, alfredo sauce, parmesan, broccoli", effort: "big" },
+  { name: "Pizza Night", ingredients: "pizza dough, sauce, mozzarella, pepperoni, mushrooms", effort: "big" },
 
-  { name: "Veggie Tacos", ingredients: "tortillas, black beans, taco seasoning, lettuce, cheese, salsa" },
-  { name: "Veggie Stir Fry", ingredients: "tofu, soy sauce, broccoli, bell pepper, rice, garlic" },
-  { name: "Margherita Pizza", ingredients: "pizza dough, sauce, mozzarella, basil, olive oil" },
-  { name: "Pesto Pasta", ingredients: "pasta, pesto, parmesan, cherry tomatoes, spinach" },
-  { name: "Veggie Chili", ingredients: "beans, tomatoes, chili seasoning, onion, bell pepper, cheddar" },
-  { name: "Chickpea Curry", ingredients: "chickpeas, curry paste, coconut milk, onion, rice" },
-  { name: "Bean Burrito Bowls", ingredients: "black beans, rice, corn, salsa, avocado, cheese" },
-  { name: "Grilled Cheese + Tomato Soup", ingredients: "bread, cheddar, butter, tomato soup" },
-  { name: "Veggie Fried Rice", ingredients: "rice, eggs, peas, carrots, soy sauce, garlic" },
-  { name: "Greek Salad Pitas", ingredients: "pita, cucumber, tomato, feta, olives, tzatziki" },
-  { name: "Roasted Veggie Bowls", ingredients: "sweet potato, broccoli, chickpeas, olive oil, tahini" },
+  { name: "Drive-Thru Night", ingredients: "order out (no groceries)", effort: "takeout" },
 ];
+
 
 export const SUBS: Array<{ pattern: RegExp; replacement: string }> = [
   { pattern: /\bground beef\b/gi, replacement: "black beans" },
@@ -146,7 +142,7 @@ function PreferencesPanel({
 }: {
   
   prefs: Preferences;
-  setPrefs: React.Dispatch<React.SetStateAction<Preferences>>;
+  setPrefs: Dispatch<SetStateAction<Preferences>>;
   safeAllergens: string[];
   toggleAllergen: (key: string) => void;
   suggestionCount: number;
@@ -211,7 +207,33 @@ export default function App() {
     }
   });
 
-  const [checkedItems, setCheckedItems] = React.useState<string[]>(() => {
+  type DaySettings = Record<(typeof days)[number], Effort>;
+
+const DAY_SETTINGS_KEY = "daySettings";
+
+const [daySettings, setDaySettings] = useState<DaySettings>(() => {
+  try {
+    const saved = localStorage.getItem(DAY_SETTINGS_KEY);
+    if (saved) return JSON.parse(saved);
+  } catch {}
+  // default: normal weekdays, big on weekend
+  return {
+    Monday: "normal",
+    Tuesday: "normal",
+    Wednesday: "normal",
+    Thursday: "normal",
+    Friday: "normal",
+    Saturday: "normal",
+    Sunday: "normal",
+  };
+});
+
+useEffect(() => {
+  localStorage.setItem(DAY_SETTINGS_KEY, JSON.stringify(daySettings));
+}, [daySettings]);
+
+
+  const [checkedItems, setCheckedItems] = useState<string[]>(() => {
   try {
     const saved = localStorage.getItem("checkedItems");
     return saved ? JSON.parse(saved) : [];
@@ -223,7 +245,7 @@ export default function App() {
 
    const COOKBOOK_KEY = "simpleDinnersCookbook";
 
-const [cookbook, setCookbook] = React.useState<Recipe[]>(() => {
+const [cookbook, setCookbook] = useState<Recipe[]>(() => {
   try {
     const saved = localStorage.getItem(COOKBOOK_KEY);
     return saved ? JSON.parse(saved) : [];
@@ -234,7 +256,7 @@ const [cookbook, setCookbook] = React.useState<Recipe[]>(() => {
 
 
 
-React.useEffect(() => {
+useEffect(() => {
   localStorage.setItem(COOKBOOK_KEY, JSON.stringify(cookbook));
 }, [cookbook]);
 
@@ -307,52 +329,7 @@ React.useEffect(() => {
 
   const suggestionCount = candidateLibrary.length;
 
-  useEffect(() => {
-  const isEmptyMeal = (m?: Meal) => !m || (!m.name?.trim() && !m.ingredients?.trim());
-
-  setMeals((prev) => {
-    const next = { ...prev };
-
-    // Prefer cookbook recipes that match prefs
-    const cookbookPool = (cookbook ?? []).filter((r) => {
-      if (violatesAllergens(r.ingredients)) return false;
-      if (!prefs.vegetarian) return true;
-      if (isVegetarianByHeuristic(r.ingredients)) return true;
-      return prefs.allowSubstitutions;
-    });
-
-    // Fallback to candidate library (your built-in meal library)
-    const pool: Meal[] = [
-      ...cookbookPool.map((r) => ({ name: r.name, ingredients: r.ingredients })),
-      ...candidateLibrary,
-    ].filter((m) => !violatesAllergens(m.ingredients));
-
-    if (pool.length === 0) return prev;
-
-    // Stable pick so refresh doesn't reshuffle constantly
-    const seed = new Date().toDateString().length;
-
-    let changed = false;
-    days.forEach((d, i) => {
-      if (isEmptyMeal(prev[d])) {
-        const picked = pool[(seed + i) % pool.length];
-        next[d] = { name: picked.name, ingredients: picked.ingredients };
-        changed = true;
-      }
-    });
-
-    return changed ? next : prev;
-  });
-}, [
-  cookbook,
-  prefs.vegetarian,
-  prefs.allowSubstitutions,
-  prefs.allergens,
-  candidateLibrary,
-  violatesAllergens,
-  isVegetarianByHeuristic,
-  setMeals,
-]);
+ 
 
 
   // Actions
@@ -363,35 +340,56 @@ React.useEffect(() => {
       return { ...p, allergens: has ? current.filter((a) => a !== key) : [...current, key] };
     });
   };
+  
+  const getEffort = (m: Meal) => m.effort ?? "normal";
 
-  const fillEmptyDaysWithPrompt = () => {
-    const emptyDays = days.filter((d) => {
-      const name = (meals[d]?.name || "").trim();
-      const ing = (meals[d]?.ingredients || "").trim();
-      return name.length === 0 && ing.length === 0;
+const generateDinnerPlan = () => {
+  const isEmptyMeal = (m?: Meal) => !m || (!m.name?.trim() && !m.ingredients?.trim());
+
+  // Build pool: cookbook recipes first (treated as "normal" unless you later add effort to Recipe too)
+  const cookbookPool: Meal[] = (cookbook ?? [])
+    .filter((r) => {
+      if (violatesAllergens(r.ingredients)) return false;
+      if (!prefs.vegetarian) return true;
+      if (isVegetarianByHeuristic(r.ingredients)) return true;
+      return prefs.allowSubstitutions;
+    })
+    .map((r) => ({ name: r.name, ingredients: r.ingredients, effort: "normal" }));
+
+  const libraryPool = candidateLibrary.map((m) => ({ ...m, effort: getEffort(m) }));
+
+  const fullPool = [...cookbookPool, ...libraryPool].filter((m) => !violatesAllergens(m.ingredients));
+
+  setMeals((prev) => {
+    const next = { ...prev };
+    let changed = false;
+
+    days.forEach((day, i) => {
+      if (!isEmptyMeal(prev[day])) return;
+
+      const needed = daySettings[day] ?? "normal";
+
+      // if takeout: we can generate a “meal” even without ingredients
+      const matches = fullPool.filter((m) => getEffort(m) === needed);
+
+      const pool = matches.length ? matches : fullPool; // fallback if none tagged
+
+      if (pool.length === 0) return;
+
+      const picked = pool[(new Date().toDateString().length + i) % pool.length];
+      next[day] = picked;
+      changed = true;
     });
 
-    if (emptyDays.length === 0) return alert("No empty days to fill 👍");
-    if (candidateLibrary.length === 0) return alert("No meals match your preferences.");
+    if (!changed) alert("No empty days to fill 👍");
+    return changed ? next : prev;
+  });
+};
 
-    const usedNames = new Set(days.map((d) => normalize(meals[d]?.name || "")).filter(Boolean));
-    const available = shuffle(candidateLibrary.filter((m) => !usedNames.has(normalize(m.name))));
-    const fallback = shuffle(candidateLibrary);
 
-    const nextMeals = { ...meals };
-    let idx = 0;
 
-    emptyDays.forEach((day) => {
-      const candidate = available[idx] || fallback[idx] || fallback[0];
-      idx++;
 
-      const ok = window.confirm(`Fill ${day} with:\n\n${candidate.name}\n\nIngredients:\n${candidate.ingredients}?`);
-      if (ok) nextMeals[day] = candidate;
-    });
-
-    setMeals(nextMeals);
-  };
-
+    
   const uniqueShoppingList = useMemo(() => {
     const items = Object.values(meals).flatMap((meal) =>
       (meal?.ingredients || "")
@@ -457,37 +455,43 @@ React.useEffect(() => {
       />
 
       <Routes>
-        <Route path="/" element={<Navigate to="/week" replace />} />
-        <Route
-          path="/week"
-          element={
-            <WeekPage
-              meals={meals}
-              setMeals={setMeals}
-              checkedItems={checkedItems}
-              setCheckedItems={setCheckedItems}
-              addDayToCookbook={addDayToCookbook}
-              fillEmptyDaysWithPrompt={fillEmptyDaysWithPrompt}
-              uniqueShoppingList={uniqueShoppingList}
-            />
-          }
-        />
-        <Route
-          path="/cookbook"
-          element={
-            <CookbookPage
-              meals={meals}
-              setMeals={setMeals}
-              cookbook={cookbook}
-              setCookbook={setCookbook}
-              prefs={prefs}
-              allergenKeywords={allergenKeywords}
-              violatesAllergens={violatesAllergens}
-              isVegetarianByHeuristic={isVegetarianByHeuristic}
-            />
-          }
-        />
-      </Routes>
+  <Route path="/" element={<Navigate to="/week" replace />} />
+
+  <Route
+    path="/week"
+    element={
+      <WeekPage
+        meals={meals}
+        setMeals={setMeals}
+        checkedItems={checkedItems}
+        setCheckedItems={setCheckedItems}
+        addDayToCookbook={addDayToCookbook}
+        uniqueShoppingList={uniqueShoppingList}
+        generateDinnerPlan={generateDinnerPlan}
+        daySettings={daySettings}
+        setDaySettings={setDaySettings}
+      />
+    }
+  />
+
+  <Route
+    path="/cookbook"
+    element={
+      <CookbookPage
+        meals={meals}
+        setMeals={setMeals}
+        cookbook={cookbook}
+        setCookbook={setCookbook}
+        prefs={prefs}
+        allergenKeywords={allergenKeywords}
+        violatesAllergens={violatesAllergens}
+        isVegetarianByHeuristic={isVegetarianByHeuristic}
+      />
+    }
+  />
+</Routes>
+
+
     </div>
   );
 }

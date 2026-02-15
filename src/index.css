@@ -45,3 +45,43 @@ a:hover {
 button {
   font-family: inherit;
 }
+
+.dayRow {
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.dayRow:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 35px rgba(0,0,0,0.4);
+}
+
+/* Button base animation */
+button {
+  transition: transform 0.15s ease,
+              box-shadow 0.15s ease,
+              filter 0.15s ease;
+}
+
+/* Lift + glow on hover */
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  filter: brightness(1.05);
+}
+
+/* Press effect */
+button:active {
+  transform: translateY(0px) scale(0.98);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+button[data-variant="primary"]:hover {
+  box-shadow: 0 0 0 1px rgba(20,184,166,0.6),
+              0 8px 24px rgba(20,184,166,0.35);
+}
+
+button[data-variant="danger"]:hover {
+  box-shadow: 0 0 0 1px rgba(239,68,68,0.6),
+              0 8px 24px rgba(239,68,68,0.35);
+}
+
