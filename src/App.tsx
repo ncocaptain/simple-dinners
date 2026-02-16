@@ -1,11 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import type { Dispatch, SetStateAction } from "react";
-import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import WeekPage from "./pages/WeekPage";
 import CookbookPage from "./pages/CookbookPage";
 
-
-
+// --- Types ---
 export type Recipe = {
   id: string;
   name: string;
@@ -16,9 +14,7 @@ export type Recipe = {
   createdAt: number;
   updatedAt?: number;
   sourceUrl?: string;
-
 };
-
 
 export type Preferences = {
   vegetarian: boolean;
@@ -33,20 +29,17 @@ export type Meal = {
   ingredients: string;
   instructions?: string;
   photoUrl?: string;
-
-  // optional “card” fields
   description?: string;
   prepMinutes?: number;
   servings?: number;
-  rating?: number; // 0–5
-  effort?: Effort; // Added this
+  rating?: number;
+  effort?: Effort;
 };
 
-
-
+// --- Constants ---
 export const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] as const;
 
-export const ALLERGENS: Array<{ key: string; label: string; keywords: string[] }> = [
+export const ALLERGENS = [
   { key: "peanuts", label: "Peanuts", keywords: ["peanut", "peanuts"] },
   { key: "tree_nuts", label: "Tree Nuts", keywords: ["almond", "walnut", "pecan", "cashew", "pistachio", "hazelnut", "tree nut", "nuts"] },
   { key: "dairy", label: "Dairy", keywords: ["milk", "cheese", "butter", "cream", "yogurt", "parmesan", "mozzarella", "feta"] },
@@ -58,33 +51,17 @@ export const ALLERGENS: Array<{ key: string; label: string; keywords: string[] }
   { key: "sesame", label: "Sesame", keywords: ["sesame", "tahini"] },
 ];
 
-export const MEAT_WORDS = [
-  "beef",
-  "ground beef",
-  "chicken",
-  "pork",
-  "bacon",
-  "sausage",
-  "pepperoni",
-  "meatball",
-  "ham",
-  "turkey",
-  "salmon",
-  "fish",
-  "shrimp",
-];
+export const MEAT_WORDS = ["beef", "ground beef", "chicken", "pork", "bacon", "sausage", "pepperoni", "meatball", "ham", "turkey", "salmon", "fish", "shrimp"];
 
 export const MEAL_LIBRARY: Meal[] = [
   { name: "Tacos", ingredients: "tortillas, ground beef, taco seasoning, lettuce, cheese, salsa", effort: "quick" },
   { name: "Spaghetti", ingredients: "spaghetti, marinara sauce, garlic, parmesan, ground beef", effort: "normal" },
   { name: "Chicken Alfredo", ingredients: "chicken, fettuccine, alfredo sauce, parmesan, broccoli", effort: "big" },
   { name: "Pizza Night", ingredients: "pizza dough, sauce, mozzarella, pepperoni, mushrooms", effort: "big" },
-
   { name: "Drive-Thru Night", ingredients: "order out (no groceries)", effort: "takeout" },
 ];
 
-
-export const SUBS: Array<{ pattern: RegExp; replacement: string }> = [
+export const SUBS = [
   { pattern: /\bground beef\b/gi, replacement: "black beans" },
   { pattern: /\bbeef\b/gi, replacement: "black beans" },
   { pattern: /\bchicken\b/gi, replacement: "tofu" },
@@ -100,398 +77,118 @@ export const SUBS: Array<{ pattern: RegExp; replacement: string }> = [
   { pattern: /\bshrimp\b/gi, replacement: "hearts of palm" },
 ];
 
-export function normalize(s: string) {
-  return (s || "").trim().toLowerCase();
-}
-
-export function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
+// --- Helpers ---
+export function normalize(s: string) { return (s || "").trim().toLowerCase(); }
 
 export function applyVegSub(meal: Meal): Meal {
   let ing = meal.ingredients;
   for (const { pattern, replacement } of SUBS) ing = ing.replace(pattern, replacement);
   const name = normalize(meal.name).includes("(veg)") ? meal.name : `${meal.name} (Veg)`;
-  return { name, ingredients: ing };
+  return { ...meal, name, ingredients: ing };
 }
 
-export function makeId() {
-  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+export function makeId() { return `${Date.now()}-${Math.random().toString(16).slice(2)}`; }
+
+export function mealImageUrl(name?: string) {
+  const q = encodeURIComponent((name || "cooking dinner").trim());
+  return `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80&q=${q}`;
 }
 
-export function escapeCsvCell(value: string) {
-  const v = value ?? "";
-  const needsQuotes = /[",\n]/.test(v);
-  const escaped = v.replace(/"/g, '""');
-  return needsQuotes ? `"${escaped}"` : escaped;
-}
-
-function PreferencesPanel({
-  prefs,
-  setPrefs,
-  safeAllergens,
-  toggleAllergen,
-  suggestionCount,
-  
-
-}: {
-  
-  prefs: Preferences;
-  setPrefs: Dispatch<SetStateAction<Preferences>>;
-  safeAllergens: string[];
-  toggleAllergen: (key: string) => void;
-  suggestionCount: number;
-}) {
-  
-
-  return (
-    <div style={{ marginTop: 14, marginBottom: 16, padding: 12, borderRadius: 10, border: "1px solid #e5e7eb" }}>
-      <h2 style={{ marginTop: 0 }}>Preferences</h2>
-
-      <label style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-        <input
-          type="checkbox"
-          checked={!!prefs.vegetarian}
-          onChange={(e) => setPrefs((p) => ({ ...p, vegetarian: e.target.checked }))}
-        />
-        <span style={{ fontWeight: 600 }}>Vegetarian mode</span>
-      </label>
-
-      <label style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-        <input
-          type="checkbox"
-          checked={!!prefs.allowSubstitutions}
-          disabled={!prefs.vegetarian}
-          onChange={(e) => setPrefs((p) => ({ ...p, allowSubstitutions: e.target.checked }))}
-        />
-        <span style={{ fontWeight: 600, opacity: prefs.vegetarian ? 1 : 0.6 }}>
-          Allow meat substitutions (only when vegetarian mode is on)
-        </span>
-      </label>
-
-      <div style={{ textAlign: "left" }}>
-        <div style={{ fontWeight: 700, marginBottom: 8 }}>Allergens to avoid</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: 8 }}>
-          {ALLERGENS.map((a) => (
-            <label key={a.key} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <input type="checkbox" checked={safeAllergens.includes(a.key)} onChange={() => toggleAllergen(a.key)} />
-              <span>{a.label}</span>
-            </label>
-          ))}
-        </div>
-
-        <div style={{ fontSize: 12, opacity: 0.8, marginTop: 10 }}>
-          Suggestion pool size: <b>{suggestionCount}</b>
-        </div>
-      </div>
-    </div>
-  );
-}
-
+// --- Main App ---
 export default function App() {
   const navigate = useNavigate();
-  const location = useLocation();
 
-  // State
-  const [meals, setMeals] = useState<Record<string, Meal>>(() => {
-    const saved = localStorage.getItem("meals");
-    try {
-      return saved ? JSON.parse(saved) : {};
-    } catch {
-      return {};
-    }
+  // State Persistence Hooks
+  const [meals, setMeals] = useState<Record<string, Meal>>(() => JSON.parse(localStorage.getItem("meals") || "{}"));
+  const [daySettings, setDaySettings] = useState<Record<string, Effort>>(() => JSON.parse(localStorage.getItem("daySettings") || "{}") || {
+    Monday: "normal", Tuesday: "normal", Wednesday: "normal", Thursday: "normal", Friday: "normal", Saturday: "normal", Sunday: "normal"
   });
-
-  type DaySettings = Record<(typeof days)[number], Effort>;
-
-const DAY_SETTINGS_KEY = "daySettings";
-
-const [daySettings, setDaySettings] = useState<DaySettings>(() => {
-  try {
-    const saved = localStorage.getItem(DAY_SETTINGS_KEY);
-    if (saved) return JSON.parse(saved);
-  } catch {}
-  // default: normal weekdays, big on weekend
-  return {
-    Monday: "normal",
-    Tuesday: "normal",
-    Wednesday: "normal",
-    Thursday: "normal",
-    Friday: "normal",
-    Saturday: "normal",
-    Sunday: "normal",
-  };
-});
-
-useEffect(() => {
-  localStorage.setItem(DAY_SETTINGS_KEY, JSON.stringify(daySettings));
-}, [daySettings]);
-
-
-  const [checkedItems, setCheckedItems] = useState<string[]>(() => {
-  try {
-    const saved = localStorage.getItem("checkedItems");
-    return saved ? JSON.parse(saved) : [];
-  } catch {
-    return [];
-  }
-});
-  
-
-   const COOKBOOK_KEY = "simpleDinnersCookbook";
-
-const [cookbook, setCookbook] = useState<Recipe[]>(() => {
-  try {
-    const saved = localStorage.getItem(COOKBOOK_KEY);
-    return saved ? JSON.parse(saved) : [];
-  } catch {
-    return [];
-  }
-});
-
-
-
-useEffect(() => {
-  localStorage.setItem(COOKBOOK_KEY, JSON.stringify(cookbook));
-}, [cookbook]);
-
-
-
-  const [prefs, setPrefs] = useState<Preferences>(() => {
-    const fallback: Preferences = { vegetarian: false, allowSubstitutions: true, allergens: [] };
+  const [checkedItems, setCheckedItems] = useState<string[]>(() => JSON.parse(localStorage.getItem("checkedItems") || "[]"));
+  const [cookbook, setCookbook] = useState<Recipe[]>(() => JSON.parse(localStorage.getItem("simpleDinnersCookbook") || "[]"));
+  const [prefs] = useState<Preferences>(() => {
     const saved = localStorage.getItem("prefs");
-    if (!saved) return fallback;
-
-    try {
-      const p = JSON.parse(saved);
-      return {
-        vegetarian: !!p.vegetarian,
-        allowSubstitutions: p.allowSubstitutions !== undefined ? !!p.allowSubstitutions : true,
-        allergens: Array.isArray(p.allergens) ? p.allergens : [],
-      };
-    } catch {
-      return fallback;
-    }
+    return saved ? JSON.parse(saved) : { vegetarian: false, allowSubstitutions: true, allergens: [] };
   });
 
-
-  
-  const safeAllergens = Array.isArray(prefs.allergens) ? prefs.allergens : [];
-
-  // Persist
+  // Effectful Persistence
   useEffect(() => localStorage.setItem("meals", JSON.stringify(meals)), [meals]);
+  useEffect(() => localStorage.setItem("daySettings", JSON.stringify(daySettings)), [daySettings]);
   useEffect(() => localStorage.setItem("checkedItems", JSON.stringify(checkedItems)), [checkedItems]);
-  useEffect(() => localStorage.setItem("prefs", JSON.stringify({ ...prefs, allergens: safeAllergens })), [prefs, safeAllergens]);
+  useEffect(() => localStorage.setItem("simpleDinnersCookbook", JSON.stringify(cookbook)), [cookbook]);
+  useEffect(() => localStorage.setItem("prefs", JSON.stringify(prefs)), [prefs]);
 
-  // Derived: allergen keywords
+  // Logic Memos
   const allergenKeywords = useMemo(() => {
-    const selected = new Set(safeAllergens);
-    return ALLERGENS.filter((a) => selected.has(a.key)).flatMap((a) => a.keywords.map(normalize));
-  }, [safeAllergens]);
+    return ALLERGENS.filter((a) => (prefs.allergens || []).includes(a.key)).flatMap((a) => a.keywords.map(normalize));
+  }, [prefs.allergens]);
 
   const violatesAllergens = (ingredients: string) => {
     const ing = normalize(ingredients);
     return allergenKeywords.some((bad) => ing.includes(bad));
   };
 
-  const isVegetarianByHeuristic = (ingredients: string) => {
-    const ing = normalize(ingredients);
-    return !MEAT_WORDS.some((w) => ing.includes(w));
-  };
-  
+  const isVegetarianByHeuristic = (ingredients: string) => !MEAT_WORDS.some((w) => normalize(ingredients).includes(w));
 
-
-  // Candidate library for auto-fill
   const candidateLibrary = useMemo(() => {
-    const base = MEAL_LIBRARY.filter((m) => !violatesAllergens(m.ingredients));
-
-    if (!prefs.vegetarian) return base;
-
-    const nativeVeg = base.filter((m) => isVegetarianByHeuristic(m.ingredients));
-    if (!prefs.allowSubstitutions) return nativeVeg;
-
-    const substituted = base.map(applyVegSub).filter((m) => !violatesAllergens(m.ingredients));
-
-    const all = [...nativeVeg, ...substituted];
-    const seen = new Set<string>();
-    return all.filter((m) => {
-      const k = normalize(m.name);
-      if (seen.has(k)) return false;
-      seen.add(k);
-      return true;
-    });
+    let list = MEAL_LIBRARY.filter((m) => !violatesAllergens(m.ingredients));
+    if (prefs.vegetarian) {
+      if (prefs.allowSubstitutions) {
+        list = list.map(applyVegSub);
+      } else {
+        list = list.filter((m) => isVegetarianByHeuristic(m.ingredients));
+      }
+    }
+    return list.filter(m => !violatesAllergens(m.ingredients));
   }, [prefs.vegetarian, prefs.allowSubstitutions, allergenKeywords]);
 
-  const suggestionCount = candidateLibrary.length;
-
- 
-
-
   // Actions
-  const toggleAllergen = (key: string) => {
-    setPrefs((p) => {
-      const current = Array.isArray(p.allergens) ? p.allergens : [];
-      const has = current.includes(key);
-      return { ...p, allergens: has ? current.filter((a) => a !== key) : [...current, key] };
+  const generateDinnerPlan = () => {
+    const isEmpty = (m?: Meal) => !m || !m.name.trim();
+    
+    const pool: Meal[] = [
+      ...cookbook.map(r => ({ name: r.name, ingredients: r.ingredients, effort: "normal" as const, photoUrl: r.photoUrl })),
+      ...candidateLibrary
+    ].map(m => ({ ...m, photoUrl: m.photoUrl || mealImageUrl(m.name) }));
+
+    setMeals(prev => {
+      const next = { ...prev };
+      let changed = false;
+      days.forEach((day, i) => {
+        if (!isEmpty(prev[day])) return;
+        const needed = daySettings[day] || "normal";
+        const matches = pool.filter(m => (m.effort || "normal") === needed);
+        const finalPool = matches.length ? matches : pool;
+        if (finalPool.length) {
+          next[day] = finalPool[(new Date().getDate() + i) % finalPool.length];
+          changed = true;
+        }
+      });
+      return changed ? next : prev;
     });
   };
-  
-  const getEffort = (m: Meal) => m.effort ?? "normal";
-
-const generateDinnerPlan = () => {
-  const isEmptyMeal = (m?: Meal) => !m || (!m.name?.trim() && !m.ingredients?.trim());
-
-  // Build pool: cookbook recipes first (treated as "normal" unless you later add effort to Recipe too)
-  const cookbookPool: Meal[] = (cookbook ?? [])
-    .filter((r) => {
-      if (violatesAllergens(r.ingredients)) return false;
-      if (!prefs.vegetarian) return true;
-      if (isVegetarianByHeuristic(r.ingredients)) return true;
-      return prefs.allowSubstitutions;
-    })
-    .map((r) => ({ name: r.name, ingredients: r.ingredients, effort: "normal" }));
-
-  const libraryPool = candidateLibrary.map((m) => ({ ...m, effort: getEffort(m) }));
-
-  const fullPool = [...cookbookPool, ...libraryPool].filter((m) => !violatesAllergens(m.ingredients));
-
-  setMeals((prev) => {
-    const next = { ...prev };
-    let changed = false;
-
-    days.forEach((day, i) => {
-      if (!isEmptyMeal(prev[day])) return;
-
-      const needed = daySettings[day] ?? "normal";
-
-      // if takeout: we can generate a “meal” even without ingredients
-      const matches = fullPool.filter((m) => getEffort(m) === needed);
-
-      const pool = matches.length ? matches : fullPool; // fallback if none tagged
-
-      if (pool.length === 0) return;
-
-      const picked = pool[(new Date().toDateString().length + i) % pool.length];
-      next[day] = picked;
-      changed = true;
-    });
-
-    if (!changed) alert("No empty days to fill 👍");
-    return changed ? next : prev;
-  });
-};
-
-
-
-
-    
-  const uniqueShoppingList = useMemo(() => {
-    const items = Object.values(meals).flatMap((meal) =>
-      (meal?.ingredients || "")
-        .split(",")
-        .map((i) => normalize(i))
-        .filter(Boolean)
-    );
-    return Array.from(new Set(items));
-  }, [meals]);
 
   const addDayToCookbook = (day: string) => {
     const m = meals[day];
-    const name = (m?.name || "").trim();
-    const ingredients = (m?.ingredients || "").trim();
-    if (!name || !ingredients) return alert("Add a meal name and ingredients first 🙂");
-
-    const keyName = normalize(name);
-    const keyIng = normalize(ingredients);
-    const exists = cookbook.some((r) => normalize(r.name) === keyName && normalize(r.ingredients) === keyIng);
-    if (exists) return alert("That recipe is already in your cookbook 👍");
-
-    const recipe: Recipe = { id: makeId(), name, ingredients, favorite: false, createdAt: Date.now() };
-    setCookbook((prev) => [recipe, ...prev]);
-  };
-
-  const NavButton = ({ to, label }: { to: string; label: string }) => {
-    const active = location.pathname === to || (to === "/week" && location.pathname === "/");
-    return (
-      <button
-        onClick={() => navigate(to)}
-        style={{
-          padding: "10px 14px",
-          cursor: "pointer",
-          borderRadius: 10,
-          border: "1px solid #e5e7eb",
-          backgroundColor: active ? "#111827" : "white",
-          color: active ? "white" : "#111827",
-          fontWeight: 900,
-        }}
-      >
-        {label}
-      </button>
-    );
+    if (!m?.name || !m?.ingredients) return alert("Fill in meal details first!");
+    const recipe: Recipe = { id: makeId(), name: m.name, ingredients: m.ingredients, favorite: false, createdAt: Date.now() };
+    setCookbook(prev => [recipe, ...prev]);
   };
 
   return (
     <div style={{ padding: 20, maxWidth: 980, margin: "0 auto" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
+      <header style={{ display: "flex", justifyContent: "space-between", marginBottom: 20 }}>
         <h1 style={{ margin: 0 }}>🍽️ Simple Dinners</h1>
-
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-          <NavButton to="/week" label="Week Plan" />
-          <NavButton to="/cookbook" label="Cookbook" />
-        </div>
-      </div>
-
-      <PreferencesPanel
-        prefs={prefs}
-        setPrefs={setPrefs}
-        safeAllergens={safeAllergens}
-        toggleAllergen={toggleAllergen}
-        suggestionCount={suggestionCount}
-      />
+        <nav style={{ display: "flex", gap: 10 }}>
+          <button onClick={() => navigate("/week")}>Week Plan</button>
+          <button onClick={() => navigate("/cookbook")}>Cookbook</button>
+        </nav>
+      </header>
 
       <Routes>
-  <Route path="/" element={<Navigate to="/week" replace />} />
-
-  <Route
-    path="/week"
-    element={
-      <WeekPage
-        meals={meals}
-        setMeals={setMeals}
-        checkedItems={checkedItems}
-        setCheckedItems={setCheckedItems}
-        addDayToCookbook={addDayToCookbook}
-        uniqueShoppingList={uniqueShoppingList}
-        generateDinnerPlan={generateDinnerPlan}
-        daySettings={daySettings}
-        setDaySettings={setDaySettings}
-      />
-    }
-  />
-
-  <Route
-    path="/cookbook"
-    element={
-      <CookbookPage
-        meals={meals}
-        setMeals={setMeals}
-        cookbook={cookbook}
-        setCookbook={setCookbook}
-        prefs={prefs}
-        allergenKeywords={allergenKeywords}
-        violatesAllergens={violatesAllergens}
-        isVegetarianByHeuristic={isVegetarianByHeuristic}
-      />
-    }
-  />
-</Routes>
-
-
+        <Route path="/" element={<Navigate to="/week" replace />} />
+        <Route path="/week" element={<WeekPage meals={meals} setMeals={setMeals} checkedItems={checkedItems} setCheckedItems={setCheckedItems} addDayToCookbook={addDayToCookbook} uniqueShoppingList={Array.from(new Set(Object.values(meals).flatMap(m => m.ingredients.split(',').map(normalize))))} generateDinnerPlan={generateDinnerPlan} daySettings={daySettings} setDaySettings={setDaySettings} />} />
+        <Route path="/cookbook" element={<CookbookPage meals={meals} setMeals={setMeals} cookbook={cookbook} setCookbook={setCookbook} prefs={prefs} allergenKeywords={allergenKeywords} violatesAllergens={violatesAllergens} isVegetarianByHeuristic={isVegetarianByHeuristic} />} />
+      </Routes>
     </div>
   );
 }

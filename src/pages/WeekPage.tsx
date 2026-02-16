@@ -96,8 +96,8 @@ export default function WeekPage({
   };
 
   const heroImg: React.CSSProperties = {
-    height: 150, background: "linear-gradient(135deg, rgba(20,184,166,0.25), rgba(99,102,241,0.20))",
-    borderBottom: "1px solid rgba(255,255,255,0.08)", backgroundSize: "cover", backgroundPosition: "center",
+    height: 150, borderBottom: "1px solid rgba(255,255,255,0.08)",
+    backgroundSize: "cover", backgroundPosition: "center",
   };
 
   const cardContent: React.CSSProperties = { padding: 14, display: "grid", gap: 10 };
@@ -147,6 +147,10 @@ export default function WeekPage({
           {days.map((day) => {
             const meal = meals[day];
             const hovered = hoveredDay === day;
+            
+            // Logic for dynamic hero image
+            const heroUrl = meal?.photoUrl || `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80&q=${encodeURIComponent(meal?.name || "food")}`;
+
             return (
               <div
                 key={day}
@@ -158,7 +162,8 @@ export default function WeekPage({
                   animation: animDays?.[day] ? "popGlow 450ms ease-out" : undefined,
                 }}
               >
-                <div style={meal?.photoUrl ? { ...heroImg, backgroundImage: `url(${meal.photoUrl})` } : heroImg} />
+                <div style={{ ...heroImg, backgroundImage: `url(${heroUrl})` }} />
+
                 <div style={cardContent}>
                   <div style={{ display: "flex", justifyContent: "space-between", gap: 10 }}>
                     <div>
@@ -229,7 +234,6 @@ export default function WeekPage({
         </div>
       </div>
 
-      {/* SHOPPING LIST */}
       <div style={{ marginTop: 14, padding: 14, borderRadius: 16, border: "1px solid rgba(255,255,255,0.10)", background: "rgba(15,23,42,0.30)" }}>
         <h2 style={{ margin: "0 0 10px", fontSize: 18, fontWeight: 950 }}>Shopping List</h2>
         <div style={{ display: "grid", gap: 8 }}>
