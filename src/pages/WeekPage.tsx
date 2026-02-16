@@ -65,11 +65,7 @@ export default function WeekPage({
   }, [meals]);
 
   // ---------- Styles ----------
-  const toolbar: React.CSSProperties = {
-    display: "flex", gap: 10, flexWrap: "wrap", padding: 12, borderRadius: 14,
-    border: "1px solid rgba(255,255,255,0.10)", background: "rgba(15,23,42,0.35)",
-    backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", marginBottom: 14, alignItems: "center",
-  };
+  
 
   const showMoreBtn: React.CSSProperties = {
     background: "transparent", border: "none", color: "rgba(255,255,255,0.78)",
