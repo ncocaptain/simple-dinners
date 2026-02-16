@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import WeekPage from "./pages/WeekPage";
 import CookbookPage from "./pages/CookbookPage";
@@ -167,6 +167,28 @@ export default function App() {
     });
   };
 
+  const [menuOpen, setMenuOpen] = useState(false);
+const menuRef = useRef<HTMLDivElement | null>(null);
+
+useEffect(() => {
+  const onDown = (e: MouseEvent) => {
+    if (!menuRef.current) return;
+    if (!menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+  };
+
+  const onKey = (e: KeyboardEvent) => {
+    if (e.key === "Escape") setMenuOpen(false);
+  };
+
+  document.addEventListener("mousedown", onDown);
+  document.addEventListener("keydown", onKey);
+
+  return () => {
+    document.removeEventListener("mousedown", onDown);
+    document.removeEventListener("keydown", onKey);
+  };
+}, []);
+
   const addDayToCookbook = (day: string) => {
     const m = meals[day];
     if (!m?.name || !m?.ingredients) return alert("Fill in meal details first!");
@@ -177,11 +199,151 @@ export default function App() {
   return (
     <div style={{ padding: 20, maxWidth: 980, margin: "0 auto" }}>
       <header style={{ display: "flex", justifyContent: "space-between", marginBottom: 20 }}>
-        <h1 style={{ margin: 0 }}>🍽️ Simple Dinners</h1>
-        <nav style={{ display: "flex", gap: 10 }}>
-          <button onClick={() => navigate("/week")}>Week Plan</button>
-          <button onClick={() => navigate("/cookbook")}>Cookbook</button>
-        </nav>
+        <div
+  style={{
+    textAlign: "center",
+    marginBottom: 24,
+  }}
+>
+  <h1
+    style={{
+      margin: 0,
+      fontSize: 32,
+      fontWeight: 1000,
+      letterSpacing: 0.5,
+    }}
+  >
+    Simple Dinners
+  </h1>
+
+  <div
+    style={{
+      marginTop: 6,
+      fontSize: 18,
+      opacity: 0.7,
+      letterSpacing: 0.3,
+    }}
+  >
+    Smart dinner planning based on your schedule
+  </div>
+</div>
+
+       <div ref={menuRef} style={{ position: "relative" }}>
+  <div ref={menuRef} style={{ position: "relative" }}>
+  <button
+  onClick={() => setMenuOpen((s) => !s)}
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    padding: "10px 14px",
+    borderRadius: 14,
+    border: "1px solid rgba(255,255,255,0.12)",
+    background: "rgba(2,6,23,0.65)",
+    color: "rgba(255,255,255,0.92)",
+    fontWeight: 900,
+    cursor: "pointer",
+    backdropFilter: "blur(10px)",
+    WebkitBackdropFilter: "blur(10px)",
+  }}
+>
+  {/* Hamburger icon */}
+  <div style={{ display: "grid", gap: 3 }}>
+    <span style={{ width: 18, height: 2, background: "white", borderRadius: 2 }} />
+    <span style={{ width: 18, height: 2, background: "white", borderRadius: 2 }} />
+    <span style={{ width: 18, height: 2, background: "white", borderRadius: 2 }} />
+  </div>
+
+  
+
+ 
+</button>
+
+
+ </div>
+
+
+  {menuOpen && (
+    <div
+      role="menu"
+      style={{
+        position: "absolute",
+        right: 0,
+        top: "calc(100% + 10px)",
+        minWidth: 220,
+        borderRadius: 14,
+        border: "1px solid rgba(255,255,255,0.12)",
+        background: "rgba(2,6,23,0.92)",
+        boxShadow: "0 18px 45px rgba(0,0,0,0.45)",
+        overflow: "hidden",
+        transformOrigin: "top right",
+        animation: "menuIn 120ms ease-out",
+        zIndex: 50,
+      }}
+    >
+      <style>{`
+        @keyframes menuIn {
+          from { transform: translateY(-6px) scale(0.98); opacity: 0; }
+          to   { transform: translateY(0) scale(1); opacity: 1; }
+        }
+      `}</style>
+
+      <button
+        role="menuitem"
+        onClick={() => {
+          navigate("/week");
+          setMenuOpen(false);
+        }}
+        style={{
+          width: "100%",
+          textAlign: "left",
+          padding: "12px 14px",
+          background: "transparent",
+          border: "none",
+          color: "rgba(255,255,255,0.92)",
+          cursor: "pointer",
+          fontWeight: 900,
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.06)")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+      >
+        Week Plan
+        <div style={{ fontSize: 12, opacity: 0.7, fontWeight: 700, marginTop: 2 }}>
+          Plan meals + shopping list
+        </div>
+      </button>
+
+      <div style={{ height: 1, background: "rgba(255,255,255,0.08)" }} />
+
+      <button
+        role="menuitem"
+        onClick={() => {
+          navigate("/cookbook");
+          setMenuOpen(false);
+        }}
+        style={{
+          width: "100%",
+          textAlign: "left",
+          padding: "12px 14px",
+          background: "transparent",
+          border: "none",
+          color: "rgba(255,255,255,0.92)",
+          cursor: "pointer",
+          fontWeight: 900,
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.06)")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+      >
+        Cookbook
+        <div style={{ fontSize: 12, opacity: 0.7, fontWeight: 700, marginTop: 2 }}>
+          Manage saved recipes
+        </div>
+      </button>
+    </div>
+  )}
+</div>
+
+
       </header>
 
       <Routes>

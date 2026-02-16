@@ -134,12 +134,7 @@ export default function WeekPage({
         }
       `}</style>
 
-      <div style={toolbar}>
-        <Button onClick={generateDinnerPlan}>🎲 Generate my dinner plan</Button>
-        <Button variant="danger" onClick={() => setCheckedItems([])}>Clear Checked Items</Button>
-        <Button variant="danger" onClick={() => window.confirm("Clear the entire week?") && setMeals({})}>🧹 Clear Week</Button>
-        <Button variant="secondary" onClick={() => navigate("/cookbook")}>Go to Cookbook →</Button>
-      </div>
+     
 
       <div style={{ borderRadius: 16, border: "1px solid rgba(255,255,255,0.10)", background: "rgba(15,23,42,0.30)", padding: 14 }}>
         <h2 style={{ margin: 0, fontSize: 22, fontWeight: 950 }}>This Week</h2>
@@ -147,6 +142,8 @@ export default function WeekPage({
           {days.map((day) => {
             const meal = meals[day];
             const hovered = hoveredDay === day;
+
+
             
             // Logic for dynamic hero image
             const heroUrl = meal?.photoUrl || `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80&q=${encodeURIComponent(meal?.name || "food")}`;
@@ -234,8 +231,76 @@ export default function WeekPage({
         </div>
       </div>
 
+      <div
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+maxWidth: 800,
+margin: "24px auto 0",
+
+    gap: 12,
+    marginTop: 24,
+    paddingTop: 20,
+    borderTop: "1px solid rgba(255,255,255,0.08)",
+    flexWrap: "wrap",
+  }}
+>
+  <Button onClick={generateDinnerPlan}>
+    🎲 Generate Plan
+  </Button>
+
+  <Button
+    variant="danger"
+    onClick={() => {
+      if (window.confirm("Clear the entire week?")) {
+        setMeals({});
+        setCheckedItems([]);
+      }
+    }}
+  >
+    🧹 Clear Week
+  </Button>
+
+  <Button
+    variant="secondary"
+    onClick={() => navigate("/cookbook")}
+  >
+    📚 Go to Cookbook
+  </Button>
+</div>
+
+
       <div style={{ marginTop: 14, padding: 14, borderRadius: 16, border: "1px solid rgba(255,255,255,0.10)", background: "rgba(15,23,42,0.30)" }}>
-        <h2 style={{ margin: "0 0 10px", fontSize: 18, fontWeight: 950 }}>Shopping List</h2>
+        <div
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
+  }}
+>
+  <h2 style={{ margin: 0, fontSize: 18, fontWeight: 950 }}>
+    Shopping List
+  </h2>
+
+  {checkedItems.length > 0 && (
+    <button
+      onClick={() => setCheckedItems([])}
+      style={{
+        background: "none",
+        border: "none",
+        color: "rgba(255,255,255,0.65)",
+        fontSize: 12,
+        fontWeight: 900,
+        cursor: "pointer",
+        textDecoration: "underline",
+      }}
+    >
+      Clear
+    </button>
+  )}
+</div>
+
         <div style={{ display: "grid", gap: 8 }}>
           {uniqueShoppingList.length === 0 ? "Empty list." : uniqueShoppingList.map((item) => {
             const n = normalize(item);
