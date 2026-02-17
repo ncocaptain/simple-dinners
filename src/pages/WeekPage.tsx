@@ -28,6 +28,12 @@ export default function WeekPage({
   setDaySettings: React.Dispatch<React.SetStateAction<Record<Day, Effort>>>;
 }) {
   const navigate = useNavigate();
+  const clearWeek = () => {
+  if (!window.confirm("Clear the entire week?")) return;
+  setMeals({});
+  setCheckedItems([]); // auto-clear shopping checks
+  navigate("/plan");   // ✅ back to landing page
+};
   const [hoveredDay, setHoveredDay] = React.useState<Day | null>(null);
   const [animDays, setAnimDays] = React.useState<Record<string, boolean>>({});
   const [openDay, setOpenDay] = React.useState<Day | null>(null);
@@ -245,17 +251,10 @@ margin: "24px auto 0",
     🎲 Generate Plan
   </Button>
 
-  <Button
-    variant="danger"
-    onClick={() => {
-      if (window.confirm("Clear the entire week?")) {
-        setMeals({});
-        setCheckedItems([]);
-      }
-    }}
-  >
-    🧹 Clear Week
-  </Button>
+  <Button variant="danger" onClick={clearWeek}>
+  🧹 Clear Week
+</Button>
+
 
   <Button
     variant="secondary"

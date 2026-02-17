@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import WeekPage from "./pages/WeekPage";
 import CookbookPage from "./pages/CookbookPage";
+import PlanPage from "./pages/PlanPage";
+
 
 // --- Types ---
 export type Recipe = {
@@ -100,15 +102,43 @@ export default function App() {
 
   // State Persistence Hooks
   const [meals, setMeals] = useState<Record<string, Meal>>(() => JSON.parse(localStorage.getItem("meals") || "{}"));
-  const [daySettings, setDaySettings] = useState<Record<string, Effort>>(() => JSON.parse(localStorage.getItem("daySettings") || "{}") || {
-    Monday: "normal", Tuesday: "normal", Wednesday: "normal", Thursday: "normal", Friday: "normal", Saturday: "normal", Sunday: "normal"
-  });
+  const defaultDaySettings = Object.fromEntries(
+  days.map((d) => [d, "normal"])
+) as Record<(typeof days)[number], Effort>;
+
+const [daySettings, setDaySettings] = useState<Record<(typeof days)[number], Effort>>(
+  () => {
+    const saved = localStorage.getItem("daySettings");
+    return saved ? JSON.parse(saved) : defaultDaySettings;
+  }
+);
+
+useEffect(() => {
+  localStorage.setItem("daySettings", JSON.stringify(daySettings));
+}, [daySettings]);
+
   const [checkedItems, setCheckedItems] = useState<string[]>(() => JSON.parse(localStorage.getItem("checkedItems") || "[]"));
   const [cookbook, setCookbook] = useState<Recipe[]>(() => JSON.parse(localStorage.getItem("simpleDinnersCookbook") || "[]"));
   const [prefs] = useState<Preferences>(() => {
     const saved = localStorage.getItem("prefs");
     return saved ? JSON.parse(saved) : { vegetarian: false, allowSubstitutions: true, allergens: [] };
   });
+  const [dietaryNotes, setDietaryNotes] = useState<string>(() => {
+  return localStorage.getItem("dietaryNotes") || "";
+});
+
+useEffect(() => {
+  localStorage.setItem("dietaryNotes", dietaryNotes);
+}, [dietaryNotes]);
+const [vegetarian, setVegetarian] = useState<boolean>(() => {
+  return localStorage.getItem("vegetarian") === "true";
+});
+
+useEffect(() => {
+  localStorage.setItem("vegetarian", String(vegetarian));
+}, [vegetarian]);
+
+
 
   // Effectful Persistence
   useEffect(() => localStorage.setItem("meals", JSON.stringify(meals)), [meals]);
@@ -347,9 +377,14 @@ useEffect(() => {
       </header>
 
       <Routes>
-        <Route path="/" element={<Navigate to="/week" replace />} />
+        <Route path="/" element={<Navigate to="/plan" replace />} />
         <Route path="/week" element={<WeekPage meals={meals} setMeals={setMeals} checkedItems={checkedItems} setCheckedItems={setCheckedItems} addDayToCookbook={addDayToCookbook} uniqueShoppingList={Array.from(new Set(Object.values(meals).flatMap(m => m.ingredients.split(',').map(normalize))))} generateDinnerPlan={generateDinnerPlan} daySettings={daySettings} setDaySettings={setDaySettings} />} />
         <Route path="/cookbook" element={<CookbookPage meals={meals} setMeals={setMeals} cookbook={cookbook} setCookbook={setCookbook} prefs={prefs} allergenKeywords={allergenKeywords} violatesAllergens={violatesAllergens} isVegetarianByHeuristic={isVegetarianByHeuristic} />} />
+        <Route path="/plan" element={<PlanPage daySettings={daySettings} setDaySettings={setDaySettings} dietaryNotes={dietaryNotes} setDietaryNotes={setDietaryNotes} vegetarian={vegetarian} setVegetarian={setVegetarian} generateDinnerPlan={generateDinnerPlan}
+    />
+  }
+/>
+
       </Routes>
     </div>
   );
