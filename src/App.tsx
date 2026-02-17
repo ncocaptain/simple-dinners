@@ -137,7 +137,10 @@ const [vegetarian, setVegetarian] = useState<boolean>(() => {
 useEffect(() => {
   localStorage.setItem("vegetarian", String(vegetarian));
 }, [vegetarian]);
-
+const effectivePrefs: Preferences = {
+  ...prefs,
+  vegetarian, // ✅ use the checkbox value
+};
 
 
   // Effectful Persistence
@@ -160,25 +163,60 @@ useEffect(() => {
   const isVegetarianByHeuristic = (ingredients: string) => !MEAT_WORDS.some((w) => normalize(ingredients).includes(w));
 
   const candidateLibrary = useMemo(() => {
-    let list = MEAL_LIBRARY.filter((m) => !violatesAllergens(m.ingredients));
-    if (prefs.vegetarian) {
-      if (prefs.allowSubstitutions) {
-        list = list.map(applyVegSub);
-      } else {
-        list = list.filter((m) => isVegetarianByHeuristic(m.ingredients));
-      }
+  let list = MEAL_LIBRARY.filter((m) => !violatesAllergens(m.ingredients));
+
+  if (effectivePrefs.vegetarian) {
+    if (effectivePrefs.allowSubstitutions) {
+      list = list.map(applyVegSub);
+    } else {
+      list = list.filter((m) => isVegetarianByHeuristic(m.ingredients));
     }
-    return list.filter(m => !violatesAllergens(m.ingredients));
-  }, [prefs.vegetarian, prefs.allowSubstitutions, allergenKeywords]);
+  }
+
+  return list.filter((m) => !violatesAllergens(m.ingredients));
+}, [effectivePrefs.vegetarian, effectivePrefs.allowSubstitutions, allergenKeywords]);
+
 
   // Actions
   const generateDinnerPlan = () => {
     const isEmpty = (m?: Meal) => !m || !m.name.trim();
-    
-    const pool: Meal[] = [
-      ...cookbook.map(r => ({ name: r.name, ingredients: r.ingredients, effort: "normal" as const, photoUrl: r.photoUrl })),
-      ...candidateLibrary
-    ].map(m => ({ ...m, photoUrl: m.photoUrl || mealImageUrl(m.name) }));
+    // Build pool: cookbook recipes first
+// Build pool: cookbook recipes first (filtered/subbed if needed)
+const cookbookPool: Meal[] = (cookbook ?? [])
+  .filter((r) => {
+    if (violatesAllergens(r.ingredients)) return false;
+
+    if (!effectivePrefs.vegetarian) return true;
+
+    if (isVegetarianByHeuristic(r.ingredients)) return true;
+
+    return effectivePrefs.allowSubstitutions;
+  })
+  .map((r) => {
+    const baseMeal: Meal = {
+      name: r.name,
+      ingredients: r.ingredients,
+      effort: "normal",
+      photoUrl: r.photoUrl,
+    };
+
+    if (
+      effectivePrefs.vegetarian &&
+      effectivePrefs.allowSubstitutions &&
+      !isVegetarianByHeuristic(r.ingredients)
+    ) {
+      return applyVegSub(baseMeal);
+    }
+
+    return baseMeal;
+  })
+  .filter((m) => !violatesAllergens(m.ingredients));
+
+// ✅ Use cookbookPool (not raw cookbook)
+const pool: Meal[] = [...cookbookPool, ...candidateLibrary].map((m) => ({
+  ...m,
+  photoUrl: m.photoUrl || mealImageUrl(m.name),
+}));
 
     setMeals(prev => {
       const next = { ...prev };

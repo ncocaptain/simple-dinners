@@ -65,10 +65,35 @@ export default function PlanPage({
     <div style={{ padding: 24 }}>
       <div style={card}>
         <div>
-          <h2 style={{ margin: 0 }}>Your Weekly Schedule</h2>
-          <p style={{ opacity: 0.75, marginTop: 6 }}>
-            Smart dinner planning based on your schedule.
-          </p>
+          <div
+  style={{
+    textAlign: "center",
+    marginBottom: 24,
+  }}
+>
+  <h1
+    style={{
+      margin: 0,
+      fontSize: 32,
+      fontWeight: 1000,
+      letterSpacing: 0.5,
+    }}
+  >
+    Plan Your Week
+  </h1>
+
+  <div
+    style={{
+      marginTop: 6,
+      fontSize: 18,
+      opacity: 0.7,
+      letterSpacing: 0.3,
+    }}
+  >
+    Smart dinner planning tailored to your schedule
+  </div>
+</div>
+
         </div>
 
         {days.map((day) => (
