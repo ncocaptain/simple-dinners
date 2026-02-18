@@ -80,23 +80,79 @@ export const MEAT_WORDS = [
 ];
 
 export const MEAL_LIBRARY: Meal[] = [
-  // Original
+  // -----------------------------
+  // QUICK (10–20 min)
+  // -----------------------------
+  { name: "Veggie Quesadillas", ingredients: "tortillas, cheese, black beans, salsa, bell peppers", effort: "quick" },
+  { name: "Chicken Quesadillas", ingredients: "tortillas, chicken, cheese, salsa", effort: "quick" },
   { name: "Tacos", ingredients: "tortillas, ground beef, taco seasoning, lettuce, cheese, salsa", effort: "quick" },
-  { name: "Spaghetti", ingredients: "spaghetti, marinara sauce, garlic, parmesan, ground beef", effort: "normal" },
-  { name: "Chicken Alfredo", ingredients: "chicken, fettuccine, alfredo sauce, parmesan, broccoli", effort: "big" },
-  { name: "Pizza Night", ingredients: "pizza dough, sauce, mozzarella, pepperoni, mushrooms", effort: "big" },
-  { name: "Drive-Thru Night", ingredients: "order out (no groceries)", effort: "takeout" },
+  { name: "Taco Salad", ingredients: "lettuce, ground beef, taco seasoning, cheese, salsa, tortilla chips", effort: "quick" },
+  { name: "Egg Fried Rice", ingredients: "rice, eggs, soy sauce, peas, carrots, garlic", effort: "quick" },
+  { name: "Veggie Stir Fry", ingredients: "broccoli, bell peppers, soy sauce, garlic, rice", effort: "quick" },
+  { name: "Chicken Stir Fry", ingredients: "chicken, broccoli, soy sauce, garlic, bell peppers, rice", effort: "quick" },
+  { name: "Sausage & Peppers Skillet", ingredients: "sausage, bell peppers, onion, garlic, olive oil", effort: "quick" },
+  { name: "Garlic Butter Shrimp", ingredients: "shrimp, butter, garlic, lemon, rice", effort: "quick" },
+  { name: "Avocado Toast + Eggs", ingredients: "bread, avocado, eggs, salt, pepper", effort: "quick" },
+  { name: "Grilled Cheese + Tomato Soup", ingredients: "bread, cheese, butter, tomato soup", effort: "quick" },
+  { name: "Sheet Pan Sausage & Veg", ingredients: "sausage, potatoes, broccoli, olive oil, garlic", effort: "quick" },
+  { name: "BLT Sandwiches", ingredients: "bacon, bread, lettuce, tomato, mayo", effort: "quick" },
+  { name: "Tuna Melt", ingredients: "tuna, mayo, bread, cheese", effort: "quick" },
+  { name: "Greek Yogurt Bowls", ingredients: "yogurt, honey, berries, granola", effort: "quick" },
 
-  // Added veg-friendly variety (so vegetarian isn’t just “spaghetti”)
-  { name: "Veggie Stir Fry", ingredients: "rice, broccoli, bell pepper, soy sauce, garlic, ginger", effort: "quick" },
-  { name: "Black Bean Quesadillas", ingredients: "tortillas, black beans, cheese, salsa, cumin", effort: "quick" },
-  { name: "Chickpea Curry", ingredients: "chickpeas, coconut milk, curry powder, onion, garlic, rice", effort: "normal" },
-  { name: "Pesto Pasta", ingredients: "pasta, pesto, parmesan, cherry tomatoes, spinach", effort: "normal" },
-  { name: "Greek Salad + Pita", ingredients: "cucumber, tomato, feta, olives, pita, hummus", effort: "quick" },
-  { name: "Veggie Chili", ingredients: "beans, diced tomatoes, onion, chili powder, corn, peppers", effort: "big" },
-  { name: "Breakfast for Dinner", ingredients: "eggs, toast, avocado, fruit", effort: "quick" },
-  { name: "Tofu Teriyaki Bowls", ingredients: "tofu, rice, teriyaki sauce, broccoli, sesame", effort: "normal" },
+  // -----------------------------
+  // NORMAL (20–40 min)
+  // -----------------------------
+  { name: "Spaghetti", ingredients: "spaghetti, marinara sauce, garlic, parmesan, ground beef", effort: "normal" },
+  { name: "Pasta Primavera", ingredients: "pasta, zucchini, broccoli, garlic, parmesan, olive oil", effort: "normal" },
+  { name: "Chicken Parmesan", ingredients: "chicken, marinara sauce, mozzarella, parmesan, pasta", effort: "normal" },
+  { name: "Baked Chicken & Potatoes", ingredients: "chicken, potatoes, olive oil, garlic, rosemary", effort: "normal" },
+  { name: "Burgers & Fries", ingredients: "ground beef, buns, cheese, lettuce, potatoes", effort: "normal" },
+  { name: "Turkey Burgers", ingredients: "turkey, buns, lettuce, tomato, onion", effort: "normal" },
+  { name: "Chili", ingredients: "ground beef, beans, diced tomatoes, chili seasoning, onion", effort: "normal" },
+  { name: "Veggie Chili", ingredients: "beans, diced tomatoes, chili seasoning, onion, bell peppers", effort: "normal" },
+  { name: "Chicken Tikka-ish Bowls", ingredients: "chicken, rice, yogurt, garlic, spices", effort: "normal" },
+  { name: "Salmon Rice Bowls", ingredients: "salmon, rice, soy sauce, cucumber, sesame", effort: "normal" },
+  { name: "Shrimp Pasta", ingredients: "shrimp, pasta, garlic, butter, parmesan", effort: "normal" },
+  { name: "Meatball Subs", ingredients: "meatballs, marinara sauce, sub rolls, mozzarella", effort: "normal" },
+  { name: "Burrito Bowls", ingredients: "rice, black beans, chicken, salsa, cheese, lettuce", effort: "normal" },
+  { name: "Chicken Caesar Wraps", ingredients: "tortillas, chicken, romaine, parmesan, caesar dressing", effort: "normal" },
+  { name: "Veggie Wraps", ingredients: "tortillas, hummus, cucumber, spinach, bell peppers", effort: "normal" },
+  { name: "Homemade Ramen", ingredients: "ramen noodles, eggs, soy sauce, green onion, garlic", effort: "normal" },
+  { name: "Pork Chops & Green Beans", ingredients: "pork chops, green beans, butter, garlic", effort: "normal" },
+  { name: "Beef & Broccoli", ingredients: "beef, broccoli, soy sauce, garlic, rice", effort: "normal" },
+  { name: "Chicken Fajitas", ingredients: "chicken, bell peppers, onion, tortillas, fajita seasoning", effort: "normal" },
+  { name: "Veggie Fajitas", ingredients: "bell peppers, onion, tortillas, fajita seasoning, salsa", effort: "normal" },
+  { name: "Baked Ziti", ingredients: "pasta, marinara sauce, mozzarella, ricotta, parmesan", effort: "normal" },
+  { name: "Mac & Cheese", ingredients: "pasta, cheese, milk, butter", effort: "normal" },
+  { name: "Tortellini + Marinara", ingredients: "tortellini, marinara sauce, parmesan, garlic", effort: "normal" },
+
+  // -----------------------------
+  // BIG COOK (40–90 min)
+  // -----------------------------
+  { name: "Pizza Night", ingredients: "pizza dough, sauce, mozzarella, pepperoni, mushrooms", effort: "big" },
+  { name: "Homemade Veggie Pizza", ingredients: "pizza dough, sauce, mozzarella, mushrooms, bell peppers, onion", effort: "big" },
+  { name: "Chicken Alfredo", ingredients: "chicken, fettuccine, alfredo sauce, parmesan, broccoli", effort: "big" },
+  { name: "Lasagna", ingredients: "lasagna noodles, marinara sauce, ricotta, mozzarella, ground beef", effort: "big" },
+  { name: "Baked Salmon + Veg", ingredients: "salmon, asparagus, lemon, olive oil, garlic", effort: "big" },
+  { name: "Pot Roast", ingredients: "beef roast, potatoes, carrots, onion, broth", effort: "big" },
+  { name: "Pulled Pork Sandwiches", ingredients: "pork shoulder, bbq sauce, buns, coleslaw", effort: "big" },
+  { name: "Chicken Soup", ingredients: "chicken, carrots, celery, onion, broth, noodles", effort: "big" },
+  { name: "Beef Tacos Party Tray", ingredients: "tortillas, ground beef, taco seasoning, cheese, lettuce, salsa", effort: "big" },
+  { name: "Stuffed Peppers", ingredients: "bell peppers, ground beef, rice, tomato sauce, cheese", effort: "big" },
+  { name: "Veggie Stuffed Peppers", ingredients: "bell peppers, rice, black beans, tomato sauce, cheese", effort: "big" },
+  { name: "Baked Chicken Thighs", ingredients: "chicken thighs, garlic, butter, potatoes", effort: "big" },
+
+  // -----------------------------
+  // TAKEOUT / NO-COOK
+  // -----------------------------
+  { name: "Drive-Thru Night", ingredients: "order out (no groceries)", effort: "takeout" },
+  { name: "Rotisserie Chicken Night", ingredients: "rotisserie chicken, salad kit, rolls", effort: "takeout" },
+  { name: "Frozen Pizza Night", ingredients: "frozen pizza, salad kit", effort: "takeout" },
+  { name: "Deli Sandwich Night", ingredients: "deli meat, bread, cheese, chips", effort: "takeout" },
 ];
+
+
+
 
 export const SUBS = [
   { pattern: /\bground beef\b/gi, replacement: "black beans" },
@@ -277,18 +333,37 @@ export default function App() {
 
   // Pantry scoring
   const pantryTokens = useMemo(() => {
-    return Array.isArray(pantry) ? pantry.map((p) => normalize(p.name)).filter(Boolean) : [];
-  }, [pantry]);
+  if (!Array.isArray(pantry)) return [];
+  return pantry
+    .map((p) => normalize(p.name))
+    .flatMap((s) => s.split(/[\n,]/g))
+    .map((s) => s.trim())
+    .filter(Boolean);
+}, [pantry]);
+
+
 
   const scoreMealAgainstPantry = (meal: Meal, tokens: string[]) => {
-    if (!tokens.length) return 0;
-    const hay = normalize(`${meal.name} ${meal.ingredients}`);
-    let score = 0;
-    for (const t of tokens) {
-      if (t.length >= 3 && hay.includes(t)) score += 1;
-    }
-    return score;
-  };
+  if (!tokens.length) return 0;
+
+  const nameHay = normalize(meal.name);
+  const ingHay = normalize(meal.ingredients);
+
+  let score = 0;
+
+  for (const t of tokens) {
+    if (t.length < 3) continue;
+
+    // ingredients match = strong
+    if (ingHay.includes(t)) score += 3;
+
+    // name match = small boost
+    if (nameHay.includes(t)) score += 1;
+  }
+
+  return score;
+};
+
 
   // Actions
   const addDayToCookbook = (day: string) => {
@@ -307,77 +382,101 @@ export default function App() {
   };
 
   const generateDinnerPlan = () => {
-    const isEmpty = (m?: Meal) => !m || !m.name?.trim();
+  const isEmpty = (m?: Meal) => !m || !m.name?.trim();
 
-    // Cookbook pool filtered + substituted if needed
-    const cookbookPool: Meal[] = (cookbook ?? [])
-      .filter((r) => {
-        if (violatesAllergens(r.ingredients)) return false;
+  // Cookbook pool filtered + substituted if needed
+  const cookbookPool: Meal[] = (cookbook ?? [])
+    .filter((r) => {
+      if (violatesAllergens(r.ingredients)) return false;
 
-        if (!effectivePrefs.vegetarian) return true;
+      if (!effectivePrefs.vegetarian) return true;
 
-        if (isVegetarianByHeuristic(r.ingredients)) return true;
+      if (isVegetarianByHeuristic(r.ingredients)) return true;
 
-        return effectivePrefs.allowSubstitutions;
-      })
-      .map((r) => {
-        const baseMeal: Meal = {
-          name: r.name,
-          ingredients: r.ingredients,
-          instructions: r.instructions,
-          photoUrl: r.photoUrl,
-          effort: "normal",
-        };
+      return effectivePrefs.allowSubstitutions;
+    })
+    .map((r) => {
+      const baseMeal: Meal = {
+        name: r.name,
+        ingredients: r.ingredients,
+        instructions: r.instructions,
+        photoUrl: r.photoUrl,
+        effort: "normal",
+      };
 
-        if (
-          effectivePrefs.vegetarian &&
-          effectivePrefs.allowSubstitutions &&
-          !isVegetarianByHeuristic(r.ingredients)
-        ) {
-          return applyVegSub(baseMeal);
-        }
+      if (
+        effectivePrefs.vegetarian &&
+        effectivePrefs.allowSubstitutions &&
+        !isVegetarianByHeuristic(r.ingredients)
+      ) {
+        return applyVegSub(baseMeal);
+      }
 
-        return baseMeal;
-      })
-      .filter((m) => !violatesAllergens(m.ingredients)); // re-check after substitutions
+      return baseMeal;
+    })
+    .filter((m) => !violatesAllergens(m.ingredients));
 
-    const pool: Meal[] = [...cookbookPool, ...candidateLibrary].map((m) => ({
-      ...m,
-      photoUrl: m.photoUrl || mealImageUrl(m.name),
-      effort: m.effort || "normal",
-    }));
+  // Master pool
+  const pool: Meal[] = [...cookbookPool, ...candidateLibrary].map((m) => ({
+    ...m,
+    photoUrl: m.photoUrl || mealImageUrl(m.name),
+    effort: m.effort || "normal",
+  }));
 
-    setMeals((prev) => {
-      const next = { ...prev };
-      let changed = false;
+  const todaySeed = new Date().getFullYear() * 10000 + (new Date().getMonth() + 1) * 100 + new Date().getDate();
 
-      days.forEach((day, i) => {
-        if (!isEmpty(prev[day])) return;
+  // Pantry-first ordering for the whole week
+  const ranked = pool
+    .map((m, idx) => ({
+      m,
+      pantryScore: scoreMealAgainstPantry(m, pantryTokens),
+      // deterministic-ish tiebreak so it doesn't feel random every render
+      tie: (todaySeed + idx) % 97,
+    }))
+    .sort((a, b) => {
+      if (b.pantryScore !== a.pantryScore) return b.pantryScore - a.pantryScore;
+      return a.tie - b.tie;
+    })
+    .map((x) => x.m);
 
-        const needed = daySettings[day] || "normal";
-        const effortMatches = pool.filter((m) => (m.effort || "normal") === needed);
+  setMeals((prev) => {
+    const next = { ...prev };
+    let changed = false;
 
-        // If bucket is tiny, broaden to whole pool so you don’t get “same meal every day”
-        const workingPool = effortMatches.length >= 2 ? effortMatches : pool;
+    const usedNames = new Set<string>();
 
-        // Pantry preference (soft)
-        const scored = workingPool
-          .map((m) => ({ meal: m, score: scoreMealAgainstPantry(m, pantryTokens) }))
-          .sort((a, b) => b.score - a.score)
-          .map((x) => x.meal);
-
-        const pickFrom = scored.length ? scored : workingPool;
-
-        if (pickFrom.length) {
-          next[day] = pickFrom[(new Date().getDate() + i) % pickFrom.length];
-          changed = true;
-        }
-      });
-
-      if (changed) navigate("/week");
-      return changed ? next : prev;
+    // pre-mark meals already in the week so we avoid repeating them
+    days.forEach((d) => {
+      const existing = prev[d]?.name?.trim();
+      if (existing) usedNames.add(normalize(existing));
     });
-  };
+
+    days.forEach((day) => {
+      if (!isEmpty(prev[day])) return;
+
+      const needed = daySettings[day] || "normal";
+
+      // Pantry-first: start from ranked list, then prefer matching effort
+      const bestEffort = ranked.filter((m) => (m.effort || "normal") === needed);
+      const candidates = bestEffort.length ? bestEffort : ranked;
+
+      // No repeats: try to pick something not used yet
+      const pick =
+        candidates.find((m) => !usedNames.has(normalize(m.name))) ||
+        candidates[0]; // if we run out, allow repeat
+
+      if (pick) {
+        next[day] = pick;
+        usedNames.add(normalize(pick.name));
+        changed = true;
+      }
+    });
+
+    if (changed) navigate("/week");
+    return changed ? next : prev;
+  });
+};
+
 
   // Menu
   const [menuOpen, setMenuOpen] = useState(false);
