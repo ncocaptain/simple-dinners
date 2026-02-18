@@ -251,9 +251,15 @@ margin: "24px auto 0",
     🎲 Generate Plan
   </Button>
 
-  <Button variant="danger" onClick={clearWeek}>
+  <Button
+  variant="danger"
+  onClick={() => {
+    if (window.confirm("Clear the entire week?")) clearWeek();
+  }}
+>
   🧹 Clear Week
 </Button>
+
 
 
   <Button

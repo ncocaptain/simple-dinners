@@ -37,6 +37,17 @@ export type Meal = {
   effort?: Effort;
 };
 
+export type PantryItem = {
+  id: string;
+  name: string;
+  qty?: string;
+  unit?: string;
+  category?: string;
+  expiresAt?: number;
+  createdAt: number;
+  updatedAt?: number;
+};
+
 // --- Constants ---
 export const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] as const;
 
@@ -69,11 +80,22 @@ export const MEAT_WORDS = [
 ];
 
 export const MEAL_LIBRARY: Meal[] = [
+  // Original
   { name: "Tacos", ingredients: "tortillas, ground beef, taco seasoning, lettuce, cheese, salsa", effort: "quick" },
   { name: "Spaghetti", ingredients: "spaghetti, marinara sauce, garlic, parmesan, ground beef", effort: "normal" },
   { name: "Chicken Alfredo", ingredients: "chicken, fettuccine, alfredo sauce, parmesan, broccoli", effort: "big" },
   { name: "Pizza Night", ingredients: "pizza dough, sauce, mozzarella, pepperoni, mushrooms", effort: "big" },
   { name: "Drive-Thru Night", ingredients: "order out (no groceries)", effort: "takeout" },
+
+  // Added veg-friendly variety (so vegetarian isn’t just “spaghetti”)
+  { name: "Veggie Stir Fry", ingredients: "rice, broccoli, bell pepper, soy sauce, garlic, ginger", effort: "quick" },
+  { name: "Black Bean Quesadillas", ingredients: "tortillas, black beans, cheese, salsa, cumin", effort: "quick" },
+  { name: "Chickpea Curry", ingredients: "chickpeas, coconut milk, curry powder, onion, garlic, rice", effort: "normal" },
+  { name: "Pesto Pasta", ingredients: "pasta, pesto, parmesan, cherry tomatoes, spinach", effort: "normal" },
+  { name: "Greek Salad + Pita", ingredients: "cucumber, tomato, feta, olives, pita, hummus", effort: "quick" },
+  { name: "Veggie Chili", ingredients: "beans, diced tomatoes, onion, chili powder, corn, peppers", effort: "big" },
+  { name: "Breakfast for Dinner", ingredients: "eggs, toast, avocado, fruit", effort: "quick" },
+  { name: "Tofu Teriyaki Bowls", ingredients: "tofu, rice, teriyaki sauce, broccoli, sesame", effort: "normal" },
 ];
 
 export const SUBS = [
@@ -102,7 +124,6 @@ export function makeId() {
 }
 
 export function mealImageUrl(name?: string) {
-  // simple reliable fallback image + query param (won’t always change the image but works as a stable fallback)
   const q = encodeURIComponent((name || "cooking dinner").trim());
   return `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80&sig=1&meal=${q}`;
 }
@@ -114,27 +135,11 @@ export function applyVegSub(meal: Meal): Meal {
   return { ...meal, name, ingredients: ing };
 }
 
-// Fisher–Yates shuffle (seed-ish using current day so it feels “stable-ish”)
-function shuffle<T>(arr: T[], seed: number) {
-  const a = [...arr];
-  let m = a.length;
-  let s = seed || 1;
-  while (m) {
-    // tiny deterministic-ish RNG
-    s = (s * 9301 + 49297) % 233280;
-    const r = s / 233280;
-
-    const i = Math.floor(r * m--);
-    [a[m], a[i]] = [a[i], a[m]];
-  }
-  return a;
-}
-
 // --- Main App ---
 export default function App() {
   const navigate = useNavigate();
 
-  // Meals + persistence
+  // Meals
   const [meals, setMeals] = useState<Record<string, Meal>>(() => {
     try {
       return JSON.parse(localStorage.getItem("meals") || "{}");
@@ -143,6 +148,7 @@ export default function App() {
     }
   });
 
+  // Day settings
   const defaultDaySettings = useMemo(() => {
     return Object.fromEntries(days.map((d) => [d, "normal"])) as Record<(typeof days)[number], Effort>;
   }, []);
@@ -156,6 +162,7 @@ export default function App() {
     }
   });
 
+  // Shopping checks
   const [checkedItems, setCheckedItems] = useState<string[]>(() => {
     try {
       return JSON.parse(localStorage.getItem("checkedItems") || "[]");
@@ -164,6 +171,7 @@ export default function App() {
     }
   });
 
+  // Cookbook
   const [cookbook, setCookbook] = useState<Recipe[]>(() => {
     try {
       return JSON.parse(localStorage.getItem("simpleDinnersCookbook") || "[]");
@@ -172,7 +180,39 @@ export default function App() {
     }
   });
 
-  // Base prefs (static-ish) - vegetarian checkbox is controlled separately via PlanPage
+  // Pantry (migrate old shapes safely)
+  const [pantry, setPantry] = useState<PantryItem[]>(() => {
+    try {
+      const raw = localStorage.getItem("pantry");
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+
+      // already PantryItem[]
+      if (Array.isArray(parsed) && parsed.length && typeof parsed[0] === "object" && parsed[0] && "name" in parsed[0]) {
+        return parsed as PantryItem[];
+      }
+
+      // array of strings
+      if (Array.isArray(parsed) && (parsed.length === 0 || typeof parsed[0] === "string")) {
+        return (parsed as string[]).map((name) => ({ id: makeId(), name, createdAt: Date.now() }));
+      }
+
+      // single string
+      if (typeof parsed === "string") {
+        const tokens = parsed
+          .split(/[\n,]/g)
+          .map((t) => t.trim())
+          .filter(Boolean);
+        return tokens.map((name) => ({ id: makeId(), name, createdAt: Date.now() }));
+      }
+
+      return [];
+    } catch {
+      return [];
+    }
+  });
+
+  // Base prefs (static-ish)
   const [prefs] = useState<Preferences>(() => {
     try {
       const saved = localStorage.getItem("prefs");
@@ -185,11 +225,10 @@ export default function App() {
   const [dietaryNotes, setDietaryNotes] = useState<string>(() => localStorage.getItem("dietaryNotes") || "");
   const [vegetarian, setVegetarian] = useState<boolean>(() => localStorage.getItem("vegetarian") === "true");
 
-  // effective prefs used everywhere
   const effectivePrefs: Preferences = useMemo(
     () => ({
       ...prefs,
-      vegetarian, // checkbox value is the driver
+      vegetarian,
     }),
     [prefs, vegetarian]
   );
@@ -202,6 +241,7 @@ export default function App() {
   useEffect(() => localStorage.setItem("dietaryNotes", dietaryNotes), [dietaryNotes]);
   useEffect(() => localStorage.setItem("vegetarian", String(vegetarian)), [vegetarian]);
   useEffect(() => localStorage.setItem("prefs", JSON.stringify(prefs)), [prefs]);
+  useEffect(() => localStorage.setItem("pantry", JSON.stringify(pantry)), [pantry]);
 
   // Allergens
   const allergenKeywords = useMemo(() => {
@@ -220,7 +260,7 @@ export default function App() {
     return !MEAT_WORDS.some((w) => ing.includes(normalize(w)));
   };
 
-  // Candidate library (built-in meals) filtered for prefs
+  // Candidate library filtered for prefs
   const candidateLibrary = useMemo(() => {
     let list = MEAL_LIBRARY.filter((m) => !violatesAllergens(m.ingredients));
 
@@ -235,9 +275,22 @@ export default function App() {
     return list.filter((m) => !violatesAllergens(m.ingredients));
   }, [effectivePrefs.vegetarian, effectivePrefs.allowSubstitutions, allergenKeywords]);
 
-  // Actions
-  
+  // Pantry scoring
+  const pantryTokens = useMemo(() => {
+    return Array.isArray(pantry) ? pantry.map((p) => normalize(p.name)).filter(Boolean) : [];
+  }, [pantry]);
 
+  const scoreMealAgainstPantry = (meal: Meal, tokens: string[]) => {
+    if (!tokens.length) return 0;
+    const hay = normalize(`${meal.name} ${meal.ingredients}`);
+    let score = 0;
+    for (const t of tokens) {
+      if (t.length >= 3 && hay.includes(t)) score += 1;
+    }
+    return score;
+  };
+
+  // Actions
   const addDayToCookbook = (day: string) => {
     const m = meals[day];
     if (!m?.name || !m?.ingredients) return alert("Fill in meal details first!");
@@ -263,10 +316,8 @@ export default function App() {
 
         if (!effectivePrefs.vegetarian) return true;
 
-        // vegetarian mode
         if (isVegetarianByHeuristic(r.ingredients)) return true;
 
-        // allow meat only if substitutions allowed
         return effectivePrefs.allowSubstitutions;
       })
       .map((r) => {
@@ -288,18 +339,13 @@ export default function App() {
 
         return baseMeal;
       })
-      .filter((m) => !violatesAllergens(m.ingredients));
+      .filter((m) => !violatesAllergens(m.ingredients)); // re-check after substitutions
 
-    // Master pool
     const pool: Meal[] = [...cookbookPool, ...candidateLibrary].map((m) => ({
       ...m,
       photoUrl: m.photoUrl || mealImageUrl(m.name),
       effort: m.effort || "normal",
     }));
-
-    // If pool is tiny, don’t “lock” to a single dish by effort
-    // Also add variety by shuffling based on date.
-    const seededPool = shuffle(pool, new Date().getFullYear() * 10000 + (new Date().getMonth() + 1) * 100 + new Date().getDate());
 
     setMeals((prev) => {
       const next = { ...prev };
@@ -308,29 +354,22 @@ export default function App() {
       days.forEach((day, i) => {
         if (!isEmpty(prev[day])) return;
 
-        const needed: Effort = (daySettings[day] || "normal") as Effort;
+        const needed = daySettings[day] || "normal";
+        const effortMatches = pool.filter((m) => (m.effort || "normal") === needed);
 
-        const matches = seededPool.filter((m) => (m.effort || "normal") === needed);
+        // If bucket is tiny, broaden to whole pool so you don’t get “same meal every day”
+        const workingPool = effortMatches.length >= 2 ? effortMatches : pool;
 
-        // ✅ broaden buckets when too small:
-        // - normal can pull from quick
-        // - quick can pull from normal
-        // - big can pull from normal
-        // - takeout stays takeout if available; otherwise normal
-        let broadened: Meal[] = matches;
+        // Pantry preference (soft)
+        const scored = workingPool
+          .map((m) => ({ meal: m, score: scoreMealAgainstPantry(m, pantryTokens) }))
+          .sort((a, b) => b.score - a.score)
+          .map((x) => x.meal);
 
-        if (matches.length < 2) {
-          if (needed === "normal") broadened = seededPool.filter((m) => ["normal", "quick"].includes(m.effort || "normal"));
-          else if (needed === "quick") broadened = seededPool.filter((m) => ["quick", "normal"].includes(m.effort || "normal"));
-          else if (needed === "big") broadened = seededPool.filter((m) => ["big", "normal"].includes(m.effort || "normal"));
-          else if (needed === "takeout") broadened = seededPool.filter((m) => m.effort === "takeout");
-        }
+        const pickFrom = scored.length ? scored : workingPool;
 
-        const finalPool = broadened.length ? broadened : seededPool;
-
-        if (finalPool.length) {
-          // spread days across pool
-          next[day] = finalPool[(i + new Date().getDate()) % finalPool.length];
+        if (pickFrom.length) {
+          next[day] = pickFrom[(new Date().getDate() + i) % pickFrom.length];
           changed = true;
         }
       });
@@ -383,9 +422,7 @@ export default function App() {
         }}
       >
         <div style={{ textAlign: "center", flex: 1 }}>
-          <h1 style={{ margin: 0, fontSize: 32, fontWeight: 1000, letterSpacing: 0.5 }}>
-            Simple Dinners
-          </h1>
+          <h1 style={{ margin: 0, fontSize: 32, fontWeight: 1000, letterSpacing: 0.5 }}>Simple Dinners</h1>
           <div style={{ marginTop: 6, fontSize: 16, opacity: 0.72, letterSpacing: 0.3 }}>
             Smart dinner planning based on your schedule
           </div>
@@ -411,7 +448,6 @@ export default function App() {
               WebkitBackdropFilter: "blur(10px)",
             }}
           >
-            {/* Hamburger icon */}
             <div style={{ display: "grid", gap: 3 }}>
               <span style={{ width: 18, height: 2, background: "white", borderRadius: 2 }} />
               <span style={{ width: 18, height: 2, background: "white", borderRadius: 2 }} />
@@ -507,6 +543,8 @@ export default function App() {
               setDietaryNotes={setDietaryNotes}
               vegetarian={vegetarian}
               setVegetarian={setVegetarian}
+              pantry={pantry}
+              setPantry={setPantry}
               generateDinnerPlan={generateDinnerPlan}
             />
           }
@@ -545,9 +583,6 @@ export default function App() {
           }
         />
       </Routes>
-
-      {/* Optional: if you want a global clear button somewhere later, call clearWeek() */}
-      {/* <button onClick={clearWeek}>Clear</button> */}
     </div>
   );
 }
