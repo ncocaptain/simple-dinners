@@ -1,9 +1,9 @@
 import React from "react";
-import { days } from "../App";
-import type { Effort } from "../App";
-import { useNavigate } from "react-router-dom";
+import { days } from "../core/data";
 import Button from "../components/Button";
-import type { PantryItem } from "../App";
+import type { Effort, PantryItem } from "../core/types";
+
+
 
 type Day = (typeof days)[number];
 
@@ -28,7 +28,7 @@ export default function PlanPage({
   setPantry: React.Dispatch<React.SetStateAction<PantryItem[]>>;
   generateDinnerPlan: () => void;
 }) {
-  const navigate = useNavigate();
+  
 
   // --- Styles ---
   const card: React.CSSProperties = {
@@ -82,6 +82,10 @@ export default function PlanPage({
 
   // Local state for the pantry text to prevent cursor jumping
   const [pantryText, setPantryText] = React.useState(pantry.map((p) => p.name).join(", "));
+  React.useEffect(() => {
+  setPantryText(pantry.map((p) => p.name).join(", "));
+}, [pantry]);
+
 
   const handlePantryChange = (val: string) => {
     setPantryText(val);
@@ -92,7 +96,8 @@ export default function PlanPage({
 
     setPantry(
       tokens.map((name) => ({
-        id: `${Date.now()}-${Math.random()}`,
+        id: name.toLowerCase().replace(/\s+/g, "-"),
+
         name,
         createdAt: Date.now(),
       }))
@@ -166,14 +171,8 @@ export default function PlanPage({
           </div>
         </div>
 
-        <Button
-          onClick={() => {
-            generateDinnerPlan();
-            navigate("/week");
-          }}
-        >
-          ✨ Generate My Dinner Plan
-        </Button>
+        <Button onClick={generateDinnerPlan}>✨ Generate My Dinner Plan</Button>
+
       </div>
     </div>
   );

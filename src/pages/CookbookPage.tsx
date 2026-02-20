@@ -1,11 +1,13 @@
 import React from "react";
-import { normalize, days } from "../App";
-import type { Meal, Preferences, Recipe } from "../App";
+import { normalize } from "../core/planner";
+import type { Meal, Preferences, Recipe } from "../core/types";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import { useInputStyles } from "../components/inputStyles";
 import { useToast } from "../components/Toast";
 import { uploadImageToCloudinary } from "../utils/uploadImage";
+import { days } from "../core/data";
+
 
 function Badge({
   children,
@@ -189,7 +191,7 @@ export default function CookbookPage({
     try {
       setIsUploading(true);
       const url = await uploadImageToCloudinary(file);
-      setEditDraft((prev) => ({ ...prev, photoUrl: url }));
+      setEditDraft((prev: any) => ({ ...prev, photoUrl: url }));
       toast("Image uploaded!");
     } catch (err) {
       console.error(err);

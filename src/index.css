@@ -1,75 +1,84 @@
 /* src/index.css */
+* { box-sizing: border-box; }
 
-/* Keep sizing predictable */
-* {
-  box-sizing: border-box;
+html, body, #root { height: 100%; min-height: 100%; }
+
+html {
+  background: #0b1220;
 }
 
-html,
-body,
-#root {
-  height: 100%;
-  min-height: 100%;
-}
-
-:root {
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* IMPORTANT: do NOT center the app or paint a background here.
-   main.tsx handles the background image + overlay. */
 body {
   margin: 0;
   min-width: 320px;
   background: transparent;
 }
 
-/* Links */
-a {
-  font-weight: 600;
-  text-decoration: none;
+.appBackground {
+  min-height: 100vh;
+  background-image: url("/moody-kitchen.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
 }
 
-a:hover {
-  text-decoration: underline;
+/* darker overlay to bring back mood + contrast */
+.appBackground::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  pointer-events: none;
 }
 
-/* Buttons: keep it simple; your Button component can override */
-button {
-  font-family: inherit;
+/* make sure your app content is above the overlay */
+.appBackground > * {
+  position: relative;
+  z-index: 1;
 }
+
+.mainCard {
+  background: rgba(17, 24, 39, 0.65);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 2rem auto;
+}
+
+:root {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { font-weight: 600; text-decoration: none; }
+a:hover { text-decoration: underline; }
 
 .dayRow {
   transition: transform .18s ease, box-shadow .18s ease;
 }
-
 .dayRow:hover {
   transform: translateY(-4px);
   box-shadow: 0 14px 35px rgba(0,0,0,0.4);
 }
 
-/* Button base animation */
 button {
+  font-family: inherit;
   transition: transform 0.15s ease,
               box-shadow 0.15s ease,
               filter 0.15s ease;
 }
-
-/* Lift + glow on hover */
 button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
   filter: brightness(1.05);
 }
-
-/* Press effect */
 button:active {
   transform: translateY(0px) scale(0.98);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
@@ -79,9 +88,7 @@ button[data-variant="primary"]:hover {
   box-shadow: 0 0 0 1px rgba(20,184,166,0.6),
               0 8px 24px rgba(20,184,166,0.35);
 }
-
 button[data-variant="danger"]:hover {
   box-shadow: 0 0 0 1px rgba(239,68,68,0.6),
               0 8px 24px rgba(239,68,68,0.35);
 }
-
