@@ -137,19 +137,20 @@ export default function PlanPage({
 
         <div style={{ display: "grid", gap: 20, marginTop: 10 }}>
           {/* Vegetarian Toggle */}
-          <label style={{ display: "flex", alignItems: "center", gap: 12, fontWeight: 700, cursor: "pointer" }}>
-            <input
-              type="checkbox"
-              checked={vegetarian}
-              onChange={(e) => setVegetarian(e.target.checked)}
-              style={{ width: 18, height: 18, accentColor: "#14b8a6" }}
-            />
-            Vegetarian meals only
-          </label>
+          <label className="sectionLabel">
+  <input
+    type="checkbox"
+    checked={vegetarian}
+    onChange={(e) => setVegetarian(e.target.checked)}
+  />
+  Vegetarian meals only
+</label>
 
           {/* Pantry Input */}
           <div>
-            <h2 style={{ margin: "0 0 4px", fontSize: 16, fontWeight: 800 }}>What's in your kitchen?</h2>
+            <h3 className="sectionLabel">
+  What's in your kitchen?
+</h3>
             <div style={{ fontSize: 13, opacity: 0.6, marginBottom: 8 }}>
               List ingredients you have (comma separated). We'll prioritize these.
             </div>
@@ -163,7 +164,9 @@ export default function PlanPage({
 
           {/* Dietary Notes */}
           <div>
-            <h2 style={{ margin: "0 0 8px", fontSize: 16, fontWeight: 800 }}>Dietary Notes</h2>
+            <h3 className="sectionLabel">
+  Dietary Notes
+</h3>
             <textarea
               placeholder="Allergies, dislikes, or other preferences..."
               value={dietaryNotes}

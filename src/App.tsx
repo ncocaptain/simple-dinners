@@ -470,7 +470,7 @@ const uniqueShoppingList = useMemo(() => {
   }}
   style={{
   ...menuItemStyle,
-  color: "rgba(255, 140, 140, 0.95)"
+  color: "rgba(255, 120, 120, 0.95)"
 }} 
 >
   Regenerate Week
