@@ -38,7 +38,7 @@ body {
 
 /* Regular readable body text */
 .readableText {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255,255,255,0.88);
 }
 
 .appBackground {
@@ -71,8 +71,13 @@ body {
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 18px;
   padding: 2.5rem 2rem;
+  padding-top: 2.5rem;
   max-width: 900px;
   margin: 2rem auto;
+}
+
+.menuItem:hover {
+  color: rgba(255, 180, 180, 1);
 }
 
 :root {
