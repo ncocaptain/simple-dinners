@@ -108,13 +108,15 @@ export default function PlanPage({
     <div style={{ padding: 24 }}>
       <div style={card}>
         <div style={{ textAlign: "center", marginBottom: 10 }}>
-          <h1 style={{ margin: 0, fontSize: 32, fontWeight: 900 }}>Plan Your Week</h1>
-          <p style={{ opacity: 0.7 }}>Smart dinner planning tailored to your schedule</p>
+          <h2 className="cardTitle">Plan Your Week</h2>
+          <div className="readableText">
+  Choose your effort level for each day
+</div>
         </div>
 
         {days.map((day) => (
           <div key={day} style={{ display: "grid", gap: 8, paddingBottom: 10, borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-            <div style={{ fontWeight: 800, fontSize: 14 }}>{day}</div>
+            <div className="dayLabel">{day}</div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {effortOptions.map((opt) => {
                 const active = (daySettings[day] ?? "normal") === opt.key;

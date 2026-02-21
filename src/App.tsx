@@ -360,20 +360,19 @@ const uniqueShoppingList = useMemo(() => {
       }}
     >
       <div style={{ textAlign: "center", flex: 1 }}>
-        <h1 style={{ margin: 0, fontSize: 32, fontWeight: 1000, letterSpacing: 0.5 }}>
-          Simple Dinners
-        </h1>
-        <div style={{ marginTop: 6, fontSize: 16, opacity: 0.72, letterSpacing: 0.3 }}>
-          Smart dinner planning based on your schedule
-        </div>
+        <h1 className="heroTitle" style={{ margin: 0, fontSize: 32, fontWeight: 1000 }}>
+  Simple Dinners
+</h1>
+
+<div
+  className="heroSubtitle"
+  style={{ marginTop: 6, fontSize: 16, letterSpacing: 0.3 }}
+>
+  Smart dinner planning based on your schedule
+</div>
       </div>
 
-      <button
-  onClick={() => generateDinnerPlan(true)}
-  style={{ padding: "10px 12px", borderRadius: 12, fontWeight: 900 }}
->
-  Force Generate
-</button>
+      
 
       <div ref={menuRef} style={{ position: "relative" }}>
         <button
@@ -457,7 +456,28 @@ const uniqueShoppingList = useMemo(() => {
               Cookbook
               <div style={menuSubStyle}>Manage saved recipes</div>
             </button>
+
+            <div style={{ height: 1, background: "rgba(255,255,255,0.08)" }} />
+
+<button
+  role="menuitem"
+  onClick={() => {
+    const confirmReplace = confirm(
+      "Replace this week’s meals with a new plan?"
+    );
+    if (confirmReplace) generateDinnerPlan(true);
+    setMenuOpen(false);
+  }}
+  style={{
+  ...menuItemStyle,
+  color: "rgba(255, 140, 140, 0.95)"
+}} 
+>
+  Regenerate Week
+  <div style={menuSubStyle} >Replace current meals</div>
+</button>
           </div>
+          
           
         )}
       </div>

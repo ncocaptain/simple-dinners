@@ -13,6 +13,34 @@ body {
   background: transparent;
 }
 
+/* Primary large headings */
+.heroTitle {
+  color: #ffffff;
+  text-shadow:
+    0 2px 6px rgba(0,0,0,0.6),
+    0 8px 24px rgba(0,0,0,0.55);
+}
+
+/* Subtitle / secondary hero text */
+.heroSubtitle {
+  color: rgba(255,255,255,0.9);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+
+/* Card headings like "Plan Your Week" */
+.cardTitle {
+  color: #ffffff;
+  text-shadow:
+    0 2px 6px rgba(0,0,0,0.6),
+    0 6px 18px rgba(0,0,0,0.5);
+  font-weight: 900;
+}
+
+/* Regular readable body text */
+.readableText {
+  color: rgba(255, 255, 255, 0.85);
+}
+
 .appBackground {
   min-height: 100vh;
   background-image: url("/moody-kitchen.jpg");
@@ -27,7 +55,7 @@ body {
   content: "";
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.45);
   pointer-events: none;
 }
 
@@ -38,11 +66,11 @@ body {
 }
 
 .mainCard {
-  background: rgba(17, 24, 39, 0.65);
+  background: rgba(15, 23, 42, 0.75);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 18px;
-  padding: 2rem;
+  padding: 2.5rem 2rem;
   max-width: 900px;
   margin: 2rem auto;
 }
@@ -66,6 +94,16 @@ a:hover { text-decoration: underline; }
 .dayRow:hover {
   transform: translateY(-4px);
   box-shadow: 0 14px 35px rgba(0,0,0,0.4);
+}
+
+.dayLabel {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  opacity: 0.95;
 }
 
 button {
