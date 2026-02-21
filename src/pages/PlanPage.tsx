@@ -137,7 +137,7 @@ export default function PlanPage({
 
         <div style={{ display: "grid", gap: 20, marginTop: 10 }}>
           {/* Vegetarian Toggle */}
-          <label className="sectionLabel">
+          <label className="sectionLabel" style={{ display: "flex", alignItems: "center", gap: 8 }}>
   <input
     type="checkbox"
     checked={vegetarian}
