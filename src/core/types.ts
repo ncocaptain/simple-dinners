@@ -1,6 +1,7 @@
 export type Effort = "quick" | "normal" | "big" | "takeout";
 
 export type Meal = {
+  id?: string;
   name: string;
   ingredients: string;
   instructions?: string;

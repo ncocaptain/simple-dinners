@@ -139,10 +139,10 @@ export default function PlanPage({
           {/* Vegetarian Toggle */}
           <label className="sectionLabel" style={{ display: "flex", alignItems: "center", gap: 8 }}>
   <input
-    type="checkbox"
-    checked={vegetarian}
-    onChange={(e) => setVegetarian(e.target.checked)}
-  />
+  type="checkbox"
+  checked={vegetarian}
+  onChange={(e) => setVegetarian(e.target.checked)}
+/>
   Vegetarian meals only
 </label>
 

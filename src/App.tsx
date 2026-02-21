@@ -184,57 +184,63 @@ const menuItemStyle: React.CSSProperties = {
   const generateDinnerPlan = (force = false) => {
   const isEmpty = (m?: Meal) => !m || !m.name?.trim();
 
-  const cookbookPool: Meal[] = (cookbook ?? [])
-    .filter((r) => {
-      if (violatesAllergens(r.ingredients, effectivePrefs.allergens)) return false;
+  // Build one combined base list
+const baseMeals: Meal[] = [
+  ...(cookbook ?? []).map((r) => ({
+    name: r.name,
+    ingredients: r.ingredients,
+    instructions: r.instructions,
+    photoUrl: r.photoUrl,
+    effort: "normal" as const,
+  })),
+  ...candidateLibrary,
+];
 
-      if (!effectivePrefs.vegetarian) return true;
-      if (isVegetarianByHeuristic(r.ingredients)) return true;
+// Apply allergen + vegetarian logic consistently
+const filtered = baseMeals
+  // Allergen gate FIRST (always applied)
+  .filter((m) => !violatesAllergens(m.ingredients, effectivePrefs.allergens))
+  // Vegetarian logic (only applied when enabled)
+  .flatMap((m) => {
+    if (!effectivePrefs.vegetarian) return [m];
 
-      return effectivePrefs.allowSubstitutions;
-    })
-    .map((r) => {
-      const baseMeal: Meal = {
-        name: r.name,
-        ingredients: r.ingredients,
-        instructions: r.instructions,
-        photoUrl: r.photoUrl,
-        effort: "normal",
-      };
+    if (isVegetarianByHeuristic(m.ingredients)) return [m];
 
-      if (
-        effectivePrefs.vegetarian &&
-        effectivePrefs.allowSubstitutions &&
-        !isVegetarianByHeuristic(r.ingredients)
-      ) {
-        return applyVegSub(baseMeal);
-      }
+    return effectivePrefs.allowSubstitutions ? [applyVegSub(m)] : [];
+  });
 
-      return baseMeal;
-    })
-    .filter((m) => !violatesAllergens(m.ingredients, effectivePrefs.allergens));
-
-  const pool: Meal[] = [...cookbookPool, ...candidateLibrary].map((m) => ({
-    ...m,
-    photoUrl: m.photoUrl || mealImageUrl(m.name),
-    effort: m.effort || "normal",
-  }));
+// Final pool with fallbacks filled in
+const pool: Meal[] = filtered.map((m) => ({
+  ...m,
+  photoUrl: m.photoUrl || mealImageUrl(m.name),
+  effort: m.effort || "normal",
+}));
 
   const pantryTokensLocal = getPantryTokens(pantry);
-  const today = new Date();
-  const todaySeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
 
-  const ranked = pool
-    .map((m, idx) => ({
-      m,
-      pantryScore: scoreMealAgainstPantry(m, pantryTokensLocal),
-      tie: (todaySeed + idx) % 97,
-    }))
-    .sort((a, b) => {
-      if (b.pantryScore !== a.pantryScore) return b.pantryScore - a.pantryScore;
-      return a.tie - b.tie;
-    })
-    .map((x) => x.m);
+const today = new Date();
+const todaySeed =
+  today.getFullYear() * 10000 +
+  (today.getMonth() + 1) * 100 +
+  today.getDate();
+
+const ranked = pool
+  .map((m) => ({
+    m,
+    pantryScore: scoreMealAgainstPantry(m, pantryTokensLocal),
+    tie: (todaySeed + hashString(m.id ?? m.name)) % 97,
+  }))
+  .sort((a, b) => {
+    if (b.pantryScore !== a.pantryScore) return b.pantryScore - a.pantryScore;
+    return a.tie - b.tie;
+  })
+  .map((x) => x.m);
+
+function hashString(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
 
   const prevMeals = meals;
   const next: Record<Day, Meal> = { ...prevMeals };
