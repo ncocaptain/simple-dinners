@@ -23,8 +23,110 @@ type Day = (typeof days)[number];
 const EMPTY_MEAL: Meal = { name: "", ingredients: "", instructions: "", photoUrl: "" };
 const EMPTY_WEEK = Object.fromEntries(days.map((d) => [d, EMPTY_MEAL])) as Record<Day, Meal>;
 
+function pad2(n: number) {
+  return String(n).padStart(2, "0");
+}
 
+// Local time format: YYYYMMDDTHHMMSS
+function toICSLocal(d: Date) {
+  return (
+    d.getFullYear() +
+    pad2(d.getMonth() + 1) +
+    pad2(d.getDate()) +
+    "T" +
+    pad2(d.getHours()) +
+    pad2(d.getMinutes()) +
+    pad2(d.getSeconds())
+  );
+}
 
+function escapeICS(text: string) {
+  return (text ?? "")
+    .replace(/\\/g, "\\\\")
+    .replace(/\n/g, "\\n")
+    .replace(/,/g, "\\,")
+    .replace(/;/g, "\\;");
+}
+
+function startOfWeekMonday(base: Date) {
+  const d = new Date(base);
+  const day = d.getDay(); // 0 Sun ... 6 Sat
+  const diff = day === 0 ? -6 : 1 - day; // back/forward to Monday
+  d.setDate(d.getDate() + diff);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+export function addWeekToCalendar(days: readonly Day[], meals: Record<Day, Meal>) {
+  const monday = startOfWeekMonday(new Date());
+
+  const events = days
+    .map((day, idx) => {
+      const meal = meals[day];
+      if (!meal?.name?.trim()) return null; // skip EMPTY_MEAL
+
+      const date = new Date(monday);
+      date.setDate(monday.getDate() + idx);
+
+      const start = new Date(date);
+      start.setHours(18, 0, 0, 0); // 6:00 PM
+
+      const end = new Date(date);
+      end.setHours(19, 0, 0, 0); // 7:00 PM
+
+      return {
+        title: `Dinner: ${meal.name}`,
+        start,
+        end,
+        description: meal.ingredients?.trim()
+          ? `Ingredients: ${meal.ingredients}`
+          : undefined,
+      };
+    })
+    .filter(Boolean) as { title: string; start: Date; end: Date; description?: string }[];
+
+  // nothing to add
+  if (events.length === 0) return;
+
+  const dtstamp = toICSLocal(new Date());
+  const body = events
+    .map((e, i) => {
+      const uid = `${dtstamp}-${i}@simple-dinners`;
+      return [
+        "BEGIN:VEVENT",
+        `UID:${uid}`,
+        `DTSTAMP:${dtstamp}`,
+        `SUMMARY:${escapeICS(e.title)}`,
+        e.description ? `DESCRIPTION:${escapeICS(e.description)}` : "",
+        `DTSTART:${toICSLocal(e.start)}`,
+        `DTEND:${toICSLocal(e.end)}`,
+        "END:VEVENT",
+      ]
+        .filter(Boolean)
+        .join("\n");
+    })
+    .join("\n");
+
+  const ics = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Simple Dinners//EN",
+    body,
+    "END:VCALENDAR",
+  ].join("\n");
+
+  const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "simple-dinners-week.ics";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  URL.revokeObjectURL(url);
+}
 
 
 export function makeId() {

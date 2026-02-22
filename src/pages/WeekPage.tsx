@@ -14,6 +14,110 @@ const EMPTY_WEEK = Object.fromEntries(
   days.map((d) => [d, EMPTY_MEAL])
 ) as Record<Day, Meal>;
 
+function pad2(n: number) {
+  return String(n).padStart(2, "0");
+}
+
+// Local time format: YYYYMMDDTHHMMSS
+function toICSLocal(d: Date) {
+  return (
+    d.getFullYear() +
+    pad2(d.getMonth() + 1) +
+    pad2(d.getDate()) +
+    "T" +
+    pad2(d.getHours()) +
+    pad2(d.getMinutes()) +
+    pad2(d.getSeconds())
+  );
+}
+
+function escapeICS(text: string) {
+  return (text ?? "")
+    .replace(/\\/g, "\\\\")
+    .replace(/\n/g, "\\n")
+    .replace(/,/g, "\\,")
+    .replace(/;/g, "\\;");
+}
+
+function startOfWeekMonday(base: Date) {
+  const d = new Date(base);
+  const day = d.getDay(); // 0 Sun ... 6 Sat
+  const diff = day === 0 ? -6 : 1 - day; // to Monday
+  d.setDate(d.getDate() + diff);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+function addWeekToCalendar(days: readonly Day[], meals: Record<Day, Meal>) {
+  const monday = startOfWeekMonday(new Date());
+
+  const events = days
+    .map((day, idx) => {
+      const meal = meals[day];
+      if (!meal?.name?.trim()) return null;
+
+      const date = new Date(monday);
+      date.setDate(monday.getDate() + idx);
+
+      const start = new Date(date);
+      start.setHours(18, 0, 0, 0);
+
+      const end = new Date(date);
+      end.setHours(19, 0, 0, 0);
+
+      return {
+        title: `Dinner: ${meal.name}`,
+        start,
+        end,
+        description: meal.ingredients?.trim()
+          ? `Ingredients: ${meal.ingredients}`
+          : undefined,
+      };
+    })
+    .filter(Boolean) as { title: string; start: Date; end: Date; description?: string }[];
+
+  if (events.length === 0) return;
+
+  const dtstamp = toICSLocal(new Date());
+
+  const body = events
+    .map((e, i) => {
+      const uid = `${dtstamp}-${i}@simple-dinners`;
+      return [
+        "BEGIN:VEVENT",
+        `UID:${uid}`,
+        `DTSTAMP:${dtstamp}`,
+        `SUMMARY:${escapeICS(e.title)}`,
+        e.description ? `DESCRIPTION:${escapeICS(e.description)}` : "",
+        `DTSTART:${toICSLocal(e.start)}`,
+        `DTEND:${toICSLocal(e.end)}`,
+        "END:VEVENT",
+      ]
+        .filter(Boolean)
+        .join("\n");
+    })
+    .join("\n");
+
+  const ics = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Simple Dinners//EN",
+    body,
+    "END:VCALENDAR",
+  ].join("\n");
+
+  const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "simple-dinners-week.ics";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 
 
 
@@ -30,7 +134,6 @@ export default function WeekPage({
 }: {
   meals: Record<Day, Meal>;
   setMeals: React.Dispatch<React.SetStateAction<Record<Day, Meal>>>;
-
   checkedItems: string[];
   setCheckedItems: React.Dispatch<React.SetStateAction<string[]>>;
   addDayToCookbook: (day: Day) => void;
@@ -39,93 +142,42 @@ export default function WeekPage({
   daySettings: Record<Day, Effort>;
   setDaySettings: React.Dispatch<React.SetStateAction<Record<Day, Effort>>>;
 }) {
-
   const navigate = useNavigate();
   const [hoveredDay, setHoveredDay] = React.useState<Day | null>(null);
   const [animDays, setAnimDays] = React.useState<Record<string, boolean>>({});
   const [openDay, setOpenDay] = React.useState<Day | null>(null);
+  const [openEffortDay, setOpenEffortDay] = React.useState<Day | null>(null);
   const prevMealsRef = React.useRef<Record<Day, Meal>>(EMPTY_WEEK);
 
+  const EFFORT_OPTIONS: { value: Effort; label: string }[] = [
+    { value: "quick", label: "Quick" },
+    { value: "normal", label: "Normal" },
+    { value: "big", label: "Big cook" },
+    { value: "takeout", label: "Takeout" },
+  ];
 
-
-
-  // ---------- Actions ----------
-  const clearWeek = () => {
-    if (!window.confirm("Clear the entire week?")) return;
-    setMeals(EMPTY_WEEK);
-    setCheckedItems([]);
-    navigate("/plan");
-  };
-
- const updateMeal = (day: Day, field: keyof Meal, value: string) => {
-  setMeals((prev) => ({
-    ...prev,
-    [day]: { ...(prev[day] ?? EMPTY_MEAL), [field]: value },
-  }));
-};
-
-
-  const clearDay = (day: Day) => {
-  setMeals((prev) => ({ ...prev, [day]: EMPTY_MEAL }));
-};
-
-
-  const toggleItem = (item: string) => {
-    const n = normalize(item);
-    setCheckedItems((prev) => (prev.includes(n) ? prev.filter((i) => i !== n) : [...prev, n]));
-  };
-
-  function openNearbyFood() {
-  if (!navigator.geolocation) {
-    alert("Location not supported on this device.");
-    return;
-  }
-
-  navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      const { latitude, longitude } = pos.coords;
-
-      // Universal web fallback (works everywhere)
-      const webUrl = `https://www.google.com/maps/search/food/@${latitude},${longitude},14z`;
-
-      // Try to open the native app first on mobile
-      const ua = navigator.userAgent.toLowerCase();
-      const isIOS = /iphone|ipad|ipod/.test(ua);
-      const isAndroid = /android/.test(ua);
-
-      // iOS prefers Apple Maps deep link, Android can use geo:
-      const iosUrl = `maps://maps.apple.com/?q=restaurants&ll=${latitude},${longitude}`;
-      const androidUrl = `geo:${latitude},${longitude}?q=restaurants`;
-
-      if (isIOS) {
-        // Attempt native, then fallback to web
-        window.location.href = iosUrl;
-        setTimeout(() => (window.location.href = webUrl), 600);
-        return;
+  // ---------- Close dropdown on outside click ----------
+  React.useEffect(() => {
+    const onDown = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      // If we click outside the dropdown container, close it
+      if (!target.closest(".effort-selector-container")) {
+        setOpenEffortDay(null);
       }
+    };
 
-      if (isAndroid) {
-        window.location.href = androidUrl;
-        setTimeout(() => (window.location.href = webUrl), 600);
-        return;
-      }
-
-      // Desktop / unknown: just use web in same tab
-      window.location.href = webUrl;
-    },
-    () => alert("Couldn’t get your location. Check browser permissions."),
-    { enableHighAccuracy: true, timeout: 8000 }
-  );
-}
+    if (openEffortDay) window.addEventListener("mousedown", onDown);
+    return () => window.removeEventListener("mousedown", onDown);
+  }, [openEffortDay]);
 
   // ---------- Animation Logic ----------
   React.useEffect(() => {
     const prev = prevMealsRef.current;
     const nextAnim: Partial<Record<Day, boolean>> = {};
     days.forEach((day) => {
-      const prevKey = `${prev[day]?.name ?? ""}||${prev[day]?.ingredients ?? ""}`;
-      const nextKey = `${meals[day]?.name ?? ""}||${meals[day]?.ingredients ?? ""}`;
-      if (prevKey !== nextKey && (meals[day]?.name || meals[day]?.ingredients)) {
+      const prevKey = `${prev[day]?.name ?? ""}`;
+      const nextKey = `${meals[day]?.name ?? ""}`;
+      if (prevKey !== nextKey && meals[day]?.name) {
         nextAnim[day as Day] = true;
       }
     });
@@ -137,6 +189,40 @@ export default function WeekPage({
     prevMealsRef.current = meals;
   }, [meals]);
 
+  // ---------- Actions ----------
+  const clearWeek = () => {
+    if (!window.confirm("Clear the entire week?")) return;
+    setMeals(EMPTY_WEEK);
+    setCheckedItems([]);
+  };
+
+  const updateMeal = (day: Day, field: keyof Meal, value: string) => {
+    setMeals((prev) => ({
+      ...prev,
+      [day]: { ...(prev[day] ?? EMPTY_MEAL), [field]: value },
+    }));
+  };
+
+  const clearDay = (day: Day) => {
+    setMeals((prev) => ({ ...prev, [day]: EMPTY_MEAL }));
+  };
+
+  const toggleItem = (item: string) => {
+    const n = normalize(item);
+    setCheckedItems((prev) => (prev.includes(n) ? prev.filter((i) => i !== n) : [...prev, n]));
+  };
+
+  function openNearbyFood() {
+    if (!navigator.geolocation) {
+      alert("Location not supported.");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const { latitude, longitude } = pos.coords;
+      window.open(`http://googleusercontent.com/maps.google.com/maps?q=restaurants&ll=${latitude},${longitude}`, "_blank");
+    });
+  }
+
   // ---------- Styles ----------
   const cardGrid: React.CSSProperties = {
     display: "grid",
@@ -145,36 +231,53 @@ export default function WeekPage({
     marginTop: 16,
   };
 
-  
   const recipeCard: React.CSSProperties = {
-  borderRadius: 18,
-  overflow: "hidden",
-
-  background: "rgba(51,65,85,0.35)", // lighter slate 
-  backdropFilter: "blur(16px)",
-  WebkitBackdropFilter: "blur(16px)",
-
-  border: "1px solid rgba(255,255,255,0.12)",
-boxShadow: `
-  0 30px 60px rgba(0,0,0,0.5),
-  inset 0 1px 0 rgba(255,255,255,0.08)
-`,
-
-  transition: "all .2s ease",
-  color: "#f8fafc",
-};
+    borderRadius: 18,
+    overflow: "hidden",
+    background: "rgba(30,41,59,0.40)",
+    backdropFilter: "blur(10px)",
+    WebkitBackdropFilter: "blur(10px)",
+    border: "1px solid rgba(255,255,255,0.10)",
+    boxShadow: "0 10px 26px rgba(0,0,0,0.35)",
+    transition: "all .18s ease",
+    color: "#f8fafc",
+  };
 
   const input: React.CSSProperties = {
-    width: "100%", padding: "10px", borderRadius: 10, border: "1px solid rgba(255,255,255,0.12)",
-    background: "rgba(255,255,255,0.06)", color: "white", outline: "none", fontSize: 14, boxSizing: "border-box"
+    width: "100%",
+    padding: "10px 12px",
+    borderRadius: 12,
+    border: "1px solid rgba(255,255,255,0.12)",
+    background: "rgba(255,255,255,0.06)",
+    color: "white",
+    fontSize: 14,
+    outline: "none",
   };
 
   const iconBtn: React.CSSProperties = {
-    width: 32, height: 32, borderRadius: 8, border: "1px solid rgba(255,255,255,0.1)",
-    background: "rgba(255,255,255,0.05)", color: "white", cursor: "pointer"
+    width: 34,
+    height: 34,
+    borderRadius: 10,
+    border: "1px solid rgba(255,255,255,0.12)",
+    background: "rgba(255,255,255,0.06)",
+    color: "white",
+    cursor: "pointer",
+    display: "grid",
+    placeItems: "center",
   };
 
-  
+  const chip: React.CSSProperties = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 6,
+    padding: "6px 12px",
+    borderRadius: 999,
+    border: "1px solid rgba(255,255,255,0.12)",
+    background: "rgba(255,255,255,0.06)",
+    fontSize: 12,
+    fontWeight: 800,
+  };
+
   return (
     <>
       <style>{`
@@ -185,158 +288,157 @@ boxShadow: `
         }
       `}</style>
 
-     <div
-  style={{
-    borderRadius: 24,
-    background: "rgba(15,23,42,0.9)", // deep slate
-    backdropFilter: "blur(10px)",
-    border: "1px solid rgba(255,255,255,0.06)",
-    padding: 36,
-    marginTop: 40,
-    marginBottom: 60,
-  }}
->
+      {/* Header */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
+        <h2 style={{ margin: 0, fontSize: 28, fontWeight: 800, color: "#f8fafc" }}>This Week</h2>
+        <button
+          onClick={() => addWeekToCalendar(days, meals)}
+          style={{ padding: "10px 16px", borderRadius: 14, background: "rgba(255,255,255,0.05)", color: "#f8fafc", cursor: "pointer", fontWeight: 600, border: "1px solid rgba(255,255,255,0.12)" }}
+        >
+          📅 Add to Calendar
+        </button>
+      </div>
 
-  <h2
-  style={{
-    margin: 0,
-    fontSize: 28,
-    fontWeight: 800,
-    letterSpacing: "-0.02em",
-    color: "#f1f5f9",
-    marginBottom: 24,
-  }}
->
-  This Week
-</h2>
+      {/* Main Grid */}
+      <div style={cardGrid}>
+        {days.map((day) => {
+          const meal = meals[day];
+          const effort = daySettings[day] ?? "normal";
+          const heroUrl = meal?.photoUrl || `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80&sig=${day}`;
 
-  <div style={cardGrid}>
-    {days.map((day) => {
-      const meal = meals[day];
-      const effort = daySettings[day] ?? "normal";
-      const heroUrl =
-        meal?.photoUrl ||
-        `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80&sig=${day}`;
-
-            return (
-              <div
-                key={day}
-                onMouseEnter={() => setHoveredDay(day)}
-                onMouseLeave={() => setHoveredDay(null)}
-                style={{
-                  ...recipeCard,
-                  transform: hoveredDay === day ? "translateY(-4px)" : "none",
-                  animation: animDays[day] ? "popGlow 450ms ease-out" : "none",
-                }}
-              >
-               <div
-  style={{
-    position: "relative",   // IMPORTANT
-    height: 140,
-    backgroundImage: `url(${heroUrl})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    filter: "saturate(0.95) brightness(0.95)", // optional polish
-  }}
->
-  <div
-  style={{
-    position: "absolute",
-    inset: 0,
-    background:
-      "linear-gradient(to bottom, rgba(15,23,42,0) 50%, rgba(15,23,42,0.75) 100%)",
-    pointerEvents: "none",
-  }}
-/>
-</div>
-                
-                <div style={{ padding: 16, display: "grid", gap: 12 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
-                    <div>
-                      <div style={{ fontSize: 18, fontWeight: 900 }}>{meal?.name || "No meal planned"}</div>
-                      <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 700 }}>{day.toUpperCase()}</div>
-                    </div>
-                    <div style={{ display: "flex", gap: 6 }}>
-                      <button style={iconBtn} onClick={() => addDayToCookbook(day)}>➕</button>
-                      <button style={iconBtn} onClick={() => window.confirm(`Clear ${day}?`) && clearDay(day)}>🧹</button>
-                    </div>
+          return (
+            <div
+              key={day}
+              onMouseEnter={() => setHoveredDay(day)}
+              onMouseLeave={() => setHoveredDay(null)}
+              style={{
+                ...recipeCard,
+                transform: hoveredDay === day ? "translateY(-4px)" : "none",
+                animation: animDays[day] ? "popGlow 450ms ease-out" : "none",
+              }}
+            >
+              <div style={{ height: 120, backgroundImage: `url(${heroUrl})`, backgroundSize: "cover", backgroundPosition: "center" }} />
+              
+              <div style={{ padding: 16, display: "grid", gap: 12 }}>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <div>
+                    <div style={{ fontSize: 18, fontWeight: 900 }}>{meal?.name || "No meal planned"}</div>
+                    <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 700 }}>{day.toUpperCase()}</div>
                   </div>
-
-                  <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                    <span style={{ fontSize: 12, fontWeight: 800, opacity: 0.7 }}>Effort:</span>
-                    <select
-                      value={effort}
-                      onChange={(e) => setDaySettings(prev => ({ ...prev, [day]: e.target.value as Effort }))}
-                      style={{ background: "#0f172a", color: "white", padding: "4px 8px", borderRadius: 8, border: "1px solid rgba(255,255,255,0.1)" }}
-                    >
-                      <option value="quick">Quick</option>
-                      <option value="normal">Normal</option>
-                      <option value="big">Big cook</option>
-                      <option value="takeout">Takeout</option>
-                    </select>
+                  <div style={{ display: "flex", gap: 6 }}>
+                    <button style={iconBtn} onClick={() => addDayToCookbook(day)}>➕</button>
+                    <button style={iconBtn} onClick={() => clearDay(day)}>🧹</button>
                   </div>
+                </div>
 
-                  {effort === "takeout" && (
-                    <button onClick={openNearbyFood} style={{ ...input, background: "rgba(20,184,166,0.15)", border: "1px solid #14b8a6", cursor: "pointer", fontWeight: 800 }}>
-                      🍔 Find nearby food
-                    </button>
-                  )}
-
-                  <input placeholder="Meal name" value={meal?.name ?? ""} onChange={(e) => updateMeal(day, "name", e.target.value)} style={input} />
-                  <input placeholder="Ingredients..." value={meal?.ingredients ?? ""} onChange={(e) => updateMeal(day, "ingredients", e.target.value)} style={input} />
-
-                  <button 
-                    onClick={() => setOpenDay(openDay === day ? null : day)}
-                    style={{ background: "none", border: "none", color: "#14b8a6", fontWeight: 800, cursor: "pointer", fontSize: 13, textAlign: "left" }}
+                {/* Effort Selector */}
+                <div className="effort-selector-container" style={{ position: "relative", display: "inline-block" }}>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setOpenEffortDay(openEffortDay === day ? null : day);
+                    }}
+                    style={{ ...chip, cursor: "pointer", userSelect: "none" }}
                   >
-                    {openDay === day ? "Show Less ▴" : "Show More ▾"}
+                    <span style={{ opacity: 0.7, fontSize: 11, fontWeight: 800 }}>Effort</span>
+                    <span style={{ fontSize: 12, fontWeight: 900 }}>
+                      {EFFORT_OPTIONS.find((o) => o.value === effort)?.label ?? "Normal"}
+                    </span>
+                    <span style={{ opacity: 0.6 }}>▾</span>
                   </button>
 
-                  {openDay === day && (
-                    <div style={{ display: "grid", gap: 10, padding: 12, background: "rgba(255,255,255,0.03)", borderRadius: 12 }}>
-                       <textarea
-                          placeholder="Cooking steps..."
-                          value={meal?.instructions ?? ""}
-                          onChange={(e) => updateMeal(day, "instructions", e.target.value)}
-                          style={{ ...input, minHeight: 80, resize: "vertical" }}
-                        />
-                        <Button variant="secondary" onClick={() => {
-                          navigator.clipboard.writeText(meal?.ingredients || "");
-                          alert("Ingredients copied!");
-                        }}>📋 Copy Ingredients</Button>
+                  {openEffortDay === day && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "calc(100% + 6px)",
+                        left: 0,
+                        zIndex: 50,
+                        minWidth: 140,
+                        borderRadius: 12,
+                        border: "1px solid rgba(255,255,255,0.08)",
+                        background: "rgba(15,23,42,0.95)",
+                        backdropFilter: "blur(14px)",
+                        WebkitBackdropFilter: "blur(14px)",
+                        boxShadow: "0 12px 28px rgba(0,0,0,0.55)",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {EFFORT_OPTIONS.map((opt) => (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => {
+                            setDaySettings(prev => ({ ...prev, [day]: opt.value }));
+                            setOpenEffortDay(null);
+                          }}
+                          style={{
+                            width: "100%", textAlign: "left", padding: "10px 12px", border: "none",
+                            background: opt.value === effort ? "rgba(20,184,166,0.2)" : "transparent",
+                            color: "white", cursor: "pointer", fontWeight: opt.value === effort ? 900 : 500,
+                            fontSize: 13
+                          }}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
                     </div>
                   )}
                 </div>
+
+                <button
+                  onClick={() => setOpenDay(openDay === day ? null : day)}
+                  style={{ background: "none", border: "none", color: "#14b8a6", fontWeight: 900, cursor: "pointer", fontSize: 13, textAlign: "left", width: "fit-content", padding: 0 }}
+                >
+                  {openDay === day ? "Hide details ▴" : "Edit details ▾"}
+                </button>
+
+                {effort === "takeout" && (
+                  <button onClick={openNearbyFood} style={{ padding: "10px", borderRadius: 12, border: "1px solid #14b8a6", background: "rgba(20,184,166,0.14)", color: "white", fontWeight: 900, cursor: "pointer" }}>
+                    🍔 Find nearby food
+                  </button>
+                )}
+
+                {openDay === day && (
+                  <div style={{ display: "grid", gap: 10, padding: 12, background: "rgba(255,255,255,0.03)", borderRadius: 14, border: "1px solid rgba(255,255,255,0.06)" }}>
+                    <input placeholder="Meal name" value={meal?.name ?? ""} onChange={(e) => updateMeal(day, "name", e.target.value)} style={input} />
+                    <input placeholder="Ingredients..." value={meal?.ingredients ?? ""} onChange={(e) => updateMeal(day, "ingredients", e.target.value)} style={input} />
+                    <textarea
+                      placeholder="Cooking steps..."
+                      value={meal?.instructions ?? ""}
+                      onChange={(e) => updateMeal(day, "instructions", e.target.value)}
+                      style={{ ...input, minHeight: 90, resize: "vertical" }}
+                    />
+                  </div>
+                )}
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
 
-      {/* Action Footer */}
-      <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 32, flexWrap: "wrap" }}>
-        <Button onClick={generateDinnerPlan}>🎲 Re-Generate Empty Days</Button>
-        <Button variant="secondary" onClick={() => navigate("/cookbook")}>📚 My Cookbook</Button>
+      {/* Footer Actions */}
+      <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 32 }}>
+        <Button onClick={generateDinnerPlan}>🎲 Re-Generate</Button>
+        <Button variant="secondary" onClick={() => navigate("/cookbook")}>📚 Cookbook</Button>
         <Button variant="danger" onClick={clearWeek}>🧹 Reset Week</Button>
       </div>
 
-      {/* Shopping List */}
-      <div style={{ marginTop: 32, padding: 24, borderRadius: 20, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(15,23,42,0.2)" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 20 }}>
-          <h2 style={{ margin: 0, fontWeight: 900 }}>Shopping List</h2>
-          {checkedItems.length > 0 && <button onClick={() => setCheckedItems([])} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.4)", cursor: "pointer", fontSize: 12 }}>Clear all</button>}
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 10 }}>
-          {uniqueShoppingList.length === 0 ? <p style={{ opacity: 0.5 }}>Add some meals to see your list!</p> : uniqueShoppingList.map((item) => {
-            const n = normalize(item);
-            const isChecked = checkedItems.includes(n);
-            return (
-              <label key={n} style={{ display: "flex", gap: 10, alignItems: "center", padding: "12px", borderRadius: 12, background: isChecked ? "rgba(20,184,166,0.1)" : "rgba(255,255,255,0.03)", cursor: "pointer", transition: "all 0.2s" }}>
-                <input type="checkbox" checked={isChecked} onChange={() => toggleItem(item)} style={{ accentColor: "#14b8a6" }} />
-                <span style={{ textDecoration: isChecked ? "line-through" : "none", opacity: isChecked ? 0.5 : 1, fontSize: 14 }}>{item}</span>
+      {/* Shopping List Section */}
+      <div style={{ marginTop: 32, padding: 24, borderRadius: 20, background: "rgba(15,23,42,0.2)", border: "1px solid rgba(255,255,255,0.1)" }}>
+        <h2 style={{ marginBottom: 20, margin: 0 }}>Shopping List</h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 10, marginTop: 20 }}>
+          {uniqueShoppingList.length === 0 ? (
+            <p style={{ opacity: 0.5 }}>No items yet!</p>
+          ) : (
+            uniqueShoppingList.map((item) => (
+              <label key={item} style={{ display: "flex", gap: 10, padding: 12, background: "rgba(255,255,255,0.03)", borderRadius: 12, cursor: "pointer" }}>
+                <input type="checkbox" checked={checkedItems.includes(normalize(item))} onChange={() => toggleItem(item)} />
+                <span style={{ textDecoration: checkedItems.includes(normalize(item)) ? "line-through" : "none" }}>{item}</span>
               </label>
-            );
-          })}
+            ))
+          )}
         </div>
       </div>
     </>
