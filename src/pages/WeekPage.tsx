@@ -145,13 +145,24 @@ export default function WeekPage({
     marginTop: 16,
   };
 
+  
   const recipeCard: React.CSSProperties = {
-    borderRadius: 18,
-    overflow: "hidden",
-    border: "1px solid rgba(255,255,255,0.10)",
-    background: "rgba(2,6,23,0.45)",
-    transition: "all .2s ease",
-  };
+  borderRadius: 18,
+  overflow: "hidden",
+
+  background: "rgba(51,65,85,0.35)", // lighter slate 
+  backdropFilter: "blur(16px)",
+  WebkitBackdropFilter: "blur(16px)",
+
+  border: "1px solid rgba(255,255,255,0.12)",
+boxShadow: `
+  0 30px 60px rgba(0,0,0,0.5),
+  inset 0 1px 0 rgba(255,255,255,0.08)
+`,
+
+  transition: "all .2s ease",
+  color: "#f8fafc",
+};
 
   const input: React.CSSProperties = {
     width: "100%", padding: "10px", borderRadius: 10, border: "1px solid rgba(255,255,255,0.12)",
@@ -163,6 +174,7 @@ export default function WeekPage({
     background: "rgba(255,255,255,0.05)", color: "white", cursor: "pointer"
   };
 
+  
   return (
     <>
       <style>{`
@@ -173,14 +185,38 @@ export default function WeekPage({
         }
       `}</style>
 
-      <div style={{ borderRadius: 20, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(15,23,42,0.2)", padding: 20 }}>
-        <h2 style={{ margin: 0, fontSize: 24, fontWeight: 900 }}>This Week</h2>
-        
-        <div style={cardGrid}>
-          {days.map((day) => {
-            const meal = meals[day];
-            const effort = daySettings[day] ?? "normal";
-            const heroUrl = meal?.photoUrl || `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80&sig=${day}`;
+     <div
+  style={{
+    borderRadius: 24,
+    background: "rgba(15,23,42,0.9)", // deep slate
+    backdropFilter: "blur(10px)",
+    border: "1px solid rgba(255,255,255,0.06)",
+    padding: 36,
+    marginTop: 40,
+    marginBottom: 60,
+  }}
+>
+
+  <h2
+  style={{
+    margin: 0,
+    fontSize: 28,
+    fontWeight: 800,
+    letterSpacing: "-0.02em",
+    color: "#f1f5f9",
+    marginBottom: 24,
+  }}
+>
+  This Week
+</h2>
+
+  <div style={cardGrid}>
+    {days.map((day) => {
+      const meal = meals[day];
+      const effort = daySettings[day] ?? "normal";
+      const heroUrl =
+        meal?.photoUrl ||
+        `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80&sig=${day}`;
 
             return (
               <div
@@ -193,7 +229,26 @@ export default function WeekPage({
                   animation: animDays[day] ? "popGlow 450ms ease-out" : "none",
                 }}
               >
-                <div style={{ height: 140, backgroundImage: `url(${heroUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+               <div
+  style={{
+    position: "relative",   // IMPORTANT
+    height: 140,
+    backgroundImage: `url(${heroUrl})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    filter: "saturate(0.95) brightness(0.95)", // optional polish
+  }}
+>
+  <div
+  style={{
+    position: "absolute",
+    inset: 0,
+    background:
+      "linear-gradient(to bottom, rgba(15,23,42,0) 50%, rgba(15,23,42,0.75) 100%)",
+    pointerEvents: "none",
+  }}
+/>
+</div>
                 
                 <div style={{ padding: 16, display: "grid", gap: 12 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>

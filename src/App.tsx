@@ -38,9 +38,33 @@ export function mealImageUrl(name?: string) {
 
 export function applyVegSub(meal: Meal): Meal {
   let ing = meal.ingredients;
-  for (const { pattern, replacement } of SUBS) ing = ing.replace(pattern, replacement);
-  const name = normalize(meal.name).includes("(veg)") ? meal.name : `${meal.name} (Veg)`;
-  return { ...meal, name, ingredients: ing };
+  const replacementsUsed: string[] = [];
+
+  for (const { pattern, replacement } of SUBS) {
+    if (pattern.test(ing)) {
+      ing = ing.replace(pattern, replacement);
+      replacementsUsed.push(replacement);
+    }
+  }
+
+  // Clean existing veg labels from name
+  const baseName = meal.name.replace(/\s*\(veg.*?\)/i, "").trim();
+
+  // Build label from first replacement (most common case)
+  const label =
+    replacementsUsed.length > 0
+      ? `(${capitalize(replacementsUsed[0])})`
+      : "(Veg swap)";
+
+  return {
+    ...meal,
+    name: `${baseName} ${label}`,
+    ingredients: ing,
+  };
+}
+
+function capitalize(s: string) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 // --- Main App ---
