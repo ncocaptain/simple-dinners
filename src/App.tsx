@@ -15,6 +15,9 @@ import {
   getPantryTokens,
 } from "./core/planner";
 import { days } from "./core/data";
+import { ToastProvider } from "./components/Toast";
+import { ThemeProvider } from "./theme";
+
 
 
 
@@ -470,6 +473,8 @@ const uniqueShoppingList = useMemo(() => {
 }, [meals]);
 
  return (
+  <ThemeProvider>
+  <ToastProvider>
     <div className="mainCard">
       {/* keep your existing return content INSIDE here */}
       <div
@@ -653,22 +658,24 @@ const uniqueShoppingList = useMemo(() => {
       />
 
       <Route
-        path="/cookbook"
-        element={
-          <CookbookPage
-            meals={meals}
-            setMeals={setMeals}
-            cookbook={cookbook}
-            setCookbook={setCookbook}
-            prefs={effectivePrefs}
-            allergenKeywords={allergenKeywords}
-            violatesAllergens={violatesAllergens}
-            isVegetarianByHeuristic={isVegetarianByHeuristic}
-          />
-        }
-      />
+  path="/cookbook"
+  element={
+    <CookbookPage
+      meals={meals}
+      setMeals={setMeals}
+      cookbook={cookbook}
+      setCookbook={setCookbook}
+      prefs={effectivePrefs}
+      allergenKeywords={allergenKeywords}
+      violatesAllergens={violatesAllergens}
+      isVegetarianByHeuristic={isVegetarianByHeuristic}
+    />
+  }
+/>
     </Routes>
   </div>
         </div>
+        </ToastProvider>
+        </ThemeProvider>
 );
 }

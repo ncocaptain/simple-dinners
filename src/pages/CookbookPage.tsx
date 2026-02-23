@@ -8,7 +8,6 @@ import { useToast } from "../components/Toast";
 import { uploadImageToCloudinary } from "../utils/uploadImage";
 import { days } from "../core/data";
 
-
 function Badge({
   children,
   tone = "default",
@@ -55,18 +54,20 @@ function Badge({
   );
 }
 
+// Small fallback photo (keeps layout looking nice even if photoUrl is empty)
+function fallbackPhotoUrl(name?: string) {
+  const q = encodeURIComponent((name || "dinner").trim());
+  return `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=80&sig=1&meal=${q}`;
+}
+
 export default function CookbookPage({
-  meals: _meals,
   setMeals,
   cookbook,
   setCookbook,
   prefs,
-  allergenKeywords: _allergenKeywords,
   violatesAllergens,
   isVegetarianByHeuristic,
 }: {
-
-
   meals: Record<string, Meal>;
   setMeals: React.Dispatch<React.SetStateAction<Record<string, Meal>>>;
   cookbook: Recipe[];
@@ -77,9 +78,8 @@ export default function CookbookPage({
   isVegetarianByHeuristic: (ingredients: string) => boolean;
 }) {
   const toast = useToast();
-  const { base } = useInputStyles(); // ✅ remove unused theme
+  const { base } = useInputStyles();
 
-  // Consolidated State
   const [editingId, setEditingId] = React.useState<string | null>(null);
   const [editDraft, setEditDraft] = React.useState<Partial<Recipe>>({});
   const [isUploading, setIsUploading] = React.useState(false);
@@ -88,14 +88,23 @@ export default function CookbookPage({
   const [isImporting, setIsImporting] = React.useState(false);
 
   const [cookbookSearch, setCookbookSearch] = React.useState("");
-  const [cookbookFavoritesFirst] = React.useState(true);
-  const [cookbookMatchPrefsOnly] = React.useState(true);
 
-  const recipeMatchesPreferences = (r: { ingredients: string }) => {
-    if (violatesAllergens(r.ingredients)) return false;
-    if (!prefs.vegetarian) return true;
-    return isVegetarianByHeuristic(r.ingredients) || prefs.allowSubstitutions;
-  };
+  const cookbookFavoritesFirst = true;
+  const cookbookMatchPrefsOnly = true;
+
+  const recipeMatchesPreferences = React.useCallback(
+    (r: { ingredients: string }) => {
+      if (violatesAllergens(r.ingredients)) return false;
+      if (!prefs.vegetarian) return true;
+      return isVegetarianByHeuristic(r.ingredients) || prefs.allowSubstitutions;
+    },
+    [
+      violatesAllergens,
+      prefs.vegetarian,
+      prefs.allowSubstitutions,
+      isVegetarianByHeuristic,
+    ]
+  );
 
   const filteredCookbook = React.useMemo(() => {
     const q = normalize(cookbookSearch);
@@ -103,14 +112,18 @@ export default function CookbookPage({
 
     if (q) {
       list = list.filter(
-        (r) => normalize(r.name).includes(q) || normalize(r.ingredients).includes(q)
+        (r) =>
+          normalize(r.name).includes(q) ||
+          normalize(r.ingredients).includes(q)
       );
     }
 
     if (cookbookMatchPrefsOnly) list = list.filter(recipeMatchesPreferences);
 
     list.sort((a, b) => {
-      if (cookbookFavoritesFirst && a.favorite !== b.favorite) return a.favorite ? -1 : 1;
+      if (cookbookFavoritesFirst && a.favorite !== b.favorite) {
+        return a.favorite ? -1 : 1;
+      }
       return (b.updatedAt || b.createdAt) - (a.updatedAt || a.createdAt);
     });
 
@@ -120,10 +133,7 @@ export default function CookbookPage({
     cookbookSearch,
     cookbookFavoritesFirst,
     cookbookMatchPrefsOnly,
-    prefs.vegetarian,
-    prefs.allowSubstitutions,
-    violatesAllergens,
-    isVegetarianByHeuristic,
+    recipeMatchesPreferences,
   ]);
 
   const startEditRecipe = (r: Recipe) => {
@@ -166,7 +176,9 @@ export default function CookbookPage({
   const toggleFavorite = (id: string) => {
     setCookbook((prev) =>
       prev.map((r) =>
-        r.id === id ? { ...r, favorite: !r.favorite, updatedAt: Date.now() } : r
+        r.id === id
+          ? { ...r, favorite: !r.favorite, updatedAt: Date.now() }
+          : r
       )
     );
   };
@@ -174,12 +186,18 @@ export default function CookbookPage({
   const removeRecipe = (id: string) => {
     setCookbook((prev) => prev.filter((r) => r.id !== id));
     if (editingId === id) cancelEdit();
+    toast("Recipe removed");
   };
 
   const addRecipeToDay = (recipe: Recipe, day: string) => {
     setMeals((prev) => ({
       ...prev,
-      [day]: { name: recipe.name, ingredients: recipe.ingredients },
+      [day]: {
+        name: recipe.name,
+        ingredients: recipe.ingredients,
+        instructions: recipe.instructions ?? "",
+        photoUrl: recipe.photoUrl ?? "",
+      },
     }));
     toast(`Added to ${day}!`);
   };
@@ -191,27 +209,55 @@ export default function CookbookPage({
     try {
       setIsUploading(true);
       const url = await uploadImageToCloudinary(file);
-      setEditDraft((prev: any) => ({ ...prev, photoUrl: url }));
+      setEditDraft((prev) => ({ ...prev, photoUrl: url }));
       toast("Image uploaded!");
     } catch (err) {
       console.error(err);
       toast("Upload failed", "error");
     } finally {
       setIsUploading(false);
+      e.currentTarget.value = "";
     }
   };
 
+  const onImport = async () => {
+    const url = importUrl.trim();
+    if (!url) return toast("Paste a URL first", "warning");
+
+    try {
+      setIsImporting(true);
+      toast("Importing feature triggered");
+      await new Promise((r) => setTimeout(r, 300));
+    } finally {
+      setIsImporting(false);
+    }
+  };
+
+  const recipeCountLabel =
+    filteredCookbook.length === 1 ? "Recipe" : "Recipes";
+
+  const showEmptyState = filteredCookbook.length === 0;
+
   return (
     <Card title="📚 Cookbook" subtitle="Manage your saved recipes and meal plan.">
-      <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
-        <input
-          placeholder="Search recipes..."
-          value={cookbookSearch}
-          onChange={(e) => setCookbookSearch(e.target.value)}
-          style={{ ...base, flex: 1 }}
-        />
-        <Badge>{filteredCookbook.length} Recipes</Badge>
-      </div>
+      <div style={{ display: "flex", gap: 10, marginBottom: 20, alignItems: "center" }}>
+  <input
+    placeholder="Search recipes..."
+    value={cookbookSearch}
+    onChange={(e) => setCookbookSearch(e.target.value)}
+    style={{ ...base, flex: 1 }}
+  />
+
+  {cookbookSearch.trim() ? (
+    <Button variant="secondary" onClick={() => setCookbookSearch("")}>
+      Clear
+    </Button>
+  ) : null}
+
+  <Badge>
+    {filteredCookbook.length} {recipeCountLabel}
+  </Badge>
+</div>
 
       <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
         <input
@@ -220,19 +266,39 @@ export default function CookbookPage({
           onChange={(e) => setImportUrl(e.target.value)}
           style={{ ...base, flex: 1 }}
         />
-        <Button
-          onClick={() => {
-            setIsImporting(true);
-            toast("Importing feature triggered");
-            setTimeout(() => setIsImporting(false), 300);
-          }}
-          disabled={isImporting}
-        >
+        <Button onClick={onImport} disabled={isImporting}>
           {isImporting ? "..." : "Import"}
         </Button>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 16 }}>
+      {showEmptyState ? (
+        <div
+          style={{
+            padding: 18,
+            borderRadius: 14,
+            border: "1px solid rgba(148,163,184,.25)",
+            background: "rgba(2,6,23,0.25)",
+          }}
+        >
+          <div style={{ fontWeight: 900, fontSize: 16, marginBottom: 6 }}>
+            No recipes to show
+          </div>
+          <div style={{ fontSize: 13, opacity: 0.8 }}>
+            {cookbook.length === 0
+              ? "Your cookbook is empty. Add a recipe from your Week Plan using the “Add to Cookbook” button."
+              : "You have recipes, but your search or filters are hiding them. Try clearing the search box."}
+          </div>
+        </div>
+      ) : null}
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+          gap: 16,
+          marginTop: showEmptyState ? 16 : 0,
+        }}
+      >
         {filteredCookbook.map((r) => {
           const isEditing = editingId === r.id;
 
@@ -243,19 +309,28 @@ export default function CookbookPage({
                   <input
                     style={base}
                     value={editDraft.name ?? ""}
-                    onChange={(e) => setEditDraft({ ...editDraft, name: e.target.value })}
+                    onChange={(e) =>
+                      setEditDraft((prev) => ({ ...prev, name: e.target.value }))
+                    }
                     placeholder="Recipe Name"
                   />
 
                   <textarea
                     style={{ ...base, minHeight: 80 }}
                     value={editDraft.ingredients ?? ""}
-                    onChange={(e) => setEditDraft({ ...editDraft, ingredients: e.target.value })}
+                    onChange={(e) =>
+                      setEditDraft((prev) => ({
+                        ...prev,
+                        ingredients: e.target.value,
+                      }))
+                    }
                     placeholder="Ingredients"
                   />
 
                   <input type="file" onChange={onPickImage} disabled={isUploading} />
-                  {isUploading ? <div style={{ fontSize: 12, opacity: 0.8 }}>Uploading…</div> : null}
+                  {isUploading ? (
+                    <div style={{ fontSize: 12, opacity: 0.8 }}>Uploading…</div>
+                  ) : null}
 
                   <div style={{ display: "flex", gap: 8 }}>
                     <Button onClick={() => saveEditRecipe(r.id)}>Save</Button>
@@ -266,16 +341,22 @@ export default function CookbookPage({
                 </div>
               ) : (
                 <>
-                  {r.photoUrl ? (
-                    <img
-                      src={r.photoUrl}
-                      alt={r.name}
-                      style={{ width: "100%", height: 180, objectFit: "cover" }}
-                    />
-                  ) : null}
+                  <img
+                    src={r.photoUrl || fallbackPhotoUrl(r.name)}
+                    alt={r.name}
+                    style={{ width: "100%", height: 180, objectFit: "cover" }}
+                    loading="lazy"
+                  />
 
                   <div style={{ padding: 16 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "flex-start" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        gap: 10,
+                        alignItems: "flex-start",
+                      }}
+                    >
                       <h3 style={{ margin: 0 }}>{r.name}</h3>
 
                       <button
@@ -308,9 +389,19 @@ export default function CookbookPage({
                       )}
                     </div>
 
-                    <p style={{ fontSize: 13, opacity: 0.8, margin: "8px 0 0" }}>{r.ingredients}</p>
+                    <p style={{ fontSize: 13, opacity: 0.8, margin: "8px 0 0" }}>
+                      {r.ingredients}
+                    </p>
 
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 10, marginTop: 15, flexWrap: "wrap" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        gap: 10,
+                        marginTop: 15,
+                        flexWrap: "wrap",
+                      }}
+                    >
                       <div style={{ display: "flex", gap: 6 }}>
                         <Button variant="secondary" onClick={() => startEditRecipe(r)}>
                           ✏️
@@ -322,13 +413,13 @@ export default function CookbookPage({
 
                       <select
                         style={{ ...base, width: "auto" }}
+                        defaultValue=""
                         onChange={(e) => {
                           const day = e.target.value;
                           if (!day) return;
                           addRecipeToDay(r, day);
-                          e.currentTarget.value = ""; // reset to placeholder
+                          e.currentTarget.value = "";
                         }}
-                        defaultValue=""
                       >
                         <option value="" disabled>
                           Plan for...
