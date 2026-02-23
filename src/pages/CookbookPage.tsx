@@ -221,17 +221,41 @@ export default function CookbookPage({
   };
 
   const onImport = async () => {
-    const url = importUrl.trim();
-    if (!url) return toast("Paste a URL first", "warning");
+  const url = importUrl.trim();
+  if (!url) return toast("Paste a URL first", "warning");
 
-    try {
-      setIsImporting(true);
-      toast("Importing feature triggered");
-      await new Promise((r) => setTimeout(r, 300));
-    } finally {
-      setIsImporting(false);
+  try {
+    setIsImporting(true);
+
+    const resp = await fetch(`/api/import-recipe?url=${encodeURIComponent(url)}`);
+    const data = await resp.json();
+
+    if (!resp.ok) {
+      toast(data?.error || "Import failed", "error");
+      return;
     }
-  };
+
+    const imported: Recipe = {
+      id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+      name: data.name,
+      ingredients: data.ingredients,
+      instructions: data.instructions || "",
+      photoUrl: data.image || "",
+      favorite: false,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+
+    setCookbook((prev) => [imported, ...prev]);
+    setImportUrl("");
+    toast("Recipe imported!");
+  } catch (e) {
+    console.error(e);
+    toast("Import failed", "error");
+  } finally {
+    setIsImporting(false);
+  }
+};
 
   const recipeCountLabel =
     filteredCookbook.length === 1 ? "Recipe" : "Recipes";
