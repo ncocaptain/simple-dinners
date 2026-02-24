@@ -235,6 +235,24 @@ export default function CookbookPage({
     }
   };
 
+  function pickPhotoUrl(recipe: any): string {
+  const candidate =
+    recipe?.photoUrl ??
+    recipe?.image ??
+    recipe?.imageUrl ??
+    recipe?.thumbnail ??
+    recipe?.thumbnailUrl ??
+    recipe?.ogImage ??
+    recipe?.image_url ??
+    recipe?.photo ??
+    recipe?.images?.[0] ??
+    recipe?.imageUrls?.[0];
+
+  return typeof candidate === "string" && candidate.startsWith("http")
+    ? candidate
+    : "";
+}
+
   const onImport = async () => {
   const url = importUrl.trim();
   if (!url) return toast("Paste a URL first", "warning");
@@ -263,7 +281,19 @@ export default function CookbookPage({
       return;
     }
 
+      
+
     const recipe = data?.recipe ?? data;
+
+    console.log("Import keys:", Object.keys(recipe || {}));
+console.log("Import photo candidates:", {
+  photoUrl: recipe?.photoUrl,
+  image: recipe?.image,
+  imageUrl: recipe?.imageUrl,
+  thumbnail: recipe?.thumbnail,
+  ogImage: recipe?.ogImage,
+  images0: recipe?.images?.[0],
+});
 
     if (!recipe) {
       toast("Import succeeded but no recipe was returned.", "error");
@@ -272,15 +302,15 @@ export default function CookbookPage({
 
     // 🔥 Convert API result to YOUR Recipe type
     const newRecipe: Recipe = {
-      id: crypto.randomUUID(),
-      name: decodeHtmlEntities(recipe.title || recipe.name || "Imported Recipe"),
-      ingredients: recipe.ingredients || "",
-      instructions: recipe.instructions || "",
-      photoUrl: recipe.photoUrl || "",
-      favorite: false,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-    };
+  id: crypto.randomUUID(),
+  name: decodeHtmlEntities(recipe.title || recipe.name || "Imported Recipe"),
+  ingredients: recipe.ingredients || "",
+  instructions: recipe.instructions || "",
+  photoUrl: pickPhotoUrl(recipe),
+  favorite: false,
+  createdAt: Date.now(),
+  updatedAt: Date.now(),
+};
 
     // ✅ Add to cookbook state
     setCookbook((prev) => [newRecipe, ...prev]);

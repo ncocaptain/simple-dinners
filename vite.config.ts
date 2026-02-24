@@ -6,12 +6,13 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:3000",
+        target: "https://dinners.ncocaptain.com",
         changeOrigin: true,
-        secure: false,
+        secure: true,
       },
     },
   },
+
 
   plugins: [
     react(),
