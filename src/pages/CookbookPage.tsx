@@ -15,6 +15,8 @@ function Badge({
   children: React.ReactNode;
   tone?: "default" | "good" | "warn" | "bad";
 }) {
+
+  
   const bg =
     tone === "good"
       ? "rgba(34,197,94,.16)"
@@ -105,6 +107,19 @@ export default function CookbookPage({
       isVegetarianByHeuristic,
     ]
   );
+
+  function decodeHtmlEntities(s: string) {
+  if (!s) return s;
+  return s
+    .replaceAll("&amp;", "&")
+    .replaceAll("&quot;", '"')
+    .replaceAll("&#39;", "'")
+    .replaceAll("&apos;", "'")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">");
+}
+
+
 
   const filteredCookbook = React.useMemo(() => {
     const q = normalize(cookbookSearch);
@@ -222,6 +237,7 @@ export default function CookbookPage({
 
   const onImport = async () => {
   const url = importUrl.trim();
+  
   if (!url) return toast("Paste a URL first", "warning");
 
   try {
@@ -235,18 +251,19 @@ export default function CookbookPage({
       return;
     }
 
-    const imported: Recipe = {
-      id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-      name: data.name,
-      ingredients: data.ingredients,
-      instructions: data.instructions || "",
-      photoUrl: data.image || "",
-      favorite: false,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-    };
+      const imported = {
+  ...data.recipe,
+  title: decodeHtmlEntities(data.recipe.title),
+};
+
+    
+    if (!data?.recipe) {
+      toast("Import succeeded but no recipe was returned.", "error");
+      return;
+    }
 
     setCookbook((prev) => [imported, ...prev]);
+    setCookbookSearch("");
     setImportUrl("");
     toast("Recipe imported!");
   } catch (e) {
@@ -256,6 +273,8 @@ export default function CookbookPage({
     setIsImporting(false);
   }
 };
+
+
 
   const recipeCountLabel =
     filteredCookbook.length === 1 ? "Recipe" : "Recipes";
@@ -291,8 +310,8 @@ export default function CookbookPage({
           style={{ ...base, flex: 1 }}
         />
         <Button onClick={onImport} disabled={isImporting}>
-          {isImporting ? "..." : "Import"}
-        </Button>
+  {isImporting ? "Importing..." : "Import"}
+</Button>
       </div>
 
       {showEmptyState ? (
