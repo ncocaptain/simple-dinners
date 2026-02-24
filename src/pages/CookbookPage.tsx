@@ -237,38 +237,58 @@ export default function CookbookPage({
 
   const onImport = async () => {
   const url = importUrl.trim();
-  
   if (!url) return toast("Paste a URL first", "warning");
 
   try {
     setIsImporting(true);
 
-    const resp = await fetch(`/api/import-recipe?url=${encodeURIComponent(url)}`);
-    const data = await resp.json();
+    const resp = await fetch(
+      `/api/import-recipe?url=${encodeURIComponent(url)}`
+    );
+
+    const raw = await resp.text();
+
+    let data: any = null;
+    try {
+      data = raw ? JSON.parse(raw) : null;
+    } catch {}
 
     if (!resp.ok) {
-      toast(data?.error || "Import failed", "error");
+      const msg =
+        data?.error ||
+        data?.message ||
+        raw?.slice(0, 180) ||
+        `HTTP ${resp.status}`;
+      toast(`Import failed: ${msg}`, "error");
       return;
     }
 
-      const imported = {
-  ...data.recipe,
-  title: decodeHtmlEntities(data.recipe.title),
-};
+    const recipe = data?.recipe ?? data;
 
-    
-    if (!data?.recipe) {
+    if (!recipe) {
       toast("Import succeeded but no recipe was returned.", "error");
       return;
     }
 
-    setCookbook((prev) => [imported, ...prev]);
-    setCookbookSearch("");
-    setImportUrl("");
+    // 🔥 Convert API result to YOUR Recipe type
+    const newRecipe: Recipe = {
+      id: crypto.randomUUID(),
+      name: decodeHtmlEntities(recipe.title || recipe.name || "Imported Recipe"),
+      ingredients: recipe.ingredients || "",
+      instructions: recipe.instructions || "",
+      photoUrl: recipe.photoUrl || "",
+      favorite: false,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+
+    // ✅ Add to cookbook state
+    setCookbook((prev) => [newRecipe, ...prev]);
+
     toast("Recipe imported!");
-  } catch (e) {
-    console.error(e);
-    toast("Import failed", "error");
+    setImportUrl("");
+  } catch (e: any) {
+    toast(`Import failed: ${e?.message || "Unknown error"}`, "error");
   } finally {
     setIsImporting(false);
   }
