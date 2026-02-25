@@ -168,3 +168,39 @@ button[data-variant="danger"]:hover {
   box-shadow: 0 0 0 1px rgba(239,68,68,0.6),
               0 8px 24px rgba(239,68,68,0.35);
 }
+
+:root {
+  --text: rgba(241, 245, 249, 0.92);       /* main text */
+  --text-muted: rgba(241, 245, 249, 0.72); /* secondary */
+  --placeholder: rgba(241, 245, 249, 0.55);
+}
+
+html, body {
+  color: var(--text);
+}
+
+/* Make sure common text elements inherit the same readable color */
+body, button, input, textarea, select, option, label, p, span, div, h1, h2, h3, h4, h5, h6, li, small {
+  color: inherit;
+}
+
+/* Inputs often default to dark text in some browsers */
+input, textarea, select, option {
+  color: var(--text);
+  -webkit-text-fill-color: var(--text); /* iOS Safari */
+}
+
+/* Placeholders */
+input::placeholder,
+textarea::placeholder {
+  color: var(--placeholder);
+  opacity: 1; /* important: Safari sometimes lowers it */
+}
+
+/* Links */
+a {
+  color: var(--text);
+}
+
+/* If you use “opacity: 0.8” in inline styles, it’ll still dim text.
+   Prefer using var(--text-muted) instead of opacity for readability. */

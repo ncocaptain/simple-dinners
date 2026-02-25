@@ -255,7 +255,7 @@ export default function CookbookPage({
 
   const onImport = async () => {
   const url = importUrl.trim();
-  if (!url) return toast("Paste a URL first", "warning");
+  if (!url) return toast("Paste a recipe URL first.", "warning");
 
   try {
     setIsImporting(true);
@@ -277,7 +277,7 @@ export default function CookbookPage({
         data?.message ||
         raw?.slice(0, 180) ||
         `HTTP ${resp.status}`;
-      toast(`Import failed: ${msg}`, "error");
+      toast(`Recipe import failed: ${msg}`, "error");
       return;
     }
 
@@ -285,18 +285,9 @@ export default function CookbookPage({
 
     const recipe = data?.recipe ?? data;
 
-    console.log("Import keys:", Object.keys(recipe || {}));
-console.log("Import photo candidates:", {
-  photoUrl: recipe?.photoUrl,
-  image: recipe?.image,
-  imageUrl: recipe?.imageUrl,
-  thumbnail: recipe?.thumbnail,
-  ogImage: recipe?.ogImage,
-  images0: recipe?.images?.[0],
-});
 
     if (!recipe) {
-      toast("Import succeeded but no recipe was returned.", "error");
+      toast("Recipe import succeeded, but no recipe data was found.", "error");
       return;
     }
 
@@ -315,7 +306,7 @@ console.log("Import photo candidates:", {
     // ✅ Add to cookbook state
     setCookbook((prev) => [newRecipe, ...prev]);
 
-    toast("Recipe imported!");
+    toast("Recipe imported!", "success");
     setImportUrl("");
   } catch (e: any) {
     toast(`Import failed: ${e?.message || "Unknown error"}`, "error");
@@ -354,13 +345,13 @@ console.log("Import photo candidates:", {
 
       <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
         <input
-          placeholder="Import from URL..."
+          placeholder="Paste recipe URL..."
           value={importUrl}
           onChange={(e) => setImportUrl(e.target.value)}
           style={{ ...base, flex: 1 }}
         />
         <Button onClick={onImport} disabled={isImporting}>
-  {isImporting ? "Importing..." : "Import"}
+  {isImporting ? "Importing…" : "Import Recipe"}
 </Button>
       </div>
 
@@ -378,7 +369,7 @@ console.log("Import photo candidates:", {
           </div>
           <div style={{ fontSize: 13, opacity: 0.8 }}>
             {cookbook.length === 0
-              ? "Your cookbook is empty. Add a recipe from your Week Plan using the “Add to Cookbook” button."
+              ? "Your cookbook is empty. Add recipes from your Week Plan to get started."
               : "You have recipes, but your search or filters are hiding them. Try clearing the search box."}
           </div>
         </div>
@@ -476,7 +467,7 @@ console.log("Import photo candidates:", {
                       )}
 
                       {isVegetarianByHeuristic(r.ingredients) ? (
-                        <Badge tone="good">Veg</Badge>
+                        <Badge tone="good">Vegetarian</Badge>
                       ) : (
                         <Badge tone="warn">Meat</Badge>
                       )}
