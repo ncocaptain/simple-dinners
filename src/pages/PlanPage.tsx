@@ -33,7 +33,7 @@ export default function PlanPage({
   // --- Styles ---
   const card: React.CSSProperties = {
   width: "100%",
-  maxWidth: 1100,
+  maxWidth: 1200,
   margin: "0 auto",
   padding: "22px 12px",
   borderRadius: 20,

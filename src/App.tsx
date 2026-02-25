@@ -499,7 +499,7 @@ const uniqueShoppingList = useMemo(() => {
         justifyContent: "space-between",
         alignItems: "flex-start",
         gap: 16,
-        marginBottom: 20,
+        marginBottom: 12,
         flexWrap: "wrap",
       }}
     >
