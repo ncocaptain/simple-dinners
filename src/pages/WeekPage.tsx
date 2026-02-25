@@ -264,7 +264,7 @@ export default function WeekPage({
 
   const recipeCard: React.CSSProperties = {
     borderRadius: 18,
-    overflow: "hidden",
+    overflow: "visible", // ✅ allow dropdown to escape
     background: "rgba(30,41,59,0.40)",
     backdropFilter: "blur(10px)",
     WebkitBackdropFilter: "blur(10px)",
@@ -344,10 +344,26 @@ export default function WeekPage({
     ...recipeCard,
     position: "relative",
     zIndex: openEffortDay === day ? 999 : 1,
-     animation: animDays[day] ? "popGlow 450ms ease-out" : "none",
+    animation: animDays[day] ? "popGlow 450ms ease-out" : "none",
   }}
 >
-              <div style={{ height: 120, backgroundImage: `url(${heroUrl})`, backgroundSize: "cover", backgroundPosition: "center" }} />
+              <div
+  style={{
+    height: 120,
+    overflow: "hidden",
+    borderTopLeftRadius: 18,
+    borderTopRightRadius: 18,
+  }}
+>
+  <div
+    style={{
+      height: "100%",
+      backgroundImage: `url(${heroUrl})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }}
+  />
+</div>
               
               <div style={{ padding: 16, display: "grid", gap: 12 }}>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
