@@ -184,7 +184,7 @@ export default function WeekPage({
     { enableHighAccuracy: true, timeout: 10000, maximumAge: 30000 }
   );
 };
-  const [hoveredDay, setHoveredDay] = React.useState<Day | null>(null);
+  
   const [animDays, setAnimDays] = React.useState<Record<string, boolean>>({});
   const [openDay, setOpenDay] = React.useState<Day | null>(null);
   const [openEffortDay, setOpenEffortDay] = React.useState<Day | null>(null);
@@ -339,15 +339,14 @@ export default function WeekPage({
 
           return (
             <div
-              key={day}
-              onMouseEnter={() => setHoveredDay(day)}
-              onMouseLeave={() => setHoveredDay(null)}
-              style={{
-                ...recipeCard,
-                transform: hoveredDay === day ? "translateY(-4px)" : "none",
-                animation: animDays[day] ? "popGlow 450ms ease-out" : "none",
-              }}
-            >
+  key={day}
+  style={{
+    ...recipeCard,
+    position: "relative",
+    zIndex: openEffortDay === day ? 999 : 1,
+     animation: animDays[day] ? "popGlow 450ms ease-out" : "none",
+  }}
+>
               <div style={{ height: 120, backgroundImage: `url(${heroUrl})`, backgroundSize: "cover", backgroundPosition: "center" }} />
               
               <div style={{ padding: 16, display: "grid", gap: 12 }}>
@@ -385,7 +384,7 @@ export default function WeekPage({
                         position: "absolute",
                         top: "calc(100% + 6px)",
                         left: 0,
-                        zIndex: 50,
+                        zIndex: 2000,
                         minWidth: 140,
                         borderRadius: 12,
                         border: "1px solid rgba(255,255,255,0.08)",
