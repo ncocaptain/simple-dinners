@@ -143,6 +143,47 @@ export default function WeekPage({
   setDaySettings: React.Dispatch<React.SetStateAction<Record<Day, Effort>>>;
 }) {
   const navigate = useNavigate();
+  
+  const openNearby = (category: string) => {
+  if (!navigator.geolocation) {
+    alert("Location not supported.");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    ({ coords: { latitude, longitude } }) => {
+      const q = encodeURIComponent(category);
+      const webUrl = `https://www.google.com/maps/search/?api=1&query=${q}&center=${latitude},${longitude}`;
+
+      const ua = navigator.userAgent;
+      const isiOS = /iPad|iPhone|iPod/.test(ua);
+      const isAndroid = /Android/.test(ua);
+
+      // Desktop
+      if (!isiOS && !isAndroid) {
+        window.open(webUrl, "_blank", "noopener,noreferrer");
+        return;
+      }
+
+      // Mobile native-first + fallback
+      const startedAt = Date.now();
+      if (isiOS) {
+        window.location.href = `https://maps.apple.com/?q=${q}&ll=${latitude},${longitude}`;
+      } else {
+        window.location.href = `geo:${latitude},${longitude}?q=${q}`;
+      }
+
+      setTimeout(() => {
+        if (Date.now() - startedAt < 1200) window.location.href = webUrl;
+      }, 900);
+    },
+    (err: GeolocationPositionError) => {
+      console.error(err);
+      alert("Could not get your location. Check location permissions.");
+    },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 30000 }
+  );
+};
   const [hoveredDay, setHoveredDay] = React.useState<Day | null>(null);
   const [animDays, setAnimDays] = React.useState<Record<string, boolean>>({});
   const [openDay, setOpenDay] = React.useState<Day | null>(null);
@@ -212,17 +253,7 @@ export default function WeekPage({
     setCheckedItems((prev) => (prev.includes(n) ? prev.filter((i) => i !== n) : [...prev, n]));
   };
 
-  function openNearbyFood() {
-    if (!navigator.geolocation) {
-      alert("Location not supported.");
-      return;
-    }
-    navigator.geolocation.getCurrentPosition((pos) => {
-      const { latitude, longitude } = pos.coords;
-      window.open(`http://googleusercontent.com/maps.google.com/maps?q=restaurants&ll=${latitude},${longitude}`, "_blank");
-    });
-  }
-
+ 
   // ---------- Styles ----------
   const cardGrid: React.CSSProperties = {
     display: "grid",
@@ -395,10 +426,48 @@ export default function WeekPage({
                 </button>
 
                 {effort === "takeout" && (
-                  <button onClick={openNearbyFood} style={{ padding: "10px", borderRadius: 12, border: "1px solid #14b8a6", background: "rgba(20,184,166,0.14)", color: "white", fontWeight: 900, cursor: "pointer" }}>
-                    🍔 Find nearby food
-                  </button>
-                )}
+  <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+    <button
+      type="button"
+      onClick={() => openNearby("restaurants")}
+      style={{ ...chip, cursor: "pointer" }}
+    >
+      🍔 Food
+    </button>
+
+    <button
+      type="button"
+      onClick={() => openNearby("coffee")}
+      style={{ ...chip, cursor: "pointer" }}
+    >
+      ☕ Coffee
+    </button>
+
+    <button
+      type="button"
+      onClick={() => openNearby("grocery store")}
+      style={{ ...chip, cursor: "pointer" }}
+    >
+      🛒 Grocery
+    </button>
+
+    <button
+      type="button"
+      onClick={() => openNearby("pharmacy")}
+      style={{ ...chip, cursor: "pointer" }}
+    >
+      💊 Pharmacy
+    </button>
+
+    <button
+      type="button"
+      onClick={() => openNearby("pizza")}
+      style={{ ...chip, cursor: "pointer" }}
+    >
+      🍕 Pizza
+    </button>
+  </div>
+)}
 
                 {openDay === day && (
                   <div style={{ display: "grid", gap: 10, padding: 12, background: "rgba(255,255,255,0.03)", borderRadius: 14, border: "1px solid rgba(255,255,255,0.06)" }}>

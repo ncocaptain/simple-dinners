@@ -21,6 +21,9 @@ import { ThemeProvider } from "./theme";
 
 
 
+
+
+
 type Day = (typeof days)[number];
 
 const EMPTY_MEAL: Meal = { name: "", ingredients: "", instructions: "", photoUrl: "" };
@@ -174,7 +177,8 @@ function capitalize(s: string) {
 
 // --- Main App ---
 export default function App() {
-    const navigate = useNavigate();
+
+const navigate = useNavigate();
   
 const menuItemStyle: React.CSSProperties = {
     width: "100%",
@@ -193,6 +197,8 @@ const menuItemStyle: React.CSSProperties = {
     opacity: 0.75,
     fontWeight: 600,
   };
+
+  
   // Meals (ONE state, merged with EMPTY_WEEK)
   const [meals, setMeals] = useState<Record<Day, Meal>>(() => {
     try {
@@ -619,6 +625,7 @@ const uniqueShoppingList = useMemo(() => {
         )}
       </div>
     </header>
+
 
     <Routes>
       <Route path="/" element={<Navigate to="/plan" replace />} />
