@@ -105,7 +105,7 @@ export default function PlanPage({
   };
 
   return (
-    <div style={{ padding: "20px 12px" }}>
+    <div style={{ padding: "24px 16px" }}>
       <div style={card}>
         <div style={{ textAlign: "center", marginBottom: 10 }}>
           <h2 className="cardTitle">Plan Your Week</h2>
