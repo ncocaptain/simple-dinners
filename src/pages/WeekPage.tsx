@@ -257,7 +257,7 @@ export default function WeekPage({
   // ---------- Styles ----------
   const cardGrid: React.CSSProperties = {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
     gap: 16,
     marginTop: 16,
   };

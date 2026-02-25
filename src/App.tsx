@@ -484,14 +484,15 @@ const uniqueShoppingList = useMemo(() => {
     <div className="mainCard">
       {/* keep your existing return content INSIDE here */}
       <div
-        style={{
-          padding: 20,
-          maxWidth: 980,
-          margin: "0 auto",
-          minHeight: "100vh",
-          background: "transparent",
-        }}
-      >
+  style={{
+    padding: "16px 12px",
+    maxWidth: 1200,
+    width: "100%",
+    margin: "0 auto",
+    minHeight: "100vh",
+    background: "transparent",
+  }}
+>
     <header
       style={{
         display: "flex",
