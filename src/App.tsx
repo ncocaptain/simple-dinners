@@ -611,17 +611,7 @@ useEffect(() => {
 }} 
 >
 
-  <button
-  role="menuitem"
-  onClick={() => {
-    navigate("/takeout-settings");
-    setMenuOpen(false);
-  }}
-  style={menuItemStyle}
->
-  Takeout Categories
-  <div style={menuSubStyle}>Customize food types</div>
-</button>
+  
 
 <div style={{ height: 1, background: "rgba(255,255,255,0.08)" }} />
   Regenerate Week
