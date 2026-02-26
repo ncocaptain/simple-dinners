@@ -71,11 +71,23 @@ body {
 }
 .appBackground {
   min-height: 100vh;
-  background-image: url("/moody-kitchen.jpg");
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.65),
+      rgba(0, 0, 0, 0.55)
+    ),
+    url("/moody-kitchen.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  position: relative;
+}
+
+/* 📱 Mobile tuning */
+@media (max-width: 768px) {
+  .appBackground {
+    background-position: top center;
+  }
 }
 
 /* darker overlay to bring back mood + contrast */
@@ -91,6 +103,31 @@ body {
 .appBackground > * {
   position: relative;
   z-index: 1;
+}
+
+.appBackground.light {
+  background:
+    linear-gradient(rgba(255,255,255,0.55), rgba(255,255,255,0.55)),
+    url("/moody-kitchen.jpg");
+}
+
+.appBackground.dark {
+  background:
+    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.55)),
+    url("/moody-kitchen.jpg");
+}
+
+.appBackground {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Mobile tweak */
+@media (max-width: 768px) {
+  .appBackground {
+    background-position: top center;
+  }
 }
 
 .mainCard {
