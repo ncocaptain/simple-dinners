@@ -17,6 +17,7 @@ import {
 import { days } from "./core/data";
 import { ToastProvider } from "./components/Toast";
 import { ThemeProvider } from "./theme";
+import TakeoutSettingsPage from "./pages/TakeoutSettingsPage";
 
 
 
@@ -458,8 +459,6 @@ useEffect(() => {
   };
 }, []);
 
-
-
  return (
   <ThemeProvider>
   <ToastProvider>
@@ -565,6 +564,18 @@ useEffect(() => {
               }}
               style={menuItemStyle}
             >
+
+              <button
+  role="menuitem"
+  onClick={() => {
+    navigate("/takeout-settings");
+    setMenuOpen(false);
+  }}
+  style={menuItemStyle}
+>
+  Takeout Categories
+  <div style={menuSubStyle}>Customize food types</div>
+</button>
               Week Plan
               <div style={menuSubStyle}>Plan meals + shopping list</div>
             </button>
@@ -599,6 +610,20 @@ useEffect(() => {
   color: "rgba(255, 120, 120, 0.95)"
 }} 
 >
+
+  <button
+  role="menuitem"
+  onClick={() => {
+    navigate("/takeout-settings");
+    setMenuOpen(false);
+  }}
+  style={menuItemStyle}
+>
+  Takeout Categories
+  <div style={menuSubStyle}>Customize food types</div>
+</button>
+
+<div style={{ height: 1, background: "rgba(255,255,255,0.08)" }} />
   Regenerate Week
   <div style={menuSubStyle} >Replace current meals</div>
 </button>
@@ -612,6 +637,12 @@ useEffect(() => {
 
     <Routes>
       <Route path="/" element={<Navigate to="/plan" replace />} />
+    
+      <Route
+        path="/takeout-settings"
+        element={<TakeoutSettingsPage />}
+    />
+<Route path="/takeout-settings" element={<TakeoutSettingsPage />} />
 
       <Route
         path="/plan"
@@ -640,6 +671,7 @@ useEffect(() => {
             generateDinnerPlan={generateDinnerPlan}
             daySettings={daySettings}
             setDaySettings={setDaySettings}
+            
           />
         }
       />
