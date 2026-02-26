@@ -309,6 +309,30 @@ export default function WeekPage({
     fontWeight: 800,
   };
 
+  const startOfWeekMonday = (base: Date) => {
+  const d = new Date(base);
+  const day = d.getDay(); // 0 Sun ... 6 Sat
+  const diff = day === 0 ? -6 : 1 - day; // back/forward to Monday
+  d.setDate(d.getDate() + diff);
+  d.setHours(0, 0, 0, 0);
+  return d;
+};
+
+const formatRange = () => {
+  const start = startOfWeekMonday(new Date());
+  const end = new Date(start);
+  end.setDate(start.getDate() + 6);
+
+  const fmt = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" });
+  const fmtYear = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" });
+
+  // show year only on the end if it crosses years
+  const sameYear = start.getFullYear() === end.getFullYear();
+  return sameYear ? `${fmt.format(start)} – ${fmtYear.format(end)}` : `${fmtYear.format(start)} – ${fmtYear.format(end)}`;
+};
+
+const weekRange = formatRange();
+
   return (
     <>
       <style>{`
@@ -321,7 +345,14 @@ export default function WeekPage({
 
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
-        <h2 style={{ margin: 0, fontSize: 28, fontWeight: 800, color: "#f8fafc" }}>This Week</h2>
+        <div>
+  <h2 style={{ margin: 0, fontSize: 28, fontWeight: 800, color: "#f8fafc" }}>
+    This Week
+  </h2>
+  <div style={{ marginTop: 4, opacity: 0.75, fontWeight: 700, fontSize: 13 }}>
+    {weekRange}
+  </div>
+</div>
         <button
           onClick={() => addWeekToCalendar(days, meals)}
           style={{ padding: "10px 16px", borderRadius: 14, background: "rgba(255,255,255,0.05)", color: "#f8fafc", cursor: "pointer", fontWeight: 600, border: "1px solid rgba(255,255,255,0.12)" }}
