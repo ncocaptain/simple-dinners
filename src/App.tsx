@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import WeekPage from "./pages/WeekPage";
 import CookbookPage from "./pages/CookbookPage";
 import PlanPage from "./pages/PlanPage";
+import TakeoutSettingsPage from "./pages/TakeoutSettingsPage";
 import type { Effort, Meal, PantryItem, Preferences, Recipe } from "./core/types";
 import {
   SUBS,
@@ -17,13 +18,6 @@ import {
 import { days } from "./core/data";
 import { ToastProvider } from "./components/Toast";
 import { ThemeProvider } from "./theme";
-import TakeoutSettingsPage from "./pages/TakeoutSettingsPage";
-
-
-
-
-
-
 
 type Day = (typeof days)[number];
 
@@ -85,14 +79,11 @@ export function addWeekToCalendar(days: readonly Day[], meals: Record<Day, Meal>
         title: `Dinner: ${meal.name}`,
         start,
         end,
-        description: meal.ingredients?.trim()
-          ? `Ingredients: ${meal.ingredients}`
-          : undefined,
+        description: meal.ingredients?.trim() ? `Ingredients: ${meal.ingredients}` : undefined,
       };
     })
     .filter(Boolean) as { title: string; start: Date; end: Date; description?: string }[];
 
-  // nothing to add
   if (events.length === 0) return;
 
   const dtstamp = toICSLocal(new Date());
@@ -114,13 +105,7 @@ export function addWeekToCalendar(days: readonly Day[], meals: Record<Day, Meal>
     })
     .join("\n");
 
-  const ics = [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//Simple Dinners//EN",
-    body,
-    "END:VCALENDAR",
-  ].join("\n");
+  const ics = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Simple Dinners//EN", body, "END:VCALENDAR"].join("\n");
 
   const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
   const url = URL.createObjectURL(blob);
@@ -134,7 +119,6 @@ export function addWeekToCalendar(days: readonly Day[], meals: Record<Day, Meal>
 
   URL.revokeObjectURL(url);
 }
-
 
 export function makeId() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
@@ -156,14 +140,8 @@ export function applyVegSub(meal: Meal): Meal {
     }
   }
 
-  // Clean existing veg labels from name
   const baseName = meal.name.replace(/\s*\(veg.*?\)/i, "").trim();
-
-  // Build label from first replacement (most common case)
-  const label =
-    replacementsUsed.length > 0
-      ? `(${capitalize(replacementsUsed[0])})`
-      : "(Veg swap)";
+  const label = replacementsUsed.length > 0 ? `(${capitalize(replacementsUsed[0])})` : "(Veg swap)";
 
   return {
     ...meal,
@@ -178,10 +156,9 @@ function capitalize(s: string) {
 
 // --- Main App ---
 export default function App() {
+  const navigate = useNavigate();
 
-const navigate = useNavigate();
-  
-const menuItemStyle: React.CSSProperties = {
+  const menuItemStyle: React.CSSProperties = {
     width: "100%",
     textAlign: "left",
     padding: "12px 14px",
@@ -199,7 +176,11 @@ const menuItemStyle: React.CSSProperties = {
     fontWeight: 600,
   };
 
-  
+  const dividerStyle: React.CSSProperties = {
+    height: 1,
+    background: "rgba(255,255,255,0.08)",
+  };
+
   // Meals (ONE state, merged with EMPTY_WEEK)
   const [meals, setMeals] = useState<Record<Day, Meal>>(() => {
     try {
@@ -224,7 +205,7 @@ const menuItemStyle: React.CSSProperties = {
     }
   });
 
-    // Cookbook
+  // Cookbook
   const [cookbook, setCookbook] = useState<Recipe[]>(() => {
     try {
       return JSON.parse(localStorage.getItem("simpleDinnersCookbook") || "[]");
@@ -240,7 +221,13 @@ const menuItemStyle: React.CSSProperties = {
       if (!raw) return [];
       const parsed = JSON.parse(raw);
 
-      if (Array.isArray(parsed) && parsed.length && typeof parsed[0] === "object" && parsed[0] && "name" in parsed[0]) {
+      if (
+        Array.isArray(parsed) &&
+        parsed.length &&
+        typeof parsed[0] === "object" &&
+        parsed[0] &&
+        "name" in parsed[0]
+      ) {
         return parsed as PantryItem[];
       }
 
@@ -308,383 +295,350 @@ const menuItemStyle: React.CSSProperties = {
   };
 
   const generateDinnerPlan = (force = false) => {
-  const isEmpty = (m?: Meal) => !m || !m.name?.trim();
+    const isEmpty = (m?: Meal) => !m || !m.name?.trim();
 
-  // Build one combined base list
-const baseMeals: Meal[] = [
-  ...(cookbook ?? []).map((r) => ({
-    name: r.name,
-    ingredients: r.ingredients,
-    instructions: r.instructions,
-    photoUrl: r.photoUrl,
-    effort: "normal" as const,
-  })),
-  ...candidateLibrary,
-];
+    const baseMeals: Meal[] = [
+      ...(cookbook ?? []).map((r) => ({
+        name: r.name,
+        ingredients: r.ingredients,
+        instructions: r.instructions,
+        photoUrl: r.photoUrl,
+        effort: "normal" as const,
+      })),
+      ...candidateLibrary,
+    ];
 
-// Apply allergen + vegetarian logic consistently
-const filtered = baseMeals
-  // Allergen gate FIRST (always applied)
-  .filter((m) => !violatesAllergens(m.ingredients, effectivePrefs.allergens))
-  // Vegetarian logic (only applied when enabled)
-  .flatMap((m) => {
-    if (!effectivePrefs.vegetarian) return [m];
+    const filtered = baseMeals
+      .filter((m) => !violatesAllergens(m.ingredients, effectivePrefs.allergens))
+      .flatMap((m) => {
+        if (!effectivePrefs.vegetarian) return [m];
+        if (isVegetarianByHeuristic(m.ingredients)) return [m];
+        return effectivePrefs.allowSubstitutions ? [applyVegSub(m)] : [];
+      });
 
-    if (isVegetarianByHeuristic(m.ingredients)) return [m];
+    const pool: Meal[] = filtered.map((m) => ({
+      ...m,
+      photoUrl: m.photoUrl || mealImageUrl(m.name),
+      effort: m.effort || "normal",
+    }));
 
-    return effectivePrefs.allowSubstitutions ? [applyVegSub(m)] : [];
-  });
+    const pantryTokensLocal = getPantryTokens(pantry);
 
-// Final pool with fallbacks filled in
-const pool: Meal[] = filtered.map((m) => ({
-  ...m,
-  photoUrl: m.photoUrl || mealImageUrl(m.name),
-  effort: m.effort || "normal",
-}));
+    const today = new Date();
+    const todaySeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
 
-  const pantryTokensLocal = getPantryTokens(pantry);
+    const ranked = pool
+      .map((m) => ({
+        m,
+        pantryScore: scoreMealAgainstPantry(m, pantryTokensLocal),
+        tie: (todaySeed + hashString(m.id ?? m.name)) % 97,
+      }))
+      .sort((a, b) => {
+        if (b.pantryScore !== a.pantryScore) return b.pantryScore - a.pantryScore;
+        return a.tie - b.tie;
+      })
+      .map((x) => x.m);
 
-const today = new Date();
-const todaySeed =
-  today.getFullYear() * 10000 +
-  (today.getMonth() + 1) * 100 +
-  today.getDate();
+    function hashString(s: string): number {
+      let h = 0;
+      for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+      return Math.abs(h);
+    }
 
-const ranked = pool
-  .map((m) => ({
-    m,
-    pantryScore: scoreMealAgainstPantry(m, pantryTokensLocal),
-    tie: (todaySeed + hashString(m.id ?? m.name)) % 97,
-  }))
-  .sort((a, b) => {
-    if (b.pantryScore !== a.pantryScore) return b.pantryScore - a.pantryScore;
-    return a.tie - b.tie;
-  })
-  .map((x) => x.m);
+    const prevMeals = meals;
+    const next: Record<Day, Meal> = { ...prevMeals };
+    let changed = false;
 
-function hashString(s: string): number {
-  let h = 0;
-  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
-  return Math.abs(h);
-}
+    const usedNames = new Set<string>();
+    if (!force) {
+      days.forEach((d) => {
+        const existing = prevMeals[d]?.name?.trim();
+        if (existing) usedNames.add(normalize(existing));
+      });
+    }
 
-  const prevMeals = meals;
-  const next: Record<Day, Meal> = { ...prevMeals };
-  let changed = false;
-
-  const usedNames = new Set<string>();
-  if (!force) {
-    days.forEach((d) => {
-      const existing = prevMeals[d]?.name?.trim();
-      if (existing) usedNames.add(normalize(existing));
-    });
-  }
-
-  const fallbackMeal = (day: Day): Meal => {
-    const needed = daySettings[day] || "normal";
-    if (needed === "takeout") {
+    const fallbackMeal = (day: Day): Meal => {
+      const needed = daySettings[day] || "normal";
+      if (needed === "takeout") {
+        return {
+          name: "Takeout Night",
+          ingredients: "order out (no groceries)",
+          effort: "takeout",
+          photoUrl: mealImageUrl("takeout dinner"),
+        };
+      }
       return {
-        name: "Takeout Night",
-        ingredients: "order out (no groceries)",
-        effort: "takeout",
-        photoUrl: mealImageUrl("takeout dinner"),
+        name: "Plan later",
+        ingredients: "",
+        instructions: "",
+        effort: needed,
+        photoUrl: mealImageUrl("dinner"),
       };
-    }
-    return {
-      name: "Plan later",
-      ingredients: "",
-      instructions: "",
-      effort: needed,
-      photoUrl: mealImageUrl("dinner"),
     };
-  };
 
-  days.forEach((day) => {
-    if (!force && !isEmpty(prevMeals[day])) return;
+    days.forEach((day) => {
+      if (!force && !isEmpty(prevMeals[day])) return;
 
-    const needed = daySettings[day] || "normal";
+      const needed = daySettings[day] || "normal";
 
-    if (needed === "takeout") {
-      next[day] = fallbackMeal(day);
-      changed = true;
-      return;
-    }
-
-    if (ranked.length) {
-      const bestEffort = ranked.filter((m) => (m.effort || "normal") === needed);
-      const candidates = bestEffort.length ? bestEffort : ranked;
-
-      const pick =
-        candidates.find((m) => !usedNames.has(normalize(m.name))) ||
-        candidates[0];
-
-      if (pick) {
-        next[day] = pick;
-        usedNames.add(normalize(pick.name));
+      if (needed === "takeout") {
+        next[day] = fallbackMeal(day);
         changed = true;
         return;
       }
+
+      if (ranked.length) {
+        const bestEffort = ranked.filter((m) => (m.effort || "normal") === needed);
+        const candidates = bestEffort.length ? bestEffort : ranked;
+
+        const pick = candidates.find((m) => !usedNames.has(normalize(m.name))) || candidates[0];
+
+        if (pick) {
+          next[day] = pick;
+          usedNames.add(normalize(pick.name));
+          changed = true;
+          return;
+        }
+      }
+
+      next[day] = fallbackMeal(day);
+      changed = true;
+    });
+
+    if (!changed) {
+      alert("Nothing to generate (all days already have meals). Tip: add a Force Generate button.");
+      return;
     }
 
-    next[day] = fallbackMeal(day);
-    changed = true;
-  });
-
-  if (!changed) {
-    alert("Nothing to generate (all days already have meals). Tip: add a Force Generate button.");
-    return;
-  }
-
-  setMeals(next);
-  navigate("/week");
-};
-
-// Menu
-const [menuOpen, setMenuOpen] = useState(false);
-const menuRef = useRef<HTMLDivElement | null>(null);
-
-useEffect(() => {
-  const onDown = (e: MouseEvent) => {
-    if (!menuRef.current) return;
-    if (!menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+    setMeals(next);
+    navigate("/week");
   };
-  const onKey = (e: KeyboardEvent) => {
-    if (e.key === "Escape") setMenuOpen(false);
-  };
-  document.addEventListener("mousedown", onDown);
-  document.addEventListener("keydown", onKey);
-  return () => {
-    document.removeEventListener("mousedown", onDown);
-    document.removeEventListener("keydown", onKey);
-  };
-}, []);
 
- return (
-  <ThemeProvider>
-  <ToastProvider>
-    <div className="mainCard">
-      {/* keep your existing return content INSIDE here */}
-      <div
-  style={{
-    padding: "16px 12px",
-    maxWidth: 1200,
-    width: "100%",
-    margin: "0 auto",
-    minHeight: "100vh",
-    background: "transparent",
-  }}
->
-    <header
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "flex-start",
-        gap: 16,
-        marginBottom: 12,
-        flexWrap: "wrap",
-      }}
-    >
-      <div style={{ textAlign: "center", flex: 1 }}>
-        <h1 className="heroTitle" style={{ margin: 0, fontSize: 32, fontWeight: 1000 }}>
-  Simple Dinners
-</h1>
+  // Menu
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
-<div
-  className="heroSubtitle"
-  style={{ marginTop: 6, fontSize: 16, letterSpacing: 0.3 }}
->
-  Smart dinner planning based on your schedule
-</div>
-      </div>
+  useEffect(() => {
+    const onDown = (e: MouseEvent) => {
+      if (!menuRef.current) return;
+      if (!menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, []);
 
-      
-
-      <div ref={menuRef} style={{ position: "relative" }}>
-        <button
-          onClick={() => setMenuOpen((s) => !s)}
-          aria-haspopup="menu"
-          aria-expanded={menuOpen}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-            padding: "10px 14px",
-            borderRadius: 14,
-            border: "1px solid rgba(255,255,255,0.12)",
-            background: "rgba(2,6,23,0.65)",
-            color: "rgba(255,255,255,0.92)",
-            fontWeight: 900,
-            cursor: "pointer",
-            backdropFilter: "blur(10px)",
-            WebkitBackdropFilter: "blur(10px)",
-          }}
-        >
-          <div style={{ display: "grid", gap: 3 }}>
-            <span style={{ width: 18, height: 2, background: "white", borderRadius: 2 }} />
-            <span style={{ width: 18, height: 2, background: "white", borderRadius: 2 }} />
-            <span style={{ width: 18, height: 2, background: "white", borderRadius: 2 }} />
-          </div>
-        </button>
-
-        {menuOpen && (
+  return (
+    <ThemeProvider>
+      <ToastProvider>
+        <div className="mainCard">
           <div
-            role="menu"
             style={{
-              position: "absolute",
-              right: 0,
-              top: "calc(100% + 10px)",
-              minWidth: 220,
-              borderRadius: 14,
-              border: "1px solid rgba(255,255,255,0.12)",
-              background: "rgba(2,6,23,0.92)",
-              boxShadow: "0 18px 45px rgba(0,0,0,0.45)",
-              overflow: "hidden",
-              zIndex: 50,
+              padding: "16px 12px",
+              maxWidth: 1200,
+              width: "100%",
+              margin: "0 auto",
+              minHeight: "100vh",
+              background: "transparent",
             }}
           >
-            <button
-              role="menuitem"
-              onClick={() => {
-                navigate("/plan");
-                setMenuOpen(false);
+            <header
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                gap: 16,
+                marginBottom: 12,
+                flexWrap: "wrap",
               }}
-              style={menuItemStyle}
             >
-              My Schedule
-              <div style={menuSubStyle}>Set effort + dietary notes</div>
-            </button>
+              <div style={{ textAlign: "center", flex: 1 }}>
+                <h1 className="heroTitle" style={{ margin: 0, fontSize: 32, fontWeight: 1000 }}>
+                  Simple Dinners
+                </h1>
 
-            <div style={{ height: 1, background: "rgba(255,255,255,0.08)" }} />
+                <div className="heroSubtitle" style={{ marginTop: 6, fontSize: 16, letterSpacing: 0.3 }}>
+                  Smart dinner planning based on your schedule
+                </div>
+              </div>
 
-            <button
-              role="menuitem"
-              onClick={() => {
-                navigate("/week");
-                setMenuOpen(false);
-              }}
-              style={menuItemStyle}
-            >
+              <div ref={menuRef} style={{ position: "relative" }}>
+                <button
+                  onClick={() => setMenuOpen((s) => !s)}
+                  aria-haspopup="menu"
+                  aria-expanded={menuOpen}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    padding: "10px 14px",
+                    borderRadius: 14,
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    background: "rgba(2,6,23,0.65)",
+                    color: "rgba(255,255,255,0.92)",
+                    fontWeight: 900,
+                    cursor: "pointer",
+                    backdropFilter: "blur(10px)",
+                    WebkitBackdropFilter: "blur(10px)",
+                  }}
+                >
+                  <div style={{ display: "grid", gap: 3 }}>
+                    <span style={{ width: 18, height: 2, background: "white", borderRadius: 2 }} />
+                    <span style={{ width: 18, height: 2, background: "white", borderRadius: 2 }} />
+                    <span style={{ width: 18, height: 2, background: "white", borderRadius: 2 }} />
+                  </div>
+                </button>
 
-              <button
-  role="menuitem"
-  onClick={() => {
-    navigate("/takeout-settings");
-    setMenuOpen(false);
-  }}
-  style={menuItemStyle}
->
-  Takeout Categories
-  <div style={menuSubStyle}>Customize food types</div>
-</button>
-              Week Plan
-              <div style={menuSubStyle}>Plan meals + shopping list</div>
-            </button>
+                {menuOpen && (
+                  <div
+                    role="menu"
+                    style={{
+                      position: "absolute",
+                      right: 0,
+                      top: "calc(100% + 10px)",
+                      minWidth: 220,
+                      borderRadius: 14,
+                      border: "1px solid rgba(255,255,255,0.12)",
+                      background: "rgba(2,6,23,0.92)",
+                      boxShadow: "0 18px 45px rgba(0,0,0,0.45)",
+                      overflow: "hidden",
+                      zIndex: 50,
+                    }}
+                  >
+                    <button
+                      role="menuitem"
+                      onClick={() => {
+                        navigate("/plan");
+                        setMenuOpen(false);
+                      }}
+                      style={menuItemStyle}
+                    >
+                      My Schedule
+                      <div style={menuSubStyle}>Set effort + dietary notes</div>
+                    </button>
 
-            <div style={{ height: 1, background: "rgba(255,255,255,0.08)" }} />
+                    <div style={dividerStyle} />
 
-            <button
-              role="menuitem"
-              onClick={() => {
-                navigate("/cookbook");
-                setMenuOpen(false);
-              }}
-              style={menuItemStyle}
-            >
-              Cookbook
-              <div style={menuSubStyle}>Manage saved recipes</div>
-            </button>
+                    <button
+                      role="menuitem"
+                      onClick={() => {
+                        navigate("/week");
+                        setMenuOpen(false);
+                      }}
+                      style={menuItemStyle}
+                    >
+                      Week Plan
+                      <div style={menuSubStyle}>Plan meals + shopping list</div>
+                    </button>
 
-            <div style={{ height: 1, background: "rgba(255,255,255,0.08)" }} />
+                    <div style={dividerStyle} />
 
-<button
-  role="menuitem"
-  onClick={() => {
-    const confirmReplace = confirm(
-      "Replace this week’s meals with a new plan?"
-    );
-    if (confirmReplace) generateDinnerPlan(true);
-    setMenuOpen(false);
-  }}
-  style={{
-  ...menuItemStyle,
-  color: "rgba(255, 120, 120, 0.95)"
-}} 
->
+                    <button
+                      role="menuitem"
+                      onClick={() => {
+                        navigate("/takeout-settings");
+                        setMenuOpen(false);
+                      }}
+                      style={menuItemStyle}
+                    >
+                      Takeout Categories
+                      <div style={menuSubStyle}>Customize food types</div>
+                    </button>
 
-  
+                    <div style={dividerStyle} />
 
-<div style={{ height: 1, background: "rgba(255,255,255,0.08)" }} />
-  Regenerate Week
-  <div style={menuSubStyle} >Replace current meals</div>
-</button>
+                    <button
+                      role="menuitem"
+                      onClick={() => {
+                        navigate("/cookbook");
+                        setMenuOpen(false);
+                      }}
+                      style={menuItemStyle}
+                    >
+                      Cookbook
+                      <div style={menuSubStyle}>Manage saved recipes</div>
+                    </button>
+
+                    <div style={dividerStyle} />
+
+                    <button
+                      role="menuitem"
+                      onClick={() => {
+                        const confirmReplace = confirm("Replace this week’s meals with a new plan?");
+                        if (confirmReplace) generateDinnerPlan(true);
+                        setMenuOpen(false);
+                      }}
+                      style={{ ...menuItemStyle, color: "rgba(255, 120, 120, 0.95)" }}
+                    >
+                      Regenerate Week
+                      <div style={menuSubStyle}>Replace current meals</div>
+                    </button>
+                  </div>
+                )}
+              </div>
+            </header>
+
+            <Routes>
+              <Route path="/" element={<Navigate to="/plan" replace />} />
+
+              <Route path="/takeout-settings" element={<TakeoutSettingsPage />} />
+
+              <Route
+                path="/plan"
+                element={
+                  <PlanPage
+                    daySettings={daySettings}
+                    setDaySettings={setDaySettings}
+                    dietaryNotes={dietaryNotes}
+                    setDietaryNotes={setDietaryNotes}
+                    vegetarian={vegetarian}
+                    setVegetarian={setVegetarian}
+                    pantry={pantry}
+                    setPantry={setPantry}
+                    generateDinnerPlan={generateDinnerPlan}
+                  />
+                }
+              />
+
+              <Route
+                path="/week"
+                element={
+                  <WeekPage
+                    meals={meals}
+                    setMeals={setMeals}
+                    addDayToCookbook={addDayToCookbook}
+                    generateDinnerPlan={generateDinnerPlan}
+                    daySettings={daySettings}
+                    setDaySettings={setDaySettings}
+                  />
+                }
+              />
+
+              <Route
+                path="/cookbook"
+                element={
+                  <CookbookPage
+                    meals={meals}
+                    setMeals={setMeals}
+                    cookbook={cookbook}
+                    setCookbook={setCookbook}
+                    prefs={effectivePrefs}
+                    allergenKeywords={allergenKeywords}
+                    violatesAllergens={violatesAllergens}
+                    isVegetarianByHeuristic={isVegetarianByHeuristic}
+                  />
+                }
+              />
+            </Routes>
           </div>
-          
-          
-        )}
-      </div>
-    </header>
-
-
-    <Routes>
-      <Route path="/" element={<Navigate to="/plan" replace />} />
-    
-      <Route
-        path="/takeout-settings"
-        element={<TakeoutSettingsPage />}
-    />
-<Route path="/takeout-settings" element={<TakeoutSettingsPage />} />
-
-      <Route
-        path="/plan"
-        element={
-          <PlanPage
-            daySettings={daySettings}
-            setDaySettings={setDaySettings}
-            dietaryNotes={dietaryNotes}
-            setDietaryNotes={setDietaryNotes}
-            vegetarian={vegetarian}
-            setVegetarian={setVegetarian}
-            pantry={pantry}
-            setPantry={setPantry}
-            generateDinnerPlan={generateDinnerPlan}
-          />
-        }
-      />
-
-      <Route
-        path="/week"
-        element={
-          <WeekPage
-            meals={meals}
-            setMeals={setMeals}
-            addDayToCookbook={addDayToCookbook}
-            generateDinnerPlan={generateDinnerPlan}
-            daySettings={daySettings}
-            setDaySettings={setDaySettings}
-            
-          />
-        }
-      />
-
-      <Route
-  path="/cookbook"
-  element={
-    <CookbookPage
-      meals={meals}
-      setMeals={setMeals}
-      cookbook={cookbook}
-      setCookbook={setCookbook}
-      prefs={effectivePrefs}
-      allergenKeywords={allergenKeywords}
-      violatesAllergens={violatesAllergens}
-      isVegetarianByHeuristic={isVegetarianByHeuristic}
-    />
-  }
-/>
-    </Routes>
-  </div>
         </div>
-        </ToastProvider>
-        </ThemeProvider>
-);
+      </ToastProvider>
+    </ThemeProvider>
+  );
 }
