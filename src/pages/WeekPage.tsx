@@ -117,6 +117,17 @@ function addWeekToCalendar(days: readonly Day[], meals: Record<Day, Meal>) {
   URL.revokeObjectURL(url);
 }
 
+type TakeoutCategory = { label: string; query: string; emoji: string };
+
+const DEFAULT_TAKEOUT_CATEGORIES: TakeoutCategory[] = [
+  { emoji: "🍟", label: "Fast Food", query: "fast food" },
+  { emoji: "🌮", label: "Mexican", query: "mexican restaurant" },
+  { emoji: "🍝", label: "Italian", query: "italian restaurant" },
+  { emoji: "🍕", label: "Pizza", query: "pizza" },
+  { emoji: "🥡", label: "Chinese", query: "chinese restaurant" },
+  { emoji: "🍣", label: "Sushi", query: "sushi restaurant" },
+];
+
 export default function WeekPage({
   meals,
   setMeals,
@@ -140,6 +151,25 @@ export default function WeekPage({
   checked: boolean;
   createdAt: number;
 };
+
+const TAKEOUT_LS_KEY = "simple-dinners:takeout-categories:v1";
+
+const [takeoutCategories, setTakeoutCategories] = React.useState<TakeoutCategory[]>(() => {
+  try {
+    const raw = localStorage.getItem(TAKEOUT_LS_KEY);
+    return raw ? JSON.parse(raw) : DEFAULT_TAKEOUT_CATEGORIES;
+  } catch {
+    return DEFAULT_TAKEOUT_CATEGORIES;
+  }
+});
+
+React.useEffect(() => {
+  try {
+    localStorage.setItem(TAKEOUT_LS_KEY, JSON.stringify(takeoutCategories));
+  } catch {
+    // ignore
+  }
+}, [takeoutCategories]);
 
 const SHOP_LS_KEY = "simple-dinners:shopping-list:v1";
 
@@ -298,6 +328,8 @@ localStorage.removeItem(SHOP_LS_KEY);
 
    
   // ---------- Styles ----------
+  const [editingTakeout, setEditingTakeout] = React.useState(false);
+  
   const cardGrid: React.CSSProperties = {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
@@ -514,47 +546,95 @@ const weekRange = formatRange();
                   {openDay === day ? "Hide details ▴" : "Edit details ▾"}
                 </button>
 
-                {effort === "takeout" && (
+               {effort === "takeout" && (
   <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-    <button
-      type="button"
-      onClick={() => openNearby("restaurants")}
-      style={{ ...chip, cursor: "pointer" }}
-    >
-      🍔 Food
-    </button>
+    {takeoutCategories.map((c) => (
+      <button
+        key={c.label}
+        type="button"
+        onClick={() => openNearby(c.query)}
+        style={{ ...chip, cursor: "pointer" }}
+      >
+        {c.emoji} {c.label}
+        <button
+  type="button"
+  onClick={() => setEditingTakeout((s) => !s)}
+  style={{ ...chip, cursor: "pointer", opacity: 0.85 }}
+>
+  ⚙️ {editingTakeout ? "Done" : "Edit"}
+</button>
+      </button>
+      
+      
+    ))}
+  </div>
+  
+)}
 
-    <button
-      type="button"
-      onClick={() => openNearby("coffee")}
-      style={{ ...chip, cursor: "pointer" }}
-    >
-      ☕ Coffee
-    </button>
+{editingTakeout && (
+  <div style={{ marginTop: 10, display: "grid", gap: 10 }}>
+    {takeoutCategories.map((c, idx) => (
+      <div key={`${c.label}-${idx}`} style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+        <input
+          value={c.emoji}
+          onChange={(e) => {
+            const v = e.target.value;
+            setTakeoutCategories((prev) => prev.map((x, i) => (i === idx ? { ...x, emoji: v } : x)));
+          }}
+          placeholder="🍔"
+          style={{ ...input, width: 70 }}
+        />
+        <input
+          value={c.label}
+          onChange={(e) => {
+            const v = e.target.value;
+            setTakeoutCategories((prev) => prev.map((x, i) => (i === idx ? { ...x, label: v } : x)));
+          }}
+          placeholder="Label"
+          style={{ ...input, flex: "1 1 180px" }}
+        />
+        <input
+          value={c.query}
+          onChange={(e) => {
+            const v = e.target.value;
+            setTakeoutCategories((prev) => prev.map((x, i) => (i === idx ? { ...x, query: v } : x)));
+          }}
+          placeholder="Search query"
+          style={{ ...input, flex: "1 1 220px" }}
+        />
+        <button
+          type="button"
+          onClick={() => setTakeoutCategories((prev) => prev.filter((_, i) => i !== idx))}
+          style={iconBtn}
+          aria-label="Remove category"
+        >
+          ✕
+        </button>
+      </div>
+    ))}
 
-    <button
-      type="button"
-      onClick={() => openNearby("grocery store")}
-      style={{ ...chip, cursor: "pointer" }}
-    >
-      🛒 Grocery
-    </button>
+    <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+      <button
+        type="button"
+        onClick={() =>
+          setTakeoutCategories((prev) => [
+            ...prev,
+            { emoji: "🍴", label: "New", query: "restaurants", },
+          ])
+        }
+        style={{ ...chip, cursor: "pointer" }}
+      >
+        ➕ Add category
+      </button>
 
-    <button
-      type="button"
-      onClick={() => openNearby("pharmacy")}
-      style={{ ...chip, cursor: "pointer" }}
-    >
-      💊 Pharmacy
-    </button>
-
-    <button
-      type="button"
-      onClick={() => openNearby("pizza")}
-      style={{ ...chip, cursor: "pointer" }}
-    >
-      🍕 Pizza
-    </button>
+      <button
+        type="button"
+        onClick={() => setTakeoutCategories(DEFAULT_TAKEOUT_CATEGORIES)}
+        style={{ ...chip, cursor: "pointer", opacity: 0.85 }}
+      >
+        ♻️ Reset defaults
+      </button>
+    </div>
   </div>
 )}
 
