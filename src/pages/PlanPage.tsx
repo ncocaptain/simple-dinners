@@ -29,6 +29,20 @@ export default function PlanPage({
   generateDinnerPlan: () => void;
 }) {
   
+  const commitPantry = () => {
+  const tokens = pantryText
+    .split(/[\n,]/g)
+    .map((t) => t.trim())
+    .filter(Boolean);
+
+  setPantry(
+    tokens.map((name) => ({
+      id: name.toLowerCase().replace(/\s+/g, "-"),
+      name,
+      createdAt: Date.now(),
+    }))
+  );
+};
 
   // --- Styles ---
   const card: React.CSSProperties = {
@@ -88,24 +102,7 @@ export default function PlanPage({
 }, [pantry]);
 
 
-  const handlePantryChange = (val: string) => {
-    setPantryText(val);
-    const tokens = val
-      .split(/[\n,]/g)
-      .map((t) => t.trim())
-      .filter(Boolean);
-
-    setPantry(
-      tokens.map((name) => ({
-        id: name.toLowerCase().replace(/\s+/g, "-"),
-
-        name,
-        createdAt: Date.now(),
-      }))
-    );
-  };
-
-  return (
+    return (
     <div style={{ padding: "18px 6px" }}>
       <div style={card}>
         <div style={{ textAlign: "center", marginBottom: 10 }}>
@@ -156,11 +153,12 @@ export default function PlanPage({
               List ingredients you have (comma separated). We'll prioritize these.
             </div>
             <textarea
-              placeholder="e.g. Chicken, Spinach, Rice, Onions"
-              value={pantryText}
-              onChange={(e) => handlePantryChange(e.target.value)}
-              style={textarea}
-            />
+  placeholder="e.g. Chicken, Spinach, Rice, Onions"
+  value={pantryText}
+  onChange={(e) => setPantryText(e.target.value)}
+  onBlur={() => commitPantry()}
+  style={textarea}
+/>
           </div>
 
           {/* Dietary Notes */}
