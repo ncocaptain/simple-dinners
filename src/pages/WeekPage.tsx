@@ -1,5 +1,4 @@
 import React from "react";
-import { normalize } from "../core/planner";
 import type { Meal, Effort } from "../core/types";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
@@ -118,31 +117,79 @@ function addWeekToCalendar(days: readonly Day[], meals: Record<Day, Meal>) {
   URL.revokeObjectURL(url);
 }
 
-
-
-
 export default function WeekPage({
   meals,
   setMeals,
-  checkedItems,
-  setCheckedItems,
   addDayToCookbook,
-  uniqueShoppingList,
   generateDinnerPlan,
   daySettings,
   setDaySettings,
 }: {
   meals: Record<Day, Meal>;
   setMeals: React.Dispatch<React.SetStateAction<Record<Day, Meal>>>;
-  checkedItems: string[];
-  setCheckedItems: React.Dispatch<React.SetStateAction<string[]>>;
   addDayToCookbook: (day: Day) => void;
-  uniqueShoppingList: string[];
   generateDinnerPlan: () => void;
   daySettings: Record<Day, Effort>;
   setDaySettings: React.Dispatch<React.SetStateAction<Record<Day, Effort>>>;
 }) {
   const navigate = useNavigate();
+
+  type ShoppingItem = {
+  id: string;
+  name: string;
+  checked: boolean;
+  createdAt: number;
+};
+
+const SHOP_LS_KEY = "simple-dinners:shopping-list:v1";
+
+function makeId() {
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
+}
+
+const [shopItems, setShopItems] = React.useState<ShoppingItem[]>([]);
+const [shopInput, setShopInput] = React.useState("");
+
+React.useEffect(() => {
+  try {
+    const raw = localStorage.getItem(SHOP_LS_KEY);
+    if (raw) setShopItems(JSON.parse(raw));
+  } catch {
+    // ignore
+  }
+}, []);
+
+React.useEffect(() => {
+  try {
+    localStorage.setItem(SHOP_LS_KEY, JSON.stringify(shopItems));
+  } catch {
+    // ignore
+  }
+}, [shopItems]);
+
+const addShopItem = () => {
+  const name = shopInput.trim();
+  if (!name) return;
+  setShopItems((prev) => [
+    { id: makeId(), name, checked: false, createdAt: Date.now() },
+    ...prev,
+  ]);
+  setShopInput("");
+};
+
+const toggleShopItem = (id: string) => {
+  setShopItems((prev) =>
+    prev.map((it) => (it.id === id ? { ...it, checked: !it.checked } : it))
+  );
+};
+
+const removeShopItem = (id: string) => {
+  setShopItems((prev) => prev.filter((it) => it.id !== id));
+};
+
+const clearCheckedShopItems = () => {
+  setShopItems((prev) => prev.filter((it) => !it.checked));
+};
   
   const openNearby = (category: string) => {
   if (!navigator.geolocation) {
@@ -234,7 +281,8 @@ export default function WeekPage({
   const clearWeek = () => {
     if (!window.confirm("Clear the entire week?")) return;
     setMeals(EMPTY_WEEK);
-    setCheckedItems([]);
+    setShopItems([]);
+localStorage.removeItem(SHOP_LS_KEY);
   };
 
   const updateMeal = (day: Day, field: keyof Meal, value: string) => {
@@ -248,12 +296,7 @@ export default function WeekPage({
     setMeals((prev) => ({ ...prev, [day]: EMPTY_MEAL }));
   };
 
-  const toggleItem = (item: string) => {
-    const n = normalize(item);
-    setCheckedItems((prev) => (prev.includes(n) ? prev.filter((i) => i !== n) : [...prev, n]));
-  };
-
- 
+   
   // ---------- Styles ----------
   const cardGrid: React.CSSProperties = {
     display: "grid",
@@ -541,21 +584,132 @@ const weekRange = formatRange();
       </div>
 
       {/* Shopping List Section */}
-      <div style={{ marginTop: 32, padding: 24, borderRadius: 20, background: "rgba(15,23,42,0.2)", border: "1px solid rgba(255,255,255,0.1)" }}>
-        <h2 style={{ marginBottom: 20, margin: 0 }}>Shopping List</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 10, marginTop: 20 }}>
-          {uniqueShoppingList.length === 0 ? (
-            <p style={{ opacity: 0.5 }}>No items yet!</p>
-          ) : (
-            uniqueShoppingList.map((item) => (
-              <label key={item} style={{ display: "flex", gap: 10, padding: 12, background: "rgba(255,255,255,0.03)", borderRadius: 12, cursor: "pointer" }}>
-                <input type="checkbox" checked={checkedItems.includes(normalize(item))} onChange={() => toggleItem(item)} />
-                <span style={{ textDecoration: checkedItems.includes(normalize(item)) ? "line-through" : "none" }}>{item}</span>
-              </label>
-            ))
-          )}
-        </div>
-      </div>
+      {/* Shopping List Section */}
+<div
+  style={{
+    marginTop: 32,
+    padding: 24,
+    borderRadius: 20,
+    background: "rgba(15,23,42,0.2)",
+    border: "1px solid rgba(255,255,255,0.1)",
+  }}
+>
+  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+    <h2 style={{ margin: 0 }}>Shopping List</h2>
+    <button
+      type="button"
+      onClick={clearCheckedShopItems}
+      disabled={shopItems.every((i) => !i.checked)}
+      style={{
+        padding: "10px 14px",
+        borderRadius: 14,
+        background: "rgba(255,255,255,0.05)",
+        color: "#f8fafc",
+        cursor: "pointer",
+        fontWeight: 700,
+        border: "1px solid rgba(255,255,255,0.12)",
+        opacity: shopItems.every((i) => !i.checked) ? 0.5 : 1,
+      }}
+    >
+      Clear checked
+    </button>
+  </div>
+
+  {/* Add item */}
+  <div style={{ display: "flex", gap: 10, marginTop: 16, flexWrap: "wrap" }}>
+    <input
+      value={shopInput}
+      onChange={(e) => setShopInput(e.target.value)}
+      placeholder='Add item (e.g. "milk")'
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+  e.preventDefault();
+  addShopItem();
+}
+      }}
+      style={{
+        flex: "1 1 220px",
+        padding: "10px 12px",
+        borderRadius: 12,
+        border: "1px solid rgba(255,255,255,0.12)",
+        background: "rgba(255,255,255,0.06)",
+        color: "white",
+        fontSize: 14,
+        outline: "none",
+      }}
+    />
+    <button
+      type="button"
+      onClick={addShopItem}
+      style={{
+        padding: "10px 16px",
+        borderRadius: 14,
+        background: "rgba(20,184,166,0.18)",
+        color: "#f8fafc",
+        cursor: "pointer",
+        fontWeight: 900,
+        border: "1px solid rgba(20,184,166,0.35)",
+      }}
+    >
+      Add
+    </button>
+  </div>
+
+  {/* List */}
+  <div style={{ marginTop: 16, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 10 }}>
+    {shopItems.length === 0 ? (
+      <p style={{ opacity: 0.5, margin: 0 }}>No items yet!</p>
+    ) : (
+      shopItems
+        .slice()
+        .sort((a, b) => {
+          if (a.checked !== b.checked) return a.checked ? 1 : -1;
+          return b.createdAt - a.createdAt;
+        })
+        .map((item) => (
+          <div
+            key={item.id}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 10,
+              padding: 12,
+              background: "rgba(255,255,255,0.03)",
+              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.06)",
+            }}
+          >
+            <label style={{ display: "flex", gap: 10, alignItems: "center", cursor: "pointer", flex: 1 }}>
+              <input type="checkbox" checked={item.checked} onChange={() => toggleShopItem(item.id)} />
+              <span style={{ textDecoration: item.checked ? "line-through" : "none", opacity: item.checked ? 0.75 : 1 }}>
+                {item.name}
+              </span>
+            </label>
+
+            <button
+              type="button"
+              onClick={() => removeShopItem(item.id)}
+              aria-label={`Remove ${item.name}`}
+              style={{
+                width: 34,
+                height: 34,
+                borderRadius: 10,
+                border: "1px solid rgba(255,255,255,0.12)",
+                background: "rgba(255,255,255,0.06)",
+                color: "white",
+                cursor: "pointer",
+                display: "grid",
+                placeItems: "center",
+              }}
+            >
+              ✕
+            </button>
+          </div>
+        ))
+    )}
+  </div>
+</div>
     </>
   );
 }

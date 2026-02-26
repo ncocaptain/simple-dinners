@@ -223,16 +223,7 @@ const menuItemStyle: React.CSSProperties = {
     }
   });
 
-  // Shopping checks
-  const [checkedItems, setCheckedItems] = useState<string[]>(() => {
-    try {
-      return JSON.parse(localStorage.getItem("checkedItems") || "[]");
-    } catch {
-      return [];
-    }
-  });
-
-  // Cookbook
+    // Cookbook
   const [cookbook, setCookbook] = useState<Recipe[]>(() => {
     try {
       return JSON.parse(localStorage.getItem("simpleDinnersCookbook") || "[]");
@@ -294,7 +285,6 @@ const menuItemStyle: React.CSSProperties = {
   // Persist
   useEffect(() => localStorage.setItem("meals", JSON.stringify(meals)), [meals]);
   useEffect(() => localStorage.setItem("daySettings", JSON.stringify(daySettings)), [daySettings]);
-  useEffect(() => localStorage.setItem("checkedItems", JSON.stringify(checkedItems)), [checkedItems]);
   useEffect(() => localStorage.setItem("simpleDinnersCookbook", JSON.stringify(cookbook)), [cookbook]);
   useEffect(() => localStorage.setItem("dietaryNotes", dietaryNotes), [dietaryNotes]);
   useEffect(() => localStorage.setItem("vegetarian", String(vegetarian)), [vegetarian]);
@@ -468,15 +458,7 @@ useEffect(() => {
   };
 }, []);
 
-// Shopping list
-const uniqueShoppingList = useMemo(() => {
-  const items = Object.values(meals)
-    .flatMap((m) => (m?.ingredients || "").split(","))
-    .map((s) => s.trim())
-    .filter(Boolean)
-    .map(normalize);
-  return Array.from(new Set(items));
-}, [meals]);
+
 
  return (
   <ThemeProvider>
@@ -654,10 +636,7 @@ const uniqueShoppingList = useMemo(() => {
           <WeekPage
             meals={meals}
             setMeals={setMeals}
-            checkedItems={checkedItems}
-            setCheckedItems={setCheckedItems}
             addDayToCookbook={addDayToCookbook}
-            uniqueShoppingList={uniqueShoppingList}
             generateDinnerPlan={generateDinnerPlan}
             daySettings={daySettings}
             setDaySettings={setDaySettings}
