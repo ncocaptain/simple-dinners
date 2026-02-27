@@ -554,6 +554,12 @@ const weekRange = formatRange();
                 {openDay === day && (
                   <div style={{ display: "grid", gap: 10, padding: 12, background: "rgba(255,255,255,0.03)", borderRadius: 14, border: "1px solid rgba(255,255,255,0.06)" }}>
                     <input placeholder="Meal name" value={meal?.name ?? ""} onChange={(e) => updateMeal(day, "name", e.target.value)} style={input} />
+                    <input
+  placeholder="Slug (e.g. taco-bowls)"
+  value={meal?.slug ?? ""}
+  onChange={(e) => updateMeal(day, "slug", e.target.value)}
+  style={input}
+/>
                     <input placeholder="Ingredients..." value={meal?.ingredients ?? ""} onChange={(e) => updateMeal(day, "ingredients", e.target.value)} style={input} />
                     <textarea
                       placeholder="Cooking steps..."
