@@ -147,6 +147,12 @@ export default function WeekPage({
   createdAt: number;
 };
 
+ const openRecipePage = (day: Day) => {
+  const slug = meals[day]?.slug?.trim();
+  if (!slug) return;
+  navigate(`/recipe/${slug}?from=/week`);
+};
+
 const [takeoutCategories] = React.useState<TakeoutCategory[]>(() => loadTakeoutCategories());
 
 const SHOP_LS_KEY = "simple-dinners:shopping-list:v1";
@@ -431,22 +437,26 @@ const weekRange = formatRange();
     animation: animDays[day] ? "popGlow 450ms ease-out" : "none",
   }}
 >
+  
               <div
   style={{
     height: 120,
     overflow: "hidden",
     borderTopLeftRadius: 18,
     borderTopRightRadius: 18,
+    cursor: meal?.slug ? "pointer" : "default",
   }}
+  onClick={() => openRecipePage(day)}
 >
   <div
-    style={{
-      height: "100%",
-      backgroundImage: `url(${heroUrl})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-    }}
-  />
+  className={`recipe-hero ${meal?.slug ? "clickable" : ""}`}
+  style={{
+    height: "100%",
+    backgroundImage: `url(${heroUrl})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
+/>
 </div>
               
               <div style={{ padding: 16, display: "grid", gap: 12 }}>
@@ -566,7 +576,6 @@ const weekRange = formatRange();
         <Button variant="danger" onClick={clearWeek}>🧹 Reset Week</Button>
       </div>
 
-      {/* Shopping List Section */}
       {/* Shopping List Section */}
 <div
   style={{

@@ -18,6 +18,7 @@ import {
 import { days } from "./core/data";
 import { ToastProvider } from "./components/Toast";
 import { ThemeProvider } from "./theme";
+import RecipePage from "./pages/RecipePage";
 
 type Day = (typeof days)[number];
 
@@ -588,6 +589,8 @@ export default function App() {
               <Route path="/" element={<Navigate to="/plan" replace />} />
 
               <Route path="/takeout-settings" element={<TakeoutSettingsPage />} />
+
+              <Route path="/recipe/:slug" element={<RecipePage />} />
 
               <Route
                 path="/plan"

@@ -216,6 +216,14 @@ html, body {
   color: var(--text);
 }
 
+.recipe-hero {
+  transition: transform 180ms ease, filter 180ms ease;
+}
+.recipe-hero.clickable:hover {
+  transform: scale(1.02);
+  filter: brightness(1.05);
+}
+
 /* Make sure common text elements inherit the same readable color */
 body, button, input, textarea, select, option, label, p, span, div, h1, h2, h3, h4, h5, h6, li, small {
   color: inherit;
