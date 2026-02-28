@@ -136,7 +136,7 @@ export default function RecipePage() {
   };
 
   const card: React.CSSProperties = {
-    borderRadius: 20,
+    borderRadius: window.innerWidth < 640 ? 16 : 20,
     overflow: "hidden",
     background: "rgba(30,41,59,0.40)",
     backdropFilter: "blur(10px)",
@@ -171,7 +171,15 @@ export default function RecipePage() {
   };
 
   return (
-    <div style={{ padding: 24, maxWidth: 980, margin: "0 auto" }}>
+    <div
+  style={{
+    padding: window.innerWidth < 640
+      ? "12px 12px 24px"
+      : "24px",
+    maxWidth: 980,
+    margin: "0 auto",
+  }}
+>
       {/* Breadcrumbs */}
       
 
