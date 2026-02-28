@@ -173,46 +173,7 @@ export default function RecipePage() {
   return (
     <div style={{ padding: 24, maxWidth: 980, margin: "0 auto" }}>
       {/* Breadcrumbs */}
-      <div
-        style={{
-          display: "flex",
-          gap: 8,
-          alignItems: "center",
-          fontWeight: 900,
-          opacity: 0.8,
-          marginBottom: 14,
-        }}
-      >
-        <button
-          onClick={() => navigate("/")}
-          style={{
-            background: "none",
-            border: "none",
-            color: "#14b8a6",
-            cursor: "pointer",
-            fontWeight: 900,
-            padding: 0,
-          }}
-        >
-          Home
-        </button>
-        <span style={{ opacity: 0.5 }}>→</span>
-        <button
-          onClick={() => navigate(from)}
-          style={{
-            background: "none",
-            border: "none",
-            color: "#14b8a6",
-            cursor: "pointer",
-            fontWeight: 900,
-            padding: 0,
-          }}
-        >
-          Week Plan
-        </button>
-        <span style={{ opacity: 0.5 }}>→</span>
-        <span style={{ color: "#f8fafc", opacity: 0.95 }}>{recipe.name}</span>
-      </div>
+      
 
       {/* Action row */}
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 12 }}>
@@ -223,18 +184,49 @@ export default function RecipePage() {
           🖨️ Print
         </button>
         <button
-          style={btn}
-          onClick={async () => {
-            try {
-              await navigator.clipboard.writeText(window.location.href);
-              alert("Link copied!");
-            } catch {
-              alert("Could not copy link.");
-            }
-          }}
-        >
-          🔗 Copy link
-        </button>
+  style={btn}
+  onClick={async () => {
+    const url = window.location.href;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: recipe.name,
+          url,
+        });
+      } catch {}
+    } else {
+      await navigator.clipboard.writeText(url);
+      alert("Link copied!");
+    }
+  }}
+>
+  📤 Share
+</button>
+<button
+  style={btn}
+  onClick={() => {
+    const raw = localStorage.getItem("simple-dinners:cookbook:v1");
+    const existing = raw ? JSON.parse(raw) : [];
+
+    const already = existing.find((r: any) => r.slug === recipe.slug);
+
+    if (already) {
+      alert("Already in cookbook.");
+      return;
+    }
+
+    const updated = [...existing, recipe];
+    localStorage.setItem(
+      "simple-dinners:cookbook:v1",
+      JSON.stringify(updated)
+    );
+
+    alert("Added to cookbook!");
+  }}
+>
+  ⭐ Add to Cookbook
+</button>
       </div>
 
       {/* Flow Card */}
@@ -259,11 +251,7 @@ export default function RecipePage() {
           />
           <div style={{ position: "absolute", left: 18, right: 18, bottom: 16 }}>
             <div style={{ fontSize: 28, fontWeight: 950, lineHeight: 1.1 }}>{recipe.name}</div>
-            <div style={{ marginTop: 6, opacity: 0.8, fontWeight: 700, fontSize: 13 }}>
-              Saved recipe • Slug: <span style={{ opacity: 0.95 }}>{slug}</span>
-            </div>
-
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 10 }}>
+               <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 10 }}>
               <span style={pill}>🧾 Ingredients: {ingredients.length || "—"}</span>
               <span style={pill}>✅ Steps: {instructions.length || "—"}</span>
             </div>
