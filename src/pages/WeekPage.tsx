@@ -3,15 +3,16 @@ import type { Meal, Effort } from "../core/types";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { days } from "../core/data";
-type Day = (typeof days)[number];
 import { loadTakeoutCategories, type TakeoutCategory } from "../core/takeout";
+type Day = (typeof days)[number];
+
 
 
 
 const EMPTY_MEAL: Meal = { name: "", ingredients: "", instructions: "", photoUrl: "" };
 
 const EMPTY_WEEK = Object.fromEntries(
-  days.map((d) => [d, EMPTY_MEAL])
+  days.map((d) => [d, { ...EMPTY_MEAL }])
 ) as Record<Day, Meal>;
 
 function pad2(n: number) {
@@ -37,6 +38,11 @@ function escapeICS(text: string) {
     .replace(/\n/g, "\\n")
     .replace(/,/g, "\\,")
     .replace(/;/g, "\\;");
+}
+
+function mealImageUrl(name?: string) {
+  const q = encodeURIComponent((name || "cooking dinner").trim());
+  return `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80&sig=1&meal=${q}`;
 }
 
 function startOfWeekMonday(base: Date) {
@@ -150,8 +156,10 @@ export default function WeekPage({
  const openRecipePage = (day: Day) => {
   const slug = meals[day]?.slug?.trim();
   if (!slug) return;
-  navigate(`/recipe/${slug}?from=/week`);
+
+  navigate(`/recipe/${encodeURIComponent(slug)}?from=${encodeURIComponent("/week")}`);
 };
+
 
 const [takeoutCategories] = React.useState<TakeoutCategory[]>(() => loadTakeoutCategories());
 
@@ -368,15 +376,7 @@ localStorage.removeItem(SHOP_LS_KEY);
     fontWeight: 800,
   };
 
-  const startOfWeekMonday = (base: Date) => {
-  const d = new Date(base);
-  const day = d.getDay(); // 0 Sun ... 6 Sat
-  const diff = day === 0 ? -6 : 1 - day; // back/forward to Monday
-  d.setDate(d.getDate() + diff);
-  d.setHours(0, 0, 0, 0);
-  return d;
-};
-
+  
 const formatRange = () => {
   const start = startOfWeekMonday(new Date());
   const end = new Date(start);
@@ -389,6 +389,8 @@ const formatRange = () => {
   const sameYear = start.getFullYear() === end.getFullYear();
   return sameYear ? `${fmt.format(start)} – ${fmtYear.format(end)}` : `${fmtYear.format(start)} – ${fmtYear.format(end)}`;
 };
+
+
 
 const weekRange = formatRange();
 
@@ -423,156 +425,227 @@ const weekRange = formatRange();
       {/* Main Grid */}
       <div style={cardGrid}>
         {days.map((day) => {
-          const meal = meals[day];
-          const effort = daySettings[day] ?? "normal";
-          const heroUrl = meal?.photoUrl || `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80&sig=${day}`;
+  const meal = meals[day];
+  const effort = daySettings[day] ?? "normal";
 
-          return (
-            <div
-  key={day}
-  style={{
-    ...recipeCard,
-    position: "relative",
-    zIndex: openEffortDay === day ? 999 : 1,
-    animation: animDays[day] ? "popGlow 450ms ease-out" : "none",
-  }}
->
-  
-              <div
-  style={{
-    height: 120,
-    overflow: "hidden",
-    borderTopLeftRadius: 18,
-    borderTopRightRadius: 18,
-    cursor: meal?.slug ? "pointer" : "default",
-  }}
-  onClick={() => openRecipePage(day)}
->
-  <div
-  className={`recipe-hero ${meal?.slug ? "clickable" : ""}`}
-  style={{
-    height: "100%",
-    backgroundImage: `url(${heroUrl})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  }}
-/>
-</div>
-              
-              <div style={{ padding: 16, display: "grid", gap: 12 }}>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                  <div>
-                    <div style={{ fontSize: 18, fontWeight: 900 }}>{meal?.name || "No meal planned"}</div>
-                    <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 700 }}>{day.toUpperCase()}</div>
-                  </div>
-                  <div style={{ display: "flex", gap: 6 }}>
-                    <button style={iconBtn} onClick={() => addDayToCookbook(day)}>➕</button>
-                    <button style={iconBtn} onClick={() => clearDay(day)}>🧹</button>
-                  </div>
-                </div>
+  const heroUrl = meal?.photoUrl || mealImageUrl(meal?.name);
 
-                {/* Effort Selector */}
-                <div className="effort-selector-container" style={{ position: "relative", display: "inline-block" }}>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setOpenEffortDay(openEffortDay === day ? null : day);
-                    }}
-                    style={{ ...chip, cursor: "pointer", userSelect: "none" }}
-                  >
-                    <span style={{ opacity: 0.7, fontSize: 11, fontWeight: 800 }}>Effort</span>
-                    <span style={{ fontSize: 12, fontWeight: 900 }}>
-                      {EFFORT_OPTIONS.find((o) => o.value === effort)?.label ?? "Normal"}
-                    </span>
-                    <span style={{ opacity: 0.6 }}>▾</span>
-                  </button>
+  const canOpen = Boolean(meal?.slug?.trim());
 
-                  {openEffortDay === day && (
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "calc(100% + 6px)",
-                        left: 0,
-                        zIndex: 2000,
-                        minWidth: 140,
-                        borderRadius: 12,
-                        border: "1px solid rgba(255,255,255,0.08)",
-                        background: "rgba(15,23,42,0.95)",
-                        backdropFilter: "blur(14px)",
-                        WebkitBackdropFilter: "blur(14px)",
-                        boxShadow: "0 12px 28px rgba(0,0,0,0.55)",
-                        overflow: "hidden",
-                      }}
-                    >
-                      {EFFORT_OPTIONS.map((opt) => (
-                        <button
-                          key={opt.value}
-                          type="button"
-                          onClick={() => {
-                            setDaySettings(prev => ({ ...prev, [day]: opt.value }));
-                            setOpenEffortDay(null);
-                          }}
-                          style={{
-                            width: "100%", textAlign: "left", padding: "10px 12px", border: "none",
-                            background: opt.value === effort ? "rgba(20,184,166,0.2)" : "transparent",
-                            color: "white", cursor: "pointer", fontWeight: opt.value === effort ? 900 : 500,
-                            fontSize: 13
-                          }}
-                        >
-                          {opt.label}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <button
-                  onClick={() => setOpenDay(openDay === day ? null : day)}
-                  style={{ background: "none", border: "none", color: "#14b8a6", fontWeight: 900, cursor: "pointer", fontSize: 13, textAlign: "left", width: "fit-content", padding: 0 }}
-                >
-                  {openDay === day ? "Hide details ▴" : "Edit details ▾"}
-                </button>
-
-               {effort === "takeout" && (
-  <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-    {takeoutCategories.map((c) => (
-      <button
-        key={c.label}
-        type="button"
-        onClick={() => openNearby(c.query)}
-        style={{ ...chip, cursor: "pointer" }}
+  return (
+    <div
+      key={day}
+      style={{
+        ...recipeCard,
+        position: "relative",
+        zIndex: openEffortDay === day ? 999 : 1,
+        animation: animDays[day] ? "popGlow 450ms ease-out" : "none",
+      }}
+    >
+      {/* Hero (clickable only if slug exists) */}
+      <div
+        style={{
+          height: 120,
+          overflow: "hidden",
+          borderTopLeftRadius: 18,
+          borderTopRightRadius: 18,
+          cursor: canOpen ? "pointer" : "default",
+        }}
+        onClick={canOpen ? () => openRecipePage(day) : undefined}
+        role={canOpen ? "button" : undefined}
+        tabIndex={canOpen ? 0 : undefined}
+        onKeyDown={
+          canOpen
+            ? (e) => {
+                if (e.key === "Enter" || e.key === " ") openRecipePage(day);
+              }
+            : undefined
+        }
+        aria-label={canOpen ? `Open recipe for ${meal?.name ?? "meal"}` : undefined}
       >
-        {c.emoji} {c.label}
-      </button>
-    ))}
-  </div>
-)}
+        <div
+          className={`recipe-hero ${canOpen ? "clickable" : ""}`}
+          style={{
+            height: "100%",
+            backgroundImage: `url(${heroUrl})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+      </div>
 
+      {/* Card body */}
+      <div style={{ padding: 16, display: "grid", gap: 12 }}>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div>
+            <div style={{ fontSize: 18, fontWeight: 900 }}>{meal?.name || "No meal planned"}</div>
+            <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 700 }}>{day.toUpperCase()}</div>
+          </div>
+          <div style={{ display: "flex", gap: 6 }}>
+            <button
+              style={iconBtn}
+              onClick={(e) => {
+                e.stopPropagation();
+                addDayToCookbook(day);
+              }}
+              title="Save to cookbook"
+            >
+              ➕
+            </button>
+            <button
+              style={iconBtn}
+              onClick={(e) => {
+                e.stopPropagation();
+                clearDay(day);
+              }}
+              title="Clear day"
+            >
+              🧹
+            </button>
+          </div>
+        </div>
 
+        {/* Effort Selector */}
+        <div className="effort-selector-container" style={{ position: "relative", display: "inline-block" }}>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpenEffortDay(openEffortDay === day ? null : day);
+            }}
+            style={{ ...chip, cursor: "pointer", userSelect: "none" }}
+          >
+            <span style={{ opacity: 0.7, fontSize: 11, fontWeight: 800 }}>Effort</span>
+            <span style={{ fontSize: 12, fontWeight: 900 }}>
+              {EFFORT_OPTIONS.find((o) => o.value === effort)?.label ?? "Normal"}
+            </span>
+            <span style={{ opacity: 0.6 }}>▾</span>
+          </button>
 
-                {openDay === day && (
-                  <div style={{ display: "grid", gap: 10, padding: 12, background: "rgba(255,255,255,0.03)", borderRadius: 14, border: "1px solid rgba(255,255,255,0.06)" }}>
-                    <input placeholder="Meal name" value={meal?.name ?? ""} onChange={(e) => updateMeal(day, "name", e.target.value)} style={input} />
-                    <input
-  placeholder="Slug (e.g. taco-bowls)"
-  value={meal?.slug ?? ""}
-  onChange={(e) => updateMeal(day, "slug", e.target.value)}
-  style={input}
-/>
-                    <input placeholder="Ingredients..." value={meal?.ingredients ?? ""} onChange={(e) => updateMeal(day, "ingredients", e.target.value)} style={input} />
-                    <textarea
-                      placeholder="Cooking steps..."
-                      value={meal?.instructions ?? ""}
-                      onChange={(e) => updateMeal(day, "instructions", e.target.value)}
-                      style={{ ...input, minHeight: 90, resize: "vertical" }}
-                    />
-                  </div>
-                )}
-              </div>
+          {openEffortDay === day && (
+            <div
+              style={{
+                position: "absolute",
+                top: "calc(100% + 6px)",
+                left: 0,
+                zIndex: 2000,
+                minWidth: 140,
+                borderRadius: 12,
+                border: "1px solid rgba(255,255,255,0.08)",
+                background: "rgba(15,23,42,0.95)",
+                backdropFilter: "blur(14px)",
+                WebkitBackdropFilter: "blur(14px)",
+                boxShadow: "0 12px 28px rgba(0,0,0,0.55)",
+                overflow: "hidden",
+              }}
+            >
+              {EFFORT_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setDaySettings((prev) => ({ ...prev, [day]: opt.value }));
+                    setOpenEffortDay(null);
+                  }}
+                  style={{
+                    width: "100%",
+                    textAlign: "left",
+                    padding: "10px 12px",
+                    border: "none",
+                    background: opt.value === effort ? "rgba(20,184,166,0.2)" : "transparent",
+                    color: "white",
+                    cursor: "pointer",
+                    fontWeight: opt.value === effort ? 900 : 500,
+                    fontSize: 13,
+                  }}
+                >
+                  {opt.label}
+                </button>
+              ))}
             </div>
-          );
-        })}
+          )}
+        </div>
+
+        <button
+          onClick={() => setOpenDay(openDay === day ? null : day)}
+          style={{
+            background: "none",
+            border: "none",
+            color: "#14b8a6",
+            fontWeight: 900,
+            cursor: "pointer",
+            fontSize: 13,
+            textAlign: "left",
+            width: "fit-content",
+            padding: 0,
+          }}
+        >
+          {openDay === day ? "Hide details ▴" : "Edit details ▾"}
+        </button>
+
+        {effort === "takeout" && (
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            {takeoutCategories.map((c) => (
+              <button
+                key={c.label}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openNearby(c.query);
+                }}
+                style={{ ...chip, cursor: "pointer" }}
+              >
+                {c.emoji} {c.label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {openDay === day && (
+          <div
+            style={{
+              display: "grid",
+              gap: 10,
+              padding: 12,
+              background: "rgba(255,255,255,0.03)",
+              borderRadius: 14,
+              border: "1px solid rgba(255,255,255,0.06)",
+            }}
+          >
+            <input
+              placeholder="Meal name"
+              value={meal?.name ?? ""}
+              onChange={(e) => updateMeal(day, "name", e.target.value)}
+              style={input}
+            />
+
+            <input
+              placeholder="Slug (e.g. taco-bowls)"
+              value={meal?.slug ?? ""}
+              onChange={(e) => updateMeal(day, "slug", e.target.value)}
+              style={input}
+            />
+
+            <input
+              placeholder="Ingredients..."
+              value={meal?.ingredients ?? ""}
+              onChange={(e) => updateMeal(day, "ingredients", e.target.value)}
+              style={input}
+            />
+
+            <textarea
+              placeholder="Cooking steps..."
+              value={meal?.instructions ?? ""}
+              onChange={(e) => updateMeal(day, "instructions", e.target.value)}
+              style={{ ...input, minHeight: 90, resize: "vertical" }}
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+})}
       </div>
 
       {/* Footer Actions */}

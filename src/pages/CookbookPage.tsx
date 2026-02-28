@@ -7,6 +7,7 @@ import { useInputStyles } from "../components/inputStyles";
 import { useToast } from "../components/Toast";
 import { uploadImageToCloudinary } from "../utils/uploadImage";
 import { days } from "../core/data";
+import { upsertRecipeFromMeal } from "../core/recipeStore";
 
 function Badge({
   children,
@@ -205,17 +206,19 @@ export default function CookbookPage({
   };
 
   const addRecipeToDay = (recipe: Recipe, day: string) => {
-    setMeals((prev) => ({
-      ...prev,
-      [day]: {
-        name: recipe.name,
-        ingredients: recipe.ingredients,
-        instructions: recipe.instructions ?? "",
-        photoUrl: recipe.photoUrl ?? "",
-      },
-    }));
-    toast(`Added to ${day}!`);
-  };
+  setMeals((prev) => ({
+    ...prev,
+    [day]: {
+      id: recipe.id,
+      slug: recipe.slug, // ✅ keep slug
+      name: recipe.name,
+      ingredients: recipe.ingredients,
+      instructions: recipe.instructions ?? "",
+      photoUrl: recipe.photoUrl ?? "",
+    },
+  }));
+  toast(`Added to ${day}!`);
+};
 
   const onPickImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -292,19 +295,21 @@ export default function CookbookPage({
     }
 
     // 🔥 Convert API result to YOUR Recipe type
-    const newRecipe: Recipe = {
-  id: crypto.randomUUID(),
+    const mealForStore = {
   name: decodeHtmlEntities(recipe.title || recipe.name || "Imported Recipe"),
   ingredients: recipe.ingredients || "",
   instructions: recipe.instructions || "",
   photoUrl: pickPhotoUrl(recipe),
-  favorite: false,
-  createdAt: Date.now(),
-  updatedAt: Date.now(),
 };
 
-    // ✅ Add to cookbook state
-    setCookbook((prev) => [newRecipe, ...prev]);
+const saved = upsertRecipeFromMeal(mealForStore);
+
+// Keep your in-memory cookbook state in sync.
+// (This is a simple approach: update/insert by id.)
+setCookbook((prev) => {
+  const next = Array.isArray(prev) ? prev.filter((r) => r.id !== saved.id) : [];
+  return [{ ...saved, favorite: false } as any, ...next];
+});
 
     toast("Recipe imported!", "success");
     setImportUrl("");

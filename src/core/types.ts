@@ -18,14 +18,16 @@ export type PantryItem = {
 
 export type Recipe = {
   id: string;
+  slug: string;
   name: string;
   ingredients: string;
   instructions?: string;
   photoUrl?: string;
+  effort?: Effort;
   favorite?: boolean;
-  createdAt: number;
-  updatedAt?: number;
   sourceUrl?: string;
+  createdAt: number;
+  updatedAt: number;
 };
 
 export type Preferences = {

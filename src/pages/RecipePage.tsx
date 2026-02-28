@@ -1,18 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import type { Meal } from "../core/types";
-
-const MEALS_LS_KEY = "meals";
-
-function parseMealsFromLocalStorage(): Record<string, Meal> {
-  try {
-    const raw = localStorage.getItem(MEALS_LS_KEY);
-    if (!raw) return {};
-    return JSON.parse(raw) as Record<string, Meal>;
-  } catch {
-    return {};
-  }
-}
+import { getRecipeBySlug } from "../core/recipeStore";
 
 function splitLines(s?: string) {
   return (s ?? "")
@@ -29,35 +17,59 @@ export default function RecipePage() {
   const qs = new URLSearchParams(location.search);
   const from = qs.get("from") || "/week";
 
-  const mealsByDay = React.useMemo(() => parseMealsFromLocalStorage(), []);
-  const meal = React.useMemo(() => {
-    return Object.values(mealsByDay).find((m) => (m.slug ?? "").trim() === slug);
-  }, [mealsByDay, slug]);
+  // Source of truth: recipeStore (simple-dinners:recipes:v1)
+  const recipe = React.useMemo(() => getRecipeBySlug(slug), [slug]);
 
-  const heroUrl =
-    meal?.photoUrl ||
-    `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1400&q=80&sig=${encodeURIComponent(
-      slug
-    )}`;
-
-  if (!meal) {
+  if (!recipe) {
     return (
       <div style={{ padding: 24, color: "#f8fafc" }}>
-        <div style={{ display: "flex", gap: 8, alignItems: "center", fontWeight: 900, opacity: 0.8, marginBottom: 14 }}>
-          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", color: "#14b8a6", cursor: "pointer", fontWeight: 900, padding: 0 }}>
+        <div
+          style={{
+            display: "flex",
+            gap: 8,
+            alignItems: "center",
+            fontWeight: 900,
+            opacity: 0.8,
+            marginBottom: 14,
+          }}
+        >
+          <button
+            onClick={() => navigate("/")}
+            style={{
+              background: "none",
+              border: "none",
+              color: "#14b8a6",
+              cursor: "pointer",
+              fontWeight: 900,
+              padding: 0,
+            }}
+          >
             Home
           </button>
           <span style={{ opacity: 0.5 }}>→</span>
-          <button onClick={() => navigate(from)} style={{ background: "none", border: "none", color: "#14b8a6", cursor: "pointer", fontWeight: 900, padding: 0 }}>
+          <button
+            onClick={() => navigate(from)}
+            style={{
+              background: "none",
+              border: "none",
+              color: "#14b8a6",
+              cursor: "pointer",
+              fontWeight: 900,
+              padding: 0,
+            }}
+          >
             Week Plan
           </button>
           <span style={{ opacity: 0.5 }}>→</span>
           <span style={{ color: "#f8fafc", opacity: 0.95 }}>Recipe</span>
         </div>
 
-        <h1 style={{ margin: "8px 0 0", fontSize: 28, fontWeight: 900 }}>Recipe not found</h1>
+        <h1 style={{ margin: "8px 0 0", fontSize: 28, fontWeight: 900 }}>
+          Recipe not found
+        </h1>
         <p style={{ opacity: 0.75, marginTop: 8 }}>
-          I couldn’t find a saved meal with slug <code style={{ opacity: 0.9 }}>{slug}</code>.
+          I couldn’t find a saved recipe with slug{" "}
+          <code style={{ opacity: 0.9 }}>{slug}</code>.
         </p>
 
         <button
@@ -79,8 +91,14 @@ export default function RecipePage() {
     );
   }
 
-  const ingredients = splitLines(meal.ingredients ?? "");
-const instructions = splitLines(meal.instructions ?? "");
+  const heroUrl =
+    recipe.photoUrl ||
+    `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1400&q=80&sig=${encodeURIComponent(
+      slug
+    )}`;
+
+  const ingredients = splitLines(recipe.ingredients ?? "");
+  const instructions = splitLines(recipe.instructions ?? "");
 
   const pill: React.CSSProperties = {
     display: "inline-flex",
@@ -133,22 +151,55 @@ const instructions = splitLines(meal.instructions ?? "");
   return (
     <div style={{ padding: 24, maxWidth: 980, margin: "0 auto" }}>
       {/* Breadcrumbs */}
-      <div style={{ display: "flex", gap: 8, alignItems: "center", fontWeight: 900, opacity: 0.8, marginBottom: 14 }}>
-        <button onClick={() => navigate("/")} style={{ background: "none", border: "none", color: "#14b8a6", cursor: "pointer", fontWeight: 900, padding: 0 }}>
+      <div
+        style={{
+          display: "flex",
+          gap: 8,
+          alignItems: "center",
+          fontWeight: 900,
+          opacity: 0.8,
+          marginBottom: 14,
+        }}
+      >
+        <button
+          onClick={() => navigate("/")}
+          style={{
+            background: "none",
+            border: "none",
+            color: "#14b8a6",
+            cursor: "pointer",
+            fontWeight: 900,
+            padding: 0,
+          }}
+        >
           Home
         </button>
         <span style={{ opacity: 0.5 }}>→</span>
-        <button onClick={() => navigate(from)} style={{ background: "none", border: "none", color: "#14b8a6", cursor: "pointer", fontWeight: 900, padding: 0 }}>
+        <button
+          onClick={() => navigate(from)}
+          style={{
+            background: "none",
+            border: "none",
+            color: "#14b8a6",
+            cursor: "pointer",
+            fontWeight: 900,
+            padding: 0,
+          }}
+        >
           Week Plan
         </button>
         <span style={{ opacity: 0.5 }}>→</span>
-        <span style={{ color: "#f8fafc", opacity: 0.95 }}>{meal.name}</span>
+        <span style={{ color: "#f8fafc", opacity: 0.95 }}>{recipe.name}</span>
       </div>
 
       {/* Action row */}
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 12 }}>
-        <button style={btn} onClick={() => navigate(from)}>← Back</button>
-        <button style={btn} onClick={() => window.print()}>🖨️ Print</button>
+        <button style={btn} onClick={() => navigate(from)}>
+          ← Back
+        </button>
+        <button style={btn} onClick={() => window.print()}>
+          🖨️ Print
+        </button>
         <button
           style={btn}
           onClick={async () => {
@@ -185,7 +236,7 @@ const instructions = splitLines(meal.instructions ?? "");
             }}
           />
           <div style={{ position: "absolute", left: 18, right: 18, bottom: 16 }}>
-            <div style={{ fontSize: 28, fontWeight: 950, lineHeight: 1.1 }}>{meal.name}</div>
+            <div style={{ fontSize: 28, fontWeight: 950, lineHeight: 1.1 }}>{recipe.name}</div>
             <div style={{ marginTop: 6, opacity: 0.8, fontWeight: 700, fontSize: 13 }}>
               Saved recipe • Slug: <span style={{ opacity: 0.95 }}>{slug}</span>
             </div>

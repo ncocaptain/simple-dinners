@@ -4,7 +4,9 @@ import WeekPage from "./pages/WeekPage";
 import CookbookPage from "./pages/CookbookPage";
 import PlanPage from "./pages/PlanPage";
 import TakeoutSettingsPage from "./pages/TakeoutSettingsPage";
-import type { Effort, Meal, PantryItem, Preferences, Recipe } from "./core/types";
+import type { Effort, Meal, PantryItem, Preferences } from "./core/types";
+import type { SavedRecipe } from "./core/recipeStore";
+import { loadRecipes, upsertRecipeFromMeal } from "./core/recipeStore";
 import {
   SUBS,
   normalize,
@@ -19,6 +21,7 @@ import { days } from "./core/data";
 import { ToastProvider } from "./components/Toast";
 import { ThemeProvider } from "./theme";
 import RecipePage from "./pages/RecipePage";
+
 
 type Day = (typeof days)[number];
 
@@ -207,13 +210,9 @@ export default function App() {
   });
 
   // Cookbook
-  const [cookbook, setCookbook] = useState<Recipe[]>(() => {
-    try {
-      return JSON.parse(localStorage.getItem("simpleDinnersCookbook") || "[]");
-    } catch {
-      return [];
-    }
-  });
+  const [cookbook, setCookbook] = useState<SavedRecipe[]>(() => {
+  return loadRecipes();
+});
 
   // Pantry
   const [pantry, setPantry] = useState<PantryItem[]>(() => {
@@ -280,20 +279,21 @@ export default function App() {
   useEffect(() => localStorage.setItem("pantry", JSON.stringify(pantry)), [pantry]);
 
   // Actions
-  const addDayToCookbook = (day: Day) => {
-    const m = meals[day];
-    if (!m?.name || !m?.ingredients) return alert("Fill in meal details first!");
-    const recipe: Recipe = {
-      id: makeId(),
-      name: m.name,
-      ingredients: m.ingredients,
-      instructions: m.instructions,
-      photoUrl: m.photoUrl,
-      favorite: false,
-      createdAt: Date.now(),
-    };
-    setCookbook((prev) => [recipe, ...prev]);
-  };
+const addDayToCookbook = (day: Day) => {
+  const meal = meals[day];
+  if (!meal?.name?.trim()) return;
+
+  const saved = upsertRecipeFromMeal(meal);
+
+  // keep cookbook state in sync with storage
+  setCookbook(loadRecipes());
+
+  // write slug/id back into the week's meal so RecipePage works immediately
+  setMeals(prev => ({
+  ...prev,
+  [day]: { ...prev[day], slug: saved.slug, id: saved.id }
+}));
+};
 
   const generateDinnerPlan = (force = false) => {
     const isEmpty = (m?: Meal) => !m || !m.name?.trim();
@@ -465,7 +465,7 @@ export default function App() {
                 </h1>
 
                 <div className="heroSubtitle" style={{ marginTop: 6, fontSize: 16, letterSpacing: 0.3 }}>
-                  Smart dinner planning based on your schedule
+                  Dinner planning based around you
                 </div>
               </div>
 
