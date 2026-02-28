@@ -1,13 +1,10 @@
+// recipeStore.ts
 import type { Meal } from "./types";
 
 export const RECIPES_LS_KEY = "simple-dinners:recipes:v1";
 
-export type SavedRecipe = Meal & {
-  id: string;
-  slug: string;
-  createdAt: number;
-  updatedAt: number;
-};
+// ADD: cookbook key (change this string if your app uses a different one)
+export const COOKBOOK_LS_KEY = "simple-dinners:cookbook:v1";
 
 function safeParse<T>(raw: string | null, fallback: T): T {
   try {
@@ -17,6 +14,28 @@ function safeParse<T>(raw: string | null, fallback: T): T {
     return fallback;
   }
 }
+
+// ADD: cookbook lookup
+export function getCookbookRecipeBySlug(slug: string): (Meal & any) | null {
+  const s = (slug || "").trim().toLowerCase();
+
+  // Cookbook stored as an array of meals/entries in localStorage:
+  // If your cookbook is stored differently (map/object), tell me and I’ll adjust.
+  const all = safeParse<(Meal & any)[]>(
+    localStorage.getItem(COOKBOOK_LS_KEY),
+    []
+  );
+
+  return all.find((r) => (r.slug || "").toLowerCase() === s) ?? null;
+}
+
+export type SavedRecipe = Meal & {
+  id: string;
+  slug: string;
+  createdAt: number;
+  updatedAt: number;
+};
+
 
 function makeId() {
   return Math.random().toString(36).slice(2) + Date.now().toString(36);

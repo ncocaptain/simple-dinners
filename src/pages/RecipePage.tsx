@@ -1,12 +1,21 @@
 import React from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { getRecipeBySlug } from "../core/recipeStore";
+import { candidateLibrary } from "../core/planner";
+import { getRecipeBySlug, getCookbookRecipeBySlug } from "../core/recipeStore";
 
 function splitLines(s?: string) {
   return (s ?? "")
     .split("\n")
     .map((x) => x.trim())
     .filter(Boolean);
+}
+
+// keep helpers OUTSIDE the component (less re-creation, cleaner)
+function findCandidateBySlug(slug: string) {
+  const s = (slug || "").trim().toLowerCase();
+  return (
+    candidateLibrary.find((r) => (r.slug || "").toLowerCase() === s) ?? null
+  );
 }
 
 export default function RecipePage() {
@@ -17,8 +26,21 @@ export default function RecipePage() {
   const qs = new URLSearchParams(location.search);
   const from = qs.get("from") || "/week";
 
-  // Source of truth: recipeStore (simple-dinners:recipes:v1)
-  const recipe = React.useMemo(() => getRecipeBySlug(slug), [slug]);
+  // Source of truth: recipeStore → cookbook → candidateLibrary
+  // Ratings stay locked to cookbook: candidateLibrary gets rating fields stripped.
+  const recipe = React.useMemo(() => {
+    const fromStore = getRecipeBySlug(slug);
+    if (fromStore) return fromStore;
+
+    const fromCookbook = getCookbookRecipeBySlug?.(slug);
+    if (fromCookbook) return fromCookbook;
+
+    const fromCandidate = findCandidateBySlug(slug);
+    if (!fromCandidate) return null;
+
+    const { rating, ratingCount, stars, ...safe } = fromCandidate as any;
+    return safe;
+  }, [slug]);
 
   if (!recipe) {
     return (
