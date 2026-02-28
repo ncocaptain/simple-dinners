@@ -216,7 +216,11 @@ export default function RecipePage() {
   📤 Share
 </button>
 <button
-  style={btn}
+  style={{
+    ...btn,
+    width: window.innerWidth < 640 ? "100%" : "auto",
+    justifyContent: "center",
+  }}
   onClick={() => {
     const raw = localStorage.getItem("simple-dinners:cookbook:v1");
     const existing = raw ? JSON.parse(raw) : [];
