@@ -1,6 +1,6 @@
 // src/core/planner.ts
 import type { Meal, PantryItem, Effort } from "./types";
-import { ALLERGENS, MEAL_LIBRARY, MEAT_WORDS, SUBS } from "./data";
+import { ALLERGENS, MEAT_WORDS, SUBS, NEW_BUILTIN_RECIPES } from "./data";
 
 // --------------------
 // Basic helpers
@@ -68,7 +68,39 @@ export function isVegetarianByHeuristic(ingredients: string) {
 // --------------------
 // Candidate library (from data.ts)
 // --------------------
-export const candidateLibrary: Meal[] = MEAL_LIBRARY;
+export const candidateLibrary: Meal[] = [
+  ...NEW_BUILTIN_RECIPES,
+
+  // TAKEOUT / NO-COOK
+  {
+    id: "takeout-drive-thru-night",
+    slug: "takeout-drive-thru-night",
+    name: "Drive-Thru Night",
+    ingredients: "Order out (no groceries).",
+    effort: "takeout",
+  },
+  {
+    id: "takeout-rotisserie-chicken-night",
+    slug: "takeout-rotisserie-chicken-night",
+    name: "Rotisserie Chicken Night",
+    ingredients: "Rotisserie chicken, salad kit, rolls.",
+    effort: "takeout",
+  },
+  {
+    id: "takeout-frozen-pizza-night",
+    slug: "takeout-frozen-pizza-night",
+    name: "Frozen Pizza Night",
+    ingredients: "Frozen pizza, salad kit.",
+    effort: "takeout",
+  },
+  {
+    id: "takeout-deli-sandwich-night",
+    slug: "takeout-deli-sandwich-night",
+    name: "Deli Sandwich Night",
+    ingredients: "Deli meat, bread, cheese, chips.",
+    effort: "takeout",
+  },
+];
 
 // --------------------
 // Optional: pure plan generator (NO React)
