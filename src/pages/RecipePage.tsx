@@ -135,8 +135,12 @@ export default function RecipePage() {
     color: "#f8fafc",
   };
 
+  const isMobile = window.innerWidth < 640;
+
   const card: React.CSSProperties = {
-    borderRadius: window.innerWidth < 640 ? 16 : 20,
+    borderRadius: isMobile ? 14 : 20,
+    marginLeft: isMobile ? -8 : 0,
+    marginRight: isMobile ? -8 : 0,
     overflow: "hidden",
     background: "rgba(30,41,59,0.40)",
     backdropFilter: "blur(10px)",
@@ -147,7 +151,7 @@ export default function RecipePage() {
   };
 
   const section: React.CSSProperties = {
-    padding: 18,
+    padding: window.innerWidth < 640 ? 16 : 18,
     borderTop: "1px solid rgba(255,255,255,0.08)",
   };
 
@@ -174,7 +178,7 @@ export default function RecipePage() {
     <div
   style={{
     padding: window.innerWidth < 640
-      ? "12px 12px 24px"
+      ? "8px 8px 24px"
       : "24px",
     maxWidth: 980,
     margin: "0 auto",
