@@ -24,7 +24,7 @@ import RecipePage from "./pages/RecipePage";
 
 // ✅ Use cookbookStore as the only cookbook system for now
 import { getCookbook, setCookbook as persistCookbook, addToCookbook } from "./core/cookbookStore";
-
+import ShoppingListPage from "./pages/ShoppingListPage";
 
 type Day = (typeof days)[number];
 
@@ -620,6 +620,7 @@ const addDayToCookbook = (day: Day) => {
   <Route path="/" element={<Navigate to="/plan" replace />} />
   <Route path="/takeout-settings" element={<TakeoutSettingsPage />} />
   <Route path="/recipe/:slug" element={<RecipePage setCookbook={setCookbook} />} />
+  <Route path="/shopping-list" element={<ShoppingListPage />} />
 
   <Route
     path="/plan"

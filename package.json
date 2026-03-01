@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  
 
   "overrides": {
   "ajv": "8.18.0",

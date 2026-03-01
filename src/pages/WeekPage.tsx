@@ -6,6 +6,7 @@ import { days } from "../core/data";
 import { loadTakeoutCategories, type TakeoutCategory } from "../core/takeout";
 import { Trash2, BookOpen, RefreshCcw, CalendarPlus, Plus, X } from "lucide-react";
 
+
 type Day = (typeof days)[number];
 
 
@@ -323,8 +324,7 @@ localStorage.removeItem(SHOP_LS_KEY);
    
   // ---------- Styles ----------
   
-  
-  const cardGrid: React.CSSProperties = {
+    const cardGrid: React.CSSProperties = {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
     gap: 16,

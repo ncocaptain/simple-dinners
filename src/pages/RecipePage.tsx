@@ -5,6 +5,7 @@ import { getRecipeBySlug, getCookbookRecipeBySlug } from "../core/recipeStore";
 import { addToCookbook } from "../core/cookbookStore";
 import { getCookbook } from "../core/cookbookStore";
 import { Star, Printer, Share2, ArrowLeft } from "lucide-react";
+import { addIngredientsToList } from "../shoppingList";
 
 function splitLines(s?: string) {
   return (s ?? "")
@@ -129,6 +130,8 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
     );
   }
 
+   
+
   const heroUrl =
     recipe.photoUrl ||
     `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1400&q=80&sig=${encodeURIComponent(
@@ -205,10 +208,12 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
     margin: "0 auto",
   }}
 >
+  
       {/* Breadcrumbs */}
       
 
       {/* Action row */}
+      
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 12 }}>
   <button style={btn} onClick={() => navigate(from)}>
   <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
@@ -270,6 +275,16 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
     <Star size={16} />
     Add to Cookbook
   </span>
+</button>
+
+<button
+  style={btn}
+  onClick={() => {
+    const result = addIngredientsToList(recipe.name, recipe.ingredients);
+    alert(`Added ${result.addedCount} items to shopping list.`);
+  }}
+>
+  Add to shopping list
 </button>
 </div>
 
