@@ -4,6 +4,7 @@ import { candidateLibrary } from "../core/planner";
 import { getRecipeBySlug, getCookbookRecipeBySlug } from "../core/recipeStore";
 import { addToCookbook } from "../core/cookbookStore";
 import { getCookbook } from "../core/cookbookStore";
+import { Star, Printer, Share2, ArrowLeft } from "lucide-react";
 
 function splitLines(s?: string) {
   return (s ?? "")
@@ -26,6 +27,13 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   const navigate = useNavigate();
   const { slug = "" } = useParams();
   const location = useLocation();
+
+  React.useEffect(() => {
+  const qs = new URLSearchParams(location.search);
+  if (qs.get("print") === "1") {
+    setTimeout(() => window.print(), 200);
+  }
+}, [location.search]);
 
   const qs = new URLSearchParams(location.search);
   const from = qs.get("from") || "/week";
@@ -173,14 +181,19 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   };
 
   const btn: React.CSSProperties = {
-    padding: "10px 14px",
-    borderRadius: 14,
-    background: "rgba(255,255,255,0.06)",
-    color: "#f8fafc",
-    cursor: "pointer",
-    fontWeight: 900,
-    border: "1px solid rgba(255,255,255,0.12)",
-  };
+  padding: "10px 14px",
+  borderRadius: 14,
+  background: "rgba(255,255,255,0.06)",
+  color: "#f8fafc",
+  cursor: "pointer",
+  fontWeight: 900,
+  border: "1px solid rgba(255,255,255,0.12)",
+
+  // 👇 polish additions
+  display: "inline-flex",
+  alignItems: "center",
+  gap: 8,
+};
 
   return (
     <div
@@ -198,30 +211,39 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
       {/* Action row */}
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 12 }}>
   <button style={btn} onClick={() => navigate(from)}>
-    ← Back
-  </button>
+  <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+    <ArrowLeft size={16} />
+    Back
+  </span>
+</button>
 
   <button style={btn} onClick={() => window.print()}>
-    🖨️ Print
-  </button>
+  <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+    <Printer size={16} />
+    Print
+  </span>
+</button>
 
   <button
-    style={btn}
-    onClick={async () => {
-      const url = window.location.href;
+  style={btn}
+  onClick={async () => {
+    const url = window.location.href;
 
-      if (navigator.share) {
-        try {
-          await navigator.share({ title: recipe.name, url });
-        } catch {}
-      } else {
-        await navigator.clipboard.writeText(url);
-        alert("Link copied!");
-      }
-    }}
-  >
-    📤 Share
-  </button>
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: recipe.name, url });
+      } catch {}
+    } else {
+      await navigator.clipboard.writeText(url);
+      alert("Link copied!");
+    }
+  }}
+>
+  <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+    <Share2 size={16} />
+    Share
+  </span>
+</button>
 
   <button
   style={btn}
@@ -244,7 +266,10 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
     alert("Added to cookbook!");
   }}
 >
-  ⭐ Add to Cookbook
+  <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+    <Star size={16} />
+    Add to Cookbook
+  </span>
 </button>
 </div>
 

@@ -3,8 +3,8 @@ import { useTheme } from "../theme";
 
 type Props = {
   children: React.ReactNode;
-  title?: string;
-  subtitle?: string;
+  title?: React.ReactNode;
+  subtitle?: React.ReactNode;
   actions?: React.ReactNode;
   style?: React.CSSProperties;
 };

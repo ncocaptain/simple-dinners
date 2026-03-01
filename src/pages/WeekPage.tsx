@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { days } from "../core/data";
 import { loadTakeoutCategories, type TakeoutCategory } from "../core/takeout";
+import { Trash2, BookOpen, RefreshCcw, CalendarPlus, Plus, X } from "lucide-react";
+
 type Day = (typeof days)[number];
 
 
@@ -415,11 +417,23 @@ const weekRange = formatRange();
   </div>
 </div>
         <button
-          onClick={() => addWeekToCalendar(days, meals)}
-          style={{ padding: "10px 16px", borderRadius: 14, background: "rgba(255,255,255,0.05)", color: "#f8fafc", cursor: "pointer", fontWeight: 600, border: "1px solid rgba(255,255,255,0.12)" }}
-        >
-          📅 Add to Calendar
-        </button>
+  onClick={() => addWeekToCalendar(days, meals)}
+  style={{
+    padding: "10px 16px",
+    borderRadius: 14,
+    background: "rgba(255,255,255,0.05)",
+    color: "#f8fafc",
+    cursor: "pointer",
+    fontWeight: 600,
+    border: "1px solid rgba(255,255,255,0.12)",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 8,
+  }}
+>
+  <CalendarPlus size={16} />
+  Add to Calendar
+</button>
       </div>
 
       {/* Main Grid */}
@@ -482,26 +496,28 @@ const weekRange = formatRange();
             <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 700 }}>{day.toUpperCase()}</div>
           </div>
           <div style={{ display: "flex", gap: 6 }}>
+           <button
+  style={iconBtn}
+  onClick={(e) => {
+    e.stopPropagation();
+    addDayToCookbook(day);
+  }}
+  title="Save to cookbook"
+  aria-label="Save to cookbook"
+>
+  <BookOpen size={16} />
+</button>
             <button
-              style={iconBtn}
-              onClick={(e) => {
-                e.stopPropagation();
-                addDayToCookbook(day);
-              }}
-              title="Save to cookbook"
-            >
-              ➕
-            </button>
-            <button
-              style={iconBtn}
-              onClick={(e) => {
-                e.stopPropagation();
-                clearDay(day);
-              }}
-              title="Clear day"
-            >
-              🧹
-            </button>
+  style={iconBtn}
+  onClick={(e) => {
+    e.stopPropagation();
+    clearDay(day);
+  }}
+  title="Clear day"
+  aria-label="Clear day"
+>
+  <Trash2 size={16} />
+</button>
           </div>
         </div>
 
@@ -650,9 +666,20 @@ const weekRange = formatRange();
 
       {/* Footer Actions */}
       <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 32 }}>
-        <Button onClick={generateDinnerPlan}>🎲 Re-Generate</Button>
-        <Button variant="secondary" onClick={() => navigate("/cookbook")}>📚 Cookbook</Button>
-        <Button variant="danger" onClick={clearWeek}>🧹 Reset Week</Button>
+        <Button onClick={generateDinnerPlan}>
+  <RefreshCcw size={16} style={{ marginRight: 8 }} />
+  Re-Generate
+</Button>
+
+<Button variant="secondary" onClick={() => navigate("/cookbook")}>
+  <BookOpen size={16} style={{ marginRight: 8 }} />
+  Cookbook
+</Button>
+
+<Button variant="danger" onClick={clearWeek}>
+  <Trash2 size={16} style={{ marginRight: 8 }} />
+  Reset Week
+</Button>
       </div>
 
       {/* Shopping List Section */}
@@ -710,20 +737,24 @@ const weekRange = formatRange();
       }}
     />
     <button
-      type="button"
-      onClick={addShopItem}
-      style={{
-        padding: "10px 16px",
-        borderRadius: 14,
-        background: "rgba(20,184,166,0.18)",
-        color: "#f8fafc",
-        cursor: "pointer",
-        fontWeight: 900,
-        border: "1px solid rgba(20,184,166,0.35)",
-      }}
-    >
-      Add
-    </button>
+  type="button"
+  onClick={addShopItem}
+  style={{
+    padding: "10px 16px",
+    borderRadius: 14,
+    background: "rgba(20,184,166,0.18)",
+    color: "#f8fafc",
+    cursor: "pointer",
+    fontWeight: 900,
+    border: "1px solid rgba(20,184,166,0.35)",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 8,
+  }}
+>
+  <Plus size={16} />
+  Add
+</button>
   </div>
 
   {/* List */}
@@ -759,23 +790,23 @@ const weekRange = formatRange();
             </label>
 
             <button
-              type="button"
-              onClick={() => removeShopItem(item.id)}
-              aria-label={`Remove ${item.name}`}
-              style={{
-                width: 34,
-                height: 34,
-                borderRadius: 10,
-                border: "1px solid rgba(255,255,255,0.12)",
-                background: "rgba(255,255,255,0.06)",
-                color: "white",
-                cursor: "pointer",
-                display: "grid",
-                placeItems: "center",
-              }}
-            >
-              ✕
-            </button>
+  type="button"
+  onClick={() => removeShopItem(item.id)}
+  aria-label={`Remove ${item.name}`}
+  style={{
+    width: 34,
+    height: 34,
+    borderRadius: 10,
+    border: "1px solid rgba(255,255,255,0.12)",
+    background: "rgba(255,255,255,0.06)",
+    color: "white",
+    cursor: "pointer",
+    display: "grid",
+    placeItems: "center",
+  }}
+>
+  <X size={16} />
+</button>
           </div>
         ))
     )}

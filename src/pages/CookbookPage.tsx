@@ -9,6 +9,9 @@ import { uploadImageToCloudinary } from "../utils/uploadImage";
 import { days } from "../core/data";
 import { upsertRecipeFromMeal } from "../core/recipeStore";
 import { setCookbook as persistCookbook } from "../core/cookbookStore";
+import { Star, Pencil, Trash2, BookOpen } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { ChevronDown, ChevronUp, Printer, Share2 } from "lucide-react";
 
 type CookbookEntry = Meal & {
   id: string; // make id required for stable keys/edits
@@ -120,6 +123,39 @@ export default function CookbookPage({
   const [editingId, setEditingId] = React.useState<string | null>(null);
   const [editDraft, setEditDraft] = React.useState<Partial<CookbookEntry>>({});
   const [isUploading, setIsUploading] = React.useState(false);
+  const navigate = useNavigate();
+const [expandedId, setExpandedId] = React.useState<string | null>(null);
+
+const toggleExpanded = (id?: string) => {
+  if (!id) return;
+  setExpandedId((cur) => (cur === id ? null : id));
+};
+
+const getSlug = (r: CookbookEntry) => (r.slug ?? r.id ?? "").toString().trim();
+
+const onShare = async (r: CookbookEntry) => {
+  const slug = getSlug(r);
+  const url = slug ? `${window.location.origin}/recipe/${encodeURIComponent(slug)}?from=${encodeURIComponent("/cookbook")}` : window.location.href;
+
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: r.name, url });
+      return;
+    } catch {}
+  }
+  await navigator.clipboard.writeText(url);
+  toast("Link copied!");
+};
+
+const onPrint = (r: CookbookEntry) => {
+  const slug = getSlug(r);
+  if (!slug) {
+    toast("Missing slug for print.", "warning");
+    return;
+  }
+  // Navigate to recipe page and let that page print (cleanest)
+  navigate(`/recipe/${encodeURIComponent(slug)}?from=${encodeURIComponent("/cookbook")}&print=1`);
+};
 
   const [importUrl, setImportUrl] = React.useState("");
   const [isImporting, setIsImporting] = React.useState(false);
@@ -327,9 +363,29 @@ export default function CookbookPage({
 
   const recipeCountLabel = filteredCookbook.length === 1 ? "Recipe" : "Recipes";
   const showEmptyState = filteredCookbook.length === 0;
+  const actionBtn: React.CSSProperties = {
+  padding: "8px 10px",
+  borderRadius: 12,
+  background: "rgba(255,255,255,0.06)",
+  border: "1px solid rgba(255,255,255,0.12)",
+  color: "#f8fafc",
+  cursor: "pointer",
+  fontWeight: 800,
+  display: "inline-flex",
+  alignItems: "center",
+  gap: 8,
+};
 
   return (
-    <Card title="📚 Cookbook" subtitle="Manage your saved recipes and meal plan.">
+    <Card
+  title={
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+      <BookOpen size={20} />
+      Cookbook
+    </span>
+  }
+  subtitle="Manage your saved recipes and meal plan."
+>
       <div style={{ display: "flex", gap: 10, marginBottom: 20, alignItems: "center" }}>
         <input
           placeholder="Search recipes..."
@@ -388,7 +444,168 @@ export default function CookbookPage({
         }}
       >
         {filteredCookbook.map((r) => {
-          const isEditing = editingId === r.id;
+          
+          // inside filteredCookbook.map((r) => { ... })
+const rid = r.id ?? r.slug ?? r.name; // stable fallback
+const isEditing = editingId === r.id;
+const isExpanded = expandedId === rid;
+
+return (
+  <Card key={rid} style={{ padding: 0, overflow: "hidden" }}>
+    {isEditing ? (
+      /* your existing edit UI stays */
+      <div>...</div>
+    ) : (
+      <>
+        <img
+  src={r.photoUrl || fallbackPhotoUrl(r.name)}
+  alt={r.name}
+  style={{ width: "100%", height: 180, objectFit: "cover", cursor: "pointer" }}
+  loading="lazy"
+  onClick={() => toggleExpanded(rid)}
+/>
+
+        <div style={{ padding: 16, display: "grid", gap: 10 }}>
+          {/* Title row */}
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "flex-start" }}>
+            <div style={{ minWidth: 0 }}>
+              <div style={{ fontWeight: 900, fontSize: 18, lineHeight: 1.15 }}>{r.name}</div>
+              <div style={{ opacity: 0.7, fontSize: 12, marginTop: 4 }}>
+                {r.updatedAt ? `Updated ${new Date(r.updatedAt).toLocaleDateString()}` : ""}
+              </div>
+            </div>
+
+            {/* Favorite (your new Lucide star button stays here) */}
+            <button
+              onClick={() => toggleFavorite(r.id)}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                lineHeight: 1,
+                padding: 2,
+                display: "grid",
+                placeItems: "center",
+              }}
+              aria-label="Toggle favorite"
+              title="Toggle favorite"
+            >
+              <Star
+                size={18}
+                fill={r.favorite ? "#facc15" : "none"}
+                stroke={r.favorite ? "#facc15" : "currentColor"}
+              />
+            </button>
+          </div>
+
+          {/* Badges row (keep yours) */}
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+            {violatesAllergens(r.ingredients) ? <Badge tone="bad">Allergens</Badge> : <Badge tone="good">Safe</Badge>}
+            {isVegetarianByHeuristic(r.ingredients) ? <Badge tone="good">Vegetarian</Badge> : <Badge tone="warn">Meat</Badge>}
+          </div>
+
+          {/* Action bar */}
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {/* Expand/collapse */}
+              <button
+                type="button"
+                onClick={() => toggleExpanded(rid)}
+                style={{
+                  padding: "8px 10px",
+                  borderRadius: 12,
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  color: "#f8fafc",
+                  cursor: "pointer",
+                  fontWeight: 800,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                }}
+              >
+                {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                {isExpanded ? "Hide" : "Details"}
+              </button>
+
+              
+
+              {/* Print */}
+              <button type="button" onClick={() => onPrint(r)} style={actionBtn}>
+  <Printer size={16} />
+  Print
+</button>
+                {/*Share*/}
+<button type="button" onClick={() => onShare(r)} style={actionBtn}>
+  <Share2 size={16} />
+  Share
+</button>
+            </div>
+
+            {/* Right-side controls: Edit/Delete + Plan dropdown */}
+            <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+              <Button variant="secondary" onClick={() => startEditRecipe(r)}>
+                <Pencil size={16} />
+              </Button>
+              <Button variant="danger" onClick={() => removeRecipe(r.id)}>
+                <Trash2 size={16} />
+              </Button>
+
+              <select
+                style={{ ...base, width: "auto" }}
+                defaultValue=""
+                onChange={(e) => {
+                  const day = e.target.value;
+                  if (!day) return;
+                  addRecipeToDay(r, day);
+                  e.currentTarget.value = "";
+                }}
+              >
+                <option value="" disabled>
+                  Plan for...
+                </option>
+                {days.map((d) => (
+                  <option key={d} value={d}>
+                    {d}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Expanded section */}
+          {isExpanded ? (
+            <div
+              style={{
+                marginTop: 6,
+                padding: 12,
+                borderRadius: 14,
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                display: "grid",
+                gap: 10,
+              }}
+            >
+              <div style={{ fontWeight: 900, opacity: 0.85, fontSize: 12, letterSpacing: 0.3, textTransform: "uppercase" }}>
+                Ingredients
+              </div>
+              <div style={{ whiteSpace: "pre-wrap", lineHeight: 1.55, opacity: 0.9 }}>
+                {r.ingredients || "—"}
+              </div>
+
+              <div style={{ fontWeight: 900, opacity: 0.85, fontSize: 12, letterSpacing: 0.3, textTransform: "uppercase", marginTop: 6 }}>
+                Instructions
+              </div>
+              <div style={{ whiteSpace: "pre-wrap", lineHeight: 1.55, opacity: 0.9 }}>
+                {r.instructions || "—"}
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </>
+    )}
+  </Card>
+);
 
           return (
             <Card key={r.id} style={{ padding: 0, overflow: "hidden" }}>
@@ -439,13 +656,25 @@ export default function CookbookPage({
                       <h3 style={{ margin: 0 }}>{r.name}</h3>
 
                       <button
-                        onClick={() => toggleFavorite(r.id)}
-                        style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, lineHeight: 1 }}
-                        aria-label="Toggle favorite"
-                        title="Toggle favorite"
-                      >
-                        {r.favorite ? "⭐" : "☆"}
-                      </button>
+  onClick={() => toggleFavorite(r.id)}
+  style={{
+    background: "none",
+    border: "none",
+    cursor: "pointer",
+    lineHeight: 1,
+    padding: 2,
+    display: "grid",
+    placeItems: "center",
+  }}
+  aria-label="Toggle favorite"
+  title="Toggle favorite"
+>
+  <Star
+    size={18}
+    fill={r.favorite ? "#facc15" : "none"}
+    stroke={r.favorite ? "#facc15" : "currentColor"}
+  />
+</button>
                     </div>
 
                     <div style={{ margin: "10px 0", display: "flex", gap: 6, flexWrap: "wrap" }}>
@@ -466,11 +695,12 @@ export default function CookbookPage({
                     >
                       <div style={{ display: "flex", gap: 6 }}>
                         <Button variant="secondary" onClick={() => startEditRecipe(r)}>
-                          ✏️
-                        </Button>
-                        <Button variant="danger" onClick={() => removeRecipe(r.id)}>
-                          🗑️
-                        </Button>
+  <Pencil size={16} />
+</Button>
+
+<Button variant="danger" onClick={() => removeRecipe(r.id)}>
+  <Trash2 size={16} />
+</Button>
                       </div>
 
                       <select
