@@ -1,6 +1,6 @@
 import React from "react";
 import { normalize } from "../core/planner";
-import type { Meal, Preferences, Recipe } from "../core/types";
+import type { Meal, Preferences } from "../core/types";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import { useInputStyles } from "../components/inputStyles";
@@ -8,6 +8,15 @@ import { useToast } from "../components/Toast";
 import { uploadImageToCloudinary } from "../utils/uploadImage";
 import { days } from "../core/data";
 import { upsertRecipeFromMeal } from "../core/recipeStore";
+import { setCookbook as persistCookbook } from "../core/cookbookStore";
+
+type CookbookEntry = Meal & {
+  id: string; // make id required for stable keys/edits
+  slug?: string;
+  favorite?: boolean;
+  createdAt?: number;
+  updatedAt?: number;
+};
 
 function Badge({
   children,
@@ -16,8 +25,6 @@ function Badge({
   children: React.ReactNode;
   tone?: "default" | "good" | "warn" | "bad";
 }) {
-
-  
   const bg =
     tone === "good"
       ? "rgba(34,197,94,.16)"
@@ -57,59 +64,12 @@ function Badge({
   );
 }
 
-// Small fallback photo (keeps layout looking nice even if photoUrl is empty)
 function fallbackPhotoUrl(name?: string) {
   const q = encodeURIComponent((name || "dinner").trim());
   return `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=80&sig=1&meal=${q}`;
 }
 
-export default function CookbookPage({
-  setMeals,
-  cookbook,
-  setCookbook,
-  prefs,
-  violatesAllergens,
-  isVegetarianByHeuristic,
-}: {
-  meals: Record<string, Meal>;
-  setMeals: React.Dispatch<React.SetStateAction<Record<string, Meal>>>;
-  cookbook: Recipe[];
-  setCookbook: React.Dispatch<React.SetStateAction<Recipe[]>>;
-  prefs: Preferences;
-  allergenKeywords: string[];
-  violatesAllergens: (ingredients: string) => boolean;
-  isVegetarianByHeuristic: (ingredients: string) => boolean;
-}) {
-  const toast = useToast();
-  const { base } = useInputStyles();
-
-  const [editingId, setEditingId] = React.useState<string | null>(null);
-  const [editDraft, setEditDraft] = React.useState<Partial<Recipe>>({});
-  const [isUploading, setIsUploading] = React.useState(false);
-
-  const [importUrl, setImportUrl] = React.useState("");
-  const [isImporting, setIsImporting] = React.useState(false);
-
-  const [cookbookSearch, setCookbookSearch] = React.useState("");
-
-  const cookbookFavoritesFirst = true;
-  const cookbookMatchPrefsOnly = true;
-
-  const recipeMatchesPreferences = React.useCallback(
-    (r: { ingredients: string }) => {
-      if (violatesAllergens(r.ingredients)) return false;
-      if (!prefs.vegetarian) return true;
-      return isVegetarianByHeuristic(r.ingredients) || prefs.allowSubstitutions;
-    },
-    [
-      violatesAllergens,
-      prefs.vegetarian,
-      prefs.allowSubstitutions,
-      isVegetarianByHeuristic,
-    ]
-  );
-
-  function decodeHtmlEntities(s: string) {
+function decodeHtmlEntities(s: string) {
   if (!s) return s;
   return s
     .replaceAll("&amp;", "&")
@@ -120,39 +80,105 @@ export default function CookbookPage({
     .replaceAll("&gt;", ">");
 }
 
+function pickPhotoUrl(recipe: any): string {
+  const candidate =
+    recipe?.photoUrl ??
+    recipe?.image ??
+    recipe?.imageUrl ??
+    recipe?.thumbnail ??
+    recipe?.thumbnailUrl ??
+    recipe?.ogImage ??
+    recipe?.image_url ??
+    recipe?.photo ??
+    recipe?.images?.[0] ??
+    recipe?.imageUrls?.[0];
 
+  return typeof candidate === "string" && candidate.startsWith("http") ? candidate : "";
+}
+
+export default function CookbookPage({
+  setMeals,
+  cookbook,
+  setCookbook,
+  prefs,
+  violatesAllergens,
+  isVegetarianByHeuristic,
+}: {
+  setMeals: React.Dispatch<React.SetStateAction<Record<string, Meal>>>;
+  cookbook: CookbookEntry[];
+  setCookbook: React.Dispatch<React.SetStateAction<CookbookEntry[]>>;
+  prefs: Preferences;
+  violatesAllergens: (ingredients: string) => boolean;
+  isVegetarianByHeuristic: (ingredients: string) => boolean;
+}) {
+  // support either hook-shape: useToast() -> fn OR { toast: fn }
+  const toastApi: any = useToast();
+  const toast: any = toastApi.toast ?? toastApi;
+
+  const { base } = useInputStyles();
+
+  const [editingId, setEditingId] = React.useState<string | null>(null);
+  const [editDraft, setEditDraft] = React.useState<Partial<CookbookEntry>>({});
+  const [isUploading, setIsUploading] = React.useState(false);
+
+  const [importUrl, setImportUrl] = React.useState("");
+  const [isImporting, setIsImporting] = React.useState(false);
+
+  const [cookbookSearch, setCookbookSearch] = React.useState("");
+
+  const cookbookFavoritesFirst = true;
+  const cookbookMatchPrefsOnly = true;
+
+  // Ensure every entry has an id (defensive)
+  const normalizeEntry = React.useCallback((r: any): CookbookEntry => {
+    const id = String(r?.id ?? r?.slug ?? r?.name ?? Math.random().toString(36).slice(2));
+    return {
+      ...r,
+      id,
+      slug: r?.slug ?? r?.id ?? id,
+      favorite: Boolean(r?.favorite),
+      createdAt: r?.createdAt ?? Date.now(),
+      updatedAt: r?.updatedAt ?? r?.createdAt ?? Date.now(),
+      name: r?.name ?? "Untitled",
+      ingredients: r?.ingredients ?? "",
+      instructions: r?.instructions ?? "",
+      photoUrl: r?.photoUrl ?? "",
+    };
+  }, []);
+
+  const recipeMatchesPreferences = React.useCallback(
+    (r: { ingredients: string }) => {
+      if (violatesAllergens(r.ingredients)) return false;
+      if (!prefs.vegetarian) return true;
+      return isVegetarianByHeuristic(r.ingredients) || prefs.allowSubstitutions;
+    },
+    [violatesAllergens, prefs.vegetarian, prefs.allowSubstitutions, isVegetarianByHeuristic]
+  );
 
   const filteredCookbook = React.useMemo(() => {
     const q = normalize(cookbookSearch);
-    let list = Array.isArray(cookbook) ? [...cookbook] : [];
+    let list = Array.isArray(cookbook) ? cookbook.map(normalizeEntry) : [];
 
     if (q) {
       list = list.filter(
-        (r) =>
-          normalize(r.name).includes(q) ||
-          normalize(r.ingredients).includes(q)
+        (r) => normalize(r.name).includes(q) || normalize(r.ingredients).includes(q)
       );
     }
 
     if (cookbookMatchPrefsOnly) list = list.filter(recipeMatchesPreferences);
 
     list.sort((a, b) => {
-      if (cookbookFavoritesFirst && a.favorite !== b.favorite) {
-        return a.favorite ? -1 : 1;
-      }
-      return (b.updatedAt || b.createdAt) - (a.updatedAt || a.createdAt);
+      if (cookbookFavoritesFirst && a.favorite !== b.favorite) return a.favorite ? -1 : 1;
+
+      const at = a.updatedAt ?? a.createdAt ?? 0;
+      const bt = b.updatedAt ?? b.createdAt ?? 0;
+      return bt - at;
     });
 
     return list;
-  }, [
-    cookbook,
-    cookbookSearch,
-    cookbookFavoritesFirst,
-    cookbookMatchPrefsOnly,
-    recipeMatchesPreferences,
-  ]);
+  }, [cookbook, cookbookSearch, cookbookFavoritesFirst, cookbookMatchPrefsOnly, recipeMatchesPreferences, normalizeEntry]);
 
-  const startEditRecipe = (r: Recipe) => {
+  const startEditRecipe = (r: CookbookEntry) => {
     setEditingId(r.id);
     setEditDraft(r);
   };
@@ -171,54 +197,60 @@ export default function CookbookPage({
       return;
     }
 
-    setCookbook((prev) =>
-      prev.map((r) =>
+    setCookbook((prev) => {
+      const next = (Array.isArray(prev) ? prev : []).map((r) =>
         r.id === id
-          ? {
+          ? normalizeEntry({
               ...r,
               ...editDraft,
               name,
               ingredients,
               updatedAt: Date.now(),
-            }
-          : r
-      )
-    );
+            })
+          : normalizeEntry(r)
+      );
+      persistCookbook(next as any);
+      return next;
+    });
 
     cancelEdit();
-    toast("Recipe updated!");
+    toast("Recipe updated!", "success");
   };
 
   const toggleFavorite = (id: string) => {
-    setCookbook((prev) =>
-      prev.map((r) =>
-        r.id === id
-          ? { ...r, favorite: !r.favorite, updatedAt: Date.now() }
-          : r
-      )
-    );
+    setCookbook((prev) => {
+      const next = (Array.isArray(prev) ? prev : []).map((r) =>
+        r.id === id ? { ...normalizeEntry(r), favorite: !r.favorite, updatedAt: Date.now() } : normalizeEntry(r)
+      );
+      persistCookbook(next as any);
+      return next;
+    });
   };
 
   const removeRecipe = (id: string) => {
-    setCookbook((prev) => prev.filter((r) => r.id !== id));
+    setCookbook((prev) => {
+      const next = (Array.isArray(prev) ? prev : []).filter((r) => r.id !== id).map(normalizeEntry);
+      persistCookbook(next as any);
+      return next;
+    });
     if (editingId === id) cancelEdit();
-    toast("Recipe removed");
+    toast("Recipe removed", "success");
   };
 
-  const addRecipeToDay = (recipe: Recipe, day: string) => {
-  setMeals((prev) => ({
-    ...prev,
-    [day]: {
-      id: recipe.id,
-      slug: recipe.slug, // ✅ keep slug
-      name: recipe.name,
-      ingredients: recipe.ingredients,
-      instructions: recipe.instructions ?? "",
-      photoUrl: recipe.photoUrl ?? "",
-    },
-  }));
-  toast(`Added to ${day}!`);
-};
+  const addRecipeToDay = (recipe: CookbookEntry, day: string) => {
+    setMeals((prev) => ({
+      ...prev,
+      [day]: {
+        id: recipe.id,
+        slug: recipe.slug, // keep slug for RecipePage
+        name: recipe.name,
+        ingredients: recipe.ingredients,
+        instructions: recipe.instructions ?? "",
+        photoUrl: recipe.photoUrl ?? "",
+      },
+    }));
+    toast(`Added to ${day}!`, "success");
+  };
 
   const onPickImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -228,7 +260,7 @@ export default function CookbookPage({
       setIsUploading(true);
       const url = await uploadImageToCloudinary(file);
       setEditDraft((prev) => ({ ...prev, photoUrl: url }));
-      toast("Image uploaded!");
+      toast("Image uploaded!", "success");
     } catch (err) {
       console.error(err);
       toast("Upload failed", "error");
@@ -238,115 +270,84 @@ export default function CookbookPage({
     }
   };
 
-  function pickPhotoUrl(recipe: any): string {
-  const candidate =
-    recipe?.photoUrl ??
-    recipe?.image ??
-    recipe?.imageUrl ??
-    recipe?.thumbnail ??
-    recipe?.thumbnailUrl ??
-    recipe?.ogImage ??
-    recipe?.image_url ??
-    recipe?.photo ??
-    recipe?.images?.[0] ??
-    recipe?.imageUrls?.[0];
-
-  return typeof candidate === "string" && candidate.startsWith("http")
-    ? candidate
-    : "";
-}
-
   const onImport = async () => {
-  const url = importUrl.trim();
-  if (!url) return toast("Paste a recipe URL first.", "warning");
+    const url = importUrl.trim();
+    if (!url) return toast("Paste a recipe URL first.", "warning");
 
-  try {
-    setIsImporting(true);
-
-    const resp = await fetch(
-      `/api/import-recipe?url=${encodeURIComponent(url)}`
-    );
-
-    const raw = await resp.text();
-
-    let data: any = null;
     try {
-      data = raw ? JSON.parse(raw) : null;
-    } catch {}
+      setIsImporting(true);
 
-    if (!resp.ok) {
-      const msg =
-        data?.error ||
-        data?.message ||
-        raw?.slice(0, 180) ||
-        `HTTP ${resp.status}`;
-      toast(`Recipe import failed: ${msg}`, "error");
-      return;
+      const resp = await fetch(`/api/import-recipe?url=${encodeURIComponent(url)}`);
+      const raw = await resp.text();
+
+      let data: any = null;
+      try {
+        data = raw ? JSON.parse(raw) : null;
+      } catch {}
+
+      if (!resp.ok) {
+        const msg = data?.error || data?.message || raw?.slice(0, 180) || `HTTP ${resp.status}`;
+        toast(`Recipe import failed: ${msg}`, "error");
+        return;
+      }
+
+      const recipe = data?.recipe ?? data;
+      if (!recipe) {
+        toast("Recipe import succeeded, but no recipe data was found.", "error");
+        return;
+      }
+
+      const mealForStore: Meal = {
+        name: decodeHtmlEntities(recipe.title || recipe.name || "Imported Recipe"),
+        ingredients: recipe.ingredients || "",
+        instructions: recipe.instructions || "",
+        photoUrl: pickPhotoUrl(recipe),
+      };
+
+      // This writes to recipes store (RECIPES_LS_KEY)
+      const saved = upsertRecipeFromMeal(mealForStore);
+
+      // Put it into cookbook UI list and persist via cookbookStore key
+      setCookbook((prev) => {
+        const entry: CookbookEntry = normalizeEntry({ ...saved, favorite: false });
+        const next = [entry, ...(Array.isArray(prev) ? prev.map(normalizeEntry) : [])]
+          .filter((r, idx, arr) => arr.findIndex((x) => x.id === r.id) === idx);
+        persistCookbook(next as any);
+        return next;
+      });
+
+      toast("Recipe imported!", "success");
+      setImportUrl("");
+    } catch (e: any) {
+      toast(`Import failed: ${e?.message || "Unknown error"}`, "error");
+    } finally {
+      setIsImporting(false);
     }
+  };
 
-      
-
-    const recipe = data?.recipe ?? data;
-
-
-    if (!recipe) {
-      toast("Recipe import succeeded, but no recipe data was found.", "error");
-      return;
-    }
-
-    // 🔥 Convert API result to YOUR Recipe type
-    const mealForStore = {
-  name: decodeHtmlEntities(recipe.title || recipe.name || "Imported Recipe"),
-  ingredients: recipe.ingredients || "",
-  instructions: recipe.instructions || "",
-  photoUrl: pickPhotoUrl(recipe),
-};
-
-const saved = upsertRecipeFromMeal(mealForStore);
-
-// Keep your in-memory cookbook state in sync.
-// (This is a simple approach: update/insert by id.)
-setCookbook((prev) => {
-  const next = Array.isArray(prev) ? prev.filter((r) => r.id !== saved.id) : [];
-  return [{ ...saved, favorite: false } as any, ...next];
-});
-
-    toast("Recipe imported!", "success");
-    setImportUrl("");
-  } catch (e: any) {
-    toast(`Import failed: ${e?.message || "Unknown error"}`, "error");
-  } finally {
-    setIsImporting(false);
-  }
-};
-
-
-
-  const recipeCountLabel =
-    filteredCookbook.length === 1 ? "Recipe" : "Recipes";
-
+  const recipeCountLabel = filteredCookbook.length === 1 ? "Recipe" : "Recipes";
   const showEmptyState = filteredCookbook.length === 0;
 
   return (
     <Card title="📚 Cookbook" subtitle="Manage your saved recipes and meal plan.">
       <div style={{ display: "flex", gap: 10, marginBottom: 20, alignItems: "center" }}>
-  <input
-    placeholder="Search recipes..."
-    value={cookbookSearch}
-    onChange={(e) => setCookbookSearch(e.target.value)}
-    style={{ ...base, flex: 1 }}
-  />
+        <input
+          placeholder="Search recipes..."
+          value={cookbookSearch}
+          onChange={(e) => setCookbookSearch(e.target.value)}
+          style={{ ...base, flex: 1 }}
+        />
 
-  {cookbookSearch.trim() ? (
-    <Button variant="secondary" onClick={() => setCookbookSearch("")}>
-      Clear
-    </Button>
-  ) : null}
+        {cookbookSearch.trim() ? (
+          <Button variant="secondary" onClick={() => setCookbookSearch("")}>
+            Clear
+          </Button>
+        ) : null}
 
-  <Badge>
-    {filteredCookbook.length} {recipeCountLabel}
-  </Badge>
-</div>
+        <Badge>
+          {filteredCookbook.length} {recipeCountLabel}
+        </Badge>
+      </div>
 
       <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
         <input
@@ -356,8 +357,8 @@ setCookbook((prev) => {
           style={{ ...base, flex: 1 }}
         />
         <Button onClick={onImport} disabled={isImporting}>
-  {isImporting ? "Importing…" : "Import Recipe"}
-</Button>
+          {isImporting ? "Importing…" : "Import Recipe"}
+        </Button>
       </div>
 
       {showEmptyState ? (
@@ -369,9 +370,7 @@ setCookbook((prev) => {
             background: "rgba(2,6,23,0.25)",
           }}
         >
-          <div style={{ fontWeight: 900, fontSize: 16, marginBottom: 6 }}>
-            No recipes to show
-          </div>
+          <div style={{ fontWeight: 900, fontSize: 16, marginBottom: 6 }}>No recipes to show</div>
           <div style={{ fontSize: 13, opacity: 0.8 }}>
             {cookbook.length === 0
               ? "Your cookbook is empty. Add recipes from your Week Plan to get started."
@@ -398,28 +397,19 @@ setCookbook((prev) => {
                   <input
                     style={base}
                     value={editDraft.name ?? ""}
-                    onChange={(e) =>
-                      setEditDraft((prev) => ({ ...prev, name: e.target.value }))
-                    }
+                    onChange={(e) => setEditDraft((prev) => ({ ...prev, name: e.target.value }))}
                     placeholder="Recipe Name"
                   />
 
                   <textarea
                     style={{ ...base, minHeight: 80 }}
                     value={editDraft.ingredients ?? ""}
-                    onChange={(e) =>
-                      setEditDraft((prev) => ({
-                        ...prev,
-                        ingredients: e.target.value,
-                      }))
-                    }
+                    onChange={(e) => setEditDraft((prev) => ({ ...prev, ingredients: e.target.value }))}
                     placeholder="Ingredients"
                   />
 
                   <input type="file" onChange={onPickImage} disabled={isUploading} />
-                  {isUploading ? (
-                    <div style={{ fontSize: 12, opacity: 0.8 }}>Uploading…</div>
-                  ) : null}
+                  {isUploading ? <div style={{ fontSize: 12, opacity: 0.8 }}>Uploading…</div> : null}
 
                   <div style={{ display: "flex", gap: 8 }}>
                     <Button onClick={() => saveEditRecipe(r.id)}>Save</Button>
@@ -450,13 +440,7 @@ setCookbook((prev) => {
 
                       <button
                         onClick={() => toggleFavorite(r.id)}
-                        style={{
-                          background: "none",
-                          border: "none",
-                          cursor: "pointer",
-                          fontSize: 20,
-                          lineHeight: 1,
-                        }}
+                        style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, lineHeight: 1 }}
                         aria-label="Toggle favorite"
                         title="Toggle favorite"
                       >
@@ -465,22 +449,11 @@ setCookbook((prev) => {
                     </div>
 
                     <div style={{ margin: "10px 0", display: "flex", gap: 6, flexWrap: "wrap" }}>
-                      {violatesAllergens(r.ingredients) ? (
-                        <Badge tone="bad">Allergens</Badge>
-                      ) : (
-                        <Badge tone="good">Safe</Badge>
-                      )}
-
-                      {isVegetarianByHeuristic(r.ingredients) ? (
-                        <Badge tone="good">Vegetarian</Badge>
-                      ) : (
-                        <Badge tone="warn">Meat</Badge>
-                      )}
+                      {violatesAllergens(r.ingredients) ? <Badge tone="bad">Allergens</Badge> : <Badge tone="good">Safe</Badge>}
+                      {isVegetarianByHeuristic(r.ingredients) ? <Badge tone="good">Vegetarian</Badge> : <Badge tone="warn">Meat</Badge>}
                     </div>
 
-                    <p style={{ fontSize: 13, opacity: 0.8, margin: "8px 0 0" }}>
-                      {r.ingredients}
-                    </p>
+                    <p style={{ fontSize: 13, opacity: 0.8, margin: "8px 0 0" }}>{r.ingredients}</p>
 
                     <div
                       style={{

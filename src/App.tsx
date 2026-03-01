@@ -1,12 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import WeekPage from "./pages/WeekPage";
 import CookbookPage from "./pages/CookbookPage";
 import PlanPage from "./pages/PlanPage";
 import TakeoutSettingsPage from "./pages/TakeoutSettingsPage";
 import type { Effort, Meal, PantryItem, Preferences } from "./core/types";
-import type { SavedRecipe } from "./core/recipeStore";
-import { loadRecipes, upsertRecipeFromMeal } from "./core/recipeStore";
+
 import {
   SUBS,
   normalize,
@@ -14,16 +13,28 @@ import {
   scoreMealAgainstPantry,
   violatesAllergens,
   isVegetarianByHeuristic,
-  allergenKeywords,
+
   getPantryTokens,
 } from "./core/planner";
+
 import { days } from "./core/data";
 import { ToastProvider } from "./components/Toast";
 import { ThemeProvider } from "./theme";
 import RecipePage from "./pages/RecipePage";
 
+// ✅ Use cookbookStore as the only cookbook system for now
+import { getCookbook, setCookbook as persistCookbook, addToCookbook } from "./core/cookbookStore";
+
 
 type Day = (typeof days)[number];
+
+type CookbookEntry = Meal & {
+  id: string;
+  slug?: string;
+  favorite?: boolean;
+  createdAt?: number;
+  updatedAt?: number;
+};
 
 const EMPTY_MEAL: Meal = { name: "", ingredients: "", instructions: "", photoUrl: "" };
 const EMPTY_WEEK = Object.fromEntries(days.map((d) => [d, EMPTY_MEAL])) as Record<Day, Meal>;
@@ -124,6 +135,7 @@ export function addWeekToCalendar(days: readonly Day[], meals: Record<Day, Meal>
   URL.revokeObjectURL(url);
 }
 
+
 export function makeId() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
@@ -161,6 +173,24 @@ function capitalize(s: string) {
 // --- Main App ---
 export default function App() {
   const navigate = useNavigate();
+
+  const [cookbook, setCookbook] = useState<CookbookEntry[]>(() => {
+  const raw = getCookbook() as any[];
+  const now = Date.now();
+
+  // ensure every entry has an id (and a slug fallback)
+  return (Array.isArray(raw) ? raw : []).map((r: any) => {
+    const id = String(r?.id ?? r?.slug ?? r?.name ?? Math.random().toString(36).slice(2));
+    return {
+      ...r,
+      id,
+      slug: r?.slug ?? id,
+      favorite: Boolean(r?.favorite),
+      createdAt: r?.createdAt ?? now,
+      updatedAt: r?.updatedAt ?? r?.createdAt ?? now,
+    } as CookbookEntry;
+  });
+});
 
   const menuItemStyle: React.CSSProperties = {
     width: "100%",
@@ -210,9 +240,7 @@ export default function App() {
   });
 
   // Cookbook
-  const [cookbook, setCookbook] = useState<SavedRecipe[]>(() => {
-  return loadRecipes();
-});
+  
 
   // Pantry
   const [pantry, setPantry] = useState<PantryItem[]>(() => {
@@ -273,7 +301,7 @@ export default function App() {
   // Persist
   useEffect(() => localStorage.setItem("meals", JSON.stringify(meals)), [meals]);
   useEffect(() => localStorage.setItem("daySettings", JSON.stringify(daySettings)), [daySettings]);
-  useEffect(() => localStorage.setItem("simpleDinnersCookbook", JSON.stringify(cookbook)), [cookbook]);
+  useEffect(() => persistCookbook(cookbook as any), [cookbook]);
   useEffect(() => localStorage.setItem("dietaryNotes", dietaryNotes), [dietaryNotes]);
   useEffect(() => localStorage.setItem("vegetarian", String(vegetarian)), [vegetarian]);
   useEffect(() => localStorage.setItem("pantry", JSON.stringify(pantry)), [pantry]);
@@ -283,16 +311,19 @@ const addDayToCookbook = (day: Day) => {
   const meal = meals[day];
   if (!meal?.name?.trim()) return;
 
-  const saved = upsertRecipeFromMeal(meal);
+  const res = addToCookbook(meal);
 
-  // keep cookbook state in sync with storage
-  setCookbook(loadRecipes());
+  // refresh in-memory cookbook so CookbookPage updates immediately
+  setCookbook(getCookbook());
 
-  // write slug/id back into the week's meal so RecipePage works immediately
-  setMeals(prev => ({
-  ...prev,
-  [day]: { ...prev[day], slug: saved.slug, id: saved.id }
-}));
+  // write slug/id back to the week's meal so /recipe/:slug works
+  if (res.ok) {
+    const slug = (meal.slug ?? meal.id ?? meal.name).toString().trim();
+    setMeals((prev) => ({
+      ...prev,
+      [day]: { ...prev[day], slug, id: prev[day].id ?? slug },
+    }));
+  }
 };
 
   const generateDinnerPlan = (force = false) => {
@@ -610,34 +641,27 @@ const addDayToCookbook = (day: Day) => {
               />
 
               <Route
-                path="/week"
-                element={
-                  <WeekPage
-                    meals={meals}
-                    setMeals={setMeals}
-                    addDayToCookbook={addDayToCookbook}
-                    generateDinnerPlan={generateDinnerPlan}
-                    daySettings={daySettings}
-                    setDaySettings={setDaySettings}
-                  />
-                }
-              />
+  path="/week"
+  element={
+    <WeekPage
+      meals={meals}
+      setMeals={setMeals}
+      addDayToCookbook={addDayToCookbook}
+      generateDinnerPlan={generateDinnerPlan}
+      daySettings={daySettings}
+      setDaySettings={setDaySettings}
+    />
+  }
+/>
 
-              <Route
-                path="/cookbook"
-                element={
-                  <CookbookPage
-                    meals={meals}
-                    setMeals={setMeals}
-                    cookbook={cookbook}
-                    setCookbook={setCookbook}
-                    prefs={effectivePrefs}
-                    allergenKeywords={allergenKeywords}
-                    violatesAllergens={violatesAllergens}
-                    isVegetarianByHeuristic={isVegetarianByHeuristic}
-                  />
-                }
-              />
+              <CookbookPage
+  setMeals={setMeals}
+  cookbook={cookbook}
+  setCookbook={setCookbook}
+  prefs={effectivePrefs}
+  violatesAllergens={violatesAllergens}
+  isVegetarianByHeuristic={isVegetarianByHeuristic}
+/>
             </Routes>
           </div>
         </div>

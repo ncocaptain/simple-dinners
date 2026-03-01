@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { candidateLibrary } from "../core/planner";
 import { getRecipeBySlug, getCookbookRecipeBySlug } from "../core/recipeStore";
+import { addToCookbook } from "../core/cookbookStore";
 
 function splitLines(s?: string) {
   return (s ?? "")
@@ -189,61 +190,53 @@ export default function RecipePage() {
 
       {/* Action row */}
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 12 }}>
-        <button style={btn} onClick={() => navigate(from)}>
-          ← Back
-        </button>
-        <button style={btn} onClick={() => window.print()}>
-          🖨️ Print
-        </button>
-        <button
+  <button style={btn} onClick={() => navigate(from)}>
+    ← Back
+  </button>
+
+  <button style={btn} onClick={() => window.print()}>
+    🖨️ Print
+  </button>
+
+  <button
+    style={btn}
+    onClick={async () => {
+      const url = window.location.href;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: recipe.name, url });
+        } catch {}
+      } else {
+        await navigator.clipboard.writeText(url);
+        alert("Link copied!");
+      }
+    }}
+  >
+    📤 Share
+  </button>
+
+  <button
   style={btn}
-  onClick={async () => {
-    const url = window.location.href;
-
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: recipe.name,
-          url,
-        });
-      } catch {}
-    } else {
-      await navigator.clipboard.writeText(url);
-      alert("Link copied!");
-    }
-  }}
->
-  📤 Share
-</button>
-<button
-  style={{
-    ...btn,
-    width: window.innerWidth < 640 ? "100%" : "auto",
-    justifyContent: "center",
-  }}
   onClick={() => {
-    const raw = localStorage.getItem("simple-dinners:cookbook:v1");
-    const existing = raw ? JSON.parse(raw) : [];
+    const res = addToCookbook(recipe);
 
-    const already = existing.find((r: any) => r.slug === recipe.slug);
-
-    if (already) {
-      alert("Already in cookbook.");
+    if (!res.ok) {
+      alert("Could not add (missing slug).");
       return;
     }
 
-    const updated = [...existing, recipe];
-    localStorage.setItem(
-      "simple-dinners:cookbook:v1",
-      JSON.stringify(updated)
-    );
+    if (res.already) {
+      alert("Already in cookbook.");
+      return;
+    }
 
     alert("Added to cookbook!");
   }}
 >
   ⭐ Add to Cookbook
 </button>
-      </div>
+</div>
 
       {/* Flow Card */}
       <div style={card}>
