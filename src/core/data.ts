@@ -578,6 +578,441 @@ Cover and cook on High for about 30 minutes, or until cheese is fully melted.
 
 Garnish with cilantro, pico de gallo, and sour cream before serving.`,
 },
+
+{
+  id: "normal-slow-cooker-roast-beef",
+  slug: "normal-slow-cooker-roast-beef",
+  name: "Slow Cooker Roast Beef",
+  effort: "normal",
+  ingredients: `1 (4–5 lb) chuck roast
+5 tsp kosher salt, divided
+2 1/2 tsp black pepper, divided
+4 tbsp olive oil, divided
+2 tbsp tomato paste
+1 cup beef broth
+2 tsp Worcestershire sauce
+6 thyme sprigs
+3 rosemary sprigs
+6 garlic cloves
+1 yellow onion, cut into 1-inch wedges
+1 lb baby yellow potatoes, halved
+3 large carrots, peeled and cut into 1-inch pieces`,
+  instructions: `Sprinkle the chuck roast all over with 4 teaspoons of the salt and 2 teaspoons of the pepper.
+
+Heat 2 tablespoons of olive oil in a large skillet over medium-high heat. Sear the roast on all sides until browned, about 12–16 minutes total. Transfer to a 6 1/2-quart slow cooker.
+
+Reduce heat to medium-low. Add tomato paste and cook, stirring constantly, until slightly darkened, about 30–60 seconds.
+
+Add beef broth and stir to loosen browned bits from the skillet. Pour the mixture over the roast in the slow cooker.
+
+Add Worcestershire sauce, thyme, rosemary, and garlic.
+
+In a bowl, toss onion, potatoes, carrots with remaining olive oil, salt, and pepper. Arrange around the roast.
+
+Cover and cook on High 6–8 hours or Low 8–10 hours until fork tender.
+
+Serve with vegetables and spoon sauce over top before serving.`,
+},
+
+{
+  id: "easy-sausage-muffins",
+  slug: "easy-sausage-muffins",
+  name: "Sausage Muffins",
+  effort: "quick",
+  ingredients: `1 cup Bisquick
+1 lb breakfast sausage, cooked
+4 eggs, beaten
+1 cup shredded cheddar cheese`,
+  instructions: `Preheat oven to 350°F.
+
+Cook sausage and set aside.
+
+In a medium bowl, combine eggs, Bisquick, sausage, and cheese. Mix well.
+
+Spray muffin tins with cooking spray.
+
+Fill each muffin cup 1/2 to 3/4 full.
+
+Bake for 20 minutes or until set and lightly browned.`,
+},
+
+{
+  id: "normal-caprese-stuffed-portobello-mushrooms",
+  slug: "normal-caprese-stuffed-portobello-mushrooms",
+  name: "Caprese Stuffed Portobello Mushrooms",
+  effort: "normal",
+  ingredients: `2 tbsp butter
+2 cloves garlic, crushed
+1 tbsp freshly chopped parsley
+5–6 large portobello mushrooms, stems removed
+5–6 fresh mozzarella balls, sliced
+1 cup cherry tomatoes, sliced
+Fresh basil, shredded
+1/4 cup balsamic vinegar
+2 tsp brown sugar`,
+  instructions: `Preheat oven to broil on high and position rack in the middle.
+
+Melt butter with garlic and parsley until fragrant.
+
+Brush mushroom bottoms with garlic butter and place buttered side down on baking tray.
+
+Flip mushrooms and brush remaining butter inside each cap.
+
+Fill with mozzarella and tomatoes.
+
+Broil about 8 minutes until cheese is melted and golden.
+
+In a small saucepan, combine balsamic vinegar and brown sugar. Bring to a boil, reduce heat, and simmer 5–8 minutes until thickened.
+
+Drizzle glaze over mushrooms, top with basil, season to taste, and serve.`,
+},
+
+{
+  id: "normal-shepherds-pie",
+  slug: "normal-shepherds-pie",
+  name: "Shepherd’s Pie",
+  effort: "normal",
+  ingredients: `1 1/2 to 2 lbs potatoes (about 3 large), peeled and quartered
+8 tbsp butter (1 stick), divided
+1 medium onion, chopped
+1–2 cups mixed vegetables (diced carrots, corn, peas)
+1 1/2 lbs ground beef
+1/2 cup beef broth
+1 tsp Worcestershire sauce
+Salt and pepper, to taste
+8 oz baby bella mushrooms
+2 cloves garlic`,
+  instructions: `Place potatoes in a pot and cover with at least 1 inch of cold water. Add a teaspoon of salt. Bring to a boil, reduce to a simmer, and cook until tender, about 20 minutes.
+
+While potatoes cook, melt 4 tbsp butter in a large sauté pan over medium heat. Add onion and carrots and cook until tender, about 6–10 minutes.
+
+Add mushrooms and garlic and cook 2–3 minutes until mushrooms soften.
+
+Add ground beef, corn, and peas. Cook until no longer pink. Season with salt and pepper.
+
+Stir in Worcestershire sauce and beef broth. Bring to a simmer, reduce heat to low, and cook uncovered for about 10 minutes. Add a splash more broth if needed to keep it from drying out.
+
+Drain potatoes and place in a bowl with remaining 4 tbsp butter. Mash and season with salt and pepper to taste.
+
+Preheat oven to 400°F. Spread beef mixture in an even layer in an 8x13 baking dish.
+
+Spread mashed potatoes over the top. Rough up the surface with a fork to create peaks.
+
+Bake about 30 minutes until browned and bubbling.`,
+},
+
+{
+  id: "quick-garlic-roasted-potatoes",
+  slug: "quick-garlic-roasted-potatoes",
+  name: "Garlic Roasted Potatoes",
+  effort: "quick",
+  ingredients: `3 lbs small red or white potatoes
+1/4 cup olive oil
+1 1/2 tsp kosher salt
+1 tsp freshly ground black pepper
+2 tbsp minced garlic
+2 tbsp minced fresh parsley`,
+  instructions: `Preheat oven to 400°F.
+
+Cut potatoes in halves or quarters and place in a bowl with olive oil, salt, pepper, and garlic. Toss until coated.
+
+Transfer to a sheet pan and spread into a single layer.
+
+Roast 45 minutes to 1 hour until browned and crisp, flipping twice during cooking for even browning.
+
+Remove from oven, toss with parsley, season to taste, and serve hot.`,
+},
+
+{
+  id: "normal-italian-sausage-stuffed-peppers",
+  slug: "normal-italian-sausage-stuffed-peppers",
+  name: "Italian Sausage Stuffed Peppers",
+  effort: "normal",
+  ingredients: `1 lb Italian sausage
+2 tsp olive oil
+1 (14.5 oz) can fire-roasted diced tomatoes
+2 tsp garlic powder
+2 tsp onion powder
+2 tsp Italian seasoning
+1 tsp Worcestershire sauce
+1 1/2 cups cooked rice
+1/4 cup chicken broth
+1/4 cup grated Parmesan cheese
+1 cup mozzarella cheese, grated
+3–4 large bell peppers
+Red pepper flakes (optional)
+Fresh basil (optional)`,
+  instructions: `Preheat oven to 375°F.
+
+Cut around the stem of each bell pepper and remove it. Slice peppers in half lengthwise and remove seeds and white membrane. Place cut-side up in a baking dish.
+
+Heat olive oil in a large skillet over medium-high heat. Brown sausage, breaking into small pieces, about 3–4 minutes. Drain grease if needed.
+
+Add tomatoes, garlic powder, onion powder, Italian seasoning, Worcestershire sauce, chicken broth, and cooked rice. Stir to combine and bring to a simmer. Cook 3–4 minutes until liquid is mostly gone.
+
+Stir in Parmesan cheese and remove from heat.
+
+Fill pepper halves with sausage mixture and top with mozzarella.
+
+Cover with foil and bake 25–30 minutes (or longer if you like softer peppers) until peppers are tender.
+
+Remove foil and broil 2–3 minutes until cheese is browned.
+
+Cool 1–2 minutes. Top with fresh basil (and red pepper flakes if desired) and serve.`,
+},
+
+{
+  id: "quick-roasted-broccoli",
+  slug: "quick-roasted-broccoli",
+  name: "Roasted Broccoli",
+  effort: "quick",
+  ingredients: `1 1/2 lbs broccoli florets
+1/4 cup olive oil
+1 1/2 tsp kosher salt
+1/2 tsp freshly ground black pepper`,
+  instructions: `Place a foil-lined baking sheet on the middle rack in the oven and preheat to 425°F.
+
+Toss broccoli with olive oil, salt, and pepper until fully coated.
+
+Carefully spread broccoli on the hot baking sheet in an even layer, scraping any oil/seasoning from the bowl over the broccoli.
+
+Roast 14–16 minutes, tossing halfway through, until browned and tender-crisp.
+
+Transfer to a serving platter and serve hot.`,
+},
+
+{
+  id: "quick-honey-garlic-chicken",
+  slug: "quick-honey-garlic-chicken",
+  name: "Honey Garlic Chicken",
+  effort: "quick",
+  ingredients: `4 boneless skinless chicken breasts
+Salt and pepper, to taste
+1/3 cup honey
+1/4 cup soy sauce
+4 cloves garlic, minced
+1 tbsp olive oil
+1 tsp cornstarch (optional, for thickening)`,
+  instructions: `Season chicken with salt and pepper.
+
+Heat olive oil in a skillet over medium heat. Cook chicken 5–6 minutes per side until cooked through. Remove and set aside.
+
+In the same pan, add honey, soy sauce, and garlic. Simmer 2–3 minutes.
+
+If thicker sauce is desired, stir cornstarch with 1 tbsp water and add to pan.
+
+Return chicken to skillet and coat in sauce. Simmer 2–3 minutes and serve.`,
+},
+
+{
+  id: "quick-creamy-tortellini",
+  slug: "quick-creamy-tortellini",
+  name: "Creamy Spinach Tortellini",
+  effort: "quick",
+  ingredients: `1 (20 oz) package cheese tortellini
+1 cup heavy cream
+1/2 cup grated Parmesan cheese
+2 cloves garlic, minced
+2 cups fresh spinach
+Salt and pepper, to taste`,
+  instructions: `Cook tortellini according to package directions. Drain.
+
+In a skillet over medium heat, sauté garlic for 30 seconds.
+
+Add heavy cream and simmer 3–4 minutes.
+
+Stir in Parmesan and spinach. Cook until spinach wilts.
+
+Add tortellini and toss to coat. Season to taste and serve.`,
+},
+
+{
+  id: "quick-lemon-butter-salmon",
+  slug: "quick-lemon-butter-salmon",
+  name: "Lemon Butter Salmon",
+  effort: "quick",
+  ingredients: `4 salmon fillets
+Salt and pepper, to taste
+3 tbsp butter
+2 cloves garlic, minced
+Juice of 1 lemon
+Fresh parsley (optional)`,
+  instructions: `Season salmon with salt and pepper.
+
+Melt butter in a skillet over medium heat. Add garlic and cook 30 seconds.
+
+Place salmon skin-side down and cook 4–5 minutes per side until flaky.
+
+Squeeze lemon juice over salmon and garnish with parsley before serving.`,
+},
+
+{
+  id: "quick-chicken-fried-rice",
+  slug: "quick-chicken-fried-rice",
+  name: "Chicken Fried Rice",
+  effort: "quick",
+  ingredients: `2 cups cooked rice
+1 lb cooked chicken, diced
+2 eggs, beaten
+1 cup frozen mixed vegetables
+3 tbsp soy sauce
+1 tbsp sesame oil
+2 green onions, sliced`,
+  instructions: `Heat sesame oil in a large skillet.
+
+Scramble eggs and set aside.
+
+Add vegetables and cook 2–3 minutes.
+
+Stir in rice and chicken. Cook until heated through.
+
+Add soy sauce and scrambled eggs. Toss well.
+
+Top with green onions and serve.`,
+},
+
+{
+  id: "quick-bbq-chicken-flatbread",
+  slug: "quick-bbq-chicken-flatbread",
+  name: "BBQ Chicken Flatbread",
+  effort: "quick",
+  ingredients: `2 flatbreads or naan
+1 cup cooked chicken, shredded
+1/2 cup BBQ sauce
+1/2 red onion, thinly sliced
+1 cup shredded mozzarella cheese`,
+  instructions: `Preheat oven to 400°F.
+
+Spread BBQ sauce over flatbreads.
+
+Top with chicken, red onion, and mozzarella.
+
+Bake 8–10 minutes until cheese is melted and bubbly.
+
+Slice and serve.`,
+},
+
+{
+  id: "normal-baked-ziti",
+  slug: "normal-baked-ziti",
+  name: "Baked Ziti",
+  effort: "normal",
+  ingredients: `1 lb ziti pasta
+1 lb ground beef
+1 (24 oz) jar marinara sauce
+1 cup ricotta cheese
+2 cups shredded mozzarella
+1/2 cup grated Parmesan`,
+  instructions: `Preheat oven to 375°F.
+
+Cook pasta according to package directions. Drain.
+
+Brown ground beef in skillet and drain grease. Stir in marinara.
+
+In a baking dish, layer pasta, meat sauce, ricotta, and mozzarella.
+
+Repeat layers and top with Parmesan.
+
+Bake 25–30 minutes until bubbly and golden.`,
+},
+
+{
+  id: "normal-chicken-alfredo",
+  slug: "normal-chicken-alfredo",
+  name: "Chicken Alfredo",
+  effort: "normal",
+  ingredients: `2 chicken breasts, sliced
+12 oz fettuccine
+1 cup heavy cream
+1/2 cup butter
+1 cup grated Parmesan
+2 cloves garlic, minced
+Salt and pepper, to taste`,
+  instructions: `Cook pasta according to package directions.
+
+Season chicken and cook in skillet until done. Remove and set aside.
+
+In same pan, melt butter and sauté garlic.
+
+Add heavy cream and simmer 5 minutes.
+
+Stir in Parmesan until smooth.
+
+Add chicken and pasta. Toss and serve.`,
+},
+
+{
+  id: "normal-beef-stroganoff",
+  slug: "normal-beef-stroganoff",
+  name: "Beef Stroganoff",
+  effort: "normal",
+  ingredients: `1 lb beef sirloin, sliced
+8 oz mushrooms
+1 small onion, diced
+2 cloves garlic, minced
+1 cup beef broth
+1/2 cup sour cream
+2 tbsp flour
+Egg noodles`,
+  instructions: `Cook noodles according to package directions.
+
+Sauté beef until browned. Remove and set aside.
+
+Cook onions and mushrooms until tender.
+
+Stir in flour, then add beef broth and simmer until thickened.
+
+Stir in sour cream and return beef to pan.
+
+Serve over noodles.`,
+},
+
+{
+  id: "normal-chicken-pot-pie",
+  slug: "normal-chicken-pot-pie",
+  name: "Chicken Pot Pie",
+  effort: "normal",
+  ingredients: `2 cups cooked chicken, diced
+1 cup frozen mixed vegetables
+1/2 cup butter
+1/2 cup flour
+2 cups chicken broth
+1 cup milk
+1 refrigerated pie crust`,
+  instructions: `Preheat oven to 400°F.
+
+Melt butter in saucepan. Stir in flour and cook 1 minute.
+
+Whisk in broth and milk. Cook until thickened.
+
+Stir in chicken and vegetables.
+
+Pour mixture into baking dish and top with pie crust.
+
+Bake 30–35 minutes until golden.`,
+},
+
+{
+  id: "normal-taco-pasta",
+  slug: "normal-taco-pasta",
+  name: "Taco Pasta",
+  effort: "normal",
+  ingredients: `1 lb ground beef
+1 packet taco seasoning
+8 oz pasta
+1 cup salsa
+1 cup shredded cheddar cheese
+1/2 cup sour cream`,
+  instructions: `Cook pasta according to package directions.
+
+Brown ground beef and drain grease. Stir in taco seasoning.
+
+Add salsa and cooked pasta. Stir well.
+
+Remove from heat and stir in sour cream and cheese.
+
+Serve hot.`,
+},
 ];
 
 
