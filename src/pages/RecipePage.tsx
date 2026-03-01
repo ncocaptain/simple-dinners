@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { candidateLibrary } from "../core/planner";
 import { getRecipeBySlug, getCookbookRecipeBySlug } from "../core/recipeStore";
 import { addToCookbook } from "../core/cookbookStore";
+import { getCookbook } from "../core/cookbookStore";
 
 function splitLines(s?: string) {
   return (s ?? "")
@@ -19,13 +20,19 @@ function findCandidateBySlug(slug: string) {
   );
 }
 
-export default function RecipePage() {
+
+
+export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   const navigate = useNavigate();
   const { slug = "" } = useParams();
   const location = useLocation();
 
   const qs = new URLSearchParams(location.search);
   const from = qs.get("from") || "/week";
+
+  React.useEffect(() => {
+  window.scrollTo(0, 0);
+}, [slug]);
 
   // Source of truth: recipeStore → cookbook → candidateLibrary
   // Ratings stay locked to cookbook: candidateLibrary gets rating fields stripped.
@@ -230,6 +237,9 @@ export default function RecipePage() {
       alert("Already in cookbook.");
       return;
     }
+
+    // ✅ refresh in-memory cookbook immediately
+    setCookbook(getCookbook() as any);
 
     alert("Added to cookbook!");
   }}
