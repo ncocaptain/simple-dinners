@@ -617,52 +617,57 @@ const addDayToCookbook = (day: Day) => {
             </header>
 
             <Routes>
-              <Route path="/" element={<Navigate to="/plan" replace />} />
+  <Route path="/" element={<Navigate to="/plan" replace />} />
+  <Route path="/takeout-settings" element={<TakeoutSettingsPage />} />
+  <Route path="/recipe/:slug" element={<RecipePage />} />
 
-              <Route path="/takeout-settings" element={<TakeoutSettingsPage />} />
+  <Route
+    path="/plan"
+    element={
+      <PlanPage
+        daySettings={daySettings}
+        setDaySettings={setDaySettings}
+        dietaryNotes={dietaryNotes}
+        setDietaryNotes={setDietaryNotes}
+        vegetarian={vegetarian}
+        setVegetarian={setVegetarian}
+        pantry={pantry}
+        setPantry={setPantry}
+        generateDinnerPlan={generateDinnerPlan}
+      />
+    }
+  />
 
-              <Route path="/recipe/:slug" element={<RecipePage />} />
+  <Route
+    path="/week"
+    element={
+      <WeekPage
+        meals={meals}
+        setMeals={setMeals}
+        addDayToCookbook={addDayToCookbook}
+        generateDinnerPlan={generateDinnerPlan}
+        daySettings={daySettings}
+        setDaySettings={setDaySettings}
+      />
+    }
+  />
 
-              <Route
-                path="/plan"
-                element={
-                  <PlanPage
-                    daySettings={daySettings}
-                    setDaySettings={setDaySettings}
-                    dietaryNotes={dietaryNotes}
-                    setDietaryNotes={setDietaryNotes}
-                    vegetarian={vegetarian}
-                    setVegetarian={setVegetarian}
-                    pantry={pantry}
-                    setPantry={setPantry}
-                    generateDinnerPlan={generateDinnerPlan}
-                  />
-                }
-              />
+  <Route
+    path="/cookbook"
+    element={
+      <CookbookPage
+        setMeals={setMeals}
+        cookbook={cookbook}
+        setCookbook={setCookbook}
+        prefs={effectivePrefs}
+        violatesAllergens={violatesAllergens}
+        isVegetarianByHeuristic={isVegetarianByHeuristic}
+      />
+    }
+  />
 
-              <Route
-  path="/week"
-  element={
-    <WeekPage
-      meals={meals}
-      setMeals={setMeals}
-      addDayToCookbook={addDayToCookbook}
-      generateDinnerPlan={generateDinnerPlan}
-      daySettings={daySettings}
-      setDaySettings={setDaySettings}
-    />
-  }
-/>
-
-              <CookbookPage
-  setMeals={setMeals}
-  cookbook={cookbook}
-  setCookbook={setCookbook}
-  prefs={effectivePrefs}
-  violatesAllergens={violatesAllergens}
-  isVegetarianByHeuristic={isVegetarianByHeuristic}
-/>
-            </Routes>
+  <Route path="*" element={<Navigate to="/plan" replace />} />
+</Routes>
           </div>
         </div>
       </ToastProvider>
