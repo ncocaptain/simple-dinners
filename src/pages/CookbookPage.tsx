@@ -12,6 +12,8 @@ import { setCookbook as persistCookbook } from "../core/cookbookStore";
 import { Star, Pencil, Trash2, BookOpen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { ChevronDown, ChevronUp, Printer, Share2 } from "lucide-react";
+import { addIngredientsToList } from "../shoppingList";
+import { ShoppingCart } from "lucide-react";
 
 type CookbookEntry = Meal & {
   id: string; // make id required for stable keys/edits
@@ -130,6 +132,10 @@ const toggleExpanded = (id?: string) => {
   if (!id) return;
   setExpandedId((cur) => (cur === id ? null : id));
 };
+
+const [pickerId, setPickerId] = React.useState<string | null>(null);
+const [selectedLines, setSelectedLines] = React.useState<string[]>([]);
+const [pickerMsg, setPickerMsg] = React.useState<string>("");
 
 const getSlug = (r: CookbookEntry) => (r.slug ?? r.id ?? "").toString().trim();
 
@@ -287,6 +293,19 @@ const onPrint = (r: CookbookEntry) => {
     }));
     toast(`Added to ${day}!`, "success");
   };
+
+  const splitIngredientLines = (raw?: string) =>
+  (raw ?? "")
+    .split("\n")
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .filter((l) => !/^\s*for\s+garnish\s*:?\s*$/i.test(l));
+
+const toggleSelectLine = (line: string) => {
+  setSelectedLines((cur) =>
+    cur.includes(line) ? cur.filter((x) => x !== line) : [...cur, line]
+  );
+};
 
   const onPickImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -540,6 +559,37 @@ return (
   <Share2 size={16} />
   Share
 </button>
+
+<button
+  type="button"
+  onClick={() => {
+    // 1) ensure expanded
+    if (expandedId !== rid) setExpandedId(rid);
+
+    // 2) toggle picker
+    if (pickerId === rid) {
+      setPickerId(null);
+      setSelectedLines([]);
+      setPickerMsg("");
+    } else {
+      setPickerId(rid);
+      setSelectedLines([]);
+      setPickerMsg("");
+    }
+  }}
+  style={{
+    ...actionBtn,
+    background:
+      pickerId === rid ? "rgba(20,184,166,0.18)" : (actionBtn as any).background,
+    border:
+      pickerId === rid ? "1px solid rgba(20,184,166,0.35)" : (actionBtn as any).border,
+  }}
+  disabled={!r.ingredients?.trim()}
+  title={!r.ingredients?.trim() ? "No ingredients" : "Add to shopping list"}
+>
+  <ShoppingCart size={16} />
+  List
+</button>
             </div>
 
             {/* Right-side controls: Edit/Delete + Plan dropdown */}
@@ -589,9 +639,96 @@ return (
               <div style={{ fontWeight: 900, opacity: 0.85, fontSize: 12, letterSpacing: 0.3, textTransform: "uppercase" }}>
                 Ingredients
               </div>
-              <div style={{ whiteSpace: "pre-wrap", lineHeight: 1.55, opacity: 0.9 }}>
-                {r.ingredients || "—"}
-              </div>
+              {pickerId === rid ? (
+  <div style={{ display: "grid", gap: 10 }}>
+    <div style={{ opacity: 0.75, fontSize: 13, fontWeight: 700 }}>
+      Select ingredients to add:
+    </div>
+
+    <div style={{ display: "grid", gap: 8 }}>
+      {splitIngredientLines(r.ingredients).map((line) => (
+        <label
+          key={line}
+          style={{
+            display: "flex",
+            gap: 10,
+            alignItems: "flex-start",
+            cursor: "pointer",
+            padding: "8px 10px",
+            borderRadius: 12,
+            border: "1px solid rgba(255,255,255,0.06)",
+            background: "rgba(255,255,255,0.02)",
+          }}
+        >
+          <input
+            type="checkbox"
+            checked={selectedLines.includes(line)}
+            onChange={() => toggleSelectLine(line)}
+            style={{ marginTop: 3 }}
+          />
+          <span style={{ lineHeight: 1.45 }}>{line}</span>
+        </label>
+      ))}
+    </div>
+
+    <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+      <button
+        type="button"
+        style={actionBtn}
+        onClick={() => {
+          const lines = splitIngredientLines(r.ingredients);
+          setSelectedLines(lines);
+          setPickerMsg("");
+        }}
+      >
+        Select all
+      </button>
+
+      <button
+        type="button"
+        style={actionBtn}
+        onClick={() => {
+          setSelectedLines([]);
+          setPickerMsg("");
+        }}
+      >
+        Clear
+      </button>
+
+      <button
+        type="button"
+        style={{
+          ...actionBtn,
+          background: "rgba(20,184,166,0.18)",
+          border: "1px solid rgba(20,184,166,0.35)",
+          fontWeight: 900,
+        }}
+        onClick={() => {
+          if (selectedLines.length === 0) {
+            setPickerMsg("Select at least one item.");
+            return;
+          }
+          const joined = selectedLines.join("\n");
+          const res = addIngredientsToList(r.name, joined);
+          setPickerMsg(`Added ${res.addedCount} item${res.addedCount === 1 ? "" : "s"} ✅`);
+          // close picker after success (recommended)
+          setPickerId(null);
+          setSelectedLines([]);
+        }}
+      >
+        Add selected
+      </button>
+    </div>
+
+    {pickerMsg ? (
+      <div style={{ fontSize: 13, fontWeight: 800, opacity: 0.85 }}>{pickerMsg}</div>
+    ) : null}
+  </div>
+) : (
+  <div style={{ whiteSpace: "pre-wrap", lineHeight: 1.55, opacity: 0.9 }}>
+    {r.ingredients || "—"}
+  </div>
+)}
 
               <div style={{ fontWeight: 900, opacity: 0.85, fontSize: 12, letterSpacing: 0.3, textTransform: "uppercase", marginTop: 6 }}>
                 Instructions
