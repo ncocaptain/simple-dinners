@@ -32,14 +32,46 @@ export default function ShoppingListPage() {
     saveShoppingList([]);
   };
 
+  const btn: React.CSSProperties = {
+  padding: "10px 14px",
+  borderRadius: 14,
+  background: "rgba(255,255,255,0.06)",
+  color: "#f8fafc",
+  cursor: "pointer",
+  fontWeight: 900,
+  border: "1px solid rgba(255,255,255,0.12)",
+  display: "inline-flex",
+  alignItems: "center",
+  gap: 8,
+};
+
+const btnDisabled: React.CSSProperties = {
+  ...btn,
+  opacity: 0.5,
+  cursor: "not-allowed",
+};
+
   return (
     <div style={{ maxWidth: 720, margin: "0 auto", padding: 16 }}>
       <h1>Shopping List</h1>
 
-      <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-        <button onClick={clearChecked}>Clear checked</button>
-        <button onClick={clearAll}>Clear all</button>
-      </div>
+      <div style={{ display: "flex", gap: 10, marginBottom: 12, flexWrap: "wrap" }}>
+  <button
+    onClick={clearChecked}
+    disabled={items.every((i) => !i.checked)}
+    style={items.every((i) => !i.checked) ? btnDisabled : btn}
+  >
+    Clear checked
+  </button>
+
+  <button
+    onClick={clearAll}
+    disabled={items.length === 0}
+    style={items.length === 0 ? btnDisabled : btn}
+  >
+    Clear all
+  </button>
+</div>
 
       {items.length === 0 ? (
         <p>No items yet. Add ingredients from a recipe.</p>
@@ -61,7 +93,20 @@ export default function ShoppingListPage() {
               <span style={{ flex: 1, textDecoration: item.checked ? "line-through" : "none" }}>
                 {item.text}
               </span>
-              <button onClick={() => remove(item.id)}>Remove</button>
+              <button
+  onClick={() => remove(item.id)}
+  style={{
+    padding: "8px 10px",
+    borderRadius: 12,
+    background: "rgba(255,255,255,0.06)",
+    color: "#f8fafc",
+    cursor: "pointer",
+    fontWeight: 900,
+    border: "1px solid rgba(255,255,255,0.12)",
+  }}
+>
+  Remove
+</button>
             </li>
           ))}
         </ul>
