@@ -571,6 +571,20 @@ const addDayToCookbook = (day: Day) => {
 
                     <div style={dividerStyle} />
 
+                    
+<button
+  role="menuitem"
+  onClick={() => {
+    navigate("/shopping-list");
+    setMenuOpen(false);
+  }}
+  style={menuItemStyle}
+>
+  Shopping List
+  <div style={menuSubStyle}>View & check off groceries</div>
+</button>
+<div style={dividerStyle} />
+
                     <button
                       role="menuitem"
                       onClick={() => {
