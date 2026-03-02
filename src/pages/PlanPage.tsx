@@ -1,32 +1,39 @@
 import React from "react";
 import { days } from "../core/data";
 import Button from "../components/Button";
-import type { Effort, PantryItem } from "../core/types";
+import type { Effort, PantryItem, } from "../core/types";
 
 
-
-type Day = (typeof days)[number];
 
 export default function PlanPage({
   daySettings,
   setDaySettings,
-  dietaryNotes,
-  setDietaryNotes,
-  vegetarian,
-  setVegetarian,
-  generateDinnerPlan,
   pantry,
   setPantry,
+  vegetarian,
+  setVegetarian,
+  allowSubstitutions,
+  setAllowSubstitutions,
+  generateDinnerPlan,
+  dietaryNotes,
+  setDietaryNotes,
 }: {
-  daySettings: Record<Day, Effort>;
-  setDaySettings: React.Dispatch<React.SetStateAction<Record<Day, Effort>>>;
-  dietaryNotes: string;
-  setDietaryNotes: React.Dispatch<React.SetStateAction<string>>;
-  vegetarian: boolean;
-  setVegetarian: React.Dispatch<React.SetStateAction<boolean>>;
+  daySettings: Record<string, Effort>;
+  setDaySettings: React.Dispatch<React.SetStateAction<Record<string, Effort>>>;
+
   pantry: PantryItem[];
   setPantry: React.Dispatch<React.SetStateAction<PantryItem[]>>;
-  generateDinnerPlan: () => void;
+
+  vegetarian: boolean;
+  setVegetarian: React.Dispatch<React.SetStateAction<boolean>>;
+
+  allowSubstitutions: boolean;
+  setAllowSubstitutions: React.Dispatch<React.SetStateAction<boolean>>;
+
+  generateDinnerPlan: (force?: boolean) => void;
+
+  dietaryNotes: string;
+  setDietaryNotes: React.Dispatch<React.SetStateAction<string>>;
 }) {
   
   const commitPantry = () => {
@@ -143,6 +150,17 @@ export default function PlanPage({
 />
   Vegetarian meals only
 </label>
+
+{vegetarian && (
+  <label className="sectionLabel" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+    <input
+      type="checkbox"
+      checked={allowSubstitutions}
+      onChange={(e) => setAllowSubstitutions(e.target.checked)}
+    />
+    Allow substitutions (convert meat recipes)
+  </label>
+)}
 
           {/* Pantry Input */}
           <div>

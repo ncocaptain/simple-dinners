@@ -251,16 +251,24 @@ export default function App() {
     }
   });
 
-  const [dietaryNotes, setDietaryNotes] = useState<string>(() => localStorage.getItem("dietaryNotes") || "");
+  const [dietaryNotes, setDietaryNotes] = useState<string>(
+  () => localStorage.getItem("dietaryNotes") || ""
+);
   const [vegetarian, setVegetarian] = useState<boolean>(() => localStorage.getItem("vegetarian") === "true");
 
-  const effectivePrefs: Preferences = useMemo(
-    () => ({
-      ...prefs,
-      vegetarian,
-    }),
-    [prefs, vegetarian]
-  );
+const [allowSubstitutions, setAllowSubstitutions] = useState<boolean>(() => {
+  const saved = localStorage.getItem("allowSubstitutions");
+  return saved ? saved === "true" : true; // default ON
+});
+
+const effectivePrefs: Preferences = useMemo(
+  () => ({
+    ...prefs,
+    vegetarian,
+    allowSubstitutions,
+  }),
+  [prefs, vegetarian, allowSubstitutions]
+);
 
   // Persist
   useEffect(() => localStorage.setItem("meals", JSON.stringify(meals)), [meals]);
@@ -269,6 +277,7 @@ export default function App() {
   useEffect(() => localStorage.setItem("dietaryNotes", dietaryNotes), [dietaryNotes]);
   useEffect(() => localStorage.setItem("vegetarian", String(vegetarian)), [vegetarian]);
   useEffect(() => localStorage.setItem("pantry", JSON.stringify(pantry)), [pantry]);
+  useEffect(() => localStorage.setItem("allowSubstitutions", String(allowSubstitutions)), [allowSubstitutions]);
 
   // Actions
 const addDayToCookbook = (day: Day) => {
@@ -510,16 +519,18 @@ const addDayToCookbook = (day: Day) => {
     path="/plan"
     element={
       <PlanPage
-        daySettings={daySettings}
-        setDaySettings={setDaySettings}
-        dietaryNotes={dietaryNotes}
-        setDietaryNotes={setDietaryNotes}
-        vegetarian={vegetarian}
-        setVegetarian={setVegetarian}
-        pantry={pantry}
-        setPantry={setPantry}
-        generateDinnerPlan={generateDinnerPlan}
-      />
+  daySettings={daySettings}
+  setDaySettings={setDaySettings}
+  pantry={pantry}
+  setPantry={setPantry}
+  vegetarian={vegetarian}
+  setVegetarian={setVegetarian}
+  allowSubstitutions={allowSubstitutions}
+  setAllowSubstitutions={setAllowSubstitutions}
+  generateDinnerPlan={generateDinnerPlan}
+  dietaryNotes={dietaryNotes}
+  setDietaryNotes={setDietaryNotes}
+/>
     }
   />
 
