@@ -35,11 +35,11 @@ export default function ShoppingListPage() {
   const btn: React.CSSProperties = {
   padding: "10px 14px",
   borderRadius: 14,
-  background: "rgba(255,255,255,0.06)",
+  background: "rgba(20,184,166,0.18)",
   color: "#f8fafc",
   cursor: "pointer",
   fontWeight: 900,
-  border: "1px solid rgba(255,255,255,0.12)",
+  border: "1px solid rgba(20,184,166,0.35)",
   display: "inline-flex",
   alignItems: "center",
   gap: 8,
@@ -50,6 +50,15 @@ const btnDisabled: React.CSSProperties = {
   opacity: 0.5,
   cursor: "not-allowed",
 };
+
+const displayItems = items
+  .slice()
+  .sort((a, b) => {
+    // unchecked first
+    if (a.checked !== b.checked) return a.checked ? 1 : -1;
+    // newest first
+    return b.addedAt - a.addedAt;
+  });
 
   return (
     <div style={{ maxWidth: 720, margin: "0 auto", padding: 16 }}>
@@ -77,7 +86,7 @@ const btnDisabled: React.CSSProperties = {
         <p>No items yet. Add ingredients from a recipe.</p>
       ) : (
         <ul style={{ listStyle: "none", padding: 0 }}>
-          {items.map((item) => (
+          {displayItems.map((item) => (
             <li
               key={item.id}
               style={{
@@ -89,7 +98,17 @@ const btnDisabled: React.CSSProperties = {
                 opacity: item.checked ? 0.6 : 1,
               }}
             >
-              <input type="checkbox" checked={item.checked} onChange={() => toggle(item.id)} />
+              <input
+  type="checkbox"
+  checked={item.checked}
+  onChange={() => toggle(item.id)}
+  style={{
+    width: 18,
+    height: 18,
+    accentColor: "#14b8a6",
+    cursor: "pointer"
+  }}
+/>
               <span style={{ flex: 1, textDecoration: item.checked ? "line-through" : "none" }}>
                 {item.text}
               </span>
