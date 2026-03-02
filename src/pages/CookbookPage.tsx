@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { ChevronDown, ChevronUp, Printer, Share2 } from "lucide-react";
 import { addIngredientsToList } from "../shoppingList";
 import { ShoppingCart } from "lucide-react";
+import { violatesAllergens, isVegetarianByHeuristic } from "../core/planner";
 
 type CookbookEntry = Meal & {
   id: string; // make id required for stable keys/edits
@@ -106,15 +107,11 @@ export default function CookbookPage({
   cookbook,
   setCookbook,
   prefs,
-  violatesAllergens,
-  isVegetarianByHeuristic,
 }: {
   setMeals: React.Dispatch<React.SetStateAction<Record<string, Meal>>>;
   cookbook: CookbookEntry[];
   setCookbook: React.Dispatch<React.SetStateAction<CookbookEntry[]>>;
   prefs: Preferences;
-  violatesAllergens: (ingredients: string) => boolean;
-  isVegetarianByHeuristic: (ingredients: string) => boolean;
 }) {
   // support either hook-shape: useToast() -> fn OR { toast: fn }
   const toastApi: any = useToast();
@@ -189,13 +186,13 @@ const onPrint = (r: CookbookEntry) => {
   }, []);
 
   const recipeMatchesPreferences = React.useCallback(
-    (r: { ingredients: string }) => {
-      if (violatesAllergens(r.ingredients)) return false;
-      if (!prefs.vegetarian) return true;
-      return isVegetarianByHeuristic(r.ingredients) || prefs.allowSubstitutions;
-    },
-    [violatesAllergens, prefs.vegetarian, prefs.allowSubstitutions, isVegetarianByHeuristic]
-  );
+  (r: { ingredients: string }) => {
+    if (violatesAllergens(r.ingredients, prefs.allergens || [])) return false;
+    if (!prefs.vegetarian) return true;
+    return isVegetarianByHeuristic(r.ingredients) || prefs.allowSubstitutions;
+  },
+  [prefs.vegetarian, prefs.allowSubstitutions, prefs.allergens]
+);
 
   const filteredCookbook = React.useMemo(() => {
     const q = normalize(cookbookSearch);

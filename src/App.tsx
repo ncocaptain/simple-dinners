@@ -5,18 +5,7 @@ import CookbookPage from "./pages/CookbookPage";
 import PlanPage from "./pages/PlanPage";
 import TakeoutSettingsPage from "./pages/TakeoutSettingsPage";
 import type { Effort, Meal, PantryItem, Preferences } from "./core/types";
-
-import {
-  SUBS,
-  normalize,
-  candidateLibrary,
-  scoreMealAgainstPantry,
-  violatesAllergens,
-  isVegetarianByHeuristic,
-
-  getPantryTokens,
-} from "./core/planner";
-
+import { generatePlan } from "./core/planner";
 import { days } from "./core/data";
 import { ToastProvider } from "./components/Toast";
 import { ThemeProvider } from "./theme";
@@ -143,31 +132,6 @@ export function makeId() {
 export function mealImageUrl(name?: string) {
   const q = encodeURIComponent((name || "cooking dinner").trim());
   return `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80&sig=1&meal=${q}`;
-}
-
-export function applyVegSub(meal: Meal): Meal {
-  let ing = meal.ingredients;
-  const replacementsUsed: string[] = [];
-
-  for (const { pattern, replacement } of SUBS) {
-    if (pattern.test(ing)) {
-      ing = ing.replace(pattern, replacement);
-      replacementsUsed.push(replacement);
-    }
-  }
-
-  const baseName = meal.name.replace(/\s*\(veg.*?\)/i, "").trim();
-  const label = replacementsUsed.length > 0 ? `(${capitalize(replacementsUsed[0])})` : "(Veg swap)";
-
-  return {
-    ...meal,
-    name: `${baseName} ${label}`,
-    ingredients: ing,
-  };
-}
-
-function capitalize(s: string) {
-  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 // --- Main App ---
@@ -327,124 +291,30 @@ const addDayToCookbook = (day: Day) => {
 };
 
   const generateDinnerPlan = (force = false) => {
-    const isEmpty = (m?: Meal) => !m || !m.name?.trim();
+  const seedMeals = force ? EMPTY_WEEK : meals;
 
-    const baseMeals: Meal[] = [
-      ...(cookbook ?? []).map((r) => ({
-        name: r.name,
-        ingredients: r.ingredients,
-        instructions: r.instructions,
-        photoUrl: r.photoUrl,
-        effort: "normal" as const,
-      })),
-      ...candidateLibrary,
-    ];
+  const next = generatePlan({
+    meals: seedMeals,
+    cookbook: cookbook ?? [],
+    pantry,
+    daySettings,
+    prefs: effectivePrefs,
+    days,
+  });
 
-    const filtered = baseMeals
-      .filter((m) => !violatesAllergens(m.ingredients, effectivePrefs.allergens))
-      .flatMap((m) => {
-        if (!effectivePrefs.vegetarian) return [m];
-        if (isVegetarianByHeuristic(m.ingredients)) return [m];
-        return effectivePrefs.allowSubstitutions ? [applyVegSub(m)] : [];
-      });
-
-    const pool: Meal[] = filtered.map((m) => ({
-      ...m,
-      photoUrl: m.photoUrl || mealImageUrl(m.name),
-      effort: m.effort || "normal",
-    }));
-
-    const pantryTokensLocal = getPantryTokens(pantry);
-
-    const today = new Date();
-    const todaySeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
-
-    const ranked = pool
-      .map((m) => ({
-        m,
-        pantryScore: scoreMealAgainstPantry(m, pantryTokensLocal),
-        tie: (todaySeed + hashString(m.id ?? m.name)) % 97,
-      }))
-      .sort((a, b) => {
-        if (b.pantryScore !== a.pantryScore) return b.pantryScore - a.pantryScore;
-        return a.tie - b.tie;
-      })
-      .map((x) => x.m);
-
-    function hashString(s: string): number {
-      let h = 0;
-      for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
-      return Math.abs(h);
+  // Ensure every meal has a photoUrl (keeps your UI nice)
+  const withPhotos: Record<Day, Meal> = { ...next } as any;
+  for (const d of days) {
+    const m = withPhotos[d];
+    if (!m) continue;
+    if (!m.photoUrl) {
+      withPhotos[d] = { ...m, photoUrl: mealImageUrl(m.name || "dinner") };
     }
+  }
 
-    const prevMeals = meals;
-    const next: Record<Day, Meal> = { ...prevMeals };
-    let changed = false;
-
-    const usedNames = new Set<string>();
-    if (!force) {
-      days.forEach((d) => {
-        const existing = prevMeals[d]?.name?.trim();
-        if (existing) usedNames.add(normalize(existing));
-      });
-    }
-
-    const fallbackMeal = (day: Day): Meal => {
-      const needed = daySettings[day] || "normal";
-      if (needed === "takeout") {
-        return {
-          name: "Takeout Night",
-          ingredients: "order out (no groceries)",
-          effort: "takeout",
-          photoUrl: mealImageUrl("takeout dinner"),
-        };
-      }
-      return {
-        name: "Plan later",
-        ingredients: "",
-        instructions: "",
-        effort: needed,
-        photoUrl: mealImageUrl("dinner"),
-      };
-    };
-
-    days.forEach((day) => {
-      if (!force && !isEmpty(prevMeals[day])) return;
-
-      const needed = daySettings[day] || "normal";
-
-      if (needed === "takeout") {
-        next[day] = fallbackMeal(day);
-        changed = true;
-        return;
-      }
-
-      if (ranked.length) {
-        const bestEffort = ranked.filter((m) => (m.effort || "normal") === needed);
-        const candidates = bestEffort.length ? bestEffort : ranked;
-
-        const pick = candidates.find((m) => !usedNames.has(normalize(m.name))) || candidates[0];
-
-        if (pick) {
-          next[day] = pick;
-          usedNames.add(normalize(pick.name));
-          changed = true;
-          return;
-        }
-      }
-
-      next[day] = fallbackMeal(day);
-      changed = true;
-    });
-
-    if (!changed) {
-      alert("Nothing to generate (all days already have meals). Tip: add a Force Generate button.");
-      return;
-    }
-
-    setMeals(next);
-    navigate("/week");
-  };
+  setMeals(withPhotos);
+  navigate("/week");
+};
 
   // Menu
   const [menuOpen, setMenuOpen] = useState(false);
@@ -675,9 +545,7 @@ const addDayToCookbook = (day: Day) => {
         cookbook={cookbook}
         setCookbook={setCookbook}
         prefs={effectivePrefs}
-        violatesAllergens={violatesAllergens}
-        isVegetarianByHeuristic={isVegetarianByHeuristic}
-      />
+              />
     }
   />
 
