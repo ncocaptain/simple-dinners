@@ -2,6 +2,7 @@
 import type { Meal, PantryItem, Effort } from "./types";
 import { ALLERGENS, MEAT_WORDS, SUBS, NEW_BUILTIN_RECIPES } from "./data";
 
+
 // --------------------
 // Basic helpers
 // --------------------
@@ -26,7 +27,7 @@ function escapeRegExp(s: string) {
 // Supports SUBS as Record<string, string> or Array<[string, string]>
 function applySubs(
   text: string,
-  subs: Array<{ pattern: RegExp; replacement: string }>
+  subs: SubRule[]
 ) {
   if (!text) return text;
   if (!subs?.length) return text;
@@ -55,15 +56,22 @@ function isVegetarianMeal(meal: Meal, meatWords: string[]) {
  */
 type SubRule = { pattern: RegExp; replacement: string };
 
+type PlannerPrefs = {
+  vegetarian: boolean;
+  allowSubstitutions: boolean;
+  allergens?: string[];
+};
+
 function finalizeMealForPrefs(
   meal: Meal,
-  prefs: { vegetarian: boolean; allowSubstitutions: boolean },
+  prefs: PlannerPrefs,
   meatWords: string[],
   subs: SubRule[]
 ): Meal | null {
   if (!prefs.vegetarian) return meal;
 
-  if (isVegetarianMeal(meal, meatWords)) return meal;
+  const alreadyVeg = isVegetarianMeal(meal, meatWords);
+  if (alreadyVeg) return meal;
 
   if (!prefs.allowSubstitutions) return null;
 
@@ -74,10 +82,9 @@ function finalizeMealForPrefs(
     instructions: applySubs(meal?.instructions ?? "", subs),
   };
 
-  if (!isVegetarianMeal(next, meatWords)) return null;
+  next.instructions = applyInstructionCleanups(next.instructions ?? "");
 
-  // Nice touch: if we had to sub, optionally mark it
-  // next.name = next.name === meal.name ? next.name : `${next.name} (veg)`;
+  if (!isVegetarianMeal(next, meatWords)) return null;
 
   return next;
 }
@@ -127,6 +134,28 @@ export function violatesAllergens(ingredients: string, activeAllergens: string[]
   const badWords = selected.flatMap((a) => a.keywords.map(normalize));
 
   return badWords.some((bad) => ing.includes(bad));
+}
+
+const VEG_INSTRUCTION_CLEANUPS: Array<{ pattern: RegExp; replacement: string }> = [
+  // Remove grease/fat draining lines
+  { pattern: /^.*drain.*grease.*(\r?\n)?/gim, replacement: "" },
+  { pattern: /^.*drain.*fat.*(\r?\n)?/gim, replacement: "" },
+  { pattern: /^.*discard.*fat.*(\r?\n)?/gim, replacement: "" },
+
+  // Optional: “brown” phrasing is fine, but this makes it read better for beans/tofu
+  { pattern: /\bbrown the\b/gi, replacement: "heat the" },
+
+  // Clean up extra blank lines created by removals
+  { pattern: /\n{3,}/g, replacement: "\n\n" },
+];
+
+function applyInstructionCleanups(text: string) {
+  if (!text) return text;
+  let out = text;
+  for (const { pattern, replacement } of VEG_INSTRUCTION_CLEANUPS) {
+    out = out.replace(pattern, replacement);
+  }
+  return out.trim();
 }
 
 export function isVegetarianByHeuristic(ingredients: string) {
@@ -183,6 +212,7 @@ export function generatePlan(args: {
   days: readonly string[];
 }) {
   const { meals, cookbook, pantry, daySettings, prefs, days } = args;
+  const safePrefs = { ...prefs, allergens: prefs.allergens ?? [] };
 
   const pantryTokens = getPantryTokens(pantry);
 
@@ -254,7 +284,7 @@ export function generatePlan(args: {
       // If you want to enforce effort more strictly, uncomment:
       // if (candidate.effort && candidate.effort !== needed && needed !== "normal") continue;
 
-      const maybe = finalizeMealForPrefs(candidate, prefs, MEAT_WORDS, SUBS) as Meal | null;
+      const maybe = finalizeMealForPrefs(candidate, safePrefs, MEAT_WORDS, SUBS) as Meal | null;
       if (!maybe) continue;
 
       // If day requires quick/easy etc, you can check here if you want:
@@ -262,12 +292,13 @@ export function generatePlan(args: {
 
       finalized = maybe;
     }
+    
 
     // Fallback: if everything is "used" or rejected by vegetarian rules, allow repeats but still enforce vegetarian safety
     if (!finalized) {
       for (let attempt = 0; attempt < ranked.length && !finalized; attempt++) {
         const candidate = ranked[attempt];
-        const maybe = finalizeMealForPrefs(candidate, prefs, MEAT_WORDS, SUBS) as Meal | null;
+        const maybe = finalizeMealForPrefs(candidate, safePrefs, MEAT_WORDS, SUBS) as Meal | null;
         if (maybe) finalized = maybe;
       }
     }
@@ -277,6 +308,7 @@ export function generatePlan(args: {
       used.add(normalize(finalized.name));
     }
   }
+  
 
   return next;
 }
