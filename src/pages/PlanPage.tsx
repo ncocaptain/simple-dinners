@@ -1,9 +1,7 @@
 import React from "react";
 import { days } from "../core/data";
 import Button from "../components/Button";
-import type { Effort, PantryItem, } from "../core/types";
-
-
+import type { Effort, PantryItem } from "../core/types";
 
 export default function PlanPage({
   daySettings,
@@ -35,35 +33,18 @@ export default function PlanPage({
   dietaryNotes: string;
   setDietaryNotes: React.Dispatch<React.SetStateAction<string>>;
 }) {
-
-    
-  const commitPantry = () => {
-  const tokens = pantryText
-    .split(/[\n,]/g)
-    .map((t) => t.trim())
-    .filter(Boolean);
-
-  setPantry(
-    tokens.map((name) => ({
-      id: name.toLowerCase().replace(/\s+/g, "-"),
-      name,
-      createdAt: Date.now(),
-    }))
-  );
-};
-
   // --- Styles ---
   const card: React.CSSProperties = {
-  width: "100%",
-  maxWidth: 1200,
-  margin: "0 auto",
-  padding: "22px 12px",
-  borderRadius: 20,
-  background: "rgba(15,23,42,0.6)",
-  border: "1px solid rgba(255,255,255,0.08)",
-  display: "grid",
-  gap: 22,
-};
+    width: "100%",
+    maxWidth: 1200,
+    margin: "0 auto",
+    padding: "22px 12px",
+    borderRadius: 20,
+    background: "rgba(15,23,42,0.6)",
+    border: "1px solid rgba(255,255,255,0.08)",
+    display: "grid",
+    gap: 22,
+  };
 
   const textarea: React.CSSProperties = {
     width: "100%",
@@ -103,25 +84,48 @@ export default function PlanPage({
     color: "#14b8a6",
   };
 
-  // Local state for the pantry text to prevent cursor jumping
-  const [pantryText, setPantryText] = React.useState(pantry.map((p) => p.name).join(", "));
+  // Local state for pantry text
+  const [pantryText, setPantryText] = React.useState(
+    pantry.map((p) => p.name).join(", ")
+  );
+
   React.useEffect(() => {
-  setPantryText(pantry.map((p) => p.name).join(", "));
-}, [pantry]);
+    setPantryText(pantry.map((p) => p.name).join(", "));
+  }, [pantry]);
 
+  const commitPantry = () => {
+    const tokens = pantryText
+      .split(/[\n,]/g)
+      .map((t) => t.trim())
+      .filter(Boolean);
 
-    return (
+    setPantry(
+      tokens.map((name) => ({
+        id: name.toLowerCase().replace(/\s+/g, "-"),
+        name,
+        createdAt: Date.now(),
+      }))
+    );
+  };
+
+  return (
     <div style={{ padding: "18px 6px" }}>
       <div style={card}>
         <div style={{ textAlign: "center", marginBottom: 10 }}>
           <h2 className="cardTitle">Plan Your Week</h2>
-          <div className="readableText">
-  Choose your effort level for each day
-</div>
+          <div className="readableText">Choose your effort level for each day</div>
         </div>
 
         {days.map((day) => (
-          <div key={day} style={{ display: "grid", gap: 8, paddingBottom: 10, borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+          <div
+            key={day}
+            style={{
+              display: "grid",
+              gap: 8,
+              paddingBottom: 10,
+              borderBottom: "1px solid rgba(255,255,255,0.05)",
+            }}
+          >
             <div className="dayLabel">{day}</div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {effortOptions.map((opt) => {
@@ -143,66 +147,51 @@ export default function PlanPage({
 
         <div style={{ display: "grid", gap: 20, marginTop: 10 }}>
           {/* Vegetarian Toggle */}
-          <label className="sectionLabel" style={{ display: "flex", alignItems: "center", gap: 8 }}>
-  <input
-  type="checkbox"
-  checked={vegetarian}
-  onChange={(e) => setVegetarian(e.target.checked)}
-/>
-  Vegetarian meals only
-</label>
+          <label
+            className="sectionLabel"
+            style={{ display: "flex", alignItems: "center", gap: 8 }}
+          >
+            <input
+              type="checkbox"
+              checked={vegetarian}
+              onChange={(e) => setVegetarian(e.target.checked)}
+            />
+            Vegetarian meals only
+          </label>
 
-{vegetarian && (
-  <label className="sectionLabel" style={{ display: "flex", alignItems: "center", gap: 8 }}>
-    <input
-      type="checkbox"
-      checked={allowSubstitutions}
-      onChange={(e) => setAllowSubstitutions(e.target.checked)}
-    />
-    Allow substitutions (convert meat recipes)
-  </label>
-)}
+          {vegetarian && (
+            <label
+              className="sectionLabel"
+              style={{ display: "flex", alignItems: "center", gap: 8 }}
+            >
+              <input
+                type="checkbox"
+                checked={allowSubstitutions}
+                onChange={(e) => setAllowSubstitutions(e.target.checked)}
+              />
+              Allow substitutions (convert meat recipes)
+            </label>
+          )}
 
           {/* Pantry Input */}
           <div>
-            <h3 className="sectionLabel">
-  What's in your kitchen?
-</h3>
+            <h3 className="sectionLabel">What's in your kitchen?</h3>
             <div style={{ fontSize: 13, opacity: 0.6, marginBottom: 8 }}>
               List ingredients you have (comma separated). We'll prioritize these.
             </div>
-            <textarea
-  placeholder="e.g. Chicken, Spinach, Rice, Onions"
-  value={pantryText}
-  onChange={(e) => setPantryText(e.target.value)}
-  onBlur={() => commitPantry()}
-  style={textarea}
-/>
-          </div>
 
-          
-return (
-  <div>
-    <textarea
-      value={pantryText}
-      onChange={(e) => setPantryText(e.target.value)}
-      rows={5}
-      className="w-full rounded-xl border border-white/10 bg-white/5 text-white placeholder-white/40 p-3 outline-none focus:ring-2 focus:ring-white/10"
-      placeholder={`What do you already have?
-Examples:
-chicken
-rice
-broccoli
-soy sauce`}
-    />
-  </div>
-);
+            <textarea
+              placeholder="e.g. Chicken, Spinach, Rice, Onions"
+              value={pantryText}
+              onChange={(e) => setPantryText(e.target.value)}
+              onBlur={commitPantry}
+              style={textarea}
+            />
+          </div>
 
           {/* Dietary Notes */}
           <div>
-            <h3 className="sectionLabel">
-  Dietary Notes
-</h3>
+            <h3 className="sectionLabel">Dietary Notes</h3>
             <textarea
               placeholder="Allergies, dislikes, or other preferences..."
               value={dietaryNotes}
@@ -213,7 +202,6 @@ soy sauce`}
         </div>
 
         <Button onClick={generateDinnerPlan}>✨ Generate My Dinner Plan</Button>
-
       </div>
     </div>
   );
