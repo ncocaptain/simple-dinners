@@ -37,6 +37,7 @@ export const MEAT_WORDS = [
   "salmon",
   "fish",
   "shrimp",
+  "tilapia",
 ];
 
      

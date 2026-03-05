@@ -35,7 +35,8 @@ export default function PlanPage({
   dietaryNotes: string;
   setDietaryNotes: React.Dispatch<React.SetStateAction<string>>;
 }) {
-  
+
+    
   const commitPantry = () => {
   const tokens = pantryText
     .split(/[\n,]/g)
@@ -179,19 +180,23 @@ export default function PlanPage({
 />
           </div>
 
-          const [pantryText, setPantryText] = useState("");
-
-<textarea
-  value={pantryText}
-  onChange={(e) => setPantryText(e.target.value)}
-  placeholder={`What do you already have?
+          
+return (
+  <div>
+    <textarea
+      value={pantryText}
+      onChange={(e) => setPantryText(e.target.value)}
+      rows={5}
+      className="w-full rounded-xl border border-white/10 bg-white/5 text-white placeholder-white/40 p-3 outline-none focus:ring-2 focus:ring-white/10"
+      placeholder={`What do you already have?
 Examples:
 chicken
 rice
 broccoli
 soy sauce`}
-  rows={5}
-/>
+    />
+  </div>
+);
 
           {/* Dietary Notes */}
           <div>

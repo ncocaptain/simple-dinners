@@ -184,6 +184,16 @@ export function violatesAllergens(ingredients: string, activeAllergens: string[]
   return badWords.some((bad) => ing.includes(bad));
 }
 
+function hasTag(meal: Meal, tag: string) {
+  return Array.isArray((meal as any).tags) && (meal as any).tags.includes(tag);
+}
+
+function isMealEligibleForPlan(meal: Meal) {
+  // exclude pantry/seasoning items from dinner plan
+  if (hasTag(meal, "seasoning")) return false;
+  return true;
+}
+
 const VEG_INSTRUCTION_CLEANUPS: Array<{ pattern: RegExp; replacement: string }> = [
   // Remove grease/fat draining lines
   { pattern: /^.*drain.*grease.*(\r?\n)?/gim, replacement: "" },
@@ -256,22 +266,23 @@ export function generatePlan(args: {
   meals: Record<string, Meal>;
   cookbook: Array<{ name: string; ingredients: string; instructions?: string; photoUrl?: string }>;
   pantry: PantryItem[];
-  pantryText?: string; // ✅ NEW
+  pantryText?: string;
   daySettings: Record<string, Effort>;
   prefs: { vegetarian: boolean; allowSubstitutions: boolean; allergens?: string[] };
   days: readonly string[];
 }) {
   const { meals, cookbook, pantry, pantryText, daySettings, prefs, days } = args;
-const safePrefs = { ...prefs, allergens: prefs.allergens ?? [] };
 
-// ✅ tokens from structured pantry items
-const pantryTokens = getPantryTokens(pantry);
+  const safePrefs = { ...prefs, allergens: prefs.allergens ?? [] };
 
-// ✅ tokens from free-text textarea
-const pantryTextTokens = parsePantryText(pantryText ?? "");
+  // ✅ tokens from structured pantry items
+  const pantryTokens = getPantryTokens(pantry);
 
-// ✅ merge + de-dupe
-const allPantryTokens = Array.from(new Set([...pantryTokens, ...pantryTextTokens]));
+  // ✅ tokens from free-text textarea
+  const pantryTextTokens = parsePantryText(pantryText ?? "");
+
+  // ✅ merge + de-dupe
+  const allPantryTokens = Array.from(new Set([...pantryTokens, ...pantryTextTokens]));
 
   // Convert cookbook recipes into Meal objects
   const cookbookPool: Meal[] = (cookbook ?? []).map((r) => ({
@@ -282,9 +293,11 @@ const allPantryTokens = Array.from(new Set([...pantryTokens, ...pantryTextTokens
     effort: "normal",
   }));
 
-  // Build pool and filter allergens
+  // Build pool and filter allergens + exclude non-meals (seasonings)
   const pool: Meal[] = [...cookbookPool, ...candidateLibrary].filter(
-    (m) => !violatesAllergens(m.ingredients, prefs.allergens || [])
+    (m) =>
+      isMealEligibleForPlan(m) &&
+      !violatesAllergens(m.ingredients, prefs.allergens || [])
   );
 
   // Rank by pantry match
@@ -295,9 +308,9 @@ const allPantryTokens = Array.from(new Set([...pantryTokens, ...pantryTextTokens
 
   // Vegetarian-aware candidate list:
   // - If vegetarian OFF: use baseRanked as-is
-  // - If vegetarian ON: allow vegetarian meals always; allow meat meals only if subs allowed (we'll validate after subs)
+  // - If vegetarian ON: allow veg meals always; allow others only if substitutions are allowed
   const ranked: Meal[] = prefs.vegetarian
-    ? baseRanked.filter((m) => isVegetarianMeal(m, MEAT_WORDS) || !!prefs.allowSubstitutions)
+    ? baseRanked.filter((m) => isVegetarianMeal(m, MEAT_WORDS) || prefs.allowSubstitutions)
     : baseRanked;
 
   const next: Record<string, Meal> = { ...meals };
@@ -324,12 +337,9 @@ const allPantryTokens = Array.from(new Set([...pantryTokens, ...pantryTextTokens
       continue;
     }
 
-    // Try to find a meal that:
-    // - isn't used yet
-    // - matches effort preference (if your Meal has effort; if not, this still works)
-    // - can be finalized for vegetarian prefs (when applicable)
     let finalized: Meal | null = null;
 
+    // First pass: enforce uniqueness + effort + vegetarian rules
     for (let attempt = 0; attempt < ranked.length && !finalized; attempt++) {
       const candidate = ranked[attempt];
       if (!candidate?.name) continue;
@@ -337,24 +347,33 @@ const allPantryTokens = Array.from(new Set([...pantryTokens, ...pantryTextTokens
       // Avoid repeats
       if (used.has(normalize(candidate.name))) continue;
 
-      // Optional: effort gating (only if your meals have effort)
-      // If you want to enforce effort more strictly, uncomment:
-      // if (candidate.effort && candidate.effort !== needed && needed !== "normal") continue;
+      // ✅ Enforce effort
+      const candEffort = candidate.effort ?? "normal";
+      if (needed === "normal") {
+        if (candEffort !== "normal" && candEffort !== "quick") continue;
+      } else {
+        if (candEffort !== needed) continue;
+      }
 
       const maybe = finalizeMealForPrefs(candidate, safePrefs, MEAT_WORDS, SUBS) as Meal | null;
       if (!maybe) continue;
 
-      // If day requires quick/easy etc, you can check here if you want:
-      // if (needed !== "normal" && maybe.effort && maybe.effort !== needed) continue;
-
       finalized = maybe;
     }
-    
 
-    // Fallback: if everything is "used" or rejected by vegetarian rules, allow repeats but still enforce vegetarian safety
+    // Fallback: allow repeats but STILL enforce effort + vegetarian safety
     if (!finalized) {
       for (let attempt = 0; attempt < ranked.length && !finalized; attempt++) {
         const candidate = ranked[attempt];
+        if (!candidate?.name) continue;
+
+        const candEffort = candidate.effort ?? "normal";
+        if (needed === "normal") {
+          if (candEffort !== "normal" && candEffort !== "quick") continue;
+        } else {
+          if (candEffort !== needed) continue;
+        }
+
         const maybe = finalizeMealForPrefs(candidate, safePrefs, MEAT_WORDS, SUBS) as Meal | null;
         if (maybe) finalized = maybe;
       }
@@ -364,8 +383,7 @@ const allPantryTokens = Array.from(new Set([...pantryTokens, ...pantryTextTokens
       next[day] = finalized;
       used.add(normalize(finalized.name));
     }
-  }
-  
+  } // ✅ closes for (day of days)
 
   return next;
-}
+} // ✅ closes generatePlan
