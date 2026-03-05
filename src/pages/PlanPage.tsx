@@ -179,6 +179,20 @@ export default function PlanPage({
 />
           </div>
 
+          const [pantryText, setPantryText] = useState("");
+
+<textarea
+  value={pantryText}
+  onChange={(e) => setPantryText(e.target.value)}
+  placeholder={`What do you already have?
+Examples:
+chicken
+rice
+broccoli
+soy sauce`}
+  rows={5}
+/>
+
           {/* Dietary Notes */}
           <div>
             <h3 className="sectionLabel">

@@ -1,6 +1,6 @@
 // src/core/planner.ts
 import type { Meal, PantryItem, Effort } from "./types";
-import { ALLERGENS, MEAT_WORDS, SUBS, NEW_BUILTIN_RECIPES } from "./data";
+import { ALLERGENS, MEAT_WORDS, SUBS, NEW_BUILTIN_RECIPES, NEW_VEGETARIAN_RECIPES } from "./data";
 
 
 // --------------------
@@ -12,6 +12,54 @@ export function normalize(s: string) {
     .replace(/[^\w\s]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+// simple normalization so "Bell Peppers" and "bell pepper" match
+function norm(s: string) {
+  return s.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+}
+
+// Parse a textarea list like:
+// "chicken, rice\nbroccoli\nsoy sauce"
+export function parsePantryText(text: string): string[] {
+  if (!text?.trim()) return [];
+  return text
+    .split(/[\n,]+/g)
+    .map((x) => norm(x))
+    .filter(Boolean);
+}
+
+// Score by counting how many pantry terms show up in ingredients
+export function pantryScore(meal: Meal, pantryTerms: string[]): number {
+  if (!pantryTerms.length) return 0;
+  const haystack = norm(meal.ingredients ?? "");
+  let score = 0;
+
+  for (const term of pantryTerms) {
+    // skip ultra-short terms that cause noise (ex: "oil", "on")
+    if (term.length < 3) continue;
+
+    // basic contains match; reliable + fast
+    if (haystack.includes(term)) score += 1;
+  }
+
+  return score;
+}
+
+// Prefer meals that match pantry, but keep variety
+export function sortMealsByPantry(meals: Meal[], pantryTerms: string[]): Meal[] {
+  if (!pantryTerms.length) return meals;
+
+  return [...meals].sort((a, b) => {
+    const sb = pantryScore(b, pantryTerms);
+    const sa = pantryScore(a, pantryTerms);
+    if (sb !== sa) return sb - sa;
+
+    // tie-break: quick meals slightly earlier (optional)
+    const eb = b.effort === "quick" ? 1 : 0;
+    const ea = a.effort === "quick" ? 1 : 0;
+    return eb - ea;
+  });
 }
 
 // --- Vegetarian helpers (source of truth in generator) ---
@@ -168,6 +216,7 @@ export function isVegetarianByHeuristic(ingredients: string) {
 // --------------------
 export const candidateLibrary: Meal[] = [
   ...NEW_BUILTIN_RECIPES,
+  ...NEW_VEGETARIAN_RECIPES,
 
   // TAKEOUT / NO-COOK
   {
@@ -207,14 +256,22 @@ export function generatePlan(args: {
   meals: Record<string, Meal>;
   cookbook: Array<{ name: string; ingredients: string; instructions?: string; photoUrl?: string }>;
   pantry: PantryItem[];
+  pantryText?: string; // ✅ NEW
   daySettings: Record<string, Effort>;
   prefs: { vegetarian: boolean; allowSubstitutions: boolean; allergens?: string[] };
   days: readonly string[];
 }) {
-  const { meals, cookbook, pantry, daySettings, prefs, days } = args;
-  const safePrefs = { ...prefs, allergens: prefs.allergens ?? [] };
+  const { meals, cookbook, pantry, pantryText, daySettings, prefs, days } = args;
+const safePrefs = { ...prefs, allergens: prefs.allergens ?? [] };
 
-  const pantryTokens = getPantryTokens(pantry);
+// ✅ tokens from structured pantry items
+const pantryTokens = getPantryTokens(pantry);
+
+// ✅ tokens from free-text textarea
+const pantryTextTokens = parsePantryText(pantryText ?? "");
+
+// ✅ merge + de-dupe
+const allPantryTokens = Array.from(new Set([...pantryTokens, ...pantryTextTokens]));
 
   // Convert cookbook recipes into Meal objects
   const cookbookPool: Meal[] = (cookbook ?? []).map((r) => ({
@@ -232,7 +289,7 @@ export function generatePlan(args: {
 
   // Rank by pantry match
   const baseRanked: Meal[] = pool
-    .map((m) => ({ m, score: scoreMealAgainstPantry(m, pantryTokens) }))
+    .map((m) => ({ m, score: scoreMealAgainstPantry(m, allPantryTokens) }))
     .sort((a, b) => b.score - a.score)
     .map((x) => x.m);
 

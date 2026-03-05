@@ -8,6 +8,7 @@ export type Meal = {
   instructions?: string;
   photoUrl?: string;
   effort?: Effort;
+  tags?: string[];
 };
 
 export type PantryItem = {
