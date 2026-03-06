@@ -28,6 +28,8 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   const navigate = useNavigate();
   const { slug = "" } = useParams();
   const location = useLocation();
+  const [cookMode, setCookMode] = React.useState(false);
+  const [stepIndex, setStepIndex] = React.useState(0);
 
   React.useEffect(() => {
   const qs = new URLSearchParams(location.search);
@@ -140,6 +142,10 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
 
   const ingredients = splitLines(recipe.ingredients ?? "");
   const instructions = splitLines(recipe.instructions ?? "");
+    React.useEffect(() => {
+    setStepIndex(0);
+    setCookMode(false);
+  }, [slug]);
 
   const pill: React.CSSProperties = {
     display: "inline-flex",
@@ -197,6 +203,79 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   alignItems: "center",
   gap: 8,
 };
+
+  if (cookMode) {
+    return (
+      <div
+        style={{
+          padding: window.innerWidth < 640 ? "16px 12px 24px" : "24px",
+          maxWidth: 760,
+          margin: "0 auto",
+          color: "#f8fafc",
+          display: "grid",
+          gap: 18,
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+          <button style={btn} onClick={() => setCookMode(false)}>
+            <ArrowLeft size={16} />
+            Exit Cook Mode
+          </button>
+
+          <div style={pill}>
+            Step {instructions.length === 0 ? 0 : stepIndex + 1} of {instructions.length}
+          </div>
+        </div>
+
+        <div
+          style={{
+            borderRadius: 20,
+            background: "rgba(30,41,59,0.55)",
+            border: "1px solid rgba(255,255,255,0.10)",
+            padding: window.innerWidth < 640 ? 18 : 28,
+            minHeight: 220,
+            display: "grid",
+            alignItems: "center",
+          }}
+        >
+          <div>
+            <div style={{ fontSize: 14, opacity: 0.7, fontWeight: 900, marginBottom: 10 }}>
+              {recipe.name}
+            </div>
+            <div style={{ fontSize: window.innerWidth < 640 ? 24 : 30, lineHeight: 1.45, fontWeight: 800 }}>
+              {instructions[stepIndex] || "No instructions saved."}
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", gap: 10, justifyContent: "space-between" }}>
+          <button
+            style={{
+              ...btn,
+              opacity: stepIndex === 0 ? 0.5 : 1,
+              cursor: stepIndex === 0 ? "not-allowed" : "pointer",
+            }}
+            onClick={() => setStepIndex((i) => Math.max(0, i - 1))}
+            disabled={stepIndex === 0}
+          >
+            ← Previous
+          </button>
+
+          <button
+            style={{
+              ...btn,
+              opacity: stepIndex >= instructions.length - 1 ? 0.5 : 1,
+              cursor: stepIndex >= instructions.length - 1 ? "not-allowed" : "pointer",
+            }}
+            onClick={() => setStepIndex((i) => Math.min(instructions.length - 1, i + 1))}
+            disabled={stepIndex >= instructions.length - 1}
+          >
+            Next →
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
