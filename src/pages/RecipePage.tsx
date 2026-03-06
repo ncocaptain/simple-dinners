@@ -22,6 +22,40 @@ function findCandidateBySlug(slug: string) {
   );
 }
 
+function parseStepDuration(step?: string): number | null {
+  if (!step) return null;
+
+  const s = step.toLowerCase();
+
+  // Examples matched:
+  // "bake 20 minutes"
+  // "cook for 10 min"
+  // "rest 1 hour"
+  // "simmer 1 hr 30 min"
+  const hourMatch = s.match(/(\d+)\s*(hour|hours|hr|hrs)/);
+  const minuteMatch = s.match(/(\d+)\s*(minute|minutes|min|mins)/);
+
+  const hours = hourMatch ? Number(hourMatch[1]) : 0;
+  const minutes = minuteMatch ? Number(minuteMatch[1]) : 0;
+
+  const totalSeconds = hours * 3600 + minutes * 60;
+
+  return totalSeconds > 0 ? totalSeconds : null;
+}
+
+function formatTimer(totalSeconds: number): string {
+  const safe = Math.max(0, totalSeconds);
+  const hours = Math.floor(safe / 3600);
+  const minutes = Math.floor((safe % 3600) / 60);
+  const seconds = safe % 60;
+
+  if (hours > 0) {
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  }
+
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
 
 
 export default function RecipePage({ setCookbook }: { setCookbook: any }) {
@@ -30,6 +64,8 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   const location = useLocation();
   const [cookMode, setCookMode] = React.useState(false);
   const [stepIndex, setStepIndex] = React.useState(0);
+    const [timerSeconds, setTimerSeconds] = React.useState<number | null>(null);
+  const [timerRunning, setTimerRunning] = React.useState(false);
 
   React.useEffect(() => {
   const qs = new URLSearchParams(location.search);
@@ -49,6 +85,11 @@ React.useEffect(() => {
     setStepIndex(0);
     setCookMode(false);
   }, [slug]);
+
+    React.useEffect(() => {
+    setTimerSeconds(null);
+    setTimerRunning(false);
+  }, [stepIndex, slug]);
 
   // Source of truth: recipeStore → cookbook → candidateLibrary
   // Ratings stay locked to cookbook: candidateLibrary gets rating fields stripped.
@@ -147,6 +188,29 @@ React.useEffect(() => {
 
   const ingredients = splitLines(recipe.ingredients ?? "");
   const instructions = splitLines(recipe.instructions ?? "");
+  const currentStep = instructions[stepIndex] || "";
+  const detectedDuration = parseStepDuration(currentStep);
+    React.useEffect(() => {
+    if (!timerRunning || timerSeconds === null) return;
+
+    if (timerSeconds <= 0) {
+      setTimerRunning(false);
+      return;
+    }
+
+    const id = window.setInterval(() => {
+      setTimerSeconds((prev) => {
+        if (prev === null) return prev;
+        if (prev <= 1) {
+          window.clearInterval(id);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => window.clearInterval(id);
+  }, [timerRunning, timerSeconds]);
     
 
   const pill: React.CSSProperties = {
@@ -245,7 +309,7 @@ React.useEffect(() => {
               {recipe.name}
             </div>
             <div style={{ fontSize: window.innerWidth < 640 ? 24 : 30, lineHeight: 1.45, fontWeight: 800 }}>
-              {instructions[stepIndex] || "No instructions saved."}
+              {currentStep || "No instructions saved."}
             </div>
           </div>
         </div>
@@ -257,7 +321,9 @@ React.useEffect(() => {
               opacity: stepIndex === 0 ? 0.5 : 1,
               cursor: stepIndex === 0 ? "not-allowed" : "pointer",
             }}
-            onClick={() => setStepIndex((i) => Math.max(0, i - 1))}
+            onClick={() => {
+  setStepIndex((i) => Math.max(0, i - 1));
+}}
             disabled={stepIndex === 0}
           >
             ← Previous
@@ -269,7 +335,9 @@ React.useEffect(() => {
               opacity: stepIndex >= instructions.length - 1 ? 0.5 : 1,
               cursor: stepIndex >= instructions.length - 1 ? "not-allowed" : "pointer",
             }}
-            onClick={() => setStepIndex((i) => Math.min(instructions.length - 1, i + 1))}
+            onClick={() => {
+  setStepIndex((i) => Math.min(instructions.length - 1, i + 1));
+}}
             disabled={stepIndex >= instructions.length - 1}
           >
             Next →
@@ -278,6 +346,57 @@ React.useEffect(() => {
       </div>
     );
   }
+
+              {detectedDuration && (
+              <div style={{ marginTop: 18, display: "grid", gap: 10 }}>
+                {timerSeconds === null ? (
+                  <button
+                    style={btn}
+                    onClick={() => {
+                      setTimerSeconds(detectedDuration);
+                      setTimerRunning(true);
+                    }}
+                  >
+                    ⏱ Start {formatTimer(detectedDuration)} Timer
+                  </button>
+                ) : (
+                  <div
+                    style={{
+                      display: "grid",
+                      gap: 10,
+                      padding: 14,
+                      borderRadius: 16,
+                      background: "rgba(255,255,255,0.06)",
+                      border: "1px solid rgba(255,255,255,0.10)",
+                      maxWidth: 320,
+                    }}
+                  >
+                    <div style={{ fontSize: 28, fontWeight: 900 }}>
+                      {formatTimer(timerSeconds)}
+                    </div>
+
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                      <button
+                        style={btn}
+                        onClick={() => setTimerRunning((v) => !v)}
+                      >
+                        {timerRunning ? "Pause" : "Resume"}
+                      </button>
+
+                      <button
+                        style={btn}
+                        onClick={() => {
+                          setTimerSeconds(detectedDuration);
+                          setTimerRunning(false);
+                        }}
+                      >
+                        Reset
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
 
   return (
     <div
