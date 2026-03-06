@@ -45,6 +45,11 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   window.scrollTo(0, 0);
 }, [slug]);
 
+React.useEffect(() => {
+    setStepIndex(0);
+    setCookMode(false);
+  }, [slug]);
+
   // Source of truth: recipeStore → cookbook → candidateLibrary
   // Ratings stay locked to cookbook: candidateLibrary gets rating fields stripped.
   const recipe = React.useMemo(() => {
@@ -142,10 +147,7 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
 
   const ingredients = splitLines(recipe.ingredients ?? "");
   const instructions = splitLines(recipe.instructions ?? "");
-    React.useEffect(() => {
-    setStepIndex(0);
-    setCookMode(false);
-  }, [slug]);
+    
 
   const pill: React.CSSProperties = {
     display: "inline-flex",
@@ -326,6 +328,12 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
     <Share2 size={16} />
     Share
+  </span>
+</button>
+
+<button style={btn} onClick={() => setCookMode(true)}>
+  <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+    🍳 Cook Mode
   </span>
 </button>
 
