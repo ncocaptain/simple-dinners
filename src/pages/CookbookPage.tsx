@@ -507,14 +507,35 @@ const toggleSelectLine = (line: string) => {
             alt={r.name}
             style={{ width: "100%", height: 180, objectFit: "cover", cursor: "pointer" }}
             loading="lazy"
-            onClick={() => toggleExpanded(rid)}
+            onClick={() =>
+  navigate(`/recipe/${encodeURIComponent(getSlug(r))}?from=${encodeURIComponent("/cookbook")}`)
+}
           />
 
           <div style={{ padding: 16, display: "grid", gap: 10 }}>
             {/* Title row */}
             <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "flex-start" }}>
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontWeight: 900, fontSize: 18, lineHeight: 1.15 }}>{r.name}</div>
+                <button
+  type="button"
+  onClick={() =>
+    navigate(`/recipe/${encodeURIComponent(getSlug(r))}?from=${encodeURIComponent("/cookbook")}`)
+  }
+  style={{
+    background: "none",
+    border: "none",
+    padding: 0,
+    margin: 0,
+    color: "inherit",
+    textAlign: "left",
+    cursor: "pointer",
+    fontWeight: 900,
+    fontSize: 18,
+    lineHeight: 1.15,
+  }}
+>
+  {r.name}
+</button>
                 <div style={{ opacity: 0.7, fontSize: 12, marginTop: 4 }}>
                   {r.updatedAt ? `Updated ${new Date(r.updatedAt).toLocaleDateString()}` : ""}
                 </div>
@@ -578,6 +599,19 @@ const toggleSelectLine = (line: string) => {
                   {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                   {isExpanded ? "Hide" : "Details"}
                 </button>
+
+                <button
+    type="button"
+    onClick={() =>
+      navigate(`/recipe/${encodeURIComponent(getSlug(r))}?from=${encodeURIComponent("/cookbook")}`)
+    }
+    style={actionBtn}
+    disabled={!getSlug(r)}
+    title={!getSlug(r) ? "Missing recipe slug" : "Open full recipe"}
+  >
+    <BookOpen size={16} />
+    Open
+  </button>
 
                 <button type="button" onClick={() => onPrint(r)} style={actionBtn}>
                   <Printer size={16} />
