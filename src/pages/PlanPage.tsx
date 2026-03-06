@@ -10,8 +10,6 @@ export default function PlanPage({
   setPantry,
   vegetarian,
   setVegetarian,
-  allowSubstitutions,
-  setAllowSubstitutions,
   generateDinnerPlan,
   dietaryNotes,
   setDietaryNotes,
@@ -24,9 +22,6 @@ export default function PlanPage({
 
   vegetarian: boolean;
   setVegetarian: React.Dispatch<React.SetStateAction<boolean>>;
-
-  allowSubstitutions: boolean;
-  setAllowSubstitutions: React.Dispatch<React.SetStateAction<boolean>>;
 
   generateDinnerPlan: (force?: boolean) => void;
 
@@ -159,20 +154,7 @@ export default function PlanPage({
             Vegetarian meals only
           </label>
 
-          {vegetarian && (
-            <label
-              className="sectionLabel"
-              style={{ display: "flex", alignItems: "center", gap: 8 }}
-            >
-              <input
-                type="checkbox"
-                checked={allowSubstitutions}
-                onChange={(e) => setAllowSubstitutions(e.target.checked)}
-              />
-              Allow substitutions (convert meat recipes)
-            </label>
-          )}
-
+          
           {/* Pantry Input */}
           <div>
             <h3 className="sectionLabel">What's in your kitchen?</h3>

@@ -2,7 +2,6 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 type Prefs = {
   vegetarian?: boolean;
-  allowSubstitutions?: boolean;
   allergens?: string[]; // optional
 };
 
@@ -31,7 +30,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (emptyDays.length === 0) return res.status(200).json({ meals: {} });
 
   const vegetarian = !!prefs?.vegetarian;
-  const allowSubs = !!prefs?.allowSubstitutions;
   const allergens = Array.isArray(prefs?.allergens) ? prefs!.allergens!.filter(Boolean) : [];
 
   const prompt = `
@@ -47,7 +45,6 @@ Constraints:
 - Instructions should be step-by-step (numbered or new lines).
 - If vegetarian=${vegetarian}, make all recipes vegetarian.
 - If allergens list is not empty, avoid these allergens: ${allergens.join(", ")}.
-- If allowSubstitutions=${allowSubs}, you may include a short substitution note inside instructions.
 
 JSON shape:
 {

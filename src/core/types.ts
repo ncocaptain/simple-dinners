@@ -33,6 +33,5 @@ export type Recipe = {
 
 export type Preferences = {
   vegetarian: boolean;
-  allowSubstitutions: boolean;
   allergens: string[];
 };

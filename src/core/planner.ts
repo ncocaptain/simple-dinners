@@ -1,7 +1,6 @@
 // src/core/planner.ts
 import type { Meal, PantryItem, Effort } from "./types";
-import { ALLERGENS, MEAT_WORDS, SUBS, NEW_BUILTIN_RECIPES, NEW_VEGETARIAN_RECIPES } from "./data";
-
+import { ALLERGENS, MEAT_WORDS, NEW_BUILTIN_RECIPES, NEW_VEGETARIAN_RECIPES } from "./data";
 
 // --------------------
 // Basic helpers
@@ -36,10 +35,7 @@ export function pantryScore(meal: Meal, pantryTerms: string[]): number {
   let score = 0;
 
   for (const term of pantryTerms) {
-    // skip ultra-short terms that cause noise (ex: "oil", "on")
     if (term.length < 3) continue;
-
-    // basic contains match; reliable + fast
     if (haystack.includes(term)) score += 1;
   }
 
@@ -55,36 +51,17 @@ export function sortMealsByPantry(meals: Meal[], pantryTerms: string[]): Meal[] 
     const sa = pantryScore(a, pantryTerms);
     if (sb !== sa) return sb - sa;
 
-    // tie-break: quick meals slightly earlier (optional)
     const eb = b.effort === "quick" ? 1 : 0;
     const ea = a.effort === "quick" ? 1 : 0;
     return eb - ea;
   });
 }
 
-// --- Vegetarian helpers (source of truth in generator) ---
-
+// --------------------
+// Vegetarian helpers
+// --------------------
 function escapeRegExp(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-// Match meat words as whole-ish words (handles "ground beef", "chicken", etc.)
-
-
-// Apply SUBS replacements to a block of text.
-// Supports SUBS as Record<string, string> or Array<[string, string]>
-function applySubs(
-  text: string,
-  subs: SubRule[]
-) {
-  if (!text) return text;
-  if (!subs?.length) return text;
-
-  let out = text;
-  for (const { pattern, replacement } of subs) {
-    out = out.replace(pattern, replacement);
-  }
-  return out;
 }
 
 function mealTextForMeatCheck(meal: Meal) {
@@ -97,44 +74,6 @@ function isVegetarianMeal(meal: Meal, meatWords: string[]) {
   return !meatWords.some((w) =>
     new RegExp(`\\b${escapeRegExp(w)}\\b`, "i").test(t)
   );
-}
-
-/**
- * Returns a finalized meal for prefs, or null if it can't be made vegetarian-safe.
- */
-type SubRule = { pattern: RegExp; replacement: string };
-
-type PlannerPrefs = {
-  vegetarian: boolean;
-  allowSubstitutions: boolean;
-  allergens?: string[];
-};
-
-function finalizeMealForPrefs(
-  meal: Meal,
-  prefs: PlannerPrefs,
-  meatWords: string[],
-  subs: SubRule[]
-): Meal | null {
-  if (!prefs.vegetarian) return meal;
-
-  const alreadyVeg = isVegetarianMeal(meal, meatWords);
-  if (alreadyVeg) return meal;
-
-  if (!prefs.allowSubstitutions) return null;
-
-  const next: Meal = {
-    ...meal,
-    name: applySubs(meal?.name ?? "", subs),
-    ingredients: applySubs(meal?.ingredients ?? "", subs),
-    instructions: applySubs(meal?.instructions ?? "", subs),
-  };
-
-  next.instructions = applyInstructionCleanups(next.instructions ?? "");
-
-  if (!isVegetarianMeal(next, meatWords)) return null;
-
-  return next;
 }
 
 // --------------------
@@ -165,14 +104,11 @@ export function scoreMealAgainstPantry(meal: Meal, tokens: string[]) {
 }
 
 // --------------------
-// Substitutions (from data.ts)
+// Allergen + meal helpers
 // --------------------
-export { SUBS };
-
-// --------------------
-// Allergen + veg helpers (pure functions)
-// --------------------
-export const allergenKeywords: string[] = ALLERGENS.flatMap((a) => a.keywords.map(normalize));
+export const allergenKeywords: string[] = ALLERGENS.flatMap((a) =>
+  a.keywords.map(normalize)
+);
 
 export function violatesAllergens(ingredients: string, activeAllergens: string[] = []) {
   if (!activeAllergens.length) return false;
@@ -189,31 +125,8 @@ function hasTag(meal: Meal, tag: string) {
 }
 
 function isMealEligibleForPlan(meal: Meal) {
-  // exclude pantry/seasoning items from dinner plan
   if (hasTag(meal, "seasoning")) return false;
   return true;
-}
-
-const VEG_INSTRUCTION_CLEANUPS: Array<{ pattern: RegExp; replacement: string }> = [
-  // Remove grease/fat draining lines
-  { pattern: /^.*drain.*grease.*(\r?\n)?/gim, replacement: "" },
-  { pattern: /^.*drain.*fat.*(\r?\n)?/gim, replacement: "" },
-  { pattern: /^.*discard.*fat.*(\r?\n)?/gim, replacement: "" },
-
-  // Optional: “brown” phrasing is fine, but this makes it read better for beans/tofu
-  { pattern: /\bbrown the\b/gi, replacement: "heat the" },
-
-  // Clean up extra blank lines created by removals
-  { pattern: /\n{3,}/g, replacement: "\n\n" },
-];
-
-function applyInstructionCleanups(text: string) {
-  if (!text) return text;
-  let out = text;
-  for (const { pattern, replacement } of VEG_INSTRUCTION_CLEANUPS) {
-    out = out.replace(pattern, replacement);
-  }
-  return out.trim();
 }
 
 export function isVegetarianByHeuristic(ingredients: string) {
@@ -222,13 +135,12 @@ export function isVegetarianByHeuristic(ingredients: string) {
 }
 
 // --------------------
-// Candidate library (from data.ts)
+// Candidate library
 // --------------------
 export const candidateLibrary: Meal[] = [
   ...NEW_BUILTIN_RECIPES,
   ...NEW_VEGETARIAN_RECIPES,
 
-  // TAKEOUT / NO-COOK
   {
     id: "takeout-drive-thru-night",
     slug: "takeout-drive-thru-night",
@@ -260,7 +172,7 @@ export const candidateLibrary: Meal[] = [
 ];
 
 // --------------------
-// Optional: pure plan generator (NO React)
+// Pure plan generator
 // --------------------
 export function generatePlan(args: {
   meals: Record<string, Meal>;
@@ -268,23 +180,15 @@ export function generatePlan(args: {
   pantry: PantryItem[];
   pantryText?: string;
   daySettings: Record<string, Effort>;
-  prefs: { vegetarian: boolean; allowSubstitutions: boolean; allergens?: string[] };
+  prefs: { vegetarian: boolean; allergens?: string[] };
   days: readonly string[];
 }) {
   const { meals, cookbook, pantry, pantryText, daySettings, prefs, days } = args;
 
-  const safePrefs = { ...prefs, allergens: prefs.allergens ?? [] };
-
-  // ✅ tokens from structured pantry items
   const pantryTokens = getPantryTokens(pantry);
-
-  // ✅ tokens from free-text textarea
   const pantryTextTokens = parsePantryText(pantryText ?? "");
-
-  // ✅ merge + de-dupe
   const allPantryTokens = Array.from(new Set([...pantryTokens, ...pantryTextTokens]));
 
-  // Convert cookbook recipes into Meal objects
   const cookbookPool: Meal[] = (cookbook ?? []).map((r) => ({
     name: r.name,
     ingredients: r.ingredients,
@@ -293,30 +197,24 @@ export function generatePlan(args: {
     effort: "normal",
   }));
 
-  // Build pool and filter allergens + exclude non-meals (seasonings)
   const pool: Meal[] = [...cookbookPool, ...candidateLibrary].filter(
     (m) =>
       isMealEligibleForPlan(m) &&
       !violatesAllergens(m.ingredients, prefs.allergens || [])
   );
 
-  // Rank by pantry match
   const baseRanked: Meal[] = pool
     .map((m) => ({ m, score: scoreMealAgainstPantry(m, allPantryTokens) }))
     .sort((a, b) => b.score - a.score)
     .map((x) => x.m);
 
-  // Vegetarian-aware candidate list:
-  // - If vegetarian OFF: use baseRanked as-is
-  // - If vegetarian ON: allow veg meals always; allow others only if substitutions are allowed
   const ranked: Meal[] = prefs.vegetarian
-    ? baseRanked.filter((m) => isVegetarianMeal(m, MEAT_WORDS) || prefs.allowSubstitutions)
+    ? baseRanked.filter((m) => isVegetarianMeal(m, MEAT_WORDS))
     : baseRanked;
 
   const next: Record<string, Meal> = { ...meals };
   const used = new Set<string>();
 
-  // Mark already-filled days as used so we don't repeat them
   for (const d of days) {
     const existingName = next[d]?.name?.trim();
     if (existingName) used.add(normalize(existingName));
@@ -339,15 +237,13 @@ export function generatePlan(args: {
 
     let finalized: Meal | null = null;
 
-    // First pass: enforce uniqueness + effort + vegetarian rules
+    // First pass: avoid repeats
     for (let attempt = 0; attempt < ranked.length && !finalized; attempt++) {
       const candidate = ranked[attempt];
       if (!candidate?.name) continue;
 
-      // Avoid repeats
       if (used.has(normalize(candidate.name))) continue;
 
-      // ✅ Enforce effort
       const candEffort = candidate.effort ?? "normal";
       if (needed === "normal") {
         if (candEffort !== "normal" && candEffort !== "quick") continue;
@@ -355,13 +251,12 @@ export function generatePlan(args: {
         if (candEffort !== needed) continue;
       }
 
-      const maybe = finalizeMealForPrefs(candidate, safePrefs, MEAT_WORDS, SUBS) as Meal | null;
-      if (!maybe) continue;
+      if (prefs.vegetarian && !isVegetarianMeal(candidate, MEAT_WORDS)) continue;
 
-      finalized = maybe;
+      finalized = candidate;
     }
 
-    // Fallback: allow repeats but STILL enforce effort + vegetarian safety
+    // Fallback: allow repeats, still enforce effort + vegetarian
     if (!finalized) {
       for (let attempt = 0; attempt < ranked.length && !finalized; attempt++) {
         const candidate = ranked[attempt];
@@ -374,8 +269,9 @@ export function generatePlan(args: {
           if (candEffort !== needed) continue;
         }
 
-        const maybe = finalizeMealForPrefs(candidate, safePrefs, MEAT_WORDS, SUBS) as Meal | null;
-        if (maybe) finalized = maybe;
+        if (prefs.vegetarian && !isVegetarianMeal(candidate, MEAT_WORDS)) continue;
+
+        finalized = candidate;
       }
     }
 
@@ -383,7 +279,7 @@ export function generatePlan(args: {
       next[day] = finalized;
       used.add(normalize(finalized.name));
     }
-  } // ✅ closes for (day of days)
+  }
 
   return next;
-} // ✅ closes generatePlan
+}

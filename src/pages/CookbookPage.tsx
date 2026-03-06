@@ -189,9 +189,9 @@ const onPrint = (r: CookbookEntry) => {
   (r: { ingredients: string }) => {
     if (violatesAllergens(r.ingredients, prefs.allergens || [])) return false;
     if (!prefs.vegetarian) return true;
-    return isVegetarianByHeuristic(r.ingredients) || prefs.allowSubstitutions;
+    return isVegetarianByHeuristic(r.ingredients) || 
   },
-  [prefs.vegetarian, prefs.allowSubstitutions, prefs.allergens]
+  [prefs.vegetarian, prefs.allergens]
 );
 
   const filteredCookbook = React.useMemo(() => {
