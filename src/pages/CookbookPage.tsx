@@ -185,14 +185,14 @@ const onPrint = (r: CookbookEntry) => {
     };
   }, []);
 
-  const recipeMatchesPreferences = React.useCallback(
-  (r: { ingredients: string }) => {
-    if (violatesAllergens(r.ingredients, prefs.allergens || [])) return false;
-    if (!prefs.vegetarian) return true;
-    return isVegetarianByHeuristic(r.ingredients) || 
-  },
-  [prefs.vegetarian, prefs.allergens]
-);
+    const recipeMatchesPreferences = React.useCallback(
+    (r: { ingredients: string }) => {
+      if (violatesAllergens(r.ingredients, prefs.allergens || [])) return false;
+      if (!prefs.vegetarian) return true;
+      return isVegetarianByHeuristic(r.ingredients);
+    },
+    [prefs.vegetarian, prefs.allergens]
+  );
 
   const filteredCookbook = React.useMemo(() => {
     const q = normalize(cookbookSearch);
@@ -459,410 +459,318 @@ const toggleSelectLine = (line: string) => {
           marginTop: showEmptyState ? 16 : 0,
         }}
       >
-        {filteredCookbook.map((r) => {
-          
-          // inside filteredCookbook.map((r) => { ... })
-const rid = r.id ?? r.slug ?? r.name; // stable fallback
-const isEditing = editingId === r.id;
-const isExpanded = expandedId === rid;
+      {filteredCookbook.map((r) => {
+  const rid = (r.id ?? r.slug ?? r.name).toString(); // stable fallback
+  const isEditing = editingId === r.id;
+  const isExpanded = expandedId === rid;
 
-return (
-  <Card key={rid} style={{ padding: 0, overflow: "hidden" }}>
-    {isEditing ? (
-      /* your existing edit UI stays */
-      <div>...</div>
-    ) : (
-      <>
-        <img
-  src={r.photoUrl || fallbackPhotoUrl(r.name)}
-  alt={r.name}
-  style={{ width: "100%", height: 180, objectFit: "cover", cursor: "pointer" }}
-  loading="lazy"
-  onClick={() => toggleExpanded(rid)}
-/>
-
+  return (
+    <Card key={rid} style={{ padding: 0, overflow: "hidden" }}>
+      {isEditing ? (
+        // ✅ keep your real edit UI here (not "..."), or paste the existing edit form
         <div style={{ padding: 16, display: "grid", gap: 10 }}>
-          {/* Title row */}
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "flex-start" }}>
-            <div style={{ minWidth: 0 }}>
-              <div style={{ fontWeight: 900, fontSize: 18, lineHeight: 1.15 }}>{r.name}</div>
-              <div style={{ opacity: 0.7, fontSize: 12, marginTop: 4 }}>
-                {r.updatedAt ? `Updated ${new Date(r.updatedAt).toLocaleDateString()}` : ""}
-              </div>
-            </div>
-
-            {/* Favorite (your new Lucide star button stays here) */}
-            <button
-              onClick={() => toggleFavorite(r.id)}
-              style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                lineHeight: 1,
-                padding: 2,
-                display: "grid",
-                placeItems: "center",
-              }}
-              aria-label="Toggle favorite"
-              title="Toggle favorite"
-            >
-              <Star
-                size={18}
-                fill={r.favorite ? "#facc15" : "none"}
-                stroke={r.favorite ? "#facc15" : "currentColor"}
-              />
-            </button>
-          </div>
-
-          {/* Badges row (keep yours) */}
-          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            {violatesAllergens(r.ingredients) ? <Badge tone="bad">Allergens</Badge> : <Badge tone="good">Safe</Badge>}
-            {isVegetarianByHeuristic(r.ingredients) ? <Badge tone="good">Vegetarian</Badge> : <Badge tone="warn">Meat</Badge>}
-          </div>
-
-          {/* Action bar */}
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              {/* Expand/collapse */}
-              <button
-                type="button"
-                onClick={() => toggleExpanded(rid)}
-                style={{
-                  padding: "8px 10px",
-                  borderRadius: 12,
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  color: "#f8fafc",
-                  cursor: "pointer",
-                  fontWeight: 800,
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                }}
-              >
-                {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                {isExpanded ? "Hide" : "Details"}
-              </button>
-
-              
-
-              {/* Print */}
-              <button type="button" onClick={() => onPrint(r)} style={actionBtn}>
-  <Printer size={16} />
-  Print
-</button>
-                {/*Share*/}
-<button type="button" onClick={() => onShare(r)} style={actionBtn}>
-  <Share2 size={16} />
-  Share
-</button>
-
-<button
-  type="button"
-  onClick={() => {
-    // 1) ensure expanded
-    if (expandedId !== rid) setExpandedId(rid);
-
-    // 2) toggle picker
-    if (pickerId === rid) {
-      setPickerId(null);
-      setSelectedLines([]);
-      setPickerMsg("");
-    } else {
-      setPickerId(rid);
-      setSelectedLines([]);
-      setPickerMsg("");
-    }
-  }}
-  style={{
-    ...actionBtn,
-    background:
-      pickerId === rid ? "rgba(20,184,166,0.18)" : (actionBtn as any).background,
-    border:
-      pickerId === rid ? "1px solid rgba(20,184,166,0.35)" : (actionBtn as any).border,
-  }}
-  disabled={!r.ingredients?.trim()}
-  title={!r.ingredients?.trim() ? "No ingredients" : "Add to shopping list"}
->
-  <ShoppingCart size={16} />
-  List
-</button>
-            </div>
-
-            {/* Right-side controls: Edit/Delete + Plan dropdown */}
-            <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-              <Button variant="secondary" onClick={() => startEditRecipe(r)}>
-                <Pencil size={16} />
-              </Button>
-              <Button variant="danger" onClick={() => removeRecipe(r.id)}>
-                <Trash2 size={16} />
-              </Button>
-
-              <select
-                style={{ ...base, width: "auto" }}
-                defaultValue=""
-                onChange={(e) => {
-                  const day = e.target.value;
-                  if (!day) return;
-                  addRecipeToDay(r, day);
-                  e.currentTarget.value = "";
-                }}
-              >
-                <option value="" disabled>
-                  Plan for...
-                </option>
-                {days.map((d) => (
-                  <option key={d} value={d}>
-                    {d}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* Expanded section */}
-          {isExpanded ? (
-            <div
-              style={{
-                marginTop: 6,
-                padding: 12,
-                borderRadius: 14,
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                display: "grid",
-                gap: 10,
-              }}
-            >
-              <div style={{ fontWeight: 900, opacity: 0.85, fontSize: 12, letterSpacing: 0.3, textTransform: "uppercase" }}>
-                Ingredients
-              </div>
-              {pickerId === rid ? (
-  <div style={{ display: "grid", gap: 10 }}>
-    <div style={{ opacity: 0.75, fontSize: 13, fontWeight: 700 }}>
-      Select ingredients to add:
-    </div>
-
-    <div style={{ display: "grid", gap: 8 }}>
-      {splitIngredientLines(r.ingredients).map((line) => (
-        <label
-          key={line}
-          style={{
-            display: "flex",
-            gap: 10,
-            alignItems: "flex-start",
-            cursor: "pointer",
-            padding: "8px 10px",
-            borderRadius: 12,
-            border: "1px solid rgba(255,255,255,0.06)",
-            background: "rgba(255,255,255,0.02)",
-          }}
-        >
           <input
-            type="checkbox"
-            checked={selectedLines.includes(line)}
-            onChange={() => toggleSelectLine(line)}
-            style={{ marginTop: 3 }}
+            style={base}
+            value={editDraft.name ?? ""}
+            onChange={(e) => setEditDraft((prev) => ({ ...prev, name: e.target.value }))}
+            placeholder="Recipe Name"
           />
-          <span style={{ lineHeight: 1.45 }}>{line}</span>
-        </label>
-      ))}
-    </div>
 
-    <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-      <button
-        type="button"
-        style={actionBtn}
-        onClick={() => {
-          const lines = splitIngredientLines(r.ingredients);
-          setSelectedLines(lines);
-          setPickerMsg("");
-        }}
-      >
-        Select all
-      </button>
+          <textarea
+            style={{ ...base, minHeight: 80 }}
+            value={editDraft.ingredients ?? ""}
+            onChange={(e) => setEditDraft((prev) => ({ ...prev, ingredients: e.target.value }))}
+            placeholder="Ingredients"
+          />
 
-      <button
-        type="button"
-        style={actionBtn}
-        onClick={() => {
-          setSelectedLines([]);
-          setPickerMsg("");
-        }}
-      >
-        Clear
-      </button>
+          <textarea
+            style={{ ...base, minHeight: 120 }}
+            value={editDraft.instructions ?? ""}
+            onChange={(e) => setEditDraft((prev) => ({ ...prev, instructions: e.target.value }))}
+            placeholder="Instructions"
+          />
 
-      <button
-        type="button"
-        style={{
-          ...actionBtn,
-          background: "rgba(20,184,166,0.18)",
-          border: "1px solid rgba(20,184,166,0.35)",
-          fontWeight: 900,
-        }}
-        onClick={() => {
-          if (selectedLines.length === 0) {
-            setPickerMsg("Select at least one item.");
-            return;
-          }
-          const joined = selectedLines.join("\n");
-          const res = addIngredientsToList(r.name, joined);
-          setPickerMsg(`Added ${res.addedCount} item${res.addedCount === 1 ? "" : "s"} ✅`);
-          // close picker after success (recommended)
-          setPickerId(null);
-          setSelectedLines([]);
-        }}
-      >
-        Add selected
-      </button>
-    </div>
+          <input type="file" onChange={onPickImage} disabled={isUploading} />
+          {isUploading ? <div style={{ fontSize: 12, opacity: 0.8 }}>Uploading…</div> : null}
 
-    {pickerMsg ? (
-      <div style={{ fontSize: 13, fontWeight: 800, opacity: 0.85 }}>{pickerMsg}</div>
-    ) : null}
-  </div>
-) : (
-  <div style={{ whiteSpace: "pre-wrap", lineHeight: 1.55, opacity: 0.9 }}>
-    {r.ingredients || "—"}
-  </div>
-)}
+          <div style={{ display: "flex", gap: 8 }}>
+            <Button onClick={() => saveEditRecipe(r.id)}>Save</Button>
+            <Button variant="secondary" onClick={cancelEdit}>
+              Cancel
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <>
+          <img
+            src={r.photoUrl || fallbackPhotoUrl(r.name)}
+            alt={r.name}
+            style={{ width: "100%", height: 180, objectFit: "cover", cursor: "pointer" }}
+            loading="lazy"
+            onClick={() => toggleExpanded(rid)}
+          />
 
-              <div style={{ fontWeight: 900, opacity: 0.85, fontSize: 12, letterSpacing: 0.3, textTransform: "uppercase", marginTop: 6 }}>
-                Instructions
+          <div style={{ padding: 16, display: "grid", gap: 10 }}>
+            {/* Title row */}
+            <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "flex-start" }}>
+              <div style={{ minWidth: 0 }}>
+                <div style={{ fontWeight: 900, fontSize: 18, lineHeight: 1.15 }}>{r.name}</div>
+                <div style={{ opacity: 0.7, fontSize: 12, marginTop: 4 }}>
+                  {r.updatedAt ? `Updated ${new Date(r.updatedAt).toLocaleDateString()}` : ""}
+                </div>
               </div>
-              <div style={{ whiteSpace: "pre-wrap", lineHeight: 1.55, opacity: 0.9 }}>
-                {r.instructions || "—"}
+
+              <button
+                onClick={() => toggleFavorite(r.id)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  lineHeight: 1,
+                  padding: 2,
+                  display: "grid",
+                  placeItems: "center",
+                }}
+                aria-label="Toggle favorite"
+                title="Toggle favorite"
+              >
+                <Star
+                  size={18}
+                  fill={r.favorite ? "#facc15" : "none"}
+                  stroke={r.favorite ? "#facc15" : "currentColor"}
+                />
+              </button>
+            </div>
+
+            {/* Badges */}
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+              {violatesAllergens(r.ingredients, prefs.allergens || []) ? (
+                <Badge tone="bad">Allergens</Badge>
+              ) : (
+                <Badge tone="good">Safe</Badge>
+              )}
+              {isVegetarianByHeuristic(r.ingredients) ? (
+                <Badge tone="good">Vegetarian</Badge>
+              ) : (
+                <Badge tone="warn">Meat</Badge>
+              )}
+            </div>
+
+            {/* Action bar */}
+            <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                <button
+                  type="button"
+                  onClick={() => toggleExpanded(rid)}
+                  style={{
+                    padding: "8px 10px",
+                    borderRadius: 12,
+                    background: "rgba(255,255,255,0.06)",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    color: "#f8fafc",
+                    cursor: "pointer",
+                    fontWeight: 800,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                  }}
+                >
+                  {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  {isExpanded ? "Hide" : "Details"}
+                </button>
+
+                <button type="button" onClick={() => onPrint(r)} style={actionBtn}>
+                  <Printer size={16} />
+                  Print
+                </button>
+
+                <button type="button" onClick={() => onShare(r)} style={actionBtn}>
+                  <Share2 size={16} />
+                  Share
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (expandedId !== rid) setExpandedId(rid);
+
+                    if (pickerId === rid) {
+                      setPickerId(null);
+                      setSelectedLines([]);
+                      setPickerMsg("");
+                    } else {
+                      setPickerId(rid);
+                      setSelectedLines([]);
+                      setPickerMsg("");
+                    }
+                  }}
+                  style={{
+                    ...actionBtn,
+                    background: pickerId === rid ? "rgba(20,184,166,0.18)" : (actionBtn as any).background,
+                    border: pickerId === rid ? "1px solid rgba(20,184,166,0.35)" : (actionBtn as any).border,
+                  }}
+                  disabled={!r.ingredients?.trim()}
+                  title={!r.ingredients?.trim() ? "No ingredients" : "Add to shopping list"}
+                >
+                  <ShoppingCart size={16} />
+                  List
+                </button>
+              </div>
+
+              <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                <Button variant="secondary" onClick={() => startEditRecipe(r)}>
+                  <Pencil size={16} />
+                </Button>
+                <Button variant="danger" onClick={() => removeRecipe(r.id)}>
+                  <Trash2 size={16} />
+                </Button>
+
+                <select
+                  style={{ ...base, width: "auto" }}
+                  defaultValue=""
+                  onChange={(e) => {
+                    const day = e.target.value;
+                    if (!day) return;
+                    addRecipeToDay(r, day);
+                    e.currentTarget.value = "";
+                  }}
+                >
+                  <option value="" disabled>
+                    Plan for...
+                  </option>
+                  {days.map((d) => (
+                    <option key={d} value={d}>
+                      {d}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
-          ) : null}
-        </div>
-      </>
-    )}
-  </Card>
-);
 
-          return (
-            <Card key={r.id} style={{ padding: 0, overflow: "hidden" }}>
-              {isEditing ? (
-                <div style={{ padding: 16, display: "grid", gap: 10 }}>
-                  <input
-                    style={base}
-                    value={editDraft.name ?? ""}
-                    onChange={(e) => setEditDraft((prev) => ({ ...prev, name: e.target.value }))}
-                    placeholder="Recipe Name"
-                  />
-
-                  <textarea
-                    style={{ ...base, minHeight: 80 }}
-                    value={editDraft.ingredients ?? ""}
-                    onChange={(e) => setEditDraft((prev) => ({ ...prev, ingredients: e.target.value }))}
-                    placeholder="Ingredients"
-                  />
-
-                  <input type="file" onChange={onPickImage} disabled={isUploading} />
-                  {isUploading ? <div style={{ fontSize: 12, opacity: 0.8 }}>Uploading…</div> : null}
-
-                  <div style={{ display: "flex", gap: 8 }}>
-                    <Button onClick={() => saveEditRecipe(r.id)}>Save</Button>
-                    <Button variant="secondary" onClick={cancelEdit}>
-                      Cancel
-                    </Button>
-                  </div>
+            {/* Expanded */}
+            {isExpanded ? (
+              <div
+                style={{
+                  marginTop: 6,
+                  padding: 12,
+                  borderRadius: 14,
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  display: "grid",
+                  gap: 10,
+                }}
+              >
+                <div style={{ fontWeight: 900, opacity: 0.85, fontSize: 12, letterSpacing: 0.3, textTransform: "uppercase" }}>
+                  Ingredients
                 </div>
-              ) : (
-                <>
-                  <img
-                    src={r.photoUrl || fallbackPhotoUrl(r.name)}
-                    alt={r.name}
-                    style={{ width: "100%", height: 180, objectFit: "cover" }}
-                    loading="lazy"
-                  />
 
-                  <div style={{ padding: 16 }}>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: 10,
-                        alignItems: "flex-start",
-                      }}
-                    >
-                      <h3 style={{ margin: 0 }}>{r.name}</h3>
+                {pickerId === rid ? (
+                  <div style={{ display: "grid", gap: 10 }}>
+                    <div style={{ opacity: 0.75, fontSize: 13, fontWeight: 700 }}>Select ingredients to add:</div>
 
+                    <div style={{ display: "grid", gap: 8 }}>
+                      {splitIngredientLines(r.ingredients).map((line) => (
+                        <label
+                          key={line}
+                          style={{
+                            display: "flex",
+                            gap: 10,
+                            alignItems: "flex-start",
+                            cursor: "pointer",
+                            padding: "8px 10px",
+                            borderRadius: 12,
+                            border: "1px solid rgba(255,255,255,0.06)",
+                            background: "rgba(255,255,255,0.02)",
+                          }}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={selectedLines.includes(line)}
+                            onChange={() => toggleSelectLine(line)}
+                            style={{ marginTop: 3 }}
+                          />
+                          <span style={{ lineHeight: 1.45 }}>{line}</span>
+                        </label>
+                      ))}
+                    </div>
+
+                    <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                       <button
-  onClick={() => toggleFavorite(r.id)}
-  style={{
-    background: "none",
-    border: "none",
-    cursor: "pointer",
-    lineHeight: 1,
-    padding: 2,
-    display: "grid",
-    placeItems: "center",
-  }}
-  aria-label="Toggle favorite"
-  title="Toggle favorite"
->
-  <Star
-    size={18}
-    fill={r.favorite ? "#facc15" : "none"}
-    stroke={r.favorite ? "#facc15" : "currentColor"}
-  />
-</button>
-                    </div>
-
-                    <div style={{ margin: "10px 0", display: "flex", gap: 6, flexWrap: "wrap" }}>
-                      {violatesAllergens(r.ingredients) ? <Badge tone="bad">Allergens</Badge> : <Badge tone="good">Safe</Badge>}
-                      {isVegetarianByHeuristic(r.ingredients) ? <Badge tone="good">Vegetarian</Badge> : <Badge tone="warn">Meat</Badge>}
-                    </div>
-
-                    <p style={{ fontSize: 13, opacity: 0.8, margin: "8px 0 0" }}>{r.ingredients}</p>
-
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: 10,
-                        marginTop: 15,
-                        flexWrap: "wrap",
-                      }}
-                    >
-                      <div style={{ display: "flex", gap: 6 }}>
-                        <Button variant="secondary" onClick={() => startEditRecipe(r)}>
-  <Pencil size={16} />
-</Button>
-
-<Button variant="danger" onClick={() => removeRecipe(r.id)}>
-  <Trash2 size={16} />
-</Button>
-                      </div>
-
-                      <select
-                        style={{ ...base, width: "auto" }}
-                        defaultValue=""
-                        onChange={(e) => {
-                          const day = e.target.value;
-                          if (!day) return;
-                          addRecipeToDay(r, day);
-                          e.currentTarget.value = "";
+                        type="button"
+                        style={actionBtn}
+                        onClick={() => {
+                          const lines = splitIngredientLines(r.ingredients);
+                          setSelectedLines(lines);
+                          setPickerMsg("");
                         }}
                       >
-                        <option value="" disabled>
-                          Plan for...
-                        </option>
-                        {days.map((d) => (
-                          <option key={d} value={d}>
-                            {d}
-                          </option>
-                        ))}
-                      </select>
+                        Select all
+                      </button>
+
+                      <button
+                        type="button"
+                        style={actionBtn}
+                        onClick={() => {
+                          setSelectedLines([]);
+                          setPickerMsg("");
+                        }}
+                      >
+                        Clear
+                      </button>
+
+                      <button
+                        type="button"
+                        style={{
+                          ...actionBtn,
+                          background: "rgba(20,184,166,0.18)",
+                          border: "1px solid rgba(20,184,166,0.35)",
+                          fontWeight: 900,
+                        }}
+                        onClick={() => {
+                          if (selectedLines.length === 0) {
+                            setPickerMsg("Select at least one item.");
+                            return;
+                          }
+                          const joined = selectedLines.join("\n");
+                          const res = addIngredientsToList(r.name, joined);
+                          setPickerMsg(`Added ${res.addedCount} item${res.addedCount === 1 ? "" : "s"} ✅`);
+                          setPickerId(null);
+                          setSelectedLines([]);
+                        }}
+                      >
+                        Add selected
+                      </button>
                     </div>
+
+                    {pickerMsg ? <div style={{ fontSize: 13, fontWeight: 800, opacity: 0.85 }}>{pickerMsg}</div> : null}
                   </div>
-                </>
-              )}
-            </Card>
-          );
-        })}
+                ) : (
+                  <div style={{ whiteSpace: "pre-wrap", lineHeight: 1.55, opacity: 0.9 }}>{r.ingredients || "—"}</div>
+                )}
+
+                <div
+                  style={{
+                    fontWeight: 900,
+                    opacity: 0.85,
+                    fontSize: 12,
+                    letterSpacing: 0.3,
+                    textTransform: "uppercase",
+                    marginTop: 6,
+                  }}
+                >
+                  Instructions
+                </div>
+                <div style={{ whiteSpace: "pre-wrap", lineHeight: 1.55, opacity: 0.9 }}>{r.instructions || "—"}</div>
+              </div>
+            ) : null}
+          </div>
+        </>
+      
+      )}
+       </Card>
+    );
+    
+      })}
       </div>
     </Card>
   );
