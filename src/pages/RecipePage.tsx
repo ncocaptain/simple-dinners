@@ -855,11 +855,11 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
         margin: "0 auto",
       }}
     >
-      {history.timesCooked > 0 && (
-        <div style={{ fontSize: 12, opacity: 0.75, marginBottom: 10 }}>
-          Cooked {history.timesCooked} time{history.timesCooked === 1 ? "" : "s"}
-        </div>
-      )}
+      {history.timesCooked >= 3 && (
+  <div style={{ fontSize: 12, opacity: 0.9 }}>
+    🏆 Family Classic
+  </div>
+)}
 
       {favorite && (
         <div style={{ fontSize: 12, opacity: 0.9, marginBottom: 10 }}>

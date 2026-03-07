@@ -14,6 +14,15 @@ export function normalize(s: string) {
     .trim();
 }
 
+function isFamilyClassic(slug?: string) {
+  if (!slug) return false;
+
+  const history = getCookHistory();
+  const entry = history[slug];
+
+  return entry && entry.timesCooked >= 3;
+}
+
 function getPantryLearningBoost(slug?: string): number {
   if (!slug) return 0;
 
@@ -43,6 +52,10 @@ function getPlannerScore(meal: Meal): number {
 
   if (isFavorite(meal.slug)) {
     score += 15;
+  }
+
+  if (isFamilyClassic(meal.slug)) {
+    score += 25;
   }
 
   return score;
