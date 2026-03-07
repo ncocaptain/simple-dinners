@@ -2,8 +2,7 @@ import React from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { candidateLibrary } from "../core/planner";
 import { getRecipeBySlug, getCookbookRecipeBySlug } from "../core/recipeStore";
-import { addToCookbook } from "../core/cookbookStore";
-import { getCookbook } from "../core/cookbookStore";
+import { addToCookbook, getCookbook } from "../core/cookbookStore";
 import { Star, Printer, Share2, ArrowLeft } from "lucide-react";
 import { addIngredientsToList } from "../shoppingList";
 
@@ -14,7 +13,6 @@ function splitLines(s?: string) {
     .filter(Boolean);
 }
 
-// keep helpers OUTSIDE the component (less re-creation, cleaner)
 function findCandidateBySlug(slug: string) {
   const s = (slug || "").trim().toLowerCase();
   return (
@@ -27,19 +25,18 @@ function parseStepDuration(step?: string): number | null {
 
   const s = step.toLowerCase();
 
-  // Examples matched:
-  // "bake 20 minutes"
-  // "cook for 10 min"
-  // "rest 1 hour"
-  // "simmer 1 hr 30 min"
-  const hourMatch = s.match(/(\d+)\s*(hour|hours|hr|hrs)/);
-  const minuteMatch = s.match(/(\d+)\s*(minute|minutes|min|mins)/);
+  let hours = 0;
+  let minutes = 0;
 
-  const hours = hourMatch ? Number(hourMatch[1]) : 0;
-  const minutes = minuteMatch ? Number(minuteMatch[1]) : 0;
+  for (const match of s.matchAll(/(\d+)\s*(hour|hours|hr|hrs)\b/g)) {
+    hours += Number(match[1]);
+  }
+
+  for (const match of s.matchAll(/(\d+)\s*(minute|minutes|min|mins)\b/g)) {
+    minutes += Number(match[1]);
+  }
 
   const totalSeconds = hours * 3600 + minutes * 60;
-
   return totalSeconds > 0 ? totalSeconds : null;
 }
 
@@ -50,49 +47,49 @@ function formatTimer(totalSeconds: number): string {
   const seconds = safe % 60;
 
   if (hours > 0) {
-    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+      2,
+      "0"
+    )}:${String(seconds).padStart(2, "0")}`;
   }
 
-  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+    2,
+    "0"
+  )}`;
 }
-
-
 
 export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   const navigate = useNavigate();
   const { slug = "" } = useParams();
   const location = useLocation();
+
   const [cookMode, setCookMode] = React.useState(false);
   const [stepIndex, setStepIndex] = React.useState(0);
-    const [timerSeconds, setTimerSeconds] = React.useState<number | null>(null);
+  const [timerSeconds, setTimerSeconds] = React.useState<number | null>(null);
   const [timerRunning, setTimerRunning] = React.useState(false);
 
   React.useEffect(() => {
-  const qs = new URLSearchParams(location.search);
-  if (qs.get("print") === "1") {
-    setTimeout(() => window.print(), 200);
-  }
-}, [location.search]);
+    const qs = new URLSearchParams(location.search);
+    if (qs.get("print") === "1") {
+      setTimeout(() => window.print(), 200);
+    }
+  }, [location.search]);
 
   const qs = new URLSearchParams(location.search);
   const from = qs.get("from") || "/week";
 
   React.useEffect(() => {
-  window.scrollTo(0, 0);
-}, [slug]);
-
-React.useEffect(() => {
-    setStepIndex(0);
-    setCookMode(false);
+    window.scrollTo(0, 0);
   }, [slug]);
 
-    React.useEffect(() => {
+  React.useEffect(() => {
+    setStepIndex(0);
+    setCookMode(false);
     setTimerSeconds(null);
     setTimerRunning(false);
-  }, [stepIndex, slug]);
+  }, [slug]);
 
-  // Source of truth: recipeStore → cookbook → candidateLibrary
-  // Ratings stay locked to cookbook: candidateLibrary gets rating fields stripped.
   const recipe = React.useMemo(() => {
     const fromStore = getRecipeBySlug(slug);
     if (fromStore) return fromStore;
@@ -178,8 +175,6 @@ React.useEffect(() => {
     );
   }
 
-   
-
   const heroUrl =
     recipe.photoUrl ||
     `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1400&q=80&sig=${encodeURIComponent(
@@ -190,7 +185,13 @@ React.useEffect(() => {
   const instructions = splitLines(recipe.instructions ?? "");
   const currentStep = instructions[stepIndex] || "";
   const detectedDuration = parseStepDuration(currentStep);
-    React.useEffect(() => {
+
+  React.useEffect(() => {
+    setTimerSeconds(null);
+    setTimerRunning(false);
+  }, [stepIndex]);
+
+  React.useEffect(() => {
     if (!timerRunning || timerSeconds === null) return;
 
     if (timerSeconds <= 0) {
@@ -211,7 +212,6 @@ React.useEffect(() => {
 
     return () => window.clearInterval(id);
   }, [timerRunning, timerSeconds]);
-    
 
   const pill: React.CSSProperties = {
     display: "inline-flex",
@@ -256,19 +256,17 @@ React.useEffect(() => {
   };
 
   const btn: React.CSSProperties = {
-  padding: "10px 14px",
-  borderRadius: 14,
-  background: "rgba(255,255,255,0.06)",
-  color: "#f8fafc",
-  cursor: "pointer",
-  fontWeight: 900,
-  border: "1px solid rgba(255,255,255,0.12)",
-
-  // 👇 polish additions
-  display: "inline-flex",
-  alignItems: "center",
-  gap: 8,
-};
+    padding: "10px 14px",
+    borderRadius: 14,
+    background: "rgba(255,255,255,0.06)",
+    color: "#f8fafc",
+    cursor: "pointer",
+    fontWeight: 900,
+    border: "1px solid rgba(255,255,255,0.12)",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 8,
+  };
 
   if (cookMode) {
     return (
@@ -282,15 +280,46 @@ React.useEffect(() => {
           gap: 18,
         }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: 10,
+            flexWrap: "wrap",
+          }}
+        >
           <button style={btn} onClick={() => setCookMode(false)}>
             <ArrowLeft size={16} />
             Exit Cook Mode
           </button>
 
           <div style={pill}>
-            Step {instructions.length === 0 ? 0 : stepIndex + 1} of {instructions.length}
+            Step {instructions.length === 0 ? 0 : stepIndex + 1} of{" "}
+            {instructions.length}
           </div>
+        </div>
+
+        <div
+          style={{
+            height: 8,
+            borderRadius: 999,
+            background: "rgba(255,255,255,0.08)",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              height: "100%",
+              width: `${
+                instructions.length
+                  ? ((stepIndex + 1) / instructions.length) * 100
+                  : 0
+              }%`,
+              background: "rgba(20,184,166,0.95)",
+              borderRadius: 999,
+              transition: "width 180ms ease",
+            }}
+          />
         </div>
 
         <div
@@ -305,49 +334,28 @@ React.useEffect(() => {
           }}
         >
           <div>
-            <div style={{ fontSize: 14, opacity: 0.7, fontWeight: 900, marginBottom: 10 }}>
+            <div
+              style={{
+                fontSize: 14,
+                opacity: 0.7,
+                fontWeight: 900,
+                marginBottom: 10,
+              }}
+            >
               {recipe.name}
             </div>
-            <div style={{ fontSize: window.innerWidth < 640 ? 24 : 30, lineHeight: 1.45, fontWeight: 800 }}>
+
+            <div
+              style={{
+                fontSize: window.innerWidth < 640 ? 24 : 30,
+                lineHeight: 1.45,
+                fontWeight: 800,
+              }}
+            >
               {currentStep || "No instructions saved."}
             </div>
-          </div>
-        </div>
 
-        <div style={{ display: "flex", gap: 10, justifyContent: "space-between" }}>
-          <button
-            style={{
-              ...btn,
-              opacity: stepIndex === 0 ? 0.5 : 1,
-              cursor: stepIndex === 0 ? "not-allowed" : "pointer",
-            }}
-            onClick={() => {
-  setStepIndex((i) => Math.max(0, i - 1));
-}}
-            disabled={stepIndex === 0}
-          >
-            ← Previous
-          </button>
-
-          <button
-            style={{
-              ...btn,
-              opacity: stepIndex >= instructions.length - 1 ? 0.5 : 1,
-              cursor: stepIndex >= instructions.length - 1 ? "not-allowed" : "pointer",
-            }}
-            onClick={() => {
-  setStepIndex((i) => Math.min(instructions.length - 1, i + 1));
-}}
-            disabled={stepIndex >= instructions.length - 1}
-          >
-            Next →
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-              {detectedDuration && (
+            {detectedDuration !== null && (
               <div style={{ marginTop: 18, display: "grid", gap: 10 }}>
                 {timerSeconds === null ? (
                   <button
@@ -375,7 +383,9 @@ React.useEffect(() => {
                       {formatTimer(timerSeconds)}
                     </div>
 
-                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <div
+                      style={{ display: "flex", gap: 8, flexWrap: "wrap" }}
+                    >
                       <button
                         style={btn}
                         onClick={() => setTimerRunning((v) => !v)}
@@ -397,106 +407,138 @@ React.useEffect(() => {
                 )}
               </div>
             )}
+          </div>
+        </div>
+
+        <div
+          style={{ display: "flex", gap: 10, justifyContent: "space-between" }}
+        >
+          <button
+            style={{
+              ...btn,
+              opacity: stepIndex === 0 ? 0.5 : 1,
+              cursor: stepIndex === 0 ? "not-allowed" : "pointer",
+            }}
+            onClick={() => {
+              setStepIndex((i) => Math.max(0, i - 1));
+            }}
+            disabled={stepIndex === 0}
+          >
+            ← Previous
+          </button>
+
+          <button
+            style={{
+              ...btn,
+              opacity: stepIndex >= instructions.length - 1 ? 0.5 : 1,
+              cursor:
+                stepIndex >= instructions.length - 1
+                  ? "not-allowed"
+                  : "pointer",
+            }}
+            onClick={() => {
+              setStepIndex((i) =>
+                Math.min(instructions.length - 1, i + 1)
+              );
+            }}
+            disabled={stepIndex >= instructions.length - 1}
+          >
+            Next →
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
-  style={{
-    padding: window.innerWidth < 640
-      ? "8px 8px 24px"
-      : "24px",
-    maxWidth: 980,
-    margin: "0 auto",
-  }}
->
-  
-      {/* Breadcrumbs */}
-      
+      style={{
+        padding: window.innerWidth < 640 ? "8px 8px 24px" : "24px",
+        maxWidth: 980,
+        margin: "0 auto",
+      }}
+    >
+      <div
+        style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 12 }}
+      >
+        <button style={btn} onClick={() => navigate(from)}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <ArrowLeft size={16} />
+            Back
+          </span>
+        </button>
 
-      {/* Action row */}
-      
-      <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 12 }}>
-  <button style={btn} onClick={() => navigate(from)}>
-  <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-    <ArrowLeft size={16} />
-    Back
-  </span>
-</button>
+        <button style={btn} onClick={() => window.print()}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <Printer size={16} />
+            Print
+          </span>
+        </button>
 
-  <button style={btn} onClick={() => window.print()}>
-  <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-    <Printer size={16} />
-    Print
-  </span>
-</button>
+        <button
+          style={btn}
+          onClick={async () => {
+            const url = window.location.href;
 
-  <button
-  style={btn}
-  onClick={async () => {
-    const url = window.location.href;
+            if (navigator.share) {
+              try {
+                await navigator.share({ title: recipe.name, url });
+              } catch {}
+            } else {
+              await navigator.clipboard.writeText(url);
+              alert("Link copied!");
+            }
+          }}
+        >
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <Share2 size={16} />
+            Share
+          </span>
+        </button>
 
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: recipe.name, url });
-      } catch {}
-    } else {
-      await navigator.clipboard.writeText(url);
-      alert("Link copied!");
-    }
-  }}
->
-  <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-    <Share2 size={16} />
-    Share
-  </span>
-</button>
+        <button style={btn} onClick={() => setCookMode(true)}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            🍳 Cook Mode
+          </span>
+        </button>
 
-<button style={btn} onClick={() => setCookMode(true)}>
-  <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-    🍳 Cook Mode
-  </span>
-</button>
+        <button
+          style={btn}
+          onClick={() => {
+            const res = addToCookbook(recipe);
 
-  <button
-  style={btn}
-  onClick={() => {
-    const res = addToCookbook(recipe);
+            if (!res.ok) {
+              alert("Could not add (missing slug).");
+              return;
+            }
 
-    if (!res.ok) {
-      alert("Could not add (missing slug).");
-      return;
-    }
+            if (res.already) {
+              alert("Already in cookbook.");
+              return;
+            }
 
-    if (res.already) {
-      alert("Already in cookbook.");
-      return;
-    }
+            setCookbook(getCookbook() as any);
+            alert("Added to cookbook!");
+          }}
+        >
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <Star size={16} />
+            Add to Cookbook
+          </span>
+        </button>
 
-    // ✅ refresh in-memory cookbook immediately
-    setCookbook(getCookbook() as any);
+        <button
+          style={btn}
+          onClick={() => {
+            const result = addIngredientsToList(recipe.name, recipe.ingredients);
+            alert(`Added ${result.addedCount} items to shopping list.`);
+          }}
+        >
+          Add to shopping list
+        </button>
+      </div>
 
-    alert("Added to cookbook!");
-  }}
->
-  <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-    <Star size={16} />
-    Add to Cookbook
-  </span>
-</button>
-
-<button
-  style={btn}
-  onClick={() => {
-    const result = addIngredientsToList(recipe.name, recipe.ingredients);
-    alert(`Added ${result.addedCount} items to shopping list.`);
-  }}
->
-  Add to shopping list
-</button>
-</div>
-
-      {/* Flow Card */}
       <div style={card}>
-        {/* Hero */}
         <div style={{ position: "relative", height: 280 }}>
           <div
             style={{
@@ -511,19 +553,21 @@ React.useEffect(() => {
             style={{
               position: "absolute",
               inset: 0,
-              background: "linear-gradient(to top, rgba(2,6,23,0.85), rgba(2,6,23,0.15))",
+              background:
+                "linear-gradient(to top, rgba(2,6,23,0.85), rgba(2,6,23,0.15))",
             }}
           />
           <div style={{ position: "absolute", left: 18, right: 18, bottom: 16 }}>
-            <div style={{ fontSize: 28, fontWeight: 950, lineHeight: 1.1 }}>{recipe.name}</div>
-               <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 10 }}>
+            <div style={{ fontSize: 28, fontWeight: 950, lineHeight: 1.1 }}>
+              {recipe.name}
+            </div>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 10 }}>
               <span style={pill}>🧾 Ingredients: {ingredients.length || "—"}</span>
               <span style={pill}>✅ Steps: {instructions.length || "—"}</span>
             </div>
           </div>
         </div>
 
-        {/* Ingredients */}
         <div style={section}>
           <div style={h3}>Ingredients</div>
           {ingredients.length === 0 ? (
@@ -539,7 +583,6 @@ React.useEffect(() => {
           )}
         </div>
 
-        {/* Instructions */}
         <div style={section}>
           <div style={h3}>Instructions</div>
           {instructions.length === 0 ? (
@@ -555,7 +598,6 @@ React.useEffect(() => {
           )}
         </div>
 
-        {/* Notes */}
         <div style={section}>
           <div style={h3}>Notes</div>
           <textarea
