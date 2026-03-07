@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { candidateLibrary } from "../core/planner";
 import { getRecipeBySlug, getCookbookRecipeBySlug } from "../core/recipeStore";
 import { addToCookbook, getCookbook } from "../core/cookbookStore";
-import { Star, Printer, Share2, ArrowLeft } from "lucide-react";
+import { Star, Printer, Share2, ArrowLeft, BookOpen } from "lucide-react";
 import { addIngredientsToList } from "../shoppingList";
 import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
 import { isFavorite, toggleFavorite } from "../core/favoritesStore";
@@ -937,8 +937,8 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
           }}
         >
           <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-            <Star size={16} />
-            Add to Cookbook
+            <BookOpen size={16} />
+            Save to Cookbook
           </span>
         </button>
 
