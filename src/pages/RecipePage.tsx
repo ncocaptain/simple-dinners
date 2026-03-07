@@ -115,6 +115,7 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   const [checkedIngredients, setCheckedIngredients] = React.useState<number[]>([]);
   const [checksLoaded, setChecksLoaded] = React.useState(false);
   
+  
 
   React.useEffect(() => {
   if (!checksLoaded) return;
@@ -144,35 +145,7 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   setTimerFinished(false);
   setNowMs(Date.now());
 
-  React.useEffect(() => {
-  let wakeLock: any = null;
 
-  async function enableWakeLock() {
-    try {
-      if (!cookMode) return;
-      if (!("wakeLock" in navigator)) return;
-
-      wakeLock = await (navigator as any).wakeLock.request("screen");
-    } catch (err) {
-      console.log("WakeLock not available:", err);
-    }
-  }
-
-  function releaseWakeLock() {
-    try {
-      if (wakeLock) {
-        wakeLock.release();
-        wakeLock = null;
-      }
-    } catch {}
-  }
-
-  enableWakeLock();
-
-  return () => {
-    releaseWakeLock();
-  };
-}, [cookMode]);
 
   try {
     const saved = localStorage.getItem(`cook-checks-${slug}`);
