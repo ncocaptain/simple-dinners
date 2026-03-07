@@ -1,7 +1,7 @@
 // src/core/planner.ts
 import type { Meal, PantryItem, Effort } from "./types";
 import { ALLERGENS, MEAT_WORDS, NEW_BUILTIN_RECIPES, NEW_VEGETARIAN_RECIPES } from "./data";
-
+import { getCookHistory } from "./cookHistoryStore";
 // --------------------
 // Basic helpers
 // --------------------
@@ -11,6 +11,36 @@ export function normalize(s: string) {
     .replace(/[^\w\s]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function getPantryLearningBoost(slug?: string): number {
+  if (!slug) return 0;
+
+  const history = getCookHistory();
+  const entry = history[slug];
+  if (!entry) return 0;
+
+  const timesCookedBoost = Math.min(entry.timesCooked * 2, 12);
+
+  let recencyBoost = 0;
+  if (entry.lastCookedAt) {
+    const cookedTime = new Date(entry.lastCookedAt).getTime();
+    const now = Date.now();
+    const daysAgo = Math.floor((now - cookedTime) / (1000 * 60 * 60 * 24));
+
+    if (daysAgo <= 7) recencyBoost = 3;
+    else if (daysAgo <= 30) recencyBoost = 1;
+  }
+
+  return timesCookedBoost + recencyBoost;
+}
+
+function getPlannerScore(meal: Meal): number {
+  let score = 0;
+
+  score += getPantryLearningBoost(meal.slug);
+
+  return score;
 }
 
 // simple normalization so "Bell Peppers" and "bell pepper" match
@@ -195,6 +225,7 @@ export function generatePlan(args: {
     instructions: r.instructions,
     photoUrl: r.photoUrl,
     effort: "normal",
+    slug: normalize(r.name).replace(/\s+/g, "-"),
   }));
 
   const pool: Meal[] = [...cookbookPool, ...candidateLibrary].filter(
@@ -204,7 +235,16 @@ export function generatePlan(args: {
   );
 
   const baseRanked: Meal[] = pool
-    .map((m) => ({ m, score: scoreMealAgainstPantry(m, allPantryTokens) }))
+    .map((m) => {
+      const pantryMatchScore = scoreMealAgainstPantry(m, allPantryTokens);
+      const plannerScore = getPlannerScore(m);
+      const variety = Math.random() * 3;
+
+      return {
+        m,
+        score: pantryMatchScore * 10 + plannerScore + variety,
+      };
+    })
     .sort((a, b) => b.score - a.score)
     .map((x) => x.m);
 

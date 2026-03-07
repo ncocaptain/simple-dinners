@@ -5,6 +5,8 @@ import { getRecipeBySlug, getCookbookRecipeBySlug } from "../core/recipeStore";
 import { addToCookbook, getCookbook } from "../core/cookbookStore";
 import { Star, Printer, Share2, ArrowLeft } from "lucide-react";
 import { addIngredientsToList } from "../shoppingList";
+import { recordCook } from "../core/cookHistoryStore";
+import { getCookHistoryFor } from "../core/cookHistoryStore";
 
 function splitLines(s?: string) {
   return (s ?? "")
@@ -326,6 +328,8 @@ function handleSwipeGesture() {
   setTouchStartX(null);
   setTouchEndX(null);
 }
+
+const history = getCookHistoryFor(recipe.slug);
 
   const heroUrl =
     recipe.photoUrl ||
@@ -767,6 +771,12 @@ Prep complete
         margin: "0 auto",
       }}
     >
+
+      {history.timesCooked > 0 && (
+  <div style={{ fontSize: 12, opacity: 0.75 }}>
+    Cooked {history.timesCooked} time{history.timesCooked === 1 ? "" : "s"}
+  </div>
+)}
       <div
         style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 12 }}
       >
@@ -805,7 +815,10 @@ Prep complete
           </span>
         </button>
 
-        <button style={btn} onClick={() => setCookMode(true)}>
+        <button onClick={() => {
+  recordCook(recipe.slug);
+  setCookMode(true);
+}}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
             🍳 Cook Mode
           </span>
