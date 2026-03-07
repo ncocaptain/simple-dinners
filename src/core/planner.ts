@@ -331,13 +331,12 @@ export function generatePlan(args: {
       Math.random() < 0.6
     ) {
       next[day] = {
-        name: "Leftover Night",
-        slug: "leftover-night",
-        ingredients: `Use leftovers from ${previousMeal.name}.`,
-        instructions: `Reheat and serve leftovers from ${previousMeal.name}.`,
-        effort: "quick",
-        tags: ["leftover-generated"],
-      } as Meal;
+  name: `Leftovers from ${previousMeal.name}`,
+  slug: "leftover-night",
+  ingredients: `Use leftovers from ${previousMeal.name}.`,
+  instructions: `Reheat and serve leftovers from ${previousMeal.name}.`,
+  effort: "quick",
+} as Meal;
 
       used.add(normalize("Leftover Night"));
       continue;
