@@ -20,7 +20,7 @@ function isFamilyClassic(slug?: string) {
   const history = getCookHistory();
   const entry = history[slug];
 
-  return entry && entry.timesCooked >= 3;
+  return !!entry && entry.timesCooked >= 3;
 }
 
 function getPantryLearningBoost(slug?: string): number {
@@ -45,6 +45,24 @@ function getPantryLearningBoost(slug?: string): number {
   return timesCookedBoost + recencyBoost;
 }
 
+function getRecentMealPenalty(slug?: string): number {
+  if (!slug) return 0;
+
+  const history = getCookHistory();
+  const entry = history[slug];
+  if (!entry?.lastCookedAt) return 0;
+
+  const cookedTime = new Date(entry.lastCookedAt).getTime();
+  const now = Date.now();
+  const daysAgo = Math.floor((now - cookedTime) / (1000 * 60 * 60 * 24));
+
+  if (daysAgo <= 2) return -20;
+  if (daysAgo <= 5) return -10;
+  if (daysAgo <= 7) return -5;
+
+  return 0;
+}
+
 function getPlannerScore(meal: Meal): number {
   let score = 0;
 
@@ -58,7 +76,13 @@ function getPlannerScore(meal: Meal): number {
     score += 25;
   }
 
+  score += getRecentMealPenalty(meal.slug);
+
   return score;
+}
+
+function mealSupportsLeftovers(meal: Meal) {
+  return hasTag(meal, "leftovers");
 }
 
 // simple normalization so "Bell Peppers" and "bell pepper" match
@@ -217,6 +241,14 @@ export const candidateLibrary: Meal[] = [
     ingredients: "Deli meat, bread, cheese, chips.",
     effort: "takeout",
   },
+  {
+  id: "leftover-night",
+  slug: "leftover-night",
+  name: "Leftover Night",
+  ingredients: "Use leftovers from a recent dinner.",
+  instructions: "Reheat and serve leftover portions from the previous meal.",
+  effort: "quick",
+},
 ];
 
 // --------------------
@@ -283,6 +315,33 @@ export function generatePlan(args: {
     if (existing?.name?.trim()) continue;
 
     const needed = daySettings[day] || "normal";
+
+        const dayIndex = days.indexOf(day);
+    const previousDay = dayIndex > 0 ? days[dayIndex - 1] : null;
+    const previousMeal = previousDay ? next[previousDay] : null;
+
+    const canUseLeftovers =
+      previousMeal &&
+      mealSupportsLeftovers(previousMeal) &&
+      !used.has(normalize("Leftover Night"));
+
+    if (
+      canUseLeftovers &&
+      needed !== "takeout" &&
+      Math.random() < 0.6
+    ) {
+      next[day] = {
+        name: "Leftover Night",
+        slug: "leftover-night",
+        ingredients: `Use leftovers from ${previousMeal.name}.`,
+        instructions: `Reheat and serve leftovers from ${previousMeal.name}.`,
+        effort: "quick",
+        tags: ["leftover-generated"],
+      } as Meal;
+
+      used.add(normalize("Leftover Night"));
+      continue;
+    }
 
     if (needed === "takeout") {
       next[day] = {

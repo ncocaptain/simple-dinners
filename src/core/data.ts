@@ -50,7 +50,7 @@ export const NEW_BUILTIN_RECIPES: Meal[] = [
     slug: "quick-beef-chili",
     name: "Chili",
     effort: "quick",
-    tags: ["dinner", "beef", "one-pot", "spicy", "comfort", "quick"],
+    tags: ["dinner", "beef", "one-pot", "spicy", "comfort", "quick", "leftovers"],
     ingredients: `1 lb ground beef
 2 (14.5 oz) cans fire-roasted diced tomatoes
 1 (28 oz) can diced tomatoes
@@ -69,6 +69,7 @@ Reduce heat and simmer uncovered for 30 minutes, stirring occasionally.
 Taste and adjust seasoning if needed.
 Serve hot on its own or with crackers/cornbread. Top as desired.`,
   },
+
   {
     id: "quick-airfryer-baked-potato",
     slug: "quick-airfryer-baked-potato",
@@ -89,6 +90,7 @@ Preheat air fryer to 400°F.
 Air fry for 60 minutes, shaking the basket once or twice.
 Slice down the middle, fluff with a fork, and add butter and toppings.`,
   },
+
   {
     id: "normal-chicken-greenbean-mushroom-bake",
     slug: "normal-chicken-greenbean-mushroom-bake",
@@ -115,6 +117,7 @@ Meanwhile, bring 2 cups water to a boil, add rice, reduce heat, cover, and simme
 Uncover dish, sprinkle mozzarella on top, and return to oven 5–10 minutes until melted.
 Serve chicken and mushroom mixture over rice; season with salt/pepper to taste.`,
   },
+
   {
     id: "quick-dark-chocolate-dipped-strawberries",
     slug: "quick-dark-chocolate-dipped-strawberries",
@@ -134,6 +137,7 @@ Dip strawberries one at a time and place on parchment.
 Refrigerate 20–30 minutes until chocolate sets.
 Store leftovers in an airtight container in the refrigerator.`,
   },
+
   {
     id: "quick-classic-guacamole",
     slug: "quick-classic-guacamole",
@@ -154,6 +158,7 @@ Add cayenne pepper if desired and mix well.
 Taste and adjust salt or lime as needed.
 Refrigerate 1 hour for best flavor, or serve immediately.`,
   },
+
   {
     id: "quick-homemade-chili-seasoning",
     slug: "quick-homemade-chili-seasoning",
@@ -174,6 +179,7 @@ Transfer to an airtight container or spice shaker.
 Store in a cool, dry place.
 Use in place of one store-bought chili seasoning packet.`,
   },
+
   {
     id: "big-beef-salisbury-steak",
     slug: "big-beef-salisbury-steak",
@@ -391,7 +397,7 @@ Serve hot.`,
     slug: "normal-shrimp-and-sausage-bake",
     name: "Shrimp and Sausage Bake",
     effort: "normal",
-    tags: ["dinner", "sheet-pan", "seafood", "shrimp", "sausage", "one-pan"],
+    tags: ["dinner", "sheet-pan", "seafood", "shrimp", "sausage", "one-pan", "leftovers"],
     ingredients: `Cooking spray
 1 lb red potatoes (about 3 cups), cut into 1-inch pieces
 4 Tbsp butter, melted
@@ -450,7 +456,7 @@ Toss gently and garnish with fresh parsley before serving.`,
     slug: "normal-classic-meatloaf",
     name: "Meatloaf",
     effort: "normal",
-    tags: ["dinner", "beef", "bake", "comfort", "kid-friendly"],
+    tags: ["dinner", "beef", "bake", "comfort", "kid-friendly", "leftovers"],
     ingredients: `2 large eggs
 2/3 cup milk
 2 tsp salt
@@ -565,7 +571,7 @@ Let rest slightly before slicing and serving.`,
     slug: "normal-slow-cooker-beef-enchilada-casserole",
     name: "Slow Cooker Beef Enchilada Casserole",
     effort: "normal",
-    tags: ["dinner", "beef", "slow-cooker", "mexican", "comfort", "casserole"],
+    tags: ["dinner", "beef", "slow-cooker", "mexican", "comfort", "casserole", "leftovers"],
     ingredients: `1 1/2 lbs lean ground beef
 1 packet taco seasoning
 1 (15 oz) can beans, drained and rinsed
@@ -601,7 +607,7 @@ Garnish with cilantro, pico de gallo, and sour cream before serving.`,
     slug: "normal-slow-cooker-roast-beef",
     name: "Slow Cooker Roast Beef",
     effort: "normal",
-    tags: ["dinner", "beef", "slow-cooker", "comfort", "meal-prep"],
+    tags: ["dinner", "beef", "slow-cooker", "comfort", "meal-prep", "leftovers"],
     ingredients: `1 (4–5 lb) chuck roast
 5 tsp kosher salt, divided
 2 1/2 tsp black pepper, divided
@@ -692,7 +698,7 @@ Drizzle glaze over mushrooms, top with basil, season to taste, and serve.`,
     slug: "normal-shepherds-pie",
     name: "Shepherd’s Pie",
     effort: "normal",
-    tags: ["dinner", "beef", "bake", "comfort", "casserole"],
+    tags: ["dinner", "beef", "bake", "comfort", "casserole", "leftovers"],
     ingredients: `1 1/2 to 2 lbs potatoes (about 3 large), peeled and quartered
 8 tbsp butter (1 stick), divided
 1 medium onion, chopped
