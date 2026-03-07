@@ -93,11 +93,14 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
 
   const [cookMode, setCookMode] = React.useState(false);
   const [stepIndex, setStepIndex] = React.useState(0);
-  const [timerSeconds, setTimerSeconds] = React.useState<number | null>(null);
-  const [timerRunning, setTimerRunning] = React.useState(false);
   const [touchStartX, setTouchStartX] = React.useState<number | null>(null);
-const [touchEndX, setTouchEndX] = React.useState<number | null>(null);
-const [timerFinished, setTimerFinished] = React.useState(false);
+  const [touchEndX, setTouchEndX] = React.useState<number | null>(null);
+
+  const [timerDurationSeconds, setTimerDurationSeconds] = React.useState<number | null>(null);
+  const [timerEndsAt, setTimerEndsAt] = React.useState<number | null>(null);
+  const [timerRunning, setTimerRunning] = React.useState(false);
+  const [timerFinished, setTimerFinished] = React.useState(false);
+  const [nowMs, setNowMs] = React.useState(Date.now());
 
   React.useEffect(() => {
     const qs = new URLSearchParams(location.search);
@@ -114,46 +117,15 @@ const [timerFinished, setTimerFinished] = React.useState(false);
   }, [slug]);
 
   React.useEffect(() => {
-  setStepIndex(0);
-  setCookMode(false);
-  setTimerSeconds(null);
-  setTimerRunning(false);
-  setTimerFinished(false);
-}, [slug]);
+    setStepIndex(0);
+    setCookMode(false);
+    setTimerDurationSeconds(null);
+    setTimerEndsAt(null);
+    setTimerRunning(false);
+    setTimerFinished(false);
+    setNowMs(Date.now());
+  }, [slug]);
 
-React.useEffect(() => {
-  if (timerSeconds !== 0 || timerFinished) return;
-
-  setTimerFinished(true);
-  playTimerDoneSound();
-
-  if ("vibrate" in navigator) {
-    navigator.vibrate?.(300);
-  }
-
-  alert("Timer finished!");
-}, [timerSeconds, timerFinished]);
-
-  const minSwipeDistance = 50;
-
-function handleSwipeGesture() {
-  if (touchStartX === null || touchEndX === null) return;
-
-  const distance = touchStartX - touchEndX;
-
-  // swipe left -> next
-  if (distance > minSwipeDistance) {
-    setStepIndex((i) => Math.min(instructions.length - 1, i + 1));
-  }
-
-  // swipe right -> previous
-  if (distance < -minSwipeDistance) {
-    setStepIndex((i) => Math.max(0, i - 1));
-  }
-
-  setTouchStartX(null);
-  setTouchEndX(null);
-}
   const recipe = React.useMemo(() => {
     const fromStore = getRecipeBySlug(slug);
     if (fromStore) return fromStore;
@@ -239,43 +211,82 @@ function handleSwipeGesture() {
     );
   }
 
-  const heroUrl =
-    recipe.photoUrl ||
-    `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1400&q=80&sig=${encodeURIComponent(
-      slug
-    )}`;
-
   const ingredients = splitLines(recipe.ingredients ?? "");
   const instructions = splitLines(recipe.instructions ?? "");
   const currentStep = instructions[stepIndex] || "";
   const detectedDuration = parseStepDuration(currentStep);
 
+  const timerSeconds =
+    timerDurationSeconds === null
+      ? null
+      : timerRunning && timerEndsAt !== null
+      ? Math.max(0, Math.ceil((timerEndsAt - nowMs) / 1000))
+      : timerDurationSeconds;
+
   React.useEffect(() => {
-  setTimerSeconds(null);
-  setTimerRunning(false);
-  setTimerFinished(false);
-}, [stepIndex]);
+    setTimerDurationSeconds(null);
+    setTimerEndsAt(null);
+    setTimerRunning(false);
+    setTimerFinished(false);
+    setNowMs(Date.now());
+  }, [stepIndex]);
+
+  React.useEffect(() => {
+    if (!timerRunning || timerEndsAt === null) return;
+
+    const id = window.setInterval(() => {
+      setNowMs(Date.now());
+    }, 250);
+
+    return () => window.clearInterval(id);
+  }, [timerRunning, timerEndsAt]);
+
   React.useEffect(() => {
     if (!timerRunning || timerSeconds === null) return;
 
     if (timerSeconds <= 0) {
       setTimerRunning(false);
-      return;
+      setTimerDurationSeconds(0);
+      setTimerEndsAt(null);
+    }
+  }, [timerRunning, timerSeconds]);
+
+  React.useEffect(() => {
+    if (timerSeconds !== 0 || timerFinished) return;
+
+    setTimerFinished(true);
+    playTimerDoneSound();
+
+    if ("vibrate" in navigator) {
+      navigator.vibrate?.(300);
     }
 
-    const id = window.setInterval(() => {
-      setTimerSeconds((prev) => {
-        if (prev === null) return prev;
-        if (prev <= 1) {
-          window.clearInterval(id);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    alert("Timer finished!");
+  }, [timerSeconds, timerFinished]);
 
-    return () => window.clearInterval(id);
-  }, [timerRunning, timerSeconds]);
+  const minSwipeDistance = 50;
+
+  function handleSwipeGesture() {
+    if (touchStartX === null || touchEndX === null) return;
+    if (instructions.length === 0) return;
+
+    const distance = touchStartX - touchEndX;
+
+    if (distance > minSwipeDistance && stepIndex < instructions.length - 1) {
+      setStepIndex((i) => i + 1);
+    } else if (distance < -minSwipeDistance && stepIndex > 0) {
+      setStepIndex((i) => i - 1);
+    }
+
+    setTouchStartX(null);
+    setTouchEndX(null);
+  }
+
+  const heroUrl =
+    recipe.photoUrl ||
+    `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1400&q=80&sig=${encodeURIComponent(
+      slug
+    )}`;
 
   const pill: React.CSSProperties = {
     display: "inline-flex",
@@ -350,6 +361,7 @@ function handleSwipeGesture() {
             justifyContent: "space-between",
             gap: 10,
             flexWrap: "wrap",
+            alignItems: "center",
           }}
         >
           <button style={btn} onClick={() => setCookMode(false)}>
@@ -357,13 +369,15 @@ function handleSwipeGesture() {
             Exit Cook Mode
           </button>
 
-          <div style={pill}>
-            Step {instructions.length === 0 ? 0 : stepIndex + 1} of{" "}
-            {instructions.length}
+          <div style={{ display: "grid", gap: 6 }}>
+            <div style={pill}>
+              Step {instructions.length === 0 ? 0 : stepIndex + 1} of{" "}
+              {instructions.length}
+            </div>
+            <div style={{ fontSize: 12, opacity: 0.65, fontWeight: 700 }}>
+              Swipe left or right to move between steps
+            </div>
           </div>
-          <div style={{ fontSize: 12, opacity: 0.65, fontWeight: 700 }}>
-  Swipe left or right to move between steps
-</div>
         </div>
 
         <div
@@ -390,26 +404,26 @@ function handleSwipeGesture() {
         </div>
 
         <div
-  onTouchStart={(e) => {
-    setTouchEndX(null);
-    setTouchStartX(e.targetTouches[0].clientX);
-  }}
-  onTouchMove={(e) => {
-    setTouchEndX(e.targetTouches[0].clientX);
-  }}
-  onTouchEnd={handleSwipeGesture}
-  style={{
-    borderRadius: 20,
-    background: "rgba(30,41,59,0.55)",
-    border: "1px solid rgba(255,255,255,0.10)",
-    padding: window.innerWidth < 640 ? 18 : 28,
-    minHeight: 220,
-    display: "grid",
-    alignItems: "center",
-    touchAction: "pan-y",
-    userSelect: "none",
-  }}
->
+          onTouchStart={(e) => {
+            setTouchEndX(null);
+            setTouchStartX(e.targetTouches[0].clientX);
+          }}
+          onTouchMove={(e) => {
+            setTouchEndX(e.targetTouches[0].clientX);
+          }}
+          onTouchEnd={handleSwipeGesture}
+          style={{
+            borderRadius: 20,
+            background: "rgba(30,41,59,0.55)",
+            border: "1px solid rgba(255,255,255,0.10)",
+            padding: window.innerWidth < 640 ? 18 : 28,
+            minHeight: 220,
+            display: "grid",
+            alignItems: "center",
+            touchAction: "pan-y",
+            userSelect: "none",
+          }}
+        >
           <div>
             <div
               style={{
@@ -438,10 +452,12 @@ function handleSwipeGesture() {
                   <button
                     style={btn}
                     onClick={() => {
-  setTimerFinished(false);
-  setTimerSeconds(detectedDuration);
-  setTimerRunning(true);
-}}
+                      setTimerFinished(false);
+                      setTimerDurationSeconds(detectedDuration);
+                      setTimerEndsAt(Date.now() + detectedDuration * 1000);
+                      setTimerRunning(true);
+                      setNowMs(Date.now());
+                    }}
                   >
                     ⏱ Start {formatTimer(detectedDuration)} Timer
                   </button>
@@ -454,19 +470,30 @@ function handleSwipeGesture() {
                       borderRadius: 16,
                       background: "rgba(255,255,255,0.06)",
                       border: "1px solid rgba(255,255,255,0.10)",
-                      maxWidth: 320,
+                      maxWidth: 420,
                     }}
                   >
                     <div style={{ fontSize: 28, fontWeight: 900 }}>
-  {timerSeconds === 0 ? "Time’s up! 🔔" : formatTimer(timerSeconds)}
-</div>
+                      {timerSeconds === 0 ? "Time’s up! 🔔" : formatTimer(timerSeconds)}
+                    </div>
 
-                    <div
-                      style={{ display: "flex", gap: 8, flexWrap: "wrap" }}
-                    >
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                       <button
                         style={btn}
-                        onClick={() => setTimerRunning((v) => !v)}
+                        onClick={() => {
+                          if (timerSeconds === null) return;
+
+                          if (timerRunning) {
+                            setTimerDurationSeconds(timerSeconds);
+                            setTimerEndsAt(null);
+                            setTimerRunning(false);
+                            setNowMs(Date.now());
+                          } else {
+                            setTimerEndsAt(Date.now() + timerSeconds * 1000);
+                            setTimerRunning(true);
+                            setNowMs(Date.now());
+                          }
+                        }}
                       >
                         {timerRunning ? "Pause" : "Resume"}
                       </button>
@@ -474,12 +501,71 @@ function handleSwipeGesture() {
                       <button
                         style={btn}
                         onClick={() => {
-  setTimerFinished(false);
-  setTimerSeconds(detectedDuration);
-  setTimerRunning(false);
-}}
+                          setTimerFinished(false);
+                          setTimerDurationSeconds(detectedDuration);
+                          setTimerEndsAt(null);
+                          setTimerRunning(false);
+                          setNowMs(Date.now());
+                        }}
                       >
                         Reset
+                      </button>
+                    </div>
+
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                      <button
+                        style={btn}
+                        onClick={() => {
+                          if (timerSeconds === null) return;
+                          const next = timerSeconds + 60;
+                          setTimerFinished(false);
+                          setTimerDurationSeconds(next);
+                          setNowMs(Date.now());
+                          if (timerRunning) {
+                            setTimerEndsAt(Date.now() + next * 1000);
+                          } else {
+                            setTimerEndsAt(null);
+                          }
+                        }}
+                      >
+                        +1 min
+                      </button>
+
+                      <button
+                        style={btn}
+                        onClick={() => {
+                          if (timerSeconds === null) return;
+                          const next = timerSeconds + 300;
+                          setTimerFinished(false);
+                          setTimerDurationSeconds(next);
+                          setNowMs(Date.now());
+                          if (timerRunning) {
+                            setTimerEndsAt(Date.now() + next * 1000);
+                          } else {
+                            setTimerEndsAt(null);
+                          }
+                        }}
+                      >
+                        +5 min
+                      </button>
+
+                      <button
+                        style={btn}
+                        onClick={() => {
+                          if (timerSeconds === null) return;
+                          const next = Math.max(0, timerSeconds - 60);
+                          setTimerFinished(false);
+                          setTimerDurationSeconds(next);
+                          setNowMs(Date.now());
+                          if (timerRunning && next > 0) {
+                            setTimerEndsAt(Date.now() + next * 1000);
+                          } else {
+                            setTimerEndsAt(null);
+                            setTimerRunning(false);
+                          }
+                        }}
+                      >
+                        -1 min
                       </button>
                     </div>
                   </div>
@@ -516,9 +602,7 @@ function handleSwipeGesture() {
                   : "pointer",
             }}
             onClick={() => {
-              setStepIndex((i) =>
-                Math.min(instructions.length - 1, i + 1)
-              );
+              setStepIndex((i) => Math.min(instructions.length - 1, i + 1));
             }}
             disabled={stepIndex >= instructions.length - 1}
           >
