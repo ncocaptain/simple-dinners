@@ -66,24 +66,35 @@ function playTimerDoneSound() {
   if (!AudioContextClass) return;
 
   const ctx = new AudioContextClass();
-  const oscillator = ctx.createOscillator();
-  const gainNode = ctx.createGain();
 
-  oscillator.type = "sine";
-  oscillator.frequency.setValueAtTime(880, ctx.currentTime);
+  const startBeep = () => {
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
 
-  gainNode.gain.setValueAtTime(0.08, ctx.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(880, ctx.currentTime);
 
-  oscillator.connect(gainNode);
-  gainNode.connect(ctx.destination);
+    gainNode.gain.setValueAtTime(0.12, ctx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
 
-  oscillator.start();
-  oscillator.stop(ctx.currentTime + 0.5);
+    oscillator.connect(gainNode);
+    gainNode.connect(ctx.destination);
 
-  oscillator.onended = () => {
-    ctx.close();
+    oscillator.start();
+    oscillator.stop(ctx.currentTime + 0.6);
+
+    oscillator.onended = () => {
+      ctx.close();
+    };
   };
+
+  if (ctx.state === "suspended") {
+    ctx.resume().then(startBeep).catch(() => {
+      ctx.close();
+    });
+  } else {
+    startBeep();
+  }
 }
 
 export default function RecipePage({ setCookbook }: { setCookbook: any }) {
@@ -101,6 +112,7 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   const [timerRunning, setTimerRunning] = React.useState(false);
   const [timerFinished, setTimerFinished] = React.useState(false);
   const [nowMs, setNowMs] = React.useState(Date.now());
+  const [checkedIngredients, setCheckedIngredients] = React.useState<number[]>([]);
 
   React.useEffect(() => {
     const qs = new URLSearchParams(location.search);
@@ -117,14 +129,15 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   }, [slug]);
 
   React.useEffect(() => {
-    setStepIndex(0);
-    setCookMode(false);
-    setTimerDurationSeconds(null);
-    setTimerEndsAt(null);
-    setTimerRunning(false);
-    setTimerFinished(false);
-    setNowMs(Date.now());
-  }, [slug]);
+  setStepIndex(0);
+  setCookMode(false);
+  setTimerDurationSeconds(null);
+  setTimerEndsAt(null);
+  setTimerRunning(false);
+  setTimerFinished(false);
+  setNowMs(Date.now());
+  setCheckedIngredients([]);
+}, [slug]);
 
   const recipe = React.useMemo(() => {
     const fromStore = getRecipeBySlug(slug);
@@ -258,7 +271,7 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
     playTimerDoneSound();
 
     if ("vibrate" in navigator) {
-      navigator.vibrate?.(300);
+      navigator.vibrate?.([200, 100, 200, 100, 300]);
     }
 
     alert("Timer finished!");
@@ -266,21 +279,29 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
 
   const minSwipeDistance = 50;
 
-  function handleSwipeGesture() {
-    if (touchStartX === null || touchEndX === null) return;
-    if (instructions.length === 0) return;
+function toggleIngredient(index: number) {
+  setCheckedIngredients((prev) =>
+    prev.includes(index)
+      ? prev.filter((i) => i !== index)
+      : [...prev, index]
+  );
+}
 
-    const distance = touchStartX - touchEndX;
+function handleSwipeGesture() {
+  if (touchStartX === null || touchEndX === null) return;
+  if (instructions.length === 0) return;
 
-    if (distance > minSwipeDistance && stepIndex < instructions.length - 1) {
-      setStepIndex((i) => i + 1);
-    } else if (distance < -minSwipeDistance && stepIndex > 0) {
-      setStepIndex((i) => i - 1);
-    }
+  const distance = touchStartX - touchEndX;
 
-    setTouchStartX(null);
-    setTouchEndX(null);
+  if (distance > minSwipeDistance && stepIndex < instructions.length - 1) {
+    setStepIndex((i) => i + 1);
+  } else if (distance < -minSwipeDistance && stepIndex > 0) {
+    setStepIndex((i) => i - 1);
   }
+
+  setTouchStartX(null);
+  setTouchEndX(null);
+}
 
   const heroUrl =
     recipe.photoUrl ||
@@ -379,6 +400,8 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
             </div>
           </div>
         </div>
+
+        
 
         <div
           style={{
@@ -574,7 +597,94 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
             )}
           </div>
         </div>
+        
+        <div
+  style={{
+    borderRadius: 18,
+    background: "rgba(30,41,59,0.45)",
+    border: "1px solid rgba(255,255,255,0.10)",
+    padding: window.innerWidth < 640 ? 16 : 18,
+    display: "grid",
+    gap: 10,
+  }}
+>
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      gap: 10,
+      flexWrap: "wrap",
+    }}
+  >
+    <div style={{ fontSize: 13, fontWeight: 900, opacity: 0.75, textTransform: "uppercase" }}>
+  Ingredients ({checkedIngredients.length}/{ingredients.length})
+</div>
 
+    {ingredients.length > 0 && (
+      <button
+        style={btn}
+        onClick={() => setCheckedIngredients([])}
+      >
+        Reset checks
+      </button>
+    )}
+  </div>
+
+  {ingredients.length === 0 ? (
+    <div style={{ opacity: 0.7 }}>No ingredients saved.</div>
+  ) : (
+    <div style={{ display: "grid", gap: 8 }}>
+      {ingredients.map((line, idx) => {
+        const checked = checkedIngredients.includes(idx);
+
+        return (
+          <button
+            key={idx}
+            onClick={() => toggleIngredient(idx)}
+            style={{
+              display: "flex",
+              alignItems: "flex-start",
+              gap: 10,
+              width: "100%",
+              textAlign: "left",
+              padding: "12px 14px",
+              borderRadius: 14,
+              border: "1px solid rgba(255,255,255,0.10)",
+              background: checked
+                ? "rgba(20,184,166,0.18)"
+                : "rgba(255,255,255,0.05)",
+              color: "#f8fafc",
+              cursor: "pointer",
+            }}
+          >
+            <span
+              style={{
+                fontSize: 18,
+                lineHeight: 1,
+                marginTop: 1,
+                opacity: checked ? 1 : 0.85,
+              }}
+            >
+              {checked ? "✓" : "☐"}
+            </span>
+
+            <span
+              style={{
+                lineHeight: 1.45,
+                textDecoration: checked ? "line-through" : "none",
+                opacity: checked ? 0.7 : 1,
+                fontWeight: checked ? 700 : 500,
+              }}
+            >
+              {line}
+            </span>
+          </button>
+        );
+      })}
+    </div>
+  )}
+</div>
         <div
           style={{ display: "flex", gap: 10, justifyContent: "space-between" }}
         >
