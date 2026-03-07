@@ -228,6 +228,12 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   const instructions = splitLines(recipe.instructions ?? "");
   const currentStep = instructions[stepIndex] || "";
   const detectedDuration = parseStepDuration(currentStep);
+  const stepLower = currentStep.toLowerCase();
+
+const highlightedIngredients = ingredients.map((line) => {
+  const words = line.toLowerCase().split(" ");
+  return words.some((w) => w.length > 3 && stepLower.includes(w));
+});
 
   const timerSeconds =
     timerDurationSeconds === null
@@ -636,7 +642,8 @@ function handleSwipeGesture() {
   ) : (
     <div style={{ display: "grid", gap: 8 }}>
       {ingredients.map((line, idx) => {
-        const checked = checkedIngredients.includes(idx);
+  const checked = checkedIngredients.includes(idx);
+  const highlight = highlightedIngredients[idx];
 
         return (
           <button
@@ -651,9 +658,14 @@ function handleSwipeGesture() {
               padding: "12px 14px",
               borderRadius: 14,
               border: "1px solid rgba(255,255,255,0.10)",
+              boxShadow: highlight
+  ? "0 0 0 1px rgba(234,179,8,0.35)"
+  : "none",
               background: checked
-                ? "rgba(20,184,166,0.18)"
-                : "rgba(255,255,255,0.05)",
+  ? "rgba(20,184,166,0.22)"
+  : highlight
+  ? "rgba(234,179,8,0.18)"
+  : "rgba(255,255,255,0.05)",
               color: "#f8fafc",
               cursor: "pointer",
             }}
@@ -718,6 +730,12 @@ function handleSwipeGesture() {
           >
             Next →
           </button>
+          <button
+  style={btn}
+  onClick={() => setCheckedIngredients(ingredients.map((_, i) => i))}
+>
+Prep complete
+</button>
         </div>
       </div>
     );
