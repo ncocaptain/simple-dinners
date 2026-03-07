@@ -65,7 +65,7 @@ function startOfWeekMonday(base: Date) {
 export function addWeekToCalendar(days: readonly Day[], meals: Record<Day, Meal>) {
   const monday = startOfWeekMonday(new Date());
 
-  const events = days
+    const events = days
     .map((day, idx) => {
       const meal = meals[day];
       if (!meal?.name?.trim()) return null; // skip EMPTY_MEAL
@@ -203,6 +203,10 @@ export default function App() {
     }
   });
 
+  const EMPTY_LOCKS = Object.fromEntries(
+  days.map((d) => [d, false])
+) as Record<Day, boolean>;
+
   // Cookbook
   
 
@@ -256,6 +260,17 @@ export default function App() {
 );
   const [vegetarian, setVegetarian] = useState<boolean>(() => localStorage.getItem("vegetarian") === "true");
 
+  const [lockedDays, setLockedDays] = useState<Record<Day, boolean>>(() => {
+  try {
+    const saved = localStorage.getItem("lockedDays");
+    return saved ? JSON.parse(saved) : EMPTY_LOCKS;
+  } catch {
+    return EMPTY_LOCKS;
+  }
+});
+
+
+
 
 
 const effectivePrefs: Preferences = useMemo(
@@ -273,6 +288,7 @@ const effectivePrefs: Preferences = useMemo(
   useEffect(() => localStorage.setItem("dietaryNotes", dietaryNotes), [dietaryNotes]);
   useEffect(() => localStorage.setItem("vegetarian", String(vegetarian)), [vegetarian]);
   useEffect(() => localStorage.setItem("pantry", JSON.stringify(pantry)), [pantry]);
+  useEffect(() => localStorage.setItem("lockedDays", JSON.stringify(lockedDays)), [lockedDays]);
   
 
   // Actions
@@ -295,8 +311,12 @@ const addDayToCookbook = (day: Day) => {
   }
 };
 
-  const generateDinnerPlan = (force = false) => {
-  const seedMeals = force ? EMPTY_WEEK : meals;
+ const generateDinnerPlan = (force = false) => {
+  const seedMeals: Record<Day, Meal> = force
+    ? (Object.fromEntries(
+        days.map((d) => [d, lockedDays[d] ? meals[d] : EMPTY_MEAL])
+      ) as Record<Day, Meal>)
+    : meals;
 
   const next = generatePlan({
     meals: seedMeals,
@@ -307,8 +327,8 @@ const addDayToCookbook = (day: Day) => {
     days,
   });
 
-  // Ensure every meal has a photoUrl (keeps your UI nice)
-  const withPhotos: Record<Day, Meal> = { ...next } as any;
+  const withPhotos: Record<Day, Meal> = { ...next } as Record<Day, Meal>;
+
   for (const d of days) {
     const m = withPhotos[d];
     if (!m) continue;
@@ -529,18 +549,20 @@ const addDayToCookbook = (day: Day) => {
   />
 
   <Route
-    path="/week"
-    element={
-      <WeekPage
-        meals={meals}
-        setMeals={setMeals}
-        addDayToCookbook={addDayToCookbook}
-        generateDinnerPlan={generateDinnerPlan}
-        daySettings={daySettings}
-        setDaySettings={setDaySettings}
-      />
-    }
-  />
+  path="/week"
+  element={
+    <WeekPage
+      meals={meals}
+      setMeals={setMeals}
+      addDayToCookbook={addDayToCookbook}
+      generateDinnerPlan={generateDinnerPlan}
+      daySettings={daySettings}
+      setDaySettings={setDaySettings}
+      lockedDays={lockedDays}
+      setLockedDays={setLockedDays}
+    />
+  }
+/>
 
   <Route
     path="/cookbook"

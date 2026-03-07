@@ -4,25 +4,39 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { days } from "../core/data";
 import { loadTakeoutCategories, type TakeoutCategory } from "../core/takeout";
-import { Trash2, BookOpen, RefreshCcw, CalendarPlus, Plus, X } from "lucide-react";
-
+import {
+  Trash2,
+  BookOpen,
+  RefreshCcw,
+  CalendarPlus,
+  Plus,
+  X,
+  Lock,
+  Unlock,
+} from "lucide-react";
 
 type Day = (typeof days)[number];
 
-
-
-
+// =====================================================
+// Builder: empty week helpers
+// =====================================================
 const EMPTY_MEAL: Meal = { name: "", ingredients: "", instructions: "", photoUrl: "" };
 
 const EMPTY_WEEK = Object.fromEntries(
   days.map((d) => [d, { ...EMPTY_MEAL }])
 ) as Record<Day, Meal>;
 
+const EMPTY_LOCKS = Object.fromEntries(
+  days.map((d) => [d, false])
+) as Record<Day, boolean>;
+
+// =====================================================
+// Builder: calendar helpers
+// =====================================================
 function pad2(n: number) {
   return String(n).padStart(2, "0");
 }
 
-// Local time format: YYYYMMDDTHHMMSS
 function toICSLocal(d: Date) {
   return (
     d.getFullYear() +
@@ -50,8 +64,8 @@ function mealImageUrl(name?: string) {
 
 function startOfWeekMonday(base: Date) {
   const d = new Date(base);
-  const day = d.getDay(); // 0 Sun ... 6 Sat
-  const diff = day === 0 ? -6 : 1 - day; // to Monday
+  const day = d.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
   d.setDate(d.getDate() + diff);
   d.setHours(0, 0, 0, 0);
   return d;
@@ -127,10 +141,9 @@ function addWeekToCalendar(days: readonly Day[], meals: Record<Day, Meal>) {
   URL.revokeObjectURL(url);
 }
 
-
-
-
-
+// =====================================================
+// Builder: page component
+// =====================================================
 export default function WeekPage({
   meals,
   setMeals,
@@ -138,125 +151,149 @@ export default function WeekPage({
   generateDinnerPlan,
   daySettings,
   setDaySettings,
+  lockedDays,
+  setLockedDays,
 }: {
   meals: Record<Day, Meal>;
   setMeals: React.Dispatch<React.SetStateAction<Record<Day, Meal>>>;
   addDayToCookbook: (day: Day) => void;
-  generateDinnerPlan: () => void;
+  generateDinnerPlan: (force?: boolean) => void;
   daySettings: Record<Day, Effort>;
   setDaySettings: React.Dispatch<React.SetStateAction<Record<Day, Effort>>>;
+  lockedDays: Record<Day, boolean>;
+  setLockedDays: React.Dispatch<React.SetStateAction<Record<Day, boolean>>>;
 }) {
   const navigate = useNavigate();
 
-   
+  // =====================================================
+  // Builder: local shopping list types + state
+  // =====================================================
   type ShoppingItem = {
-  id: string;
-  name: string;
-  checked: boolean;
-  createdAt: number;
-};
+    id: string;
+    name: string;
+    checked: boolean;
+    createdAt: number;
+  };
 
- const openRecipePage = (day: Day) => {
-  const slug = meals[day]?.slug?.trim();
-  if (!slug) return;
+  const SHOP_LS_KEY = "simple-dinners:shopping-list:v1";
 
-  navigate(`/recipe/${encodeURIComponent(slug)}?from=${encodeURIComponent("/week")}`);
-};
-
-
-const [takeoutCategories] = React.useState<TakeoutCategory[]>(() => loadTakeoutCategories());
-
-const SHOP_LS_KEY = "simple-dinners:shopping-list:v1";
-
-function makeId() {
-  return Math.random().toString(36).slice(2) + Date.now().toString(36);
-}
-
-const [shopItems, setShopItems] = React.useState<ShoppingItem[]>([]);
-const [shopInput, setShopInput] = React.useState("");
-
-React.useEffect(() => {
-  try {
-    const raw = localStorage.getItem(SHOP_LS_KEY);
-    if (raw) setShopItems(JSON.parse(raw));
-  } catch {
-    // ignore
+  function makeId() {
+    return Math.random().toString(36).slice(2) + Date.now().toString(36);
   }
-}, []);
 
-React.useEffect(() => {
-  try {
-    localStorage.setItem(SHOP_LS_KEY, JSON.stringify(shopItems));
-  } catch {
-    // ignore
-  }
-}, [shopItems]);
+  const [shopItems, setShopItems] = React.useState<ShoppingItem[]>([]);
+  const [shopInput, setShopInput] = React.useState("");
 
-const addShopItem = () => {
-  const name = shopInput.trim();
-  if (!name) return;
-  setShopItems((prev) => [
-    { id: makeId(), name, checked: false, createdAt: Date.now() },
-    ...prev,
-  ]);
-  setShopInput("");
-};
+  // =====================================================
+  // Builder: recipe navigation
+  // =====================================================
+  const openRecipePage = (day: Day) => {
+    const slug = meals[day]?.slug?.trim();
+    if (!slug) return;
 
-const toggleShopItem = (id: string) => {
-  setShopItems((prev) =>
-    prev.map((it) => (it.id === id ? { ...it, checked: !it.checked } : it))
+    navigate(`/recipe/${encodeURIComponent(slug)}?from=${encodeURIComponent("/week")}`);
+  };
+
+  // =====================================================
+  // Builder: takeout categories
+  // =====================================================
+  const [takeoutCategories] = React.useState<TakeoutCategory[]>(() =>
+    loadTakeoutCategories()
   );
-};
 
-const removeShopItem = (id: string) => {
-  setShopItems((prev) => prev.filter((it) => it.id !== id));
-};
+  // =====================================================
+  // Builder: local shopping list persistence
+  // =====================================================
+  React.useEffect(() => {
+    try {
+      const raw = localStorage.getItem(SHOP_LS_KEY);
+      if (raw) setShopItems(JSON.parse(raw));
+    } catch {
+      // ignore
+    }
+  }, []);
 
-const clearCheckedShopItems = () => {
-  setShopItems((prev) => prev.filter((it) => !it.checked));
-};
-  
+  React.useEffect(() => {
+    try {
+      localStorage.setItem(SHOP_LS_KEY, JSON.stringify(shopItems));
+    } catch {
+      // ignore
+    }
+  }, [shopItems]);
+
+  // =====================================================
+  // Builder: shopping list actions
+  // =====================================================
+  const addShopItem = () => {
+    const name = shopInput.trim();
+    if (!name) return;
+
+    setShopItems((prev) => [
+      { id: makeId(), name, checked: false, createdAt: Date.now() },
+      ...prev,
+    ]);
+    setShopInput("");
+  };
+
+  const toggleShopItem = (id: string) => {
+    setShopItems((prev) =>
+      prev.map((it) => (it.id === id ? { ...it, checked: !it.checked } : it))
+    );
+  };
+
+  const removeShopItem = (id: string) => {
+    setShopItems((prev) => prev.filter((it) => it.id !== id));
+  };
+
+  const clearCheckedShopItems = () => {
+    setShopItems((prev) => prev.filter((it) => !it.checked));
+  };
+
+  // =====================================================
+  // Builder: nearby takeout opener
+  // =====================================================
   const openNearby = (category: string) => {
-  if (!navigator.geolocation) {
-    alert("Location not supported.");
-    return;
-  }
+    if (!navigator.geolocation) {
+      alert("Location not supported.");
+      return;
+    }
 
-  navigator.geolocation.getCurrentPosition(
-    ({ coords: { latitude, longitude } }) => {
-      const q = encodeURIComponent(category);
-      const webUrl = `https://www.google.com/maps/search/?api=1&query=${q}&center=${latitude},${longitude}`;
+    navigator.geolocation.getCurrentPosition(
+      ({ coords: { latitude, longitude } }) => {
+        const q = encodeURIComponent(category);
+        const webUrl = `https://www.google.com/maps/search/?api=1&query=${q}&center=${latitude},${longitude}`;
 
-      const ua = navigator.userAgent;
-      const isiOS = /iPad|iPhone|iPod/.test(ua);
-      const isAndroid = /Android/.test(ua);
+        const ua = navigator.userAgent;
+        const isiOS = /iPad|iPhone|iPod/.test(ua);
+        const isAndroid = /Android/.test(ua);
 
-      // Desktop
-      if (!isiOS && !isAndroid) {
-        window.open(webUrl, "_blank", "noopener,noreferrer");
-        return;
-      }
+        if (!isiOS && !isAndroid) {
+          window.open(webUrl, "_blank", "noopener,noreferrer");
+          return;
+        }
 
-      // Mobile native-first + fallback
-      const startedAt = Date.now();
-      if (isiOS) {
-        window.location.href = `https://maps.apple.com/?q=${q}&ll=${latitude},${longitude}`;
-      } else {
-        window.location.href = `geo:${latitude},${longitude}?q=${q}`;
-      }
+        const startedAt = Date.now();
+        if (isiOS) {
+          window.location.href = `https://maps.apple.com/?q=${q}&ll=${latitude},${longitude}`;
+        } else {
+          window.location.href = `geo:${latitude},${longitude}?q=${q}`;
+        }
 
-      setTimeout(() => {
-        if (Date.now() - startedAt < 1200) window.location.href = webUrl;
-      }, 900);
-    },
-    (err: GeolocationPositionError) => {
-      console.error(err);
-      alert("Could not get your location. Check location permissions.");
-    },
-    { enableHighAccuracy: true, timeout: 10000, maximumAge: 30000 }
-  );
-};
-  
+        setTimeout(() => {
+          if (Date.now() - startedAt < 1200) window.location.href = webUrl;
+        }, 900);
+      },
+      (err: GeolocationPositionError) => {
+        console.error(err);
+        alert("Could not get your location. Check location permissions.");
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 30000 }
+    );
+  };
+
+  // =====================================================
+  // Builder: card animation + open state
+  // =====================================================
   const [animDays, setAnimDays] = React.useState<Record<string, boolean>>({});
   const [openDay, setOpenDay] = React.useState<Day | null>(null);
   const [openEffortDay, setOpenEffortDay] = React.useState<Day | null>(null);
@@ -269,11 +306,12 @@ const clearCheckedShopItems = () => {
     { value: "takeout", label: "Takeout" },
   ];
 
-  // ---------- Close dropdown on outside click ----------
+  // =====================================================
+  // Builder: close effort dropdown on outside click
+  // =====================================================
   React.useEffect(() => {
     const onDown = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      // If we click outside the dropdown container, close it
       if (!target.closest(".effort-selector-container")) {
         setOpenEffortDay(null);
       }
@@ -283,10 +321,13 @@ const clearCheckedShopItems = () => {
     return () => window.removeEventListener("mousedown", onDown);
   }, [openEffortDay]);
 
-  // ---------- Animation Logic ----------
+  // =====================================================
+  // Builder: animate cards when meals change
+  // =====================================================
   React.useEffect(() => {
     const prev = prevMealsRef.current;
     const nextAnim: Partial<Record<Day, boolean>> = {};
+
     days.forEach((day) => {
       const prevKey = `${prev[day]?.name ?? ""}`;
       const nextKey = `${meals[day]?.name ?? ""}`;
@@ -294,20 +335,26 @@ const clearCheckedShopItems = () => {
         nextAnim[day as Day] = true;
       }
     });
+
     if (Object.keys(nextAnim).length > 0) {
       setAnimDays((s) => ({ ...s, ...nextAnim }));
       const t = setTimeout(() => setAnimDays({}), 450);
+      prevMealsRef.current = meals;
       return () => clearTimeout(t);
     }
+
     prevMealsRef.current = meals;
   }, [meals]);
 
-  // ---------- Actions ----------
+  // =====================================================
+  // Builder: week actions
+  // =====================================================
   const clearWeek = () => {
     if (!window.confirm("Clear the entire week?")) return;
     setMeals(EMPTY_WEEK);
     setShopItems([]);
-localStorage.removeItem(SHOP_LS_KEY);
+    localStorage.removeItem(SHOP_LS_KEY);
+    setLockedDays(EMPTY_LOCKS);
   };
 
   const updateMeal = (day: Day, field: keyof Meal, value: string) => {
@@ -319,12 +366,17 @@ localStorage.removeItem(SHOP_LS_KEY);
 
   const clearDay = (day: Day) => {
     setMeals((prev) => ({ ...prev, [day]: EMPTY_MEAL }));
+    setLockedDays((prev) => ({ ...prev, [day]: false }));
   };
 
-   
-  // ---------- Styles ----------
-  
-    const cardGrid: React.CSSProperties = {
+  const toggleDayLock = (day: Day) => {
+    setLockedDays((prev) => ({ ...prev, [day]: !prev[day] }));
+  };
+
+  // =====================================================
+  // Builder: shared styles
+  // =====================================================
+  const cardGrid: React.CSSProperties = {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
     gap: 16,
@@ -333,7 +385,7 @@ localStorage.removeItem(SHOP_LS_KEY);
 
   const recipeCard: React.CSSProperties = {
     borderRadius: 18,
-    overflow: "visible", // ✅ allow dropdown to escape
+    overflow: "visible",
     background: "rgba(30,41,59,0.40)",
     backdropFilter: "blur(10px)",
     WebkitBackdropFilter: "blur(10px)",
@@ -378,24 +430,32 @@ localStorage.removeItem(SHOP_LS_KEY);
     fontWeight: 800,
   };
 
-  
-const formatRange = () => {
-  const start = startOfWeekMonday(new Date());
-  const end = new Date(start);
-  end.setDate(start.getDate() + 6);
+  // =====================================================
+  // Builder: week range label
+  // =====================================================
+  const formatRange = () => {
+    const start = startOfWeekMonday(new Date());
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
 
-  const fmt = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" });
-  const fmtYear = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" });
+    const fmt = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" });
+    const fmtYear = new Intl.DateTimeFormat(undefined, {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
 
-  // show year only on the end if it crosses years
-  const sameYear = start.getFullYear() === end.getFullYear();
-  return sameYear ? `${fmt.format(start)} – ${fmtYear.format(end)}` : `${fmtYear.format(start)} – ${fmtYear.format(end)}`;
-};
+    const sameYear = start.getFullYear() === end.getFullYear();
+    return sameYear
+      ? `${fmt.format(start)} – ${fmtYear.format(end)}`
+      : `${fmtYear.format(start)} – ${fmtYear.format(end)}`;
+  };
 
+  const weekRange = formatRange();
 
-
-const weekRange = formatRange();
-
+  // =====================================================
+  // Builder: page UI
+  // =====================================================
   return (
     <>
       <style>{`
@@ -406,412 +466,471 @@ const weekRange = formatRange();
         }
       `}</style>
 
-      {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
-        <div>
-  <h2 style={{ margin: 0, fontSize: 28, fontWeight: 800, color: "#f8fafc" }}>
-    This Week
-  </h2>
-  <div style={{ marginTop: 4, opacity: 0.75, fontWeight: 700, fontSize: 13 }}>
-    {weekRange}
-  </div>
-</div>
-        <button
-  onClick={() => addWeekToCalendar(days, meals)}
-  style={{
-    padding: "10px 16px",
-    borderRadius: 14,
-    background: "rgba(255,255,255,0.05)",
-    color: "#f8fafc",
-    cursor: "pointer",
-    fontWeight: 600,
-    border: "1px solid rgba(255,255,255,0.12)",
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 8,
-  }}
->
-  <CalendarPlus size={16} />
-  Add to Calendar
-</button>
-      </div>
-
-      {/* Main Grid */}
-      <div style={cardGrid}>
-        {days.map((day) => {
-  const meal = meals[day];
-  const effort = daySettings[day] ?? "normal";
-
-  const heroUrl = meal?.photoUrl || mealImageUrl(meal?.name);
-
-  const canOpen = Boolean(meal?.slug?.trim());
-
-  return (
-    <div
-      key={day}
-      style={{
-        ...recipeCard,
-        position: "relative",
-        zIndex: openEffortDay === day ? 999 : 1,
-        animation: animDays[day] ? "popGlow 450ms ease-out" : "none",
-      }}
-    >
-      {/* Hero (clickable only if slug exists) */}
       <div
         style={{
-          height: 120,
-          overflow: "hidden",
-          borderTopLeftRadius: 18,
-          borderTopRightRadius: 18,
-          cursor: canOpen ? "pointer" : "default",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 28,
         }}
-        onClick={canOpen ? () => openRecipePage(day) : undefined}
-        role={canOpen ? "button" : undefined}
-        tabIndex={canOpen ? 0 : undefined}
-        onKeyDown={
-          canOpen
-            ? (e) => {
-                if (e.key === "Enter" || e.key === " ") openRecipePage(day);
-              }
-            : undefined
-        }
-        aria-label={canOpen ? `Open recipe for ${meal?.name ?? "meal"}` : undefined}
       >
-        <div
-          className={`recipe-hero ${canOpen ? "clickable" : ""}`}
-          style={{
-            height: "100%",
-            backgroundImage: `url(${heroUrl})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-      </div>
-
-      {/* Card body */}
-      <div style={{ padding: 16, display: "grid", gap: 12 }}>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div>
-            <div style={{ fontSize: 18, fontWeight: 900 }}>{meal?.name || "No meal planned"}</div>
-            <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 700 }}>{day.toUpperCase()}</div>
+        <div>
+          <h2 style={{ margin: 0, fontSize: 28, fontWeight: 800, color: "#f8fafc" }}>
+            This Week
+          </h2>
+          <div style={{ marginTop: 4, opacity: 0.75, fontWeight: 700, fontSize: 13 }}>
+            {weekRange}
           </div>
-          <div style={{ display: "flex", gap: 6 }}>
-           <button
-  style={iconBtn}
-  onClick={(e) => {
-    e.stopPropagation();
-    addDayToCookbook(day);
-  }}
-  title="Save to cookbook"
-  aria-label="Save to cookbook"
->
-  <BookOpen size={16} />
-</button>
-            <button
-  style={iconBtn}
-  onClick={(e) => {
-    e.stopPropagation();
-    clearDay(day);
-  }}
-  title="Clear day"
-  aria-label="Clear day"
->
-  <Trash2 size={16} />
-</button>
-          </div>
-        </div>
-
-        {/* Effort Selector */}
-        <div className="effort-selector-container" style={{ position: "relative", display: "inline-block" }}>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setOpenEffortDay(openEffortDay === day ? null : day);
-            }}
-            style={{ ...chip, cursor: "pointer", userSelect: "none" }}
-          >
-            <span style={{ opacity: 0.7, fontSize: 11, fontWeight: 800 }}>Effort</span>
-            <span style={{ fontSize: 12, fontWeight: 900 }}>
-              {EFFORT_OPTIONS.find((o) => o.value === effort)?.label ?? "Normal"}
-            </span>
-            <span style={{ opacity: 0.6 }}>▾</span>
-          </button>
-
-          {openEffortDay === day && (
-            <div
-              style={{
-                position: "absolute",
-                top: "calc(100% + 6px)",
-                left: 0,
-                zIndex: 2000,
-                minWidth: 140,
-                borderRadius: 12,
-                border: "1px solid rgba(255,255,255,0.08)",
-                background: "rgba(15,23,42,0.95)",
-                backdropFilter: "blur(14px)",
-                WebkitBackdropFilter: "blur(14px)",
-                boxShadow: "0 12px 28px rgba(0,0,0,0.55)",
-                overflow: "hidden",
-              }}
-            >
-              {EFFORT_OPTIONS.map((opt) => (
-                <button
-                  key={opt.value}
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setDaySettings((prev) => ({ ...prev, [day]: opt.value }));
-                    setOpenEffortDay(null);
-                  }}
-                  style={{
-                    width: "100%",
-                    textAlign: "left",
-                    padding: "10px 12px",
-                    border: "none",
-                    background: opt.value === effort ? "rgba(20,184,166,0.2)" : "transparent",
-                    color: "white",
-                    cursor: "pointer",
-                    fontWeight: opt.value === effort ? 900 : 500,
-                    fontSize: 13,
-                  }}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
 
         <button
-          onClick={() => setOpenDay(openDay === day ? null : day)}
+          onClick={() => addWeekToCalendar(days, meals)}
           style={{
-            background: "none",
-            border: "none",
-            color: "#14b8a6",
-            fontWeight: 900,
+            padding: "10px 16px",
+            borderRadius: 14,
+            background: "rgba(255,255,255,0.05)",
+            color: "#f8fafc",
             cursor: "pointer",
-            fontSize: 13,
-            textAlign: "left",
-            width: "fit-content",
-            padding: 0,
+            fontWeight: 600,
+            border: "1px solid rgba(255,255,255,0.12)",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
           }}
         >
-          {openDay === day ? "Hide details ▴" : "Edit details ▾"}
+          <CalendarPlus size={16} />
+          Add to Calendar
         </button>
+      </div>
 
-        {effort === "takeout" && (
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            {takeoutCategories.map((c) => (
-              <button
-                key={c.label}
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  openNearby(c.query);
+      <div style={cardGrid}>
+        {days.map((day) => {
+          const meal = meals[day];
+          const effort = daySettings[day] ?? "normal";
+          const heroUrl = meal?.photoUrl || mealImageUrl(meal?.name);
+          const canOpen = Boolean(meal?.slug?.trim());
+          const isLocked = Boolean(lockedDays[day]);
+
+          return (
+            <div
+              key={day}
+              style={{
+                ...recipeCard,
+                position: "relative",
+                zIndex: openEffortDay === day ? 999 : 1,
+                animation: animDays[day] ? "popGlow 450ms ease-out" : "none",
+              }}
+            >
+              <div
+                style={{
+                  height: 120,
+                  overflow: "hidden",
+                  borderTopLeftRadius: 18,
+                  borderTopRightRadius: 18,
+                  cursor: canOpen ? "pointer" : "default",
                 }}
-                style={{ ...chip, cursor: "pointer" }}
+                onClick={canOpen ? () => openRecipePage(day) : undefined}
+                role={canOpen ? "button" : undefined}
+                tabIndex={canOpen ? 0 : undefined}
+                onKeyDown={
+                  canOpen
+                    ? (e) => {
+                        if (e.key === "Enter" || e.key === " ") openRecipePage(day);
+                      }
+                    : undefined
+                }
+                aria-label={canOpen ? `Open recipe for ${meal?.name ?? "meal"}` : undefined}
               >
-                {c.emoji} {c.label}
-              </button>
-            ))}
-          </div>
-        )}
+                <div
+                  className={`recipe-hero ${canOpen ? "clickable" : ""}`}
+                  style={{
+                    height: "100%",
+                    backgroundImage: `url(${heroUrl})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                />
+              </div>
 
-        {openDay === day && (
-          <div
-            style={{
-              display: "grid",
-              gap: 10,
-              padding: 12,
-              background: "rgba(255,255,255,0.03)",
-              borderRadius: 14,
-              border: "1px solid rgba(255,255,255,0.06)",
-            }}
-          >
-            <input
-              placeholder="Meal name"
-              value={meal?.name ?? ""}
-              onChange={(e) => updateMeal(day, "name", e.target.value)}
-              style={input}
-            />
+              <div style={{ padding: 16, display: "grid", gap: 12 }}>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <div>
+                    <div style={{ fontSize: 18, fontWeight: 900 }}>
+                      {meal?.name || "No meal planned"}
+                    </div>
+                    <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 700 }}>
+                      {day.toUpperCase()}
+                    </div>
+                  </div>
 
-            <input
-              placeholder="Slug (e.g. taco-bowls)"
-              value={meal?.slug ?? ""}
-              onChange={(e) => updateMeal(day, "slug", e.target.value)}
-              style={input}
-            />
+                  <div style={{ display: "flex", gap: 6 }}>
+                    <button
+                      style={iconBtn}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleDayLock(day);
+                      }}
+                      title={isLocked ? "Unlock day" : "Lock day"}
+                      aria-label={isLocked ? "Unlock day" : "Lock day"}
+                    >
+                      {isLocked ? <Lock size={16} /> : <Unlock size={16} />}
+                    </button>
 
-            <input
-              placeholder="Ingredients..."
-              value={meal?.ingredients ?? ""}
-              onChange={(e) => updateMeal(day, "ingredients", e.target.value)}
-              style={input}
-            />
+                    <button
+                      style={iconBtn}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addDayToCookbook(day);
+                      }}
+                      title="Save to cookbook"
+                      aria-label="Save to cookbook"
+                    >
+                      <BookOpen size={16} />
+                    </button>
 
-            <textarea
-              placeholder="Cooking steps..."
-              value={meal?.instructions ?? ""}
-              onChange={(e) => updateMeal(day, "instructions", e.target.value)}
-              style={{ ...input, minHeight: 90, resize: "vertical" }}
-            />
-          </div>
-        )}
+                    <button
+                      style={iconBtn}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        clearDay(day);
+                      }}
+                      title="Clear day"
+                      aria-label="Clear day"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  className="effort-selector-container"
+                  style={{ position: "relative", display: "inline-block" }}
+                >
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setOpenEffortDay(openEffortDay === day ? null : day);
+                    }}
+                    style={{ ...chip, cursor: "pointer", userSelect: "none" }}
+                  >
+                    <span style={{ opacity: 0.7, fontSize: 11, fontWeight: 800 }}>Effort</span>
+                    <span style={{ fontSize: 12, fontWeight: 900 }}>
+                      {EFFORT_OPTIONS.find((o) => o.value === effort)?.label ?? "Normal"}
+                    </span>
+                    <span style={{ opacity: 0.6 }}>▾</span>
+                  </button>
+
+                  {isLocked && (
+                    <span
+                      style={{
+                        marginLeft: 8,
+                        ...chip,
+                        background: "rgba(20,184,166,0.18)",
+                        border: "1px solid rgba(20,184,166,0.35)",
+                      }}
+                    >
+                      🔒 Locked
+                    </span>
+                  )}
+
+                  {openEffortDay === day && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "calc(100% + 6px)",
+                        left: 0,
+                        zIndex: 2000,
+                        minWidth: 140,
+                        borderRadius: 12,
+                        border: "1px solid rgba(255,255,255,0.08)",
+                        background: "rgba(15,23,42,0.95)",
+                        backdropFilter: "blur(14px)",
+                        WebkitBackdropFilter: "blur(14px)",
+                        boxShadow: "0 12px 28px rgba(0,0,0,0.55)",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {EFFORT_OPTIONS.map((opt) => (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setDaySettings((prev) => ({ ...prev, [day]: opt.value }));
+                            setOpenEffortDay(null);
+                          }}
+                          style={{
+                            width: "100%",
+                            textAlign: "left",
+                            padding: "10px 12px",
+                            border: "none",
+                            background:
+                              opt.value === effort ? "rgba(20,184,166,0.2)" : "transparent",
+                            color: "white",
+                            cursor: "pointer",
+                            fontWeight: opt.value === effort ? 900 : 500,
+                            fontSize: 13,
+                          }}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <button
+                  onClick={() => setOpenDay(openDay === day ? null : day)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "#14b8a6",
+                    fontWeight: 900,
+                    cursor: "pointer",
+                    fontSize: 13,
+                    textAlign: "left",
+                    width: "fit-content",
+                    padding: 0,
+                  }}
+                >
+                  {openDay === day ? "Hide details ▴" : "Edit details ▾"}
+                </button>
+
+                {effort === "takeout" && (
+                  <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                    {takeoutCategories.map((c) => (
+                      <button
+                        key={c.label}
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openNearby(c.query);
+                        }}
+                        style={{ ...chip, cursor: "pointer" }}
+                      >
+                        {c.emoji} {c.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {openDay === day && (
+                  <div
+                    style={{
+                      display: "grid",
+                      gap: 10,
+                      padding: 12,
+                      background: "rgba(255,255,255,0.03)",
+                      borderRadius: 14,
+                      border: "1px solid rgba(255,255,255,0.06)",
+                    }}
+                  >
+                    <input
+                      placeholder="Meal name"
+                      value={meal?.name ?? ""}
+                      onChange={(e) => updateMeal(day, "name", e.target.value)}
+                      style={input}
+                    />
+
+                    <input
+                      placeholder="Slug (e.g. taco-bowls)"
+                      value={meal?.slug ?? ""}
+                      onChange={(e) => updateMeal(day, "slug", e.target.value)}
+                      style={input}
+                    />
+
+                    <input
+                      placeholder="Ingredients..."
+                      value={meal?.ingredients ?? ""}
+                      onChange={(e) => updateMeal(day, "ingredients", e.target.value)}
+                      style={input}
+                    />
+
+                    <textarea
+                      placeholder="Cooking steps..."
+                      value={meal?.instructions ?? ""}
+                      onChange={(e) => updateMeal(day, "instructions", e.target.value)}
+                      style={{ ...input, minHeight: 90, resize: "vertical" }}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
-    </div>
-  );
-})}
-      </div>
 
-      {/* Footer Actions */}
       <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 32 }}>
-        <Button onClick={generateDinnerPlan}>
-  <RefreshCcw size={16} style={{ marginRight: 8 }} />
-  Re-Generate
-</Button>
+        <Button onClick={() => generateDinnerPlan(true)}>
+          <RefreshCcw size={16} style={{ marginRight: 8 }} />
+          Re-Generate Unlocked Days
+        </Button>
 
-<Button variant="secondary" onClick={() => navigate("/cookbook")}>
-  <BookOpen size={16} style={{ marginRight: 8 }} />
-  Cookbook
-</Button>
+        <Button variant="secondary" onClick={() => navigate("/cookbook")}>
+          <BookOpen size={16} style={{ marginRight: 8 }} />
+          Cookbook
+        </Button>
 
-<Button variant="danger" onClick={clearWeek}>
-  <Trash2 size={16} style={{ marginRight: 8 }} />
-  Reset Week
-</Button>
+        <Button variant="danger" onClick={clearWeek}>
+          <Trash2 size={16} style={{ marginRight: 8 }} />
+          Reset Week
+        </Button>
       </div>
 
-      {/* Shopping List Section */}
-<div
-  style={{
-    marginTop: 32,
-    padding: 24,
-    borderRadius: 20,
-    background: "rgba(15,23,42,0.2)",
-    border: "1px solid rgba(255,255,255,0.1)",
-  }}
->
-  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-    <h2 style={{ margin: 0 }}>Shopping List</h2>
-    <button
-      type="button"
-      onClick={clearCheckedShopItems}
-      disabled={shopItems.every((i) => !i.checked)}
-      style={{
-        padding: "10px 14px",
-        borderRadius: 14,
-        background: "rgba(255,255,255,0.05)",
-        color: "#f8fafc",
-        cursor: "pointer",
-        fontWeight: 700,
-        border: "1px solid rgba(255,255,255,0.12)",
-        opacity: shopItems.every((i) => !i.checked) ? 0.5 : 1,
-      }}
-    >
-      Clear checked
-    </button>
-  </div>
-
-  {/* Add item */}
-  <div style={{ display: "flex", gap: 10, marginTop: 16, flexWrap: "wrap" }}>
-    <input
-      value={shopInput}
-      onChange={(e) => setShopInput(e.target.value)}
-      placeholder='Add item (e.g. "milk")'
-      onKeyDown={(e) => {
-        if (e.key === "Enter") {
-  e.preventDefault();
-  addShopItem();
-}
-      }}
-      style={{
-        flex: "1 1 220px",
-        padding: "10px 12px",
-        borderRadius: 12,
-        border: "1px solid rgba(255,255,255,0.12)",
-        background: "rgba(255,255,255,0.06)",
-        color: "white",
-        fontSize: 14,
-        outline: "none",
-      }}
-    />
-    <button
-  type="button"
-  onClick={addShopItem}
-  style={{
-    padding: "10px 16px",
-    borderRadius: 14,
-    background: "rgba(20,184,166,0.18)",
-    color: "#f8fafc",
-    cursor: "pointer",
-    fontWeight: 900,
-    border: "1px solid rgba(20,184,166,0.35)",
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 8,
-  }}
->
-  <Plus size={16} />
-  Add
-</button>
-  </div>
-
-  {/* List */}
-  <div style={{ marginTop: 16, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 10 }}>
-    {shopItems.length === 0 ? (
-      <p style={{ opacity: 0.5, margin: 0 }}>No items yet!</p>
-    ) : (
-      shopItems
-        .slice()
-        .sort((a, b) => {
-          if (a.checked !== b.checked) return a.checked ? 1 : -1;
-          return b.createdAt - a.createdAt;
-        })
-        .map((item) => (
-          <div
-            key={item.id}
+      <div
+        style={{
+          marginTop: 32,
+          padding: 24,
+          borderRadius: 20,
+          background: "rgba(15,23,42,0.2)",
+          border: "1px solid rgba(255,255,255,0.1)",
+        }}
+      >
+        <div
+          style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}
+        >
+          <h2 style={{ margin: 0 }}>Shopping List</h2>
+          <button
+            type="button"
+            onClick={clearCheckedShopItems}
+            disabled={shopItems.every((i) => !i.checked)}
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 10,
-              padding: 12,
-              background: "rgba(255,255,255,0.03)",
-              borderRadius: 12,
-              border: "1px solid rgba(255,255,255,0.06)",
+              padding: "10px 14px",
+              borderRadius: 14,
+              background: "rgba(255,255,255,0.05)",
+              color: "#f8fafc",
+              cursor: "pointer",
+              fontWeight: 700,
+              border: "1px solid rgba(255,255,255,0.12)",
+              opacity: shopItems.every((i) => !i.checked) ? 0.5 : 1,
             }}
           >
-            <label style={{ display: "flex", gap: 10, alignItems: "center", cursor: "pointer", flex: 1 }}>
-              <input type="checkbox" checked={item.checked} onChange={() => toggleShopItem(item.id)} />
-              <span style={{ textDecoration: item.checked ? "line-through" : "none", opacity: item.checked ? 0.75 : 1 }}>
-                {item.name}
-              </span>
-            </label>
+            Clear checked
+          </button>
+        </div>
 
-            <button
-  type="button"
-  onClick={() => removeShopItem(item.id)}
-  aria-label={`Remove ${item.name}`}
-  style={{
-    width: 34,
-    height: 34,
-    borderRadius: 10,
-    border: "1px solid rgba(255,255,255,0.12)",
-    background: "rgba(255,255,255,0.06)",
-    color: "white",
-    cursor: "pointer",
-    display: "grid",
-    placeItems: "center",
-  }}
->
-  <X size={16} />
-</button>
-          </div>
-        ))
-    )}
-  </div>
-</div>
+        <div style={{ display: "flex", gap: 10, marginTop: 16, flexWrap: "wrap" }}>
+          <input
+            value={shopInput}
+            onChange={(e) => setShopInput(e.target.value)}
+            placeholder='Add item (e.g. "milk")'
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                addShopItem();
+              }
+            }}
+            style={{
+              flex: "1 1 220px",
+              padding: "10px 12px",
+              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(255,255,255,0.06)",
+              color: "white",
+              fontSize: 14,
+              outline: "none",
+            }}
+          />
+          <button
+            type="button"
+            onClick={addShopItem}
+            style={{
+              padding: "10px 16px",
+              borderRadius: 14,
+              background: "rgba(20,184,166,0.18)",
+              color: "#f8fafc",
+              cursor: "pointer",
+              fontWeight: 900,
+              border: "1px solid rgba(20,184,166,0.35)",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <Plus size={16} />
+            Add
+          </button>
+        </div>
+
+        <div
+          style={{
+            marginTop: 16,
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+            gap: 10,
+          }}
+        >
+          {shopItems.length === 0 ? (
+            <p style={{ opacity: 0.5, margin: 0 }}>No items yet!</p>
+          ) : (
+            shopItems
+              .slice()
+              .sort((a, b) => {
+                if (a.checked !== b.checked) return a.checked ? 1 : -1;
+                return b.createdAt - a.createdAt;
+              })
+              .map((item) => (
+                <div
+                  key={item.id}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 10,
+                    padding: 12,
+                    background: "rgba(255,255,255,0.03)",
+                    borderRadius: 12,
+                    border: "1px solid rgba(255,255,255,0.06)",
+                  }}
+                >
+                  <label
+                    style={{
+                      display: "flex",
+                      gap: 10,
+                      alignItems: "center",
+                      cursor: "pointer",
+                      flex: 1,
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={item.checked}
+                      onChange={() => toggleShopItem(item.id)}
+                    />
+                    <span
+                      style={{
+                        textDecoration: item.checked ? "line-through" : "none",
+                        opacity: item.checked ? 0.75 : 1,
+                      }}
+                    >
+                      {item.name}
+                    </span>
+                  </label>
+
+                  <button
+                    type="button"
+                    onClick={() => removeShopItem(item.id)}
+                    aria-label={`Remove ${item.name}`}
+                    style={{
+                      width: 34,
+                      height: 34,
+                      borderRadius: 10,
+                      border: "1px solid rgba(255,255,255,0.12)",
+                      background: "rgba(255,255,255,0.06)",
+                      color: "white",
+                      cursor: "pointer",
+                      display: "grid",
+                      placeItems: "center",
+                    }}
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              ))
+          )}
+        </div>
+      </div>
     </>
   );
 }
