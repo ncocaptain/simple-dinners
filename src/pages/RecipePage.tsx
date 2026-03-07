@@ -115,6 +115,11 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   const [checkedIngredients, setCheckedIngredients] = React.useState<number[]>([]);
 
   React.useEffect(() => {
+  const key = `cook-checks-${slug}`;
+  localStorage.setItem(key, JSON.stringify(checkedIngredients));
+}, [checkedIngredients, slug]);
+
+  React.useEffect(() => {
     const qs = new URLSearchParams(location.search);
     if (qs.get("print") === "1") {
       setTimeout(() => window.print(), 200);
@@ -136,8 +141,14 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   setTimerRunning(false);
   setTimerFinished(false);
   setNowMs(Date.now());
-  setCheckedIngredients([]);
-}, [slug]);
+
+  const saved = localStorage.getItem(`cook-checks-${slug}`);
+  if (saved) {
+    setCheckedIngredients(JSON.parse(saved));
+  } else {
+    setCheckedIngredients([]);
+  }
+}, [slug]);;
 
   const recipe = React.useMemo(() => {
     const fromStore = getRecipeBySlug(slug);
