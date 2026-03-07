@@ -28,7 +28,9 @@ export default function PlanPage({
   dietaryNotes: string;
   setDietaryNotes: React.Dispatch<React.SetStateAction<string>>;
 }) {
-  // --- Styles ---
+  // =====================================================
+  // Builder: shared styles
+  // =====================================================
   const card: React.CSSProperties = {
     width: "100%",
     maxWidth: 1200,
@@ -54,13 +56,6 @@ export default function PlanPage({
     fontSize: "14px",
   };
 
-  const effortOptions: { key: Effort; label: string }[] = [
-    { key: "quick", label: "Quick" },
-    { key: "normal", label: "Normal" },
-    { key: "big", label: "Big cook" },
-    { key: "takeout", label: "Takeout" },
-  ];
-
   const pill: React.CSSProperties = {
     padding: "8px 12px",
     borderRadius: 999,
@@ -79,7 +74,33 @@ export default function PlanPage({
     color: "#14b8a6",
   };
 
-  // Local state for pantry text
+  const secondaryBtn: React.CSSProperties = {
+    padding: "12px 16px",
+    borderRadius: 14,
+    background: "rgba(255,255,255,0.06)",
+    color: "#f8fafc",
+    cursor: "pointer",
+    fontWeight: 900,
+    border: "1px solid rgba(255,255,255,0.12)",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+  };
+
+  // =====================================================
+  // Builder: effort choices
+  // =====================================================
+  const effortOptions: { key: Effort; label: string }[] = [
+    { key: "quick", label: "Quick" },
+    { key: "normal", label: "Normal" },
+    { key: "big", label: "Big cook" },
+    { key: "takeout", label: "Takeout" },
+  ];
+
+  // =====================================================
+  // Builder: local pantry input state
+  // =====================================================
   const [pantryText, setPantryText] = React.useState(
     pantry.map((p) => p.name).join(", ")
   );
@@ -88,6 +109,9 @@ export default function PlanPage({
     setPantryText(pantry.map((p) => p.name).join(", "));
   }, [pantry]);
 
+  // =====================================================
+  // Builder: persist pantry textarea into pantry items
+  // =====================================================
   const commitPantry = () => {
     const tokens = pantryText
       .split(/[\n,]/g)
@@ -103,14 +127,35 @@ export default function PlanPage({
     );
   };
 
+  // =====================================================
+  // Builder: planner actions
+  // =====================================================
+  const handleGenerate = () => {
+    commitPantry();
+    generateDinnerPlan();
+  };
+
+  const handleGenerateAgain = () => {
+    commitPantry();
+    generateDinnerPlan(true);
+  };
+
+  // =====================================================
+  // Builder: page UI
+  // =====================================================
   return (
     <div style={{ padding: "18px 6px" }}>
       <div style={card}>
         <div style={{ textAlign: "center", marginBottom: 10 }}>
           <h2 className="cardTitle">Plan Your Week</h2>
-          <div className="readableText">Choose your effort level for each day</div>
+          <div className="readableText">
+            Choose your effort level for each day
+          </div>
         </div>
 
+        {/* =====================================================
+            Builder: day-by-day effort settings
+        ====================================================== */}
         {days.map((day) => (
           <div
             key={day}
@@ -129,7 +174,9 @@ export default function PlanPage({
                   <button
                     key={opt.key}
                     type="button"
-                    onClick={() => setDaySettings((prev) => ({ ...prev, [day]: opt.key }))}
+                    onClick={() =>
+                      setDaySettings((prev) => ({ ...prev, [day]: opt.key }))
+                    }
                     style={{ ...pill, ...(active ? pillActive : {}) }}
                   >
                     {opt.label}
@@ -140,8 +187,10 @@ export default function PlanPage({
           </div>
         ))}
 
+        {/* =====================================================
+            Builder: preference inputs
+        ====================================================== */}
         <div style={{ display: "grid", gap: 20, marginTop: 10 }}>
-          {/* Vegetarian Toggle */}
           <label
             className="sectionLabel"
             style={{ display: "flex", alignItems: "center", gap: 8 }}
@@ -154,12 +203,10 @@ export default function PlanPage({
             Vegetarian meals only
           </label>
 
-          
-          {/* Pantry Input */}
           <div>
             <h3 className="sectionLabel">What's in your kitchen?</h3>
             <div style={{ fontSize: 13, opacity: 0.6, marginBottom: 8 }}>
-              List ingredients you have (comma separated). We'll prioritize these.
+              List ingredients you have (comma separated). We&apos;ll prioritize these.
             </div>
 
             <textarea
@@ -171,7 +218,6 @@ export default function PlanPage({
             />
           </div>
 
-          {/* Dietary Notes */}
           <div>
             <h3 className="sectionLabel">Dietary Notes</h3>
             <textarea
@@ -183,7 +229,23 @@ export default function PlanPage({
           </div>
         </div>
 
-        <Button onClick={generateDinnerPlan}>✨ Generate My Dinner Plan</Button>
+        {/* =====================================================
+            Builder: planner action buttons
+        ====================================================== */}
+        <div
+          style={{
+            display: "grid",
+            gap: 10,
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            alignItems: "stretch",
+          }}
+        >
+          <Button onClick={handleGenerate}>✨ Generate My Dinner Plan</Button>
+
+          <button type="button" onClick={handleGenerateAgain} style={secondaryBtn}>
+            🔄 Generate Again
+          </button>
+        </div>
       </div>
     </div>
   );
