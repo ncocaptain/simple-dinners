@@ -59,6 +59,33 @@ function formatTimer(totalSeconds: number): string {
   )}`;
 }
 
+function playTimerDoneSound() {
+  const AudioContextClass =
+    window.AudioContext || (window as any).webkitAudioContext;
+
+  if (!AudioContextClass) return;
+
+  const ctx = new AudioContextClass();
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
+
+  oscillator.type = "sine";
+  oscillator.frequency.setValueAtTime(880, ctx.currentTime);
+
+  gainNode.gain.setValueAtTime(0.08, ctx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+
+  oscillator.connect(gainNode);
+  gainNode.connect(ctx.destination);
+
+  oscillator.start();
+  oscillator.stop(ctx.currentTime + 0.5);
+
+  oscillator.onended = () => {
+    ctx.close();
+  };
+}
+
 export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   const navigate = useNavigate();
   const { slug = "" } = useParams();
@@ -70,6 +97,7 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   const [timerRunning, setTimerRunning] = React.useState(false);
   const [touchStartX, setTouchStartX] = React.useState<number | null>(null);
 const [touchEndX, setTouchEndX] = React.useState<number | null>(null);
+const [timerFinished, setTimerFinished] = React.useState(false);
 
   React.useEffect(() => {
     const qs = new URLSearchParams(location.search);
@@ -86,11 +114,25 @@ const [touchEndX, setTouchEndX] = React.useState<number | null>(null);
   }, [slug]);
 
   React.useEffect(() => {
-    setStepIndex(0);
-    setCookMode(false);
-    setTimerSeconds(null);
-    setTimerRunning(false);
-  }, [slug]);
+  setStepIndex(0);
+  setCookMode(false);
+  setTimerSeconds(null);
+  setTimerRunning(false);
+  setTimerFinished(false);
+}, [slug]);
+
+React.useEffect(() => {
+  if (timerSeconds !== 0 || timerFinished) return;
+
+  setTimerFinished(true);
+  playTimerDoneSound();
+
+  if ("vibrate" in navigator) {
+    navigator.vibrate?.(300);
+  }
+
+  alert("Timer finished!");
+}, [timerSeconds, timerFinished]);
 
   const minSwipeDistance = 50;
 
@@ -209,10 +251,10 @@ function handleSwipeGesture() {
   const detectedDuration = parseStepDuration(currentStep);
 
   React.useEffect(() => {
-    setTimerSeconds(null);
-    setTimerRunning(false);
-  }, [stepIndex]);
-
+  setTimerSeconds(null);
+  setTimerRunning(false);
+  setTimerFinished(false);
+}, [stepIndex]);
   React.useEffect(() => {
     if (!timerRunning || timerSeconds === null) return;
 
@@ -396,9 +438,10 @@ function handleSwipeGesture() {
                   <button
                     style={btn}
                     onClick={() => {
-                      setTimerSeconds(detectedDuration);
-                      setTimerRunning(true);
-                    }}
+  setTimerFinished(false);
+  setTimerSeconds(detectedDuration);
+  setTimerRunning(true);
+}}
                   >
                     ⏱ Start {formatTimer(detectedDuration)} Timer
                   </button>
@@ -415,8 +458,8 @@ function handleSwipeGesture() {
                     }}
                   >
                     <div style={{ fontSize: 28, fontWeight: 900 }}>
-                      {formatTimer(timerSeconds)}
-                    </div>
+  {timerSeconds === 0 ? "Time’s up! 🔔" : formatTimer(timerSeconds)}
+</div>
 
                     <div
                       style={{ display: "flex", gap: 8, flexWrap: "wrap" }}
@@ -431,9 +474,10 @@ function handleSwipeGesture() {
                       <button
                         style={btn}
                         onClick={() => {
-                          setTimerSeconds(detectedDuration);
-                          setTimerRunning(false);
-                        }}
+  setTimerFinished(false);
+  setTimerSeconds(detectedDuration);
+  setTimerRunning(false);
+}}
                       >
                         Reset
                       </button>
