@@ -113,11 +113,12 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   const [timerFinished, setTimerFinished] = React.useState(false);
   const [nowMs, setNowMs] = React.useState(Date.now());
   const [checkedIngredients, setCheckedIngredients] = React.useState<number[]>([]);
+  const [checksLoaded, setChecksLoaded] = React.useState(false);
 
   React.useEffect(() => {
-  const key = `cook-checks-${slug}`;
-  localStorage.setItem(key, JSON.stringify(checkedIngredients));
-}, [checkedIngredients, slug]);
+  if (!checksLoaded) return;
+  localStorage.setItem(`cook-checks-${slug}`, JSON.stringify(checkedIngredients));
+}, [checkedIngredients, slug, checksLoaded]);
 
   React.useEffect(() => {
     const qs = new URLSearchParams(location.search);
@@ -142,13 +143,15 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   setTimerFinished(false);
   setNowMs(Date.now());
 
-  const saved = localStorage.getItem(`cook-checks-${slug}`);
-  if (saved) {
-    setCheckedIngredients(JSON.parse(saved));
-  } else {
+  try {
+    const saved = localStorage.getItem(`cook-checks-${slug}`);
+    setCheckedIngredients(saved ? JSON.parse(saved) : []);
+  } catch {
     setCheckedIngredients([]);
   }
-}, [slug]);;
+
+  setChecksLoaded(true);
+}, [slug]);
 
   const recipe = React.useMemo(() => {
     const fromStore = getRecipeBySlug(slug);
