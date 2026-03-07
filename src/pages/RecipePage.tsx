@@ -68,6 +68,8 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   const [stepIndex, setStepIndex] = React.useState(0);
   const [timerSeconds, setTimerSeconds] = React.useState<number | null>(null);
   const [timerRunning, setTimerRunning] = React.useState(false);
+  const [touchStartX, setTouchStartX] = React.useState<number | null>(null);
+const [touchEndX, setTouchEndX] = React.useState<number | null>(null);
 
   React.useEffect(() => {
     const qs = new URLSearchParams(location.search);
@@ -90,6 +92,26 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
     setTimerRunning(false);
   }, [slug]);
 
+  const minSwipeDistance = 50;
+
+function handleSwipeGesture() {
+  if (touchStartX === null || touchEndX === null) return;
+
+  const distance = touchStartX - touchEndX;
+
+  // swipe left -> next
+  if (distance > minSwipeDistance) {
+    setStepIndex((i) => Math.min(instructions.length - 1, i + 1));
+  }
+
+  // swipe right -> previous
+  if (distance < -minSwipeDistance) {
+    setStepIndex((i) => Math.max(0, i - 1));
+  }
+
+  setTouchStartX(null);
+  setTouchEndX(null);
+}
   const recipe = React.useMemo(() => {
     const fromStore = getRecipeBySlug(slug);
     if (fromStore) return fromStore;
@@ -297,6 +319,9 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
             Step {instructions.length === 0 ? 0 : stepIndex + 1} of{" "}
             {instructions.length}
           </div>
+          <div style={{ fontSize: 12, opacity: 0.65, fontWeight: 700 }}>
+  Swipe left or right to move between steps
+</div>
         </div>
 
         <div
@@ -323,16 +348,26 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
         </div>
 
         <div
-          style={{
-            borderRadius: 20,
-            background: "rgba(30,41,59,0.55)",
-            border: "1px solid rgba(255,255,255,0.10)",
-            padding: window.innerWidth < 640 ? 18 : 28,
-            minHeight: 220,
-            display: "grid",
-            alignItems: "center",
-          }}
-        >
+  onTouchStart={(e) => {
+    setTouchEndX(null);
+    setTouchStartX(e.targetTouches[0].clientX);
+  }}
+  onTouchMove={(e) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  }}
+  onTouchEnd={handleSwipeGesture}
+  style={{
+    borderRadius: 20,
+    background: "rgba(30,41,59,0.55)",
+    border: "1px solid rgba(255,255,255,0.10)",
+    padding: window.innerWidth < 640 ? 18 : 28,
+    minHeight: 220,
+    display: "grid",
+    alignItems: "center",
+    touchAction: "pan-y",
+    userSelect: "none",
+  }}
+>
           <div>
             <div
               style={{
