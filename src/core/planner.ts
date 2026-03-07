@@ -2,6 +2,7 @@
 import type { Meal, PantryItem, Effort } from "./types";
 import { ALLERGENS, MEAT_WORDS, NEW_BUILTIN_RECIPES, NEW_VEGETARIAN_RECIPES } from "./data";
 import { getCookHistory } from "./cookHistoryStore";
+import { isFavorite } from "./favoritesStore";
 // --------------------
 // Basic helpers
 // --------------------
@@ -39,6 +40,10 @@ function getPlannerScore(meal: Meal): number {
   let score = 0;
 
   score += getPantryLearningBoost(meal.slug);
+
+  if (isFavorite(meal.slug)) {
+    score += 15;
+  }
 
   return score;
 }

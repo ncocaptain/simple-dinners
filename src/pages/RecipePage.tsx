@@ -5,9 +5,12 @@ import { getRecipeBySlug, getCookbookRecipeBySlug } from "../core/recipeStore";
 import { addToCookbook, getCookbook } from "../core/cookbookStore";
 import { Star, Printer, Share2, ArrowLeft } from "lucide-react";
 import { addIngredientsToList } from "../shoppingList";
-import { recordCook } from "../core/cookHistoryStore";
-import { getCookHistoryFor } from "../core/cookHistoryStore";
+import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
+import { isFavorite, toggleFavorite } from "../core/favoritesStore";
 
+// =====================================================
+// Builder: small text helpers
+// =====================================================
 function splitLines(s?: string) {
   return (s ?? "")
     .split("\n")
@@ -15,6 +18,17 @@ function splitLines(s?: string) {
     .filter(Boolean);
 }
 
+function slugify(s?: string) {
+  return (s || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-");
+}
+
+// =====================================================
+// Builder: recipe lookup helpers
+// =====================================================
 function findCandidateBySlug(slug: string) {
   const s = (slug || "").trim().toLowerCase();
   return (
@@ -22,6 +36,9 @@ function findCandidateBySlug(slug: string) {
   );
 }
 
+// =====================================================
+// Builder: cook mode timer helpers
+// =====================================================
 function parseStepDuration(step?: string): number | null {
   if (!step) return null;
 
@@ -104,6 +121,9 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   const { slug = "" } = useParams();
   const location = useLocation();
 
+  // =====================================================
+  // Builder: page state
+  // =====================================================
   const [cookMode, setCookMode] = React.useState(false);
   const [stepIndex, setStepIndex] = React.useState(0);
   const [touchStartX, setTouchStartX] = React.useState<number | null>(null);
@@ -114,51 +134,21 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   const [timerRunning, setTimerRunning] = React.useState(false);
   const [timerFinished, setTimerFinished] = React.useState(false);
   const [nowMs, setNowMs] = React.useState(Date.now());
+
   const [checkedIngredients, setCheckedIngredients] = React.useState<number[]>([]);
   const [checksLoaded, setChecksLoaded] = React.useState(false);
-  
-  
 
-  React.useEffect(() => {
-  if (!checksLoaded) return;
-  localStorage.setItem(`cook-checks-${slug}`, JSON.stringify(checkedIngredients));
-}, [checkedIngredients, slug, checksLoaded]);
+  const [favorite, setFavorite] = React.useState(false);
 
-  React.useEffect(() => {
-    const qs = new URLSearchParams(location.search);
-    if (qs.get("print") === "1") {
-      setTimeout(() => window.print(), 200);
-    }
-  }, [location.search]);
-
+  // =====================================================
+  // Builder: page query params
+  // =====================================================
   const qs = new URLSearchParams(location.search);
   const from = qs.get("from") || "/week";
 
-  React.useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [slug]);
-
-  React.useEffect(() => {
-  setStepIndex(0);
-  setCookMode(false);
-  setTimerDurationSeconds(null);
-  setTimerEndsAt(null);
-  setTimerRunning(false);
-  setTimerFinished(false);
-  setNowMs(Date.now());
-
-
-
-  try {
-    const saved = localStorage.getItem(`cook-checks-${slug}`);
-    setCheckedIngredients(saved ? JSON.parse(saved) : []);
-  } catch {
-    setCheckedIngredients([]);
-  }
-
-  setChecksLoaded(true);
-}, [slug]);
-
+  // =====================================================
+  // Builder: resolve recipe from all sources
+  // =====================================================
   const recipe = React.useMemo(() => {
     const fromStore = getRecipeBySlug(slug);
     if (fromStore) return fromStore;
@@ -173,6 +163,238 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
     return safe;
   }, [slug]);
 
+  const recipeSlug = recipe?.slug || slugify(recipe?.name);
+  const history = getCookHistoryFor(recipeSlug);
+
+  // =====================================================
+  // Builder: derived recipe content
+  // =====================================================
+  const ingredients = splitLines(recipe?.ingredients ?? "");
+  const instructions = splitLines(recipe?.instructions ?? "");
+  const currentStep = instructions[stepIndex] || "";
+  const detectedDuration = parseStepDuration(currentStep);
+  const stepLower = currentStep.toLowerCase();
+
+  const highlightedIngredients = ingredients.map((line) => {
+    const words = line.toLowerCase().split(" ");
+    return words.some((w) => w.length > 3 && stepLower.includes(w));
+  });
+
+  const timerSeconds =
+    timerDurationSeconds === null
+      ? null
+      : timerRunning && timerEndsAt !== null
+      ? Math.max(0, Math.ceil((timerEndsAt - nowMs) / 1000))
+      : timerDurationSeconds;
+
+  const minSwipeDistance = 50;
+
+  const heroUrl =
+    recipe?.photoUrl ||
+    `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1400&q=80&sig=${encodeURIComponent(
+      slug
+    )}`;
+
+  // =====================================================
+  // Builder: effects - persist ingredient checks
+  // =====================================================
+  React.useEffect(() => {
+    if (!checksLoaded) return;
+    localStorage.setItem(`cook-checks-${slug}`, JSON.stringify(checkedIngredients));
+  }, [checkedIngredients, slug, checksLoaded]);
+
+  // =====================================================
+  // Builder: effects - auto print
+  // =====================================================
+  React.useEffect(() => {
+    const qs = new URLSearchParams(location.search);
+    if (qs.get("print") === "1") {
+      setTimeout(() => window.print(), 200);
+    }
+  }, [location.search]);
+
+  // =====================================================
+  // Builder: effects - scroll to top on recipe change
+  // =====================================================
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
+
+  // =====================================================
+  // Builder: effects - reset cook mode state when recipe changes
+  // =====================================================
+  React.useEffect(() => {
+    setStepIndex(0);
+    setCookMode(false);
+    setTimerDurationSeconds(null);
+    setTimerEndsAt(null);
+    setTimerRunning(false);
+    setTimerFinished(false);
+    setNowMs(Date.now());
+
+    try {
+      const saved = localStorage.getItem(`cook-checks-${slug}`);
+      setCheckedIngredients(saved ? JSON.parse(saved) : []);
+    } catch {
+      setCheckedIngredients([]);
+    }
+
+    setChecksLoaded(true);
+  }, [slug]);
+
+  // =====================================================
+  // Builder: effects - sync favorites state from storage
+  // =====================================================
+  React.useEffect(() => {
+    setFavorite(isFavorite(recipeSlug));
+  }, [recipeSlug]);
+
+  // =====================================================
+  // Builder: effects - reset timer when step changes
+  // =====================================================
+  React.useEffect(() => {
+    setTimerDurationSeconds(null);
+    setTimerEndsAt(null);
+    setTimerRunning(false);
+    setTimerFinished(false);
+    setNowMs(Date.now());
+  }, [stepIndex]);
+
+  // =====================================================
+  // Builder: effects - timer ticker
+  // =====================================================
+  React.useEffect(() => {
+    if (!timerRunning || timerEndsAt === null) return;
+
+    const id = window.setInterval(() => {
+      setNowMs(Date.now());
+    }, 250);
+
+    return () => window.clearInterval(id);
+  }, [timerRunning, timerEndsAt]);
+
+  // =====================================================
+  // Builder: effects - timer completion state
+  // =====================================================
+  React.useEffect(() => {
+    if (!timerRunning || timerSeconds === null) return;
+
+    if (timerSeconds <= 0) {
+      setTimerRunning(false);
+      setTimerDurationSeconds(0);
+      setTimerEndsAt(null);
+    }
+  }, [timerRunning, timerSeconds]);
+
+  // =====================================================
+  // Builder: effects - timer finished alert + sound
+  // =====================================================
+  React.useEffect(() => {
+    if (timerSeconds !== 0 || timerFinished) return;
+
+    setTimerFinished(true);
+    playTimerDoneSound();
+
+    if ("vibrate" in navigator) {
+      navigator.vibrate?.([200, 100, 200, 100, 300]);
+    }
+
+    alert("Timer finished!");
+  }, [timerSeconds, timerFinished]);
+
+  // =====================================================
+  // Builder: action handlers
+  // =====================================================
+  function handleToggleFavorite() {
+    const next = toggleFavorite(recipeSlug);
+    setFavorite(next);
+  }
+
+  function toggleIngredient(index: number) {
+    setCheckedIngredients((prev) =>
+      prev.includes(index)
+        ? prev.filter((i) => i !== index)
+        : [...prev, index]
+    );
+  }
+
+  function handleSwipeGesture() {
+    if (touchStartX === null || touchEndX === null) return;
+    if (instructions.length === 0) return;
+
+    const distance = touchStartX - touchEndX;
+
+    if (distance > minSwipeDistance && stepIndex < instructions.length - 1) {
+      setStepIndex((i) => i + 1);
+    } else if (distance < -minSwipeDistance && stepIndex > 0) {
+      setStepIndex((i) => i - 1);
+    }
+
+    setTouchStartX(null);
+    setTouchEndX(null);
+  }
+
+  // =====================================================
+  // Builder: shared styles
+  // =====================================================
+  const pill: React.CSSProperties = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 8,
+    padding: "8px 12px",
+    borderRadius: 999,
+    border: "1px solid rgba(255,255,255,0.12)",
+    background: "rgba(255,255,255,0.06)",
+    fontSize: 12,
+    fontWeight: 900,
+    color: "#f8fafc",
+  };
+
+  const isMobile = window.innerWidth < 640;
+
+  const card: React.CSSProperties = {
+    borderRadius: isMobile ? 14 : 20,
+    marginLeft: isMobile ? -8 : 0,
+    marginRight: isMobile ? -8 : 0,
+    overflow: "hidden",
+    background: "rgba(30,41,59,0.40)",
+    backdropFilter: "blur(10px)",
+    WebkitBackdropFilter: "blur(10px)",
+    border: "1px solid rgba(255,255,255,0.10)",
+    boxShadow: "0 10px 26px rgba(0,0,0,0.35)",
+    color: "#f8fafc",
+  };
+
+  const section: React.CSSProperties = {
+    padding: window.innerWidth < 640 ? 16 : 18,
+    borderTop: "1px solid rgba(255,255,255,0.08)",
+  };
+
+  const h3: React.CSSProperties = {
+    margin: "0 0 10px",
+    fontSize: 14,
+    letterSpacing: 0.2,
+    textTransform: "uppercase",
+    opacity: 0.7,
+    fontWeight: 900,
+  };
+
+  const btn: React.CSSProperties = {
+    padding: "10px 14px",
+    borderRadius: 14,
+    background: "rgba(255,255,255,0.06)",
+    color: "#f8fafc",
+    cursor: "pointer",
+    fontWeight: 900,
+    border: "1px solid rgba(255,255,255,0.12)",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 8,
+  };
+
+  // =====================================================
+  // Builder: missing recipe state
+  // =====================================================
   if (!recipe) {
     return (
       <div style={{ padding: 24, color: "#f8fafc" }}>
@@ -244,154 +466,9 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
     );
   }
 
-  const ingredients = splitLines(recipe.ingredients ?? "");
-  const instructions = splitLines(recipe.instructions ?? "");
-  const currentStep = instructions[stepIndex] || "";
-  const detectedDuration = parseStepDuration(currentStep);
-  const stepLower = currentStep.toLowerCase();
-
-const highlightedIngredients = ingredients.map((line) => {
-  const words = line.toLowerCase().split(" ");
-  return words.some((w) => w.length > 3 && stepLower.includes(w));
-});
-
-  const timerSeconds =
-    timerDurationSeconds === null
-      ? null
-      : timerRunning && timerEndsAt !== null
-      ? Math.max(0, Math.ceil((timerEndsAt - nowMs) / 1000))
-      : timerDurationSeconds;
-
-  React.useEffect(() => {
-    setTimerDurationSeconds(null);
-    setTimerEndsAt(null);
-    setTimerRunning(false);
-    setTimerFinished(false);
-    setNowMs(Date.now());
-  }, [stepIndex]);
-
-  React.useEffect(() => {
-    if (!timerRunning || timerEndsAt === null) return;
-
-    const id = window.setInterval(() => {
-      setNowMs(Date.now());
-    }, 250);
-
-    return () => window.clearInterval(id);
-  }, [timerRunning, timerEndsAt]);
-
-  React.useEffect(() => {
-    if (!timerRunning || timerSeconds === null) return;
-
-    if (timerSeconds <= 0) {
-      setTimerRunning(false);
-      setTimerDurationSeconds(0);
-      setTimerEndsAt(null);
-    }
-  }, [timerRunning, timerSeconds]);
-
-  React.useEffect(() => {
-    if (timerSeconds !== 0 || timerFinished) return;
-
-    setTimerFinished(true);
-    playTimerDoneSound();
-
-    if ("vibrate" in navigator) {
-      navigator.vibrate?.([200, 100, 200, 100, 300]);
-    }
-
-    alert("Timer finished!");
-  }, [timerSeconds, timerFinished]);
-
-  const minSwipeDistance = 50;
-
-function toggleIngredient(index: number) {
-  setCheckedIngredients((prev) =>
-    prev.includes(index)
-      ? prev.filter((i) => i !== index)
-      : [...prev, index]
-  );
-}
-
-function handleSwipeGesture() {
-  if (touchStartX === null || touchEndX === null) return;
-  if (instructions.length === 0) return;
-
-  const distance = touchStartX - touchEndX;
-
-  if (distance > minSwipeDistance && stepIndex < instructions.length - 1) {
-    setStepIndex((i) => i + 1);
-  } else if (distance < -minSwipeDistance && stepIndex > 0) {
-    setStepIndex((i) => i - 1);
-  }
-
-  setTouchStartX(null);
-  setTouchEndX(null);
-}
-
-const history = getCookHistoryFor(recipe.slug);
-
-  const heroUrl =
-    recipe.photoUrl ||
-    `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1400&q=80&sig=${encodeURIComponent(
-      slug
-    )}`;
-
-  const pill: React.CSSProperties = {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 8,
-    padding: "8px 12px",
-    borderRadius: 999,
-    border: "1px solid rgba(255,255,255,0.12)",
-    background: "rgba(255,255,255,0.06)",
-    fontSize: 12,
-    fontWeight: 900,
-    color: "#f8fafc",
-  };
-
-  const isMobile = window.innerWidth < 640;
-
-  const card: React.CSSProperties = {
-    borderRadius: isMobile ? 14 : 20,
-    marginLeft: isMobile ? -8 : 0,
-    marginRight: isMobile ? -8 : 0,
-    overflow: "hidden",
-    background: "rgba(30,41,59,0.40)",
-    backdropFilter: "blur(10px)",
-    WebkitBackdropFilter: "blur(10px)",
-    border: "1px solid rgba(255,255,255,0.10)",
-    boxShadow: "0 10px 26px rgba(0,0,0,0.35)",
-    color: "#f8fafc",
-  };
-
-  const section: React.CSSProperties = {
-    padding: window.innerWidth < 640 ? 16 : 18,
-    borderTop: "1px solid rgba(255,255,255,0.08)",
-  };
-
-  const h3: React.CSSProperties = {
-    margin: "0 0 10px",
-    fontSize: 14,
-    letterSpacing: 0.2,
-    textTransform: "uppercase",
-    opacity: 0.7,
-    fontWeight: 900,
-  };
-
-  const btn: React.CSSProperties = {
-    padding: "10px 14px",
-    borderRadius: 14,
-    background: "rgba(255,255,255,0.06)",
-    color: "#f8fafc",
-    cursor: "pointer",
-    fontWeight: 900,
-    border: "1px solid rgba(255,255,255,0.12)",
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 8,
-  };
-
+  // =====================================================
+  // Builder: cook mode screen
+  // =====================================================
   if (cookMode) {
     return (
       <div
@@ -428,8 +505,6 @@ const history = getCookHistoryFor(recipe.slug);
             </div>
           </div>
         </div>
-
-        
 
         <div
           style={{
@@ -625,100 +700,105 @@ const history = getCookHistoryFor(recipe.slug);
             )}
           </div>
         </div>
-        
+
         <div
-  style={{
-    borderRadius: 18,
-    background: "rgba(30,41,59,0.45)",
-    border: "1px solid rgba(255,255,255,0.10)",
-    padding: window.innerWidth < 640 ? 16 : 18,
-    display: "grid",
-    gap: 10,
-  }}
->
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      gap: 10,
-      flexWrap: "wrap",
-    }}
-  >
-    <div style={{ fontSize: 13, fontWeight: 900, opacity: 0.75, textTransform: "uppercase" }}>
-  Ingredients ({checkedIngredients.length}/{ingredients.length})
-</div>
-
-    {ingredients.length > 0 && (
-      <button
-        style={btn}
-        onClick={() => setCheckedIngredients([])}
-      >
-        Reset checks
-      </button>
-    )}
-  </div>
-
-  {ingredients.length === 0 ? (
-    <div style={{ opacity: 0.7 }}>No ingredients saved.</div>
-  ) : (
-    <div style={{ display: "grid", gap: 8 }}>
-      {ingredients.map((line, idx) => {
-  const checked = checkedIngredients.includes(idx);
-  const highlight = highlightedIngredients[idx];
-
-        return (
-          <button
-            key={idx}
-            onClick={() => toggleIngredient(idx)}
+          style={{
+            borderRadius: 18,
+            background: "rgba(30,41,59,0.45)",
+            border: "1px solid rgba(255,255,255,0.10)",
+            padding: window.innerWidth < 640 ? 16 : 18,
+            display: "grid",
+            gap: 10,
+          }}
+        >
+          <div
             style={{
               display: "flex",
-              alignItems: "flex-start",
+              justifyContent: "space-between",
+              alignItems: "center",
               gap: 10,
-              width: "100%",
-              textAlign: "left",
-              padding: "12px 14px",
-              borderRadius: 14,
-              border: "1px solid rgba(255,255,255,0.10)",
-              boxShadow: highlight
-  ? "0 0 0 1px rgba(234,179,8,0.35)"
-  : "none",
-              background: checked
-  ? "rgba(20,184,166,0.22)"
-  : highlight
-  ? "rgba(234,179,8,0.18)"
-  : "rgba(255,255,255,0.05)",
-              color: "#f8fafc",
-              cursor: "pointer",
+              flexWrap: "wrap",
             }}
           >
-            <span
+            <div
               style={{
-                fontSize: 18,
-                lineHeight: 1,
-                marginTop: 1,
-                opacity: checked ? 1 : 0.85,
+                fontSize: 13,
+                fontWeight: 900,
+                opacity: 0.75,
+                textTransform: "uppercase",
               }}
             >
-              {checked ? "✓" : "☐"}
-            </span>
+              Ingredients ({checkedIngredients.length}/{ingredients.length})
+            </div>
 
-            <span
-              style={{
-                lineHeight: 1.45,
-                textDecoration: checked ? "line-through" : "none",
-                opacity: checked ? 0.7 : 1,
-                fontWeight: checked ? 700 : 500,
-              }}
-            >
-              {line}
-            </span>
-          </button>
-        );
-      })}
-    </div>
-  )}
-</div>
+            {ingredients.length > 0 && (
+              <button style={btn} onClick={() => setCheckedIngredients([])}>
+                Reset checks
+              </button>
+            )}
+          </div>
+
+          {ingredients.length === 0 ? (
+            <div style={{ opacity: 0.7 }}>No ingredients saved.</div>
+          ) : (
+            <div style={{ display: "grid", gap: 8 }}>
+              {ingredients.map((line, idx) => {
+                const checked = checkedIngredients.includes(idx);
+                const highlight = highlightedIngredients[idx];
+
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => toggleIngredient(idx)}
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: 10,
+                      width: "100%",
+                      textAlign: "left",
+                      padding: "12px 14px",
+                      borderRadius: 14,
+                      border: "1px solid rgba(255,255,255,0.10)",
+                      boxShadow: highlight
+                        ? "0 0 0 1px rgba(234,179,8,0.35)"
+                        : "none",
+                      background: checked
+                        ? "rgba(20,184,166,0.22)"
+                        : highlight
+                        ? "rgba(234,179,8,0.18)"
+                        : "rgba(255,255,255,0.05)",
+                      color: "#f8fafc",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: 18,
+                        lineHeight: 1,
+                        marginTop: 1,
+                        opacity: checked ? 1 : 0.85,
+                      }}
+                    >
+                      {checked ? "✓" : "☐"}
+                    </span>
+
+                    <span
+                      style={{
+                        lineHeight: 1.45,
+                        textDecoration: checked ? "line-through" : "none",
+                        opacity: checked ? 0.7 : 1,
+                        fontWeight: checked ? 700 : 500,
+                      }}
+                    >
+                      {line}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
         <div
           style={{ display: "flex", gap: 10, justifyContent: "space-between" }}
         >
@@ -752,17 +832,21 @@ const history = getCookHistoryFor(recipe.slug);
           >
             Next →
           </button>
+
           <button
-  style={btn}
-  onClick={() => setCheckedIngredients(ingredients.map((_, i) => i))}
->
-Prep complete
-</button>
+            style={btn}
+            onClick={() => setCheckedIngredients(ingredients.map((_, i) => i))}
+          >
+            Prep complete
+          </button>
         </div>
       </div>
     );
   }
 
+  // =====================================================
+  // Builder: standard recipe page
+  // =====================================================
   return (
     <div
       style={{
@@ -771,12 +855,18 @@ Prep complete
         margin: "0 auto",
       }}
     >
-
       {history.timesCooked > 0 && (
-  <div style={{ fontSize: 12, opacity: 0.75 }}>
-    Cooked {history.timesCooked} time{history.timesCooked === 1 ? "" : "s"}
-  </div>
-)}
+        <div style={{ fontSize: 12, opacity: 0.75, marginBottom: 10 }}>
+          Cooked {history.timesCooked} time{history.timesCooked === 1 ? "" : "s"}
+        </div>
+      )}
+
+      {favorite && (
+        <div style={{ fontSize: 12, opacity: 0.9, marginBottom: 10 }}>
+          ⭐ Family Favorite
+        </div>
+      )}
+
       <div
         style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 12 }}
       >
@@ -815,10 +905,13 @@ Prep complete
           </span>
         </button>
 
-        <button onClick={() => {
-  recordCook(recipe.slug);
-  setCookMode(true);
-}}>
+        <button
+          style={btn}
+          onClick={() => {
+            recordCook(recipeSlug);
+            setCookMode(true);
+          }}
+        >
           <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
             🍳 Cook Mode
           </span>
@@ -846,6 +939,19 @@ Prep complete
           <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
             <Star size={16} />
             Add to Cookbook
+          </span>
+        </button>
+
+        <button
+          style={btn}
+          type="button"
+          onClick={handleToggleFavorite}
+          aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
+          title={favorite ? "Remove from favorites" : "Add to favorites"}
+        >
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <Star size={16} fill={favorite ? "currentColor" : "none"} />
+            {favorite ? "Favorite" : "Add Favorite"}
           </span>
         </button>
 
