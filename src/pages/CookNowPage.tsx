@@ -27,20 +27,14 @@ export default function CookNowPage({ pantry }: { pantry: PantryItem[] }) {
   const best = ranked[0];
   const top = ranked.slice(1, 6);
 
-  const surpriseMeal = React.useMemo(() => {
-    if (!best && top.length === 0) return null;
-    const bestPool = [best, ...top].filter(Boolean).slice(0, 3);
-    return bestPool[Math.floor(Math.random() * bestPool.length)]?.meal ?? null;
-  }, [best, top]);
-
-  const [rouletteMeal, setRouletteMeal] = React.useState<(typeof ranked)[number] | null>(null);
   const [spinning, setSpinning] = React.useState(false);
+  const [spinMeal, setSpinMeal] = React.useState<(typeof ranked)[number] | null>(null);
 
   function openCookMode(slug?: string) {
     if (slug) navigate(`/recipe/${slug}?cook=true`);
   }
 
-  function spinRoulette() {
+  function spinSurprise() {
     if (spinning || ranked.length === 0) return;
 
     setSpinning(true);
@@ -48,17 +42,17 @@ export default function CookNowPage({ pantry }: { pantry: PantryItem[] }) {
 
     const interval = window.setInterval(() => {
       const randomMeal = ranked[Math.floor(Math.random() * ranked.length)];
-      setRouletteMeal(randomMeal);
+      setSpinMeal(randomMeal);
       cycles++;
 
-      if (cycles > 12) {
+      if (cycles > 10) {
         window.clearInterval(interval);
         setSpinning(false);
 
         const slug = randomMeal.meal.slug ?? randomMeal.meal.id;
         openCookMode(slug);
       }
-    }, 120);
+    }, 100);
   }
 
   return (
@@ -90,24 +84,14 @@ export default function CookNowPage({ pantry }: { pantry: PantryItem[] }) {
           </div>
 
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <Button
-              disabled={!surpriseMeal}
-              onClick={() => {
-                const slug = surpriseMeal?.slug ?? surpriseMeal?.id;
-                openCookMode(slug);
-              }}
-            >
+            <Button onClick={spinSurprise}>
               ⚡ Surprise Me
-            </Button>
-
-            <Button onClick={spinRoulette}>
-              🎰 Dinner Roulette
             </Button>
           </div>
         </div>
       </div>
 
-      {spinning && rouletteMeal && (
+      {spinning && spinMeal && (
         <div
           className="card"
           style={{
@@ -119,7 +103,7 @@ export default function CookNowPage({ pantry }: { pantry: PantryItem[] }) {
             borderRadius: 18,
           }}
         >
-          🎰 {rouletteMeal.meal.name}
+          ⚡ {spinMeal.meal.name}
         </div>
       )}
 
