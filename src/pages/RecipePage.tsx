@@ -117,6 +117,16 @@ function playTimerDoneSound() {
   }
 }
 
+function ordinal(n: number) {
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+
+  if (mod10 === 1 && mod100 !== 11) return `${n}st`;
+  if (mod10 === 2 && mod100 !== 12) return `${n}nd`;
+  if (mod10 === 3 && mod100 !== 13) return `${n}rd`;
+  return `${n}th`;
+}
+
 export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   const navigate = useNavigate();
   const { slug = "" } = useParams();
@@ -249,9 +259,11 @@ React.useEffect(() => {
   } catch {
     setCheckedIngredients([]);
   }
-
+  setShowDinnerWin(false);
   setChecksLoaded(true);
 }, [slug, location.search]);
+
+const [showDinnerWin, setShowDinnerWin] = React.useState(false);
 
   // =====================================================
   // Builder: effects - sync favorites state from storage
@@ -704,6 +716,80 @@ React.useEffect(() => {
                       >
                         -1 min
                       </button>
+                      {showDinnerWin && (
+  <div
+    style={{
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,0.7)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 16,
+      zIndex: 9999,
+    }}
+  >
+    <div
+      style={{
+        width: "100%",
+        maxWidth: 420,
+        borderRadius: 22,
+        padding: 24,
+        background: "rgba(15,23,42,0.98)",
+        border: "1px solid rgba(255,255,255,0.10)",
+        boxShadow: "0 20px 50px rgba(0,0,0,0.45)",
+        color: "#f8fafc",
+        textAlign: "center",
+        display: "grid",
+        gap: 14,
+      }}
+    >
+      <div style={{ fontSize: 40, lineHeight: 1 }}>🎉</div>
+
+      <div style={{ fontSize: 26, fontWeight: 900 }}>Dinner Win!</div>
+
+      <div style={{ fontSize: 16, opacity: 0.9 }}>
+        You cooked <strong>{recipe.name}</strong>
+      </div>
+
+      <div style={{ fontSize: 14, opacity: 0.75 }}>
+  This is your {ordinal(history.timesCooked)} time cooking it.
+</div>
+
+      <div
+        style={{
+          display: "flex",
+          gap: 10,
+          justifyContent: "center",
+          flexWrap: "wrap",
+          marginTop: 6,
+        }}
+      >
+        <button
+          style={btn}
+          onClick={() => {
+            if (!favorite) {
+              const next = toggleFavorite(recipeSlug);
+              setFavorite(next);
+            }
+          }}
+        >
+          ⭐ {favorite ? "Favorite saved" : "Save Favorite"}
+        </button>
+
+        <button
+          style={btn}
+          onClick={() => {
+            setShowDinnerWin(false);
+            setCookMode(false);
+          }}
+        >
+          Nice!
+        </button>
+      </div>
+    </div>
+  </div>
+)}
                     </div>
                   </div>
                 )}
@@ -828,21 +914,25 @@ React.useEffect(() => {
           </button>
 
           <button
-            style={{
-              ...btn,
-              opacity: stepIndex >= instructions.length - 1 ? 0.5 : 1,
-              cursor:
-                stepIndex >= instructions.length - 1
-                  ? "not-allowed"
-                  : "pointer",
-            }}
-            onClick={() => {
-              setStepIndex((i) => Math.min(instructions.length - 1, i + 1));
-            }}
-            disabled={stepIndex >= instructions.length - 1}
-          >
-            Next →
-          </button>
+  style={{
+    ...btn,
+    opacity: instructions.length === 0 ? 0.5 : 1,
+    cursor: instructions.length === 0 ? "not-allowed" : "pointer",
+  }}
+  onClick={() => {
+    if (instructions.length === 0) return;
+
+    if (stepIndex >= instructions.length - 1) {
+      setShowDinnerWin(true);
+      return;
+    }
+
+    setStepIndex((i) => Math.min(instructions.length - 1, i + 1));
+  }}
+  disabled={instructions.length === 0}
+>
+  {stepIndex >= instructions.length - 1 ? "Finish 🍽️" : "Next →"}
+</button>
 
           <button
             style={btn}
