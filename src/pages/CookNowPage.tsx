@@ -25,7 +25,8 @@ export default function CookNowPage({ pantry }: { pantry: PantryItem[] }) {
     });
   }, [allMeals, pantry, cookbook]);
 
-  const top = ranked.slice(0, 6);
+  const best = ranked[0];
+const top = ranked.slice(1, 6);
 
   const surpriseMeal = React.useMemo(() => {
   if (!top.length) return null;
@@ -58,7 +59,7 @@ export default function CookNowPage({ pantry }: { pantry: PantryItem[] }) {
   <div>
     <h1 style={{ marginBottom: 6 }}>🍳 Cook Now</h1>
     <p style={{ opacity: 0.8, margin: 0 }}>
-      Best dinner ideas based on your pantry and favorites.
+      Dinner ideas based on what you already have in your kitchen.
     </p>
   </div>
 
@@ -74,64 +75,130 @@ export default function CookNowPage({ pantry }: { pantry: PantryItem[] }) {
 </div>
       </div>
 
-      {top.length === 0 ? (
-        <div className="card">
-          <p>No meals found yet.</p>
+     {!best ? (
+  <div className="card">
+    <p>No meals found yet.</p>
+  </div>
+) : (
+  <div style={{ display: "grid", gap: 16 }}>
+    <div
+      className="card"
+      style={{
+        padding: 18,
+        borderRadius: 20,
+        border: "1px solid rgba(255,255,255,0.12)",
+        background: "rgba(255,255,255,0.04)",
+      }}
+    >
+      <div style={{ fontSize: 12, fontWeight: 800, opacity: 0.75, marginBottom: 8 }}>
+        🍽 BEST MATCH TONIGHT
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          gap: 12,
+          alignItems: "flex-start",
+          flexWrap: "wrap",
+        }}
+      >
+        <div style={{ flex: 1, minWidth: 220 }}>
+          <h2 style={{ margin: "0 0 8px" }}>{best.meal.name}</h2>
+
+          <div style={{ fontSize: 14, opacity: 0.9, marginBottom: 10 }}>
+            {best.missing.length === 0 && "✅ You can cook this now"}
+            {best.missing.length > 0 && best.missing.length <= 2 && "🟡 Almost ready"}
+            {best.missing.length > 2 && "🛒 Needs a few ingredients"}
+            {best.meal.effort ? ` • ${best.meal.effort}` : ""}
+          </div>
+
+          <div style={{ fontSize: 14, marginBottom: 6 }}>
+            <strong>You have:</strong>{" "}
+            {best.matched.length ? best.matched.slice(0, 5).join(", ") : "Not much yet"}
+          </div>
+
+          <div style={{ fontSize: 14 }}>
+            <strong>Missing:</strong>{" "}
+            {best.missing.length
+              ? best.missing.slice(0, 5).join(", ")
+              : "Nothing — you can make this now"}
+          </div>
         </div>
-      ) : (
-        <div style={{ display: "grid", gap: 12 }}>
-          {top.map(({ meal, matched, missing }, idx) => (
+
+        <Button
+          onClick={() => {
+            const slug = best.meal.slug ?? best.meal.id;
+            if (slug) navigate(`/recipe/${slug}`);
+          }}
+        >
+          Open Recipe
+        </Button>
+      </div>
+    </div>
+
+    {top.length > 0 && (
+      <div style={{ display: "grid", gap: 12 }}>
+        <div style={{ fontSize: 12, fontWeight: 800, opacity: 0.72, letterSpacing: 0.5 }}>
+          MORE IDEAS
+        </div>
+
+        {top.map(({ meal, matched, missing }, idx) => (
+          <div
+            key={meal.slug ?? meal.id ?? `${meal.name}-${idx}`}
+            className="card"
+            style={{
+              padding: 16,
+              borderRadius: 16,
+              border: "1px solid var(--border, #ddd)",
+            }}
+          >
             <div
-              key={meal.slug ?? meal.id ?? `${meal.name}-${idx}`}
-              className="card"
               style={{
-                padding: 16,
-                borderRadius: 16,
-                border: "1px solid var(--border, #ddd)",
+                display: "flex",
+                justifyContent: "space-between",
+                gap: 12,
+                alignItems: "flex-start",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: 12,
-                  alignItems: "flex-start",
+              <div>
+                <h3 style={{ margin: "0 0 6px" }}>{meal.name}</h3>
+                <div style={{ fontSize: 14, opacity: 0.85 }}>
+                  {missing.length === 0 && "✅ You can cook this now"}
+                  {missing.length > 0 && missing.length <= 2 && "🟡 Almost ready"}
+                  {missing.length > 2 && "🛒 Needs a few ingredients"}
+                  {meal.effort ? ` • ${meal.effort}` : ""}
+                </div>
+              </div>
+
+              <Button
+                onClick={() => {
+                  const slug = meal.slug ?? meal.id;
+                  if (slug) navigate(`/recipe/${slug}`);
                 }}
               >
-                <div>
-                  <h3 style={{ margin: "0 0 6px" }}>{meal.name}</h3>
-                  <div style={{ fontSize: 14, opacity: 0.85 }}>
-  {missing.length === 0 && "✅ You can cook this now"}
-  {missing.length > 0 && missing.length <= 2 && "🟡 Almost ready"}
-  {missing.length > 2 && "🛒 Needs a few ingredients"}
-  {meal.effort ? ` • ${meal.effort}` : ""}
-</div>
-                </div>
+                Open
+              </Button>
+            </div>
 
-                <Button
-                  onClick={() => {
-                    const slug = meal.slug ?? meal.id;
-                    if (slug) navigate(`/recipe/${slug}`);
-                  }}
-                >
-                  Open
-                </Button>
+            <div style={{ marginTop: 12, fontSize: 14 }}>
+              <div style={{ marginBottom: 6 }}>
+                <strong>You have:</strong>{" "}
+                {matched.length ? matched.slice(0, 4).join(", ") : "Not much yet"}
               </div>
-
-              <div style={{ marginTop: 12, fontSize: 14 }}>
-                <div style={{ marginBottom: 6 }}>
-                  <strong>You have:</strong>{" "}
-                  {matched.length ? matched.slice(0, 4).join(", ") : "Not much yet"}
-                </div>
-                <div>
-                  <strong>Missing:</strong>{" "}
-                  {missing.length ? missing.slice(0, 4).join(", ") : "Nothing — you can make this now"}
-                </div>
+              <div>
+                <strong>Missing:</strong>{" "}
+                {missing.length
+                  ? missing.slice(0, 4).join(", ")
+                  : "Nothing — you can make this now"}
               </div>
             </div>
-          ))}
-        </div>
-      )}
-    </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+)}
+</div>
   );
 }
