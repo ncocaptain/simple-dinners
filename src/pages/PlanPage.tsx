@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { days } from "../core/data";
 import Button from "../components/Button";
 import type { Effort, PantryItem } from "../core/types";
@@ -28,6 +29,8 @@ export default function PlanPage({
   dietaryNotes: string;
   setDietaryNotes: React.Dispatch<React.SetStateAction<string>>;
 }) {
+
+  const navigate = useNavigate();
   // =====================================================
   // Builder: shared styles
   // =====================================================
@@ -241,6 +244,12 @@ export default function PlanPage({
           }}
         >
           <Button onClick={handleGenerate}>✨ Generate My Dinner Plan</Button>
+          <Button
+  variant="secondary"
+  onClick={() => navigate("/cook-now")}
+>
+  🍳 What Can I Cook Right Now?
+</Button>
 
           <button type="button" onClick={handleGenerateAgain} style={secondaryBtn}>
             🔄 Generate Again

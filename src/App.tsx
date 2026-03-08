@@ -14,6 +14,7 @@ import RecipePage from "./pages/RecipePage";
 // ✅ Use cookbookStore as the only cookbook system for now
 import { getCookbook, setCookbook as persistCookbook, addToCookbook } from "./core/cookbookStore";
 import ShoppingListPage from "./pages/ShoppingListPage";
+import CookNowPage from "./pages/CookNowPage";
 
 type Day = (typeof days)[number];
 
@@ -509,6 +510,20 @@ const addDayToCookbook = (day: Day) => {
                     <div style={dividerStyle} />
 
                     <button
+  role="menuitem"
+  onClick={() => {
+    navigate("/cook-now");
+    setMenuOpen(false);
+  }}
+  style={menuItemStyle}
+>
+  ⭐ Cook Now
+  <div style={menuSubStyle}>Get instant dinner suggestions</div>
+</button>
+
+<div style={dividerStyle} />
+
+                    <button
                       role="menuitem"
                       onClick={() => {
                         const confirmReplace = confirm("Replace this week’s meals with a new plan?");
@@ -530,6 +545,7 @@ const addDayToCookbook = (day: Day) => {
   <Route path="/takeout-settings" element={<TakeoutSettingsPage />} />
   <Route path="/recipe/:slug" element={<RecipePage setCookbook={setCookbook} />} />
   <Route path="/shopping-list" element={<ShoppingListPage />} />
+  <Route path="/cook-now" element={<CookNowPage />} />
 
   <Route
     path="/plan"
