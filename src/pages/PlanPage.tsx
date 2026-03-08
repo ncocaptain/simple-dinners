@@ -246,7 +246,10 @@ export default function PlanPage({
           <Button onClick={handleGenerate}>✨ Generate My Dinner Plan</Button>
           <Button
   variant="secondary"
-  onClick={() => navigate("/cook-now")}
+  onClick={() => {
+    commitPantry();
+    navigate("/cook-now");
+  }}
 >
   🍳 What Can I Cook Right Now?
 </Button>

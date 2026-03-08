@@ -6,53 +6,9 @@ import { getCookbook } from "../core/cookbookStore";
 import type { PantryItem } from "../core/types";
 import Button from "../components/Button";
 
-function loadPantry(): PantryItem[] {
-  try {
-    const raw = localStorage.getItem("pantry");
-    if (!raw) return [];
-
-    const parsed = JSON.parse(raw);
-
-    if (
-      Array.isArray(parsed) &&
-      parsed.length &&
-      typeof parsed[0] === "object" &&
-      parsed[0] &&
-      "name" in parsed[0]
-    ) {
-      return parsed as PantryItem[];
-    }
-
-    if (Array.isArray(parsed) && (parsed.length === 0 || typeof parsed[0] === "string")) {
-      return (parsed as string[]).map((name, i) => ({
-        id: `pantry-${i}-${name}`,
-        name,
-        createdAt: Date.now(),
-      }));
-    }
-
-    if (typeof parsed === "string") {
-      return parsed
-        .split(/[\n,]/g)
-        .map((t) => t.trim())
-        .filter(Boolean)
-        .map((name, i) => ({
-          id: `pantry-${i}-${name}`,
-          name,
-          createdAt: Date.now(),
-        }));
-    }
-
-    return [];
-  } catch {
-    return [];
-  }
-}
-
-export default function CookNowPage() {
+export default function CookNowPage({ pantry }: { pantry: PantryItem[] }) {
   const navigate = useNavigate();
 
-  const pantry = React.useMemo(() => loadPantry(), []);
   const cookbook = React.useMemo(() => getCookbook(), []);
 
   const allMeals = React.useMemo(() => {

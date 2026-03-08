@@ -545,7 +545,7 @@ const addDayToCookbook = (day: Day) => {
   <Route path="/takeout-settings" element={<TakeoutSettingsPage />} />
   <Route path="/recipe/:slug" element={<RecipePage setCookbook={setCookbook} />} />
   <Route path="/shopping-list" element={<ShoppingListPage />} />
-  <Route path="/cook-now" element={<CookNowPage />} />
+  <Route path="/cook-now" element={<CookNowPage pantry={pantry} />} />
 
   <Route
     path="/plan"
