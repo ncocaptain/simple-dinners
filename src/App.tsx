@@ -15,6 +15,8 @@ import RecipePage from "./pages/RecipePage";
 import { getCookbook, setCookbook as persistCookbook, addToCookbook } from "./core/cookbookStore";
 import ShoppingListPage from "./pages/ShoppingListPage";
 import CookNowPage from "./pages/CookNowPage";
+import OnboardingPage from "./pages/OnboardingPage";
+import { hasCompletedOnboarding } from "./core/onboardingStore";
 
 type Day = (typeof days)[number];
 
@@ -124,7 +126,6 @@ export function addWeekToCalendar(days: readonly Day[], meals: Record<Day, Meal>
 
   URL.revokeObjectURL(url);
 }
-
 
 export function makeId() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
@@ -541,44 +542,58 @@ const addDayToCookbook = (day: Day) => {
             </header>
 
             <Routes>
-  <Route path="/" element={<Navigate to="/plan" replace />} />
+
+  <Route
+    path="/"
+    element={
+      hasCompletedOnboarding()
+        ? <Navigate to="/plan" replace />
+        : <Navigate to="/onboarding" replace />
+    }
+  />
+
+  <Route path="/onboarding" element={<OnboardingPage />} />
+
   <Route path="/takeout-settings" element={<TakeoutSettingsPage />} />
+
   <Route path="/recipe/:slug" element={<RecipePage setCookbook={setCookbook} />} />
+
   <Route path="/shopping-list" element={<ShoppingListPage />} />
+
   <Route path="/cook-now" element={<CookNowPage pantry={pantry} />} />
 
   <Route
     path="/plan"
     element={
       <PlanPage
-  daySettings={daySettings}
-  setDaySettings={setDaySettings}
-  pantry={pantry}
-  setPantry={setPantry}
-  vegetarian={vegetarian}
-  setVegetarian={setVegetarian}
-  generateDinnerPlan={generateDinnerPlan}
-  dietaryNotes={dietaryNotes}
-  setDietaryNotes={setDietaryNotes}
-/>
+        daySettings={daySettings}
+        setDaySettings={setDaySettings}
+        pantry={pantry}
+        setPantry={setPantry}
+        vegetarian={vegetarian}
+        setVegetarian={setVegetarian}
+        generateDinnerPlan={generateDinnerPlan}
+        dietaryNotes={dietaryNotes}
+        setDietaryNotes={setDietaryNotes}
+      />
     }
   />
 
   <Route
-  path="/week"
-  element={
-    <WeekPage
-      meals={meals}
-      setMeals={setMeals}
-      addDayToCookbook={addDayToCookbook}
-      generateDinnerPlan={generateDinnerPlan}
-      daySettings={daySettings}
-      setDaySettings={setDaySettings}
-      lockedDays={lockedDays}
-      setLockedDays={setLockedDays}
-    />
-  }
-/>
+    path="/week"
+    element={
+      <WeekPage
+        meals={meals}
+        setMeals={setMeals}
+        addDayToCookbook={addDayToCookbook}
+        generateDinnerPlan={generateDinnerPlan}
+        daySettings={daySettings}
+        setDaySettings={setDaySettings}
+        lockedDays={lockedDays}
+        setLockedDays={setLockedDays}
+      />
+    }
+  />
 
   <Route
     path="/cookbook"
@@ -588,11 +603,12 @@ const addDayToCookbook = (day: Day) => {
         cookbook={cookbook}
         setCookbook={setCookbook}
         prefs={effectivePrefs}
-              />
+      />
     }
   />
 
   <Route path="*" element={<Navigate to="/plan" replace />} />
+
 </Routes>
           </div>
         </div>
