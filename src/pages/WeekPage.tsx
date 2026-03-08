@@ -517,9 +517,14 @@ const tonight = getTonightDinner(meals?.[todayKey]);
     marginBottom: 24,
     padding: 20,
     borderRadius: 20,
-    background: "linear-gradient(135deg, rgba(20,184,166,0.18), rgba(15,23,42,0.55))",
+    backgroundImage: tonight?.photoUrl
+      ? `linear-gradient(rgba(15,23,42,0.75), rgba(15,23,42,0.9)), url(${tonight.photoUrl})`
+      : "linear-gradient(135deg, rgba(20,184,166,0.18), rgba(15,23,42,0.55))",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
     border: "1px solid rgba(20,184,166,0.35)",
     boxShadow: "0 12px 30px rgba(0,0,0,0.28)",
+    backdropFilter: "blur(2px)",
     color: "#f8fafc",
   }}
 >
@@ -556,21 +561,22 @@ const tonight = getTonightDinner(meals?.[todayKey]);
         Effort: {tonight.effort}
       </span>
     )}
-
+{meals[todayKey]?.name && (
     <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        padding: "6px 12px",
-        borderRadius: 999,
-        background: "rgba(255,255,255,0.08)",
-        border: "1px solid rgba(255,255,255,0.12)",
-        fontSize: 12,
-        fontWeight: 800,
-      }}
-    >
-      {todayKey.toUpperCase()}
-    </span>
+  style={{
+    display: "inline-flex",
+    alignItems: "center",
+    padding: "6px 12px",
+    borderRadius: 999,
+    background: "rgba(255,255,255,0.08)",
+    border: "1px solid rgba(255,255,255,0.12)",
+    fontSize: 12,
+    fontWeight: 800,
+  }}
+>
+  {todayKey.toUpperCase()}
+</span>
+)}
   </div>
 
   <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 16 }}>
