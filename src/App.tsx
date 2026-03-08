@@ -517,8 +517,8 @@ const addDayToCookbook = (day: Day) => {
   }}
   style={menuItemStyle}
 >
-  ⭐ Cook Now
-  <div style={menuSubStyle}>Get instant dinner suggestions</div>
+  🍳 Cook Now
+  <div style={menuSubStyle}>See what you can cook right now</div>
 </button>
 
 <div style={dividerStyle} />

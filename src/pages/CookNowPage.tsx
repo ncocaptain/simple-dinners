@@ -83,7 +83,7 @@ export default function CookNowPage() {
         }}
       >
         <div>
-          <h1 style={{ marginBottom: 6 }}>Cook Now</h1>
+          <h1 style={{ marginBottom: 6 }}>🍳 Cook Now</h1>
           <p style={{ opacity: 0.8, margin: 0 }}>
             Best dinner ideas based on your pantry and favorites.
           </p>
@@ -96,7 +96,7 @@ export default function CookNowPage() {
         </div>
       ) : (
         <div style={{ display: "grid", gap: 12 }}>
-          {top.map(({ meal, matched, missing, score }, idx) => (
+          {top.map(({ meal, matched, missing }, idx) => (
             <div
               key={meal.slug ?? meal.id ?? `${meal.name}-${idx}`}
               className="card"
@@ -116,10 +116,12 @@ export default function CookNowPage() {
               >
                 <div>
                   <h3 style={{ margin: "0 0 6px" }}>{meal.name}</h3>
-                  <div style={{ fontSize: 14, opacity: 0.8 }}>
-                    Score: {score}
-                    {meal.effort ? ` • ${meal.effort}` : ""}
-                  </div>
+                  <div style={{ fontSize: 14, opacity: 0.85 }}>
+  {missing.length === 0 && "✅ You can cook this now"}
+  {missing.length > 0 && missing.length <= 2 && "🟡 Almost ready"}
+  {missing.length > 2 && "🛒 Needs a few ingredients"}
+  {meal.effort ? ` • ${meal.effort}` : ""}
+</div>
                 </div>
 
                 <Button
