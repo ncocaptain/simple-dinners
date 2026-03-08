@@ -71,6 +71,13 @@ export default function CookNowPage() {
 
   const top = ranked.slice(0, 6);
 
+  const surpriseMeal = React.useMemo(() => {
+  if (!top.length) return null;
+
+  const bestPool = top.slice(0, Math.min(3, top.length));
+  return bestPool[Math.floor(Math.random() * bestPool.length)]?.meal ?? null;
+}, [top]);
+
   return (
     <div className="page">
       <div
@@ -82,12 +89,33 @@ export default function CookNowPage() {
           marginBottom: 16,
         }}
       >
-        <div>
-          <h1 style={{ marginBottom: 6 }}>🍳 Cook Now</h1>
-          <p style={{ opacity: 0.8, margin: 0 }}>
-            Best dinner ideas based on your pantry and favorites.
-          </p>
-        </div>
+        <div
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: 12,
+    width: "100%",
+    flexWrap: "wrap",
+  }}
+>
+  <div>
+    <h1 style={{ marginBottom: 6 }}>🍳 Cook Now</h1>
+    <p style={{ opacity: 0.8, margin: 0 }}>
+      Best dinner ideas based on your pantry and favorites.
+    </p>
+  </div>
+
+  <Button
+  disabled={!surpriseMeal}
+  onClick={() => {
+    const slug = surpriseMeal?.slug ?? surpriseMeal?.id;
+    if (slug) navigate(`/recipe/${slug}`);
+  }}
+>
+  ⚡ Surprise Me
+</Button>
+</div>
       </div>
 
       {top.length === 0 ? (

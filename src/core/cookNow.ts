@@ -62,8 +62,22 @@ export function rankCookNowMeals(args: {
 
     let score = 0;
 
-    score += matched.length * 10;
-    score -= missing.length * 6;
+    score += matched.length * 12;
+    const pantryBasics = [
+  "salt",
+  "pepper",
+  "olive oil",
+  "oil",
+  "butter",
+  "garlic",
+  "sugar"
+];
+
+const realMissing = missing.filter(
+  (m) => !pantryBasics.some((b) => m.includes(b))
+);
+
+score -= realMissing.length * 6;
 
     if (meal.effort === "quick") score += 12;
     if (meal.effort === "normal") score += 6;
