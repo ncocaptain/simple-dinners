@@ -232,23 +232,26 @@ React.useEffect(() => {
   // Builder: effects - reset cook mode state when recipe changes
   // =====================================================
   React.useEffect(() => {
-    setStepIndex(0);
-    setCookMode(false);
-    setTimerDurationSeconds(null);
-    setTimerEndsAt(null);
-    setTimerRunning(false);
-    setTimerFinished(false);
-    setNowMs(Date.now());
+  setStepIndex(0);
 
-    try {
-      const saved = localStorage.getItem(`cook-checks-${slug}`);
-      setCheckedIngredients(saved ? JSON.parse(saved) : []);
-    } catch {
-      setCheckedIngredients([]);
-    }
+  const params = new URLSearchParams(location.search);
+  setCookMode(params.get("cook") === "true");
 
-    setChecksLoaded(true);
-  }, [slug]);
+  setTimerDurationSeconds(null);
+  setTimerEndsAt(null);
+  setTimerRunning(false);
+  setTimerFinished(false);
+  setNowMs(Date.now());
+
+  try {
+    const saved = localStorage.getItem(`cook-checks-${slug}`);
+    setCheckedIngredients(saved ? JSON.parse(saved) : []);
+  } catch {
+    setCheckedIngredients([]);
+  }
+
+  setChecksLoaded(true);
+}, [slug, location.search]);
 
   // =====================================================
   // Builder: effects - sync favorites state from storage

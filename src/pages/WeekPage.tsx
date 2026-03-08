@@ -14,6 +14,7 @@ import {
   Lock,
   Unlock,
 } from "lucide-react";
+import { getTonightDinner } from "../core/tonight";
 
 type Day = (typeof days)[number];
 
@@ -29,6 +30,7 @@ const EMPTY_WEEK = Object.fromEntries(
 const EMPTY_LOCKS = Object.fromEntries(
   days.map((d) => [d, false])
 ) as Record<Day, boolean>;
+
 
 // =====================================================
 // Builder: calendar helpers
@@ -164,6 +166,13 @@ export default function WeekPage({
   setLockedDays: React.Dispatch<React.SetStateAction<Record<Day, boolean>>>;
 }) {
   const navigate = useNavigate();
+  const todayIndex = (() => {
+  const jsDay = new Date().getDay(); // 0 = Sun, 1 = Mon, ...
+  return jsDay === 0 ? 6 : jsDay - 1; // convert to Monday-first index
+})();
+
+const todayKey = days[todayIndex] as Day;
+const tonight = getTonightDinner(meals?.[todayKey]);
 
   // =====================================================
   // Builder: local shopping list types + state
@@ -502,6 +511,85 @@ export default function WeekPage({
           Add to Calendar
         </button>
       </div>
+
+      <div
+  style={{
+    marginBottom: 24,
+    padding: 20,
+    borderRadius: 20,
+    background: "linear-gradient(135deg, rgba(20,184,166,0.18), rgba(15,23,42,0.55))",
+    border: "1px solid rgba(20,184,166,0.35)",
+    boxShadow: "0 12px 30px rgba(0,0,0,0.28)",
+    color: "#f8fafc",
+  }}
+>
+  <div style={{ fontSize: 12, fontWeight: 800, opacity: 0.8, letterSpacing: 0.6 }}>
+    TONIGHT'S DINNER
+  </div>
+
+  <div style={{ marginTop: 6, fontSize: 28, fontWeight: 900 }}>
+    {tonight?.name?.trim() || "No dinner suggestion yet"}
+  </div>
+
+  <div
+    style={{
+      marginTop: 8,
+      display: "flex",
+      gap: 10,
+      flexWrap: "wrap",
+      alignItems: "center",
+    }}
+  >
+    {tonight?.effort && (
+      <span
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          padding: "6px 12px",
+          borderRadius: 999,
+          background: "rgba(255,255,255,0.08)",
+          border: "1px solid rgba(255,255,255,0.12)",
+          fontSize: 12,
+          fontWeight: 800,
+        }}
+      >
+        Effort: {tonight.effort}
+      </span>
+    )}
+
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        padding: "6px 12px",
+        borderRadius: 999,
+        background: "rgba(255,255,255,0.08)",
+        border: "1px solid rgba(255,255,255,0.12)",
+        fontSize: 12,
+        fontWeight: 800,
+      }}
+    >
+      {todayKey.toUpperCase()}
+    </span>
+  </div>
+
+  <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 16 }}>
+    <Button
+      onClick={() => {
+        if (tonight?.slug?.trim()) {
+          navigate(`/recipe/${encodeURIComponent(tonight.slug)}?from=${encodeURIComponent("/week")}`);
+        }
+      }}
+    >
+      Cook Now
+    </Button>
+
+    <Button variant="secondary" onClick={() => generateDinnerPlan(true)}>
+      <RefreshCcw size={16} style={{ marginRight: 8 }} />
+      Swap Suggestion
+    </Button>
+  </div>
+</div>
 
       <div style={cardGrid}>
         {days.map((day) => {
