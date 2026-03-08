@@ -249,3 +249,14 @@ a {
 
 /* If you use “opacity: 0.8” in inline styles, it’ll still dim text.
    Prefer using var(--text-muted) instead of opacity for readability. */
+
+   @keyframes popIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

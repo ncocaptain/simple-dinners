@@ -900,7 +900,7 @@ React.useEffect(() => {
     >
       <div style={{ fontSize: 40, lineHeight: 1 }}>🎉</div>
 
-      <div style={{ fontSize: 26, fontWeight: 900 }}>Dinner Win!</div>
+      <div style={{ fontSize: 26, fontWeight: 900 }}>Nice Cooking!</div>
 
       <div style={{ fontSize: 16, opacity: 0.9 }}>
         You cooked <strong>{recipe.name}</strong>
@@ -917,6 +917,7 @@ React.useEffect(() => {
           justifyContent: "center",
           flexWrap: "wrap",
           marginTop: 6,
+          animation: "popIn 0.2s ease-out",
         }}
       >
         <button
