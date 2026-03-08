@@ -8,6 +8,7 @@ import { addIngredientsToList } from "../shoppingList";
 import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
 import { isFavorite, toggleFavorite } from "../core/favoritesStore";
 
+
 // =====================================================
 // Builder: small text helpers
 // =====================================================
@@ -119,12 +120,19 @@ function playTimerDoneSound() {
 export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   const navigate = useNavigate();
   const { slug = "" } = useParams();
-  const location = useLocation();
-
+  
   // =====================================================
   // Builder: page state
   // =====================================================
   const [cookMode, setCookMode] = React.useState(false);
+  const location = useLocation();
+
+React.useEffect(() => {
+  const params = new URLSearchParams(location.search);
+  if (params.get("cook") === "true") {
+    setCookMode(true);
+  }
+}, [location.search]);
   const [stepIndex, setStepIndex] = React.useState(0);
   const [touchStartX, setTouchStartX] = React.useState<number | null>(null);
   const [touchEndX, setTouchEndX] = React.useState<number | null>(null);
