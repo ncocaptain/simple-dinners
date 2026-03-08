@@ -7,6 +7,7 @@ import { Star, Printer, Share2, ArrowLeft, BookOpen } from "lucide-react";
 import { addIngredientsToList } from "../shoppingList";
 import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
 import { isFavorite, toggleFavorite } from "../core/favoritesStore";
+import { getDinnerStreak, recordDinnerStreak } from "../core/streakStore";
 
 
 // =====================================================
@@ -136,6 +137,7 @@ export default function RecipePage({ setCookbook }: { setCookbook: any }) {
   // =====================================================
   const [cookMode, setCookMode] = React.useState(false);
   const location = useLocation();
+  const [dinnerStreak, setDinnerStreak] = React.useState(() => getDinnerStreak());
 
 React.useEffect(() => {
   const params = new URLSearchParams(location.search);
@@ -851,9 +853,11 @@ React.useEffect(() => {
       if (instructions.length === 0) return;
 
       if (stepIndex >= instructions.length - 1) {
-        setShowDinnerWin(true);
-        return;
-      }
+  const nextStreak = recordDinnerStreak();
+  setDinnerStreak(nextStreak);
+  setShowDinnerWin(true);
+  return;
+}
 
       setStepIndex((i) => Math.min(instructions.length - 1, i + 1));
     }}
@@ -909,6 +913,14 @@ React.useEffect(() => {
       <div style={{ fontSize: 14, opacity: 0.75 }}>
         This is your {ordinal(history.timesCooked)} time cooking it.
       </div>
+
+      <div style={{ fontSize: 14, opacity: 0.9, fontWeight: 800 }}>
+  🔥 {dinnerStreak.currentStreak} Dinner Streak
+</div>
+
+<div style={{ fontSize: 12, opacity: 0.65 }}>
+  Best streak: {dinnerStreak.bestStreak}
+</div>
 
       <div
         style={{

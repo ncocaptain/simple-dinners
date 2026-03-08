@@ -540,6 +540,21 @@ function requireOnboarding(element: React.ReactNode) {
                       Regenerate Week
                       <div style={menuSubStyle}>Replace current meals</div>
                     </button>
+
+                    <div style={dividerStyle} />
+
+<button
+  role="menuitem"
+  onClick={() => {
+    localStorage.removeItem("sd-onboarding-complete");
+    navigate("/onboarding");
+    setMenuOpen(false);
+  }}
+  style={menuItemStyle}
+>
+  Restart Onboarding
+  <div style={menuSubStyle}>Run first-time setup again</div>
+</button>
                   </div>
                 )}
               </div>

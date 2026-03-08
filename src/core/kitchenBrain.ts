@@ -34,3 +34,28 @@ export function matchPantry(
     score: have.length - missing.length,
   };
 }
+
+export function rankMeals(
+  meals: Meal[],
+  pantry: PantryItem[]
+) {
+  return meals
+    .map((meal) => {
+      const match = matchPantry(meal, pantry);
+
+      return {
+        meal,
+        ...match,
+      };
+    })
+    .sort((a, b) => b.score - a.score);
+}
+
+export function whatCanICook(
+  cookbook: Meal[],
+  pantry: PantryItem[]
+) {
+  const ranked = rankMeals(cookbook, pantry);
+
+  return ranked.slice(0, 5);
+}

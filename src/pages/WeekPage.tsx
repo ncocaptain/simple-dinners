@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { days } from "../core/data";
 import { loadTakeoutCategories, type TakeoutCategory } from "../core/takeout";
+import { getTonightDinner } from "../core/tonight";
+import { getCookHistoryFor } from "../core/cookHistoryStore";
+import { getDinnerStreak, recordDinnerStreak } from "../core/streakStore";
 import {
   Trash2,
   BookOpen,
@@ -14,14 +17,24 @@ import {
   Lock,
   Unlock,
 } from "lucide-react";
-import { getTonightDinner } from "../core/tonight";
 
 type Day = (typeof days)[number];
 
-// =====================================================
-// Builder: empty week helpers
-// =====================================================
-const EMPTY_MEAL: Meal = { name: "", ingredients: "", instructions: "", photoUrl: "" };
+type ShoppingItem = {
+  id: string;
+  name: string;
+  checked: boolean;
+  createdAt: number;
+};
+
+const SHOP_LS_KEY = "simple-dinners:shopping-list:v1";
+
+const EMPTY_MEAL: Meal = {
+  name: "",
+  ingredients: "",
+  instructions: "",
+  photoUrl: "",
+};
 
 const EMPTY_WEEK = Object.fromEntries(
   days.map((d) => [d, { ...EMPTY_MEAL }])
@@ -31,12 +44,21 @@ const EMPTY_LOCKS = Object.fromEntries(
   days.map((d) => [d, false])
 ) as Record<Day, boolean>;
 
+const EFFORT_OPTIONS: { value: Effort; label: string }[] = [
+  { value: "quick", label: "Quick" },
+  { value: "normal", label: "Normal" },
+  { value: "big", label: "Big cook" },
+  { value: "takeout", label: "Takeout" },
+];
 
-// =====================================================
-// Builder: calendar helpers
-// =====================================================
 function pad2(n: number) {
   return String(n).padStart(2, "0");
+}
+
+function todayKey(date: Date = new Date()): string {
+  return `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-${pad2(
+    date.getDate()
+  )}`;
 }
 
 function toICSLocal(d: Date) {
@@ -99,7 +121,12 @@ function addWeekToCalendar(days: readonly Day[], meals: Record<Day, Meal>) {
           : undefined,
       };
     })
-    .filter(Boolean) as { title: string; start: Date; end: Date; description?: string }[];
+    .filter(Boolean) as {
+    title: string;
+    start: Date;
+    end: Date;
+    description?: string;
+  }[];
 
   if (events.length === 0) return;
 
@@ -143,9 +170,22 @@ function addWeekToCalendar(days: readonly Day[], meals: Record<Day, Meal>) {
   URL.revokeObjectURL(url);
 }
 
-// =====================================================
-// Builder: page component
-// =====================================================
+function mealSlug(meal?: Meal) {
+  return (
+    meal?.slug ||
+    meal?.name
+      ?.trim()
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/\s+/g, "-") ||
+    ""
+  );
+}
+
+function makeId() {
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
+}
+
 export default function WeekPage({
   meals,
   setMeals,
@@ -166,57 +206,84 @@ export default function WeekPage({
   setLockedDays: React.Dispatch<React.SetStateAction<Record<Day, boolean>>>;
 }) {
   const navigate = useNavigate();
-  const todayIndex = (() => {
-  const jsDay = new Date().getDay(); // 0 = Sun, 1 = Mon, ...
-  return jsDay === 0 ? 6 : jsDay - 1; // convert to Monday-first index
-})();
-
-const todayKey = days[todayIndex] as Day;
-const tonight = getTonightDinner(meals?.[todayKey]);
-
-  // =====================================================
-  // Builder: local shopping list types + state
-  // =====================================================
-  type ShoppingItem = {
-    id: string;
-    name: string;
-    checked: boolean;
-    createdAt: number;
-  };
-
-  const SHOP_LS_KEY = "simple-dinners:shopping-list:v1";
-
-  function makeId() {
-    return Math.random().toString(36).slice(2) + Date.now().toString(36);
-  }
 
   const [shopItems, setShopItems] = React.useState<ShoppingItem[]>([]);
   const [shopInput, setShopInput] = React.useState("");
+  const [takeoutCategories] = React.useState<TakeoutCategory[]>(() =>
+    loadTakeoutCategories()
+  );
+  const [animDays, setAnimDays] = React.useState<Record<string, boolean>>({});
+  const [openDay, setOpenDay] = React.useState<Day | null>(null);
+  const [openEffortDay, setOpenEffortDay] = React.useState<Day | null>(null);
+  const [streak, setStreak] = React.useState(() => getDinnerStreak());
 
-  // =====================================================
-  // Builder: recipe navigation
-  // =====================================================
+  const prevMealsRef = React.useRef<Record<Day, Meal>>(EMPTY_WEEK);
+
+  const todayIndex = (() => {
+    const jsDay = new Date().getDay();
+    return jsDay === 0 ? 6 : jsDay - 1;
+  })();
+
+  const todayDay = days[todayIndex] as Day;
+  const tonight = getTonightDinner(meals?.[todayDay]);
+  const tonightSlug = mealSlug(tonight);
+
+  const tonightHistory = tonightSlug
+    ? getCookHistoryFor(tonightSlug)
+    : { timesCooked: 0, lastCookedAt: null as string | number | null };
+
+  const cookedToday = streak.lastCookedDay === todayKey();
+
+  const getTonightBadge = () => {
+    if (!tonightHistory.timesCooked) return null;
+
+    let daysSinceCooked: number | null = null;
+
+    if (tonightHistory.lastCookedAt) {
+      const cookedMs =
+        typeof tonightHistory.lastCookedAt === "number"
+          ? tonightHistory.lastCookedAt
+          : new Date(tonightHistory.lastCookedAt).getTime();
+
+      if (!Number.isNaN(cookedMs)) {
+        daysSinceCooked = Math.floor(
+          (Date.now() - cookedMs) / (1000 * 60 * 60 * 24)
+        );
+      }
+    }
+
+    if (daysSinceCooked !== null && daysSinceCooked <= 3) {
+      return "🕒 Made recently";
+    }
+
+    if (tonightHistory.timesCooked >= 3) {
+      return "🏆 Family Classic";
+    }
+
+    return "🔥 Cook Again";
+  };
+
+  const tonightBadge = getTonightBadge();
+
   const openRecipePage = (day: Day) => {
     const slug = meals[day]?.slug?.trim();
     if (!slug) return;
 
-    navigate(`/recipe/${encodeURIComponent(slug)}?from=${encodeURIComponent("/week")}`);
+    navigate(
+      `/recipe/${encodeURIComponent(slug)}?from=${encodeURIComponent("/week")}`
+    );
   };
 
-  // =====================================================
-  // Builder: takeout categories
-  // =====================================================
-  const [takeoutCategories] = React.useState<TakeoutCategory[]>(() =>
-    loadTakeoutCategories()
-  );
+  React.useEffect(() => {
+    setStreak(getDinnerStreak());
+  }, []);
 
-  // =====================================================
-  // Builder: local shopping list persistence
-  // =====================================================
   React.useEffect(() => {
     try {
       const raw = localStorage.getItem(SHOP_LS_KEY);
-      if (raw) setShopItems(JSON.parse(raw));
+      if (raw) {
+        setShopItems(JSON.parse(raw));
+      }
     } catch {
       // ignore
     }
@@ -230,9 +297,44 @@ const tonight = getTonightDinner(meals?.[todayKey]);
     }
   }, [shopItems]);
 
-  // =====================================================
-  // Builder: shopping list actions
-  // =====================================================
+  React.useEffect(() => {
+    const onDown = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest(".effort-selector-container")) {
+        setOpenEffortDay(null);
+      }
+    };
+
+    if (openEffortDay) {
+      window.addEventListener("mousedown", onDown);
+    }
+
+    return () => window.removeEventListener("mousedown", onDown);
+  }, [openEffortDay]);
+
+  React.useEffect(() => {
+    const prev = prevMealsRef.current;
+    const nextAnim: Partial<Record<Day, boolean>> = {};
+
+    days.forEach((day) => {
+      const prevKey = prev[day]?.name ?? "";
+      const nextKey = meals[day]?.name ?? "";
+
+      if (prevKey !== nextKey && meals[day]?.name) {
+        nextAnim[day as Day] = true;
+      }
+    });
+
+    if (Object.keys(nextAnim).length > 0) {
+      setAnimDays((s) => ({ ...s, ...nextAnim }));
+      const t = setTimeout(() => setAnimDays({}), 450);
+      prevMealsRef.current = meals;
+      return () => clearTimeout(t);
+    }
+
+    prevMealsRef.current = meals;
+  }, [meals]);
+
   const addShopItem = () => {
     const name = shopInput.trim();
     if (!name) return;
@@ -258,9 +360,6 @@ const tonight = getTonightDinner(meals?.[todayKey]);
     setShopItems((prev) => prev.filter((it) => !it.checked));
   };
 
-  // =====================================================
-  // Builder: nearby takeout opener
-  // =====================================================
   const openNearby = (category: string) => {
     if (!navigator.geolocation) {
       alert("Location not supported.");
@@ -282,6 +381,7 @@ const tonight = getTonightDinner(meals?.[todayKey]);
         }
 
         const startedAt = Date.now();
+
         if (isiOS) {
           window.location.href = `https://maps.apple.com/?q=${q}&ll=${latitude},${longitude}`;
         } else {
@@ -289,7 +389,9 @@ const tonight = getTonightDinner(meals?.[todayKey]);
         }
 
         setTimeout(() => {
-          if (Date.now() - startedAt < 1200) window.location.href = webUrl;
+          if (Date.now() - startedAt < 1200) {
+            window.location.href = webUrl;
+          }
         }, 900);
       },
       (err: GeolocationPositionError) => {
@@ -300,64 +402,6 @@ const tonight = getTonightDinner(meals?.[todayKey]);
     );
   };
 
-  // =====================================================
-  // Builder: card animation + open state
-  // =====================================================
-  const [animDays, setAnimDays] = React.useState<Record<string, boolean>>({});
-  const [openDay, setOpenDay] = React.useState<Day | null>(null);
-  const [openEffortDay, setOpenEffortDay] = React.useState<Day | null>(null);
-  const prevMealsRef = React.useRef<Record<Day, Meal>>(EMPTY_WEEK);
-
-  const EFFORT_OPTIONS: { value: Effort; label: string }[] = [
-    { value: "quick", label: "Quick" },
-    { value: "normal", label: "Normal" },
-    { value: "big", label: "Big cook" },
-    { value: "takeout", label: "Takeout" },
-  ];
-
-  // =====================================================
-  // Builder: close effort dropdown on outside click
-  // =====================================================
-  React.useEffect(() => {
-    const onDown = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (!target.closest(".effort-selector-container")) {
-        setOpenEffortDay(null);
-      }
-    };
-
-    if (openEffortDay) window.addEventListener("mousedown", onDown);
-    return () => window.removeEventListener("mousedown", onDown);
-  }, [openEffortDay]);
-
-  // =====================================================
-  // Builder: animate cards when meals change
-  // =====================================================
-  React.useEffect(() => {
-    const prev = prevMealsRef.current;
-    const nextAnim: Partial<Record<Day, boolean>> = {};
-
-    days.forEach((day) => {
-      const prevKey = `${prev[day]?.name ?? ""}`;
-      const nextKey = `${meals[day]?.name ?? ""}`;
-      if (prevKey !== nextKey && meals[day]?.name) {
-        nextAnim[day as Day] = true;
-      }
-    });
-
-    if (Object.keys(nextAnim).length > 0) {
-      setAnimDays((s) => ({ ...s, ...nextAnim }));
-      const t = setTimeout(() => setAnimDays({}), 450);
-      prevMealsRef.current = meals;
-      return () => clearTimeout(t);
-    }
-
-    prevMealsRef.current = meals;
-  }, [meals]);
-
-  // =====================================================
-  // Builder: week actions
-  // =====================================================
   const clearWeek = () => {
     if (!window.confirm("Clear the entire week?")) return;
     setMeals(EMPTY_WEEK);
@@ -382,9 +426,36 @@ const tonight = getTonightDinner(meals?.[todayKey]);
     setLockedDays((prev) => ({ ...prev, [day]: !prev[day] }));
   };
 
-  // =====================================================
-  // Builder: shared styles
-  // =====================================================
+  const handleMarkCooked = () => {
+    const updated = recordDinnerStreak();
+    setStreak(updated);
+  };
+
+  const formatRange = () => {
+    const start = startOfWeekMonday(new Date());
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+
+    const fmt = new Intl.DateTimeFormat(undefined, {
+      month: "short",
+      day: "numeric",
+    });
+
+    const fmtYear = new Intl.DateTimeFormat(undefined, {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+
+    const sameYear = start.getFullYear() === end.getFullYear();
+
+    return sameYear
+      ? `${fmt.format(start)} – ${fmtYear.format(end)}`
+      : `${fmtYear.format(start)} – ${fmtYear.format(end)}`;
+  };
+
+  const weekRange = formatRange();
+
   const cardGrid: React.CSSProperties = {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
@@ -439,32 +510,6 @@ const tonight = getTonightDinner(meals?.[todayKey]);
     fontWeight: 800,
   };
 
-  // =====================================================
-  // Builder: week range label
-  // =====================================================
-  const formatRange = () => {
-    const start = startOfWeekMonday(new Date());
-    const end = new Date(start);
-    end.setDate(start.getDate() + 6);
-
-    const fmt = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" });
-    const fmtYear = new Intl.DateTimeFormat(undefined, {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-
-    const sameYear = start.getFullYear() === end.getFullYear();
-    return sameYear
-      ? `${fmt.format(start)} – ${fmtYear.format(end)}`
-      : `${fmtYear.format(start)} – ${fmtYear.format(end)}`;
-  };
-
-  const weekRange = formatRange();
-
-  // =====================================================
-  // Builder: page UI
-  // =====================================================
   return (
     <>
       <style>{`
@@ -481,13 +526,19 @@ const tonight = getTonightDinner(meals?.[todayKey]);
           justifyContent: "space-between",
           alignItems: "center",
           marginBottom: 28,
+          gap: 12,
+          flexWrap: "wrap",
         }}
       >
         <div>
-          <h2 style={{ margin: 0, fontSize: 28, fontWeight: 800, color: "#f8fafc" }}>
+          <h2
+            style={{ margin: 0, fontSize: 28, fontWeight: 800, color: "#f8fafc" }}
+          >
             This Week
           </h2>
-          <div style={{ marginTop: 4, opacity: 0.75, fontWeight: 700, fontSize: 13 }}>
+          <div
+            style={{ marginTop: 4, opacity: 0.75, fontWeight: 700, fontSize: 13 }}
+          >
             {weekRange}
           </div>
         </div>
@@ -513,89 +564,152 @@ const tonight = getTonightDinner(meals?.[todayKey]);
       </div>
 
       <div
-  style={{
-    marginBottom: 24,
-    padding: 20,
-    borderRadius: 20,
-    backgroundImage: tonight?.photoUrl
-      ? `linear-gradient(rgba(15,23,42,0.75), rgba(15,23,42,0.9)), url(${tonight.photoUrl})`
-      : "linear-gradient(135deg, rgba(20,184,166,0.18), rgba(15,23,42,0.55))",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    border: "1px solid rgba(20,184,166,0.35)",
-    boxShadow: "0 12px 30px rgba(0,0,0,0.28)",
-    backdropFilter: "blur(2px)",
-    color: "#f8fafc",
-  }}
->
-  <div style={{ fontSize: 12, fontWeight: 800, opacity: 0.8, letterSpacing: 0.6 }}>
-    TONIGHT'S DINNER
-  </div>
-
-  <div style={{ marginTop: 6, fontSize: 28, fontWeight: 900 }}>
-    {tonight?.name?.trim() || "No dinner suggestion yet"}
-  </div>
-
-  <div
-    style={{
-      marginTop: 8,
-      display: "flex",
-      gap: 10,
-      flexWrap: "wrap",
-      alignItems: "center",
-    }}
-  >
-    {tonight?.effort && (
-      <span
         style={{
-          display: "inline-flex",
-          alignItems: "center",
-          padding: "6px 12px",
-          borderRadius: 999,
-          background: "rgba(255,255,255,0.08)",
-          border: "1px solid rgba(255,255,255,0.12)",
-          fontSize: 12,
-          fontWeight: 800,
+          marginBottom: 24,
+          padding: 20,
+          borderRadius: 20,
+          backgroundImage: tonight?.photoUrl
+            ? `linear-gradient(rgba(15,23,42,0.75), rgba(15,23,42,0.9)), url(${tonight.photoUrl})`
+            : "linear-gradient(135deg, rgba(20,184,166,0.18), rgba(15,23,42,0.55))",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          border: "1px solid rgba(20,184,166,0.35)",
+          boxShadow: "0 12px 30px rgba(0,0,0,0.28)",
+          backdropFilter: "blur(2px)",
+          color: "#f8fafc",
         }}
       >
-        Effort: {tonight.effort}
-      </span>
-    )}
-{meals[todayKey]?.name && (
-    <span
-  style={{
-    display: "inline-flex",
-    alignItems: "center",
-    padding: "6px 12px",
-    borderRadius: 999,
-    background: "rgba(255,255,255,0.08)",
-    border: "1px solid rgba(255,255,255,0.12)",
-    fontSize: 12,
-    fontWeight: 800,
-  }}
->
-  {todayKey.toUpperCase()}
-</span>
-)}
-  </div>
+        <div
+          style={{ fontSize: 12, fontWeight: 800, opacity: 0.8, letterSpacing: 0.6 }}
+        >
+          TONIGHT'S DINNER
+        </div>
 
-  <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 16 }}>
-    <Button
-      onClick={() => {
-        if (tonight?.slug?.trim()) {
-          navigate(`/recipe/${encodeURIComponent(tonight.slug)}?from=${encodeURIComponent("/week")}`);
-        }
-      }}
-    >
-      Cook Now
-    </Button>
+        <div style={{ marginTop: 6, fontSize: 28, fontWeight: 900 }}>
+          {tonight?.name?.trim() || "No dinner suggestion yet"}
+        </div>
 
-    <Button variant="secondary" onClick={() => generateDinnerPlan(true)}>
-      <RefreshCcw size={16} style={{ marginRight: 8 }} />
-      Swap Suggestion
-    </Button>
-  </div>
-</div>
+        {tonightBadge && (
+          <div
+            style={{
+              marginTop: 8,
+              display: "inline-flex",
+              alignItems: "center",
+              padding: "6px 12px",
+              borderRadius: 999,
+              background: "rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.12)",
+              fontSize: 12,
+              fontWeight: 800,
+            }}
+          >
+            {tonightBadge}
+          </div>
+        )}
+
+        <div
+          style={{
+            marginTop: 8,
+            display: "flex",
+            gap: 10,
+            flexWrap: "wrap",
+            alignItems: "center",
+          }}
+        >
+          {tonight?.effort && (
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                padding: "6px 12px",
+                borderRadius: 999,
+                background: "rgba(255,255,255,0.08)",
+                border: "1px solid rgba(255,255,255,0.12)",
+                fontSize: 12,
+                fontWeight: 800,
+              }}
+            >
+              Effort: {tonight.effort}
+            </span>
+          )}
+
+          {meals[todayDay]?.name && (
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                padding: "6px 12px",
+                borderRadius: 999,
+                background: "rgba(255,255,255,0.08)",
+                border: "1px solid rgba(255,255,255,0.12)",
+                fontSize: 12,
+                fontWeight: 800,
+              }}
+            >
+              {todayDay.toUpperCase()}
+            </span>
+          )}
+
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              padding: "6px 12px",
+              borderRadius: 999,
+              background: "rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.12)",
+              fontSize: 12,
+              fontWeight: 800,
+            }}
+          >
+            🔥 Streak: {streak.currentStreak}
+          </span>
+
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              padding: "6px 12px",
+              borderRadius: 999,
+              background: "rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.12)",
+              fontSize: 12,
+              fontWeight: 800,
+            }}
+          >
+            🏆 Best: {streak.bestStreak}
+          </span>
+        </div>
+
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 16 }}>
+          <Button
+            onClick={() => {
+              if (tonight?.slug?.trim()) {
+                navigate(
+                  `/recipe/${encodeURIComponent(
+                    tonight.slug
+                  )}?from=${encodeURIComponent("/week")}`
+                );
+              }
+            }}
+          >
+            Cook Now
+          </Button>
+
+          <Button
+            variant="secondary"
+            onClick={handleMarkCooked}
+            disabled={!tonight?.name?.trim() || cookedToday}
+          >
+            {cookedToday ? "Cooked Today ✅" : "Mark Cooked 🔥"}
+          </Button>
+
+          <Button variant="secondary" onClick={() => generateDinnerPlan(true)}>
+            <RefreshCcw size={16} style={{ marginRight: 8 }} />
+            Swap Suggestion
+          </Button>
+        </div>
+      </div>
 
       <div style={cardGrid}>
         {days.map((day) => {
@@ -629,11 +743,15 @@ const tonight = getTonightDinner(meals?.[todayKey]);
                 onKeyDown={
                   canOpen
                     ? (e) => {
-                        if (e.key === "Enter" || e.key === " ") openRecipePage(day);
+                        if (e.key === "Enter" || e.key === " ") {
+                          openRecipePage(day);
+                        }
                       }
                     : undefined
                 }
-                aria-label={canOpen ? `Open recipe for ${meal?.name ?? "meal"}` : undefined}
+                aria-label={
+                  canOpen ? `Open recipe for ${meal?.name ?? "meal"}` : undefined
+                }
               >
                 <div
                   className={`recipe-hero ${canOpen ? "clickable" : ""}`}
@@ -647,7 +765,7 @@ const tonight = getTonightDinner(meals?.[todayKey]);
               </div>
 
               <div style={{ padding: 16, display: "grid", gap: 12 }}>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
                   <div>
                     <div style={{ fontSize: 18, fontWeight: 900 }}>
                       {meal?.name || "No meal planned"}
@@ -708,7 +826,9 @@ const tonight = getTonightDinner(meals?.[todayKey]);
                     }}
                     style={{ ...chip, cursor: "pointer", userSelect: "none" }}
                   >
-                    <span style={{ opacity: 0.7, fontSize: 11, fontWeight: 800 }}>Effort</span>
+                    <span style={{ opacity: 0.7, fontSize: 11, fontWeight: 800 }}>
+                      Effort
+                    </span>
                     <span style={{ fontSize: 12, fontWeight: 900 }}>
                       {EFFORT_OPTIONS.find((o) => o.value === effort)?.label ?? "Normal"}
                     </span>
@@ -760,7 +880,9 @@ const tonight = getTonightDinner(meals?.[todayKey]);
                             padding: "10px 12px",
                             border: "none",
                             background:
-                              opt.value === effort ? "rgba(20,184,166,0.2)" : "transparent",
+                              opt.value === effort
+                                ? "rgba(20,184,166,0.2)"
+                                : "transparent",
                             color: "white",
                             cursor: "pointer",
                             fontWeight: opt.value === effort ? 900 : 500,
@@ -855,7 +977,9 @@ const tonight = getTonightDinner(meals?.[todayKey]);
         })}
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 32 }}>
+      <div
+        style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 32, flexWrap: "wrap" }}
+      >
         <Button onClick={() => generateDinnerPlan(true)}>
           <RefreshCcw size={16} style={{ marginRight: 8 }} />
           Re-Generate Unlocked Days
@@ -882,9 +1006,16 @@ const tonight = getTonightDinner(meals?.[todayKey]);
         }}
       >
         <div
-          style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 12,
+            flexWrap: "wrap",
+          }}
         >
           <h2 style={{ margin: 0 }}>Shopping List</h2>
+
           <button
             type="button"
             onClick={clearCheckedShopItems}
@@ -926,6 +1057,7 @@ const tonight = getTonightDinner(meals?.[todayKey]);
               outline: "none",
             }}
           />
+
           <button
             type="button"
             onClick={addShopItem}
@@ -1006,17 +1138,7 @@ const tonight = getTonightDinner(meals?.[todayKey]);
                     type="button"
                     onClick={() => removeShopItem(item.id)}
                     aria-label={`Remove ${item.name}`}
-                    style={{
-                      width: 34,
-                      height: 34,
-                      borderRadius: 10,
-                      border: "1px solid rgba(255,255,255,0.12)",
-                      background: "rgba(255,255,255,0.06)",
-                      color: "white",
-                      cursor: "pointer",
-                      display: "grid",
-                      placeItems: "center",
-                    }}
+                    style={iconBtn}
                   >
                     <X size={16} />
                   </button>

@@ -35,7 +35,7 @@ export default function OnboardingPage() {
     localStorage.setItem("vegetarian", String(vegetarian));
     localStorage.setItem("dietaryNotes", dietaryNotes);
     completeOnboarding();
-    navigate("/plan");
+    navigate("/plan?first=true");
   }
 
   return (

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { days } from "../core/data";
 import Button from "../components/Button";
 import type { Effort, PantryItem } from "../core/types";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function PlanPage({
   daySettings,
@@ -31,6 +33,7 @@ export default function PlanPage({
 }) {
 
   const navigate = useNavigate();
+  const location = useLocation();
   // =====================================================
   // Builder: shared styles
   // =====================================================
@@ -112,6 +115,13 @@ export default function PlanPage({
     setPantryText(pantry.map((p) => p.name).join(", "));
   }, [pantry]);
 
+  useEffect(() => {
+  const params = new URLSearchParams(location.search);
+
+  if (params.get("first") === "true") {
+    generateDinnerPlan();
+  }
+}, []);
   // =====================================================
   // Builder: persist pantry textarea into pantry items
   // =====================================================
