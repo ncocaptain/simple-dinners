@@ -313,6 +313,10 @@ const addDayToCookbook = (day: Day) => {
   }
 };
 
+function requireOnboarding(element: React.ReactNode) {
+  return hasCompletedOnboarding() ? element : <Navigate to="/onboarding" replace />;
+}
+
  const generateDinnerPlan = (force = false) => {
   const seedMeals: Record<Day, Meal> = force
     ? (Object.fromEntries(
@@ -562,50 +566,50 @@ const addDayToCookbook = (day: Day) => {
 
   <Route path="/cook-now" element={<CookNowPage pantry={pantry} />} />
 
-  <Route
-    path="/plan"
-    element={
-      <PlanPage
-        daySettings={daySettings}
-        setDaySettings={setDaySettings}
-        pantry={pantry}
-        setPantry={setPantry}
-        vegetarian={vegetarian}
-        setVegetarian={setVegetarian}
-        generateDinnerPlan={generateDinnerPlan}
-        dietaryNotes={dietaryNotes}
-        setDietaryNotes={setDietaryNotes}
-      />
-    }
-  />
+ <Route
+  path="/plan"
+  element={requireOnboarding(
+    <PlanPage
+      daySettings={daySettings}
+      setDaySettings={setDaySettings}
+      pantry={pantry}
+      setPantry={setPantry}
+      vegetarian={vegetarian}
+      setVegetarian={setVegetarian}
+      generateDinnerPlan={generateDinnerPlan}
+      dietaryNotes={dietaryNotes}
+      setDietaryNotes={setDietaryNotes}
+    />
+  )}
+/>
 
   <Route
-    path="/week"
-    element={
-      <WeekPage
-        meals={meals}
-        setMeals={setMeals}
-        addDayToCookbook={addDayToCookbook}
-        generateDinnerPlan={generateDinnerPlan}
-        daySettings={daySettings}
-        setDaySettings={setDaySettings}
-        lockedDays={lockedDays}
-        setLockedDays={setLockedDays}
-      />
-    }
-  />
+  path="/week"
+  element={requireOnboarding(
+    <WeekPage
+      meals={meals}
+      setMeals={setMeals}
+      addDayToCookbook={addDayToCookbook}
+      generateDinnerPlan={generateDinnerPlan}
+      daySettings={daySettings}
+      setDaySettings={setDaySettings}
+      lockedDays={lockedDays}
+      setLockedDays={setLockedDays}
+    />
+  )}
+/>
 
   <Route
-    path="/cookbook"
-    element={
-      <CookbookPage
-        setMeals={setMeals}
-        cookbook={cookbook}
-        setCookbook={setCookbook}
-        prefs={effectivePrefs}
-      />
-    }
-  />
+  path="/cookbook"
+  element={requireOnboarding(
+    <CookbookPage
+      setMeals={setMeals}
+      cookbook={cookbook}
+      setCookbook={setCookbook}
+      prefs={effectivePrefs}
+    />
+  )}
+/>
 
   <Route path="*" element={<Navigate to="/plan" replace />} />
 
