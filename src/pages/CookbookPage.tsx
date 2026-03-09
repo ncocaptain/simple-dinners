@@ -463,11 +463,20 @@ export default function CookbookPage({
       } catch {}
 
       if (!resp.ok) {
-        const msg =
-          data?.error || data?.message || raw?.slice(0, 180) || `HTTP ${resp.status}`;
-        toast(`Recipe import failed: ${msg}`, "error");
-        return;
-      }
+  const msg =
+    data?.error ||
+    data?.message ||
+    raw?.slice(0, 180) ||
+    `HTTP ${resp.status}`;
+
+  const friendly =
+    /404|403|Fetch failed/i.test(msg)
+      ? "That website blocked import. Try another recipe site or use Add Your Own."
+      : `Recipe import failed: ${msg}`;
+
+  toast(friendly, "error");
+  return;
+}
 
       const recipe = data?.recipe ?? data;
       if (!recipe) {
