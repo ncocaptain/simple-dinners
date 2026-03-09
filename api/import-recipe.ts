@@ -26,12 +26,16 @@ function asArray<T>(value: T | T[] | null | undefined): T[] {
   return Array.isArray(value) ? value : [value];
 }
 
-function hasMeaningfulData(recipe: Partial<ParsedRecipe>): boolean {
+function hasMeaningfulRecipeData(recipe: Partial<ParsedRecipe>): boolean {
   return !!(
     recipe.name?.trim() ||
     recipe.ingredients?.trim() ||
     recipe.instructions?.trim()
   );
+}
+
+function joinLines(lines: string[]): string {
+  return lines.map((x) => cleanText(x)).filter(Boolean).join("\n");
 }
 
 // =====================================================
@@ -54,6 +58,7 @@ function pickBestImage(image: any): string {
   if (typeof image === "object") {
     if (typeof image.url === "string") return image.url;
     if (typeof image.contentUrl === "string") return image.contentUrl;
+    if (typeof image["@id"] === "string") return image["@id"];
   }
 
   return "";
@@ -76,20 +81,21 @@ function extractInstructionLines(value: any): string[] {
 
   if (typeof value === "object") {
     const lines: string[] = [];
-
     const type = value["@type"];
-    const isHowToSection =
-      type === "HowToSection" ||
-      (Array.isArray(type) && type.includes("HowToSection"));
 
     const isHowToStep =
       type === "HowToStep" ||
       (Array.isArray(type) && type.includes("HowToStep"));
 
+    const isHowToSection =
+      type === "HowToSection" ||
+      (Array.isArray(type) && type.includes("HowToSection"));
+
     if (isHowToStep) {
       if (typeof value.text === "string") lines.push(cleanText(value.text));
       else if (typeof value.name === "string") lines.push(cleanText(value.name));
     } else if (isHowToSection) {
+      if (typeof value.name === "string") lines.push(cleanText(value.name));
       if (value.itemListElement) {
         lines.push(...extractInstructionLines(value.itemListElement));
       }
@@ -108,23 +114,22 @@ function extractInstructionLines(value: any): string[] {
 }
 
 function normalizeInstructions(value: any): string {
-  return extractInstructionLines(value)
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .join("\n");
+  return joinLines(extractInstructionLines(value));
 }
 
 // =====================================================
 // JSON-LD helpers
 // =====================================================
 
+function isRecipeNode(obj: any): boolean {
+  const type = obj?.["@type"];
+  if (!type) return false;
+  if (Array.isArray(type)) return type.includes("Recipe");
+  return type === "Recipe";
+}
+
 function findRecipeObject(ld: any): any | null {
   if (!ld) return null;
-
-  const isRecipe = (obj: any) =>
-    obj &&
-    (obj["@type"] === "Recipe" ||
-      (Array.isArray(obj["@type"]) && obj["@type"].includes("Recipe")));
 
   if (Array.isArray(ld)) {
     for (const item of ld) {
@@ -134,21 +139,28 @@ function findRecipeObject(ld: any): any | null {
     return null;
   }
 
-  if (typeof ld === "object") {
-    if (isRecipe(ld)) return ld;
+  if (typeof ld !== "object") return null;
 
-    if (ld["@graph"]) {
-      const found = findRecipeObject(ld["@graph"]);
-      if (found) return found;
-    }
+  if (isRecipeNode(ld)) return ld;
 
-    if (ld.mainEntity) {
-      const found = findRecipeObject(ld.mainEntity);
-      if (found) return found;
-    }
+  const containers = [
+    ld["@graph"],
+    ld.mainEntity,
+    ld.mainEntityOfPage,
+    ld.itemListElement,
+    ld.hasPart,
+    ld.subjectOf,
+  ];
 
-    if (ld.mainEntityOfPage) {
-      const found = findRecipeObject(ld.mainEntityOfPage);
+  for (const container of containers) {
+    const found = findRecipeObject(container);
+    if (found) return found;
+  }
+
+  for (const key of Object.keys(ld)) {
+    const value = ld[key];
+    if (value && typeof value === "object") {
+      const found = findRecipeObject(value);
       if (found) return found;
     }
   }
@@ -169,7 +181,7 @@ function extractFromJsonLd($: cheerio.CheerioAPI, url: string): ParsedRecipe | n
 
       if (!recipeNode) continue;
 
-      const name = String(recipeNode.name || "").trim();
+      const name = cleanText(String(recipeNode.name || ""));
 
       const ingredientsArray = asArray<string>(
         recipeNode.recipeIngredient || recipeNode.ingredients
@@ -177,23 +189,22 @@ function extractFromJsonLd($: cheerio.CheerioAPI, url: string): ParsedRecipe | n
         .map((item) => cleanText(String(item)))
         .filter(Boolean);
 
-      const ingredients = ingredientsArray.join("\n");
       const instructions = normalizeInstructions(recipeNode.recipeInstructions);
       const photoUrl = pickBestImage(recipeNode.image);
 
       const recipe: ParsedRecipe = {
         name,
-        ingredients,
+        ingredients: ingredientsArray.join("\n"),
         instructions,
         photoUrl,
         sourceUrl: url,
       };
 
-      if (hasMeaningfulData(recipe)) {
+      if (hasMeaningfulRecipeData(recipe)) {
         return recipe;
       }
     } catch {
-      // Ignore malformed JSON-LD blocks
+      // ignore malformed JSON-LD blocks
     }
   }
 
@@ -201,8 +212,30 @@ function extractFromJsonLd($: cheerio.CheerioAPI, url: string): ParsedRecipe | n
 }
 
 // =====================================================
-// Fallback HTML/Open Graph extraction
+// Fallback HTML helpers
 // =====================================================
+
+function extractTextList($: cheerio.CheerioAPI, selectors: string[]): string[] {
+  for (const selector of selectors) {
+    const items = $(selector)
+      .map((_, el) => cleanText($(el).text()))
+      .get()
+      .filter(Boolean);
+
+    if (items.length >= 2) return items;
+  }
+
+  return [];
+}
+
+function extractSingleText($: cheerio.CheerioAPI, selectors: string[]): string {
+  for (const selector of selectors) {
+    const text = cleanText($(selector).first().text());
+    if (text) return text;
+  }
+
+  return "";
+}
 
 function extractFromFallbackHtml($: cheerio.CheerioAPI, url: string): ParsedRecipe | null {
   const name =
@@ -214,38 +247,64 @@ function extractFromFallbackHtml($: cheerio.CheerioAPI, url: string): ParsedReci
   const photoUrl =
     $('meta[property="og:image"]').attr("content") ||
     $('meta[name="twitter:image"]').attr("content") ||
+    $(".wprm-recipe-image img").attr("src") ||
+    $(".mv-create-image img").attr("src") ||
+    $(".tasty-recipes-image img").attr("src") ||
     "";
 
   const ingredientSelectors = [
     '[itemprop="recipeIngredient"]',
-    ".ingredients-item",
+    ".wprm-recipe-ingredient",
+    ".mv-create-ingredients li",
+    ".tasty-recipes-ingredients li",
     ".recipe-ingredients li",
     ".ingredients li",
+    ".ingredients-item",
+    "li.ingredient",
   ];
 
-  let ingredientsList: string[] = [];
+  const instructionSelectors = [
+    '[itemprop="recipeInstructions"] li',
+    '[itemprop="recipeInstructions"] p',
+    ".wprm-recipe-instruction",
+    ".mv-create-instructions li",
+    ".tasty-recipes-instructions li",
+    ".recipe-method li",
+    ".recipe-directions li",
+    ".instructions li",
+    ".direction",
+  ];
 
-  for (const selector of ingredientSelectors) {
-    const matches = $(selector)
-      .map((_, el) => cleanText($(el).text()))
-      .get()
-      .filter(Boolean);
+  const ingredientsList = extractTextList($, ingredientSelectors);
+  let instructionsList = extractTextList($, instructionSelectors);
 
-    if (matches.length >= 2) {
-      ingredientsList = matches;
-      break;
+  if (instructionsList.length === 0) {
+    const blockText = extractSingleText($, [
+      '[itemprop="recipeInstructions"]',
+      ".wprm-recipe-instructions",
+      ".mv-create-instructions",
+      ".tasty-recipes-instructions",
+      ".recipe-method",
+      ".instructions",
+    ]);
+
+    if (blockText) {
+      instructionsList = blockText
+        .split(/\n|\. (?=[A-Z])/)
+        .map((s) => cleanText(s))
+        .filter(Boolean);
     }
   }
 
   const recipe: ParsedRecipe = {
     name: cleanText(name),
-    ingredients: ingredientsList.join("\n"),
-    instructions: "",
+    ingredients: joinLines(ingredientsList),
+    instructions: joinLines(instructionsList),
     photoUrl: cleanText(photoUrl),
     sourceUrl: url,
   };
 
-  if (hasMeaningfulData(recipe)) {
+  if (hasMeaningfulRecipeData(recipe)) {
     return recipe;
   }
 
@@ -277,7 +336,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const response = await fetch(url, {
       headers: {
         "User-Agent":
-          "Mozilla/5.0 (compatible; SimpleDinnersBot/1.0; +https://dinners.ncocaptain.com)",
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36",
         Accept: "text/html,application/xhtml+xml",
         "Accept-Language": "en-US,en;q=0.9",
       },
@@ -293,22 +352,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const html = await response.text();
     const $ = cheerio.load(html);
 
-    // 1) Best source: Recipe JSON-LD
     const jsonLdRecipe = extractFromJsonLd($, url);
     if (jsonLdRecipe) {
       return res.status(200).json({ recipe: jsonLdRecipe });
     }
 
-    // 2) Fallback: Open Graph + common ingredient selectors
     const fallbackRecipe = extractFromFallbackHtml($, url);
     if (fallbackRecipe) {
       return res.status(200).json({ recipe: fallbackRecipe });
     }
 
-    // 3) Nothing useful found
     return res.status(422).json({
       error:
-        "Could not find recipe data on that page. Try a different recipe site or paste ingredients manually.",
+        "Could not find recipe data on that page. Try another recipe site or add the recipe manually.",
     });
   } catch (err: any) {
     console.error(err);
