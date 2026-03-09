@@ -905,11 +905,12 @@ Place salmon skin-side down and cook 4–5 minutes per side until flaky.
 Squeeze lemon juice over salmon and garnish with parsley before serving.`,
 },
 
-  {
+    {
     id: "quick-chicken-fried-rice",
     slug: "quick-chicken-fried-rice",
     name: "Chicken Fried Rice",
     effort: "quick",
+    photoUrl: "/images/quick-chicken-fried-rice.jpg",
     tags: ["dinner", "chicken", "rice", "one-pan", "quick", "leftovers"],
     ingredients: `2 cups cooked rice
 1 lb cooked chicken, diced
@@ -936,6 +937,7 @@ Top with green onions and serve.`,
     slug: "quick-bbq-chicken-flatbread",
     name: "BBQ Chicken Flatbread",
     effort: "quick",
+    photoUrl: "/images/quick-bbq-chicken-flatbread.jpg",
     tags: ["dinner", "chicken", "quick", "pizza", "kid-friendly"],
     ingredients: `2 flatbreads or naan
 1 cup cooked chicken, shredded
@@ -958,6 +960,7 @@ Slice and serve.`,
     slug: "normal-baked-ziti",
     name: "Baked Ziti",
     effort: "normal",
+    photoUrl: "/images/normal-baked-ziti.jpg",
     tags: ["dinner", "pasta", "bake", "comfort", "kid-friendly"],
     ingredients: `1 lb ziti pasta
 1 lb ground beef
@@ -983,6 +986,7 @@ Bake 25–30 minutes until bubbly and golden.`,
     slug: "normal-chicken-alfredo",
     name: "Chicken Alfredo",
     effort: "normal",
+    photoUrl: "/images/normal-chicken-alfredo.jpg",
     tags: ["dinner", "pasta", "chicken", "comfort", "italian"],
     ingredients: `2 chicken breasts, sliced
 12 oz fettuccine
@@ -1009,6 +1013,7 @@ Add chicken and pasta. Toss and serve.`,
     slug: "normal-beef-stroganoff",
     name: "Beef Stroganoff",
     effort: "normal",
+    photoUrl: "/images/normal-beef-stroganoff.jpg",
     tags: ["dinner", "beef", "comfort", "stovetop", "pasta"],
     ingredients: `1 lb beef sirloin, sliced
 8 oz mushrooms
@@ -1036,6 +1041,7 @@ Serve over noodles.`,
     slug: "normal-chicken-pot-pie",
     name: "Chicken Pot Pie",
     effort: "normal",
+    photoUrl: "/images/normal-chicken-pot-pie.jpg",
     tags: ["dinner", "chicken", "bake", "comfort", "casserole"],
     ingredients: `2 cups cooked chicken, diced
 1 cup frozen mixed vegetables
@@ -1062,6 +1068,7 @@ Bake 30–35 minutes until golden.`,
     slug: "normal-taco-pasta",
     name: "Taco Pasta",
     effort: "normal",
+    photoUrl: "/images/normal-taco-pasta.jpg",
     tags: ["dinner", "beef", "pasta", "mexican", "comfort", "kid-friendly"],
     ingredients: `1 lb ground beef
 1 packet taco seasoning
@@ -1085,11 +1092,12 @@ Serve hot.`,
 export const NEW_VEGETARIAN_RECIPES: Meal[] = [
   // vegetarian recipes
 
-   {
+  {
     id: "quick-vegetable-stir-fry",
     slug: "quick-vegetable-stir-fry",
     name: "Vegetable Stir Fry",
     effort: "quick",
+    photoUrl: "/images/quick-vegetable-stir-fry.jpg",
     tags: ["vegetarian", "dinner", "quick", "healthy", "skillet", "asian"],
     ingredients: `2 tbsp olive oil
 1 red bell pepper, sliced
@@ -1126,6 +1134,7 @@ Top with remaining green onions and sesame seeds and serve.`,
     slug: "normal-vegan-jambalaya",
     name: "Vegan Jambalaya",
     effort: "normal",
+    photoUrl: "/images/normal-vegan-jambalaya.jpg",
     tags: ["vegetarian", "dinner", "one-pot", "healthy", "spicy"],
     ingredients: `2 tbsp olive oil
 1/2 onion, chopped
@@ -1164,6 +1173,7 @@ Serve topped with chopped parsley (optional).`,
     slug: "quick-black-bean-quesadillas",
     name: "Black Bean Quesadillas",
     effort: "quick",
+    photoUrl: "/images/quick-black-bean-quesadillas.jpg",
     tags: ["vegetarian", "dinner", "quick", "mexican", "kid-friendly", "skillet"],
     ingredients: `4 small flour tortillas
 1 cup shredded cheddar
@@ -1181,6 +1191,7 @@ Serve with salsa on the side.`,
     slug: "quick-pesto-naan-pizzas",
     name: "Pesto Naan Pizzas",
     effort: "quick",
+    photoUrl: "/images/quick-pesto-naan-pizzas.jpg",
     tags: ["vegetarian", "dinner", "quick", "pizza", "kid-friendly"],
     ingredients: `2 naan breads
 1/4 cup basil pesto
@@ -1198,6 +1209,7 @@ Bake 8–10 minutes until cheese is bubbly and edges are crisp.`,
     slug: "quick-jamaican-jerk-tofu",
     name: "Jamaican Jerk Tofu",
     effort: "quick",
+    photoUrl: "/images/quick-jamaican-jerk-tofu.jpg",
     tags: ["vegetarian", "dinner", "quick", "spicy", "skillet", "healthy"],
     ingredients: `1 block extra-firm tofu
 2 tbsp Jamaican jerk seasoning
@@ -1213,6 +1225,7 @@ Heat olive oil in a skillet over medium-high heat. Sauté 8–10 minutes until t
     slug: "quick-avocado-white-bean-wraps",
     name: "Avocado and White Bean Wraps",
     effort: "quick",
+    photoUrl: "/images/quick-avocado-white-bean-wraps.jpg",
     tags: ["vegetarian", "lunch", "quick", "no-cook", "healthy"],
     ingredients: `1 cup cannellini beans, drained and rinsed
 1 ripe avocado
@@ -1234,6 +1247,7 @@ Roll tightly, tuck in ends, and slice in half to serve.`,
     slug: "big-vegetarian-shepherds-pie",
     name: "Vegetarian Shepherd’s Pie",
     effort: "big",
+    photoUrl: "/images/big-vegetarian-shepherds-pie.jpg",
     tags: ["vegetarian", "dinner", "bake", "comfort", "casserole"],
     ingredients: `1 1/2 cups cooked lentils
 4 large potatoes, peeled and chopped
@@ -1259,6 +1273,7 @@ Bake 20 minutes until the top is lightly golden.`,
     slug: "big-spinach-ricotta-stuffed-shells",
     name: "Spinach and Ricotta Stuffed Shells",
     effort: "big",
+    photoUrl: "/images/big-spinach-ricotta-stuffed-shells.jpg",
     tags: ["vegetarian", "dinner", "pasta", "bake", "comfort", "italian"],
     ingredients: `1 box jumbo pasta shells
 1 (15 oz) ricotta
@@ -1282,6 +1297,7 @@ Top with remaining mozzarella and bake 25 minutes until bubbly.`,
     slug: "normal-chickpea-curry-basmati",
     name: "Chickpea Curry with Basmati Rice",
     effort: "normal",
+    photoUrl: "/images/normal-chickpea-curry-basmati.jpg",
     tags: ["vegetarian", "dinner", "one-pot", "healthy", "spicy"],
     ingredients: `2 (15 oz) cans chickpeas, drained and rinsed
 1 (13.5 oz) can coconut milk
@@ -1306,6 +1322,7 @@ Serve over hot basmati rice.`,
     slug: "normal-spicy-tofu-mushroom-hash",
     name: "Vegetarian Spicy Skillet Surf and Turf Hash",
     effort: "normal",
+    photoUrl: "/images/normal-spicy-tofu-mushroom-hash.jpg",
     tags: ["vegetarian", "dinner", "skillet", "spicy", "healthy"],
     ingredients: `1 block firm tofu, cubed
 2 cups king oyster mushrooms, sliced
@@ -1329,6 +1346,7 @@ Garnish with fresh parsley if desired and serve.`,
     slug: "quick-caprese-pasta",
     name: "Caprese Pasta",
     effort: "quick",
+    photoUrl: "/images/quick-caprese-pasta.jpg",
     tags: ["vegetarian", "dinner", "pasta", "quick", "italian", "healthy"],
     ingredients: `1/2 lb penne pasta
 1 cup cherry tomatoes, halved
@@ -1348,6 +1366,7 @@ Season with salt and pepper and serve immediately.`,
     slug: "big-mediterranean-stuffed-peppers",
     name: "Mediterranean Stuffed Bell Peppers",
     effort: "big",
+    photoUrl: "/images/big-mediterranean-stuffed-peppers.jpg",
     tags: ["vegetarian", "dinner", "bake", "healthy", "mediterranean"],
     ingredients: `4 large bell peppers
 2 cups cooked quinoa
@@ -1369,6 +1388,7 @@ Place peppers in a baking dish with a splash of water in the bottom. Cover with 
     slug: "quick-caprese-grilled-cheese",
     name: "Caprese Grilled Cheese",
     effort: "quick",
+    photoUrl: "/images/quick-caprese-grilled-cheese.jpg",
     tags: ["vegetarian", "lunch", "quick", "skillet", "comfort"],
     ingredients: `4 slices sourdough bread
 4 oz fresh mozzarella, sliced
@@ -1387,6 +1407,7 @@ Grill in a skillet over medium heat for 3–4 minutes per side until bread is go
     slug: "normal-spicy-mushroom-potato-hash",
     name: "Spicy Skillet Mushroom and Potato Hash",
     effort: "normal",
+    photoUrl: "/images/normal-spicy-mushroom-potato-hash.jpg",
     tags: ["vegetarian", "breakfast", "skillet", "spicy", "comfort"],
     ingredients: `2 large russet potatoes, diced
 8 oz baby bella mushrooms, sliced
@@ -1410,6 +1431,7 @@ Create two wells in the hash, crack an egg into each, and cover until eggs are c
     slug: "quick-vegetable-pad-thai",
     name: "Vegetable Pad Thai",
     effort: "quick",
+    photoUrl: "/images/quick-vegetable-pad-thai.jpg",
     tags: ["vegetarian", "dinner", "quick", "asian", "skillet"],
     ingredients: `8 oz rice noodles
 8 oz tofu, cubed
@@ -1434,6 +1456,7 @@ Serve topped with crushed peanuts and a lime wedge (optional).`,
     slug: "big-roasted-vegetable-wellington",
     name: "Roasted Vegetable Wellington",
     effort: "big",
+    photoUrl: "/images/big-roasted-vegetable-wellington.jpg",
     tags: ["vegetarian", "dinner", "bake", "comfort", "holiday"],
     ingredients: `1 sheet puff pastry
 1 large sweet potato, roasted
@@ -1459,6 +1482,7 @@ Bake 25–30 minutes until golden and puffed.`,
     slug: "big-black-bean-burgers-sweet-potato-fries",
     name: "Black Bean Burgers with Sweet Potato Fries",
     effort: "big",
+    photoUrl: "/images/big-black-bean-burgers-sweet-potato-fries.jpg",
     tags: ["vegetarian", "dinner", "comfort", "kid-friendly", "american"],
     ingredients: `2 (15 oz) cans black beans, drained and rinsed
 2 large sweet potatoes, cut into wedges
@@ -1485,6 +1509,7 @@ Serve on buns with favorite toppings alongside sweet potato fries.`,
     slug: "big-sweet-potato-black-bean-enchiladas",
     name: "Sweet Potato and Black Bean Enchiladas",
     effort: "big",
+    photoUrl: "/images/big-sweet-potato-black-bean-enchiladas.jpg",
     tags: ["vegetarian", "dinner", "bake", "mexican", "comfort"],
     ingredients: `2 large sweet potatoes, peeled and cubed
 1 (15 oz) can black beans, drained and rinsed

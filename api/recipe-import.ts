@@ -164,14 +164,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const og = extractFromOpenGraph($);
 
     const result: ImportedRecipe = {
-      name: (jsonLd.name || og.name || "").trim() || "Imported Recipe",
-      ingredients: (jsonLd.ingredients || "").trim(),
-      instructions: (jsonLd.instructions || "").trim(),
-      photoUrl: (jsonLd.photoUrl || og.photoUrl || "").trim(),
-      sourceUrl: url,
-    };
+  name: (jsonLd.name || og.name || "").trim(),
+  ingredients: (jsonLd.ingredients || "").trim(),
+  instructions: (jsonLd.instructions || "").trim(),
+  photoUrl: (jsonLd.photoUrl || og.photoUrl || "").trim(),
+  sourceUrl: url,
+};
 
-    res.status(200).json({ recipe: result });
+const hasMeaningfulData =
+  !!result.name ||
+  !!result.ingredients ||
+  !!result.instructions;
+
+if (!hasMeaningfulData) {
+  res.status(422).json({ error: "No recipe data found on that page" });
+  return;
+}
+
+res.status(200).json({ recipe: result });
   } catch (e: any) {
     res.status(500).json({ error: e?.message ?? "Unknown error" });
   }
