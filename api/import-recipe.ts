@@ -77,16 +77,28 @@ function extractInstructionLines(value: any): string[] {
   if (typeof value === "object") {
     const lines: string[] = [];
 
-    if (typeof value.text === "string") {
-      lines.push(cleanText(value.text));
-    }
+    const type = value["@type"];
+    const isHowToSection =
+      type === "HowToSection" ||
+      (Array.isArray(type) && type.includes("HowToSection"));
 
-    if (typeof value.name === "string") {
-      lines.push(cleanText(value.name));
-    }
+    const isHowToStep =
+      type === "HowToStep" ||
+      (Array.isArray(type) && type.includes("HowToStep"));
 
-    if (value.itemListElement) {
-      lines.push(...extractInstructionLines(value.itemListElement));
+    if (isHowToStep) {
+      if (typeof value.text === "string") lines.push(cleanText(value.text));
+      else if (typeof value.name === "string") lines.push(cleanText(value.name));
+    } else if (isHowToSection) {
+      if (value.itemListElement) {
+        lines.push(...extractInstructionLines(value.itemListElement));
+      }
+    } else {
+      if (typeof value.text === "string") lines.push(cleanText(value.text));
+      if (typeof value.name === "string") lines.push(cleanText(value.name));
+      if (value.itemListElement) {
+        lines.push(...extractInstructionLines(value.itemListElement));
+      }
     }
 
     return lines.filter(Boolean);
