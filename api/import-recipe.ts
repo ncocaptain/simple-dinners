@@ -333,15 +333,47 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         .json({ error: "URL must start with http:// or https://" });
     }
 
-    const response = await fetch(url, {
+        let response = await fetch(url, {
       headers: {
         "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36",
-        Accept: "text/html,application/xhtml+xml",
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+        Accept:
+          "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.9",
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Referer: "https://www.google.com/",
       },
       redirect: "follow",
     });
+
+    if (!response.ok && !url.endsWith("/")) {
+      response = await fetch(`${url}/`, {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+          Accept:
+            "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+          Referer: "https://www.google.com/",
+        },
+        redirect: "follow",
+      });
+    }
+
+    if (!response.ok) {
+      return res.status(400).json({
+        error: `Fetch failed: ${response.status} ${response.statusText}`,
+      });
+    }
+
+if (!response.ok) {
+  return res.status(400).json({
+    error: `Fetch failed: ${response.status} ${response.statusText}`,
+  });
+}
 
     if (!response.ok) {
       return res.status(400).json({
