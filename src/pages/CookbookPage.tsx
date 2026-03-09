@@ -152,6 +152,7 @@ export default function CookbookPage({
   const [customIngredients, setCustomIngredients] = React.useState("");
   const [customInstructions, setCustomInstructions] = React.useState("");
   const [customPhotoUrl, setCustomPhotoUrl] = React.useState("");
+const [isCustomUploading, setIsCustomUploading] = React.useState(false);
   const [customTags, setCustomTags] = React.useState("");
   const [customEffort, setCustomEffort] = React.useState<"quick" | "medium" | "weekend">(
     "quick"
@@ -403,6 +404,24 @@ export default function CookbookPage({
     }
   };
 
+  const onPickCustomImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  try {
+    setIsCustomUploading(true);
+    const url = await uploadImageToCloudinary(file);
+    setCustomPhotoUrl(url);
+    toast("Recipe image uploaded!", "success");
+  } catch (err) {
+    console.error(err);
+    toast("Image upload failed", "error");
+  } finally {
+    setIsCustomUploading(false);
+    e.currentTarget.value = "";
+  }
+};
+
   // =====================================================
   // Add custom recipe
   // =====================================================
@@ -538,12 +557,37 @@ export default function CookbookPage({
               style={{ ...base, minHeight: 140 }}
             />
 
-            <input
-              placeholder="Photo URL (optional)"
-              value={customPhotoUrl}
-              onChange={(e) => setCustomPhotoUrl(e.target.value)}
-              style={base}
-            />
+            <div style={{ display: "grid", gap: 8 }}>
+  <label style={{ fontSize: 13, fontWeight: 800, opacity: 0.9 }}>
+    Recipe Photo (optional)
+  </label>
+
+  <input
+    type="file"
+    accept="image/*"
+    onChange={onPickCustomImage}
+    disabled={isCustomUploading}
+  />
+
+  {isCustomUploading ? (
+    <div style={{ fontSize: 12, opacity: 0.8 }}>Uploading image…</div>
+  ) : null}
+
+  {customPhotoUrl ? (
+    <img
+      src={customPhotoUrl}
+      alt="Recipe preview"
+      style={{
+        width: "100%",
+        maxWidth: 280,
+        height: 160,
+        objectFit: "cover",
+        borderRadius: 12,
+        border: "1px solid rgba(255,255,255,0.12)",
+      }}
+    />
+  ) : null}
+</div>
 
             <input
               placeholder="Tags (comma separated, optional)"
@@ -565,7 +609,9 @@ export default function CookbookPage({
             </select>
 
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <Button onClick={onAddCustomRecipe}>Save Recipe</Button>
+              <Button onClick={onAddCustomRecipe} disabled={isCustomUploading}>
+  {isCustomUploading ? "Uploading…" : "Save Recipe"}
+</Button>
               <Button variant="secondary" onClick={() => setShowAddRecipe(false)}>
                 Cancel
               </Button>
