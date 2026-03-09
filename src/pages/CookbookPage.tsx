@@ -329,19 +329,30 @@ const toggleSelectLine = (line: string) => {
     try {
       setIsImporting(true);
 
-      const resp = await fetch(`/api/import-recipe?url=${encodeURIComponent(url)}`);
-      const raw = await resp.text();
+      const resp = await fetch("/api/import-recipe", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ url }),
+});
 
-      let data: any = null;
-      try {
-        data = raw ? JSON.parse(raw) : null;
-      } catch {}
+const raw = await resp.text();
 
-      if (!resp.ok) {
-        const msg = data?.error || data?.message || raw?.slice(0, 180) || `HTTP ${resp.status}`;
-        toast(`Recipe import failed: ${msg}`, "error");
-        return;
-      }
+let data: any = null;
+try {
+  data = raw ? JSON.parse(raw) : null;
+} catch {}
+
+if (!resp.ok) {
+  const msg =
+    data?.error ||
+    data?.message ||
+    raw?.slice(0, 180) ||
+    `HTTP ${resp.status}`;
+  toast(`Recipe import failed: ${msg}`, "error");
+  return;
+}
 
       const recipe = data?.recipe ?? data;
       if (!recipe) {
