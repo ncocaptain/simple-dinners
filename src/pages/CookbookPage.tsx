@@ -95,33 +95,6 @@ function fallbackPhotoUrl(name?: string) {
   return `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=80&sig=1&meal=${q}`;
 }
 
-function decodeHtmlEntities(s: string) {
-  if (!s) return s;
-  return s
-    .replaceAll("&amp;", "&")
-    .replaceAll("&quot;", '"')
-    .replaceAll("&#39;", "'")
-    .replaceAll("&apos;", "'")
-    .replaceAll("&lt;", "<")
-    .replaceAll("&gt;", ">");
-}
-
-function pickPhotoUrl(recipe: any): string {
-  const candidate =
-    recipe?.photoUrl ??
-    recipe?.image ??
-    recipe?.imageUrl ??
-    recipe?.thumbnail ??
-    recipe?.thumbnailUrl ??
-    recipe?.ogImage ??
-    recipe?.image_url ??
-    recipe?.photo ??
-    recipe?.images?.[0] ??
-    recipe?.imageUrls?.[0];
-
-  return typeof candidate === "string" && candidate.startsWith("http") ? candidate : "";
-}
-
 function slugify(value: string) {
   return value
     .trim()
@@ -171,9 +144,6 @@ export default function CookbookPage({
   const [pickerId, setPickerId] = React.useState<string | null>(null);
   const [selectedLines, setSelectedLines] = React.useState<string[]>([]);
   const [pickerMsg, setPickerMsg] = React.useState("");
-
-  const [importUrl, setImportUrl] = React.useState("");
-  const [isImporting, setIsImporting] = React.useState(false);
 
   const [cookbookSearch, setCookbookSearch] = React.useState("");
 
@@ -434,85 +404,6 @@ export default function CookbookPage({
   };
 
   // =====================================================
-  // Import recipe from URL
-  // =====================================================
-
-  const onImport = async () => {
-    const url = importUrl.trim();
-    if (!url) {
-      toast("Paste a recipe URL first.", "warning");
-      return;
-    }
-
-    try {
-      setIsImporting(true);
-
-      const resp = await fetch("/api/import-recipe", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ url }),
-      });
-
-      const raw = await resp.text();
-
-      let data: any = null;
-      try {
-        data = raw ? JSON.parse(raw) : null;
-      } catch {}
-
-      if (!resp.ok) {
-  const msg =
-    data?.error ||
-    data?.message ||
-    raw?.slice(0, 180) ||
-    `HTTP ${resp.status}`;
-
-  const friendly =
-    /404|403|Fetch failed/i.test(msg)
-      ? "That website blocked import. Try another recipe site or use Add Your Own."
-      : `Recipe import failed: ${msg}`;
-
-  toast(friendly, "error");
-  return;
-}
-
-      const recipe = data?.recipe ?? data;
-      if (!recipe) {
-        toast("Recipe import succeeded, but no recipe data was found.", "error");
-        return;
-      }
-
-      const mealForStore: Meal = {
-        name: decodeHtmlEntities(recipe.title || recipe.name || "Imported Recipe"),
-        ingredients: recipe.ingredients || "",
-        instructions: recipe.instructions || "",
-        photoUrl: pickPhotoUrl(recipe),
-      };
-
-      const saved = upsertRecipeFromMeal(mealForStore);
-
-      setCookbook((prev) => {
-        const entry: CookbookEntry = normalizeEntry({ ...saved, favorite: false });
-        const next = [entry, ...(Array.isArray(prev) ? prev.map(normalizeEntry) : [])].filter(
-          (r, idx, arr) => arr.findIndex((x) => x.id === r.id) === idx
-        );
-
-        persistCookbook(next as any);
-        return next;
-      });
-
-      toast("Recipe imported!", "success");
-      setImportUrl("");
-    } catch (e: any) {
-      toast(`Import failed: ${e?.message || "Unknown error"}`, "error");
-    } finally {
-      setIsImporting(false);
-    }
-  };
-
-  // =====================================================
   // Add custom recipe
   // =====================================================
 
@@ -607,17 +498,6 @@ export default function CookbookPage({
 
       <div style={{ display: "grid", gap: 12, marginBottom: 20 }}>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-          <input
-            placeholder="Paste recipe URL..."
-            value={importUrl}
-            onChange={(e) => setImportUrl(e.target.value)}
-            style={{ ...base, flex: 1, minWidth: 220 }}
-          />
-
-          <Button onClick={onImport} disabled={isImporting}>
-            {isImporting ? "Importing…" : "Import Recipe"}
-          </Button>
-
           <Button variant="secondary" onClick={() => setShowAddRecipe((v) => !v)}>
             {showAddRecipe ? <X size={16} /> : <Plus size={16} />}
             {showAddRecipe ? "Close" : "Add Your Own"}
@@ -706,7 +586,7 @@ export default function CookbookPage({
           <div style={{ fontWeight: 900, fontSize: 16, marginBottom: 6 }}>No recipes to show</div>
           <div style={{ fontSize: 13, opacity: 0.8 }}>
             {cookbook.length === 0
-              ? "Your cookbook is empty. Add recipes from your Week Plan to get started."
+              ? "Your cookbook is empty. Add your own recipes to get started."
               : "You have recipes, but your search or filters are hiding them. Try clearing the search box."}
           </div>
         </div>
@@ -947,7 +827,14 @@ export default function CookbookPage({
                         </button>
                       </div>
 
-                      <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: 8,
+                          alignItems: "center",
+                          flexWrap: "wrap",
+                        }}
+                      >
                         <Button variant="secondary" onClick={() => startEditRecipe(r)}>
                           <Pencil size={16} />
                         </Button>
