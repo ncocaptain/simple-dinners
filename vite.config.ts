@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
+  base: "./",
   server: {
     proxy: {
       "/api": {
@@ -12,19 +13,14 @@ export default defineConfig({
       },
     },
   },
-
-
   plugins: [
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      devOptions: { enabled: true }, // shows manifest in dev/preview
-
-      // ✅ Optional: helps SPA routing + offline fallback
+      devOptions: { enabled: true },
       workbox: {
         navigateFallback: "/index.html",
       },
-
       manifest: {
         name: "What's For Dinner",
         short_name: "Dinner",

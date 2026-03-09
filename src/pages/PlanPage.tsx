@@ -177,6 +177,7 @@ export default function PlanPage({
               gap: 8,
               paddingBottom: 10,
               borderBottom: "1px solid rgba(255,255,255,0.05)",
+              marginBottom: 18,
             }}
           >
             <div className="dayLabel">{day}</div>
