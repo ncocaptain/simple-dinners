@@ -319,16 +319,22 @@ export function generatePlan(args: {
   );
 
   const rankedPool: Meal[] = fullPool
-    .map((meal) => {
-      const pantryMatchScore = scoreMealAgainstPantry(meal, allPantryTokens);
-      const plannerScore = getPlannerScore(meal);
-      const variety = Math.random() * 6;
+  .map((meal) => {
+    const pantryMatchScore = scoreMealAgainstPantry(meal, allPantryTokens);
+    const plannerScore = getPlannerScore(meal);
+    const variety = Math.random() * 6;
 
-      return {
-        meal,
-        score: pantryMatchScore * 10 + plannerScore + variety,
-      };
-    })
+    // vegetarian boost
+    let vegBoost = 0;
+    if (prefs.vegetarian && isVegetarianMeal(meal, MEAT_WORDS)) {
+      vegBoost = 8;
+    }
+
+    return {
+      meal,
+      score: pantryMatchScore * 10 + plannerScore + vegBoost + variety,
+    };
+  })
     .sort((a, b) => b.score - a.score)
     .map((x) => x.meal);
 
@@ -336,8 +342,31 @@ export function generatePlan(args: {
     ? rankedPool.filter((meal) => isVegetarianMeal(meal, MEAT_WORDS))
     : rankedPool;
 
-  const next: Record<string, Meal> = { ...meals };
+    const next: Record<string, Meal> = { ...meals };
   const usedMealNames = new Set<string>();
+
+  // Clear any existing meals that no longer match current preferences
+  for (const day of days) {
+    const existingMeal = next[day];
+    if (!existingMeal?.name?.trim()) continue;
+
+    const failsVegetarian =
+      prefs.vegetarian && !isVegetarianMeal(existingMeal, MEAT_WORDS);
+
+    const failsAllergens = violatesAllergens(
+      existingMeal.ingredients || "",
+      prefs.allergens || []
+    );
+
+    if (failsVegetarian || failsAllergens) {
+      next[day] = {
+        name: "",
+        ingredients: "",
+        instructions: "",
+        photoUrl: "",
+      } as Meal;
+    }
+  }
 
   for (const day of days) {
     const existingName = next[day]?.name?.trim();
