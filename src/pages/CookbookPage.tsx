@@ -27,6 +27,7 @@ import { useToast } from "../components/Toast";
 
 import { uploadImageToCloudinary } from "../utils/uploadImage";
 import { addIngredientsToList } from "../shoppingList";
+import { PUBLIC_APP_URL } from "../core/appConfig";
 
 // =====================================================
 // Types
@@ -267,10 +268,8 @@ const [isCustomUploading, setIsCustomUploading] = React.useState(false);
   const onShare = async (r: CookbookEntry) => {
     const slug = getSlug(r);
     const url = slug
-      ? `${window.location.origin}/recipe/${encodeURIComponent(slug)}?from=${encodeURIComponent(
-          "/cookbook"
-        )}`
-      : window.location.href;
+  ? `${PUBLIC_APP_URL}/recipe/${encodeURIComponent(slug)}?from=${encodeURIComponent("/cookbook")}`
+  : PUBLIC_APP_URL;
 
     if (navigator.share) {
       try {

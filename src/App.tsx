@@ -22,6 +22,7 @@ import {
   addToCookbook,
 } from "./core/cookbookStore";
 import { hasCompletedOnboarding } from "./core/onboardingStore";
+import HomePage from "./pages/HomePage";
 
 type Day = (typeof days)[number];
 
@@ -335,7 +336,7 @@ export default function App() {
         <div className="mainCard">
           <div
             style={{
-              padding: "16px 12px",
+              padding: "12px 12px 16px",
               maxWidth: 1200,
               width: "100%",
               margin: "0 auto",
@@ -361,20 +362,29 @@ export default function App() {
                   Simple Dinners
                 </h1>
 
-                <div
-  className="heroSubtitle"
-  style={{
-    marginTop: 6,
-    marginBottom: 14,   // 👈 add this
-    fontSize: 16,
-    letterSpacing: 0.3,
+                <button
+  role="menuitem"
+  onClick={() => {
+    navigate("/");
+    setMenuOpen(false);
   }}
+  style={menuItemStyle}
 >
-  Dinner planning based around you
-</div>
+  Home
+  <div style={menuSubStyle}>Tonight’s dinner and week status</div>
+</button>
+
+<div style={dividerStyle} />
               </div>
 
-              <div ref={menuRef} style={{ position: "relative" }}>
+              <div
+  ref={menuRef}
+  style={{
+    position: "relative",
+    marginTop: 6,
+    alignSelf: "flex-start",
+  }}
+>
                 <button
                   onClick={() => setMenuOpen((s) => !s)}
                   aria-haspopup="menu"
@@ -438,6 +448,20 @@ export default function App() {
                       zIndex: 50,
                     }}
                   >
+
+                    <button
+  role="menuitem"
+  onClick={() => {
+    navigate("/");
+    setMenuOpen(false);
+  }}
+  style={menuItemStyle}
+>
+  Home
+  <div style={menuSubStyle}>Tonight’s dinner and week status</div>
+</button>
+
+<div style={dividerStyle} />
                     <button
                       role="menuitem"
                       onClick={() => {
@@ -565,15 +589,15 @@ export default function App() {
 
             <Routes>
               <Route
-                path="/"
-                element={
-                  hasCompletedOnboarding() ? (
-                    <Navigate to="/plan" replace />
-                  ) : (
-                    <Navigate to="/onboarding" replace />
-                  )
-                }
-              />
+  path="/"
+  element={
+    hasCompletedOnboarding() ? (
+      <HomePage meals={meals} />
+    ) : (
+      <Navigate to="/onboarding" replace />
+    )
+  }
+/>
 
               <Route path="/onboarding" element={<OnboardingPage />} />
 
@@ -639,7 +663,7 @@ export default function App() {
                 element={<TakeoutSettingsPage />}
               />
 
-              <Route path="*" element={<Navigate to="/plan" replace />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>
         </div>

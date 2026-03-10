@@ -1086,6 +1086,111 @@ Remove from heat and stir in sour cream and cheese.
 
 Serve hot.`,
   },
+
+  {
+  id: "pan-seared-scallops-lemon-risotto",
+  slug: "pan-seared-scallops-lemon-risotto",
+  name: "Pan-Seared Scallops with Lemon Risotto",
+  effort: "big",
+  tags: ["dinner", "seafood", "scallops", "risotto", "date-night"],
+  photoUrl: "/images/pan-seared-scallops-lemon-risotto.jpg",
+  ingredients: `10 large sea scallops
+1 cup Arborio rice
+3 cups warm chicken stock
+1 tbsp lemon zest
+1/2 cup parmesan cheese`,
+  instructions: `Sauté rice in butter, then add warm stock one ladle at a time, stirring until absorbed.
+
+Continue adding stock until rice is creamy and tender.
+
+Pat scallops dry and sear in a very hot pan for about 2 minutes per side.
+
+Fold lemon zest and parmesan into the risotto and top with the scallops.`,
+},
+
+{
+  id: "lemon-herb-roasted-salmon",
+  slug: "lemon-herb-roasted-salmon",
+  name: "Lemon Herb Roasted Salmon",
+  effort: "normal",
+  tags: ["dinner", "salmon", "seafood", "oven", "healthy"],
+  photoUrl: "/images/lemon-herb-roasted-salmon.jpg",
+  ingredients: `4 salmon fillets
+1 bunch asparagus
+1 lemon, sliced
+2 tbsp chopped fresh dill
+2 cloves garlic, minced
+2 tbsp olive oil`,
+  instructions: `Preheat oven to 400°F.
+
+Place salmon and asparagus on a baking sheet.
+
+Drizzle with olive oil and top with garlic, dill, and lemon slices.
+
+Roast for 12–15 minutes until salmon flakes easily with a fork.`,
+},
+
+{
+  id: "beef-broccoli-stir-fry",
+  slug: "beef-broccoli-stir-fry",
+  name: "Beef and Broccoli Stir-Fry",
+  effort: "quick",
+  tags: ["dinner", "beef", "stir-fry", "one-pan", "quick"],
+  photoUrl: "/images/beef-broccoli-stir-fry.jpg",
+  ingredients: `1 lb flank steak, thinly sliced
+3 cups broccoli florets
+1/4 cup soy sauce
+1 tsp fresh ginger, grated
+1 tbsp brown sugar
+1 tbsp sesame oil`,
+  instructions: `Whisk soy sauce, ginger, and brown sugar in a small bowl.
+
+Heat sesame oil in a wok or large skillet.
+
+Sear beef until browned, then remove from pan.
+
+Stir-fry broccoli until tender-crisp.
+
+Return beef to pan, add sauce, and toss until thickened.`,
+},
+
+{
+  id: "zuppa-toscana-soup",
+  slug: "zuppa-toscana-soup",
+  name: "Zuppa Toscana Soup",
+  effort: "normal",
+  tags: ["dinner", "soup", "italian", "comfort-food", "one-pot"],
+  photoUrl: "/images/zuppa-toscana-soup.jpg",
+  ingredients: `1 lb Italian ground sausage
+4 tbsp butter
+1 white onion, diced
+1 tbsp minced garlic
+6 cups chicken broth
+2 cups water
+4–5 yellow potatoes, cut into 1-inch pieces
+3 tsp salt, or to taste
+1 tsp black pepper
+2 cups heavy cream
+4 cups fresh kale, chopped
+Bacon bits and grated parmesan cheese for topping (optional)`,
+  instructions: `In a large pot sauté sausage for 5–6 minutes until browned.
+
+Use a slotted spoon to transfer sausage to a plate and set aside.
+
+In the same pot add butter and sauté onions over medium heat until translucent.
+
+Add garlic and sauté for another minute until fragrant.
+
+Add chicken broth, water, potatoes, salt, and pepper and bring to a boil.
+
+Boil until potatoes are tender.
+
+Stir in kale and heavy cream, then add the sausage back to the pot.
+
+Taste and adjust salt and pepper if needed.
+
+Serve topped with grated parmesan cheese and bacon bits if desired.`,
+},
 ];
 
 
