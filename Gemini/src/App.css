@@ -1,0 +1,101 @@
+.app {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+  font-family: system-ui, sans-serif;
+}
+
+h1 {
+  margin-bottom: 0.25rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.card {
+  background: #111827;
+  color: white;
+  padding: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.card:hover {
+  background: #1f2933;
+  transform: scale(1.03);
+}
+
+.card p {
+  margin-top: 0.5rem;
+  font-weight: 500;
+  color: #14b8a6;
+}
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #111827;
+  color: white;
+  padding: 1.5rem;
+  border-radius: 14px;
+  width: 90%;
+  max-width: 400px;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.5rem;
+  border-radius: 8px;
+  border: none;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.actions button {
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.actions .danger {
+  background: #dc2626;
+  color: white;
+}
+.shopping-btn {
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  border: none;
+  background: #14b8a6;
+  color: #022c22;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.shopping-list {
+  margin-top: 1rem;
+  text-align: left;
+  padding-left: 1rem;
+}
+
+.shopping-list li {
+  margin-bottom: 0.4rem;
+}

@@ -1,17 +1,13 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { candidateLibrary } from "../core/planner";
 import { getRecipeBySlug, getCookbookRecipeBySlug } from "../core/recipeStore";
-import { 
-  Printer, ArrowLeft, BookUser, ShoppingCart, Play, History, 
-  Star, X, ChevronRight, ChevronLeft, Timer, CheckCircle2 
-} from "lucide-react";
+import { Printer, ArrowLeft, BookUser, ShoppingCart, Play, History, Star, X, ChevronRight, ChevronLeft, Timer, CheckCircle2 } from "lucide-react";
 import { addIngredientsToList } from "../shoppingList";
 import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
 
 // =====================================================
-// 1. HELPERS & TOOLS
-// Small functions used to clean up text or calculate timers.
+// Helpers
 // =====================================================
 function splitLines(s?: string) {
   return (s ?? "").split("\n").map((x) => x.trim()).filter(Boolean);
@@ -30,34 +26,22 @@ function parseStepDuration(step: string): number | null {
   return unit.startsWith('h') ? val * 3600 : val * 60;
 }
 
-// =====================================================
-// 2. MAIN COMPONENT
-// =====================================================
 export default function RecipePage() {
   const navigate = useNavigate();
   const { slug = "" } = useParams();
   const location = useLocation();
-
-  // -----------------------------------------------------
-  // A. COMPONENT STATE (App Memory)
-  // -----------------------------------------------------
-  const [cookMode, setCookMode] = useState(false);
-  const [stepIndex, setStepIndex] = useState(0);
-  const [checkedIngredients, setCheckedIngredients] = useState<number[]>([]);
-  const [timerSeconds, setTimerSeconds] = useState<number | null>(null);
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
   
-  // New: State to track where your finger first touches the screen
-  const [touchStart, setTouchStart] = useState<number | null>(null);
+  // Cook Mode Logic States
+  const [cookMode, setCookMode] = React.useState(false);
+  const [stepIndex, setStepIndex] = React.useState(0);
+  const [checkedIngredients, setCheckedIngredients] = React.useState<number[]>([]);
+  const [timerSeconds, setTimerSeconds] = React.useState<number | null>(null);
+  const [isTimerRunning, setIsTimerRunning] = React.useState(false);
 
   const qs = new URLSearchParams(location.search);
   const fromPath = qs.get("from") || "/week";
 
-  // -----------------------------------------------------
-  // B. DATA LOOKUP
-  // Finding the specific recipe in your cookbook or library.
-  // -----------------------------------------------------
-  const recipe = useMemo(() => {
+  const recipe = React.useMemo(() => {
     return getCookbookRecipeBySlug?.(slug) || getRecipeBySlug(slug) || findCandidateBySlug(slug);
   }, [slug]);
 
@@ -70,11 +54,8 @@ export default function RecipePage() {
   const detectedTime = parseStepDuration(currentStep);
   const heroUrl = recipe?.photoUrl || `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1400&q=80&sig=${encodeURIComponent(slug)}`;
 
-  // -----------------------------------------------------
-  // C. TIMER LOGIC (Side Effects)
-  // Counts down every second when the timer is active.
-  // -----------------------------------------------------
-  useEffect(() => {
+  // Timer Effect
+  React.useEffect(() => {
     let interval: any;
     if (isTimerRunning && timerSeconds && timerSeconds > 0) {
       interval = setInterval(() => setTimerSeconds(s => s! - 1), 1000);
@@ -86,9 +67,7 @@ export default function RecipePage() {
     return () => clearInterval(interval);
   }, [isTimerRunning, timerSeconds]);
 
-  // -----------------------------------------------------
-  // D. STYLES (UI Look)
-  // -----------------------------------------------------
+  // Styles
   const pill: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 12px", borderRadius: 999, border: "1px solid rgba(255,255,255,0.12)", background: "rgba(255,255,255,0.06)", fontSize: 12, fontWeight: 900, color: "#f8fafc" };
   const card: React.CSSProperties = { borderRadius: 20, overflow: "hidden", background: "rgba(30,41,59,0.40)", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.10)", color: "#f8fafc" };
   const section: React.CSSProperties = { padding: 18, borderTop: "1px solid rgba(255,255,255,0.08)" };
@@ -96,7 +75,7 @@ export default function RecipePage() {
   const btn: React.CSSProperties = { padding: "12px 16px", borderRadius: 14, background: "rgba(255,255,255,0.06)", color: "#f8fafc", cursor: "pointer", fontWeight: 900, border: "1px solid rgba(255,255,255,0.12)", display: "inline-flex", alignItems: "center", gap: 8 };
 
   // =====================================================
-  // E. VIEW 1: INTERACTIVE COOK MODE
+  // THE INTERACTIVE COOK MODE VIEW
   // =====================================================
   if (cookMode) {
     return (
@@ -105,28 +84,15 @@ export default function RecipePage() {
           <button style={{ ...btn, padding: "8px 12px" }} onClick={() => setCookMode(false)}><X size={18} /> Exit</button>
           <div style={{ textAlign: "right" }}>
             <div style={{ fontWeight: 900, fontSize: 13 }}>Step {stepIndex + 1} of {instructions.length}</div>
-            <div style={{ fontSize: 11, opacity: 0.6 }}>Swipe to navigate</div>
+            <div style={{ fontSize: 11, opacity: 0.6 }}>Swipe left/right to move</div>
           </div>
         </header>
 
-        {/* Progress Bar */}
         <div style={{ height: 6, background: "rgba(255,255,255,0.1)", borderRadius: 3, overflow: "hidden" }}>
           <div style={{ height: "100%", background: "#14b8a6", width: `${((stepIndex + 1) / instructions.length) * 100}%`, transition: "width 0.3s ease" }} />
         </div>
 
-        {/* Instruction Card with SWIPE Logic */}
-        <div 
-          style={{ ...card, padding: 24, minHeight: 240, display: "flex", flexDirection: "column", justifyContent: "center", touchAction: "none" }}
-          onTouchStart={(e) => setTouchStart(e.targetTouches[0].clientX)}
-          onTouchEnd={(e) => {
-            if (!touchStart) return;
-            const touchEnd = e.changedTouches[0].clientX;
-            const distance = touchStart - touchEnd;
-            if (distance > 50) setStepIndex(s => Math.min(instructions.length - 1, s + 1)); // Swipe Left -> Next
-            if (distance < -50) setStepIndex(s => Math.max(0, s - 1)); // Swipe Right -> Previous
-            setTouchStart(null);
-          }}
-        >
+        <div style={{ ...card, padding: 24, minHeight: 240, display: "flex", flexDirection: "column", justifyContent: "center" }}>
           <div style={{ fontSize: 14, opacity: 0.5, fontWeight: 800, marginBottom: 8 }}>{recipe.name}</div>
           <div style={{ fontSize: 24, fontWeight: 800, lineHeight: 1.4 }}>{currentStep}</div>
           
@@ -146,10 +112,9 @@ export default function RecipePage() {
           )}
         </div>
 
-        {/* Ingredient Checklist */}
         <div style={{ ...card, padding: 16 }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
-            <span style={{ fontWeight: 900, fontSize: 12, textTransform: "uppercase", opacity: 0.6 }}>Ingredients Check</span>
+            <span style={{ fontWeight: 900, fontSize: 12, textTransform: "uppercase", opacity: 0.6 }}>Ingredients</span>
             <button style={{ background: "none", border: "none", color: "#14b8a6", fontWeight: 800, fontSize: 12, cursor: "pointer" }} onClick={() => setCheckedIngredients([])}>Reset</button>
           </div>
           <div style={{ display: "grid", gap: 8 }}>
@@ -172,7 +137,7 @@ export default function RecipePage() {
 
         <footer style={{ display: "flex", gap: 12 }}>
           <button style={{ ...btn, flex: 1, opacity: stepIndex === 0 ? 0.3 : 1 }} onClick={() => setStepIndex(s => Math.max(0, s-1))} disabled={stepIndex === 0}>
-            <ChevronLeft /> Back
+            <ChevronLeft /> Previous
           </button>
           
           <button 
@@ -183,13 +148,16 @@ export default function RecipePage() {
                 alert("🎉 Great job! You made a tasty dinner.");
                 setCookMode(false);
                 setStepIndex(0);
-                navigate(fromPath);
               } else {
                 setStepIndex(s => s + 1);
               }
             }}
           >
-            {stepIndex >= instructions.length - 1 ? <><CheckCircle2 /> Finish</> : <>Next Step <ChevronRight /></>}
+            {stepIndex >= instructions.length - 1 ? <><CheckCircle2 /> Finish 🍽️</> : <>Next Step <ChevronRight /></>}
+          </button>
+
+          <button style={{ ...btn, flex: 1 }} onClick={() => setCheckedIngredients(ingredients.map((_, i) => i))}>
+            Prep Done
           </button>
         </footer>
       </div>
@@ -197,13 +165,13 @@ export default function RecipePage() {
   }
 
   // =====================================================
-  // F. VIEW 2: STANDARD RECIPE DETAIL
+  // STANDARD VIEW
   // =====================================================
   return (
     <div style={{ padding: "24px", maxWidth: 980, margin: "0 auto" }}>
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 12 }}>
         <button style={btn} onClick={() => navigate(fromPath)}>
-          <ArrowLeft size={16} /> {fromPath === "/cookbook" ? "Cookbook" : "Back"}
+          <ArrowLeft size={16} /> {fromPath === "/cookbook" ? "Back to Cookbook" : "Back"}
         </button>
         <button style={btn} onClick={() => window.print()}><Printer size={16} /> Print</button>
         
@@ -211,7 +179,7 @@ export default function RecipePage() {
           style={{ ...btn, background: "rgba(59,130,246,0.2)", borderColor: "rgba(59,130,246,0.4)" }} 
           onClick={() => { recordCook(recipe.slug || slug); setCookMode(true); }}
         >
-          <Play size={16} fill="currentColor" /> Enter Cook Mode
+          <Play size={16} fill="currentColor" /> Cook Mode
         </button>
 
         <button style={{ ...btn, background: "rgba(20,184,166,0.15)" }} onClick={() => { addIngredientsToList(recipe.name, recipe.ingredients); alert("Added to list!"); }}>
@@ -220,7 +188,6 @@ export default function RecipePage() {
       </div>
 
       <div style={card}>
-        {/* Header Image Section */}
         <div style={{ position: "relative", height: 280 }}>
           <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${heroUrl})`, backgroundSize: "cover", backgroundPosition: "center" }} />
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(2,6,23,0.9), rgba(2,6,23,0.2))" }} />
@@ -235,7 +202,6 @@ export default function RecipePage() {
           </div>
         </div>
 
-        {/* Private Notes */}
         {recipe.notes && (
           <div style={{ ...section, background: "rgba(234,179,8,0.05)" }}>
             <div style={{ ...h3, color: "#eab308" }}><BookUser size={14} style={{ marginRight: 6 }} /> Private Notes</div>
@@ -243,7 +209,6 @@ export default function RecipePage() {
           </div>
         )}
 
-        {/* Ingredients List */}
         <div style={section}>
           <div style={h3}>Ingredients</div>
           <ul style={{ margin: 0, paddingLeft: 18, display: "grid", gap: 8 }}>
@@ -251,7 +216,6 @@ export default function RecipePage() {
           </ul>
         </div>
 
-        {/* Instructions List */}
         <div style={section}>
           <div style={h3}>Instructions</div>
           <ol style={{ margin: 0, paddingLeft: 18, display: "grid", gap: 12 }}>

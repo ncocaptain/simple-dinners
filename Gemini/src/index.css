@@ -130,13 +130,6 @@ body {
   }
 }
 
-.cook-mode-slider {
-  /* pan-y means the phone handles up/down, but the app handles left/right */
-  touch-action: pan-y; 
-  user-select: none;
-  -webkit-user-drag: none;
-}
-
 .mainCard {
   background: rgba(15, 23, 42, 0.75);
   backdrop-filter: blur(12px);

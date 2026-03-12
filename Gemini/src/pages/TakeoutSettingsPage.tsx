@@ -7,7 +7,6 @@ import {
   saveTakeoutCategories,
   type TakeoutCategory,
 } from "../core/takeout";
-import FeedbackForm from "../components/FeedbackForm";
 
 function cleanCats(cats: TakeoutCategory[]) {
   // remove empties + trim
@@ -175,13 +174,4 @@ export default function TakeoutSettingsPage() {
       `}</style>
     </div>
   );
-  // Place it at the bottom of your existing settings
-return (
-  <div style={{ padding: 24 }}>
-    {/* ... your existing takeout settings ... */}
-    <div style={{ marginTop: 40 }}>
-      <FeedbackForm />
-    </div>
-  </div>
-);
 }
