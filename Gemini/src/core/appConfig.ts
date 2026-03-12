@@ -1,1 +1,0 @@
-export const PUBLIC_APP_URL = "https://dinners.ncocaptain.com";
