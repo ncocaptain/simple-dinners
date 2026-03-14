@@ -113,6 +113,7 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
       setIsImporting(true);
       const res = await fetch("https://dinners.ncocaptain.com/api/scrape-recipe", { 
         method: "POST", 
+        mode: 'cors', // Explicitly tell Android to allow the cross-origin handshake
         headers: { 
           "Accept": "application/json",
           "Content-Type": "application/json" 
@@ -134,7 +135,7 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
       setImportUrl(""); 
       toast("Imported!", "success");
     } catch (err: any) { 
-      toast(err.message || "Failed to connect to server.", "error"); 
+      toast(err.message || "Connection failed. Check your internet.", "error"); 
     } finally { 
       setIsImporting(false); 
     }

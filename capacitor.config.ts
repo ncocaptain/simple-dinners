@@ -4,10 +4,9 @@ const config: CapacitorConfig = {
   appId: "com.ncocaptain.simpledinners",
   appName: "Simple Dinners",
   webDir: "dist",
-  // Add this 'server' block right here:
   server: {
     androidScheme: "https",
-    allowNavigation: ["dinners.ncocaptain.com"]
+    cleartext: true
   },
   plugins: {
     SplashScreen: {
