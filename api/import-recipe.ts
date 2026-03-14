@@ -18,24 +18,21 @@ function joinLines(lines: string[]): string {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // 1. SET THE HEADERS IMMEDIATELY
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', '*'); 
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader('Access-Control-Allow-Headers', '*'); // Allow all headers
-
-  // 2. FORCE THE PREFLIGHT TO RESPOND
+  // 1. Handle the Preflight (OPTIONS) immediately
+  // We don't need to set headers here anymore because vercel.json does it for us!
   if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return; // <--- This 'return' is critical!
+    return res.status(200).end();
   }
 
-  // 3. NOW PROCEED WITH THE REST
-  if (req.method !== "POST") return res.status(405).json({ error: "Use POST" });
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Use POST" });
+  }
 
   try {
     const { url } = req.body || {};
-    if (!url) throw new Error("No URL provided");
+    if (!url) {
+      return res.status(400).json({ error: "No URL provided" });
+    }
     
     // 3. FETCH THE WEBSITE
     const response = await fetch(url, {
