@@ -1,25 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import * as cheerio from "cheerio";
 
-type ParsedRecipe = {
-  name: string;
-  ingredients: string;
-  instructions: string;
-  photoUrl: string;
-  sourceUrl: string;
-};
-
-function cleanText(value: string): string {
-  return value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
-}
-
-function joinLines(lines: string[]): string {
-  return Array.from(new Set(lines.map(cleanText))).filter(Boolean).join("\n");
-}
-
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // 1. Handle the Preflight (OPTIONS) immediately
-  // We don't need to set headers here anymore because vercel.json does it for us!
+  // 1. Respond to OPTIONS immediately (Vercel.json handles the headers)
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -30,59 +13,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const { url } = req.body || {};
-    if (!url) {
-      return res.status(400).json({ error: "No URL provided" });
-    }
+    if (!url) return res.status(400).json({ error: "No URL" });
     
-    // 3. FETCH THE WEBSITE
+    // Fetch the recipe site
     const response = await fetch(url, {
       headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/122.0.0.0" },
     });
 
     if (!response.ok) {
-      return res.status(400).json({ 
-        error: `Website blocked the request (Error ${response.status}).` 
-      });
+       return res.status(400).json({ error: "Website blocked scraper" });
     }
 
-    // 4. LOAD TOOLS
     const html = await response.text();
     const $ = cheerio.load(html);
-    let recipe: Partial<ParsedRecipe> = { sourceUrl: url };
+    
+    // Minimal return object to test the connection
+    const recipe = {
+      name: $("title").text() || "New Recipe",
+      ingredients: "Test Ingredient", 
+      instructions: "Test Instruction",
+      photoUrl: "",
+      sourceUrl: url
+    };
 
-    // 5. JSON-LD SCRAPING
-    const scripts = $('script[type="application/ld+json"]').map((_, el) => $(el).text()).get();
-    for (const raw of scripts) {
-      try {
-        const data = JSON.parse(raw);
-        const nodes = data["@graph"] || [data];
-        const node = nodes.find((n: any) => n["@type"] === "Recipe" || (Array.isArray(n["@type"]) && n["@type"].includes("Recipe")));
-        
-        if (node) {
-          recipe.name = cleanText(node.name);
-          recipe.ingredients = joinLines(node.recipeIngredient || node.ingredients || []);
-          const inst = node.recipeInstructions;
-          recipe.instructions = Array.isArray(inst) 
-            ? joinLines(inst.map((i: any) => i.text || i.name || i))
-            : cleanText(String(inst || ""));
-          recipe.photoUrl = typeof node.image === 'string' ? node.image : (node.image?.url || "");
-        }
-      } catch (e) { }
-    }
-
-    // 6. FALLBACK SELECTORS
-    if (!recipe.ingredients) {
-      const ingredientSelectors = [".wprm-recipe-ingredient", ".tasty-recipe-ingredients li", ".mv-create-ingredients li", ".recipe-ingredients li", ".ingredients li", "[class*='ingredient']"];
-      const lines: string[] = [];
-      ingredientSelectors.forEach(sel => {
-        $(sel).each((_, el) => { lines.push($(el).text()); });
-      });
-      recipe.ingredients = joinLines(lines);
-    }
-
-    if (!recipe.name) recipe.name = cleanText($("title").text() || "New Recipe");
-
-    // 7. SUCCESS
     return res.status(200).json({ recipe });
 
   } catch (err: any) {
