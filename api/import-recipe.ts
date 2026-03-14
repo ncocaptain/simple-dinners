@@ -9,9 +9,6 @@ type ParsedRecipe = {
   sourceUrl: string;
 };
 
-// =====================================================
-// 1. HELPERS
-// =====================================================
 function cleanText(value: string): string {
   return value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 }
@@ -20,35 +17,43 @@ function joinLines(lines: string[]): string {
   return Array.from(new Set(lines.map(cleanText))).filter(Boolean).join("\n");
 }
 
-// =====================================================
-// 2. MAIN HANDLER
-// =====================================================
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // 1. SET THE HEADERS IMMEDIATELY
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Origin', '*'); 
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader('Access-Control-Allow-Headers', '*'); // Allow all headers
+
+  // 2. FORCE THE PREFLIGHT TO RESPOND
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return; // <--- This 'return' is critical!
+  }
+
+  // 3. NOW PROCEED WITH THE REST
   if (req.method !== "POST") return res.status(405).json({ error: "Use POST" });
 
   try {
     const { url } = req.body || {};
+    if (!url) throw new Error("No URL provided");
     
-    // 1. FETCH THE WEBSITE
+    // 3. FETCH THE WEBSITE
     const response = await fetch(url, {
       headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/122.0.0.0" },
     });
 
-    // 2. THE SAFETY GATE
     if (!response.ok) {
       return res.status(400).json({ 
-        error: `Website blocked the request (Error ${response.status}). Some sites don't allow sharing.` 
+        error: `Website blocked the request (Error ${response.status}).` 
       });
     }
 
-    // 3. CONVERT TO TEXT & LOAD CHEERIO
+    // 4. LOAD TOOLS
     const html = await response.text();
-    const $ = cheerio.load(html); // <--- This line was missing!
-    let recipe: Partial<ParsedRecipe> = { sourceUrl: url }; // <--- This line was missing!
+    const $ = cheerio.load(html);
+    let recipe: Partial<ParsedRecipe> = { sourceUrl: url };
 
-    // -----------------------------------------------------
-    // A. Try JSON-LD (Structured Data)
-    // -----------------------------------------------------
+    // 5. JSON-LD SCRAPING
     const scripts = $('script[type="application/ld+json"]').map((_, el) => $(el).text()).get();
     for (const raw of scripts) {
       try {
@@ -65,22 +70,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             : cleanText(String(inst || ""));
           recipe.photoUrl = typeof node.image === 'string' ? node.image : (node.image?.url || "");
         }
-      } catch (e) { /* ignore parse errors */ }
+      } catch (e) { }
     }
 
-    // -----------------------------------------------------
-    // B. Fallback to HTML Selectors (If JSON-LD failed)
-    // -----------------------------------------------------
+    // 6. FALLBACK SELECTORS
     if (!recipe.ingredients) {
-      const ingredientSelectors = [
-        ".wprm-recipe-ingredient", 
-        ".tasty-recipe-ingredients li", 
-        ".mv-create-ingredients li",
-        ".recipe-ingredients li", 
-        ".ingredients li",
-        "[class*='ingredient']"
-      ];
-      
+      const ingredientSelectors = [".wprm-recipe-ingredient", ".tasty-recipe-ingredients li", ".mv-create-ingredients li", ".recipe-ingredients li", ".ingredients li", "[class*='ingredient']"];
       const lines: string[] = [];
       ingredientSelectors.forEach(sel => {
         $(sel).each((_, el) => { lines.push($(el).text()); });
@@ -90,7 +85,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!recipe.name) recipe.name = cleanText($("title").text() || "New Recipe");
 
-    // SEND THE DATA BACK TO THE APP
+    // 7. SUCCESS
     return res.status(200).json({ recipe });
 
   } catch (err: any) {

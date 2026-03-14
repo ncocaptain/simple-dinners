@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import TestersGuidePage from "./pages/TestersGuidePage";
+import FeedbackForm from "./pages/FeedbackForm";
 
 // =====================================================
 // 1. COMPONENT & PAGE IMPORTS
@@ -323,6 +324,9 @@ useEffect(() => {
   <div style={menuSubStyle}>See your testing missions</div>
 </button>
 <div style={dividerStyle} />
+<button onClick={() => { navigate("/feedback"); setMenuOpen(false); }} style={menuItemStyle}>
+  💬 Send Feedback
+</button>
 </div>
                 )}
               </div>
@@ -347,6 +351,7 @@ useEffect(() => {
   
   {/* Move the Guide route ABOVE the "*" route */}
   <Route path="/guide" element={<TestersGuidePage />} />
+  <Route path="/feedback" element={<FeedbackForm />} />
 
   {/* This "*" route should ALWAYS be the very last one in the list */}
   <Route path="*" element={<Navigate to="/" replace />} />
