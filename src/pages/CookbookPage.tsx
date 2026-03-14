@@ -44,9 +44,6 @@ function Badge({ children, tone = "default" }: { children: React.ReactNode; tone
   );
 }
 
-// =====================================================
-// Helpers
-// =====================================================
 const fallbackPhotoUrl = (name?: string) => {
   const q = encodeURIComponent((name || "dinner").trim());
   return `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=80&sig=1&meal=${q}`;
@@ -55,9 +52,6 @@ const fallbackPhotoUrl = (name?: string) => {
 const slugify = (val: string) => val.trim().toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-");
 const parseTags = (val: string) => val.split(",").map(t => t.trim().toLowerCase()).filter(Boolean);
 
-// =====================================================
-// Main Component
-// =====================================================
 export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }: { 
   setMeals: React.Dispatch<React.SetStateAction<Record<string, Meal>>>; 
   cookbook: CookbookEntry[]; 
@@ -69,7 +63,6 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
   const { base } = useInputStyles();
   const navigate = useNavigate();
 
-  // --- UI State ---
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editDraft, setEditDraft] = useState<Partial<CookbookEntry>>({});
   const [isUploading, setIsUploading] = useState(false);
@@ -77,7 +70,6 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
   const [showAddRecipe, setShowAddRecipe] = useState(false);
   const [showImport, setShowImport] = useState(false);
 
-  // --- Import/Form State ---
   const [importUrl, setImportUrl] = useState("");
   const [isImporting, setIsImporting] = useState(false);
   const [customName, setCustomName] = useState("");
@@ -89,7 +81,6 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
   const [customTags, setCustomTags] = useState("");
   const [customEffort, setCustomEffort] = useState<"quick" | "normal" | "big">("quick");
 
-  // --- Logic Helpers ---
   const normalizeEntry = useCallback((r: any): CookbookEntry => {
     const id = String(r?.id ?? r?.slug ?? r?.name ?? Math.random().toString(36).slice(2));
     return { 
@@ -116,21 +107,22 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
     return list.sort((a, b) => (a.favorite !== b.favorite ? (a.favorite ? -1 : 1) : (b.updatedAt || 0) - (a.updatedAt || 0)));
   }, [cookbook, cookbookSearch, prefs, normalizeEntry]);
 
-  // --- Actions ---
   const onImportRecipe = async () => {
     if (!importUrl.trim()) { toast("Please enter a URL first.", "warning"); return; }
     try {
       setIsImporting(true);
       const res = await fetch("https://dinners.ncocaptain.com/api/scrape-recipe", { 
         method: "POST", 
-        headers: { "Content-Type": "application/json" }, 
-        body: JSON.stringify({ url: importUrl }) 
+        headers: { 
+          "Accept": "application/json",
+          "Content-Type": "application/json" 
+        }, 
+        body: JSON.stringify({ url: importUrl.trim() }) 
       });
       
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Import failed");
 
-      // Use the 'data.recipe' object returned from your Vercel Function
       const imported = data.recipe;
       setCustomName(imported.name || ""); 
       setCustomIngredients(imported.ingredients || ""); 
@@ -142,7 +134,7 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
       setImportUrl(""); 
       toast("Imported!", "success");
     } catch (err: any) { 
-      toast(err.message, "error"); 
+      toast(err.message || "Failed to connect to server.", "error"); 
     } finally { 
       setIsImporting(false); 
     }
@@ -187,7 +179,6 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
         </Button>
       </div>
 
-      {/* Import Section */}
       {showImport && (
         <div style={{ display: "flex", gap: 10, padding: 14, borderRadius: 16, background: "rgba(2,6,23,0.25)", border: "1px solid rgba(255,255,255,0.1)", marginBottom: 20 }}>
           <input placeholder="Paste URL..." value={importUrl} onChange={(e) => setImportUrl(e.target.value)} style={{ ...base, flex: 1 }} />
@@ -195,7 +186,6 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
         </div>
       )}
 
-      {/* Manual Entry Form */}
       {showAddRecipe && (
         <div style={{ display: "grid", gap: 10, padding: 16, borderRadius: 16, background: "rgba(2,6,23,0.25)", border: "1px solid rgba(255,255,255,0.1)", marginBottom: 20 }}>
           <input placeholder="Recipe Name" value={customName} onChange={(e) => setCustomName(e.target.value)} style={base} />
@@ -231,7 +221,6 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
         </div>
       )}
 
-      {/* Recipe List */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 16 }}>
         {filteredCookbook.map((r) => {
           const rid = r.id; const isEditing = editingId === rid;
@@ -240,7 +229,6 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
           return (
             <Card key={rid} style={{ padding: 0, overflow: "hidden" }}>
               {isEditing ? (
-                /* Edit Mode */
                 <div style={{ padding: 16, display: "grid", gap: 10 }}>
                   <input style={base} value={editDraft.name || ""} onChange={e => setEditDraft({ ...editDraft, name: e.target.value })} />
                   <textarea style={{ ...base, minHeight: 80 }} value={editDraft.ingredients || ""} onChange={e => setEditDraft({ ...editDraft, ingredients: e.target.value })} />
@@ -276,7 +264,6 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
                   </div>
                 </div>
               ) : (
-                /* Card View Mode */
                 <>
                   <img src={r.photoUrl || fallbackPhotoUrl(r.name)} alt={r.name} onClick={() => navigate(navUrl)} style={{ width: "100%", height: 160, objectFit: "cover", display: "block", cursor: "pointer", borderBottom: "1px solid rgba(255,255,255,0.08)" }} />
                   <div style={{ padding: 16, display: "grid", gap: 10 }}>
