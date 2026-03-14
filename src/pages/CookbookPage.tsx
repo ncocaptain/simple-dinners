@@ -113,7 +113,7 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
       setIsImporting(true);
       const res = await fetch("https://dinners.ncocaptain.com/api/scrape-recipe", { 
         method: "POST", 
-        mode: 'cors', // Explicitly tell Android to allow the cross-origin handshake
+        mode: 'cors',
         headers: { 
           "Accept": "application/json",
           "Content-Type": "application/json" 
@@ -121,7 +121,12 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
         body: JSON.stringify({ url: importUrl.trim() }) 
       });
       
-      const data = await res.json();
+      // Safety check: if the body is empty, res.json() will crash.
+      // We check text first to see if we actually got a response.
+      const text = await res.text();
+      if (!text) throw new Error("Server returned an empty response. Check CORS/Vercel logs.");
+      
+      const data = JSON.parse(text);
       if (!res.ok) throw new Error(data.error || "Import failed");
 
       const imported = data.recipe;
@@ -135,6 +140,7 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
       setImportUrl(""); 
       toast("Imported!", "success");
     } catch (err: any) { 
+      console.error("Import Error:", err);
       toast(err.message || "Connection failed. Check your internet.", "error"); 
     } finally { 
       setIsImporting(false); 
