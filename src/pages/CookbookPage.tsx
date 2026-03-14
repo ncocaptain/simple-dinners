@@ -16,19 +16,8 @@ import { useInputStyles } from "../components/inputStyles";
 import { useToast } from "../components/Toast";
 
 // =====================================================
-// Types & Helpers
+// Helpers
 // =====================================================
-
-type CookbookEntry = Meal & {
-  id: string;
-  slug?: string;
-  favorite?: boolean;
-  createdAt?: number;
-  updatedAt?: number;
-  tags?: string[];
-  effort?: "quick" | "normal" | "big";
-  notes?: string;
-};
 
 const fallbackPhotoUrl = (name?: string) => {
   const q = encodeURIComponent((name || "dinner").trim());
@@ -39,8 +28,8 @@ const slugify = (val: string) => val.trim().toLowerCase().replace(/[^\w\s-]/g, "
 
 export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }: { 
   setMeals: React.Dispatch<React.SetStateAction<Record<string, Meal>>>; 
-  cookbook: CookbookEntry[]; 
-  setCookbook: React.Dispatch<React.SetStateAction<CookbookEntry[]>>; 
+  cookbook: any[]; 
+  setCookbook: React.Dispatch<React.SetStateAction<any[]>>; 
   prefs: Preferences; 
 }) {
   const toastApi: any = useToast();
@@ -48,23 +37,20 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
   const { base } = useInputStyles();
   const navigate = useNavigate();
 
-  // UI State
   const [cookbookSearch, setCookbookSearch] = useState("");
   const [showAddRecipe, setShowAddRecipe] = useState(false);
   const [showImport, setShowImport] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  // Import State
   const [importUrl, setImportUrl] = useState("");
   const [isImporting, setIsImporting] = useState(false);
   
-  // Manual Form State
   const [customName, setCustomName] = useState("");
   const [customIngredients, setCustomIngredients] = useState("");
   const [customInstructions, setCustomInstructions] = useState("");
   const [customPhotoUrl, setCustomPhotoUrl] = useState("");
 
-  const normalizeEntry = useCallback((r: any): CookbookEntry => {
+  const normalizeEntry = useCallback((r: any) => {
     const id = String(r?.id ?? r?.slug ?? r?.name ?? Math.random().toString(36).slice(2));
     return { 
       ...r, id, slug: r?.slug ?? r?.id ?? id, 
@@ -74,17 +60,14 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
       name: r?.name ?? "Untitled", 
       ingredients: r?.ingredients ?? "", 
       instructions: r?.instructions ?? "", 
-      photoUrl: r?.photoUrl ?? "", 
-      tags: r?.tags ?? [], 
-      effort: r?.effort ?? "normal", 
-      notes: r?.notes ?? "" 
+      photoUrl: r?.photoUrl ?? ""
     };
   }, []);
 
   const filteredCookbook = useMemo(() => {
     const q = normalize(cookbookSearch);
     let list = Array.isArray(cookbook) ? cookbook.map(normalizeEntry) : [];
-    if (q) list = list.filter(r => normalize(r.name).includes(q) || normalize(r.ingredients).includes(q) || normalize(r.notes ?? "").includes(q));
+    if (q) list = list.filter(r => normalize(r.name).includes(q) || normalize(r.ingredients).includes(q));
     if (prefs.vegetarian) list = list.filter(r => isVegetarianByHeuristic(r.ingredients));
     list = list.filter(r => !violatesAllergens(r.ingredients, prefs.allergens || []));
     return list.sort((a, b) => (a.favorite !== b.favorite ? (a.favorite ? -1 : 1) : (b.updatedAt || 0) - (a.updatedAt || 0)));
@@ -97,34 +80,26 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
       const res = await fetch("https://dinners.ncocaptain.com/api/scrape-recipe", { 
         method: "POST", 
         mode: 'cors',
-        headers: { 
-          "Accept": "application/json",
-          "Content-Type": "application/json" 
-        }, 
+        headers: { "Accept": "application/json", "Content-Type": "application/json" }, 
         body: JSON.stringify({ url: importUrl.trim() }) 
       });
       
       const text = await res.text();
-      if (!text) throw new Error("Server returned an empty response.");
+      if (!text) throw new Error("Server empty");
       
       const data = JSON.parse(text);
       if (!res.ok) throw new Error(data.error || "Import failed");
 
-      const imported = data.recipe;
-      setCustomName(imported.name || ""); 
-      setCustomIngredients(imported.ingredients || ""); 
-      setCustomInstructions(imported.instructions || ""); 
-      setCustomPhotoUrl(imported.photoUrl || "");
+      setCustomName(data.recipe.name || ""); 
+      setCustomIngredients(data.recipe.ingredients || ""); 
+      setCustomInstructions(data.recipe.instructions || ""); 
+      setCustomPhotoUrl(data.recipe.photoUrl || "");
 
-      setShowImport(false); 
-      setShowAddRecipe(true); 
-      setImportUrl(""); 
+      setShowImport(false); setShowAddRecipe(true); setImportUrl(""); 
       toast("Imported!", "success");
     } catch (err: any) { 
       toast(err.message || "Connection failed.", "error"); 
-    } finally { 
-      setIsImporting(false); 
-    }
+    } finally { setIsImporting(false); }
   };
 
   const onAddCustomRecipe = () => {
@@ -144,7 +119,7 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
   return (
     <Card title={<><BookOpen size={20} /> Cookbook</>} subtitle="Manage your saved recipes.">
       <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
-        <input placeholder="Search recipes or notes..." value={cookbookSearch} onChange={(e) => setCookbookSearch(e.target.value)} style={{ ...base, flex: 1 }} />
+        <input placeholder="Search recipes..." value={cookbookSearch} onChange={(e) => setCookbookSearch(e.target.value)} style={{ ...base, flex: 1 }} />
       </div>
 
       <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
@@ -176,7 +151,6 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
         {filteredCookbook.map((r) => {
           const rid = r.id; const isExpanded = expandedId === rid;
           const navUrl = `/recipe/${encodeURIComponent(r.slug || r.id)}?from=/cookbook`;
-          
           return (
             <Card key={rid} style={{ padding: 0, overflow: "hidden" }}>
                 <img src={r.photoUrl || fallbackPhotoUrl(r.name)} alt={r.name} onClick={() => navigate(navUrl)} style={{ width: "100%", height: 160, objectFit: "cover", cursor: "pointer" }} />
@@ -185,19 +159,12 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
                     <div style={{ fontWeight: 900, fontSize: 18, cursor: "pointer" }} onClick={() => navigate(navUrl)}>{r.name}</div>
                     <Star size={18} fill={r.favorite ? "#facc15" : "none"} stroke={r.favorite ? "#facc15" : "currentColor"} />
                   </div>
-                  
                   <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                     <button style={actionBtn} onClick={() => setExpandedId(isExpanded ? null : rid)}><ChevronDown size={14} /> Details</button>
                     <button style={actionBtn} onClick={() => navigate(navUrl)}><BookOpen size={14} /> Open</button>
-                    <button style={{ ...actionBtn, background: "rgba(239,68,68,0.1)" }} onClick={() => { if(window.confirm("Delete?")){ setCookbook(prev => prev.filter(x => x.id !== rid)); }}}><Trash2 size={14} /></button>
+                    <button style={{ ...actionBtn, background: "rgba(239,68,68,0.1)" }} onClick={() => { if(window.confirm("Delete?")){ setCookbook(prev => prev.filter(x => x.id !== rid)); persistCookbook(cookbook.filter(x => x.id !== rid) as any); }}}><Trash2 size={14} /></button>
                   </div>
-
-                  {isExpanded && (
-                    <div style={{ marginTop: 10, padding: 12, borderRadius: 14, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", fontSize: 13, whiteSpace: "pre-wrap" }}>
-                      {r.ingredients}
-                    </div>
-                  )}
-
+                  {isExpanded && <div style={{ marginTop: 10, padding: 12, borderRadius: 14, background: "rgba(255,255,255,0.03)", fontSize: 13, whiteSpace: "pre-wrap" }}>{r.ingredients}</div>}
                   <select style={{ ...base, width: "100%", fontSize: 13 }} defaultValue="" onChange={e => { setMeals(prev => ({ ...prev, [e.target.value]: { ...r } })); toast(`Added to ${e.target.value}`); e.target.value = ""; }}>
                     <option value="" disabled>Plan for...</option>
                     {days.map(d => <option key={d} value={d}>{d}</option>)}
