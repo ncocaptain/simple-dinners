@@ -44,7 +44,9 @@ function Navigation() {
   const location = useLocation();
 
   const navItem = (path: string, Icon: any, label: string) => {
-    const isActive = location.pathname === path;
+    // Check if active (we match / and /week for the first icon)
+    const isActive = location.pathname === path || (path === "/week" && location.pathname === "/");
+    
     return (
       <button
         onClick={() => navigate(path)}
@@ -70,6 +72,7 @@ function Navigation() {
         backdropFilter: "blur(16px)", borderRadius: "32px", border: "1px solid rgba(255,255,255,0.1)",
         boxShadow: "0 12px 30px -5px rgba(0,0,0,0.5)"
       }}>
+        {/* WE WANT THE FIRST ICON TO GO TO THE WEEK GENERATOR */}
         {navItem("/week", Calendar, "Week")} 
         {navItem("/cookbook", BookOpen, "Cook")}
         {navItem("/shopping-list", ShoppingBasket, "Shop")}
@@ -81,7 +84,7 @@ function Navigation() {
 
 export default function App() {
   const navigate = useNavigate();
-  const APP_VERSION = "22.0.1"; 
+  const APP_VERSION = "22.0.2"; 
 
   const [cookbook, setCookbook] = useState<any[]>(() => {
     const raw = getCookbook() as any[];
@@ -155,7 +158,7 @@ export default function App() {
       }
     }
     setMeals(withPhotos);
-    navigate("/");
+    navigate("/week"); // AFTER GENERATING, GO STRAIGHT TO THE GENERATOR PAGE
   };
 
   const requireOnboarding = (element: React.ReactNode) => 
@@ -169,7 +172,7 @@ export default function App() {
           <header style={{ padding: "32px 20px 20px", textAlign: "center", maxWidth: "550px", margin: "0 auto" }}>
             <h1 style={{ margin: 0, fontSize: 36, fontWeight: 1000, color: "#f8fafc" }}>Simple Dinners</h1>
             <div style={{ fontSize: 12, fontWeight: 800, opacity: 0.4, textTransform: "uppercase", marginTop: 4 }}>
-              Captain's Kitchen • v22.0.1
+              Captain's Kitchen • v22.0.2
             </div>
           </header>
 
@@ -189,7 +192,6 @@ export default function App() {
                 />
             )} />
 
-            {/* FIXED: Removed daySettings/setDaySettings to match WeekPage props */}
             <Route path="/week" element={requireOnboarding(
                 <WeekPage 
                     meals={meals} 
