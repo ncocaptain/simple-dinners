@@ -80,7 +80,12 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
       
       const res = await fetch("https://dinners.ncocaptain.com/api/import-recipe", { 
         method: "POST", 
-        headers: { "Content-Type": "text/plain" }, 
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          // Adding a dummy User-Agent here helps bypass Vercel's basic bot filter
+          "X-Requested-With": "XMLHttpRequest" 
+        }, 
         body: JSON.stringify({ url: importUrl.trim() }) 
       });
       
