@@ -157,7 +157,12 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
         </div>
       )}
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 24 }}>
+      <div style={{ 
+  display: "grid", 
+  gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", 
+  gap: "24px", 
+  padding: "0 16px 40px 16px" // Added 16px to Left/Right, 40px to Bottom
+}}>
         {filteredCookbook.map((r) => {
           const rid = r.id;
           const navUrl = `/recipe/${encodeURIComponent(r.slug || r.id)}?from=/cookbook`;
