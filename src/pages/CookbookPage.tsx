@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Star, Trash2, BookOpen, Plus, X, Download, Loader2, ChevronDown
+  Star, Trash2, BookOpen, Plus, X, Download, Loader2, 
+  Printer, Share2, Pencil, BookUser 
 } from "lucide-react";
 
 import { normalize, violatesAllergens, isVegetarianByHeuristic } from "../core/planner";
@@ -14,10 +15,21 @@ import Button from "../components/Button";
 import Card from "../components/Card";
 import { useInputStyles } from "../components/inputStyles";
 import { useToast } from "../components/Toast";
+import { PUBLIC_APP_URL } from "../core/appConfig";
 
 // =====================================================
-// Helpers
+// Helpers & Sub-components
 // =====================================================
+
+function Badge({ children, tone = "default" }: { children: React.ReactNode; tone?: "default" | "good" | "warn" | "bad" }) {
+  const bg = tone === "good" ? "rgba(34,197,94,.16)" : tone === "warn" ? "rgba(245,158,11,.18)" : tone === "bad" ? "rgba(239,68,68,.16)" : "rgba(148,163,184,.18)";
+  const border = tone === "good" ? "rgba(34,197,94,.35)" : tone === "warn" ? "rgba(245,158,11,.35)" : tone === "bad" ? "rgba(239,68,68,.35)" : "rgba(148,163,184,.30)";
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 10px", borderRadius: 999, fontSize: 11, fontWeight: 800, background: bg, border: `1px solid ${border}`, lineHeight: 1.2, whiteSpace: "nowrap" }}>
+      {children}
+    </span>
+  );
+}
 
 const fallbackPhotoUrl = (name?: string) => {
   const q = encodeURIComponent((name || "dinner").trim());
@@ -40,7 +52,8 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
   const [cookbookSearch, setCookbookSearch] = useState("");
   const [showAddRecipe, setShowAddRecipe] = useState(false);
   const [showImport, setShowImport] = useState(false);
-  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [_editingId, setEditingId] = useState<string | null>(null);
+  const [_editDraft, setEditDraft] = useState<Partial<any>>({});
 
   const [importUrl, setImportUrl] = useState("");
   const [isImporting, setIsImporting] = useState(false);
@@ -73,37 +86,31 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
     return list.sort((a, b) => (a.favorite !== b.favorite ? (a.favorite ? -1 : 1) : (b.updatedAt || 0) - (a.updatedAt || 0)));
   }, [cookbook, cookbookSearch, prefs, normalizeEntry]);
 
- const onImportRecipe = async () => {
-  if (!importUrl.trim()) { toast("Please enter a URL first.", "warning"); return; }
-  try {
-    setIsImporting(true);
-    
-    // STRIPPED DOWN FETCH
-    const res = await fetch("https://dinners.ncocaptain.com/api/import-recipe", { 
-      method: "POST", 
-      body: JSON.stringify({ url: importUrl.trim() }) 
-    });
-    
-    const data = await res.json();
+  const onImportRecipe = async () => {
+    if (!importUrl.trim()) { toast("Please enter a URL first.", "warning"); return; }
+    try {
+      setIsImporting(true);
+      const res = await fetch("https://dinners.ncocaptain.com/api/import-recipe", { 
+        method: "POST", 
+        body: JSON.stringify({ url: importUrl.trim() }) 
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) throw new Error(data.error || "Import failed");
 
-    if (!res.ok || data.error) {
-      throw new Error(data.error || "Import failed");
+      setCustomName(data.recipe.name || ""); 
+      setCustomIngredients(data.recipe.ingredients || ""); 
+      setCustomInstructions(data.recipe.instructions || ""); 
+      setCustomPhotoUrl(data.recipe.photoUrl || "");
+
+      setShowImport(false); 
+      setShowAddRecipe(true); 
+      toast("Recipe Found!", "success");
+    } catch (err: any) { 
+      toast(err.message || "Connection failed.", "error"); 
+    } finally { 
+      setIsImporting(false); 
     }
-
-    setCustomName(data.recipe.name || ""); 
-    setCustomIngredients(data.recipe.ingredients || ""); 
-    setCustomInstructions(data.recipe.instructions || ""); 
-    setCustomPhotoUrl(data.recipe.photoUrl || "");
-
-    setShowImport(false); 
-    setShowAddRecipe(true); 
-    toast("Recipe Found!", "success");
-  } catch (err: any) { 
-    toast(err.message || "Connection failed.", "error"); 
-  } finally { 
-    setIsImporting(false); 
-  }
-};
+  };
 
   const onAddCustomRecipe = () => {
     if (!customName || !customIngredients) { toast("Name and ingredients required.", "warning"); return; }
@@ -150,29 +157,70 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
         </div>
       )}
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 24 }}>
         {filteredCookbook.map((r) => {
-          const rid = r.id; const isExpanded = expandedId === rid;
+          const rid = r.id;
           const navUrl = `/recipe/${encodeURIComponent(r.slug || r.id)}?from=/cookbook`;
           return (
             <Card key={rid} style={{ padding: 0, overflow: "hidden" }}>
-                <img src={r.photoUrl || fallbackPhotoUrl(r.name)} alt={r.name} onClick={() => navigate(navUrl)} style={{ width: "100%", height: 160, objectFit: "cover", cursor: "pointer" }} />
-                <div style={{ padding: 16, display: "grid", gap: 10 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <div style={{ fontWeight: 900, fontSize: 18, cursor: "pointer" }} onClick={() => navigate(navUrl)}>{r.name}</div>
-                    <Star size={18} fill={r.favorite ? "#facc15" : "none"} stroke={r.favorite ? "#facc15" : "currentColor"} />
+              <img 
+                src={r.photoUrl || fallbackPhotoUrl(r.name)} 
+                alt={r.name} 
+                onClick={() => navigate(navUrl)} 
+                style={{ width: "100%", height: 180, objectFit: "cover", display: "block", cursor: "pointer", borderBottom: "1px solid rgba(255,255,255,0.08)" }} 
+              />
+
+              <div style={{ padding: "20px 18px", display: "grid", gap: "16px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, minHeight: "52px" }}>
+                  <div style={{ fontWeight: 900, fontSize: "20px", lineHeight: "1.2", cursor: "pointer", color: "#f8fafc" }} onClick={() => navigate(navUrl)}>
+                    {r.name}
                   </div>
-                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                    <button style={actionBtn} onClick={() => setExpandedId(isExpanded ? null : rid)}><ChevronDown size={14} /> Details</button>
-                    <button style={actionBtn} onClick={() => navigate(navUrl)}><BookOpen size={14} /> Open</button>
-                    <button style={{ ...actionBtn, background: "rgba(239,68,68,0.1)" }} onClick={() => { if(window.confirm("Delete?")){ setCookbook(prev => prev.filter(x => x.id !== rid)); persistCookbook(cookbook.filter(x => x.id !== rid) as any); }}}><Trash2 size={14} /></button>
-                  </div>
-                  {isExpanded && <div style={{ marginTop: 10, padding: 12, borderRadius: 14, background: "rgba(255,255,255,0.03)", fontSize: 13, whiteSpace: "pre-wrap" }}>{r.ingredients}</div>}
-                  <select style={{ ...base, width: "100%", fontSize: 13 }} defaultValue="" onChange={e => { setMeals(prev => ({ ...prev, [e.target.value]: { ...r } })); toast(`Added to ${e.target.value}`); e.target.value = ""; }}>
-                    <option value="" disabled>Plan for...</option>
-                    {days.map(d => <option key={d} value={d}>{d}</option>)}
-                  </select>
+                  <button 
+                    onClick={() => { 
+                      const next = cookbook.map(x => x.id === rid ? { ...x, favorite: !x.favorite } : x); 
+                      setCookbook(next); persistCookbook(next as any); 
+                    }} 
+                    style={{ background: "none", border: "none", cursor: "pointer", padding: "4px" }}
+                  >
+                    <Star size={20} fill={r.favorite ? "#facc15" : "none"} stroke={r.favorite ? "#facc15" : "currentColor"} />
+                  </button>
                 </div>
+                
+                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                  {violatesAllergens(r.ingredients, prefs.allergens || []) ? <Badge tone="bad">Allergens</Badge> : <Badge tone="good">Safe</Badge>}
+                  {isVegetarianByHeuristic(r.ingredients) && <Badge tone="good">Veg</Badge>}
+                  {r.effort && <Badge tone="warn">{r.effort}</Badge>}
+                  {r.notes && <Badge tone="good"><BookUser size={12}/> Notes</Badge>}
+                </div>
+                
+                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "4px" }}>
+                  <button style={actionBtn} onClick={() => navigate(navUrl)}><BookOpen size={14} /> Open</button>
+                  <button style={actionBtn} onClick={() => navigate(`${navUrl}&print=1`)}><Printer size={14} /></button>
+                  <button style={actionBtn} onClick={async () => { await navigator.clipboard.writeText(`${PUBLIC_APP_URL}/recipe/${r.slug || r.id}`); toast("Copied Link!"); }}><Share2 size={14} /></button>
+                 <button 
+  style={actionBtn} 
+  onClick={() => { 
+    setEditingId(rid); 
+    setEditDraft({ ...r }); // Now both variables are "Read"
+    setShowAddRecipe(true); 
+    setCustomName(r.name);
+    setCustomIngredients(r.ingredients);
+    setCustomInstructions(r.instructions);
+    setCustomPhotoUrl(r.photoUrl || "");
+  }}
+>
+  <Pencil size={14} />
+</button>
+                  <button style={{ ...actionBtn, background: "rgba(239,68,68,0.1)", borderColor: "rgba(239,68,68,0.2)" }} onClick={() => { if(window.confirm("Delete recipe?")){ const next = cookbook.filter(x => x.id !== rid); setCookbook(next); persistCookbook(next as any); }}}>
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+                
+                <select style={{ ...base, width: "100%", fontSize: 14, height: "42px", marginTop: "4px" }} defaultValue="" onChange={e => { setMeals(prev => ({ ...prev, [e.target.value]: { ...r } })); toast(`Added to ${e.target.value}`); e.target.value = ""; }}>
+                  <option value="" disabled>Plan for...</option>
+                  {days.map(d => <option key={d} value={d}>{d}</option>)}
+                </select>
+              </div>
             </Card>
           );
         })}
