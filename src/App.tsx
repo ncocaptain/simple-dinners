@@ -110,7 +110,7 @@ export default function App() {
 
   // Re-adding missing states for PlanPage
   const [dietaryNotes, setDietaryNotes] = useState<string>(() => localStorage.getItem("dietaryNotes") || "");
-  const [vegetarian, setVegetarian] = useState<boolean>(() => localStorage.getItem("vegetarian") === "true");
+  const [vegetarian] = useState<boolean>(() => localStorage.getItem("vegetarian") === "true");
 
   const [lockedDays, setLockedDays] = useState<Record<string, boolean>>(() => 
     JSON.parse(localStorage.getItem("lockedDays") || JSON.stringify(EMPTY_LOCKS))
@@ -186,18 +186,16 @@ export default function App() {
             
             {/* FIXED: Passing missing props back into PlanPage */}
             <Route path="/plan" element={requireOnboarding(
-                <PlanPage 
-                    daySettings={daySettings} 
-                    setDaySettings={setDaySettings} 
-                    pantry={pantry} 
-                    setPantry={setPantry} 
-                    vegetarian={vegetarian}
-                    setVegetarian={setVegetarian}
-                    dietaryNotes={dietaryNotes}
-                    setDietaryNotes={setDietaryNotes}
-                    generateDinnerPlan={generateDinnerPlan} 
-                />
-            )} />
+    <PlanPage 
+        daySettings={daySettings} 
+        setDaySettings={setDaySettings} 
+        pantry={pantry} 
+        setPantry={setPantry} 
+        dietaryNotes={dietaryNotes}
+        setDietaryNotes={setDietaryNotes}
+        generateDinnerPlan={generateDinnerPlan} 
+    />
+)} />
 
             <Route path="/week" element={requireOnboarding(<WeekPage meals={meals} setMeals={setMeals} addDayToCookbook={addDayToCookbook} generateDinnerPlan={generateDinnerPlan} daySettings={daySettings} setDaySettings={setDaySettings} lockedDays={lockedDays} setLockedDays={setLockedDays} />)} />
             <Route path="/cookbook" element={requireOnboarding(<CookbookPage setMeals={setMeals} cookbook={cookbook} setCookbook={setCookbook} prefs={{...prefs, vegetarian}} />)} />
