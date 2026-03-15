@@ -42,7 +42,7 @@ const EMPTY_LOCKS = Object.fromEntries(
   days.map((d) => [d, false])
 ) as Record<Day, boolean>;
 
-// RESTORED: Takeout Options
+// Restored: Takeout Options
 const TAKEOUT_OPTIONS = [
   { label: "Mexican", query: "mexican restaurant", emoji: "🌮" },
   { label: "Italian", query: "italian restaurant", emoji: "🍝" },
@@ -50,6 +50,9 @@ const TAKEOUT_OPTIONS = [
   { label: "Pizza", query: "pizza", emoji: "🍕" },
   { label: "Burgers", query: "burgers", emoji: "🍔" },
 ];
+
+// Visual Overhaul: High-quality food spread for takeout nights
+const TAKEOUT_HERO_URL = "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1400&q=80";
 
 function pad2(n: number) { return String(n).padStart(2, "0"); }
 
@@ -130,6 +133,12 @@ export default function WeekPage({
   const tonight = getTonightDinner(meals?.[todayDay]);
   const cookedToday = streak.lastCookedDay === todayKey();
 
+  // Helper for Hero Logic
+  const getHeroUrl = (meal: Meal, effort: Effort) => {
+    if (effort === "takeout") return TAKEOUT_HERO_URL;
+    return meal?.photoUrl || mealImageUrl(meal?.name);
+  };
+
   const getTonightBadge = () => {
     const slug = tonight?.slug || tonight?.name?.toLowerCase().replace(/\s+/g, '-');
     if (!slug) return null;
@@ -161,8 +170,8 @@ export default function WeekPage({
   const sectionWrapper: React.CSSProperties = { padding: "20px 16px 40px 16px", maxWidth: 1200, margin: "0 auto" };
   const heroCard: React.CSSProperties = {
     padding: 24, borderRadius: 24, marginBottom: 32, position: "relative", overflow: "hidden",
-    backgroundImage: tonight?.photoUrl ? `linear-gradient(rgba(15,23,42,0.8), rgba(15,23,42,0.95)), url(${tonight.photoUrl})` : "linear-gradient(135deg, rgba(20,184,166,0.2), rgba(15,23,42,0.6))",
-    backgroundSize: "cover", backgroundPosition: "center", border: "1px solid rgba(20,184,166,0.3)", boxShadow: "0 15px 35px rgba(0,0,0,0.4)"
+    backgroundImage: `linear-gradient(rgba(15,23,42,0.8), rgba(15,23,42,0.95)), url(${getHeroUrl(tonight, todayDay ? daySettings[todayDay] : 'normal')})`,
+    backgroundSize: "cover", backgroundPosition: "center 35%", border: "1px solid rgba(20,184,166,0.3)", boxShadow: "0 15px 35px rgba(0,0,0,0.4)"
   };
   const cardGrid: React.CSSProperties = { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 24 };
   const recipeCard: React.CSSProperties = { borderRadius: 24, background: "rgba(30,41,59,0.5)", border: "1px solid rgba(255,255,255,0.08)", overflow: "hidden" };
@@ -226,8 +235,10 @@ export default function WeekPage({
 
       {/* Tonight's Hero */}
       <div style={heroCard}>
-        <div style={{ fontSize: 11, fontWeight: 900, color: "#14b8a6", letterSpacing: "0.1em", marginBottom: 4 }}>TONIGHT'S DINNER</div>
-        <h1 style={{ fontSize: 32, fontWeight: 950, margin: "0 0 12px 0" }}>{tonight?.name || "Ready to plan?"}</h1>
+        <div style={{ fontSize: 11, fontWeight: 900, color: "#14b8a6", letterSpacing: "0.2em", marginBottom: 4 }}>TONIGHT'S DINNER</div>
+        <h1 style={{ fontSize: 36, fontWeight: 950, margin: "0 0 12px 0", letterSpacing: "-0.02em" }}>
+          {tonight?.effort === "takeout" ? "Takeout Night!" : (tonight?.name || "Ready to plan?")}
+        </h1>
         
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
           <span style={chip}>🔥 Streak: {streak.currentStreak}</span>
@@ -244,24 +255,32 @@ export default function WeekPage({
         </div>
       </div>
 
+      {/* Day Grid */}
       <div style={cardGrid}>
         {days.map((day) => {
           const meal = meals[day];
           const isLocked = lockedDays[day];
-          const hasRecipe = Boolean(meal?.slug);
           const effort = daySettings[day] || "normal";
+          const isTakeout = effort === "takeout";
+          const currentHero = getHeroUrl(meal, effort);
+          const hasRecipe = Boolean(meal?.slug) && !isTakeout;
 
           return (
             <div key={day} style={recipeCard}>
-              <div style={{ height: 140, background: `url(${meal?.photoUrl || mealImageUrl(meal?.name)}) center/cover`, cursor: hasRecipe ? "pointer" : "default" }} 
-                   onClick={() => hasRecipe && navigate(`/recipe/${meal.slug}?from=/week`)} />
+              <div style={{ 
+                height: isTakeout ? 180 : 140, 
+                background: `url(${currentHero}) center/cover`, 
+                cursor: hasRecipe ? "pointer" : "default",
+                transition: "height 0.3s ease"
+              }} 
+              onClick={() => hasRecipe && navigate(`/recipe/${meal.slug}?from=/week`)} />
               
-              <div style={{ padding: 20 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+              <div style={{ padding: 24 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
                   <div>
                     <div style={{ fontSize: 12, fontWeight: 900, color: "#14b8a6" }}>{day.toUpperCase()}</div>
-                    {effort === "takeout" ? (
-                      <div style={{ fontSize: 20, fontWeight: 900, marginTop: 4, color: "#facc15" }}>🥡 Takeout Night</div>
+                    {isTakeout ? (
+                      <div style={{ fontSize: 22, fontWeight: 900, marginTop: 4, color: "#facc15" }}>🥡 Takeout Night</div>
                     ) : (
                       <div style={{ fontSize: 18, fontWeight: 800, marginTop: 2 }}>{meal?.name || "Empty"}</div>
                     )}
@@ -274,31 +293,32 @@ export default function WeekPage({
                   </div>
                 </div>
 
-                {effort === "takeout" ? (
-                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
+                {isTakeout ? (
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 4 }}>
                     {TAKEOUT_OPTIONS.map((opt) => (
                       <button
                         key={opt.label}
                         onClick={() => openMaps(opt.query)}
                         style={{
-                          ...chip, cursor: "pointer", background: "rgba(250,204,21,0.1)",
-                          borderColor: "rgba(250,204,21,0.3)", color: "#facc15", padding: "8px 12px", fontSize: "13px"
+                          ...chip, cursor: "pointer", background: "rgba(250,204,21,0.05)",
+                          borderColor: "rgba(250,204,21,0.2)", color: "#facc15", padding: "10px", 
+                          fontSize: "13px", display: "flex", alignItems: "center", gap: 8
                         }}
                       >
-                        {opt.emoji} {opt.label}
+                        <span style={{ fontSize: 16 }}>{opt.emoji}</span> {opt.label}
                       </button>
                     ))}
                   </div>
                 ) : (
                   <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                     <span style={chip}>{effort}</span>
-                    <button onClick={() => setOpenDay(openDay === day ? null : day)} style={{ background: 'none', border: 'none', color: '#14b8a6', fontSize: 12, fontWeight: 800, cursor: 'pointer' }}>
-                      {openDay === day ? "Hide" : "Edit"}
+                    <button onClick={() => setOpenDay(openDay === day ? null : day)} style={{ background: 'none', border: 'none', color: '#14b8a6', fontSize: 13, fontWeight: 900, cursor: 'pointer' }}>
+                      {openDay === day ? "DONE" : "EDIT"}
                     </button>
                   </div>
                 )}
 
-                {openDay === day && effort !== "takeout" && (
+                {openDay === day && !isTakeout && (
                   <div style={{ marginTop: 16, display: "grid", gap: 8 }}>
                     <input style={input} placeholder="Meal Name" value={meal.name} onChange={e => updateMeal(day, "name", e.target.value)} />
                     <textarea style={{ ...input, minHeight: 60 }} placeholder="Ingredients" value={meal.ingredients} onChange={e => updateMeal(day, "ingredients", e.target.value)} />
@@ -310,6 +330,7 @@ export default function WeekPage({
         })}
       </div>
 
+      {/* Shopping List Section */}
       <div style={{ marginTop: 48, padding: 28, borderRadius: 24, background: "rgba(15,23,42,0.4)", border: "1px solid rgba(255,255,255,0.05)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
           <h2 style={{ margin: 0, fontSize: 24, fontWeight: 900 }}>Shopping List</h2>

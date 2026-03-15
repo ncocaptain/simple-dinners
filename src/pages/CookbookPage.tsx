@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Star, Trash2, BookOpen, Plus, X, Download, Loader2, 
-  Printer, Share2, Pencil, BookUser 
+  Printer, Share2, Pencil, BookUser, ChevronDown, ChevronUp 
 } from "lucide-react";
 
 import { normalize, violatesAllergens, isVegetarianByHeuristic } from "../core/planner";
@@ -31,6 +31,18 @@ function Badge({ children, tone = "default" }: { children: React.ReactNode; tone
   );
 }
 
+function scaleIngredients(text: string, factor: number) {
+  if (factor === 1) return text;
+  return text.replace(/(\d+[\d\/\.]*)/g, (match) => {
+    if (match.includes('/')) {
+      const [num, den] = match.split('/').map(Number);
+      return ((num / den) * factor).toFixed(2).replace(/\.00$/, '');
+    }
+    const val = parseFloat(match);
+    return isNaN(val) ? match : (val * factor).toString();
+  });
+}
+
 const fallbackPhotoUrl = (name?: string) => {
   const q = encodeURIComponent((name || "dinner").trim());
   return `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=80&sig=1&meal=${q}`;
@@ -53,6 +65,8 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
   const [showAddRecipe, setShowAddRecipe] = useState(false);
   const [showImport, setShowImport] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [multiplier, setMultiplier] = useState<Record<string, number>>({});
 
   const [importUrl, setImportUrl] = useState("");
   const [isImporting, setIsImporting] = useState(false);
@@ -114,34 +128,14 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
 
   const onAddCustomRecipe = () => {
     if (!customName || !customIngredients) { toast("Name and ingredients required.", "warning"); return; }
-    
-    // Check if we are editing an existing recipe or adding a new one
     const mealId = editingId || crypto.randomUUID();
-    const meal = { 
-      id: mealId, 
-      slug: slugify(customName), 
-      name: customName, 
-      ingredients: customIngredients, 
-      instructions: customInstructions, 
-      photoUrl: customPhotoUrl,
-      updatedAt: Date.now()
-    };
-    
+    const meal = { id: mealId, slug: slugify(customName), name: customName, ingredients: customIngredients, instructions: customInstructions, photoUrl: customPhotoUrl, updatedAt: Date.now() };
     const saved = upsertRecipeFromMeal(meal as Meal);
     setCookbook(prev => { 
-      const next = editingId 
-        ? prev.map(r => r.id === editingId ? normalizeEntry(saved) : r)
-        : [normalizeEntry(saved), ...prev];
-      persistCookbook(next as any); 
-      return next; 
+      const next = editingId ? prev.map(r => r.id === editingId ? normalizeEntry(saved) : r) : [normalizeEntry(saved), ...prev];
+      persistCookbook(next as any); return next; 
     });
-
-    setShowAddRecipe(false); 
-    setEditingId(null);
-    setCustomName(""); 
-    setCustomIngredients(""); 
-    setCustomInstructions(""); 
-    setCustomPhotoUrl(""); 
+    setShowAddRecipe(false); setEditingId(null); setCustomName(""); setCustomIngredients(""); setCustomInstructions(""); setCustomPhotoUrl(""); 
     toast(editingId ? "Updated!" : "Saved!", "success");
   };
 
@@ -149,17 +143,17 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
 
   return (
     <Card title={<><BookOpen size={20} /> Cookbook</>} subtitle="Manage your saved recipes.">
-      <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
+      
+      <div style={{ display: "grid", gap: 16, marginBottom: 24 }}>
         <input placeholder="Search recipes..." value={cookbookSearch} onChange={(e) => setCookbookSearch(e.target.value)} style={{ ...base, flex: 1 }} />
-      </div>
-
-      <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
-        <Button variant="secondary" onClick={() => { setShowAddRecipe(!showAddRecipe); setShowImport(false); setEditingId(null); setCustomName(""); setCustomIngredients(""); setCustomInstructions(""); setCustomPhotoUrl(""); }}>
-          {showAddRecipe ? <X size={16} /> : <Plus size={16} />} {showAddRecipe ? "Close" : "Add Your Own"}
-        </Button>
-        <Button variant="secondary" onClick={() => { setShowImport(!showImport); setShowAddRecipe(false); }}>
-          {showImport ? <X size={16} /> : <Download size={16} />} {showImport ? "Close" : "Import"}
-        </Button>
+        <div style={{ display: "flex", gap: 10 }}>
+          <Button variant="secondary" onClick={() => { setShowAddRecipe(!showAddRecipe); setShowImport(false); setEditingId(null); setCustomName(""); setCustomIngredients(""); setCustomInstructions(""); setCustomPhotoUrl(""); }}>
+            {showAddRecipe ? <X size={16} /> : <Plus size={16} />} {showAddRecipe ? "Close" : "Add Your Own"}
+          </Button>
+          <Button variant="secondary" onClick={() => { setShowImport(!showImport); setShowAddRecipe(false); }}>
+            {showImport ? <X size={16} /> : <Download size={16} />} {showImport ? "Close" : "Import"}
+          </Button>
+        </div>
       </div>
 
       {showImport && (
@@ -179,66 +173,49 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
         </div>
       )}
 
-      {/* Grid Centering Wrapper */}
-      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        
-        {/* Main Grid Container */}
-        <div style={{ 
-          display: "grid", 
-          gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", 
-          gap: "24px", 
-          padding: "0 20px 40px 20px", 
-          width: "100%",
-          maxWidth: "1200px", 
-          boxSizing: "border-box",
-          justifyContent: "center"
-        }}>
+      <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "24px", padding: "0 20px 40px 20px", width: "100%", maxWidth: "1200px", boxSizing: "border-box", justifyContent: "center" }}>
           {filteredCookbook.map((r) => {
             const rid = r.id;
             const navUrl = `/recipe/${encodeURIComponent(r.slug || r.id)}?from=/cookbook`;
+            const isExpanded = expandedId === rid;
+            const currentMult = multiplier[rid] || 1;
 
             return (
-              <Card key={rid} style={{ padding: 0, overflow: "hidden", borderRadius: "24px", width: "100%", margin: "0 auto" }}>
-                <img 
-                  src={r.photoUrl || fallbackPhotoUrl(r.name)} 
-                  alt={r.name} 
-                  onClick={() => navigate(navUrl)} 
-                  style={{ width: "100%", height: 180, objectFit: "cover", display: "block", cursor: "pointer", borderBottom: "1px solid rgba(255,255,255,0.08)" }} 
-                />
+              <Card key={rid} style={{ padding: 0, overflow: "hidden", borderRadius: "24px", width: "100%", margin: "0 auto", border: "1px solid rgba(255,255,255,0.08)" }}>
+                <img src={r.photoUrl || fallbackPhotoUrl(r.name)} alt={r.name} onClick={() => navigate(navUrl)} style={{ width: "100%", height: 180, objectFit: "cover", display: "block", cursor: "pointer", borderBottom: "1px solid rgba(255,255,255,0.08)" }} />
 
                 <div style={{ padding: "24px 20px", display: "grid", gap: "16px" }}>
-                  
-                  {/* Title and Favorite */}
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, minHeight: "52px" }}>
-                    <div 
-                      style={{ fontWeight: 900, fontSize: "20px", lineHeight: "1.2", cursor: "pointer", color: "#f8fafc" }} 
-                      onClick={() => navigate(navUrl)}
-                    >
-                      {r.name}
-                    </div>
-                    <button 
-                      onClick={() => { 
-                        const next = cookbook.map(x => x.id === rid ? { ...x, favorite: !x.favorite } : x); 
-                        setCookbook(next); persistCookbook(next as any); 
-                      }} 
-                      style={{ background: "none", border: "none", cursor: "pointer", padding: "4px" }}
-                    >
+                    <div style={{ fontWeight: 900, fontSize: "20px", lineHeight: "1.2", cursor: "pointer", color: "#f8fafc" }} onClick={() => navigate(navUrl)}>{r.name}</div>
+                    <button onClick={() => { const next = cookbook.map(x => x.id === rid ? { ...x, favorite: !x.favorite } : x); setCookbook(next); persistCookbook(next as any); }} style={{ background: "none", border: "none", cursor: "pointer", padding: "4px" }}>
                       <Star size={22} fill={r.favorite ? "#facc15" : "none"} stroke={r.favorite ? "#facc15" : "currentColor"} />
                     </button>
                   </div>
                   
-                  {/* Badges Area */}
                   <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                     {violatesAllergens(r.ingredients, prefs.allergens || []) ? <Badge tone="bad">Allergens</Badge> : <Badge tone="good">Safe</Badge>}
                     {isVegetarianByHeuristic(r.ingredients) && <Badge tone="good">Veg</Badge>}
                     {r.effort && <Badge tone="warn">{r.effort}</Badge>}
+                    {/* FIXED: Added BookUser Badge */}
                     {r.notes && <Badge tone="good"><BookUser size={12}/> Notes</Badge>}
                   </div>
                   
-                  {/* Action Row */}
                   <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "4px" }}>
-                    <button style={actionBtn} onClick={() => navigate(navUrl)}><BookOpen size={14} /> Open</button>
-                    <button style={actionBtn} onClick={() => navigate(`${navUrl}&print=1`)}><Printer size={14} /></button>
+                    <button style={actionBtn} onClick={() => setExpandedId(isExpanded ? null : rid)}>
+                      {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />} Details
+                    </button>
+                    
+                    <button style={actionBtn} onClick={() => navigate(navUrl)}>
+                      <BookOpen size={14} />
+                    </button>
+
+                    {/* FIXED: Added Printer Action */}
+                    <button style={actionBtn} onClick={() => navigate(`${navUrl}&print=1`)}>
+                      <Printer size={14} />
+                    </button>
+
+                    {/* FIXED: Added Share2 Action with PUBLIC_APP_URL */}
                     <button 
                       style={actionBtn} 
                       onClick={async () => { 
@@ -248,6 +225,8 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
                     >
                       <Share2 size={14} />
                     </button>
+
+                    {/* FIXED: Added Pencil Action */}
                     <button 
                       style={actionBtn} 
                       onClick={() => { 
@@ -262,29 +241,26 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
                     >
                       <Pencil size={14} />
                     </button>
-                    <button 
-                      style={{ ...actionBtn, background: "rgba(239,68,68,0.1)", borderColor: "rgba(239,68,68,0.2)" }} 
-                      onClick={() => { 
-                        if(window.confirm("Delete recipe?")){ 
-                          const next = cookbook.filter(x => x.id !== rid); 
-                          setCookbook(next); persistCookbook(next as any); 
-                        }
-                      }}
-                    >
-                      <Trash2 size={14} />
-                    </button>
+
+                    <button style={{ ...actionBtn, background: "rgba(239,68,68,0.1)", borderColor: "rgba(239,68,68,0.2)" }} onClick={() => { if(window.confirm("Delete recipe?")){ const next = cookbook.filter(x => x.id !== rid); setCookbook(next); persistCookbook(next as any); } }}><Trash2 size={14} /></button>
                   </div>
+
+                  {/* EXPANDABLE MULTIPLIER SECTION */}
+                  {isExpanded && (
+                    <div style={{ padding: "12px", borderRadius: "16px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                        <span style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.5)" }}>SCALE:</span>
+                        {[1, 2, 3].map(m => (
+                          <button key={m} onClick={() => setMultiplier(prev => ({ ...prev, [rid]: m }))} style={{ padding: "4px 8px", borderRadius: 8, border: "none", fontSize: 12, fontWeight: 900, background: currentMult === m ? "#22c55e" : "rgba(255,255,255,0.05)", color: currentMult === m ? "#fff" : "rgba(255,255,255,0.5)" }}>{m}x</button>
+                        ))}
+                      </div>
+                      <div style={{ fontSize: 13, lineHeight: 1.5, color: "rgba(248,250,252,0.8)", whiteSpace: "pre-wrap" }}>
+                        {scaleIngredients(r.ingredients, currentMult)}
+                      </div>
+                    </div>
+                  )}
                   
-                  {/* Planning Select */}
-                  <select 
-                    style={{ ...base, width: "100%", fontSize: 14, height: "42px", marginTop: "4px" }} 
-                    defaultValue="" 
-                    onChange={e => { 
-                      setMeals(prev => ({ ...prev, [e.target.value]: { ...r } })); 
-                      toast(`Added to ${e.target.value}`); 
-                      e.target.value = ""; 
-                    }}
-                  >
+                  <select style={{ ...base, width: "100%", fontSize: 14, height: "42px", marginTop: "4px" }} defaultValue="" onChange={e => { setMeals(prev => ({ ...prev, [e.target.value]: { ...r, ingredients: scaleIngredients(r.ingredients, currentMult) } })); toast(`Added to ${e.target.value}`); e.target.value = ""; }}>
                     <option value="" disabled>Plan for...</option>
                     {days.map(d => <option key={d} value={d}>{d}</option>)}
                   </select>
