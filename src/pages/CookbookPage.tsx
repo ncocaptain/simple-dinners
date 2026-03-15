@@ -78,7 +78,7 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
     try {
       setIsImporting(true);
       
-      // MAKE SURE THIS MATCHES YOUR FILENAME: import-recipe vs scrape-recipe
+      // We are changing this to "import-recipe" to match your Vercel logs exactly
       const res = await fetch("https://dinners.ncocaptain.com/api/import-recipe", { 
         method: "POST", 
         mode: 'cors',
@@ -90,18 +90,11 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
       });
       
       const text = await res.text();
-      if (!text) throw new Error("Server returned nothing.");
+      if (!text) throw new Error("Server returned an empty response.");
       
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch (e) {
-        throw new Error("Server didn't send valid JSON.");
-      }
-
+      const data = JSON.parse(text);
       if (!res.ok) throw new Error(data.error || "Import failed");
 
-      // Update the state with the new recipe data
       setCustomName(data.recipe.name || ""); 
       setCustomIngredients(data.recipe.ingredients || ""); 
       setCustomInstructions(data.recipe.instructions || ""); 
@@ -110,7 +103,7 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
       setShowImport(false); 
       setShowAddRecipe(true); 
       setImportUrl(""); 
-      toast("Recipe Fetched!", "success");
+      toast("Imported!", "success");
     } catch (err: any) { 
       console.error("Import Error:", err);
       toast(err.message || "Connection failed.", "error"); 
