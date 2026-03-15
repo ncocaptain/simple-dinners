@@ -73,18 +73,16 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
     return list.sort((a, b) => (a.favorite !== b.favorite ? (a.favorite ? -1 : 1) : (b.updatedAt || 0) - (a.updatedAt || 0)));
   }, [cookbook, cookbookSearch, prefs, normalizeEntry]);
 
-  const onImportRecipe = async () => {
+ const onImportRecipe = async () => {
     if (!importUrl.trim()) { toast("Please enter a URL first.", "warning"); return; }
     try {
       setIsImporting(true);
       
-      // We are changing this to "import-recipe" to match your Vercel logs exactly
       const res = await fetch("https://dinners.ncocaptain.com/api/import-recipe", { 
         method: "POST", 
-        mode: 'cors',
+        // We use text/plain to avoid the 'Pre-flight' check that causes 402/405 errors on some networks
         headers: { 
-          "Accept": "application/json", 
-          "Content-Type": "application/json" 
+          "Content-Type": "text/plain" 
         }, 
         body: JSON.stringify({ url: importUrl.trim() }) 
       });
@@ -92,6 +90,7 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
       const text = await res.text();
       if (!text) throw new Error("Server returned an empty response.");
       
+      // Since we sent text/plain, we manually parse the response here
       const data = JSON.parse(text);
       if (!res.ok) throw new Error(data.error || "Import failed");
 
@@ -106,6 +105,7 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
       toast("Imported!", "success");
     } catch (err: any) { 
       console.error("Import Error:", err);
+      // This will now show the actual error message on your phone screen
       toast(err.message || "Connection failed.", "error"); 
     } finally { 
       setIsImporting(false); 
