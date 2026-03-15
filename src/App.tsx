@@ -17,7 +17,7 @@ import FeedbackForm from "./pages/FeedbackForm";
 // Components & Icons
 import { ToastProvider } from "./components/Toast";
 import { ThemeProvider } from "./theme";
-import { Calendar, BookOpen, ShoppingBasket, Settings } from "lucide-react";
+import { Calendar, BookOpen, ShoppingBasket, Settings, Utensils } from "lucide-react";
 
 // Core
 import type { Effort, Meal, PantryItem, Preferences } from "./core/types";
@@ -39,14 +39,13 @@ const mealImageUrl = (name?: string) => {
 // =====================================================
 // NAVIGATION COMPONENT
 // =====================================================
+// 1. Update the Navigation component inside App.tsx
 function Navigation() {
   const navigate = useNavigate();
   const location = useLocation();
 
   const navItem = (path: string, Icon: any, label: string) => {
-    // Check if active (we match / and /week for the first icon)
-    const isActive = location.pathname === path || (path === "/week" && location.pathname === "/");
-    
+    const isActive = location.pathname === path;
     return (
       <button
         onClick={() => navigate(path)}
@@ -72,7 +71,8 @@ function Navigation() {
         backdropFilter: "blur(16px)", borderRadius: "32px", border: "1px solid rgba(255,255,255,0.1)",
         boxShadow: "0 12px 30px -5px rgba(0,0,0,0.5)"
       }}>
-        {/* WE WANT THE FIRST ICON TO GO TO THE WEEK GENERATOR */}
+        {/* Tonight's Dinner is now the first icon */}
+        {navItem("/", Utensils, "Home")} 
         {navItem("/week", Calendar, "Week")} 
         {navItem("/cookbook", BookOpen, "Cook")}
         {navItem("/shopping-list", ShoppingBasket, "Shop")}
