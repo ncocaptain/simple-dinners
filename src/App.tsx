@@ -17,6 +17,7 @@ import FeedbackForm from "./pages/FeedbackForm";
 // Components & Icons
 import { useToast, ToastProvider } from "./components/Toast";
 import { ThemeProvider } from "./theme";
+// CRITICAL: Ensure Utensils is imported here
 import { Calendar, BookOpen, ShoppingBasket, Settings, Utensils } from "lucide-react";
 
 // Core
@@ -55,7 +56,8 @@ function Navigation() {
           transition: "all 0.2s ease", padding: "8px 12px"
         }}
       >
-        <Icon size={22} strokeWidth={isActive ? 3 : 2} />
+        {/* If Icon is undefined, this is what causes the blank screen */}
+        {Icon && <Icon size={22} strokeWidth={isActive ? 3 : 2} />}
         <span style={{ fontSize: 9, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.05em" }}>
           {label}
         </span>
@@ -80,19 +82,14 @@ function Navigation() {
   );
 }
 
-// =====================================================
-// MAIN APP COMPONENT
-// =====================================================
 export default function App() {
   const navigate = useNavigate();
   
-  // Patch: Initialize Toast Logic
   const toastApi: any = useToast();
   const toast = toastApi?.toast ?? toastApi;
 
-  const APP_VERSION = "22.0.4"; 
+  const APP_VERSION = "22.0.5"; 
 
-  // --- STATE ---
   const [cookbook, setCookbook] = useState<any[]>(() => {
     const raw = getCookbook() as any[];
     return (Array.isArray(raw) ? raw : []).map(r => ({ ...r, favorite: Boolean(r.favorite) }));
@@ -122,7 +119,6 @@ export default function App() {
     JSON.parse(localStorage.getItem("lockedDays") || JSON.stringify(EMPTY_LOCKS))
   );
 
-  // --- PERSISTENCE ---
   useEffect(() => { localStorage.setItem("meals", JSON.stringify(meals)); }, [meals]);
   useEffect(() => { localStorage.setItem("daySettings", JSON.stringify(daySettings)); }, [daySettings]);
   useEffect(() => { localStorage.setItem("prefs", JSON.stringify(prefs)); }, [prefs]);
@@ -132,7 +128,6 @@ export default function App() {
   useEffect(() => { localStorage.setItem("vegetarian", String(vegetarian)); }, [vegetarian]);
   useEffect(() => { persistCookbook(cookbook); }, [cookbook]);
 
-  // Patch: Version Check with Toast Notification
   useEffect(() => {
     const savedVersion = localStorage.getItem("app-version");
     if (savedVersion && savedVersion !== APP_VERSION) {
@@ -149,7 +144,6 @@ export default function App() {
     }
   }, [toast]);
 
-  // --- LOGIC ---
   const addDayToCookbook = (day: string) => {
     const meal = meals[day];
     if (!meal?.name?.trim()) return;
@@ -190,7 +184,7 @@ export default function App() {
           <header style={{ padding: "32px 20px 20px", textAlign: "center", maxWidth: "550px", margin: "0 auto" }}>
             <h1 style={{ margin: 0, fontSize: 36, fontWeight: 1000, color: "#f8fafc" }}>Simple Dinners</h1>
             <div style={{ fontSize: 12, fontWeight: 800, opacity: 0.4, textTransform: "uppercase", marginTop: 4 }}>
-              Captain's Kitchen • v22.0.4
+              Captain's Kitchen • v22.0.5
             </div>
           </header>
 
@@ -221,15 +215,14 @@ export default function App() {
                 />
             )} />
 
-            <Route 
-  path="/cookbook" 
-  element={requireOnboarding(
-    <CookbookPage 
-      cookbook={cookbook} 
-      setCookbook={setCookbook} 
-    />
-  )} 
-/>
+            {/* HANDSHAKE FIXED: No setMeals, No prefs */}
+            <Route path="/cookbook" element={requireOnboarding(
+                <CookbookPage 
+                    cookbook={cookbook} 
+                    setCookbook={setCookbook} 
+                />
+            )} />
+
             <Route path="/recipe/:slug" element={<RecipePage />} />
             <Route path="/shopping-list" element={requireOnboarding(<ShoppingListPage />)} />
             <Route path="/cook-now" element={requireOnboarding(<CookNowPage pantry={pantry} />)} />
