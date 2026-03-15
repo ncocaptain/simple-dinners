@@ -15,7 +15,7 @@ import TestersGuidePage from "./pages/TestersGuidePage";
 import FeedbackForm from "./pages/FeedbackForm";
 
 // Components & Icons
-import { ToastProvider } from "./components/Toast";
+import { useToast, ToastProvider } from "./components/Toast";
 import { ThemeProvider } from "./theme";
 import { Calendar, BookOpen, ShoppingBasket, Settings, Utensils } from "lucide-react";
 
@@ -39,7 +39,6 @@ const mealImageUrl = (name?: string) => {
 // =====================================================
 // NAVIGATION COMPONENT
 // =====================================================
-// 1. Update the Navigation component inside App.tsx
 function Navigation() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -67,11 +66,10 @@ function Navigation() {
   return (
     <div style={{ width: "100%", display: "flex", justifyContent: "center", position: "fixed", bottom: 24, zIndex: 1000 }}>
       <div style={{ 
-        display: "flex", gap: 8, padding: "8px 16px", background: "rgba(15, 23, 42, 0.85)", 
+        display: "flex", gap: 6, padding: "8px 12px", background: "rgba(15, 23, 42, 0.85)", 
         backdropFilter: "blur(16px)", borderRadius: "32px", border: "1px solid rgba(255,255,255,0.1)",
         boxShadow: "0 12px 30px -5px rgba(0,0,0,0.5)"
       }}>
-        {/* Tonight's Dinner is now the first icon */}
         {navItem("/", Utensils, "Home")} 
         {navItem("/week", Calendar, "Week")} 
         {navItem("/cookbook", BookOpen, "Cook")}
@@ -82,10 +80,19 @@ function Navigation() {
   );
 }
 
+// =====================================================
+// MAIN APP COMPONENT
+// =====================================================
 export default function App() {
   const navigate = useNavigate();
-  const APP_VERSION = "22.0.2"; 
+  
+  // Patch: Initialize Toast Logic
+  const toastApi: any = useToast();
+  const toast = toastApi?.toast ?? toastApi;
 
+  const APP_VERSION = "22.0.4"; 
+
+  // --- STATE ---
   const [cookbook, setCookbook] = useState<any[]>(() => {
     const raw = getCookbook() as any[];
     return (Array.isArray(raw) ? raw : []).map(r => ({ ...r, favorite: Boolean(r.favorite) }));
@@ -115,6 +122,7 @@ export default function App() {
     JSON.parse(localStorage.getItem("lockedDays") || JSON.stringify(EMPTY_LOCKS))
   );
 
+  // --- PERSISTENCE ---
   useEffect(() => { localStorage.setItem("meals", JSON.stringify(meals)); }, [meals]);
   useEffect(() => { localStorage.setItem("daySettings", JSON.stringify(daySettings)); }, [daySettings]);
   useEffect(() => { localStorage.setItem("prefs", JSON.stringify(prefs)); }, [prefs]);
@@ -124,14 +132,24 @@ export default function App() {
   useEffect(() => { localStorage.setItem("vegetarian", String(vegetarian)); }, [vegetarian]);
   useEffect(() => { persistCookbook(cookbook); }, [cookbook]);
 
+  // Patch: Version Check with Toast Notification
   useEffect(() => {
     const savedVersion = localStorage.getItem("app-version");
-    if (savedVersion !== APP_VERSION) {
+    if (savedVersion && savedVersion !== APP_VERSION) {
+      if (typeof toast === "function") {
+        toast("Update Ready! Tap to refresh.", {
+          onClick: () => {
+            localStorage.setItem("app-version", APP_VERSION);
+            window.location.reload();
+          }
+        });
+      }
+    } else {
       localStorage.setItem("app-version", APP_VERSION);
-      window.location.reload(); 
     }
-  }, []);
+  }, [toast]);
 
+  // --- LOGIC ---
   const addDayToCookbook = (day: string) => {
     const meal = meals[day];
     if (!meal?.name?.trim()) return;
@@ -158,7 +176,7 @@ export default function App() {
       }
     }
     setMeals(withPhotos);
-    navigate("/week"); // AFTER GENERATING, GO STRAIGHT TO THE GENERATOR PAGE
+    navigate("/"); 
   };
 
   const requireOnboarding = (element: React.ReactNode) => 
@@ -172,7 +190,7 @@ export default function App() {
           <header style={{ padding: "32px 20px 20px", textAlign: "center", maxWidth: "550px", margin: "0 auto" }}>
             <h1 style={{ margin: 0, fontSize: 36, fontWeight: 1000, color: "#f8fafc" }}>Simple Dinners</h1>
             <div style={{ fontSize: 12, fontWeight: 800, opacity: 0.4, textTransform: "uppercase", marginTop: 4 }}>
-              Captain's Kitchen • v22.0.2
+              Captain's Kitchen • v22.0.4
             </div>
           </header>
 
@@ -203,7 +221,15 @@ export default function App() {
                 />
             )} />
 
-            <Route path="/cookbook" element={requireOnboarding(<CookbookPage setMeals={setMeals} cookbook={cookbook} setCookbook={setCookbook} prefs={{...prefs, vegetarian}} />)} />
+            <Route 
+  path="/cookbook" 
+  element={requireOnboarding(
+    <CookbookPage 
+      cookbook={cookbook} 
+      setCookbook={setCookbook} 
+    />
+  )} 
+/>
             <Route path="/recipe/:slug" element={<RecipePage />} />
             <Route path="/shopping-list" element={requireOnboarding(<ShoppingListPage />)} />
             <Route path="/cook-now" element={requireOnboarding(<CookNowPage pantry={pantry} />)} />
