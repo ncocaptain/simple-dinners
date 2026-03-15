@@ -80,20 +80,21 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
       
       const res = await fetch("https://dinners.ncocaptain.com/api/import-recipe", { 
         method: "POST", 
-        // We use text/plain to avoid the 'Pre-flight' check that causes 402/405 errors on some networks
-        headers: { 
-          "Content-Type": "text/plain" 
-        }, 
+        headers: { "Content-Type": "text/plain" }, 
         body: JSON.stringify({ url: importUrl.trim() }) 
       });
       
       const text = await res.text();
       if (!text) throw new Error("Server returned an empty response.");
       
-      // Since we sent text/plain, we manually parse the response here
       const data = JSON.parse(text);
-      if (!res.ok) throw new Error(data.error || "Import failed");
 
+      // SAFETY CHECK: If the scraper failed or returned an error
+      if (!res.ok || data.error || !data.recipe) {
+        throw new Error(data.error || data.details || "Could not find recipe data on this site.");
+      }
+
+      // Only run these if data.recipe actually exists
       setCustomName(data.recipe.name || ""); 
       setCustomIngredients(data.recipe.ingredients || ""); 
       setCustomInstructions(data.recipe.instructions || ""); 
@@ -102,10 +103,9 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
       setShowImport(false); 
       setShowAddRecipe(true); 
       setImportUrl(""); 
-      toast("Imported!", "success");
+      toast("Recipe Found!", "success");
     } catch (err: any) { 
       console.error("Import Error:", err);
-      // This will now show the actual error message on your phone screen
       toast(err.message || "Connection failed.", "error"); 
     } finally { 
       setIsImporting(false); 
