@@ -77,29 +77,46 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
     if (!importUrl.trim()) { toast("Please enter a URL first.", "warning"); return; }
     try {
       setIsImporting(true);
-      const res = await fetch("https://dinners.ncocaptain.com/api/scrape-recipe", { 
+      
+      // MAKE SURE THIS MATCHES YOUR FILENAME: import-recipe vs scrape-recipe
+      const res = await fetch("https://dinners.ncocaptain.com/api/import-recipe", { 
         method: "POST", 
         mode: 'cors',
-        headers: { "Accept": "application/json", "Content-Type": "application/json" }, 
+        headers: { 
+          "Accept": "application/json", 
+          "Content-Type": "application/json" 
+        }, 
         body: JSON.stringify({ url: importUrl.trim() }) 
       });
       
       const text = await res.text();
-      if (!text) throw new Error("Server empty");
+      if (!text) throw new Error("Server returned nothing.");
       
-      const data = JSON.parse(text);
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        throw new Error("Server didn't send valid JSON.");
+      }
+
       if (!res.ok) throw new Error(data.error || "Import failed");
 
+      // Update the state with the new recipe data
       setCustomName(data.recipe.name || ""); 
       setCustomIngredients(data.recipe.ingredients || ""); 
       setCustomInstructions(data.recipe.instructions || ""); 
       setCustomPhotoUrl(data.recipe.photoUrl || "");
 
-      setShowImport(false); setShowAddRecipe(true); setImportUrl(""); 
-      toast("Imported!", "success");
+      setShowImport(false); 
+      setShowAddRecipe(true); 
+      setImportUrl(""); 
+      toast("Recipe Fetched!", "success");
     } catch (err: any) { 
+      console.error("Import Error:", err);
       toast(err.message || "Connection failed.", "error"); 
-    } finally { setIsImporting(false); }
+    } finally { 
+      setIsImporting(false); 
+    }
   };
 
   const onAddCustomRecipe = () => {
