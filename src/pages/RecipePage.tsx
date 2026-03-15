@@ -4,13 +4,12 @@ import { candidateLibrary } from "../core/planner";
 import { getRecipeBySlug, getCookbookRecipeBySlug } from "../core/recipeStore";
 import { 
   Printer, ArrowLeft, BookUser, ShoppingCart, Play, History, 
-  Star, X, ChevronRight, ChevronLeft, Timer, CheckCircle2, Share2 
+  Star, X, ChevronRight, ChevronLeft, Timer, CheckCircle2, 
 } from "lucide-react";
 import { addIngredientsToList } from "../shoppingList";
 import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
-import { PUBLIC_APP_URL } from "../core/appConfig";
 
-// --- HELPERS ---
+// --- HELPERS (Logic remains unchanged) ---
 function splitLines(s?: string) {
   return (s ?? "").split("\n").map((x) => x.trim()).filter(Boolean);
 }
@@ -29,29 +28,21 @@ function parseStepDuration(step: string): number | null {
 }
 
 function scaleIngredient(line: string, factor: number): string {
-  // Regex to find numbers, decimals, or fractions at the start of the line
   return line.replace(/^(\d+\/\d+|\d+\s\d+\/\d+|\d+(\.\d+)?)/g, (match) => {
     let value = 0;
-
     if (match.includes('/')) {
-      // Handle "1 1/2" style fractions
       const parts = match.split(' ');
       if (parts.length === 2) {
         const [num, den] = parts[1].split('/').map(Number);
         value = Number(parts[0]) + (num / den);
       } else {
-        // Handle "1/2" style fractions
         const [num, den] = parts[0].split('/').map(Number);
         value = num / den;
       }
     } else {
       value = parseFloat(match);
     }
-
     const scaled = value * factor;
-    
-    // If the result is a whole number, keep it simple. 
-    // If it's a decimal, round to 2 places (e.g., 0.33)
     return scaled % 1 === 0 ? scaled.toString() : scaled.toFixed(2).replace(/\.?0+$/, "");
   });
 }
@@ -73,18 +64,17 @@ export default function RecipePage() {
   const qs = new URLSearchParams(location.search);
   const fromPath = qs.get("from") || "/week";
 
-  // --- STYLES ---
-  const pill: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 16px", borderRadius: 999, border: "1px solid rgba(255,255,255,0.15)", background: "rgba(255,255,255,0.08)", fontSize: 13, fontWeight: 800, color: "#f8fafc" };
-  const card: React.CSSProperties = { borderRadius: 32, overflow: "hidden", background: "rgba(15, 23, 42, 0.6)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.12)", color: "#f8fafc", boxShadow: "0 20px 50px rgba(0,0,0,0.4)" };
-  const section: React.CSSProperties = { padding: "32px 28px", borderTop: "1px solid rgba(255,255,255,0.08)" };
-  const h3: React.CSSProperties = { margin: "0 0 20px", fontSize: "14px", textTransform: "uppercase", letterSpacing: "0.1em", opacity: 0.6, fontWeight: 900 };
-  const btn: React.CSSProperties = { padding: "14px 20px", borderRadius: 16, background: "rgba(255,255,255,0.06)", color: "#f8fafc", cursor: "pointer", fontWeight: 900, border: "1px solid rgba(255,255,255,0.12)", display: "inline-flex", alignItems: "center", gap: 10 };
+  // --- REFRESHED STYLES ---
+  const pill: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 14px", borderRadius: 999, border: "1px solid rgba(255,255,255,0.12)", background: "rgba(255,255,255,0.06)", fontSize: 12, fontWeight: 800, color: "rgba(255,255,255,0.9)" };
+  const card: React.CSSProperties = { borderRadius: 32, overflow: "hidden", background: "rgba(15, 23, 42, 0.8)", border: "1px solid rgba(255,255,255,0.08)", color: "#f8fafc", boxShadow: "0 20px 50px rgba(0,0,0,0.5)" };
+  const section: React.CSSProperties = { padding: "32px 24px" };
+  const h3: React.CSSProperties = { margin: "0 0 20px", fontSize: "13px", textTransform: "uppercase", letterSpacing: "0.15em", color: "#14b8a6", fontWeight: 900 };
+  const btn: React.CSSProperties = { padding: "12px 18px", borderRadius: 16, background: "rgba(255,255,255,0.06)", color: "#f8fafc", cursor: "pointer", fontWeight: 800, border: "1px solid rgba(255,255,255,0.1)", display: "inline-flex", alignItems: "center", gap: 8, fontSize: 14 };
 
   const recipe = useMemo(() => {
     return getCookbookRecipeBySlug?.(slug) || getRecipeBySlug(slug) || findCandidateBySlug(slug);
   }, [slug]);
 
-  // --- TIMER EFFECT ---
   useEffect(() => {
     let interval: any;
     if (isTimerRunning && timerSeconds && timerSeconds > 0) {
@@ -97,7 +87,7 @@ export default function RecipePage() {
     return () => clearInterval(interval);
   }, [isTimerRunning, timerSeconds]);
 
-  if (!recipe) return <div style={{ padding: 24, color: "white" }}>Recipe not found.</div>;
+  if (!recipe) return <div style={{ padding: 40, color: "white", textAlign: "center" }}>Recipe not found.</div>;
 
   const history = getCookHistoryFor(recipe.slug || slug);
   const rawIngredients = splitLines(recipe?.ingredients ?? "");
@@ -107,144 +97,158 @@ export default function RecipePage() {
   const detectedTime = parseStepDuration(currentStep);
   const heroUrl = recipe?.photoUrl || `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1400&q=80&sig=${encodeURIComponent(slug)}`;
 
-  // --- VIEW 1: COOK MODE ---
+  // --- VIEW 1: COOK MODE (Immersive Focus) ---
   if (cookMode) {
     return (
-      <div style={{ padding: "16px", maxWidth: 600, margin: "0 auto", display: "grid", gap: 16 }}>
+      <div style={{ padding: "20px", maxWidth: 600, margin: "0 auto", display: "grid", gap: 20 }}>
         <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <button style={{ ...btn, padding: "8px 12px" }} onClick={() => setCookMode(false)}><X size={18} /> Exit</button>
-          <div style={{ textAlign: "right" }}>
-            <div style={{ fontWeight: 900, fontSize: 13 }}>Step {stepIndex + 1} of {instructions.length}</div>
-          </div>
+          <button style={{ ...btn, background: "rgba(239,68,68,0.1)", borderColor: "rgba(239,68,68,0.2)" }} onClick={() => setCookMode(false)}><X size={18} /> Exit</button>
+          <div style={{ fontWeight: 900, fontSize: 14, color: "#14b8a6" }}>STEP {stepIndex + 1} / {instructions.length}</div>
         </header>
-        <div style={{ height: 6, background: "rgba(255,255,255,0.1)", borderRadius: 3, overflow: "hidden" }}>
-          <div style={{ height: "100%", background: "#14b8a6", width: `${((stepIndex + 1) / instructions.length) * 100}%`, transition: "width 0.3s ease" }} />
+        
+        <div style={{ height: 8, background: "rgba(255,255,255,0.05)", borderRadius: 4, overflow: "hidden" }}>
+          <div style={{ height: "100%", background: "#14b8a6", width: `${((stepIndex + 1) / instructions.length) * 100}%`, transition: "width 0.4s cubic-bezier(0.4, 0, 0.2, 1)" }} />
         </div>
+
         <div 
-          style={{ ...card, padding: 24, minHeight: 240, display: "flex", flexDirection: "column", justifyContent: "center", touchAction: "none" }}
+          style={{ ...card, padding: 32, minHeight: 300, display: "flex", flexDirection: "column", justifyContent: "center", textAlign: "center" }}
           onTouchStart={(e) => setTouchStart(e.targetTouches[0].clientX)}
           onTouchEnd={(e) => {
             if (!touchStart) return;
             const distance = touchStart - e.changedTouches[0].clientX;
-            if (distance > 50) setStepIndex(s => Math.min(instructions.length - 1, s + 1));
-            if (distance < -50) setStepIndex(s => Math.max(0, s - 1));
+            if (distance > 70) setStepIndex(s => Math.min(instructions.length - 1, s + 1));
+            if (distance < -70) setStepIndex(s => Math.max(0, s - 1));
             setTouchStart(null);
           }}
         >
-          <div style={{ fontSize: 24, fontWeight: 800, lineHeight: 1.4 }}>{currentStep}</div>
+          <div style={{ fontSize: "26px", fontWeight: 800, lineHeight: 1.5, color: "#fff" }}>{currentStep}</div>
           
           {detectedTime && !timerSeconds && (
             <button 
-              style={{ ...btn, marginTop: 20, background: "rgba(20,184,166,0.1)", borderColor: "#14b8a6" }}
+              style={{ ...btn, marginTop: 32, alignSelf: "center", background: "#14b8a6", color: "#0f172a", border: "none" }}
               onClick={() => { setTimerSeconds(detectedTime); setIsTimerRunning(true); }}
             >
-              <Timer size={18} /> Start {Math.floor(detectedTime/60)}m Timer
+              <Timer size={20} /> Start {Math.floor(detectedTime/60)}m Timer
             </button>
           )}
 
           {timerSeconds !== null && (
-            <div style={{ marginTop: 20, fontSize: 32, fontWeight: 900, color: "#14b8a6" }}>
+            <div style={{ marginTop: 32, fontSize: 48, fontWeight: 950, color: "#14b8a6", fontVariantNumeric: "tabular-nums" }}>
               {Math.floor(timerSeconds/60)}:{(timerSeconds%60).toString().padStart(2, '0')}
             </div>
           )}
         </div>
-        <footer style={{ display: "flex", gap: 12 }}>
+
+        <footer style={{ display: "flex", gap: 16 }}>
             <button style={{ ...btn, flex: 1 }} onClick={() => setStepIndex(s => Math.max(0, s-1))} disabled={stepIndex === 0}>
-              <ChevronLeft size={18} /> Back
+              <ChevronLeft size={20} />
             </button>
-            <button style={{ ...btn, flex: 1.5, background: "#14b8a6", border: "none" }} onClick={() => stepIndex >= instructions.length - 1 ? setCookMode(false) : setStepIndex(s => s + 1)}>
-              {stepIndex >= instructions.length - 1 ? <><CheckCircle2 /> Finish</> : <>Next <ChevronRight /></>}
+            <button style={{ ...btn, flex: 3, background: "#14b8a6", color: "#0f172a", border: "none" }} onClick={() => stepIndex >= instructions.length - 1 ? setCookMode(false) : setStepIndex(s => s + 1)}>
+              {stepIndex >= instructions.length - 1 ? <><CheckCircle2 /> Done</> : <>Next Step <ChevronRight /></>}
             </button>
         </footer>
       </div>
     );
   }
 
-  // --- VIEW 2: STANDARD DETAIL ---
+  // --- VIEW 2: STANDARD DETAIL (Breathable Layout) ---
   return (
-    <div style={{ padding: "32px 20px", maxWidth: 900, margin: "0 auto" }}>
-      <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 28 }}>
+    <div style={{ padding: "20px 16px 60px 16px", maxWidth: 900, margin: "0 auto" }}>
+      
+      {/* Action Bar */}
+      <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 24, justifyContent: "center" }}>
         <button style={btn} onClick={() => navigate(fromPath)}>
           <ArrowLeft size={18} /> {fromPath === "/cookbook" ? "Cookbook" : "Back"}
         </button>
         
         <button 
-          style={{ ...btn, background: "#14b8a6", border: "none" }} 
+          style={{ ...btn, background: "#14b8a6", color: "#0f172a", border: "none" }} 
           onClick={() => { recordCook(recipe.slug || slug); setCookMode(true); }}
         >
-          <Play size={18} fill="currentColor" /> Enter Cook Mode
+          <Play size={18} fill="currentColor" /> Cook Mode
         </button>
 
-        {/* Serving Scaler - FIXES setServingFactor unused error */}
-        <div style={{ ...btn, background: "rgba(255,255,255,0.03)", gap: 15 }}>
-          <span style={{ fontSize: 11, opacity: 0.6 }}>SCALE:</span>
-          <button onClick={() => setServingFactor(0.5)} style={{ color: servingFactor === 0.5 ? "#14b8a6" : "inherit", background: 'none', border: 'none', fontWeight: 900, cursor: 'pointer' }}>½x</button>
-          <button onClick={() => setServingFactor(1)} style={{ color: servingFactor === 1 ? "#14b8a6" : "inherit", background: 'none', border: 'none', fontWeight: 900, cursor: 'pointer' }}>1x</button>
-          <button onClick={() => setServingFactor(2)} style={{ color: servingFactor === 2 ? "#14b8a6" : "inherit", background: 'none', border: 'none', fontWeight: 900, cursor: 'pointer' }}>2x</button>
+        <div style={{ ...btn, background: "rgba(255,255,255,0.04)", gap: 14, padding: "8px 16px" }}>
+          <button onClick={() => setServingFactor(0.5)} style={{ color: servingFactor === 0.5 ? "#14b8a6" : "rgba(255,255,255,0.4)", background: 'none', border: 'none', fontWeight: 900, cursor: 'pointer' }}>½x</button>
+          <button onClick={() => setServingFactor(1)} style={{ color: servingFactor === 1 ? "#14b8a6" : "rgba(255,255,255,0.4)", background: 'none', border: 'none', fontWeight: 900, cursor: 'pointer' }}>1x</button>
+          <button onClick={() => setServingFactor(2)} style={{ color: servingFactor === 2 ? "#14b8a6" : "rgba(255,255,255,0.4)", background: 'none', border: 'none', fontWeight: 900, cursor: 'pointer' }}>2x</button>
         </div>
 
-        <button style={btn} onClick={() => window.print()}><Printer size={18} /> Print</button>
-
-        <button 
-          style={btn} 
-          onClick={async () => {
-            await navigator.clipboard.writeText(`${PUBLIC_APP_URL}/recipe/${recipe.slug || slug}`);
-            alert("Link copied!");
-          }}
-        >
-          <Share2 size={18} />
-        </button>
-
-        <button style={btn} onClick={() => { addIngredientsToList(recipe.name, ingredients.join("\n")); alert("Added to list!"); }}>
-          <ShoppingCart size={18} /> List
-        </button>
+        <button style={btn} onClick={() => window.print()}><Printer size={18} /></button>
+        <button style={btn} onClick={() => { addIngredientsToList(recipe.name, ingredients.join("\n")); alert("Added to list!"); }}><ShoppingCart size={18} /></button>
       </div>
 
       <div style={card}>
-        <div style={{ position: "relative", height: 340 }}>
+        {/* Hero Section */}
+        <div style={{ position: "relative", height: 380 }}>
           <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${heroUrl})`, backgroundSize: "cover", backgroundPosition: "center" }} />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(15,23,42,1) 5%, rgba(15,23,42,0.4) 50%, transparent 100%)" }} />
-          <div style={{ position: "absolute", left: 28, right: 28, bottom: 24 }}>
-            <h1 style={{ fontSize: "42px", fontWeight: 950, lineHeight: 1.1, margin: 0 }}>{recipe.name}</h1>
-            <div style={{ display: "flex", gap: 12, marginTop: 16, flexWrap: "wrap" }}>
-              <span style={pill}>🧾 {ingredients.length} Ingredients</span>
-              <span style={pill}>✅ {instructions.length} Steps</span>
-              {recipe.favorite && <span style={{ ...pill, color: "#facc15" }}><Star size={16} fill="#facc15" /> Favorite</span>}
-              {history.timesCooked > 0 && <span style={pill}><History size={16} /> Made {history.timesCooked}x</span>}
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(15,23,42,1) 0%, rgba(15,23,42,0.4) 60%, transparent 100%)" }} />
+          
+          <div style={{ position: "absolute", left: 24, right: 24, bottom: 32 }}>
+            <h1 style={{ fontSize: "38px", fontWeight: 950, lineHeight: 1.1, margin: 0, color: "#fff", letterSpacing: "-0.02em" }}>{recipe.name}</h1>
+            <div style={{ display: "flex", gap: 10, marginTop: 20, flexWrap: "wrap" }}>
+              <span style={pill}>{ingredients.length} items</span>
+              <span style={pill}>{instructions.length} steps</span>
+              {recipe.favorite && <span style={{ ...pill, color: "#facc15", borderColor: "rgba(250,204,21,0.3)" }}><Star size={14} fill="#facc15" /> Favorite</span>}
+              {history.timesCooked > 0 && <span style={pill}><History size={14} /> Made {history.timesCooked}x</span>}
             </div>
           </div>
         </div>
 
+        {/* The Captain's Notes */}
         {recipe.notes && (
-          <div style={{ ...section, background: "rgba(20,184,166,0.05)", borderLeft: "4px solid #14b8a6" }}>
-            <div style={{ ...h3, color: "#14b8a6" }}><BookUser size={16} style={{ marginRight: 8 }} /> The Captain's Notes</div>
-            <div style={{ fontSize: "17px", lineHeight: 1.6, fontStyle: "italic", opacity: 0.9 }}>"{recipe.notes}"</div>
+          <div style={{ padding: "24px", background: "rgba(20,184,166,0.08)", borderBottom: "1px solid rgba(20,184,166,0.1)" }}>
+            <div style={{ ...h3, marginBottom: 8 }}><BookUser size={14} style={{ marginRight: 6 }} /> The Captain's Notes</div>
+            <div style={{ fontSize: "17px", lineHeight: 1.6, fontStyle: "italic", color: "rgba(255,255,255,0.8)" }}>"{recipe.notes}"</div>
           </div>
         )}
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" }}>
-          <div style={{ ...section, borderRight: "1px solid rgba(255,255,255,0.08)" }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+        {/* Ingredients & Instructions Grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))" }}>
+          
+          {/* Ingredients Column */}
+          <div style={{ ...section, borderRight: "1px solid rgba(255,255,255,0.05)" }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
               <div style={h3}>Ingredients</div>
-              <button onClick={() => setCheckedIngredients([])} style={{ fontSize: 11, fontWeight: 900, color: "#14b8a6", background: 'none', border: 'none' }}>RESET</button>
+              <button onClick={() => setCheckedIngredients([])} style={{ fontSize: 12, fontWeight: 900, color: "#14b8a6", background: 'none', border: 'none', cursor: 'pointer' }}>RESET</button>
             </div>
-            <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 12 }}>
-              {ingredients.map((line, i) => (
-                <li key={i} onClick={() => setCheckedIngredients(prev => prev.includes(i) ? prev.filter(x => x !== i) : [...prev, i])} style={{ fontSize: "17px", display: "flex", gap: 12, cursor: 'pointer', opacity: checkedIngredients.includes(i) ? 0.3 : 1 }}>
-                  <span style={{ color: "#14b8a6", marginTop: 4 }}>{checkedIngredients.includes(i) ? <CheckCircle2 size={16} /> : "•"}</span>
-                  <span style={{ textDecoration: checkedIngredients.includes(i) ? 'line-through' : 'none' }}>{line}</span>
-                </li>
-              ))}
+            <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 14 }}>
+              {ingredients.map((line, i) => {
+                const isChecked = checkedIngredients.includes(i);
+                return (
+                  <li 
+                    key={i} 
+                    onClick={() => setCheckedIngredients(prev => isChecked ? prev.filter(x => x !== i) : [...prev, i])} 
+                    style={{ 
+                      fontSize: "17px", display: "flex", gap: 14, cursor: 'pointer', 
+                      transition: "opacity 0.2s", opacity: isChecked ? 0.35 : 1 
+                    }}
+                  >
+                    <span style={{ color: "#14b8a6", marginTop: 2 }}>
+                      {isChecked ? <CheckCircle2 size={18} /> : <div style={{width: 18, height: 18, border: '2px solid rgba(20,184,166,0.4)', borderRadius: '50%'}} />}
+                    </span>
+                    <span style={{ textDecoration: isChecked ? 'line-through' : 'none', lineHeight: 1.4 }}>{line}</span>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
+          {/* Instructions Column */}
           <div style={section}>
             <div style={h3}>Instructions</div>
-            <div style={{ display: "grid", gap: 24 }}>
+            <div style={{ display: "grid", gap: 28 }}>
               {instructions.map((line, i) => (
-                <div key={i} style={{ display: "flex", gap: 16 }}>
-                  <span style={{ fontSize: "13px", fontWeight: 900, color: "#14b8a6", background: "rgba(20,184,166,0.1)", width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 8, flexShrink: 0 }}>{i + 1}</span>
-                  <p style={{ margin: 0, fontSize: "18px", lineHeight: 1.7, opacity: 0.9 }}>{line}</p>
+                <div key={i} style={{ display: "flex", gap: 20 }}>
+                  <span style={{ 
+                    fontSize: "13px", fontWeight: 900, color: "#14b8a6", 
+                    background: "rgba(20,184,166,0.12)", width: 32, height: 32, 
+                    display: "flex", alignItems: "center", justifyContent: "center", 
+                    borderRadius: 10, flexShrink: 0 
+                  }}>
+                    {i + 1}
+                  </span>
+                  <p style={{ margin: 0, fontSize: "18px", lineHeight: 1.7, color: "rgba(255,255,255,0.9)" }}>{line}</p>
                 </div>
               ))}
             </div>
