@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react"; // Removed useMemo
+import { useEffect, useState } from "react";
 import { Navigate, Route, Routes, useNavigate, useLocation } from "react-router-dom";
 
 // Pages
 import WeekPage from "./pages/WeekPage";
 import CookbookPage from "./pages/CookbookPage";
 import PlanPage from "./pages/PlanPage";
-// Removed TakeoutSettingsPage import
 import ShoppingListPage from "./pages/ShoppingListPage";
 import CookNowPage from "./pages/CookNowPage";
 import OnboardingPage from "./pages/OnboardingPage";
@@ -18,11 +17,11 @@ import FeedbackForm from "./pages/FeedbackForm";
 // Components & Icons
 import { ToastProvider } from "./components/Toast";
 import { ThemeProvider } from "./theme";
-import { Calendar, BookOpen, ShoppingBasket, Settings } from "lucide-react"; // Removed Info, MessageSquare
+import { Calendar, BookOpen, ShoppingBasket, Settings } from "lucide-react";
 
 // Core
 import type { Effort, Meal, PantryItem, Preferences } from "./core/types";
-import { generatePlan } from "./core/planner"; // Removed mealImageUrl
+import { generatePlan } from "./core/planner"; 
 import { days } from "./core/data";
 import { getCookbook, setCookbook as persistCookbook, addToCookbook } from "./core/cookbookStore";
 import { hasCompletedOnboarding } from "./core/onboardingStore";
@@ -32,7 +31,6 @@ const EMPTY_MEAL: Meal = { name: "", ingredients: "", instructions: "", photoUrl
 const EMPTY_WEEK = Object.fromEntries(days.map((d) => [d, { ...EMPTY_MEAL }])) as Record<string, Meal>;
 const EMPTY_LOCKS = Object.fromEntries(days.map((d) => [d, false])) as Record<string, boolean>;
 
-// Helper for generating images (since we removed it from planner.ts)
 const mealImageUrl = (name?: string) => {
   const q = encodeURIComponent((name || "cooking dinner").trim());
   return `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80&sig=1&meal=${q}`;
@@ -72,7 +70,7 @@ function Navigation() {
         backdropFilter: "blur(16px)", borderRadius: "32px", border: "1px solid rgba(255,255,255,0.1)",
         boxShadow: "0 12px 30px -5px rgba(0,0,0,0.5)"
       }}>
-        {navItem("/", Calendar, "Plan")}
+        {navItem("/week", Calendar, "Week")} 
         {navItem("/cookbook", BookOpen, "Cook")}
         {navItem("/shopping-list", ShoppingBasket, "Shop")}
         {navItem("/settings", Settings, "Setup")}
@@ -85,7 +83,6 @@ export default function App() {
   const navigate = useNavigate();
   const APP_VERSION = "22.0.1"; 
 
-  // --- STATE ---
   const [cookbook, setCookbook] = useState<any[]>(() => {
     const raw = getCookbook() as any[];
     return (Array.isArray(raw) ? raw : []).map(r => ({ ...r, favorite: Boolean(r.favorite) }));
@@ -108,7 +105,6 @@ export default function App() {
     return saved ? JSON.parse(saved) : { vegetarian: false, allergens: [] };
   });
 
-  // Re-adding missing states for PlanPage
   const [dietaryNotes, setDietaryNotes] = useState<string>(() => localStorage.getItem("dietaryNotes") || "");
   const [vegetarian] = useState<boolean>(() => localStorage.getItem("vegetarian") === "true");
 
@@ -116,7 +112,6 @@ export default function App() {
     JSON.parse(localStorage.getItem("lockedDays") || JSON.stringify(EMPTY_LOCKS))
   );
 
-  // --- PERSISTENCE ---
   useEffect(() => { localStorage.setItem("meals", JSON.stringify(meals)); }, [meals]);
   useEffect(() => { localStorage.setItem("daySettings", JSON.stringify(daySettings)); }, [daySettings]);
   useEffect(() => { localStorage.setItem("prefs", JSON.stringify(prefs)); }, [prefs]);
@@ -134,7 +129,6 @@ export default function App() {
     }
   }, []);
 
-  // --- LOGIC ---
   const addDayToCookbook = (day: string) => {
     const meal = meals[day];
     if (!meal?.name?.trim()) return;
@@ -153,7 +147,6 @@ export default function App() {
         days 
     });
     
-    // Applying image fallback logic
     const withPhotos = { ...EMPTY_WEEK, ...next } as Record<string, Meal>;
     for (const d of days) {
       const meal = withPhotos[d];
@@ -184,20 +177,30 @@ export default function App() {
             <Route path="/" element={requireOnboarding(<HomePage meals={meals} />)} />
             <Route path="/onboarding" element={<OnboardingPage />} />
             
-            {/* FIXED: Passing missing props back into PlanPage */}
             <Route path="/plan" element={requireOnboarding(
-    <PlanPage 
-        daySettings={daySettings} 
-        setDaySettings={setDaySettings} 
-        pantry={pantry} 
-        setPantry={setPantry} 
-        dietaryNotes={dietaryNotes}
-        setDietaryNotes={setDietaryNotes}
-        generateDinnerPlan={generateDinnerPlan} 
-    />
-)} />
+                <PlanPage 
+                    daySettings={daySettings} 
+                    setDaySettings={setDaySettings} 
+                    pantry={pantry} 
+                    setPantry={setPantry} 
+                    dietaryNotes={dietaryNotes}
+                    setDietaryNotes={setDietaryNotes}
+                    generateDinnerPlan={generateDinnerPlan} 
+                />
+            )} />
 
-            <Route path="/week" element={requireOnboarding(<WeekPage meals={meals} setMeals={setMeals} addDayToCookbook={addDayToCookbook} generateDinnerPlan={generateDinnerPlan} daySettings={daySettings} setDaySettings={setDaySettings} lockedDays={lockedDays} setLockedDays={setLockedDays} />)} />
+            {/* FIXED: Removed daySettings/setDaySettings to match WeekPage props */}
+            <Route path="/week" element={requireOnboarding(
+                <WeekPage 
+                    meals={meals} 
+                    setMeals={setMeals} 
+                    addDayToCookbook={addDayToCookbook} 
+                    generateDinnerPlan={generateDinnerPlan} 
+                    lockedDays={lockedDays} 
+                    setLockedDays={setLockedDays} 
+                />
+            )} />
+
             <Route path="/cookbook" element={requireOnboarding(<CookbookPage setMeals={setMeals} cookbook={cookbook} setCookbook={setCookbook} prefs={{...prefs, vegetarian}} />)} />
             <Route path="/recipe/:slug" element={<RecipePage />} />
             <Route path="/shopping-list" element={requireOnboarding(<ShoppingListPage />)} />
