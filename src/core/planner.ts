@@ -234,7 +234,7 @@ export function getPlannerScore(meal: Meal): number {
 }
 
 // =====================================================
-// Candidate library
+// Candidate library with Visual Assets
 // =====================================================
 export const candidateLibrary: Meal[] = [
   ...NEW_BUILTIN_RECIPES,
@@ -246,6 +246,7 @@ export const candidateLibrary: Meal[] = [
     name: "Drive-Thru Night",
     ingredients: "Order out (no groceries).",
     effort: "takeout",
+    photoUrl: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: "takeout-rotisserie-chicken-night",
@@ -253,6 +254,7 @@ export const candidateLibrary: Meal[] = [
     name: "Rotisserie Chicken Night",
     ingredients: "Rotisserie chicken, salad kit, rolls.",
     effort: "takeout",
+    photoUrl: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: "takeout-frozen-pizza-night",
@@ -260,6 +262,7 @@ export const candidateLibrary: Meal[] = [
     name: "Frozen Pizza Night",
     ingredients: "Frozen pizza, salad kit.",
     effort: "takeout",
+    photoUrl: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: "takeout-deli-sandwich-night",
@@ -267,6 +270,7 @@ export const candidateLibrary: Meal[] = [
     name: "Deli Sandwich Night",
     ingredients: "Deli meat, bread, cheese, chips.",
     effort: "takeout",
+    photoUrl: "https://images.unsplash.com/photo-1524350303359-301014499558?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: "leftover-night",
@@ -275,6 +279,7 @@ export const candidateLibrary: Meal[] = [
     ingredients: "Use leftovers from a recent dinner.",
     instructions: "Reheat and serve leftover portions from the previous meal.",
     effort: "quick",
+    photoUrl: "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=800&q=80"
   },
 ];
 
@@ -288,7 +293,7 @@ export function generatePlan(args: {
     ingredients: string;
     instructions?: string;
     photoUrl?: string;
-  }>;
+   }>;
   pantry: PantryItem[];
   pantryText?: string;
   daySettings: Record<string, Effort>;
@@ -324,7 +329,6 @@ export function generatePlan(args: {
     const plannerScore = getPlannerScore(meal);
     const variety = Math.random() * 6;
 
-    // vegetarian boost
     let vegBoost = 0;
     if (prefs.vegetarian && isVegetarianMeal(meal, MEAT_WORDS)) {
       vegBoost = 8;
@@ -345,7 +349,6 @@ export function generatePlan(args: {
     const next: Record<string, Meal> = { ...meals };
   const usedMealNames = new Set<string>();
 
-  // Clear any existing meals that no longer match current preferences
   for (const day of days) {
     const existingMeal = next[day];
     if (!existingMeal?.name?.trim()) continue;
@@ -391,30 +394,21 @@ export function generatePlan(args: {
       !usedMealNames.has(normalize("Leftover Night"));
 
     if (canUseLeftovers && neededEffort !== "takeout" && Math.random() < 0.6) {
-      next[day] = {
-        name: `Leftovers from ${previousMeal.name}`,
-        slug: "leftover-night",
-        ingredients: `Use leftovers from ${previousMeal.name}.`,
-        instructions: `Reheat and serve leftovers from ${previousMeal.name}.`,
-        effort: "quick",
-      } as Meal;
-
+      next[day] = candidateLibrary.find(c => c.slug === "leftover-night")!;
       usedMealNames.add(normalize("Leftover Night"));
       continue;
     }
 
     if (neededEffort === "takeout") {
-      next[day] = {
-        name: "Takeout Night",
-        ingredients: "order out (no groceries)",
-        effort: "takeout",
-      };
+      // Pick a random takeout option from the library
+      const takeoutOptions = candidateLibrary.filter(c => c.effort === "takeout");
+      const randomTakeout = takeoutOptions[Math.floor(Math.random() * takeoutOptions.length)];
+      next[day] = randomTakeout;
       continue;
     }
 
     let chosenMeal: Meal | null = null;
 
-    // First pass: avoid repeats
     for (const candidate of candidatePool) {
       if (!candidate?.name) continue;
       if (usedMealNames.has(normalize(candidate.name))) continue;
@@ -432,7 +426,6 @@ export function generatePlan(args: {
       break;
     }
 
-    // Fallback: allow repeats if needed
     if (!chosenMeal) {
       for (const candidate of candidatePool) {
         if (!candidate?.name) continue;

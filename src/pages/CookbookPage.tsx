@@ -50,6 +50,10 @@ const fallbackPhotoUrl = (name?: string) => {
 
 const slugify = (val: string) => val.trim().toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-");
 
+// =====================================================
+// Main Component
+// =====================================================
+
 export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }: { 
   setMeals: React.Dispatch<React.SetStateAction<Record<string, Meal>>>; 
   cookbook: any[]; 
@@ -139,42 +143,53 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
     toast(editingId ? "Updated!" : "Saved!", "success");
   };
 
-  const actionBtn: React.CSSProperties = { padding: "8px 10px", borderRadius: 12, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)", color: "#f8fafc", cursor: "pointer", fontWeight: 800, display: "inline-flex", alignItems: "center", gap: 8 };
+  const actionBtn: React.CSSProperties = { padding: "10px 12px", borderRadius: 12, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)", color: "#f8fafc", cursor: "pointer", fontWeight: 800, display: "inline-flex", alignItems: "center", gap: 8 };
 
   return (
     <Card title={<><BookOpen size={20} /> Cookbook</>} subtitle="Manage your saved recipes.">
       
-      <div style={{ display: "grid", gap: 16, marginBottom: 24 }}>
+      {/* Search and Action Header */}
+      <div style={{ display: "grid", gap: 16, marginBottom: 32, maxWidth: "550px", margin: "0 auto 32px auto" }}>
         <input placeholder="Search recipes..." value={cookbookSearch} onChange={(e) => setCookbookSearch(e.target.value)} style={{ ...base, flex: 1 }} />
-        <div style={{ display: "flex", gap: 10 }}>
-          <Button variant="secondary" onClick={() => { setShowAddRecipe(!showAddRecipe); setShowImport(false); setEditingId(null); setCustomName(""); setCustomIngredients(""); setCustomInstructions(""); setCustomPhotoUrl(""); }}>
-            {showAddRecipe ? <X size={16} /> : <Plus size={16} />} {showAddRecipe ? "Close" : "Add Your Own"}
+        <div style={{ display: "flex", gap: 12 }}>
+          <Button variant="secondary" style={{ flex: 1 }} onClick={() => { setShowAddRecipe(!showAddRecipe); setShowImport(false); setEditingId(null); setCustomName(""); setCustomIngredients(""); setCustomInstructions(""); setCustomPhotoUrl(""); }}>
+            {showAddRecipe ? <X size={16} /> : <Plus size={16} />} {showAddRecipe ? "Close" : "Manual"}
           </Button>
-          <Button variant="secondary" onClick={() => { setShowImport(!showImport); setShowAddRecipe(false); }}>
+          <Button variant="secondary" style={{ flex: 1 }} onClick={() => { setShowImport(!showImport); setShowAddRecipe(false); }}>
             {showImport ? <X size={16} /> : <Download size={16} />} {showImport ? "Close" : "Import"}
           </Button>
         </div>
       </div>
 
       {showImport && (
-        <div style={{ display: "flex", gap: 10, padding: 14, borderRadius: 16, background: "rgba(2,6,23,0.25)", border: "1px solid rgba(255,255,255,0.1)", marginBottom: 20 }}>
+        <div style={{ display: "flex", gap: 10, padding: "20px", borderRadius: 24, background: "rgba(2,6,23,0.4)", border: "1px solid rgba(255,255,255,0.1)", marginBottom: 32, maxWidth: "550px", margin: "0 auto 32px auto" }}>
           <input placeholder="Paste URL..." value={importUrl} onChange={(e) => setImportUrl(e.target.value)} style={{ ...base, flex: 1 }} />
           <Button onClick={onImportRecipe} disabled={isImporting}>{isImporting ? <Loader2 size={16} className="animate-spin" /> : "Go"}</Button>
         </div>
       )}
 
       {showAddRecipe && (
-        <div style={{ display: "grid", gap: 10, padding: 16, borderRadius: 16, background: "rgba(2,6,23,0.25)", border: "1px solid rgba(255,255,255,0.1)", marginBottom: 20 }}>
-          <h3 style={{ fontSize: 14, fontWeight: 900, marginBottom: 4 }}>{editingId ? "Edit Recipe" : "New Recipe"}</h3>
+        <div style={{ display: "grid", gap: 14, padding: "24px", borderRadius: 24, background: "rgba(2,6,23,0.4)", border: "1px solid rgba(255,255,255,0.1)", marginBottom: 32, maxWidth: "550px", margin: "0 auto 32px auto" }}>
+          <h3 style={{ fontSize: 16, fontWeight: 900, marginBottom: 4 }}>{editingId ? "Edit Recipe" : "Add New Recipe"}</h3>
           <input placeholder="Recipe Name" value={customName} onChange={(e) => setCustomName(e.target.value)} style={base} />
-          <textarea placeholder="Ingredients" value={customIngredients} onChange={(e) => setCustomIngredients(e.target.value)} style={{ ...base, minHeight: 80 }} />
-          <textarea placeholder="Instructions" value={customInstructions} onChange={(e) => setCustomInstructions(e.target.value)} style={{ ...base, minHeight: 80 }} />
+          <textarea placeholder="Ingredients" value={customIngredients} onChange={(e) => setCustomIngredients(e.target.value)} style={{ ...base, minHeight: 120 }} />
+          <textarea placeholder="Instructions" value={customInstructions} onChange={(e) => setCustomInstructions(e.target.value)} style={{ ...base, minHeight: 120 }} />
           <Button onClick={onAddCustomRecipe}>{editingId ? "Update Recipe" : "Save to Cookbook"}</Button>
         </div>
       )}
 
+      {/* Main Grid Wrapper */}
       <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "24px", padding: "0 20px 40px 20px", width: "100%", maxWidth: "1200px", boxSizing: "border-box", justifyContent: "center" }}>
+        <div style={{ 
+          display: "grid", 
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 450px), 1fr))", 
+          gap: "32px", 
+          padding: "0 20px 40px 20px", 
+          width: "100%",
+          maxWidth: "550px", 
+          margin: "0 auto",
+          boxSizing: "border-box"
+        }}>
           {filteredCookbook.map((r) => {
             const rid = r.id;
             const navUrl = `/recipe/${encodeURIComponent(r.slug || r.id)}?from=/cookbook`;
@@ -182,40 +197,58 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
             const currentMult = multiplier[rid] || 1;
 
             return (
-              <Card key={rid} style={{ padding: 0, overflow: "hidden", borderRadius: "24px", width: "100%", margin: "0 auto", border: "1px solid rgba(255,255,255,0.08)" }}>
-                <img src={r.photoUrl || fallbackPhotoUrl(r.name)} alt={r.name} onClick={() => navigate(navUrl)} style={{ width: "100%", height: 180, objectFit: "cover", display: "block", cursor: "pointer", borderBottom: "1px solid rgba(255,255,255,0.08)" }} />
+              <Card key={rid} style={{ 
+                padding: 0, 
+                overflow: "hidden", 
+                borderRadius: "28px", 
+                width: "100%", 
+                margin: "0 auto", 
+                border: "1px solid rgba(255,255,255,0.08)",
+                boxShadow: "0 10px 30px -10px rgba(0,0,0,0.5)"
+              }}>
+                <img 
+                  src={r.photoUrl || fallbackPhotoUrl(r.name)} 
+                  alt={r.name} 
+                  onClick={() => navigate(navUrl)} 
+                  style={{ 
+                    width: "100%", 
+                    height: 220, 
+                    objectFit: "cover", 
+                    display: "block", 
+                    cursor: "pointer", 
+                    borderBottom: "1px solid rgba(255,255,255,0.08)" 
+                  }} 
+                />
 
-                <div style={{ padding: "24px 20px", display: "grid", gap: "16px" }}>
+                <div style={{ padding: "28px 24px", display: "grid", gap: "18px" }}>
+                  {/* Title and Favorite */}
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, minHeight: "52px" }}>
-                    <div style={{ fontWeight: 900, fontSize: "20px", lineHeight: "1.2", cursor: "pointer", color: "#f8fafc" }} onClick={() => navigate(navUrl)}>{r.name}</div>
+                    <div style={{ fontWeight: 900, fontSize: "22px", lineHeight: "1.2", cursor: "pointer", color: "#f8fafc" }} onClick={() => navigate(navUrl)}>
+                      {r.name}
+                    </div>
                     <button onClick={() => { const next = cookbook.map(x => x.id === rid ? { ...x, favorite: !x.favorite } : x); setCookbook(next); persistCookbook(next as any); }} style={{ background: "none", border: "none", cursor: "pointer", padding: "4px" }}>
-                      <Star size={22} fill={r.favorite ? "#facc15" : "none"} stroke={r.favorite ? "#facc15" : "currentColor"} />
+                      <Star size={24} fill={r.favorite ? "#facc15" : "none"} stroke={r.favorite ? "#facc15" : "currentColor"} />
                     </button>
                   </div>
                   
-                  <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                  {/* Badges */}
+                  <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "4px" }}>
                     {violatesAllergens(r.ingredients, prefs.allergens || []) ? <Badge tone="bad">Allergens</Badge> : <Badge tone="good">Safe</Badge>}
                     {isVegetarianByHeuristic(r.ingredients) && <Badge tone="good">Veg</Badge>}
                     {r.effort && <Badge tone="warn">{r.effort}</Badge>}
-                    {/* FIXED: Added BookUser Badge */}
                     {r.notes && <Badge tone="good"><BookUser size={12}/> Notes</Badge>}
                   </div>
                   
-                  <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "4px" }}>
+                  {/* Actions Row */}
+                  <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "8px" }}>
                     <button style={actionBtn} onClick={() => setExpandedId(isExpanded ? null : rid)}>
-                      {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />} Details
+                      {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />} Details
                     </button>
                     
-                    <button style={actionBtn} onClick={() => navigate(navUrl)}>
-                      <BookOpen size={14} />
-                    </button>
+                    <button style={actionBtn} onClick={() => navigate(navUrl)}><BookOpen size={16} /></button>
+                    
+                    <button style={actionBtn} onClick={() => navigate(`${navUrl}&print=1`)}><Printer size={16} /></button>
 
-                    {/* FIXED: Added Printer Action */}
-                    <button style={actionBtn} onClick={() => navigate(`${navUrl}&print=1`)}>
-                      <Printer size={14} />
-                    </button>
-
-                    {/* FIXED: Added Share2 Action with PUBLIC_APP_URL */}
                     <button 
                       style={actionBtn} 
                       onClick={async () => { 
@@ -223,10 +256,9 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
                         toast("Copied Link!"); 
                       }}
                     >
-                      <Share2 size={14} />
+                      <Share2 size={16} />
                     </button>
 
-                    {/* FIXED: Added Pencil Action */}
                     <button 
                       style={actionBtn} 
                       onClick={() => { 
@@ -239,28 +271,42 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }}
                     >
-                      <Pencil size={14} />
+                      <Pencil size={16} />
                     </button>
 
-                    <button style={{ ...actionBtn, background: "rgba(239,68,68,0.1)", borderColor: "rgba(239,68,68,0.2)" }} onClick={() => { if(window.confirm("Delete recipe?")){ const next = cookbook.filter(x => x.id !== rid); setCookbook(next); persistCookbook(next as any); } }}><Trash2 size={14} /></button>
+                    <button 
+                      style={{ ...actionBtn, background: "rgba(239,68,68,0.1)", borderColor: "rgba(239,68,68,0.2)" }} 
+                      onClick={() => { if(window.confirm("Delete recipe?")){ const next = cookbook.filter(x => x.id !== rid); setCookbook(next); persistCookbook(next as any); } }}
+                    >
+                      <Trash2 size={16} />
+                    </button>
                   </div>
 
-                  {/* EXPANDABLE MULTIPLIER SECTION */}
+                  {/* Expandable Scaling Section */}
                   {isExpanded && (
-                    <div style={{ padding: "12px", borderRadius: "16px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-                        <span style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.5)" }}>SCALE:</span>
+                    <div style={{ padding: "20px", borderRadius: "20px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", marginTop: "8px" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+                        <span style={{ fontSize: 12, fontWeight: 900, color: "rgba(255,255,255,0.5)" }}>SCALE:</span>
                         {[1, 2, 3].map(m => (
-                          <button key={m} onClick={() => setMultiplier(prev => ({ ...prev, [rid]: m }))} style={{ padding: "4px 8px", borderRadius: 8, border: "none", fontSize: 12, fontWeight: 900, background: currentMult === m ? "#22c55e" : "rgba(255,255,255,0.05)", color: currentMult === m ? "#fff" : "rgba(255,255,255,0.5)" }}>{m}x</button>
+                          <button key={m} onClick={() => setMultiplier(prev => ({ ...prev, [rid]: m }))} style={{ padding: "8px 14px", borderRadius: 10, border: "none", fontSize: 13, fontWeight: 900, background: currentMult === m ? "#22c55e" : "rgba(255,255,255,0.05)", color: currentMult === m ? "#fff" : "rgba(255,255,255,0.5)" }}>{m}x</button>
                         ))}
                       </div>
-                      <div style={{ fontSize: 13, lineHeight: 1.5, color: "rgba(248,250,252,0.8)", whiteSpace: "pre-wrap" }}>
+                      <div style={{ fontSize: 15, lineHeight: 1.6, color: "rgba(248,250,252,0.9)", whiteSpace: "pre-wrap" }}>
                         {scaleIngredients(r.ingredients, currentMult)}
                       </div>
                     </div>
                   )}
                   
-                  <select style={{ ...base, width: "100%", fontSize: 14, height: "42px", marginTop: "4px" }} defaultValue="" onChange={e => { setMeals(prev => ({ ...prev, [e.target.value]: { ...r, ingredients: scaleIngredients(r.ingredients, currentMult) } })); toast(`Added to ${e.target.value}`); e.target.value = ""; }}>
+                  {/* Planner Dropdown */}
+                  <select 
+                    style={{ ...base, width: "100%", fontSize: 15, height: "48px", marginTop: "8px" }} 
+                    defaultValue="" 
+                    onChange={e => { 
+                      setMeals(prev => ({ ...prev, [e.target.value]: { ...r, ingredients: scaleIngredients(r.ingredients, currentMult) } })); 
+                      toast(`Added to ${e.target.value}`); 
+                      e.target.value = ""; 
+                    }}
+                  >
                     <option value="" disabled>Plan for...</option>
                     {days.map(d => <option key={d} value={d}>{d}</option>)}
                   </select>

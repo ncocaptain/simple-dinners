@@ -1,28 +1,21 @@
 import { useEffect, useState } from "react";
+import { ShoppingBasket, Trash2, CheckCircle2, Circle, XCircle, Trash } from "lucide-react";
 import { loadShoppingList, saveShoppingList } from "../shoppingList";
 import type { ShoppingItem } from "../shoppingList";
 import { GROCERY_CATEGORY_ORDER } from "../core/groceryCategories";
 
+import Card from "../components/Card";
+import Button from "../components/Button";
+
 export default function ShoppingListPage() {
-  // =====================================================
-  // Builder: page state
-  // =====================================================
   const [items, setItems] = useState<ShoppingItem[]>([]);
 
-  // =====================================================
-  // Builder: initial load
-  // =====================================================
   useEffect(() => {
     setItems(loadShoppingList());
   }, []);
 
-  // =====================================================
-  // Builder: item actions
-  // =====================================================
   const toggle = (id: string) => {
-    const updated = items.map((i) =>
-      i.id === id ? { ...i, checked: !i.checked } : i
-    );
+    const updated = items.map((i) => i.id === id ? { ...i, checked: !i.checked } : i);
     setItems(updated);
     saveShoppingList(updated);
   };
@@ -40,45 +33,12 @@ export default function ShoppingListPage() {
   };
 
   const clearAll = () => {
-    setItems([]);
-    saveShoppingList([]);
+    if (window.confirm("Clear the entire list?")) {
+      setItems([]);
+      saveShoppingList([]);
+    }
   };
 
-  // =====================================================
-  // Builder: shared button styles
-  // =====================================================
-  const btn: React.CSSProperties = {
-    padding: "10px 14px",
-    borderRadius: 14,
-    background: "rgba(20,184,166,0.18)",
-    color: "#f8fafc",
-    cursor: "pointer",
-    fontWeight: 900,
-    border: "1px solid rgba(20,184,166,0.35)",
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 8,
-  };
-
-  const btnDisabled: React.CSSProperties = {
-    ...btn,
-    opacity: 0.5,
-    cursor: "not-allowed",
-  };
-
-  const removeBtn: React.CSSProperties = {
-    padding: "8px 10px",
-    borderRadius: 12,
-    background: "rgba(255,255,255,0.06)",
-    color: "#f8fafc",
-    cursor: "pointer",
-    fontWeight: 900,
-    border: "1px solid rgba(255,255,255,0.12)",
-  };
-
-  // =====================================================
-  // Builder: grouped shopping list data
-  // =====================================================
   const groupedItems = GROCERY_CATEGORY_ORDER.map((category) => {
     const categoryItems = items
       .filter((item) => item.category === category)
@@ -87,109 +47,112 @@ export default function ShoppingListPage() {
         if (a.checked !== b.checked) return a.checked ? 1 : -1;
         return b.addedAt - a.addedAt;
       });
-
-    return {
-      category,
-      items: categoryItems,
-    };
+    return { category, items: categoryItems };
   }).filter((group) => group.items.length > 0);
 
-  // =====================================================
-  // Builder: page UI
-  // =====================================================
   return (
-    <div style={{ maxWidth: 720, margin: "0 auto", padding: 16, color: "#f8fafc" }}>
-      <h1 style={{ marginTop: 0 }}>Shopping List</h1>
+    <div style={{ maxWidth: "550px", margin: "0 auto", padding: "0 20px 40px 20px" }}>
+      <Card 
+        title={<><ShoppingBasket size={22} /> Shopping List</>} 
+        subtitle={`${items.filter(i => !i.checked).length} items remaining`}
+      >
+        
+        {/* Action Header */}
+        <div style={{ display: "flex", gap: 12, marginBottom: 32 }}>
+          <Button 
+            variant="secondary" 
+            style={{ flex: 1, background: "rgba(255,255,255,0.05)" }}
+            onClick={clearChecked}
+            disabled={!items.some(i => i.checked)}
+          >
+            <XCircle size={16} /> Clear Checked
+          </Button>
+          <Button 
+            variant="danger" 
+            style={{ flex: 1, background: "rgba(239,68,68,0.1)", borderColor: "rgba(239,68,68,0.2)" }}
+            onClick={clearAll}
+            disabled={items.length === 0}
+          >
+            <Trash size={16} /> Clear All
+          </Button>
+        </div>
 
-      <div style={{ display: "flex", gap: 10, marginBottom: 16, flexWrap: "wrap" }}>
-        <button
-          onClick={clearChecked}
-          disabled={items.every((i) => !i.checked)}
-          style={items.every((i) => !i.checked) ? btnDisabled : btn}
-        >
-          Clear checked
-        </button>
-
-        <button
-          onClick={clearAll}
-          disabled={items.length === 0}
-          style={items.length === 0 ? btnDisabled : btn}
-        >
-          Clear all
-        </button>
-      </div>
-
-      {items.length === 0 ? (
-        <p>No items yet. Add ingredients from a recipe.</p>
-      ) : (
-        <div style={{ display: "grid", gap: 16 }}>
-          {groupedItems.map((group) => (
-            <div
-              key={group.category}
-              style={{
-                border: "1px solid rgba(255,255,255,0.10)",
-                borderRadius: 16,
-                padding: 16,
-                background: "rgba(255,255,255,0.04)",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 13,
-                  fontWeight: 900,
-                  textTransform: "uppercase",
-                  opacity: 0.7,
-                  marginBottom: 10,
-                  letterSpacing: 0.3,
-                }}
-              >
-                {group.category}
-              </div>
-
-              <div style={{ display: "grid", gap: 4 }}>
-                {group.items.map((item) => (
-                  <div
-                    key={item.id}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 10,
-                      padding: "10px 8px",
-                      borderBottom: "1px solid rgba(255,255,255,0.08)",
-                      opacity: item.checked ? 0.6 : 1,
-                    }}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={item.checked}
-                      onChange={() => toggle(item.id)}
+        {items.length === 0 ? (
+          <div style={{ textAlign: "center", padding: "40px 20px", opacity: 0.5 }}>
+            <ShoppingBasket size={48} style={{ margin: "0 auto 16px auto", display: "block" }} />
+            <p style={{ fontSize: 16 }}>Your list is empty.<br/>Add items from the Cookbook!</p>
+          </div>
+        ) : (
+          <div style={{ display: "grid", gap: 24 }}>
+            {groupedItems.map((group) => (
+              <div key={group.category}>
+                <h3 style={{ 
+                  fontSize: 12, 
+                  fontWeight: 900, 
+                  textTransform: "uppercase", 
+                  letterSpacing: "0.1em", 
+                  color: "rgba(255,255,255,0.4)",
+                  marginBottom: 12,
+                  paddingLeft: 8
+                }}>
+                  {group.category}
+                </h3>
+                
+                <div style={{ display: "grid", gap: 8 }}>
+                  {group.items.map((item) => (
+                    <div
+                      key={item.id}
+                      onClick={() => toggle(item.id)}
                       style={{
-                        width: 18,
-                        height: 18,
-                        accentColor: "#14b8a6",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 16,
+                        padding: "16px 20px",
+                        borderRadius: "20px",
+                        background: item.checked ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.05)",
+                        border: "1px solid",
+                        borderColor: item.checked ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.1)",
                         cursor: "pointer",
-                      }}
-                    />
-
-                    <span
-                      style={{
-                        flex: 1,
-                        textDecoration: item.checked ? "line-through" : "none",
+                        transition: "all 0.2s ease"
                       }}
                     >
-                      {item.text}
-                    </span>
+                      {item.checked ? (
+                        <CheckCircle2 size={24} color="#22c55e" />
+                      ) : (
+                        <Circle size={24} color="rgba(255,255,255,0.2)" />
+                      )}
 
-                    <button onClick={() => remove(item.id)} style={removeBtn}>
-                      Remove
-                    </button>
-                  </div>
-                ))}
+                      <span style={{
+                        flex: 1,
+                        fontSize: "17px",
+                        fontWeight: item.checked ? 400 : 600,
+                        color: item.checked ? "rgba(255,255,255,0.3)" : "#f8fafc",
+                        textDecoration: item.checked ? "line-through" : "none",
+                      }}>
+                        {item.text}
+                      </span>
+
+                      {!item.checked && (
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); remove(item.id); }}
+                          style={{ 
+                            background: "none", 
+                            border: "none", 
+                            color: "rgba(239,68,68,0.4)",
+                            padding: "8px"
+                          }}
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </Card>
     </div>
   );
 }
