@@ -42,6 +42,15 @@ const EMPTY_LOCKS = Object.fromEntries(
   days.map((d) => [d, false])
 ) as Record<Day, boolean>;
 
+// RESTORED: Takeout Options
+const TAKEOUT_OPTIONS = [
+  { label: "Mexican", query: "mexican restaurant", emoji: "🌮" },
+  { label: "Italian", query: "italian restaurant", emoji: "🍝" },
+  { label: "Chinese", query: "chinese restaurant", emoji: "🥡" },
+  { label: "Pizza", query: "pizza", emoji: "🍕" },
+  { label: "Burgers", query: "burgers", emoji: "🍔" },
+];
+
 function pad2(n: number) { return String(n).padStart(2, "0"); }
 
 function todayKey(date: Date = new Date()): string {
@@ -130,6 +139,17 @@ export default function WeekPage({
   };
   const tonightBadge = getTonightBadge();
 
+  // Maps Integration
+  const openMaps = (query: string) => {
+    const q = encodeURIComponent(query);
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    if (isAndroid) {
+      window.location.href = `geo:0,0?q=${q}`;
+    } else {
+      window.open(`https://www.google.com/maps/search/${q}`, "_blank");
+    }
+  };
+
   React.useEffect(() => { 
     setStreak(getDinnerStreak());
     const raw = localStorage.getItem(SHOP_LS_KEY);
@@ -193,6 +213,7 @@ export default function WeekPage({
 
   return (
     <div style={sectionWrapper}>
+      {/* Header Area */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 24 }}>
         <div>
           <h2 style={{ margin: 0, fontSize: 32, fontWeight: 900 }}>This Week</h2>
@@ -203,6 +224,7 @@ export default function WeekPage({
         </button>
       </div>
 
+      {/* Tonight's Hero */}
       <div style={heroCard}>
         <div style={{ fontSize: 11, fontWeight: 900, color: "#14b8a6", letterSpacing: "0.1em", marginBottom: 4 }}>TONIGHT'S DINNER</div>
         <h1 style={{ fontSize: 32, fontWeight: 950, margin: "0 0 12px 0" }}>{tonight?.name || "Ready to plan?"}</h1>
@@ -227,6 +249,8 @@ export default function WeekPage({
           const meal = meals[day];
           const isLocked = lockedDays[day];
           const hasRecipe = Boolean(meal?.slug);
+          const effort = daySettings[day] || "normal";
+
           return (
             <div key={day} style={recipeCard}>
               <div style={{ height: 140, background: `url(${meal?.photoUrl || mealImageUrl(meal?.name)}) center/cover`, cursor: hasRecipe ? "pointer" : "default" }} 
@@ -236,7 +260,11 @@ export default function WeekPage({
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
                   <div>
                     <div style={{ fontSize: 12, fontWeight: 900, color: "#14b8a6" }}>{day.toUpperCase()}</div>
-                    <div style={{ fontSize: 18, fontWeight: 800, marginTop: 2 }}>{meal?.name || "Empty"}</div>
+                    {effort === "takeout" ? (
+                      <div style={{ fontSize: 20, fontWeight: 900, marginTop: 4, color: "#facc15" }}>🥡 Takeout Night</div>
+                    ) : (
+                      <div style={{ fontSize: 18, fontWeight: 800, marginTop: 2 }}>{meal?.name || "Empty"}</div>
+                    )}
                   </div>
                   <div style={{ display: "flex", gap: 6 }}>
                     <button style={iconBtn} onClick={() => setLockedDays(prev => ({ ...prev, [day]: !isLocked }))}>
@@ -246,14 +274,31 @@ export default function WeekPage({
                   </div>
                 </div>
 
-                <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                   <span style={chip}>{daySettings[day] || "normal"}</span>
-                   <button onClick={() => setOpenDay(openDay === day ? null : day)} style={{ background: 'none', border: 'none', color: '#14b8a6', fontSize: 12, fontWeight: 800, cursor: 'pointer' }}>
-                     {openDay === day ? "Hide" : "Edit"}
-                   </button>
-                </div>
+                {effort === "takeout" ? (
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
+                    {TAKEOUT_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.label}
+                        onClick={() => openMaps(opt.query)}
+                        style={{
+                          ...chip, cursor: "pointer", background: "rgba(250,204,21,0.1)",
+                          borderColor: "rgba(250,204,21,0.3)", color: "#facc15", padding: "8px 12px", fontSize: "13px"
+                        }}
+                      >
+                        {opt.emoji} {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                    <span style={chip}>{effort}</span>
+                    <button onClick={() => setOpenDay(openDay === day ? null : day)} style={{ background: 'none', border: 'none', color: '#14b8a6', fontSize: 12, fontWeight: 800, cursor: 'pointer' }}>
+                      {openDay === day ? "Hide" : "Edit"}
+                    </button>
+                  </div>
+                )}
 
-                {openDay === day && (
+                {openDay === day && effort !== "takeout" && (
                   <div style={{ marginTop: 16, display: "grid", gap: 8 }}>
                     <input style={input} placeholder="Meal Name" value={meal.name} onChange={e => updateMeal(day, "name", e.target.value)} />
                     <textarea style={{ ...input, minHeight: 60 }} placeholder="Ingredients" value={meal.ingredients} onChange={e => updateMeal(day, "ingredients", e.target.value)} />
