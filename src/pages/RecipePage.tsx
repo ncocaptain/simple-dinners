@@ -29,10 +29,30 @@ function parseStepDuration(step: string): number | null {
 }
 
 function scaleIngredient(line: string, factor: number): string {
+  // Regex to find numbers, decimals, or fractions at the start of the line
   return line.replace(/^(\d+\/\d+|\d+\s\d+\/\d+|\d+(\.\d+)?)/g, (match) => {
-    const value = match.includes('/') ? eval(match.replace(' ', '+')) : parseFloat(match);
+    let value = 0;
+
+    if (match.includes('/')) {
+      // Handle "1 1/2" style fractions
+      const parts = match.split(' ');
+      if (parts.length === 2) {
+        const [num, den] = parts[1].split('/').map(Number);
+        value = Number(parts[0]) + (num / den);
+      } else {
+        // Handle "1/2" style fractions
+        const [num, den] = parts[0].split('/').map(Number);
+        value = num / den;
+      }
+    } else {
+      value = parseFloat(match);
+    }
+
     const scaled = value * factor;
-    return scaled % 1 === 0 ? scaled.toString() : scaled.toFixed(2);
+    
+    // If the result is a whole number, keep it simple. 
+    // If it's a decimal, round to 2 places (e.g., 0.33)
+    return scaled % 1 === 0 ? scaled.toString() : scaled.toFixed(2).replace(/\.?0+$/, "");
   });
 }
 
