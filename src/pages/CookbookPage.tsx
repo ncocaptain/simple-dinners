@@ -1,4 +1,4 @@
-import { useState } from "react"; // Removed 'React'
+import { useState } from "react";
 import { Plus, Search, ChefHat, Image as ImageIcon, X } from "lucide-react";
 import Card from "../components/Card";
 import Button from "../components/Button";
@@ -6,8 +6,7 @@ import type { Meal } from "../core/types";
 
 export default function CookbookPage({ 
   cookbook, 
-  setCookbook, 
-  // setMeals removed from here to satisfy the compiler
+  setCookbook
 }: { 
   cookbook: Meal[], 
   setCookbook: any
@@ -23,7 +22,6 @@ export default function CookbookPage({
 
   const handleAdd = () => {
     if (!newRecipe.name) return;
-    // Fallback if they leave photo blank
     const recipeToAdd = {
       ...newRecipe,
       photoUrl: newRecipe.photoUrl || `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80&sig=${Date.now()}`
@@ -40,13 +38,11 @@ export default function CookbookPage({
   return (
     <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
       <div style={{ maxWidth: "550px", width: "100%", padding: "0 20px 120px 20px", display: "grid", gap: 24 }}>
-        
         <header style={{ textAlign: "center", marginTop: 20 }}>
           <h2 style={{ fontSize: 28, fontWeight: 1000, margin: 0 }}>My Cookbook</h2>
           <p style={{ opacity: 0.5, fontSize: 15 }}>Your personal collection of recipes.</p>
         </header>
 
-        {/* Search & Add */}
         <div style={{ display: "flex", gap: 12 }}>
           <div style={{ flex: 1, position: "relative" }}>
             <Search size={18} style={{ position: "absolute", left: 14, top: 14, opacity: 0.3 }} />
@@ -62,7 +58,6 @@ export default function CookbookPage({
           </button>
         </div>
 
-        {/* Add Recipe Modal Overlay */}
         {isAdding && (
           <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", backdropFilter: "blur(8px)", zIndex: 2000, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
             <Card style={{ maxWidth: "450px", width: "100%", maxHeight: "90vh", overflowY: "auto" }}>
@@ -70,7 +65,6 @@ export default function CookbookPage({
                 <h3 style={{ margin: 0, fontSize: 20, fontWeight: 900 }}>New Recipe</h3>
                 <X onClick={() => setIsAdding(false)} style={{ cursor: "pointer", opacity: 0.5 }} />
               </div>
-              
               <div style={{ display: "grid", gap: 16 }}>
                 <input 
                   placeholder="Recipe Name" 
@@ -78,8 +72,6 @@ export default function CookbookPage({
                   onChange={(e) => setNewRecipe({...newRecipe, name: e.target.value})}
                   style={{ width: "100%", padding: "14px", borderRadius: "12px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white" }}
                 />
-                
-                {/* THE NEW PHOTO URL FIELD */}
                 <div style={{ position: "relative" }}>
                   <ImageIcon size={18} style={{ position: "absolute", left: 14, top: 14, opacity: 0.3 }} />
                   <input 
@@ -89,18 +81,11 @@ export default function CookbookPage({
                     style={{ width: "100%", padding: "14px 14px 14px 44px", borderRadius: "12px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white" }}
                   />
                 </div>
-
                 <textarea 
-                  placeholder="Ingredients (one per line)" 
+                  placeholder="Ingredients" 
                   value={newRecipe.ingredients}
                   onChange={(e) => setNewRecipe({...newRecipe, ingredients: e.target.value})}
-                  style={{ width: "100%", height: 100, padding: "14px", borderRadius: "12px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white", resize: "none" }}
-                />
-                <textarea 
-                  placeholder="Instructions" 
-                  value={newRecipe.instructions}
-                  onChange={(e) => setNewRecipe({...newRecipe, instructions: e.target.value})}
-                  style={{ width: "100%", height: 100, padding: "14px", borderRadius: "12px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white", resize: "none" }}
+                  style={{ width: "100%", height: 100, padding: "14px", borderRadius: "12px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white" }}
                 />
                 <Button onClick={handleAdd}>Save to Cookbook</Button>
               </div>
@@ -108,7 +93,6 @@ export default function CookbookPage({
           </div>
         )}
 
-        {/* Recipe Grid */}
         <div style={{ display: "grid", gap: 16 }}>
           {filtered.map((meal, i) => (
             <Card key={i} style={{ padding: 12 }}>
@@ -116,7 +100,6 @@ export default function CookbookPage({
                 <img src={meal.photoUrl} style={{ width: 70, height: 70, borderRadius: 12, objectFit: "cover" }} />
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 800, fontSize: 17 }}>{meal.name}</div>
-                  <div style={{ fontSize: 13, opacity: 0.4 }}>Added to your collection</div>
                 </div>
                 <ChefHat size={20} style={{ opacity: 0.2 }} />
               </div>
