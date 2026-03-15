@@ -30,6 +30,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     if (!response.ok) {
+       // If we hit a block, return the status so we know exactly what happened
        return res.status(response.status).json({ error: `Site returned ${response.status}` });
     }
 
@@ -41,7 +42,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     
     // Find Ingredients (looks for common recipe markers)
     let ingredients: string[] = [];
-    $('[class*="ingredient"], [itemprop="recipeIngredient"], li:contains("cup"), li:contains("tbsp")').each((_, el) => {
+    $('[class*="ingredient"], [itemprop="recipeIngredient"], li:contains("cup"), li:contains("tbsp"), li:contains("oz")').each((_, el) => {
       const text = $(el).text().trim().replace(/\s+/g, ' ');
       if (text && text.length > 2 && !ingredients.includes(text)) {
         ingredients.push(text);
@@ -50,7 +51,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Find Instructions
     let instructions: string[] = [];
-    $('[class*="instruction"], [class*="step"], [itemprop="recipeInstructions"] li').each((_, el) => {
+    $('[class*="instruction"], [class*="step"], [itemprop="recipeInstructions"] li, [class*="direction"]').each((_, el) => {
       const text = $(el).text().trim().replace(/\s+/g, ' ');
       if (text && text.length > 5 && !instructions.includes(text)) {
         instructions.push(text);
@@ -70,6 +71,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json({ recipe });
 
   } catch (err: any) {
+    // Return a 200 even on error to bypass Vercel's "Payment Required" catch-all
     return res.status(200).json({ error: "Scraper error", details: err.message });
   }
 }
