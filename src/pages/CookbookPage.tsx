@@ -74,48 +74,36 @@ export default function CookbookPage({ setMeals, cookbook, setCookbook, prefs }:
   }, [cookbook, cookbookSearch, prefs, normalizeEntry]);
 
  const onImportRecipe = async () => {
-    if (!importUrl.trim()) { toast("Please enter a URL first.", "warning"); return; }
-    try {
-      setIsImporting(true);
-      
-      const res = await fetch("https://dinners.ncocaptain.com/api/import-recipe", { 
-        method: "POST", 
-        headers: { 
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          // Adding a dummy User-Agent here helps bypass Vercel's basic bot filter
-          "X-Requested-With": "XMLHttpRequest" 
-        }, 
-        body: JSON.stringify({ url: importUrl.trim() }) 
-      });
-      
-      const text = await res.text();
-      if (!text) throw new Error("Server returned an empty response.");
-      
-      const data = JSON.parse(text);
+  if (!importUrl.trim()) { toast("Please enter a URL first.", "warning"); return; }
+  try {
+    setIsImporting(true);
+    
+    // STRIPPED DOWN FETCH
+    const res = await fetch("https://dinners.ncocaptain.com/api/import-recipe", { 
+      method: "POST", 
+      body: JSON.stringify({ url: importUrl.trim() }) 
+    });
+    
+    const data = await res.json();
 
-      // SAFETY CHECK: If the scraper failed or returned an error
-      if (!res.ok || data.error || !data.recipe) {
-        throw new Error(data.error || data.details || "Could not find recipe data on this site.");
-      }
-
-      // Only run these if data.recipe actually exists
-      setCustomName(data.recipe.name || ""); 
-      setCustomIngredients(data.recipe.ingredients || ""); 
-      setCustomInstructions(data.recipe.instructions || ""); 
-      setCustomPhotoUrl(data.recipe.photoUrl || "");
-
-      setShowImport(false); 
-      setShowAddRecipe(true); 
-      setImportUrl(""); 
-      toast("Recipe Found!", "success");
-    } catch (err: any) { 
-      console.error("Import Error:", err);
-      toast(err.message || "Connection failed.", "error"); 
-    } finally { 
-      setIsImporting(false); 
+    if (!res.ok || data.error) {
+      throw new Error(data.error || "Import failed");
     }
-  };
+
+    setCustomName(data.recipe.name || ""); 
+    setCustomIngredients(data.recipe.ingredients || ""); 
+    setCustomInstructions(data.recipe.instructions || ""); 
+    setCustomPhotoUrl(data.recipe.photoUrl || "");
+
+    setShowImport(false); 
+    setShowAddRecipe(true); 
+    toast("Recipe Found!", "success");
+  } catch (err: any) { 
+    toast(err.message || "Connection failed.", "error"); 
+  } finally { 
+    setIsImporting(false); 
+  }
+};
 
   const onAddCustomRecipe = () => {
     if (!customName || !customIngredients) { toast("Name and ingredients required.", "warning"); return; }
