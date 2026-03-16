@@ -1,15 +1,23 @@
 export async function scrapeRecipe(url: string) {
   try {
-    const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(url);
-    const response = await fetch(proxyUrl);
+    // Attempt #3: Stealth Proxy
+    const proxyUrl = "https://api.shcors.com/get?url=" + encodeURIComponent(url);
+    
+    const response = await fetch(proxyUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 10; Pixel 4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36'
+      }
+    });
     
     if (!response.ok) throw new Error("Proxy connection failed");
 
-    // We take the raw text (HTML) directly from the response
-    const html = await response.text(); 
+    // shcors usually wraps in JSON like allorigins did
+    const data = await response.json();
+    const html = data.data || data.contents || data; // handle different wrapper styles
 
     // --- 1. FAST-TRACK (Regex search) ---
     const jsonMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+    // ... rest of logic
     
     if (jsonMatch) {
       try {
