@@ -14,10 +14,9 @@ import SettingsPage from "./pages/SettingsPage";
 import TestersGuidePage from "./pages/TestersGuidePage";
 import FeedbackForm from "./pages/FeedbackForm";
 
-// Components & Icons
+// Components
 import { useToast, ToastProvider } from "./components/Toast";
 import { ThemeProvider } from "./theme";
-// CRITICAL: Ensure Utensils is imported here
 import { Calendar, BookOpen, ShoppingBasket, Settings, Utensils } from "lucide-react";
 
 // Core
@@ -27,19 +26,11 @@ import { days } from "./core/data";
 import { getCookbook, setCookbook as persistCookbook, addToCookbook } from "./core/cookbookStore";
 import { hasCompletedOnboarding } from "./core/onboardingStore";
 
-// Constants
-const EMPTY_MEAL: Meal = { name: "", ingredients: "", instructions: "", photoUrl: "" };
-const EMPTY_WEEK = Object.fromEntries(days.map((d) => [d, { ...EMPTY_MEAL }])) as Record<string, Meal>;
-const EMPTY_LOCKS = Object.fromEntries(days.map((d) => [d, false])) as Record<string, boolean>;
-
 const mealImageUrl = (name?: string) => {
   const q = encodeURIComponent((name || "cooking dinner").trim());
   return `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80&sig=1&meal=${q}`;
 };
 
-// =====================================================
-// NAVIGATION COMPONENT
-// =====================================================
 function Navigation() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -56,9 +47,8 @@ function Navigation() {
           transition: "all 0.2s ease", padding: "8px 12px"
         }}
       >
-        {/* If Icon is undefined, this is what causes the blank screen */}
-        {Icon && <Icon size={22} strokeWidth={isActive ? 3 : 2} />}
-        <span style={{ fontSize: 9, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+        <Icon size={22} strokeWidth={isActive ? 3 : 2} />
+        <span style={{ fontSize: 9, fontWeight: 900, textTransform: "uppercase" }}>
           {label}
         </span>
       </button>
@@ -70,7 +60,7 @@ function Navigation() {
       <div style={{ 
         display: "flex", gap: 6, padding: "8px 12px", background: "rgba(15, 23, 42, 0.85)", 
         backdropFilter: "blur(16px)", borderRadius: "32px", border: "1px solid rgba(255,255,255,0.1)",
-        boxShadow: "0 12px 30px -5px rgba(0,0,0,0.5)"
+        boxShadow: "0 12px 30px -5px rgba(0,0,0,0.5)" 
       }}>
         {navItem("/", Utensils, "Home")} 
         {navItem("/week", Calendar, "Week")} 
@@ -84,50 +74,29 @@ function Navigation() {
 
 export default function App() {
   const navigate = useNavigate();
-  
   const toastApi: any = useToast();
   const toast = toastApi?.toast ?? toastApi;
-
   const APP_VERSION = "22.0.5"; 
 
-  const [cookbook, setCookbook] = useState<any[]>(() => {
-    const raw = getCookbook() as any[];
-    return (Array.isArray(raw) ? raw : []).map(r => ({ ...r, favorite: Boolean(r.favorite) }));
-  });
-
-  const [meals, setMeals] = useState<Record<string, Meal>>(() => {
-    const saved = JSON.parse(localStorage.getItem("meals") || "{}");
-    return { ...EMPTY_WEEK, ...saved };
-  });
-
-  const [daySettings, setDaySettings] = useState<Record<string, Effort>>(() => {
-    const saved = localStorage.getItem("daySettings");
-    return saved ? JSON.parse(saved) : Object.fromEntries(days.map(d => [d, "normal"]));
-  });
-
+  const [cookbook, setCookbook] = useState<any[]>(() => getCookbook());
+  const [meals, setMeals] = useState<Record<string, Meal>>(() => JSON.parse(localStorage.getItem("meals") || "{}"));
+  const [daySettings, setDaySettings] = useState<Record<string, Effort>>(() => JSON.parse(localStorage.getItem("daySettings") || "{}"));
   const [pantry, setPantry] = useState<PantryItem[]>(() => JSON.parse(localStorage.getItem("pantry") || "[]"));
+  const [prefs, setPrefs] = useState<Preferences>(() => JSON.parse(localStorage.getItem("prefs") || '{"vegetarian": false}'));
+  const [dietaryNotes, setDietaryNotes] = useState(() => localStorage.getItem("dietaryNotes") || "");
+  const [vegetarian] = useState(() => localStorage.getItem("vegetarian") === "true");
+  const [lockedDays, setLockedDays] = useState(() => JSON.parse(localStorage.getItem("lockedDays") || "{}"));
 
-  const [prefs, setPrefs] = useState<Preferences>(() => {
-    const saved = localStorage.getItem("prefs");
-    return saved ? JSON.parse(saved) : { vegetarian: false, allergens: [] };
-  });
+  // PERSISTENCE
+  useEffect(() => {
+    localStorage.setItem("meals", JSON.stringify(meals));
+    localStorage.setItem("daySettings", JSON.stringify(daySettings));
+    localStorage.setItem("pantry", JSON.stringify(pantry));
+    localStorage.setItem("lockedDays", JSON.stringify(lockedDays));
+    persistCookbook(cookbook);
+  }, [meals, daySettings, pantry, lockedDays, cookbook]);
 
-  const [dietaryNotes, setDietaryNotes] = useState<string>(() => localStorage.getItem("dietaryNotes") || "");
-  const [vegetarian] = useState<boolean>(() => localStorage.getItem("vegetarian") === "true");
-
-  const [lockedDays, setLockedDays] = useState<Record<string, boolean>>(() => 
-    JSON.parse(localStorage.getItem("lockedDays") || JSON.stringify(EMPTY_LOCKS))
-  );
-
-  useEffect(() => { localStorage.setItem("meals", JSON.stringify(meals)); }, [meals]);
-  useEffect(() => { localStorage.setItem("daySettings", JSON.stringify(daySettings)); }, [daySettings]);
-  useEffect(() => { localStorage.setItem("prefs", JSON.stringify(prefs)); }, [prefs]);
-  useEffect(() => { localStorage.setItem("pantry", JSON.stringify(pantry)); }, [pantry]);
-  useEffect(() => { localStorage.setItem("lockedDays", JSON.stringify(lockedDays)); }, [lockedDays]);
-  useEffect(() => { localStorage.setItem("dietaryNotes", dietaryNotes); }, [dietaryNotes]);
-  useEffect(() => { localStorage.setItem("vegetarian", String(vegetarian)); }, [vegetarian]);
-  useEffect(() => { persistCookbook(cookbook); }, [cookbook]);
-
+  // VERSION CHECK (Fixes 'toast' and 'APP_VERSION' errors)
   useEffect(() => {
     const savedVersion = localStorage.getItem("app-version");
     if (savedVersion && savedVersion !== APP_VERSION) {
@@ -146,31 +115,25 @@ export default function App() {
 
   const addDayToCookbook = (day: string) => {
     const meal = meals[day];
-    if (!meal?.name?.trim()) return;
-    addToCookbook(meal);
-    setCookbook(getCookbook());
+    if (meal?.name) {
+      addToCookbook(meal);
+      setCookbook(getCookbook());
+    }
   };
 
   const generateDinnerPlan = (force = false) => {
-    const seedMeals = force ? Object.fromEntries(days.map(d => [d, lockedDays[d] ? meals[d] : { ...EMPTY_MEAL }])) : meals;
-    const next = generatePlan({ 
-        meals: seedMeals as any, 
-        cookbook, 
-        pantry, 
-        daySettings, 
-        prefs: { ...prefs, vegetarian }, 
-        days 
-    });
+    // Uses 'force' and 'mealImageUrl' now
+    const seedMeals = force ? Object.fromEntries(days.map(d => [d, lockedDays[d] ? meals[d] : { name: "", ingredients: "", instructions: "", photoUrl: "" }])) : meals;
+    const next = generatePlan({ meals: seedMeals as any, cookbook, pantry, daySettings, prefs: { ...prefs, vegetarian }, days });
     
-    const withPhotos = { ...EMPTY_WEEK, ...next } as Record<string, Meal>;
+    const withPhotos = { ...next } as Record<string, Meal>;
     for (const d of days) {
-      const meal = withPhotos[d];
-      if (meal && !meal.photoUrl) {
-        withPhotos[d] = { ...meal, photoUrl: mealImageUrl(meal.name || "dinner") };
+      if (withPhotos[d] && !withPhotos[d].photoUrl) {
+        withPhotos[d].photoUrl = mealImageUrl(withPhotos[d].name);
       }
     }
     setMeals(withPhotos);
-    navigate("/"); 
+    navigate("/");
   };
 
   const requireOnboarding = (element: React.ReactNode) => 
@@ -179,50 +142,18 @@ export default function App() {
   return (
     <ThemeProvider>
       <ToastProvider>
-        <div style={{ minHeight: "100vh", background: "transparent", paddingBottom: 110 }}>
-          
-          <header style={{ padding: "32px 20px 20px", textAlign: "center", maxWidth: "550px", margin: "0 auto" }}>
-            <h1 style={{ margin: 0, fontSize: 36, fontWeight: 1000, color: "#f8fafc" }}>Simple Dinners</h1>
-            <div style={{ fontSize: 12, fontWeight: 800, opacity: 0.4, textTransform: "uppercase", marginTop: 4 }}>
-              Captain's Kitchen • v22.0.5
-            </div>
+        <div style={{ minHeight: "100vh", paddingBottom: 110 }}>
+          <header style={{ padding: "32px 20px", textAlign: "center", maxWidth: "550px", margin: "0 auto" }}>
+            <h1 style={{ margin: 0, fontSize: 36, fontWeight: 1000 }}>Simple Dinners</h1>
+            <div style={{ fontSize: 12, opacity: 0.4, fontWeight: 800 }}>v22.0.5</div>
           </header>
 
           <Routes>
             <Route path="/" element={requireOnboarding(<HomePage meals={meals} />)} />
             <Route path="/onboarding" element={<OnboardingPage />} />
-            
-            <Route path="/plan" element={requireOnboarding(
-                <PlanPage 
-                    daySettings={daySettings} 
-                    setDaySettings={setDaySettings} 
-                    pantry={pantry} 
-                    setPantry={setPantry} 
-                    dietaryNotes={dietaryNotes}
-                    setDietaryNotes={setDietaryNotes}
-                    generateDinnerPlan={generateDinnerPlan} 
-                />
-            )} />
-
-            <Route path="/week" element={requireOnboarding(
-                <WeekPage 
-                    meals={meals} 
-                    setMeals={setMeals} 
-                    addDayToCookbook={addDayToCookbook} 
-                    generateDinnerPlan={generateDinnerPlan} 
-                    lockedDays={lockedDays} 
-                    setLockedDays={setLockedDays} 
-                />
-            )} />
-
-            {/* HANDSHAKE FIXED: No setMeals, No prefs */}
-            <Route path="/cookbook" element={requireOnboarding(
-                <CookbookPage 
-                    cookbook={cookbook} 
-                    setCookbook={setCookbook} 
-                />
-            )} />
-
+            <Route path="/plan" element={requireOnboarding(<PlanPage daySettings={daySettings} setDaySettings={setDaySettings} pantry={pantry} setPantry={setPantry} dietaryNotes={dietaryNotes} setDietaryNotes={setDietaryNotes} generateDinnerPlan={generateDinnerPlan} />)} />
+            <Route path="/week" element={requireOnboarding(<WeekPage meals={meals} setMeals={setMeals} addDayToCookbook={addDayToCookbook} generateDinnerPlan={generateDinnerPlan} lockedDays={lockedDays} setLockedDays={setLockedDays} />)} />
+            <Route path="/cookbook" element={requireOnboarding(<CookbookPage cookbook={cookbook} setCookbook={setCookbook} />)} />
             <Route path="/recipe/:slug" element={<RecipePage />} />
             <Route path="/shopping-list" element={requireOnboarding(<ShoppingListPage />)} />
             <Route path="/cook-now" element={requireOnboarding(<CookNowPage pantry={pantry} />)} />
@@ -231,7 +162,6 @@ export default function App() {
             <Route path="/feedback" element={<FeedbackForm />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-
           <Navigation />
         </div>
       </ToastProvider>
