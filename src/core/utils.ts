@@ -6,16 +6,26 @@ export function formatIngredients(text: string): string {
     "0.5": "1/2",
     "0.75": "3/4",
     "0.33": "1/3",
-    "0.66": "2/3"
   };
 
-  let formattedText = text;
+  let lines = text.split('\n');
+  
+  const formattedLines = lines.map(line => {
+    let updatedLine = line;
+    
+    Object.keys(fractions).forEach((decimal) => {
+      // REGEX EXPLANATION:
+      // ^${decimal} -> Matches 0.5 if it's at the very start of the line
+      // \\s${decimal}\\s -> Matches 0.5 if it has spaces on both sides
+      const startRegex = new RegExp(`^${decimal}`, "g");
+      const middleRegex = new RegExp(`\\s${decimal}\\s`, "g");
 
-  Object.keys(fractions).forEach((decimal) => {
-    // Removed the \\b (word boundary) so it catches 14.5 and turns it into 14 1/2
-    const regex = new RegExp(decimal, "g"); 
-    formattedText = formattedText.replace(regex, fractions[decimal]);
+      updatedLine = updatedLine.replace(startRegex, fractions[decimal]);
+      updatedLine = updatedLine.replace(middleRegex, ` ${fractions[decimal]} `);
+    });
+
+    return updatedLine;
   });
 
-  return formattedText;
+  return formattedLines.join('\n');
 }
