@@ -1,137 +1,63 @@
-import { Settings, ShieldCheck, Leaf, AlertCircle } from "lucide-react";
-import { ALLERGENS } from "../core/data";
-import type { Preferences } from "../core/types";
-
+import { ArrowLeft, Leaf } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 
-export default function SettingsPage({ prefs, setPrefs }: { prefs: Preferences; setPrefs: any }) {
-  
-  const toggleAllergen = (key: string) => {
-    const current = prefs.allergens || [];
-    const next = current.includes(key)
-      ? current.filter((k) => k !== key)
-      : [...current, key];
-    setPrefs({ ...prefs, allergens: next });
+export default function SettingsPage({ prefs, setPrefs }: { prefs: any, setPrefs: any }) {
+  const navigate = useNavigate();
+
+  const toggleVegetarian = () => {
+    const newValue = !prefs.vegetarian;
+    setPrefs({ ...prefs, vegetarian: newValue });
+    localStorage.setItem("vegetarian", String(newValue));
   };
 
   return (
     <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-      <div style={{ 
-        maxWidth: "550px", 
-        width: "100%", 
-        padding: "0 20px 40px 20px", 
-        boxSizing: "border-box" 
-      }}>
-        <Card 
-          title={<><Settings size={22} /> Preferences</>} 
-          subtitle="How the planner selects your meals."
+      <div style={{ maxWidth: "550px", width: "100%", padding: "20px" }}>
+        <button 
+          onClick={() => navigate("/")} 
+          style={{ background: "none", border: "none", color: "white", display: "flex", alignItems: "center", gap: 8, marginBottom: 20, cursor: "pointer", opacity: 0.6 }}
         >
-          
-          {/* 1. Vegetarian Section */}
-          <div style={{ marginBottom: 32 }}>
-            <h3 style={{ fontSize: 13, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.4)", marginBottom: 16 }}>
-              Dietary Style
-            </h3>
-            <div 
-              onClick={() => setPrefs({ ...prefs, vegetarian: !prefs.vegetarian })}
+          <ArrowLeft size={20} /> Back
+        </button>
+
+        <h1 style={{ fontSize: 32, fontWeight: 1000, marginBottom: 24 }}>Setup</h1>
+
+        <Card title="Dietary Preferences">
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{ padding: 10, background: "rgba(34, 197, 94, 0.1)", borderRadius: 12 }}>
+                <Leaf size={20} color="#22c55e" />
+              </div>
+              <div>
+                <div style={{ fontWeight: 800 }}>Vegetarian Mode</div>
+                <div style={{ fontSize: 12, opacity: 0.5 }}>Prioritize plant-based meals</div>
+              </div>
+            </div>
+
+            <button 
+              onClick={toggleVegetarian}
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 16,
-                padding: "24px",
-                borderRadius: "28px",
-                background: prefs.vegetarian ? "rgba(34,197,94,0.12)" : "rgba(255,255,255,0.05)",
-                border: "1px solid",
-                borderColor: prefs.vegetarian ? "rgba(34,197,94,0.4)" : "rgba(255,255,255,0.1)",
-                cursor: "pointer",
-                transition: "all 0.2s ease"
+                width: 54, height: 30, borderRadius: 20,
+                background: prefs.vegetarian ? "#22c55e" : "rgba(255,255,255,0.1)",
+                position: "relative", cursor: "pointer", border: "none",
+                transition: "background 0.3s ease"
               }}
             >
-              <div style={{ 
-                width: 52, 
-                height: 52, 
-                borderRadius: 18, 
-                background: prefs.vegetarian ? "#22c55e" : "rgba(255,255,255,0.1)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: prefs.vegetarian ? "#fff" : "rgba(255,255,255,0.3)"
-              }}>
-                <Leaf size={28} />
-              </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 900, fontSize: 18, color: "#f8fafc" }}>Vegetarian Mode</div>
-                <div style={{ fontSize: 14, color: "rgba(255,255,255,0.5)" }}>Hide recipes containing meat</div>
-              </div>
-              <div style={{ 
-                width: 28, 
-                height: 28, 
-                borderRadius: 14, 
-                border: "2px solid",
-                borderColor: prefs.vegetarian ? "#22c55e" : "rgba(255,255,255,0.2)",
-                background: prefs.vegetarian ? "#22c55e" : "transparent",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center"
-              }}>
-                {prefs.vegetarian && <ShieldCheck size={18} color="#fff" />}
-              </div>
-            </div>
+              <div style={{
+                width: 22, height: 22, borderRadius: "50%", background: "white",
+                position: "absolute", top: 4, left: prefs.vegetarian ? 28 : 4,
+                transition: "all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                boxShadow: "0 2px 4px rgba(0,0,0,0.2)"
+              }} />
+            </button>
           </div>
-
-          {/* 2. Allergens Section */}
-          <div>
-            <h3 style={{ fontSize: 13, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.4)", marginBottom: 16 }}>
-              Allergens (Filter Out)
-            </h3>
-            
-            <div style={{ 
-              display: "grid", 
-              gridTemplateColumns: "repeat(2, 1fr)", 
-              gap: "12px" 
-            }}>
-              {ALLERGENS.map((a) => {
-                const isActive = (prefs.allergens || []).includes(a.key);
-                return (
-                  <div
-                    key={a.key}
-                    onClick={() => toggleAllergen(a.key)}
-                    style={{
-                      padding: "20px 16px",
-                      borderRadius: "24px",
-                      background: isActive ? "rgba(239,68,68,0.15)" : "rgba(255,255,255,0.03)",
-                      border: "1px solid",
-                      borderColor: isActive ? "rgba(239,68,68,0.4)" : "rgba(255,255,255,0.08)",
-                      cursor: "pointer",
-                      textAlign: "center",
-                      transition: "all 0.2s ease",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      gap: 10
-                    }}
-                  >
-                    <AlertCircle size={22} color={isActive ? "#ef4444" : "rgba(255,255,255,0.2)"} />
-                    <span style={{ 
-                      fontSize: 15, 
-                      fontWeight: 800, 
-                      color: isActive ? "#f8fafc" : "rgba(255,255,255,0.6)" 
-                    }}>
-                      {a.label}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div style={{ marginTop: 48, paddingTop: 32, borderTop: "1px solid rgba(255,255,255,0.1)", textAlign: "center" }}>
-            <div style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.2)", textTransform: "uppercase", letterSpacing: "0.2em" }}>
-              Simple Dinners v22.0
-            </div>
-          </div>
-
         </Card>
+
+        <div style={{ marginTop: 40, textAlign: "center", opacity: 0.3, fontSize: 12, fontWeight: 800 }}>
+          SIMPLE DINNERS v22.0.7<br />
+          KINGSPORT, TN
+        </div>
       </div>
     </div>
   );

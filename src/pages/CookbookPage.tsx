@@ -4,17 +4,23 @@ import Card from "../components/Card";
 import Button from "../components/Button";
 import type { Meal } from "../core/types";
 import { formatIngredients } from "../core/utils";
-import { scrapeRecipe } from "../core/scraper"; // Ensure this file exists!
+import { scrapeRecipe } from "../core/scraper";
 import { useToast } from "../components/Toast";
 
-export default function CookbookPage({ cookbook, setCookbook }: { cookbook: Meal[], setCookbook: any }) {
+export default function CookbookPage({ 
+  cookbook, 
+  setCookbook 
+}: { 
+  cookbook: Meal[], 
+  setCookbook: (recipes: Meal[]) => void 
+}) {
   // --- STATE ---
   const [checkedIngredients, setCheckedIngredients] = useState<string[]>([]);
   const [isAdding, setIsAdding] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [selectedRecipe, setSelectedRecipe] = useState<Meal | null>(null);
   const [search, setSearch] = useState("");
-  const [importUrl, setImportUrl] = useState(""); // Added this back
+  const [importUrl, setImportUrl] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const toastApi: any = useToast();
@@ -38,7 +44,6 @@ export default function CookbookPage({ cookbook, setCookbook }: { cookbook: Meal
   }, [selectedRecipe]);
 
   // --- HANDLERS ---
-  // --- HANDLERS ---
   const handleImageUpload = (e: any) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -60,8 +65,7 @@ export default function CookbookPage({ cookbook, setCookbook }: { cookbook: Meal
         name: scraped.name || "",
         ingredients: scraped.ingredients || "",
         instructions: scraped.instructions || "",
-        photoUrl: scraped.photoUrl || "",
-        effort: "normal" // Ensure a default effort is set
+        photoUrl: scraped.photoUrl || ""
       });
       setImportUrl("");
       toast("Recipe loaded! Just hit Save.");
@@ -191,11 +195,10 @@ export default function CookbookPage({ cookbook, setCookbook }: { cookbook: Meal
               </div>
               
               <div style={{ display: "grid", gap: 16 }}>
-                {/* --- MAGIC IMPORT AREA --- */}
                 <div style={{ padding: 12, borderRadius: 12, background: "rgba(34, 197, 94, 0.1)", border: "1px solid rgba(34, 197, 94, 0.2)" }}>
                    <div style={{ display: "flex", gap: 8 }}>
                      <input 
-                       placeholder="Paste URL (AllRecipes, etc)..." 
+                       placeholder="Paste URL..." 
                        value={importUrl} 
                        onChange={(e) => setImportUrl(e.target.value)} 
                        style={{ flex: 1, padding: "8px", borderRadius: "8px", background: "rgba(255,255,255,0.05)", border: "none", color: "white", fontSize: 12 }} 
