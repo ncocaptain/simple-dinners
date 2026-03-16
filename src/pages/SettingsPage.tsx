@@ -1,14 +1,19 @@
-import { ArrowLeft, Leaf } from "lucide-react";
+import { ArrowLeft, Leaf, AlertCircle } from "lucide-react"; // Removed ClipboardList
 import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 
 export default function SettingsPage({ prefs, setPrefs }: { prefs: any, setPrefs: any }) {
   const navigate = useNavigate();
 
-  const toggleVegetarian = () => {
-    const newValue = !prefs.vegetarian;
-    setPrefs({ ...prefs, vegetarian: newValue });
-    localStorage.setItem("vegetarian", String(newValue));
+  // Helper to update and persist
+  const updatePrefs = (updatedFields: any) => {
+    const newPrefs = { ...prefs, ...updatedFields };
+    setPrefs(newPrefs);
+    localStorage.setItem("prefs", JSON.stringify(newPrefs));
+    // Keep legacy key for safety
+    if (updatedFields.vegetarian !== undefined) {
+      localStorage.setItem("vegetarian", String(updatedFields.vegetarian));
+    }
   };
 
   return (
@@ -23,36 +28,58 @@ export default function SettingsPage({ prefs, setPrefs }: { prefs: any, setPrefs
 
         <h1 style={{ fontSize: 32, fontWeight: 1000, marginBottom: 24 }}>Setup</h1>
 
-        <Card title="Dietary Preferences">
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <div style={{ padding: 10, background: "rgba(34, 197, 94, 0.1)", borderRadius: 12 }}>
-                <Leaf size={20} color="#22c55e" />
+        <div style={{ display: "grid", gap: 20 }}>
+          {/* Vegetarian Toggle */}
+          <Card title="Dietary Preferences">
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ padding: 10, background: "rgba(34, 197, 94, 0.1)", borderRadius: 12 }}>
+                  <Leaf size={20} color="#22c55e" />
+                </div>
+                <div>
+                  <div style={{ fontWeight: 800 }}>Vegetarian Mode</div>
+                  <div style={{ fontSize: 12, opacity: 0.5 }}>Prioritize plant-based meals</div>
+                </div>
               </div>
-              <div>
-                <div style={{ fontWeight: 800 }}>Vegetarian Mode</div>
-                <div style={{ fontSize: 12, opacity: 0.5 }}>Prioritize plant-based meals</div>
-              </div>
-            </div>
 
-            <button 
-              onClick={toggleVegetarian}
-              style={{
-                width: 54, height: 30, borderRadius: 20,
-                background: prefs.vegetarian ? "#22c55e" : "rgba(255,255,255,0.1)",
-                position: "relative", cursor: "pointer", border: "none",
-                transition: "background 0.3s ease"
-              }}
-            >
-              <div style={{
-                width: 22, height: 22, borderRadius: "50%", background: "white",
-                position: "absolute", top: 4, left: prefs.vegetarian ? 28 : 4,
-                transition: "all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
-                boxShadow: "0 2px 4px rgba(0,0,0,0.2)"
-              }} />
-            </button>
-          </div>
-        </Card>
+              <button 
+                onClick={() => updatePrefs({ vegetarian: !prefs.vegetarian })}
+                style={{
+                  width: 54, height: 30, borderRadius: 20,
+                  background: prefs.vegetarian ? "#22c55e" : "rgba(255,255,255,0.1)",
+                  position: "relative", cursor: "pointer", border: "none",
+                  transition: "background 0.3s ease"
+                }}
+              >
+                <div style={{
+                  width: 22, height: 22, borderRadius: "50%", background: "white",
+                  position: "absolute", top: 4, left: prefs.vegetarian ? 28 : 4,
+                  transition: "all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+                }} />
+              </button>
+            </div>
+          </Card>
+
+          {/* Persistent Notes / Allergies */}
+          <Card title="Health & Safety">
+            <div style={{ display: "flex", flexDirection: "column", gap: 12, padding: "10px 0" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, opacity: 0.8 }}>
+                <AlertCircle size={18} color="#ef4444" />
+                <span style={{ fontSize: 14, fontWeight: 700 }}>Allergies & Restrictions</span>
+              </div>
+              <textarea 
+                placeholder="e.g. Nut allergies, no shellfish..."
+                value={prefs.dietaryNotes || ""}
+                onChange={(e) => updatePrefs({ dietaryNotes: e.target.value })}
+                style={{ 
+                  width: "100%", minHeight: 80, padding: 12, borderRadius: 12,
+                  background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)",
+                  color: "white", fontSize: 14, resize: "none"
+                }}
+              />
+            </div>
+          </Card>
+        </div>
 
         <div style={{ marginTop: 40, textAlign: "center", opacity: 0.3, fontSize: 12, fontWeight: 800 }}>
           SIMPLE DINNERS v22.0.7<br />

@@ -172,7 +172,6 @@ export default function CookbookPage({
     );
   }
 
-  // --- MAIN LIST VIEW RENDER ---
   return (
     <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
       <div style={{ maxWidth: "550px", width: "100%", padding: "0 20px 120px 20px", display: "grid", gap: 24 }}>
@@ -195,16 +194,26 @@ export default function CookbookPage({
               </div>
               
               <div style={{ display: "grid", gap: 16 }}>
-                <div style={{ padding: 12, borderRadius: 12, background: "rgba(34, 197, 94, 0.1)", border: "1px solid rgba(34, 197, 94, 0.2)" }}>
-                   <div style={{ display: "flex", gap: 8 }}>
-                     <input 
-                       placeholder="Paste URL..." 
-                       value={importUrl} 
-                       onChange={(e) => setImportUrl(e.target.value)} 
-                       style={{ flex: 1, padding: "8px", borderRadius: "8px", background: "rgba(255,255,255,0.05)", border: "none", color: "white", fontSize: 12 }} 
-                     />
-                     <button onClick={handleImport} style={{ padding: "0 10px", borderRadius: "8px", background: "#22c55e", border: "none", color: "white", fontSize: 11, fontWeight: 700 }}>Magic Import</button>
-                   </div>
+                {/* --- MAGIC IMPORT AREA (BETA) --- */}
+                <div style={{ padding: 16, borderRadius: 16, background: "rgba(34, 197, 94, 0.05)", border: "1px dashed rgba(34, 197, 94, 0.3)", marginBottom: 8 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <span style={{ fontSize: 10, background: "#22c55e", color: "white", padding: "2px 6px", borderRadius: 4, fontWeight: 900 }}>BETA</span>
+                      <span style={{ fontSize: 12, fontWeight: 800, opacity: 0.8 }}>Magic Import</span>
+                    </div>
+                  </div>
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <input 
+                      placeholder="Paste URL (AllRecipes, etc)..." 
+                      value={importUrl} 
+                      onChange={(e) => setImportUrl(e.target.value)} 
+                      style={{ flex: 1, padding: "10px", borderRadius: "10px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white", fontSize: 13 }} 
+                    />
+                    <button onClick={handleImport} style={{ padding: "0 14px", borderRadius: "10px", background: "#22c55e", border: "none", color: "white", fontSize: 12, fontWeight: 800, cursor: "pointer" }}>Magic</button>
+                  </div>
+                  <div style={{ marginTop: 10, fontSize: 10, opacity: 0.4, lineHeight: "1.4" }}>
+                    ⚠️ <strong>Captain's Note:</strong> Some high-security blogs block our "Magic" scouts. If it fails, please use the manual entry below!
+                  </div>
                 </div>
 
                 <div onClick={() => fileInputRef.current?.click()} style={{ width: "100%", height: 120, borderRadius: 12, border: "2px dashed rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", overflow: "hidden", background: "rgba(255,255,255,0.02)" }}>

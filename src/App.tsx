@@ -112,8 +112,13 @@ function AppContent() {
     try { return JSON.parse(localStorage.getItem("pantry") || "[]"); } catch { return []; }
   });
   const [prefs, setPrefs] = useState<Preferences>(() => {
-    try { return JSON.parse(localStorage.getItem("prefs") || '{"vegetarian": false}'); } catch { return { vegetarian: false }; }
-  });
+  try {
+    const saved = localStorage.getItem("prefs");
+    return saved ? JSON.parse(saved) : { vegetarian: false, allergies: [] };
+  } catch { 
+    return { vegetarian: false, allergies: [] }; 
+  }
+});
   const [dietaryNotes, setDietaryNotes] = useState(() => localStorage.getItem("dietaryNotes") || "");
   const [vegetarian] = useState(() => localStorage.getItem("vegetarian") === "true");
   const [lockedDays, setLockedDays] = useState(() => {
