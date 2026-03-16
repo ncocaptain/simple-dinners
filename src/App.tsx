@@ -68,15 +68,12 @@ function Navigation() {
   );
 }
 
-// --- APP CONTENT (Where the logic lives) ---
 function AppContent() {
   const navigate = useNavigate();
   const toastApi: any = useToast();
   const toast = toastApi.toast ?? toastApi; 
-  
   const APP_VERSION = "22.0.7"; 
 
-  // --- AUTO-UPDATE LOGIC ---
   useEffect(() => {
     if (import.meta.env.PROD) {
       const checkForUpdates = async () => {
@@ -84,7 +81,6 @@ function AppContent() {
           const response = await fetch(window.location.href, { method: 'HEAD' });
           const etag = response.headers.get('etag');
           const lastEtag = localStorage.getItem('app-etag');
-
           if (lastEtag && etag && lastEtag !== etag) {
             localStorage.setItem('app-etag', etag);
             toast("New update deployed! Reloading...");
@@ -111,18 +107,26 @@ function AppContent() {
   const [pantry, setPantry] = useState<PantryItem[]>(() => {
     try { return JSON.parse(localStorage.getItem("pantry") || "[]"); } catch { return []; }
   });
+  
+  // Single Unified Prefs State
   const [prefs, setPrefs] = useState<Preferences>(() => {
-  try {
-    const saved = localStorage.getItem("prefs");
-    return saved ? JSON.parse(saved) : { vegetarian: false, allergies: [] };
-  } catch { 
-    return { vegetarian: false, allergies: [] }; 
-  }
-});
-  const [dietaryNotes, setDietaryNotes] = useState(() => localStorage.getItem("dietaryNotes") || "");
-  const [vegetarian] = useState(() => localStorage.getItem("vegetarian") === "true");
+    try {
+      const saved = localStorage.getItem("prefs");
+      return saved ? JSON.parse(saved) : { vegetarian: false, dietaryNotes: "" };
+    } catch { 
+      return { vegetarian: false, dietaryNotes: "" }; 
+    }
+  });
+
   const [lockedDays, setLockedDays] = useState(() => {
     try { return JSON.parse(localStorage.getItem("lockedDays") || "{}"); } catch { return {}; }
+  });
+
+  // Manual Shopping List Items State
+  const [extraIngredients, setExtraIngredients] = useState<string[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem("extraIngredients") || "[]");
+    } catch { return []; }
   });
 
   // --- PERSISTENCE ---
@@ -131,9 +135,10 @@ function AppContent() {
     localStorage.setItem("daySettings", JSON.stringify(daySettings));
     localStorage.setItem("pantry", JSON.stringify(pantry));
     localStorage.setItem("lockedDays", JSON.stringify(lockedDays));
+    localStorage.setItem("extraIngredients", JSON.stringify(extraIngredients));
     localStorage.setItem("app-version", APP_VERSION);
     persistCookbook(cookbook);
-  }, [meals, daySettings, pantry, lockedDays, cookbook]);
+  }, [meals, daySettings, pantry, lockedDays, cookbook, extraIngredients]);
 
   const addDayToCookbook = (day: string) => {
     const meal = meals[day];
@@ -145,7 +150,7 @@ function AppContent() {
 
   const generateDinnerPlan = (force = false) => {
     const seedMeals = force ? Object.fromEntries(days.map(d => [d, lockedDays[d] ? meals[d] : { name: "", ingredients: "", instructions: "", photoUrl: "" }])) : meals;
-    const next = generatePlan({ meals: seedMeals as any, cookbook, pantry, daySettings, prefs: { ...prefs, vegetarian }, days });
+    const next = generatePlan({ meals: seedMeals as any, cookbook, pantry, daySettings, prefs, days });
     
     const withPhotos = { ...next } as Record<string, Meal>;
     for (const d of days) {
@@ -170,13 +175,38 @@ function AppContent() {
       <Routes>
         <Route path="/" element={requireOnboarding(<HomePage meals={meals} setMeals={setMeals} />)} />
         <Route path="/onboarding" element={<OnboardingPage />} />
-        <Route path="/plan" element={requireOnboarding(<PlanPage daySettings={daySettings} setDaySettings={setDaySettings} pantry={pantry} setPantry={setPantry} dietaryNotes={dietaryNotes} setDietaryNotes={setDietaryNotes} generateDinnerPlan={generateDinnerPlan} />)} />
+        <Route 
+          path="/plan" 
+          element={requireOnboarding(
+            <PlanPage 
+              daySettings={daySettings} 
+              setDaySettings={setDaySettings} 
+              pantry={pantry} 
+              setPantry={setPantry} 
+              prefs={prefs}      
+              setPrefs={setPrefs} 
+              generateDinnerPlan={generateDinnerPlan} 
+            />
+          )} 
+        />
         <Route path="/week" element={requireOnboarding(<WeekPage meals={meals} setMeals={setMeals} addDayToCookbook={addDayToCookbook} generateDinnerPlan={generateDinnerPlan} lockedDays={lockedDays} setLockedDays={setLockedDays} />)} />
         <Route path="/cookbook" element={requireOnboarding(<CookbookPage cookbook={cookbook} setCookbook={setCookbook} />)} />
         <Route path="/recipe/:slug" element={<RecipePage />} />
-        <Route path="/shopping-list" element={requireOnboarding(<ShoppingListPage />)} />
+        
+        {/* UPDATED SHOPPING LIST ROUTE */}
+        <Route 
+          path="/shopping-list" 
+          element={requireOnboarding(
+            <ShoppingListPage 
+              meals={meals} 
+              extraIngredients={extraIngredients} 
+              setExtraIngredients={setExtraIngredients} 
+            />
+          )} 
+        />
+
         <Route path="/cook-now" element={requireOnboarding(<CookNowPage pantry={pantry} />)} />
-        <Route path="/settings" element={<SettingsPage prefs={{...prefs, vegetarian}} setPrefs={setPrefs} />} />
+        <Route path="/settings" element={<SettingsPage prefs={prefs} setPrefs={setPrefs} />} />
         <Route path="/guide" element={<TestersGuidePage />} />
         <Route path="/feedback" element={<FeedbackForm />} />
         <Route path="*" element={<Navigate to="/" replace />} />
@@ -186,7 +216,6 @@ function AppContent() {
   );
 }
 
-// --- MAIN APP (Providers only) ---
 export default function App() {
   return (
     <ThemeProvider>

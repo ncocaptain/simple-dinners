@@ -12,16 +12,16 @@ export default function PlanPage({
   pantry,
   setPantry,
   generateDinnerPlan,
-  dietaryNotes,
-  setDietaryNotes,
+  prefs,      // Changed from dietaryNotes
+  setPrefs,   // Changed from setDietaryNotes
 }: {
   daySettings: Record<string, Effort>;
   setDaySettings: React.Dispatch<React.SetStateAction<Record<string, Effort>>>;
   pantry: PantryItem[];
   setPantry: React.Dispatch<React.SetStateAction<PantryItem[]>>;
   generateDinnerPlan: (force?: boolean) => void;
-  dietaryNotes: string;
-  setDietaryNotes: React.Dispatch<React.SetStateAction<string>>;
+  prefs: any;
+  setPrefs: any;
 }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -48,6 +48,13 @@ export default function PlanPage({
       name,
       createdAt: Date.now(),
     })));
+  };
+
+  // NEW: Helper to update dietary notes inside the unified prefs object
+  const handleNoteChange = (text: string) => {
+    const newPrefs = { ...prefs, dietaryNotes: text };
+    setPrefs(newPrefs);
+    localStorage.setItem("prefs", JSON.stringify(newPrefs));
   };
 
   const handleGenerate = () => {
@@ -124,8 +131,8 @@ export default function PlanPage({
               </div>
               <textarea
                 placeholder="Dislikes, allergies, or picky eaters..."
-                value={dietaryNotes}
-                onChange={(e) => setDietaryNotes(e.target.value)}
+                value={prefs.dietaryNotes || ""} // Look at prefs object
+                onChange={(e) => handleNoteChange(e.target.value)} // Use helper
                 style={{ ...inputBase, minHeight: 100 }}
               />
             </div>

@@ -1,158 +1,128 @@
-import { useEffect, useState } from "react";
-import { ShoppingBasket, Trash2, CheckCircle2, Circle, XCircle, Trash } from "lucide-react";
-import { loadShoppingList, saveShoppingList } from "../shoppingList";
-import type { ShoppingItem } from "../shoppingList";
-import { GROCERY_CATEGORY_ORDER } from "../core/groceryCategories";
-
+import { useState } from "react";
+import { Plus, Trash2, ShoppingCart, Tag, Eraser } from "lucide-react"; // Swapped Sweep for Eraser
 import Card from "../components/Card";
-import Button from "../components/Button";
+import { formatIngredients } from "../core/utils";
 
-export default function ShoppingListPage() {
-  const [items, setItems] = useState<ShoppingItem[]>([]);
+export default function ShoppingListPage({ meals, extraIngredients, setExtraIngredients }: any) {
+  const [newItem, setNewItem] = useState("");
 
-  useEffect(() => {
-    setItems(loadShoppingList());
-  }, []);
-
-  const toggle = (id: string) => {
-    const updated = items.map((i) => i.id === id ? { ...i, checked: !i.checked } : i);
-    setItems(updated);
-    saveShoppingList(updated);
+  const handleAddExtra = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newItem.trim()) return;
+    setExtraIngredients([...extraIngredients, newItem.trim()]);
+    setNewItem("");
   };
 
-  const remove = (id: string) => {
-    const updated = items.filter((i) => i.id !== id);
-    setItems(updated);
-    saveShoppingList(updated);
+  const removeExtra = (index: number) => {
+    setExtraIngredients(extraIngredients.filter((_: any, i: number) => i !== index));
   };
 
-  const clearChecked = () => {
-    const updated = items.filter((i) => !i.checked);
-    setItems(updated);
-    saveShoppingList(updated);
-  };
-
-  const clearAll = () => {
-    if (window.confirm("Clear the entire list?")) {
-      setItems([]);
-      saveShoppingList([]);
+  const clearAllExtras = () => {
+    if (window.confirm("Clear all manual items from your list?")) {
+      setExtraIngredients([]);
     }
   };
 
-  const groupedItems = GROCERY_CATEGORY_ORDER.map((category) => {
-    const categoryItems = items
-      .filter((item) => item.category === category)
-      .slice()
-      .sort((a, b) => {
-        if (a.checked !== b.checked) return a.checked ? 1 : -1;
-        return b.addedAt - a.addedAt;
-      });
-    return { category, items: categoryItems };
-  }).filter((group) => group.items.length > 0);
+  // Gather recipe ingredients
+  const recipeIngredients = Object.values(meals)
+    .map((m: any) => m.ingredients)
+    .filter(Boolean)
+    .join("\n")
+    .split("\n")
+    .filter((line: string) => line.trim() !== "");
 
   return (
-    <div style={{ maxWidth: "550px", margin: "0 auto", padding: "0 20px 40px 20px" }}>
-      <Card 
-        title={<><ShoppingBasket size={22} /> Shopping List</>} 
-        subtitle={`${items.filter(i => !i.checked).length} items remaining`}
-      >
+    <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <div style={{ maxWidth: "550px", width: "100%", padding: "0 20px 120px 20px" }}>
         
-        {/* Action Header */}
-        <div style={{ display: "flex", gap: 12, marginBottom: 32 }}>
-          <Button 
-            variant="secondary" 
-            style={{ flex: 1, background: "rgba(255,255,255,0.05)" }}
-            onClick={clearChecked}
-            disabled={!items.some(i => i.checked)}
-          >
-            <XCircle size={16} /> Clear Checked
-          </Button>
-          <Button 
-            variant="danger" 
-            style={{ flex: 1, background: "rgba(239,68,68,0.1)", borderColor: "rgba(239,68,68,0.2)" }}
-            onClick={clearAll}
-            disabled={items.length === 0}
-          >
-            <Trash size={16} /> Clear All
-          </Button>
-        </div>
+        <header style={{ textAlign: "center", margin: "20px 0" }}>
+          <h2 style={{ fontSize: 28, fontWeight: 1000, margin: 0 }}>Shopping List</h2>
+        </header>
 
-        {items.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "40px 20px", opacity: 0.5 }}>
-            <ShoppingBasket size={48} style={{ margin: "0 auto 16px auto", display: "block" }} />
-            <p style={{ fontSize: 16 }}>Your list is empty.<br/>Add items from the Cookbook!</p>
-          </div>
-        ) : (
-          <div style={{ display: "grid", gap: 24 }}>
-            {groupedItems.map((group) => (
-              <div key={group.category}>
-                <h3 style={{ 
-                  fontSize: 12, 
-                  fontWeight: 900, 
-                  textTransform: "uppercase", 
-                  letterSpacing: "0.1em", 
-                  color: "rgba(255,255,255,0.4)",
-                  marginBottom: 12,
-                  paddingLeft: 8
-                }}>
-                  {group.category}
-                </h3>
-                
-                <div style={{ display: "grid", gap: 8 }}>
-                  {group.items.map((item) => (
-                    <div
-                      key={item.id}
-                      onClick={() => toggle(item.id)}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 16,
-                        padding: "16px 20px",
-                        borderRadius: "20px",
-                        background: item.checked ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.05)",
-                        border: "1px solid",
-                        borderColor: item.checked ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.1)",
-                        cursor: "pointer",
-                        transition: "all 0.2s ease"
-                      }}
-                    >
-                      {item.checked ? (
-                        <CheckCircle2 size={24} color="#22c55e" />
-                      ) : (
-                        <Circle size={24} color="rgba(255,255,255,0.2)" />
-                      )}
+        <Card>
+          <form onSubmit={handleAddExtra} style={{ display: "flex", gap: 8 }}>
+            <input 
+              placeholder="Add milk, bread, snacks..." 
+              value={newItem}
+              onChange={(e) => setNewItem(e.target.value)}
+              style={{ 
+                flex: 1, padding: "12px", borderRadius: "12px", 
+                background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", 
+                color: "white", outline: "none" 
+              }}
+            />
+            <button 
+              type="submit"
+              style={{ 
+                padding: "0 16px", borderRadius: "12px", background: "#22c55e", 
+                border: "none", color: "white", cursor: "pointer" 
+              }}
+            >
+              <Plus size={24} />
+            </button>
+          </form>
+        </Card>
 
-                      <span style={{
-                        flex: 1,
-                        fontSize: "17px",
-                        fontWeight: item.checked ? 400 : 600,
-                        color: item.checked ? "rgba(255,255,255,0.3)" : "#f8fafc",
-                        textDecoration: item.checked ? "line-through" : "none",
-                      }}>
-                        {item.text}
-                      </span>
+        <div style={{ marginTop: 24, display: "grid", gap: 12 }}>
+          {/* --- EXTRA ITEMS SECTION --- */}
+          {extraIngredients.length > 0 && (
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+              <span style={{ fontSize: 12, fontWeight: 900, opacity: 0.4, textTransform: "uppercase" }}>Manual Items</span>
+              <button 
+                onClick={clearAllExtras}
+                style={{ background: "none", border: "none", color: "#ef4444", fontSize: 11, fontWeight: 800, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }}
+              >
+                <Eraser size={14} /> CLEAR ALL
+              </button>
+            </div>
+          )}
 
-                      {!item.checked && (
-                        <button 
-                          onClick={(e) => { e.stopPropagation(); remove(item.id); }}
-                          style={{ 
-                            background: "none", 
-                            border: "none", 
-                            color: "rgba(239,68,68,0.4)",
-                            padding: "8px"
-                          }}
-                        >
-                          <Trash2 size={18} />
-                        </button>
-                      )}
-                    </div>
-                  ))}
-                </div>
+          {extraIngredients.map((item: string, i: number) => (
+            <div key={`extra-${i}`} style={{ 
+              display: "flex", alignItems: "center", justifyContent: "space-between", 
+              padding: "16px", background: "rgba(34, 197, 94, 0.1)", 
+              borderRadius: "16px", border: "1px solid rgba(34, 197, 94, 0.2)" 
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <Tag size={16} color="#22c55e" />
+                <span style={{ fontWeight: 700 }}>{item}</span>
               </div>
-            ))}
-          </div>
-        )}
-      </Card>
+              <Trash2 
+                size={18} 
+                onClick={() => removeExtra(i)} 
+                style={{ cursor: "pointer", opacity: 0.5, color: "#ef4444" }} 
+              />
+            </div>
+          ))}
+
+          {/* --- RECIPE ITEMS SECTION --- */}
+          {recipeIngredients.length > 0 && (
+            <div style={{ marginTop: 12, marginBottom: 4 }}>
+              <span style={{ fontSize: 12, fontWeight: 900, opacity: 0.4, textTransform: "uppercase" }}>From Your Plan</span>
+            </div>
+          )}
+
+          {/* --- RECIPE ITEMS SECTION --- */}
+{recipeIngredients.map((item: string, i: number) => (
+  <div key={`recipe-${i}`} style={{ 
+    display: "flex", alignItems: "center", gap: 12, padding: "16px", 
+    background: "rgba(255,255,255,0.05)", borderRadius: "16px", 
+    border: "1px solid rgba(255,255,255,0.1)" 
+  }}>
+    <ShoppingCart size={18} style={{ opacity: 0.3 }} />
+    {/* ADD THE 'true' FLAG HERE */}
+    <span style={{ fontWeight: 600 }}>{formatIngredients(item, true)}</span>
+  </div>
+))}
+
+          {recipeIngredients.length === 0 && extraIngredients.length === 0 && (
+            <div style={{ textAlign: "center", padding: 60, opacity: 0.3 }}>
+              <ShoppingCart size={48} style={{ marginBottom: 16 }} />
+              <div style={{ fontWeight: 800 }}>Your list is empty.</div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

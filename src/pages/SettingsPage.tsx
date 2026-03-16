@@ -1,19 +1,19 @@
-import { ArrowLeft, Leaf, AlertCircle } from "lucide-react"; // Removed ClipboardList
+import { ArrowLeft, Leaf, AlertCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 
 export default function SettingsPage({ prefs, setPrefs }: { prefs: any, setPrefs: any }) {
   const navigate = useNavigate();
 
-  // Helper to update and persist
   const updatePrefs = (updatedFields: any) => {
+    // 1. Merge new data into old data (Preserves allergies!)
     const newPrefs = { ...prefs, ...updatedFields };
+    
+    // 2. Update the parent state (Triggers instant UI movement)
     setPrefs(newPrefs);
+    
+    // 3. Save to the phone's memory
     localStorage.setItem("prefs", JSON.stringify(newPrefs));
-    // Keep legacy key for safety
-    if (updatedFields.vegetarian !== undefined) {
-      localStorage.setItem("vegetarian", String(updatedFields.vegetarian));
-    }
   };
 
   return (
@@ -29,7 +29,6 @@ export default function SettingsPage({ prefs, setPrefs }: { prefs: any, setPrefs
         <h1 style={{ fontSize: 32, fontWeight: 1000, marginBottom: 24 }}>Setup</h1>
 
         <div style={{ display: "grid", gap: 20 }}>
-          {/* Vegetarian Toggle */}
           <Card title="Dietary Preferences">
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -53,14 +52,14 @@ export default function SettingsPage({ prefs, setPrefs }: { prefs: any, setPrefs
               >
                 <div style={{
                   width: 22, height: 22, borderRadius: "50%", background: "white",
-                  position: "absolute", top: 4, left: prefs.vegetarian ? 28 : 4,
+                  position: "absolute", top: 4, 
+                  left: prefs.vegetarian ? 28 : 4, // LOOKS AT LIVE STATE
                   transition: "all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
                 }} />
               </button>
             </div>
           </Card>
 
-          {/* Persistent Notes / Allergies */}
           <Card title="Health & Safety">
             <div style={{ display: "flex", flexDirection: "column", gap: 12, padding: "10px 0" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12, opacity: 0.8 }}>
