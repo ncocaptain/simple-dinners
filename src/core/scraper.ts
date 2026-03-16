@@ -1,26 +1,19 @@
 export async function scrapeRecipe(url: string) {
   try {
-    // This is a highly reliable public bridge
-    const proxyUrl = "https://cors-anywhere.herokuapp.com/" + url;
+    // This uses the AllOrigins 'get' bridge which is more stable for HTTPS sites
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
     
-    // We have to add this header for the demo version of this proxy
-    const response = await fetch(proxyUrl, {
-      headers: {
-        "X-Requested-With": "XMLHttpRequest"
-      }
-    });
-    
-    if (response.status === 403) {
-      throw new Error("Proxy requires activation. Visit https://cors-anywhere.herokuapp.com/opt-in");
-    }
+    const response = await fetch(proxyUrl);
+    if (!response.ok) throw new Error("Bridge connection failed");
 
-    if (!response.ok) throw new Error("Connection failed");
+    const data = await response.json();
+    const html = data.contents; // AllOrigins wraps the result in a 'contents' string
 
-    const html = await response.text(); 
+    if (!html) throw new Error("No data returned from bridge");
 
     // --- 1. FAST-TRACK (Regex search) ---
     const jsonMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
-    // ... rest of your code ...
+    // ... rest of your existing logic ...
     
     if (jsonMatch) {
       try {
