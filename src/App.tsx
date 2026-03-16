@@ -68,7 +68,8 @@ function Navigation() {
   );
 }
 
-export default function App() {
+// --- APP CONTENT (Where the logic lives) ---
+function AppContent() {
   const navigate = useNavigate();
   const toastApi: any = useToast();
   const toast = toastApi.toast ?? toastApi; 
@@ -155,30 +156,37 @@ export default function App() {
     hasCompletedOnboarding() ? element : <Navigate to="/onboarding" replace />;
 
   return (
+    <div style={{ minHeight: "100vh", paddingBottom: 110 }}>
+      <header style={{ padding: "32px 20px", textAlign: "center", maxWidth: "550px", margin: "0 auto" }}>
+        <h1 style={{ margin: 0, fontSize: 36, fontWeight: 1000, color: "#f8fafc" }}>Simple Dinners</h1>
+        <div style={{ fontSize: 12, opacity: 0.4, fontWeight: 800, textTransform: "uppercase" }}>Captain's Kitchen • v{APP_VERSION}</div>
+      </header>
+
+      <Routes>
+        <Route path="/" element={requireOnboarding(<HomePage meals={meals} setMeals={setMeals} />)} />
+        <Route path="/onboarding" element={<OnboardingPage />} />
+        <Route path="/plan" element={requireOnboarding(<PlanPage daySettings={daySettings} setDaySettings={setDaySettings} pantry={pantry} setPantry={setPantry} dietaryNotes={dietaryNotes} setDietaryNotes={setDietaryNotes} generateDinnerPlan={generateDinnerPlan} />)} />
+        <Route path="/week" element={requireOnboarding(<WeekPage meals={meals} setMeals={setMeals} addDayToCookbook={addDayToCookbook} generateDinnerPlan={generateDinnerPlan} lockedDays={lockedDays} setLockedDays={setLockedDays} />)} />
+        <Route path="/cookbook" element={requireOnboarding(<CookbookPage cookbook={cookbook} setCookbook={setCookbook} />)} />
+        <Route path="/recipe/:slug" element={<RecipePage />} />
+        <Route path="/shopping-list" element={requireOnboarding(<ShoppingListPage />)} />
+        <Route path="/cook-now" element={requireOnboarding(<CookNowPage pantry={pantry} />)} />
+        <Route path="/settings" element={<SettingsPage prefs={{...prefs, vegetarian}} setPrefs={setPrefs} />} />
+        <Route path="/guide" element={<TestersGuidePage />} />
+        <Route path="/feedback" element={<FeedbackForm />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+      <Navigation />
+    </div>
+  );
+}
+
+// --- MAIN APP (Providers only) ---
+export default function App() {
+  return (
     <ThemeProvider>
       <ToastProvider>
-        <div style={{ minHeight: "100vh", paddingBottom: 110 }}>
-          <header style={{ padding: "32px 20px", textAlign: "center", maxWidth: "550px", margin: "0 auto" }}>
-            <h1 style={{ margin: 0, fontSize: 36, fontWeight: 1000, color: "#f8fafc" }}>Simple Dinners</h1>
-            <div style={{ fontSize: 12, opacity: 0.4, fontWeight: 800, textTransform: "uppercase" }}>Captain's Kitchen • v{APP_VERSION}</div>
-          </header>
-
-          <Routes>
-            <Route path="/" element={requireOnboarding(<HomePage meals={meals} setMeals={setMeals} />)} />
-            <Route path="/onboarding" element={<OnboardingPage />} />
-            <Route path="/plan" element={requireOnboarding(<PlanPage daySettings={daySettings} setDaySettings={setDaySettings} pantry={pantry} setPantry={setPantry} dietaryNotes={dietaryNotes} setDietaryNotes={setDietaryNotes} generateDinnerPlan={generateDinnerPlan} />)} />
-            <Route path="/week" element={requireOnboarding(<WeekPage meals={meals} setMeals={setMeals} addDayToCookbook={addDayToCookbook} generateDinnerPlan={generateDinnerPlan} lockedDays={lockedDays} setLockedDays={setLockedDays} />)} />
-            <Route path="/cookbook" element={requireOnboarding(<CookbookPage cookbook={cookbook} setCookbook={setCookbook} />)} />
-            <Route path="/recipe/:slug" element={<RecipePage />} />
-            <Route path="/shopping-list" element={requireOnboarding(<ShoppingListPage />)} />
-            <Route path="/cook-now" element={requireOnboarding(<CookNowPage pantry={pantry} />)} />
-            <Route path="/settings" element={<SettingsPage prefs={{...prefs, vegetarian}} setPrefs={setPrefs} />} />
-            <Route path="/guide" element={<TestersGuidePage />} />
-            <Route path="/feedback" element={<FeedbackForm />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-          <Navigation />
-        </div>
+        <AppContent />
       </ToastProvider>
     </ThemeProvider>
   );
