@@ -1,12 +1,16 @@
 export async function scrapeRecipe(url: string) {
   try {
-    const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(url);
+    const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(url);
     const response = await fetch(proxyUrl);
-    const data = await response.json();
-    const html = data.contents;
+    
+    if (!response.ok) throw new Error("Proxy connection failed");
+
+    // We take the raw text (HTML) directly from the response
+    const html = await response.text(); 
 
     // --- 1. FAST-TRACK (Regex search) ---
     const jsonMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+    
     if (jsonMatch) {
       try {
         const json = JSON.parse(jsonMatch[1]);
