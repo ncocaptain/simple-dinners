@@ -15,7 +15,7 @@ import TestersGuidePage from "./pages/TestersGuidePage";
 import FeedbackForm from "./pages/FeedbackForm";
 
 // Components
-import { useToast, ToastProvider } from "./components/Toast";
+import { ToastProvider } from "./components/Toast";
 import { ThemeProvider } from "./theme";
 import { Calendar, BookOpen, ShoppingBasket, Settings, Utensils } from "lucide-react";
 
@@ -74,44 +74,47 @@ function Navigation() {
 
 export default function App() {
   const navigate = useNavigate();
-  const toastApi: any = useToast();
-  const toast = toastApi?.toast ?? toastApi;
-  const APP_VERSION = "22.0.5"; 
+  const APP_VERSION = "22.0.6"; 
 
+  // --- STATE ---
   const [cookbook, setCookbook] = useState<any[]>(() => getCookbook());
-  const [meals, setMeals] = useState<Record<string, Meal>>(() => JSON.parse(localStorage.getItem("meals") || "{}"));
-  const [daySettings, setDaySettings] = useState<Record<string, Effort>>(() => JSON.parse(localStorage.getItem("daySettings") || "{}"));
-  const [pantry, setPantry] = useState<PantryItem[]>(() => JSON.parse(localStorage.getItem("pantry") || "[]"));
-  const [prefs, setPrefs] = useState<Preferences>(() => JSON.parse(localStorage.getItem("prefs") || '{"vegetarian": false}'));
+  const [meals, setMeals] = useState<Record<string, Meal>>(() => {
+    try {
+      return JSON.parse(localStorage.getItem("meals") || "{}");
+    } catch { return {}; }
+  });
+  const [daySettings, setDaySettings] = useState<Record<string, Effort>>(() => {
+    try {
+      return JSON.parse(localStorage.getItem("daySettings") || "{}");
+    } catch { return {}; }
+  });
+  const [pantry, setPantry] = useState<PantryItem[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem("pantry") || "[]");
+    } catch { return []; }
+  });
+  const [prefs, setPrefs] = useState<Preferences>(() => {
+    try {
+      return JSON.parse(localStorage.getItem("prefs") || '{"vegetarian": false}');
+    } catch { return { vegetarian: false }; }
+  });
   const [dietaryNotes, setDietaryNotes] = useState(() => localStorage.getItem("dietaryNotes") || "");
   const [vegetarian] = useState(() => localStorage.getItem("vegetarian") === "true");
-  const [lockedDays, setLockedDays] = useState(() => JSON.parse(localStorage.getItem("lockedDays") || "{}"));
+  const [lockedDays, setLockedDays] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("lockedDays") || "{}");
+    } catch { return {}; }
+  });
 
-  // PERSISTENCE
+  // --- PERSISTENCE ---
   useEffect(() => {
     localStorage.setItem("meals", JSON.stringify(meals));
     localStorage.setItem("daySettings", JSON.stringify(daySettings));
     localStorage.setItem("pantry", JSON.stringify(pantry));
     localStorage.setItem("lockedDays", JSON.stringify(lockedDays));
+    localStorage.setItem("app-version", APP_VERSION); // Sync version without toast for now to prevent crash
     persistCookbook(cookbook);
   }, [meals, daySettings, pantry, lockedDays, cookbook]);
-
-  // VERSION CHECK (Fixes 'toast' and 'APP_VERSION' errors)
-  useEffect(() => {
-    const savedVersion = localStorage.getItem("app-version");
-    if (savedVersion && savedVersion !== APP_VERSION) {
-      if (typeof toast === "function") {
-        toast("Update Ready! Tap to refresh.", {
-          onClick: () => {
-            localStorage.setItem("app-version", APP_VERSION);
-            window.location.reload();
-          }
-        });
-      }
-    } else {
-      localStorage.setItem("app-version", APP_VERSION);
-    }
-  }, [toast]);
 
   const addDayToCookbook = (day: string) => {
     const meal = meals[day];
@@ -122,7 +125,6 @@ export default function App() {
   };
 
   const generateDinnerPlan = (force = false) => {
-    // Uses 'force' and 'mealImageUrl' now
     const seedMeals = force ? Object.fromEntries(days.map(d => [d, lockedDays[d] ? meals[d] : { name: "", ingredients: "", instructions: "", photoUrl: "" }])) : meals;
     const next = generatePlan({ meals: seedMeals as any, cookbook, pantry, daySettings, prefs: { ...prefs, vegetarian }, days });
     
@@ -144,8 +146,8 @@ export default function App() {
       <ToastProvider>
         <div style={{ minHeight: "100vh", paddingBottom: 110 }}>
           <header style={{ padding: "32px 20px", textAlign: "center", maxWidth: "550px", margin: "0 auto" }}>
-            <h1 style={{ margin: 0, fontSize: 36, fontWeight: 1000 }}>Simple Dinners</h1>
-            <div style={{ fontSize: 12, opacity: 0.4, fontWeight: 800 }}>v22.0.5</div>
+            <h1 style={{ margin: 0, fontSize: 36, fontWeight: 1000, color: "#f8fafc" }}>Simple Dinners</h1>
+            <div style={{ fontSize: 12, opacity: 0.4, fontWeight: 800, textTransform: "uppercase" }}>Captain's Kitchen • v{APP_VERSION}</div>
           </header>
 
           <Routes>
