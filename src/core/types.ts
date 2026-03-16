@@ -1,15 +1,16 @@
 export type Effort = "quick" | "normal" | "big" | "takeout";
 
-export type Meal = {
+export interface Meal {
   id?: string;
   slug?: string;
   name: string;
   ingredients: string;
-  instructions?: string;
-  photoUrl?: string;
-  effort?: Effort;
+  instructions?: string; // Add the '?' to make it optional
+  photoUrl?: string;     // Add the '?' to make it optional
+  effort?: "quick" | "normal" | "big" | "takeout";
   tags?: string[];
-};
+  isVegetarian?: boolean;
+}
 
 export type PantryItem = {
   id: string;

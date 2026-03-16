@@ -123,6 +123,11 @@ body {
   background-repeat: no-repeat;
 }
 
+@keyframes popIn {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
 /* Mobile tweak */
 @media (max-width: 768px) {
   .appBackground {

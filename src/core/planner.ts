@@ -32,9 +32,6 @@ function slugFromMeal(meal: Meal) {
   return meal.slug || normalize(meal.name || "").replace(/\s+/g, "-");
 }
 
-function escapeRegExp(s: string) {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
 
 // =====================================================
 // Pantry helpers
@@ -106,17 +103,7 @@ export function scoreMealAgainstPantry(meal: Meal, tokens: string[]) {
 // =====================================================
 // Vegetarian + allergen helpers
 // =====================================================
-function mealTextForMeatCheck(meal: Meal) {
-  return `${meal?.name ?? ""}\n${meal?.ingredients ?? ""}\n${meal?.instructions ?? ""}`;
-}
 
-function isVegetarianMeal(meal: Meal, meatWords: string[]) {
-  const text = mealTextForMeatCheck(meal);
-
-  return !meatWords.some((word) =>
-    new RegExp(`\\b${escapeRegExp(word)}\\b`, "i").test(text)
-  );
-}
 
 export function isVegetarianByHeuristic(ingredients: string) {
   const ing = normalize(ingredients || "");
@@ -147,9 +134,7 @@ function hasTag(meal: Meal, tag: string) {
   return Array.isArray((meal as any).tags) && (meal as any).tags.includes(tag);
 }
 
-function mealSupportsLeftovers(meal: Meal) {
-  return hasTag(meal, "leftovers");
-}
+
 
 function isMealEligibleForPlan(meal: Meal) {
   if (hasTag(meal, "seasoning")) return false;
@@ -234,57 +219,36 @@ export function getPlannerScore(meal: Meal): number {
 }
 
 // =====================================================
-// Candidate library with Visual Assets
+// Candidate library (Updated with your new Data)
 // =====================================================
 export const candidateLibrary: Meal[] = [
   ...NEW_BUILTIN_RECIPES,
-  ...NEW_VEGETARIAN_RECIPES,
+  ...NEW_VEGETARIAN_RECIPES.map(m => ({ ...m, isVegetarian: true })),
 
   {
     id: "takeout-drive-thru-night",
     slug: "takeout-drive-thru-night",
     name: "Drive-Thru Night",
     ingredients: "Order out (no groceries).",
+    instructions: "Head to your favorite drive-thru!", // Added this
     effort: "takeout",
+    isVegetarian: true,
     photoUrl: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: "takeout-rotisserie-chicken-night",
-    slug: "takeout-rotisserie-chicken-night",
-    name: "Rotisserie Chicken Night",
-    ingredients: "Rotisserie chicken, salad kit, rolls.",
-    effort: "takeout",
-    photoUrl: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: "takeout-frozen-pizza-night",
-    slug: "takeout-frozen-pizza-night",
-    name: "Frozen Pizza Night",
-    ingredients: "Frozen pizza, salad kit.",
-    effort: "takeout",
-    photoUrl: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: "takeout-deli-sandwich-night",
-    slug: "takeout-deli-sandwich-night",
-    name: "Deli Sandwich Night",
-    ingredients: "Deli meat, bread, cheese, chips.",
-    effort: "takeout",
-    photoUrl: "https://images.unsplash.com/photo-1524350303359-301014499558?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: "leftover-night",
     slug: "leftover-night",
     name: "Leftover Night",
-    ingredients: "Use leftovers from a recent dinner.",
-    instructions: "Reheat and serve leftover portions from the previous meal.",
+    ingredients: "Use leftovers.",
+    instructions: "Reheat leftovers from a previous meal.",
     effort: "quick",
+    isVegetarian: true,
     photoUrl: "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=800&q=80"
-  },
+  }
 ];
 
 // =====================================================
-// Pure plan generator
+// Pure plan generator (Fixed & Shielded)
 // =====================================================
 export function generatePlan(args: {
   meals: Record<string, Meal>;
@@ -293,7 +257,7 @@ export function generatePlan(args: {
     ingredients: string;
     instructions?: string;
     photoUrl?: string;
-   }>;
+  }>;
   pantry: PantryItem[];
   pantryText?: string;
   daySettings: Record<string, Effort>;
@@ -304,151 +268,75 @@ export function generatePlan(args: {
 
   const pantryTokens = getPantryTokens(pantry);
   const pantryTextTokens = parsePantryText(pantryText ?? "");
-  const allPantryTokens = Array.from(
-    new Set([...pantryTokens, ...pantryTextTokens])
-  );
+  const allPantryTokens = Array.from(new Set([...pantryTokens, ...pantryTextTokens]));
 
+  // 1. Convert Cookbook to Meals
   const cookbookPool: Meal[] = (cookbook ?? []).map((recipe) => ({
     name: recipe.name,
     ingredients: recipe.ingredients,
-    instructions: recipe.instructions,
-    photoUrl: recipe.photoUrl,
+    instructions: recipe.instructions || "",
+    photoUrl: recipe.photoUrl || "",
     effort: "normal",
     slug: normalize(recipe.name).replace(/\s+/g, "-"),
+    // If it doesn't have meat words, it's veggie
+    isVegetarian: isVegetarianByHeuristic(recipe.ingredients)
   }));
 
-  const fullPool: Meal[] = [...cookbookPool, ...candidateLibrary].filter(
-    (meal) =>
-      isMealEligibleForPlan(meal) &&
-      !violatesAllergens(meal.ingredients, prefs.allergens || [])
+  // 2. THE VEGETARIAN SHIELD (Apply this to the total pool first)
+  let fullPool: Meal[] = [...cookbookPool, ...candidateLibrary];
+
+  if (prefs.vegetarian) {
+    fullPool = fullPool.filter(meal => 
+      meal.isVegetarian || isVegetarianByHeuristic(meal.ingredients)
+    );
+  }
+
+  // 3. Final Eligibility & Allergen check
+  fullPool = fullPool.filter(meal => 
+    isMealEligibleForPlan(meal) && 
+    !violatesAllergens(meal.ingredients, prefs.allergens || [])
   );
 
+  // 4. Score and Rank
   const rankedPool: Meal[] = fullPool
-  .map((meal) => {
-    const pantryMatchScore = scoreMealAgainstPantry(meal, allPantryTokens);
-    const plannerScore = getPlannerScore(meal);
-    const variety = Math.random() * 6;
-
-    let vegBoost = 0;
-    if (prefs.vegetarian && isVegetarianMeal(meal, MEAT_WORDS)) {
-      vegBoost = 8;
-    }
-
-    return {
+    .map((meal) => ({
       meal,
-      score: pantryMatchScore * 10 + plannerScore + vegBoost + variety,
-    };
-  })
+      score: (scoreMealAgainstPantry(meal, allPantryTokens) * 10) + getPlannerScore(meal) + (Math.random() * 10)
+    }))
     .sort((a, b) => b.score - a.score)
     .map((x) => x.meal);
 
-  const candidatePool: Meal[] = prefs.vegetarian
-    ? rankedPool.filter((meal) => isVegetarianMeal(meal, MEAT_WORDS))
-    : rankedPool;
-
-    const next: Record<string, Meal> = { ...meals };
+  const next: Record<string, Meal> = { ...meals };
   const usedMealNames = new Set<string>();
 
+  // Mark already-set meals as used
   for (const day of days) {
-    const existingMeal = next[day];
-    if (!existingMeal?.name?.trim()) continue;
-
-    const failsVegetarian =
-      prefs.vegetarian && !isVegetarianMeal(existingMeal, MEAT_WORDS);
-
-    const failsAllergens = violatesAllergens(
-      existingMeal.ingredients || "",
-      prefs.allergens || []
-    );
-
-    if (failsVegetarian || failsAllergens) {
-      next[day] = {
-        name: "",
-        ingredients: "",
-        instructions: "",
-        photoUrl: "",
-      } as Meal;
-    }
+    if (next[day]?.name) usedMealNames.add(normalize(next[day].name));
   }
 
   for (const day of days) {
-    const existingName = next[day]?.name?.trim();
-    if (existingName) {
-      usedMealNames.add(normalize(existingName));
-    }
-  }
-
-  for (const day of days) {
-    const existingMeal = next[day];
-    if (existingMeal?.name?.trim()) continue;
+    // If a day is already filled (and not cleared), skip it
+    if (next[day]?.name) continue;
 
     const neededEffort = daySettings[day] || "normal";
 
-    const dayIndex = days.indexOf(day);
-    const previousDay = dayIndex > 0 ? days[dayIndex - 1] : null;
-    const previousMeal = previousDay ? next[previousDay] : null;
-
-    const canUseLeftovers =
-      previousMeal &&
-      mealSupportsLeftovers(previousMeal) &&
-      !usedMealNames.has(normalize("Leftover Night"));
-
-    if (canUseLeftovers && neededEffort !== "takeout" && Math.random() < 0.6) {
-      next[day] = candidateLibrary.find(c => c.slug === "leftover-night")!;
-      usedMealNames.add(normalize("Leftover Night"));
-      continue;
-    }
-
-    if (neededEffort === "takeout") {
-      // Pick a random takeout option from the library
-      const takeoutOptions = candidateLibrary.filter(c => c.effort === "takeout");
-      const randomTakeout = takeoutOptions[Math.floor(Math.random() * takeoutOptions.length)];
-      next[day] = randomTakeout;
-      continue;
-    }
-
-    let chosenMeal: Meal | null = null;
-
-    for (const candidate of candidatePool) {
-      if (!candidate?.name) continue;
-      if (usedMealNames.has(normalize(candidate.name))) continue;
-      if (prefs.vegetarian && !isVegetarianMeal(candidate, MEAT_WORDS)) continue;
-
-      const candidateEffort = candidate.effort ?? "normal";
-
-      if (neededEffort === "normal") {
-        if (candidateEffort !== "normal" && candidateEffort !== "quick") continue;
-      } else {
-        if (candidateEffort !== neededEffort) continue;
-      }
-
-      chosenMeal = candidate;
-      break;
-    }
-
-    if (!chosenMeal) {
-      for (const candidate of candidatePool) {
-        if (!candidate?.name) continue;
-        if (prefs.vegetarian && !isVegetarianMeal(candidate, MEAT_WORDS)) continue;
-
-        const candidateEffort = candidate.effort ?? "normal";
-
-        if (neededEffort === "normal") {
-          if (candidateEffort !== "normal" && candidateEffort !== "quick") continue;
-        } else {
-          if (candidateEffort !== neededEffort) continue;
-        }
-
-        chosenMeal = candidate;
-        break;
-      }
-    }
+    // Find the first meal in our pre-filtered/ranked pool that fits the criteria
+    const chosenMeal = rankedPool.find(candidate => {
+      if (usedMealNames.has(normalize(candidate.name))) return false;
+      
+      const candidateEffort = candidate.effort || "normal";
+      
+      // Effort Matching
+      if (neededEffort === "takeout") return candidateEffort === "takeout";
+      if (neededEffort === "normal") return candidateEffort === "normal" || candidateEffort === "quick";
+      return candidateEffort === neededEffort;
+    });
 
     if (chosenMeal) {
       next[day] = chosenMeal;
       usedMealNames.add(normalize(chosenMeal.name));
     }
   }
-
+  
   return next;
 }

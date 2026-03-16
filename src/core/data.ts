@@ -1652,3 +1652,15 @@ export const SUBS = [
   { pattern: /\bfish\b/gi, replacement: "chickpeas" },
   { pattern: /\bshrimp\b/gi, replacement: "hearts of palm" },
 ];
+
+// This ensures every recipe in the Vegetarian list is officially tagged
+export const VEGGIE_POOL = NEW_VEGETARIAN_RECIPES.map(meal => ({
+  ...meal,
+  isVegetarian: true
+}));
+
+// This combines everything for the master list
+export const ALL_RECIPES: Meal[] = [
+  ...NEW_BUILTIN_RECIPES,
+  ...VEGGIE_POOL
+];
