@@ -1,23 +1,26 @@
 export async function scrapeRecipe(url: string) {
   try {
-    // Attempt #3: Stealth Proxy
-    const proxyUrl = "https://api.shcors.com/get?url=" + encodeURIComponent(url);
+    // This is a highly reliable public bridge
+    const proxyUrl = "https://cors-anywhere.herokuapp.com/" + url;
     
+    // We have to add this header for the demo version of this proxy
     const response = await fetch(proxyUrl, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Linux; Android 10; Pixel 4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36'
+        "X-Requested-With": "XMLHttpRequest"
       }
     });
     
-    if (!response.ok) throw new Error("Proxy connection failed");
+    if (response.status === 403) {
+      throw new Error("Proxy requires activation. Visit https://cors-anywhere.herokuapp.com/opt-in");
+    }
 
-    // shcors usually wraps in JSON like allorigins did
-    const data = await response.json();
-    const html = data.data || data.contents || data; // handle different wrapper styles
+    if (!response.ok) throw new Error("Connection failed");
+
+    const html = await response.text(); 
 
     // --- 1. FAST-TRACK (Regex search) ---
     const jsonMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
-    // ... rest of logic
+    // ... rest of your code ...
     
     if (jsonMatch) {
       try {
