@@ -22,7 +22,7 @@ export default function CookbookPage({ cookbook, setCookbook }: { cookbook: Meal
     effort: "normal"
   });
 
-  // --- RECT BACK-SWIPE PROTECTION ---
+  // --- BACK-SWIPE PROTECTION ---
   useEffect(() => {
     if (selectedRecipe) {
       window.history.pushState({ view: 'recipe' }, '');
@@ -92,7 +92,8 @@ export default function CookbookPage({ cookbook, setCookbook }: { cookbook: Meal
 
   // --- DETAIL VIEW RENDER ---
   if (selectedRecipe) {
-    const lines = selectedRecipe.ingredients.split('\n').filter(line => line.trim() !== "");
+    // We trim and filter to ensure we only count real ingredients for the "Mission Complete" check
+    const lines = (selectedRecipe.ingredients || "").split('\n').filter(line => line.trim() !== "");
     const isMissionComplete = lines.length > 0 && lines.every(ing => checkedIngredients.includes(ing));
 
     return (
@@ -107,7 +108,7 @@ export default function CookbookPage({ cookbook, setCookbook }: { cookbook: Meal
         <img src={selectedRecipe.photoUrl} style={{ width: "100%", height: 250, borderRadius: 24, objectFit: "cover", marginBottom: 24 }} />
 
         {isMissionComplete && (
-          <div style={{ background: "linear-gradient(135deg, #22c55e, #10b981)", padding: "20px", borderRadius: "20px", marginBottom: 24, textAlign: "center", boxShadow: "0 10px 20px rgba(34, 197, 94, 0.2)" }}>
+          <div style={{ background: "linear-gradient(135deg, #22c55e, #10b981)", padding: "20px", borderRadius: "20px", marginBottom: 24, textAlign: "center", boxShadow: "0 10px 20px rgba(34, 197, 94, 0.2)", animation: "popIn 0.4s ease" }}>
             <h3 style={{ margin: 0, fontSize: 22, fontWeight: 900, color: "white" }}>🏆 MISSION COMPLETE!</h3>
             <p style={{ margin: "4px 0 0 0", fontSize: 14, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Prep is done. The kitchen is yours, Captain!</p>
           </div>
@@ -118,15 +119,34 @@ export default function CookbookPage({ cookbook, setCookbook }: { cookbook: Meal
         <div style={{ display: "grid", gap: 24 }}>
           <section>
             <h4 style={{ color: "#22c55e", fontSize: 12, fontWeight: 900, textTransform: "uppercase", letterSpacing: 1, marginBottom: 16 }}>Ingredients</h4>
-            <div style={{ display: "grid", gap: 10 }}>
+            {/* THE LIVING LIST FIX: Changed display to flex with column direction */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {lines.map((ing, index) => {
                 const isChecked = checkedIngredients.includes(ing);
                 return (
-                  <div key={index} onClick={() => toggleIngredient(ing)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", borderRadius: "12px", background: isChecked ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.05)", border: isChecked ? "1px solid transparent" : "1px solid rgba(255,255,255,0.1)", cursor: "pointer", order: isChecked ? 1 : 0, opacity: isChecked ? 0.4 : 1 }}>
+                  <div 
+                    key={index} 
+                    onClick={() => toggleIngredient(ing)} 
+                    style={{ 
+                      display: "flex", 
+                      alignItems: "center", 
+                      gap: 12, 
+                      padding: "12px 16px", 
+                      borderRadius: "12px", 
+                      background: isChecked ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.05)", 
+                      border: isChecked ? "1px solid transparent" : "1px solid rgba(255,255,255,0.1)", 
+                      cursor: "pointer", 
+                      order: isChecked ? 100 : 0, // High order shuffles checked items to bottom
+                      opacity: isChecked ? 0.4 : 1,
+                      transition: "all 0.3s ease"
+                    }}
+                  >
                     <div style={{ width: 20, height: 20, borderRadius: 6, border: "2px solid #22c55e", background: isChecked ? "#22c55e" : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
                       {isChecked && <X size={14} color="white" strokeWidth={4} />}
                     </div>
-                    <span style={{ fontSize: 16, textDecoration: isChecked ? "line-through" : "none", fontWeight: isChecked ? 400 : 600 }}>{formatIngredients(ing)}</span>
+                    <span style={{ fontSize: 16, textDecoration: isChecked ? "line-through" : "none", fontWeight: isChecked ? 400 : 600 }}>
+                      {formatIngredients(ing)}
+                    </span>
                   </div>
                 );
               })}

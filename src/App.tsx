@@ -151,7 +151,7 @@ export default function App() {
           </header>
 
           <Routes>
-            <Route path="/" element={requireOnboarding(<HomePage meals={meals} />)} />
+            <Route path="/" element={requireOnboarding(<HomePage meals={meals} setMeals={setMeals} />)} />
             <Route path="/onboarding" element={<OnboardingPage />} />
             <Route path="/plan" element={requireOnboarding(<PlanPage daySettings={daySettings} setDaySettings={setDaySettings} pantry={pantry} setPantry={setPantry} dietaryNotes={dietaryNotes} setDietaryNotes={setDietaryNotes} generateDinnerPlan={generateDinnerPlan} />)} />
            <Route path="/week" element={requireOnboarding(

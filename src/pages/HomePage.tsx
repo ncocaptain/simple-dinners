@@ -1,17 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import { Share2 } from "lucide-react"; // Added this import
+import { Share2, RefreshCw } from "lucide-react"; // Added RefreshCw
 import Card from "../components/Card";
 import Button from "../components/Button";
 import type { Meal } from "../core/types";
 import { days } from "../core/data";
-import { useToast } from "../components/Toast"; // Added for the clipboard toast
+import { candidateLibrary } from "../core/planner"; // Import the library to pick from
+import { useToast } from "../components/Toast";
 
 type Day = (typeof days)[number];
 
-// =====================================================
-// Display helpers
-// =====================================================
-
+// ... (keep getTodayDayName, fallbackPhotoUrl, effortLabel, getIngredientPreview as they were)
 function getTodayDayName(): Day {
   const jsDay = new Date().getDay();
   const map: Record<number, Day> = {
@@ -20,7 +18,6 @@ function getTodayDayName(): Day {
   };
   return map[jsDay];
 }
-
 function fallbackPhotoUrl(name?: string) {
   const q = encodeURIComponent((name || "dinner").trim());
   return `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=80&sig=1&meal=${q}`;
@@ -43,12 +40,13 @@ function getIngredientPreview(ingredientsText?: string) {
     remaining: Math.max(ingredients.length - 3, 0),
   };
 }
-
-// =====================================================
-// Page
-// =====================================================
-
-export default function HomePage({ meals }: { meals: Record<Day, Meal> }) {
+export default function HomePage({ 
+  meals, 
+  setMeals // Added setMeals prop so we can actually update the plan
+}: { 
+  meals: Record<Day, Meal>, 
+  setMeals: (newMeals: Record<Day, Meal>) => void 
+}) {
   const navigate = useNavigate();
   const toastApi: any = useToast();
   const toast = toastApi.toast ?? toastApi;
@@ -58,6 +56,28 @@ export default function HomePage({ meals }: { meals: Record<Day, Meal> }) {
   const todayHasMeal = !!todayMeal?.name?.trim();
   const plannedCount = days.filter((d) => meals[d]?.name?.trim()).length;
   const hasAnyPlan = plannedCount > 0;
+
+  // --- MANUAL SWAP LOGIC ---
+  const handleSwapToday = () => {
+    const neededEffort = todayMeal.effort || "normal";
+    
+    // Filter the library for meals that fit today's effort but aren't the current meal
+    const pool = candidateLibrary.filter(m => 
+      m.name !== todayMeal.name && 
+      (neededEffort === "normal" 
+        ? (m.effort === "normal" || m.effort === "quick") 
+        : m.effort === neededEffort)
+    );
+
+    if (pool.length > 0) {
+      const newMeal = pool[Math.floor(Math.random() * pool.length)];
+      setMeals({
+        ...meals,
+        [today]: newMeal
+      });
+      toast(`Swapped to ${newMeal.name}!`);
+    }
+  };
 
   const sharePlan = async () => {
     const weekText = days
@@ -81,14 +101,10 @@ export default function HomePage({ meals }: { meals: Record<Day, Meal> }) {
     }
   };
 
-  // -----------------------------------------------------
-  // UI RENDER
-  // -----------------------------------------------------
   return (
     <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
       <div style={{ maxWidth: "550px", width: "100%", padding: "0 20px 40px 20px", display: "grid", gap: 20 }}>
         
-        {/* Share Button Section */}
         {hasAnyPlan && (
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 10 }}>
             <button 
@@ -111,11 +127,30 @@ export default function HomePage({ meals }: { meals: Record<Day, Meal> }) {
               title="Tonight’s Dinner"
               subtitle={`Dinner for ${today} · ${plannedCount}/${days.length} meals planned`}
             >
-              <div style={{ display: "grid", gap: 16 }}>
-                <img
-                  src={todayMeal.photoUrl || fallbackPhotoUrl(todayMeal.name)}
-                  style={{ width: "100%", height: 260, objectFit: "cover", borderRadius: 20 }}
-                />
+              <div style={{ display: "grid", gap: 16, position: "relative" }}>
+                {/* Image Section */}
+                <div style={{ position: "relative" }}>
+                  <img
+                    src={todayMeal.photoUrl || fallbackPhotoUrl(todayMeal.name)}
+                    style={{ width: "100%", height: 260, objectFit: "cover", borderRadius: 20 }}
+                  />
+                  {/* Floating Swap Button on Image */}
+                  <button 
+                    onClick={handleSwapToday}
+                    style={{
+                      position: "absolute", bottom: 12, right: 12,
+                      width: 44, height: 44, borderRadius: "22px",
+                      background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)",
+                      border: "1px solid rgba(255,255,255,0.2)", color: "white",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      cursor: "pointer", transition: "transform 0.2s"
+                    }}
+                    onMouseDown={(e) => e.currentTarget.style.transform = "scale(0.9)"}
+                    onMouseUp={(e) => e.currentTarget.style.transform = "scale(1)"}
+                  >
+                    <RefreshCw size={20} />
+                  </button>
+                </div>
 
                 <div>
                   <div style={{ fontSize: 28, fontWeight: 1000, marginBottom: 8 }}>{todayMeal.name}</div>
@@ -131,7 +166,8 @@ export default function HomePage({ meals }: { meals: Record<Day, Meal> }) {
                   <Button onClick={() => navigate(`/recipe/${encodeURIComponent(todayMeal.slug || todayMeal.name)}`)}>
                     View Recipe
                   </Button>
-                  <Button variant="secondary" onClick={() => navigate("/week")}>Swap Dinner</Button>
+                  {/* Secondary swap option */}
+                  <Button variant="secondary" onClick={handleSwapToday}>Swap Dinner</Button>
                 </div>
               </div>
             </Card>
