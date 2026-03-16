@@ -154,7 +154,16 @@ export default function App() {
             <Route path="/" element={requireOnboarding(<HomePage meals={meals} />)} />
             <Route path="/onboarding" element={<OnboardingPage />} />
             <Route path="/plan" element={requireOnboarding(<PlanPage daySettings={daySettings} setDaySettings={setDaySettings} pantry={pantry} setPantry={setPantry} dietaryNotes={dietaryNotes} setDietaryNotes={setDietaryNotes} generateDinnerPlan={generateDinnerPlan} />)} />
-            <Route path="/week" element={requireOnboarding(<WeekPage meals={meals} setMeals={setMeals} addDayToCookbook={addDayToCookbook} generateDinnerPlan={generateDinnerPlan} lockedDays={lockedDays} setLockedDays={setLockedDays} />)} />
+           <Route path="/week" element={requireOnboarding(
+    <WeekPage 
+        meals={meals} 
+        setMeals={setMeals} 
+        addDayToCookbook={addDayToCookbook} // <--- Put this back in!
+        generateDinnerPlan={generateDinnerPlan} 
+        lockedDays={lockedDays} 
+        setLockedDays={setLockedDays} 
+    />
+)} />
             <Route path="/cookbook" element={requireOnboarding(<CookbookPage cookbook={cookbook} setCookbook={setCookbook} />)} />
             <Route path="/recipe/:slug" element={<RecipePage />} />
             <Route path="/shopping-list" element={requireOnboarding(<ShoppingListPage />)} />
