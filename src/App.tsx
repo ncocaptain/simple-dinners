@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, Route, Routes, useNavigate, useLocation } from "react-router-dom";
 
-// Pages
+// Pages & Components
 import WeekPage from "./pages/WeekPage";
 import CookbookPage from "./pages/CookbookPage";
 import PlanPage from "./pages/PlanPage";
@@ -13,9 +13,7 @@ import HomePage from "./pages/HomePage";
 import SettingsPage from "./pages/SettingsPage";
 import TestersGuidePage from "./pages/TestersGuidePage";
 import FeedbackForm from "./pages/FeedbackForm";
-
-// Components
-import { ToastProvider } from "./components/Toast";
+import { ToastProvider, useToast } from "./components/Toast";
 import { ThemeProvider } from "./theme";
 import { Calendar, BookOpen, ShoppingBasket, Settings, Utensils } from "lucide-react";
 
@@ -48,9 +46,7 @@ function Navigation() {
         }}
       >
         <Icon size={22} strokeWidth={isActive ? 3 : 2} />
-        <span style={{ fontSize: 9, fontWeight: 900, textTransform: "uppercase" }}>
-          {label}
-        </span>
+        <span style={{ fontSize: 9, fontWeight: 900, textTransform: "uppercase" }}>{label}</span>
       </button>
     );
   };
@@ -74,36 +70,53 @@ function Navigation() {
 
 export default function App() {
   const navigate = useNavigate();
-  const APP_VERSION = "22.0.6"; 
+  const toastApi: any = useToast();
+  const toast = toastApi.toast ?? toastApi; 
+  
+  const APP_VERSION = "22.0.7"; 
+
+  // --- AUTO-UPDATE LOGIC ---
+  useEffect(() => {
+    if (import.meta.env.PROD) {
+      const checkForUpdates = async () => {
+        try {
+          const response = await fetch(window.location.href, { method: 'HEAD' });
+          const etag = response.headers.get('etag');
+          const lastEtag = localStorage.getItem('app-etag');
+
+          if (lastEtag && etag && lastEtag !== etag) {
+            localStorage.setItem('app-etag', etag);
+            toast("New update deployed! Reloading...");
+            setTimeout(() => window.location.reload(), 2000);
+          } else if (etag) {
+            localStorage.setItem('app-etag', etag);
+          }
+        } catch (e) { console.log("Update check failed", e); }
+      };
+      checkForUpdates();
+      window.addEventListener('focus', checkForUpdates);
+      return () => window.removeEventListener('focus', checkForUpdates);
+    }
+  }, [toast]);
 
   // --- STATE ---
   const [cookbook, setCookbook] = useState<any[]>(() => getCookbook());
   const [meals, setMeals] = useState<Record<string, Meal>>(() => {
-    try {
-      return JSON.parse(localStorage.getItem("meals") || "{}");
-    } catch { return {}; }
+    try { return JSON.parse(localStorage.getItem("meals") || "{}"); } catch { return {}; }
   });
   const [daySettings, setDaySettings] = useState<Record<string, Effort>>(() => {
-    try {
-      return JSON.parse(localStorage.getItem("daySettings") || "{}");
-    } catch { return {}; }
+    try { return JSON.parse(localStorage.getItem("daySettings") || "{}"); } catch { return {}; }
   });
   const [pantry, setPantry] = useState<PantryItem[]>(() => {
-    try {
-      return JSON.parse(localStorage.getItem("pantry") || "[]");
-    } catch { return []; }
+    try { return JSON.parse(localStorage.getItem("pantry") || "[]"); } catch { return []; }
   });
   const [prefs, setPrefs] = useState<Preferences>(() => {
-    try {
-      return JSON.parse(localStorage.getItem("prefs") || '{"vegetarian": false}');
-    } catch { return { vegetarian: false }; }
+    try { return JSON.parse(localStorage.getItem("prefs") || '{"vegetarian": false}'); } catch { return { vegetarian: false }; }
   });
   const [dietaryNotes, setDietaryNotes] = useState(() => localStorage.getItem("dietaryNotes") || "");
   const [vegetarian] = useState(() => localStorage.getItem("vegetarian") === "true");
   const [lockedDays, setLockedDays] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem("lockedDays") || "{}");
-    } catch { return {}; }
+    try { return JSON.parse(localStorage.getItem("lockedDays") || "{}"); } catch { return {}; }
   });
 
   // --- PERSISTENCE ---
@@ -112,7 +125,7 @@ export default function App() {
     localStorage.setItem("daySettings", JSON.stringify(daySettings));
     localStorage.setItem("pantry", JSON.stringify(pantry));
     localStorage.setItem("lockedDays", JSON.stringify(lockedDays));
-    localStorage.setItem("app-version", APP_VERSION); // Sync version without toast for now to prevent crash
+    localStorage.setItem("app-version", APP_VERSION);
     persistCookbook(cookbook);
   }, [meals, daySettings, pantry, lockedDays, cookbook]);
 
@@ -154,16 +167,7 @@ export default function App() {
             <Route path="/" element={requireOnboarding(<HomePage meals={meals} setMeals={setMeals} />)} />
             <Route path="/onboarding" element={<OnboardingPage />} />
             <Route path="/plan" element={requireOnboarding(<PlanPage daySettings={daySettings} setDaySettings={setDaySettings} pantry={pantry} setPantry={setPantry} dietaryNotes={dietaryNotes} setDietaryNotes={setDietaryNotes} generateDinnerPlan={generateDinnerPlan} />)} />
-           <Route path="/week" element={requireOnboarding(
-    <WeekPage 
-        meals={meals} 
-        setMeals={setMeals} 
-        addDayToCookbook={addDayToCookbook} // <--- Put this back in!
-        generateDinnerPlan={generateDinnerPlan} 
-        lockedDays={lockedDays} 
-        setLockedDays={setLockedDays} 
-    />
-)} />
+            <Route path="/week" element={requireOnboarding(<WeekPage meals={meals} setMeals={setMeals} addDayToCookbook={addDayToCookbook} generateDinnerPlan={generateDinnerPlan} lockedDays={lockedDays} setLockedDays={setLockedDays} />)} />
             <Route path="/cookbook" element={requireOnboarding(<CookbookPage cookbook={cookbook} setCookbook={setCookbook} />)} />
             <Route path="/recipe/:slug" element={<RecipePage />} />
             <Route path="/shopping-list" element={requireOnboarding(<ShoppingListPage />)} />
