@@ -1,46 +1,35 @@
 // api/import-recipe.js
-const scrape = require('recipe-scrapers');
-
-module.exports = async (req, res) => {
-  // CORS Headers
+export default async function handler(req, res) {
+  // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   try {
-    const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
-    const url = body?.url;
+    const { url } = req.body;
+    if (!url) return res.status(400).json({ error: "No URL provided" });
 
-    if (!url) return res.status(200).json({ error: "No URL provided." });
+    // Using an API-based scraper that is much more stable on Vercel
+    const response = await fetch(`https://api.microlink.io?url=${encodeURIComponent(url)}&palette=true&audio=true&video=true&iframe=true`);
+    const data = await response.json();
 
-    // Calling the scraper
-    const recipe = await scrape(url);
+    if (data.status !== 'success') throw new Error("Could not reach the recipe site.");
 
-    if (!recipe) throw new Error("Could not extract recipe data.");
-
-    // Normalizing the result
-    const cleaned = {
-      name: recipe.name || recipe.title || "New Recipe",
-      ingredients: Array.isArray(recipe.ingredients) 
-        ? recipe.ingredients.join('\n') 
-        : (recipe.recipeIngredient ? recipe.recipeIngredient.join('\n') : ""),
-      instructions: Array.isArray(recipe.instructions) 
-        ? recipe.instructions.join('\n\n') 
-        : (recipe.recipeInstructions ? recipe.recipeInstructions.join('\n\n') : ""),
-      photoUrl: recipe.image || "",
+    // Simple normalization from the microlink data
+    const recipe = {
+      name: data.data.title || "New Recipe",
+      ingredients: "Check the source link for ingredients!", // Microlink is a lighter scraper
+      instructions: "Check the source link for instructions!",
+      photoUrl: data.data.image?.url || "",
       effort: "normal",
       sourceUrl: url
     };
 
-    return res.status(200).json({ recipe: cleaned });
+    return res.status(200).json({ recipe });
 
   } catch (err) {
-    console.error("API Error:", err.message);
-    return res.status(500).json({ 
-      error: "Magic Import failed", 
-      details: err.message 
-    });
+    console.error("Scraper Error:", err.message);
+    return res.status(500).json({ error: "Magic Import failed", details: err.message });
   }
-};
+}

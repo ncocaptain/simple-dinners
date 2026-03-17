@@ -5,14 +5,18 @@ import { formatIngredients } from "../core/utils";
 
 export default function ShoppingListPage({ meals, extraIngredients, setExtraIngredients }: any) {
   const [newItem, setNewItem] = useState("");
-
+const [crossedOff, setCrossedOff] = useState<string[]>([]);
   const handleAddExtra = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newItem.trim()) return;
     setExtraIngredients([...extraIngredients, newItem.trim()]);
     setNewItem("");
   };
-
+const toggleCrossed = (item: string) => {
+    setCrossedOff(prev => 
+      prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]
+    );
+  };
   const removeExtra = (index: number) => {
     setExtraIngredients(extraIngredients.filter((_: any, i: number) => i !== index));
   };
@@ -77,24 +81,40 @@ export default function ShoppingListPage({ meals, extraIngredients, setExtraIngr
             </div>
           )}
 
-          {extraIngredients.map((item: string, i: number) => (
-            <div key={`extra-${i}`} style={{ 
-              display: "flex", alignItems: "center", justifyContent: "space-between", 
-              padding: "16px", background: "rgba(34, 197, 94, 0.1)", 
-              borderRadius: "16px", border: "1px solid rgba(34, 197, 94, 0.2)" 
-            }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <Tag size={16} color="#22c55e" />
-                <span style={{ fontWeight: 700 }}>{item}</span>
-              </div>
-              <Trash2 
-                size={18} 
-                onClick={() => removeExtra(i)} 
-                style={{ cursor: "pointer", opacity: 0.5, color: "#ef4444" }} 
-              />
-            </div>
-          ))}
-
+          {extraIngredients.map((item: string, i: number) => {
+  const isDone = crossedOff.includes(item);
+  return (
+    <div key={`extra-${i}`} 
+      onClick={() => toggleCrossed(item)}
+      style={{ 
+        display: "flex", alignItems: "center", justifyContent: "space-between", 
+        padding: "16px", 
+        background: isDone ? "rgba(34, 197, 94, 0.05)" : "rgba(34, 197, 94, 0.1)", 
+        borderRadius: "16px", 
+        border: "1px solid rgba(34, 197, 94, 0.2)",
+        opacity: isDone ? 0.4 : 1,
+        cursor: "pointer"
+      }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <Tag size={16} color="#22c55e" style={{ opacity: isDone ? 0.3 : 1 }} />
+        <span style={{ 
+          fontWeight: 700, 
+          textDecoration: isDone ? "line-through" : "none" 
+        }}>
+          {item}
+        </span>
+      </div>
+      <Trash2 
+        size={18} 
+        onClick={(e) => {
+          e.stopPropagation(); // Prevents crossing off when you just want to delete
+          removeExtra(i);
+        }} 
+        style={{ cursor: "pointer", opacity: 0.5, color: "#ef4444" }} 
+      />
+    </div>
+  );
+})}
           {/* --- RECIPE ITEMS SECTION --- */}
           {recipeIngredients.length > 0 && (
             <div style={{ marginTop: 12, marginBottom: 4 }}>
@@ -103,17 +123,36 @@ export default function ShoppingListPage({ meals, extraIngredients, setExtraIngr
           )}
 
           {/* --- RECIPE ITEMS SECTION --- */}
-{recipeIngredients.map((item: string, i: number) => (
-  <div key={`recipe-${i}`} style={{ 
-    display: "flex", alignItems: "center", gap: 12, padding: "16px", 
-    background: "rgba(255,255,255,0.05)", borderRadius: "16px", 
-    border: "1px solid rgba(255,255,255,0.1)" 
-  }}>
-    <ShoppingCart size={18} style={{ opacity: 0.3 }} />
-    {/* ADD THE 'true' FLAG HERE */}
-    <span style={{ fontWeight: 600 }}>{formatIngredients(item, true)}</span>
-  </div>
-))}
+{recipeIngredients.map((item: string, i: number) => {
+  const isDone = crossedOff.includes(item);
+  return (
+    <div 
+      key={`recipe-${i}`} 
+      onClick={() => toggleCrossed(item)} 
+      style={{ 
+        display: "flex", alignItems: "center", gap: 12, padding: "16px", 
+        background: isDone ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.05)", 
+        borderRadius: "16px", 
+        border: "1px solid rgba(255,255,255,0.1)",
+        opacity: isDone ? 0.4 : 1, // Dims the item when done
+        transition: "all 0.2s",
+        cursor: "pointer"
+      }}
+    >
+      <ShoppingCart 
+        size={18} 
+        style={{ opacity: isDone ? 0.2 : 0.5, color: isDone ? "#22c55e" : "white" }} 
+      />
+      <span style={{ 
+        fontWeight: 600, 
+        textDecoration: isDone ? "line-through" : "none", // The strike-through
+        color: isDone ? "rgba(255,255,255,0.3)" : "white"
+      }}>
+        {formatIngredients(item, true)}
+      </span>
+    </div>
+  );
+})}
 
           {recipeIngredients.length === 0 && extraIngredients.length === 0 && (
             <div style={{ textAlign: "center", padding: 60, opacity: 0.3 }}>
