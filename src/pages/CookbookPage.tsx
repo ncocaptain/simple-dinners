@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ShoppingCart, CheckCircle2, Circle, Plus, X, LinkIcon } from "lucide-react"; 
+import { ShoppingCart, CheckCircle2, Circle, Plus, X, Link as LinkIcon } from "lucide-react"; 
 import { formatIngredients } from "../core/utils";
 import Card from "../components/Card";
 
