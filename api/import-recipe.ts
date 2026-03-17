@@ -1,10 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const scrape = require('recipe-scrapers');
+const recipeScrapers = require('recipe-scrapers');
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // 1. Headers for CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -17,21 +16,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!url) return res.status(200).json({ error: "No URL provided." });
 
-    // 2. The Scrape Call
+    // Handle potential default export vs named export
+    const scrape = typeof recipeScrapers === 'function' ? recipeScrapers : recipeScrapers.default;
+
+    if (typeof scrape !== 'function') {
+        throw new Error("Scraper library initialized incorrectly.");
+    }
+
     const recipe = await scrape(url);
 
     if (!recipe) throw new Error("Could not extract recipe data.");
 
-    // 3. Normalization
+    // Robust mapping for 1.5.1 data structure
     const cleaned = {
       name: recipe.name || recipe.title || "New Recipe",
       ingredients: Array.isArray(recipe.ingredients) 
         ? recipe.ingredients.join('\n') 
-        : (recipe.recipeIngredient ? recipe.recipeIngredient.join('\n') : ""),
+        : (recipe.recipeIngredient ? (Array.isArray(recipe.recipeIngredient) ? recipe.recipeIngredient.join('\n') : recipe.recipeIngredient) : ""),
       instructions: Array.isArray(recipe.instructions) 
         ? recipe.instructions.join('\n\n') 
-        : (recipe.recipeInstructions ? recipe.recipeInstructions.join('\n\n') : ""),
-      photoUrl: recipe.image || "",
+        : (recipe.recipeInstructions ? (Array.isArray(recipe.recipeInstructions) ? recipe.recipeInstructions.join('\n\n') : recipe.recipeInstructions) : ""),
+      photoUrl: recipe.image || recipe.thumbnail || "",
       effort: "normal",
       sourceUrl: url
     };
@@ -40,9 +45,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   } catch (err: any) {
     console.error("Scraper Error:", err);
-    return res.status(200).json({ 
+    return res.status(500).json({ 
       error: "Magic Import failed", 
-      details: err.message || "Site might be protected." 
+      details: err.message || "Internal Server Error" 
     });
   }
 }
