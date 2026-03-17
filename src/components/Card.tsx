@@ -7,13 +7,15 @@ type Props = {
   subtitle?: React.ReactNode;
   actions?: React.ReactNode;
   style?: React.CSSProperties;
+  onClick?: () => void; // 1. Added this line
 };
 
-export default function Card({ children, title, subtitle, actions, style }: Props) {
+export default function Card({ children, title, subtitle, actions, style, onClick }: Props) { // 2. Destructure onClick
   const { theme } = useTheme();
 
   return (
     <div
+      onClick={onClick} // 3. Pass it to the div
       style={{
         background: theme.colors.card,
         color: theme.colors.text,
@@ -21,6 +23,7 @@ export default function Card({ children, title, subtitle, actions, style }: Prop
         borderRadius: theme.radius.lg,
         padding: theme.spacing.lg,
         boxShadow: "0 10px 30px rgba(0,0,0,0.45)",
+        cursor: onClick ? "pointer" : "default", // 4. Add a cursor pointer if it's clickable
         ...style,
       }}
     >
