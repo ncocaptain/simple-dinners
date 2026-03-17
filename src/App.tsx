@@ -205,7 +205,11 @@ function AppContent() {
           )} 
         />
 
-        <Route path="/cook-now" element={requireOnboarding(<CookNowPage pantry={pantry} />)} />
+        // This allows CookNow to look up "Tonight's Dinner"
+<Route 
+  path="/cook-now" 
+  element={requireOnboarding(<CookNowPage meals={meals} />)} 
+/>
         <Route path="/settings" element={<SettingsPage prefs={prefs} setPrefs={setPrefs} />} />
         <Route path="/guide" element={<TestersGuidePage />} />
         <Route path="/feedback" element={<FeedbackForm />} />
