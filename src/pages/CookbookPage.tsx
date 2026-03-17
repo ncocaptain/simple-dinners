@@ -202,12 +202,13 @@ export default function CookbookPage({ cookbook, setCookbook, extraIngredients, 
                     </div>
 
                     <span style={{ 
-                      fontWeight: isSelected ? 700 : 500,
-                      color: isSelected ? '#fff' : 'rgba(255,255,255,0.8)',
-                      fontSize: 15
-                    }}>
-                      {formatIngredients(ing)}
-                    </span>
+  fontWeight: isSelected ? 700 : 500,
+  color: isSelected ? '#fff' : 'rgba(255,255,255,0.8)',
+  fontSize: 15
+  // No textDecoration here! 
+}}>
+  {formatIngredients(ing)}
+</span>
                   </div>
                 );
               })}
