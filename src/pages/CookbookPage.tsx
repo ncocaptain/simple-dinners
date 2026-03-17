@@ -50,14 +50,20 @@ export default function CookbookPage({ cookbook, setCookbook, extraIngredients, 
         setCookbook([...cookbook, data.recipe]);
         setImportUrl("");
         alert("Recipe imported!");
-      } else { alert(data.error || "Failed."); }
-    } catch (err) { alert("Connection error."); } finally { setIsImporting(false); }
+      } else { 
+        alert(data.error || "Failed to import."); 
+      }
+    } catch (err) { 
+      alert("Connection error. Ensure api/import-recipe.js is deployed."); 
+    } finally { 
+      setIsImporting(false); 
+    }
   };
 
   const handleManualSave = (e: React.FormEvent) => {
     e.preventDefault();
     if (!manualRecipe.name.trim()) {
-      alert("Give your masterpiece a name first!");
+      alert("Please enter a recipe name.");
       return;
     }
     const newRecipe = {
@@ -78,17 +84,21 @@ export default function CookbookPage({ cookbook, setCookbook, extraIngredients, 
           <h2 style={{ fontSize: 32, fontWeight: 1000, margin: 0 }}>Cookbook</h2>
         </header>
 
-        {/* --- TOOLS (Import + Toggle Manual) --- */}
+        {/* --- SINGLE TOOLBAR (Magic Import + Manual Toggle) --- */}
         <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
           <Card style={{ flex: 1, padding: 0 }}>
-             <form onSubmit={handleImport} style={{ display: "flex", padding: 8 }}>
+             <form onSubmit={handleImport} style={{ display: "flex", alignItems: 'center', position: 'relative' }}>
+                <LinkIcon size={18} style={{ position: 'absolute', left: 12, opacity: 0.4 }} />
                 <input 
                   placeholder="Paste URL..." 
                   value={importUrl} 
                   onChange={e => setImportUrl(e.target.value)} 
-                  style={{ flex: 1, background: 'none', border: 'none', color: 'white', padding: '10px', outline: 'none' }} 
+                  style={{ 
+                    flex: 1, background: 'none', border: 'none', color: 'white', 
+                    padding: '14px 14px 14px 40px', outline: 'none', fontSize: 14 
+                  }} 
                 />
-                <button type="submit" disabled={isImporting} style={{ background: '#22c55e', color: 'white', border: 'none', borderRadius: 8, padding: '0 15px', fontWeight: 800 }}>
+                <button type="submit" disabled={isImporting} style={{ background: '#22c55e', color: 'white', border: 'none', borderRadius: 8, padding: '0 15px', fontWeight: 800, height: '100%' }}>
                   {isImporting ? "..." : "IMPORT"}
                 </button>
              </form>
@@ -97,60 +107,39 @@ export default function CookbookPage({ cookbook, setCookbook, extraIngredients, 
             onClick={() => setShowManual(!showManual)} 
             style={{ 
               background: showManual ? '#ef4444' : 'rgba(255,255,255,0.1)', 
-              border: 'none', color: 'white', borderRadius: 12, width: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' 
+              border: 'none', color: 'white', borderRadius: 12, width: 50, 
+              display: 'flex', alignItems: 'center', justifyContent: 'center' 
             }}
           >
             {showManual ? <X size={24} /> : <Plus size={24} />}
           </button>
         </div>
-        <Card style={{ flex: 1, padding: 0, overflow: 'hidden' }}>
-   <form onSubmit={handleImport} style={{ display: "flex", alignItems: 'center', position: 'relative' }}>
-      {/* THE ICON IS BACK */}
-      <LinkIcon 
-        size={18} 
-        style={{ position: 'absolute', left: 12, opacity: 0.4, pointerEvents: 'none' }} 
-      />
-      <input 
-        placeholder="Paste URL..." 
-        value={importUrl} 
-        onChange={e => setImportUrl(e.target.value)} 
-        style={{ 
-          flex: 1, 
-          background: 'none', 
-          border: 'none', 
-          color: 'white', 
-          padding: '14px 14px 14px 40px', // Added 40px left padding to make room for the icon
-          outline: 'none',
-          fontSize: 14
-        }} 
-      />
-      <button 
-        type="submit" 
-        disabled={isImporting} 
-        style={{ 
-          background: '#22c55e', 
-          color: 'white', 
-          border: 'none', 
-          padding: '0 20px', 
-          height: '100%',
-          fontWeight: 900, 
-          fontSize: 12,
-          cursor: 'pointer'
-        }}
-      >
-        {isImporting ? "..." : "IMPORT"}
-      </button>
-   </form>
-</Card>
 
-        {/* --- MANUAL FORM --- */}
+        {/* --- MANUAL FORM (Only shows when + is clicked) --- */}
         {showManual && (
           <Card style={{ marginBottom: 24 }}>
             <form onSubmit={handleManualSave} style={{ display: 'grid', gap: 12 }}>
-              <input placeholder="Recipe Name" value={manualRecipe.name} onChange={e => setManualRecipe({...manualRecipe, name: e.target.value})} style={{ padding: 14, borderRadius: 12, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', fontWeight: 600 }} />
-              <textarea placeholder="Ingredients (one per line)" value={manualRecipe.ingredients} onChange={e => setManualRecipe({...manualRecipe, ingredients: e.target.value})} style={{ padding: 14, borderRadius: 12, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', minHeight: 100, fontSize: 14 }} />
-              <textarea placeholder="Cooking Instructions..." value={manualRecipe.instructions} onChange={e => setManualRecipe({...manualRecipe, instructions: e.target.value})} style={{ padding: 14, borderRadius: 12, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', minHeight: 100, fontSize: 14 }} />
-              <button type="submit" style={{ padding: 16, background: '#22c55e', color: 'white', border: 'none', borderRadius: 12, fontWeight: 900, cursor: 'pointer' }}>SAVE TO COOKBOOK</button>
+              <input 
+                placeholder="Recipe Name" 
+                value={manualRecipe.name} 
+                onChange={e => setManualRecipe({...manualRecipe, name: e.target.value})} 
+                style={{ padding: 14, borderRadius: 12, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', fontWeight: 600 }} 
+              />
+              <textarea 
+                placeholder="Ingredients (one per line)" 
+                value={manualRecipe.ingredients} 
+                onChange={e => setManualRecipe({...manualRecipe, ingredients: e.target.value})} 
+                style={{ padding: 14, borderRadius: 12, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', minHeight: 100, fontSize: 14 }} 
+              />
+              <textarea 
+                placeholder="Instructions..." 
+                value={manualRecipe.instructions} 
+                onChange={e => setManualRecipe({...manualRecipe, instructions: e.target.value})} 
+                style={{ padding: 14, borderRadius: 12, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', minHeight: 100, fontSize: 14 }} 
+              />
+              <button type="submit" style={{ padding: 16, background: '#22c55e', color: 'white', border: 'none', borderRadius: 12, fontWeight: 900, cursor: 'pointer' }}>
+                SAVE TO COOKBOOK
+              </button>
             </form>
           </Card>
         )}
@@ -159,7 +148,9 @@ export default function CookbookPage({ cookbook, setCookbook, extraIngredients, 
         <div style={{ display: 'grid', gap: 12 }}>
           {cookbook.map((recipe: any) => (
             <div key={recipe.name} onClick={() => setSelectedRecipe(recipe)} style={{ cursor: 'pointer' }}>
-              <Card style={{ padding: '16px' }}><div style={{ fontWeight: 800, fontSize: 18 }}>{recipe.name}</div></Card>
+              <Card style={{ padding: '16px' }}>
+                <div style={{ fontWeight: 800, fontSize: 18 }}>{recipe.name}</div>
+              </Card>
             </div>
           ))}
         </div>
@@ -167,14 +158,28 @@ export default function CookbookPage({ cookbook, setCookbook, extraIngredients, 
         {/* --- DETAIL OVERLAY --- */}
         {selectedRecipe && (
           <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: '#0f172a', zIndex: 2000, padding: 20, overflowY: 'auto' }}>
-            <button onClick={() => setSelectedRecipe(null)} style={{ position: 'absolute', right: 20, top: 20, background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', padding: 10, borderRadius: '50%', zIndex: 2001 }}><X /></button>
+            <button 
+              onClick={() => setSelectedRecipe(null)} 
+              style={{ position: 'absolute', right: 20, top: 20, background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', padding: 10, borderRadius: '50%', zIndex: 2001 }}
+            >
+              <X />
+            </button>
             <h2 style={{ fontSize: 28, fontWeight: 900, marginTop: 40, paddingRight: 40 }}>{selectedRecipe.name}</h2>
             
             <div style={{ display: "grid", gap: 10, marginTop: 20 }}>
               {selectedRecipe.ingredients.split('\n').filter(Boolean).map((ing: string, i: number) => {
                 const isSelected = selectedForShop.includes(ing);
                 return (
-                  <div key={i} onClick={() => toggleForShop(ing)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px", borderRadius: "14px", background: isSelected ? "rgba(34, 197, 94, 0.1)" : "rgba(255,255,255,0.05)", border: isSelected ? "1px solid #22c55e" : "1px solid rgba(255,255,255,0.1)", cursor: 'pointer' }}>
+                  <div 
+                    key={i} 
+                    onClick={() => toggleForShop(ing)} 
+                    style={{ 
+                      display: "flex", alignItems: "center", gap: 12, padding: "14px", borderRadius: "14px", 
+                      background: isSelected ? "rgba(34, 197, 94, 0.1)" : "rgba(255,255,255,0.05)", 
+                      border: isSelected ? "1px solid #22c55e" : "1px solid rgba(255,255,255,0.1)", 
+                      cursor: 'pointer' 
+                    }}
+                  >
                     {isSelected ? <CheckCircle2 size={20} color="#22c55e" /> : <Circle size={20} style={{ opacity: 0.2 }} />}
                     <span>{formatIngredients(ing)}</span>
                   </div>
@@ -183,7 +188,15 @@ export default function CookbookPage({ cookbook, setCookbook, extraIngredients, 
             </div>
 
             {selectedForShop.length > 0 && (
-              <button onClick={handleAddToShop} style={{ position: "fixed", bottom: 40, left: "50%", transform: "translateX(-50%)", background: "#22c55e", color: "white", padding: "16px 32px", borderRadius: "40px", fontWeight: 900, border: "none", zIndex: 2002, display: "flex", alignItems: "center", gap: 10, width: "max-content" }}>
+              <button 
+                onClick={handleAddToShop} 
+                style={{ 
+                  position: "fixed", bottom: 40, left: "50%", transform: "translateX(-50%)", 
+                  background: "#22c55e", color: "white", padding: "16px 32px", borderRadius: "40px", 
+                  fontWeight: 900, border: "none", zIndex: 2002, display: "flex", alignItems: "center", 
+                  gap: 10, width: "max-content", boxShadow: '0 10px 25px rgba(34, 197, 94, 0.4)' 
+                }}
+              >
                 <ShoppingCart size={20} /> ADD {selectedForShop.length} TO SHOP
               </button>
             )}
