@@ -190,7 +190,18 @@ function AppContent() {
           )} 
         />
         <Route path="/week" element={requireOnboarding(<WeekPage meals={meals} setMeals={setMeals} addDayToCookbook={addDayToCookbook} generateDinnerPlan={generateDinnerPlan} lockedDays={lockedDays} setLockedDays={setLockedDays} />)} />
-        <Route path="/cookbook" element={requireOnboarding(<CookbookPage cookbook={cookbook} setCookbook={setCookbook} />)} />
+        <Route 
+  path="/cookbook" 
+  element={requireOnboarding(
+    <CookbookPage 
+      cookbook={cookbook} 
+      setCookbook={setCookbook} 
+      pantry={pantry} 
+      extraIngredients={extraIngredients} 
+      setExtraIngredients={setExtraIngredients} 
+    />
+  )} 
+/>
         <Route path="/recipe/:slug" element={<RecipePage />} />
         
         {/* UPDATED SHOPPING LIST ROUTE */}
