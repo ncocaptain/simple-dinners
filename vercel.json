@@ -11,7 +11,13 @@
     }
   ],
   "rewrites": [
-    { "source": "/api/import-recipe", "destination": "/api/import-recipe.js" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { 
+      "source": "/api/import-recipe", 
+      "destination": "/api/import-recipe.js" 
+    },
+    { 
+      "source": "/((?!api/).*)", 
+      "destination": "/index.html" 
+    }
   ]
 }
