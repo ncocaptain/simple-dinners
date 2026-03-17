@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ShoppingCart, CheckCircle2, Circle, Plus, X, Link as LinkIcon } from "lucide-react"; 
+import { ShoppingCart, CheckCircle2, Plus, X, Link as LinkIcon } from "lucide-react"; 
 import { formatIngredients } from "../core/utils";
 import Card from "../components/Card";
 
@@ -115,7 +115,7 @@ export default function CookbookPage({ cookbook, setCookbook, extraIngredients, 
           </button>
         </div>
 
-        {/* --- MANUAL FORM (Only shows when + is clicked) --- */}
+        {/* --- MANUAL FORM --- */}
         {showManual && (
           <Card style={{ marginBottom: 24 }}>
             <form onSubmit={handleManualSave} style={{ display: 'grid', gap: 12 }}>
@@ -164,9 +164,16 @@ export default function CookbookPage({ cookbook, setCookbook, extraIngredients, 
             >
               <X />
             </button>
-            <h2 style={{ fontSize: 28, fontWeight: 900, marginTop: 40, paddingRight: 40 }}>{selectedRecipe.name}</h2>
             
-            <div style={{ display: "grid", gap: 10, marginTop: 20 }}>
+            <h2 style={{ fontSize: 28, fontWeight: 900, marginTop: 40, paddingRight: 40, color: '#fff' }}>
+              {selectedRecipe.name}
+            </h2>
+            
+            <p style={{ fontSize: 13, opacity: 0.5, marginBottom: 20, fontWeight: 600 }}>
+              SELECT ITEMS TO ADD TO YOUR SHOPPING LIST:
+            </p>
+
+            <div style={{ display: "grid", gap: 10 }}>
               {selectedRecipe.ingredients.split('\n').filter(Boolean).map((ing: string, i: number) => {
                 const isSelected = selectedForShop.includes(ing);
                 return (
@@ -174,14 +181,33 @@ export default function CookbookPage({ cookbook, setCookbook, extraIngredients, 
                     key={i} 
                     onClick={() => toggleForShop(ing)} 
                     style={{ 
-                      display: "flex", alignItems: "center", gap: 12, padding: "14px", borderRadius: "14px", 
-                      background: isSelected ? "rgba(34, 197, 94, 0.1)" : "rgba(255,255,255,0.05)", 
-                      border: isSelected ? "1px solid #22c55e" : "1px solid rgba(255,255,255,0.1)", 
+                      display: "flex", 
+                      alignItems: "center", 
+                      gap: 12, 
+                      padding: "16px", 
+                      borderRadius: "16px", 
+                      background: isSelected ? "rgba(34, 197, 94, 0.15)" : "rgba(255,255,255,0.03)", 
+                      border: isSelected ? "1px solid #22c55e" : "1px solid rgba(255,255,255,0.08)", 
+                      transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
                       cursor: 'pointer' 
                     }}
                   >
-                    {isSelected ? <CheckCircle2 size={20} color="#22c55e" /> : <Circle size={20} style={{ opacity: 0.2 }} />}
-                    <span>{formatIngredients(ing)}</span>
+                    <div style={{
+                      width: 22, height: 22, borderRadius: '6px', 
+                      border: isSelected ? 'none' : '2px solid rgba(255,255,255,0.2)',
+                      background: isSelected ? '#22c55e' : 'transparent',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}>
+                      {isSelected && <CheckCircle2 size={16} color="white" />}
+                    </div>
+
+                    <span style={{ 
+                      fontWeight: isSelected ? 700 : 500,
+                      color: isSelected ? '#fff' : 'rgba(255,255,255,0.8)',
+                      fontSize: 15
+                    }}>
+                      {formatIngredients(ing)}
+                    </span>
                   </div>
                 );
               })}
@@ -192,12 +218,14 @@ export default function CookbookPage({ cookbook, setCookbook, extraIngredients, 
                 onClick={handleAddToShop} 
                 style={{ 
                   position: "fixed", bottom: 40, left: "50%", transform: "translateX(-50%)", 
-                  background: "#22c55e", color: "white", padding: "16px 32px", borderRadius: "40px", 
+                  background: "#22c55e", color: "white", padding: "18px 36px", borderRadius: "40px", 
                   fontWeight: 900, border: "none", zIndex: 2002, display: "flex", alignItems: "center", 
-                  gap: 10, width: "max-content", boxShadow: '0 10px 25px rgba(34, 197, 94, 0.4)' 
+                  gap: 12, width: "max-content", 
+                  boxShadow: '0 15px 30px rgba(34, 197, 94, 0.4)'
                 }}
               >
-                <ShoppingCart size={20} /> ADD {selectedForShop.length} TO SHOP
+                <ShoppingCart size={20} /> 
+                ADD {selectedForShop.length} ITEMS TO LIST
               </button>
             )}
           </div>
