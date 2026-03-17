@@ -207,32 +207,51 @@ export default function RecipePage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))" }}>
           
           {/* Ingredients Column */}
-          <div style={{ ...section, borderRight: "1px solid rgba(255,255,255,0.05)" }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <div style={h3}>Ingredients</div>
-              <button onClick={() => setCheckedIngredients([])} style={{ fontSize: 12, fontWeight: 900, color: "#14b8a6", background: 'none', border: 'none', cursor: 'pointer' }}>RESET</button>
-            </div>
-            <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 14 }}>
-              {ingredients.map((line, i) => {
-                const isChecked = checkedIngredients.includes(i);
-                return (
-                  <li 
-                    key={i} 
-                    onClick={() => setCheckedIngredients(prev => isChecked ? prev.filter(x => x !== i) : [...prev, i])} 
-                    style={{ 
-                      fontSize: "17px", display: "flex", gap: 14, cursor: 'pointer', 
-                      transition: "opacity 0.2s", opacity: isChecked ? 0.35 : 1 
-                    }}
-                  >
-                    <span style={{ color: "#14b8a6", marginTop: 2 }}>
-                      {isChecked ? <CheckCircle2 size={18} /> : <div style={{width: 18, height: 18, border: '2px solid rgba(20,184,166,0.4)', borderRadius: '50%'}} />}
-                    </span>
-                    <span style={{ textDecoration: isChecked ? 'line-through' : 'none', lineHeight: 1.4 }}>{line}</span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+          {/* Ingredients Column */}
+<div style={{ ...section, borderRight: "1px solid rgba(255,255,255,0.05)" }}>
+  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+    <div style={h3}>Ingredients</div>
+    <button onClick={() => setCheckedIngredients([])} style={{ fontSize: 12, fontWeight: 900, color: "#14b8a6", background: 'none', border: 'none', cursor: 'pointer' }}>RESET</button>
+  </div>
+  <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 10 }}>
+    {ingredients.map((line, i) => {
+      const isChecked = checkedIngredients.includes(i);
+      return (
+        <li 
+          key={i} 
+          onClick={() => setCheckedIngredients(prev => isChecked ? prev.filter(x => x !== i) : [...prev, i])} 
+          style={{ 
+            fontSize: "17px", 
+            display: "flex", 
+            alignItems: "center",
+            gap: 14, 
+            padding: "12px 16px",
+            borderRadius: "14px",
+            cursor: 'pointer', 
+            transition: "all 0.2s ease",
+            // NEW STYLE: Highlight background instead of striking text
+            background: isChecked ? "rgba(20, 184, 166, 0.15)" : "rgba(255,255,255,0.03)",
+            border: isChecked ? "1px solid #14b8a6" : "1px solid rgba(255,255,255,0.08)",
+            opacity: isChecked ? 1 : 0.8
+          }}
+        >
+          <span style={{ color: "#14b8a6", display: "flex", alignItems: "center" }}>
+            {isChecked ? <CheckCircle2 size={20} /> : <div style={{width: 20, height: 20, border: '2px solid rgba(20,184,166,0.4)', borderRadius: '50%'}} />}
+          </span>
+          <span style={{ 
+            // NO MORE LINE-THROUGH
+            textDecoration: 'none', 
+            fontWeight: isChecked ? 800 : 500,
+            color: isChecked ? "#fff" : "rgba(255,255,255,0.9)",
+            lineHeight: 1.4 
+          }}>
+            {line}
+          </span>
+        </li>
+      );
+    })}
+  </ul>
+</div>
 
           {/* Instructions Column */}
           <div style={section}>
