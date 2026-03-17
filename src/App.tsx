@@ -94,6 +94,12 @@ function AppContent() {
       window.addEventListener('focus', checkForUpdates);
       return () => window.removeEventListener('focus', checkForUpdates);
     }
+    window.addEventListener('error', (e) => {
+  // If a chunk fails to load (common during a redeploy), force a hard reload
+  if (e.message.includes('Loading chunk') || e.message.includes('Script error')) {
+    window.location.reload();
+  }
+}, true);
   }, [toast]);
 
   // --- STATE ---
