@@ -11,8 +11,7 @@
     }
   ],
   "rewrites": [
-    { "source": "/api/import-recipe", "destination": "/api/import-recipe" },
-    { "source": "/api/scrape-recipe", "destination": "/api/scrape-recipe" },
+    { "source": "/api/import-recipe", "destination": "/api/import-recipe.js" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
