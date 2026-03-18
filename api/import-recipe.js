@@ -1,6 +1,6 @@
 // api/import-recipe.js
 
-import { scrapeRecipe } from 'recipe-scrapers';  // ← This is the main scraping function
+import { scrapeRecipe } from 'recipe-scrapers';
 
 export default async function handler(req, res) {
   console.log('API called with body:', req.body);
@@ -16,13 +16,31 @@ export default async function handler(req, res) {
   }
 
   try {
-    console.log(`Attempting to scrape: ${url}`);
+    console.log(`Fetching HTML for: ${url}`);
 
-    // Use scrapeRecipe (the primary function in recent versions)
-    const recipe = await scrapeRecipe(url);
+    // Step 1: Fetch the page HTML (use a browser-like User-Agent to avoid blocks)
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      }
+    });
 
-    // recipe is usually an object with fields like title, ingredients, etc.
-    // Normalize / shape it for your app
+    if (!response.ok) {
+      throw new Error(`Failed to fetch page: ${response.status} ${response.statusText}`);
+    }
+
+    const html = await response.text();
+
+    console.log('HTML fetched successfully. Starting scrape...');
+
+    // Step 2: Pass BOTH html and url to scrapeRecipe
+    const recipe = await scrapeRecipe(html, url, {
+      // Optional: enable wild mode for unsupported sites (falls back to schema.org)
+      wildMode: true,
+      // safeParse: true  // if you want Zod-validated output
+    });
+
+    // Normalize the result (fields vary by site/parser)
     const formatted = {
       title: recipe.title || recipe.name || 'Imported Recipe',
       description: recipe.description || '',
@@ -33,7 +51,7 @@ export default async function handler(req, res) {
       prepTime: recipe.prepTime,
       cookTime: recipe.cookTime,
       totalTime: recipe.totalTime,
-      // Add author, category, cuisine, ratings if available in recipe object
+      // extras: author, category, cuisine, etc. if present
     };
 
     console.log('Scrape success - title:', formatted.title);
@@ -46,9 +64,11 @@ export default async function handler(req, res) {
     console.error('Scrape failed:', err.message);
     console.error(err.stack || err);
 
-    let friendlyMsg = 'Failed to import recipe – site may block requests or not be supported.';
+    let friendlyMsg = 'Failed to import recipe – the site may block automated requests or not be supported.';
     if (err.message?.includes('not supported') || err.message?.includes('not implemented')) {
-      friendlyMsg = 'This recipe website is not supported yet. Try popular ones like Allrecipes or BBC Good Food.';
+      friendlyMsg = 'This recipe website is not yet supported. Try popular sites like Allrecipes, BBC Good Food, or NYT Cooking.';
+    } else if (err.message?.includes('fetch') || err.message?.includes('Invalid URL')) {
+      friendlyMsg = 'Could not load the page – check the URL or try a different recipe.';
     }
 
     return res.status(500).json({ error: friendlyMsg });
