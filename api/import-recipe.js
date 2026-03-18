@@ -1,66 +1,49 @@
 // api/import-recipe.js
-// If using TypeScript, rename to .ts and add types as needed
+// Use ESM: import / export
 
-const { scrape } = require('recipe-scrapers');  // or import { scrape } from 'recipe-scrapers';
+import { scrape } from 'recipe-scrapers';
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
+  console.log('Invocation started for URL:', req.body?.url);  // Logs to Vercel
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed – use POST' });
   }
 
   const { url } = req.body;
 
-  if (!url || typeof url !== 'string' || !url.match(/^https?:\/\//)) {
-    return res.status(400).json({ error: 'Please provide a valid URL' });
+  if (!url || typeof url !== 'string' || !url.startsWith('http')) {
+    return res.status(400).json({ error: 'Valid URL required' });
   }
 
   try {
-    const recipe = await scrape(url, {
-      // Optional: pass custom fetch options if sites block default user-agent
-      fetchOptions: {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-        }
-      }
-    });
+    console.log('Scraping:', url);
+    const recipe = await scrape(url);  // or scrape(url, { fetchOptions: { ... } }) if needed
 
-    // Normalize/shape the output (fields vary by site/parser)
+    // Normalize fields (adjust based on what recipe-scrapers returns)
     const normalized = {
-      title: recipe.title || recipe.name || 'Untitled Recipe',
+      title: recipe.title || 'No title found',
       description: recipe.description || '',
-      image: recipe.image?.url || recipe.image || '',
-      author: recipe.author || '',
-      yields: recipe.yields || recipe.recipeYield || '4 servings',
-      prepTime: recipe.prepTime || null,
-      cookTime: recipe.cookTime || null,
-      totalTime: recipe.totalTime || null,
-      ingredients: Array.isArray(recipe.ingredients) 
-        ? recipe.ingredients 
-        : (recipe.recipeIngredient || []),
-      instructions: Array.isArray(recipe.instructions) 
-        ? recipe.instructions 
-        : (typeof recipe.instructions === 'string' 
-            ? recipe.instructions.split(/\n|\r\n/) 
-            : recipe.recipeInstructions || []),
-      category: recipe.category || '',
-      cuisine: recipe.cuisine || '',
-      // Add nutrition, ratings, etc. if present in recipe object
+      image: recipe.image || '',
+      yields: recipe.yields || 'Unknown',
+      ingredients: recipe.ingredients || [],
+      instructions: recipe.instructions || [],
+      // Add more as needed
     };
 
+    console.log('Success - title:', normalized.title);
     return res.status(200).json({ success: true, recipe: normalized });
   } catch (err) {
-    console.error('Scrape error:', err);
-
-    let userMessage = 'Failed to import the recipe. The site may not be supported or blocked access.';
-    if (err.message?.includes('not implemented') || err.message?.includes('unsupported')) {
-      userMessage = 'This recipe website is not supported yet. Try a different site or enter manually.';
+    console.error('Scrape failed:', err.message, err.stack);
+    let message = 'Failed to import recipe';
+    if (err.message?.includes('not supported') || err.message?.includes('not implemented')) {
+      message = 'This site is not supported yet – try another URL';
     }
-
-    return res.status(500).json({ error: userMessage, details: err.message });
+    return res.status(500).json({ error: message });
   }
-};
+}
 
-// Optional: longer timeout for slow sites
-module.exports.config = {
-  maxDuration: 30, // seconds
+// Optional: longer timeout
+export const config = {
+  maxDuration: 30,
 };
