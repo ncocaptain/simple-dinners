@@ -98,45 +98,51 @@ export default function CookbookPage({ cookbook, setCookbook, extraIngredients, 
           </button>
         </div>
 
-        {/* MANUAL FORM */}
-        {showManual && (
-  <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 3000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-    <Card style={{ width: '100%', maxWidth: 450, position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
-      <button onClick={() => setShowManual(false)} style={{ position: 'absolute', right: 15, top: 15, color: 'white', background: 'none', border: 'none' }}><X /></button>
-      
-      <h2 style={{ fontSize: 24, fontWeight: 900, marginBottom: 20 }}>New Recipe</h2>
+       {/* --- THIS IS THE OUTER DIV --- */}
+{showManual && (
+  <div style={{ 
+    position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.9)', 
+    zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' 
+  }}>
+    <div style={{ 
+      width: '100%', maxWidth: '450px', background: '#1e293b', borderRadius: '24px', 
+      padding: '30px', position: 'relative', border: '1px solid rgba(255,255,255,0.1)'
+    }}>
+      <button onClick={() => setShowManual(false)} style={{ position: 'absolute', right: 20, top: 20, background: 'none', border: 'none', color: 'white' }}>
+        <X size={24} />
+      </button>
 
-      {/* MAGIC IMPORT SECTION */}
-      <div style={{ background: 'rgba(34, 197, 94, 0.05)', border: '1px dashed rgba(34, 197, 94, 0.3)', borderRadius: 16, padding: 16, marginBottom: 20 }}>
+      <h2 style={{ fontSize: 24, fontWeight: 900, marginBottom: 25 }}>New Recipe</h2>
+
+      {/* MAGIC IMPORT BOX (Matches 5885.png) */}
+      <div style={{ background: 'rgba(34, 197, 94, 0.05)', border: '1px dashed rgba(34, 197, 94, 0.3)', borderRadius: '16px', padding: '20px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 12 }}>
-          <span style={{ background: '#22c55e', color: '#000', fontSize: 10, fontWeight: 900, padding: '2px 6px', borderRadius: 4 }}>BETA</span>
+          <span style={{ background: '#22c55e', color: '#000', fontSize: 10, fontWeight: 900, padding: '2px 6px', borderRadius: '4px' }}>BETA</span>
           <span style={{ fontSize: 13, fontWeight: 800 }}>Magic Import</span>
         </div>
-        <form onSubmit={handleImport} style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', gap: 8 }}>
           <input 
-            placeholder="Paste URL (AllRecipes, etc)..." 
+            placeholder="Paste URL..." 
             value={importUrl} 
-            onChange={e => setImportUrl(e.target.value)} 
-            style={{ flex: 1, background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px', borderRadius: 10, fontSize: 14 }}
+            onChange={(e) => setImportUrl(e.target.value)} 
+            style={{ flex: 1, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px', borderRadius: '10px' }}
           />
-          <button type="submit" disabled={isImporting} style={{ background: '#22c55e', color: 'white', padding: '0 15px', borderRadius: 10, fontWeight: 900 }}>
+          <button onClick={handleImport} disabled={isImporting} style={{ background: '#22c55e', color: 'white', padding: '0 15px', borderRadius: '10px', fontWeight: 900, border: 'none' }}>
             {isImporting ? "..." : "Magic"}
           </button>
-        </form>
-        <p style={{ fontSize: 11, opacity: 0.5, marginTop: 10, lineHeight: 1.4 }}>
-          ⚠️ <b>Captain's Note:</b> Some high-security blogs block our "Magic" scouts. If it fails, please use the manual entry below!
-        </p>
+        </div>
+        <p style={{ fontSize: 11, opacity: 0.5, marginTop: 10 }}>⚠️ Some blogs block "Magic" scouts. If it fails, use manual entry!</p>
       </div>
 
-      {/* MANUAL FIELDS (Condensed) */}
-      <div style={{ display: 'grid', gap: 10 }}>
-        <input placeholder="Recipe Name" value={manualRecipe.name} onChange={e => setManualRecipe({...manualRecipe, name: e.target.value})} style={{ padding: 12, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: 10 }} />
-        <textarea placeholder="Ingredients" value={manualRecipe.ingredients} onChange={e => setManualRecipe({...manualRecipe, ingredients: e.target.value})} style={{ padding: 12, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: 10, minHeight: 80 }} />
-        <button onClick={handleManualSave} style={{ padding: 16, background: 'rgba(34, 197, 94, 0.2)', color: '#22c55e', border: '1px solid #22c55e', borderRadius: 12, fontWeight: 900, marginTop: 10 }}>
+      {/* MANUAL ENTRY */}
+      <div style={{ display: 'grid', gap: 12 }}>
+        <input placeholder="Recipe Name" value={manualRecipe.name} onChange={e => setManualRecipe({...manualRecipe, name: e.target.value})} style={{ padding: 14, borderRadius: 12, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
+        <textarea placeholder="Ingredients (one per line)" value={manualRecipe.ingredients} onChange={e => setManualRecipe({...manualRecipe, ingredients: e.target.value})} style={{ padding: 14, borderRadius: 12, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', minHeight: 80 }} />
+        <button onClick={handleManualSave} style={{ padding: 16, background: 'rgba(34, 197, 94, 0.1)', color: '#22c55e', border: '1px solid #22c55e', borderRadius: 12, fontWeight: 900 }}>
           Save to Cookbook
         </button>
       </div>
-    </Card>
+    </div>
   </div>
 )}
 

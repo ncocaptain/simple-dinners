@@ -10,6 +10,11 @@ function safeParse<T>(raw: string | null, fallback: T): T {
     return fallback;
   }
 }
+export function deleteFromCookbook(slug: string) {
+  const items = getCookbook();
+  const filtered = items.filter((r) => (r.slug ?? r.id) !== slug);
+  setCookbook(filtered);
+}
 
 export function getCookbook(): (Meal & any)[] {
   return safeParse<(Meal & any)[]>(localStorage.getItem(COOKBOOK_LS_KEY), []);
