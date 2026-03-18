@@ -1,7 +1,5 @@
 // api/import-recipe.js
 
-import { scrapeRecipe } from 'recipe-scrapers';
-
 export default async function handler(req, res) {
   console.log('API called with body:', req.body);
 
@@ -18,11 +16,15 @@ export default async function handler(req, res) {
   try {
     console.log(`Fetching HTML for: ${url}`);
 
-    // Step 1: Fetch the page HTML (use a browser-like User-Agent to avoid blocks)
     const response = await fetch(url, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-      }
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Referer': 'https://www.google.com/'
+      },
+      redirect: 'follow',
+      cache: 'no-store'
     });
 
     if (!response.ok) {
@@ -31,50 +33,71 @@ export default async function handler(req, res) {
 
     const html = await response.text();
 
-    console.log('HTML fetched successfully. Starting scrape...');
+    // Simple regex to find JSON-LD script tags (robust enough for most sites)
+    const jsonLdRegex = /<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi;
+    let match;
+    let recipeData = null;
 
-    // Step 2: Pass BOTH html and url to scrapeRecipe
-    const recipe = await scrapeRecipe(html, url, {
-      // Optional: enable wild mode for unsupported sites (falls back to schema.org)
-      wildMode: true,
-      // safeParse: true  // if you want Zod-validated output
-    });
+    while ((match = jsonLdRegex.exec(html)) !== null) {
+      try {
+        const jsonStr = match[1].trim();
+        const data = JSON.parse(jsonStr);
 
-    // Normalize the result (fields vary by site/parser)
+        // Handle @graph or direct @type: Recipe
+        if (data['@type'] === 'Recipe') {
+          recipeData = data;
+          break;
+        } else if (data['@graph']) {
+          recipeData = data['@graph'].find(item => item['@type'] === 'Recipe');
+          if (recipeData) break;
+        }
+      } catch (parseErr) {
+        console.warn('JSON-LD parse error:', parseErr.message);
+      }
+    }
+
+    if (!recipeData) {
+      throw new Error('No valid Recipe JSON-LD found on the page');
+    }
+
+    // Normalize to your app's format
     const formatted = {
-      title: recipe.title || recipe.name || 'Imported Recipe',
-      description: recipe.description || '',
-      image: recipe.image || recipe.images?.[0] || '',
-      yields: recipe.yields || recipe.recipeYield || 'Unknown servings',
-      ingredients: recipe.ingredients || recipe.recipeIngredient || [],
-      instructions: recipe.instructions || recipe.recipeInstructions || [],
-      prepTime: recipe.prepTime,
-      cookTime: recipe.cookTime,
-      totalTime: recipe.totalTime,
-      // extras: author, category, cuisine, etc. if present
+      title: recipeData.name || 'Imported Recipe',
+      description: recipeData.description || '',
+      image: recipeData.image?.url || recipeData.image || recipeData.images?.[0] || '',
+      yields: recipeData.recipeYield || 'Unknown servings',
+      prepTime: recipeData.prepTime,
+      cookTime: recipeData.cookTime,
+      totalTime: recipeData.totalTime,
+      ingredients: recipeData.recipeIngredient || [],
+      instructions: recipeData.recipeInstructions?.map(step => typeof step === 'string' ? step : step.text) || [],
+      // extras
+      author: recipeData.author?.name || '',
+      category: recipeData.recipeCategory || '',
+      cuisine: recipeData.recipeCuisine || ''
     };
 
-    console.log('Scrape success - title:', formatted.title);
+    console.log('Extracted success - title:', formatted.title);
 
     return res.status(200).json({
       success: true,
       recipe: formatted
     });
   } catch (err) {
-    console.error('Scrape failed:', err.message);
+    console.error('Extraction failed:', err.message);
     console.error(err.stack || err);
 
-    let friendlyMsg = 'Failed to import recipe – the site may block automated requests or not be supported.';
-    if (err.message?.includes('not supported') || err.message?.includes('not implemented')) {
-      friendlyMsg = 'This recipe website is not yet supported. Try popular sites like Allrecipes, BBC Good Food, or NYT Cooking.';
-    } else if (err.message?.includes('fetch') || err.message?.includes('Invalid URL')) {
-      friendlyMsg = 'Could not load the page – check the URL or try a different recipe.';
+    let msg = 'Failed to import recipe – site may block automated requests.';
+    if (err.message.includes('402')) {
+      msg = 'Site blocked the request (402 Payment Required) – likely anti-bot protection. Try manual entry or different URL.';
+    } else if (err.message.includes('No valid Recipe')) {
+      msg = 'Could not find structured recipe data on the page.';
     }
 
-    return res.status(500).json({ error: friendlyMsg });
+    return res.status(500).json({ error: msg });
   }
 }
 
 export const config = {
-  maxDuration: 30,  // seconds
+  maxDuration: 30,
 };
