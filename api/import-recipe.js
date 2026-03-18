@@ -1,10 +1,10 @@
-// api/import-recipe.js
-// Use ESM: import / export
+// api/import-recipe.js   ← keep this filename
 
 import { scrape } from 'recipe-scrapers';
 
 export default async function handler(req, res) {
-  console.log('Invocation started for URL:', req.body?.url);  // Logs to Vercel
+  // Log for Vercel debugging (shows up in function logs)
+  console.log('API invoked with URL:', req.body?.url);
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed – use POST' });
@@ -13,37 +13,47 @@ export default async function handler(req, res) {
   const { url } = req.body;
 
   if (!url || typeof url !== 'string' || !url.startsWith('http')) {
-    return res.status(400).json({ error: 'Valid URL required' });
+    return res.status(400).json({ error: 'A valid recipe URL is required' });
   }
 
   try {
-    console.log('Scraping:', url);
-    const recipe = await scrape(url);  // or scrape(url, { fetchOptions: { ... } }) if needed
+    console.log('Starting scrape for:', url);
 
-    // Normalize fields (adjust based on what recipe-scrapers returns)
-    const normalized = {
-      title: recipe.title || 'No title found',
+    const recipe = await scrape(url);  // This should now work
+
+    // Normalize the output (fields can vary by site)
+    const formatted = {
+      title: recipe.title || recipe.name || 'Recipe Imported',
       description: recipe.description || '',
-      image: recipe.image || '',
-      yields: recipe.yields || 'Unknown',
-      ingredients: recipe.ingredients || [],
-      instructions: recipe.instructions || [],
-      // Add more as needed
+      image: recipe.image || recipe.images?.[0] || '',
+      yields: recipe.yields || recipe.recipeYield || 'Servings unknown',
+      prepTime: recipe.prepTime,
+      cookTime: recipe.cookTime,
+      totalTime: recipe.totalTime,
+      ingredients: recipe.ingredients || recipe.recipeIngredient || [],
+      instructions: recipe.instructions || recipe.recipeInstructions || [],
+      // Feel free to add more like author, category, etc.
     };
 
-    console.log('Success - title:', normalized.title);
-    return res.status(200).json({ success: true, recipe: normalized });
+    console.log('Scrape successful - title:', formatted.title);
+
+    return res.status(200).json({
+      success: true,
+      recipe: formatted
+    });
   } catch (err) {
-    console.error('Scrape failed:', err.message, err.stack);
-    let message = 'Failed to import recipe';
+    console.error('Scrape error:', err.message);
+    console.error(err.stack);  // Full stack for Vercel logs
+
+    let userError = 'Failed to import this recipe. The site may not be supported or blocked the request.';
     if (err.message?.includes('not supported') || err.message?.includes('not implemented')) {
-      message = 'This site is not supported yet – try another URL';
+      userError = 'Sorry, this recipe website isn\'t supported yet. Try a different one (e.g., Allrecipes, BBC Good Food).';
     }
-    return res.status(500).json({ error: message });
+
+    return res.status(500).json({ error: userError });
   }
 }
 
-// Optional: longer timeout
 export const config = {
-  maxDuration: 30,
+  maxDuration: 30  // Give slow sites more time
 };
