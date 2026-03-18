@@ -12,19 +12,20 @@ export default async function handler(req, res) {
 
     // Using an API-based scraper that is much more stable on Vercel
     const response = await fetch(`https://api.microlink.io?url=${encodeURIComponent(url)}&palette=true&audio=true&video=true&iframe=true`);
-    const data = await response.json();
+    // Inside your scraper try/catch
+const data = await response.json();
 
-    if (data.status !== 'success') throw new Error("Could not reach the recipe site.");
+// If the API doesn't find the ingredients, we'll try to pull them from the metadata
+const ingredientsText = data.data.text?.slice(0, 1000) || ""; 
+// Use a regex to look for typical ingredient lines (numbers + units)
+const potentialIngredients = ingredientsText.match(/^(\d|½|¼|¾|cup|tbsp|tsp).*/gim);
 
-    // Simple normalization from the microlink data
-    const recipe = {
-      name: data.data.title || "New Recipe",
-      ingredients: "Check the source link for ingredients!", // Microlink is a lighter scraper
-      instructions: "Check the source link for instructions!",
-      photoUrl: data.data.image?.url || "",
-      effort: "normal",
-      sourceUrl: url
-    };
+const recipe = {
+  name: data.data.title || "New Recipe",
+  ingredients: potentialIngredients ? potentialIngredients.join('\n') : "Check source link for ingredients!",
+  photoUrl: data.data.image?.url || "",
+  sourceUrl: url
+};
 
     return res.status(200).json({ recipe });
 
