@@ -187,56 +187,83 @@ export default async function handler(req, res) {
 
       if (typeof input === "object") {
         if (input.text) return extractInstructionText(input.text);
+        if (input.name && !input.text) return extractInstructionText(input.name);
         if (input.itemListElement) return extractInstructionText(input.itemListElement);
+
+        if (input["@type"] === "HowToStep" && input.text) {
+          return extractInstructionText(input.text);
+        }
+
+        if (input["@type"] === "HowToSection") {
+          return extractInstructionText(input.itemListElement || []);
+        }
       }
 
       return [];
     }
 
     function extractIngredientsFromHtml(html) {
-  const collected = [];
-
-  const patterns = [
-    /<span[^>]*class=["'][^"']*ingredients-item-name[^"']*["'][^>]*>([\s\S]*?)<\/span>/gi,
-    /<li[^>]*class=["'][^"']*mntl-structured-ingredients__list-item[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
-    /<p[^>]*class=["'][^"']*mntl-structured-ingredients__list-item[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
-    /<li[^>]*class=["'][^"']*ingredient[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
-    /<li[^>]*data-ingredient[^>]*>([\s\S]*?)<\/li>/gi,
-    /<li[^>]*>([\s\S]*?)<\/li>/gi,
-  ];
-
-  for (const pattern of patterns) {
-    const matches = [...html.matchAll(pattern)]
-      .map((m) => cleanText(m[1]))
-      .map((line) => line.replace(/\s+/g, " ").trim())
-      .filter(Boolean);
-
-    const filtered = matches.filter((line) =>
-      /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu|sugar|flour|egg|eggs)/i.test(
-        line
-      )
-    );
-
-    if (filtered.length >= 3) {
-      collected.push(...filtered);
-      break;
-    }
-  }
-
-  return cleanLineArray(collected).slice(0, 40);
-}
-
-    function extractInstructionsFromHtml(html) {
       const collected = [];
+
       const patterns = [
-        /<li[^>]*class=["'][^"']*instruction[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
-        /<div[^>]*class=["'][^"']*direction[^"']*["'][^>]*>([\s\S]*?)<\/div>/gi,
-        /<p[^>]*class=["'][^"']*instruction[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
+        /<span[^>]*class=["'][^"']*ingredients-item-name[^"']*["'][^>]*>([\s\S]*?)<\/span>/gi,
+        /<li[^>]*class=["'][^"']*mntl-structured-ingredients__list-item[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+        /<p[^>]*class=["'][^"']*mntl-structured-ingredients__list-item[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
+        /<li[^>]*class=["'][^"']*ingredient[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+        /<li[^>]*data-ingredient[^>]*>([\s\S]*?)<\/li>/gi,
+        /<li[^>]*>([\s\S]*?)<\/li>/gi,
       ];
 
       for (const pattern of patterns) {
-        const matches = [...html.matchAll(pattern)].map((m) => cleanText(m[1]));
-        const filtered = matches.filter((line) => line.length > 20);
+        const matches = [...html.matchAll(pattern)]
+          .map((m) => cleanText(m[1]))
+          .map((line) => line.replace(/\s+/g, " ").trim())
+          .filter(Boolean);
+
+        const filtered = matches.filter((line) =>
+          /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu|sugar|flour|egg|eggs)/i.test(
+            line
+          )
+        );
+
+        if (filtered.length >= 3) {
+          collected.push(...filtered);
+          break;
+        }
+      }
+
+      return cleanLineArray(collected).slice(0, 40);
+    }
+
+    function extractInstructionsFromHtml(html) {
+      const collected = [];
+
+      const patterns = [
+        /<li[^>]*class=["'][^"']*mntl-sc-block-group--LI[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+        /<li[^>]*class=["'][^"']*comp mntl-sc-block mntl-sc-block-html[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+        /<li[^>]*class=["'][^"']*instruction[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+        /<div[^>]*class=["'][^"']*direction[^"']*["'][^>]*>([\s\S]*?)<\/div>/gi,
+        /<p[^>]*class=["'][^"']*instruction[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
+        /<li[^>]*>([\s\S]*?)<\/li>/gi,
+        /<p[^>]*>([\s\S]*?)<\/p>/gi,
+      ];
+
+      for (const pattern of patterns) {
+        const matches = [...html.matchAll(pattern)]
+          .map((m) => cleanText(m[1]))
+          .map((line) => line.replace(/\s+/g, " ").trim())
+          .filter(Boolean);
+
+        const filtered = matches.filter((line) => {
+          if (line.length < 25) return false;
+          if (/advertisement|rate this recipe|print|save|share|review/i.test(line)) return false;
+          if (/^\d+\s*(calories|mins?|minutes?|hrs?|hours?)$/i.test(line)) return false;
+
+          return /mix|stir|cook|bake|heat|place|add|whisk|combine|pour|season|serve|grill|broil|simmer|preheat|remove|transfer|marinate|drain|slice|flip/i.test(
+            line
+          );
+        });
+
         if (filtered.length >= 2) {
           collected.push(...filtered);
           break;
@@ -247,7 +274,7 @@ export default async function handler(req, res) {
     }
 
     async function fetchDirectHtml(targetUrl) {
-      const direct = await fetch(targetUrl, {
+      const response = await fetch(targetUrl, {
         headers: {
           "User-Agent":
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -259,11 +286,11 @@ export default async function handler(req, res) {
         },
       });
 
-      if (!direct.ok) {
-        throw new Error(`Direct fetch failed: ${direct.status}`);
+      if (!response.ok) {
+        throw new Error(`Direct fetch failed: ${response.status}`);
       }
 
-      return await direct.text();
+      return await response.text();
     }
 
     let safeHtml = "";
@@ -272,7 +299,6 @@ export default async function handler(req, res) {
     let recipeData = null;
     let photoUrl = "";
 
-    // 1) Try direct fetch first
     try {
       safeHtml = await fetchDirectHtml(url);
       safeText = cleanText(safeHtml);
@@ -302,7 +328,6 @@ export default async function handler(req, res) {
       console.log("DIRECT FETCH FAILED:", directErr?.message || directErr);
     }
 
-    // 2) Fallback to Microlink if needed
     if (!safeHtml || (!recipeData && !safeTitle)) {
       try {
         const mLink = `https://api.microlink.io?url=${encodeURIComponent(url)}&meta=true`;
@@ -355,8 +380,8 @@ export default async function handler(req, res) {
     }
 
     if (ingredientsList.length === 0 && recipeData?.nutrition?.ingredient) {
-  ingredientsList = cleanLineArray(toArray(recipeData.nutrition.ingredient));
-}
+      ingredientsList = cleanLineArray(toArray(recipeData.nutrition.ingredient));
+    }
 
     if (ingredientsList.length === 0 && recipeData) {
       const altFields = [
@@ -386,7 +411,7 @@ export default async function handler(req, res) {
         .filter(Boolean);
 
       const likelyIngredients = lines.filter((line) =>
-        /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu)/i.test(
+        /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu|sugar|flour|egg|eggs)/i.test(
           line
         )
       );
@@ -402,8 +427,32 @@ export default async function handler(req, res) {
       );
     }
 
+    if (instructionList.length === 0 && recipeData?.instructions) {
+      instructionList = cleanLineArray(
+        extractInstructionText(recipeData.instructions)
+      );
+    }
+
     if (instructionList.length === 0 && safeHtml) {
       instructionList = extractInstructionsFromHtml(safeHtml);
+    }
+
+    if (instructionList.length === 0 && safeText) {
+      const lines = safeText
+        .split(/\r?\n/)
+        .map((line) => cleanText(line))
+        .filter(Boolean);
+
+      const likelySteps = lines.filter((line) => {
+        if (line.length < 25) return false;
+        if (/advertisement|rate this recipe|print|save|share|review/i.test(line)) return false;
+
+        return /mix|stir|cook|bake|heat|place|add|whisk|combine|pour|season|serve|grill|broil|simmer|preheat|remove|transfer|marinate|drain|slice|flip/i.test(
+          line
+        );
+      });
+
+      instructionList = cleanLineArray(likelySteps).slice(0, 15);
     }
 
     const rawName =
