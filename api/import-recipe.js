@@ -9,18 +9,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    const mLink = `https://api.microlink.io?url=${encodeURIComponent(url)}&meta=true`;
-    const response = await fetch(mLink);
-    const result = await response.json();
-
-    if (result.status !== "success") {
-      throw new Error("Microlink failed");
-    }
-
-    const safeHtml = result?.data?.html || "";
-    const safeText = result?.data?.text || "";
-    const safeTitle = result?.data?.title || "";
-
     function toArray(value) {
       if (!value) return [];
       return Array.isArray(value) ? value : [value];
@@ -151,6 +139,22 @@ export default async function handler(req, res) {
       return null;
     }
 
+    function extractJsonLdBlocks(html) {
+      const blocks = [];
+      const jsonLdRegex =
+        /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+
+      let match;
+      while ((match = jsonLdRegex.exec(html)) !== null) {
+        const raw = match[1]?.trim();
+        if (!raw) continue;
+        const parsed = parsePossibleJson(raw);
+        if (parsed) blocks.push(parsed);
+      }
+
+      return blocks;
+    }
+
     function extractInstructionText(input) {
       if (!input) return [];
 
@@ -182,46 +186,19 @@ export default async function handler(req, res) {
       }
 
       if (typeof input === "object") {
-        if (input.text) {
-          return extractInstructionText(input.text);
-        }
-
-        if (input.itemListElement) {
-          return extractInstructionText(input.itemListElement);
-        }
-
-        if (input.name && input["@type"] === "HowToSection") {
-          return extractInstructionText(input.itemListElement || []);
-        }
+        if (input.text) return extractInstructionText(input.text);
+        if (input.itemListElement) return extractInstructionText(input.itemListElement);
       }
 
       return [];
     }
 
-    function extractJsonLdBlocks(html) {
-      const blocks = [];
-      const jsonLdRegex =
-        /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
-
-      let match;
-      while ((match = jsonLdRegex.exec(html)) !== null) {
-        const raw = match[1]?.trim();
-        if (!raw) continue;
-        const parsed = parsePossibleJson(raw);
-        if (parsed) blocks.push(parsed);
-      }
-
-      return blocks;
-    }
-
     function extractIngredientsFromHtml(html) {
       const collected = [];
-
       const patterns = [
-        /<li[^>]*data-ingredient[^>]*>([\s\S]*?)<\/li>/gi,
-        /<li[^>]*class=["'][^"']*ingredient[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
         /<span[^>]*class=["'][^"']*ingredients-item-name[^"']*["'][^>]*>([\s\S]*?)<\/span>/gi,
-        /<p[^>]*class=["'][^"']*ingredient[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
+        /<li[^>]*class=["'][^"']*ingredient[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+        /<li[^>]*data-ingredient[^>]*>([\s\S]*?)<\/li>/gi,
         /<li[^>]*>([\s\S]*?)<\/li>/gi,
       ];
 
@@ -244,11 +221,10 @@ export default async function handler(req, res) {
 
     function extractInstructionsFromHtml(html) {
       const collected = [];
-
       const patterns = [
         /<li[^>]*class=["'][^"']*instruction[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
-        /<p[^>]*class=["'][^"']*instruction[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
         /<div[^>]*class=["'][^"']*direction[^"']*["'][^>]*>([\s\S]*?)<\/div>/gi,
+        /<p[^>]*class=["'][^"']*instruction[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
       ];
 
       for (const pattern of patterns) {
@@ -263,14 +239,105 @@ export default async function handler(req, res) {
       return cleanLineArray(collected).slice(0, 20);
     }
 
-    let recipeData = null;
+    async function fetchDirectHtml(targetUrl) {
+      const direct = await fetch(targetUrl, {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+          Accept:
+            "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+          "Accept-Language": "en-US,en;q=0.9",
+          Referer: "https://www.google.com/",
+          DNT: "1",
+        },
+      });
 
-    const jsonLdBlocks = extractJsonLdBlocks(safeHtml);
-    for (const block of jsonLdBlocks) {
-      const found = findRecipeInObject(block);
-      if (found) {
-        recipeData = found;
-        break;
+      if (!direct.ok) {
+        throw new Error(`Direct fetch failed: ${direct.status}`);
+      }
+
+      return await direct.text();
+    }
+
+    let safeHtml = "";
+    let safeText = "";
+    let safeTitle = "";
+    let recipeData = null;
+    let photoUrl = "";
+
+    // 1) Try direct fetch first
+    try {
+      safeHtml = await fetchDirectHtml(url);
+      safeText = cleanText(safeHtml);
+      safeTitle =
+        cleanText(
+          safeHtml.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || ""
+        ) || "";
+
+      const jsonLdBlocks = extractJsonLdBlocks(safeHtml);
+      for (const block of jsonLdBlocks) {
+        const found = findRecipeInObject(block);
+        if (found) {
+          recipeData = found;
+          break;
+        }
+      }
+
+      photoUrl = extractImage(recipeData?.image);
+
+      console.log("DIRECT FETCH OK", {
+        title: safeTitle,
+        htmlLength: safeHtml.length,
+        textLength: safeText.length,
+        foundRecipe: !!recipeData,
+      });
+    } catch (directErr) {
+      console.log("DIRECT FETCH FAILED:", directErr?.message || directErr);
+    }
+
+    // 2) Fallback to Microlink if needed
+    if (!safeHtml || (!recipeData && !safeTitle)) {
+      try {
+        const mLink = `https://api.microlink.io?url=${encodeURIComponent(url)}&meta=true`;
+        const response = await fetch(mLink);
+        const result = await response.json();
+
+        if (result.status === "success") {
+          const microlinkHtml = result?.data?.html || "";
+          const microlinkText = result?.data?.text || "";
+          const microlinkTitle = result?.data?.title || "";
+
+          if (!safeHtml) safeHtml = microlinkHtml;
+          if (!safeText) safeText = microlinkText;
+          if (!safeTitle) safeTitle = microlinkTitle;
+
+          if (!recipeData && microlinkHtml) {
+            const jsonLdBlocks = extractJsonLdBlocks(microlinkHtml);
+            for (const block of jsonLdBlocks) {
+              const found = findRecipeInObject(block);
+              if (found) {
+                recipeData = found;
+                break;
+              }
+            }
+          }
+
+          if (!photoUrl) {
+            photoUrl =
+              extractImage(recipeData?.image) ||
+              extractImage(result?.data?.image) ||
+              "";
+          }
+
+          console.log("MICROLINK FALLBACK", {
+            title: microlinkTitle,
+            htmlLength: microlinkHtml.length,
+            textLength: microlinkText.length,
+            foundRecipe: !!recipeData,
+          });
+        }
+      } catch (microlinkErr) {
+        console.log("MICROLINK FAILED:", microlinkErr?.message || microlinkErr);
       }
     }
 
@@ -328,30 +395,6 @@ export default async function handler(req, res) {
       instructionList = extractInstructionsFromHtml(safeHtml);
     }
 
-    if (instructionList.length === 0 && safeText) {
-      const textLines = safeText
-        .split(/\r?\n/)
-        .map((line) => cleanText(line))
-        .filter(Boolean);
-
-      const instructionStart = textLines.findIndex((line) =>
-        /instructions|directions|method|preparation/i.test(line)
-      );
-
-      if (instructionStart >= 0) {
-        instructionList = cleanLineArray(
-          textLines
-            .slice(instructionStart + 1, instructionStart + 14)
-            .filter((line) => line.length > 20)
-        );
-      }
-    }
-
-    const photoUrl =
-      extractImage(recipeData?.image) ||
-      extractImage(result?.data?.image) ||
-      "";
-
     const rawName =
       recipeData?.name ||
       safeTitle ||
@@ -359,6 +402,13 @@ export default async function handler(req, res) {
       "New Recipe";
 
     const recipeName = toTitleCase(cleanText(rawName)) || "New Recipe";
+
+    console.log("FINAL IMPORT RESULT", {
+      recipeName,
+      ingredientsCount: ingredientsList.length,
+      instructionsCount: instructionList.length,
+      hasPhoto: !!photoUrl,
+    });
 
     const formatted = {
       name: recipeName,
