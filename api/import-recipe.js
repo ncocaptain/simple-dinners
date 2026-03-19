@@ -194,30 +194,37 @@ export default async function handler(req, res) {
     }
 
     function extractIngredientsFromHtml(html) {
-      const collected = [];
-      const patterns = [
-        /<span[^>]*class=["'][^"']*ingredients-item-name[^"']*["'][^>]*>([\s\S]*?)<\/span>/gi,
-        /<li[^>]*class=["'][^"']*ingredient[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
-        /<li[^>]*data-ingredient[^>]*>([\s\S]*?)<\/li>/gi,
-        /<li[^>]*>([\s\S]*?)<\/li>/gi,
-      ];
+  const collected = [];
 
-      for (const pattern of patterns) {
-        const matches = [...html.matchAll(pattern)].map((m) => cleanText(m[1]));
-        const filtered = matches.filter((line) =>
-          /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu)/i.test(
-            line
-          )
-        );
+  const patterns = [
+    /<span[^>]*class=["'][^"']*ingredients-item-name[^"']*["'][^>]*>([\s\S]*?)<\/span>/gi,
+    /<li[^>]*class=["'][^"']*mntl-structured-ingredients__list-item[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+    /<p[^>]*class=["'][^"']*mntl-structured-ingredients__list-item[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
+    /<li[^>]*class=["'][^"']*ingredient[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+    /<li[^>]*data-ingredient[^>]*>([\s\S]*?)<\/li>/gi,
+    /<li[^>]*>([\s\S]*?)<\/li>/gi,
+  ];
 
-        if (filtered.length >= 3) {
-          collected.push(...filtered);
-          break;
-        }
-      }
+  for (const pattern of patterns) {
+    const matches = [...html.matchAll(pattern)]
+      .map((m) => cleanText(m[1]))
+      .map((line) => line.replace(/\s+/g, " ").trim())
+      .filter(Boolean);
 
-      return cleanLineArray(collected).slice(0, 40);
+    const filtered = matches.filter((line) =>
+      /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu|sugar|flour|egg|eggs)/i.test(
+        line
+      )
+    );
+
+    if (filtered.length >= 3) {
+      collected.push(...filtered);
+      break;
     }
+  }
+
+  return cleanLineArray(collected).slice(0, 40);
+}
 
     function extractInstructionsFromHtml(html) {
       const collected = [];
@@ -346,6 +353,10 @@ export default async function handler(req, res) {
     if (recipeData?.recipeIngredient) {
       ingredientsList = cleanLineArray(toArray(recipeData.recipeIngredient));
     }
+
+    if (ingredientsList.length === 0 && recipeData?.nutrition?.ingredient) {
+  ingredientsList = cleanLineArray(toArray(recipeData.nutrition.ingredient));
+}
 
     if (ingredientsList.length === 0 && recipeData) {
       const altFields = [
