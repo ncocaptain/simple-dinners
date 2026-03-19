@@ -9,10 +9,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const mLink = `https://api.microlink.io?url=${encodeURIComponent(
-      url
-    )}&meta=false&data.recipe.selector=script[type="application/ld+json"]`;
-
+    const mLink = `https://api.microlink.io?url=${encodeURIComponent(url)}&meta=true`;
     const response = await fetch(mLink);
     const result = await response.json();
 
@@ -21,7 +18,6 @@ export default async function handler(req, res) {
     }
 
     const safeHtml = result?.data?.html || "";
-    const safeRecipeBlock = result?.data?.recipe || "";
     const safeText = result?.data?.text || "";
     const safeTitle = result?.data?.title || "";
 
@@ -32,11 +28,17 @@ export default async function handler(req, res) {
 
     function cleanText(value) {
       return String(value || "")
+        .replace(/<br\s*\/?>/gi, "\n")
+        .replace(/<\/p>/gi, "\n")
+        .replace(/<\/li>/gi, "\n")
         .replace(/<[^>]+>/g, " ")
         .replace(/&nbsp;/gi, " ")
         .replace(/&amp;/gi, "&")
         .replace(/&#39;/gi, "'")
         .replace(/&quot;/gi, '"')
+        .replace(/&frac12;/gi, "½")
+        .replace(/&frac14;/gi, "¼")
+        .replace(/&frac34;/gi, "¾")
         .replace(/\s+/g, " ")
         .trim();
     }
@@ -45,6 +47,7 @@ export default async function handler(req, res) {
       return lines
         .map((line) => cleanText(line))
         .filter(Boolean)
+        .filter((line) => line.length > 1)
         .filter((line, index, arr) => arr.indexOf(line) === index);
     }
 
@@ -76,9 +79,7 @@ export default async function handler(req, res) {
     function extractImage(imageField) {
       if (!imageField) return "";
 
-      if (typeof imageField === "string") {
-        return imageField;
-      }
+      if (typeof imageField === "string") return imageField;
 
       if (Array.isArray(imageField)) {
         for (const item of imageField) {
@@ -98,6 +99,56 @@ export default async function handler(req, res) {
       }
 
       return "";
+    }
+
+    function parsePossibleJson(value) {
+      if (!value) return null;
+      if (typeof value !== "string") return value;
+
+      try {
+        return JSON.parse(value);
+      } catch {
+        return null;
+      }
+    }
+
+    function findRecipeInObject(obj) {
+      if (!obj) return null;
+
+      const type = obj["@type"];
+
+      if (
+        type === "Recipe" ||
+        (Array.isArray(type) && type.includes("Recipe"))
+      ) {
+        return obj;
+      }
+
+      if (Array.isArray(obj)) {
+        for (const item of obj) {
+          const found = findRecipeInObject(item);
+          if (found) return found;
+        }
+      }
+
+      if (obj["@graph"] && Array.isArray(obj["@graph"])) {
+        for (const item of obj["@graph"]) {
+          const found = findRecipeInObject(item);
+          if (found) return found;
+        }
+      }
+
+      if (typeof obj === "object") {
+        for (const key of Object.keys(obj)) {
+          const value = obj[key];
+          if (value && typeof value === "object") {
+            const found = findRecipeInObject(value);
+            if (found) return found;
+          }
+        }
+      }
+
+      return null;
     }
 
     function extractInstructionText(input) {
@@ -147,138 +198,134 @@ export default async function handler(req, res) {
       return [];
     }
 
-    function findRecipeInObject(obj) {
-      if (!obj) return null;
-
-      if (
-        obj["@type"] === "Recipe" ||
-        (Array.isArray(obj["@type"]) && obj["@type"].includes("Recipe"))
-      ) {
-        return obj;
-      }
-
-      if (obj["@graph"] && Array.isArray(obj["@graph"])) {
-        for (const item of obj["@graph"]) {
-          const found = findRecipeInObject(item);
-          if (found) return found;
-        }
-      }
-
-      if (Array.isArray(obj)) {
-        for (const item of obj) {
-          const found = findRecipeInObject(item);
-          if (found) return found;
-        }
-      }
-
-      if (typeof obj === "object") {
-        for (const key of Object.keys(obj)) {
-          const value = obj[key];
-          if (value && typeof value === "object") {
-            const found = findRecipeInObject(value);
-            if (found) return found;
-          }
-        }
-      }
-
-      return null;
-    }
-
-    function parsePossibleJson(value) {
-      if (!value) return null;
-      if (typeof value !== "string") return value;
-
-      try {
-        return JSON.parse(value);
-      } catch {
-        return null;
-      }
-    }
-
-    let recipeData = null;
-
-    const parsedRecipeBlock = parsePossibleJson(safeRecipeBlock);
-    if (parsedRecipeBlock) {
-      recipeData = findRecipeInObject(parsedRecipeBlock);
-    }
-
-    if (!recipeData && safeHtml) {
+    function extractJsonLdBlocks(html) {
+      const blocks = [];
       const jsonLdRegex =
         /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
 
       let match;
-      while ((match = jsonLdRegex.exec(safeHtml)) !== null) {
+      while ((match = jsonLdRegex.exec(html)) !== null) {
         const raw = match[1]?.trim();
+        if (!raw) continue;
         const parsed = parsePossibleJson(raw);
+        if (parsed) blocks.push(parsed);
+      }
 
-        if (!parsed) continue;
+      return blocks;
+    }
 
-        const found = findRecipeInObject(parsed);
-        if (found) {
-          recipeData = found;
+    function extractIngredientsFromHtml(html) {
+      const collected = [];
+
+      const patterns = [
+        /<li[^>]*data-ingredient[^>]*>([\s\S]*?)<\/li>/gi,
+        /<li[^>]*class=["'][^"']*ingredient[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+        /<span[^>]*class=["'][^"']*ingredients-item-name[^"']*["'][^>]*>([\s\S]*?)<\/span>/gi,
+        /<p[^>]*class=["'][^"']*ingredient[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
+        /<li[^>]*>([\s\S]*?)<\/li>/gi,
+      ];
+
+      for (const pattern of patterns) {
+        const matches = [...html.matchAll(pattern)].map((m) => cleanText(m[1]));
+        const filtered = matches.filter((line) =>
+          /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu)/i.test(
+            line
+          )
+        );
+
+        if (filtered.length >= 3) {
+          collected.push(...filtered);
+          break;
+        }
+      }
+
+      return cleanLineArray(collected).slice(0, 40);
+    }
+
+    function extractInstructionsFromHtml(html) {
+      const collected = [];
+
+      const patterns = [
+        /<li[^>]*class=["'][^"']*instruction[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+        /<p[^>]*class=["'][^"']*instruction[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
+        /<div[^>]*class=["'][^"']*direction[^"']*["'][^>]*>([\s\S]*?)<\/div>/gi,
+      ];
+
+      for (const pattern of patterns) {
+        const matches = [...html.matchAll(pattern)].map((m) => cleanText(m[1]));
+        const filtered = matches.filter((line) => line.length > 20);
+        if (filtered.length >= 2) {
+          collected.push(...filtered);
+          break;
+        }
+      }
+
+      return cleanLineArray(collected).slice(0, 20);
+    }
+
+    let recipeData = null;
+
+    const jsonLdBlocks = extractJsonLdBlocks(safeHtml);
+    for (const block of jsonLdBlocks) {
+      const found = findRecipeInObject(block);
+      if (found) {
+        recipeData = found;
+        break;
+      }
+    }
+
+    let ingredientsList = [];
+
+    if (recipeData?.recipeIngredient) {
+      ingredientsList = cleanLineArray(toArray(recipeData.recipeIngredient));
+    }
+
+    if (ingredientsList.length === 0 && recipeData) {
+      const altFields = [
+        recipeData.ingredients,
+        recipeData.recipeIngredients,
+        recipeData.ingredient,
+      ];
+
+      for (const field of altFields) {
+        if (!field) continue;
+        const extracted = cleanLineArray(toArray(field));
+        if (extracted.length > 0) {
+          ingredientsList = extracted;
           break;
         }
       }
     }
 
-   let ingredientsList = [];
-
-// --- PRIMARY: schema ---
-if (recipeData?.recipeIngredient) {
-  ingredientsList = cleanLineArray(toArray(recipeData.recipeIngredient));
-}
-
-// --- SECONDARY: alternate schema fields ---
-if (ingredientsList.length === 0 && recipeData) {
-  const altFields = [
-    recipeData.ingredients,
-    recipeData.recipeIngredients,
-    recipeData.ingredient,
-  ];
-
-  for (const field of altFields) {
-    if (field) {
-      const extracted = cleanLineArray(toArray(field));
-      if (extracted.length > 0) {
-        ingredientsList = extracted;
-        break;
-      }
+    if (ingredientsList.length === 0 && safeHtml) {
+      ingredientsList = extractIngredientsFromHtml(safeHtml);
     }
-  }
-}
 
-// --- THIRD: HTML pattern scrape (THIS IS THE BIG ONE) ---
-if (ingredientsList.length === 0 && safeHtml) {
-  const liMatches = [...safeHtml.matchAll(/<li[^>]*>(.*?)<\/li>/gi)]
-    .map(m => cleanText(m[1]))
-    .filter(line =>
-      /(\d|½|¼|¾|cup|tbsp|tsp|oz|lb|garlic|salt|oil|pepper|onion)/i.test(line)
-    );
+    if (ingredientsList.length === 0 && safeText) {
+      const lines = safeText
+        .split(/\r?\n/)
+        .map((line) => cleanText(line))
+        .filter(Boolean);
 
-  if (liMatches.length > 3) {
-    ingredientsList = cleanLineArray(liMatches).slice(0, 30);
-  }
-}
+      const likelyIngredients = lines.filter((line) =>
+        /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu)/i.test(
+          line
+        )
+      );
 
-// --- FINAL: aggressive text fallback ---
-if (ingredientsList.length === 0 && safeText) {
-  const lines = safeText
-    .split(/\r?\n/)
-    .map(line => cleanText(line))
-    .filter(Boolean);
+      ingredientsList = cleanLineArray(likelyIngredients).slice(0, 30);
+    }
 
-  const likelyIngredients = lines.filter(line =>
-    /(\d|½|¼|¾|cup|tbsp|tsp|oz|lb|garlic|salt|oil|pepper|onion)/i.test(line)
-  );
-
-  ingredientsList = cleanLineArray(likelyIngredients).slice(0, 25);
-}
     let instructionList = [];
 
     if (recipeData?.recipeInstructions) {
       instructionList = cleanLineArray(
         extractInstructionText(recipeData.recipeInstructions)
       );
+    }
+
+    if (instructionList.length === 0 && safeHtml) {
+      instructionList = extractInstructionsFromHtml(safeHtml);
     }
 
     if (instructionList.length === 0 && safeText) {
@@ -294,7 +341,7 @@ if (ingredientsList.length === 0 && safeText) {
       if (instructionStart >= 0) {
         instructionList = cleanLineArray(
           textLines
-            .slice(instructionStart + 1, instructionStart + 12)
+            .slice(instructionStart + 1, instructionStart + 14)
             .filter((line) => line.length > 20)
         );
       }
