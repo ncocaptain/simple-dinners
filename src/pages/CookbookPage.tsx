@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
-import { CheckCircle2, Plus, X, Link as LinkIcon, BookOpen, ShoppingCart } from "lucide-react";
+import {
+  CheckCircle2,
+  Plus,
+  X,
+  Link as LinkIcon,
+  BookOpen,
+  ShoppingCart,
+  Pencil,
+} from "lucide-react";
 import { formatIngredients } from "../core/utils";
 import Card from "../components/Card";
 
@@ -141,6 +149,22 @@ export default function CookbookPage({
     alert("Recipe saved to Cookbook!");
   };
 
+  const openFinishRecipe = () => {
+    if (!selectedRecipe) return;
+
+    setManualRecipe({
+      name: selectedRecipe.name || "",
+      ingredients: selectedRecipe.ingredients || "",
+      instructions:
+        selectedRecipe.instructions === "Steps available at source link!"
+          ? ""
+          : selectedRecipe.instructions || "",
+    });
+
+    setSelectedRecipe(null);
+    setShowManual(true);
+  };
+
   const btn: React.CSSProperties = {
     border: "none",
     borderRadius: 14,
@@ -156,6 +180,18 @@ export default function CookbookPage({
     padding: 22,
     backdropFilter: "blur(10px)",
   };
+
+  const selectedIngredientCount = selectedRecipe
+    ? splitLines(selectedRecipe.ingredients).length
+    : 0;
+
+  const instructionsMissing =
+    !selectedRecipe?.instructions ||
+    selectedRecipe.instructions === "Steps available at source link!";
+
+  const needsRecipeFix =
+    !!selectedRecipe &&
+    (splitLines(selectedRecipe.ingredients).length === 0 || instructionsMissing);
 
   return (
     <div
@@ -334,7 +370,8 @@ export default function CookbookPage({
                 </div>
 
                 <p style={{ fontSize: 11, opacity: 0.55, marginTop: 10 }}>
-                  Some sites import better than others. If it misses details, use manual entry.
+                  Some sites import better than others. If it misses details, use
+                  manual entry.
                 </p>
               </div>
 
@@ -516,7 +553,7 @@ export default function CookbookPage({
                       fontWeight: 700,
                     }}
                   >
-                    {splitLines(selectedRecipe.ingredients).length} ingredients
+                    {selectedIngredientCount} ingredients
                   </div>
                   <div
                     style={{
@@ -529,11 +566,29 @@ export default function CookbookPage({
                       fontWeight: 700,
                     }}
                   >
-                    {selectedRecipe.instructions === "Steps available at source link!"
-                      ? "Instructions not imported"
+                    {instructionsMissing
+                      ? "Needs instructions"
                       : `${splitLines(selectedRecipe.instructions).length} steps`}
                   </div>
                 </div>
+
+                {selectedRecipe.sourceUrl && (
+                  <a
+                    href={selectedRecipe.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: "inline-block",
+                      marginTop: 14,
+                      fontSize: 13,
+                      color: "#22c55e",
+                      textDecoration: "none",
+                      fontWeight: 700,
+                    }}
+                  >
+                    View Original Recipe →
+                  </a>
+                )}
               </div>
 
               <div
@@ -562,9 +617,16 @@ export default function CookbookPage({
                   </p>
 
                   <div style={{ display: "grid", gap: 10 }}>
-                    {splitLines(selectedRecipe.ingredients).length === 0 ? (
-                      <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 16 }}>
-                        No ingredients found for this recipe yet.
+                    {selectedIngredientCount === 0 ? (
+                      <div
+                        style={{
+                          color: "rgba(255,255,255,0.7)",
+                          fontSize: 16,
+                          lineHeight: 1.6,
+                        }}
+                      >
+                        This recipe didn&apos;t include ingredients we could detect.
+                        Finish the recipe to add them quickly.
                       </div>
                     ) : (
                       splitLines(selectedRecipe.ingredients).map((ing: string, i: number) => {
@@ -638,8 +700,7 @@ export default function CookbookPage({
                     Instructions
                   </div>
 
-                  {!selectedRecipe.instructions ||
-                  selectedRecipe.instructions === "Steps available at source link!" ? (
+                  {instructionsMissing ? (
                     <div
                       style={{
                         color: "rgba(255,255,255,0.7)",
@@ -647,8 +708,8 @@ export default function CookbookPage({
                         lineHeight: 1.7,
                       }}
                     >
-                      Instructions were not imported for this recipe. You can still use the
-                      source link or add them manually.
+                      Instructions were not imported for this recipe. You can still
+                      use the source link or finish the recipe manually.
                     </div>
                   ) : splitLines(selectedRecipe.instructions).length === 0 ? (
                     <div
@@ -703,6 +764,30 @@ export default function CookbookPage({
                         )
                       )}
                     </div>
+                  )}
+
+                  {needsRecipeFix && (
+                    <button
+                      onClick={openFinishRecipe}
+                      style={{
+                        marginTop: 18,
+                        width: "100%",
+                        padding: "14px 18px",
+                        borderRadius: 14,
+                        background: "rgba(34, 197, 94, 0.12)",
+                        border: "1px solid #22c55e",
+                        color: "#22c55e",
+                        fontWeight: 900,
+                        cursor: "pointer",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 10,
+                      }}
+                    >
+                      <Pencil size={16} />
+                      Finish This Recipe
+                    </button>
                   )}
                 </div>
               </div>
