@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     const safeHtml = result?.data?.html || "";
     const safeRecipeBlock = result?.data?.recipe || "";
     const safeText = result?.data?.text || "";
-    const safeTitle = result?.data?.title || "New Recipe";
+    const safeTitle = result?.data?.title || "";
 
     function toArray(value) {
       if (!value) return [];
@@ -35,6 +35,8 @@ export default async function handler(req, res) {
         .replace(/<[^>]+>/g, " ")
         .replace(/&nbsp;/gi, " ")
         .replace(/&amp;/gi, "&")
+        .replace(/&#39;/gi, "'")
+        .replace(/&quot;/gi, '"')
         .replace(/\s+/g, " ")
         .trim();
     }
@@ -53,6 +55,22 @@ export default async function handler(req, res) {
         .replace(/[^\w\s-]/g, "")
         .replace(/\s+/g, "-")
         .replace(/-+/g, "-");
+    }
+
+    function toTitleCase(text) {
+      return String(text || "")
+        .toLowerCase()
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+    }
+
+    function titleFromUrl(inputUrl) {
+      try {
+        const pathname = new URL(inputUrl).pathname;
+        const lastPart = pathname.split("/").filter(Boolean).pop() || "";
+        return lastPart.replace(/[-_]+/g, " ").trim();
+      } catch {
+        return "";
+      }
     }
 
     function extractImage(imageField) {
@@ -87,7 +105,6 @@ export default async function handler(req, res) {
 
       if (typeof input === "string") {
         const text = cleanText(input);
-
         if (!text) return [];
 
         const splitByLines = text
@@ -107,11 +124,9 @@ export default async function handler(req, res) {
 
       if (Array.isArray(input)) {
         let all = [];
-
         for (const item of input) {
           all = all.concat(extractInstructionText(item));
         }
-
         return cleanLineArray(all);
       }
 
@@ -125,8 +140,7 @@ export default async function handler(req, res) {
         }
 
         if (input.name && input["@type"] === "HowToSection") {
-          const sectionSteps = extractInstructionText(input.itemListElement || []);
-          return sectionSteps;
+          return extractInstructionText(input.itemListElement || []);
         }
       }
 
@@ -250,7 +264,13 @@ export default async function handler(req, res) {
       extractImage(result?.data?.image) ||
       "";
 
-    const recipeName = cleanText(recipeData?.name || safeTitle || "New Recipe");
+    const rawName =
+      recipeData?.name ||
+      safeTitle ||
+      titleFromUrl(url) ||
+      "New Recipe";
+
+    const recipeName = toTitleCase(cleanText(rawName)) || "New Recipe";
 
     const formatted = {
       name: recipeName,
@@ -262,6 +282,7 @@ export default async function handler(req, res) {
       photoUrl,
       slug: `${slugify(recipeName)}-${Date.now().toString().slice(-4)}`,
       sourceUrl: url,
+      effort: "normal",
     };
 
     return res.status(200).json({
