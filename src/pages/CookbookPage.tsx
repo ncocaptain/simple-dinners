@@ -442,29 +442,37 @@ export default function CookbookPage({
               <X />
             </button>
 
-            <h2
+            <div
               style={{
-                fontSize: 28,
-                fontWeight: 900,
-                marginTop: 40,
-                color: "#fff",
+                maxWidth: 700,
+                margin: "0 auto",
+                paddingTop: 40,
+                paddingBottom: 120,
               }}
             >
-              {selectedRecipe.name}
-            </h2>
+              <h2
+                style={{
+                  fontSize: 28,
+                  fontWeight: 900,
+                  marginTop: 0,
+                  color: "#fff",
+                  marginBottom: 10,
+                }}
+              >
+                {selectedRecipe.name}
+              </h2>
 
-            <p style={{ fontSize: 13, opacity: 0.5, marginBottom: 20 }}>
-              SELECT ITEMS TO ADD TO LIST:
-            </p>
+              <p style={{ fontSize: 13, opacity: 0.5, marginBottom: 20 }}>
+                SELECT ITEMS TO ADD TO LIST:
+              </p>
 
-            <div style={{ display: "grid", gap: 10 }}>
-              {splitLines(selectedRecipe.ingredients).length === 0 ? (
-                <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 16 }}>
-                  No ingredients found for this recipe yet.
-                </div>
-              ) : (
-                splitLines(selectedRecipe.ingredients).map(
-                  (ing: string, i: number) => {
+              <div style={{ display: "grid", gap: 10, marginBottom: 30 }}>
+                {splitLines(selectedRecipe.ingredients).length === 0 ? (
+                  <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 16 }}>
+                    No ingredients found for this recipe yet.
+                  </div>
+                ) : (
+                  splitLines(selectedRecipe.ingredients).map((ing: string, i: number) => {
                     const isSelected = selectedForShop.includes(ing);
 
                     return (
@@ -514,9 +522,87 @@ export default function CookbookPage({
                         </span>
                       </div>
                     );
-                  }
-                )
-              )}
+                  })
+                )}
+              </div>
+
+              <div
+                style={{
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: 20,
+                  padding: 20,
+                }}
+              >
+                <h3
+                  style={{
+                    color: "#22c55e",
+                    fontSize: 14,
+                    fontWeight: 900,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    marginTop: 0,
+                    marginBottom: 16,
+                  }}
+                >
+                  Instructions
+                </h3>
+
+                {splitLines(selectedRecipe.instructions).length === 0 ? (
+                  <div
+                    style={{
+                      color: "rgba(255,255,255,0.6)",
+                      fontSize: 16,
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    No instructions found for this recipe yet.
+                  </div>
+                ) : (
+                  <div style={{ display: "grid", gap: 16 }}>
+                    {splitLines(selectedRecipe.instructions).map(
+                      (step: string, i: number) => (
+                        <div
+                          key={`${step}-${i}`}
+                          style={{
+                            display: "flex",
+                            gap: 14,
+                            alignItems: "flex-start",
+                          }}
+                        >
+                          <div
+                            style={{
+                              minWidth: 28,
+                              height: 28,
+                              borderRadius: 10,
+                              background: "rgba(34, 197, 94, 0.15)",
+                              color: "#22c55e",
+                              fontWeight: 900,
+                              fontSize: 13,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              marginTop: 2,
+                            }}
+                          >
+                            {i + 1}
+                          </div>
+
+                          <div
+                            style={{
+                              color: "rgba(255,255,255,0.9)",
+                              lineHeight: 1.7,
+                              fontSize: 16,
+                            }}
+                          >
+                            {step}
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
 
             {selectedForShop.length > 0 && (
