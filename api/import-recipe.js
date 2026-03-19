@@ -221,14 +221,14 @@ export default async function handler(req, res) {
       }
     }
 
-    let ingredientsList = [];
+   let ingredientsList = [];
 
 // --- PRIMARY: schema ---
 if (recipeData?.recipeIngredient) {
   ingredientsList = cleanLineArray(toArray(recipeData.recipeIngredient));
 }
 
-// --- SECONDARY: try other common schema fields ---
+// --- SECONDARY: alternate schema fields ---
 if (ingredientsList.length === 0 && recipeData) {
   const altFields = [
     recipeData.ingredients,
@@ -247,15 +247,28 @@ if (ingredientsList.length === 0 && recipeData) {
   }
 }
 
-// --- FINAL FALLBACK: aggressive text scrape ---
+// --- THIRD: HTML pattern scrape (THIS IS THE BIG ONE) ---
+if (ingredientsList.length === 0 && safeHtml) {
+  const liMatches = [...safeHtml.matchAll(/<li[^>]*>(.*?)<\/li>/gi)]
+    .map(m => cleanText(m[1]))
+    .filter(line =>
+      /(\d|½|¼|¾|cup|tbsp|tsp|oz|lb|garlic|salt|oil|pepper|onion)/i.test(line)
+    );
+
+  if (liMatches.length > 3) {
+    ingredientsList = cleanLineArray(liMatches).slice(0, 30);
+  }
+}
+
+// --- FINAL: aggressive text fallback ---
 if (ingredientsList.length === 0 && safeText) {
   const lines = safeText
     .split(/\r?\n/)
-    .map((line) => cleanText(line))
+    .map(line => cleanText(line))
     .filter(Boolean);
 
-  const likelyIngredients = lines.filter((line) =>
-    /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|tablespoon|oz|lb|pound|clove|salt|pepper|oil|butter|garlic|onion)/i.test(line)
+  const likelyIngredients = lines.filter(line =>
+    /(\d|½|¼|¾|cup|tbsp|tsp|oz|lb|garlic|salt|oil|pepper|onion)/i.test(line)
   );
 
   ingredientsList = cleanLineArray(likelyIngredients).slice(0, 25);
