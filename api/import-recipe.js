@@ -31,11 +31,28 @@ export default async function handler(req, res) {
         .trim();
     }
 
+    function isGarbageLine(line) {
+      const s = String(line || "").trim();
+      if (!s) return true;
+
+      return (
+        s.length > 220 ||
+        /@context|@graph|schema\.org|wp-|--wp-|linear-gradient|svg\+xml|data:image|@media|function\(|document\.|window\.|json|stylesheet|breadcrumb|organization|listitem/i.test(
+          s
+        ) ||
+        /<\/?[a-z][\s\S]*>/i.test(s) ||
+        /[{};]/.test(s) ||
+        /(https?:\/\/\S+)/i.test(s) ||
+        s.split(" ").length > 35
+      );
+    }
+
     function cleanLineArray(lines) {
       return lines
         .map((line) => cleanText(line))
         .filter(Boolean)
         .filter((line) => line.length > 1)
+        .filter((line) => !isGarbageLine(line))
         .filter((line, index, arr) => arr.indexOf(line) === index);
     }
 
@@ -188,7 +205,9 @@ export default async function handler(req, res) {
       if (typeof input === "object") {
         if (input.text) return extractInstructionText(input.text);
         if (input.name && !input.text) return extractInstructionText(input.name);
-        if (input.itemListElement) return extractInstructionText(input.itemListElement);
+        if (input.itemListElement) {
+          return extractInstructionText(input.itemListElement);
+        }
 
         if (input["@type"] === "HowToStep" && input.text) {
           return extractInstructionText(input.text);
@@ -211,22 +230,22 @@ export default async function handler(req, res) {
         /<p[^>]*class=["'][^"']*mntl-structured-ingredients__list-item[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
         /<li[^>]*class=["'][^"']*ingredient[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
         /<li[^>]*data-ingredient[^>]*>([\s\S]*?)<\/li>/gi,
-        /<li[^>]*>([\s\S]*?)<\/li>/gi,
       ];
 
       for (const pattern of patterns) {
         const matches = [...html.matchAll(pattern)]
           .map((m) => cleanText(m[1]))
-          .map((line) => line.replace(/\s+/g, " ").trim())
           .filter(Boolean);
 
-        const filtered = matches.filter((line) =>
-          /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu|sugar|flour|egg|eggs)/i.test(
-            line
-          )
+        const filtered = matches.filter(
+          (line) =>
+            !isGarbageLine(line) &&
+            /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu|sugar|flour|egg|eggs)/i.test(
+              line
+            )
         );
 
-        if (filtered.length >= 3) {
+        if (filtered.length >= 2) {
           collected.push(...filtered);
           break;
         }
@@ -244,8 +263,6 @@ export default async function handler(req, res) {
         /<li[^>]*class=["'][^"']*instruction[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
         /<div[^>]*class=["'][^"']*direction[^"']*["'][^>]*>([\s\S]*?)<\/div>/gi,
         /<p[^>]*class=["'][^"']*instruction[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
-        /<li[^>]*>([\s\S]*?)<\/li>/gi,
-        /<p[^>]*>([\s\S]*?)<\/p>/gi,
       ];
 
       for (const pattern of patterns) {
@@ -255,9 +272,13 @@ export default async function handler(req, res) {
           .filter(Boolean);
 
         const filtered = matches.filter((line) => {
-          if (line.length < 25) return false;
-          if (/advertisement|rate this recipe|print|save|share|review/i.test(line)) return false;
-          if (/^\d+\s*(calories|mins?|minutes?|hrs?|hours?)$/i.test(line)) return false;
+          if (isGarbageLine(line)) return false;
+          if (line.length < 20) return false;
+          if (
+            /advertisement|rate this recipe|print|save|share|review/i.test(line)
+          ) {
+            return false;
+          }
 
           return /mix|stir|cook|bake|heat|place|add|whisk|combine|pour|season|serve|grill|broil|simmer|preheat|remove|transfer|marinate|drain|slice|flip/i.test(
             line
@@ -330,7 +351,9 @@ export default async function handler(req, res) {
 
     if (!safeHtml || (!recipeData && !safeTitle)) {
       try {
-        const mLink = `https://api.microlink.io?url=${encodeURIComponent(url)}&meta=true`;
+        const mLink = `https://api.microlink.io?url=${encodeURIComponent(
+          url
+        )}&meta=true`;
         const response = await fetch(mLink);
         const result = await response.json();
 
@@ -369,7 +392,10 @@ export default async function handler(req, res) {
           });
         }
       } catch (microlinkErr) {
-        console.log("MICROLINK FAILED:", microlinkErr?.message || microlinkErr);
+        console.log(
+          "MICROLINK FAILED:",
+          microlinkErr?.message || microlinkErr
+        );
       }
     }
 
@@ -410,10 +436,12 @@ export default async function handler(req, res) {
         .map((line) => cleanText(line))
         .filter(Boolean);
 
-      const likelyIngredients = lines.filter((line) =>
-        /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu|sugar|flour|egg|eggs)/i.test(
-          line
-        )
+      const likelyIngredients = lines.filter(
+        (line) =>
+          !isGarbageLine(line) &&
+          /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu|sugar|flour|egg|eggs)/i.test(
+            line
+          )
       );
 
       ingredientsList = cleanLineArray(likelyIngredients).slice(0, 30);
@@ -444,8 +472,13 @@ export default async function handler(req, res) {
         .filter(Boolean);
 
       const likelySteps = lines.filter((line) => {
+        if (isGarbageLine(line)) return false;
         if (line.length < 25) return false;
-        if (/advertisement|rate this recipe|print|save|share|review/i.test(line)) return false;
+        if (
+          /advertisement|rate this recipe|print|save|share|review/i.test(line)
+        ) {
+          return false;
+        }
 
         return /mix|stir|cook|bake|heat|place|add|whisk|combine|pour|season|serve|grill|broil|simmer|preheat|remove|transfer|marinate|drain|slice|flip/i.test(
           line
@@ -455,12 +488,7 @@ export default async function handler(req, res) {
       instructionList = cleanLineArray(likelySteps).slice(0, 15);
     }
 
-    const rawName =
-      recipeData?.name ||
-      safeTitle ||
-      titleFromUrl(url) ||
-      "New Recipe";
-
+    const rawName = recipeData?.name || safeTitle || titleFromUrl(url) || "New Recipe";
     const recipeName = toTitleCase(cleanText(rawName)) || "New Recipe";
 
     console.log("FINAL IMPORT RESULT", {
