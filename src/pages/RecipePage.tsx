@@ -161,6 +161,12 @@ export default function RecipePage() {
     return rawIngredients.map((line) => scaleIngredient(line, servingFactor));
   }, [rawIngredients, servingFactor]);
 
+  const selectedIngredients = useMemo(() => {
+    return checkedIngredients
+      .map((i) => ingredients[i])
+      .filter(Boolean);
+  }, [checkedIngredients, ingredients]);
+
   const instructions = useMemo(() => {
     return splitLines(recipe?.instructions ?? "");
   }, [recipe?.instructions]);
@@ -449,13 +455,61 @@ export default function RecipePage() {
         </button>
 
         <button
-          style={btn}
-          onClick={() => {
-            addIngredientsToList(recipe.name, ingredients.join("\n"));
-            alert("Added to list!");
+          style={{
+            ...btn,
+            position: "relative",
+            background:
+              checkedIngredients.length > 0
+                ? "rgba(20,184,166,0.14)"
+                : "rgba(255,255,255,0.06)",
+            border:
+              checkedIngredients.length > 0
+                ? "1px solid rgba(20,184,166,0.45)"
+                : "1px solid rgba(255,255,255,0.1)",
           }}
+          onClick={() => {
+            const itemsToAdd =
+              selectedIngredients.length > 0 ? selectedIngredients : ingredients;
+
+            addIngredientsToList(recipe.name, itemsToAdd.join("\n"));
+
+            alert(
+              selectedIngredients.length > 0
+                ? `Added ${selectedIngredients.length} selected item${
+                    selectedIngredients.length === 1 ? "" : "s"
+                  } to list!`
+                : `Added all ${ingredients.length} items to list!`
+            );
+          }}
+          title={
+            checkedIngredients.length > 0
+              ? `Add ${checkedIngredients.length} selected ingredient${
+                  checkedIngredients.length === 1 ? "" : "s"
+                }`
+              : "Add all ingredients"
+          }
         >
           <ShoppingCart size={18} />
+          {checkedIngredients.length > 0 && (
+            <span
+              style={{
+                minWidth: 20,
+                height: 20,
+                padding: "0 6px",
+                borderRadius: 999,
+                background: "#14b8a6",
+                color: "#0f172a",
+                fontSize: 12,
+                fontWeight: 900,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                lineHeight: 1,
+              }}
+            >
+              {checkedIngredients.length}
+            </span>
+          )}
         </button>
       </div>
 
