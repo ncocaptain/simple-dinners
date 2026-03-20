@@ -143,49 +143,51 @@ export default function CookbookPage({
   };
 
   const handleImport = async (e?: React.FormEvent | React.MouseEvent) => {
-    e?.preventDefault();
+  e?.preventDefault();
 
-    if (!importUrl.trim()) {
-      alert("Please paste a recipe URL.");
-      return;
+  if (!importUrl.trim()) {
+    alert("Please paste a recipe URL.");
+    return;
+  }
+
+  setIsImporting(true);
+
+  try {
+    const API_BASE = "https://dinners.ncocaptain.com";
+
+    const response = await fetch(`${API_BASE}/api/import-recipe`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url: importUrl.trim() }),
+    });
+
+    const data = await response.json();
+
+    if (data?.recipe) {
+      setCookbook([
+        ...cookbook,
+        {
+          ...data.recipe,
+          slug:
+            data.recipe.slug ||
+            `${slugify(data.recipe.name || "recipe")}-${Date.now()
+              .toString()
+              .slice(-4)}`,
+        },
+      ]);
+
+      setImportUrl("");
+      setShowManual(false);
+      alert("Recipe imported!");
+    } else {
+      alert(data?.error || "Failed to import recipe.");
     }
-
-    setIsImporting(true);
-
-    try {
-      const response = await fetch("/api/import-recipe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: importUrl.trim() }),
-      });
-
-      const data = await response.json();
-
-      if (data?.recipe) {
-        setCookbook([
-          ...cookbook,
-          {
-            ...data.recipe,
-            slug:
-              data.recipe.slug ||
-              `${slugify(data.recipe.name || "recipe")}-${Date.now()
-                .toString()
-                .slice(-4)}`,
-          },
-        ]);
-
-        setImportUrl("");
-        setShowManual(false);
-        alert("Recipe imported!");
-      } else {
-        alert(data?.error || "Failed to import.");
-      }
-    } catch (err) {
-      alert("Connection error. Ensure api/import-recipe.js is deployed.");
-    } finally {
-      setIsImporting(false);
-    }
-  };
+  } catch (err) {
+    alert("Unable to import recipe right now. Please try again.");
+  } finally {
+    setIsImporting(false);
+  }
+};
 
   const handleManualSave = (e?: React.FormEvent | React.MouseEvent) => {
     e?.preventDefault();
