@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Plus,
   Trash2,
@@ -9,6 +9,11 @@ import {
 } from "lucide-react";
 import Card from "../components/Card";
 import { formatIngredients } from "../core/utils";
+import {
+  loadShoppingList,
+  saveShoppingList,
+  type ShoppingItem,
+} from "../shoppingList";
 
 type StoreSection =
   | "Produce"
@@ -38,10 +43,8 @@ function normalizeIngredient(line: string) {
 function cleanIngredient(line: string) {
   let text = line.toLowerCase().trim();
 
-  // remove parenthetical notes
   text = text.replace(/\([^)]*\)/g, " ");
 
-  // remove common phrases
   const removePhrases = [
     "to taste",
     "as needed",
@@ -57,7 +60,6 @@ function cleanIngredient(line: string) {
     text = text.replaceAll(phrase, " ");
   });
 
-  // remove prep / descriptor words
   const removeWords = [
     "small",
     "medium",
@@ -97,23 +99,16 @@ function cleanIngredient(line: string) {
     text = text.replace(regex, " ");
   });
 
-  // remove "clove/cloves", "fillet/fillets", etc if you want simpler shopping terms
   const removeNouns = ["clove", "cloves", "fillet", "fillets"];
   removeNouns.forEach((word) => {
     const regex = new RegExp(`\\b${word}\\b`, "g");
     text = text.replace(regex, " ");
   });
 
-  // split on commas and keep the first meaningful ingredient part
   text = text.split(",")[0];
-
-  // remove stray leading dashes/bullets
   text = text.replace(/^[-•*]\s*/, "");
-
-  // clean spaces
   text = text.replace(/\s+/g, " ").trim();
 
-  // special cleanup
   if (text === "salt and pepper") return "salt / pepper";
 
   return text;
@@ -121,15 +116,15 @@ function cleanIngredient(line: string) {
 
 function categorizeIngredient(line: string): StoreSection {
   const item = normalizeIngredient(line);
-  
+
   if (
-  item.includes("crushed tomatoes") ||
-  item.includes("diced tomatoes") ||
-  item.includes("tomato sauce") ||
-  item.includes("canned")
-) {
-  return "Pantry";
-}
+    item.includes("crushed tomatoes") ||
+    item.includes("diced tomatoes") ||
+    item.includes("tomato sauce") ||
+    item.includes("canned")
+  ) {
+    return "Pantry";
+  }
 
   const produce = [
     "onion",
@@ -297,12 +292,13 @@ function categorizeIngredient(line: string): StoreSection {
 }
 
 export default function ShoppingListPage({
-  meals,
   extraIngredients,
   setExtraIngredients,
 }: any) {
   const [newItem, setNewItem] = useState("");
-  const [crossedOff, setCrossedOff] = useState<string[]>([]);
+  const [shoppingItems, setShoppingItems] = useState<ShoppingItem[]>(() =>
+    loadShoppingList()
+  );
 
   const handleAddExtra = (e: React.FormEvent) => {
     e.preventDefault();
@@ -311,10 +307,12 @@ export default function ShoppingListPage({
     setNewItem("");
   };
 
-  const toggleCrossed = (id: string) => {
-    setCrossedOff((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+  const toggleStoreItem = (id: string) => {
+    const updated = shoppingItems.map((item) =>
+      item.id === id ? { ...item, checked: !item.checked } : item
     );
+    setShoppingItems(updated);
+    saveShoppingList(updated);
   };
 
   const removeExtra = (index: number) => {
@@ -327,32 +325,34 @@ export default function ShoppingListPage({
     if (window.confirm("Clear all manual items?")) setExtraIngredients([]);
   };
 
-  const recipeIngredients = Object.values(meals)
-    .filter((m: any) => m.ingredients && m.ingredients.trim() !== "")
-    .flatMap((m: any, mealIdx: number) =>
-      m.ingredients
-        .split("\n")
-        .filter((line: string) => line.trim() !== "")
-        .map((line: string, i: number) => ({
-          id: `recipe-${mealIdx}-${i}`,
-          text: line,
-          section: categorizeIngredient(cleanIngredient(formatIngredients(line, true))),
-        }))
-    );
+  const storeIngredients = shoppingItems.map((item) => ({
+    id: item.id,
+    text: item.text,
+    checked: item.checked,
+    section: categorizeIngredient(
+      cleanIngredient(formatIngredients(item.text, true))
+    ),
+    isManual: false,
+  }));
 
   const manualIngredients = extraIngredients.map((item: string, i: number) => ({
     id: `extra-${i}`,
     text: item,
-    section: categorizeIngredient(cleanIngredient(formatIngredients(item, true))),
+    checked: false,
+    section: categorizeIngredient(
+      cleanIngredient(formatIngredients(item, true))
+    ),
     isManual: true,
   }));
 
-  const allIngredients = [...recipeIngredients, ...manualIngredients];
+  const allIngredients = [...storeIngredients, ...manualIngredients];
 
-  const groupedBySection = SECTION_ORDER.map((section) => ({
-    section,
-    items: allIngredients.filter((item) => item.section === section),
-  })).filter((group) => group.items.length > 0);
+  const groupedBySection = useMemo(() => {
+    return SECTION_ORDER.map((section) => ({
+      section,
+      items: allIngredients.filter((item) => item.section === section),
+    })).filter((group) => group.items.length > 0);
+  }, [allIngredients]);
 
   return (
     <div
@@ -460,12 +460,14 @@ export default function ShoppingListPage({
 
             <div style={{ display: "grid", gap: 8 }}>
               {group.items.map((item) => {
-                const isDone = crossedOff.includes(item.id);
+                const isDone = item.isManual ? false : item.checked;
 
                 return (
                   <div
                     key={item.id}
-                    onClick={() => toggleCrossed(item.id)}
+                    onClick={() => {
+                      if (!item.isManual) toggleStoreItem(item.id);
+                    }}
                     style={{
                       display: "flex",
                       alignItems: "center",
@@ -480,6 +482,7 @@ export default function ShoppingListPage({
                         ? "1px solid rgba(255,255,255,0.05)"
                         : "1px solid rgba(255,255,255,0.1)",
                       opacity: isDone ? 0.3 : 1,
+                      cursor: item.isManual ? "default" : "pointer",
                     }}
                   >
                     <div
@@ -505,7 +508,7 @@ export default function ShoppingListPage({
                       </span>
                     </div>
 
-                    {"isManual" in item && item.isManual ? (
+                    {item.isManual ? (
                       <Trash2
                         size={18}
                         onClick={(e) => {
