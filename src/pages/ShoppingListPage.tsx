@@ -35,8 +35,101 @@ function normalizeIngredient(line: string) {
   return line.toLowerCase().trim();
 }
 
+function cleanIngredient(line: string) {
+  let text = line.toLowerCase().trim();
+
+  // remove parenthetical notes
+  text = text.replace(/\([^)]*\)/g, " ");
+
+  // remove common phrases
+  const removePhrases = [
+    "to taste",
+    "as needed",
+    "optional",
+    "for garnish",
+    "plus more for garnish",
+    "divided",
+    "stems removed",
+    "seeds removed",
+  ];
+
+  removePhrases.forEach((phrase) => {
+    text = text.replaceAll(phrase, " ");
+  });
+
+  // remove prep / descriptor words
+  const removeWords = [
+    "small",
+    "medium",
+    "large",
+    "extra-large",
+    "fresh",
+    "freshly",
+    "thin",
+    "thinly",
+    "thick",
+    "thickly",
+    "finely",
+    "roughly",
+    "chopped",
+    "diced",
+    "minced",
+    "sliced",
+    "halved",
+    "cubed",
+    "shredded",
+    "grated",
+    "peeled",
+    "crushed",
+    "softened",
+    "melted",
+    "beaten",
+    "drained",
+    "rinsed",
+    "packed",
+    "whole",
+    "boneless",
+    "skinless",
+  ];
+
+  removeWords.forEach((word) => {
+    const regex = new RegExp(`\\b${word}\\b`, "g");
+    text = text.replace(regex, " ");
+  });
+
+  // remove "clove/cloves", "fillet/fillets", etc if you want simpler shopping terms
+  const removeNouns = ["clove", "cloves", "fillet", "fillets"];
+  removeNouns.forEach((word) => {
+    const regex = new RegExp(`\\b${word}\\b`, "g");
+    text = text.replace(regex, " ");
+  });
+
+  // split on commas and keep the first meaningful ingredient part
+  text = text.split(",")[0];
+
+  // remove stray leading dashes/bullets
+  text = text.replace(/^[-•*]\s*/, "");
+
+  // clean spaces
+  text = text.replace(/\s+/g, " ").trim();
+
+  // special cleanup
+  if (text === "salt and pepper") return "salt / pepper";
+
+  return text;
+}
+
 function categorizeIngredient(line: string): StoreSection {
   const item = normalizeIngredient(line);
+  
+  if (
+  item.includes("crushed tomatoes") ||
+  item.includes("diced tomatoes") ||
+  item.includes("tomato sauce") ||
+  item.includes("canned")
+) {
+  return "Pantry";
+}
 
   const produce = [
     "onion",
@@ -225,14 +318,15 @@ export default function ShoppingListPage({
   };
 
   const removeExtra = (index: number) => {
-    setExtraIngredients(extraIngredients.filter((_: any, i: number) => i !== index));
+    setExtraIngredients(
+      extraIngredients.filter((_: any, i: number) => i !== index)
+    );
   };
 
   const clearAllExtras = () => {
     if (window.confirm("Clear all manual items?")) setExtraIngredients([]);
   };
 
-  // Build one big ingredient list from recipes
   const recipeIngredients = Object.values(meals)
     .filter((m: any) => m.ingredients && m.ingredients.trim() !== "")
     .flatMap((m: any, mealIdx: number) =>
@@ -242,15 +336,14 @@ export default function ShoppingListPage({
         .map((line: string, i: number) => ({
           id: `recipe-${mealIdx}-${i}`,
           text: line,
-          section: categorizeIngredient(line),
+          section: categorizeIngredient(cleanIngredient(formatIngredients(line, true))),
         }))
     );
 
-  // Optional: include manual items in store sections too
   const manualIngredients = extraIngredients.map((item: string, i: number) => ({
     id: `extra-${i}`,
     text: item,
-    section: categorizeIngredient(item),
+    section: categorizeIngredient(cleanIngredient(formatIngredients(item, true))),
     isManual: true,
   }));
 
@@ -331,12 +424,38 @@ export default function ShoppingListPage({
 
         {groupedBySection.map((group) => (
           <div key={group.section} style={{ marginBottom: 24 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-              <div style={{ height: 1, flex: 1, background: "rgba(255,255,255,0.1)" }} />
-              <span style={{ fontSize: 11, fontWeight: 900, opacity: 0.5, letterSpacing: 1.5 }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                marginBottom: 12,
+              }}
+            >
+              <div
+                style={{
+                  height: 1,
+                  flex: 1,
+                  background: "rgba(255,255,255,0.1)",
+                }}
+              />
+              <span
+                style={{
+                  fontSize: 11,
+                  fontWeight: 900,
+                  opacity: 0.5,
+                  letterSpacing: 1.5,
+                }}
+              >
                 {group.section.toUpperCase()}
               </span>
-              <div style={{ height: 1, flex: 1, background: "rgba(255,255,255,0.1)" }} />
+              <div
+                style={{
+                  height: 1,
+                  flex: 1,
+                  background: "rgba(255,255,255,0.1)",
+                }}
+              />
             </div>
 
             <div style={{ display: "grid", gap: 8 }}>
@@ -353,7 +472,9 @@ export default function ShoppingListPage({
                       justifyContent: "space-between",
                       gap: 12,
                       padding: "14px 16px",
-                      background: isDone ? "transparent" : "rgba(255,255,255,0.05)",
+                      background: isDone
+                        ? "transparent"
+                        : "rgba(255,255,255,0.05)",
                       borderRadius: "14px",
                       border: isDone
                         ? "1px solid rgba(255,255,255,0.05)"
@@ -361,7 +482,13 @@ export default function ShoppingListPage({
                       opacity: isDone ? 0.3 : 1,
                     }}
                   >
-                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 12,
+                      }}
+                    >
                       {isDone ? (
                         <CheckCircle2 size={18} color="#22c55e" />
                       ) : (
@@ -374,7 +501,7 @@ export default function ShoppingListPage({
                           textDecoration: isDone ? "line-through" : "none",
                         }}
                       >
-                        {formatIngredients(item.text, true)}
+                        {cleanIngredient(formatIngredients(item.text, true))}
                       </span>
                     </div>
 
