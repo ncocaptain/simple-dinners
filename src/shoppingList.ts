@@ -4,8 +4,8 @@ import { categorizeGroceryItem, type GroceryCategory } from "./core/groceryCateg
 // Builder: shopping list item type
 // =====================================================
 export type ShoppingItem = {
-  id: string;          // stable-ish key
-  text: string;        // e.g. "1 cup shredded cheddar cheese"
+  id: string;
+  text: string;
   checked: boolean;
   addedAt: number;
   category: GroceryCategory;
@@ -57,10 +57,111 @@ export function normalizeIngredientLines(ingredients: string): string[] {
 }
 
 // =====================================================
+// Builder: helper cleanup for duplicate merging
+// =====================================================
+function stripMeasurements(line: string): string {
+  let text = line.toLowerCase().trim();
+
+  text = text.replace(/\([^)]*\)/g, " ");
+
+  text = text.replace(
+    /^\s*\d+(?:\s+\d+\/\d+|\/\d+|\.\d+)?\s*(?:x\s*)?/,
+    ""
+  );
+
+  text = text.replace(
+    /^\s*(cups?|cup|tablespoons?|tbsp|teaspoons?|tsp|pounds?|lbs?|lb|ounces?|oz|cans?|packages?|pkgs?|cloves?|slices?|sticks?)\b\.?\s*/,
+    ""
+  );
+
+  return text.trim();
+}
+
+function cleanIngredientForKey(line: string): string {
+  let text = stripMeasurements(line);
+
+  const removePhrases = [
+    "to taste",
+    "as needed",
+    "optional",
+    "for garnish",
+    "plus more for garnish",
+    "divided",
+    "stems removed",
+    "seeds removed",
+  ];
+
+  removePhrases.forEach((phrase) => {
+    text = text.replaceAll(phrase, " ");
+  });
+
+  const removeWords = [
+    "small",
+    "medium",
+    "large",
+    "extra-large",
+    "fresh",
+    "freshly",
+    "thin",
+    "thinly",
+    "thick",
+    "thickly",
+    "finely",
+    "roughly",
+    "chopped",
+    "diced",
+    "minced",
+    "sliced",
+    "halved",
+    "cubed",
+    "shredded",
+    "grated",
+    "peeled",
+    "crushed",
+    "softened",
+    "melted",
+    "beaten",
+    "drained",
+    "rinsed",
+    "packed",
+    "whole",
+    "boneless",
+    "skinless",
+  ];
+
+  removeWords.forEach((word) => {
+    const regex = new RegExp(`\\b${word}\\b`, "g");
+    text = text.replace(regex, " ");
+  });
+
+  const removeNouns = ["clove", "cloves", "fillet", "fillets"];
+  removeNouns.forEach((word) => {
+    const regex = new RegExp(`\\b${word}\\b`, "g");
+    text = text.replace(regex, " ");
+  });
+
+  text = text.split(",")[0];
+  text = text.replace(/^[-•*]\s*/, "");
+  text = text.replace(/\s+/g, " ").trim();
+
+  if (text === "salt and pepper") return "salt-pepper";
+
+  return text;
+}
+
+// =====================================================
 // Builder: deterministic-ish item id
 // =====================================================
 function makeId(text: string) {
-  return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+function makeIngredientKey(text: string) {
+  const cleaned = cleanIngredientForKey(text);
+  return makeId(cleaned || text);
 }
 
 // =====================================================
@@ -79,8 +180,10 @@ export function addIngredientsToList(
   const newItems: ShoppingItem[] = [];
 
   for (const line of lines) {
-    const text = line;
-    const id = makeId(text);
+    const text = line.trim();
+    if (!text) continue;
+
+    const id = makeIngredientKey(text);
 
     if (existingIds.has(id)) continue;
 
@@ -91,6 +194,8 @@ export function addIngredientsToList(
       addedAt: now,
       category: categorizeGroceryItem(text),
     });
+
+    existingIds.add(id);
   }
 
   const merged = [...existing, ...newItems];
