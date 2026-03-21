@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Plus, ShoppingCart, CheckCircle2, Circle } from "lucide-react";
+import { Plus, ShoppingCart, CheckCircle2, Circle, Eraser } from "lucide-react";
 import Card from "../components/Card";
 import { formatIngredients } from "../core/utils";
 import {
@@ -50,6 +50,12 @@ export default function ShoppingListPage({
     setShoppingItems(updated);
     saveShoppingList(updated);
   };
+
+  const clearCheckedItems = () => {
+  const updated = shoppingItems.filter((item) => !item.checked);
+  setShoppingItems(updated);
+  saveShoppingList(updated);
+};
 
   const handleAddExtra = (e: React.FormEvent) => {
     e.preventDefault();
@@ -123,6 +129,27 @@ export default function ShoppingListPage({
           >
             <Plus size={20} />
           </button>
+
+          {shoppingItems.some((item) => item.checked) && (
+  <div style={{ marginBottom: 18, textAlign: "right" }}>
+    <button
+      onClick={clearCheckedItems}
+      style={{
+        background: "none",
+        border: "none",
+        color: "#ef4444",
+        fontSize: 10,
+        fontWeight: 800,
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 4,
+        letterSpacing: 0.5,
+      }}
+    >
+      <Eraser size={12} /> CLEAR CHECKED ITEMS
+    </button>
+  </div>
+)}
         </form>
       </Card>
 
