@@ -81,6 +81,14 @@ function scaleIngredient(line: string, factor: number): string {
   );
 }
 
+function cleanIngredientLine(line: string) {
+  return String(line)
+    .replace(/\r/g, "")
+    .replace(/\u00a0/g, " ")
+    .replace(/^\s*[-*•]\s*/, "")
+    .trim();
+}
+
 export default function RecipePage() {
   const navigate = useNavigate();
   const { slug = "" } = useParams();
@@ -202,6 +210,13 @@ export default function RecipePage() {
     };
   }, [isTimerRunning, timerSeconds]);
 
+  useEffect(() => {
+    setCheckedIngredients([]);
+    setServingFactor(1);
+    setStepIndex(0);
+    setCookMode(false);
+  }, [slug]);
+
   if (!recipe) {
     return (
       <div style={{ padding: 40, color: "white", textAlign: "center" }}>
@@ -209,6 +224,40 @@ export default function RecipePage() {
       </div>
     );
   }
+
+  const handleAddSelectedToList = () => {
+    const cleanedItems = selectedIngredients
+      .map(cleanIngredientLine)
+      .filter(Boolean);
+
+    if (!cleanedItems.length) return;
+
+    const result = addIngredientsToList(recipe.name, cleanedItems.join("\n"));
+
+    alert(
+      result.addedCount > 0
+        ? `Added ${result.addedCount} item${result.addedCount === 1 ? "" : "s"} to list!`
+        : "No new items were added. They may already be on your shopping list."
+    );
+
+    setCheckedIngredients([]);
+  };
+
+  const handleAddAllToList = () => {
+    const cleanedItems = ingredients
+      .map(cleanIngredientLine)
+      .filter(Boolean);
+
+    if (!cleanedItems.length) return;
+
+    const result = addIngredientsToList(recipe.name, cleanedItems.join("\n"));
+
+    alert(
+      result.addedCount > 0
+        ? `Added ${result.addedCount} item${result.addedCount === 1 ? "" : "s"} to list!`
+        : "No new items were added. They may already be on your shopping list."
+    );
+  };
 
   // --- COOK MODE ---
   if (cookMode) {
@@ -389,7 +438,7 @@ export default function RecipePage() {
 
   // --- STANDARD VIEW ---
   return (
-    <div style={{ padding: "20px 16px 60px 16px", maxWidth: 900, margin: "0 auto" }}>
+    <div style={{ padding: "20px 16px 120px 16px", maxWidth: 900, margin: "0 auto" }}>
       <div
         style={{
           display: "flex",
@@ -464,69 +513,12 @@ export default function RecipePage() {
         </button>
 
         <button
-          style={{
-            ...btn,
-            position: "relative",
-            background:
-              checkedIngredients.length > 0
-                ? "rgba(20,184,166,0.14)"
-                : "rgba(255,255,255,0.06)",
-            border:
-              checkedIngredients.length > 0
-                ? "1px solid rgba(20,184,166,0.45)"
-                : "1px solid rgba(255,255,255,0.1)",
-          }}
-          onClick={() => {
-  const rawItems =
-    selectedIngredients.length > 0 ? selectedIngredients : ingredients;
-
-  const cleanedItems = rawItems
-    .map((line) =>
-      String(line)
-        .replace(/\r/g, "")
-        .replace(/\u00a0/g, " ")
-        .replace(/^\s*[-*•]\s*/, "")
-        .trim()
-    )
-    .filter(Boolean);
-
-  const result = addIngredientsToList(recipe.name, cleanedItems.join("\n"));
-
-  alert(
-    result.addedCount > 0
-      ? `Added ${result.addedCount} item${result.addedCount === 1 ? "" : "s"} to list!`
-      : "No new items were added. They may already be on your shopping list."
-  );
-}}
-          title={
-            checkedIngredients.length > 0
-              ? `Add ${checkedIngredients.length} selected ingredient${
-                  checkedIngredients.length === 1 ? "" : "s"
-                }`
-              : "Add all ingredients"
-          }
+          style={btn}
+          onClick={handleAddAllToList}
+          title="Add all ingredients"
         >
           <ShoppingCart size={18} />
-          {checkedIngredients.length > 0 && (
-            <span
-              style={{
-                minWidth: 20,
-                height: 20,
-                padding: "0 6px",
-                borderRadius: 999,
-                background: "#14b8a6",
-                color: "#0f172a",
-                fontSize: 12,
-                fontWeight: 900,
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                lineHeight: 1,
-              }}
-            >
-              {checkedIngredients.length}
-            </span>
-          )}
+          Add All
         </button>
       </div>
 
@@ -815,6 +807,33 @@ export default function RecipePage() {
           </div>
         </div>
       </div>
+
+      {checkedIngredients.length > 0 && (
+        <button
+          onClick={handleAddSelectedToList}
+          style={{
+            position: "fixed",
+            bottom: 34,
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "#22c55e",
+            color: "white",
+            padding: "18px 34px",
+            borderRadius: "999px",
+            fontWeight: 900,
+            border: "none",
+            boxShadow: "0 16px 34px rgba(34, 197, 94, 0.35)",
+            cursor: "pointer",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 10,
+            zIndex: 1200,
+          }}
+        >
+          <ShoppingCart size={18} />
+          ADD {checkedIngredients.length} TO LIST
+        </button>
+      )}
     </div>
   );
 }

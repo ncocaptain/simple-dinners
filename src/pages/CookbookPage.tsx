@@ -1,20 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { CSSProperties, FormEvent, MouseEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import {
-  CheckCircle2,
   Plus,
   X,
   Link as LinkIcon,
-  BookOpen,
-  ShoppingCart,
   Pencil,
   Trash2,
   Image as ImageIcon,
   ExternalLink,
 } from "lucide-react";
-import { formatIngredients } from "../core/utils";
 import Card from "../components/Card";
-import { addIngredientsToList } from "../shoppingList";
 
 type Recipe = {
   slug?: string;
@@ -72,23 +68,6 @@ function normalizeMultilineField(value: unknown): string {
     .join("\n");
 }
 
-function stripIngredientAmount(line: string): string {
-  return String(line ?? "")
-    .trim()
-    .replace(/^\([^)]*\)\s*/, "")
-    .replace(
-      /^(\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?(?:\s*[-–]\s*\d+(?:\.\d+)?)?)\s*/i,
-      ""
-    )
-    .replace(
-      /^(cups?|cup|tbsp|tablespoons?|tsp|teaspoons?|oz|ounces?|lb|lbs|pounds?|g|kg|ml|l|cloves?|cans?|packages?|pkgs?|sticks?|slices?|pinch|dash)\b\.?\s*/i,
-      ""
-    )
-    .replace(/^of\s+/i, "")
-    .replace(/^[,\-–:;\s]+/, "")
-    .trim();
-}
-
 function getRecipeStatus(recipe: Recipe) {
   const ingredientCount = splitLines(recipe?.ingredients).length;
   const instructionsMissing =
@@ -106,8 +85,8 @@ export default function CookbookPage({
   cookbook = [],
   setCookbook,
 }: CookbookPageProps) {
-  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
-  const [selectedForShop, setSelectedForShop] = useState<string[]>([]);
+  const navigate = useNavigate();
+
   const [importUrl, setImportUrl] = useState("");
   const [isImporting, setIsImporting] = useState(false);
   const [showManual, setShowManual] = useState(false);
@@ -120,39 +99,6 @@ export default function CookbookPage({
     photoUrl: "",
     sourceUrl: "",
   });
-
-  useEffect(() => {
-    if (!selectedRecipe) {
-      setSelectedForShop([]);
-      return;
-    }
-
-    // Open cookbook recipes with nothing selected.
-    setSelectedForShop([]);
-  }, [selectedRecipe]);
-
-  const toggleForShop = (ing: string) => {
-    setSelectedForShop((prev) =>
-      prev.includes(ing) ? prev.filter((i) => i !== ing) : [...prev, ing]
-    );
-  };
-
-  const handleAddToShop = () => {
-    if (!selectedRecipe) return;
-
-    const cleanedItems = selectedForShop
-      .map((item) => stripIngredientAmount(item))
-      .map((item) => item.trim())
-      .filter(Boolean);
-
-    if (!cleanedItems.length) return;
-
-    addIngredientsToList(selectedRecipe.name || "Recipe", cleanedItems.join("\n"));
-    setSelectedForShop([]);
-    setSelectedRecipe(null);
-
-    alert(`${cleanedItems.length} items added to your Shopping List!`);
-  };
 
   const resetManualRecipe = () => {
     setManualRecipe({
@@ -183,7 +129,6 @@ export default function CookbookPage({
     });
 
     setEditingSlug(recipe?.slug || null);
-    setSelectedRecipe(null);
     setShowManual(true);
   };
 
@@ -192,7 +137,6 @@ export default function CookbookPage({
     if (!ok) return;
 
     setCookbook((prev) => prev.filter((r) => r.slug !== recipe.slug));
-    setSelectedRecipe(null);
     alert("Recipe deleted.");
   };
 
@@ -236,7 +180,6 @@ export default function CookbookPage({
         };
 
         setCookbook((prev) => [...prev, normalizedRecipe]);
-
         setImportUrl("");
         setShowManual(false);
         alert("Recipe imported!");
@@ -300,26 +243,6 @@ export default function CookbookPage({
     cursor: "pointer",
     fontWeight: 800,
   };
-
-  const sectionCard: CSSProperties = {
-    background: "rgba(255,255,255,0.03)",
-    border: "1px solid rgba(255,255,255,0.08)",
-    borderRadius: 22,
-    padding: 22,
-    backdropFilter: "blur(10px)",
-  };
-
-  const selectedIngredientCount = selectedRecipe
-    ? splitLines(selectedRecipe.ingredients).length
-    : 0;
-
-  const instructionsMissing =
-    !selectedRecipe?.instructions ||
-    selectedRecipe.instructions === "Steps available at source link!";
-
-  const needsRecipeFix =
-    !!selectedRecipe &&
-    (splitLines(selectedRecipe.ingredients).length === 0 || instructionsMissing);
 
   return (
     <div
@@ -641,17 +564,20 @@ export default function CookbookPage({
                 ? 0
                 : splitLines(recipe?.instructions).length;
 
+            const recipeSlug =
+              recipe.slug || `${slugify(recipe.name || "recipe")}-${index}`;
+
             return (
               <div
-                key={recipe.slug || `${recipe.name}-${index}`}
-                onClick={() => setSelectedRecipe(recipe)}
+                key={recipeSlug}
+                onClick={() => navigate(`/recipe/${recipeSlug}?from=/cookbook`)}
                 style={{ cursor: "pointer" }}
               >
                 <Card style={{ padding: 0, overflow: "hidden" }}>
                   <div
                     style={{
                       display: "grid",
-                      gridTemplateColumns: recipe?.photoUrl ? "92px 1fr" : "1fr",
+                      gridTemplateColumns: recipe?.photoUrl ? "92px 1fr auto" : "1fr auto",
                       alignItems: "stretch",
                     }}
                   >
@@ -733,431 +659,63 @@ export default function CookbookPage({
                         </div>
                       </div>
                     </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                        padding: "16px",
+                      }}
+                    >
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openEditRecipe(recipe);
+                        }}
+                        style={{
+                          background: "rgba(255,255,255,0.05)",
+                          border: "1px solid rgba(255,255,255,0.1)",
+                          color: "white",
+                          borderRadius: 12,
+                          padding: "10px 12px",
+                          cursor: "pointer",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                        title="Edit recipe"
+                      >
+                        <Pencil size={16} />
+                      </button>
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteRecipe(recipe);
+                        }}
+                        style={{
+                          background: "rgba(239,68,68,0.12)",
+                          border: "1px solid rgba(239,68,68,0.35)",
+                          color: "#f87171",
+                          borderRadius: 12,
+                          padding: "10px 12px",
+                          cursor: "pointer",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                        title="Delete recipe"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
                   </div>
                 </Card>
               </div>
             );
           })}
         </div>
-
-        {selectedRecipe && (
-          <div
-            style={{
-              position: "fixed",
-              inset: 0,
-              background:
-                "linear-gradient(to bottom, rgba(2,6,23,0.96), rgba(15,23,42,0.98))",
-              zIndex: 2000,
-              overflowY: "auto",
-            }}
-          >
-            <button
-              onClick={() => setSelectedRecipe(null)}
-              style={{
-                position: "fixed",
-                right: 20,
-                top: 20,
-                background: "rgba(255,255,255,0.08)",
-                border: "1px solid rgba(255,255,255,0.12)",
-                color: "white",
-                padding: 10,
-                borderRadius: "50%",
-                cursor: "pointer",
-                zIndex: 10,
-              }}
-            >
-              <X />
-            </button>
-
-            <div
-              style={{
-                maxWidth: 900,
-                margin: "0 auto",
-                padding: "40px 20px 140px",
-              }}
-            >
-              <div
-                style={{
-                  ...sectionCard,
-                  padding: 0,
-                  marginBottom: 20,
-                  overflow: "hidden",
-                  background:
-                    "linear-gradient(135deg, rgba(34,197,94,0.08), rgba(255,255,255,0.03))",
-                }}
-              >
-                {selectedRecipe.photoUrl && (
-                  <div
-                    style={{
-                      height: 220,
-                      backgroundImage: `url(${selectedRecipe.photoUrl})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                  />
-                )}
-
-                <div style={{ padding: "28px 26px" }}>
-                  <div
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 8,
-                      fontSize: 12,
-                      fontWeight: 900,
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
-                      color: "#22c55e",
-                      marginBottom: 14,
-                    }}
-                  >
-                    <BookOpen size={14} />
-                    Cookbook Recipe
-                  </div>
-
-                  <h2
-                    style={{
-                      fontSize: "clamp(28px, 4vw, 42px)",
-                      fontWeight: 950,
-                      lineHeight: 1.1,
-                      margin: 0,
-                      color: "#fff",
-                    }}
-                  >
-                    {selectedRecipe.name}
-                  </h2>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: 10,
-                      flexWrap: "wrap",
-                      marginTop: 18,
-                    }}
-                  >
-                    <div
-                      style={{
-                        padding: "8px 12px",
-                        borderRadius: 999,
-                        background: "rgba(255,255,255,0.05)",
-                        border: "1px solid rgba(255,255,255,0.08)",
-                        color: "rgba(255,255,255,0.85)",
-                        fontSize: 13,
-                        fontWeight: 700,
-                      }}
-                    >
-                      {selectedIngredientCount} ingredients
-                    </div>
-                    <div
-                      style={{
-                        padding: "8px 12px",
-                        borderRadius: 999,
-                        background: "rgba(255,255,255,0.05)",
-                        border: "1px solid rgba(255,255,255,0.08)",
-                        color: "rgba(255,255,255,0.85)",
-                        fontSize: 13,
-                        fontWeight: 700,
-                      }}
-                    >
-                      {instructionsMissing
-                        ? "Needs instructions"
-                        : `${splitLines(selectedRecipe.instructions).length} steps`}
-                    </div>
-                  </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: 10,
-                      flexWrap: "wrap",
-                      marginTop: 16,
-                    }}
-                  >
-                    {selectedRecipe.sourceUrl && (
-                      <a
-                        href={selectedRecipe.sourceUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          display: "inline-block",
-                          fontSize: 13,
-                          color: "#22c55e",
-                          textDecoration: "none",
-                          fontWeight: 700,
-                        }}
-                      >
-                        View Original Recipe →
-                      </a>
-                    )}
-
-                    <button
-                      onClick={() => openEditRecipe(selectedRecipe)}
-                      style={{
-                        background: "rgba(255,255,255,0.05)",
-                        border: "1px solid rgba(255,255,255,0.1)",
-                        color: "white",
-                        borderRadius: 12,
-                        padding: "10px 14px",
-                        cursor: "pointer",
-                        fontWeight: 800,
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: 8,
-                      }}
-                    >
-                      <Pencil size={15} />
-                      Edit
-                    </button>
-
-                    <button
-                      onClick={() => handleDeleteRecipe(selectedRecipe)}
-                      style={{
-                        background: "rgba(239,68,68,0.12)",
-                        border: "1px solid rgba(239,68,68,0.35)",
-                        color: "#f87171",
-                        borderRadius: 12,
-                        padding: "10px 14px",
-                        cursor: "pointer",
-                        fontWeight: 800,
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: 8,
-                      }}
-                    >
-                      <Trash2 size={15} />
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-                  gap: 20,
-                }}
-              >
-                <div style={sectionCard}>
-                  <div
-                    style={{
-                      color: "#22c55e",
-                      fontSize: 14,
-                      fontWeight: 900,
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
-                      marginBottom: 16,
-                    }}
-                  >
-                    Ingredients
-                  </div>
-
-                  <p style={{ fontSize: 13, opacity: 0.55, margin: "0 0 18px" }}>
-                    Select items to add to your shopping list.
-                  </p>
-
-                  <div style={{ display: "grid", gap: 10 }}>
-                    {selectedIngredientCount === 0 ? (
-                      <div
-                        style={{
-                          color: "rgba(255,255,255,0.7)",
-                          fontSize: 16,
-                          lineHeight: 1.6,
-                        }}
-                      >
-                        We couldn&apos;t detect the ingredients for this recipe.
-                        Add them here in a few seconds.
-                      </div>
-                    ) : (
-                      splitLines(selectedRecipe.ingredients).map((ing, i) => {
-                        const isSelected = selectedForShop.includes(ing);
-
-                        return (
-                          <div
-                            key={`${ing}-${i}`}
-                            onClick={() => toggleForShop(ing)}
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 12,
-                              padding: "16px",
-                              borderRadius: "16px",
-                              background: isSelected
-                                ? "rgba(34, 197, 94, 0.15)"
-                                : "rgba(255,255,255,0.03)",
-                              border: isSelected
-                                ? "1px solid #22c55e"
-                                : "1px solid rgba(255,255,255,0.08)",
-                              cursor: "pointer",
-                              transition: "all 0.2s ease",
-                            }}
-                          >
-                            <div
-                              style={{
-                                width: 22,
-                                height: 22,
-                                borderRadius: "6px",
-                                background: isSelected ? "#22c55e" : "transparent",
-                                border: isSelected
-                                  ? "none"
-                                  : "2px solid rgba(255,255,255,0.2)",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                flexShrink: 0,
-                              }}
-                            >
-                              {isSelected && <CheckCircle2 size={16} color="white" />}
-                            </div>
-
-                            <span
-                              style={{
-                                fontWeight: isSelected ? 700 : 500,
-                                color: isSelected ? "#fff" : "rgba(255,255,255,0.85)",
-                                lineHeight: 1.5,
-                              }}
-                            >
-                              {formatIngredients(ing)}
-                            </span>
-                          </div>
-                        );
-                      })
-                    )}
-                  </div>
-                </div>
-
-                <div style={sectionCard}>
-                  <div
-                    style={{
-                      color: "#22c55e",
-                      fontSize: 14,
-                      fontWeight: 900,
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
-                      marginBottom: 16,
-                    }}
-                  >
-                    Instructions
-                  </div>
-
-                  {instructionsMissing ? (
-                    <div
-                      style={{
-                        color: "rgba(255,255,255,0.7)",
-                        fontSize: 16,
-                        lineHeight: 1.7,
-                      }}
-                    >
-                      Instructions were not imported for this recipe. You can still
-                      use the source link or finish the recipe manually.
-                    </div>
-                  ) : splitLines(selectedRecipe.instructions).length === 0 ? (
-                    <div
-                      style={{
-                        color: "rgba(255,255,255,0.6)",
-                        fontSize: 16,
-                        lineHeight: 1.6,
-                      }}
-                    >
-                      No instructions found for this recipe yet.
-                    </div>
-                  ) : (
-                    <div style={{ display: "grid", gap: 16 }}>
-                      {splitLines(selectedRecipe.instructions).map((step, i) => (
-                        <div
-                          key={`${step}-${i}`}
-                          style={{
-                            display: "flex",
-                            gap: 14,
-                            alignItems: "flex-start",
-                          }}
-                        >
-                          <div
-                            style={{
-                              minWidth: 30,
-                              height: 30,
-                              borderRadius: 10,
-                              background: "rgba(34, 197, 94, 0.15)",
-                              color: "#22c55e",
-                              fontWeight: 900,
-                              fontSize: 13,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              marginTop: 2,
-                            }}
-                          >
-                            {i + 1}
-                          </div>
-
-                          <div
-                            style={{
-                              color: "rgba(255,255,255,0.9)",
-                              lineHeight: 1.75,
-                              fontSize: 16,
-                            }}
-                          >
-                            {step}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {needsRecipeFix && (
-                    <button
-                      onClick={() => openEditRecipe(selectedRecipe)}
-                      style={{
-                        marginTop: 18,
-                        width: "100%",
-                        padding: "14px 18px",
-                        borderRadius: 14,
-                        background: "rgba(34, 197, 94, 0.12)",
-                        border: "1px solid #22c55e",
-                        color: "#22c55e",
-                        fontWeight: 900,
-                        cursor: "pointer",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: 10,
-                      }}
-                    >
-                      <Pencil size={16} />
-                      Add Ingredients & Steps
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {selectedForShop.length > 0 && (
-              <button
-                onClick={handleAddToShop}
-                style={{
-                  position: "fixed",
-                  bottom: 34,
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  background: "#22c55e",
-                  color: "white",
-                  padding: "18px 34px",
-                  borderRadius: "999px",
-                  fontWeight: 900,
-                  border: "none",
-                  boxShadow: "0 16px 34px rgba(34, 197, 94, 0.35)",
-                  cursor: "pointer",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 10,
-                }}
-              >
-                <ShoppingCart size={18} />
-                ADD {selectedForShop.length} TO LIST
-              </button>
-            )}
-          </div>
-        )}
       </div>
     </div>
   );

@@ -94,7 +94,9 @@ export default function WeekPage({
                   {/* Meal Info */}
                   {hasMeal ? (
                     <div 
-                      onClick={() => navigate(`/recipe/${encodeURIComponent(meal.slug || meal.name)}`)}
+                      onClick={() =>
+  navigate(`/recipe/${encodeURIComponent(meal.slug || meal.name)}?from=/week`)
+}
                       style={{ display: "flex", gap: 16, alignItems: "center", cursor: "pointer" }}
                     >
                       <img 
