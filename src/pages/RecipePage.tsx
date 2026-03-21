@@ -261,180 +261,225 @@ export default function RecipePage() {
 
   // --- COOK MODE ---
   if (cookMode) {
-    return (
-      <div
+  return (
+    <div
+      style={{
+        padding: "20px",
+        maxWidth: 700,
+        margin: "0 auto",
+        display: "grid",
+        gap: 20,
+      }}
+    >
+      <header
         style={{
-          padding: "20px",
-          maxWidth: 600,
-          margin: "0 auto",
-          display: "grid",
-          gap: 20,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          gap: 16,
+          flexWrap: "wrap",
         }}
       >
-        <header
+        <button
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            ...btn,
+            background: "rgba(239,68,68,0.1)",
+            borderColor: "rgba(239,68,68,0.2)",
           }}
+          onClick={() => setCookMode(false)}
         >
-          <button
-            style={{
-              ...btn,
-              background: "rgba(239,68,68,0.1)",
-              borderColor: "rgba(239,68,68,0.2)",
-            }}
-            onClick={() => setCookMode(false)}
-          >
-            <X size={18} /> Exit
-          </button>
+          <X size={18} /> Exit
+        </button>
 
+        <div style={{ flex: 1, minWidth: 220, textAlign: "center" }}>
+          <div
+            style={{
+              fontSize: 28,
+              fontWeight: 950,
+              color: "#fff",
+              lineHeight: 1.1,
+              letterSpacing: "-0.02em",
+            }}
+          >
+            {recipe.name}
+          </div>
+          <div
+            style={{
+              marginTop: 6,
+              fontSize: 12,
+              fontWeight: 900,
+              color: "rgba(255,255,255,0.45)",
+              textTransform: "uppercase",
+              letterSpacing: "0.12em",
+            }}
+          >
+            Cook Mode
+          </div>
+        </div>
+
+        <div style={{ textAlign: "right", minWidth: 100 }}>
           <div style={{ fontWeight: 900, fontSize: 14, color: "#14b8a6" }}>
             STEP {stepIndex + 1} / {Math.max(instructions.length, 1)}
           </div>
-        </header>
-
-        <div
-          style={{
-            height: 8,
-            background: "rgba(255,255,255,0.05)",
-            borderRadius: 4,
-            overflow: "hidden",
-          }}
-        >
           <div
             style={{
-              height: "100%",
-              background: "#14b8a6",
-              width: `${
-                instructions.length > 0
-                  ? ((stepIndex + 1) / instructions.length) * 100
-                  : 0
-              }%`,
-              transition: "width 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+              fontSize: 11,
+              color: "rgba(255,255,255,0.45)",
+              marginTop: 2,
             }}
-          />
+          >
+            Swipe or tap next
+          </div>
         </div>
+      </header>
 
+      <div
+        style={{
+          height: 8,
+          background: "rgba(255,255,255,0.05)",
+          borderRadius: 999,
+          overflow: "hidden",
+        }}
+      >
         <div
           style={{
-            ...card,
-            padding: 32,
-            minHeight: 300,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            textAlign: "center",
+            height: "100%",
+            background: "#14b8a6",
+            width: `${
+              instructions.length > 0
+                ? ((stepIndex + 1) / instructions.length) * 100
+                : 0
+            }%`,
+            transition: "width 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
-          onTouchStart={(e) => setTouchStart(e.targetTouches[0].clientX)}
-          onTouchEnd={(e) => {
-            if (!touchStart) return;
+        />
+      </div>
 
-            const distance = touchStart - e.changedTouches[0].clientX;
+      <div
+        style={{
+          ...card,
+          padding: "40px 32px",
+          minHeight: 340,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          textAlign: "center",
+          background: "rgba(15, 23, 42, 0.88)",
+          border: "1px solid rgba(20,184,166,0.14)",
+        }}
+        onTouchStart={(e) => setTouchStart(e.targetTouches[0].clientX)}
+        onTouchEnd={(e) => {
+          if (!touchStart) return;
 
-            if (distance > 70) {
-              setStepIndex((s) => Math.min(instructions.length - 1, s + 1));
-            }
+          const distance = touchStart - e.changedTouches[0].clientX;
 
-            if (distance < -70) {
-              setStepIndex((s) => Math.max(0, s - 1));
-            }
+          if (distance > 70) {
+            setStepIndex((s) => Math.min(instructions.length - 1, s + 1));
+          }
 
-            setTouchStart(null);
-          }}
-        >
-          {instructions.length === 0 ? (
-            <div style={{ fontSize: 22, fontWeight: 800, color: "#fff" }}>
-              No instructions available for this recipe yet.
+          if (distance < -70) {
+            setStepIndex((s) => Math.max(0, s - 1));
+          }
+
+          setTouchStart(null);
+        }}
+      >
+        {instructions.length === 0 ? (
+          <div style={{ fontSize: 22, fontWeight: 800, color: "#fff" }}>
+            No instructions available for this recipe yet.
+          </div>
+        ) : (
+          <>
+            <div
+              style={{
+                fontSize: "28px",
+                fontWeight: 850,
+                lineHeight: 1.5,
+                color: "#fff",
+              }}
+            >
+              {currentStep}
             </div>
-          ) : (
-            <>
-              <div
+
+            {detectedTime && timerSeconds === null && (
+              <button
                 style={{
-                  fontSize: "26px",
-                  fontWeight: 800,
-                  lineHeight: 1.5,
-                  color: "#fff",
+                  ...btn,
+                  marginTop: 32,
+                  alignSelf: "center",
+                  background: "#14b8a6",
+                  color: "#0f172a",
+                  border: "none",
+                }}
+                onClick={() => {
+                  setTimerSeconds(detectedTime);
+                  setIsTimerRunning(true);
                 }}
               >
-                {currentStep}
+                <Timer size={20} /> Start {Math.floor(detectedTime / 60)}m Timer
+              </button>
+            )}
+
+            {timerSeconds !== null && (
+              <div
+                style={{
+                  marginTop: 32,
+                  fontSize: 48,
+                  fontWeight: 950,
+                  color: "#14b8a6",
+                  fontVariantNumeric: "tabular-nums",
+                }}
+              >
+                {Math.floor(timerSeconds / 60)}:
+                {(timerSeconds % 60).toString().padStart(2, "0")}
               </div>
+            )}
+          </>
+        )}
+      </div>
 
-              {detectedTime && timerSeconds === null && (
-                <button
-                  style={{
-                    ...btn,
-                    marginTop: 32,
-                    alignSelf: "center",
-                    background: "#14b8a6",
-                    color: "#0f172a",
-                    border: "none",
-                  }}
-                  onClick={() => {
-                    setTimerSeconds(detectedTime);
-                    setIsTimerRunning(true);
-                  }}
-                >
-                  <Timer size={20} /> Start {Math.floor(detectedTime / 60)}m Timer
-                </button>
-              )}
+      <footer style={{ display: "flex", gap: 16 }}>
+        <button
+          style={{ ...btn, flex: 1, justifyContent: "center" }}
+          onClick={() => setStepIndex((s) => Math.max(0, s - 1))}
+          disabled={stepIndex === 0 || instructions.length === 0}
+        >
+          <ChevronLeft size={20} />
+          Prev
+        </button>
 
-              {timerSeconds !== null && (
-                <div
-                  style={{
-                    marginTop: 32,
-                    fontSize: 48,
-                    fontWeight: 950,
-                    color: "#14b8a6",
-                    fontVariantNumeric: "tabular-nums",
-                  }}
-                >
-                  {Math.floor(timerSeconds / 60)}:
-                  {(timerSeconds % 60).toString().padStart(2, "0")}
-                </div>
-              )}
+        <button
+          style={{
+            ...btn,
+            flex: 3,
+            justifyContent: "center",
+            background: "#14b8a6",
+            color: "#0f172a",
+            border: "none",
+          }}
+          onClick={() =>
+            stepIndex >= instructions.length - 1
+              ? setCookMode(false)
+              : setStepIndex((s) => s + 1)
+          }
+          disabled={instructions.length === 0}
+        >
+          {stepIndex >= instructions.length - 1 ? (
+            <>
+              <CheckCircle2 size={18} />
+              Done
+            </>
+          ) : (
+            <>
+              Next Step
+              <ChevronRight size={18} />
             </>
           )}
-        </div>
-
-        <footer style={{ display: "flex", gap: 16 }}>
-          <button
-            style={{ ...btn, flex: 1 }}
-            onClick={() => setStepIndex((s) => Math.max(0, s - 1))}
-            disabled={stepIndex === 0 || instructions.length === 0}
-          >
-            <ChevronLeft size={20} />
-          </button>
-
-          <button
-            style={{
-              ...btn,
-              flex: 3,
-              background: "#14b8a6",
-              color: "#0f172a",
-              border: "none",
-            }}
-            onClick={() =>
-              stepIndex >= instructions.length - 1
-                ? setCookMode(false)
-                : setStepIndex((s) => s + 1)
-            }
-            disabled={instructions.length === 0}
-          >
-            {stepIndex >= instructions.length - 1 ? (
-              <>
-                <CheckCircle2 /> Done
-              </>
-            ) : (
-              <>
-                Next Step <ChevronRight />
-              </>
-            )}
-          </button>
-        </footer>
-      </div>
-    );
-  }
+        </button>
+      </footer>
+    </div>
+  );
+}
 
   // --- STANDARD VIEW ---
   return (
