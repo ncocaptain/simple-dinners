@@ -9,7 +9,6 @@ import {
   EyeOff,
 } from "lucide-react";
 import Card from "../components/Card";
-import { formatIngredients } from "../core/utils";
 import {
   loadShoppingList,
   saveShoppingList,
@@ -18,20 +17,95 @@ import {
 import {
   categorizeGroceryItem,
   type GroceryCategory,
+  GROCERY_CATEGORY_ORDER,
 } from "../core/groceryCategories";
 
-const SECTION_ORDER: GroceryCategory[] = [
-  "Produce",
-  "Meat",
-  "Dairy",
-  "Bakery",
-  "Frozen",
-  "Pantry",
-  "Spices",
-  "Other",
-];
+type ParsedAmount = {
+  quantity: number | null;
+  unit: string | null;
+  name: string;
+};
 
-function cleanIngredient(line: string) {
+type CombinedItem = {
+  id: string;
+  checked: boolean;
+  category: GroceryCategory;
+  sourceIds: string[];
+  count: number;
+  recipeCountLabel: string;
+  displayText: string;
+};
+
+function parseFraction(value: string): number | null {
+  const trimmed = value.trim();
+
+  if (/^\d+\s+\d+\/\d+$/.test(trimmed)) {
+    const [whole, frac] = trimmed.split(" ");
+    const [num, den] = frac.split("/").map(Number);
+    if (!den) return null;
+    return Number(whole) + num / den;
+  }
+
+  if (/^\d+\/\d+$/.test(trimmed)) {
+    const [num, den] = trimmed.split("/").map(Number);
+    if (!den) return null;
+    return num / den;
+  }
+
+  const n = Number(trimmed);
+  return Number.isFinite(n) ? n : null;
+}
+
+function formatQuantity(n: number): string {
+  if (Number.isInteger(n)) return String(n);
+  return n.toFixed(2).replace(/\.?0+$/, "");
+}
+
+function normalizeUnit(unit: string | null): string | null {
+  if (!unit) return null;
+
+  const u = unit.toLowerCase().replace(/\./g, "").trim();
+
+  if (["lb", "lbs", "pound", "pounds"].includes(u)) return "lb";
+  if (["oz", "ounce", "ounces"].includes(u)) return "oz";
+  if (["cup", "cups"].includes(u)) return "cup";
+  if (["tbsp", "tablespoon", "tablespoons"].includes(u)) return "tbsp";
+  if (["tsp", "teaspoon", "teaspoons"].includes(u)) return "tsp";
+  if (["can", "cans"].includes(u)) return "can";
+  if (["package", "packages", "pkg", "pkgs"].includes(u)) return "package";
+  if (["egg", "eggs"].includes(u)) return "egg";
+  if (["clove", "cloves"].includes(u)) return "clove";
+
+  return u;
+}
+
+function pluralizeUnit(unit: string, quantity: number): string {
+  if (quantity === 1) {
+    if (unit === "lb") return "lb";
+    if (unit === "oz") return "oz";
+    if (unit === "cup") return "cup";
+    if (unit === "tbsp") return "tbsp";
+    if (unit === "tsp") return "tsp";
+    if (unit === "can") return "can";
+    if (unit === "package") return "package";
+    if (unit === "egg") return "egg";
+    if (unit === "clove") return "clove";
+    return unit;
+  }
+
+  if (unit === "lb") return "lbs";
+  if (unit === "oz") return "oz";
+  if (unit === "cup") return "cups";
+  if (unit === "tbsp") return "tbsp";
+  if (unit === "tsp") return "tsp";
+  if (unit === "can") return "cans";
+  if (unit === "package") return "packages";
+  if (unit === "egg") return "eggs";
+  if (unit === "clove") return "cloves";
+  return `${unit}s`;
+}
+
+function cleanIngredientName(line: string) {
   let text = line.toLowerCase().trim();
 
   text = text.replace(/\([^)]*\)/g, " ");
@@ -90,12 +164,6 @@ function cleanIngredient(line: string) {
     text = text.replace(regex, " ");
   });
 
-  const removeNouns = ["clove", "cloves", "fillet", "fillets"];
-  removeNouns.forEach((word) => {
-    const regex = new RegExp(`\\b${word}\\b`, "g");
-    text = text.replace(regex, " ");
-  });
-
   text = text.split(",")[0];
   text = text.replace(/^[-•*]\s*/, "");
   text = text.replace(/\s+/g, " ").trim();
@@ -105,21 +173,36 @@ function cleanIngredient(line: string) {
   return text;
 }
 
-function makeId(text: string) {
+function parseIngredient(line: string): ParsedAmount {
+  const raw = line.trim();
+
+  const match = raw.match(
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|egg|eggs|clove|cloves)?\s+(.*)$/i
+  );
+
+  if (!match) {
+    return {
+      quantity: null,
+      unit: null,
+      name: cleanIngredientName(raw),
+    };
+  }
+
+  const [, qtyRaw, unitRaw, rest] = match;
+
+  return {
+    quantity: parseFraction(qtyRaw),
+    unit: normalizeUnit(unitRaw ?? null),
+    name: cleanIngredientName(rest),
+  };
+}
+
+function makeManualId(text: string) {
   return text
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 }
-
-type CombinedItem = {
-  id: string;
-  displayText: string;
-  checked: boolean;
-  category: GroceryCategory;
-  sourceIds: string[];
-  count: number;
-};
 
 export default function ShoppingListPage() {
   const [newItem, setNewItem] = useState("");
@@ -140,8 +223,9 @@ export default function ShoppingListPage() {
     const raw = newItem.trim();
     if (!raw) return;
 
-    const cleaned = cleanIngredient(formatIngredients(raw, true));
-    const id = makeId(cleaned || raw);
+    const parsed = parseIngredient(raw);
+    const cleanedName = parsed.name || raw;
+    const id = makeManualId(cleanedName);
 
     const alreadyExists = shoppingItems.some((item) => item.id === id);
     if (alreadyExists) {
@@ -154,11 +238,10 @@ export default function ShoppingListPage() {
       text: raw,
       checked: false,
       addedAt: Date.now(),
-      category: categorizeGroceryItem(raw),
+      category: categorizeGroceryItem(cleanedName),
     };
 
-    const updated = [...shoppingItems, added];
-    persistShoppingItems(updated);
+    persistShoppingItems([...shoppingItems, added]);
     setNewItem("");
   };
 
@@ -180,39 +263,79 @@ export default function ShoppingListPage() {
   };
 
   const clearCheckedItems = () => {
-    const updated = shoppingItems.filter((item) => !item.checked);
-    persistShoppingItems(updated);
+    persistShoppingItems(shoppingItems.filter((item) => !item.checked));
   };
 
   const checkedCount = shoppingItems.filter((item) => item.checked).length;
 
   const combinedItems = useMemo(() => {
-    const map = new Map<string, CombinedItem>();
+    const map = new Map<
+      string,
+      {
+        checked: boolean;
+        category: GroceryCategory;
+        sourceIds: string[];
+        count: number;
+        quantities: number[];
+        units: Set<string>;
+        name: string;
+      }
+    >();
 
     for (const item of shoppingItems) {
-      const displayText = cleanIngredient(formatIngredients(item.text, true));
-      const category =
-        item.category || categorizeGroceryItem(item.text || "");
-      const key = `${category}::${displayText}`;
+      const parsed = parseIngredient(item.text);
+      const name = parsed.name || cleanIngredientName(item.text);
+      const category = item.category || categorizeGroceryItem(name);
+      const key = `${category}::${name}`;
 
       const existing = map.get(key);
+
       if (existing) {
         existing.sourceIds.push(item.id);
         existing.count += 1;
         existing.checked = existing.checked && item.checked;
+        if (parsed.quantity !== null) existing.quantities.push(parsed.quantity);
+        if (parsed.unit) existing.units.add(parsed.unit);
       } else {
         map.set(key, {
-          id: key,
-          displayText,
           checked: item.checked,
           category,
           sourceIds: [item.id],
           count: 1,
+          quantities: parsed.quantity !== null ? [parsed.quantity] : [],
+          units: parsed.unit ? new Set([parsed.unit]) : new Set(),
+          name,
         });
       }
     }
 
-    return Array.from(map.values());
+    return Array.from(map.entries()).map(([key, value]) => {
+      const unitList = Array.from(value.units);
+      const canMergeQuantity =
+        value.quantities.length === value.count &&
+        unitList.length === 1 &&
+        value.quantities.length > 0;
+
+      let displayText = value.name;
+
+      if (canMergeQuantity) {
+        const total = value.quantities.reduce((sum, q) => sum + q, 0);
+        const unit = unitList[0];
+        displayText = `${formatQuantity(total)} ${pluralizeUnit(unit, total)} ${value.name}`;
+      } else if (value.count > 1) {
+        displayText = `${value.name} ×${value.count}`;
+      }
+
+      return {
+        id: key,
+        checked: value.checked,
+        category: value.category,
+        sourceIds: value.sourceIds,
+        count: value.count,
+        recipeCountLabel: value.count > 1 ? `(${value.count} recipes)` : "",
+        displayText,
+      } satisfies CombinedItem;
+    });
   }, [shoppingItems]);
 
   const grouped = useMemo(() => {
@@ -220,7 +343,7 @@ export default function ShoppingListPage() {
       ? combinedItems.filter((item) => !item.checked)
       : combinedItems;
 
-    return SECTION_ORDER.map((section) => ({
+    return GROCERY_CATEGORY_ORDER.map((section) => ({
       section,
       items: visibleItems.filter((item) => item.category === section),
     })).filter((group) => group.items.length > 0);
@@ -424,7 +547,7 @@ export default function ShoppingListPage() {
                       }}
                     >
                       {item.displayText}
-                      {item.count > 1 ? (
+                      {item.recipeCountLabel ? (
                         <span
                           style={{
                             marginLeft: 8,
@@ -433,7 +556,7 @@ export default function ShoppingListPage() {
                             fontWeight: 800,
                           }}
                         >
-                          ×{item.count}
+                          {item.recipeCountLabel}
                         </span>
                       ) : null}
                     </span>
