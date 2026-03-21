@@ -81,6 +81,82 @@ function scaleIngredient(line: string, factor: number): string {
   );
 }
 
+function normalizeTextForMatch(text: string) {
+  return String(text ?? "")
+    .toLowerCase()
+    .replace(/[^\w\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getIngredientKeywords(line: string): string[] {
+  const cleaned = normalizeTextForMatch(line)
+    // remove leading amounts/fractions
+    .replace(/^(\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+/g, "")
+    // remove common units
+    .replace(
+      /^(cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|can|cans|package|packages|pkg|pkgs|slice|slices|stick|sticks)\s+/g,
+      ""
+    )
+    // remove common prep words
+    .replace(
+      /\b(chopped|diced|minced|sliced|softened|melted|divided|drained|rinsed|beaten|large|small|medium|optional|to taste)\b/g,
+      " "
+    )
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const words = cleaned.split(" ").filter(Boolean);
+
+  // keep useful words only
+  return words.filter(
+    (word) =>
+      word.length >= 3 &&
+      ![
+        "and",
+        "with",
+        "for",
+        "the",
+        "fresh",
+        "ground",
+        "extra",
+        "virgin",
+        "into",
+      ].includes(word)
+  );
+}
+
+function stepMentionsIngredient(step: string, ingredientLine: string): boolean {
+  const stepText = ` ${normalizeTextForMatch(step)} `;
+  const keywords = getIngredientKeywords(ingredientLine);
+
+  if (keywords.length === 0) return false;
+
+  // Match if at least one strong keyword is present
+  return keywords.some((word) => stepText.includes(` ${word} `));
+}
+
+function highlightStepText(step: string, ingredients: string[]) {
+  let result = step;
+
+  ingredients.forEach((line) => {
+    const keywords = getIngredientKeywords(line);
+
+    keywords.forEach((word) => {
+      if (word.length < 3) return;
+
+      const regex = new RegExp(`\\b(${word})\\b`, "gi");
+
+      result = result.replace(
+        regex,
+        `<span style="color:#14b8a6;font-weight:800">$1</span>`
+      );
+    });
+  });
+
+  return result;
+}
+
 function cleanIngredientLine(line: string) {
   return String(line)
     .replace(/\r/g, "")
@@ -189,6 +265,14 @@ export default function RecipePage() {
   }, [recipe?.instructions]);
 
   const currentStep = instructions[stepIndex] || "";
+  const highlightedStep = useMemo(() => {
+  return highlightStepText(currentStep, ingredients);
+}, [currentStep, ingredients]);
+  const highlightedIngredientIndexes = useMemo(() => {
+  return ingredients
+    .map((line, i) => (stepMentionsIngredient(currentStep, line) ? i : -1))
+    .filter((i) => i !== -1);
+}, [currentStep, ingredients]);
   const detectedTime = parseStepDuration(currentStep);
   const heroUrl = recipe?.photoUrl || "";
 
@@ -265,7 +349,7 @@ export default function RecipePage() {
     <div
       style={{
         padding: "20px",
-        maxWidth: 700,
+        maxWidth: 760,
         margin: "0 auto",
         display: "grid",
         gap: 20,
@@ -359,7 +443,7 @@ export default function RecipePage() {
         style={{
           ...card,
           padding: "40px 32px",
-          minHeight: 340,
+          minHeight: 260,
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -391,15 +475,14 @@ export default function RecipePage() {
         ) : (
           <>
             <div
-              style={{
-                fontSize: "28px",
-                fontWeight: 850,
-                lineHeight: 1.5,
-                color: "#fff",
-              }}
-            >
-              {currentStep}
-            </div>
+  style={{
+    fontSize: "28px",
+    fontWeight: 850,
+    lineHeight: 1.5,
+    color: "#fff",
+  }}
+  dangerouslySetInnerHTML={{ __html: highlightedStep }}
+/>
 
             {detectedTime && timerSeconds === null && (
               <button
@@ -435,6 +518,87 @@ export default function RecipePage() {
               </div>
             )}
           </>
+        )}
+      </div>
+
+      <div
+        style={{
+          ...card,
+          padding: "24px",
+          background: "rgba(15, 23, 42, 0.78)",
+          border: "1px solid rgba(255,255,255,0.08)",
+        }}
+      >
+        <div
+          style={{
+            marginBottom: 14,
+            fontSize: 12,
+            fontWeight: 900,
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            color: "#14b8a6",
+          }}
+        >
+          Ingredients
+        </div>
+
+        {ingredients.length === 0 ? (
+          <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 15 }}>
+            No ingredients available.
+          </div>
+        ) : (
+          <div
+            style={{
+              display: "grid",
+              gap: 10,
+            }}
+          >
+            {ingredients.map((line, i) => {
+              const isHighlighted = highlightedIngredientIndexes.includes(i);
+
+              return (
+                <div
+                  key={`${line}-${i}`}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    padding: "14px 16px",
+                    borderRadius: 14,
+                    background: isHighlighted
+                      ? "rgba(20,184,166,0.18)"
+                      : "rgba(255,255,255,0.03)",
+                    border: isHighlighted
+                      ? "1px solid rgba(20,184,166,0.55)"
+                      : "1px solid rgba(255,255,255,0.08)",
+                    transition: "all 0.2s ease",
+                  }}
+                >
+                  <span
+                    style={{
+                      width: 10,
+                      height: 10,
+                      borderRadius: "50%",
+                      background: isHighlighted
+                        ? "#14b8a6"
+                        : "rgba(255,255,255,0.2)",
+                      flexShrink: 0,
+                    }}
+                  />
+
+                  <span
+                    style={{
+                      color: isHighlighted ? "#fff" : "rgba(255,255,255,0.78)",
+                      fontWeight: isHighlighted ? 800 : 500,
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {line}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
         )}
       </div>
 
