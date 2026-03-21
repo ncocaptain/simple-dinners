@@ -468,19 +468,19 @@ export default function RecipePage() {
                 : "1px solid rgba(255,255,255,0.1)",
           }}
           onClick={() => {
-            const itemsToAdd =
-              selectedIngredients.length > 0 ? selectedIngredients : ingredients;
+  const itemsToAdd =
+    selectedIngredients.length > 0 ? selectedIngredients : ingredients;
+  console.log("Recipe:", recipe.name);
+console.log("Selected:", selectedIngredients);
+console.log("All ingredients:", ingredients);
+  const result = addIngredientsToList(recipe.name, itemsToAdd.join("\n"));
 
-            addIngredientsToList(recipe.name, itemsToAdd.join("\n"));
-
-            alert(
-              selectedIngredients.length > 0
-                ? `Added ${selectedIngredients.length} selected item${
-                    selectedIngredients.length === 1 ? "" : "s"
-                  } to list!`
-                : `Added all ${ingredients.length} items to list!`
-            );
-          }}
+  alert(
+    result.addedCount > 0
+      ? `Added ${result.addedCount} item${result.addedCount === 1 ? "" : "s"} to list!`
+      : "No new items were added. They may already be on your shopping list."
+  );
+}}
           title={
             checkedIngredients.length > 0
               ? `Add ${checkedIngredients.length} selected ingredient${
