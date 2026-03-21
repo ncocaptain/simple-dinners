@@ -214,11 +214,7 @@ function AppContent() {
         <Route 
           path="/shopping-list" 
           element={requireOnboarding(
-            <ShoppingListPage 
-              meals={meals} 
-              extraIngredients={extraIngredients} 
-              setExtraIngredients={setExtraIngredients} 
-            />
+            <ShoppingListPage />
           )} 
         />
 
