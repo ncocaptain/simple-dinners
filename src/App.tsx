@@ -23,6 +23,7 @@ import { generatePlan } from "./core/planner";
 import { days } from "./core/data";
 import { getCookbook, setCookbook as persistCookbook, addToCookbook } from "./core/cookbookStore";
 import { hasCompletedOnboarding } from "./core/onboardingStore";
+import WhatsNewPage from "./pages/WhatsNewPage";
 
 const mealImageUrl = (name?: string) => {
   const q = encodeURIComponent((name || "cooking dinner").trim());
@@ -70,38 +71,57 @@ function Navigation() {
 
 function AppContent() {
   const navigate = useNavigate();
+  const [showTesterPrompt, setShowTesterPrompt] = useState(false);
   const toastApi: any = useToast();
   const toast = toastApi.toast ?? toastApi; 
   const APP_VERSION = "22.0.7"; 
 
-  useEffect(() => {
-    if (import.meta.env.PROD) {
-      const checkForUpdates = async () => {
-        try {
-          const response = await fetch(window.location.href, { method: 'HEAD' });
-          const etag = response.headers.get('etag');
-          const lastEtag = localStorage.getItem('app-etag');
-          if (lastEtag && etag && lastEtag !== etag) {
-            localStorage.setItem('app-etag', etag);
-            toast("New update deployed! Reloading...");
-            setTimeout(() => window.location.reload(), 2000);
-          } else if (etag) {
-            localStorage.setItem('app-etag', etag);
-          }
-        } catch (e) { console.log("Update check failed", e); }
-      };
-      checkForUpdates();
-      window.addEventListener('focus', checkForUpdates);
-      return () => window.removeEventListener('focus', checkForUpdates);
-    }
+ useEffect(() => {
+  if (import.meta.env.PROD) {
+    const checkForUpdates = async () => {
+      try {
+        const response = await fetch(window.location.href, { method: "HEAD" });
+        const etag = response.headers.get("etag");
+        const lastEtag = localStorage.getItem("app-etag");
 
-    window.addEventListener('error', (e) => {
-      if (e.message.includes('Loading chunk') || e.message.includes('Script error')) {
-        window.location.reload();
+        if (lastEtag && etag && lastEtag !== etag) {
+          localStorage.setItem("app-etag", etag);
+          toast("New update deployed! Reloading...");
+          setTimeout(() => window.location.reload(), 2000);
+        } else if (etag) {
+          localStorage.setItem("app-etag", etag);
+        }
+      } catch (e) {
+        console.log("Update check failed", e);
       }
-    }, true);
+    };
 
-  }, [toast]);
+    checkForUpdates();
+    window.addEventListener("focus", checkForUpdates);
+    return () => window.removeEventListener("focus", checkForUpdates);
+  }
+
+  const handleError = (e: ErrorEvent) => {
+    if (
+      e.message.includes("Loading chunk") ||
+      e.message.includes("Script error")
+    ) {
+      window.location.reload();
+    }
+  };
+
+  window.addEventListener("error", handleError, true);
+  return () => window.removeEventListener("error", handleError, true);
+}, [toast]);
+
+useEffect(() => {
+  const seenVersion = localStorage.getItem("seen-whats-new");
+
+  if (seenVersion !== APP_VERSION) {
+    navigate("/whats-new");
+    localStorage.setItem("seen-whats-new", APP_VERSION);
+  }
+}, [navigate]);
 
   // --- STATE ---
   const [cookbook, setCookbook] = useState<any[]>(() => getCookbook());
@@ -239,9 +259,82 @@ function AppContent() {
 
         <Route path="/settings" element={<SettingsPage prefs={prefs} setPrefs={setPrefs} />} />
         <Route path="/guide" element={<TestersGuidePage />} />
+        <Route path="/whats-new" element={<WhatsNewPage />} />
         <Route path="/feedback" element={<FeedbackForm />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      {showTesterPrompt && (
+  <div
+    style={{
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,0.75)",
+      zIndex: 3000,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 20,
+    }}
+  >
+    <div
+      style={{
+        maxWidth: 400,
+        width: "100%",
+        background: "#1e293b",
+        borderRadius: 20,
+        padding: 24,
+        border: "1px solid rgba(255,255,255,0.1)",
+        textAlign: "center",
+      }}
+    >
+      <h3 style={{ fontSize: 22, fontWeight: 900, marginBottom: 10 }}>
+        🧪 Test Missions
+      </h3>
+
+      <p style={{ opacity: 0.7, marginBottom: 20, lineHeight: 1.5 }}>
+        Want to help improve the app? Try a couple quick test missions and tell me
+        what feels off.
+      </p>
+
+      <div style={{ display: "flex", gap: 10 }}>
+        <button
+          onClick={() => setShowTesterPrompt(false)}
+          style={{
+            flex: 1,
+            padding: 12,
+            borderRadius: 12,
+            background: "rgba(255,255,255,0.08)",
+            border: "none",
+            color: "white",
+            fontWeight: 800,
+            cursor: "pointer",
+          }}
+        >
+          Maybe Later
+        </button>
+
+        <button
+          onClick={() => {
+            setShowTesterPrompt(false);
+            navigate("/guide");
+          }}
+          style={{
+            flex: 1,
+            padding: 12,
+            borderRadius: 12,
+            background: "#22c55e",
+            border: "none",
+            color: "#0f172a",
+            fontWeight: 900,
+            cursor: "pointer",
+          }}
+        >
+          Let’s Go
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
       <Navigation />
     </div>

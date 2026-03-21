@@ -80,6 +80,22 @@ export default function SettingsPage({ prefs, setPrefs }: { prefs: any, setPrefs
           </Card>
         </div>
 
+        <button
+  onClick={() => navigate("/whats-new")}
+  style={{
+    padding: 14,
+    borderRadius: 12,
+    background: "rgba(255,255,255,0.05)",
+    border: "1px solid rgba(255,255,255,0.1)",
+    color: "white",
+    fontWeight: 800,
+    cursor: "pointer",
+    width: "100%",
+  }}
+>
+  What's New
+</button>
+
         <div style={{ marginTop: 40, textAlign: "center", opacity: 0.3, fontSize: 12, fontWeight: 800 }}>
           SIMPLE DINNERS v22.0.7<br />
           KINGSPORT, TN
