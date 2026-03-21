@@ -10,6 +10,15 @@ function safeParse<T>(raw: string | null, fallback: T): T {
   }
 }
 
+function slugify(value: any): string {
+  return String(value ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}
+
 function normalizeMultilineField(value: any): string {
   if (Array.isArray(value)) {
     return value
@@ -50,7 +59,13 @@ export function setCookbook(items: (Meal & any)[]) {
 }
 
 export function addToCookbook(recipe: any) {
-  const slug = (recipe?.slug ?? recipe?.id ?? "").toString().trim();
+  const slug = (
+    recipe?.slug ??
+    recipe?.id ??
+    slugify(recipe?.name) ??
+    ""
+  ).toString().trim();
+
   if (!slug) return { ok: false, reason: "missing-slug" as const };
 
   const items = getCookbook();
@@ -62,9 +77,9 @@ export function addToCookbook(recipe: any) {
     ...recipe,
     slug,
     id: recipe?.id ?? slug,
+    name: String(recipe?.name ?? "").trim(),
     ingredients: normalizeMultilineField(recipe?.ingredients),
     instructions: normalizeMultilineField(recipe?.instructions),
-    name: String(recipe?.name ?? "").trim(),
     photoUrl: String(recipe?.photoUrl ?? "").trim(),
     notes: String(recipe?.notes ?? "").trim(),
   };

@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { formatIngredients } from "../core/utils";
 import Card from "../components/Card";
+import { addIngredientsToList } from "../shoppingList";
 
 function slugify(text: string) {
   return (text || "recipe")
@@ -46,8 +47,6 @@ function getRecipeStatus(recipe: any) {
 export default function CookbookPage({
   cookbook,
   setCookbook,
-  extraIngredients,
-  setExtraIngredients,
   pantry,
 }: any) {
   const [selectedRecipe, setSelectedRecipe] = useState<any>(null);
@@ -87,18 +86,16 @@ export default function CookbookPage({
   };
 
   const handleAddToShop = () => {
-    const currentList = new Set(
-      (extraIngredients || []).map((item: string) => item.trim())
-    );
+  const items = selectedForShop.map((item) => item.trim()).filter(Boolean);
 
-    selectedForShop.forEach((item) => currentList.add(item.trim()));
+  if (!items.length || !selectedRecipe) return;
 
-    setExtraIngredients(Array.from(currentList));
-    setSelectedForShop([]);
-    setSelectedRecipe(null);
+  addIngredientsToList(selectedRecipe.name, items.join("\n"));
+  setSelectedForShop([]);
+  setSelectedRecipe(null);
 
-    alert(`${selectedForShop.length} items added to your Shopping List!`);
-  };
+  alert(`${items.length} items added to your Shopping List!`);
+};
 
   const resetManualRecipe = () => {
     setManualRecipe({
