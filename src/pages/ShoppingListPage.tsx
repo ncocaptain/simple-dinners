@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Plus,
   Trash2,
@@ -209,6 +209,21 @@ export default function ShoppingListPage() {
   const [shoppingItems, setShoppingItems] = useState<ShoppingItem[]>(() =>
     loadShoppingList()
   );
+  useEffect(() => {
+  const refresh = () => {
+    setShoppingItems(loadShoppingList());
+  };
+
+  refresh();
+
+  window.addEventListener("focus", refresh);
+  document.addEventListener("visibilitychange", refresh);
+
+  return () => {
+    window.removeEventListener("focus", refresh);
+    document.removeEventListener("visibilitychange", refresh);
+  };
+}, []);
   const [hideChecked, setHideChecked] = useState(false);
   const [touchStartX, setTouchStartX] = useState<Record<string, number>>({});
 
