@@ -71,43 +71,138 @@ export default function ShoppingListPage({
     })).filter((g) => g.items.length > 0);
   }, [shoppingItems]);
 
-  return (
-    <div style={{ maxWidth: 550, margin: "0 auto", padding: 20 }}>
-      <h2 style={{ textAlign: "center" }}>Shopping List</h2>
+ return (
+  <div
+    style={{
+      width: "100%",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      padding: "0 20px 120px 20px",
+    }}
+  >
+    <div style={{ maxWidth: "550px", width: "100%" }}>
+      
+      {/* HEADER */}
+      <header style={{ textAlign: "center", margin: "20px 0" }}>
+        <h2 style={{ fontSize: 28, fontWeight: 1000, margin: 0 }}>
+          Shopping List
+        </h2>
+      </header>
 
-      <Card>
-        <form onSubmit={handleAddExtra} style={{ display: "flex", gap: 8 }}>
+      {/* INPUT */}
+      <Card style={{ marginBottom: 28 }}>
+        <form onSubmit={handleAddExtra} style={{ display: "flex", gap: 10 }}>
           <input
+            placeholder="Add milk, bread, snacks..."
             value={newItem}
             onChange={(e) => setNewItem(e.target.value)}
-            placeholder="Add item..."
-            style={{ flex: 1 }}
+            style={{
+              flex: 1,
+              padding: "14px 16px",
+              borderRadius: "14px",
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.12)",
+              color: "white",
+              outline: "none",
+              fontSize: 14,
+            }}
           />
-          <button type="submit">
-            <Plus />
+
+          <button
+            type="submit"
+            style={{
+              width: 50,
+              borderRadius: "14px",
+              background: "#22c55e",
+              border: "none",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Plus size={20} />
           </button>
         </form>
       </Card>
 
+      {/* SECTIONS */}
       {grouped.map((group) => (
-        <div key={group.section}>
-          <h4>{group.section}</h4>
+        <div key={group.section} style={{ marginBottom: 28 }}>
+          
+          {/* SECTION HEADER */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              marginBottom: 12,
+            }}
+          >
+            <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.1)" }} />
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 900,
+                letterSpacing: 1.5,
+                opacity: 0.5,
+              }}
+            >
+              {group.section.toUpperCase()}
+            </span>
+            <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.1)" }} />
+          </div>
 
-          {group.items.map((item) => (
-            <div key={item.id} onClick={() => toggleItem(item.id)}>
-              {item.checked ? <CheckCircle2 /> : <Circle />}
-              {cleanIngredient(formatIngredients(item.text, true))}
-            </div>
-          ))}
+          {/* ITEMS */}
+          <div style={{ display: "grid", gap: 8 }}>
+            {group.items.map((item) => (
+              <div
+                key={item.id}
+                onClick={() => toggleItem(item.id)}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  padding: "14px 16px",
+                  borderRadius: "14px",
+                  background: item.checked
+                    ? "transparent"
+                    : "rgba(255,255,255,0.05)",
+                  border: item.checked
+                    ? "1px solid rgba(255,255,255,0.05)"
+                    : "1px solid rgba(255,255,255,0.1)",
+                  opacity: item.checked ? 0.3 : 1,
+                  transition: "all 0.2s ease",
+                }}
+              >
+                {item.checked ? (
+                  <CheckCircle2 size={18} color="#22c55e" />
+                ) : (
+                  <Circle size={18} style={{ opacity: 0.2 }} />
+                )}
+
+                <span
+                  style={{
+                    fontWeight: 600,
+                    textDecoration: item.checked ? "line-through" : "none",
+                  }}
+                >
+                  {cleanIngredient(formatIngredients(item.text, true))}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       ))}
 
-      {shoppingItems.length === 0 && (
-        <div style={{ textAlign: "center", opacity: 0.4 }}>
-          <ShoppingCart />
-          <p>List is empty</p>
+      {/* EMPTY STATE */}
+      {grouped.length === 0 && (
+        <div style={{ textAlign: "center", padding: 80, opacity: 0.2 }}>
+          <ShoppingCart size={48} style={{ marginBottom: 16 }} />
+          <div style={{ fontWeight: 800 }}>List is empty</div>
         </div>
       )}
     </div>
-  );
+  </div>
+);
 }
