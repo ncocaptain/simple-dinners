@@ -1,4 +1,27 @@
 export default async function handler(req, res) {
+  const allowedOrigins = [
+    "https://dinners.ncocaptain.com",
+    "capacitor://localhost",
+    "http://localhost",
+    "https://localhost",
+  ];
+
+  const origin = req.headers.origin;
+
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  } else {
+    res.setHeader("Access-Control-Allow-Origin", "https://dinners.ncocaptain.com");
+  }
+
+  res.setHeader("Vary", "Origin");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   if (req.method !== "POST") {
     return res.status(405).json({ error: "POST only" });
   }
@@ -488,7 +511,8 @@ export default async function handler(req, res) {
       instructionList = cleanLineArray(likelySteps).slice(0, 15);
     }
 
-    const rawName = recipeData?.name || safeTitle || titleFromUrl(url) || "New Recipe";
+    const rawName =
+      recipeData?.name || safeTitle || titleFromUrl(url) || "New Recipe";
     const recipeName = toTitleCase(cleanText(rawName)) || "New Recipe";
 
     console.log("FINAL IMPORT RESULT", {

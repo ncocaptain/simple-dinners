@@ -140,57 +140,66 @@ export default function CookbookPage({
     alert("Recipe deleted.");
   };
 
-  const handleImport = async (e?: FormEvent | MouseEvent) => {
-    e?.preventDefault();
+  const handleImport = async (e?: React.FormEvent | React.MouseEvent) => {
+  e?.preventDefault();
 
-    if (!importUrl.trim()) {
-      alert("Please paste a recipe URL.");
+  if (!importUrl.trim()) {
+    alert("Please paste a recipe URL.");
+    return;
+  }
+
+  setIsImporting(true);
+
+  try {
+    const API_BASE = "https://dinners.ncocaptain.com";
+
+    const response = await fetch(`${API_BASE}/api/import-recipe`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url: importUrl.trim() }),
+    });
+
+    if (!response.ok) {
+      const text = await response.text();
+      console.error("Import API error:", response.status, text);
+      alert("Recipe import failed.");
       return;
     }
 
-    setIsImporting(true);
+    const data = await response.json();
 
-    try {
-      const API_BASE = "https://dinners.ncocaptain.com";
+    if (data?.recipe) {
+      const imported = data.recipe;
 
-      const response = await fetch(`${API_BASE}/api/import-recipe`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: importUrl.trim() }),
-      });
+      const normalizedRecipe = {
+        ...imported,
+        name: String(imported?.name ?? "").trim(),
+        ingredients: normalizeMultilineField(imported?.ingredients),
+        instructions: normalizeMultilineField(imported?.instructions),
+        photoUrl: String(imported?.photoUrl ?? "").trim(),
+        sourceUrl: String(imported?.sourceUrl ?? "").trim(),
+        effort: imported?.effort || "normal",
+        slug:
+          imported?.slug ||
+          `${slugify(imported?.name || "recipe")}-${Date.now()
+            .toString()
+            .slice(-4)}`,
+      };
 
-      const data = await response.json();
-
-      if (data?.recipe) {
-        const imported = data.recipe;
-
-        const normalizedRecipe: Recipe = {
-          ...imported,
-          name: String(imported?.name ?? "").trim(),
-          ingredients: normalizeMultilineField(imported?.ingredients),
-          instructions: normalizeMultilineField(imported?.instructions),
-          photoUrl: String(imported?.photoUrl ?? "").trim(),
-          sourceUrl: String(imported?.sourceUrl ?? "").trim(),
-          effort: imported?.effort || "normal",
-          slug:
-            imported?.slug ||
-            `${slugify(imported?.name || "recipe")}-${Date.now()
-              .toString()
-              .slice(-4)}`,
-        };
-
-        setCookbook((prev) => [...prev, normalizedRecipe]);
-        setImportUrl("");
-        setShowManual(false);
-        alert("Recipe imported!");
-      } else {
-        alert(data?.error || "Failed to import recipe.");
-      }
-    } catch {
-      alert("Unable to import recipe right now. Please try again.");
-    } finally {
-      setIsImporting(false);
+      setCookbook((prev) => [...prev, normalizedRecipe]);
+      setImportUrl("");
+      setShowManual(false);
+      alert("Recipe imported!");
+    } else {
+      alert(data?.error || "Failed to import recipe.");
     }
+  } catch (err) {
+    console.error("Import failed:", err);
+    alert("Unable to import recipe right now. Please try again.");
+  } finally {
+    setIsImporting(false);
+  }
+
   };
 
   const handleManualSave = (e?: FormEvent | MouseEvent) => {
