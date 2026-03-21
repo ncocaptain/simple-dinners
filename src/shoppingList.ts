@@ -49,20 +49,18 @@ export function saveShoppingList(items: ShoppingItem[]) {
 // Builder: ingredient line cleanup
 // =====================================================
 export function normalizeIngredientLines(ingredients: string): string[] {
-  const normalized = ingredients
+  return String(ingredients)
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/li>/gi, "\n")
+    .replace(/<li[^>]*>/gi, "")
+    .replace(/<\/p>/gi, "\n")
+    .replace(/<p[^>]*>/gi, "")
+    .replace(/•/g, "\n")
     .replace(/\r/g, "\n")
     .replace(/\u00a0/g, " ")
-    .replace(/\u2022/g, "\n")
-    .replace(/\u2023/g, "\n")
-    .replace(/\u25e6/g, "\n")
-    .replace(/\u2043/g, "\n")
-    .replace(/\u2219/g, "\n")
-    .replace(/^\s*[-*•]\s*/gm, "")
-    .replace(/\n{2,}/g, "\n");
-
-  return normalized
+    .replace(/\n{2,}/g, "\n")
     .split("\n")
-    .map((l) => l.trim())
+    .map((l) => l.replace(/<[^>]+>/g, "").trim())
     .filter(Boolean)
     .filter((l) => !/^\s*for\s+garnish\s*:?\s*$/i.test(l));
 }

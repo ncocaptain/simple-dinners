@@ -21,9 +21,18 @@ import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
 
 // --- HELPERS ---
 function splitLines(s?: string) {
-  return (s ?? "")
+  return String(s ?? "")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/li>/gi, "\n")
+    .replace(/<li[^>]*>/gi, "")
+    .replace(/<\/p>/gi, "\n")
+    .replace(/<p[^>]*>/gi, "")
+    .replace(/•/g, "\n")
+    .replace(/\r/g, "\n")
+    .replace(/\u00a0/g, " ")
+    .replace(/\n{2,}/g, "\n")
     .split("\n")
-    .map((x) => x.trim())
+    .map((x) => x.replace(/<[^>]+>/g, "").trim())
     .filter(Boolean);
 }
 
