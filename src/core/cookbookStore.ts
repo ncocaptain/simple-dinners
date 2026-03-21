@@ -1,6 +1,5 @@
 import type { Meal } from "./types";
 
-
 export const COOKBOOK_LS_KEY = "simple-dinners:cookbook:v1";
 
 function safeParse<T>(raw: string | null, fallback: T): T {
@@ -10,6 +9,32 @@ function safeParse<T>(raw: string | null, fallback: T): T {
     return fallback;
   }
 }
+
+function normalizeMultilineField(value: any): string {
+  if (Array.isArray(value)) {
+    return value
+      .map((v) => String(v ?? "").trim())
+      .filter(Boolean)
+      .join("\n");
+  }
+
+  return String(value ?? "")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/li>/gi, "\n")
+    .replace(/<li[^>]*>/gi, "")
+    .replace(/<\/p>/gi, "\n")
+    .replace(/<p[^>]*>/gi, "")
+    .replace(/•/g, "\n")
+    .replace(/\r/g, "\n")
+    .replace(/\u00a0/g, " ")
+    .replace(/\n{2,}/g, "\n")
+    .replace(/<[^>]+>/g, "")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .join("\n");
+}
+
 export function deleteFromCookbook(slug: string) {
   const items = getCookbook();
   const filtered = items.filter((r) => (r.slug ?? r.id) !== slug);
@@ -37,8 +62,11 @@ export function addToCookbook(recipe: any) {
     ...recipe,
     slug,
     id: recipe?.id ?? slug,
-    // optional metadata:
-    // addedAt: Date.now(),
+    ingredients: normalizeMultilineField(recipe?.ingredients),
+    instructions: normalizeMultilineField(recipe?.instructions),
+    name: String(recipe?.name ?? "").trim(),
+    photoUrl: String(recipe?.photoUrl ?? "").trim(),
+    notes: String(recipe?.notes ?? "").trim(),
   };
 
   setCookbook([...items, normalized]);
