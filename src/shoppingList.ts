@@ -49,7 +49,18 @@ export function saveShoppingList(items: ShoppingItem[]) {
 // Builder: ingredient line cleanup
 // =====================================================
 export function normalizeIngredientLines(ingredients: string): string[] {
-  return ingredients
+  const normalized = ingredients
+    .replace(/\r/g, "\n")
+    .replace(/\u00a0/g, " ")
+    .replace(/\u2022/g, "\n")
+    .replace(/\u2023/g, "\n")
+    .replace(/\u25e6/g, "\n")
+    .replace(/\u2043/g, "\n")
+    .replace(/\u2219/g, "\n")
+    .replace(/^\s*[-*•]\s*/gm, "")
+    .replace(/\n{2,}/g, "\n");
+
+  return normalized
     .split("\n")
     .map((l) => l.trim())
     .filter(Boolean)

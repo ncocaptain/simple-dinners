@@ -468,12 +468,20 @@ export default function RecipePage() {
                 : "1px solid rgba(255,255,255,0.1)",
           }}
           onClick={() => {
-  const itemsToAdd =
+  const rawItems =
     selectedIngredients.length > 0 ? selectedIngredients : ingredients;
-  console.log("Recipe:", recipe.name);
-console.log("Selected:", selectedIngredients);
-console.log("All ingredients:", ingredients);
-  const result = addIngredientsToList(recipe.name, itemsToAdd.join("\n"));
+
+  const cleanedItems = rawItems
+    .map((line) =>
+      String(line)
+        .replace(/\r/g, "")
+        .replace(/\u00a0/g, " ")
+        .replace(/^\s*[-*•]\s*/, "")
+        .trim()
+    )
+    .filter(Boolean);
+
+  const result = addIngredientsToList(recipe.name, cleanedItems.join("\n"));
 
   alert(
     result.addedCount > 0
