@@ -94,27 +94,30 @@ function AppContent() {
       window.addEventListener('focus', checkForUpdates);
       return () => window.removeEventListener('focus', checkForUpdates);
     }
+
     window.addEventListener('error', (e) => {
-  // If a chunk fails to load (common during a redeploy), force a hard reload
-  if (e.message.includes('Loading chunk') || e.message.includes('Script error')) {
-    window.location.reload();
-  }
-}, true);
+      if (e.message.includes('Loading chunk') || e.message.includes('Script error')) {
+        window.location.reload();
+      }
+    }, true);
+
   }, [toast]);
 
   // --- STATE ---
   const [cookbook, setCookbook] = useState<any[]>(() => getCookbook());
+
   const [meals, setMeals] = useState<Record<string, Meal>>(() => {
     try { return JSON.parse(localStorage.getItem("meals") || "{}"); } catch { return {}; }
   });
+
   const [daySettings, setDaySettings] = useState<Record<string, Effort>>(() => {
     try { return JSON.parse(localStorage.getItem("daySettings") || "{}"); } catch { return {}; }
   });
+
   const [pantry, setPantry] = useState<PantryItem[]>(() => {
     try { return JSON.parse(localStorage.getItem("pantry") || "[]"); } catch { return []; }
   });
   
-  // Single Unified Prefs State
   const [prefs, setPrefs] = useState<Preferences>(() => {
     try {
       const saved = localStorage.getItem("prefs");
@@ -128,23 +131,15 @@ function AppContent() {
     try { return JSON.parse(localStorage.getItem("lockedDays") || "{}"); } catch { return {}; }
   });
 
-  // Manual Shopping List Items State
-  const [extraIngredients, setExtraIngredients] = useState<string[]>(() => {
-    try {
-      return JSON.parse(localStorage.getItem("extraIngredients") || "[]");
-    } catch { return []; }
-  });
-
   // --- PERSISTENCE ---
   useEffect(() => {
     localStorage.setItem("meals", JSON.stringify(meals));
     localStorage.setItem("daySettings", JSON.stringify(daySettings));
     localStorage.setItem("pantry", JSON.stringify(pantry));
     localStorage.setItem("lockedDays", JSON.stringify(lockedDays));
-    localStorage.setItem("extraIngredients", JSON.stringify(extraIngredients));
     localStorage.setItem("app-version", APP_VERSION);
     persistCookbook(cookbook);
-  }, [meals, daySettings, pantry, lockedDays, cookbook, extraIngredients]);
+  }, [meals, daySettings, pantry, lockedDays, cookbook]);
 
   const addDayToCookbook = (day: string) => {
     const meal = meals[day];
@@ -155,7 +150,10 @@ function AppContent() {
   };
 
   const generateDinnerPlan = (force = false) => {
-    const seedMeals = force ? Object.fromEntries(days.map(d => [d, lockedDays[d] ? meals[d] : { name: "", ingredients: "", instructions: "", photoUrl: "" }])) : meals;
+    const seedMeals = force
+      ? Object.fromEntries(days.map(d => [d, lockedDays[d] ? meals[d] : { name: "", ingredients: "", instructions: "", photoUrl: "" }]))
+      : meals;
+
     const next = generatePlan({ meals: seedMeals as any, cookbook, pantry, daySettings, prefs, days });
     
     const withPhotos = { ...next } as Record<string, Meal>;
@@ -164,6 +162,7 @@ function AppContent() {
         withPhotos[d].photoUrl = mealImageUrl(withPhotos[d].name);
       }
     }
+
     setMeals(withPhotos);
     navigate("/");
   };
@@ -174,13 +173,18 @@ function AppContent() {
   return (
     <div style={{ minHeight: "100vh", paddingBottom: 110 }}>
       <header style={{ padding: "32px 20px", textAlign: "center", maxWidth: "550px", margin: "0 auto" }}>
-        <h1 style={{ margin: 0, fontSize: 36, fontWeight: 1000, color: "#f8fafc" }}>Simple Dinners</h1>
-        <div style={{ fontSize: 12, opacity: 0.4, fontWeight: 800, textTransform: "uppercase" }}>Captain's Kitchen • v{APP_VERSION}</div>
+        <h1 style={{ margin: 0, fontSize: 36, fontWeight: 1000, color: "#f8fafc" }}>
+          Simple Dinners
+        </h1>
+        <div style={{ fontSize: 12, opacity: 0.4, fontWeight: 800, textTransform: "uppercase" }}>
+          Captain's Kitchen • v{APP_VERSION}
+        </div>
       </header>
 
       <Routes>
         <Route path="/" element={requireOnboarding(<HomePage meals={meals} setMeals={setMeals} />)} />
         <Route path="/onboarding" element={<OnboardingPage />} />
+
         <Route 
           path="/plan" 
           element={requireOnboarding(
@@ -195,39 +199,50 @@ function AppContent() {
             />
           )} 
         />
-        <Route path="/week" element={requireOnboarding(<WeekPage meals={meals} setMeals={setMeals} addDayToCookbook={addDayToCookbook} generateDinnerPlan={generateDinnerPlan} lockedDays={lockedDays} setLockedDays={setLockedDays} />)} />
+
         <Route 
-  path="/cookbook" 
-  element={requireOnboarding(
-    <CookbookPage 
-      cookbook={cookbook} 
-      setCookbook={setCookbook} 
-      pantry={pantry} 
-      extraIngredients={extraIngredients} 
-      setExtraIngredients={setExtraIngredients} 
-    />
-  )} 
-/>
-        <Route path="/recipe/:slug" element={<RecipePage />} />
-        
-        {/* UPDATED SHOPPING LIST ROUTE */}
-        <Route 
-          path="/shopping-list" 
+          path="/week" 
           element={requireOnboarding(
-            <ShoppingListPage />
+            <WeekPage 
+              meals={meals} 
+              setMeals={setMeals} 
+              addDayToCookbook={addDayToCookbook} 
+              generateDinnerPlan={generateDinnerPlan} 
+              lockedDays={lockedDays} 
+              setLockedDays={setLockedDays} 
+            />
           )} 
         />
 
-        // This allows CookNow to look up "Tonight's Dinner"
-<Route 
-  path="/cook-now" 
-  element={requireOnboarding(<CookNowPage meals={meals} />)} 
-/>
+        <Route 
+          path="/cookbook" 
+          element={requireOnboarding(
+            <CookbookPage
+              cookbook={cookbook}
+              setCookbook={setCookbook}
+            />
+          )} 
+        />
+
+        <Route path="/recipe/:slug" element={<RecipePage />} />
+
+        <Route 
+          path="/shopping-list" 
+          element={requireOnboarding(<ShoppingListPage />)} 
+        />
+
+        {/* This allows CookNow to look up "Tonight's Dinner" */}
+        <Route 
+          path="/cook-now" 
+          element={requireOnboarding(<CookNowPage meals={meals} />)} 
+        />
+
         <Route path="/settings" element={<SettingsPage prefs={prefs} setPrefs={setPrefs} />} />
         <Route path="/guide" element={<TestersGuidePage />} />
         <Route path="/feedback" element={<FeedbackForm />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
       <Navigation />
     </div>
   );

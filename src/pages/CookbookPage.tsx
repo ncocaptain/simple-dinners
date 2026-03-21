@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import type { CSSProperties, FormEvent, MouseEvent } from "react";
 import {
   CheckCircle2,
   Plus,
@@ -14,6 +15,21 @@ import {
 import { formatIngredients } from "../core/utils";
 import Card from "../components/Card";
 import { addIngredientsToList } from "../shoppingList";
+
+type Recipe = {
+  slug?: string;
+  name?: string;
+  ingredients?: string;
+  instructions?: string;
+  photoUrl?: string;
+  sourceUrl?: string;
+  effort?: string;
+};
+
+type CookbookPageProps = {
+  cookbook: Recipe[];
+  setCookbook: React.Dispatch<React.SetStateAction<Recipe[]>>;
+};
 
 function slugify(text: string) {
   return (text || "recipe")
@@ -31,7 +47,49 @@ function splitLines(text?: string) {
     .filter(Boolean);
 }
 
-function getRecipeStatus(recipe: any) {
+function normalizeMultilineField(value: unknown): string {
+  if (Array.isArray(value)) {
+    return value
+      .map((v) => String(v ?? "").trim())
+      .filter(Boolean)
+      .join("\n");
+  }
+
+  return String(value ?? "")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/li>/gi, "\n")
+    .replace(/<li[^>]*>/gi, "")
+    .replace(/<\/p>/gi, "\n")
+    .replace(/<p[^>]*>/gi, "")
+    .replace(/•/g, "\n")
+    .replace(/\r/g, "\n")
+    .replace(/\u00a0/g, " ")
+    .replace(/\n{2,}/g, "\n")
+    .replace(/<[^>]+>/g, "")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .join("\n");
+}
+
+function stripIngredientAmount(line: string): string {
+  return String(line ?? "")
+    .trim()
+    .replace(/^\([^)]*\)\s*/, "")
+    .replace(
+      /^(\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?(?:\s*[-–]\s*\d+(?:\.\d+)?)?)\s*/i,
+      ""
+    )
+    .replace(
+      /^(cups?|cup|tbsp|tablespoons?|tsp|teaspoons?|oz|ounces?|lb|lbs|pounds?|g|kg|ml|l|cloves?|cans?|packages?|pkgs?|sticks?|slices?|pinch|dash)\b\.?\s*/i,
+      ""
+    )
+    .replace(/^of\s+/i, "")
+    .replace(/^[,\-–:;\s]+/, "")
+    .trim();
+}
+
+function getRecipeStatus(recipe: Recipe) {
   const ingredientCount = splitLines(recipe?.ingredients).length;
   const instructionsMissing =
     !recipe?.instructions ||
@@ -45,11 +103,10 @@ function getRecipeStatus(recipe: any) {
 }
 
 export default function CookbookPage({
-  cookbook,
+  cookbook = [],
   setCookbook,
-  pantry,
-}: any) {
-  const [selectedRecipe, setSelectedRecipe] = useState<any>(null);
+}: CookbookPageProps) {
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [selectedForShop, setSelectedForShop] = useState<string[]>([]);
   const [importUrl, setImportUrl] = useState("");
   const [isImporting, setIsImporting] = useState(false);
@@ -65,19 +122,14 @@ export default function CookbookPage({
   });
 
   useEffect(() => {
-    if (!selectedRecipe) return;
+    if (!selectedRecipe) {
+      setSelectedForShop([]);
+      return;
+    }
 
-    const ingredients = splitLines(selectedRecipe.ingredients);
-
-    const missing = ingredients.filter(
-      (ing: string) =>
-        !pantry?.some((p: any) =>
-          ing.toLowerCase().includes((p.name || "").toLowerCase())
-        )
-    );
-
-    setSelectedForShop(missing);
-  }, [selectedRecipe, pantry]);
+    // Open cookbook recipes with nothing selected.
+    setSelectedForShop([]);
+  }, [selectedRecipe]);
 
   const toggleForShop = (ing: string) => {
     setSelectedForShop((prev) =>
@@ -86,16 +138,21 @@ export default function CookbookPage({
   };
 
   const handleAddToShop = () => {
-  const items = selectedForShop.map((item) => item.trim()).filter(Boolean);
+    if (!selectedRecipe) return;
 
-  if (!items.length || !selectedRecipe) return;
+    const cleanedItems = selectedForShop
+      .map((item) => stripIngredientAmount(item))
+      .map((item) => item.trim())
+      .filter(Boolean);
 
-  addIngredientsToList(selectedRecipe.name, items.join("\n"));
-  setSelectedForShop([]);
-  setSelectedRecipe(null);
+    if (!cleanedItems.length) return;
 
-  alert(`${items.length} items added to your Shopping List!`);
-};
+    addIngredientsToList(selectedRecipe.name || "Recipe", cleanedItems.join("\n"));
+    setSelectedForShop([]);
+    setSelectedRecipe(null);
+
+    alert(`${cleanedItems.length} items added to your Shopping List!`);
+  };
 
   const resetManualRecipe = () => {
     setManualRecipe({
@@ -113,7 +170,7 @@ export default function CookbookPage({
     setShowManual(true);
   };
 
-  const openEditRecipe = (recipe: any) => {
+  const openEditRecipe = (recipe: Recipe) => {
     setManualRecipe({
       name: recipe?.name || "",
       ingredients: recipe?.ingredients || "",
@@ -130,63 +187,70 @@ export default function CookbookPage({
     setShowManual(true);
   };
 
-  const handleDeleteRecipe = (recipe: any) => {
+  const handleDeleteRecipe = (recipe: Recipe) => {
     const ok = window.confirm(`Delete "${recipe?.name}" from your cookbook?`);
     if (!ok) return;
 
-    setCookbook((cookbook || []).filter((r: any) => r.slug !== recipe.slug));
+    setCookbook((prev) => prev.filter((r) => r.slug !== recipe.slug));
     setSelectedRecipe(null);
     alert("Recipe deleted.");
   };
 
-  const handleImport = async (e?: React.FormEvent | React.MouseEvent) => {
-  e?.preventDefault();
+  const handleImport = async (e?: FormEvent | MouseEvent) => {
+    e?.preventDefault();
 
-  if (!importUrl.trim()) {
-    alert("Please paste a recipe URL.");
-    return;
-  }
+    if (!importUrl.trim()) {
+      alert("Please paste a recipe URL.");
+      return;
+    }
 
-  setIsImporting(true);
+    setIsImporting(true);
 
-  try {
-    const API_BASE = "https://dinners.ncocaptain.com";
+    try {
+      const API_BASE = "https://dinners.ncocaptain.com";
 
-    const response = await fetch(`${API_BASE}/api/import-recipe`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url: importUrl.trim() }),
-    });
+      const response = await fetch(`${API_BASE}/api/import-recipe`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: importUrl.trim() }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (data?.recipe) {
-      setCookbook([
-        ...cookbook,
-        {
-          ...data.recipe,
+      if (data?.recipe) {
+        const imported = data.recipe;
+
+        const normalizedRecipe: Recipe = {
+          ...imported,
+          name: String(imported?.name ?? "").trim(),
+          ingredients: normalizeMultilineField(imported?.ingredients),
+          instructions: normalizeMultilineField(imported?.instructions),
+          photoUrl: String(imported?.photoUrl ?? "").trim(),
+          sourceUrl: String(imported?.sourceUrl ?? "").trim(),
+          effort: imported?.effort || "normal",
           slug:
-            data.recipe.slug ||
-            `${slugify(data.recipe.name || "recipe")}-${Date.now()
+            imported?.slug ||
+            `${slugify(imported?.name || "recipe")}-${Date.now()
               .toString()
               .slice(-4)}`,
-        },
-      ]);
+        };
 
-      setImportUrl("");
-      setShowManual(false);
-      alert("Recipe imported!");
-    } else {
-      alert(data?.error || "Failed to import recipe.");
+        setCookbook((prev) => [...prev, normalizedRecipe]);
+
+        setImportUrl("");
+        setShowManual(false);
+        alert("Recipe imported!");
+      } else {
+        alert(data?.error || "Failed to import recipe.");
+      }
+    } catch {
+      alert("Unable to import recipe right now. Please try again.");
+    } finally {
+      setIsImporting(false);
     }
-  } catch (err) {
-    alert("Unable to import recipe right now. Please try again.");
-  } finally {
-    setIsImporting(false);
-  }
-};
+  };
 
-  const handleManualSave = (e?: React.FormEvent | React.MouseEvent) => {
+  const handleManualSave = (e?: FormEvent | MouseEvent) => {
     e?.preventDefault();
 
     if (!manualRecipe.name.trim()) {
@@ -194,18 +258,18 @@ export default function CookbookPage({
       return;
     }
 
-    const cleanedRecipe = {
+    const cleanedRecipe: Recipe = {
       name: manualRecipe.name.trim(),
-      ingredients: manualRecipe.ingredients.trim(),
-      instructions: manualRecipe.instructions.trim(),
+      ingredients: normalizeMultilineField(manualRecipe.ingredients),
+      instructions: normalizeMultilineField(manualRecipe.instructions),
       photoUrl: manualRecipe.photoUrl.trim(),
       sourceUrl: manualRecipe.sourceUrl.trim(),
       effort: "normal",
     };
 
     if (editingSlug) {
-      setCookbook(
-        (cookbook || []).map((recipe: any) =>
+      setCookbook((prev) =>
+        prev.map((recipe) =>
           recipe.slug === editingSlug
             ? {
                 ...recipe,
@@ -216,12 +280,12 @@ export default function CookbookPage({
       );
       alert("Recipe updated!");
     } else {
-      const recipeToSave = {
+      const recipeToSave: Recipe = {
         ...cleanedRecipe,
         slug: `${slugify(manualRecipe.name)}-${Date.now().toString().slice(-4)}`,
       };
 
-      setCookbook([...(cookbook || []), recipeToSave]);
+      setCookbook((prev) => [...prev, recipeToSave]);
       alert("Recipe saved to Cookbook!");
     }
 
@@ -229,7 +293,7 @@ export default function CookbookPage({
     setShowManual(false);
   };
 
-  const btn: React.CSSProperties = {
+  const btn: CSSProperties = {
     border: "none",
     borderRadius: 14,
     color: "white",
@@ -237,7 +301,7 @@ export default function CookbookPage({
     fontWeight: 800,
   };
 
-  const sectionCard: React.CSSProperties = {
+  const sectionCard: CSSProperties = {
     background: "rgba(255,255,255,0.03)",
     border: "1px solid rgba(255,255,255,0.08)",
     borderRadius: 22,
@@ -568,7 +632,7 @@ export default function CookbookPage({
         )}
 
         <div style={{ display: "grid", gap: 12 }}>
-          {(cookbook || []).map((recipe: any, index: number) => {
+          {(cookbook || []).map((recipe, index) => {
             const status = getRecipeStatus(recipe);
             const ingredientCount = splitLines(recipe?.ingredients).length;
             const stepCount =
@@ -905,7 +969,7 @@ export default function CookbookPage({
                         Add them here in a few seconds.
                       </div>
                     ) : (
-                      splitLines(selectedRecipe.ingredients).map((ing: string, i: number) => {
+                      splitLines(selectedRecipe.ingredients).map((ing, i) => {
                         const isSelected = selectedForShop.includes(ing);
 
                         return (
@@ -999,72 +1063,70 @@ export default function CookbookPage({
                     </div>
                   ) : (
                     <div style={{ display: "grid", gap: 16 }}>
-                      {splitLines(selectedRecipe.instructions).map(
-                        (step: string, i: number) => (
+                      {splitLines(selectedRecipe.instructions).map((step, i) => (
+                        <div
+                          key={`${step}-${i}`}
+                          style={{
+                            display: "flex",
+                            gap: 14,
+                            alignItems: "flex-start",
+                          }}
+                        >
                           <div
-                            key={`${step}-${i}`}
                             style={{
+                              minWidth: 30,
+                              height: 30,
+                              borderRadius: 10,
+                              background: "rgba(34, 197, 94, 0.15)",
+                              color: "#22c55e",
+                              fontWeight: 900,
+                              fontSize: 13,
                               display: "flex",
-                              gap: 14,
-                              alignItems: "flex-start",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              marginTop: 2,
                             }}
                           >
-                            <div
-                              style={{
-                                minWidth: 30,
-                                height: 30,
-                                borderRadius: 10,
-                                background: "rgba(34, 197, 94, 0.15)",
-                                color: "#22c55e",
-                                fontWeight: 900,
-                                fontSize: 13,
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                marginTop: 2,
-                              }}
-                            >
-                              {i + 1}
-                            </div>
-
-                            <div
-                              style={{
-                                color: "rgba(255,255,255,0.9)",
-                                lineHeight: 1.75,
-                                fontSize: 16,
-                              }}
-                            >
-                              {step}
-                            </div>
+                            {i + 1}
                           </div>
-                        )
-                      )}
+
+                          <div
+                            style={{
+                              color: "rgba(255,255,255,0.9)",
+                              lineHeight: 1.75,
+                              fontSize: 16,
+                            }}
+                          >
+                            {step}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   )}
 
                   {needsRecipeFix && (
-  <button
-    onClick={() => openEditRecipe(selectedRecipe)}
-    style={{
-      marginTop: 18,
-      width: "100%",
-      padding: "14px 18px",
-      borderRadius: 14,
-      background: "rgba(34, 197, 94, 0.12)",
-      border: "1px solid #22c55e",
-      color: "#22c55e",
-      fontWeight: 900,
-      cursor: "pointer",
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: 10,
-    }}
-  >
-    <Pencil size={16} />
-    Add Ingredients & Steps
-  </button>
-)}
+                    <button
+                      onClick={() => openEditRecipe(selectedRecipe)}
+                      style={{
+                        marginTop: 18,
+                        width: "100%",
+                        padding: "14px 18px",
+                        borderRadius: 14,
+                        background: "rgba(34, 197, 94, 0.12)",
+                        border: "1px solid #22c55e",
+                        color: "#22c55e",
+                        fontWeight: 900,
+                        cursor: "pointer",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 10,
+                      }}
+                    >
+                      <Pencil size={16} />
+                      Add Ingredients & Steps
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
