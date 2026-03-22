@@ -202,9 +202,9 @@ function cleanIngredientName(line: string) {
 function parseIngredient(line: string): ParsedAmount {
   const raw = line.trim();
 
-  // Standard measurable units
+  // Standard measurable units ONLY
   const measuredMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|egg|eggs|clove|cloves)?\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|egg|eggs|clove|cloves)\s+(.*)$/i
   );
 
   if (measuredMatch) {
@@ -212,7 +212,7 @@ function parseIngredient(line: string): ParsedAmount {
 
     return {
       quantity: parseFraction(qtyRaw),
-      unit: normalizeUnit(unitRaw ?? null),
+      unit: normalizeUnit(unitRaw),
       name: cleanIngredientName(rest),
     };
   }
@@ -224,6 +224,7 @@ function parseIngredient(line: string): ParsedAmount {
 
   if (countedMatch) {
     const [, qtyRaw, rest] = countedMatch;
+
     return {
       quantity: parseFraction(qtyRaw),
       unit: "__count__",
@@ -237,6 +238,7 @@ function parseIngredient(line: string): ParsedAmount {
     name: cleanIngredientName(raw),
   };
 }
+
 
 function makeManualId(text: string) {
   return text
