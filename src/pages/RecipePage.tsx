@@ -716,7 +716,7 @@ export default function RecipePage() {
   style={{
     position: "fixed",
     left: "50%",
-    bottom: 90,
+    bottom: 110,
     transform: "translateX(-50%)",
     width: "min(760px, calc(100% - 32px))",
     display: "flex",
