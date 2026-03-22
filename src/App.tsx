@@ -171,6 +171,8 @@ function Navigation() {
 
 function AppContent() {
   const navigate = useNavigate();
+  const location = useLocation();
+const hideBottomNav = location.pathname.startsWith("/recipe/");
   const [showTesterPrompt, setShowTesterPrompt] = useState(false);
   const toastApi: any = useToast();
   const toast = toastApi.toast ?? toastApi;
@@ -335,7 +337,7 @@ function AppContent() {
     hasCompletedOnboarding() ? element : <Navigate to="/onboarding" replace />;
 
   return (
-    <div style={{ minHeight: "100vh", paddingBottom: 110 }}>
+    <div style={{ minHeight: "100vh", paddingBottom: hideBottomNav ? 24 : 110 }}>
       <BackHandler />
 
       <header
@@ -509,7 +511,7 @@ function AppContent() {
         </div>
       )}
 
-      <Navigation />
+      {!hideBottomNav && <Navigation />}
     </div>
   );
 }
