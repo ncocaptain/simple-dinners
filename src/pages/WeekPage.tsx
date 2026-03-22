@@ -9,6 +9,8 @@ import {
   ChefHat,
   Trash2,
   CalendarPlus,
+  Download,
+  Utensils,
 } from "lucide-react";
 import Card from "../components/Card";
 import { days } from "../core/data";
@@ -23,22 +25,22 @@ export default function WeekPage({
   addDayToCookbook,
 }: {
   meals: Record<string, Meal>;
-  setMeals: any;
+  setMeals: React.Dispatch<React.SetStateAction<Record<string, Meal>>>;
   generateDinnerPlan: (force?: boolean) => void;
   lockedDays: Record<string, boolean>;
-  setLockedDays: any;
+  setLockedDays: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
   addDayToCookbook: (day: string) => void;
 }) {
   const navigate = useNavigate();
 
   const toggleLock = (day: string) => {
-    setLockedDays((prev: any) => ({ ...prev, [day]: !prev[day] }));
+    setLockedDays((prev) => ({ ...prev, [day]: !prev[day] }));
   };
 
   const clearDay = (day: string) => {
-    setMeals((prev: any) => ({
+    setMeals((prev) => ({
       ...prev,
-      [day]: { name: "", ingredients: "", instructions: "", photoUrl: "" },
+      [day]: { name: "", ingredients: "", instructions: "", photoUrl: "" } as Meal,
     }));
   };
 
@@ -46,7 +48,24 @@ export default function WeekPage({
     return String(n).padStart(2, "0");
   }
 
-  // Local time format for ICS: YYYYMMDDTHHMMSS
+  function safeFileName(text: string) {
+    return (text || "meal")
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-");
+  }
+
+  function escapeICS(text: string) {
+    return text
+      .replace(/\\/g, "\\\\")
+      .replace(/\n/g, "\\n")
+      .replace(/,/g, "\\,")
+      .replace(/;/g, "\\;");
+  }
+
+  // ICS local datetime format: YYYYMMDDTHHMMSS
   function toICSLocal(date: Date) {
     return (
       date.getFullYear().toString() +
@@ -59,84 +78,154 @@ export default function WeekPage({
     );
   }
 
-  function escapeICS(text: string) {
-    return text
-      .replace(/\\/g, "\\\\")
-      .replace(/\n/g, "\\n")
-      .replace(/,/g, "\\,")
-      .replace(/;/g, "\\;");
+  // Google Calendar requires UTC format: YYYYMMDDTHHMMSSZ
+  function toGoogleUTC(date: Date) {
+    return (
+      date.getUTCFullYear().toString() +
+      pad2(date.getUTCMonth() + 1) +
+      pad2(date.getUTCDate()) +
+      "T" +
+      pad2(date.getUTCHours()) +
+      pad2(date.getUTCMinutes()) +
+      pad2(date.getUTCSeconds()) +
+      "Z"
+    );
   }
 
   function getNextDateForDay(dayName: string) {
     const today = new Date();
-    const todayDay = today.getDay(); // 0 = Sunday
+    const todayDay = today.getDay();
+
     const dayMap: Record<string, number> = {
-      Sunday: 0,
-      Monday: 1,
-      Tuesday: 2,
-      Wednesday: 3,
-      Thursday: 4,
-      Friday: 5,
-      Saturday: 6,
+      sunday: 0,
+      monday: 1,
+      tuesday: 2,
+      wednesday: 3,
+      thursday: 4,
+      friday: 5,
+      saturday: 6,
     };
 
-    const targetDay = dayMap[dayName];
-    if (targetDay === undefined) return new Date(today);
+    const targetDay = dayMap[(dayName || "").toLowerCase()];
+    const result = new Date(today);
+
+    if (targetDay === undefined) {
+      result.setHours(18, 0, 0, 0);
+      return result;
+    }
 
     let diff = targetDay - todayDay;
     if (diff < 0) diff += 7;
 
-    const result = new Date(today);
-    result.setHours(18, 0, 0, 0);
     result.setDate(today.getDate() + diff);
-
+    result.setHours(18, 0, 0, 0);
     return result;
   }
 
-  function downloadICS(day: string, meal: Meal) {
-    const start = getNextDateForDay(day);
-    const end = new Date(start.getTime() + 60 * 60 * 1000);
-
-    const title = `Dinner: ${meal?.name?.trim() || "Meal"}`;
-
-    const descriptionParts = [
+  function buildMealDescription(meal: Meal) {
+    const parts = [
       "Planned in Simple Dinners",
       meal?.ingredients?.trim() ? `Ingredients:\n${meal.ingredients.trim()}` : "",
       meal?.instructions?.trim() ? `Instructions:\n${meal.instructions.trim()}` : "",
     ].filter(Boolean);
 
-    const description = descriptionParts.join("\n\n");
+    return parts.join("\n\n");
+  }
 
-    const ics = [
-      "BEGIN:VCALENDAR",
-      "VERSION:2.0",
-      "PRODID:-//Simple Dinners//Meal Planner//EN",
+  function buildEventTimes(day: string) {
+    const start = getNextDateForDay(day);
+    const end = new Date(start.getTime() + 60 * 60 * 1000); // 6 PM - 7 PM
+    return { start, end };
+  }
+
+  function buildICSEvent(day: string, meal: Meal, index = 0) {
+    const { start, end } = buildEventTimes(day);
+    const title = `Dinner: ${meal?.name?.trim() || "Meal"}`;
+    const description = buildMealDescription(meal);
+
+    return [
       "BEGIN:VEVENT",
-      `UID:${Date.now()}-${day.toLowerCase()}@simpledinners`,
+      `UID:${Date.now()}-${index}-${safeFileName(day)}-${safeFileName(meal?.name || "meal")}@simpledinners`,
       `DTSTAMP:${toICSLocal(new Date())}`,
       `DTSTART:${toICSLocal(start)}`,
       `DTEND:${toICSLocal(end)}`,
       `SUMMARY:${escapeICS(title)}`,
       `DESCRIPTION:${escapeICS(description)}`,
       "END:VEVENT",
+    ].join("\r\n");
+  }
+
+  function downloadICSFile(filename: string, events: string[]) {
+    const ics = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Simple Dinners//Meal Planner//EN",
+      ...events,
       "END:VCALENDAR",
     ].join("\r\n");
 
     const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    const safeName = (meal?.name || "meal")
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, "")
-      .replace(/\s+/g, "-");
 
     link.href = url;
-    link.download = `${day.toLowerCase()}-${safeName}.ics`;
+    link.download = filename;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
     URL.revokeObjectURL(url);
   }
+
+  function downloadDayICS(day: string, meal: Meal) {
+    const filename = `${safeFileName(day)}-${safeFileName(meal?.name || "meal")}.ics`;
+    downloadICSFile(filename, [buildICSEvent(day, meal)]);
+  }
+
+  function downloadWholeWeekICS() {
+    const plannedDays = days.filter((day) => !!meals[day]?.name?.trim());
+    if (!plannedDays.length) return;
+
+    const events = plannedDays.map((day, index) => buildICSEvent(day, meals[day], index));
+    downloadICSFile("simple-dinners-week-plan.ics", events);
+  }
+
+  function openGoogleCalendar(day: string, meal: Meal) {
+    const { start, end } = buildEventTimes(day);
+    const title = `Dinner: ${meal?.name?.trim() || "Meal"}`;
+    const details = buildMealDescription(meal);
+
+    const url =
+      "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+      `&text=${encodeURIComponent(title)}` +
+      `&dates=${toGoogleUTC(start)}/${toGoogleUTC(end)}` +
+      `&details=${encodeURIComponent(details)}`;
+
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+
+  function openWholeWeekInGoogleCalendar() {
+    const plannedDays = days.filter((day) => !!meals[day]?.name?.trim());
+    if (!plannedDays.length) return;
+
+    // Google Calendar only supports one event template at a time,
+    // so for whole-week we fall back to an .ics download.
+    downloadWholeWeekICS();
+  }
+
+  const plannedMealCount = days.filter((day) => !!meals[day]?.name?.trim()).length;
+
+  const btnBase: React.CSSProperties = {
+    border: "none",
+    borderRadius: 14,
+    padding: "12px",
+    fontWeight: 800,
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+  };
 
   return (
     <div
@@ -157,15 +246,13 @@ export default function WeekPage({
         }}
       >
         <header style={{ textAlign: "center", marginTop: 20 }}>
-          <h2 style={{ fontSize: 28, fontWeight: 1000, margin: 0 }}>
-            Weekly Planner
-          </h2>
+          <h2 style={{ fontSize: 28, fontWeight: 1000, margin: 0 }}>Weekly Planner</h2>
           <p style={{ opacity: 0.5, fontSize: 15, marginTop: 4 }}>
             Tap a day to view the recipe.
           </p>
         </header>
 
-        <div style={{ position: "sticky", top: 20, zIndex: 10 }}>
+        <div style={{ position: "sticky", top: 20, zIndex: 10, display: "grid", gap: 10 }}>
           <button
             onClick={() => generateDinnerPlan(true)}
             style={{
@@ -188,19 +275,48 @@ export default function WeekPage({
             <Sparkles size={22} fill="white" />
             Generate New Plan
           </button>
+
+          <div style={{ display: "flex", gap: 10 }}>
+            <button
+              onClick={openWholeWeekInGoogleCalendar}
+              disabled={!plannedMealCount}
+              style={{
+                ...btnBase,
+                flex: 1,
+                background: plannedMealCount ? "rgba(59,130,246,0.12)" : "rgba(255,255,255,0.05)",
+                color: plannedMealCount ? "#60a5fa" : "rgba(255,255,255,0.35)",
+                cursor: plannedMealCount ? "pointer" : "not-allowed",
+              }}
+            >
+              <CalendarPlus size={16} />
+              Add Whole Week
+            </button>
+
+            <button
+              onClick={downloadWholeWeekICS}
+              disabled={!plannedMealCount}
+              style={{
+                ...btnBase,
+                flex: 1,
+                background: plannedMealCount ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.05)",
+                color: plannedMealCount ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.35)",
+                cursor: plannedMealCount ? "pointer" : "not-allowed",
+              }}
+            >
+              <Download size={16} />
+              Week .ics
+            </button>
+          </div>
         </div>
 
         <div style={{ display: "grid", gap: 16 }}>
           {days.map((day) => {
             const meal = meals[day];
             const hasMeal = !!meal?.name?.trim();
-            const isLocked = lockedDays[day];
+            const isLocked = !!lockedDays[day];
 
             return (
-              <Card
-                key={day}
-                style={{ padding: 0, overflow: "hidden", borderRadius: "24px" }}
-              >
+              <Card key={day} style={{ padding: 0, overflow: "hidden", borderRadius: "24px" }}>
                 <div style={{ padding: "20px", display: "grid", gap: 16 }}>
                   <div
                     style={{
@@ -249,9 +365,7 @@ export default function WeekPage({
                       <div
                         onClick={() =>
                           navigate(
-                            `/recipe/${encodeURIComponent(
-                              meal.slug || meal.name
-                            )}?from=/week`
+                            `/recipe/${encodeURIComponent(meal.slug || meal.name || "")}?from=/week`
                           )
                         }
                         style={{
@@ -261,18 +375,38 @@ export default function WeekPage({
                           cursor: "pointer",
                         }}
                       >
-                        <img
-                          src={meal.photoUrl}
-                          alt={meal.name || "Meal"}
-                          style={{
-                            width: 85,
-                            height: 85,
-                            borderRadius: 18,
-                            objectFit: "cover",
-                            border: "1px solid rgba(255,255,255,0.1)",
-                            background: "rgba(255,255,255,0.04)",
-                          }}
-                        />
+                        {meal.photoUrl ? (
+                          <img
+                            src={meal.photoUrl}
+                            alt={meal.name || "Meal"}
+                            style={{
+                              width: 85,
+                              height: 85,
+                              borderRadius: 18,
+                              objectFit: "cover",
+                              border: "1px solid rgba(255,255,255,0.1)",
+                              background: "rgba(255,255,255,0.04)",
+                              flexShrink: 0,
+                            }}
+                          />
+                        ) : (
+                          <div
+                            style={{
+                              width: 85,
+                              height: 85,
+                              borderRadius: 18,
+                              border: "1px solid rgba(255,255,255,0.1)",
+                              background: "rgba(255,255,255,0.04)",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              flexShrink: 0,
+                            }}
+                          >
+                            <Utensils size={22} style={{ opacity: 0.4 }} />
+                          </div>
+                        )}
+
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div
                             style={{
@@ -297,30 +431,37 @@ export default function WeekPage({
                             Tap for Details
                           </div>
                         </div>
-                        <ChevronRight size={20} style={{ opacity: 0.2 }} />
+
+                        <ChevronRight size={20} style={{ opacity: 0.2, flexShrink: 0 }} />
                       </div>
 
                       <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                         <button
-                          onClick={() => downloadICS(day, meal)}
+                          onClick={() => openGoogleCalendar(day, meal)}
                           style={{
+                            ...btnBase,
                             flex: 1,
                             minWidth: 0,
-                            padding: "12px",
-                            borderRadius: "14px",
                             background: "rgba(59,130,246,0.12)",
                             color: "#60a5fa",
-                            border: "none",
-                            fontWeight: 800,
-                            cursor: "pointer",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            gap: 8,
                           }}
                         >
                           <CalendarPlus size={16} />
                           Add to Calendar
+                        </button>
+
+                        <button
+                          onClick={() => downloadDayICS(day, meal)}
+                          style={{
+                            ...btnBase,
+                            flex: 1,
+                            minWidth: 0,
+                            background: "rgba(255,255,255,0.08)",
+                            color: "rgba(255,255,255,0.88)",
+                          }}
+                        >
+                          <Download size={16} />
+                          .ics
                         </button>
                       </div>
                     </>
@@ -357,10 +498,7 @@ export default function WeekPage({
                           cursor: "pointer",
                         }}
                       >
-                        <Trash2
-                          size={16}
-                          style={{ marginBottom: -3, marginRight: 4 }}
-                        />
+                        <Trash2 size={16} style={{ marginBottom: -3, marginRight: 4 }} />
                         Remove
                       </button>
 
