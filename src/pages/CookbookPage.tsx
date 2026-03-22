@@ -141,65 +141,64 @@ export default function CookbookPage({
   };
 
   const handleImport = async (e?: React.FormEvent | React.MouseEvent) => {
-  e?.preventDefault();
+    e?.preventDefault();
 
-  if (!importUrl.trim()) {
-    alert("Please paste a recipe URL.");
-    return;
-  }
-
-  setIsImporting(true);
-
-  try {
-    const API_BASE = "https://dinners.ncocaptain.com";
-
-    const response = await fetch(`${API_BASE}/api/import-recipe`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url: importUrl.trim() }),
-    });
-
-    if (!response.ok) {
-      const text = await response.text();
-      console.error("Import API error:", response.status, text);
-      alert("Recipe import failed.");
+    if (!importUrl.trim()) {
+      alert("Please paste a recipe URL.");
       return;
     }
 
-    const data = await response.json();
+    setIsImporting(true);
 
-    if (data?.recipe) {
-      const imported = data.recipe;
+    try {
+      const API_BASE = "https://dinners.ncocaptain.com";
 
-      const normalizedRecipe = {
-        ...imported,
-        name: String(imported?.name ?? "").trim(),
-        ingredients: normalizeMultilineField(imported?.ingredients),
-        instructions: normalizeMultilineField(imported?.instructions),
-        photoUrl: String(imported?.photoUrl ?? "").trim(),
-        sourceUrl: String(imported?.sourceUrl ?? "").trim(),
-        effort: imported?.effort || "normal",
-        slug:
-          imported?.slug ||
-          `${slugify(imported?.name || "recipe")}-${Date.now()
-            .toString()
-            .slice(-4)}`,
-      };
+      const response = await fetch(`${API_BASE}/api/import-recipe`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: importUrl.trim() }),
+      });
 
-      setCookbook((prev) => [...prev, normalizedRecipe]);
-      setImportUrl("");
-      setShowManual(false);
-      alert("Recipe imported!");
-    } else {
-      alert(data?.error || "Failed to import recipe.");
+      if (!response.ok) {
+        const text = await response.text();
+        console.error("Import API error:", response.status, text);
+        alert("Recipe import failed.");
+        return;
+      }
+
+      const data = await response.json();
+
+      if (data?.recipe) {
+        const imported = data.recipe;
+
+        const normalizedRecipe = {
+          ...imported,
+          name: String(imported?.name ?? "").trim(),
+          ingredients: normalizeMultilineField(imported?.ingredients),
+          instructions: normalizeMultilineField(imported?.instructions),
+          photoUrl: String(imported?.photoUrl ?? "").trim(),
+          sourceUrl: String(imported?.sourceUrl ?? "").trim(),
+          effort: imported?.effort || "normal",
+          slug:
+            imported?.slug ||
+            `${slugify(imported?.name || "recipe")}-${Date.now()
+              .toString()
+              .slice(-4)}`,
+        };
+
+        setCookbook((prev) => [...prev, normalizedRecipe]);
+        setImportUrl("");
+        setShowManual(false);
+        alert("Recipe imported!");
+      } else {
+        alert(data?.error || "Failed to import recipe.");
+      }
+    } catch (err) {
+      console.error("Import failed:", err);
+      alert("Unable to import recipe right now. Please try again.");
+    } finally {
+      setIsImporting(false);
     }
-  } catch (err) {
-    console.error("Import failed:", err);
-    alert("Unable to import recipe right now. Please try again.");
-  } finally {
-    setIsImporting(false);
-  }
-
   };
 
   const handleManualSave = (e?: FormEvent | MouseEvent) => {
@@ -260,11 +259,11 @@ export default function CookbookPage({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        padding: "0 20px 120px 20px",
+        padding: "0 20px 120px",
       }}
     >
       <div style={{ maxWidth: "650px", width: "100%" }}>
-        <header style={{ textAlign: "center", margin: "20px 0 24px" }}>
+        <header style={{ textAlign: "center", margin: "0 0 14px" }}>
           <h2 style={{ fontSize: 34, fontWeight: 1000, margin: 0 }}>Cookbook</h2>
         </header>
 
@@ -279,7 +278,7 @@ export default function CookbookPage({
                 style={{ position: "absolute", left: 12, opacity: 0.4 }}
               />
               <input
-                placeholder="Paste recipe URL..."
+                placeholder="Paste recipe link..."
                 value={importUrl}
                 onChange={(e) => setImportUrl(e.target.value)}
                 style={{
@@ -371,8 +370,8 @@ export default function CookbookPage({
               {!editingSlug && (
                 <div
                   style={{
-                    background: "rgba(34, 197, 94, 0.05)",
-                    border: "1px dashed rgba(34, 197, 94, 0.3)",
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px dashed rgba(255,255,255,0.12)",
                     borderRadius: "16px",
                     padding: "20px",
                     marginBottom: "20px",
@@ -384,12 +383,13 @@ export default function CookbookPage({
                       gap: 8,
                       alignItems: "center",
                       marginBottom: 12,
+                      flexWrap: "wrap",
                     }}
                   >
                     <span
                       style={{
-                        background: "#22c55e",
-                        color: "#000",
+                        background: "rgba(34,197,94,0.2)",
+                        color: "#22c55e",
                         fontSize: 10,
                         fontWeight: 900,
                         padding: "2px 6px",
@@ -398,14 +398,14 @@ export default function CookbookPage({
                     >
                       BETA
                     </span>
-                    <span style={{ fontSize: 13, fontWeight: 800 }}>
-                      Magic Import
+                    <span style={{ fontSize: 16, fontWeight: 800 }}>
+                      Import from URL
                     </span>
                   </div>
 
                   <div style={{ display: "flex", gap: 8 }}>
                     <input
-                      placeholder="Paste URL..."
+                      placeholder="Paste recipe link..."
                       value={importUrl}
                       onChange={(e) => setImportUrl(e.target.value)}
                       style={{
@@ -429,13 +429,13 @@ export default function CookbookPage({
                         cursor: isImporting ? "default" : "pointer",
                       }}
                     >
-                      {isImporting ? "..." : "Magic"}
+                      {isImporting ? "..." : "Import"}
                     </button>
                   </div>
 
-                  <p style={{ fontSize: 11, opacity: 0.55, marginTop: 10 }}>
-                    Some sites import better than others. If it misses details, use
-                    manual entry.
+                  <p style={{ fontSize: 11, opacity: 0.62, marginTop: 10, lineHeight: 1.5 }}>
+                    Imports ingredients and steps when possible. You can edit
+                    anything below.
                   </p>
                 </div>
               )}
