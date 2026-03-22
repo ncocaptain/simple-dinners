@@ -91,6 +91,7 @@ export default function CookbookPage({
   const [isImporting, setIsImporting] = useState(false);
   const [showManual, setShowManual] = useState(false);
   const [editingSlug, setEditingSlug] = useState<string | null>(null);
+  const [hasImportedDraft, setHasImportedDraft] = useState(false);
 
   const [manualRecipe, setManualRecipe] = useState({
     name: "",
@@ -109,6 +110,7 @@ export default function CookbookPage({
       sourceUrl: "",
     });
     setEditingSlug(null);
+    setHasImportedDraft(false);
   };
 
   const openNewRecipeModal = () => {
@@ -129,6 +131,7 @@ export default function CookbookPage({
     });
 
     setEditingSlug(recipe?.slug || null);
+    setHasImportedDraft(false);
     setShowManual(true);
   };
 
@@ -172,24 +175,32 @@ export default function CookbookPage({
         const imported = data.recipe;
 
         const normalizedRecipe = {
-          ...imported,
           name: String(imported?.name ?? "").trim(),
           ingredients: normalizeMultilineField(imported?.ingredients),
           instructions: normalizeMultilineField(imported?.instructions),
           photoUrl: String(imported?.photoUrl ?? "").trim(),
-          sourceUrl: String(imported?.sourceUrl ?? "").trim(),
-          effort: imported?.effort || "normal",
-          slug:
-            imported?.slug ||
-            `${slugify(imported?.name || "recipe")}-${Date.now()
-              .toString()
-              .slice(-4)}`,
+          sourceUrl:
+            String(imported?.sourceUrl ?? "").trim() || importUrl.trim(),
         };
 
-        setCookbook((prev) => [...prev, normalizedRecipe]);
+        setManualRecipe({
+          name: normalizedRecipe.name,
+          ingredients: normalizedRecipe.ingredients,
+          instructions: normalizedRecipe.instructions,
+          photoUrl: normalizedRecipe.photoUrl,
+          sourceUrl: normalizedRecipe.sourceUrl,
+        });
+
+        setEditingSlug(null);
+        setHasImportedDraft(true);
+        setShowManual(true);
         setImportUrl("");
-        setShowManual(false);
-        alert("Recipe imported!");
+
+        if (!normalizedRecipe.name && !normalizedRecipe.ingredients && !normalizedRecipe.instructions) {
+          alert("Import finished, but not much was found. You can fill in the details manually.");
+        } else {
+          alert("Imported recipe details. Review and save below.");
+        }
       } else {
         alert(data?.error || "Failed to import recipe.");
       }
@@ -315,6 +326,7 @@ export default function CookbookPage({
               width: 52,
               borderRadius: 14,
             }}
+            title="Add recipe manually"
           >
             <Plus />
           </button>
@@ -343,6 +355,8 @@ export default function CookbookPage({
                 position: "relative",
                 border: "1px solid rgba(255,255,255,0.1)",
                 boxShadow: "0 20px 60px rgba(0,0,0,0.45)",
+                maxHeight: "90vh",
+                overflowY: "auto",
               }}
             >
               <button
@@ -363,8 +377,12 @@ export default function CookbookPage({
                 <X size={24} />
               </button>
 
-              <h2 style={{ fontSize: 24, fontWeight: 900, marginBottom: 25 }}>
-                {editingSlug ? "Edit Recipe" : "New Recipe"}
+              <h2 style={{ fontSize: 24, fontWeight: 900, marginBottom: 16 }}>
+                {editingSlug
+                  ? "Edit Recipe"
+                  : hasImportedDraft
+                  ? "Review Imported Recipe"
+                  : "New Recipe"}
               </h2>
 
               {!editingSlug && (
@@ -386,7 +404,18 @@ export default function CookbookPage({
                       flexWrap: "wrap",
                     }}
                   >
-                    
+                    <span
+                      style={{
+                        background: "rgba(34,197,94,0.2)",
+                        color: "#22c55e",
+                        fontSize: 10,
+                        fontWeight: 900,
+                        padding: "2px 6px",
+                        borderRadius: "4px",
+                      }}
+                    >
+                      BETA
+                    </span>
                     <span style={{ fontSize: 16, fontWeight: 800 }}>
                       Import from URL
                     </span>
@@ -418,13 +447,14 @@ export default function CookbookPage({
                         cursor: isImporting ? "default" : "pointer",
                       }}
                     >
-                      {isImporting ? "..." : "Import"}
+                      {isImporting ? "..." : hasImportedDraft ? "Re-import" : "Import"}
                     </button>
                   </div>
 
                   <p style={{ fontSize: 11, opacity: 0.62, marginTop: 10, lineHeight: 1.5 }}>
-                    Imports ingredients and steps when possible. You can edit
-                    anything below.
+                    {hasImportedDraft
+                      ? "Imported details are loaded below. Edit anything you want before saving."
+                      : "Imports ingredients and steps when possible. You can edit anything below."}
                   </p>
                 </div>
               )}
