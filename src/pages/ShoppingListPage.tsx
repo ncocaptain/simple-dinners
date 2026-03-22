@@ -105,6 +105,32 @@ function pluralizeUnit(unit: string, quantity: number): string {
   return `${unit}s`;
 }
 
+function pluralizeIngredientName(name: string, quantity: number): string {
+  if (quantity === 1) return name;
+
+  if (name.endsWith("breasts")) return name;
+  if (name.endsWith("thighs")) return name;
+  if (name.endsWith("chops")) return name;
+  if (name.endsWith("tortillas")) return name;
+  if (name.endsWith("rolls")) return name;
+  if (name.endsWith("buns")) return name;
+  if (name.endsWith("eggs")) return name;
+  if (name.endsWith("cloves")) return name;
+
+  if (name.endsWith("chicken breast")) return "chicken breasts";
+  if (name.endsWith("breast")) return name.replace(/breast$/, "breasts");
+  if (name.endsWith("thigh")) return name.replace(/thigh$/, "thighs");
+  if (name.endsWith("drumstick")) return name.replace(/drumstick$/, "drumsticks");
+  if (name.endsWith("chop")) return name.replace(/chop$/, "chops");
+  if (name.endsWith("tortilla")) return name.replace(/tortilla$/, "tortillas");
+  if (name.endsWith("roll")) return name.replace(/roll$/, "rolls");
+  if (name.endsWith("bun")) return name.replace(/bun$/, "buns");
+  if (name.endsWith("egg")) return name.replace(/egg$/, "eggs");
+  if (name.endsWith("clove")) return name.replace(/clove$/, "cloves");
+
+  return name;
+}
+
 function cleanIngredientName(line: string) {
   let text = line.toLowerCase().trim();
 
@@ -176,24 +202,39 @@ function cleanIngredientName(line: string) {
 function parseIngredient(line: string): ParsedAmount {
   const raw = line.trim();
 
-  const match = raw.match(
+  // Standard measurable units
+  const measuredMatch = raw.match(
     /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|egg|eggs|clove|cloves)?\s+(.*)$/i
   );
 
-  if (!match) {
+  if (measuredMatch) {
+    const [, qtyRaw, unitRaw, rest] = measuredMatch;
+
     return {
-      quantity: null,
-      unit: null,
-      name: cleanIngredientName(raw),
+      quantity: parseFraction(qtyRaw),
+      unit: normalizeUnit(unitRaw ?? null),
+      name: cleanIngredientName(rest),
     };
   }
 
-  const [, qtyRaw, unitRaw, rest] = match;
+  // Counted ingredients like "2 chicken breasts"
+  const countedMatch = raw.match(
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(.+)$/i
+  );
+
+  if (countedMatch) {
+    const [, qtyRaw, rest] = countedMatch;
+    return {
+      quantity: parseFraction(qtyRaw),
+      unit: "__count__",
+      name: cleanIngredientName(rest),
+    };
+  }
 
   return {
-    quantity: parseFraction(qtyRaw),
-    unit: normalizeUnit(unitRaw ?? null),
-    name: cleanIngredientName(rest),
+    quantity: null,
+    unit: null,
+    name: cleanIngredientName(raw),
   };
 }
 
@@ -209,23 +250,24 @@ export default function ShoppingListPage() {
   const [shoppingItems, setShoppingItems] = useState<ShoppingItem[]>(() =>
     loadShoppingList()
   );
-  useEffect(() => {
-  const refresh = () => {
-    setShoppingItems(loadShoppingList());
-  };
-
-  refresh();
-
-  window.addEventListener("focus", refresh);
-  document.addEventListener("visibilitychange", refresh);
-
-  return () => {
-    window.removeEventListener("focus", refresh);
-    document.removeEventListener("visibilitychange", refresh);
-  };
-}, []);
   const [hideChecked, setHideChecked] = useState(false);
   const [touchStartX, setTouchStartX] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    const refresh = () => {
+      setShoppingItems(loadShoppingList());
+    };
+
+    refresh();
+
+    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", refresh);
+
+    return () => {
+      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", refresh);
+    };
+  }, []);
 
   const persistShoppingItems = (updated: ShoppingItem[]) => {
     setShoppingItems(updated);
@@ -240,9 +282,12 @@ export default function ShoppingListPage() {
 
     const parsed = parseIngredient(raw);
     const cleanedName = parsed.name || raw;
-    const id = makeManualId(cleanedName);
+    const id = makeManualId(raw);
 
-    const alreadyExists = shoppingItems.some((item) => item.id === id);
+    const alreadyExists = shoppingItems.some(
+      (item) => item.text.trim().toLowerCase() === raw.toLowerCase()
+    );
+
     if (alreadyExists) {
       setNewItem("");
       return;
@@ -301,7 +346,8 @@ export default function ShoppingListPage() {
       const parsed = parseIngredient(item.text);
       const name = parsed.name || cleanIngredientName(item.text);
       const category = item.category || categorizeGroceryItem(name);
-      const key = `${category}::${name}`;
+      const mergeUnit = parsed.unit ?? "__raw__";
+      const key = `${category}::${mergeUnit}::${name}`;
 
       const existing = map.get(key);
 
@@ -309,8 +355,14 @@ export default function ShoppingListPage() {
         existing.sourceIds.push(item.id);
         existing.count += 1;
         existing.checked = existing.checked && item.checked;
-        if (parsed.quantity !== null) existing.quantities.push(parsed.quantity);
-        if (parsed.unit) existing.units.add(parsed.unit);
+
+        if (parsed.quantity !== null) {
+          existing.quantities.push(parsed.quantity);
+        }
+
+        if (parsed.unit) {
+          existing.units.add(parsed.unit);
+        }
       } else {
         map.set(key, {
           checked: item.checked,
@@ -326,6 +378,7 @@ export default function ShoppingListPage() {
 
     return Array.from(map.entries()).map(([key, value]) => {
       const unitList = Array.from(value.units);
+
       const canMergeQuantity =
         value.quantities.length === value.count &&
         unitList.length === 1 &&
@@ -336,7 +389,18 @@ export default function ShoppingListPage() {
       if (canMergeQuantity) {
         const total = value.quantities.reduce((sum, q) => sum + q, 0);
         const unit = unitList[0];
-        displayText = `${formatQuantity(total)} ${pluralizeUnit(unit, total)} ${value.name}`;
+
+        if (unit === "__count__") {
+          displayText = `${formatQuantity(total)} ${pluralizeIngredientName(
+            value.name,
+            total
+          )}`;
+        } else {
+          displayText = `${formatQuantity(total)} ${pluralizeUnit(
+            unit,
+            total
+          )} ${value.name}`;
+        }
       } else if (value.count > 1) {
         displayText = `${value.name} ×${value.count}`;
       }
