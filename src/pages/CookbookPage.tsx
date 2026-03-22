@@ -404,18 +404,7 @@ export default function CookbookPage({
                       flexWrap: "wrap",
                     }}
                   >
-                    <span
-                      style={{
-                        background: "rgba(34,197,94,0.2)",
-                        color: "#22c55e",
-                        fontSize: 10,
-                        fontWeight: 900,
-                        padding: "2px 6px",
-                        borderRadius: "4px",
-                      }}
-                    >
-                      BETA
-                    </span>
+                    
                     <span style={{ fontSize: 16, fontWeight: 800 }}>
                       Import from URL
                     </span>
