@@ -130,15 +130,30 @@ export function violatesAllergens(
 // =====================================================
 // Meal tags + eligibility
 // =====================================================
-function hasTag(meal: Meal, tag: string) {
-  return Array.isArray((meal as any).tags) && (meal as any).tags.includes(tag);
+
+
+function hasAnyTag(meal: Meal, tags: string[]) {
+  return (
+    Array.isArray((meal as any).tags) &&
+    (meal as any).tags.some((t: string) =>
+      tags.includes(String(t).toLowerCase())
+    )
+  );
 }
 
+function isMealEligibleForPlan(
+  meal: Meal,
+  options?: {
+    includeDesserts?: boolean;
+    includeAppetizers?: boolean;
+  }
+) {
+  const excludedTags = ["seasoning", "side", "snack", "breakfast"];
 
+  if (!options?.includeDesserts) excludedTags.push("dessert");
+  if (!options?.includeAppetizers) excludedTags.push("appetizer");
 
-function isMealEligibleForPlan(meal: Meal) {
-  if (hasTag(meal, "seasoning")) return false;
-  return true;
+  return !hasAnyTag(meal, excludedTags);
 }
 
 // =====================================================
@@ -261,7 +276,12 @@ export function generatePlan(args: {
   pantry: PantryItem[];
   pantryText?: string;
   daySettings: Record<string, Effort>;
-  prefs: { vegetarian: boolean; allergens?: string[] };
+  prefs: {
+    vegetarian: boolean;
+    allergens?: string[];
+    includeDesserts?: boolean;
+    includeAppetizers?: boolean;
+  };
   days: readonly string[];
 }) {
   const { meals, cookbook, pantry, pantryText, daySettings, prefs, days } = args;
@@ -292,10 +312,14 @@ export function generatePlan(args: {
   }
 
   // 3. Final Eligibility & Allergen check
-  fullPool = fullPool.filter(meal => 
-    isMealEligibleForPlan(meal) && 
+  fullPool = fullPool.filter(
+  (meal) =>
+    isMealEligibleForPlan(meal, {
+      includeDesserts: prefs.includeDesserts,
+      includeAppetizers: prefs.includeAppetizers,
+    }) &&
     !violatesAllergens(meal.ingredients, prefs.allergens || [])
-  );
+);
 
   // 4. Score and Rank
   const rankedPool: Meal[] = fullPool

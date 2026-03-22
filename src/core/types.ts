@@ -10,6 +10,7 @@ export interface Meal {
   effort?: "quick" | "normal" | "big" | "takeout";
   tags?: string[];
   isVegetarian?: boolean;
+  notes?: string; //
 }
 
 export type PantryItem = {
@@ -34,5 +35,8 @@ export type Recipe = {
 
 export type Preferences = {
   vegetarian: boolean;
-  allergens: string[];
+  dietaryNotes?: string;
+  allergens?: string[];
+  includeDesserts?: boolean;
+  includeAppetizers?: boolean;
 };

@@ -619,43 +619,6 @@ Garnish with cilantro, pico de gallo, and sour cream before serving.`,
 },
 
 {
-  id: "normal-slow-cooker-roast-beef",
-  slug: "normal-slow-cooker-roast-beef",
-  name: "Slow Cooker Roast Beef",
-  effort: "normal",
-  photoUrl: "/images/normal-slow-cooker-roast-beef.jpg",
-  tags: ["dinner", "beef", "slow-cooker", "comfort", "meal-prep", "leftovers"],
-  ingredients: `1 (4–5 lb) chuck roast
-5 tsp kosher salt, divided
-2 1/2 tsp black pepper, divided
-4 tbsp olive oil, divided
-2 tbsp tomato paste
-1 cup beef broth
-2 tsp Worcestershire sauce
-6 thyme sprigs
-3 rosemary sprigs
-6 garlic cloves
-1 yellow onion, cut into 1-inch wedges
-1 lb baby yellow potatoes, halved
-3 large carrots, peeled and cut into 1-inch pieces`,
-  instructions: `Sprinkle the chuck roast all over with 4 teaspoons of the salt and 2 teaspoons of the pepper.
-
-Heat 2 tablespoons of olive oil in a large skillet over medium-high heat. Sear the roast on all sides until browned, about 12–16 minutes total. Transfer to a 6 1/2-quart slow cooker.
-
-Reduce heat to medium-low. Add tomato paste and cook, stirring constantly, until slightly darkened, about 30–60 seconds.
-
-Add beef broth and stir to loosen browned bits from the skillet. Pour the mixture over the roast in the slow cooker.
-
-Add Worcestershire sauce, thyme, rosemary, and garlic.
-
-In a bowl, toss onion, potatoes, carrots with remaining olive oil, salt, and pepper. Arrange around the roast.
-
-Cover and cook on High 6–8 hours or Low 8–10 hours until fork tender.
-
-Serve with vegetables and spoon sauce over top before serving.`,
-},
-
-{
   id: "quick-sausage-muffins",
   slug: "quick-sausage-muffins",
   name: "Sausage Muffins",
@@ -1191,6 +1154,233 @@ Taste and adjust salt and pepper if needed.
 
 Serve topped with grated parmesan cheese and bacon bits if desired.`,
 },
+
+{
+  id: "hidden-veggie-meatloaf",
+  slug: "hidden-veggie-meatloaf",
+  name: "Hidden Veggie Meatloaf",
+  effort: "normal",
+  tags: ["beef", "meatloaf", "family", "comfort food", "oven-baked"],
+  photoUrl: "/images/hidden-veggie-meatloaf.jpg",
+  notes: "A great way to sneak extra vegetables into dinner without sacrificing comfort-food flavor. Perfect with mashed potatoes.",
+  ingredients: `1 1/2 lbs ground beef
+1 medium zucchini, peeled and finely grated
+2 carrots, peeled and finely grated
+1/2 yellow onion, minced or grated
+1/2 cup finely chopped spinach
+1 large egg
+3/4 cup panko breadcrumbs
+1/4 cup milk
+1 tbsp Worcestershire sauce
+1 tsp garlic powder
+1 tsp salt
+1/2 tsp pepper
+
+For the glaze:
+1/2 cup ketchup
+1 tbsp brown sugar
+1 tsp mustard`,
+  instructions: `Preheat oven to 375°F.
+
+After grating the zucchini, squeeze it in a paper towel to remove excess moisture.
+
+In a large bowl, combine egg, milk, breadcrumbs, seasonings, Worcestershire sauce, and all grated vegetables.
+
+Add the ground beef and mix gently until just combined. Do not overmix.
+
+Form into a loaf shape on a parchment-lined baking sheet or press into a loaf pan.
+
+Bake for 40 minutes.
+
+In a small bowl, whisk together ketchup, brown sugar, and mustard.
+
+Brush the glaze generously over the top of the meatloaf and bake for another 15–20 minutes, until the internal temperature reaches 160°F.
+
+Let rest for 5–10 minutes before slicing.`,
+},
+{
+  id: "toms-spaghetti",
+  slug: "toms-spaghetti",
+  name: "Tom's Spaghetti",
+  effort: "normal",
+  tags: ["pasta", "beef", "spaghetti", "family", "comfort food"],
+  photoUrl: "/images/toms-spaghetti.jpg",
+  notes: "A classic, hearty spaghetti dinner that pairs perfectly with Caesar salad and garlic bread.",
+  ingredients: `1 box angel hair pasta
+1 lb ground beef
+1 green pepper, diced
+1 (28 oz) can diced tomatoes
+1 (16 oz) can tomato sauce
+1 (6 oz) can tomato paste
+2 tsp dried thyme
+4 tbsp Italian seasoning, divided
+1 tsp salt
+1/2 tsp black pepper
+2 tbsp butter
+1 tbsp olive oil`,
+  instructions: `Cook ground beef in a skillet over medium heat until browned. Drain grease.
+
+Add diced green pepper, diced tomatoes, tomato sauce, tomato paste, thyme, 2 tbsp Italian seasoning, salt, and pepper. Stir well.
+
+Bring to a simmer, reduce heat to low, and simmer for 30 minutes.
+
+In a pot, bring 6 cups of salted water to a boil. Add angel hair pasta and cook for about 5 minutes, stirring occasionally.
+
+Drain pasta and return it to the pot. Add butter, olive oil, and remaining 2 tbsp Italian seasoning. Stir well.
+
+Serve pasta topped with meat sauce.
+
+Optional: Pair with Caesar salad and garlic bread.`,
+},
+{
+  id: "shrimp-scampi",
+  slug: "shrimp-scampi",
+  name: "Shrimp Scampi",
+  effort: "quick",
+  tags: ["shrimp", "seafood", "quick", "skillet", "pasta"],
+  photoUrl: "/images/shrimp-scampi.jpg",
+  notes: "Light, buttery, and full of flavor. Great over angel hair pasta for an easy restaurant-style dinner at home.",
+  ingredients: `1 1/2 lbs large shrimp, peeled and deveined
+2 tbsp butter
+2 tbsp olive oil
+4 garlic cloves, minced
+1/4 tsp red pepper flakes (optional)
+1/2 cup dry white wine or low-sodium chicken broth
+1 1/2 tbsp lemon juice
+1 lemon, cut into wedges
+1/4 cup chopped fresh parsley
+Salt and black pepper to taste`,
+  instructions: `Pat shrimp dry and season with 1/2 tsp salt and 1/2 tsp pepper.
+
+Heat 1 tbsp olive oil and 1 tbsp butter in a large non-reactive skillet over medium-high heat.
+
+Add shrimp in a single layer and cook 1–2 minutes per side until just opaque. Remove to a plate.
+
+Lower heat to medium. Add remaining olive oil and butter.
+
+Sauté garlic and red pepper flakes, if using, for about 30 seconds until fragrant.
+
+Add wine or broth and simmer for 2 minutes until reduced by half.
+
+Stir in lemon juice.
+
+Return shrimp and any juices to the skillet and toss to coat.
+
+Remove from heat and stir in parsley.
+
+Serve with lemon wedges.
+
+Optional: Pair with angel hair pasta.`,
+},
+{
+  id: "grilled-cheese-sandwich",
+  slug: "grilled-cheese-sandwich",
+  name: "Grilled Cheese Sandwich",
+  effort: "quick",
+  tags: ["sandwich", "quick", "comfort food", "cheese", "lunch"],
+  photoUrl: "/images/grilled-cheese-sandwich.jpg",
+  notes: "Simple, classic, and always a winner. Even better with a bowl of warm tomato soup.",
+  ingredients: `Sourdough bread
+Butter
+Mild cheddar cheese slices`,
+  instructions: `Spread 1/2 tbsp butter on one side of each slice of bread.
+
+Heat a non-stick pan over medium-low heat.
+
+Place 2 slices of bread in the pan, buttered side down.
+
+Stack cheese slices on one piece of bread, then top with the other piece of bread.
+
+Cook, flipping once, until both sides are golden brown and the cheese is melted, about 6 minutes total.
+
+Cut in half diagonally and serve.
+
+Optional: Serve with warm tomato soup.`,
+},
+{
+  id: "maryland-crab-cake",
+  slug: "maryland-crab-cake",
+  name: "Maryland Crab Cake",
+  effort: "normal",
+  tags: ["seafood", "crab", "baked", "maryland", "dinner"],
+  photoUrl: "/images/maryland-crab-cake.jpg",
+  notes: "Classic crab cakes with plenty of crab flavor and just enough binder to hold them together.",
+  ingredients: `1 lb lump crab meat
+1 large egg
+1/4 cup mayonnaise
+1 tsp Dijon mustard
+1 tsp Worcestershire sauce
+1 tsp fresh lemon juice
+1 1/2 tsp Old Bay seasoning
+1 tsp fresh parsley, chopped
+2/3 cup cracker crumbs
+1 lemon, cut into wedges`,
+  instructions: `In a small bowl, whisk together mayonnaise, egg, mustard, Worcestershire sauce, Old Bay seasoning, lemon juice, and parsley.
+
+Add crab meat and gently fold it into the sauce.
+
+Add cracker crumbs and continue mixing gently. Be careful not to break up the crab meat too much.
+
+Cover and refrigerate for at least 30 minutes.
+
+Preheat oven to 400°F.
+
+Divide mixture into 6 portions and form into slightly flattened crab cakes.
+
+Place on a parchment-lined baking sheet.
+
+Bake for 15–18 minutes, until lightly browned.
+
+Serve with lemon wedges and your choice of cocktail sauce or tartar sauce.`,
+},
+{
+  id: "crock-pot-roast-beef",
+  slug: "crock-pot-roast-beef",
+  name: "Crock Pot Roast Beef",
+  effort: "big",
+  tags: ["beef", "roast", "slow cooker", "comfort food", "family"],
+  photoUrl: "/images/crock-pot-roast-beef.jpg",
+  notes: "A hearty slow-cooker classic with tender beef, vegetables, and an optional homemade gravy.",
+  ingredients: `1 1/2 tbsp olive oil, divided
+1 (3 lb) chuck roast
+Salt and freshly ground black pepper
+1 medium yellow onion, peeled, halved, and cut into thick slices
+5 garlic cloves, minced
+2 cups beef broth
+2 tsp Worcestershire sauce
+1 tbsp minced fresh thyme
+1 tbsp minced fresh rosemary
+2 1/2 lbs small Yukon gold potatoes, left whole
+2 cups baby carrots
+2 cups celery, cut into 1-inch pieces
+1 (8 oz) package baby bella mushrooms
+2 1/2 tbsp cornstarch mixed with 3 tbsp beef broth, optional
+2 tbsp chopped fresh parsley`,
+  instructions: `Heat 1 tbsp olive oil in a large pot over medium-high heat.
+
+Pat roast dry and season generously with salt and pepper.
+
+Sear roast until browned on both sides, about 4–5 minutes per side. Transfer to slow cooker.
+
+Add remaining 1/2 tbsp olive oil to the pot. Add onion and cook for 2 minutes.
+
+Add mushrooms and cook until they begin to brown. Add garlic and cook for 30 seconds more.
+
+Pour onion and mushroom mixture over roast in slow cooker.
+
+Return pot to heat. Add beef broth, Worcestershire sauce, thyme, and rosemary. Scrape up browned bits from the bottom of the pot, then remove from heat.
+
+Layer potatoes, carrots, and celery over and around the roast. Pour broth mixture over the top and season lightly with salt and pepper.
+
+Cover and cook on low for 8–9 hours, until roast and vegetables are tender.
+
+Remove roast and vegetables. Shred roast and discard excess fat.
+
+Optional gravy: Strain broth into a saucepan. Heat over medium-high. Whisk cornstarch mixture, then stir into broth. Simmer 30–60 seconds until thickened.
+
+Serve roast and vegetables topped with gravy and sprinkled with parsley.`,
+}
+
 ];
 
 
@@ -1633,6 +1823,47 @@ Cover with remaining sauce and top with cheese.
 
 Bake 20 minutes until cheese is bubbly. Garnish with remaining cilantro.`,
   },
+
+  {
+  id: "vegetarian-fri-chik-noodle-casserole",
+  slug: "vegetarian-fri-chik-noodle-casserole",
+  name: "Vegetarian Fri-Chik Noodle Casserole",
+  effort: "normal",
+  tags: ["vegetarian", "casserole", "pasta", "comfort food", "baked"],
+  photoUrl: "/images/vegetarian-fri-chik-noodle-casserole.jpg",
+  notes: "A hearty, comforting casserole that even non-vegetarians will love. Perfect for make-ahead dinners — it tastes even better the next day.",
+  ingredients: `12 oz egg noodles
+1 medium yellow onion, chopped
+1 medium white onion, chopped
+1 can Loma Linda Fri-Chik & Gravy
+2 eggs, beaten
+2 1/2 tbsp McKay's Chicken Seasoning
+1 (10.5 oz) can cream of mushroom soup
+1 cup milk
+1 (8 oz) block sharp cheddar cheese, shredded
+1 (8 oz) baby bella mushrooms, sliced
+2 tbsp butter
+1 tbsp olive oil
+1 tbsp minced garlic
+1 (4–7 oz) can green chilies (optional)
+Salt and pepper to taste`,
+  instructions: `Preheat oven to 350°F.
+
+Cook egg noodles according to package directions (omit salt). Drain and set aside.
+
+In a skillet, heat butter and olive oil over medium heat. Cook onions until translucent.
+
+Add mushrooms and cook until they begin to brown. Stir in minced garlic and cook for 2 more minutes.
+
+Chop the Fri-Chik into small pieces.
+
+In a large bowl, combine noodles, eggs, milk, cooked onions and mushrooms, cream of mushroom soup, shredded cheese (reserve some for topping), Fri-Chik, seasoning, salt, pepper, and green chilies if using. Mix well.
+
+Transfer to a baking dish and cover with foil. Bake for 1 hour.
+
+Remove foil, top with remaining cheese, and bake uncovered for 5–10 minutes until cheese is melted.`,
+}
+
 ];
 
 

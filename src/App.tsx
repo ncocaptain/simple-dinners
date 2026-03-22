@@ -139,13 +139,25 @@ useEffect(() => {
   });
   
   const [prefs, setPrefs] = useState<Preferences>(() => {
-    try {
-      const saved = localStorage.getItem("prefs");
-      return saved ? JSON.parse(saved) : { vegetarian: false, dietaryNotes: "" };
-    } catch { 
-      return { vegetarian: false, dietaryNotes: "" }; 
-    }
-  });
+  try {
+    const saved = localStorage.getItem("prefs");
+    return saved
+      ? JSON.parse(saved)
+      : {
+          vegetarian: false,
+          dietaryNotes: "",
+          includeDesserts: false,
+          includeAppetizers: false,
+        };
+  } catch {
+    return {
+      vegetarian: false,
+      dietaryNotes: "",
+      includeDesserts: false,
+      includeAppetizers: false,
+    };
+  }
+});
 
   const [lockedDays, setLockedDays] = useState(() => {
     try { return JSON.parse(localStorage.getItem("lockedDays") || "{}"); } catch { return {}; }
