@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  BrowserRouter,
   Navigate,
   Route,
   Routes,
@@ -519,10 +518,8 @@ export default function App() {
   return (
     <ThemeProvider>
       <ToastProvider>
-        <BrowserRouter>
           <AppContent />
-        </BrowserRouter>
-      </ToastProvider>
+        </ToastProvider>
     </ThemeProvider>
   );
 }
