@@ -366,7 +366,7 @@ const hideBottomNav = location.pathname.startsWith("/recipe/");
             textTransform: "uppercase",
           }}
         >
-          Captain&apos;s Kitchen • v{APP_VERSION}
+          Dinner Built Around You
         </div>
       </header>
 

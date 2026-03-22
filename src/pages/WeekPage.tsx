@@ -27,7 +27,7 @@ export default function WeekPage({
   addDayToCookbook,
   pantry = [],
   pantryText = "",
-  kitchenPath = "/kitchen",
+  kitchenPath = "/pantry",
 }: {
   meals: Record<string, Meal>;
   setMeals: React.Dispatch<React.SetStateAction<Record<string, Meal>>>;
