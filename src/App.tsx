@@ -1,5 +1,13 @@
-import { useEffect, useState } from "react";
-import { Navigate, Route, Routes, useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
+import { App as CapacitorApp } from "@capacitor/app";
 
 // Pages & Components
 import WeekPage from "./pages/WeekPage";
@@ -13,22 +21,84 @@ import HomePage from "./pages/HomePage";
 import SettingsPage from "./pages/SettingsPage";
 import TestersGuidePage from "./pages/TestersGuidePage";
 import FeedbackForm from "./pages/FeedbackForm";
+import WhatsNewPage from "./pages/WhatsNewPage";
 import { ToastProvider, useToast } from "./components/Toast";
 import { ThemeProvider } from "./theme";
-import { Calendar, BookOpen, ShoppingBasket, Settings, Utensils } from "lucide-react";
+import {
+  Calendar,
+  BookOpen,
+  ShoppingBasket,
+  Settings,
+  Utensils,
+} from "lucide-react";
 
 // Core
 import type { Effort, Meal, PantryItem, Preferences } from "./core/types";
-import { generatePlan } from "./core/planner"; 
+import { generatePlan } from "./core/planner";
 import { days } from "./core/data";
-import { getCookbook, setCookbook as persistCookbook, addToCookbook } from "./core/cookbookStore";
+import {
+  getCookbook,
+  setCookbook as persistCookbook,
+  addToCookbook,
+} from "./core/cookbookStore";
 import { hasCompletedOnboarding } from "./core/onboardingStore";
-import WhatsNewPage from "./pages/WhatsNewPage";
+
+const APP_VERSION = "22.0.7";
 
 const mealImageUrl = (name?: string) => {
   const q = encodeURIComponent((name || "cooking dinner").trim());
   return `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80&sig=1&meal=${q}`;
 };
+
+function BackHandler() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    let listener: { remove: () => Promise<void> } | undefined;
+
+    const setup = async () => {
+      try {
+        listener = await CapacitorApp.addListener("backButton", () => {
+          // If browser/app has history, go back
+          if (window.history.length > 1) {
+            window.history.back();
+            return;
+          }
+
+          // If somehow no history but not on home, go home
+          if (location.pathname !== "/") {
+            navigate("/");
+            return;
+          }
+
+          // Already at home: do nothing so app does not close immediately
+        });
+      } catch (err) {
+        console.log("Capacitor back button listener not available", err);
+      }
+    };
+
+    setup();
+
+    return () => {
+      listener?.remove();
+    };
+  }, [location.pathname, navigate]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (location.pathname === "/") {
+        navigate("/");
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [location.pathname, navigate]);
+
+  return null;
+}
 
 function Navigation() {
   const navigate = useNavigate();
@@ -36,31 +106,62 @@ function Navigation() {
 
   const navItem = (path: string, Icon: any, label: string) => {
     const isActive = location.pathname === path;
+
     return (
       <button
         onClick={() => navigate(path)}
         style={{
-          display: "flex", flexDirection: "column", alignItems: "center",
-          gap: 4, background: "none", border: "none", cursor: "pointer",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 4,
+          background: "none",
+          border: "none",
+          cursor: "pointer",
           color: isActive ? "#22c55e" : "rgba(255,255,255,0.4)",
-          transition: "all 0.2s ease", padding: "8px 12px"
+          transition: "all 0.2s ease",
+          padding: "8px 12px",
         }}
       >
         <Icon size={22} strokeWidth={isActive ? 3 : 2} />
-        <span style={{ fontSize: 9, fontWeight: 900, textTransform: "uppercase" }}>{label}</span>
+        <span
+          style={{
+            fontSize: 9,
+            fontWeight: 900,
+            textTransform: "uppercase",
+          }}
+        >
+          {label}
+        </span>
       </button>
     );
   };
 
   return (
-    <div style={{ width: "100%", display: "flex", justifyContent: "center", position: "fixed", bottom: 24, zIndex: 1000 }}>
-      <div style={{ 
-        display: "flex", gap: 6, padding: "8px 12px", background: "rgba(15, 23, 42, 0.85)", 
-        backdropFilter: "blur(16px)", borderRadius: "32px", border: "1px solid rgba(255,255,255,0.1)",
-        boxShadow: "0 12px 30px -5px rgba(0,0,0,0.5)" 
-      }}>
-        {navItem("/", Utensils, "Home")} 
-        {navItem("/week", Calendar, "Week")} 
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        position: "fixed",
+        bottom: 24,
+        zIndex: 1000,
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          gap: 6,
+          padding: "8px 12px",
+          background: "rgba(15, 23, 42, 0.85)",
+          backdropFilter: "blur(16px)",
+          borderRadius: "32px",
+          border: "1px solid rgba(255,255,255,0.1)",
+          boxShadow: "0 12px 30px -5px rgba(0,0,0,0.5)",
+        }}
+      >
+        {navItem("/", Utensils, "Home")}
+        {navItem("/week", Calendar, "Week")}
         {navItem("/cookbook", BookOpen, "Cook")}
         {navItem("/shopping-list", ShoppingBasket, "Shop")}
         {navItem("/settings", Settings, "Setup")}
@@ -73,94 +174,111 @@ function AppContent() {
   const navigate = useNavigate();
   const [showTesterPrompt, setShowTesterPrompt] = useState(false);
   const toastApi: any = useToast();
-  const toast = toastApi.toast ?? toastApi; 
-  const APP_VERSION = "22.0.7"; 
+  const toast = toastApi.toast ?? toastApi;
 
- useEffect(() => {
-  if (import.meta.env.PROD) {
-    const checkForUpdates = async () => {
-      try {
-        const response = await fetch(window.location.href, { method: "HEAD" });
-        const etag = response.headers.get("etag");
-        const lastEtag = localStorage.getItem("app-etag");
+  // --- app update + chunk reload handling ---
+  useEffect(() => {
+    if (import.meta.env.PROD) {
+      const checkForUpdates = async () => {
+        try {
+          const response = await fetch(window.location.href, { method: "HEAD" });
+          const etag = response.headers.get("etag");
+          const lastEtag = localStorage.getItem("app-etag");
 
-        if (lastEtag && etag && lastEtag !== etag) {
-          localStorage.setItem("app-etag", etag);
-          toast("New update deployed! Reloading...");
-          setTimeout(() => window.location.reload(), 2000);
-        } else if (etag) {
-          localStorage.setItem("app-etag", etag);
+          if (lastEtag && etag && lastEtag !== etag) {
+            localStorage.setItem("app-etag", etag);
+            toast("New update deployed! Reloading...");
+            setTimeout(() => window.location.reload(), 2000);
+          } else if (etag) {
+            localStorage.setItem("app-etag", etag);
+          }
+        } catch (e) {
+          console.log("Update check failed", e);
         }
-      } catch (e) {
-        console.log("Update check failed", e);
+      };
+
+      checkForUpdates();
+      window.addEventListener("focus", checkForUpdates);
+      return () => window.removeEventListener("focus", checkForUpdates);
+    }
+
+    const handleError = (e: ErrorEvent) => {
+      if (
+        e.message.includes("Loading chunk") ||
+        e.message.includes("Script error")
+      ) {
+        window.location.reload();
       }
     };
 
-    checkForUpdates();
-    window.addEventListener("focus", checkForUpdates);
-    return () => window.removeEventListener("focus", checkForUpdates);
-  }
+    window.addEventListener("error", handleError, true);
+    return () => window.removeEventListener("error", handleError, true);
+  }, [toast]);
 
-  const handleError = (e: ErrorEvent) => {
-    if (
-      e.message.includes("Loading chunk") ||
-      e.message.includes("Script error")
-    ) {
-      window.location.reload();
+  // --- what's new redirect ---
+  useEffect(() => {
+    const seenVersion = localStorage.getItem("seen-whats-new");
+
+    if (seenVersion !== APP_VERSION) {
+      navigate("/whats-new");
+      localStorage.setItem("seen-whats-new", APP_VERSION);
     }
-  };
-
-  window.addEventListener("error", handleError, true);
-  return () => window.removeEventListener("error", handleError, true);
-}, [toast]);
-
-useEffect(() => {
-  const seenVersion = localStorage.getItem("seen-whats-new");
-
-  if (seenVersion !== APP_VERSION) {
-    navigate("/whats-new");
-    localStorage.setItem("seen-whats-new", APP_VERSION);
-  }
-}, [navigate]);
+  }, [navigate]);
 
   // --- STATE ---
   const [cookbook, setCookbook] = useState<any[]>(() => getCookbook());
 
   const [meals, setMeals] = useState<Record<string, Meal>>(() => {
-    try { return JSON.parse(localStorage.getItem("meals") || "{}"); } catch { return {}; }
+    try {
+      return JSON.parse(localStorage.getItem("meals") || "{}");
+    } catch {
+      return {};
+    }
   });
 
   const [daySettings, setDaySettings] = useState<Record<string, Effort>>(() => {
-    try { return JSON.parse(localStorage.getItem("daySettings") || "{}"); } catch { return {}; }
+    try {
+      return JSON.parse(localStorage.getItem("daySettings") || "{}");
+    } catch {
+      return {};
+    }
   });
 
   const [pantry, setPantry] = useState<PantryItem[]>(() => {
-    try { return JSON.parse(localStorage.getItem("pantry") || "[]"); } catch { return []; }
+    try {
+      return JSON.parse(localStorage.getItem("pantry") || "[]");
+    } catch {
+      return [];
+    }
   });
-  
-  const [prefs, setPrefs] = useState<Preferences>(() => {
-  try {
-    const saved = localStorage.getItem("prefs");
-    return saved
-      ? JSON.parse(saved)
-      : {
-          vegetarian: false,
-          dietaryNotes: "",
-          includeDesserts: false,
-          includeAppetizers: false,
-        };
-  } catch {
-    return {
-      vegetarian: false,
-      dietaryNotes: "",
-      includeDesserts: false,
-      includeAppetizers: false,
-    };
-  }
-});
 
-  const [lockedDays, setLockedDays] = useState(() => {
-    try { return JSON.parse(localStorage.getItem("lockedDays") || "{}"); } catch { return {}; }
+  const [prefs, setPrefs] = useState<Preferences>(() => {
+    try {
+      const saved = localStorage.getItem("prefs");
+      return saved
+        ? JSON.parse(saved)
+        : {
+            vegetarian: false,
+            dietaryNotes: "",
+            includeDesserts: false,
+            includeAppetizers: false,
+          };
+    } catch {
+      return {
+        vegetarian: false,
+        dietaryNotes: "",
+        includeDesserts: false,
+        includeAppetizers: false,
+      };
+    }
+  });
+
+  const [lockedDays, setLockedDays] = useState<Record<string, boolean>>(() => {
+    try {
+      return JSON.parse(localStorage.getItem("lockedDays") || "{}");
+    } catch {
+      return {};
+    }
   });
 
   // --- PERSISTENCE ---
@@ -183,12 +301,27 @@ useEffect(() => {
 
   const generateDinnerPlan = (force = false) => {
     const seedMeals = force
-      ? Object.fromEntries(days.map(d => [d, lockedDays[d] ? meals[d] : { name: "", ingredients: "", instructions: "", photoUrl: "" }]))
+      ? Object.fromEntries(
+          days.map((d) => [
+            d,
+            lockedDays[d]
+              ? meals[d]
+              : { name: "", ingredients: "", instructions: "", photoUrl: "" },
+          ])
+        )
       : meals;
 
-    const next = generatePlan({ meals: seedMeals as any, cookbook, pantry, daySettings, prefs, days });
-    
+    const next = generatePlan({
+      meals: seedMeals as any,
+      cookbook,
+      pantry,
+      daySettings,
+      prefs,
+      days,
+    });
+
     const withPhotos = { ...next } as Record<string, Meal>;
+
     for (const d of days) {
       if (withPhotos[d] && !withPhotos[d].photoUrl) {
         withPhotos[d].photoUrl = mealImageUrl(withPhotos[d].name);
@@ -199,154 +332,183 @@ useEffect(() => {
     navigate("/");
   };
 
-  const requireOnboarding = (element: React.ReactNode) => 
+  const requireOnboarding = (element: React.ReactNode) =>
     hasCompletedOnboarding() ? element : <Navigate to="/onboarding" replace />;
 
   return (
     <div style={{ minHeight: "100vh", paddingBottom: 110 }}>
-      <header style={{ padding: "32px 20px", textAlign: "center", maxWidth: "550px", margin: "0 auto" }}>
-        <h1 style={{ margin: 0, fontSize: 36, fontWeight: 1000, color: "#f8fafc" }}>
+      <BackHandler />
+
+      <header
+        style={{
+          padding: "32px 20px",
+          textAlign: "center",
+          maxWidth: "550px",
+          margin: "0 auto",
+        }}
+      >
+        <h1
+          style={{
+            margin: 0,
+            fontSize: 36,
+            fontWeight: 1000,
+            color: "#f8fafc",
+          }}
+        >
           Simple Dinners
         </h1>
-        <div style={{ fontSize: 12, opacity: 0.4, fontWeight: 800, textTransform: "uppercase" }}>
-          Captain's Kitchen • v{APP_VERSION}
+        <div
+          style={{
+            fontSize: 12,
+            opacity: 0.4,
+            fontWeight: 800,
+            textTransform: "uppercase",
+          }}
+        >
+          Captain&apos;s Kitchen • v{APP_VERSION}
         </div>
       </header>
 
       <Routes>
-        <Route path="/" element={requireOnboarding(<HomePage meals={meals} setMeals={setMeals} />)} />
+        <Route
+          path="/"
+          element={requireOnboarding(
+            <HomePage meals={meals} setMeals={setMeals} />
+          )}
+        />
+
         <Route path="/onboarding" element={<OnboardingPage />} />
 
-        <Route 
-          path="/plan" 
+        <Route
+          path="/plan"
           element={requireOnboarding(
-            <PlanPage 
-              daySettings={daySettings} 
-              setDaySettings={setDaySettings} 
-              pantry={pantry} 
-              setPantry={setPantry} 
-              prefs={prefs}      
-              setPrefs={setPrefs} 
-              generateDinnerPlan={generateDinnerPlan} 
+            <PlanPage
+              daySettings={daySettings}
+              setDaySettings={setDaySettings}
+              pantry={pantry}
+              setPantry={setPantry}
+              prefs={prefs}
+              setPrefs={setPrefs}
+              generateDinnerPlan={generateDinnerPlan}
             />
-          )} 
+          )}
         />
 
-        <Route 
-          path="/week" 
+        <Route
+          path="/week"
           element={requireOnboarding(
-            <WeekPage 
-              meals={meals} 
-              setMeals={setMeals} 
-              addDayToCookbook={addDayToCookbook} 
-              generateDinnerPlan={generateDinnerPlan} 
-              lockedDays={lockedDays} 
-              setLockedDays={setLockedDays} 
+            <WeekPage
+              meals={meals}
+              setMeals={setMeals}
+              addDayToCookbook={addDayToCookbook}
+              generateDinnerPlan={generateDinnerPlan}
+              lockedDays={lockedDays}
+              setLockedDays={setLockedDays}
             />
-          )} 
+          )}
         />
 
-        <Route 
-          path="/cookbook" 
+        <Route
+          path="/cookbook"
           element={requireOnboarding(
-            <CookbookPage
-              cookbook={cookbook}
-              setCookbook={setCookbook}
-            />
-          )} 
+            <CookbookPage cookbook={cookbook} setCookbook={setCookbook} />
+          )}
         />
 
         <Route path="/recipe/:slug" element={<RecipePage />} />
 
-        <Route 
-          path="/shopping-list" 
-          element={requireOnboarding(<ShoppingListPage />)} 
+        <Route
+          path="/shopping-list"
+          element={requireOnboarding(<ShoppingListPage />)}
         />
 
-        {/* This allows CookNow to look up "Tonight's Dinner" */}
-        <Route 
-          path="/cook-now" 
-          element={requireOnboarding(<CookNowPage meals={meals} />)} 
+        <Route
+          path="/cook-now"
+          element={requireOnboarding(<CookNowPage meals={meals} />)}
         />
 
-        <Route path="/settings" element={<SettingsPage prefs={prefs} setPrefs={setPrefs} />} />
+        <Route
+          path="/settings"
+          element={<SettingsPage prefs={prefs} setPrefs={setPrefs} />}
+        />
         <Route path="/guide" element={<TestersGuidePage />} />
         <Route path="/whats-new" element={<WhatsNewPage />} />
         <Route path="/feedback" element={<FeedbackForm />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
       {showTesterPrompt && (
-  <div
-    style={{
-      position: "fixed",
-      inset: 0,
-      background: "rgba(0,0,0,0.75)",
-      zIndex: 3000,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: 20,
-    }}
-  >
-    <div
-      style={{
-        maxWidth: 400,
-        width: "100%",
-        background: "#1e293b",
-        borderRadius: 20,
-        padding: 24,
-        border: "1px solid rgba(255,255,255,0.1)",
-        textAlign: "center",
-      }}
-    >
-      <h3 style={{ fontSize: 22, fontWeight: 900, marginBottom: 10 }}>
-        🧪 Test Missions
-      </h3>
-
-      <p style={{ opacity: 0.7, marginBottom: 20, lineHeight: 1.5 }}>
-        Want to help improve the app? Try a couple quick test missions and tell me
-        what feels off.
-      </p>
-
-      <div style={{ display: "flex", gap: 10 }}>
-        <button
-          onClick={() => setShowTesterPrompt(false)}
+        <div
           style={{
-            flex: 1,
-            padding: 12,
-            borderRadius: 12,
-            background: "rgba(255,255,255,0.08)",
-            border: "none",
-            color: "white",
-            fontWeight: 800,
-            cursor: "pointer",
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.75)",
+            zIndex: 3000,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 20,
           }}
         >
-          Maybe Later
-        </button>
+          <div
+            style={{
+              maxWidth: 400,
+              width: "100%",
+              background: "#1e293b",
+              borderRadius: 20,
+              padding: 24,
+              border: "1px solid rgba(255,255,255,0.1)",
+              textAlign: "center",
+            }}
+          >
+            <h3 style={{ fontSize: 22, fontWeight: 900, marginBottom: 10 }}>
+              🧪 Test Missions
+            </h3>
 
-        <button
-          onClick={() => {
-            setShowTesterPrompt(false);
-            navigate("/guide");
-          }}
-          style={{
-            flex: 1,
-            padding: 12,
-            borderRadius: 12,
-            background: "#22c55e",
-            border: "none",
-            color: "#0f172a",
-            fontWeight: 900,
-            cursor: "pointer",
-          }}
-        >
-          Let’s Go
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+            <p style={{ opacity: 0.7, marginBottom: 20, lineHeight: 1.5 }}>
+              Want to help improve the app? Try a couple quick test missions and
+              tell me what feels off.
+            </p>
+
+            <div style={{ display: "flex", gap: 10 }}>
+              <button
+                onClick={() => setShowTesterPrompt(false)}
+                style={{
+                  flex: 1,
+                  padding: 12,
+                  borderRadius: 12,
+                  background: "rgba(255,255,255,0.08)",
+                  border: "none",
+                  color: "white",
+                  fontWeight: 800,
+                  cursor: "pointer",
+                }}
+              >
+                Maybe Later
+              </button>
+
+              <button
+                onClick={() => {
+                  setShowTesterPrompt(false);
+                  navigate("/guide");
+                }}
+                style={{
+                  flex: 1,
+                  padding: 12,
+                  borderRadius: 12,
+                  background: "#22c55e",
+                  border: "none",
+                  color: "#0f172a",
+                  fontWeight: 900,
+                  cursor: "pointer",
+                }}
+              >
+                Let&apos;s Go
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Navigation />
     </div>
@@ -357,7 +519,9 @@ export default function App() {
   return (
     <ThemeProvider>
       <ToastProvider>
-        <AppContent />
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
       </ToastProvider>
     </ThemeProvider>
   );

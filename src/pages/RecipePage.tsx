@@ -19,6 +19,7 @@ import {
 import { addIngredientsToList } from "../shoppingList";
 import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
 
+
 // --- HELPERS ---
 function splitLines(s?: string) {
   return String(s ?? "")
@@ -179,6 +180,17 @@ export default function RecipePage() {
   const { slug = "" } = useParams();
   const location = useLocation();
 
+  const qs = new URLSearchParams(location.search);
+  const fromPath = qs.get("from") || "/week";
+
+  function handleBack() {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate(fromPath);
+    }
+  }
+
   // --- STATE ---
   const [cookMode, setCookMode] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
@@ -188,9 +200,6 @@ export default function RecipePage() {
   const [servingFactor, setServingFactor] = useState(1);
   const [checkedIngredients, setCheckedIngredients] = useState<number[]>([]);
   const [completedCookIngredients, setCompletedCookIngredients] = useState<string[]>([]);
-
-  const qs = new URLSearchParams(location.search);
-  const fromPath = qs.get("from") || "/week";
 
   // --- STYLES ---
   const pill: React.CSSProperties = {
@@ -738,9 +747,9 @@ export default function RecipePage() {
           justifyContent: "center",
         }}
       >
-        <button style={btn} onClick={() => navigate(fromPath)}>
-          <ArrowLeft size={18} /> {fromPath === "/cookbook" ? "Cookbook" : "Back"}
-        </button>
+        <button style={btn} onClick={handleBack}>
+  <ArrowLeft size={18} /> {fromPath === "/cookbook" ? "Cookbook" : "Back"}
+</button>
 
         <button
           style={{ ...btn, background: "#14b8a6", color: "#0f172a", border: "none" }}
