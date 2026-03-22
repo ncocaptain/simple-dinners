@@ -386,7 +386,7 @@ export default function RecipePage() {
     return (
       <div
         style={{
-          padding: "20px 20px 120px 20px",
+          padding: "20px 20px 180px 20px",
           maxWidth: 760,
           margin: "0 auto",
           display: "grid",
@@ -716,16 +716,16 @@ export default function RecipePage() {
   style={{
     position: "fixed",
     left: "50%",
-    bottom: 18,
+    bottom: 90,
     transform: "translateX(-50%)",
-    width: "min(760px, calc(100% - 24px))",
+    width: "min(760px, calc(100% - 32px))",
     display: "flex",
     gap: 12,
     padding: 12,
     borderRadius: 22,
-    background: "rgba(15, 23, 42, 0.92)",
-    border: "1px solid rgba(255,255,255,0.08)",
-    boxShadow: "0 20px 40px rgba(0,0,0,0.45)",
+    background: "rgba(15, 23, 42, 0.96)",
+border: "1px solid rgba(20,184,166,0.18)",
+boxShadow: "0 24px 50px rgba(0,0,0,0.55)",
     backdropFilter: "blur(10px)",
     zIndex: 1200,
   }}
