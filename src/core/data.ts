@@ -1161,7 +1161,7 @@ Serve topped with grated parmesan cheese and bacon bits if desired.`,
   name: "Hidden Veggie Meatloaf",
   effort: "normal",
   tags: ["beef", "meatloaf", "family", "comfort food", "oven-baked"],
-  photoUrl: "/images/hidden-veggie-meatloaf.jpg",
+  photoUrl: "/images/hidden-veggie-meatloaf.png",
   notes: "A great way to sneak extra vegetables into dinner without sacrificing comfort-food flavor. Perfect with mashed potatoes.",
   ingredients: `1 1/2 lbs ground beef
 1 medium zucchini, peeled and finely grated
@@ -1204,7 +1204,7 @@ Let rest for 5–10 minutes before slicing.`,
   name: "Tom's Spaghetti",
   effort: "normal",
   tags: ["pasta", "beef", "spaghetti", "family", "comfort food"],
-  photoUrl: "/images/toms-spaghetti.jpg",
+  photoUrl: "/images/toms-spaghetti.png",
   notes: "A classic, hearty spaghetti dinner that pairs perfectly with Caesar salad and garlic bread.",
   ingredients: `1 box angel hair pasta
 1 lb ground beef
@@ -1238,7 +1238,7 @@ Optional: Pair with Caesar salad and garlic bread.`,
   name: "Shrimp Scampi",
   effort: "quick",
   tags: ["shrimp", "seafood", "quick", "skillet", "pasta"],
-  photoUrl: "/images/shrimp-scampi.jpg",
+  photoUrl: "/images/shrimp-scampi.png",
   notes: "Light, buttery, and full of flavor. Great over angel hair pasta for an easy restaurant-style dinner at home.",
   ingredients: `1 1/2 lbs large shrimp, peeled and deveined
 2 tbsp butter
@@ -1278,7 +1278,7 @@ Optional: Pair with angel hair pasta.`,
   name: "Grilled Cheese Sandwich",
   effort: "quick",
   tags: ["sandwich", "quick", "comfort food", "cheese", "lunch"],
-  photoUrl: "/images/grilled-cheese-sandwich.jpg",
+  photoUrl: "/images/grilled-cheese-sandwich.png",
   notes: "Simple, classic, and always a winner. Even better with a bowl of warm tomato soup.",
   ingredients: `Sourdough bread
 Butter
@@ -1303,7 +1303,7 @@ Optional: Serve with warm tomato soup.`,
   name: "Maryland Crab Cake",
   effort: "normal",
   tags: ["seafood", "crab", "baked", "maryland", "dinner"],
-  photoUrl: "/images/maryland-crab-cake.jpg",
+  photoUrl: "/images/maryland-crab-cake.png",
   notes: "Classic crab cakes with plenty of crab flavor and just enough binder to hold them together.",
   ingredients: `1 lb lump crab meat
 1 large egg
@@ -1830,7 +1830,7 @@ Bake 20 minutes until cheese is bubbly. Garnish with remaining cilantro.`,
   name: "Vegetarian Fri-Chik Noodle Casserole",
   effort: "normal",
   tags: ["vegetarian", "casserole", "pasta", "comfort food", "baked"],
-  photoUrl: "/images/vegetarian-fri-chik-noodle-casserole.jpg",
+  photoUrl: "/images/vegetarian-fri-chik-noodle-casserole.png",
   notes: "A hearty, comforting casserole that even non-vegetarians will love. Perfect for make-ahead dinners — it tastes even better the next day.",
   ingredients: `12 oz egg noodles
 1 medium yellow onion, chopped
