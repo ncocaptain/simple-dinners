@@ -327,7 +327,15 @@ export default function ShoppingListPage() {
   const clearCheckedItems = () => {
     persistShoppingItems(shoppingItems.filter((item) => !item.checked));
   };
+const clearAllItems = () => {
+  const confirmed = window.confirm(
+    "Clear your entire shopping list?"
+  );
 
+  if (!confirmed) return;
+
+  persistShoppingItems([]);
+};
   const checkedCount = shoppingItems.filter((item) => item.checked).length;
 
   const combinedItems = useMemo(() => {
@@ -494,44 +502,66 @@ export default function ShoppingListPage() {
           }}
         >
           <button
-            onClick={() => setHideChecked((prev) => !prev)}
-            style={{
-              background: "rgba(255,255,255,0.06)",
-              border: "1px solid rgba(255,255,255,0.12)",
-              color: "white",
-              fontSize: 11,
-              fontWeight: 800,
-              padding: "6px 12px",
-              borderRadius: "999px",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 6,
-              letterSpacing: 0.3,
-            }}
-          >
-            {hideChecked ? <Eye size={14} /> : <EyeOff size={14} />}
-            {hideChecked ? "SHOW CHECKED" : "HIDE CHECKED"}
-          </button>
+    onClick={() => setHideChecked((prev) => !prev)}
+    style={{
+      background: "rgba(255,255,255,0.06)",
+      border: "1px solid rgba(255,255,255,0.12)",
+      color: "white",
+      fontSize: 11,
+      fontWeight: 800,
+      padding: "6px 12px",
+      borderRadius: "999px",
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 6,
+      letterSpacing: 0.3,
+    }}
+  >
+    {hideChecked ? <Eye size={14} /> : <EyeOff size={14} />}
+    {hideChecked ? "SHOW CHECKED" : "HIDE CHECKED"}
+  </button>
 
-          {checkedCount > 0 && (
-            <button
-              onClick={clearCheckedItems}
-              style={{
-                background: "rgba(239,68,68,0.1)",
-                border: "1px solid rgba(239,68,68,0.2)",
-                color: "#ef4444",
-                fontSize: 11,
-                fontWeight: 800,
-                padding: "6px 12px",
-                borderRadius: "999px",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-                letterSpacing: 0.3,
-              }}
-            >
-              CLEAR CHECKED ({checkedCount})
-            </button>
+  {/* NEW: CLEAR ALL */}
+  {shoppingItems.length > 0 && (
+    <button
+      onClick={clearAllItems}
+      style={{
+        background: "rgba(239,68,68,0.15)",
+        border: "1px solid rgba(239,68,68,0.3)",
+        color: "#ef4444",
+        fontSize: 11,
+        fontWeight: 800,
+        padding: "6px 12px",
+        borderRadius: "999px",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 6,
+        letterSpacing: 0.3,
+      }}
+    >
+      CLEAR ALL
+    </button>
+  )}
+
+  {checkedCount > 0 && (
+    <button
+      onClick={clearCheckedItems}
+      style={{
+        background: "rgba(239,68,68,0.1)",
+        border: "1px solid rgba(239,68,68,0.2)",
+        color: "#ef4444",
+        fontSize: 11,
+        fontWeight: 800,
+        padding: "6px 12px",
+        borderRadius: "999px",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 6,
+        letterSpacing: 0.3,
+      }}
+    >
+      CLEAR CHECKED ({checkedCount})
+    </button>
           )}
         </div>
 
