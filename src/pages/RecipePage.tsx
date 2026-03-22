@@ -19,7 +19,6 @@ import {
 import { addIngredientsToList } from "../shoppingList";
 import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
 
-
 // --- HELPERS ---
 function splitLines(s?: string) {
   return String(s ?? "")
@@ -200,6 +199,7 @@ export default function RecipePage() {
   const [servingFactor, setServingFactor] = useState(1);
   const [checkedIngredients, setCheckedIngredients] = useState<number[]>([]);
   const [completedCookIngredients, setCompletedCookIngredients] = useState<string[]>([]);
+  const [showCookIngredients, setShowCookIngredients] = useState(false);
 
   // --- STYLES ---
   const pill: React.CSSProperties = {
@@ -274,9 +274,7 @@ export default function RecipePage() {
   }, [rawIngredients, servingFactor]);
 
   const selectedIngredients = useMemo(() => {
-    return checkedIngredients
-      .map((i) => ingredients[i])
-      .filter(Boolean);
+    return checkedIngredients.map((i) => ingredients[i]).filter(Boolean);
   }, [checkedIngredients, ingredients]);
 
   const instructions = useMemo(() => {
@@ -326,6 +324,7 @@ export default function RecipePage() {
     setServingFactor(1);
     setStepIndex(0);
     setCookMode(false);
+    setShowCookIngredients(false);
   }, [slug]);
 
   if (!recipe) {
@@ -343,9 +342,7 @@ export default function RecipePage() {
   };
 
   const handleAddSelectedToList = () => {
-    const cleanedItems = selectedIngredients
-      .map(cleanIngredientLine)
-      .filter(Boolean);
+    const cleanedItems = selectedIngredients.map(cleanIngredientLine).filter(Boolean);
 
     if (!cleanedItems.length) return;
 
@@ -361,9 +358,7 @@ export default function RecipePage() {
   };
 
   const handleAddAllToList = () => {
-    const cleanedItems = ingredients
-      .map(cleanIngredientLine)
-      .filter(Boolean);
+    const cleanedItems = ingredients.map(cleanIngredientLine).filter(Boolean);
 
     if (!cleanedItems.length) return;
 
@@ -593,105 +588,126 @@ export default function RecipePage() {
           )}
         </div>
 
-        <div
-          style={{
-            ...card,
-            padding: "24px",
-            background: "rgba(15, 23, 42, 0.78)",
-            border: "1px solid rgba(255,255,255,0.08)",
-          }}
-        >
-          <div
+        <div style={{ display: "grid", gap: 12 }}>
+          <button
             style={{
-              marginBottom: 14,
-              fontSize: 12,
-              fontWeight: 900,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              color: "#14b8a6",
+              ...btn,
+              justifyContent: "center",
+              background: showCookIngredients
+                ? "rgba(20,184,166,0.14)"
+                : "rgba(255,255,255,0.06)",
+              border: showCookIngredients
+                ? "1px solid rgba(20,184,166,0.35)"
+                : "1px solid rgba(255,255,255,0.1)",
+              color: showCookIngredients ? "#5eead4" : "#f8fafc",
             }}
+            onClick={() => setShowCookIngredients((v) => !v)}
           >
-            Ingredients
-          </div>
+            {showCookIngredients ? "Hide Ingredients" : "View Ingredients"}
+          </button>
 
-          {ingredients.length === 0 ? (
-            <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 15 }}>
-              No ingredients available.
-            </div>
-          ) : (
+          {showCookIngredients && (
             <div
               style={{
-                display: "grid",
-                gap: 10,
+                ...card,
+                padding: "24px",
+                background: "rgba(15, 23, 42, 0.78)",
+                border: "1px solid rgba(255,255,255,0.08)",
               }}
             >
-              {[...ingredients]
-                .map((line, i) => ({ line, i }))
-                .sort((a, b) => {
-                  const aDone = completedCookIngredients.includes(a.line) ? 1 : 0;
-                  const bDone = completedCookIngredients.includes(b.line) ? 1 : 0;
-                  return aDone - bDone;
-                })
-                .map(({ line, i }) => {
-                  const isHighlighted = highlightedIngredientIndexes.includes(i);
-                  const isDone = completedCookIngredients.includes(line);
+              <div
+                style={{
+                  marginBottom: 14,
+                  fontSize: 12,
+                  fontWeight: 900,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  color: "#14b8a6",
+                }}
+              >
+                Ingredients
+              </div>
 
-                  return (
-                    <div
-                      key={`${line}-${i}`}
-                      onClick={() => toggleCompletedCookIngredient(line)}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 12,
-                        padding: "14px 16px",
-                        borderRadius: 14,
-                        background: isDone
-                          ? "rgba(255,255,255,0.02)"
-                          : isHighlighted
-                          ? "rgba(20,184,166,0.18)"
-                          : "rgba(255,255,255,0.03)",
-                        border: isDone
-                          ? "1px solid rgba(255,255,255,0.06)"
-                          : isHighlighted
-                          ? "1px solid rgba(20,184,166,0.55)"
-                          : "1px solid rgba(255,255,255,0.08)",
-                        transition: "all 0.2s ease",
-                        cursor: "pointer",
-                        opacity: isDone ? 0.42 : 1,
-                      }}
-                    >
-                      <span
-                        style={{
-                          width: 10,
-                          height: 10,
-                          borderRadius: "50%",
-                          background: isDone
-                            ? "rgba(255,255,255,0.25)"
-                            : isHighlighted
-                            ? "#14b8a6"
-                            : "rgba(255,255,255,0.2)",
-                          flexShrink: 0,
-                        }}
-                      />
+              {ingredients.length === 0 ? (
+                <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 15 }}>
+                  No ingredients available.
+                </div>
+              ) : (
+                <div
+                  style={{
+                    display: "grid",
+                    gap: 10,
+                  }}
+                >
+                  {[...ingredients]
+                    .map((line, i) => ({ line, i }))
+                    .sort((a, b) => {
+                      const aDone = completedCookIngredients.includes(a.line) ? 1 : 0;
+                      const bDone = completedCookIngredients.includes(b.line) ? 1 : 0;
+                      return aDone - bDone;
+                    })
+                    .map(({ line, i }) => {
+                      const isHighlighted = highlightedIngredientIndexes.includes(i);
+                      const isDone = completedCookIngredients.includes(line);
 
-                      <span
-                        style={{
-                          color: isDone
-                            ? "rgba(255,255,255,0.45)"
-                            : isHighlighted
-                            ? "#fff"
-                            : "rgba(255,255,255,0.78)",
-                          fontWeight: isHighlighted && !isDone ? 800 : 500,
-                          lineHeight: 1.4,
-                          textDecoration: isDone ? "line-through" : "none",
-                        }}
-                      >
-                        {line}
-                      </span>
-                    </div>
-                  );
-                })}
+                      return (
+                        <div
+                          key={`${line}-${i}`}
+                          onClick={() => toggleCompletedCookIngredient(line)}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 12,
+                            padding: "14px 16px",
+                            borderRadius: 14,
+                            background: isDone
+                              ? "rgba(255,255,255,0.02)"
+                              : isHighlighted
+                              ? "rgba(20,184,166,0.18)"
+                              : "rgba(255,255,255,0.03)",
+                            border: isDone
+                              ? "1px solid rgba(255,255,255,0.06)"
+                              : isHighlighted
+                              ? "1px solid rgba(20,184,166,0.55)"
+                              : "1px solid rgba(255,255,255,0.08)",
+                            transition: "all 0.2s ease",
+                            cursor: "pointer",
+                            opacity: isDone ? 0.42 : 1,
+                          }}
+                        >
+                          <span
+                            style={{
+                              width: 10,
+                              height: 10,
+                              borderRadius: "50%",
+                              background: isDone
+                                ? "rgba(255,255,255,0.25)"
+                                : isHighlighted
+                                ? "#14b8a6"
+                                : "rgba(255,255,255,0.2)",
+                              flexShrink: 0,
+                            }}
+                          />
+
+                          <span
+                            style={{
+                              color: isDone
+                                ? "rgba(255,255,255,0.45)"
+                                : isHighlighted
+                                ? "#fff"
+                                : "rgba(255,255,255,0.78)",
+                              fontWeight: isHighlighted && !isDone ? 800 : 500,
+                              lineHeight: 1.4,
+                              textDecoration: isDone ? "line-through" : "none",
+                            }}
+                          >
+                            {line}
+                          </span>
+                        </div>
+                      );
+                    })}
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -748,8 +764,8 @@ export default function RecipePage() {
         }}
       >
         <button style={btn} onClick={handleBack}>
-  <ArrowLeft size={18} /> {fromPath === "/cookbook" ? "Cookbook" : "Back"}
-</button>
+          <ArrowLeft size={18} /> {fromPath === "/cookbook" ? "Cookbook" : "Back"}
+        </button>
 
         <button
           style={{ ...btn, background: "#14b8a6", color: "#0f172a", border: "none" }}
@@ -811,11 +827,7 @@ export default function RecipePage() {
           <Printer size={18} />
         </button>
 
-        <button
-          style={btn}
-          onClick={handleAddAllToList}
-          title="Add all ingredients"
-        >
+        <button style={btn} onClick={handleAddAllToList} title="Add all ingredients">
           <ShoppingCart size={18} />
           Add All
         </button>
