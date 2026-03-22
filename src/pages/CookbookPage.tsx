@@ -113,8 +113,14 @@ export default function CookbookPage({
     setHasImportedDraft(false);
   };
 
+  const closeManualModal = () => {
+    setShowManual(false);
+    resetManualRecipe();
+  };
+
   const openNewRecipeModal = () => {
     resetManualRecipe();
+    setImportUrl("");
     setShowManual(true);
   };
 
@@ -196,10 +202,16 @@ export default function CookbookPage({
         setShowManual(true);
         setImportUrl("");
 
-        if (!normalizedRecipe.name && !normalizedRecipe.ingredients && !normalizedRecipe.instructions) {
-          alert("Import finished, but not much was found. You can fill in the details manually.");
+        if (
+          !normalizedRecipe.name &&
+          !normalizedRecipe.ingredients &&
+          !normalizedRecipe.instructions
+        ) {
+          alert(
+            "Import finished, but not much was found. You can fill in the details manually."
+          );
         } else {
-          alert("Imported recipe details. Review and save below.");
+          alert("Imported recipe details. Review and save before adding it.");
         }
       } else {
         alert(data?.error || "Failed to import recipe.");
@@ -251,8 +263,7 @@ export default function CookbookPage({
       alert("Recipe saved to Cookbook!");
     }
 
-    resetManualRecipe();
-    setShowManual(false);
+    closeManualModal();
   };
 
   const btn: CSSProperties = {
@@ -263,6 +274,16 @@ export default function CookbookPage({
     fontWeight: 800,
   };
 
+  const pillStyle: CSSProperties = {
+    padding: "6px 10px",
+    borderRadius: 999,
+    background: "rgba(255,255,255,0.05)",
+    border: "1px solid rgba(255,255,255,0.08)",
+    fontSize: 12,
+    fontWeight: 700,
+    color: "rgba(255,255,255,0.85)",
+  };
+
   return (
     <div
       style={{
@@ -270,67 +291,93 @@ export default function CookbookPage({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        padding: "0 20px 120px",
+        padding: "0 16px 120px",
+        boxSizing: "border-box",
       }}
     >
-      <div style={{ maxWidth: "650px", width: "100%" }}>
-        <header style={{ textAlign: "center", margin: "0 0 14px" }}>
+      <div style={{ maxWidth: 680, width: "100%" }}>
+        <header style={{ textAlign: "center", margin: "0 0 18px" }}>
           <h2 style={{ fontSize: 34, fontWeight: 1000, margin: 0 }}>Cookbook</h2>
         </header>
 
-        <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
-          <Card style={{ flex: 1, padding: 0 }}>
-            <form
-              onSubmit={handleImport}
-              style={{ display: "flex", alignItems: "center", position: "relative" }}
-            >
-              <LinkIcon
-                size={18}
-                style={{ position: "absolute", left: 12, opacity: 0.4 }}
-              />
-              <input
-                placeholder="Paste recipe link..."
-                value={importUrl}
-                onChange={(e) => setImportUrl(e.target.value)}
+        <Card style={{ padding: 14, marginBottom: 12 }}>
+          <div style={{ display: "grid", gap: 12 }}>
+            <form onSubmit={handleImport} style={{ display: "grid", gap: 10 }}>
+              <div
                 style={{
-                  flex: 1,
-                  background: "none",
-                  border: "none",
-                  color: "white",
-                  padding: "14px 14px 14px 40px",
-                  outline: "none",
-                }}
-              />
-              <button
-                type="submit"
-                disabled={isImporting}
-                style={{
-                  ...btn,
-                  background: "#22c55e",
-                  padding: "0 16px",
-                  cursor: isImporting ? "default" : "pointer",
-                  borderRadius: 0,
-                  height: 48,
+                  position: "relative",
+                  display: "grid",
+                  gridTemplateColumns: "1fr auto",
+                  gap: 10,
+                  alignItems: "stretch",
                 }}
               >
-                {isImporting ? "..." : "IMPORT"}
-              </button>
-            </form>
-          </Card>
+                <div style={{ position: "relative", minWidth: 0 }}>
+                  <LinkIcon
+                    size={18}
+                    style={{
+                      position: "absolute",
+                      left: 12,
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      opacity: 0.45,
+                    }}
+                  />
+                  <input
+                    placeholder="Paste recipe link..."
+                    value={importUrl}
+                    onChange={(e) => setImportUrl(e.target.value)}
+                    style={{
+                      width: "100%",
+                      boxSizing: "border-box",
+                      background: "rgba(255,255,255,0.04)",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      color: "white",
+                      padding: "14px 14px 14px 40px",
+                      borderRadius: 18,
+                      outline: "none",
+                    }}
+                  />
+                </div>
 
-          <button
-            onClick={openNewRecipeModal}
-            style={{
-              ...btn,
-              background: "rgba(255,255,255,0.08)",
-              width: 52,
-              borderRadius: 14,
-            }}
-            title="Add recipe manually"
-          >
-            <Plus />
-          </button>
-        </div>
+                <button
+                  type="submit"
+                  disabled={isImporting}
+                  style={{
+                    ...btn,
+                    background: "#22c55e",
+                    padding: "0 18px",
+                    minWidth: 96,
+                    borderRadius: 18,
+                    cursor: isImporting ? "default" : "pointer",
+                  }}
+                >
+                  {isImporting ? "..." : "IMPORT"}
+                </button>
+              </div>
+            </form>
+
+            <button
+              onClick={openNewRecipeModal}
+              style={{
+                ...btn,
+                width: "100%",
+                padding: "14px 16px",
+                borderRadius: 18,
+                background: "rgba(255,255,255,0.06)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 10,
+              }}
+              title="Add recipe manually"
+            >
+              <Plus size={18} />
+              Add Recipe Manually
+            </button>
+          </div>
+        </Card>
 
         {showManual && (
           <div
@@ -348,26 +395,24 @@ export default function CookbookPage({
             <div
               style={{
                 width: "100%",
-                maxWidth: "500px",
+                maxWidth: "520px",
                 background: "#1e293b",
                 borderRadius: "24px",
-                padding: "30px",
+                padding: "28px",
                 position: "relative",
                 border: "1px solid rgba(255,255,255,0.1)",
                 boxShadow: "0 20px 60px rgba(0,0,0,0.45)",
                 maxHeight: "90vh",
                 overflowY: "auto",
+                boxSizing: "border-box",
               }}
             >
               <button
-                onClick={() => {
-                  setShowManual(false);
-                  resetManualRecipe();
-                }}
+                onClick={closeManualModal}
                 style={{
                   position: "absolute",
-                  right: 20,
-                  top: 20,
+                  right: 18,
+                  top: 18,
                   background: "none",
                   border: "none",
                   color: "white",
@@ -377,7 +422,7 @@ export default function CookbookPage({
                 <X size={24} />
               </button>
 
-              <h2 style={{ fontSize: 24, fontWeight: 900, marginBottom: 16 }}>
+              <h2 style={{ fontSize: 24, fontWeight: 900, marginBottom: 8 }}>
                 {editingSlug
                   ? "Edit Recipe"
                   : hasImportedDraft
@@ -385,65 +430,100 @@ export default function CookbookPage({
                   : "New Recipe"}
               </h2>
 
+              <p
+                style={{
+                  marginTop: 0,
+                  marginBottom: 18,
+                  opacity: 0.72,
+                  lineHeight: 1.5,
+                  fontSize: 14,
+                }}
+              >
+                {editingSlug
+                  ? "Update your recipe details below."
+                  : hasImportedDraft
+                  ? "Review the imported details and make any edits before saving."
+                  : "Add a recipe manually, or paste a recipe URL below to import details."}
+              </p>
+
               {!editingSlug && (
                 <div
                   style={{
                     background: "rgba(255,255,255,0.03)",
                     border: "1px dashed rgba(255,255,255,0.12)",
-                    borderRadius: "16px",
-                    padding: "20px",
-                    marginBottom: "20px",
+                    borderRadius: 16,
+                    padding: 16,
+                    marginBottom: 18,
                   }}
                 >
                   <div
                     style={{
-                      display: "flex",
-                      gap: 8,
-                      alignItems: "center",
-                      marginBottom: 12,
-                      flexWrap: "wrap",
+                      fontSize: 15,
+                      fontWeight: 800,
+                      marginBottom: 10,
                     }}
                   >
-                    
-                    <span style={{ fontSize: 16, fontWeight: 800 }}>
-                      Import from URL
-                    </span>
+                    Import from URL
                   </div>
 
-                  <div style={{ display: "flex", gap: 8 }}>
-                    <input
-                      placeholder="Paste recipe link..."
-                      value={importUrl}
-                      onChange={(e) => setImportUrl(e.target.value)}
-                      style={{
-                        flex: 1,
-                        background: "rgba(0,0,0,0.3)",
-                        border: "1px solid rgba(255,255,255,0.1)",
-                        color: "white",
-                        padding: "12px",
-                        borderRadius: "10px",
-                      }}
-                    />
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 8 }}>
+                    <div style={{ position: "relative", minWidth: 0 }}>
+                      <LinkIcon
+                        size={18}
+                        style={{
+                          position: "absolute",
+                          left: 12,
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          opacity: 0.45,
+                        }}
+                      />
+                      <input
+                        placeholder="Paste recipe link..."
+                        value={importUrl}
+                        onChange={(e) => setImportUrl(e.target.value)}
+                        style={{
+                          width: "100%",
+                          boxSizing: "border-box",
+                          background: "rgba(0,0,0,0.3)",
+                          border: "1px solid rgba(255,255,255,0.1)",
+                          color: "white",
+                          padding: "12px 12px 12px 40px",
+                          borderRadius: 12,
+                          outline: "none",
+                        }}
+                      />
+                    </div>
+
                     <button
                       onClick={handleImport}
                       disabled={isImporting}
                       style={{
                         ...btn,
                         background: "#22c55e",
-                        padding: "0 15px",
-                        borderRadius: "10px",
+                        padding: "0 16px",
+                        borderRadius: 12,
                         color: "white",
                         cursor: isImporting ? "default" : "pointer",
+                        minWidth: 96,
                       }}
                     >
                       {isImporting ? "..." : hasImportedDraft ? "Re-import" : "Import"}
                     </button>
                   </div>
 
-                  <p style={{ fontSize: 11, opacity: 0.62, marginTop: 10, lineHeight: 1.5 }}>
+                  <p
+                    style={{
+                      fontSize: 12,
+                      opacity: 0.66,
+                      marginTop: 10,
+                      lineHeight: 1.5,
+                      marginBottom: 0,
+                    }}
+                  >
                     {hasImportedDraft
                       ? "Imported details are loaded below. Edit anything you want before saving."
-                      : "Imports ingredients and steps when possible. You can edit anything below."}
+                      : "Ingredients and instructions are imported when available. You can edit everything before saving."}
                   </p>
                 </div>
               )}
@@ -461,6 +541,7 @@ export default function CookbookPage({
                     background: "rgba(255,255,255,0.05)",
                     border: "1px solid rgba(255,255,255,0.1)",
                     color: "white",
+                    outline: "none",
                   }}
                 />
 
@@ -479,7 +560,9 @@ export default function CookbookPage({
                     background: "rgba(255,255,255,0.05)",
                     border: "1px solid rgba(255,255,255,0.1)",
                     color: "white",
-                    minHeight: 100,
+                    minHeight: 110,
+                    outline: "none",
+                    resize: "vertical",
                   }}
                 />
 
@@ -498,7 +581,9 @@ export default function CookbookPage({
                     background: "rgba(255,255,255,0.05)",
                     border: "1px solid rgba(255,255,255,0.1)",
                     color: "white",
-                    minHeight: 120,
+                    minHeight: 130,
+                    outline: "none",
+                    resize: "vertical",
                   }}
                 />
 
@@ -524,6 +609,7 @@ export default function CookbookPage({
                       border: "1px solid rgba(255,255,255,0.1)",
                       color: "white",
                       boxSizing: "border-box",
+                      outline: "none",
                     }}
                   />
                 </div>
@@ -550,6 +636,7 @@ export default function CookbookPage({
                       border: "1px solid rgba(255,255,255,0.1)",
                       color: "white",
                       boxSizing: "border-box",
+                      outline: "none",
                     }}
                   />
                 </div>
@@ -571,7 +658,7 @@ export default function CookbookPage({
           </div>
         )}
 
-        <div style={{ display: "grid", gap: 12 }}>
+        <div style={{ display: "grid", gap: 14 }}>
           {(cookbook || []).map((recipe, index) => {
             const status = getRecipeStatus(recipe);
             const ingredientCount = splitLines(recipe?.ingredients).length;
@@ -594,7 +681,9 @@ export default function CookbookPage({
                   <div
                     style={{
                       display: "grid",
-                      gridTemplateColumns: recipe?.photoUrl ? "92px 1fr auto" : "1fr auto",
+                      gridTemplateColumns: recipe?.photoUrl
+                        ? "88px minmax(0,1fr) auto"
+                        : "minmax(0,1fr) auto",
                       alignItems: "stretch",
                     }}
                   >
@@ -604,17 +693,18 @@ export default function CookbookPage({
                           backgroundImage: `url(${recipe.photoUrl})`,
                           backgroundSize: "cover",
                           backgroundPosition: "center",
-                          minHeight: 92,
+                          minHeight: 96,
                         }}
                       />
                     )}
 
-                    <div style={{ padding: "16px" }}>
+                    <div style={{ padding: 16, minWidth: 0 }}>
                       <div
                         style={{
                           fontWeight: 800,
                           fontSize: 18,
-                          marginBottom: 8,
+                          marginBottom: 10,
+                          lineHeight: 1.25,
                         }}
                       >
                         {recipe.name}
@@ -627,38 +717,12 @@ export default function CookbookPage({
                           flexWrap: "wrap",
                         }}
                       >
-                        <div
-                          style={{
-                            padding: "6px 10px",
-                            borderRadius: 999,
-                            background: "rgba(255,255,255,0.05)",
-                            border: "1px solid rgba(255,255,255,0.08)",
-                            fontSize: 12,
-                            fontWeight: 700,
-                            color: "rgba(255,255,255,0.85)",
-                          }}
-                        >
-                          {ingredientCount} ingredients
-                        </div>
+                        <div style={pillStyle}>{ingredientCount} ingredients</div>
+                        <div style={pillStyle}>{stepCount} steps</div>
 
                         <div
                           style={{
-                            padding: "6px 10px",
-                            borderRadius: 999,
-                            background: "rgba(255,255,255,0.05)",
-                            border: "1px solid rgba(255,255,255,0.08)",
-                            fontSize: 12,
-                            fontWeight: 700,
-                            color: "rgba(255,255,255,0.85)",
-                          }}
-                        >
-                          {stepCount} steps
-                        </div>
-
-                        <div
-                          style={{
-                            padding: "6px 10px",
-                            borderRadius: 999,
+                            ...pillStyle,
                             background:
                               status === "Ready"
                                 ? "rgba(34,197,94,0.12)"
@@ -667,9 +731,8 @@ export default function CookbookPage({
                               status === "Ready"
                                 ? "1px solid rgba(34,197,94,0.35)"
                                 : "1px solid rgba(250,204,21,0.35)",
-                            fontSize: 12,
-                            fontWeight: 800,
                             color: status === "Ready" ? "#22c55e" : "#facc15",
+                            fontWeight: 800,
                           }}
                         >
                           {status}
@@ -682,7 +745,7 @@ export default function CookbookPage({
                         display: "flex",
                         alignItems: "center",
                         gap: 8,
-                        padding: "16px",
+                        padding: 16,
                       }}
                     >
                       <button
