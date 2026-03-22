@@ -11,10 +11,12 @@ import {
   CalendarPlus,
   Download,
   Utensils,
+  Refrigerator,
+  Pencil,
 } from "lucide-react";
 import Card from "../components/Card";
 import { days } from "../core/data";
-import type { Meal } from "../core/types";
+import type { Meal, PantryItem } from "../core/types";
 
 export default function WeekPage({
   meals,
@@ -23,6 +25,9 @@ export default function WeekPage({
   lockedDays,
   setLockedDays,
   addDayToCookbook,
+  pantry = [],
+  pantryText = "",
+  kitchenPath = "/kitchen",
 }: {
   meals: Record<string, Meal>;
   setMeals: React.Dispatch<React.SetStateAction<Record<string, Meal>>>;
@@ -30,6 +35,9 @@ export default function WeekPage({
   lockedDays: Record<string, boolean>;
   setLockedDays: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
   addDayToCookbook: (day: string) => void;
+  pantry?: PantryItem[];
+  pantryText?: string;
+  kitchenPath?: string;
 }) {
   const navigate = useNavigate();
 
@@ -65,7 +73,6 @@ export default function WeekPage({
       .replace(/;/g, "\\;");
   }
 
-  // ICS local datetime format: YYYYMMDDTHHMMSS
   function toICSLocal(date: Date) {
     return (
       date.getFullYear().toString() +
@@ -78,7 +85,6 @@ export default function WeekPage({
     );
   }
 
-  // Google Calendar requires UTC format: YYYYMMDDTHHMMSSZ
   function toGoogleUTC(date: Date) {
     return (
       date.getUTCFullYear().toString() +
@@ -134,7 +140,7 @@ export default function WeekPage({
 
   function buildEventTimes(day: string) {
     const start = getNextDateForDay(day);
-    const end = new Date(start.getTime() + 60 * 60 * 1000); // 6 PM - 7 PM
+    const end = new Date(start.getTime() + 60 * 60 * 1000);
     return { start, end };
   }
 
@@ -145,7 +151,9 @@ export default function WeekPage({
 
     return [
       "BEGIN:VEVENT",
-      `UID:${Date.now()}-${index}-${safeFileName(day)}-${safeFileName(meal?.name || "meal")}@simpledinners`,
+      `UID:${Date.now()}-${index}-${safeFileName(day)}-${safeFileName(
+        meal?.name || "meal"
+      )}@simpledinners`,
       `DTSTAMP:${toICSLocal(new Date())}`,
       `DTSTART:${toICSLocal(start)}`,
       `DTEND:${toICSLocal(end)}`,
@@ -204,16 +212,27 @@ export default function WeekPage({
     window.open(url, "_blank", "noopener,noreferrer");
   }
 
-  function openWholeWeekInGoogleCalendar() {
+  function addWholeWeekToCalendar() {
     const plannedDays = days.filter((day) => !!meals[day]?.name?.trim());
     if (!plannedDays.length) return;
 
-    // Google Calendar only supports one event template at a time,
-    // so for whole-week we fall back to an .ics download.
     downloadWholeWeekICS();
   }
 
   const plannedMealCount = days.filter((day) => !!meals[day]?.name?.trim()).length;
+
+  const pantryNames = (pantry ?? [])
+    .map((item) => item?.name?.trim())
+    .filter(Boolean) as string[];
+
+  const pantryTextItems = (pantryText || "")
+    .split(/[\n,]+/g)
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  const kitchenItems = Array.from(new Set([...pantryNames, ...pantryTextItems]));
+  const kitchenPreview = kitchenItems.slice(0, 6);
+  const hasKitchenItems = kitchenItems.length > 0;
 
   const btnBase: React.CSSProperties = {
     border: "none",
@@ -276,38 +295,125 @@ export default function WeekPage({
             Generate New Plan
           </button>
 
-          <div style={{ display: "flex", gap: 10 }}>
-            <button
-              onClick={openWholeWeekInGoogleCalendar}
-              disabled={!plannedMealCount}
-              style={{
-                ...btnBase,
-                flex: 1,
-                background: plannedMealCount ? "rgba(59,130,246,0.12)" : "rgba(255,255,255,0.05)",
-                color: plannedMealCount ? "#60a5fa" : "rgba(255,255,255,0.35)",
-                cursor: plannedMealCount ? "pointer" : "not-allowed",
-              }}
-            >
-              <CalendarPlus size={16} />
-              Add Whole Week
-            </button>
-
-            <button
-              onClick={downloadWholeWeekICS}
-              disabled={!plannedMealCount}
-              style={{
-                ...btnBase,
-                flex: 1,
-                background: plannedMealCount ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.05)",
-                color: plannedMealCount ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.35)",
-                cursor: plannedMealCount ? "pointer" : "not-allowed",
-              }}
-            >
-              <Download size={16} />
-              Week .ics
-            </button>
-          </div>
+          <button
+            onClick={addWholeWeekToCalendar}
+            disabled={!plannedMealCount}
+            style={{
+              ...btnBase,
+              width: "100%",
+              background: plannedMealCount
+                ? "rgba(59,130,246,0.12)"
+                : "rgba(255,255,255,0.05)",
+              color: plannedMealCount ? "#60a5fa" : "rgba(255,255,255,0.35)",
+              cursor: plannedMealCount ? "pointer" : "not-allowed",
+            }}
+          >
+            <CalendarPlus size={16} />
+            {plannedMealCount
+              ? `Add ${plannedMealCount} Meal${plannedMealCount > 1 ? "s" : ""} to Calendar`
+              : "No meals planned"}
+          </button>
         </div>
+
+        <Card style={{ padding: 0, overflow: "hidden", borderRadius: "24px" }}>
+          <div style={{ padding: "18px 20px", display: "grid", gap: 14 }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 12,
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <Refrigerator size={18} style={{ opacity: 0.55 }} />
+                <div>
+                  <div style={{ fontWeight: 900, fontSize: 16 }}>What’s In Your Kitchen</div>
+                  <div style={{ fontSize: 13, opacity: 0.55 }}>
+                    Planner will prefer meals using what you already have.
+                  </div>
+                </div>
+              </div>
+
+              <button
+                onClick={() => navigate(kitchenPath)}
+                style={{
+                  border: "none",
+                  background: "rgba(255,255,255,0.06)",
+                  color: "rgba(255,255,255,0.88)",
+                  borderRadius: 12,
+                  padding: "10px 12px",
+                  fontWeight: 800,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  cursor: "pointer",
+                  flexShrink: 0,
+                }}
+              >
+                <Pencil size={14} />
+                Manage
+              </button>
+            </div>
+
+            {hasKitchenItems ? (
+              <>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                  {kitchenPreview.map((item) => (
+                    <span
+                      key={item}
+                      style={{
+                        padding: "8px 12px",
+                        borderRadius: 999,
+                        background: "rgba(34,197,94,0.12)",
+                        color: "#86efac",
+                        fontSize: 13,
+                        fontWeight: 700,
+                      }}
+                    >
+                      {item}
+                    </span>
+                  ))}
+
+                  {kitchenItems.length > kitchenPreview.length && (
+                    <span
+                      style={{
+                        padding: "8px 12px",
+                        borderRadius: 999,
+                        background: "rgba(255,255,255,0.06)",
+                        color: "rgba(255,255,255,0.7)",
+                        fontSize: 13,
+                        fontWeight: 700,
+                      }}
+                    >
+                      +{kitchenItems.length - kitchenPreview.length} more
+                    </span>
+                  )}
+                </div>
+
+                <div style={{ fontSize: 13, opacity: 0.5 }}>
+                  Using {kitchenItems.length} kitchen item{kitchenItems.length !== 1 ? "s" : ""} to
+                  influence your week plan.
+                </div>
+              </>
+            ) : (
+              <button
+                onClick={() => navigate(kitchenPath)}
+                style={{
+                  border: "2px dashed rgba(255,255,255,0.1)",
+                  background: "transparent",
+                  color: "rgba(255,255,255,0.5)",
+                  borderRadius: 18,
+                  padding: "18px",
+                  fontWeight: 800,
+                  cursor: "pointer",
+                }}
+              >
+                Add kitchen items to help generate smarter meal plans
+              </button>
+            )}
+          </div>
+        </Card>
 
         <div style={{ display: "grid", gap: 16 }}>
           {days.map((day) => {
