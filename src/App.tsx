@@ -396,18 +396,19 @@ const hideBottomNav = location.pathname.startsWith("/recipe/");
         />
 
         <Route
-          path="/week"
-          element={requireOnboarding(
-            <WeekPage
-              meals={meals}
-              setMeals={setMeals}
-              addDayToCookbook={addDayToCookbook}
-              generateDinnerPlan={generateDinnerPlan}
-              lockedDays={lockedDays}
-              setLockedDays={setLockedDays}
-            />
-          )}
-        />
+  path="/week"
+  element={
+    <WeekPage
+      meals={meals}
+      setMeals={setMeals}
+      generateDinnerPlan={generateDinnerPlan}
+      lockedDays={lockedDays}
+      setLockedDays={setLockedDays}
+      addDayToCookbook={addDayToCookbook}
+      pantry={pantry}
+    />
+  }
+/>
 
         <Route
           path="/cookbook"
