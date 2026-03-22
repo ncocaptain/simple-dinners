@@ -1,13 +1,16 @@
 export default function WhatsNewPage() {
   const updates = [
-    "Improved recipe importing",
-    "Fixed Android import issues",
-    "Unified recipe page design across Week Plan and Cookbook",
-    "Better shopping list behavior from imported recipes",
-    "Improved back navigation between recipe sources",
-    "Upgraded Cook Mode with smarter ingredient highlighting",
-    "Added prep-friendly ingredient tracking in Cook Mode",
-    "General bug fixes and polish throughout the app",
+    "New: Import from URL now opens a review screen before saving",
+    "New: Edit imported recipes before adding them to your cookbook",
+    "Improved: Smoother import flow with auto-open review when importing from the top bar",
+    "Improved: More reliable recipe importing across more websites",
+    "Fixed: Android import issues",
+    "Improved: Unified recipe page design across Week Plan and Cookbook",
+    "Improved: Shopping list behavior from imported recipes",
+    "Improved: Back navigation between recipe sources",
+    "Improved: Cook Mode with smarter ingredient highlighting",
+    "New: Prep-friendly ingredient tracking in Cook Mode",
+    "General bug fixes and performance improvements",
   ];
 
   return (
@@ -16,7 +19,8 @@ export default function WhatsNewPage() {
         What&apos;s New in 1.1.0
       </h2>
       <p style={{ opacity: 0.7, lineHeight: 1.6, marginBottom: 24 }}>
-        Thanks for testing Simple Dinners. Here’s what’s improved in this update.
+        Thanks for using Simple Dinners. This update makes importing recipes
+        smoother, improves Cook Mode, and adds helpful polish across the app.
       </p>
 
       <div style={{ display: "grid", gap: 12 }}>
