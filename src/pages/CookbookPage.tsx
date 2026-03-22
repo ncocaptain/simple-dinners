@@ -284,6 +284,18 @@ export default function CookbookPage({
     color: "rgba(255,255,255,0.85)",
   };
 
+  const actionBtnStyle: CSSProperties = {
+    width: 42,
+    height: 42,
+    borderRadius: 12,
+    cursor: "pointer",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    border: "1px solid rgba(255,255,255,0.1)",
+    flexShrink: 0,
+  };
+
   return (
     <div
       style={{
@@ -682,7 +694,7 @@ export default function CookbookPage({
                     style={{
                       display: "grid",
                       gridTemplateColumns: recipe?.photoUrl
-                        ? "88px minmax(0,1fr) auto"
+                        ? "84px minmax(0,1fr) auto"
                         : "minmax(0,1fr) auto",
                       alignItems: "stretch",
                     }}
@@ -693,7 +705,7 @@ export default function CookbookPage({
                           backgroundImage: `url(${recipe.photoUrl})`,
                           backgroundSize: "cover",
                           backgroundPosition: "center",
-                          minHeight: 96,
+                          minHeight: 104,
                         }}
                       />
                     )}
@@ -705,6 +717,7 @@ export default function CookbookPage({
                           fontSize: 18,
                           marginBottom: 10,
                           lineHeight: 1.25,
+                          wordBreak: "break-word",
                         }}
                       >
                         {recipe.name}
@@ -743,9 +756,10 @@ export default function CookbookPage({
                     <div
                       style={{
                         display: "flex",
-                        alignItems: "center",
+                        flexDirection: "column",
+                        justifyContent: "center",
                         gap: 8,
-                        padding: 16,
+                        padding: 12,
                       }}
                     >
                       <button
@@ -754,15 +768,9 @@ export default function CookbookPage({
                           openEditRecipe(recipe);
                         }}
                         style={{
+                          ...actionBtnStyle,
                           background: "rgba(255,255,255,0.05)",
-                          border: "1px solid rgba(255,255,255,0.1)",
                           color: "white",
-                          borderRadius: 12,
-                          padding: "10px 12px",
-                          cursor: "pointer",
-                          display: "inline-flex",
-                          alignItems: "center",
-                          justifyContent: "center",
                         }}
                         title="Edit recipe"
                       >
@@ -775,15 +783,10 @@ export default function CookbookPage({
                           handleDeleteRecipe(recipe);
                         }}
                         style={{
+                          ...actionBtnStyle,
                           background: "rgba(239,68,68,0.12)",
                           border: "1px solid rgba(239,68,68,0.35)",
                           color: "#f87171",
-                          borderRadius: 12,
-                          padding: "10px 12px",
-                          cursor: "pointer",
-                          display: "inline-flex",
-                          alignItems: "center",
-                          justifyContent: "center",
                         }}
                         title="Delete recipe"
                       >
