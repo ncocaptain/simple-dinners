@@ -98,16 +98,6 @@ export default function PlanPage({
     generateDinnerPlan();
   };
 
-  const handleReroll = () => {
-    commitPantry();
-    generateDinnerPlan(true);
-  };
-
-  const handleCookNow = () => {
-    commitPantry();
-    navigate("/cook-now");
-  };
-
   const effortOptions: { key: Effort; label: string }[] = [
     { key: "quick", label: "Quick" },
     { key: "normal", label: "Normal" },
@@ -241,9 +231,7 @@ export default function PlanPage({
                   gap: 12,
                 }}
               >
-                <span>
-                  Separate items with commas or new lines.
-                </span>
+                <span>Separate items with commas or new lines.</span>
                 <span>
                   {pantryItems.length} item{pantryItems.length !== 1 ? "s" : ""}
                 </span>
@@ -375,44 +363,17 @@ export default function PlanPage({
               </div>
             </section>
 
-            <div style={{ display: "grid", gap: 12, marginTop: 6 }}>
-              <Button onClick={handleGenerate} style={{ padding: "20px", fontSize: 18 }}>
-                ✨ Generate New Plan
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 12,
+                marginTop: 6,
+              }}
+            >
+              <Button onClick={handleGenerate} style={{ padding: "16px", fontSize: 16 }}>
+                ✨ Generate Plan
               </Button>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                <button
-                  type="button"
-                  onClick={handleCookNow}
-                  style={{
-                    padding: "16px",
-                    borderRadius: "16px",
-                    background: "rgba(255,255,255,0.05)",
-                    color: "#fff",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    fontWeight: 800,
-                    cursor: "pointer",
-                  }}
-                >
-                  🍳 Cook Now
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleReroll}
-                  style={{
-                    padding: "16px",
-                    borderRadius: "16px",
-                    background: "rgba(255,255,255,0.05)",
-                    color: "#fff",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    fontWeight: 800,
-                    cursor: "pointer",
-                  }}
-                >
-                  🔄 Re-Roll
-                </button>
-              </div>
 
               <button
                 type="button"
@@ -421,7 +382,7 @@ export default function PlanPage({
                   navigate("/week");
                 }}
                 style={{
-                  padding: "14px 16px",
+                  padding: "16px",
                   borderRadius: "16px",
                   background: "transparent",
                   color: "rgba(255,255,255,0.8)",
