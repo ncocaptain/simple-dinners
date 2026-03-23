@@ -11,12 +11,10 @@ import {
   CalendarPlus,
   Download,
   Utensils,
-  Refrigerator,
-  Pencil,
 } from "lucide-react";
 import Card from "../components/Card";
 import { days } from "../core/data";
-import type { Meal, PantryItem } from "../core/types";
+import type { Meal } from "../core/types";
 
 export default function WeekPage({
   meals,
@@ -25,9 +23,6 @@ export default function WeekPage({
   lockedDays,
   setLockedDays,
   addDayToCookbook,
-  pantry = [],
-  pantryText = "",
-  kitchenPath = "/plan",
 }: {
   meals: Record<string, Meal>;
   setMeals: React.Dispatch<React.SetStateAction<Record<string, Meal>>>;
@@ -35,9 +30,6 @@ export default function WeekPage({
   lockedDays: Record<string, boolean>;
   setLockedDays: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
   addDayToCookbook: (day: string) => void;
-  pantry?: PantryItem[];
-  pantryText?: string;
-  kitchenPath?: string;
 }) {
   const navigate = useNavigate();
 
@@ -221,19 +213,6 @@ export default function WeekPage({
 
   const plannedMealCount = days.filter((day) => !!meals[day]?.name?.trim()).length;
 
-  const pantryNames = (pantry ?? [])
-    .map((item) => item?.name?.trim())
-    .filter(Boolean) as string[];
-
-  const pantryTextItems = (pantryText || "")
-    .split(/[\n,]+/g)
-    .map((item) => item.trim())
-    .filter(Boolean);
-
-  const kitchenItems = Array.from(new Set([...pantryNames, ...pantryTextItems]));
-  const kitchenPreview = kitchenItems.slice(0, 6);
-  const hasKitchenItems = kitchenItems.length > 0;
-
   const btnBase: React.CSSProperties = {
     border: "none",
     borderRadius: 14,
@@ -270,150 +249,6 @@ export default function WeekPage({
             Tap a day to view the recipe.
           </p>
         </header>
-
-        <div style={{ position: "sticky", top: 20, zIndex: 10, display: "grid", gap: 10 }}>
-          <button
-            onClick={() => generateDinnerPlan(true)}
-            style={{
-              width: "100%",
-              padding: "18px",
-              borderRadius: "24px",
-              background: "#22c55e",
-              color: "#fff",
-              border: "none",
-              fontWeight: 900,
-              fontSize: 18,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 12,
-              boxShadow: "0 10px 25px -5px rgba(34,197,94,0.4)",
-              cursor: "pointer",
-            }}
-          >
-            <Sparkles size={22} fill="white" />
-            Generate New Plan
-          </button>
-
-          <button
-            onClick={addWholeWeekToCalendar}
-            disabled={!plannedMealCount}
-            style={{
-              ...btnBase,
-              width: "100%",
-              background: plannedMealCount
-                ? "rgba(59,130,246,0.12)"
-                : "rgba(255,255,255,0.05)",
-              color: plannedMealCount ? "#60a5fa" : "rgba(255,255,255,0.35)",
-              cursor: plannedMealCount ? "pointer" : "not-allowed",
-            }}
-          >
-            <CalendarPlus size={16} />
-            {plannedMealCount
-              ? `Add ${plannedMealCount} Meal${plannedMealCount > 1 ? "s" : ""} to Calendar`
-              : "No meals planned"}
-          </button>
-        </div>
-
-        <Card style={{ padding: 0, overflow: "hidden", borderRadius: "24px" }}>
-          <div style={{ padding: "18px 20px", display: "grid", gap: 14 }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: 12,
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <Refrigerator size={18} style={{ opacity: 0.55 }} />
-                <div>
-                  <div style={{ fontWeight: 900, fontSize: 16 }}>What’s In Your Kitchen</div>
-                  <div style={{ fontSize: 13, opacity: 0.55 }}>
-                    Planner will prefer meals using what you already have.
-                  </div>
-                </div>
-              </div>
-
-              <button
-                onClick={() => navigate(kitchenPath)}
-                style={{
-                  border: "none",
-                  background: "rgba(255,255,255,0.06)",
-                  color: "rgba(255,255,255,0.88)",
-                  borderRadius: 12,
-                  padding: "10px 12px",
-                  fontWeight: 800,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                  cursor: "pointer",
-                  flexShrink: 0,
-                }}
-              >
-                <Pencil size={14} />
-                Manage
-              </button>
-            </div>
-
-            {hasKitchenItems ? (
-              <>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {kitchenPreview.map((item) => (
-                    <span
-                      key={item}
-                      style={{
-                        padding: "8px 12px",
-                        borderRadius: 999,
-                        background: "rgba(34,197,94,0.12)",
-                        color: "#86efac",
-                        fontSize: 13,
-                        fontWeight: 700,
-                      }}
-                    >
-                      {item}
-                    </span>
-                  ))}
-
-                  {kitchenItems.length > kitchenPreview.length && (
-                    <span
-                      style={{
-                        padding: "8px 12px",
-                        borderRadius: 999,
-                        background: "rgba(255,255,255,0.06)",
-                        color: "rgba(255,255,255,0.7)",
-                        fontSize: 13,
-                        fontWeight: 700,
-                      }}
-                    >
-                      +{kitchenItems.length - kitchenPreview.length} more
-                    </span>
-                  )}
-                </div>
-
-                <div style={{ fontSize: 13, opacity: 0.5 }}>
-                  Using {kitchenItems.length} kitchen item{kitchenItems.length !== 1 ? "s" : ""} to
-                  influence your week plan.
-                </div>
-              </>
-            ) : (
-              <button
-                onClick={() => navigate(kitchenPath)}
-                style={{
-                  border: "2px dashed rgba(255,255,255,0.1)",
-                  background: "transparent",
-                  color: "rgba(255,255,255,0.5)",
-                  borderRadius: 18,
-                  padding: "18px",
-                  fontWeight: 800,
-                  cursor: "pointer",
-                }}
-              >
-                Add kitchen items to help generate smarter meal plans
-              </button>
-            )}
-          </div>
-        </Card>
 
         <div style={{ display: "grid", gap: 16 }}>
           {days.map((day) => {
@@ -629,6 +464,50 @@ export default function WeekPage({
               </Card>
             );
           })}
+        </div>
+
+        <div style={{ display: "grid", gap: 10, marginTop: 4 }}>
+          <button
+            onClick={() => generateDinnerPlan(true)}
+            style={{
+              width: "100%",
+              padding: "16px",
+              borderRadius: "18px",
+              background: "rgba(34,197,94,0.14)",
+              color: "#4ade80",
+              border: "1px solid rgba(34,197,94,0.22)",
+              fontWeight: 900,
+              fontSize: 16,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 10,
+              cursor: "pointer",
+            }}
+          >
+            <Sparkles size={18} />
+            Generate New Plan
+          </button>
+
+          <button
+            onClick={addWholeWeekToCalendar}
+            disabled={!plannedMealCount}
+            style={{
+              ...btnBase,
+              width: "100%",
+              padding: "14px 16px",
+              background: plannedMealCount
+                ? "rgba(59,130,246,0.12)"
+                : "rgba(255,255,255,0.05)",
+              color: plannedMealCount ? "#60a5fa" : "rgba(255,255,255,0.35)",
+              cursor: plannedMealCount ? "pointer" : "not-allowed",
+            }}
+          >
+            <CalendarPlus size={16} />
+            {plannedMealCount
+              ? `Add ${plannedMealCount} Meal${plannedMealCount > 1 ? "s" : ""} to Calendar`
+              : "No meals planned"}
+          </button>
         </div>
       </div>
     </div>

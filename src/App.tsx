@@ -403,7 +403,6 @@ const hideBottomNav = location.pathname.startsWith("/recipe/");
       lockedDays={lockedDays}
       setLockedDays={setLockedDays}
       addDayToCookbook={addDayToCookbook}
-      pantry={pantry}
     />
   }
 />
