@@ -6,11 +6,14 @@ import {
   Info,
   Refrigerator,
   ChevronRight,
+  Leaf,
+  AlertCircle,
 } from "lucide-react";
 import { days } from "../core/data";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import type { Effort, PantryItem } from "../core/types";
+import { ALLERGENS } from "../core/planner";
 
 export default function PlanPage({
   daySettings,
@@ -43,7 +46,7 @@ export default function PlanPage({
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     if (params.get("first") === "true") {
-      generateDinnerPlan();
+      generateDinnerPlan(true);
     }
   }, []);
 
@@ -71,6 +74,12 @@ export default function PlanPage({
     setPantry(unique);
   };
 
+  const updatePrefs = (updatedFields: any) => {
+    const nextPrefs = { ...prefs, ...updatedFields };
+    setPrefs(nextPrefs);
+    localStorage.setItem("prefs", JSON.stringify(nextPrefs));
+  };
+
   const removePantryItem = (nameToRemove: string) => {
     const nextItems = pantryItems.filter(
       (item) => item.toLowerCase() !== nameToRemove.toLowerCase()
@@ -87,10 +96,15 @@ export default function PlanPage({
     );
   };
 
-  const handleDietaryNotesChange = (text: string) => {
-    const nextPrefs = { ...prefs, dietaryNotes: text };
-    setPrefs(nextPrefs);
-    localStorage.setItem("prefs", JSON.stringify(nextPrefs));
+  const toggleAllergen = (key: string) => {
+    const current = Array.isArray(prefs.allergens) ? prefs.allergens : [];
+    const exists = current.includes(key);
+
+    updatePrefs({
+      allergens: exists
+        ? current.filter((item: string) => item !== key)
+        : [...current, key],
+    });
   };
 
   const handleGenerate = () => {
@@ -125,6 +139,22 @@ export default function PlanPage({
     marginBottom: 10,
   };
 
+  const activeAllergens: string[] = Array.isArray(prefs.allergens)
+    ? prefs.allergens
+    : [];
+
+  const allergenLabels: Record<string, string> = {
+    shellfish: "Shellfish",
+    fish: "Fish",
+    dairy: "Dairy",
+    eggs: "Eggs",
+    peanuts: "Peanuts",
+    tree_nuts: "Tree Nuts",
+    gluten: "Gluten",
+    soy: "Soy",
+    sesame: "Sesame",
+  };
+
   return (
     <div
       style={{
@@ -150,7 +180,7 @@ export default function PlanPage({
               Kitchen & Plan
             </>
           }
-          subtitle="Use what you already have, set your week, and generate smarter dinners."
+          subtitle="Use what you already have, set your preferences, and generate smarter dinners."
         >
           <div style={{ display: "grid", gap: 24 }}>
             <section
@@ -247,6 +277,139 @@ export default function PlanPage({
               }}
             >
               <div style={sectionTitleRow}>
+                <Leaf size={18} style={{ opacity: 0.6 }} />
+                <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
+                  Dietary Preferences
+                </h3>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: 16,
+                  padding: "10px 0 4px 0",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <div
+                    style={{
+                      padding: 10,
+                      background: "rgba(34, 197, 94, 0.1)",
+                      borderRadius: 12,
+                    }}
+                  >
+                    <Leaf size={20} color="#22c55e" />
+                  </div>
+                  <div>
+                    <div style={{ fontWeight: 800 }}>Vegetarian Mode</div>
+                    <div style={{ fontSize: 12, opacity: 0.5 }}>
+                      Prioritize plant-based meals
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => updatePrefs({ vegetarian: !prefs.vegetarian })}
+                  style={{
+                    width: 54,
+                    height: 30,
+                    borderRadius: 20,
+                    background: prefs.vegetarian
+                      ? "#22c55e"
+                      : "rgba(255,255,255,0.1)",
+                    position: "relative",
+                    cursor: "pointer",
+                    border: "none",
+                    transition: "background 0.3s ease",
+                    flexShrink: 0,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 22,
+                      height: 22,
+                      borderRadius: "50%",
+                      background: "white",
+                      position: "absolute",
+                      top: 4,
+                      left: prefs.vegetarian ? 28 : 4,
+                      transition:
+                        "all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                    }}
+                  />
+                </button>
+              </div>
+            </section>
+
+            <section
+              style={{
+                padding: 16,
+                borderRadius: 20,
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+            >
+              <div style={sectionTitleRow}>
+                <AlertCircle size={18} style={{ opacity: 0.6 }} />
+                <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
+                  Allergies & Restrictions
+                </h3>
+              </div>
+
+              <p
+                style={{
+                  margin: "0 0 12px 0",
+                  fontSize: 14,
+                  opacity: 0.62,
+                  lineHeight: 1.4,
+                }}
+              >
+                These are hard blockers for meal generation.
+              </p>
+
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {ALLERGENS.map((key) => {
+                  const active = activeAllergens.includes(key);
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => toggleAllergen(key)}
+                      style={{
+                        border: "1px solid",
+                        borderColor: active
+                          ? "rgba(239,68,68,0.4)"
+                          : "rgba(255,255,255,0.08)",
+                        borderRadius: 999,
+                        padding: "10px 14px",
+                        background: active
+                          ? "rgba(239,68,68,0.12)"
+                          : "rgba(255,255,255,0.04)",
+                        color: active ? "#fca5a5" : "rgba(255,255,255,0.8)",
+                        fontWeight: 800,
+                        cursor: "pointer",
+                        fontSize: 13,
+                      }}
+                    >
+                      {allergenLabels[key] ?? key}
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+
+            <section
+              style={{
+                padding: 16,
+                borderRadius: 20,
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+            >
+              <div style={sectionTitleRow}>
                 <Info size={18} style={{ opacity: 0.6 }} />
                 <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
                   Dietary Notes
@@ -261,14 +424,13 @@ export default function PlanPage({
                   lineHeight: 1.4,
                 }}
               >
-                Add dislikes, allergies, picky eater notes, or anything else
-                you want the planner to consider.
+                Add dislikes, picky eater notes, or softer preferences for the planner.
               </p>
 
               <textarea
-                placeholder="No mushrooms, shellfish allergy, kids don't like spicy foods..."
+                placeholder="Kids don't like spicy food, no mushrooms, lighter meals on weekdays..."
                 value={prefs.dietaryNotes || ""}
-                onChange={(e) => handleDietaryNotesChange(e.target.value)}
+                onChange={(e) => updatePrefs({ dietaryNotes: e.target.value })}
                 style={{ ...inputBase, minHeight: 110 }}
               />
             </section>
@@ -362,6 +524,23 @@ export default function PlanPage({
                 ))}
               </div>
             </section>
+
+            <button
+              type="button"
+              onClick={() => navigate("/whats-new")}
+              style={{
+                padding: 14,
+                borderRadius: 12,
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                color: "white",
+                fontWeight: 800,
+                cursor: "pointer",
+                width: "100%",
+              }}
+            >
+              What’s New
+            </button>
 
             <div
               style={{

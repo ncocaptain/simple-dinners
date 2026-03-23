@@ -471,6 +471,31 @@ function normalizeCookbookMeal(meal: Meal): Meal {
   };
 }
 
+function getAllergenSelections(preferences: {
+  allergens?: string[];
+  dietaryNotes?: string;
+}) {
+  const selected = new Set(
+    (preferences.allergens ?? []).map((x) => normalizeText(x)).filter(Boolean)
+  );
+
+  const notes = normalizeText(preferences.dietaryNotes);
+
+  if (notes.includes("shellfish")) selected.add("shellfish");
+  if (notes.includes("fish")) selected.add("fish");
+  if (notes.includes("dairy")) selected.add("dairy");
+  if (notes.includes("egg")) selected.add("eggs");
+  if (notes.includes("eggs")) selected.add("eggs");
+  if (notes.includes("peanut")) selected.add("peanuts");
+  if (notes.includes("tree nut")) selected.add("tree_nuts");
+  if (notes.includes("nuts")) selected.add("tree_nuts");
+  if (notes.includes("gluten")) selected.add("gluten");
+  if (notes.includes("soy")) selected.add("soy");
+  if (notes.includes("sesame")) selected.add("sesame");
+
+  return Array.from(selected);
+}
+
 // =====================================================
 // Main generator
 // =====================================================
@@ -481,11 +506,12 @@ export function generatePlan(opts: {
   daySettings?: Partial<Record<Day, Effort>>;
   lockedMeals?: Partial<Record<Day, Meal | null>>;
   preferences: {
-    vegetarian: boolean;
-    allergens?: string[];
-    includeDesserts?: boolean;
-    includeFrozen?: boolean;
-  };
+  vegetarian: boolean;
+  allergens?: string[];
+  dietaryNotes?: string;
+  includeDesserts?: boolean;
+  includeFrozen?: boolean;
+};
   favorites?: string[];
   cookedRecently?: string[];
 }) {
@@ -500,12 +526,12 @@ export function generatePlan(opts: {
   } = opts;
 
   const plannerPrefs: PlannerPrefs = {
-    vegetarian: preferences.vegetarian,
-    allergens: preferences.allergens,
-    includeFrozen: preferences.includeFrozen,
-    includeDesserts: preferences.includeDesserts,
-    effort: "any",
-  };
+  vegetarian: preferences.vegetarian,
+  allergens: getAllergenSelections(preferences),
+  includeFrozen: preferences.includeFrozen,
+  includeDesserts: preferences.includeDesserts,
+  effort: "any",
+};
 
   const cookbookMeals = dedupeMeals(cookbook.map(normalizeCookbookMeal));
 
