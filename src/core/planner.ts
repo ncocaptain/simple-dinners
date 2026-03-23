@@ -27,6 +27,8 @@ type MealBucket = {
   desserts: Meal[];
 };
 
+type Day = (typeof days)[number];
+
 // =====================================================
 // Allergen + keyword helpers
 // =====================================================
@@ -60,6 +62,8 @@ const ALLERGEN_KEYWORDS: Record<string, string[]> = {
     "langostino",
     "crawfish",
     "crayfish",
+    "prawn",
+    "prawns",
   ],
   fish: [
     "fish",
@@ -189,7 +193,9 @@ export function mealHasAllergen(meal: Meal, allergen: string) {
   const tags = normalizeTags(meal.tags);
   const text = mealSearchText(meal);
 
+  if (!normalizedAllergen) return false;
   if (tags.includes(normalizedAllergen)) return true;
+  if (text.includes(normalizedAllergen)) return true;
 
   const keywords = ALLERGEN_KEYWORDS[normalizedAllergen] ?? [];
   if (keywords.length > 0 && hasAnyKeyword(text, keywords)) return true;
@@ -256,10 +262,8 @@ export const extrasLibrary: MealBucket = {
 export function filterMealsForPrefs(meals: Meal[], prefs: PlannerPrefs) {
   let filtered = [...meals];
 
-  // Keep sides and desserts out of dinner generation
   filtered = filtered.filter((meal) => !isDessert(meal) && !isSideDish(meal));
 
-  // Vegetarian mode
   if (prefs.vegetarian) {
     filtered = filtered.filter((meal) => {
       const tags = normalizeTags(meal.tags);
@@ -294,20 +298,17 @@ export function filterMealsForPrefs(meals: Meal[], prefs: PlannerPrefs) {
     });
   }
 
-  // Frozen toggle
   if (!prefs.includeFrozen) {
     filtered = filtered.filter((meal) => !isFrozen(meal));
   }
 
-  // Effort filter
   filtered = filtered.filter((meal) => matchesEffort(meal, prefs.effort));
 
-  // Allergen filter
   const blocked = (prefs.allergens ?? []).map(normalizeText).filter(Boolean);
   if (blocked.length > 0) {
-    filtered = filtered.filter((meal) => {
-      return !blocked.some((allergen) => mealHasAllergen(meal, allergen));
-    });
+    filtered = filtered.filter(
+      (meal) => !blocked.some((allergen) => mealHasAllergen(meal, allergen))
+    );
   }
 
   return filtered;
@@ -337,7 +338,6 @@ export function buildDinnerPool(prefs: PlannerPrefs) {
 }
 
 export function buildPlannerBuckets(prefs: PlannerPrefs): MealBucket {
-  
   const dinners = filterMealsForPrefs(dinnerLibrary, prefs);
   const blocked = (prefs.allergens ?? []).map(normalizeText).filter(Boolean);
 
@@ -359,7 +359,10 @@ export function buildPlannerBuckets(prefs: PlannerPrefs): MealBucket {
     desserts,
   };
 }
-type Day = (typeof days)[number];
+
+// =====================================================
+// Planner scoring
+// =====================================================
 
 function scoreMealAgainstPantry(meal: Meal, pantry: string[] = []) {
   const text = mealSearchText(meal);
@@ -403,6 +406,7 @@ export function getPlannerScore(
 
   const nameKey = normalizeText(meal.name);
   const idKey = normalizeText(meal.id || meal.slug || meal.name);
+  const tags = normalizeTags(meal.tags);
 
   let score = 0;
 
@@ -416,15 +420,25 @@ export function getPlannerScore(
     score -= 6;
   }
 
-  if (normalizeTags(meal.tags).includes("quick")) score += 1;
-  if (normalizeTags(meal.tags).includes("comfort")) score += 1;
-  if (normalizeTags(meal.tags).includes("kid-friendly")) score += 1;
+  if (tags.includes("quick")) score += 1;
+  if (tags.includes("comfort")) score += 1;
+  if (tags.includes("kid-friendly")) score += 1;
+
+  // Cookbook meals should win more often than built-ins
+  if (tags.includes("cookbook")) score += 10;
 
   const todaySeed = getTodaySeed();
   score += (hashString(meal.id || meal.slug || meal.name) + todaySeed) % 7;
 
+  // Small randomness so rerolls do not feel frozen
+  score += Math.random() * 3;
+
   return score;
 }
+
+// =====================================================
+// Plan building helpers
+// =====================================================
 
 function mealMatchesDayEffort(meal: Meal, effort?: Effort) {
   if (!effort) return true;
@@ -446,13 +460,20 @@ function normalizeCookbookMeal(meal: Meal): Meal {
   return {
     ...meal,
     id: meal.id || meal.slug || meal.name,
-    slug: meal.slug || meal.id || normalizeText(meal.name).replace(/[^\w\s-]/g, "").replace(/\s+/g, "-"),
+    slug:
+      meal.slug ||
+      meal.id ||
+      normalizeText(meal.name).replace(/[^\w\s-]/g, "").replace(/\s+/g, "-"),
     instructions: meal.instructions || "",
     photoUrl: meal.photoUrl || "",
-    tags: meal.tags ?? ["dinner"],
+    tags: Array.from(new Set([...(meal.tags ?? ["dinner"]), "cookbook"])),
     effort: meal.effort || "normal",
   };
 }
+
+// =====================================================
+// Main generator
+// =====================================================
 
 export function generatePlan(opts: {
   cookbook?: Meal[];
@@ -499,6 +520,7 @@ export function generatePlan(opts: {
 
   for (const day of days) {
     const locked = lockedMeals[day];
+
     if (locked?.name) {
       plan[day] = locked;
       usedNames.add(normalizeText(locked.name));
@@ -522,7 +544,9 @@ export function generatePlan(opts: {
       continue;
     }
 
-    let candidates = dinnerPool.filter((meal) => mealMatchesDayEffort(meal, requestedEffort));
+    let candidates = dinnerPool.filter((meal) =>
+      mealMatchesDayEffort(meal, requestedEffort)
+    );
 
     if (candidates.length === 0) {
       candidates = [...dinnerPool];

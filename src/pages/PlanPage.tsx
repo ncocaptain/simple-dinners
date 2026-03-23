@@ -95,7 +95,7 @@ export default function PlanPage({
 
   const handleGenerate = () => {
     commitPantry();
-    generateDinnerPlan();
+    generateDinnerPlan(true);
   };
 
   const effortOptions: { key: Effort; label: string }[] = [

@@ -316,7 +316,7 @@ const hideBottomNav = location.pathname.startsWith("/recipe/");
     cookbook,
     pantry: pantry.map((item) => item.name),
     daySettings,
-    lockedMeals: seedMeals as any,
+    lockedMeals: seedMeals as Partial<Record<(typeof days)[number], Meal | null>>,
     preferences: prefs,
   });
 
@@ -329,7 +329,7 @@ const hideBottomNav = location.pathname.startsWith("/recipe/");
   }
 
   setMeals(withPhotos);
-  navigate("/");
+  navigate("/week");
 };
 
   const requireOnboarding = (element: React.ReactNode) =>
