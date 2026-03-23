@@ -17,7 +17,6 @@ import CookNowPage from "./pages/CookNowPage";
 import OnboardingPage from "./pages/OnboardingPage";
 import RecipePage from "./pages/RecipePage";
 import HomePage from "./pages/HomePage";
-import SettingsPage from "./pages/SettingsPage";
 import TestersGuidePage from "./pages/TestersGuidePage";
 import FeedbackForm from "./pages/FeedbackForm";
 import WhatsNewPage from "./pages/WhatsNewPage";
@@ -163,7 +162,7 @@ function Navigation() {
         {navItem("/week", Calendar, "Week")}
         {navItem("/cookbook", BookOpen, "Cook")}
         {navItem("/shopping-list", ShoppingBasket, "Shop")}
-        {navItem("/settings", Settings, "Setup")}
+        {navItem("/plan", Settings, "Plan")}
       </div>
     </div>
   );
@@ -428,10 +427,7 @@ const hideBottomNav = location.pathname.startsWith("/recipe/");
           element={requireOnboarding(<CookNowPage meals={meals} />)}
         />
 
-        <Route
-          path="/settings"
-          element={<SettingsPage prefs={prefs} setPrefs={setPrefs} />}
-        />
+        <Route path="/settings" element={<Navigate to="/plan" replace />} />
         <Route path="/guide" element={<TestersGuidePage />} />
         <Route path="/whats-new" element={<WhatsNewPage />} />
         <Route path="/feedback" element={<FeedbackForm />} />
