@@ -300,38 +300,37 @@ const hideBottomNav = location.pathname.startsWith("/recipe/");
     }
   };
 
-  const generateDinnerPlan = (force = false) => {
-    const seedMeals = force
-      ? Object.fromEntries(
-          days.map((d) => [
-            d,
-            lockedDays[d]
-              ? meals[d]
-              : { name: "", ingredients: "", instructions: "", photoUrl: "" },
-          ])
-        )
-      : meals;
+ const generateDinnerPlan = (force = false) => {
+  const seedMeals = force
+    ? Object.fromEntries(
+        days.map((d) => [
+          d,
+          lockedDays[d]
+            ? meals[d]
+            : { name: "", ingredients: "", instructions: "", photoUrl: "" },
+        ])
+      )
+    : meals;
 
-    const next = generatePlan({
-      meals: seedMeals as any,
-      cookbook,
-      pantry,
-      daySettings,
-      prefs,
-      days,
-    });
+  const next = generatePlan({
+    cookbook,
+    pantry: pantry.map((item) => item.name),
+    daySettings,
+    lockedMeals: seedMeals as any,
+    preferences: prefs,
+  });
 
-    const withPhotos = { ...next } as Record<string, Meal>;
+  const withPhotos = { ...next } as Record<string, Meal>;
 
-    for (const d of days) {
-      if (withPhotos[d] && !withPhotos[d].photoUrl) {
-        withPhotos[d].photoUrl = mealImageUrl(withPhotos[d].name);
-      }
+  for (const d of days) {
+    if (withPhotos[d] && !withPhotos[d].photoUrl) {
+      withPhotos[d].photoUrl = mealImageUrl(withPhotos[d].name);
     }
+  }
 
-    setMeals(withPhotos);
-    navigate("/");
-  };
+  setMeals(withPhotos);
+  navigate("/");
+};
 
   const requireOnboarding = (element: React.ReactNode) =>
     hasCompletedOnboarding() ? element : <Navigate to="/onboarding" replace />;

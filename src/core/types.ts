@@ -1,16 +1,16 @@
-export type Effort = "quick" | "normal" | "big" | "takeout";
+export type Effort = "quick" | "normal" | "big" | "frozen" | "takeout";
 
 export interface Meal {
   id?: string;
   slug?: string;
   name: string;
   ingredients: string;
-  instructions?: string; // Add the '?' to make it optional
-  photoUrl?: string;     // Add the '?' to make it optional
-  effort?: "quick" | "normal" | "big" | "takeout";
+  instructions?: string;
+  photoUrl?: string;
+  effort?: Effort;
   tags?: string[];
   isVegetarian?: boolean;
-  notes?: string; //
+  notes?: string;
 }
 
 export type PantryItem = {
@@ -39,4 +39,5 @@ export type Preferences = {
   allergens?: string[];
   includeDesserts?: boolean;
   includeAppetizers?: boolean;
+  includeFrozen?: boolean;
 };
