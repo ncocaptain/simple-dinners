@@ -528,7 +528,7 @@ export function generatePlan(opts: {
   const plannerPrefs: PlannerPrefs = {
   vegetarian: preferences.vegetarian,
   allergens: getAllergenSelections(preferences),
-  includeFrozen: preferences.includeFrozen,
+  includeFrozen: true,
   includeDesserts: preferences.includeDesserts,
   effort: "any",
 };

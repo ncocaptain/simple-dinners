@@ -113,11 +113,12 @@ export default function PlanPage({
   };
 
   const effortOptions: { key: Effort; label: string }[] = [
-    { key: "quick", label: "Quick" },
-    { key: "normal", label: "Normal" },
-    { key: "big", label: "Big cook" },
-    { key: "takeout", label: "Takeout" },
-  ];
+  { key: "quick", label: "Quick" },
+  { key: "normal", label: "Normal" },
+  { key: "big", label: "Big cook" },
+  { key: "frozen", label: "Freezer" },
+  { key: "takeout", label: "Takeout" },
+];
 
   const inputBase: React.CSSProperties = {
     width: "100%",
