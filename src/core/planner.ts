@@ -221,6 +221,10 @@ function isFrozen(meal: Meal) {
   return normalizeEffort(meal.effort) === "frozen" || tags.includes("frozen");
 }
 
+function isSalad(meal: Meal) {
+  return normalizeTags(meal.tags).includes("salad");
+}
+
 function matchesEffort(meal: Meal, requested?: Effort | "any") {
   if (!requested || requested === "any") return true;
   return normalizeEffort(meal.effort) === normalizeEffort(requested);
@@ -423,6 +427,7 @@ export function getPlannerScore(
   if (tags.includes("quick")) score += 1;
   if (tags.includes("comfort")) score += 1;
   if (tags.includes("kid-friendly")) score += 1;
+  if (tags.includes("salad")) score -= 1;
 
   // Cookbook meals should win more often than built-ins
   if (tags.includes("cookbook")) score += 10;
@@ -543,6 +548,8 @@ export function generatePlan(opts: {
   const dinnerPool = filterMealsForPrefs(combinedDinnerLibrary, plannerPrefs);
   const usedNames = new Set<string>();
   const plan = {} as Record<Day, Meal>;
+  let saladCount = 0;
+const MAX_SALADS = 2;
 
   for (const day of days) {
     const locked = lockedMeals[day];
@@ -570,9 +577,12 @@ export function generatePlan(opts: {
       continue;
     }
 
-    let candidates = dinnerPool.filter((meal) =>
-      mealMatchesDayEffort(meal, requestedEffort)
-    );
+    let candidates = dinnerPool
+  .filter((meal) => mealMatchesDayEffort(meal, requestedEffort))
+  .filter((meal) => {
+    if (isSalad(meal) && saladCount >= MAX_SALADS) return false;
+    return true;
+  });
 
     if (candidates.length === 0) {
       candidates = [...dinnerPool];
@@ -605,7 +615,11 @@ export function generatePlan(opts: {
       } satisfies Meal);
 
     plan[day] = selected;
-    usedNames.add(normalizeText(selected.name));
+usedNames.add(normalizeText(selected.name));
+
+if (isSalad(selected)) {
+  saladCount++;
+}
   }
 
   return plan;
