@@ -35,7 +35,14 @@ export default function WeekPage({
 
   function normalizePhotoUrl(url?: string) {
     if (!url) return "";
-    return url.replace(/\.(png|jpg|jpeg)$/i, ".webp");
+
+    const trimmed = url.trim();
+
+    if (trimmed.startsWith("/images/")) {
+      return trimmed.replace(/\.(png|jpg|jpeg)$/i, ".webp");
+    }
+
+    return trimmed;
   }
 
   const toggleLock = (day: string) => {
