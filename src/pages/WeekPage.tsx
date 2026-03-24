@@ -33,6 +33,11 @@ export default function WeekPage({
 }) {
   const navigate = useNavigate();
 
+  function normalizePhotoUrl(url?: string) {
+    if (!url) return "";
+    return url.replace(/\.(png|jpg|jpeg)$/i, ".webp");
+  }
+
   const toggleLock = (day: string) => {
     setLockedDays((prev) => ({ ...prev, [day]: !prev[day] }));
   };
@@ -255,6 +260,7 @@ export default function WeekPage({
             const meal = meals[day];
             const hasMeal = !!meal?.name?.trim();
             const isLocked = !!lockedDays[day];
+            const mealPhotoUrl = normalizePhotoUrl(meal?.photoUrl);
 
             return (
               <Card key={day} style={{ padding: 0, overflow: "hidden", borderRadius: "24px" }}>
@@ -316,9 +322,9 @@ export default function WeekPage({
                           cursor: "pointer",
                         }}
                       >
-                        {meal.photoUrl ? (
+                        {mealPhotoUrl ? (
                           <img
-                            src={meal.photoUrl}
+                            src={mealPhotoUrl}
                             alt={meal.name || "Meal"}
                             style={{
                               width: 85,
