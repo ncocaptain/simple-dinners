@@ -164,6 +164,7 @@ function Navigation() {
         {navItem("/cookbook", BookOpen, "Cook")}
         {navItem("/shopping-list", ShoppingBasket, "Shop")}
         {navItem("/plan", Settings, "Plan")}
+        {navItem("/recipes", BookOpen, "Recipes")}
       </div>
     </div>
   );
@@ -431,7 +432,29 @@ const hideBottomNav = location.pathname.startsWith("/recipe/");
         <Route path="/guide" element={<TestersGuidePage />} />
         <Route path="/whats-new" element={<WhatsNewPage />} />
         <Route path="/feedback" element={<FeedbackForm />} />
-        <Route path="/recipes" element={<RecipesPage />} />
+        <Route
+  path="/recipes"
+  element={
+    <RecipesPage
+      onAddToWeek={(meal) => {
+        const firstOpenDay = days.find((day) => !meals[day]);
+
+        if (!firstOpenDay) {
+          alert("Your week is already full. Clear a day first.");
+          navigate("/week");
+          return;
+        }
+
+        setMeals((prev) => ({
+          ...prev,
+          [firstOpenDay]: meal,
+        }));
+
+        navigate("/week");
+      }}
+    />
+  }
+/>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
