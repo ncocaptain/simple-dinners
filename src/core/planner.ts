@@ -429,7 +429,9 @@ export function getPlannerScore(
   if (tags.includes("quick")) score += 1;
   if (tags.includes("comfort")) score += 1;
   if (tags.includes("kid-friendly")) score += 1;
-  if (tags.includes("salad")) score -= 1;
+  if (tags.includes("salad") && tags.includes("dinner")) {
+  score += 1;
+}
 
   // Cookbook meals should win more often than built-ins
   if (tags.includes("cookbook")) score += 10;
