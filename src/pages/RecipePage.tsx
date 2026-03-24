@@ -36,6 +36,18 @@ function splitLines(s?: string) {
     .filter(Boolean);
 }
 
+function normalizePhotoUrl(url?: string) {
+  if (!url) return "";
+
+  const trimmed = url.trim();
+
+  if (trimmed.startsWith("/images/")) {
+    return trimmed.replace(/\.(png|jpg|jpeg)$/i, ".webp");
+  }
+
+  return trimmed;
+}
+
 function findCandidateBySlug(slug: string) {
   const s = (slug || "").trim().toLowerCase();
   return candidateLibrary.find((r) => (r.slug || "").toLowerCase() === s) ?? null;
@@ -298,7 +310,7 @@ export default function RecipePage() {
   }, [currentStep, ingredients]);
 
   const detectedTime = parseStepDuration(currentStep);
-  const heroUrl = recipe?.photoUrl || "";
+  const heroUrl = normalizePhotoUrl(recipe?.photoUrl);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | undefined;
@@ -713,66 +725,66 @@ export default function RecipePage() {
         </div>
 
         <footer
-  style={{
-    position: "fixed",
-    left: "50%",
-    bottom: 110,
-    transform: "translateX(-50%)",
-    width: "min(760px, calc(100% - 32px))",
-    display: "flex",
-    gap: 12,
-    padding: 12,
-    borderRadius: 22,
-    background: "rgba(15, 23, 42, 0.96)",
-border: "1px solid rgba(20,184,166,0.18)",
-boxShadow: "0 24px 50px rgba(0,0,0,0.55)",
-    backdropFilter: "blur(10px)",
-    zIndex: 1200,
-  }}
->
-  <button
-    style={{
-      ...btn,
-      flex: 1,
-      justifyContent: "center",
-      opacity: stepIndex === 0 || instructions.length === 0 ? 0.45 : 1,
-      cursor:
-        stepIndex === 0 || instructions.length === 0 ? "not-allowed" : "pointer",
-    }}
-    onClick={() => setStepIndex((s) => Math.max(0, s - 1))}
-    disabled={stepIndex === 0 || instructions.length === 0}
-  >
-    <ChevronLeft size={20} />
-    Prev
-  </button>
+          style={{
+            position: "fixed",
+            left: "50%",
+            bottom: 110,
+            transform: "translateX(-50%)",
+            width: "min(760px, calc(100% - 32px))",
+            display: "flex",
+            gap: 12,
+            padding: 12,
+            borderRadius: 22,
+            background: "rgba(15, 23, 42, 0.96)",
+            border: "1px solid rgba(20,184,166,0.18)",
+            boxShadow: "0 24px 50px rgba(0,0,0,0.55)",
+            backdropFilter: "blur(10px)",
+            zIndex: 1200,
+          }}
+        >
+          <button
+            style={{
+              ...btn,
+              flex: 1,
+              justifyContent: "center",
+              opacity: stepIndex === 0 || instructions.length === 0 ? 0.45 : 1,
+              cursor:
+                stepIndex === 0 || instructions.length === 0 ? "not-allowed" : "pointer",
+            }}
+            onClick={() => setStepIndex((s) => Math.max(0, s - 1))}
+            disabled={stepIndex === 0 || instructions.length === 0}
+          >
+            <ChevronLeft size={20} />
+            Prev
+          </button>
 
-  <button
-    style={{
-      ...btn,
-      flex: 2.4,
-      justifyContent: "center",
-      background: "#14b8a6",
-      color: "#0f172a",
-      border: "none",
-      opacity: instructions.length === 0 ? 0.5 : 1,
-      cursor: instructions.length === 0 ? "not-allowed" : "pointer",
-    }}
-    onClick={handleCookModeAdvance}
-    disabled={instructions.length === 0}
-  >
-    {stepIndex >= instructions.length - 1 ? (
-      <>
-        <CheckCircle2 size={18} />
-        Done
-      </>
-    ) : (
-      <>
-        Next Step
-        <ChevronRight size={18} />
-      </>
-    )}
-  </button>
-</footer>
+          <button
+            style={{
+              ...btn,
+              flex: 2.4,
+              justifyContent: "center",
+              background: "#14b8a6",
+              color: "#0f172a",
+              border: "none",
+              opacity: instructions.length === 0 ? 0.5 : 1,
+              cursor: instructions.length === 0 ? "not-allowed" : "pointer",
+            }}
+            onClick={handleCookModeAdvance}
+            disabled={instructions.length === 0}
+          >
+            {stepIndex >= instructions.length - 1 ? (
+              <>
+                <CheckCircle2 size={18} />
+                Done
+              </>
+            ) : (
+              <>
+                Next Step
+                <ChevronRight size={18} />
+              </>
+            )}
+          </button>
+        </footer>
       </div>
     );
   }

@@ -81,6 +81,18 @@ function getRecipeStatus(recipe: Recipe) {
   return "Ready";
 }
 
+function normalizePhotoUrl(url?: string) {
+  if (!url) return "";
+
+  const trimmed = url.trim();
+
+  if (trimmed.startsWith("/images/")) {
+    return trimmed.replace(/\.(png|jpg|jpeg)$/i, ".webp");
+  }
+
+  return trimmed;
+}
+
 export default function CookbookPage({
   cookbook = [],
   setCookbook,
@@ -683,6 +695,8 @@ export default function CookbookPage({
             const recipeSlug =
               recipe.slug || `${slugify(recipe.name || "recipe")}-${index}`;
 
+            const recipePhotoUrl = normalizePhotoUrl(recipe?.photoUrl);
+
             return (
               <div
                 key={recipeSlug}
@@ -693,16 +707,16 @@ export default function CookbookPage({
                   <div
                     style={{
                       display: "grid",
-                      gridTemplateColumns: recipe?.photoUrl
+                      gridTemplateColumns: recipePhotoUrl
                         ? "84px minmax(0,1fr) auto"
                         : "minmax(0,1fr) auto",
                       alignItems: "stretch",
                     }}
                   >
-                    {recipe?.photoUrl && (
+                    {recipePhotoUrl && (
                       <div
                         style={{
-                          backgroundImage: `url(${recipe.photoUrl})`,
+                          backgroundImage: `url(${recipePhotoUrl})`,
                           backgroundSize: "cover",
                           backgroundPosition: "center",
                           minHeight: 104,
