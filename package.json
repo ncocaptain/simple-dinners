@@ -1,14 +1,17 @@
 {
   "name": "simple-dinners",
   "private": true,
-  "version": "22.0.1",
+  "version": "43.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "android:push": "npm run build && npx cap sync android && npx cap open android"
+  "dev": "vite",
+  "build": "tsc -b && vite build",
+  "lint": "eslint .",
+  "preview": "vite preview",
+  "android:push": "npm run build && npx cap sync android && npx cap open android",
+  "convert-images": "node scripts/convert-images.js",
+  "update-photo-urls": "node scripts/update-photo-urls.js",
+  "optimize-images": "node scripts/optimize-images.js"
   },
   "overrides": {
     "ajv": "8.18.0",
@@ -29,6 +32,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^7.13.0",
     "recipe-scrapers": "^1.5.1",
+    "sharp": "^0.34.5",
     "zod": "^4.3.6"
   },
   "devDependencies": {
