@@ -2,6 +2,7 @@ import type { Meal, Effort } from "./types";
 import {
   NEW_BUILTIN_RECIPES,
   NEW_VEGETARIAN_RECIPES,
+  NEW_SALAD_RECIPES,
   FROZEN_MEALS,
   SIDE_DISHES,
   DESSERTS,
@@ -248,6 +249,7 @@ function dedupeMeals(items: Meal[]) {
 export const dinnerLibrary: Meal[] = dedupeMeals([
   ...NEW_BUILTIN_RECIPES,
   ...NEW_VEGETARIAN_RECIPES,
+  ...NEW_SALAD_RECIPES,
   ...FROZEN_MEALS,
 ]);
 
