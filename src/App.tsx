@@ -40,6 +40,7 @@ import {
   addToCookbook,
 } from "./core/cookbookStore";
 import { hasCompletedOnboarding } from "./core/onboardingStore";
+import RecipesPage from "./pages/RecipesPage";
 
 const APP_VERSION = "22.0.7";
 
@@ -430,6 +431,7 @@ const hideBottomNav = location.pathname.startsWith("/recipe/");
         <Route path="/guide" element={<TestersGuidePage />} />
         <Route path="/whats-new" element={<WhatsNewPage />} />
         <Route path="/feedback" element={<FeedbackForm />} />
+        <Route path="/recipes" element={<RecipesPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 

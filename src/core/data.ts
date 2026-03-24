@@ -1,5 +1,6 @@
 import type { Meal } from "./types";
 
+
 export const days = [
   "Monday",
   "Tuesday",
@@ -2400,6 +2401,348 @@ Create two wells in the hash, crack an egg into each, and cover until eggs are c
   },
 ];
 
+export const NEW_SALAD_RECIPES: Meal[] = [
+  // =====================================================
+  // QUICK
+  // =====================================================
+  {
+    id: "quick-classic-garden-salad",
+    slug: "quick-classic-garden-salad",
+    name: "Classic Garden Salad",
+    photoUrl: "/images/quick-classic-garden-salad.jpg",
+    effort: "quick",
+    tags: ["salad", "quick", "vegetarian", "side", "fresh", "healthy"],
+    ingredients: `1 head romaine lettuce, chopped
+1 cup cherry tomatoes, halved
+1 cucumber, sliced
+1/2 red onion, thinly sliced
+1/2 cup shredded carrots
+1/2 cup croutons
+1/4 cup ranch or Italian dressing`,
+    instructions: `Wash and chop the lettuce.
+Add lettuce, tomatoes, cucumber, onion, and carrots to a large bowl.
+Top with croutons.
+Drizzle with dressing just before serving and toss well.`,
+    notes: "A crisp everyday salad that works as a side or a light lunch.",
+  },
+
+  {
+    id: "quick-greek-salad",
+    slug: "quick-greek-salad",
+    name: "Greek Salad",
+    photoUrl: "/images/quick-greek-salad.jpg",
+    effort: "quick",
+    tags: ["salad", "quick", "vegetarian", "mediterranean", "fresh", "healthy"],
+    ingredients: `1 cucumber, chopped
+1 pint cherry tomatoes, halved
+1/2 red onion, sliced
+1 green bell pepper, chopped
+1/2 cup kalamata olives
+1/2 cup feta cheese, crumbled
+2 tbsp olive oil
+1 tbsp red wine vinegar
+1 tsp dried oregano
+Salt and black pepper to taste`,
+    instructions: `Add cucumber, tomatoes, onion, bell pepper, olives, and feta to a large bowl.
+Whisk together olive oil, red wine vinegar, oregano, salt, and pepper.
+Pour dressing over salad and toss gently.
+Serve immediately or chill until ready to serve.`,
+    notes: "Bright, salty, and refreshing with a classic Mediterranean flavor.",
+  },
+
+  {
+    id: "quick-caprese-salad",
+    slug: "quick-caprese-salad",
+    name: "Caprese Salad",
+    photoUrl: "/images/quick-caprese-salad.jpg",
+    effort: "quick",
+    tags: ["salad", "quick", "vegetarian", "italian", "fresh", "no-cook"],
+    ingredients: `3 large tomatoes, sliced
+8 oz fresh mozzarella, sliced
+1/4 cup fresh basil leaves
+2 tbsp olive oil
+1 tbsp balsamic glaze
+Salt and black pepper to taste`,
+    instructions: `Arrange tomato slices and mozzarella slices on a platter.
+Tuck fresh basil leaves between the layers.
+Drizzle with olive oil and balsamic glaze.
+Season lightly with salt and pepper before serving.`,
+    notes: "Simple, fresh, and perfect for warm-weather meals.",
+  },
+
+  {
+    id: "quick-southwest-chicken-salad",
+    slug: "quick-southwest-chicken-salad",
+    name: "Southwest Chicken Salad",
+    photoUrl: "/images/quick-southwest-chicken-salad.jpg",
+    effort: "quick",
+    tags: ["salad", "quick", "chicken", "dinner", "protein", "tex-mex"],
+    ingredients: `2 cups cooked chicken, chopped
+1 head romaine lettuce, chopped
+1 cup corn
+1 cup black beans, drained and rinsed
+1 cup cherry tomatoes, halved
+1/2 cup shredded cheddar cheese
+1 avocado, diced
+1/4 cup tortilla strips
+1/3 cup southwest ranch dressing`,
+    instructions: `Add lettuce, chicken, corn, black beans, tomatoes, cheese, and avocado to a large bowl.
+Top with tortilla strips.
+Drizzle with southwest ranch dressing and toss just before serving.`,
+    notes: "A hearty salad that feels like a full dinner, not just a side.",
+  },
+
+  {
+    id: "quick-cucumber-tomato-salad",
+    slug: "quick-cucumber-tomato-salad",
+    name: "Cucumber Tomato Salad",
+    photoUrl: "/images/quick-cucumber-tomato-salad.jpg",
+    effort: "quick",
+    tags: ["salad", "quick", "vegetarian", "side", "fresh", "summer"],
+    ingredients: `2 cucumbers, sliced
+3 tomatoes, chopped
+1/4 red onion, thinly sliced
+2 tbsp olive oil
+1 tbsp red wine vinegar
+1 tsp sugar
+Salt and black pepper to taste`,
+    instructions: `Add cucumbers, tomatoes, and red onion to a bowl.
+Whisk together olive oil, vinegar, sugar, salt, and pepper.
+Pour over vegetables and toss well.
+Chill for 15 minutes before serving if desired.`,
+    notes: "Cool, crisp, and great with grilled dinners.",
+  },
+
+  // =====================================================
+  // NORMAL
+  // =====================================================
+  {
+    id: "normal-grilled-chicken-caesar-salad",
+    slug: "normal-grilled-chicken-caesar-salad",
+    name: "Grilled Chicken Caesar Salad",
+    photoUrl: "/images/normal-grilled-chicken-caesar-salad.jpg",
+    effort: "normal",
+    tags: ["salad", "normal", "chicken", "dinner", "protein", "classic"],
+    ingredients: `2 chicken breasts
+1 tbsp olive oil
+1 tsp garlic powder
+1/2 tsp salt
+1/4 tsp black pepper
+1 head romaine lettuce, chopped
+1/2 cup Caesar dressing
+1/3 cup parmesan cheese
+1 cup croutons`,
+    instructions: `Season chicken with olive oil, garlic powder, salt, and pepper.
+Cook chicken in a skillet or grill pan until fully cooked, then slice.
+Add romaine, Caesar dressing, parmesan, and croutons to a bowl and toss.
+Top with sliced chicken and serve.`,
+    notes: "A restaurant-style classic that works perfectly as a dinner salad.",
+  },
+
+  {
+    id: "normal-cobb-salad",
+    slug: "normal-cobb-salad",
+    name: "Cobb Salad",
+    photoUrl: "/images/normal-cobb-salad.jpg",
+    effort: "normal",
+    tags: ["salad", "normal", "chicken", "bacon", "dinner", "protein"],
+    ingredients: `1 head romaine lettuce, chopped
+2 cups cooked chicken, chopped
+4 strips bacon, cooked and crumbled
+2 hard-boiled eggs, chopped
+1 avocado, diced
+1 cup cherry tomatoes, halved
+1/2 cup blue cheese crumbles
+1/3 cup ranch dressing`,
+    instructions: `Arrange lettuce in a large serving bowl or platter.
+Top in rows with chicken, bacon, eggs, avocado, tomatoes, and blue cheese.
+Drizzle with dressing or serve dressing on the side.`,
+    notes: "Loaded with protein and toppings, this one eats like a full meal.",
+  },
+
+  {
+    id: "normal-steakhouse-salad",
+    slug: "normal-steakhouse-salad",
+    name: "Steakhouse Salad",
+    photoUrl: "/images/normal-steakhouse-salad.jpg",
+    effort: "normal",
+    tags: ["salad", "normal", "beef", "dinner", "protein", "hearty"],
+    ingredients: `1 lb sirloin steak
+1 tbsp olive oil
+1 tsp salt
+1/2 tsp black pepper
+1 head romaine lettuce, chopped
+1 cup cherry tomatoes, halved
+1/2 red onion, sliced
+1/2 cup crumbled blue cheese
+1/4 cup crispy fried onions
+1/3 cup balsamic vinaigrette`,
+    instructions: `Season steak with olive oil, salt, and pepper.
+Cook steak in a skillet to desired doneness, then rest and slice thinly.
+Add lettuce, tomatoes, onion, blue cheese, and fried onions to a bowl.
+Top with steak and drizzle with balsamic vinaigrette.`,
+    notes: "Bold steakhouse flavor in a lighter, salad-style dinner.",
+  },
+
+  {
+    id: "normal-broccoli-bacon-salad",
+    slug: "normal-broccoli-bacon-salad",
+    name: "Broccoli Bacon Salad",
+    photoUrl: "/images/normal-broccoli-bacon-salad.jpg",
+    effort: "normal",
+    tags: ["salad", "normal", "side", "broccoli", "bacon", "potluck"],
+    ingredients: `4 cups broccoli florets
+6 strips bacon, cooked and crumbled
+1/2 red onion, diced
+1/2 cup shredded cheddar cheese
+1/4 cup sunflower seeds
+1/3 cup mayonnaise
+1 tbsp apple cider vinegar
+1 tbsp sugar`,
+    instructions: `Add broccoli, bacon, red onion, cheddar, and sunflower seeds to a large bowl.
+Whisk together mayonnaise, apple cider vinegar, and sugar.
+Pour dressing over salad and mix well.
+Chill before serving for best flavor.`,
+    notes: "Crunchy, creamy, and one of those salads people always go back for.",
+  },
+
+  {
+    id: "normal-avocado-ranch-chicken-salad",
+    slug: "normal-avocado-ranch-chicken-salad",
+    name: "Avocado Ranch Chicken Salad",
+    photoUrl: "/images/normal-avocado-ranch-chicken-salad.jpg",
+    effort: "normal",
+    tags: ["salad", "normal", "chicken", "avocado", "dinner", "protein"],
+    ingredients: `2 cups cooked chicken, chopped
+1 head romaine lettuce, chopped
+1 avocado, diced
+1 cup cherry tomatoes, halved
+1/2 cucumber, sliced
+1/4 red onion, sliced
+1/2 cup shredded cheddar cheese
+1/3 cup ranch dressing`,
+    instructions: `Add lettuce, chicken, avocado, tomatoes, cucumber, onion, and cheese to a large bowl.
+Drizzle with ranch dressing.
+Toss gently and serve right away.`,
+    notes: "Creamy, filling, and easy enough for a weeknight dinner.",
+  },
+
+  // =====================================================
+  // BIG
+  // =====================================================
+  {
+    id: "big-buffalo-chicken-salad",
+    slug: "big-buffalo-chicken-salad",
+    name: "Buffalo Chicken Salad",
+    photoUrl: "/images/big-buffalo-chicken-salad.jpg",
+    effort: "big",
+    tags: ["salad", "big", "chicken", "buffalo", "dinner", "spicy"],
+    ingredients: `2 chicken breasts, breaded or grilled
+1/3 cup buffalo sauce
+1 head romaine lettuce, chopped
+1 cup cherry tomatoes, halved
+1/2 cucumber, sliced
+1/4 red onion, sliced
+1/2 cup shredded cheddar cheese
+1/4 cup blue cheese crumbles
+1/3 cup ranch or blue cheese dressing`,
+    instructions: `Cook chicken until fully done, then slice.
+Toss cooked chicken with buffalo sauce.
+Add lettuce, tomatoes, cucumber, onion, cheddar, and blue cheese to a large bowl.
+Top with buffalo chicken and drizzle with dressing.`,
+    notes: "Big flavor and just enough heat to make salad night exciting.",
+  },
+
+  {
+    id: "big-asian-chicken-salad",
+    slug: "big-asian-chicken-salad",
+    name: "Asian Chicken Salad",
+    photoUrl: "/images/big-asian-chicken-salad.jpg",
+    effort: "big",
+    tags: ["salad", "big", "chicken", "dinner", "crunchy", "asian-inspired"],
+    ingredients: `2 cups cooked chicken, shredded
+1 bag coleslaw mix
+1 cup romaine lettuce, chopped
+1/2 cup shredded carrots
+1/2 cup sliced almonds
+1/4 cup crispy chow mein noodles
+2 green onions, sliced
+1/4 cup sesame ginger dressing`,
+    instructions: `Add coleslaw mix, romaine, carrots, almonds, chow mein noodles, and green onions to a large bowl.
+Top with shredded chicken.
+Drizzle with sesame ginger dressing and toss just before serving.`,
+    notes: "Crunchy, colorful, and a great break from the usual salad routine.",
+  },
+
+  {
+    id: "big-strawberry-spinach-salad",
+    slug: "big-strawberry-spinach-salad",
+    name: "Strawberry Spinach Salad",
+    photoUrl: "/images/big-strawberry-spinach-salad.jpg",
+    effort: "big",
+    tags: ["salad", "big", "vegetarian", "spinach", "fruit", "fresh"],
+    ingredients: `1 bag baby spinach
+1 cup strawberries, sliced
+1/2 cup blueberries
+1/4 red onion, thinly sliced
+1/2 cup feta cheese
+1/4 cup candied pecans
+1/3 cup poppy seed dressing`,
+    instructions: `Add spinach, strawberries, blueberries, red onion, feta, and candied pecans to a large bowl.
+Drizzle with poppy seed dressing.
+Toss gently and serve immediately.`,
+    notes: "Sweet, tangy, and pretty enough to steal the show on the table.",
+  },
+
+  {
+    id: "big-taco-salad",
+    slug: "big-taco-salad",
+    name: "Taco Salad",
+    photoUrl: "/images/big-taco-salad.jpg",
+    effort: "big",
+    tags: ["salad", "big", "beef", "tex-mex", "dinner", "family-friendly"],
+    ingredients: `1 lb ground beef
+1 packet taco seasoning
+1 head romaine lettuce, chopped
+1 cup cherry tomatoes, halved
+1 cup corn
+1 cup black beans, drained and rinsed
+1 cup shredded cheddar cheese
+1/2 cup salsa
+1/2 cup sour cream
+1 cup tortilla chips, crushed`,
+    instructions: `Cook ground beef in a skillet and stir in taco seasoning.
+Add lettuce, tomatoes, corn, black beans, and cheese to a large bowl.
+Top with warm taco meat.
+Add salsa, sour cream, and crushed tortilla chips before serving.`,
+    notes: "A fun dinner salad that still feels hearty and family-friendly.",
+  },
+
+  {
+    id: "big-mediterranean-chickpea-salad",
+    slug: "big-mediterranean-chickpea-salad",
+    name: "Mediterranean Chickpea Salad",
+    photoUrl: "/images/big-mediterranean-chickpea-salad.jpg",
+    effort: "big",
+    tags: ["salad", "big", "vegetarian", "chickpeas", "healthy", "meal-prep"],
+    ingredients: `2 cans chickpeas, drained and rinsed
+1 cucumber, chopped
+1 pint cherry tomatoes, halved
+1/2 red onion, diced
+1/2 cup feta cheese
+1/4 cup parsley, chopped
+2 tbsp olive oil
+1 tbsp lemon juice
+1 tsp dried oregano
+Salt and black pepper to taste`,
+    instructions: `Add chickpeas, cucumber, tomatoes, red onion, feta, and parsley to a large bowl.
+Whisk together olive oil, lemon juice, oregano, salt, and pepper.
+Pour dressing over salad and toss well.
+Chill or serve immediately.`,
+    notes: "Protein-packed, fresh, and great for lunches the next day too.",
+  },
+];
+
 export const FROZEN_MEALS: Meal[] = [
   {
     id: "frozen-lasagna",
@@ -2644,4 +2987,5 @@ export const ALL_RECIPES: Meal[] = [
   ...DESSERTS,
   ...EXTRA_RECIPES,
   ...VEGETARIAN_EXTRAS,
+  ...NEW_SALAD_RECIPES,
 ];

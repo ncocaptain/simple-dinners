@@ -50,11 +50,11 @@ export function deleteFromCookbook(slug: string) {
   setCookbook(filtered);
 }
 
-export function getCookbook(): (Meal & any)[] {
-  return safeParse<(Meal & any)[]>(localStorage.getItem(COOKBOOK_LS_KEY), []);
+export function getCookbook(): Meal[] {
+  return safeParse<Meal[]>(localStorage.getItem(COOKBOOK_LS_KEY), []);
 }
 
-export function setCookbook(items: (Meal & any)[]) {
+export function setCookbook(items: Meal[]) {
   localStorage.setItem(COOKBOOK_LS_KEY, JSON.stringify(items));
 }
 
