@@ -1501,6 +1501,367 @@ Cut in half diagonally and serve.
 
 Optional: Serve with warm tomato soup.`,
   },
+
+   {
+    id: "quick-sloppy-joes-sandwich",
+    slug: "quick-sloppy-joes-sandwich",
+    name: "Sloppy Joes Sandwich",
+    photoUrl: "/images/quick-sloppy-joes-sandwich.png",
+    notes: "A smoky, saucy sandwich dinner that is easy to make and always family-friendly.",
+    effort: "quick",
+    tags: ["dinner", "beef", "sandwiches", "quick", "family-friendly"],
+    ingredients: `2 cloves garlic, minced
+1 lb ground beef
+8 oz tomato sauce
+½ cup ketchup
+2 tbsp brown sugar
+2 tbsp Worcestershire sauce
+1 tsp mustard
+½ tsp garlic powder
+¼ tsp onion powder
+pepper, to taste
+Hamburger buns
+Sliced pickles`,
+    instructions: `In a medium bowl stir together the tomato sauce, ketchup, brown sugar, Worcestershire sauce, mustard, garlic powder, onion powder, and pepper until well combined; set aside.
+
+Set a large pot over medium-low heat. Add a few drops of extra-virgin olive oil, and saute the garlic for a minute or two until just fragrant and very light golden brown. Add ground beef, increase heat to medium/medium high, and cook until nicely browned with no pink remaining, breaking apart and stirring as the meat cooks. Drain the grease.
+
+Pour the sauce over the browned meat, stir to combine, and simmer for at least 10 minutes until heated through, stirring occasionally.
+
+Serve warm on hamburger buns with sliced pickles on top.`,
+  },
+
+  {
+    id: "quick-chicken-parmesan-melts",
+    slug: "quick-chicken-parmesan-melts",
+    name: "Chicken Parmesan Melts",
+    photoUrl: "/images/quick-chicken-parmesan-melts.png",
+    notes: "An easy shortcut dinner with crispy chicken, marinara, and melted mozzarella on rolls.",
+    effort: "quick",
+    tags: ["dinner", "chicken", "quick", "italian", "sandwiches", "cheesy"],
+    ingredients: `4 cooked chicken cutlets or breaded chicken patties
+1 cup marinara sauce
+1 cup shredded mozzarella
+4 sandwich rolls`,
+    instructions: `Heat chicken according to package directions or warm leftover cutlets.
+
+Place chicken on rolls, top with marinara and mozzarella.
+
+Broil or bake until cheese is melted and bubbly.
+
+Serve warm.`,
+  },
+
+  {
+    id: "quick-taco-mac-skillet",
+    slug: "quick-taco-mac-skillet",
+    name: "Taco Mac Skillet",
+    photoUrl: "/images/quick-taco-mac-skillet.png",
+    notes: "A fast one-pan mashup of taco night and mac and cheese with bold Tex-Mex flavor.",
+    effort: "quick",
+    tags: ["dinner", "beef", "pasta", "quick", "tex-mex", "one-pan"],
+    ingredients: `1 lb ground beef
+2 cups cooked macaroni
+1 packet taco seasoning
+1/2 cup water
+1 cup salsa
+1 cup shredded cheddar`,
+    instructions: `Brown ground beef in a skillet and drain if needed.
+
+Add taco seasoning, water, and salsa. Stir well.
+
+Fold in cooked macaroni and cheddar.
+
+Cook until cheese melts and everything is hot. Serve immediately.`,
+  },
+
+  {
+    id: "quick-lemon-pepper-tilapia",
+    slug: "quick-lemon-pepper-tilapia",
+    name: "Lemon Pepper Tilapia",
+    photoUrl: "/images/quick-lemon-pepper-tilapia.png",
+    notes: "A light and quick seafood dinner with bright lemon flavor and simple seasoning.",
+    effort: "quick",
+    tags: ["dinner", "fish", "quick", "seafood", "light"],
+    ingredients: `4 tilapia fillets
+1 tbsp olive oil
+1 tsp lemon pepper seasoning
+1/2 tsp garlic powder
+1 lemon, sliced
+Salt to taste`,
+    instructions: `Heat olive oil in a skillet over medium heat.
+
+Season tilapia with lemon pepper, garlic powder, and salt.
+
+Cook 3–4 minutes per side until fish flakes easily.
+
+Serve with lemon slices and a simple side.`,
+  },
+
+   {
+    id: "quick-bbq-chicken",
+    slug: "quick-bbq-chicken",
+    name: "Oven BBQ Chicken",
+    photoUrl: "/images/quick-bbq-chicken.png",
+    notes: "BBQ chicken is a savory dish featuring tender, juicy chicken that is seasoned with a savory BBQ sauce and baked to perfection",
+    effort: "quick",
+    tags: ["dinner", "chicken", "quick", "bbq", "family-friendly"],
+    ingredients: `4 boneless skinless chicken breasts
+extra virgin olive oil
+salt , to taste
+pepper , to taste
+½ cup BBQ sauce`,
+    instructions: `Preheat the oven to 450. 
+
+Drizzle each chicken breast with oil. Season with kosher salt and black pepper. Place on a baking sheet lined with aluminum foil.
+
+Bake in the oven for 15 minutes. Brush the top side of the chicken with BBQ sauce, return to the oven and cook for 5-8 minutes longer, or until the internal temperature is 160°.
+
+Let the chicken rest a few minutes for the internal temp to raise to 165° and the juices to settle before serving.
+
+Serve with corn in the cob.`,
+  },
+
+  {
+    id: "normal-simple-tacos",
+    slug: "normal-simple-tacos",
+    name: "Simple Tacos",
+    photoUrl: "/images/normal-simple-tacos.png",
+    notes: "Tacos are a fast, versatile, and crowd-pleasing dish featuring seasoned ground beef tucked into crispy hard shells or soft tortillas",
+    effort: "normal",
+    tags: ["dinner", "beef", "tacos", "simple", "family-friendly"],
+    ingredients: `1 lb ground beef 
+1 packet taco seasoning (Store bought or make your own, see below 👇)
+2/3 cup of water
+1/2 white onion, diced
+4 roma tomatoes, diced
+1 cup shredded cheddar cheese 
+2 cups lettuce, chopped 
+Taco shells (hard or soft)
+hot sauce (optional)
+sour cream (optional)
+
+Taco seasoning:
+½ tbsp chili powder
+1 tsp cumin
+1 tsp salt
+½ tsp garlic powder
+½ tsp onion powder
+½ tsp paprika
+⅛ tsp oregano
+¼ tsp pepper
+⅛ tsp crushed red pepper or jalapeno flakes `,
+    instructions: `Preheat oven to 350
+
+If you are making the taco seasoning, add all the ingredients in a bowl and stir until combined. Set aside.
+
+In a skillet add you ground beef and cook until there is no more pink, drain excess grease. Add water and seasoning and bring to a simmer. Cook until the meat mixture soaks up all the water.
+
+Cook taco shells according to the package. Place diced onions, diced tomatoes, shredded cheese, chopped lettuce and optional ingredients out for a taco bar.`,
+  },
+
+   {
+    id: "quick-sloppy-joes-sandwich",
+    slug: "quick-sloppy-joes-sandwich",
+    name: "Sloppy Joes Sandwich",
+    photoUrl: "/images/quick-sloppy-joes-sandwich.png",
+    notes: "A smoky, saucy sandwich dinner that is easy to make and always family-friendly.",
+    effort: "quick",
+    tags: ["dinner", "beef", "sandwiches", "quick", "family-friendly"],
+    ingredients: `2 cloves garlic, minced
+1 lb ground beef
+8 oz tomato sauce
+½ cup ketchup
+2 tbsp brown sugar
+2 tbsp Worcestershire sauce
+1 tsp mustard
+½ tsp garlic powder
+¼ tsp onion powder
+pepper, to taste
+Hamburger buns
+Sliced pickles`,
+    instructions: `In a medium bowl stir together the tomato sauce, ketchup, brown sugar, Worcestershire sauce, mustard, garlic powder, onion powder, and pepper until well combined; set aside.
+
+Set a large pot over medium-low heat. Add a few drops of extra-virgin olive oil, and saute the garlic for a minute or two until just fragrant and very light golden brown. Add ground beef, increase heat to medium/medium high, and cook until nicely browned with no pink remaining, breaking apart and stirring as the meat cooks. Drain the grease.
+
+Pour the sauce over the browned meat, stir to combine, and simmer for at least 10 minutes until heated through, stirring occasionally.
+
+Serve warm on hamburger buns with sliced pickles on top.`,
+  },
+
+  {
+    id: "quick-chicken-parmesan-melts",
+    slug: "quick-chicken-parmesan-melts",
+    name: "Chicken Parmesan Melts",
+    photoUrl: "/images/quick-chicken-parmesan-melts.png",
+    notes: "An easy shortcut dinner with crispy chicken, marinara, and melted mozzarella on rolls.",
+    effort: "quick",
+    tags: ["dinner", "chicken", "quick", "italian", "sandwiches", "cheesy"],
+    ingredients: `4 cooked chicken cutlets or breaded chicken patties
+1 cup marinara sauce
+1 cup shredded mozzarella
+4 sandwich rolls`,
+    instructions: `Heat chicken according to package directions or warm leftover cutlets.
+
+Place chicken on rolls, top with marinara and mozzarella.
+
+Broil or bake until cheese is melted and bubbly.
+
+Serve warm.`,
+  },
+
+  {
+    id: "quick-taco-mac-skillet",
+    slug: "quick-taco-mac-skillet",
+    name: "Taco Mac Skillet",
+    photoUrl: "/images/quick-taco-mac-skillet.png",
+    notes: "A fast one-pan mashup of taco night and mac and cheese with bold Tex-Mex flavor.",
+    effort: "quick",
+    tags: ["dinner", "beef", "pasta", "quick", "tex-mex", "one-pan"],
+    ingredients: `1 lb ground beef
+2 cups cooked macaroni
+1 packet taco seasoning
+1/2 cup water
+1 cup salsa
+1 cup shredded cheddar`,
+    instructions: `Brown ground beef in a skillet and drain if needed.
+
+Add taco seasoning, water, and salsa. Stir well.
+
+Fold in cooked macaroni and cheddar.
+
+Cook until cheese melts and everything is hot. Serve immediately.`,
+  },
+
+  {
+    id: "quick-lemon-pepper-tilapia",
+    slug: "quick-lemon-pepper-tilapia",
+    name: "Lemon Pepper Tilapia",
+    photoUrl: "/images/quick-lemon-pepper-tilapia.png",
+    notes: "A light and quick seafood dinner with bright lemon flavor and simple seasoning.",
+    effort: "quick",
+    tags: ["dinner", "fish", "quick", "seafood", "light"],
+    ingredients: `4 tilapia fillets
+1 tbsp olive oil
+1 tsp lemon pepper seasoning
+1/2 tsp garlic powder
+1 lemon, sliced
+Salt to taste`,
+    instructions: `Heat olive oil in a skillet over medium heat.
+
+Season tilapia with lemon pepper, garlic powder, and salt.
+
+Cook 3–4 minutes per side until fish flakes easily.
+
+Serve with lemon slices and a simple side.`,
+  },
+
+   {
+    id: "quick-bbq-chicken",
+    slug: "quick-bbq-chicken",
+    name: "Oven BBQ Chicken",
+    photoUrl: "/images/quick-bbq-chicken.png",
+    notes: "BBQ chicken is a savory dish featuring tender, juicy chicken that is seasoned with a savory BBQ sauce and baked to perfection",
+    effort: "quick",
+    tags: ["dinner", "chicken", "quick", "bbq", "family-friendly"],
+    ingredients: `4 boneless skinless chicken breasts
+extra virgin olive oil
+salt , to taste
+pepper , to taste
+½ cup BBQ sauce`,
+    instructions: `Preheat the oven to 450. 
+
+Drizzle each chicken breast with oil. Season with kosher salt and black pepper. Place on a baking sheet lined with aluminum foil.
+
+Bake in the oven for 15 minutes. Brush the top side of the chicken with BBQ sauce, return to the oven and cook for 5-8 minutes longer, or until the internal temperature is 160°.
+
+Let the chicken rest a few minutes for the internal temp to raise to 165° and the juices to settle before serving.
+
+Serve with corn in the cob.`,
+  },
+
+  {
+    id: "normal-simple-tacos",
+    slug: "normal-simple-tacos",
+    name: "Simple Tacos",
+    photoUrl: "/images/normal-simple-tacos.png",
+    notes: "Tacos are a fast, versatile, and crowd-pleasing dish featuring seasoned ground beef tucked into crispy hard shells or soft tortillas",
+    effort: "normal",
+    tags: ["dinner", "beef", "tacos", "simple", "family-friendly"],
+    ingredients: `1 lb ground beef 
+1 packet taco seasoning (Store bought or make your own, see below 👇)
+2/3 cup of water
+1/2 white onion, diced
+4 roma tomatoes, diced
+1 cup shredded cheddar cheese 
+2 cups lettuce, chopped 
+Taco shells (hard or soft)
+hot sauce (optional)
+sour cream (optional)
+
+Taco seasoning:
+½ tbsp chili powder
+1 tsp cumin
+1 tsp salt
+½ tsp garlic powder
+½ tsp onion powder
+½ tsp paprika
+⅛ tsp oregano
+¼ tsp pepper
+⅛ tsp crushed red pepper or jalapeno flakes `,
+    instructions: `Preheat oven to 350
+
+If you are making the taco seasoning, add all the ingredients in a bowl and stir until combined. Set aside.
+
+In a skillet add you ground beef and cook until there is no more pink, drain excess grease. Add water and seasoning and bring to a simmer. Cook until the meat mixture soaks up all the water.
+
+Cook taco shells according to the package. Place diced onions, diced tomatoes, shredded cheese, chopped lettuce and optional ingredients out for a taco bar.`,
+  },
+
+  {
+    id: "big-beef-lasagna",
+    slug: "big-beef-lasagna",
+    name: "Classic Lasagna",
+    photoUrl: "/images/big-beef-lasagna.png",
+    notes: "A crowd-pleasing layered pasta bake with beef, sausage, ricotta, and plenty of cheese.",
+    effort: "big",
+    tags: ["dinner", "pasta", "beef", "baked", "italian", "crowd-pleaser"],
+    ingredients: `12 lasagna noodles uncooked
+2 ½ cups shredded mozzarella cheese
+¼ cup shredded Parmesan cheese
+½ pound lean ground beef
+½ pound Italian sausage
+1 yellow onion diced
+2 cloves garlic minced
+36 ounces pasta sauce
+2 tablespoons tomato paste
+1 teaspoon Italian seasoning
+½ teaspoon salt more to taste
+2 cups ricotta cheese or cottage cheese
+¼ cup chopped fresh parsley
+1 large egg beaten
+1 ½ cups shredded mozzarella cheese
+¼ cup shredded Parmesan cheese
+¼ teaspoon salt`,
+    instructions: `Preheat the oven to 350°F. 
+
+Bring a large pot of salted water to a boil. Add the lasagna noodles and cook until al dente. Drain, rinse under cold water, and set aside.
+
+In a large skillet brown the beef, sausage, onion, and garlic over medium-high heat until no pink remains. Drain any fat.
+
+Stir in the pasta sauce, tomato paste, Italian seasoning, ½ teaspoon of salt, and ¼ teaspoon of black pepper. Simmer uncovered over medium heat for 5 minutes or until slightly thickened. Taste and season with additional salt if desired.
+
+In a separate medium bowl, combine 1 ½ cups mozzarella cheese, ¼ cup parmesan cheese, ricotta, parsley, egg, and ¼ teaspoon salt.
+
+Spread 1 cup of the meat sauce in a 9×13 pan or casserole dish. Top it with 3 lasagna noodles. Layer with 1 cup of the ricotta cheese mixture and 1 cup of meat sauce. Repeat twice more. Finish with 3 noodles topped with remaining sauce.
+
+Cover with foil and bake for 45 minutes. 
+Remove the foil and sprinkle the top of the lasagna with 2 ½ cups mozzarella cheese and ¼ cup Parmesan cheese. 
+
+Bake uncovered for an additional 15 minutes or until browned and bubbly. Broil for 2-3 minutes if desired.
+
+Rest for at least 15 minutes before cutting.`,
+  },
 ];
 
 // =====================================================
@@ -1936,115 +2297,10 @@ Remove foil, top with remaining cheese, and bake uncovered for 5 to 10 minutes u
   },
 
    {
-    id: "quick-garlic-butter-chicken-bites",
-    slug: "quick-garlic-butter-chicken-bites",
-    name: "Garlic Butter Chicken Bites",
-    photoUrl: "/images/quick-garlic-butter-chicken-bites.jpg",
-    notes: "A fast skillet chicken dinner with buttery garlic flavor that works great with rice, potatoes, or veggies.",
-    effort: "quick",
-    tags: ["dinner", "chicken", "quick", "skillet", "family-friendly", "protein"],
-    ingredients: `1 1/2 lbs chicken breast, cut into bite-size pieces
-2 tbsp butter
-1 tbsp olive oil
-4 cloves garlic, minced
-1 tsp paprika
-1/2 tsp onion powder
-1/2 tsp salt
-1/4 tsp black pepper
-1 tbsp chopped parsley`,
-    instructions: `Season chicken with paprika, onion powder, salt, and pepper.
-
-Heat olive oil and butter in a large skillet over medium-high heat.
-
-Add chicken and cook 6–8 minutes, stirring occasionally, until browned and cooked through.
-
-Stir in garlic and cook 30 seconds more.
-
-Sprinkle with parsley and serve with rice, potatoes, or vegetables.`,
-  },
-
-  {
-    id: "quick-cheesy-beef-tortellini",
-    slug: "quick-cheesy-beef-tortellini",
-    name: "Cheesy Beef Tortellini Skillet",
-    photoUrl: "/images/quick-cheesy-beef-tortellini.jpg",
-    notes: "A quick, hearty pasta skillet with beef, marinara, and melty cheese for busy nights.",
-    effort: "quick",
-    tags: ["dinner", "beef", "pasta", "quick", "skillet", "cheesy"],
-    ingredients: `1 lb ground beef
-1 package refrigerated cheese tortellini
-1 jar marinara sauce
-1/2 cup water
-1 cup shredded mozzarella
-1/2 tsp Italian seasoning
-Salt and pepper to taste`,
-    instructions: `Brown ground beef in a skillet and drain excess grease.
-
-Stir in marinara sauce, water, and Italian seasoning.
-
-Add tortellini and simmer according to package directions until tender.
-
-Top with mozzarella, cover, and let melt for 2–3 minutes.
-
-Serve hot.`,
-  },
-
-  {
-    id: "quick-honey-mustard-pork-chops",
-    slug: "quick-honey-mustard-pork-chops",
-    name: "Honey Mustard Pork Chops",
-    photoUrl: "/images/quick-honey-mustard-pork-chops.jpg",
-    notes: "Sweet and savory pork chops with a simple honey mustard glaze that come together fast.",
-    effort: "quick",
-    tags: ["dinner", "pork", "quick", "skillet", "sweet-savory"],
-    ingredients: `4 boneless pork chops
-1 tbsp olive oil
-2 tbsp honey
-2 tbsp Dijon mustard
-1 tsp garlic powder
-1/2 tsp salt
-1/4 tsp black pepper`,
-    instructions: `Mix honey, Dijon mustard, garlic powder, salt, and pepper in a small bowl.
-
-Heat olive oil in a skillet over medium heat.
-
-Season pork chops lightly, then cook 4–5 minutes per side until done.
-
-Brush sauce over chops during the last 2 minutes of cooking.
-
-Serve with green beans or mashed potatoes.`,
-  },
-
-  {
-    id: "quick-southwest-chicken-rice-bowls",
-    slug: "quick-southwest-chicken-rice-bowls",
-    name: "Southwest Chicken Rice Bowls",
-    photoUrl: "/images/quick-southwest-chicken-rice-bowls.jpg",
-    notes: "A colorful rice bowl dinner loaded with chicken, beans, corn, salsa, and cheddar.",
-    effort: "quick",
-    tags: ["dinner", "chicken", "rice", "bowls", "quick", "southwest"],
-    ingredients: `2 cups cooked rice
-2 cups cooked chicken, diced
-1 can black beans, drained and rinsed
-1 cup corn
-1 cup salsa
-1 tsp chili powder
-1/2 tsp cumin
-1 cup shredded cheddar`,
-    instructions: `Warm chicken, black beans, corn, salsa, chili powder, and cumin in a skillet over medium heat.
-
-Cook until heated through.
-
-Divide rice into bowls and top with the chicken mixture.
-
-Sprinkle with cheddar and serve.`,
-  },
-
-  {
     id: "quick-cream-cheese-spinach-pasta",
     slug: "quick-cream-cheese-spinach-pasta",
     name: "Cream Cheese Spinach Pasta",
-    photoUrl: "/images/quick-cream-cheese-spinach-pasta.jpg",
+    photoUrl: "/images/quick-cream-cheese-spinach-pasta.png",
     notes: "A creamy meatless pasta made with pantry basics and fresh spinach for an easy comfort meal.",
     effort: "quick",
     tags: ["dinner", "vegetarian", "pasta", "quick", "meatless", "creamy"],
@@ -2067,374 +2323,15 @@ Add spinach and cooked pasta. Toss until spinach wilts and pasta is coated.
 Season to taste and serve.`,
   },
 
-  {
-    id: "quick-bbq-beef-sloppy-joes",
-    slug: "quick-bbq-beef-sloppy-joes",
-    name: "BBQ Beef Sloppy Joes",
-    photoUrl: "/images/quick-bbq-beef-sloppy-joes.jpg",
-    notes: "A smoky, saucy sandwich dinner that is easy to make and always family-friendly.",
-    effort: "quick",
-    tags: ["dinner", "beef", "sandwiches", "quick", "family-friendly"],
-    ingredients: `1 lb ground beef
-1/2 onion, diced
-3/4 cup barbecue sauce
-2 tbsp ketchup
-1 tbsp mustard
-4 hamburger buns
-Salt and pepper to taste`,
-    instructions: `Brown ground beef and onion in a skillet until beef is cooked through. Drain if needed.
+  
 
-Stir in barbecue sauce, ketchup, and mustard.
-
-Simmer 3–5 minutes until thickened.
-
-Spoon onto buns and serve with chips or fruit.`,
-  },
-
-  {
-    id: "quick-chicken-parmesan-melts",
-    slug: "quick-chicken-parmesan-melts",
-    name: "Chicken Parmesan Melts",
-    photoUrl: "/images/quick-chicken-parmesan-melts.jpg",
-    notes: "An easy shortcut dinner with crispy chicken, marinara, and melted mozzarella on rolls.",
-    effort: "quick",
-    tags: ["dinner", "chicken", "quick", "italian", "sandwiches", "cheesy"],
-    ingredients: `4 cooked chicken cutlets or breaded chicken patties
-1 cup marinara sauce
-1 cup shredded mozzarella
-4 sandwich rolls`,
-    instructions: `Heat chicken according to package directions or warm leftover cutlets.
-
-Place chicken on rolls, top with marinara and mozzarella.
-
-Broil or bake until cheese is melted and bubbly.
-
-Serve warm.`,
-  },
-
-  {
-    id: "quick-taco-mac-skillet",
-    slug: "quick-taco-mac-skillet",
-    name: "Taco Mac Skillet",
-    photoUrl: "/images/quick-taco-mac-skillet.jpg",
-    notes: "A fast one-pan mashup of taco night and mac and cheese with bold Tex-Mex flavor.",
-    effort: "quick",
-    tags: ["dinner", "beef", "pasta", "quick", "tex-mex", "one-pan"],
-    ingredients: `1 lb ground beef
-2 cups cooked macaroni
-1 packet taco seasoning
-1/2 cup water
-1 cup salsa
-1 cup shredded cheddar`,
-    instructions: `Brown ground beef in a skillet and drain if needed.
-
-Add taco seasoning, water, and salsa. Stir well.
-
-Fold in cooked macaroni and cheddar.
-
-Cook until cheese melts and everything is hot. Serve immediately.`,
-  },
-
-  {
-    id: "quick-lemon-pepper-tilapia",
-    slug: "quick-lemon-pepper-tilapia",
-    name: "Lemon Pepper Tilapia",
-    photoUrl: "/images/quick-lemon-pepper-tilapia.jpg",
-    notes: "A light and quick seafood dinner with bright lemon flavor and simple seasoning.",
-    effort: "quick",
-    tags: ["dinner", "fish", "quick", "seafood", "light"],
-    ingredients: `4 tilapia fillets
-1 tbsp olive oil
-1 tsp lemon pepper seasoning
-1/2 tsp garlic powder
-1 lemon, sliced
-Salt to taste`,
-    instructions: `Heat olive oil in a skillet over medium heat.
-
-Season tilapia with lemon pepper, garlic powder, and salt.
-
-Cook 3–4 minutes per side until fish flakes easily.
-
-Serve with lemon slices and a simple side.`,
-  },
-
-   {
-    id: "normal-bbq-chicken-baked-potatoes",
-    slug: "normal-bbq-chicken-baked-potatoes",
-    name: "BBQ Chicken Baked Potatoes",
-    photoUrl: "/images/normal-bbq-chicken-baked-potatoes.jpg",
-    notes: "A hearty potato dinner topped with saucy BBQ chicken, cheddar, and green onions.",
-    effort: "normal",
-    tags: ["dinner", "chicken", "potatoes", "bbq", "family-friendly"],
-    ingredients: `4 large russet potatoes
-2 cups cooked shredded chicken
-3/4 cup barbecue sauce
-1 cup shredded cheddar
-1/4 cup sliced green onions
-Sour cream for serving`,
-    instructions: `Bake potatoes at 400°F for 45–60 minutes until tender.
-
-Warm chicken with barbecue sauce in a skillet.
-
-Split potatoes open and fluff insides with a fork.
-
-Top with BBQ chicken, cheddar, green onions, and sour cream.`,
-  },
-
-  {
-    id: "normal-ground-turkey-stuffed-peppers",
-    slug: "normal-ground-turkey-stuffed-peppers",
-    name: "Ground Turkey Stuffed Peppers",
-    photoUrl: "/images/normal-ground-turkey-stuffed-peppers.jpg",
-    notes: "A lighter baked dinner with seasoned turkey, rice, tomatoes, and melted mozzarella.",
-    effort: "normal",
-    tags: ["dinner", "turkey", "peppers", "baked", "healthy-ish"],
-    ingredients: `4 bell peppers, halved and seeded
-1 lb ground turkey
-1 cup cooked rice
-1 can diced tomatoes, drained
-1/2 onion, diced
-1 tsp garlic powder
-1 tsp Italian seasoning
-1 cup shredded mozzarella
-Salt and pepper to taste`,
-    instructions: `Cook turkey and onion in a skillet until browned.
-
-Stir in rice, diced tomatoes, garlic powder, Italian seasoning, salt, and pepper.
-
-Fill pepper halves with mixture and place in a baking dish.
-
-Top with mozzarella and bake at 375°F for 30–35 minutes until peppers are tender.`,
-  },
-
-  {
-    id: "normal-crispy-chicken-thighs-and-green-beans",
-    slug: "normal-crispy-chicken-thighs-and-green-beans",
-    name: "Crispy Chicken Thighs and Green Beans",
-    photoUrl: "/images/normal-crispy-chicken-thighs-and-green-beans.jpg",
-    notes: "A dependable sheet pan meal with crispy chicken thighs and tender roasted green beans.",
-    effort: "normal",
-    tags: ["dinner", "chicken", "sheet-pan", "green-beans", "easy"],
-    ingredients: `6 bone-in chicken thighs
-1 lb green beans, trimmed
-2 tbsp olive oil
-1 tsp garlic powder
-1 tsp paprika
-1/2 tsp onion powder
-Salt and pepper to taste`,
-    instructions: `Pat chicken dry and season with garlic powder, paprika, onion powder, salt, and pepper.
-
-Toss green beans with olive oil and a little salt.
-
-Arrange chicken and green beans on a sheet pan.
-
-Bake at 425°F for 35–40 minutes until chicken is crispy and cooked through.`,
-  },
-
-  {
-    id: "big-lasagna",
-    slug: "big-lasagna",
-    name: "Classic Lasagna",
-    photoUrl: "/images/big-lasagna.jpg",
-    notes: "A crowd-pleasing layered pasta bake with beef, sausage, ricotta, and plenty of cheese.",
-    effort: "big",
-    tags: ["dinner", "pasta", "beef", "baked", "italian", "crowd-pleaser"],
-    ingredients: `1 lb lasagna noodles
-1 lb ground beef
-1/2 lb Italian sausage
-1 jar marinara sauce
-2 cups ricotta
-1 egg
-3 cups shredded mozzarella
-1/2 cup grated Parmesan
-1 tsp Italian seasoning`,
-    instructions: `Cook noodles according to package directions.
-
-Brown beef and sausage. Drain and stir in marinara and Italian seasoning.
-
-Mix ricotta with egg and Parmesan.
-
-Layer sauce, noodles, ricotta mixture, and mozzarella in a baking dish. Repeat layers and finish with mozzarella on top.
-
-Cover and bake at 375°F for 35 minutes. Uncover and bake 10–15 minutes more. Rest before slicing.`,
-  },
-
-  {
-    id: "big-chicken-pot-pie",
-    slug: "big-chicken-pot-pie",
-    name: "Chicken Pot Pie",
-    photoUrl: "/images/big-chicken-pot-pie.jpg",
-    notes: "A classic comfort dinner with creamy chicken and vegetables tucked inside flaky pie crust.",
-    effort: "big",
-    tags: ["dinner", "chicken", "pot-pie", "comfort-food", "baked"],
-    ingredients: `2 cups cooked chicken, shredded
-1/3 cup butter
-1/3 cup flour
-1 3/4 cups chicken broth
-2/3 cup milk
-2 cups mixed vegetables
-1/2 tsp thyme
-Salt and pepper to taste
-2 pie crusts`,
-    instructions: `Melt butter in a saucepan and whisk in flour.
-
-Slowly add broth and milk, whisking until thickened.
-
-Stir in chicken, vegetables, thyme, salt, and pepper.
-
-Place one crust in a pie dish, add filling, and top with second crust. Seal edges and cut slits on top.
-
-Bake at 425°F for 30–35 minutes until golden brown.`,
-  },
-
- {
-    id: "big-baked-mac-and-cheese",
-    slug: "big-baked-mac-and-cheese",
-    name: "Baked Mac and Cheese",
-    photoUrl: "/images/big-baked-mac-and-cheese.jpg",
-    notes: "A rich, cheesy baked macaroni dish that leans full comfort-food and feeds a crowd.",
-    effort: "big",
-    tags: ["dinner", "vegetarian", "pasta", "cheesy", "comfort-food", "baked"],
-    ingredients: `1 lb elbow macaroni
-4 tbsp butter
-1/4 cup flour
-3 cups milk
-2 cups shredded cheddar
-1 cup shredded mozzarella
-1/2 cup grated Parmesan
-1 tsp mustard powder
-Salt and pepper to taste`,
-    instructions: `Cook macaroni and drain.
-
-Melt butter in a saucepan and whisk in flour. Cook 1 minute.
-
-Gradually whisk in milk and cook until thickened.
-
-Stir in cheeses, mustard powder, salt, and pepper until smooth.
-
-Mix with pasta, pour into a baking dish, and bake at 375°F for 20–25 minutes until bubbly.`,
-  },
-
-  {
-    id: "big-oven-roasted-chicken-dinner",
-    slug: "big-oven-roasted-chicken-dinner",
-    name: "Oven Roasted Chicken Dinner",
-    photoUrl: "/images/big-oven-roasted-chicken-dinner.jpg",
-    notes: "A classic family-style roasted chicken meal with potatoes, carrots, and onions.",
-    effort: "big",
-    tags: ["dinner", "chicken", "roasted", "potatoes", "family-style"],
-    ingredients: `1 whole chicken
-2 lbs potatoes, cut into chunks
-4 carrots, cut into pieces
-1 onion, quartered
-3 tbsp olive oil
-1 tsp garlic powder
-1 tsp paprika
-1 tsp thyme
-Salt and pepper to taste`,
-    instructions: `Pat chicken dry and rub with olive oil, garlic powder, paprika, thyme, salt, and pepper.
-
-Toss potatoes, carrots, and onion with a little oil, salt, and pepper.
-
-Place chicken in a roasting pan and surround with vegetables.
-
-Roast at 425°F for about 1 hour 15 minutes, or until chicken reaches a safe internal temperature.
-
-Rest before carving and serve with vegetables.`,
-  },
-
-  {
-    id: "big-chicken-and-dumplings",
-    slug: "big-chicken-and-dumplings",
-    name: "Chicken and Dumplings",
-    photoUrl: "/images/big-chicken-and-dumplings.jpg",
-    notes: "A warm, comforting one-pot dinner with tender chicken, creamy broth, and soft dumplings.",
-    effort: "big",
-    tags: ["dinner", "chicken", "comfort-food", "one-pot", "southern-inspired"],
-    ingredients: `2 tbsp butter
-1 onion, diced
-2 carrots, sliced
-2 celery stalks, sliced
-3 cups cooked shredded chicken
-6 cups chicken broth
-1 can cream of chicken soup
-1 tsp thyme
-Salt and pepper to taste
-1 can refrigerated biscuit dough`,
-    instructions: `Cook onion, carrots, and celery in butter until softened.
-
-Add chicken broth, cream soup, chicken, thyme, salt, and pepper. Bring to a simmer.
-
-Cut biscuit dough into small pieces.
-
-Drop dough pieces into the simmering pot, cover, and cook 15–20 minutes until dumplings are cooked through.
-
-Serve hot.`,
-  },
-
-  {
-    id: "big-braised-beef-tips-and-gravy",
-    slug: "big-braised-beef-tips-and-gravy",
-    name: "Braised Beef Tips and Gravy",
-    photoUrl: "/images/big-braised-beef-tips-and-gravy.jpg",
-    notes: "A slow-simmered comfort dish with tender beef and rich gravy made for mashed potatoes or noodles.",
-    effort: "big",
-    tags: ["dinner", "beef", "gravy", "comfort-food", "hearty"],
-    ingredients: `2 lbs beef stew meat
-2 tbsp olive oil
-1 onion, diced
-2 tbsp flour
-2 cups beef broth
-1 tbsp Worcestershire sauce
-1 tsp garlic powder
-1/2 tsp thyme
-Salt and pepper to taste`,
-    instructions: `Brown beef in olive oil in a heavy pot or Dutch oven.
-
-Add onion and cook until softened.
-
-Sprinkle with flour and stir well.
-
-Add broth, Worcestershire, garlic powder, thyme, salt, and pepper.
-
-Cover and simmer on low for 1 1/2 to 2 hours until beef is tender and gravy is rich.
-
-Serve over mashed potatoes, rice, or noodles.`,
-  },
-
-  {
-    id: "big-king-ranch-chicken-casserole",
-    slug: "big-king-ranch-chicken-casserole",
-    name: "King Ranch Chicken Casserole",
-    photoUrl: "/images/big-king-ranch-chicken-casserole.jpg",
-    notes: "A cheesy Tex-Mex casserole layered with chicken, tortillas, tomatoes, and creamy sauce.",
-    effort: "big",
-    tags: ["dinner", "chicken", "casserole", "tex-mex", "cheesy"],
-    ingredients: `2 cups cooked shredded chicken
-1 can cream of chicken soup
-1 can cream of mushroom soup
-1 can diced tomatoes with green chilies
-12 corn tortillas, torn into pieces
-2 cups shredded cheddar
-1/2 onion, diced
-1 bell pepper, diced
-1 tsp chili powder`,
-    instructions: `Cook onion and bell pepper in a skillet until softened.
-
-Mix soups, diced tomatoes, chili powder, chicken, onion, and pepper.
-
-Layer tortilla pieces, chicken mixture, and cheese in a baking dish.
-
-Repeat layers and finish with cheese.
-
-Bake at 375°F for 30–35 minutes until bubbly.`,
-  },
+ 
 
 ];
 
 // Optional non-dinner vegetarian meals
 export const VEGETARIAN_EXTRAS: Meal[] = [
-  {
+{
     id: "quick-avocado-white-bean-wraps",
     slug: "quick-avocado-white-bean-wraps",
     name: "Avocado and White Bean Wraps",
@@ -2509,7 +2406,7 @@ export const FROZEN_MEALS: Meal[] = [
     slug: "frozen-lasagna",
     name: "Frozen Lasagna",
     effort: "frozen",
-    photoUrl: "/images/frozen-lasagna.jpg",
+    photoUrl: "/images/frozen-lasagna.png",
     tags: ["dinner", "frozen", "italian", "comfort", "backup"],
     notes: "A dependable freezer meal for busy nights when you still want something hearty.",
     ingredients: `1 frozen lasagna`,
