@@ -23,11 +23,12 @@ import WhatsNewPage from "./pages/WhatsNewPage";
 import { ToastProvider, useToast } from "./components/Toast";
 import { ThemeProvider } from "./theme";
 import {
+  Home,
   Calendar,
   BookOpen,
-  ShoppingBasket,
+  BookOpenText,
+  ShoppingCart,
   Settings,
-  Utensils,
 } from "lucide-react";
 
 // Core
@@ -159,12 +160,12 @@ function Navigation() {
           boxShadow: "0 12px 30px -5px rgba(0,0,0,0.5)",
         }}
       >
-        {navItem("/", Utensils, "Home")}
+        {navItem("/", Home, "Home")}
         {navItem("/week", Calendar, "Week")}
         {navItem("/cookbook", BookOpen, "Cook")}
-        {navItem("/shopping-list", ShoppingBasket, "Shop")}
+        {navItem("/shopping-list", ShoppingCart, "Shop")}
         {navItem("/plan", Settings, "Plan")}
-        {navItem("/recipes", BookOpen, "Recipes")}
+        {navItem("/recipes", BookOpenText, "Recipes")}
       </div>
     </div>
   );
