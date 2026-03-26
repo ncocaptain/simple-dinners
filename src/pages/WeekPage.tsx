@@ -11,6 +11,7 @@ import {
   CalendarPlus,
   Download,
   Utensils,
+  Share2,
 } from "lucide-react";
 import Card from "../components/Card";
 import { days } from "../core/data";
@@ -50,11 +51,12 @@ export default function WeekPage({
   };
 
   const clearDay = (day: string) => {
-    setMeals((prev) => ({
-      ...prev,
-      [day]: { name: "", ingredients: "", instructions: "", photoUrl: "" } as Meal,
-    }));
-  };
+  setMeals((prev) => {
+    const next = { ...prev };
+    delete next[day];
+    return next;
+  });
+};
 
   function pad2(n: number) {
     return String(n).padStart(2, "0");
@@ -188,6 +190,29 @@ export default function WeekPage({
 
     URL.revokeObjectURL(url);
   }
+
+  function shareWeekPlan() {
+  const lines = days
+    .map((day) => {
+      const meal = meals[day];
+      return meal?.name?.trim() ? `${day}: ${meal.name}` : null;
+    })
+    .filter(Boolean);
+
+  if (!lines.length) return;
+
+  const text = `My Simple Dinners Week Plan:\n\n${lines.join("\n")}`;
+
+  if (navigator.share) {
+    navigator.share({
+      title: "My Week Plan",
+      text,
+    }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(text);
+    alert("Week plan copied!");
+  }
+}
 
   function downloadDayICS(day: string, meal: Meal) {
     const filename = `${safeFileName(day)}-${safeFileName(meal?.name || "meal")}.ics`;
@@ -478,7 +503,23 @@ export default function WeekPage({
             );
           })}
         </div>
-
+<button
+  onClick={shareWeekPlan}
+  disabled={!plannedMealCount}
+  style={{
+    ...btnBase,
+    width: "100%",
+    padding: "14px 16px",
+    background: plannedMealCount
+      ? "rgba(34,197,94,0.12)"
+      : "rgba(255,255,255,0.05)",
+    color: plannedMealCount ? "#86efac" : "rgba(255,255,255,0.35)",
+    cursor: plannedMealCount ? "pointer" : "not-allowed",
+  }}
+>
+  <Share2 size={16} />
+  {plannedMealCount ? "Share Week Plan" : "No meals to share"}
+</button>
         <div style={{ display: "grid", gap: 10, marginTop: 4 }}>
           <button
             onClick={() => generateDinnerPlan(true)}

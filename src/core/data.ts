@@ -925,29 +925,39 @@ Bake 30 to 35 minutes until golden.`,
   },
 
   {
-    id: "normal-taco-pasta",
-    slug: "normal-taco-pasta",
-    name: "Taco Pasta",
-    effort: "normal",
-    photoUrl: "/images/normal-taco-pasta.webp",
-    tags: ["dinner", "beef", "pasta", "mexican", "comfort", "kid-friendly"],
-    notes: "A fun mash-up dinner that lands somewhere between tacos and cheesy pasta.",
-    ingredients: `1 lb ground beef
-1 packet taco seasoning
+  id: "normal-taco-pasta",
+  slug: "normal-taco-pasta",
+  name: "Cheesy Taco Pasta",
+  photoUrl: "/images/normal-taco-pasta.webp",
+  effort: "normal",
+  tags: ["dinner", "pasta", "tex-mex", "beef", "cheesy", "family"],
+  ingredients: `1 lb ground beef
 8 oz pasta
-1 cup salsa
+1 can diced tomatoes
+1 cup beef broth
 1 cup shredded cheddar cheese
-1/2 cup sour cream`,
-    instructions: `Cook pasta according to package directions.
 
-Brown ground beef and drain grease. Stir in taco seasoning.
+Taco Pasta Seasoning:
+1 tbsp chili powder
+1 tsp cumin
+1/2 tsp paprika
+1/2 tsp garlic powder
+1/2 tsp onion powder
+1/2 tsp salt
+1/4 tsp black pepper`,
+  instructions: `Brown ground beef in a large skillet and drain excess grease.
 
-Add salsa and cooked pasta. Stir well.
+Cook pasta according to package directions.
 
-Remove from heat and stir in sour cream and cheese.
+Mix Taco Pasta Seasoning ingredients together.
 
-Serve hot.`,
-  },
+Add diced tomatoes, broth, and seasoning to the beef.
+
+Stir in cooked pasta and shredded cheese until melted and combined.
+
+Serve warm.`,
+  notes: "A cheesy taco-inspired pasta that comes together fast.",
+},
 
   {
     id: "pan-seared-scallops-lemon-risotto",
@@ -2008,6 +2018,242 @@ Bake uncovered for an additional 15 minutes or until browned and bubbly. Broil f
 
 Rest for at least 15 minutes before cutting.`,
   },
+
+  {
+  id: "normal-chili-cheese-dogs",
+  slug: "normal-chili-cheese-dogs",
+  name: "Chili Cheese Dogs",
+  photoUrl: "/images/normal-chili-cheese-dogs.png",
+  effort: "normal",
+  tags: ["dinner", "hot-dogs", "family", "comfort", "quick-ish"],
+  ingredients: `8 hot dogs
+8 hot dog buns
+1 cup shredded cheddar cheese
+1 small onion, diced (optional)
+
+Quick Chili Topping:
+1 lb ground beef
+1 can tomato sauce
+1 tbsp chili powder
+1 tsp cumin
+1/2 tsp garlic powder
+1/2 tsp onion powder
+1/2 tsp salt
+1/4 tsp black pepper`,
+  instructions: `Cook hot dogs using your preferred method.
+
+In a skillet, brown the ground beef and drain excess grease.
+
+Add tomato sauce and all Quick Chili Topping seasonings. Stir and simmer for 10 minutes.
+
+Place hot dogs in buns and top with chili, cheddar cheese, and onion if desired.
+
+Serve warm.`,
+  notes: "An easy dinner that feels fun and filling for the whole family.",
+},
+{
+  id: "big-white-chicken-chili",
+  slug: "big-white-chicken-chili",
+  name: "White Chicken Chili",
+  photoUrl: "/images/big-white-chicken-chili.png",
+  effort: "big",
+  tags: ["dinner", "chili", "chicken", "comfort", "one-pot", "creamy"],
+  ingredients: `2 cups cooked shredded chicken
+1 small onion, chopped
+2 cloves garlic, minced
+2 cans white beans, drained
+1 can green chiles
+4 cups chicken broth
+4 oz cream cheese, softened
+
+White Chili Seasoning:
+1 tsp cumin
+1 tsp chili powder
+1/2 tsp oregano
+1/2 tsp garlic powder
+1/2 tsp onion powder
+1/2 tsp salt
+1/4 tsp black pepper
+1/4 tsp cayenne pepper (optional)`,
+  instructions: `Add onion and garlic to a large pot and cook until softened.
+
+Stir in chicken, beans, green chiles, and chicken broth.
+
+Mix White Chili Seasoning ingredients together and add to the pot.
+
+Simmer for 20 minutes.
+
+Stir in cream cheese until smooth and fully combined.
+
+Serve hot.`,
+  notes: "Creamy, cozy, and a great twist on classic chili night.",
+},
+
+{
+  id: "normal-taco-soup",
+  slug: "normal-taco-soup",
+  name: "Taco Soup",
+  photoUrl: "/images/normal-taco-soup.png",
+  effort: "normal",
+  tags: ["dinner", "soup", "tex-mex", "one-pot", "beef", "family"],
+  ingredients: `1 lb ground beef
+1 small onion, chopped
+1 can corn, drained
+1 can black beans, drained
+1 can diced tomatoes
+1 can Rotel
+2 cups beef broth
+
+Taco Seasoning:
+1 tbsp chili powder
+1 tsp cumin
+1/2 tsp paprika
+1/2 tsp garlic powder
+1/2 tsp onion powder
+1/2 tsp salt
+1/4 tsp black pepper`,
+  instructions: `Brown ground beef with onion in a large pot and drain excess grease.
+
+Add corn, black beans, diced tomatoes, Rotel, and broth.
+
+Mix Taco Seasoning ingredients together and stir into the soup.
+
+Simmer for 20 to 25 minutes.
+
+Serve with shredded cheese, sour cream, or tortilla chips if desired.`,
+  notes: "Easy taco flavor in a cozy soup form.",
+},
+{
+  id: "big-sheet-pan-fajitas",
+  slug: "big-sheet-pan-fajitas",
+  name: "Sheet Pan Fajitas",
+  photoUrl: "/images/big-sheet-pan-fajitas.png",
+  effort: "big",
+  tags: ["dinner", "chicken", "sheet-pan", "tex-mex", "family"],
+  ingredients: `1 1/2 lbs chicken breast, sliced
+2 bell peppers, sliced
+1 onion, sliced
+2 tbsp olive oil
+
+Fajita Seasoning:
+1 tbsp chili powder
+1 tsp paprika
+1 tsp cumin
+1/2 tsp garlic powder
+1/2 tsp onion powder
+1/2 tsp salt
+1/4 tsp black pepper
+1/4 tsp cayenne pepper (optional)
+
+Tortillas for serving`,
+  instructions: `Preheat oven to 425°F.
+
+Place chicken, peppers, and onion on a sheet pan.
+
+Mix Fajita Seasoning ingredients together and sprinkle over the pan.
+
+Drizzle with olive oil and toss everything well.
+
+Bake for 20 to 25 minutes, stirring once halfway through.
+
+Serve in warm tortillas.`,
+  notes: "A colorful, easy dinner with homemade fajita flavor.",
+},
+{
+  id: "normal-air-fryer-chicken-tenders",
+  slug: "normal-air-fryer-chicken-tenders",
+  name: "Air Fryer Chicken Tenders",
+  photoUrl: "/images/normal-air-fryer-chicken-tenders.png",
+  effort: "normal",
+  tags: ["dinner", "chicken", "air-fryer", "family", "crispy", "kid-friendly"],
+  ingredients: `1 1/2 lbs chicken tenders
+1 cup breadcrumbs
+1/2 cup flour
+2 eggs, beaten
+
+Chicken Seasoning:
+1 tsp paprika
+1/2 tsp garlic powder
+1/2 tsp onion powder
+1/2 tsp salt
+1/4 tsp black pepper
+
+Cooking spray`,
+  instructions: `Preheat air fryer to 400°F.
+
+Mix Chicken Seasoning into the breadcrumbs.
+
+Dredge chicken in flour, then egg, then seasoned breadcrumbs.
+
+Place tenders in the air fryer basket in a single layer and spray lightly with cooking spray.
+
+Cook for 10 to 12 minutes, flipping halfway through, until golden and cooked through.
+
+Serve hot.`,
+  notes: "Crispy homemade tenders with an easy built-in seasoning blend.",
+},
+{
+  id: "big-baked-chicken-thighs",
+  slug: "big-baked-chicken-thighs",
+  name: "Baked Chicken Thighs",
+  photoUrl: "/images/big-baked-chicken-thighs.png",
+  effort: "big",
+  tags: ["dinner", "chicken", "baked", "family", "crispy", "comfort"],
+  ingredients: `6 bone-in chicken thighs
+1 tbsp olive oil
+
+Chicken Rub:
+1 tsp smoked paprika
+1 tsp garlic powder
+1 tsp onion powder
+1/2 tsp salt
+1/2 tsp black pepper
+1/2 tsp dried thyme`,
+  instructions: `Preheat oven to 425°F.
+
+Pat chicken thighs dry and rub with olive oil.
+
+Mix Chicken Rub ingredients together and coat the chicken evenly.
+
+Place on a baking sheet or baking dish.
+
+Bake for 35 to 40 minutes until skin is crisp and chicken is cooked through.
+
+Serve hot.`,
+  notes: "Simple, flavorful baked chicken with a great crispy finish.",
+},
+
+{
+  id: "big-bbq-chicken-drumsticks",
+  slug: "big-bbq-chicken-drumsticks",
+  name: "BBQ Chicken Drumsticks",
+  photoUrl: "/images/big-bbq-chicken-drumsticks.jpg",
+  effort: "big",
+  tags: ["dinner", "chicken", "bbq", "baked", "family", "comfort"],
+  ingredients: `8 chicken drumsticks
+1 tbsp olive oil
+1/2 cup barbecue sauce
+
+BBQ Rub:
+1 tsp smoked paprika
+1 tsp garlic powder
+1/2 tsp onion powder
+1/2 tsp salt
+1/2 tsp black pepper
+1/2 tsp brown sugar`,
+  instructions: `Preheat oven to 400°F.
+
+Pat drumsticks dry and rub with olive oil.
+
+Mix BBQ Rub ingredients together and season the drumsticks evenly.
+
+Bake for 35 minutes.
+
+Brush with barbecue sauce and bake an additional 10 minutes until sticky and cooked through.
+
+Serve hot.`,
+  notes: "A simple baked BBQ chicken recipe with great flavor from the rub.",
+},
 ];
 
 // =====================================================

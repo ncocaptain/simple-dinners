@@ -438,7 +438,10 @@ const hideBottomNav = location.pathname.startsWith("/recipe/");
   element={
     <RecipesPage
       onAddToWeek={(meal) => {
-        const firstOpenDay = days.find((day) => !meals[day]);
+        const firstOpenDay = days.find((day) => {
+          const existing = meals[day];
+          return !existing?.name?.trim();
+        });
 
         if (!firstOpenDay) {
           alert("Your week is already full. Clear a day first.");
