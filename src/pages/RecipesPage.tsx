@@ -19,6 +19,10 @@ type RecipesPageProps = {
   onAddToWeek?: (meal: Meal) => void;
 };
 
+// =====================================================
+// Builder: helpers
+// =====================================================
+
 function normalizeText(value?: string) {
   return String(value ?? "").trim().toLowerCase();
 }
@@ -37,6 +41,10 @@ function effortLabel(effort?: Effort | string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
+// =====================================================
+// Builder: page
+// =====================================================
+
 export default function RecipesPage({
   recipes,
   onAddToWeek,
@@ -52,24 +60,23 @@ export default function RecipesPage({
   const [showCookbookOnly, setShowCookbookOnly] = useState(false);
   const [showVegetarianOnly, setShowVegetarianOnly] = useState(false);
   const [showSaladsOnly, setShowSaladsOnly] = useState(false);
-  const [, forceRefresh] = useState(0);
+  const [cookbook, setCookbook] = useState<Meal[]>(() => getCookbook() as Meal[]);
 
   // =====================================================
   // Builder: cookbook data
   // =====================================================
 
-  const cookbook = useMemo(() => getCookbook() as Meal[], []);
-  const cookbookKeys = useMemo(
-    () =>
-      new Set(
-        cookbook
-          .map((recipe) =>
-            String(recipe.slug || recipe.id || recipe.name || "").trim().toLowerCase()
-          )
-          .filter(Boolean)
-      ),
-    [cookbook]
-  );
+  const cookbookKeys = useMemo(() => {
+    return new Set(
+      cookbook
+        .map((recipe) =>
+          String(recipe.slug || recipe.id || recipe.name || "")
+            .trim()
+            .toLowerCase()
+        )
+        .filter(Boolean)
+    );
+  }, [cookbook]);
 
   // =====================================================
   // Builder: merged recipe source
@@ -143,7 +150,7 @@ export default function RecipesPage({
 
   const handleAddToCookbook = (recipe: Meal) => {
     addToCookbook(recipe);
-    forceRefresh((v) => v + 1);
+    setCookbook(getCookbook() as Meal[]);
   };
 
   const handleAddToWeek = (recipe: Meal) => {
@@ -299,6 +306,9 @@ export default function RecipesPage({
   return (
     <div style={pageWrap}>
       <div style={innerWrap}>
+        {/* =====================================================
+            Builder: hero / search / filters
+        ===================================================== */}
         <Card style={heroCard}>
           <div style={{ display: "grid", gap: 18 }}>
             <div style={{ display: "grid", gap: 8 }}>
@@ -426,6 +436,9 @@ export default function RecipesPage({
           </div>
         </Card>
 
+        {/* =====================================================
+            Builder: recipe grid
+        ===================================================== */}
         <div style={gridStyle}>
           {filteredRecipes.map((recipe) => {
             const recipeKey = String(recipe.slug || recipe.id || recipe.name || "")
@@ -507,6 +520,23 @@ export default function RecipesPage({
             );
           })}
         </div>
+
+        {/* =====================================================
+            Builder: empty state
+        ===================================================== */}
+        {!filteredRecipes.length && (
+          <Card>
+            <div
+              style={{
+                textAlign: "center",
+                padding: "24px 12px",
+                opacity: 0.7,
+              }}
+            >
+              No recipes found. Try adjusting your search or filters.
+            </div>
+          </Card>
+        )}
       </div>
     </div>
   );

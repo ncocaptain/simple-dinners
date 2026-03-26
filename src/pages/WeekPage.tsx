@@ -34,6 +34,10 @@ export default function WeekPage({
 }) {
   const navigate = useNavigate();
 
+  // =====================================================
+// Builder: helpers (sharing + utilities)
+// =====================================================
+
   function normalizePhotoUrl(url?: string) {
     if (!url) return "";
 
@@ -191,7 +195,11 @@ export default function WeekPage({
     URL.revokeObjectURL(url);
   }
 
-  function shareWeekPlan() {
+  // =====================================================
+// Builder: share week
+// =====================================================
+
+function shareWeekPlan() {
   const lines = days
     .map((day) => {
       const meal = meals[day];
@@ -204,10 +212,12 @@ export default function WeekPage({
   const text = `My Simple Dinners Week Plan:\n\n${lines.join("\n")}`;
 
   if (navigator.share) {
-    navigator.share({
-      title: "My Week Plan",
-      text,
-    }).catch(() => {});
+    navigator
+      .share({
+        title: "My Week Plan",
+        text,
+      })
+      .catch(() => {});
   } else {
     navigator.clipboard.writeText(text);
     alert("Week plan copied!");
@@ -503,66 +513,71 @@ export default function WeekPage({
             );
           })}
         </div>
-<button
-  onClick={shareWeekPlan}
-  disabled={!plannedMealCount}
-  style={{
-    ...btnBase,
-    width: "100%",
-    padding: "14px 16px",
-    background: plannedMealCount
-      ? "rgba(34,197,94,0.12)"
-      : "rgba(255,255,255,0.05)",
-    color: plannedMealCount ? "#86efac" : "rgba(255,255,255,0.35)",
-    cursor: plannedMealCount ? "pointer" : "not-allowed",
-  }}
->
-  <Share2 size={16} />
-  {plannedMealCount ? "Share Week Plan" : "No meals to share"}
-</button>
-        <div style={{ display: "grid", gap: 10, marginTop: 4 }}>
-          <button
-            onClick={() => generateDinnerPlan(true)}
-            style={{
-              width: "100%",
-              padding: "16px",
-              borderRadius: "18px",
-              background: "rgba(34,197,94,0.14)",
-              color: "#4ade80",
-              border: "1px solid rgba(34,197,94,0.22)",
-              fontWeight: 900,
-              fontSize: 16,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 10,
-              cursor: "pointer",
-            }}
-          >
-            <Sparkles size={18} />
-            Generate New Plan
-          </button>
+{/* =====================================================
+    Builder: bottom actions
+===================================================== */}
 
-          <button
-            onClick={addWholeWeekToCalendar}
-            disabled={!plannedMealCount}
-            style={{
-              ...btnBase,
-              width: "100%",
-              padding: "14px 16px",
-              background: plannedMealCount
-                ? "rgba(59,130,246,0.12)"
-                : "rgba(255,255,255,0.05)",
-              color: plannedMealCount ? "#60a5fa" : "rgba(255,255,255,0.35)",
-              cursor: plannedMealCount ? "pointer" : "not-allowed",
-            }}
-          >
-            <CalendarPlus size={16} />
-            {plannedMealCount
-              ? `Add ${plannedMealCount} Meal${plannedMealCount > 1 ? "s" : ""} to Calendar`
-              : "No meals planned"}
-          </button>
-        </div>
+<div style={{ display: "grid", gap: 10, marginTop: 4 }}>
+  <button
+    onClick={shareWeekPlan}
+    disabled={!plannedMealCount}
+    style={{
+      ...btnBase,
+      width: "100%",
+      padding: "14px 16px",
+      background: plannedMealCount
+        ? "rgba(34,197,94,0.12)"
+        : "rgba(255,255,255,0.05)",
+      color: plannedMealCount ? "#86efac" : "rgba(255,255,255,0.35)",
+      cursor: plannedMealCount ? "pointer" : "not-allowed",
+    }}
+  >
+    <Share2 size={16} />
+    {plannedMealCount ? "Share Week Plan" : "No meals to share"}
+  </button>
+
+  <button
+    onClick={() => generateDinnerPlan(true)}
+    style={{
+      width: "100%",
+      padding: "16px",
+      borderRadius: "18px",
+      background: "rgba(34,197,94,0.14)",
+      color: "#4ade80",
+      border: "1px solid rgba(34,197,94,0.22)",
+      fontWeight: 900,
+      fontSize: 16,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 10,
+      cursor: "pointer",
+    }}
+  >
+    <Sparkles size={18} />
+    Generate New Plan
+  </button>
+
+  <button
+    onClick={addWholeWeekToCalendar}
+    disabled={!plannedMealCount}
+    style={{
+      ...btnBase,
+      width: "100%",
+      padding: "14px 16px",
+      background: plannedMealCount
+        ? "rgba(59,130,246,0.12)"
+        : "rgba(255,255,255,0.05)",
+      color: plannedMealCount ? "#60a5fa" : "rgba(255,255,255,0.35)",
+      cursor: plannedMealCount ? "pointer" : "not-allowed",
+    }}
+  >
+    <CalendarPlus size={16} />
+    {plannedMealCount
+      ? `Add ${plannedMealCount} Meal${plannedMealCount > 1 ? "s" : ""} to Calendar`
+      : "No meals planned"}
+  </button>
+</div>
       </div>
     </div>
   );
