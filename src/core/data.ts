@@ -2747,11 +2747,11 @@ Roll tightly, tuck in ends, and slice in half to serve.`,
   },
 
   {
-    id: "quick-caprese-grilled-cheese-sandwich",
-    slug: "quick-caprese-grilled-cheese-sandwich",
+    id: "quick-caprese-sandwich",
+    slug: "quick-caprese-sandwich",
     name: "Caprese Grilled Cheese",
     effort: "quick",
-    photoUrl: "/images/quick-caprese-grilled-cheese-sandwich.webp",
+    photoUrl: "/images/quick-caprese-sandwich.webp",
     tags: ["vegetarian", "dinner", "quick", "skillet", "comfort"],
     notes: "A fresh spin on grilled cheese with tomato and basil.",
     ingredients: `4 slices sourdough bread
