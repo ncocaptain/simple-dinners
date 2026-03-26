@@ -1262,6 +1262,151 @@ Optional gravy: Strain broth into a saucepan. Heat over medium-high. Whisk corns
 
 Serve roast and vegetables topped with gravy and sprinkled with parsley.`,
   },
+
+  {
+  id: "big-crockpot-potato-soup",
+  slug: "big-crockpot-potato-soup",
+  name: "Crock Pot Potato Soup",
+  photoUrl: "/images/big-crockpot-potato-soup.webp",
+  effort: "big",
+  tags: ["dinner", "soup", "comfort", "slow-cooker", "potatoes", "family"],
+  ingredients: `1 bag frozen breakfast potatoes
+1 (32 oz) chicken broth
+1 (10.75 oz) cream of chicken soup
+1/2 cup onion, chopped
+1/3 tsp black pepper
+1 (8 oz) cream cheese, softened
+Green onion, chopped (optional)
+Shredded cheddar cheese (optional)
+Bacon bits (optional)`,
+  instructions: `Add frozen potatoes, chicken broth, cream of chicken soup, onion, and pepper to a crock pot.
+
+Cover and cook on low for 5 hours.
+
+Add softened cream cheese and cook for an additional 30 minutes, stirring occasionally until smooth.
+
+Serve hot and top with cheddar cheese, bacon bits, and green onions if desired.`,
+  notes: "Super easy comfort meal. Thick, creamy, and perfect for colder days.",
+},
+{
+  id: "quick-blueberry-cheesecake-crescent-rolls",
+  slug: "quick-blueberry-cheesecake-crescent-rolls",
+  name: "Blueberry Cheesecake Crescent Rolls",
+  photoUrl: "/images/quick-blueberry-cheesecake-crescent-rolls.webp",
+  effort: "quick",
+  tags: ["dessert", "quick", "sweet", "baked", "blueberry", "easy"],
+  ingredients: `3 oz cream cheese, softened
+1/2 tsp vanilla extract
+2 1/2 tbsp powdered sugar
+1 tube crescent roll dough
+2/3 cup fresh blueberries`,
+  instructions: `Preheat oven to 375°F.
+
+In a bowl, mix cream cheese, vanilla, and powdered sugar until smooth.
+
+Separate crescent dough into triangles.
+
+Spread cream cheese mixture on the bottom third of each triangle and top with blueberries.
+
+Roll from the wide end to the tip.
+
+Place on a baking sheet and bake for 10 minutes or until golden brown.`,
+  notes: "Simple dessert that feels fancy. Great for breakfast treats too.",
+},
+{
+  id: "big-french-toast-casserole",
+  slug: "big-french-toast-casserole",
+  name: "French Toast Casserole",
+  photoUrl: "/images/big-french-toast-casserole.webp",
+  effort: "big",
+  tags: ["breakfast", "brunch", "baked", "sweet", "family", "make-ahead"],
+  ingredients: `1 loaf sourdough bread
+8 large eggs
+2 cups milk
+1/2 cup heavy cream
+1 tbsp vanilla extract
+3/4 cup sugar
+1/2 cup all-purpose flour
+1/2 cup light brown sugar
+1 tsp ground cinnamon
+1/4 tsp salt
+1 stick unsalted butter, cut into pieces
+Fresh blueberries (optional)
+Fresh strawberries (optional)`,
+  instructions: `Preheat oven to 350°F.
+
+Cut bread into cubes and place in a greased 9x13 baking dish.
+
+Mix eggs, milk, cream, vanilla, and sugar. Pour over bread.
+
+Cover and refrigerate for at least 4 hours.
+
+Mix flour, brown sugar, cinnamon, and salt. Cut in butter until crumbly. Refrigerate.
+
+Remove dish from fridge and sprinkle topping over bread.
+
+Bake uncovered for 50 minutes.
+
+Top with fresh fruit if desired.`,
+  notes: "Perfect make-ahead breakfast for holidays or weekends.",
+},
+{
+  id: "quick-captains-wing-rub",
+  slug: "quick-captains-wing-rub",
+  name: "Captain's Wing Rub",
+  photoUrl: "/images/quick-captains-wing-rub.webp",
+  effort: "quick",
+  tags: ["seasoning", "spice", "wings", "bbq", "homemade"],
+  ingredients: `2 tbsp smoked paprika
+1 1/2 tbsp cayenne pepper
+1 tsp ancho chili powder
+1 tsp garlic powder
+1 tsp onion powder
+1 tsp fine sea salt
+1/2 tsp citric acid
+1/2 tsp cumin
+1/4 tsp chipotle powder
+1/2 tsp jalapeno pepper flakes`,
+  instructions: `Combine all ingredients in a bowl.
+
+Mix thoroughly and store in an airtight container.
+
+Use as a dry rub or seasoning for wings and meats.`,
+  notes: "Bold, spicy, and tangy. Great for wings or grilled meats.",
+},
+{
+  id: "big-crispy-chicken-wings",
+  slug: "big-crispy-chicken-wings",
+  name: "Crispy Chicken Wings",
+  photoUrl: "/images/big-crispy-chicken-wings.webp",
+  effort: "big",
+  tags: ["dinner", "wings", "fried", "game-day", "crispy", "comfort"],
+  ingredients: `2–3 lbs chicken wings
+Vegetable oil (for frying)
+1 tbsp beef tallow
+1/2 cup cornstarch
+Celery (optional)
+Carrots (optional)
+Wing sauce of choice
+
+Buffalo Sauce:
+1/2 cup Frank’s RedHot
+1/3 cup melted butter`,
+  instructions: `If using whole wings, separate into flats and drums.
+
+Pat wings completely dry. For best results, refrigerate uncovered overnight.
+
+Heat oil and beef tallow to 375°F.
+
+Toss wings with cornstarch and seasoning.
+
+Fry in batches for 10–12 minutes until golden and internal temp reaches 165°F.
+
+Remove to a wire rack.
+
+Toss in sauce or serve sauce on the side.`,
+  notes: "Crispy, restaurant-quality wings at home. Drying them well is key.",
+}
 ];
 
 // =====================================================
@@ -2409,7 +2554,7 @@ export const NEW_SALAD_RECIPES: Meal[] = [
     id: "quick-classic-garden-salad",
     slug: "quick-classic-garden-salad",
     name: "Classic Garden Salad",
-    photoUrl: "/images/quick-classic-garden-salad.jpg",
+    photoUrl: "/images/quick-classic-garden-salad.webp",
     effort: "quick",
     tags: ["salad", "quick", "vegetarian", "side", "fresh", "healthy"],
     ingredients: `1 head romaine lettuce, chopped
@@ -2430,7 +2575,7 @@ Drizzle with dressing just before serving and toss well.`,
     id: "quick-greek-salad",
     slug: "quick-greek-salad",
     name: "Greek Salad",
-    photoUrl: "/images/quick-greek-salad.jpg",
+    photoUrl: "/images/quick-greek-salad.webp",
     effort: "quick",
     tags: ["salad", "quick", "vegetarian", "mediterranean", "fresh", "healthy"],
     ingredients: `1 cucumber, chopped
@@ -2454,7 +2599,7 @@ Serve immediately or chill until ready to serve.`,
     id: "quick-caprese-salad",
     slug: "quick-caprese-salad",
     name: "Caprese Salad",
-    photoUrl: "/images/quick-caprese-salad.jpg",
+    photoUrl: "/images/quick-caprese-salad.webp",
     effort: "quick",
     tags: ["salad", "quick", "vegetarian", "italian", "fresh", "no-cook"],
     ingredients: `3 large tomatoes, sliced
@@ -2474,7 +2619,7 @@ Season lightly with salt and pepper before serving.`,
     id: "quick-southwest-chicken-salad",
     slug: "quick-southwest-chicken-salad",
     name: "Southwest Chicken Salad",
-    photoUrl: "/images/quick-southwest-chicken-salad.jpg",
+    photoUrl: "/images/quick-southwest-chicken-salad.webp",
     effort: "quick",
     tags: ["salad", "quick", "chicken", "dinner", "protein", "tex-mex"],
     ingredients: `2 cups cooked chicken, chopped
@@ -2496,7 +2641,7 @@ Drizzle with southwest ranch dressing and toss just before serving.`,
     id: "quick-cucumber-tomato-salad",
     slug: "quick-cucumber-tomato-salad",
     name: "Cucumber Tomato Salad",
-    photoUrl: "/images/quick-cucumber-tomato-salad.jpg",
+    photoUrl: "/images/quick-cucumber-tomato-salad.webp",
     effort: "quick",
     tags: ["salad", "quick", "vegetarian", "side", "fresh", "summer"],
     ingredients: `2 cucumbers, sliced
@@ -2520,7 +2665,7 @@ Chill for 15 minutes before serving if desired.`,
     id: "normal-grilled-chicken-caesar-salad",
     slug: "normal-grilled-chicken-caesar-salad",
     name: "Grilled Chicken Caesar Salad",
-    photoUrl: "/images/normal-grilled-chicken-caesar-salad.jpg",
+    photoUrl: "/images/normal-grilled-chicken-caesar-salad.webp",
     effort: "normal",
     tags: ["salad", "normal", "chicken", "dinner", "protein", "classic"],
     ingredients: `2 chicken breasts
@@ -2543,7 +2688,7 @@ Top with sliced chicken and serve.`,
     id: "normal-cobb-salad",
     slug: "normal-cobb-salad",
     name: "Cobb Salad",
-    photoUrl: "/images/normal-cobb-salad.jpg",
+    photoUrl: "/images/normal-cobb-salad.webp",
     effort: "normal",
     tags: ["salad", "normal", "chicken", "bacon", "dinner", "protein"],
     ingredients: `1 head romaine lettuce, chopped
@@ -2564,7 +2709,7 @@ Drizzle with dressing or serve dressing on the side.`,
     id: "normal-steakhouse-salad",
     slug: "normal-steakhouse-salad",
     name: "Steakhouse Salad",
-    photoUrl: "/images/normal-steakhouse-salad.jpg",
+    photoUrl: "/images/normal-steakhouse-salad.webp",
     effort: "normal",
     tags: ["salad", "normal", "beef", "dinner", "protein", "hearty"],
     ingredients: `1 lb sirloin steak
@@ -2588,7 +2733,7 @@ Top with steak and drizzle with balsamic vinaigrette.`,
     id: "normal-broccoli-bacon-salad",
     slug: "normal-broccoli-bacon-salad",
     name: "Broccoli Bacon Salad",
-    photoUrl: "/images/normal-broccoli-bacon-salad.jpg",
+    photoUrl: "/images/normal-broccoli-bacon-salad.webp",
     effort: "normal",
     tags: ["salad", "normal", "side", "broccoli", "bacon", "potluck"],
     ingredients: `4 cups broccoli florets
@@ -2610,7 +2755,7 @@ Chill before serving for best flavor.`,
     id: "normal-avocado-ranch-chicken-salad",
     slug: "normal-avocado-ranch-chicken-salad",
     name: "Avocado Ranch Chicken Salad",
-    photoUrl: "/images/normal-avocado-ranch-chicken-salad.jpg",
+    photoUrl: "/images/normal-avocado-ranch-chicken-salad.webp",
     effort: "normal",
     tags: ["salad", "normal", "chicken", "avocado", "dinner", "protein"],
     ingredients: `2 cups cooked chicken, chopped
@@ -2634,7 +2779,7 @@ Toss gently and serve right away.`,
     id: "big-buffalo-chicken-salad",
     slug: "big-buffalo-chicken-salad",
     name: "Buffalo Chicken Salad",
-    photoUrl: "/images/big-buffalo-chicken-salad.jpg",
+    photoUrl: "/images/big-buffalo-chicken-salad.webp",
     effort: "big",
     tags: ["salad", "big", "chicken", "buffalo", "dinner", "spicy"],
     ingredients: `2 chicken breasts, breaded or grilled
@@ -2657,7 +2802,7 @@ Top with buffalo chicken and drizzle with dressing.`,
     id: "big-asian-chicken-salad",
     slug: "big-asian-chicken-salad",
     name: "Asian Chicken Salad",
-    photoUrl: "/images/big-asian-chicken-salad.jpg",
+    photoUrl: "/images/big-asian-chicken-salad.webp",
     effort: "big",
     tags: ["salad", "big", "chicken", "dinner", "crunchy", "asian-inspired"],
     ingredients: `2 cups cooked chicken, shredded
@@ -2678,7 +2823,7 @@ Drizzle with sesame ginger dressing and toss just before serving.`,
     id: "big-strawberry-spinach-salad",
     slug: "big-strawberry-spinach-salad",
     name: "Strawberry Spinach Salad",
-    photoUrl: "/images/big-strawberry-spinach-salad.jpg",
+    photoUrl: "/images/big-strawberry-spinach-salad.webp",
     effort: "big",
     tags: ["salad", "big", "vegetarian", "spinach", "fruit", "fresh"],
     ingredients: `1 bag baby spinach
@@ -2698,7 +2843,7 @@ Toss gently and serve immediately.`,
     id: "big-taco-salad",
     slug: "big-taco-salad",
     name: "Taco Salad",
-    photoUrl: "/images/big-taco-salad.jpg",
+    photoUrl: "/images/big-taco-salad.webp",
     effort: "big",
     tags: ["salad", "big", "beef", "tex-mex", "dinner", "family-friendly"],
     ingredients: `1 lb ground beef
@@ -2722,7 +2867,7 @@ Add salsa, sour cream, and crushed tortilla chips before serving.`,
     id: "big-mediterranean-chickpea-salad",
     slug: "big-mediterranean-chickpea-salad",
     name: "Mediterranean Chickpea Salad",
-    photoUrl: "/images/big-mediterranean-chickpea-salad.jpg",
+    photoUrl: "/images/big-mediterranean-chickpea-salad.webp",
     effort: "big",
     tags: ["salad", "big", "vegetarian", "chickpeas", "healthy", "meal-prep"],
     ingredients: `2 cans chickpeas, drained and rinsed
