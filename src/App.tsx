@@ -454,9 +454,9 @@ function AppContent() {
         />
 
         <Route
-          path="/recipe/:slug"
-          element={<RecipePage onAddToCookbook={handleAddToCookbook} />}
-        />
+  path="/recipe/:slug"
+  element={<RecipePage onAddToCookbook={handleAddToCookbook} />}
+/>
 
         <Route
           path="/shopping-list"
@@ -473,33 +473,33 @@ function AppContent() {
         <Route path="/whats-new" element={<WhatsNewPage />} />
         <Route path="/feedback" element={<FeedbackForm />} />
 
-        <Route
-          path="/recipes"
-          element={
-            <RecipesPage
-              onAddToCookbook={handleAddToCookbook}
-              onAddToWeek={(meal) => {
-                const firstOpenDay = days.find((day) => {
-                  const existing = meals[day];
-                  return !existing?.name?.trim();
-                });
+       <Route
+  path="/recipes"
+  element={
+    <RecipesPage
+      onAddToCookbook={handleAddToCookbook}
+      onAddToWeek={(meal: Meal) => {
+        const firstOpenDay = days.find((day) => {
+          const existing = meals[day];
+          return !existing?.name?.trim();
+        });
 
-                if (!firstOpenDay) {
-                  alert("Your week is already full. Clear a day first.");
-                  navigate("/week");
-                  return;
-                }
+        if (!firstOpenDay) {
+          alert("Your week is already full. Clear a day first.");
+          navigate("/week");
+          return;
+        }
 
-                setMeals((prev) => ({
-                  ...prev,
-                  [firstOpenDay]: meal,
-                }));
+        setMeals((prev) => ({
+          ...prev,
+          [firstOpenDay]: meal,
+        }));
 
-                navigate("/week");
-              }}
-            />
-          }
-        />
+        navigate("/week");
+      }}
+    />
+  }
+/>
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

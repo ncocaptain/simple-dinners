@@ -46,6 +46,17 @@ function effortLabel(effort?: Effort | string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
+function normalizePhotoUrl(url?: string) {
+  if (!url) return "";
+  const trimmed = url.trim();
+
+  if (trimmed.startsWith("/images/")) {
+    return trimmed.replace(/\.(png|jpg|jpeg)$/i, ".webp");
+  }
+
+  return trimmed;
+}
+
 // =====================================================
 // Builder: page
 // =====================================================
@@ -508,12 +519,13 @@ export default function RecipesPage({
               .toLowerCase();
 
             const isSaved = cookbookKeys.has(recipeKey);
+            const recipePhotoUrl = normalizePhotoUrl(recipe.photoUrl);
 
             return (
               <Card key={recipeKey} style={recipeCardStyle}>
-                {recipe.photoUrl ? (
+                {recipePhotoUrl ? (
                   <img
-                    src={recipe.photoUrl}
+                    src={recipePhotoUrl}
                     alt={recipe.name}
                     style={photoStyle}
                     onClick={() => handleOpenRecipe(recipe)}
@@ -530,7 +542,7 @@ export default function RecipesPage({
 
                     <div style={tagsWrap}>
                       <span style={tagStyle}>{effortLabel(recipe.effort)}</span>
-                      {(recipe.tags ?? []).slice(0, 4).map((tag: string) => (
+                      {(recipe.tags ?? []).slice(0, 4).map((tag) => (
                         <span key={tag} style={tagStyle}>
                           {tag}
                         </span>
