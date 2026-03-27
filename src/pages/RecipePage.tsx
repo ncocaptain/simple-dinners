@@ -10,9 +10,11 @@ import {
   ChevronRight,
   ChevronLeft,
   CheckCircle2,
+  BookOpen,
 } from "lucide-react";
 
 import { getRecipeBySlug } from "../core/recipes";
+import { addToCookbook } from "../core/cookbookStore";
 import { addIngredientsToList } from "../shoppingList";
 import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
 
@@ -200,8 +202,43 @@ export default function RecipePage() {
     alert("Link copied!");
   };
 
+  const handleAddToCookbook = () => {
+    if (!safeRecipe?.slug) {
+      alert("This recipe is missing a slug.");
+      return;
+    }
+
+    const result = addToCookbook({
+      ...safeRecipe,
+      id: safeRecipe.id ?? safeRecipe.slug,
+      slug: safeRecipe.slug,
+      name: safeRecipe.name ?? "",
+      effort: safeRecipe.effort ?? "normal",
+      photoUrl: safeRecipe.photoUrl ?? "",
+      tags: Array.isArray(safeRecipe.tags) ? safeRecipe.tags : [],
+      notes: safeRecipe.notes ?? "",
+      ingredients: safeRecipe.ingredients ?? "",
+      instructions: safeRecipe.instructions ?? "",
+    });
+
+    if (result.ok && !result.already) {
+      alert("Added to cookbook!");
+      return;
+    }
+
+    if (result.already) {
+      alert("Already in cookbook!");
+      return;
+    }
+
+    alert("Could not add recipe.");
+  };
+
   const handleAddIngredients = () => {
-    addIngredientsToList(safeRecipe.name || "Recipe", safeRecipe.ingredients || "");
+    addIngredientsToList(
+      safeRecipe.name || "Recipe",
+      safeRecipe.ingredients || ""
+    );
     alert("Ingredients added to shopping list!");
   };
 
@@ -280,6 +317,11 @@ export default function RecipePage() {
               Share
             </button>
 
+            <button onClick={handleAddToCookbook} style={topBtn}>
+              <BookOpen size={16} />
+              Add to Cookbook
+            </button>
+
             <button onClick={handleAddIngredients} style={topBtn}>
               <ShoppingCart size={16} />
               Add Ingredients
@@ -327,7 +369,14 @@ export default function RecipePage() {
             </h1>
 
             {!!safeRecipe.notes?.trim() && (
-              <p style={{ marginTop: 10, marginBottom: 0, opacity: 0.7, lineHeight: 1.5 }}>
+              <p
+                style={{
+                  marginTop: 10,
+                  marginBottom: 0,
+                  opacity: 0.7,
+                  lineHeight: 1.5,
+                }}
+              >
                 {safeRecipe.notes}
               </p>
             )}
@@ -353,7 +402,8 @@ export default function RecipePage() {
             }}
           >
             <div style={{ fontSize: 13, opacity: 0.6, fontWeight: 800 }}>
-              Step {instructions.length ? stepIndex + 1 : 0} of {instructions.length}
+              Step {instructions.length ? stepIndex + 1 : 0} of{" "}
+              {instructions.length}
             </div>
 
             <div style={{ fontSize: 22, lineHeight: 1.5, fontWeight: 800 }}>
