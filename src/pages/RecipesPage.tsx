@@ -67,6 +67,7 @@ export default function RecipesPage({
   const [showVegetarianOnly, setShowVegetarianOnly] = useState(false);
   const [showSaladsOnly, setShowSaladsOnly] = useState(false);
   const [cookbook, setCookbook] = useState<Meal[]>(() => getCookbook() as Meal[]);
+  const [justAddedSlug, setJustAddedSlug] = useState<string | null>(null);
 
   // =====================================================
   // Builder: cookbook data
@@ -149,52 +150,53 @@ export default function RecipesPage({
   // Builder: actions
   // =====================================================
 
-  const handleOpenRecipe = (recipe: Meal) => {
-    if (!recipe.slug) return;
+ const handleOpenRecipe = (recipe: Meal) => {
+  if (!recipe.slug) return;
+  navigate(`/recipe/${recipe.slug}?from=%2Frecipes`);
+};
+
+const handleAddToCookbook = (recipe: Meal) => {
+  const result = onAddToCookbook(recipe);
+
+  const slug = String(recipe.slug || recipe.id || "").trim().toLowerCase();
+
+  if (result.ok) {
+    // update local UI immediately
+    setCookbook((prev) => {
+      const exists = prev.some(
+        (r) =>
+          String(r.slug || r.id || "")
+            .trim()
+            .toLowerCase() === slug
+      );
+
+      if (exists) return prev;
+      return [...prev, recipe];
+    });
+
+    // ✅ show Saved ✓ state
+    setJustAddedSlug(slug);
+
+    // ✅ trigger auto-scroll in Cookbook page
+    localStorage.setItem("scrollToCookbook", slug);
+
+    return;
+  }
+
+  // optional fallback (rare)
+  console.warn("Could not add recipe", result);
+};
+
+const handleAddToWeek = (recipe: Meal) => {
+  if (onAddToWeek) {
+    onAddToWeek(recipe);
+    return;
+  }
+
+  if (recipe.slug) {
     navigate(`/recipe/${recipe.slug}?from=%2Frecipes`);
-  };
-
-  const handleAddToCookbook = (recipe: Meal) => {
-    const result = onAddToCookbook(recipe);
-
-    if (result.ok) {
-      setCookbook((prev) => {
-        const key = String(recipe.slug || recipe.id || recipe.name || "")
-          .trim()
-          .toLowerCase();
-
-        const exists = prev.some(
-          (r) =>
-            String(r.slug || r.id || r.name || "")
-              .trim()
-              .toLowerCase() === key
-        );
-
-        if (exists) return prev;
-        return [...prev, recipe];
-      });
-
-      if (!result.already) {
-        alert("Added to cookbook!");
-      } else {
-        alert("Already in cookbook!");
-      }
-      return;
-    }
-
-    alert("Could not add recipe.");
-  };
-
-  const handleAddToWeek = (recipe: Meal) => {
-    if (onAddToWeek) {
-      onAddToWeek(recipe);
-      return;
-    }
-
-    if (recipe.slug) {
-      navigate(`/recipe/${recipe.slug}?from=%2Frecipes`);
-    }
-  };
+  }
+};
 
   // =====================================================
   // Builder: shared styles
@@ -529,7 +531,7 @@ export default function RecipesPage({
                       onClick={() => handleAddToCookbook(recipe)}
                     >
                       <Plus size={14} />
-                      {isSaved ? "Saved" : "Add to Cookbook"}
+                      {isSaved || justAddedSlug === recipeKey ? "Saved ✓" : "Add to Cookbook"}
                     </button>
 
                     <button

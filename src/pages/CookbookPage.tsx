@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { CSSProperties, FormEvent, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -99,6 +99,7 @@ export default function CookbookPage({
   const [showManual, setShowManual] = useState(false);
   const [editingSlug, setEditingSlug] = useState<string | null>(null);
   const [hasImportedDraft, setHasImportedDraft] = useState(false);
+  const [highlightSlug, setHighlightSlug] = useState<string | null>(null);
 
   const [manualRecipe, setManualRecipe] = useState({
     name: "",
@@ -107,6 +108,34 @@ export default function CookbookPage({
     photoUrl: "",
     sourceUrl: "",
   });
+
+  useEffect(() => {
+  const savedSlug = localStorage.getItem("scrollToCookbook");
+  if (!savedSlug) return;
+
+  setHighlightSlug(savedSlug);
+
+  const timer = window.setTimeout(() => {
+    const el = document.getElementById(`cookbook-${savedSlug}`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, 100);
+
+  localStorage.removeItem("scrollToCookbook");
+
+  return () => window.clearTimeout(timer);
+}, []);
+
+useEffect(() => {
+  if (!highlightSlug) return;
+
+  const timer = window.setTimeout(() => {
+    setHighlightSlug(null);
+  }, 2000);
+
+  return () => window.clearTimeout(timer);
+}, [highlightSlug]);
 
   const resetManualRecipe = () => {
     setManualRecipe({
@@ -695,11 +724,24 @@ export default function CookbookPage({
 
             return (
               <div
-                key={recipeSlug}
-                onClick={() => navigate(`/recipe/${recipeSlug}?from=/cookbook`)}
-                style={{ cursor: "pointer" }}
-              >
-                <Card style={{ padding: 0, overflow: "hidden" }}>
+  key={recipeSlug}
+  id={`cookbook-${recipeSlug}`}
+  onClick={() => navigate(`/recipe/${recipeSlug}?from=/cookbook`)}
+  style={{ cursor: "pointer" }}
+>
+  <Card
+    style={{
+      padding: 0,
+      overflow: "hidden",
+      outline:
+        highlightSlug === recipeSlug ? "2px solid #22c55e" : undefined,
+      boxShadow:
+        highlightSlug === recipeSlug
+          ? "0 0 0 4px rgba(34,197,94,0.12)"
+          : undefined,
+      transition: "outline 0.2s ease, box-shadow 0.2s ease",
+    }}
+  >
                   <div
                     style={{
                       display: "grid",
