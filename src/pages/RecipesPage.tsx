@@ -12,11 +12,16 @@ import {
 import Card from "../components/Card";
 import type { Meal, Effort } from "../core/types";
 import { ALL_RECIPES } from "../core/data";
-import { getCookbook, addToCookbook } from "../core/cookbookStore";
+import { getCookbook } from "../core/cookbookStore";
 
 type RecipesPageProps = {
   recipes?: Meal[];
   onAddToWeek?: (meal: Meal) => void;
+  onAddToCookbook: (recipe: Meal) => {
+    ok: boolean;
+    already?: boolean;
+    reason?: string;
+  };
 };
 
 // =====================================================
@@ -48,6 +53,7 @@ function effortLabel(effort?: Effort | string) {
 export default function RecipesPage({
   recipes,
   onAddToWeek,
+  onAddToCookbook,
 }: RecipesPageProps) {
   const navigate = useNavigate();
 
@@ -149,8 +155,34 @@ export default function RecipesPage({
   };
 
   const handleAddToCookbook = (recipe: Meal) => {
-    addToCookbook(recipe);
-    setCookbook(getCookbook() as Meal[]);
+    const result = onAddToCookbook(recipe);
+
+    if (result.ok) {
+      setCookbook((prev) => {
+        const key = String(recipe.slug || recipe.id || recipe.name || "")
+          .trim()
+          .toLowerCase();
+
+        const exists = prev.some(
+          (r) =>
+            String(r.slug || r.id || r.name || "")
+              .trim()
+              .toLowerCase() === key
+        );
+
+        if (exists) return prev;
+        return [...prev, recipe];
+      });
+
+      if (!result.already) {
+        alert("Added to cookbook!");
+      } else {
+        alert("Already in cookbook!");
+      }
+      return;
+    }
+
+    alert("Could not add recipe.");
   };
 
   const handleAddToWeek = (recipe: Meal) => {
@@ -306,9 +338,6 @@ export default function RecipesPage({
   return (
     <div style={pageWrap}>
       <div style={innerWrap}>
-        {/* =====================================================
-            Builder: hero / search / filters
-        ===================================================== */}
         <Card style={heroCard}>
           <div style={{ display: "grid", gap: 18 }}>
             <div style={{ display: "grid", gap: 8 }}>
@@ -436,9 +465,6 @@ export default function RecipesPage({
           </div>
         </Card>
 
-        {/* =====================================================
-            Builder: recipe grid
-        ===================================================== */}
         <div style={gridStyle}>
           {filteredRecipes.map((recipe) => {
             const recipeKey = String(recipe.slug || recipe.id || recipe.name || "")
@@ -521,9 +547,6 @@ export default function RecipesPage({
           })}
         </div>
 
-        {/* =====================================================
-            Builder: empty state
-        ===================================================== */}
         {!filteredRecipes.length && (
           <Card>
             <div

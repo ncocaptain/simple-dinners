@@ -20,6 +20,7 @@ import HomePage from "./pages/HomePage";
 import TestersGuidePage from "./pages/TestersGuidePage";
 import FeedbackForm from "./pages/FeedbackForm";
 import WhatsNewPage from "./pages/WhatsNewPage";
+import RecipesPage from "./pages/RecipesPage";
 import { ToastProvider, useToast } from "./components/Toast";
 import { ThemeProvider } from "./theme";
 import {
@@ -40,13 +41,12 @@ import {
   setCookbook as persistCookbook,
 } from "./core/cookbookStore";
 import { hasCompletedOnboarding } from "./core/onboardingStore";
-import RecipesPage from "./pages/RecipesPage";
-
-const APP_VERSION = "22.0.7";
 
 type CookbookRecipe = Meal & {
   sourceUrl?: string;
 };
+
+const APP_VERSION = "22.0.7";
 
 const mealImageUrl = (name?: string) => {
   const q = encodeURIComponent((name || "cooking dinner").trim());
@@ -70,7 +70,6 @@ function BackHandler() {
 
           if (location.pathname !== "/") {
             navigate("/");
-            return;
           }
         });
       } catch (err) {
@@ -308,38 +307,29 @@ function AppContent() {
       return { ok: false as const, reason: "missing-slug" as const };
     }
 
-    let added = false;
-    let already = false;
+    const exists = cookbook.some((r) => (r.slug ?? r.id) === slug);
 
-    setCookbook((prev) => {
-      const exists = prev.some((r) => (r.slug ?? r.id) === slug);
+    if (exists) {
+      return { ok: true as const, already: true as const };
+    }
 
-      if (exists) {
-        already = true;
-        return prev;
-      }
+    const normalized: CookbookRecipe = {
+      ...recipe,
+      id: recipe?.id ?? slug,
+      slug,
+      name: String(recipe?.name ?? "").trim(),
+      effort: recipe?.effort ?? "normal",
+      ingredients: String(recipe?.ingredients ?? ""),
+      instructions: String(recipe?.instructions ?? ""),
+      photoUrl: String(recipe?.photoUrl ?? ""),
+      notes: String((recipe as any)?.notes ?? ""),
+      tags: Array.isArray((recipe as any)?.tags) ? (recipe as any).tags : [],
+      sourceUrl: String(recipe?.sourceUrl ?? ""),
+    };
 
-      added = true;
+    setCookbook((prev) => [...prev, normalized]);
 
-      const normalized: CookbookRecipe = {
-        ...recipe,
-        id: recipe?.id ?? slug,
-        slug,
-        name: String(recipe?.name ?? "").trim(),
-        effort: recipe?.effort ?? "normal",
-        ingredients: String(recipe?.ingredients ?? ""),
-        instructions: String(recipe?.instructions ?? ""),
-        photoUrl: String(recipe?.photoUrl ?? ""),
-        notes: String((recipe as any)?.notes ?? ""),
-        tags: Array.isArray((recipe as any)?.tags) ? (recipe as any).tags : [],
-      };
-
-      return [...prev, normalized];
-    });
-
-    if (already) return { ok: true as const, already: true as const };
-    if (added) return { ok: true as const, already: false as const };
-    return { ok: false as const, reason: "unknown" as const };
+    return { ok: true as const, already: false as const };
   };
 
   const addDayToCookbook = (day: string) => {
@@ -465,9 +455,7 @@ function AppContent() {
 
         <Route
           path="/recipe/:slug"
-          element={
-            <RecipePage onAddToCookbook={handleAddToCookbook} />
-          }
+          element={<RecipePage onAddToCookbook={handleAddToCookbook} />}
         />
 
         <Route
@@ -489,6 +477,7 @@ function AppContent() {
           path="/recipes"
           element={
             <RecipesPage
+              onAddToCookbook={handleAddToCookbook}
               onAddToWeek={(meal) => {
                 const firstOpenDay = days.find((day) => {
                   const existing = meals[day];
