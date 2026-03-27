@@ -14,9 +14,10 @@ import {
 } from "lucide-react";
 
 import { getRecipeBySlug } from "../core/recipes";
-import { addToCookbook } from "../core/cookbookStore";
 import { addIngredientsToList } from "../shoppingList";
 import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
+
+
 
 // =====================================================
 // Builder: helpers
@@ -52,7 +53,15 @@ function normalizePhotoUrl(url?: string) {
 // Builder: page
 // =====================================================
 
-export default function RecipePage() {
+type RecipePageProps = {
+  onAddToCookbook: (recipe: any) => {
+    ok: boolean;
+    already?: boolean;
+    reason?: string;
+  };
+};
+
+export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const { slug = "" } = useParams();
@@ -208,7 +217,7 @@ export default function RecipePage() {
       return;
     }
 
-    const result = addToCookbook({
+    const result = onAddToCookbook({
       ...safeRecipe,
       id: safeRecipe.id ?? safeRecipe.slug,
       slug: safeRecipe.slug,

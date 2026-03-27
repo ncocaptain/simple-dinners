@@ -11,20 +11,15 @@ import {
   ExternalLink,
 } from "lucide-react";
 import Card from "../components/Card";
-
-type Recipe = {
-  slug?: string;
-  name?: string;
-  ingredients?: string;
-  instructions?: string;
-  photoUrl?: string;
-  sourceUrl?: string;
-  effort?: string;
-};
+import type { Meal } from "../core/types";
 
 type CookbookPageProps = {
-  cookbook: Recipe[];
-  setCookbook: React.Dispatch<React.SetStateAction<Recipe[]>>;
+  cookbook: CookbookRecipe[];
+  setCookbook: React.Dispatch<React.SetStateAction<CookbookRecipe[]>>;
+};
+
+type CookbookRecipe = Meal & {
+  sourceUrl?: string;
 };
 
 function slugify(text: string) {
@@ -68,7 +63,7 @@ function normalizeMultilineField(value: unknown): string {
     .join("\n");
 }
 
-function getRecipeStatus(recipe: Recipe) {
+function getRecipeStatus(recipe: CookbookRecipe) {
   const ingredientCount = splitLines(recipe?.ingredients).length;
   const instructionsMissing =
     !recipe?.instructions ||
@@ -136,7 +131,7 @@ export default function CookbookPage({
     setShowManual(true);
   };
 
-  const openEditRecipe = (recipe: Recipe) => {
+  const openEditRecipe = (recipe: CookbookRecipe) => {
     setManualRecipe({
       name: recipe?.name || "",
       ingredients: recipe?.ingredients || "",
@@ -153,7 +148,7 @@ export default function CookbookPage({
     setShowManual(true);
   };
 
-  const handleDeleteRecipe = (recipe: Recipe) => {
+  const handleDeleteRecipe = (recipe: CookbookRecipe) => {
     const ok = window.confirm(`Delete "${recipe?.name}" from your cookbook?`);
     if (!ok) return;
 
@@ -244,14 +239,15 @@ export default function CookbookPage({
       return;
     }
 
-    const cleanedRecipe: Recipe = {
-      name: manualRecipe.name.trim(),
-      ingredients: normalizeMultilineField(manualRecipe.ingredients),
-      instructions: normalizeMultilineField(manualRecipe.instructions),
-      photoUrl: manualRecipe.photoUrl.trim(),
-      sourceUrl: manualRecipe.sourceUrl.trim(),
-      effort: "normal",
-    };
+    const cleanedRecipe: CookbookRecipe = {
+  name: manualRecipe.name.trim(),
+  ingredients: normalizeMultilineField(manualRecipe.ingredients),
+  instructions: normalizeMultilineField(manualRecipe.instructions),
+  photoUrl: manualRecipe.photoUrl.trim(),
+  sourceUrl: manualRecipe.sourceUrl.trim(),
+  effort: "normal",
+  id: slugify(manualRecipe.name),
+};
 
     if (editingSlug) {
       setCookbook((prev) =>
@@ -266,10 +262,10 @@ export default function CookbookPage({
       );
       alert("Recipe updated!");
     } else {
-      const recipeToSave: Recipe = {
-        ...cleanedRecipe,
-        slug: `${slugify(manualRecipe.name)}-${Date.now().toString().slice(-4)}`,
-      };
+      const recipeToSave: CookbookRecipe = {
+  ...cleanedRecipe,
+  slug: `${slugify(manualRecipe.name)}-${Date.now().toString().slice(-4)}`,
+};
 
       setCookbook((prev) => [...prev, recipeToSave]);
       alert("Recipe saved to Cookbook!");

@@ -38,12 +38,15 @@ import { days } from "./core/data";
 import {
   getCookbook,
   setCookbook as persistCookbook,
-  addToCookbook,
 } from "./core/cookbookStore";
 import { hasCompletedOnboarding } from "./core/onboardingStore";
 import RecipesPage from "./pages/RecipesPage";
 
 const APP_VERSION = "22.0.7";
+
+type CookbookRecipe = Meal & {
+  sourceUrl?: string;
+};
 
 const mealImageUrl = (name?: string) => {
   const q = encodeURIComponent((name || "cooking dinner").trim());
@@ -60,19 +63,15 @@ function BackHandler() {
     const setup = async () => {
       try {
         listener = await CapacitorApp.addListener("backButton", () => {
-          // If browser/app has history, go back
           if (window.history.length > 1) {
             window.history.back();
             return;
           }
 
-          // If somehow no history but not on home, go home
           if (location.pathname !== "/") {
             navigate("/");
             return;
           }
-
-          // Already at home: do nothing so app does not close immediately
         });
       } catch (err) {
         console.log("Capacitor back button listener not available", err);
@@ -174,12 +173,11 @@ function Navigation() {
 function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
-const hideBottomNav = location.pathname.startsWith("/recipe/");
+  const hideBottomNav = location.pathname.startsWith("/recipe/");
   const [showTesterPrompt, setShowTesterPrompt] = useState(false);
   const toastApi: any = useToast();
   const toast = toastApi.toast ?? toastApi;
 
-  // --- app update + chunk reload handling ---
   useEffect(() => {
     if (import.meta.env.PROD) {
       const checkForUpdates = async () => {
@@ -218,7 +216,6 @@ const hideBottomNav = location.pathname.startsWith("/recipe/");
     return () => window.removeEventListener("error", handleError, true);
   }, [toast]);
 
-  // --- what's new redirect ---
   useEffect(() => {
     const seenVersion = localStorage.getItem("seen-whats-new");
 
@@ -228,8 +225,11 @@ const hideBottomNav = location.pathname.startsWith("/recipe/");
     }
   }, [navigate]);
 
-  // --- STATE ---
-  const [cookbook, setCookbook] = useState<any[]>(() => getCookbook());
+  // =====================================================
+  // Builder: state
+  // =====================================================
+
+  const [cookbook, setCookbook] = useState<CookbookRecipe[]>(() => getCookbook());
 
   const [meals, setMeals] = useState<Record<string, Meal>>(() => {
     try {
@@ -284,7 +284,10 @@ const hideBottomNav = location.pathname.startsWith("/recipe/");
     }
   });
 
-  // --- PERSISTENCE ---
+  // =====================================================
+  // Builder: persistence
+  // =====================================================
+
   useEffect(() => {
     localStorage.setItem("meals", JSON.stringify(meals));
     localStorage.setItem("daySettings", JSON.stringify(daySettings));
@@ -294,45 +297,88 @@ const hideBottomNav = location.pathname.startsWith("/recipe/");
     persistCookbook(cookbook);
   }, [meals, daySettings, pantry, lockedDays, cookbook]);
 
-  const addDayToCookbook = (day: string) => {
-    const meal = meals[day];
-    if (meal?.name) {
-      addToCookbook(meal);
-      setCookbook(getCookbook());
+  // =====================================================
+  // Builder: cookbook actions
+  // =====================================================
+
+  const handleAddToCookbook = (recipe: CookbookRecipe) => {
+    const slug = (recipe?.slug ?? recipe?.id ?? "").toString().trim();
+
+    if (!slug) {
+      return { ok: false as const, reason: "missing-slug" as const };
     }
+
+    let added = false;
+    let already = false;
+
+    setCookbook((prev) => {
+      const exists = prev.some((r) => (r.slug ?? r.id) === slug);
+
+      if (exists) {
+        already = true;
+        return prev;
+      }
+
+      added = true;
+
+      const normalized: CookbookRecipe = {
+        ...recipe,
+        id: recipe?.id ?? slug,
+        slug,
+        name: String(recipe?.name ?? "").trim(),
+        effort: recipe?.effort ?? "normal",
+        ingredients: String(recipe?.ingredients ?? ""),
+        instructions: String(recipe?.instructions ?? ""),
+        photoUrl: String(recipe?.photoUrl ?? ""),
+        notes: String((recipe as any)?.notes ?? ""),
+        tags: Array.isArray((recipe as any)?.tags) ? (recipe as any).tags : [],
+      };
+
+      return [...prev, normalized];
+    });
+
+    if (already) return { ok: true as const, already: true as const };
+    if (added) return { ok: true as const, already: false as const };
+    return { ok: false as const, reason: "unknown" as const };
   };
 
- const generateDinnerPlan = (force = false) => {
-  const seedMeals = force
-    ? Object.fromEntries(
-        days.map((d) => [
-          d,
-          lockedDays[d]
-            ? meals[d]
-            : { name: "", ingredients: "", instructions: "", photoUrl: "" },
-        ])
-      )
-    : meals;
+  const addDayToCookbook = (day: string) => {
+    const meal = meals[day];
+    if (!meal?.name) return;
+    handleAddToCookbook(meal);
+  };
 
-  const next = generatePlan({
-    cookbook,
-    pantry: pantry.map((item) => item.name),
-    daySettings,
-    lockedMeals: seedMeals as Partial<Record<(typeof days)[number], Meal | null>>,
-    preferences: prefs,
-  });
+  const generateDinnerPlan = (force = false) => {
+    const seedMeals = force
+      ? Object.fromEntries(
+          days.map((d) => [
+            d,
+            lockedDays[d]
+              ? meals[d]
+              : { name: "", ingredients: "", instructions: "", photoUrl: "" },
+          ])
+        )
+      : meals;
 
-  const withPhotos = { ...next } as Record<string, Meal>;
+    const next = generatePlan({
+      cookbook,
+      pantry: pantry.map((item) => item.name),
+      daySettings,
+      lockedMeals: seedMeals as Partial<Record<(typeof days)[number], Meal | null>>,
+      preferences: prefs,
+    });
 
-  for (const d of days) {
-    if (withPhotos[d] && !withPhotos[d].photoUrl) {
-      withPhotos[d].photoUrl = mealImageUrl(withPhotos[d].name);
+    const withPhotos = { ...next } as Record<string, Meal>;
+
+    for (const d of days) {
+      if (withPhotos[d] && !withPhotos[d].photoUrl) {
+        withPhotos[d].photoUrl = mealImageUrl(withPhotos[d].name);
+      }
     }
-  }
 
-  setMeals(withPhotos);
-  navigate("/week");
-};
+    setMeals(withPhotos);
+    navigate("/week");
+  };
 
   const requireOnboarding = (element: React.ReactNode) =>
     hasCompletedOnboarding() ? element : <Navigate to="/onboarding" replace />;
@@ -397,18 +443,18 @@ const hideBottomNav = location.pathname.startsWith("/recipe/");
         />
 
         <Route
-  path="/week"
-  element={
-    <WeekPage
-      meals={meals}
-      setMeals={setMeals}
-      generateDinnerPlan={generateDinnerPlan}
-      lockedDays={lockedDays}
-      setLockedDays={setLockedDays}
-      addDayToCookbook={addDayToCookbook}
-    />
-  }
-/>
+          path="/week"
+          element={
+            <WeekPage
+              meals={meals}
+              setMeals={setMeals}
+              generateDinnerPlan={generateDinnerPlan}
+              lockedDays={lockedDays}
+              setLockedDays={setLockedDays}
+              addDayToCookbook={addDayToCookbook}
+            />
+          }
+        />
 
         <Route
           path="/cookbook"
@@ -417,7 +463,12 @@ const hideBottomNav = location.pathname.startsWith("/recipe/");
           )}
         />
 
-        <Route path="/recipe/:slug" element={<RecipePage />} />
+        <Route
+          path="/recipe/:slug"
+          element={
+            <RecipePage onAddToCookbook={handleAddToCookbook} />
+          }
+        />
 
         <Route
           path="/shopping-list"
@@ -433,32 +484,34 @@ const hideBottomNav = location.pathname.startsWith("/recipe/");
         <Route path="/guide" element={<TestersGuidePage />} />
         <Route path="/whats-new" element={<WhatsNewPage />} />
         <Route path="/feedback" element={<FeedbackForm />} />
+
         <Route
-  path="/recipes"
-  element={
-    <RecipesPage
-      onAddToWeek={(meal) => {
-        const firstOpenDay = days.find((day) => {
-          const existing = meals[day];
-          return !existing?.name?.trim();
-        });
+          path="/recipes"
+          element={
+            <RecipesPage
+              onAddToWeek={(meal) => {
+                const firstOpenDay = days.find((day) => {
+                  const existing = meals[day];
+                  return !existing?.name?.trim();
+                });
 
-        if (!firstOpenDay) {
-          alert("Your week is already full. Clear a day first.");
-          navigate("/week");
-          return;
-        }
+                if (!firstOpenDay) {
+                  alert("Your week is already full. Clear a day first.");
+                  navigate("/week");
+                  return;
+                }
 
-        setMeals((prev) => ({
-          ...prev,
-          [firstOpenDay]: meal,
-        }));
+                setMeals((prev) => ({
+                  ...prev,
+                  [firstOpenDay]: meal,
+                }));
 
-        navigate("/week");
-      }}
-    />
-  }
-/>
+                navigate("/week");
+              }}
+            />
+          }
+        />
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
@@ -544,8 +597,8 @@ export default function App() {
   return (
     <ThemeProvider>
       <ToastProvider>
-          <AppContent />
-        </ToastProvider>
+        <AppContent />
+      </ToastProvider>
     </ThemeProvider>
   );
 }
