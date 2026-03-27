@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Search,
@@ -68,6 +68,19 @@ export default function RecipesPage({
   const [showSaladsOnly, setShowSaladsOnly] = useState(false);
   const [cookbook, setCookbook] = useState<Meal[]>(() => getCookbook() as Meal[]);
   const [justAddedSlug, setJustAddedSlug] = useState<string | null>(null);
+  const [saveMessage, setSaveMessage] = useState<string>("");
+
+  useEffect(() => {
+  if (!saveMessage) return;
+  const t = setTimeout(() => setSaveMessage(""), 1800);
+  return () => clearTimeout(t);
+}, [saveMessage]);
+
+useEffect(() => {
+  if (!justAddedSlug) return;
+  const t = setTimeout(() => setJustAddedSlug(null), 1200);
+  return () => clearTimeout(t);
+}, [justAddedSlug]);
 
   // =====================================================
   // Builder: cookbook data
@@ -161,7 +174,6 @@ const handleAddToCookbook = (recipe: Meal) => {
   const slug = String(recipe.slug || recipe.id || "").trim().toLowerCase();
 
   if (result.ok) {
-    // update local UI immediately
     setCookbook((prev) => {
       const exists = prev.some(
         (r) =>
@@ -174,17 +186,19 @@ const handleAddToCookbook = (recipe: Meal) => {
       return [...prev, recipe];
     });
 
-    // ✅ show Saved ✓ state
     setJustAddedSlug(slug);
-
-    // ✅ trigger auto-scroll in Cookbook page
     localStorage.setItem("scrollToCookbook", slug);
+
+    if (result.already) {
+      setSaveMessage("Already in Cookbook");
+    } else {
+      setSaveMessage("Saved to Cookbook ✓");
+    }
 
     return;
   }
 
-  // optional fallback (rare)
-  console.warn("Could not add recipe", result);
+  setSaveMessage("Could not save recipe");
 };
 
 const handleAddToWeek = (recipe: Meal) => {
@@ -460,6 +474,22 @@ const handleAddToWeek = (recipe: Meal) => {
             </div>
 
             <div style={statsRow}>
+              {saveMessage && (
+  <div
+    style={{
+      padding: "10px 14px",
+      borderRadius: 14,
+      background: "rgba(34,197,94,0.12)",
+      border: "1px solid rgba(34,197,94,0.35)",
+      color: "#86efac",
+      fontSize: 13,
+      fontWeight: 800,
+      width: "fit-content",
+    }}
+  >
+    {saveMessage}
+  </div>
+)}
               <span>{mergedRecipes.length} total recipes</span>
               <span>{filteredRecipes.length} showing</span>
               <span>{cookbook.length} in cookbook</span>
@@ -526,10 +556,30 @@ const handleAddToWeek = (recipe: Meal) => {
                     </button>
 
                     <button
-                      type="button"
-                      style={btnStyle}
-                      onClick={() => handleAddToCookbook(recipe)}
-                    >
+  type="button"
+  style={{
+    ...btnStyle,
+    opacity: isSaved ? 0.7 : 1,
+    transform:
+      justAddedSlug === recipeKey ? "scale(1.05)" : "scale(1)",
+    border:
+      isSaved || justAddedSlug === recipeKey
+        ? "1px solid rgba(34,197,94,0.45)"
+        : btnStyle.border,
+    background:
+      isSaved || justAddedSlug === recipeKey
+        ? "rgba(34,197,94,0.12)"
+        : btnStyle.background,
+    color:
+      isSaved || justAddedSlug === recipeKey
+        ? "#86efac"
+        : "white",
+    transition: "all 0.18s ease",
+    cursor: isSaved ? "default" : "pointer",
+  }}
+  onClick={() => handleAddToCookbook(recipe)}
+  disabled={isSaved}
+>
                       <Plus size={14} />
                       {isSaved || justAddedSlug === recipeKey ? "Saved ✓" : "Add to Cookbook"}
                     </button>
