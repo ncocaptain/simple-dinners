@@ -17,8 +17,6 @@ import { getRecipeBySlug } from "../core/recipes";
 import { addIngredientsToList } from "../shoppingList";
 import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
 
-
-
 // =====================================================
 // Builder: helpers
 // =====================================================
@@ -90,6 +88,10 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   const [cookMode, setCookMode] = useState(startInCookMode);
   const [stepIndex, setStepIndex] = useState(0);
   const [historyCount, setHistoryCount] = useState(0);
+  const [savedState, setSavedState] = useState<"idle" | "saved" | "already">(
+    "idle"
+  );
+  const [saveMessage, setSaveMessage] = useState("");
 
   // =====================================================
   // Builder: empty state
@@ -186,6 +188,18 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
     }
   }, [cookMode, stepIndex, instructions.length]);
 
+  useEffect(() => {
+    if (!saveMessage) return;
+    const t = window.setTimeout(() => setSaveMessage(""), 1800);
+    return () => window.clearTimeout(t);
+  }, [saveMessage]);
+
+  useEffect(() => {
+    if (savedState === "idle") return;
+    const t = window.setTimeout(() => setSavedState("idle"), 1400);
+    return () => window.clearTimeout(t);
+  }, [savedState]);
+
   // =====================================================
   // Builder: actions
   // =====================================================
@@ -213,7 +227,7 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
 
   const handleAddToCookbook = () => {
     if (!safeRecipe?.slug) {
-      alert("This recipe is missing a slug.");
+      setSaveMessage("Missing recipe info");
       return;
     }
 
@@ -230,17 +244,21 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
       instructions: safeRecipe.instructions ?? "",
     });
 
-    if (result.ok && !result.already) {
-      alert("Added to cookbook!");
+    if (result.ok) {
+      localStorage.setItem("scrollToCookbook", safeRecipe.slug);
+
+      if (result.already) {
+        setSavedState("already");
+        setSaveMessage("Already in Cookbook");
+      } else {
+        setSavedState("saved");
+        setSaveMessage("Saved to Cookbook ✓");
+      }
+
       return;
     }
 
-    if (result.already) {
-      alert("Already in cookbook!");
-      return;
-    }
-
-    alert("Could not add recipe.");
+    setSaveMessage("Could not save recipe");
   };
 
   const handleAddIngredients = () => {
@@ -301,51 +319,95 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
             Builder: top actions
         ===================================================== */}
         {!printMode && (
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-            <button onClick={handleBack} style={topBtn}>
-              <ArrowLeft size={16} />
-              Back
-            </button>
+          <>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+              <button onClick={handleBack} style={topBtn}>
+                <ArrowLeft size={16} />
+                Back
+              </button>
 
-            <button
-              onClick={() =>
-                navigate(
-                  `/recipe/${encodeURIComponent(
-                    safeRecipe.slug || safeRecipe.name || ""
-                  )}?from=${encodeURIComponent(from)}&print=1`
-                )
-              }
-              style={topBtn}
-            >
-              <Printer size={16} />
-              Print
-            </button>
+              <button
+                onClick={() =>
+                  navigate(
+                    `/recipe/${encodeURIComponent(
+                      safeRecipe.slug || safeRecipe.name || ""
+                    )}?from=${encodeURIComponent(from)}&print=1`
+                  )
+                }
+                style={topBtn}
+              >
+                <Printer size={16} />
+                Print
+              </button>
 
-            <button onClick={handleShare} style={topBtn}>
-              <Star size={16} />
-              Share
-            </button>
+              <button onClick={handleShare} style={topBtn}>
+                <Star size={16} />
+                Share
+              </button>
 
-            <button onClick={handleAddToCookbook} style={topBtn}>
-              <BookOpen size={16} />
-              Add to Cookbook
-            </button>
+              <button
+                onClick={handleAddToCookbook}
+                disabled={savedState === "already"}
+                style={{
+                  ...topBtn,
+                  transform:
+                    savedState === "saved" ? "scale(1.05)" : "scale(1)",
+                  border:
+                    savedState !== "idle"
+                      ? "1px solid rgba(34,197,94,0.45)"
+                      : topBtn.border,
+                  background:
+                    savedState !== "idle"
+                      ? "rgba(34,197,94,0.12)"
+                      : topBtn.background,
+                  color: savedState !== "idle" ? "#86efac" : "white",
+                  cursor: savedState === "already" ? "default" : "pointer",
+                  transition: "all 0.18s ease",
+                  opacity: savedState === "already" ? 0.7 : 1,
+                }}
+              >
+                <BookOpen size={16} />
+                {savedState === "saved"
+                  ? "Saved ✓"
+                  : savedState === "already"
+                  ? "Saved"
+                  : "Add to Cookbook"}
+              </button>
 
-            <button onClick={handleAddIngredients} style={topBtn}>
-              <ShoppingCart size={16} />
-              Add Ingredients
-            </button>
+              <button onClick={handleAddIngredients} style={topBtn}>
+                <ShoppingCart size={16} />
+                Add Ingredients
+              </button>
 
-            <button onClick={() => setCookMode((v) => !v)} style={topBtn}>
-              <Play size={16} />
-              {cookMode ? "Exit Cook Mode" : "Cook Mode"}
-            </button>
+              <button onClick={() => setCookMode((v) => !v)} style={topBtn}>
+                <Play size={16} />
+                {cookMode ? "Exit Cook Mode" : "Cook Mode"}
+              </button>
 
-            <button onClick={handleCooked} style={topBtn}>
-              <History size={16} />
-              Mark Cooked
-            </button>
-          </div>
+              <button onClick={handleCooked} style={topBtn}>
+                <History size={16} />
+                Mark Cooked
+              </button>
+            </div>
+
+            {saveMessage && (
+              <div
+                style={{
+                  marginTop: -8,
+                  padding: "10px 14px",
+                  borderRadius: 12,
+                  background: "rgba(34,197,94,0.12)",
+                  border: "1px solid rgba(34,197,94,0.35)",
+                  color: "#86efac",
+                  fontSize: 13,
+                  fontWeight: 800,
+                  width: "fit-content",
+                }}
+              >
+                {saveMessage}
+              </div>
+            )}
+          </>
         )}
 
         {/* =====================================================

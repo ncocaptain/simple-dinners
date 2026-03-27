@@ -68,19 +68,19 @@ export default function RecipesPage({
   const [showSaladsOnly, setShowSaladsOnly] = useState(false);
   const [cookbook, setCookbook] = useState<Meal[]>(() => getCookbook() as Meal[]);
   const [justAddedSlug, setJustAddedSlug] = useState<string | null>(null);
-  const [saveMessage, setSaveMessage] = useState<string>("");
+  const [saveMessage, setSaveMessage] = useState("");
 
   useEffect(() => {
-  if (!saveMessage) return;
-  const t = setTimeout(() => setSaveMessage(""), 1800);
-  return () => clearTimeout(t);
-}, [saveMessage]);
+    if (!saveMessage) return;
+    const t = window.setTimeout(() => setSaveMessage(""), 1800);
+    return () => window.clearTimeout(t);
+  }, [saveMessage]);
 
-useEffect(() => {
-  if (!justAddedSlug) return;
-  const t = setTimeout(() => setJustAddedSlug(null), 1200);
-  return () => clearTimeout(t);
-}, [justAddedSlug]);
+  useEffect(() => {
+    if (!justAddedSlug) return;
+    const t = window.setTimeout(() => setJustAddedSlug(null), 1200);
+    return () => window.clearTimeout(t);
+  }, [justAddedSlug]);
 
   // =====================================================
   // Builder: cookbook data
@@ -163,54 +163,53 @@ useEffect(() => {
   // Builder: actions
   // =====================================================
 
- const handleOpenRecipe = (recipe: Meal) => {
-  if (!recipe.slug) return;
-  navigate(`/recipe/${recipe.slug}?from=%2Frecipes`);
-};
+  const handleOpenRecipe = (recipe: Meal) => {
+    if (!recipe.slug) return;
+    navigate(`/recipe/${recipe.slug}?from=%2Frecipes`);
+  };
 
-const handleAddToCookbook = (recipe: Meal) => {
-  const result = onAddToCookbook(recipe);
+  const handleAddToCookbook = (recipe: Meal) => {
+    const result = onAddToCookbook(recipe);
+    const slug = String(recipe.slug || recipe.id || "").trim().toLowerCase();
 
-  const slug = String(recipe.slug || recipe.id || "").trim().toLowerCase();
+    if (result.ok) {
+      setCookbook((prev) => {
+        const exists = prev.some(
+          (r) =>
+            String(r.slug || r.id || "")
+              .trim()
+              .toLowerCase() === slug
+        );
 
-  if (result.ok) {
-    setCookbook((prev) => {
-      const exists = prev.some(
-        (r) =>
-          String(r.slug || r.id || "")
-            .trim()
-            .toLowerCase() === slug
-      );
+        if (exists) return prev;
+        return [...prev, recipe];
+      });
 
-      if (exists) return prev;
-      return [...prev, recipe];
-    });
+      setJustAddedSlug(slug);
+      localStorage.setItem("scrollToCookbook", slug);
 
-    setJustAddedSlug(slug);
-    localStorage.setItem("scrollToCookbook", slug);
+      if (result.already) {
+        setSaveMessage("Already in Cookbook");
+      } else {
+        setSaveMessage("Saved to Cookbook ✓");
+      }
 
-    if (result.already) {
-      setSaveMessage("Already in Cookbook");
-    } else {
-      setSaveMessage("Saved to Cookbook ✓");
+      return;
     }
 
-    return;
-  }
+    setSaveMessage("Could not save recipe");
+  };
 
-  setSaveMessage("Could not save recipe");
-};
+  const handleAddToWeek = (recipe: Meal) => {
+    if (onAddToWeek) {
+      onAddToWeek(recipe);
+      return;
+    }
 
-const handleAddToWeek = (recipe: Meal) => {
-  if (onAddToWeek) {
-    onAddToWeek(recipe);
-    return;
-  }
-
-  if (recipe.slug) {
-    navigate(`/recipe/${recipe.slug}?from=%2Frecipes`);
-  }
-};
+    if (recipe.slug) {
+      navigate(`/recipe/${recipe.slug}?from=%2Frecipes`);
+    }
+  };
 
   // =====================================================
   // Builder: shared styles
@@ -392,14 +391,18 @@ const handleAddToWeek = (recipe: Meal) => {
                       onClick={() => setEffort(value as "all" | Effort)}
                       style={{
                         ...chipBase,
-                        background: active ? "rgba(34,197,94,0.12)" : chipBase.background,
+                        background: active
+                          ? "rgba(34,197,94,0.12)"
+                          : chipBase.background,
                         border: active
                           ? "1px solid rgba(34,197,94,0.45)"
                           : chipBase.border,
                         color: active ? "#86efac" : chipBase.color,
                       }}
                     >
-                      <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                      <span
+                        style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
+                      >
                         <Clock3 size={14} />
                         {value === "all"
                           ? "All Efforts"
@@ -474,26 +477,27 @@ const handleAddToWeek = (recipe: Meal) => {
             </div>
 
             <div style={statsRow}>
-              {saveMessage && (
-  <div
-    style={{
-      padding: "10px 14px",
-      borderRadius: 14,
-      background: "rgba(34,197,94,0.12)",
-      border: "1px solid rgba(34,197,94,0.35)",
-      color: "#86efac",
-      fontSize: 13,
-      fontWeight: 800,
-      width: "fit-content",
-    }}
-  >
-    {saveMessage}
-  </div>
-)}
               <span>{mergedRecipes.length} total recipes</span>
               <span>{filteredRecipes.length} showing</span>
               <span>{cookbook.length} in cookbook</span>
             </div>
+
+            {saveMessage && (
+              <div
+                style={{
+                  padding: "10px 14px",
+                  borderRadius: 14,
+                  background: "rgba(34,197,94,0.12)",
+                  border: "1px solid rgba(34,197,94,0.35)",
+                  color: "#86efac",
+                  fontSize: 13,
+                  fontWeight: 800,
+                  width: "fit-content",
+                }}
+              >
+                {saveMessage}
+              </div>
+            )}
           </div>
         </Card>
 
@@ -556,32 +560,34 @@ const handleAddToWeek = (recipe: Meal) => {
                     </button>
 
                     <button
-  type="button"
-  style={{
-    ...btnStyle,
-    opacity: isSaved ? 0.7 : 1,
-    transform:
-      justAddedSlug === recipeKey ? "scale(1.05)" : "scale(1)",
-    border:
-      isSaved || justAddedSlug === recipeKey
-        ? "1px solid rgba(34,197,94,0.45)"
-        : btnStyle.border,
-    background:
-      isSaved || justAddedSlug === recipeKey
-        ? "rgba(34,197,94,0.12)"
-        : btnStyle.background,
-    color:
-      isSaved || justAddedSlug === recipeKey
-        ? "#86efac"
-        : "white",
-    transition: "all 0.18s ease",
-    cursor: isSaved ? "default" : "pointer",
-  }}
-  onClick={() => handleAddToCookbook(recipe)}
-  disabled={isSaved}
->
+                      type="button"
+                      style={{
+                        ...btnStyle,
+                        opacity: isSaved ? 0.7 : 1,
+                        transform:
+                          justAddedSlug === recipeKey ? "scale(1.05)" : "scale(1)",
+                        border:
+                          isSaved || justAddedSlug === recipeKey
+                            ? "1px solid rgba(34,197,94,0.45)"
+                            : btnStyle.border,
+                        background:
+                          isSaved || justAddedSlug === recipeKey
+                            ? "rgba(34,197,94,0.12)"
+                            : btnStyle.background,
+                        color:
+                          isSaved || justAddedSlug === recipeKey
+                            ? "#86efac"
+                            : "white",
+                        transition: "all 0.18s ease",
+                        cursor: isSaved ? "default" : "pointer",
+                      }}
+                      onClick={() => handleAddToCookbook(recipe)}
+                      disabled={isSaved}
+                    >
                       <Plus size={14} />
-                      {isSaved || justAddedSlug === recipeKey ? "Saved ✓" : "Add to Cookbook"}
+                      {isSaved || justAddedSlug === recipeKey
+                        ? "Saved ✓"
+                        : "Add to Cookbook"}
                     </button>
 
                     <button
