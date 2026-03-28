@@ -1658,35 +1658,6 @@ Cut in half diagonally and serve.
 Optional: Serve with warm tomato soup.`,
   },
 
-   {
-    id: "quick-sloppy-joes-sandwich",
-    slug: "quick-sloppy-joes-sandwich",
-    name: "Sloppy Joes Sandwich",
-    photoUrl: "/images/quick-sloppy-joes-sandwich.webp",
-    notes: "A smoky, saucy sandwich dinner that is easy to make and always family-friendly.",
-    effort: "quick",
-    tags: ["dinner", "beef", "sandwiches", "quick", "family-friendly"],
-    ingredients: `2 cloves garlic, minced
-1 lb ground beef
-8 oz tomato sauce
-½ cup ketchup
-2 tbsp brown sugar
-2 tbsp Worcestershire sauce
-1 tsp mustard
-½ tsp garlic powder
-¼ tsp onion powder
-pepper, to taste
-Hamburger buns
-Sliced pickles`,
-    instructions: `In a medium bowl stir together the tomato sauce, ketchup, brown sugar, Worcestershire sauce, mustard, garlic powder, onion powder, and pepper until well combined; set aside.
-
-Set a large pot over medium-low heat. Add a few drops of extra-virgin olive oil, and saute the garlic for a minute or two until just fragrant and very light golden brown. Add ground beef, increase heat to medium/medium high, and cook until nicely browned with no pink remaining, breaking apart and stirring as the meat cooks. Drain the grease.
-
-Pour the sauce over the browned meat, stir to combine, and simmer for at least 10 minutes until heated through, stirring occasionally.
-
-Serve warm on hamburger buns with sliced pickles on top.`,
-  },
-
   {
     id: "quick-chicken-parmesan-melts",
     slug: "quick-chicken-parmesan-melts",
@@ -1843,27 +1814,6 @@ Set a large pot over medium-low heat. Add a few drops of extra-virgin olive oil,
 Pour the sauce over the browned meat, stir to combine, and simmer for at least 10 minutes until heated through, stirring occasionally.
 
 Serve warm on hamburger buns with sliced pickles on top.`,
-  },
-
-  {
-    id: "quick-chicken-parmesan-melts",
-    slug: "quick-chicken-parmesan-melts",
-    name: "Chicken Parmesan Melts",
-    photoUrl: "/images/quick-chicken-parmesan-melts.webp",
-    notes: "An easy shortcut dinner with crispy chicken, marinara, and melted mozzarella on rolls.",
-    effort: "quick",
-    tags: ["dinner", "chicken", "quick", "italian", "sandwiches", "cheesy"],
-    ingredients: `4 cooked chicken cutlets or breaded chicken patties
-1 cup marinara sauce
-1 cup shredded mozzarella
-4 sandwich rolls`,
-    instructions: `Heat chicken according to package directions or warm leftover cutlets.
-
-Place chicken on rolls, top with marinara and mozzarella.
-
-Broil or bake until cheese is melted and bubbly.
-
-Serve warm.`,
   },
 
   {
