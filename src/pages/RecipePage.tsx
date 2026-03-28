@@ -11,6 +11,7 @@ import {
   ChevronLeft,
   CheckCircle2,
   BookOpen,
+  Timer,
 } from "lucide-react";
 
 import { getRecipeBySlug } from "../core/recipes";
@@ -47,6 +48,89 @@ function normalizePhotoUrl(url?: string) {
   return trimmed;
 }
 
+function extractTimerSeconds(text: string): number | null {
+  const lower = text.toLowerCase();
+
+  const hourMatch = lower.match(/(\d+)\s*(hour|hours|hr|hrs)/i);
+  const minuteMatch = lower.match(/(\d+)\s*(minute|minutes|min|mins)/i);
+  const secondMatch = lower.match(/(\d+)\s*(second|seconds|sec|secs)/i);
+
+  let total = 0;
+
+  if (hourMatch) total += parseInt(hourMatch[1], 10) * 3600;
+  if (minuteMatch) total += parseInt(minuteMatch[1], 10) * 60;
+  if (secondMatch) total += parseInt(secondMatch[1], 10);
+
+  return total > 0 ? total : null;
+}
+
+function formatTimer(seconds: number) {
+  const hrs = Math.floor(seconds / 3600);
+  const mins = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+
+  if (hrs > 0) {
+    return `${hrs}:${String(mins).padStart(2, "0")}:${String(secs).padStart(
+      2,
+      "0"
+    )}`;
+  }
+
+  return `${mins}:${String(secs).padStart(2, "0")}`;
+}
+
+function ingredientMatchesStep(step: string, ingredient: string) {
+  const stepText = step.toLowerCase();
+  const cleaned = ingredient
+    .toLowerCase()
+    .replace(/^[\d/\s.,()-]+/, "")
+    .replace(
+      /\b(cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|lb|lbs|oz|ounce|ounces|clove|cloves|can|cans|package|packages|slice|slices)\b/g,
+      ""
+    )
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const words = cleaned
+    .split(" ")
+    .map((w) => w.trim())
+    .filter((w) => w.length > 2)
+    .slice(0, 3);
+
+  return words.some((word) => stepText.includes(word));
+}
+
+function playTimerDoneSound() {
+  try {
+    const AudioCtx =
+      window.AudioContext ||
+      (window as typeof window & {
+        webkitAudioContext?: typeof AudioContext;
+      }).webkitAudioContext;
+
+    if (!AudioCtx) return;
+
+    const ctx = new AudioCtx();
+    const oscillator = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(880, ctx.currentTime);
+
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.15, ctx.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.6);
+
+    oscillator.connect(gain);
+    gain.connect(ctx.destination);
+
+    oscillator.start();
+    oscillator.stop(ctx.currentTime + 0.6);
+  } catch {
+    // ignore audio failures
+  }
+}
+
 // =====================================================
 // Builder: page
 // =====================================================
@@ -77,9 +161,7 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   // Builder: recipe lookup
   // =====================================================
 
-  const recipe = useMemo(() => {
-    return getRecipeBySlug(slug);
-  }, [slug]);
+  const recipe = useMemo(() => getRecipeBySlug(slug), [slug]);
 
   // =====================================================
   // Builder: local state
@@ -92,6 +174,11 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
     "idle"
   );
   const [saveMessage, setSaveMessage] = useState("");
+  const [checkedIngredients, setCheckedIngredients] = useState<
+    Record<number, boolean>
+  >({});
+  const [timerSeconds, setTimerSeconds] = useState<number | null>(null);
+  const [timerRunning, setTimerRunning] = useState(false);
 
   // =====================================================
   // Builder: empty state
@@ -163,6 +250,15 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   );
 
   const photoUrl = normalizePhotoUrl(safeRecipe.photoUrl);
+  const currentStep = instructions[stepIndex] || "";
+  const detectedTimerSeconds = extractTimerSeconds(currentStep);
+
+  const stepIngredients = useMemo(() => {
+    if (!currentStep) return [];
+    return ingredients.filter((ingredient) =>
+      ingredientMatchesStep(currentStep, ingredient)
+    );
+  }, [currentStep, ingredients]);
 
   // =====================================================
   // Builder: effects
@@ -200,6 +296,33 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
     return () => window.clearTimeout(t);
   }, [savedState]);
 
+  useEffect(() => {
+    if (!timerRunning || timerSeconds === null) return;
+
+    const t = window.setInterval(() => {
+      setTimerSeconds((prev) => {
+        if (prev === null) return null;
+
+        if (prev <= 1) {
+          window.clearInterval(t);
+          setTimerRunning(false);
+          setSaveMessage("⏱️ Timer done!");
+          playTimerDoneSound();
+
+          if ("vibrate" in navigator) {
+            navigator.vibrate?.([200, 100, 200]);
+          }
+
+          return null;
+        }
+
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => window.clearInterval(t);
+  }, [timerRunning, timerSeconds]);
+
   // =====================================================
   // Builder: actions
   // =====================================================
@@ -222,7 +345,7 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
     }
 
     await navigator.clipboard.writeText(url);
-    alert("Link copied!");
+    setSaveMessage("Link copied!");
   };
 
   const handleAddToCookbook = () => {
@@ -261,12 +384,29 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
     setSaveMessage("Could not save recipe");
   };
 
+  const toggleIngredient = (index: number) => {
+    setCheckedIngredients((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
+
   const handleAddIngredients = () => {
-    addIngredientsToList(
-      safeRecipe.name || "Recipe",
-      safeRecipe.ingredients || ""
+    const selectedIngredients = ingredients.filter(
+      (_, index) => checkedIngredients[index]
     );
-    alert("Ingredients added to shopping list!");
+
+    const linesToSend = selectedIngredients.length
+      ? selectedIngredients
+      : ingredients;
+
+    addIngredientsToList(safeRecipe.name || "Recipe", linesToSend.join("\n"));
+
+    setSaveMessage(
+      selectedIngredients.length
+        ? "Selected ingredients added ✓"
+        : "All ingredients added ✓"
+    );
   };
 
   const handleCooked = () => {
@@ -274,7 +414,24 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
     recordCook(safeRecipe.slug);
     const history = getCookHistoryFor(safeRecipe.slug);
     setHistoryCount(history?.timesCooked ?? 0);
-    alert("Cook recorded!");
+    setSaveMessage("Cook recorded ✓");
+  };
+
+  const handleStartTimer = () => {
+    if (!detectedTimerSeconds) return;
+    setTimerSeconds(detectedTimerSeconds);
+    setTimerRunning(true);
+    setSaveMessage("Timer started");
+  };
+
+  const handlePauseResumeTimer = () => {
+    if (timerSeconds === null) return;
+    setTimerRunning((prev) => !prev);
+  };
+
+  const handleClearTimer = () => {
+    setTimerRunning(false);
+    setTimerSeconds(null);
   };
 
   // =====================================================
@@ -315,9 +472,6 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   return (
     <div style={pageWrap}>
       <div style={innerWrap}>
-        {/* =====================================================
-            Builder: top actions
-        ===================================================== */}
         {!printMode && (
           <>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
@@ -350,6 +504,7 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
                 disabled={savedState === "already"}
                 style={{
                   ...topBtn,
+                  opacity: savedState === "already" ? 0.7 : 1,
                   transform:
                     savedState === "saved" ? "scale(1.05)" : "scale(1)",
                   border:
@@ -363,7 +518,6 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
                   color: savedState !== "idle" ? "#86efac" : "white",
                   cursor: savedState === "already" ? "default" : "pointer",
                   transition: "all 0.18s ease",
-                  opacity: savedState === "already" ? 0.7 : 1,
                 }}
               >
                 <BookOpen size={16} />
@@ -393,7 +547,6 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
             {saveMessage && (
               <div
                 style={{
-                  marginTop: -8,
                   padding: "10px 14px",
                   borderRadius: 12,
                   background: "rgba(34,197,94,0.12)",
@@ -410,9 +563,6 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
           </>
         )}
 
-        {/* =====================================================
-            Builder: hero
-        ===================================================== */}
         <div
           style={{
             overflow: "hidden",
@@ -458,9 +608,6 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
           </div>
         </div>
 
-        {/* =====================================================
-            Builder: cook mode
-        ===================================================== */}
         {cookMode ? (
           <div
             style={{
@@ -478,8 +625,94 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
             </div>
 
             <div style={{ fontSize: 22, lineHeight: 1.5, fontWeight: 800 }}>
-              {instructions[stepIndex] || "No instructions available."}
+              {currentStep || "No instructions available."}
             </div>
+
+            {stepIngredients.length > 0 && (
+              <div
+                style={{
+                  padding: 14,
+                  borderRadius: 16,
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  display: "grid",
+                  gap: 8,
+                }}
+              >
+                <div style={{ fontSize: 12, opacity: 0.65, fontWeight: 800 }}>
+                  Ingredients in this step
+                </div>
+
+                {stepIngredients.map((ingredient, index) => (
+                  <div
+                    key={`${ingredient}-${index}`}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      opacity: 0.85,
+                    }}
+                  >
+                    <CheckCircle2 size={14} style={{ opacity: 0.5 }} />
+                    <span style={{ fontSize: 14 }}>{ingredient}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {(detectedTimerSeconds || timerSeconds !== null) && (
+              <div
+                style={{
+                  padding: 14,
+                  borderRadius: 16,
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  display: "grid",
+                  gap: 12,
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    fontWeight: 900,
+                  }}
+                >
+                  <Timer size={16} />
+                  Timer
+                </div>
+
+                <div style={{ fontSize: 28, fontWeight: 1000 }}>
+                  {timerSeconds !== null
+                    ? formatTimer(timerSeconds)
+                    : detectedTimerSeconds
+                    ? formatTimer(detectedTimerSeconds)
+                    : "0:00"}
+                </div>
+
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                  {timerSeconds === null && detectedTimerSeconds && (
+                    <button onClick={handleStartTimer} style={topBtn}>
+                      <Timer size={16} />
+                      Start Timer
+                    </button>
+                  )}
+
+                  {timerSeconds !== null && (
+                    <>
+                      <button onClick={handlePauseResumeTimer} style={topBtn}>
+                        {timerRunning ? "Pause Timer" : "Resume Timer"}
+                      </button>
+
+                      <button onClick={handleClearTimer} style={topBtn}>
+                        Clear Timer
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
 
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               <button
@@ -493,7 +726,9 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
 
               <button
                 onClick={() =>
-                  setStepIndex((v) => Math.min(instructions.length - 1, v + 1))
+                  setStepIndex((v) =>
+                    Math.min(instructions.length - 1, v + 1)
+                  )
                 }
                 style={topBtn}
                 disabled={stepIndex >= instructions.length - 1}
@@ -505,9 +740,6 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
           </div>
         ) : (
           <>
-            {/* =====================================================
-                Builder: ingredients
-            ===================================================== */}
             <div
               style={{
                 padding: 20,
@@ -516,24 +748,66 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
                 background: "rgba(255,255,255,0.04)",
               }}
             >
-              <h2 style={{ marginTop: 0 }}>Ingredients</h2>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: 12,
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  marginBottom: 10,
+                }}
+              >
+                <h2 style={{ margin: 0 }}>Ingredients</h2>
+
+                <div style={{ fontSize: 12, opacity: 0.6 }}>
+                  Tap ingredients to select specific items
+                </div>
+              </div>
 
               <div style={{ display: "grid", gap: 10 }}>
-                {ingredients.map((item, index) => (
-                  <div
-                    key={`${item}-${index}`}
-                    style={{ display: "flex", alignItems: "flex-start", gap: 10 }}
-                  >
-                    <CheckCircle2 size={16} style={{ marginTop: 2, opacity: 0.5 }} />
-                    <span>{item}</span>
-                  </div>
-                ))}
+                {ingredients.map((item, index) => {
+                  const checked = !!checkedIngredients[index];
+
+                  return (
+                    <button
+                      key={`${item}-${index}`}
+                      type="button"
+                      onClick={() => toggleIngredient(index)}
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: 10,
+                        textAlign: "left",
+                        background: "transparent",
+                        border: "none",
+                        padding: 0,
+                        cursor: "pointer",
+                        color: "white",
+                        opacity: checked ? 0.55 : 1,
+                      }}
+                    >
+                      <CheckCircle2
+                        size={16}
+                        style={{
+                          marginTop: 2,
+                          color: checked ? "#22c55e" : "rgba(255,255,255,0.35)",
+                          flexShrink: 0,
+                        }}
+                      />
+                      <span
+                        style={{
+                          textDecoration: checked ? "line-through" : "none",
+                        }}
+                      >
+                        {item}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            {/* =====================================================
-                Builder: instructions
-            ===================================================== */}
             <div
               style={{
                 padding: 20,
@@ -548,7 +822,11 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
                 {instructions.map((step, index) => (
                   <div
                     key={`${step}-${index}`}
-                    style={{ display: "flex", alignItems: "flex-start", gap: 12 }}
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: 12,
+                    }}
                   >
                     <div
                       style={{
