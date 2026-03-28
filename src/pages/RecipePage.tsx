@@ -179,6 +179,8 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   >({});
   const [timerSeconds, setTimerSeconds] = useState<number | null>(null);
   const [timerRunning, setTimerRunning] = useState(false);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
 
   // =====================================================
   // Builder: empty state
@@ -332,19 +334,27 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   };
 
   const handleShare = async () => {
-    const url = window.location.href;
+    const shareUrl =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1"
+        ? `https://dinners.ncocaptain.com/recipe/${encodeURIComponent(
+            safeRecipe.slug || ""
+          )}`
+        : `${window.location.origin}/recipe/${encodeURIComponent(
+            safeRecipe.slug || ""
+          )}`;
 
     if (navigator.share) {
       try {
         await navigator.share({
           title: safeRecipe.name || "Recipe",
-          url,
+          url: shareUrl,
         });
         return;
       } catch {}
     }
 
-    await navigator.clipboard.writeText(url);
+    await navigator.clipboard.writeText(shareUrl);
     setSaveMessage("Link copied!");
   };
 
@@ -432,6 +442,31 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   const handleClearTimer = () => {
     setTimerRunning(false);
     setTimerSeconds(null);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEndX(null);
+    setTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX === null || touchEndX === null) return;
+
+    const distance = touchStartX - touchEndX;
+    const minSwipeDistance = 50;
+
+    if (distance > minSwipeDistance) {
+      setStepIndex((v) => Math.min(instructions.length - 1, v + 1));
+    } else if (distance < -minSwipeDistance) {
+      setStepIndex((v) => Math.max(0, v - 1));
+    }
+
+    setTouchStartX(null);
+    setTouchEndX(null);
   };
 
   // =====================================================
@@ -610,6 +645,9 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
 
         {cookMode ? (
           <div
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
             style={{
               padding: 20,
               borderRadius: 24,

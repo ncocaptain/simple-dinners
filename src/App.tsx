@@ -13,7 +13,6 @@ import WeekPage from "./pages/WeekPage";
 import CookbookPage from "./pages/CookbookPage";
 import PlanPage from "./pages/PlanPage";
 import ShoppingListPage from "./pages/ShoppingListPage";
-import CookNowPage from "./pages/CookNowPage";
 import OnboardingPage from "./pages/OnboardingPage";
 import RecipePage from "./pages/RecipePage";
 import HomePage from "./pages/HomePage";
@@ -463,11 +462,7 @@ function AppContent() {
           element={requireOnboarding(<ShoppingListPage />)}
         />
 
-        <Route
-          path="/cook-now"
-          element={requireOnboarding(<CookNowPage meals={meals} />)}
-        />
-
+        
         <Route path="/settings" element={<Navigate to="/plan" replace />} />
         <Route path="/guide" element={<TestersGuidePage />} />
         <Route path="/whats-new" element={<WhatsNewPage />} />
