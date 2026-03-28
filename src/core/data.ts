@@ -2715,9 +2715,25 @@ Add spinach and cooked pasta. Toss until spinach wilts and pasta is coated.
 Season to taste and serve.`,
   },
 
-  
+  {
+    id: "quick-caprese-sandwich",
+    slug: "quick-caprese-sandwich",
+    name: "Caprese Grilled Cheese",
+    effort: "quick",
+    photoUrl: "/images/quick-caprese-sandwich.webp",
+    tags: ["vegetarian", "dinner", "quick", "skillet", "comfort"],
+    notes: "A fresh spin on grilled cheese with tomato and basil.",
+    ingredients: `4 slices sourdough bread
+4 oz fresh mozzarella, sliced
+1 tomato, thinly sliced
+1/4 cup fresh basil leaves
+1 tbsp butter`,
+    instructions: `Layer mozzarella, tomato, and basil between bread slices.
 
- 
+Butter the outside of the sandwiches.
+
+Grill in a skillet over medium heat for 3 to 4 minutes per side until bread is golden and cheese is melted.`,
+  }, 
 
 ];
 
@@ -2744,26 +2760,6 @@ Salt and pepper, to taste
 Lay out tortillas and spread the mixture down the center of each. Top with shredded carrots and spinach.
 
 Roll tightly, tuck in ends, and slice in half to serve.`,
-  },
-
-  {
-    id: "quick-caprese-sandwich",
-    slug: "quick-caprese-sandwich",
-    name: "Caprese Grilled Cheese",
-    effort: "quick",
-    photoUrl: "/images/quick-caprese-sandwich.webp",
-    tags: ["vegetarian", "dinner", "quick", "skillet", "comfort"],
-    notes: "A fresh spin on grilled cheese with tomato and basil.",
-    ingredients: `4 slices sourdough bread
-4 oz fresh mozzarella, sliced
-1 tomato, thinly sliced
-1/4 cup fresh basil leaves
-1 tbsp butter`,
-    instructions: `Layer mozzarella, tomato, and basil between bread slices.
-
-Butter the outside of the sandwiches.
-
-Grill in a skillet over medium heat for 3 to 4 minutes per side until bread is golden and cheese is melted.`,
   },
 
   {
