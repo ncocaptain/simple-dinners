@@ -1366,7 +1366,7 @@ Top with fresh fruit if desired.`,
   name: "Captain's Wing Rub",
   photoUrl: "/images/quick-captains-wing-rub.webp",
   effort: "quick",
-  tags: ["seasoning", "spice", "wings", "bbq", "homemade"],
+  tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian", "wings" ],
   ingredients: `2 tbsp smoked paprika
 1 1/2 tbsp cayenne pepper
 1 tsp ancho chili powder
