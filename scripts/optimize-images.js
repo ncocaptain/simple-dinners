@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 const imageDir = path.join(__dirname, "../public/images");
 const dataFile = path.join(__dirname, "../src/core/data.ts");
 
-const DELETE_ORIGINALS = false;
+const DELETE_ORIGINALS = true;
 const MAX_WIDTH = 800;
 const QUALITY = 80;
 

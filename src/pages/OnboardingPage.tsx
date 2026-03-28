@@ -71,11 +71,20 @@ export default function OnboardingPage() {
   }
 
   function finishSetup() {
-    localStorage.setItem("pantry", JSON.stringify(selectedItems));
-    localStorage.setItem("vegetarian", String(vegetarian));
-    localStorage.setItem("dietaryNotes", dietaryNotes);
+    const pantryItems = selectedItems.map((item) => ({ name: item }));
+
+    const prefs = {
+      vegetarian,
+      dietaryNotes,
+      includeDesserts: false,
+      includeAppetizers: false,
+    };
+
+    localStorage.setItem("pantry", JSON.stringify(pantryItems));
+    localStorage.setItem("prefs", JSON.stringify(prefs));
+
     completeOnboarding();
-    navigate("/plan?first=true");
+    navigate("/week?first=true");
   }
 
   return (
@@ -118,7 +127,9 @@ export default function OnboardingPage() {
                   height: 10,
                   borderRadius: 999,
                   background:
-                    n <= step ? "rgba(20,184,166,0.95)" : "rgba(255,255,255,0.18)",
+                    n <= step
+                      ? "rgba(20,184,166,0.95)"
+                      : "rgba(255,255,255,0.18)",
                   boxShadow:
                     n <= step ? "0 0 0 3px rgba(20,184,166,0.12)" : "none",
                 }}
@@ -166,6 +177,19 @@ export default function OnboardingPage() {
               simple shopping flow.
             </p>
 
+            <p
+              style={{
+                opacity: 0.7,
+                fontSize: 15,
+                maxWidth: 520,
+                margin: "12px auto 0",
+                lineHeight: 1.5,
+              }}
+            >
+              We’ll ask a couple quick questions, then build your first week in
+              seconds.
+            </p>
+
             <div
               style={{
                 marginTop: 22,
@@ -185,7 +209,7 @@ export default function OnboardingPage() {
 
             <div style={{ marginTop: 30 }}>
               <button onClick={() => setStep(2)} style={primaryButton}>
-                Let’s Set Up Your Kitchen →
+                Let&apos;s Set Up Your Kitchen →
               </button>
             </div>
           </div>
@@ -242,6 +266,10 @@ export default function OnboardingPage() {
                 Back
               </button>
 
+              <button onClick={() => setStep(3)} style={secondaryButton}>
+                Skip for now
+              </button>
+
               <button onClick={() => setStep(3)} style={primaryButton}>
                 Continue
               </button>
@@ -256,7 +284,8 @@ export default function OnboardingPage() {
             </h1>
 
             <p style={{ opacity: 0.82, marginBottom: 20, lineHeight: 1.5 }}>
-              A couple quick details and we’ll build your first plan.
+              A couple quick details and we’ll build your first personalized
+              week.
             </p>
 
             <label

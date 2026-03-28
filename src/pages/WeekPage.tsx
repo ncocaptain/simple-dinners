@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Lock,
   Unlock,
@@ -33,10 +34,39 @@ export default function WeekPage({
   addDayToCookbook: (day: string) => void;
 }) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [showFirstMessage, setShowFirstMessage] = useState(false);
 
   // =====================================================
-// Builder: helpers (sharing + utilities)
-// =====================================================
+  // Builder: first-time onboarding flow
+  // =====================================================
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const isFirst = params.get("first") === "true";
+
+    if (!isFirst) return;
+
+    const hasMeals = days.some((day) => !!meals[day]?.name?.trim());
+
+    if (!hasMeals) {
+      generateDinnerPlan();
+    }
+
+    setShowFirstMessage(true);
+
+    const t = window.setTimeout(() => {
+      setShowFirstMessage(false);
+    }, 3000);
+
+    window.history.replaceState({}, "", "/week");
+
+    return () => window.clearTimeout(t);
+  }, [location.search, meals, generateDinnerPlan]);
+
+  // =====================================================
+  // Builder: helpers (sharing + utilities)
+  // =====================================================
 
   function normalizePhotoUrl(url?: string) {
     if (!url) return "";
@@ -55,12 +85,12 @@ export default function WeekPage({
   };
 
   const clearDay = (day: string) => {
-  setMeals((prev) => {
-    const next = { ...prev };
-    delete next[day];
-    return next;
-  });
-};
+    setMeals((prev) => {
+      const next = { ...prev };
+      delete next[day];
+      return next;
+    });
+  };
 
   function pad2(n: number) {
     return String(n).padStart(2, "0");
@@ -142,7 +172,9 @@ export default function WeekPage({
     const parts = [
       "Planned in Simple Dinners",
       meal?.ingredients?.trim() ? `Ingredients:\n${meal.ingredients.trim()}` : "",
-      meal?.instructions?.trim() ? `Instructions:\n${meal.instructions.trim()}` : "",
+      meal?.instructions?.trim()
+        ? `Instructions:\n${meal.instructions.trim()}`
+        : "",
     ].filter(Boolean);
 
     return parts.join("\n\n");
@@ -196,36 +228,38 @@ export default function WeekPage({
   }
 
   // =====================================================
-// Builder: share week
-// =====================================================
+  // Builder: share week
+  // =====================================================
 
-function shareWeekPlan() {
-  const lines = days
-    .map((day) => {
-      const meal = meals[day];
-      return meal?.name?.trim() ? `${day}: ${meal.name}` : null;
-    })
-    .filter(Boolean);
-
-  if (!lines.length) return;
-
-  const text = `My Simple Dinners Week Plan:\n\n${lines.join("\n")}`;
-
-  if (navigator.share) {
-    navigator
-      .share({
-        title: "My Week Plan",
-        text,
+  function shareWeekPlan() {
+    const lines = days
+      .map((day) => {
+        const meal = meals[day];
+        return meal?.name?.trim() ? `${day}: ${meal.name}` : null;
       })
-      .catch(() => {});
-  } else {
-    navigator.clipboard.writeText(text);
-    alert("Week plan copied!");
+      .filter(Boolean);
+
+    if (!lines.length) return;
+
+    const text = `My Simple Dinners Week Plan:\n\n${lines.join("\n")}`;
+
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "My Week Plan",
+          text,
+        })
+        .catch(() => {});
+    } else {
+      navigator.clipboard.writeText(text);
+      alert("Week plan copied!");
+    }
   }
-}
 
   function downloadDayICS(day: string, meal: Meal) {
-    const filename = `${safeFileName(day)}-${safeFileName(meal?.name || "meal")}.ics`;
+    const filename = `${safeFileName(day)}-${safeFileName(
+      meal?.name || "meal"
+    )}.ics`;
     downloadICSFile(filename, [buildICSEvent(day, meal)]);
   }
 
@@ -233,7 +267,9 @@ function shareWeekPlan() {
     const plannedDays = days.filter((day) => !!meals[day]?.name?.trim());
     if (!plannedDays.length) return;
 
-    const events = plannedDays.map((day, index) => buildICSEvent(day, meals[day], index));
+    const events = plannedDays.map((day, index) =>
+      buildICSEvent(day, meals[day], index)
+    );
     downloadICSFile("simple-dinners-week-plan.ics", events);
   }
 
@@ -258,7 +294,9 @@ function shareWeekPlan() {
     downloadWholeWeekICS();
   }
 
-  const plannedMealCount = days.filter((day) => !!meals[day]?.name?.trim()).length;
+  const plannedMealCount = days.filter(
+    (day) => !!meals[day]?.name?.trim()
+  ).length;
 
   const btnBase: React.CSSProperties = {
     border: "none",
@@ -291,11 +329,29 @@ function shareWeekPlan() {
         }}
       >
         <header style={{ textAlign: "center", marginTop: 20 }}>
-          <h2 style={{ fontSize: 28, fontWeight: 1000, margin: 0 }}>Weekly Planner</h2>
+          <h2 style={{ fontSize: 28, fontWeight: 1000, margin: 0 }}>
+            Weekly Planner
+          </h2>
           <p style={{ opacity: 0.5, fontSize: 15, marginTop: 4 }}>
             Tap a day to view the recipe.
           </p>
         </header>
+
+        {showFirstMessage && (
+          <div
+            style={{
+              padding: "12px 16px",
+              borderRadius: 14,
+              background: "rgba(34,197,94,0.12)",
+              border: "1px solid rgba(34,197,94,0.35)",
+              color: "#86efac",
+              fontWeight: 800,
+              textAlign: "center",
+            }}
+          >
+            Your first week is ready 🎉
+          </div>
+        )}
 
         <div style={{ display: "grid", gap: 16 }}>
           {days.map((day) => {
@@ -305,7 +361,10 @@ function shareWeekPlan() {
             const mealPhotoUrl = normalizePhotoUrl(meal?.photoUrl);
 
             return (
-              <Card key={day} style={{ padding: 0, overflow: "hidden", borderRadius: "24px" }}>
+              <Card
+                key={day}
+                style={{ padding: 0, overflow: "hidden", borderRadius: "24px" }}
+              >
                 <div style={{ padding: "20px", display: "grid", gap: 16 }}>
                   <div
                     style={{
@@ -354,7 +413,9 @@ function shareWeekPlan() {
                       <div
                         onClick={() =>
                           navigate(
-                            `/recipe/${encodeURIComponent(meal.slug || meal.name || "")}?from=/week`
+                            `/recipe/${encodeURIComponent(
+                              meal.slug || meal.name || ""
+                            )}?from=/week`
                           )
                         }
                         style={{
@@ -421,7 +482,10 @@ function shareWeekPlan() {
                           </div>
                         </div>
 
-                        <ChevronRight size={20} style={{ opacity: 0.2, flexShrink: 0 }} />
+                        <ChevronRight
+                          size={20}
+                          style={{ opacity: 0.2, flexShrink: 0 }}
+                        />
                       </div>
 
                       <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
@@ -487,7 +551,10 @@ function shareWeekPlan() {
                           cursor: "pointer",
                         }}
                       >
-                        <Trash2 size={16} style={{ marginBottom: -3, marginRight: 4 }} />
+                        <Trash2
+                          size={16}
+                          style={{ marginBottom: -3, marginRight: 4 }}
+                        />
                         Remove
                       </button>
 
@@ -513,71 +580,70 @@ function shareWeekPlan() {
             );
           })}
         </div>
-{/* =====================================================
-    Builder: bottom actions
-===================================================== */}
 
-<div style={{ display: "grid", gap: 10, marginTop: 4 }}>
-  <button
-    onClick={shareWeekPlan}
-    disabled={!plannedMealCount}
-    style={{
-      ...btnBase,
-      width: "100%",
-      padding: "14px 16px",
-      background: plannedMealCount
-        ? "rgba(34,197,94,0.12)"
-        : "rgba(255,255,255,0.05)",
-      color: plannedMealCount ? "#86efac" : "rgba(255,255,255,0.35)",
-      cursor: plannedMealCount ? "pointer" : "not-allowed",
-    }}
-  >
-    <Share2 size={16} />
-    {plannedMealCount ? "Share Week Plan" : "No meals to share"}
-  </button>
+        <div style={{ display: "grid", gap: 10, marginTop: 4 }}>
+          <button
+            onClick={shareWeekPlan}
+            disabled={!plannedMealCount}
+            style={{
+              ...btnBase,
+              width: "100%",
+              padding: "14px 16px",
+              background: plannedMealCount
+                ? "rgba(34,197,94,0.12)"
+                : "rgba(255,255,255,0.05)",
+              color: plannedMealCount ? "#86efac" : "rgba(255,255,255,0.35)",
+              cursor: plannedMealCount ? "pointer" : "not-allowed",
+            }}
+          >
+            <Share2 size={16} />
+            {plannedMealCount ? "Share Week Plan" : "No meals to share"}
+          </button>
 
-  <button
-    onClick={() => generateDinnerPlan(true)}
-    style={{
-      width: "100%",
-      padding: "16px",
-      borderRadius: "18px",
-      background: "rgba(34,197,94,0.14)",
-      color: "#4ade80",
-      border: "1px solid rgba(34,197,94,0.22)",
-      fontWeight: 900,
-      fontSize: 16,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: 10,
-      cursor: "pointer",
-    }}
-  >
-    <Sparkles size={18} />
-    Generate New Plan
-  </button>
+          <button
+            onClick={() => generateDinnerPlan(true)}
+            style={{
+              width: "100%",
+              padding: "16px",
+              borderRadius: "18px",
+              background: "rgba(34,197,94,0.14)",
+              color: "#4ade80",
+              border: "1px solid rgba(34,197,94,0.22)",
+              fontWeight: 900,
+              fontSize: 16,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 10,
+              cursor: "pointer",
+            }}
+          >
+            <Sparkles size={18} />
+            Generate New Plan
+          </button>
 
-  <button
-    onClick={addWholeWeekToCalendar}
-    disabled={!plannedMealCount}
-    style={{
-      ...btnBase,
-      width: "100%",
-      padding: "14px 16px",
-      background: plannedMealCount
-        ? "rgba(59,130,246,0.12)"
-        : "rgba(255,255,255,0.05)",
-      color: plannedMealCount ? "#60a5fa" : "rgba(255,255,255,0.35)",
-      cursor: plannedMealCount ? "pointer" : "not-allowed",
-    }}
-  >
-    <CalendarPlus size={16} />
-    {plannedMealCount
-      ? `Add ${plannedMealCount} Meal${plannedMealCount > 1 ? "s" : ""} to Calendar`
-      : "No meals planned"}
-  </button>
-</div>
+          <button
+            onClick={addWholeWeekToCalendar}
+            disabled={!plannedMealCount}
+            style={{
+              ...btnBase,
+              width: "100%",
+              padding: "14px 16px",
+              background: plannedMealCount
+                ? "rgba(59,130,246,0.12)"
+                : "rgba(255,255,255,0.05)",
+              color: plannedMealCount ? "#60a5fa" : "rgba(255,255,255,0.35)",
+              cursor: plannedMealCount ? "pointer" : "not-allowed",
+            }}
+          >
+            <CalendarPlus size={16} />
+            {plannedMealCount
+              ? `Add ${plannedMealCount} Meal${
+                  plannedMealCount > 1 ? "s" : ""
+                } to Calendar`
+              : "No meals planned"}
+          </button>
+        </div>
       </div>
     </div>
   );
