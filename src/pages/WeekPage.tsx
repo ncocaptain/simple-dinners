@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Lock,
@@ -18,6 +18,13 @@ import Card from "../components/Card";
 import { days } from "../core/data";
 import type { Meal } from "../core/types";
 
+type WalkthroughStep = 1 | 2 | 3;
+type TooltipPosition = {
+  top: number;
+  left: number;
+  width: number;
+};
+
 export default function WeekPage({
   meals,
   setMeals,
@@ -35,10 +42,20 @@ export default function WeekPage({
 }) {
   const navigate = useNavigate();
   const location = useLocation();
+
   const [showFirstMessage, setShowFirstMessage] = useState(false);
+  const [showWalkthrough, setShowWalkthrough] = useState(false);
+  const [walkthroughStep, setWalkthroughStep] = useState<WalkthroughStep>(1);
+  const [tooltipPosition, setTooltipPosition] = useState<TooltipPosition | null>(
+    null
+  );
+
+  const generatePlanRef = useRef<HTMLButtonElement | null>(null);
+  const firstLockRef = useRef<HTMLButtonElement | null>(null);
+  const wholeWeekCalendarRef = useRef<HTMLButtonElement | null>(null);
 
   // =====================================================
-  // Builder: first-time onboarding flow
+  // Builder: first-time onboarding + walkthrough trigger
   // =====================================================
 
   useEffect(() => {
@@ -55,6 +72,14 @@ export default function WeekPage({
 
     setShowFirstMessage(true);
 
+    const seenWalkthrough =
+      localStorage.getItem("simple-dinners.seen-week-walkthrough") === "true";
+
+    if (!seenWalkthrough) {
+      setShowWalkthrough(true);
+      setWalkthroughStep(1);
+    }
+
     const t = window.setTimeout(() => {
       setShowFirstMessage(false);
     }, 3000);
@@ -63,6 +88,111 @@ export default function WeekPage({
 
     return () => window.clearTimeout(t);
   }, [location.search, meals, generateDinnerPlan]);
+
+  function finishWalkthrough() {
+    localStorage.setItem("simple-dinners.seen-week-walkthrough", "true");
+    setShowWalkthrough(false);
+    setWalkthroughStep(1);
+    setTooltipPosition(null);
+  }
+
+  function nextWalkthroughStep() {
+    setWalkthroughStep((prev) => {
+      if (prev >= 3) return prev;
+      return (prev + 1) as WalkthroughStep;
+    });
+  }
+
+  // =====================================================
+  // Builder: walkthrough targeting + positioning
+  // =====================================================
+
+  const activeTargetRef = useMemo(() => {
+    if (walkthroughStep === 1) return generatePlanRef;
+    if (walkthroughStep === 2) return firstLockRef;
+    return wholeWeekCalendarRef;
+  }, [walkthroughStep]);
+
+  function updateTooltipPosition() {
+    if (!showWalkthrough) {
+      setTooltipPosition(null);
+      return;
+    }
+
+    const el = activeTargetRef.current;
+    if (!el) {
+      setTooltipPosition(null);
+      return;
+    }
+
+    const rect = el.getBoundingClientRect();
+    const tooltipWidth = Math.min(window.innerWidth - 32, 340);
+
+    let left = rect.left + rect.width / 2 - tooltipWidth / 2;
+    left = Math.max(16, left);
+    left = Math.min(left, window.innerWidth - tooltipWidth - 16);
+
+    let top = rect.bottom + 14;
+
+    if (top > window.innerHeight - 220) {
+      top = rect.top - 170;
+    }
+
+    top = Math.max(16, top);
+
+    setTooltipPosition({
+      top,
+      left,
+      width: tooltipWidth,
+    });
+  }
+
+  useEffect(() => {
+    if (!showWalkthrough) return;
+
+    const t = window.setTimeout(() => {
+      updateTooltipPosition();
+      activeTargetRef.current?.scrollIntoView({
+        block: "center",
+        behavior: "smooth",
+      });
+    }, 120);
+
+    return () => window.clearTimeout(t);
+  }, [showWalkthrough, walkthroughStep, meals]);
+
+  useEffect(() => {
+    if (!showWalkthrough) return;
+
+    const handler = () => updateTooltipPosition();
+
+    window.addEventListener("resize", handler);
+    window.addEventListener("scroll", handler, true);
+
+    return () => {
+      window.removeEventListener("resize", handler);
+      window.removeEventListener("scroll", handler, true);
+    };
+  }, [showWalkthrough, walkthroughStep]);
+
+  function isActiveTarget(target: "generate" | "lock" | "calendar") {
+    if (!showWalkthrough) return false;
+    if (walkthroughStep === 1 && target === "generate") return true;
+    if (walkthroughStep === 2 && target === "lock") return true;
+    if (walkthroughStep === 3 && target === "calendar") return true;
+    return false;
+  }
+
+  function getSpotlightStyle(active: boolean): React.CSSProperties {
+    if (!active) return {};
+
+    return {
+      position: "relative",
+      zIndex: 10001,
+      boxShadow:
+        "0 0 0 3px rgba(20,184,166,0.95), 0 0 0 8px rgba(20,184,166,0.18), 0 18px 40px rgba(0,0,0,0.38)",
+    };
+  }
 
   // =====================================================
   // Builder: helpers (sharing + utilities)
@@ -270,6 +400,7 @@ export default function WeekPage({
     const events = plannedDays.map((day, index) =>
       buildICSEvent(day, meals[day], index)
     );
+
     downloadICSFile("simple-dinners-week-plan.ics", events);
   }
 
@@ -310,341 +441,548 @@ export default function WeekPage({
     gap: 8,
   };
 
+  function renderWalkthroughContent() {
+    if (walkthroughStep === 1) {
+      return {
+        title: "Generate your week",
+        body:
+          "Tap Generate New Plan anytime to instantly build a fresh week of dinners.",
+        cta: "Next →",
+      };
+    }
+
+    if (walkthroughStep === 2) {
+      return {
+        title: "Lock meals you want to keep",
+        body:
+          "Use Lock on any day to keep that dinner in place when you reroll the rest of the week.",
+        cta: "Next →",
+      };
+    }
+
+    return {
+      title: "Add your week to calendar",
+      body:
+        "Add one meal or your whole week to your calendar so dinner is already scheduled.",
+      cta: "Start Planning →",
+    };
+  }
+
+  const walkthroughContent = renderWalkthroughContent();
+
   return (
-    <div
-      style={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <>
       <div
         style={{
-          maxWidth: "550px",
           width: "100%",
-          padding: "0 20px 140px 20px",
-          display: "grid",
-          gap: 24,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
-        <header style={{ textAlign: "center", marginTop: 20 }}>
-          <h2 style={{ fontSize: 28, fontWeight: 1000, margin: 0 }}>
-            Weekly Planner
-          </h2>
-          <p style={{ opacity: 0.5, fontSize: 15, marginTop: 4 }}>
-            Tap a day to view the recipe.
-          </p>
-        </header>
+        <div
+          style={{
+            maxWidth: "550px",
+            width: "100%",
+            padding: "0 20px 140px 20px",
+            display: "grid",
+            gap: 24,
+          }}
+        >
+          <header style={{ textAlign: "center", marginTop: 20 }}>
+            <h2 style={{ fontSize: 28, fontWeight: 1000, margin: 0 }}>
+              Weekly Planner
+            </h2>
+            <p style={{ opacity: 0.5, fontSize: 15, marginTop: 4 }}>
+              Tap a day to view the recipe.
+            </p>
+          </header>
 
-        {showFirstMessage && (
-          <div
-            style={{
-              padding: "12px 16px",
-              borderRadius: 14,
-              background: "rgba(34,197,94,0.12)",
-              border: "1px solid rgba(34,197,94,0.35)",
-              color: "#86efac",
-              fontWeight: 800,
-              textAlign: "center",
-            }}
-          >
-            Your first week is ready 🎉
-          </div>
-        )}
+          {showFirstMessage && (
+            <div
+              style={{
+                padding: "12px 16px",
+                borderRadius: 14,
+                background: "rgba(34,197,94,0.12)",
+                border: "1px solid rgba(34,197,94,0.35)",
+                color: "#86efac",
+                fontWeight: 800,
+                textAlign: "center",
+              }}
+            >
+              Your first week is ready 🎉
+            </div>
+          )}
 
-        <div style={{ display: "grid", gap: 16 }}>
-          {days.map((day) => {
-            const meal = meals[day];
-            const hasMeal = !!meal?.name?.trim();
-            const isLocked = !!lockedDays[day];
-            const mealPhotoUrl = normalizePhotoUrl(meal?.photoUrl);
+          <div style={{ display: "grid", gap: 16 }}>
+            {days.map((day, index) => {
+              const meal = meals[day];
+              const hasMeal = !!meal?.name?.trim();
+              const isLocked = !!lockedDays[day];
+              const mealPhotoUrl = normalizePhotoUrl(meal?.photoUrl);
 
-            return (
-              <Card
-                key={day}
-                style={{ padding: 0, overflow: "hidden", borderRadius: "24px" }}
-              >
-                <div style={{ padding: "20px", display: "grid", gap: 16 }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                      <CalendarDays size={18} style={{ opacity: 0.4 }} />
-                      <span
-                        style={{
-                          fontWeight: 900,
-                          fontSize: 18,
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        {day}
-                      </span>
-                    </div>
-
-                    <button
-                      onClick={() => toggleLock(day)}
+              return (
+                <Card
+                  key={day}
+                  style={{
+                    padding: 0,
+                    overflow: "hidden",
+                    borderRadius: "24px",
+                    position: "relative",
+                    zIndex: showWalkthrough ? 2 : "auto",
+                  }}
+                >
+                  <div style={{ padding: "20px", display: "grid", gap: 16 }}>
+                    <div
                       style={{
-                        background: isLocked
-                          ? "rgba(34,197,94,0.15)"
-                          : "rgba(255,255,255,0.05)",
-                        border: "none",
-                        padding: "8px 12px",
-                        borderRadius: "12px",
-                        color: isLocked ? "#22c55e" : "rgba(255,255,255,0.4)",
                         display: "flex",
+                        justifyContent: "space-between",
                         alignItems: "center",
-                        gap: 6,
-                        cursor: "pointer",
-                        fontWeight: 800,
                       }}
                     >
-                      {isLocked ? <Lock size={14} /> : <Unlock size={14} />}
-                      {isLocked ? "LOCKED" : "LOCK"}
-                    </button>
-                  </div>
-
-                  {hasMeal ? (
-                    <>
                       <div
-                        onClick={() =>
-                          navigate(
-                            `/recipe/${encodeURIComponent(
-                              meal.slug || meal.name || ""
-                            )}?from=/week`
-                          )
-                        }
+                        style={{ display: "flex", alignItems: "center", gap: 10 }}
+                      >
+                        <CalendarDays size={18} style={{ opacity: 0.4 }} />
+                        <span
+                          style={{
+                            fontWeight: 900,
+                            fontSize: 18,
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          {day}
+                        </span>
+                      </div>
+
+                      <button
+                        ref={index === 0 ? firstLockRef : undefined}
+                        onClick={() => toggleLock(day)}
                         style={{
+                          background: isLocked
+                            ? "rgba(34,197,94,0.15)"
+                            : "rgba(255,255,255,0.05)",
+                          border: "none",
+                          padding: "8px 12px",
+                          borderRadius: "12px",
+                          color: isLocked ? "#22c55e" : "rgba(255,255,255,0.4)",
                           display: "flex",
-                          gap: 16,
                           alignItems: "center",
+                          gap: 6,
                           cursor: "pointer",
+                          fontWeight: 800,
+                          ...getSpotlightStyle(
+                            index === 0 && isActiveTarget("lock")
+                          ),
                         }}
                       >
-                        {mealPhotoUrl ? (
-                          <img
-                            src={mealPhotoUrl}
-                            alt={meal.name || "Meal"}
-                            style={{
-                              width: 85,
-                              height: 85,
-                              borderRadius: 18,
-                              objectFit: "cover",
-                              border: "1px solid rgba(255,255,255,0.1)",
-                              background: "rgba(255,255,255,0.04)",
-                              flexShrink: 0,
-                            }}
-                          />
-                        ) : (
-                          <div
-                            style={{
-                              width: 85,
-                              height: 85,
-                              borderRadius: 18,
-                              border: "1px solid rgba(255,255,255,0.1)",
-                              background: "rgba(255,255,255,0.04)",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              flexShrink: 0,
-                            }}
-                          >
-                            <Utensils size={22} style={{ opacity: 0.4 }} />
-                          </div>
-                        )}
+                        {isLocked ? <Lock size={14} /> : <Unlock size={14} />}
+                        {isLocked ? "LOCKED" : "LOCK"}
+                      </button>
+                    </div>
 
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <div
-                            style={{
-                              fontWeight: 800,
-                              fontSize: 19,
-                              marginBottom: 4,
-                              lineHeight: 1.2,
-                            }}
-                          >
-                            {meal.name}
+                    {hasMeal ? (
+                      <>
+                        <div
+                          onClick={() =>
+                            navigate(
+                              `/recipe/${encodeURIComponent(
+                                meal.slug || meal.name || ""
+                              )}?from=/week`
+                            )
+                          }
+                          style={{
+                            display: "flex",
+                            gap: 16,
+                            alignItems: "center",
+                            cursor: "pointer",
+                          }}
+                        >
+                          {mealPhotoUrl ? (
+                            <img
+                              src={mealPhotoUrl}
+                              alt={meal.name || "Meal"}
+                              style={{
+                                width: 85,
+                                height: 85,
+                                borderRadius: 18,
+                                objectFit: "cover",
+                                border: "1px solid rgba(255,255,255,0.1)",
+                                background: "rgba(255,255,255,0.04)",
+                                flexShrink: 0,
+                              }}
+                            />
+                          ) : (
+                            <div
+                              style={{
+                                width: 85,
+                                height: 85,
+                                borderRadius: 18,
+                                border: "1px solid rgba(255,255,255,0.1)",
+                                background: "rgba(255,255,255,0.04)",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                flexShrink: 0,
+                              }}
+                            >
+                              <Utensils size={22} style={{ opacity: 0.4 }} />
+                            </div>
+                          )}
+
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div
+                              style={{
+                                fontWeight: 800,
+                                fontSize: 19,
+                                marginBottom: 4,
+                                lineHeight: 1.2,
+                              }}
+                            >
+                              {meal.name}
+                            </div>
+                            <div
+                              style={{
+                                fontSize: 13,
+                                opacity: 0.5,
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 4,
+                              }}
+                            >
+                              <ChefHat size={14} />
+                              Tap for Details
+                            </div>
                           </div>
-                          <div
-                            style={{
-                              fontSize: 13,
-                              opacity: 0.5,
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 4,
-                            }}
-                          >
-                            <ChefHat size={14} />
-                            Tap for Details
-                          </div>
+
+                          <ChevronRight
+                            size={20}
+                            style={{ opacity: 0.2, flexShrink: 0 }}
+                          />
                         </div>
 
-                        <ChevronRight
-                          size={20}
-                          style={{ opacity: 0.2, flexShrink: 0 }}
-                        />
-                      </div>
+                        <div
+                          style={{ display: "flex", gap: 10, flexWrap: "wrap" }}
+                        >
+                          <button
+                            onClick={() => openGoogleCalendar(day, meal)}
+                            style={{
+                              ...btnBase,
+                              flex: 1,
+                              minWidth: 0,
+                              background: "rgba(59,130,246,0.12)",
+                              color: "#60a5fa",
+                            }}
+                          >
+                            <CalendarPlus size={16} />
+                            Add to Calendar
+                          </button>
 
-                      <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                          <button
+                            onClick={() => downloadDayICS(day, meal)}
+                            style={{
+                              ...btnBase,
+                              flex: 1,
+                              minWidth: 0,
+                              background: "rgba(255,255,255,0.08)",
+                              color: "rgba(255,255,255,0.88)",
+                            }}
+                          >
+                            <Download size={16} />
+                            .ics
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <div
+                        onClick={() => navigate("/cookbook")}
+                        style={{
+                          padding: "24px",
+                          borderRadius: "18px",
+                          border: "2px dashed rgba(255,255,255,0.1)",
+                          textAlign: "center",
+                          cursor: "pointer",
+                          color: "rgba(255,255,255,0.4)",
+                          fontWeight: 700,
+                        }}
+                      >
+                        <Plus size={24} style={{ marginBottom: 6 }} />
+                        <div>Pick a meal from Cookbook</div>
+                      </div>
+                    )}
+
+                    {hasMeal && !isLocked && (
+                      <div style={{ display: "flex", gap: 10, marginTop: 4 }}>
                         <button
-                          onClick={() => openGoogleCalendar(day, meal)}
+                          onClick={() => clearDay(day)}
                           style={{
-                            ...btnBase,
                             flex: 1,
-                            minWidth: 0,
-                            background: "rgba(59,130,246,0.12)",
-                            color: "#60a5fa",
+                            padding: "12px",
+                            borderRadius: "14px",
+                            background: "rgba(239,68,68,0.1)",
+                            color: "#ef4444",
+                            border: "none",
+                            fontWeight: 800,
+                            cursor: "pointer",
                           }}
                         >
-                          <CalendarPlus size={16} />
-                          Add to Calendar
+                          <Trash2
+                            size={16}
+                            style={{ marginBottom: -3, marginRight: 4 }}
+                          />
+                          Remove
                         </button>
 
                         <button
-                          onClick={() => downloadDayICS(day, meal)}
+                          onClick={() => addDayToCookbook(day)}
                           style={{
-                            ...btnBase,
                             flex: 1,
-                            minWidth: 0,
-                            background: "rgba(255,255,255,0.08)",
-                            color: "rgba(255,255,255,0.88)",
+                            padding: "12px",
+                            borderRadius: "14px",
+                            background: "rgba(34,197,94,0.1)",
+                            color: "#22c55e",
+                            border: "none",
+                            fontWeight: 800,
+                            cursor: "pointer",
                           }}
                         >
-                          <Download size={16} />
-                          .ics
+                          Save Recipe
                         </button>
                       </div>
-                    </>
-                  ) : (
-                    <div
-                      onClick={() => navigate("/cookbook")}
-                      style={{
-                        padding: "24px",
-                        borderRadius: "18px",
-                        border: "2px dashed rgba(255,255,255,0.1)",
-                        textAlign: "center",
-                        cursor: "pointer",
-                        color: "rgba(255,255,255,0.4)",
-                        fontWeight: 700,
-                      }}
-                    >
-                      <Plus size={24} style={{ marginBottom: 6 }} />
-                      <div>Pick a meal from Cookbook</div>
-                    </div>
-                  )}
+                    )}
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
 
-                  {hasMeal && !isLocked && (
-                    <div style={{ display: "flex", gap: 10, marginTop: 4 }}>
-                      <button
-                        onClick={() => clearDay(day)}
-                        style={{
-                          flex: 1,
-                          padding: "12px",
-                          borderRadius: "14px",
-                          background: "rgba(239,68,68,0.1)",
-                          color: "#ef4444",
-                          border: "none",
-                          fontWeight: 800,
-                          cursor: "pointer",
-                        }}
-                      >
-                        <Trash2
-                          size={16}
-                          style={{ marginBottom: -3, marginRight: 4 }}
-                        />
-                        Remove
-                      </button>
-
-                      <button
-                        onClick={() => addDayToCookbook(day)}
-                        style={{
-                          flex: 1,
-                          padding: "12px",
-                          borderRadius: "14px",
-                          background: "rgba(34,197,94,0.1)",
-                          color: "#22c55e",
-                          border: "none",
-                          fontWeight: 800,
-                          cursor: "pointer",
-                        }}
-                      >
-                        Save Recipe
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </Card>
-            );
-          })}
-        </div>
-
-        <div style={{ display: "grid", gap: 10, marginTop: 4 }}>
-          <button
-            onClick={shareWeekPlan}
-            disabled={!plannedMealCount}
+          <div
             style={{
-              ...btnBase,
-              width: "100%",
-              padding: "14px 16px",
-              background: plannedMealCount
-                ? "rgba(34,197,94,0.12)"
-                : "rgba(255,255,255,0.05)",
-              color: plannedMealCount ? "#86efac" : "rgba(255,255,255,0.35)",
-              cursor: plannedMealCount ? "pointer" : "not-allowed",
-            }}
-          >
-            <Share2 size={16} />
-            {plannedMealCount ? "Share Week Plan" : "No meals to share"}
-          </button>
-
-          <button
-            onClick={() => generateDinnerPlan(true)}
-            style={{
-              width: "100%",
-              padding: "16px",
-              borderRadius: "18px",
-              background: "rgba(34,197,94,0.14)",
-              color: "#4ade80",
-              border: "1px solid rgba(34,197,94,0.22)",
-              fontWeight: 900,
-              fontSize: 16,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              display: "grid",
               gap: 10,
-              cursor: "pointer",
+              marginTop: 4,
+              position: "relative",
+              zIndex: showWalkthrough ? 2 : "auto",
             }}
           >
-            <Sparkles size={18} />
-            Generate New Plan
-          </button>
+            <button
+              onClick={shareWeekPlan}
+              disabled={!plannedMealCount}
+              style={{
+                ...btnBase,
+                width: "100%",
+                padding: "14px 16px",
+                background: plannedMealCount
+                  ? "rgba(34,197,94,0.12)"
+                  : "rgba(255,255,255,0.05)",
+                color: plannedMealCount ? "#86efac" : "rgba(255,255,255,0.35)",
+                cursor: plannedMealCount ? "pointer" : "not-allowed",
+              }}
+            >
+              <Share2 size={16} />
+              {plannedMealCount ? "Share Week Plan" : "No meals to share"}
+            </button>
 
-          <button
-            onClick={addWholeWeekToCalendar}
-            disabled={!plannedMealCount}
-            style={{
-              ...btnBase,
-              width: "100%",
-              padding: "14px 16px",
-              background: plannedMealCount
-                ? "rgba(59,130,246,0.12)"
-                : "rgba(255,255,255,0.05)",
-              color: plannedMealCount ? "#60a5fa" : "rgba(255,255,255,0.35)",
-              cursor: plannedMealCount ? "pointer" : "not-allowed",
-            }}
-          >
-            <CalendarPlus size={16} />
-            {plannedMealCount
-              ? `Add ${plannedMealCount} Meal${
-                  plannedMealCount > 1 ? "s" : ""
-                } to Calendar`
-              : "No meals planned"}
-          </button>
+            <button
+              ref={generatePlanRef}
+              onClick={() => generateDinnerPlan(true)}
+              style={{
+                width: "100%",
+                padding: "16px",
+                borderRadius: "18px",
+                background: "rgba(34,197,94,0.14)",
+                color: "#4ade80",
+                border: "1px solid rgba(34,197,94,0.22)",
+                fontWeight: 900,
+                fontSize: 16,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 10,
+                cursor: "pointer",
+                ...getSpotlightStyle(isActiveTarget("generate")),
+              }}
+            >
+              <Sparkles size={18} />
+              Generate New Plan
+            </button>
+
+            <button
+              ref={wholeWeekCalendarRef}
+              onClick={addWholeWeekToCalendar}
+              disabled={!plannedMealCount}
+              style={{
+                ...btnBase,
+                width: "100%",
+                padding: "14px 16px",
+                background: plannedMealCount
+                  ? "rgba(59,130,246,0.12)"
+                  : "rgba(255,255,255,0.05)",
+                color: plannedMealCount ? "#60a5fa" : "rgba(255,255,255,0.35)",
+                cursor: plannedMealCount ? "pointer" : "not-allowed",
+                ...getSpotlightStyle(isActiveTarget("calendar")),
+              }}
+            >
+              <CalendarPlus size={16} />
+              {plannedMealCount
+                ? `Add ${plannedMealCount} Meal${
+                    plannedMealCount > 1 ? "s" : ""
+                  } to Calendar`
+                : "No meals planned"}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+
+      {showWalkthrough && (
+        <>
+          <div
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 9998,
+              background: "rgba(2,6,23,0.72)",
+              backdropFilter: "blur(4px)",
+              WebkitBackdropFilter: "blur(4px)",
+            }}
+          />
+
+          {tooltipPosition && (
+            <div
+              style={{
+                position: "fixed",
+                top: tooltipPosition.top,
+                left: tooltipPosition.left,
+                width: tooltipPosition.width,
+                zIndex: 10002,
+                borderRadius: 22,
+                background:
+                  "linear-gradient(180deg, rgba(15,23,42,0.98) 0%, rgba(2,6,23,0.98) 100%)",
+                border: "1px solid rgba(255,255,255,0.10)",
+                boxShadow: "0 24px 60px rgba(0,0,0,0.42)",
+                padding: 20,
+                color: "#f8fafc",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: 14,
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 900,
+                    letterSpacing: 0.8,
+                    textTransform: "uppercase",
+                    opacity: 0.7,
+                  }}
+                >
+                  Quick Tour
+                </div>
+
+                <div style={{ display: "flex", gap: 8 }}>
+                  {[1, 2, 3].map((n) => (
+                    <span
+                      key={n}
+                      style={{
+                        width: 10,
+                        height: 10,
+                        borderRadius: 999,
+                        background:
+                          n <= walkthroughStep
+                            ? "rgba(20,184,166,0.98)"
+                            : "rgba(255,255,255,0.16)",
+                        boxShadow:
+                          n <= walkthroughStep
+                            ? "0 0 0 3px rgba(20,184,166,0.14)"
+                            : "none",
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <h3
+                style={{
+                  fontSize: 24,
+                  fontWeight: 1000,
+                  margin: "0 0 8px",
+                  lineHeight: 1.1,
+                }}
+              >
+                {walkthroughContent.title}
+              </h3>
+
+              <p
+                style={{
+                  margin: 0,
+                  opacity: 0.84,
+                  lineHeight: 1.55,
+                  fontSize: 15,
+                }}
+              >
+                {walkthroughContent.body}
+              </p>
+
+              <div style={{ display: "grid", gap: 10, marginTop: 18 }}>
+                {walkthroughStep < 3 ? (
+                  <button
+                    onClick={nextWalkthroughStep}
+                    style={{
+                      width: "100%",
+                      padding: "14px 16px",
+                      borderRadius: 16,
+                      border: "1px solid rgba(20,184,166,0.42)",
+                      background: "rgba(20,184,166,0.22)",
+                      color: "#f8fafc",
+                      fontWeight: 900,
+                      cursor: "pointer",
+                    }}
+                  >
+                    {walkthroughContent.cta}
+                  </button>
+                ) : (
+                  <button
+                    onClick={finishWalkthrough}
+                    style={{
+                      width: "100%",
+                      padding: "14px 16px",
+                      borderRadius: 16,
+                      border: "1px solid rgba(20,184,166,0.42)",
+                      background: "rgba(20,184,166,0.22)",
+                      color: "#f8fafc",
+                      fontWeight: 900,
+                      cursor: "pointer",
+                    }}
+                  >
+                    {walkthroughContent.cta}
+                  </button>
+                )}
+
+                <button
+                  onClick={finishWalkthrough}
+                  style={{
+                    width: "100%",
+                    padding: "12px 16px",
+                    borderRadius: 16,
+                    border: "1px solid rgba(255,255,255,0.10)",
+                    background: "rgba(255,255,255,0.04)",
+                    color: "rgba(248,250,252,0.82)",
+                    fontWeight: 800,
+                    cursor: "pointer",
+                  }}
+                >
+                  Skip
+                </button>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+    </>
   );
 }
