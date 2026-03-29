@@ -27,6 +27,76 @@ function safeParse(json: string | null): ShoppingItem[] {
 }
 
 // =====================================================
+// Builder: ingredient cleanup for categorizing
+// =====================================================
+function cleanIngredientForCategory(line: string) {
+  let text = String(line || "").toLowerCase().trim();
+
+  text = text.replace(/\([^)]*\)/g, " ");
+  text = text.replace(/^[-•*]\s*/, "");
+  text = text.replace(/<[^>]+>/g, " ");
+
+  const removePhrases = [
+    "to taste",
+    "as needed",
+    "optional",
+    "for garnish",
+    "plus more for garnish",
+    "divided",
+    "stems removed",
+    "seeds removed",
+    "for topping",
+    "for serving",
+  ];
+
+  removePhrases.forEach((phrase) => {
+    text = text.replaceAll(phrase, " ");
+  });
+
+  const removeWords = [
+    "small",
+    "medium",
+    "large",
+    "extra-large",
+    "fresh",
+    "freshly",
+    "thin",
+    "thinly",
+    "thick",
+    "thickly",
+    "finely",
+    "roughly",
+    "chopped",
+    "diced",
+    "minced",
+    "sliced",
+    "halved",
+    "cubed",
+    "shredded",
+    "grated",
+    "peeled",
+    "crushed",
+    "softened",
+    "melted",
+    "beaten",
+    "drained",
+    "rinsed",
+    "packed",
+    "whole",
+    "boneless",
+    "skinless",
+  ];
+
+  removeWords.forEach((word) => {
+    const regex = new RegExp(`\\b${word}\\b`, "g");
+    text = text.replace(regex, " ");
+  });
+
+  text = text.replace(/\s+/g, " ").trim();
+  return text;
+}
+
+// =====================================================
 // Builder: load list with backward compatibility
 // =====================================================
 export function loadShoppingList(): ShoppingItem[] {
@@ -34,7 +104,7 @@ export function loadShoppingList(): ShoppingItem[] {
 
   return items.map((item: any) => ({
     ...item,
-    category: item.category || categorizeGroceryItem(item.text || ""),
+    category: item.category || categorizeGroceryItem(cleanIngredientForCategory(item.text || "")),
   }));
 }
 
@@ -107,7 +177,7 @@ export function addIngredientsToList(
       text,
       checked: false,
       addedAt: now,
-      category: categorizeGroceryItem(text),
+      category: categorizeGroceryItem(cleanIngredientForCategory(text)),
     });
 
     existingIds.add(id);

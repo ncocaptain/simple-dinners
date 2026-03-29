@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Plus,
   Trash2,
@@ -36,6 +36,59 @@ type CombinedItem = {
   displayText: string;
 };
 
+const COUNTABLE_BASE_WORDS = new Set([
+  "egg",
+  "onion",
+  "potato",
+  "tomato",
+  "avocado",
+  "banana",
+  "apple",
+  "orange",
+  "lemon",
+  "lime",
+  "tortilla",
+  "bun",
+  "roll",
+  "bagel",
+  "pickle",
+  "pepper",
+  "carrot",
+  "cucumber",
+  "zucchini",
+  "jalapeno",
+  "clove",
+]);
+
+const COUNTABLE_PHRASES: Record<string, string> = {
+  eggs: "egg",
+  onions: "onion",
+  potatoes: "potato",
+  tomatoes: "tomato",
+  avocados: "avocado",
+  bananas: "banana",
+  apples: "apple",
+  oranges: "orange",
+  lemons: "lemon",
+  limes: "lime",
+  tortillas: "tortilla",
+  buns: "bun",
+  rolls: "roll",
+  bagels: "bagel",
+  pickles: "pickle",
+  peppers: "pepper",
+  carrots: "carrot",
+  cucumbers: "cucumber",
+  zucchinis: "zucchini",
+  jalapenos: "jalapeno",
+  cloves: "clove",
+  "chicken breasts": "chicken breast",
+  "chicken thighs": "chicken thigh",
+  drumsticks: "drumstick",
+  porkchops: "porkchop",
+  "pork chops": "pork chop",
+};
+
 function parseFraction(value: string): number | null {
   const trimmed = value.trim();
 
@@ -56,11 +109,6 @@ function parseFraction(value: string): number | null {
   return Number.isFinite(n) ? n : null;
 }
 
-function formatQuantity(n: number): string {
-  if (Number.isInteger(n)) return String(n);
-  return n.toFixed(2).replace(/\.?0+$/, "");
-}
-
 function normalizeUnit(unit: string | null): string | null {
   if (!unit) return null;
 
@@ -73,62 +121,84 @@ function normalizeUnit(unit: string | null): string | null {
   if (["tsp", "teaspoon", "teaspoons"].includes(u)) return "tsp";
   if (["can", "cans"].includes(u)) return "can";
   if (["package", "packages", "pkg", "pkgs"].includes(u)) return "package";
-  if (["egg", "eggs"].includes(u)) return "egg";
   if (["clove", "cloves"].includes(u)) return "clove";
 
   return u;
 }
 
-function pluralizeUnit(unit: string, quantity: number): string {
-  if (quantity === 1) {
-    if (unit === "lb") return "lb";
-    if (unit === "oz") return "oz";
-    if (unit === "cup") return "cup";
-    if (unit === "tbsp") return "tbsp";
-    if (unit === "tsp") return "tsp";
-    if (unit === "can") return "can";
-    if (unit === "package") return "package";
-    if (unit === "egg") return "egg";
-    if (unit === "clove") return "clove";
-    return unit;
-  }
+function singularizeWord(word: string): string {
+  const lower = word.trim().toLowerCase();
 
-  if (unit === "lb") return "lbs";
-  if (unit === "oz") return "oz";
-  if (unit === "cup") return "cups";
-  if (unit === "tbsp") return "tbsp";
-  if (unit === "tsp") return "tsp";
-  if (unit === "can") return "cans";
-  if (unit === "package") return "packages";
-  if (unit === "egg") return "eggs";
-  if (unit === "clove") return "cloves";
-  return `${unit}s`;
+  const irregular: Record<string, string> = {
+    eggs: "egg",
+    onions: "onion",
+    potatoes: "potato",
+    tomatoes: "tomato",
+    avocados: "avocado",
+    bananas: "banana",
+    apples: "apple",
+    oranges: "orange",
+    lemons: "lemon",
+    limes: "lime",
+    tortillas: "tortilla",
+    buns: "bun",
+    rolls: "roll",
+    bagels: "bagel",
+    pickles: "pickle",
+    peppers: "pepper",
+    carrots: "carrot",
+    cucumbers: "cucumber",
+    zucchinis: "zucchini",
+    jalapenos: "jalapeno",
+    cloves: "clove",
+  };
+
+  if (irregular[lower]) return irregular[lower];
+  if (lower.endsWith("ies")) return `${lower.slice(0, -3)}y`;
+  if (lower.endsWith("oes")) return lower.slice(0, -2);
+  if (lower.endsWith("es")) return lower.slice(0, -2);
+  if (lower.endsWith("s") && !lower.endsWith("ss")) return lower.slice(0, -1);
+  return lower;
 }
 
-function pluralizeIngredientName(name: string, quantity: number): string {
+function pluralizeCountable(name: string, quantity: number): string {
   if (quantity === 1) return name;
 
-  if (name.endsWith("breasts")) return name;
-  if (name.endsWith("thighs")) return name;
-  if (name.endsWith("chops")) return name;
-  if (name.endsWith("tortillas")) return name;
-  if (name.endsWith("rolls")) return name;
-  if (name.endsWith("buns")) return name;
-  if (name.endsWith("eggs")) return name;
-  if (name.endsWith("cloves")) return name;
+  const irregular: Record<string, string> = {
+    egg: "eggs",
+    onion: "onions",
+    potato: "potatoes",
+    tomato: "tomatoes",
+    avocado: "avocados",
+    banana: "bananas",
+    apple: "apples",
+    orange: "oranges",
+    lemon: "lemons",
+    lime: "limes",
+    tortilla: "tortillas",
+    bun: "buns",
+    roll: "rolls",
+    bagel: "bagels",
+    pickle: "pickles",
+    pepper: "peppers",
+    carrot: "carrots",
+    cucumber: "cucumbers",
+    zucchini: "zucchinis",
+    jalapeno: "jalapenos",
+    clove: "cloves",
+    "chicken breast": "chicken breasts",
+    "chicken thigh": "chicken thighs",
+    drumstick: "drumsticks",
+    porkchop: "porkchops",
+    "pork chop": "pork chops",
+  };
 
-  if (name.endsWith("chicken breast")) return "chicken breasts";
-  if (name.endsWith("breast")) return name.replace(/breast$/, "breasts");
-  if (name.endsWith("thigh")) return name.replace(/thigh$/, "thighs");
-  if (name.endsWith("drumstick")) return name.replace(/drumstick$/, "drumsticks");
-  if (name.endsWith("chop")) return name.replace(/chop$/, "chops");
-  if (name.endsWith("tortilla")) return name.replace(/tortilla$/, "tortillas");
-  if (name.endsWith("roll")) return name.replace(/roll$/, "rolls");
-  if (name.endsWith("bun")) return name.replace(/bun$/, "buns");
-  if (name.endsWith("egg")) return name.replace(/egg$/, "eggs");
-  if (name.endsWith("clove")) return name.replace(/clove$/, "cloves");
+  return irregular[name] || `${name}s`;
+}
 
-  return name;
+function formatQuantity(n: number): string {
+  if (Number.isInteger(n)) return String(n);
+  return n.toFixed(2).replace(/\.?0+$/, "");
 }
 
 function cleanIngredientName(line: string) {
@@ -145,6 +215,8 @@ function cleanIngredientName(line: string) {
     "divided",
     "stems removed",
     "seeds removed",
+    "for topping",
+    "for serving",
   ];
 
   removePhrases.forEach((phrase) => {
@@ -202,9 +274,8 @@ function cleanIngredientName(line: string) {
 function parseIngredient(line: string): ParsedAmount {
   const raw = line.trim();
 
-  // Standard measurable units ONLY
   const measuredMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|egg|eggs|clove|cloves)\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves)\s+(.*)$/i
   );
 
   if (measuredMatch) {
@@ -217,7 +288,6 @@ function parseIngredient(line: string): ParsedAmount {
     };
   }
 
-  // Counted ingredients like "2 chicken breasts"
   const countedMatch = raw.match(
     /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(.+)$/i
   );
@@ -239,6 +309,32 @@ function parseIngredient(line: string): ParsedAmount {
   };
 }
 
+function normalizeCountableName(name: string): string {
+  const cleaned = cleanIngredientName(name);
+
+  if (COUNTABLE_PHRASES[cleaned]) return COUNTABLE_PHRASES[cleaned];
+
+  const words = cleaned.split(" ").filter(Boolean);
+  if (!words.length) return cleaned;
+
+  if (words.length === 1) {
+    const singular = singularizeWord(words[0]);
+    if (COUNTABLE_BASE_WORDS.has(singular)) return singular;
+  }
+
+  return cleaned;
+}
+
+function isCountableIngredient(name: string): boolean {
+  const normalized = normalizeCountableName(name);
+  if (normalized !== cleanIngredientName(name)) return true;
+
+  const words = normalized.split(" ").filter(Boolean);
+  if (!words.length) return false;
+
+  const firstWord = singularizeWord(words[0]);
+  return COUNTABLE_BASE_WORDS.has(firstWord);
+}
 
 function makeManualId(text: string) {
   return text
@@ -327,15 +423,13 @@ export default function ShoppingListPage() {
   const clearCheckedItems = () => {
     persistShoppingItems(shoppingItems.filter((item) => !item.checked));
   };
-const clearAllItems = () => {
-  const confirmed = window.confirm(
-    "Clear your entire shopping list?"
-  );
 
-  if (!confirmed) return;
+  const clearAllItems = () => {
+    const confirmed = window.confirm("Clear your entire shopping list?");
+    if (!confirmed) return;
+    persistShoppingItems([]);
+  };
 
-  persistShoppingItems([]);
-};
   const checkedCount = shoppingItems.filter((item) => item.checked).length;
 
   const combinedItems = useMemo(() => {
@@ -346,18 +440,26 @@ const clearAllItems = () => {
         category: GroceryCategory;
         sourceIds: string[];
         count: number;
-        quantities: number[];
-        units: Set<string>;
         name: string;
+        isCountable: boolean;
+        totalQuantity: number;
       }
     >();
 
     for (const item of shoppingItems) {
       const parsed = parseIngredient(item.text);
-      const name = parsed.name || cleanIngredientName(item.text);
-      const category = item.category || categorizeGroceryItem(name);
-      const mergeUnit = parsed.unit ?? "__raw__";
-      const key = `${category}::${mergeUnit}::${name}`;
+      const cleanedName = parsed.name || cleanIngredientName(item.text);
+      const isCountable = isCountableIngredient(cleanedName);
+      const normalizedName = isCountable
+        ? normalizeCountableName(cleanedName)
+        : cleanedName;
+
+      const category = item.category || categorizeGroceryItem(normalizedName);
+      const key = `${category}::${normalizedName}`;
+
+      const quantityToAdd = isCountable
+        ? parsed.quantity ?? 1
+        : 0;
 
       const existing = map.get(key);
 
@@ -365,13 +467,8 @@ const clearAllItems = () => {
         existing.sourceIds.push(item.id);
         existing.count += 1;
         existing.checked = existing.checked && item.checked;
-
-        if (parsed.quantity !== null) {
-          existing.quantities.push(parsed.quantity);
-        }
-
-        if (parsed.unit) {
-          existing.units.add(parsed.unit);
+        if (isCountable) {
+          existing.totalQuantity += quantityToAdd;
         }
       } else {
         map.set(key, {
@@ -379,40 +476,22 @@ const clearAllItems = () => {
           category,
           sourceIds: [item.id],
           count: 1,
-          quantities: parsed.quantity !== null ? [parsed.quantity] : [],
-          units: parsed.unit ? new Set([parsed.unit]) : new Set(),
-          name,
+          name: normalizedName,
+          isCountable,
+          totalQuantity: isCountable ? quantityToAdd : 0,
         });
       }
     }
 
     return Array.from(map.entries()).map(([key, value]) => {
-      const unitList = Array.from(value.units);
-
-      const canMergeQuantity =
-        value.quantities.length === value.count &&
-        unitList.length === 1 &&
-        value.quantities.length > 0;
-
       let displayText = value.name;
 
-      if (canMergeQuantity) {
-        const total = value.quantities.reduce((sum, q) => sum + q, 0);
-        const unit = unitList[0];
-
-        if (unit === "__count__") {
-          displayText = `${formatQuantity(total)} ${pluralizeIngredientName(
-            value.name,
-            total
-          )}`;
-        } else {
-          displayText = `${formatQuantity(total)} ${pluralizeUnit(
-            unit,
-            total
-          )} ${value.name}`;
-        }
-      } else if (value.count > 1) {
-        displayText = `${value.name} ×${value.count}`;
+      if (value.isCountable) {
+        const qty = value.totalQuantity > 0 ? value.totalQuantity : value.count;
+        displayText = `${formatQuantity(qty)} ${pluralizeCountable(
+          value.name,
+          qty
+        )}`;
       }
 
       return {
@@ -502,66 +581,65 @@ const clearAllItems = () => {
           }}
         >
           <button
-    onClick={() => setHideChecked((prev) => !prev)}
-    style={{
-      background: "rgba(255,255,255,0.06)",
-      border: "1px solid rgba(255,255,255,0.12)",
-      color: "white",
-      fontSize: 11,
-      fontWeight: 800,
-      padding: "6px 12px",
-      borderRadius: "999px",
-      display: "inline-flex",
-      alignItems: "center",
-      gap: 6,
-      letterSpacing: 0.3,
-    }}
-  >
-    {hideChecked ? <Eye size={14} /> : <EyeOff size={14} />}
-    {hideChecked ? "SHOW CHECKED" : "HIDE CHECKED"}
-  </button>
+            onClick={() => setHideChecked((prev) => !prev)}
+            style={{
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.12)",
+              color: "white",
+              fontSize: 11,
+              fontWeight: 800,
+              padding: "6px 12px",
+              borderRadius: "999px",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              letterSpacing: 0.3,
+            }}
+          >
+            {hideChecked ? <Eye size={14} /> : <EyeOff size={14} />}
+            {hideChecked ? "SHOW CHECKED" : "HIDE CHECKED"}
+          </button>
 
-  {/* NEW: CLEAR ALL */}
-  {shoppingItems.length > 0 && (
-    <button
-      onClick={clearAllItems}
-      style={{
-        background: "rgba(239,68,68,0.15)",
-        border: "1px solid rgba(239,68,68,0.3)",
-        color: "#ef4444",
-        fontSize: 11,
-        fontWeight: 800,
-        padding: "6px 12px",
-        borderRadius: "999px",
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 6,
-        letterSpacing: 0.3,
-      }}
-    >
-      CLEAR ALL
-    </button>
-  )}
+          {shoppingItems.length > 0 && (
+            <button
+              onClick={clearAllItems}
+              style={{
+                background: "rgba(239,68,68,0.15)",
+                border: "1px solid rgba(239,68,68,0.3)",
+                color: "#ef4444",
+                fontSize: 11,
+                fontWeight: 800,
+                padding: "6px 12px",
+                borderRadius: "999px",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                letterSpacing: 0.3,
+              }}
+            >
+              CLEAR ALL
+            </button>
+          )}
 
-  {checkedCount > 0 && (
-    <button
-      onClick={clearCheckedItems}
-      style={{
-        background: "rgba(239,68,68,0.1)",
-        border: "1px solid rgba(239,68,68,0.2)",
-        color: "#ef4444",
-        fontSize: 11,
-        fontWeight: 800,
-        padding: "6px 12px",
-        borderRadius: "999px",
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 6,
-        letterSpacing: 0.3,
-      }}
-    >
-      CLEAR CHECKED ({checkedCount})
-    </button>
+          {checkedCount > 0 && (
+            <button
+              onClick={clearCheckedItems}
+              style={{
+                background: "rgba(239,68,68,0.1)",
+                border: "1px solid rgba(239,68,68,0.2)",
+                color: "#ef4444",
+                fontSize: 11,
+                fontWeight: 800,
+                padding: "6px 12px",
+                borderRadius: "999px",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                letterSpacing: 0.3,
+              }}
+            >
+              CLEAR CHECKED ({checkedCount})
+            </button>
           )}
         </div>
 
