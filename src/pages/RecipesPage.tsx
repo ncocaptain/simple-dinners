@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Search,
@@ -11,12 +11,12 @@ import {
 } from "lucide-react";
 import Card from "../components/Card";
 import type { Meal, Effort } from "../core/types";
-import { ALL_RECIPES } from "../core/data";
+import { ALL_RECIPES, days } from "../core/data";
 import { getCookbook } from "../core/cookbookStore";
 
 type RecipesPageProps = {
   recipes?: Meal[];
-  onAddToWeek?: (meal: Meal) => void;
+  onAddToWeek?: (meal: Meal, day: string) => void;
   onAddToCookbook: (recipe: Meal) => {
     ok: boolean;
     already?: boolean;
@@ -80,6 +80,9 @@ export default function RecipesPage({
   const [cookbook, setCookbook] = useState<Meal[]>(() => getCookbook() as Meal[]);
   const [justAddedSlug, setJustAddedSlug] = useState<string | null>(null);
   const [saveMessage, setSaveMessage] = useState("");
+
+  const [dayPickerOpen, setDayPickerOpen] = useState(false);
+  const [selectedMealForWeek, setSelectedMealForWeek] = useState<Meal | null>(null);
 
   useEffect(() => {
     if (!saveMessage) return;
@@ -211,15 +214,22 @@ export default function RecipesPage({
     setSaveMessage("Could not save recipe");
   };
 
-  const handleAddToWeek = (recipe: Meal) => {
+  const handleOpenDayPicker = (recipe: Meal) => {
+    setSelectedMealForWeek(recipe);
+    setDayPickerOpen(true);
+  };
+
+  const handleSelectDay = (day: string) => {
+    if (!selectedMealForWeek) return;
+
     if (onAddToWeek) {
-      onAddToWeek(recipe);
-      return;
+      onAddToWeek(selectedMealForWeek, day);
+    } else if (selectedMealForWeek.slug) {
+      navigate(`/recipe/${selectedMealForWeek.slug}?from=%2Frecipes`);
     }
 
-    if (recipe.slug) {
-      navigate(`/recipe/${recipe.slug}?from=%2Frecipes`);
-    }
+    setDayPickerOpen(false);
+    setSelectedMealForWeek(null);
   };
 
   // =====================================================
@@ -529,6 +539,11 @@ export default function RecipesPage({
                     alt={recipe.name}
                     style={photoStyle}
                     onClick={() => handleOpenRecipe(recipe)}
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.onerror = null;
+                      target.style.display = "none";
+                    }}
                   />
                 ) : (
                   <div style={photoStyle} onClick={() => handleOpenRecipe(recipe)} />
@@ -605,7 +620,7 @@ export default function RecipesPage({
                     <button
                       type="button"
                       style={btnStyle}
-                      onClick={() => handleAddToWeek(recipe)}
+                      onClick={() => handleOpenDayPicker(recipe)}
                     >
                       <CalendarPlus size={14} />
                       Add to Week
@@ -631,6 +646,106 @@ export default function RecipesPage({
           </Card>
         )}
       </div>
+
+      {dayPickerOpen && selectedMealForWeek && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.65)",
+            zIndex: 3000,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 20,
+          }}
+          onClick={() => {
+            setDayPickerOpen(false);
+            setSelectedMealForWeek(null);
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: "100%",
+              maxWidth: 420,
+              background: "#1e293b",
+              borderRadius: 20,
+              padding: 20,
+              border: "1px solid rgba(255,255,255,0.08)",
+              boxShadow: "0 20px 50px rgba(0,0,0,0.35)",
+            }}
+          >
+            <h3
+              style={{
+                margin: "0 0 8px 0",
+                fontSize: 22,
+                fontWeight: 900,
+                color: "#f8fafc",
+              }}
+            >
+              Add to Week
+            </h3>
+
+            <p
+              style={{
+                margin: "0 0 18px 0",
+                color: "rgba(255,255,255,0.7)",
+                lineHeight: 1.5,
+              }}
+            >
+              Choose a day for <strong>{selectedMealForWeek.name}</strong>. If a meal
+              is already assigned, it will be replaced.
+            </p>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 10,
+              }}
+            >
+              {days.map((day) => (
+                <button
+                  key={day}
+                  onClick={() => handleSelectDay(day)}
+                  style={{
+                    padding: "12px 14px",
+                    borderRadius: 14,
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    background: "rgba(255,255,255,0.06)",
+                    color: "#fff",
+                    fontWeight: 800,
+                    cursor: "pointer",
+                  }}
+                >
+                  {day}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={() => {
+                setDayPickerOpen(false);
+                setSelectedMealForWeek(null);
+              }}
+              style={{
+                marginTop: 14,
+                width: "100%",
+                padding: "12px 14px",
+                borderRadius: 14,
+                border: "none",
+                background: "rgba(255,255,255,0.08)",
+                color: "#fff",
+                fontWeight: 800,
+                cursor: "pointer",
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -611,38 +611,27 @@ function AppContent() {
         <Route path="/feedback" element={<FeedbackForm />} />
 
         <Route
-          path="/recipes"
-          element={
-            <RecipesPage
-              onAddToCookbook={handleAddToCookbook}
-              onAddToWeek={(meal: Meal) => {
-                const firstOpenDay = days.find((day) => {
-                  const existing = meals[day];
-                  return !existing?.name?.trim();
-                });
+  path="/recipes"
+  element={
+    <RecipesPage
+      onAddToCookbook={handleAddToCookbook}
+      onAddToWeek={(meal: Meal, day: string) => {
+        const resolvedMeal = resolveMeal(meal, cookbook) ?? {
+          ...meal,
+          photoUrl:
+            normalizePhotoUrl(meal.photoUrl) || mealImageUrl(meal.name),
+        };
 
-                if (!firstOpenDay) {
-                  alert("Your week is already full. Clear a day first.");
-                  navigate("/week");
-                  return;
-                }
+        setMeals((prev) => ({
+          ...prev,
+          [day]: resolvedMeal,
+        }));
 
-                const resolvedMeal = resolveMeal(meal, cookbook) ?? {
-                  ...meal,
-                  photoUrl:
-                    normalizePhotoUrl(meal.photoUrl) || mealImageUrl(meal.name),
-                };
-
-                setMeals((prev) => ({
-                  ...prev,
-                  [firstOpenDay]: resolvedMeal,
-                }));
-
-                navigate("/week");
-              }}
-            />
-          }
-        />
+        navigate("/week");
+      }}
+    />
+  }
+/>
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
