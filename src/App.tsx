@@ -34,7 +34,7 @@ import {
 // Core
 import type { Effort, Meal, PantryItem, Preferences } from "./core/types";
 import { generatePlan } from "./core/planner";
-import { days } from "./core/data";
+import { days, ALL_RECIPES } from "./core/data";
 import {
   getCookbook,
   setCookbook as persistCookbook,
@@ -47,10 +47,108 @@ type CookbookRecipe = Meal & {
 
 const APP_VERSION = "22.0.7";
 
+// =====================================================
+// Builder: helpers
+// =====================================================
+
 const mealImageUrl = (name?: string) => {
   const q = encodeURIComponent((name || "cooking dinner").trim());
   return `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80&sig=1&meal=${q}`;
 };
+
+function normalizePhotoUrl(url?: string) {
+  if (!url) return "";
+
+  const trimmed = String(url).trim();
+  if (!trimmed) return "";
+
+  if (trimmed.startsWith("/images/")) {
+    return trimmed.replace(/\.(png|jpe?g)$/i, ".webp");
+  }
+
+  return trimmed;
+}
+
+function normalizeMealKey(value?: string) {
+  return String(value ?? "")
+    .trim()
+    .toLowerCase();
+}
+
+function findRecipeInSources(
+  meal: Meal | undefined,
+  cookbook: CookbookRecipe[]
+): Meal | null {
+  if (!meal) return null;
+
+  const slugKey = normalizeMealKey(meal.slug ?? meal.id);
+  const nameKey = normalizeMealKey(meal.name);
+
+  const builtInMatch =
+    ALL_RECIPES.find((recipe) => {
+      const recipeSlug = normalizeMealKey(recipe.slug ?? recipe.id);
+      const recipeName = normalizeMealKey(recipe.name);
+      return (
+        (slugKey && recipeSlug === slugKey) ||
+        (nameKey && recipeName === nameKey)
+      );
+    }) ?? null;
+
+  if (builtInMatch) return builtInMatch;
+
+  const cookbookMatch =
+    cookbook.find((recipe) => {
+      const recipeSlug = normalizeMealKey(recipe.slug ?? recipe.id);
+      const recipeName = normalizeMealKey(recipe.name);
+      return (
+        (slugKey && recipeSlug === slugKey) ||
+        (nameKey && recipeName === nameKey)
+      );
+    }) ?? null;
+
+  return cookbookMatch ?? null;
+}
+
+function resolveMeal(meal: Meal | undefined, cookbook: CookbookRecipe[]): Meal | undefined {
+  if (!meal) return meal;
+
+  const latest = findRecipeInSources(meal, cookbook);
+
+  const merged: Meal = latest
+    ? {
+        ...meal,
+        ...latest,
+      }
+    : {
+        ...meal,
+      };
+
+  return {
+    ...merged,
+    photoUrl: normalizePhotoUrl(merged.photoUrl) || mealImageUrl(merged.name),
+  };
+}
+
+function migrateSavedMeals(
+  rawMeals: Record<string, Meal>,
+  cookbook: CookbookRecipe[]
+): Record<string, Meal> {
+  const next: Record<string, Meal> = {};
+
+  for (const day of days) {
+    const meal = rawMeals?.[day];
+    if (!meal) continue;
+
+    const repaired = resolveMeal(meal, cookbook);
+    if (repaired) next[day] = repaired;
+  }
+
+  return next;
+}
+
+// =====================================================
+// Builder: back handler
+// =====================================================
 
 function BackHandler() {
   const navigate = useNavigate();
@@ -96,6 +194,10 @@ function BackHandler() {
 
   return null;
 }
+
+// =====================================================
+// Builder: navigation
+// =====================================================
 
 function Navigation() {
   const navigate = useNavigate();
@@ -168,6 +270,10 @@ function Navigation() {
   );
 }
 
+// =====================================================
+// Builder: app content
+// =====================================================
+
 function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -175,53 +281,6 @@ function AppContent() {
   const [showTesterPrompt, setShowTesterPrompt] = useState(false);
   const toastApi: any = useToast();
   const toast = toastApi.toast ?? toastApi;
-
-  useEffect(() => {
-    if (import.meta.env.PROD) {
-      const checkForUpdates = async () => {
-        try {
-          const response = await fetch(window.location.href, { method: "HEAD" });
-          const etag = response.headers.get("etag");
-          const lastEtag = localStorage.getItem("app-etag");
-
-          if (lastEtag && etag && lastEtag !== etag) {
-            localStorage.setItem("app-etag", etag);
-            toast("New update deployed! Reloading...");
-            setTimeout(() => window.location.reload(), 2000);
-          } else if (etag) {
-            localStorage.setItem("app-etag", etag);
-          }
-        } catch (e) {
-          console.log("Update check failed", e);
-        }
-      };
-
-      checkForUpdates();
-      window.addEventListener("focus", checkForUpdates);
-      return () => window.removeEventListener("focus", checkForUpdates);
-    }
-
-    const handleError = (e: ErrorEvent) => {
-      if (
-        e.message.includes("Loading chunk") ||
-        e.message.includes("Script error")
-      ) {
-        window.location.reload();
-      }
-    };
-
-    window.addEventListener("error", handleError, true);
-    return () => window.removeEventListener("error", handleError, true);
-  }, [toast]);
-
-  useEffect(() => {
-    const seenVersion = localStorage.getItem("seen-whats-new");
-
-    if (seenVersion !== APP_VERSION) {
-      navigate("/whats-new");
-      localStorage.setItem("seen-whats-new", APP_VERSION);
-    }
-  }, [navigate]);
 
   // =====================================================
   // Builder: state
@@ -231,7 +290,9 @@ function AppContent() {
 
   const [meals, setMeals] = useState<Record<string, Meal>>(() => {
     try {
-      return JSON.parse(localStorage.getItem("meals") || "{}");
+      const savedMeals = JSON.parse(localStorage.getItem("meals") || "{}");
+      const savedCookbook = getCookbook();
+      return migrateSavedMeals(savedMeals, savedCookbook);
     } catch {
       return {};
     }
@@ -283,17 +344,89 @@ function AppContent() {
   });
 
   // =====================================================
+  // Builder: update checks
+  // =====================================================
+
+  useEffect(() => {
+    if (import.meta.env.PROD) {
+      const checkForUpdates = async () => {
+        try {
+          const response = await fetch(window.location.href, { method: "HEAD" });
+          const etag = response.headers.get("etag");
+          const lastEtag = localStorage.getItem("app-etag");
+
+          if (lastEtag && etag && lastEtag !== etag) {
+            localStorage.setItem("app-etag", etag);
+            toast("New update deployed! Reloading...");
+            setTimeout(() => window.location.reload(), 2000);
+          } else if (etag) {
+            localStorage.setItem("app-etag", etag);
+          }
+        } catch (e) {
+          console.log("Update check failed", e);
+        }
+      };
+
+      checkForUpdates();
+      window.addEventListener("focus", checkForUpdates);
+      return () => window.removeEventListener("focus", checkForUpdates);
+    }
+
+    const handleError = (e: ErrorEvent) => {
+      if (
+        e.message.includes("Loading chunk") ||
+        e.message.includes("Script error")
+      ) {
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener("error", handleError, true);
+    return () => window.removeEventListener("error", handleError, true);
+  }, [toast]);
+
+  useEffect(() => {
+    const seenVersion = localStorage.getItem("seen-whats-new");
+
+    if (seenVersion !== APP_VERSION) {
+      navigate("/whats-new");
+      localStorage.setItem("seen-whats-new", APP_VERSION);
+    }
+  }, [navigate]);
+
+  // =====================================================
+  // Builder: repair meals when cookbook/library changes
+  // =====================================================
+
+  useEffect(() => {
+    setMeals((prev) => {
+      const repaired = migrateSavedMeals(prev, cookbook);
+
+      const prevJson = JSON.stringify(prev);
+      const repairedJson = JSON.stringify(repaired);
+
+      return prevJson === repairedJson ? prev : repaired;
+    });
+  }, [cookbook]);
+
+  // =====================================================
   // Builder: persistence
   // =====================================================
 
   useEffect(() => {
-    localStorage.setItem("meals", JSON.stringify(meals));
+    const normalizedMeals = migrateSavedMeals(meals, cookbook);
+
+    localStorage.setItem("meals", JSON.stringify(normalizedMeals));
     localStorage.setItem("daySettings", JSON.stringify(daySettings));
     localStorage.setItem("pantry", JSON.stringify(pantry));
     localStorage.setItem("lockedDays", JSON.stringify(lockedDays));
     localStorage.setItem("app-version", APP_VERSION);
     persistCookbook(cookbook);
-  }, [meals, daySettings, pantry, lockedDays, cookbook]);
+  }, [meals, cookbook, daySettings, pantry, lockedDays]);
+
+  useEffect(() => {
+    localStorage.setItem("prefs", JSON.stringify(prefs));
+  }, [prefs]);
 
   // =====================================================
   // Builder: cookbook actions
@@ -306,7 +439,9 @@ function AppContent() {
       return { ok: false as const, reason: "missing-slug" as const };
     }
 
-    const exists = cookbook.some((r) => (r.slug ?? r.id) === slug);
+    const exists = cookbook.some(
+      (r) => normalizeMealKey(r.slug ?? r.id) === normalizeMealKey(slug)
+    );
 
     if (exists) {
       return { ok: true as const, already: true as const };
@@ -320,7 +455,7 @@ function AppContent() {
       effort: recipe?.effort ?? "normal",
       ingredients: String(recipe?.ingredients ?? ""),
       instructions: String(recipe?.instructions ?? ""),
-      photoUrl: String(recipe?.photoUrl ?? ""),
+      photoUrl: normalizePhotoUrl(String(recipe?.photoUrl ?? "")),
       notes: String((recipe as any)?.notes ?? ""),
       tags: Array.isArray((recipe as any)?.tags) ? (recipe as any).tags : [],
       sourceUrl: String(recipe?.sourceUrl ?? ""),
@@ -334,8 +469,12 @@ function AppContent() {
   const addDayToCookbook = (day: string) => {
     const meal = meals[day];
     if (!meal?.name) return;
-    handleAddToCookbook(meal);
+    handleAddToCookbook(meal as CookbookRecipe);
   };
+
+  // =====================================================
+  // Builder: planner actions
+  // =====================================================
 
   const generateDinnerPlan = (force = false) => {
     const seedMeals = force
@@ -357,15 +496,19 @@ function AppContent() {
       preferences: prefs,
     });
 
-    const withPhotos = { ...next } as Record<string, Meal>;
+    const hydratedMeals: Record<string, Meal> = {};
 
     for (const d of days) {
-      if (withPhotos[d] && !withPhotos[d].photoUrl) {
-        withPhotos[d].photoUrl = mealImageUrl(withPhotos[d].name);
-      }
+      const meal = next[d];
+      if (!meal) continue;
+
+      hydratedMeals[d] = resolveMeal(meal, cookbook) ?? {
+        ...meal,
+        photoUrl: normalizePhotoUrl(meal.photoUrl) || mealImageUrl(meal.name),
+      };
     }
 
-    setMeals(withPhotos);
+    setMeals(hydratedMeals);
     navigate("/week");
   };
 
@@ -453,48 +596,53 @@ function AppContent() {
         />
 
         <Route
-  path="/recipe/:slug"
-  element={<RecipePage onAddToCookbook={handleAddToCookbook} />}
-/>
+          path="/recipe/:slug"
+          element={<RecipePage onAddToCookbook={handleAddToCookbook} />}
+        />
 
         <Route
           path="/shopping-list"
           element={requireOnboarding(<ShoppingListPage />)}
         />
 
-        
         <Route path="/settings" element={<Navigate to="/plan" replace />} />
         <Route path="/guide" element={<TestersGuidePage />} />
         <Route path="/whats-new" element={<WhatsNewPage />} />
         <Route path="/feedback" element={<FeedbackForm />} />
 
-       <Route
-  path="/recipes"
-  element={
-    <RecipesPage
-      onAddToCookbook={handleAddToCookbook}
-      onAddToWeek={(meal: Meal) => {
-        const firstOpenDay = days.find((day) => {
-          const existing = meals[day];
-          return !existing?.name?.trim();
-        });
+        <Route
+          path="/recipes"
+          element={
+            <RecipesPage
+              onAddToCookbook={handleAddToCookbook}
+              onAddToWeek={(meal: Meal) => {
+                const firstOpenDay = days.find((day) => {
+                  const existing = meals[day];
+                  return !existing?.name?.trim();
+                });
 
-        if (!firstOpenDay) {
-          alert("Your week is already full. Clear a day first.");
-          navigate("/week");
-          return;
-        }
+                if (!firstOpenDay) {
+                  alert("Your week is already full. Clear a day first.");
+                  navigate("/week");
+                  return;
+                }
 
-        setMeals((prev) => ({
-          ...prev,
-          [firstOpenDay]: meal,
-        }));
+                const resolvedMeal = resolveMeal(meal, cookbook) ?? {
+                  ...meal,
+                  photoUrl:
+                    normalizePhotoUrl(meal.photoUrl) || mealImageUrl(meal.name),
+                };
 
-        navigate("/week");
-      }}
-    />
-  }
-/>
+                setMeals((prev) => ({
+                  ...prev,
+                  [firstOpenDay]: resolvedMeal,
+                }));
+
+                navigate("/week");
+              }}
+            />
+          }
+        />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
