@@ -9,6 +9,7 @@ export type ShoppingItem = {
   checked: boolean;
   addedAt: number;
   category: GroceryCategory;
+  sourceRecipe?: string;
 };
 
 const KEY = "simple-dinners.shoppingList.v1";
@@ -104,7 +105,9 @@ export function loadShoppingList(): ShoppingItem[] {
 
   return items.map((item: any) => ({
     ...item,
-    category: item.category || categorizeGroceryItem(cleanIngredientForCategory(item.text || "")),
+    category:
+      item.category || categorizeGroceryItem(cleanIngredientForCategory(item.text || "")),
+    sourceRecipe: item.sourceRecipe || "",
   }));
 }
 
@@ -149,7 +152,7 @@ function makeId(text: string) {
 // Builder: add recipe ingredients to shopping list
 // =====================================================
 export function addIngredientsToList(
-  _recipeName: string,
+  recipeName: string,
   ingredients: string
 ): { items: ShoppingItem[]; addedCount: number } {
   const existing = loadShoppingList();
@@ -169,7 +172,7 @@ export function addIngredientsToList(
 
     const id = makeId(text.toLowerCase());
 
-    // Only skip exact same full ingredient line
+    // Keep exact-line dedupe behavior
     if (existingIds.has(id)) continue;
 
     newItems.push({
@@ -178,6 +181,7 @@ export function addIngredientsToList(
       checked: false,
       addedAt: now,
       category: categorizeGroceryItem(cleanIngredientForCategory(text)),
+      sourceRecipe: recipeName || "",
     });
 
     existingIds.add(id);

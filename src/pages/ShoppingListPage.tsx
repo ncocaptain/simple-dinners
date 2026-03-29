@@ -32,6 +32,7 @@ type CombinedItem = {
   category: GroceryCategory;
   sourceIds: string[];
   count: number;
+  recipeCount: number;
   recipeCountLabel: string;
   displayText: string;
 };
@@ -89,6 +90,40 @@ const COUNTABLE_PHRASES: Record<string, string> = {
   "pork chops": "pork chop",
 };
 
+const ALWAYS_SHOW_MEASURED_TOTALS = new Set([
+  "ground beef",
+  "beef",
+  "chicken",
+  "chicken breast",
+  "chicken thigh",
+  "pork",
+  "pork chop",
+  "sausage",
+  "bacon",
+  "turkey",
+  "shrimp",
+  "salmon",
+  "fish",
+  "cheddar cheese",
+  "mozzarella cheese",
+  "parmesan cheese",
+  "rice",
+  "pasta",
+]);
+
+const HIDE_MEASURED_TOTALS = new Set([
+  "salt",
+  "black pepper",
+  "pepper",
+  "garlic powder",
+  "onion powder",
+  "paprika",
+  "italian seasoning",
+  "cumin",
+  "chili powder",
+  "oregano",
+]);
+
 function parseFraction(value: string): number | null {
   const trimmed = value.trim();
 
@@ -109,6 +144,11 @@ function parseFraction(value: string): number | null {
   return Number.isFinite(n) ? n : null;
 }
 
+function formatQuantity(n: number): string {
+  if (Number.isInteger(n)) return String(n);
+  return n.toFixed(2).replace(/\.?0+$/, "");
+}
+
 function normalizeUnit(unit: string | null): string | null {
   if (!unit) return null;
 
@@ -124,6 +164,30 @@ function normalizeUnit(unit: string | null): string | null {
   if (["clove", "cloves"].includes(u)) return "clove";
 
   return u;
+}
+
+function pluralizeUnit(unit: string, quantity: number): string {
+  if (quantity === 1) {
+    if (unit === "lb") return "lb";
+    if (unit === "oz") return "oz";
+    if (unit === "cup") return "cup";
+    if (unit === "tbsp") return "tbsp";
+    if (unit === "tsp") return "tsp";
+    if (unit === "can") return "can";
+    if (unit === "package") return "package";
+    if (unit === "clove") return "clove";
+    return unit;
+  }
+
+  if (unit === "lb") return "lbs";
+  if (unit === "oz") return "oz";
+  if (unit === "cup") return "cups";
+  if (unit === "tbsp") return "tbsp";
+  if (unit === "tsp") return "tsp";
+  if (unit === "can") return "cans";
+  if (unit === "package") return "packages";
+  if (unit === "clove") return "cloves";
+  return `${unit}s`;
 }
 
 function singularizeWord(word: string): string {
@@ -194,11 +258,6 @@ function pluralizeCountable(name: string, quantity: number): string {
   };
 
   return irregular[name] || `${name}s`;
-}
-
-function formatQuantity(n: number): string {
-  if (Number.isInteger(n)) return String(n);
-  return n.toFixed(2).replace(/\.?0+$/, "");
 }
 
 function cleanIngredientName(line: string) {
@@ -336,6 +395,24 @@ function isCountableIngredient(name: string): boolean {
   return COUNTABLE_BASE_WORDS.has(firstWord);
 }
 
+function shouldShowMeasuredTotal(name: string, unit: string | null, total: number) {
+  const cleaned = cleanIngredientName(name);
+
+  if (!unit) return false;
+  if (HIDE_MEASURED_TOTALS.has(cleaned)) return false;
+  if (ALWAYS_SHOW_MEASURED_TOTALS.has(cleaned)) return true;
+
+  if (unit === "lb" || unit === "oz" || unit === "can" || unit === "package") {
+    return true;
+  }
+
+  if ((unit === "cup" || unit === "tbsp" || unit === "tsp") && total >= 2) {
+    return true;
+  }
+
+  return false;
+}
+
 function makeManualId(text: string) {
   return text
     .toLowerCase()
@@ -397,6 +474,7 @@ export default function ShoppingListPage() {
       checked: false,
       addedAt: Date.now(),
       category: categorizeGroceryItem(cleanedName),
+      sourceRecipe: "",
     };
 
     persistShoppingItems([...shoppingItems, added]);
@@ -443,6 +521,9 @@ export default function ShoppingListPage() {
         name: string;
         isCountable: boolean;
         totalQuantity: number;
+        unit: string | null;
+        mixedUnits: boolean;
+        recipeNames: Set<string>;
       }
     >();
 
@@ -455,11 +536,13 @@ export default function ShoppingListPage() {
         : cleanedName;
 
       const category = item.category || categorizeGroceryItem(normalizedName);
+      const mergeUnit = isCountable ? "__count__" : parsed.unit;
       const key = `${category}::${normalizedName}`;
 
-      const quantityToAdd = isCountable
-        ? parsed.quantity ?? 1
-        : 0;
+      const quantityToAdd =
+        parsed.quantity !== null ? parsed.quantity : isCountable ? 1 : 0;
+
+      const recipeName = String((item as any).sourceRecipe || "").trim();
 
       const existing = map.get(key);
 
@@ -467,8 +550,19 @@ export default function ShoppingListPage() {
         existing.sourceIds.push(item.id);
         existing.count += 1;
         existing.checked = existing.checked && item.checked;
-        if (isCountable) {
+
+        if (quantityToAdd > 0) {
           existing.totalQuantity += quantityToAdd;
+        }
+
+        if (existing.unit !== mergeUnit) {
+          if (existing.unit !== null || mergeUnit !== null) {
+            existing.mixedUnits = true;
+          }
+        }
+
+        if (recipeName) {
+          existing.recipeNames.add(recipeName);
         }
       } else {
         map.set(key, {
@@ -478,7 +572,10 @@ export default function ShoppingListPage() {
           count: 1,
           name: normalizedName,
           isCountable,
-          totalQuantity: isCountable ? quantityToAdd : 0,
+          totalQuantity: quantityToAdd,
+          unit: mergeUnit ?? null,
+          mixedUnits: false,
+          recipeNames: recipeName ? new Set([recipeName]) : new Set(),
         });
       }
     }
@@ -492,7 +589,21 @@ export default function ShoppingListPage() {
           value.name,
           qty
         )}`;
+      } else if (
+        !value.mixedUnits &&
+        value.unit &&
+        value.totalQuantity > 0 &&
+        shouldShowMeasuredTotal(value.name, value.unit, value.totalQuantity)
+      ) {
+        displayText = `${formatQuantity(value.totalQuantity)} ${pluralizeUnit(
+          value.unit,
+          value.totalQuantity
+        )} ${value.name}`;
+      } else {
+        displayText = value.name;
       }
+
+      const recipeCount = value.recipeNames.size;
 
       return {
         id: key,
@@ -500,7 +611,8 @@ export default function ShoppingListPage() {
         category: value.category,
         sourceIds: value.sourceIds,
         count: value.count,
-        recipeCountLabel: value.count > 1 ? `(${value.count} recipes)` : "",
+        recipeCount,
+        recipeCountLabel: recipeCount > 1 ? `(${recipeCount} recipes)` : "",
         displayText,
       } satisfies CombinedItem;
     });
