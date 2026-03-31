@@ -243,8 +243,11 @@ function Navigation() {
         display: "flex",
         justifyContent: "center",
         position: "fixed",
-        bottom: 24,
+        left: 0,
+        right: 0,
+        bottom: "calc(env(safe-area-inset-bottom, 0px) + 12px)",
         zIndex: 1000,
+        pointerEvents: "none",
       }}
     >
       <div
@@ -257,6 +260,7 @@ function Navigation() {
           borderRadius: "32px",
           border: "1px solid rgba(255,255,255,0.1)",
           boxShadow: "0 12px 30px -5px rgba(0,0,0,0.5)",
+          pointerEvents: "auto",
         }}
       >
         {navItem("/", Home, "Home")}
@@ -516,7 +520,14 @@ function AppContent() {
     hasCompletedOnboarding() ? element : <Navigate to="/onboarding" replace />;
 
   return (
-    <div style={{ minHeight: "100vh", paddingBottom: hideBottomNav ? 24 : 110 }}>
+    <div
+  style={{
+    minHeight: "100vh",
+    paddingBottom: hideBottomNav
+      ? "24px"
+      : "calc(100px + env(safe-area-inset-bottom, 0px))",
+  }}
+>
       <BackHandler />
 
       <header
