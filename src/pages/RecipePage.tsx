@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   Printer,
@@ -12,6 +12,8 @@ import {
   CheckCircle2,
   BookOpen,
   Timer,
+  Moon,
+  ChefHat,
 } from "lucide-react";
 
 import { getRecipeBySlug } from "../core/recipes";
@@ -50,6 +52,16 @@ function normalizePhotoUrl(url?: string) {
 
 function extractTimerSeconds(text: string): number | null {
   const lower = text.toLowerCase();
+
+  const rangeHourMinuteMatch = lower.match(
+    /(\d+)\s*(hour|hours|hr|hrs)\s*(\d+)\s*(minute|minutes|min|mins)/i
+  );
+  if (rangeHourMinuteMatch) {
+    return (
+      parseInt(rangeHourMinuteMatch[1], 10) * 3600 +
+      parseInt(rangeHourMinuteMatch[3], 10) * 60
+    );
+  }
 
   const hourMatch = lower.match(/(\d+)\s*(hour|hours|hr|hrs)/i);
   const minuteMatch = lower.match(/(\d+)\s*(minute|minutes|min|mins)/i);
@@ -118,14 +130,30 @@ function playTimerDoneSound() {
     oscillator.frequency.setValueAtTime(880, ctx.currentTime);
 
     gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.15, ctx.currentTime + 0.02);
-    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.6);
+    gain.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.22);
 
     oscillator.connect(gain);
     gain.connect(ctx.destination);
 
     oscillator.start();
-    oscillator.stop(ctx.currentTime + 0.6);
+    oscillator.stop(ctx.currentTime + 0.22);
+
+    const oscillator2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+
+    oscillator2.type = "sine";
+    oscillator2.frequency.setValueAtTime(1174, ctx.currentTime + 0.25);
+
+    gain2.gain.setValueAtTime(0.0001, ctx.currentTime + 0.22);
+    gain2.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + 0.28);
+    gain2.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.65);
+
+    oscillator2.connect(gain2);
+    gain2.connect(ctx.destination);
+
+    oscillator2.start(ctx.currentTime + 0.22);
+    oscillator2.stop(ctx.currentTime + 0.65);
   } catch {
     // ignore audio failures
   }
@@ -181,6 +209,9 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   const [timerRunning, setTimerRunning] = useState(false);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchEndX, setTouchEndX] = useState<number | null>(null);
+  const [keepAwake, setKeepAwake] = useState(false);
+  const [finishMessage, setFinishMessage] = useState("");
+  const wakeLockRef = useRef<any>(null);
 
   // =====================================================
   // Builder: empty state
@@ -254,6 +285,7 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   const photoUrl = normalizePhotoUrl(safeRecipe.photoUrl);
   const currentStep = instructions[stepIndex] || "";
   const detectedTimerSeconds = extractTimerSeconds(currentStep);
+  const isLastStep = instructions.length > 0 && stepIndex >= instructions.length - 1;
 
   const stepIngredients = useMemo(() => {
     if (!currentStep) return [];
@@ -293,6 +325,12 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   }, [saveMessage]);
 
   useEffect(() => {
+    if (!finishMessage) return;
+    const t = window.setTimeout(() => setFinishMessage(""), 2600);
+    return () => window.clearTimeout(t);
+  }, [finishMessage]);
+
+  useEffect(() => {
     if (savedState === "idle") return;
     const t = window.setTimeout(() => setSavedState("idle"), 1400);
     return () => window.clearTimeout(t);
@@ -308,11 +346,12 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
         if (prev <= 1) {
           window.clearInterval(t);
           setTimerRunning(false);
+          setTimerSeconds(null);
           setSaveMessage("⏱️ Timer done!");
           playTimerDoneSound();
 
           if ("vibrate" in navigator) {
-            navigator.vibrate?.([200, 100, 200]);
+            navigator.vibrate?.([200, 100, 200, 100, 300]);
           }
 
           return null;
@@ -324,6 +363,79 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
 
     return () => window.clearInterval(t);
   }, [timerRunning, timerSeconds]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function syncWakeLock() {
+      try {
+        if (
+          keepAwake &&
+          cookMode &&
+          "wakeLock" in navigator &&
+          !wakeLockRef.current
+        ) {
+          const sentinel = await (navigator as any).wakeLock.request("screen");
+          if (!cancelled) {
+            wakeLockRef.current = sentinel;
+
+            sentinel.addEventListener?.("release", () => {
+              wakeLockRef.current = null;
+            });
+          }
+        }
+
+        if ((!keepAwake || !cookMode) && wakeLockRef.current) {
+          await wakeLockRef.current.release?.();
+          wakeLockRef.current = null;
+        }
+      } catch {
+        if (keepAwake) {
+          setSaveMessage("Screen awake not supported on this device");
+          setKeepAwake(false);
+        }
+      }
+    }
+
+    syncWakeLock();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [keepAwake, cookMode]);
+
+  useEffect(() => {
+    const handleVisibilityChange = async () => {
+      if (
+        document.visibilityState === "visible" &&
+        keepAwake &&
+        cookMode &&
+        "wakeLock" in navigator &&
+        !wakeLockRef.current
+      ) {
+        try {
+          wakeLockRef.current = await (navigator as any).wakeLock.request(
+            "screen"
+          );
+        } catch {
+          // ignore
+        }
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, [keepAwake, cookMode]);
+
+  useEffect(() => {
+    return () => {
+      if (wakeLockRef.current) {
+        wakeLockRef.current.release?.();
+        wakeLockRef.current = null;
+      }
+    };
+  }, []);
 
   // =====================================================
   // Builder: actions
@@ -351,7 +463,9 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
           url: shareUrl,
         });
         return;
-      } catch {}
+      } catch {
+        // ignore cancelled share
+      }
     }
 
     await navigator.clipboard.writeText(shareUrl);
@@ -427,6 +541,17 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
     setSaveMessage("Cook recorded ✓");
   };
 
+  const handleFinishCooking = () => {
+    if (safeRecipe.slug) {
+      recordCook(safeRecipe.slug);
+      const history = getCookHistoryFor(safeRecipe.slug);
+      setHistoryCount(history?.timesCooked ?? 0);
+    }
+
+    setFinishMessage("Dinner is ready 🎉");
+    setSaveMessage("Recipe finished ✓");
+  };
+
   const handleStartTimer = () => {
     if (!detectedTimerSeconds) return;
     setTimerSeconds(detectedTimerSeconds);
@@ -500,6 +625,20 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
     gap: 8,
   };
 
+  const cookChipBtn: React.CSSProperties = {
+    border: "1px solid rgba(255,255,255,0.08)",
+    background: "rgba(255,255,255,0.04)",
+    color: "white",
+    borderRadius: 999,
+    padding: "10px 14px",
+    fontWeight: 800,
+    cursor: "pointer",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 8,
+    fontSize: 13,
+  };
+
   // =====================================================
   // Builder: render
   // =====================================================
@@ -507,7 +646,7 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   return (
     <div style={pageWrap}>
       <div style={innerWrap}>
-        {!printMode && (
+        {!printMode && !cookMode && (
           <>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
               <button onClick={handleBack} style={topBtn}>
@@ -568,9 +707,9 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
                 Add Ingredients
               </button>
 
-              <button onClick={() => setCookMode((v) => !v)} style={topBtn}>
+              <button onClick={() => setCookMode(true)} style={topBtn}>
                 <Play size={16} />
-                {cookMode ? "Exit Cook Mode" : "Cook Mode"}
+                Cook Mode
               </button>
 
               <button onClick={handleCooked} style={topBtn}>
@@ -593,6 +732,87 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
                 }}
               >
                 {saveMessage}
+              </div>
+            )}
+          </>
+        )}
+
+        {!printMode && cookMode && (
+          <>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 10,
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                <button onClick={() => setCookMode(false)} style={topBtn}>
+                  <ArrowLeft size={16} />
+                  Exit Cook Mode
+                </button>
+
+                <button onClick={handleCooked} style={topBtn}>
+                  <History size={16} />
+                  Mark Cooked
+                </button>
+              </div>
+
+              <button
+                onClick={() => setKeepAwake((v) => !v)}
+                style={{
+                  ...cookChipBtn,
+                  border: keepAwake
+                    ? "1px solid rgba(34,197,94,0.45)"
+                    : cookChipBtn.border,
+                  background: keepAwake
+                    ? "rgba(34,197,94,0.12)"
+                    : cookChipBtn.background,
+                  color: keepAwake ? "#86efac" : "white",
+                }}
+              >
+                <Moon size={15} />
+                {keepAwake ? "Screen Awake On" : "Keep Screen Awake"}
+              </button>
+            </div>
+
+            {(saveMessage || finishMessage) && (
+              <div style={{ display: "grid", gap: 10 }}>
+                {saveMessage && (
+                  <div
+                    style={{
+                      padding: "10px 14px",
+                      borderRadius: 12,
+                      background: "rgba(34,197,94,0.12)",
+                      border: "1px solid rgba(34,197,94,0.35)",
+                      color: "#86efac",
+                      fontSize: 13,
+                      fontWeight: 800,
+                      width: "fit-content",
+                    }}
+                  >
+                    {saveMessage}
+                  </div>
+                )}
+
+                {finishMessage && (
+                  <div
+                    style={{
+                      padding: "12px 16px",
+                      borderRadius: 14,
+                      background: "rgba(250,204,21,0.12)",
+                      border: "1px solid rgba(250,204,21,0.35)",
+                      color: "#fde68a",
+                      fontSize: 14,
+                      fontWeight: 900,
+                      width: "fit-content",
+                    }}
+                  >
+                    {finishMessage}
+                  </div>
+                )}
               </div>
             )}
           </>
@@ -657,12 +877,34 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
               gap: 16,
             }}
           >
-            <div style={{ fontSize: 13, opacity: 0.6, fontWeight: 800 }}>
-              Step {instructions.length ? stepIndex + 1 : 0} of{" "}
-              {instructions.length}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                gap: 12,
+                alignItems: "center",
+                flexWrap: "wrap",
+              }}
+            >
+              <div style={{ fontSize: 13, opacity: 0.6, fontWeight: 800 }}>
+                Step {instructions.length ? stepIndex + 1 : 0} of{" "}
+                {instructions.length}
+              </div>
+
+              {detectedTimerSeconds && timerSeconds === null && (
+                <div style={{ fontSize: 12, opacity: 0.55, fontWeight: 700 }}>
+                  Timer detected for this step
+                </div>
+              )}
             </div>
 
-            <div style={{ fontSize: 22, lineHeight: 1.5, fontWeight: 800 }}>
+            <div
+              style={{
+                fontSize: 24,
+                lineHeight: 1.55,
+                fontWeight: 900,
+              }}
+            >
               {currentStep || "No instructions available."}
             </div>
 
@@ -721,7 +963,7 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
                   Timer
                 </div>
 
-                <div style={{ fontSize: 28, fontWeight: 1000 }}>
+                <div style={{ fontSize: 30, fontWeight: 1000 }}>
                   {timerSeconds !== null
                     ? formatTimer(timerSeconds)
                     : detectedTimerSeconds
@@ -762,18 +1004,33 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
                 Previous
               </button>
 
-              <button
-                onClick={() =>
-                  setStepIndex((v) =>
-                    Math.min(instructions.length - 1, v + 1)
-                  )
-                }
-                style={topBtn}
-                disabled={stepIndex >= instructions.length - 1}
-              >
-                Next
-                <ChevronRight size={16} />
-              </button>
+              {!isLastStep ? (
+                <button
+                  onClick={() =>
+                    setStepIndex((v) =>
+                      Math.min(instructions.length - 1, v + 1)
+                    )
+                  }
+                  style={topBtn}
+                  disabled={stepIndex >= instructions.length - 1}
+                >
+                  Next
+                  <ChevronRight size={16} />
+                </button>
+              ) : (
+                <button
+                  onClick={handleFinishCooking}
+                  style={{
+                    ...topBtn,
+                    border: "1px solid rgba(34,197,94,0.45)",
+                    background: "rgba(34,197,94,0.12)",
+                    color: "#86efac",
+                  }}
+                >
+                  <ChefHat size={16} />
+                  Finish Cooking
+                </button>
+              )}
             </div>
           </div>
         ) : (
