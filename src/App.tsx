@@ -525,7 +525,7 @@ function AppContent() {
     minHeight: "100vh",
     paddingBottom: hideBottomNav
       ? "24px"
-      : "calc(100px + env(safe-area-inset-bottom, 0px))",
+      : "calc(110px + env(safe-area-inset-bottom, 0px))",
   }}
 >
       <BackHandler />
