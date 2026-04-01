@@ -245,7 +245,8 @@ function Navigation() {
         position: "fixed",
         left: 0,
         right: 0,
-        bottom: "calc(env(safe-area-inset-bottom, 0px) + 12px)",
+        bottom: "calc(env(safe-area-inset-bottom, 0px) + 22px)",
+        boxShadow: "0 16px 40px -8px rgba(0,0,0,0.6)",
         zIndex: 1000,
         pointerEvents: "none",
       }}
@@ -525,7 +526,7 @@ function AppContent() {
     minHeight: "100vh",
     paddingBottom: hideBottomNav
       ? "24px"
-      : "calc(110px + env(safe-area-inset-bottom, 0px))",
+      : "calc(120px + env(safe-area-inset-bottom, 0px))",
   }}
 >
       <BackHandler />
