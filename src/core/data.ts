@@ -1360,30 +1360,7 @@ Bake uncovered for 50 minutes.
 Top with fresh fruit if desired.`,
   notes: "Perfect make-ahead breakfast for holidays or weekends.",
 },
-{
-  id: "quick-captains-wing-rub",
-  slug: "quick-captains-wing-rub",
-  name: "Captain's Wing Rub",
-  photoUrl: "/images/quick-captains-wing-rub.webp",
-  effort: "quick",
-  tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian", "wings" ],
-  ingredients: `2 tbsp smoked paprika
-1 1/2 tbsp cayenne pepper
-1 tsp ancho chili powder
-1 tsp garlic powder
-1 tsp onion powder
-1 tsp fine sea salt
-1/2 tsp citric acid
-1/2 tsp cumin
-1/4 tsp chipotle powder
-1/2 tsp jalapeno pepper flakes`,
-  instructions: `Combine all ingredients in a bowl.
 
-Mix thoroughly and store in an airtight container.
-
-Use as a dry rub or seasoning for wings and meats.`,
-  notes: "Bold, spicy, and tangy. Great for wings or grilled meats.",
-},
 {
   id: "big-crispy-chicken-wings",
   slug: "big-crispy-chicken-wings",
@@ -1568,44 +1545,30 @@ Use in place of one store-bought chili seasoning packet.`,
   },
 
   {
-    id: "normal-spinach-mushroom-feta-crustless-quiche",
-    slug: "normal-spinach-mushroom-feta-crustless-quiche",
-    name: "Spinach Mushroom Feta Crustless Quiche",
-    effort: "normal",
-    photoUrl: "/images/normal-spinach-mushroom-feta-crustless-quiche.webp",
-    tags: ["breakfast", "brunch", "vegetarian", "bake", "meal-prep", "healthy"],
-    notes: "A good breakfast-for-dinner or meal-prep option with lots of savory flavor.",
-    ingredients: `1 (10 oz) bag spinach
-8 oz baby bella mushrooms, sliced
-1 clove garlic, minced
-1/8 tsp salt
-1 Tbsp cooking oil, divided
-2 oz feta cheese, crumbled
-4 large eggs
-1/4 cup grated Parmesan cheese
-1/4 tsp black pepper
-1 cup milk
-1/2 cup shredded mozzarella`,
-    instructions: `Preheat oven to 350°F.
+  id: "quick-captains-wing-rub",
+  slug: "quick-captains-wing-rub",
+  name: "Captain's Wing Rub",
+  photoUrl: "/images/quick-captains-wing-rub.webp",
+  effort: "quick",
+  tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian", "wings" ],
+  ingredients: `2 tbsp smoked paprika
+1 1/2 tbsp cayenne pepper
+1 tsp ancho chili powder
+1 tsp garlic powder
+1 tsp onion powder
+1 tsp fine sea salt
+1/2 tsp citric acid
+1/2 tsp cumin
+1/4 tsp chipotle powder
+1/2 tsp jalapeno pepper flakes`,
+  instructions: `Combine all ingredients in a bowl.
 
-Rinse mushrooms and slice thinly. Mince garlic.
+Mix thoroughly and store in an airtight container.
 
-In a skillet over medium heat, add mushrooms, garlic, salt, and 1/2 Tbsp cooking oil.
-Sauté until mushrooms release moisture and it fully evaporates. No liquid should remain.
+Use as a dry rub or seasoning for wings and meats.`,
+  notes: "Bold, spicy, and tangy. Great for wings or grilled meats.",
+},
 
-Brush remaining 1/2 Tbsp oil inside a 9-inch pie plate.
-
-Layer cooked mushrooms, fresh spinach, and crumbled feta into the pie plate.
-
-In a large bowl, whisk together eggs, Parmesan, black pepper, and milk.
-
-Pour egg mixture evenly over the vegetables and cheese.
-Top with shredded mozzarella.
-
-Bake for about 50 minutes, or until golden on top and internal temperature reaches 160°F.
-
-Let rest slightly before slicing and serving.`,
-  },
 
   {
     id: "quick-sausage-muffins",
@@ -2636,6 +2599,46 @@ In a large bowl, combine noodles, eggs, milk, cooked onions and mushrooms, cream
 Transfer to a baking dish and cover with foil. Bake for 1 hour.
 
 Remove foil, top with remaining cheese, and bake uncovered for 5 to 10 minutes until cheese is melted.`,
+  },
+
+  {
+    id: "normal-spinach-mushroom-feta-crustless-quiche",
+    slug: "normal-spinach-mushroom-feta-crustless-quiche",
+    name: "Spinach Mushroom Feta Crustless Quiche",
+    effort: "normal",
+    photoUrl: "/images/normal-spinach-mushroom-feta-crustless-quiche.webp",
+    tags: ["breakfast", "brunch", "dinner","vegetarian", "bake", "meal-prep", "healthy"],
+    notes: "A good breakfast-for-dinner or meal-prep option with lots of savory flavor.",
+    ingredients: `1 (10 oz) bag spinach
+8 oz baby bella mushrooms, sliced
+1 clove garlic, minced
+1/8 tsp salt
+1 Tbsp cooking oil, divided
+2 oz feta cheese, crumbled
+4 large eggs
+1/4 cup grated Parmesan cheese
+1/4 tsp black pepper
+1 cup milk
+1/2 cup shredded mozzarella`,
+    instructions: `Preheat oven to 350°F.
+
+Rinse mushrooms and slice thinly. Mince garlic.
+
+In a skillet over medium heat, add mushrooms, garlic, salt, and 1/2 Tbsp cooking oil.
+Sauté until mushrooms release moisture and it fully evaporates. No liquid should remain.
+
+Brush remaining 1/2 Tbsp oil inside a 9-inch pie plate.
+
+Layer cooked mushrooms, fresh spinach, and crumbled feta into the pie plate.
+
+In a large bowl, whisk together eggs, Parmesan, black pepper, and milk.
+
+Pour egg mixture evenly over the vegetables and cheese.
+Top with shredded mozzarella.
+
+Bake for about 50 minutes, or until golden on top and internal temperature reaches 160°F.
+
+Let rest slightly before slicing and serving.`,
   },
 
    {

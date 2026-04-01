@@ -25,6 +25,21 @@ type TooltipPosition = {
   width: number;
 };
 
+function createLeftoversMeal(day: string): Meal {
+  return {
+    id: `leftovers-${day.toLowerCase()}`,
+    slug: `leftovers-${day.toLowerCase()}`,
+    name: "Leftovers",
+    ingredients: "",
+    instructions: "",
+    notes: "Use what’s already in the fridge.",
+    effort: "quick" as any,
+    tags: ["leftovers"],
+    photoUrl: "/images/leftovers.webp",
+    isLeftovers: true as any,
+  } as Meal;
+}
+
 export default function WeekPage({
   meals,
   setMeals,
@@ -53,10 +68,6 @@ export default function WeekPage({
   const generatePlanRef = useRef<HTMLButtonElement | null>(null);
   const firstLockRef = useRef<HTMLButtonElement | null>(null);
   const wholeWeekCalendarRef = useRef<HTMLButtonElement | null>(null);
-
-  // =====================================================
-  // Builder: first-time onboarding + walkthrough trigger
-  // =====================================================
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -102,10 +113,6 @@ export default function WeekPage({
       return (prev + 1) as WalkthroughStep;
     });
   }
-
-  // =====================================================
-  // Builder: walkthrough targeting + positioning
-  // =====================================================
 
   const activeTargetRef = useMemo(() => {
     if (walkthroughStep === 1) return generatePlanRef;
@@ -194,10 +201,6 @@ export default function WeekPage({
     };
   }
 
-  // =====================================================
-  // Builder: helpers (sharing + utilities)
-  // =====================================================
-
   function normalizePhotoUrl(url?: string) {
     if (!url) return "";
 
@@ -220,6 +223,13 @@ export default function WeekPage({
       delete next[day];
       return next;
     });
+  };
+
+  const setLeftovers = (day: string) => {
+    setMeals((prev) => ({
+      ...prev,
+      [day]: createLeftoversMeal(day),
+    }));
   };
 
   function pad2(n: number) {
@@ -356,10 +366,6 @@ export default function WeekPage({
 
     URL.revokeObjectURL(url);
   }
-
-  // =====================================================
-  // Builder: share week
-  // =====================================================
 
   function shareWeekPlan() {
     const lines = days
@@ -517,6 +523,7 @@ export default function WeekPage({
           <div style={{ display: "grid", gap: 16 }}>
             {days.map((day, index) => {
               const meal = meals[day];
+              const isLeftovers = !!(meal as any)?.isLeftovers;
               const hasMeal = !!meal?.name?.trim();
               const isLocked = !!lockedDays[day];
               const mealPhotoUrl = normalizePhotoUrl(meal?.photoUrl);
@@ -584,18 +591,20 @@ export default function WeekPage({
                     {hasMeal ? (
                       <>
                         <div
-                          onClick={() =>
-                            navigate(
-                              `/recipe/${encodeURIComponent(
-                                meal.slug || meal.name || ""
-                              )}?from=/week`
-                            )
-                          }
+                          onClick={() => {
+                            if (!isLeftovers) {
+                              navigate(
+                                `/recipe/${encodeURIComponent(
+                                  meal.slug || meal.name || ""
+                                )}?from=/week`
+                              );
+                            }
+                          }}
                           style={{
                             display: "flex",
                             gap: 16,
                             alignItems: "center",
-                            cursor: "pointer",
+                            cursor: isLeftovers ? "default" : "pointer",
                           }}
                         >
                           {mealPhotoUrl ? (
@@ -639,8 +648,9 @@ export default function WeekPage({
                                 lineHeight: 1.2,
                               }}
                             >
-                              {meal.name}
+                              {isLeftovers ? "Leftovers Night" : meal.name}
                             </div>
+
                             <div
                               style={{
                                 fontSize: 13,
@@ -651,14 +661,18 @@ export default function WeekPage({
                               }}
                             >
                               <ChefHat size={14} />
-                              Tap for Details
+                              {isLeftovers
+                                ? "No cooking tonight 👍"
+                                : "Tap for Details"}
                             </div>
                           </div>
 
-                          <ChevronRight
-                            size={20}
-                            style={{ opacity: 0.2, flexShrink: 0 }}
-                          />
+                          {!isLeftovers && (
+                            <ChevronRight
+                              size={20}
+                              style={{ opacity: 0.2, flexShrink: 0 }}
+                            />
+                          )}
                         </div>
 
                         <div
@@ -694,25 +708,75 @@ export default function WeekPage({
                         </div>
                       </>
                     ) : (
-                      <div
-                        onClick={() => navigate("/cookbook")}
-                        style={{
-                          padding: "24px",
-                          borderRadius: "18px",
-                          border: "2px dashed rgba(255,255,255,0.1)",
-                          textAlign: "center",
-                          cursor: "pointer",
-                          color: "rgba(255,255,255,0.4)",
-                          fontWeight: 700,
-                        }}
-                      >
-                        <Plus size={24} style={{ marginBottom: 6 }} />
-                        <div>Pick a meal from Cookbook</div>
+                      <div style={{ display: "grid", gap: 10 }}>
+                        <div
+                          onClick={() => navigate("/cookbook")}
+                          style={{
+                            padding: "24px",
+                            borderRadius: "18px",
+                            border: "2px dashed rgba(255,255,255,0.1)",
+                            textAlign: "center",
+                            cursor: "pointer",
+                            color: "rgba(255,255,255,0.4)",
+                            fontWeight: 700,
+                          }}
+                        >
+                          <Plus size={24} style={{ marginBottom: 6 }} />
+                          <div>Pick a meal from Cookbook</div>
+                        </div>
+
+                        <button
+                          onClick={() => setLeftovers(day)}
+                          style={{
+                            padding: "12px",
+                            borderRadius: "14px",
+                            background: "rgba(234,179,8,0.12)",
+                            color: "#facc15",
+                            border: "none",
+                            fontWeight: 800,
+                            cursor: "pointer",
+                          }}
+                        >
+                          <Utensils
+                            size={16}
+                            style={{ marginRight: 6, marginBottom: -3 }}
+                          />
+                          Set as Leftovers
+                        </button>
                       </div>
                     )}
 
                     {hasMeal && !isLocked && (
-                      <div style={{ display: "flex", gap: 10, marginTop: 4 }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: 10,
+                          marginTop: 4,
+                          flexWrap: "wrap",
+                        }}
+                      >
+                        {!isLeftovers && (
+                          <button
+                            onClick={() => setLeftovers(day)}
+                            style={{
+                              flex: 1,
+                              padding: "12px",
+                              borderRadius: "14px",
+                              background: "rgba(234,179,8,0.12)",
+                              color: "#facc15",
+                              border: "none",
+                              fontWeight: 800,
+                              cursor: "pointer",
+                            }}
+                          >
+                            <Utensils
+                              size={16}
+                              style={{ marginBottom: -3, marginRight: 4 }}
+                            />
+                            Leftovers
+                          </button>
+                        )}
+
                         <button
                           onClick={() => clearDay(day)}
                           style={{
@@ -733,21 +797,23 @@ export default function WeekPage({
                           Remove
                         </button>
 
-                        <button
-                          onClick={() => addDayToCookbook(day)}
-                          style={{
-                            flex: 1,
-                            padding: "12px",
-                            borderRadius: "14px",
-                            background: "rgba(34,197,94,0.1)",
-                            color: "#22c55e",
-                            border: "none",
-                            fontWeight: 800,
-                            cursor: "pointer",
-                          }}
-                        >
-                          Save Recipe
-                        </button>
+                        {!isLeftovers && (
+                          <button
+                            onClick={() => addDayToCookbook(day)}
+                            style={{
+                              flex: 1,
+                              padding: "12px",
+                              borderRadius: "14px",
+                              background: "rgba(34,197,94,0.1)",
+                              color: "#22c55e",
+                              border: "none",
+                              fontWeight: 800,
+                              cursor: "pointer",
+                            }}
+                          >
+                            Save Recipe
+                          </button>
+                        )}
                       </div>
                     )}
                   </div>
