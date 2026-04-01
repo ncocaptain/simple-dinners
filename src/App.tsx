@@ -147,6 +147,22 @@ function migrateSavedMeals(
 }
 
 // =====================================================
+// Builder: adaptive bottom inset
+// =====================================================
+
+function getAdaptiveBottomInset() {
+  if (typeof window === "undefined" || typeof navigator === "undefined") {
+    return 20;
+  }
+
+  const ua = navigator.userAgent.toLowerCase();
+  const isSamsung = ua.includes("samsung");
+
+  // Samsung needs more breathing room
+  return isSamsung ? 26 : 16;
+}
+
+// =====================================================
 // Builder: back handler
 // =====================================================
 
@@ -203,6 +219,8 @@ function Navigation() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const adaptiveInset = getAdaptiveBottomInset();
+
   const navItem = (path: string, Icon: any, label: string) => {
     const isActive = location.pathname === path;
 
@@ -245,8 +263,7 @@ function Navigation() {
         position: "fixed",
         left: 0,
         right: 0,
-        bottom: "calc(env(safe-area-inset-bottom, 0px) + 22px)",
-        boxShadow: "0 16px 40px -8px rgba(0,0,0,0.6)",
+        bottom: `calc(env(safe-area-inset-bottom, 0px) + ${adaptiveInset}px)`,
         zIndex: 1000,
         pointerEvents: "none",
       }}
@@ -260,7 +277,7 @@ function Navigation() {
           backdropFilter: "blur(16px)",
           borderRadius: "32px",
           border: "1px solid rgba(255,255,255,0.1)",
-          boxShadow: "0 12px 30px -5px rgba(0,0,0,0.5)",
+          boxShadow: "0 16px 40px -8px rgba(0,0,0,0.6)",
           pointerEvents: "auto",
         }}
       >
@@ -520,13 +537,15 @@ function AppContent() {
   const requireOnboarding = (element: React.ReactNode) =>
     hasCompletedOnboarding() ? element : <Navigate to="/onboarding" replace />;
 
+  const adaptiveInset = getAdaptiveBottomInset();
+
   return (
     <div
   style={{
     minHeight: "100vh",
     paddingBottom: hideBottomNav
-      ? "24px"
-      : "calc(120px + env(safe-area-inset-bottom, 0px))",
+  ? "24px"
+  : `calc(120px + env(safe-area-inset-bottom, 0px) + ${adaptiveInset}px)`,
   }}
 >
       <BackHandler />
