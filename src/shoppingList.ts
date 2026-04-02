@@ -10,6 +10,11 @@ export type ShoppingItem = {
   addedAt: number;
   category: GroceryCategory;
   sourceRecipe?: string;
+
+  // smart merge helpers
+  normalizedName?: string;
+  quantity?: number | null;
+  unit?: string;
 };
 
 const KEY = "simple-dinners.shoppingList.v1";
@@ -38,7 +43,138 @@ function makeId(text: string) {
 }
 
 // =====================================================
-// Builder: ingredient cleanup for categorizing
+// Builder: number helpers
+// =====================================================
+function parseFraction(value: string): number | null {
+  const cleaned = value.trim();
+
+  if (!cleaned) return null;
+
+  const unicodeFractions: Record<string, number> = {
+    "½": 0.5,
+    "¼": 0.25,
+    "¾": 0.75,
+    "⅓": 1 / 3,
+    "⅔": 2 / 3,
+    "⅛": 0.125,
+  };
+
+  if (unicodeFractions[cleaned] !== undefined) {
+    return unicodeFractions[cleaned];
+  }
+
+  if (/^\d+\s+\d+\/\d+$/.test(cleaned)) {
+    const [whole, frac] = cleaned.split(" ");
+    const [num, den] = frac.split("/").map(Number);
+    if (!den) return null;
+    return Number(whole) + num / den;
+  }
+
+  if (/^\d+\/\d+$/.test(cleaned)) {
+    const [num, den] = cleaned.split("/").map(Number);
+    if (!den) return null;
+    return num / den;
+  }
+
+  const num = Number(cleaned);
+  return Number.isFinite(num) ? num : null;
+}
+
+function formatQuantity(value: number | null | undefined) {
+  if (value === null || value === undefined) return "";
+
+  const rounded = Math.round(value * 100) / 100;
+
+  const commonFractions: Record<number, string> = {
+    0.125: "1/8",
+    0.25: "1/4",
+    0.333: "1/3",
+    0.5: "1/2",
+    0.667: "2/3",
+    0.75: "3/4",
+  };
+
+  const whole = Math.floor(rounded);
+  const fraction = Math.round((rounded - whole) * 1000) / 1000;
+
+  const fractionKey = Math.round(fraction * 1000) / 1000;
+  const matchedFraction =
+    commonFractions[Number(fractionKey.toFixed(3))] ??
+    commonFractions[Number(fraction.toFixed(3))];
+
+  if (whole > 0 && matchedFraction) {
+    return `${whole} ${matchedFraction}`;
+  }
+
+  if (whole === 0 && matchedFraction) {
+    return matchedFraction;
+  }
+
+  if (Number.isInteger(rounded)) {
+    return String(rounded);
+  }
+
+  return String(rounded);
+}
+
+// =====================================================
+// Builder: unit helpers
+// =====================================================
+function normalizeUnit(unit?: string) {
+  const value = String(unit || "").trim().toLowerCase();
+  if (!value) return "";
+
+  const map: Record<string, string> = {
+    cup: "cup",
+    cups: "cup",
+    tbsp: "tbsp",
+    tablespoon: "tbsp",
+    tablespoons: "tbsp",
+    tsp: "tsp",
+    teaspoon: "tsp",
+    teaspoons: "tsp",
+    oz: "oz",
+    ounce: "oz",
+    ounces: "oz",
+    lb: "lb",
+    lbs: "lb",
+    pound: "lb",
+    pounds: "lb",
+    clove: "clove",
+    cloves: "clove",
+    can: "can",
+    cans: "can",
+    package: "package",
+    packages: "package",
+    slice: "slice",
+    slices: "slice",
+  };
+
+  return map[value] || value;
+}
+
+function pluralizeUnit(unit: string, quantity: number | null | undefined) {
+  if (!unit) return "";
+  if (quantity === null || quantity === undefined) return unit;
+  if (Math.abs(quantity - 1) < 0.0001) return unit;
+
+  const pluralMap: Record<string, string> = {
+    cup: "cups",
+    tbsp: "tbsp",
+    tsp: "tsp",
+    oz: "oz",
+    lb: "lbs",
+    clove: "cloves",
+    can: "cans",
+    package: "packages",
+    slice: "slices",
+  };
+
+  return pluralMap[unit] || unit;
+}
+
+// =====================================================
+// Builder: category cleanup
 // =====================================================
 function cleanIngredientForCategory(line: string) {
   let text = String(line || "").toLowerCase().trim();
@@ -107,13 +243,14 @@ function cleanIngredientForCategory(line: string) {
 
   text = text.replace(/\bcans?\s+of\s+/g, " ");
   text = text.replace(/\bcans?\s+/g, " ");
+  text = text.replace(/^[/\\\-–—]+\s*/, "");
   text = text.replace(/\s+/g, " ").trim();
 
   return text;
 }
 
 // =====================================================
-// Builder: normalize ingredient lines from recipe text
+// Builder: normalize ingredient lines
 // =====================================================
 export function normalizeIngredientLines(ingredients: string): string[] {
   return String(ingredients)
@@ -133,14 +270,15 @@ export function normalizeIngredientLines(ingredients: string): string[] {
 }
 
 // =====================================================
-// Builder: normalize ingredient for display + merging
+// Builder: normalize display name
 // =====================================================
-function normalizeIngredientForDisplay(line: string) {
+function normalizeIngredientName(line: string) {
   let text = String(line || "").toLowerCase().trim();
 
   text = text.replace(/\([^)]*\)/g, " ");
   text = text.replace(/<[^>]+>/g, " ");
   text = text.replace(/^[-•*]\s*/, "");
+  text = text.replace(/^[/\\\-–—]+\s*/, "");
   text = text.replace(/\u00a0/g, " ");
 
   if (/^\s*for\s+.+$/i.test(text)) return "";
@@ -201,41 +339,136 @@ function normalizeIngredientForDisplay(line: string) {
     text = text.replace(regex, " ");
   });
 
-  // remove leading amounts and units
-  text = text.replace(
-    /^\s*(\d+([./]\d+)?|\d+\s+\d+\/\d+|½|¼|¾|⅓|⅔)\s*/g,
-    ""
-  );
-
-  text = text.replace(
-    /^\s*(cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|l|clove|cloves|can|cans|package|packages|slice|slices)\b/g,
-    ""
-  );
-
-  // normalize canned wording
   text = text.replace(/\bcans?\s+of\s+/g, " ");
   text = text.replace(/\bcans?\s+/g, " ");
   text = text.replace(/\bcan\s+/g, " ");
 
-  // normalize common patterns
+  // strip leading quantity chunks repeatedly
+  let changed = true;
+  while (changed) {
+    const before = text;
+
+    text = text.replace(
+      /^\s*(\d+([./]\d+)?|\d+\s+\d+\/\d+|½|¼|¾|⅓|⅔|⅛)\s*/i,
+      ""
+    );
+
+    text = text.replace(
+      /^\s*(cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|l|clove|cloves|can|cans|package|packages|slice|slices)\b\s*/i,
+      ""
+    );
+
+    changed = before !== text;
+  }
+
+  // normalize common variants
   text = text.replace(/\blean ground beef\b/g, "ground beef");
   text = text.replace(/\bextra lean ground beef\b/g, "ground beef");
   text = text.replace(/\bground black pepper\b/g, "black pepper");
   text = text.replace(/\bonion powders?\b/g, "onion powder");
   text = text.replace(/\bgarlic powders?\b/g, "garlic powder");
   text = text.replace(/\bslices?\s+bread\b/g, "bread");
-  text = text.replace(/\beggs?\b/g, "eggs");
+  text = text.replace(/\bbaby bella mushrooms?\b/g, "cremini mushrooms");
+  text = text.replace(/\bcremini mushrooms?\b/g, "cremini mushrooms");
+  text = text.replace(/\bgarlic cloves?\b/g, "garlic");
+  text = text.replace(/\beggs?\b/g, "egg");
+  text = text.replace(/\bonions?\b/g, "onion");
+  text = text.replace(/\bcarrots?\b/g, "carrot");
 
-  // clean repeated spaces and separators
   text = text.replace(/\s*\/\s*/g, " / ");
   text = text.replace(/\s+/g, " ").trim();
 
-  // remove weak/junk results
   if (!text || text.length < 2) return "";
   if (/^[^a-z]+$/i.test(text)) return "";
-  if (text === ":" || text === "/" || text === "-") return "";
 
   return text;
+}
+
+// =====================================================
+// Builder: parse quantity + unit + normalized name
+// =====================================================
+function parseIngredientParts(line: string): {
+  normalizedName: string;
+  quantity: number | null;
+  unit: string;
+} {
+  let text = String(line || "").toLowerCase().trim();
+
+  text = text.replace(/\([^)]*\)/g, " ");
+  text = text.replace(/<[^>]+>/g, " ");
+  text = text.replace(/^[-•*]\s*/, "");
+  text = text.replace(/^[/\\\-–—]+\s*/, "");
+  text = text.replace(/\u00a0/g, " ");
+  text = text.replace(/\s+/g, " ").trim();
+
+  let quantity: number | null = null;
+  let unit = "";
+
+  const quantityMatch = text.match(
+    /^(\d+\s+\d+\/\d+|\d+\/\d+|\d+\.\d+|\d+|½|¼|¾|⅓|⅔|⅛)\b/
+  );
+
+  if (quantityMatch) {
+    quantity = parseFraction(quantityMatch[1]);
+    text = text.slice(quantityMatch[0].length).trim();
+  }
+
+  const unitMatch = text.match(
+    /^(cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|l|clove|cloves|can|cans|package|packages|slice|slices)\b/
+  );
+
+  if (unitMatch) {
+    unit = normalizeUnit(unitMatch[1]);
+    text = text.slice(unitMatch[0].length).trim();
+  }
+
+  const normalizedName = normalizeIngredientName(text);
+
+  return {
+    normalizedName,
+    quantity,
+    unit,
+  };
+}
+
+// =====================================================
+// Builder: display text from parsed parts
+// =====================================================
+function buildDisplayText(
+  normalizedName: string,
+  quantity: number | null,
+  unit: string
+) {
+  if (!normalizedName) return "";
+
+  if (quantity !== null) {
+    const qty = formatQuantity(quantity);
+
+    if (unit) {
+      return `${qty} ${pluralizeUnit(unit, quantity)} ${normalizedName}`.trim();
+    }
+
+    // natural count nouns
+    if (normalizedName === "onion") {
+      return `${qty} ${Math.abs(quantity - 1) < 0.0001 ? "onion" : "onions"}`;
+    }
+
+    if (normalizedName === "carrot") {
+      return `${qty} ${Math.abs(quantity - 1) < 0.0001 ? "carrot" : "carrots"}`;
+    }
+
+    if (normalizedName === "egg") {
+      return `${qty} ${Math.abs(quantity - 1) < 0.0001 ? "egg" : "eggs"}`;
+    }
+
+    return `${qty} ${normalizedName}`.trim();
+  }
+
+  if (normalizedName === "egg") return "eggs";
+  if (normalizedName === "carrot") return "carrots";
+  if (normalizedName === "onion") return "onions";
+
+  return normalizedName;
 }
 
 // =====================================================
@@ -246,17 +479,26 @@ export function loadShoppingList(): ShoppingItem[] {
 
   return items
     .map((item: any) => {
-      const normalizedText = normalizeIngredientForDisplay(item.text || "");
+      const parsed = parseIngredientParts(item.text || "");
+      const normalizedName =
+        item.normalizedName || parsed.normalizedName || normalizeIngredientName(item.text || "");
 
-      if (!normalizedText) return null;
+      if (!normalizedName) return null;
+
+      const quantity =
+        typeof item.quantity === "number" ? item.quantity : parsed.quantity;
+      const unit = item.unit || parsed.unit || "";
 
       return {
         ...item,
-        id: item.id || makeId(normalizedText),
-        text: normalizedText,
-        category:
-          item.category ||
-          categorizeGroceryItem(cleanIngredientForCategory(normalizedText)),
+        id:
+          item.id ||
+          `${makeId(normalizedName)}-${item.sourceRecipe || "item"}-${item.addedAt || 0}`,
+        text: buildDisplayText(normalizedName, quantity, unit),
+        normalizedName,
+        quantity,
+        unit,
+        category: categorizeGroceryItem(cleanIngredientForCategory(normalizedName)),
         sourceRecipe: item.sourceRecipe || "",
       } as ShoppingItem;
     })
@@ -278,34 +520,39 @@ export function addIngredientsToList(
   ingredients: string
 ): { items: ShoppingItem[]; addedCount: number } {
   const existing = loadShoppingList();
-
-  const existingIds = new Set(existing.map((i) => makeId(i.text.trim().toLowerCase())));
   const lines = normalizeIngredientLines(ingredients);
 
   const now = Date.now();
   const newItems: ShoppingItem[] = [];
 
   for (const line of lines) {
-    const normalizedText = normalizeIngredientForDisplay(line);
-    if (!normalizedText) continue;
+    const parsed = parseIngredientParts(line);
+    if (!parsed.normalizedName) continue;
 
-    const id = makeId(normalizedText);
-    if (!id) continue;
+    // keep items separate per recipe/line so UI can merge/count later
+    const id = `${makeId(parsed.normalizedName)}-${makeId(recipeName || "recipe")}-${makeId(
+      line
+    )}-${now}-${newItems.length}`;
 
-    if (existingIds.has(id)) continue;
+    const text = buildDisplayText(
+      parsed.normalizedName,
+      parsed.quantity,
+      parsed.unit
+    );
 
     newItems.push({
       id,
-      text: normalizedText,
+      text,
       checked: false,
       addedAt: now,
       category: categorizeGroceryItem(
-        cleanIngredientForCategory(normalizedText)
+        cleanIngredientForCategory(parsed.normalizedName)
       ),
       sourceRecipe: recipeName || "",
+      normalizedName: parsed.normalizedName,
+      quantity: parsed.quantity,
+      unit: parsed.unit,
     });
-
-    existingIds.add(id);
   }
 
   const merged = [...existing, ...newItems];

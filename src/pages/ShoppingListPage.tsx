@@ -262,8 +262,13 @@ function pluralizeCountable(name: string, quantity: number): string {
 
 function cleanIngredientName(line: string) {
   let text = line.toLowerCase().trim();
-
+  text = text.replace(/^[/\\\-–—]+\s*/, "");
   text = text.replace(/\([^)]*\)/g, " ");
+  text = text.replace(/\bbaby bella mushrooms?\b/g, "cremini mushrooms");
+  text = text.replace(/\bcremini mushrooms?\b/g, "cremini mushrooms");
+  text = text.replace(/\bonions?\b/g, "onion");
+  text = text.replace(/\bcarrots?\b/g, "carrot");
+  text = text.replace(/\beggs?\b/g, "egg");
 
   const removePhrases = [
     "to taste",
@@ -528,7 +533,8 @@ export default function ShoppingListPage() {
     >();
 
     for (const item of shoppingItems) {
-      const parsed = parseIngredient(item.text);
+      const cleanedRaw = cleanIngredientName(item.text);
+const parsed = parseIngredient(cleanedRaw);
       const cleanedName = parsed.name || cleanIngredientName(item.text);
       const isCountable = isCountableIngredient(cleanedName);
       const normalizedName = isCountable
@@ -540,7 +546,11 @@ export default function ShoppingListPage() {
       const key = `${category}::${normalizedName}`;
 
       const quantityToAdd =
-        parsed.quantity !== null ? parsed.quantity : isCountable ? 1 : 0;
+  parsed.quantity !== null
+    ? parsed.quantity
+    : isCountable
+    ? 1
+    : 0;
 
       const recipeName = String((item as any).sourceRecipe || "").trim();
 
@@ -588,7 +598,9 @@ export default function ShoppingListPage() {
         displayText = `${formatQuantity(qty)} ${pluralizeCountable(
           value.name,
           qty
+          
         )}`;
+        
       } else if (
         !value.mixedUnits &&
         value.unit &&

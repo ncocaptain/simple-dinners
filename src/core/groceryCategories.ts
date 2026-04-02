@@ -159,6 +159,10 @@ function normalize(text: string) {
 export function categorizeGroceryItem(name: string): GroceryCategory {
   const normalized = normalize(name);
 
+  if (normalized.includes("stock") || normalized.includes("broth")) {
+    return "Pantry";
+  }
+
   for (const group of CATEGORY_KEYWORDS) {
     if (group.keywords.some((keyword) => normalized.includes(normalize(keyword)))) {
       return group.category;
