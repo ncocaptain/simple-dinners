@@ -269,6 +269,8 @@ function cleanIngredientName(line: string) {
   text = text.replace(/\bonions?\b/g, "onion");
   text = text.replace(/\bcarrots?\b/g, "carrot");
   text = text.replace(/\beggs?\b/g, "egg");
+  // remove fractional counts for countable produce
+text = text.replace(/^\d*\.?\d+\s+(carrot|onion|egg)\b/g, "$1");
 
   const removePhrases = [
     "to taste",
