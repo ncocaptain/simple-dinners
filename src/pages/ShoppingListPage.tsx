@@ -264,8 +264,8 @@ function cleanIngredientName(line: string) {
   let text = line.toLowerCase().trim();
   text = text.replace(/^[/\\\-–—]+\s*/, "");
   text = text.replace(/\([^)]*\)/g, " ");
-  text = text.replace(/\bbaby bella mushrooms?\b/g, "cremini mushrooms");
-  text = text.replace(/\bcremini mushrooms?\b/g, "cremini mushrooms");
+  text = text.replace(/\bbaby bella mushrooms?\b/g, "baby bella mushrooms");
+  text = text.replace(/\bcremini mushrooms?\b/g, "baby bella mushrooms");
   text = text.replace(/\bonions?\b/g, "onion");
   text = text.replace(/\bcarrots?\b/g, "carrot");
   text = text.replace(/\beggs?\b/g, "egg");
