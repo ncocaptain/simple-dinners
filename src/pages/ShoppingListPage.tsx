@@ -122,6 +122,7 @@ const HIDE_MEASURED_TOTALS = new Set([
   "cumin",
   "chili powder",
   "oregano",
+  "baby bella mushrooms",
 ]);
 
 function parseFraction(value: string): number | null {
@@ -262,15 +263,24 @@ function pluralizeCountable(name: string, quantity: number): string {
 
 function cleanIngredientName(line: string) {
   let text = line.toLowerCase().trim();
+
   text = text.replace(/^[/\\\-–—]+\s*/, "");
   text = text.replace(/\([^)]*\)/g, " ");
-  text = text.replace(/\bbaby bella mushrooms?\b/g, "baby bella mushrooms");
+
   text = text.replace(/\bcremini mushrooms?\b/g, "baby bella mushrooms");
+  text = text.replace(/\bbaby bella mushrooms?\b/g, "baby bella mushrooms");
+
+  text = text.replace(/\bonion powders?\b/g, "onion powder");
+  text = text.replace(/\bgarlic powders?\b/g, "garlic powder");
+
   text = text.replace(/\bonions?\b/g, "onion");
   text = text.replace(/\bcarrots?\b/g, "carrot");
   text = text.replace(/\beggs?\b/g, "egg");
-  // remove fractional counts for countable produce
-text = text.replace(/^\d*\.?\d+\s+(carrot|onion|egg)\b/g, "$1");
+
+  text = text.replace(
+    /^\d*\.?\d+\s+(carrot|onion|egg|onion powder|garlic powder)\b/g,
+    "$1"
+  );
 
   const removePhrases = [
     "to taste",
@@ -402,7 +412,11 @@ function isCountableIngredient(name: string): boolean {
   return COUNTABLE_BASE_WORDS.has(firstWord);
 }
 
-function shouldShowMeasuredTotal(name: string, unit: string | null, total: number) {
+function shouldShowMeasuredTotal(
+  name: string,
+  unit: string | null,
+  total: number
+) {
   const cleaned = cleanIngredientName(name);
 
   if (!unit) return false;
@@ -462,12 +476,13 @@ export default function ShoppingListPage() {
     const raw = newItem.trim();
     if (!raw) return;
 
-    const parsed = parseIngredient(raw);
-    const cleanedName = parsed.name || raw;
-    const id = makeManualId(raw);
+    const cleanedRaw = cleanIngredientName(raw);
+    const parsed = parseIngredient(cleanedRaw);
+    const cleanedName = parsed.name || cleanedRaw;
+    const id = makeManualId(cleanedName || raw);
 
     const alreadyExists = shoppingItems.some(
-      (item) => item.text.trim().toLowerCase() === raw.toLowerCase()
+      (item) => item.text.trim().toLowerCase() === cleanedName.toLowerCase()
     );
 
     if (alreadyExists) {
@@ -477,7 +492,7 @@ export default function ShoppingListPage() {
 
     const added: ShoppingItem = {
       id,
-      text: raw,
+      text: cleanedName,
       checked: false,
       addedAt: Date.now(),
       category: categorizeGroceryItem(cleanedName),
@@ -536,8 +551,9 @@ export default function ShoppingListPage() {
 
     for (const item of shoppingItems) {
       const cleanedRaw = cleanIngredientName(item.text);
-const parsed = parseIngredient(cleanedRaw);
-      const cleanedName = parsed.name || cleanIngredientName(item.text);
+      const parsed = parseIngredient(cleanedRaw);
+      const cleanedName = parsed.name || cleanedRaw;
+
       const isCountable = isCountableIngredient(cleanedName);
       const normalizedName = isCountable
         ? normalizeCountableName(cleanedName)
@@ -548,11 +564,7 @@ const parsed = parseIngredient(cleanedRaw);
       const key = `${category}::${normalizedName}`;
 
       const quantityToAdd =
-  parsed.quantity !== null
-    ? parsed.quantity
-    : isCountable
-    ? 1
-    : 0;
+        parsed.quantity !== null ? parsed.quantity : isCountable ? 1 : 0;
 
       const recipeName = String((item as any).sourceRecipe || "").trim();
 
@@ -600,9 +612,7 @@ const parsed = parseIngredient(cleanedRaw);
         displayText = `${formatQuantity(qty)} ${pluralizeCountable(
           value.name,
           qty
-          
         )}`;
-        
       } else if (
         !value.mixedUnits &&
         value.unit &&
@@ -779,7 +789,13 @@ const parsed = parseIngredient(cleanedRaw);
                 marginBottom: 12,
               }}
             >
-              <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.1)" }} />
+              <div
+                style={{
+                  flex: 1,
+                  height: 1,
+                  background: "rgba(255,255,255,0.1)",
+                }}
+              />
               <span
                 style={{
                   fontSize: 11,
@@ -790,7 +806,13 @@ const parsed = parseIngredient(cleanedRaw);
               >
                 {group.section.toUpperCase()}
               </span>
-              <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.1)" }} />
+              <div
+                style={{
+                  flex: 1,
+                  height: 1,
+                  background: "rgba(255,255,255,0.1)",
+                }}
+              />
             </div>
 
             <div style={{ display: "grid", gap: 8 }}>
