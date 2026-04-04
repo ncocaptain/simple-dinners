@@ -24,7 +24,7 @@ function splitIngredients(text?: string): string[] {
       return line
         .toLowerCase()
         .replace(/^\d+(\s*\/\s*\d+)?\s*/, "")
-        .replace(/\b(cup|cups|tbsp|tsp|lb|lbs|oz|clove|cloves|can|cans|package|packages)\b/g, "")
+        .replace(/\b(cup|cups|Tbsp|tsp|lb|lbs|oz|clove|cloves|can|cans|package|packages)\b/g, "")
         .replace(/[(),.-]/g, " ")
         .replace(/\s+/g, " ")
         .trim();

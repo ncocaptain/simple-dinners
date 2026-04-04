@@ -127,9 +127,9 @@ function normalizeUnit(unit?: string) {
   const map: Record<string, string> = {
     cup: "cup",
     cups: "cup",
-    tbsp: "tbsp",
-    tablespoon: "tbsp",
-    tablespoons: "tbsp",
+    Tbsp: "Tbsp",
+    tablespoon: "Tbsp",
+    tablespoons: "Tbsp",
     tsp: "tsp",
     teaspoon: "tsp",
     teaspoons: "tsp",
@@ -160,7 +160,7 @@ function pluralizeUnit(unit: string, quantity: number | null | undefined) {
 
   const pluralMap: Record<string, string> = {
     cup: "cups",
-    tbsp: "tbsp",
+    Tbsp: "Tbsp",
     tsp: "tsp",
     oz: "oz",
     lb: "lbs",
@@ -354,7 +354,7 @@ function normalizeIngredientName(line: string) {
     );
 
     text = text.replace(
-      /^\s*(cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|l|clove|cloves|can|cans|package|packages|slice|slices)\b\s*/i,
+      /^\s*(cup|cups|Tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|l|clove|cloves|can|cans|package|packages|slice|slices)\b\s*/i,
       ""
     );
 
@@ -414,7 +414,7 @@ function parseIngredientParts(line: string): {
   }
 
   const unitMatch = text.match(
-    /^(cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|l|clove|cloves|can|cans|package|packages|slice|slices)\b/
+    /^(cup|cups|Tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|l|clove|cloves|can|cans|package|packages|slice|slices)\b/
   );
 
   if (unitMatch) {

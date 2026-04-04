@@ -263,7 +263,7 @@ export default async function handler(req, res) {
         const filtered = matches.filter(
           (line) =>
             !isGarbageLine(line) &&
-            /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu|sugar|flour|egg|eggs)/i.test(
+            /(\d|½|¼|¾|⅓|⅔|cup|cups|Tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu|sugar|flour|egg|eggs)/i.test(
               line
             )
         );
@@ -462,7 +462,7 @@ export default async function handler(req, res) {
       const likelyIngredients = lines.filter(
         (line) =>
           !isGarbageLine(line) &&
-          /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu|sugar|flour|egg|eggs)/i.test(
+          /(\d|½|¼|¾|⅓|⅔|cup|cups|Tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu|sugar|flour|egg|eggs)/i.test(
             line
           )
       );

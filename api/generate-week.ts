@@ -40,7 +40,7 @@ Create dinner recipes for these days: ${JSON.stringify(emptyDays)}.
 
 Constraints:
 - Keep recipes realistic, not gourmet, weeknight friendly.
-- Include measurements (cups, tbsp, oz, etc).
+- Include measurements (cups, Tbsp, oz, etc).
 - Ingredients should be a single comma-separated string.
 - Instructions should be step-by-step (numbered or new lines).
 - If vegetarian=${vegetarian}, make all recipes vegetarian.

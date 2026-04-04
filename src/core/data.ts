@@ -575,23 +575,23 @@ Garnish with cilantro, pico de gallo, and sour cream before serving.`,
   },
 
   {
-    id: "normal-caprese-stuffed-portobello-mushrooms",
-    slug: "normal-caprese-stuffed-portobello-mushrooms",
-    name: "Caprese Stuffed Portobello Mushrooms",
-    effort: "normal",
-    photoUrl: "/images/normal-caprese-stuffed-portobello-mushrooms.webp",
-    tags: ["dinner", "vegetarian", "bake", "italian", "healthy"],
-    notes: "A lighter dinner option with lots of fresh caprese flavor.",
-    ingredients: `2 tbsp butter
+  id: "normal-caprese-stuffed-portobello-mushrooms",
+  slug: "normal-caprese-stuffed-portobello-mushrooms",
+  name: "Caprese Stuffed Portobello Mushrooms",
+  effort: "normal",
+  photoUrl: "/images/normal-caprese-stuffed-portobello-mushrooms.webp",
+  tags: ["dinner", "vegetarian", "bake", "italian", "healthy"],
+  notes: "A lighter dinner option with lots of fresh caprese flavor.",
+  ingredients: `2 Tbsp butter
 2 cloves garlic, crushed
-1 tbsp freshly chopped parsley
-5–6 large portobello mushrooms, stems removed
-5–6 fresh mozzarella balls, sliced
+1 Tbsp freshly chopped parsley
+5-6 large portobello mushrooms, stems removed
+5-6 fresh mozzarella balls, sliced
 1 cup cherry tomatoes, sliced
 Fresh basil, shredded
 1/4 cup balsamic vinegar
 2 tsp brown sugar`,
-    instructions: `Preheat oven to broil on high and position rack in the middle.
+  instructions: `Preheat oven to broil on high and position rack in the middle.
 
 Melt butter with garlic and parsley until fragrant.
 
@@ -606,29 +606,29 @@ Broil about 8 minutes until cheese is melted and golden.
 In a small saucepan, combine balsamic vinegar and brown sugar. Bring to a boil, reduce heat, and simmer 5 to 8 minutes until thickened.
 
 Drizzle glaze over mushrooms, top with basil, season to taste, and serve.`,
-  },
+},
 
-  {
-    id: "normal-shepherds-pie",
-    slug: "normal-shepherds-pie",
-    name: "Shepherd’s Pie",
-    effort: "normal",
-    photoUrl: "/images/normal-shepherds-pie.webp",
-    tags: ["dinner", "beef", "bake", "comfort", "casserole", "leftovers"],
-    notes: "A warm, classic comfort meal that feels right at home on chilly nights.",
-    ingredients: `1 1/2 to 2 lbs potatoes (about 3 large), peeled and quartered
-8 tbsp butter (1 stick), divided
+ {
+  id: "normal-shepherds-pie",
+  slug: "normal-shepherds-pie",
+  name: "Shepherd’s Pie",
+  effort: "normal",
+  photoUrl: "/images/normal-shepherds-pie.webp",
+  tags: ["dinner", "beef", "bake", "comfort", "casserole", "leftovers"],
+  notes: "A warm, classic comfort meal that feels right at home on chilly nights.",
+  ingredients: `1 1/2 to 2 lbs potatoes (about 3 large), peeled and quartered
+8 Tbsp butter (1 stick), divided
 1 medium onion, chopped
-1–2 cups mixed vegetables (diced carrots, corn, peas)
+1-2 cups mixed vegetables (diced carrots, corn, peas)
 1 1/2 lbs ground beef
 1/2 cup beef broth
 1 tsp Worcestershire sauce
 Salt and pepper, to taste
 8 oz baby bella mushrooms
 2 cloves garlic`,
-    instructions: `Place potatoes in a pot and cover with at least 1 inch of cold water. Add a teaspoon of salt. Bring to a boil, reduce to a simmer, and cook until tender, about 20 minutes.
+  instructions: `Place potatoes in a pot and cover with at least 1 inch of cold water. Add a teaspoon of salt. Bring to a boil, reduce to a simmer, and cook until tender, about 20 minutes.
 
-While potatoes cook, melt 4 tbsp butter in a large sauté pan over medium heat. Add onion and carrots and cook until tender, about 6 to 10 minutes.
+While potatoes cook, melt 4 Tbsp butter in a large sauté pan over medium heat. Add onion and carrots and cook until tender, about 6 to 10 minutes.
 
 Add mushrooms and garlic and cook 2 to 3 minutes until mushrooms soften.
 
@@ -636,24 +636,24 @@ Add ground beef, corn, and peas. Cook until no longer pink. Season with salt and
 
 Stir in Worcestershire sauce and beef broth. Bring to a simmer, reduce heat to low, and cook uncovered for about 10 minutes. Add a splash more broth if needed to keep it from drying out.
 
-Drain potatoes and place in a bowl with remaining 4 tbsp butter. Mash and season with salt and pepper to taste.
+Drain potatoes and place in a bowl with remaining 4 Tbsp butter. Mash and season with salt and pepper to taste.
 
 Preheat oven to 400°F. Spread beef mixture in an even layer in an 8x13 baking dish.
 
 Spread mashed potatoes over the top. Rough up the surface with a fork to create peaks.
 
 Bake about 30 minutes until browned and bubbling.`,
-  },
+},
 
   {
-    id: "normal-italian-sausage-stuffed-peppers",
-    slug: "normal-italian-sausage-stuffed-peppers",
-    name: "Italian Sausage Stuffed Peppers",
-    effort: "normal",
-    photoUrl: "/images/normal-italian-sausage-stuffed-peppers.webp",
-    tags: ["dinner", "pork", "bake", "italian", "comfort"],
-    notes: "A solid weeknight baked dinner that is filling without being too fussy.",
-    ingredients: `1 lb Italian sausage
+  id: "normal-italian-sausage-stuffed-peppers",
+  slug: "normal-italian-sausage-stuffed-peppers",
+  name: "Italian Sausage Stuffed Peppers",
+  effort: "normal",
+  photoUrl: "/images/normal-italian-sausage-stuffed-peppers.webp",
+  tags: ["dinner", "pork", "bake", "italian", "comfort"],
+  notes: "A solid weeknight baked dinner that is filling without being too fussy.",
+  ingredients: `1 lb Italian sausage
 2 tsp olive oil
 1 (14.5 oz) can fire-roasted diced tomatoes
 2 tsp garlic powder
@@ -664,10 +664,10 @@ Bake about 30 minutes until browned and bubbling.`,
 1/4 cup chicken broth
 1/4 cup grated Parmesan cheese
 1 cup mozzarella cheese, grated
-3–4 large bell peppers
+3-4 large bell peppers
 Red pepper flakes (optional)
 Fresh basil (optional)`,
-    instructions: `Preheat oven to 375°F.
+  instructions: `Preheat oven to 375°F.
 
 Cut around the stem of each bell pepper and remove it. Slice peppers in half lengthwise and remove seeds and white membrane. Place cut-side up in a baking dish.
 
@@ -684,33 +684,33 @@ Cover with foil and bake 25 to 30 minutes, or longer if you like softer peppers,
 Remove foil and broil 2 to 3 minutes until cheese is browned.
 
 Cool 1 to 2 minutes. Top with fresh basil and red pepper flakes if desired and serve.`,
-  },
+},
 
   {
-    id: "quick-honey-garlic-chicken",
-    slug: "quick-honey-garlic-chicken",
-    name: "Honey Garlic Chicken",
-    effort: "quick",
-    photoUrl: "/images/quick-honey-garlic-chicken.webp",
-    tags: ["dinner", "chicken", "stovetop", "quick", "sweet-savory"],
-    notes: "Fast, simple, and family-friendly with a sweet-savory sauce that works well over rice.",
-    ingredients: `4 boneless skinless chicken breasts
+  id: "quick-honey-garlic-chicken",
+  slug: "quick-honey-garlic-chicken",
+  name: "Honey Garlic Chicken",
+  effort: "quick",
+  photoUrl: "/images/quick-honey-garlic-chicken.webp",
+  tags: ["dinner", "chicken", "stovetop", "quick", "sweet-savory"],
+  notes: "Fast, simple, and family-friendly with a sweet-savory sauce that works well over rice.",
+  ingredients: `4 boneless skinless chicken breasts
 Salt and pepper, to taste
 1/3 cup honey
 1/4 cup soy sauce
 4 cloves garlic, minced
-1 tbsp olive oil
+1 Tbsp olive oil
 1 tsp cornstarch (optional, for thickening)`,
-    instructions: `Season chicken with salt and pepper.
+  instructions: `Season chicken with salt and pepper.
 
 Heat olive oil in a skillet over medium heat. Cook chicken 5 to 6 minutes per side until cooked through. Remove and set aside.
 
 In the same pan, add honey, soy sauce, and garlic. Simmer 2 to 3 minutes.
 
-If thicker sauce is desired, stir cornstarch with 1 tbsp water and add to pan.
+If thicker sauce is desired, stir cornstarch with 1 Tbsp water and add to pan.
 
 Return chicken to skillet and coat in sauce. Simmer 2 to 3 minutes and serve.`,
-  },
+},
 
   {
     id: "quick-creamy-tortellini",
@@ -737,28 +737,28 @@ Stir in Parmesan and spinach. Cook until spinach wilts.
 Add tortellini and toss to coat. Season to taste and serve.`,
   },
 
-  {
-    id: "quick-lemon-butter-salmon",
-    slug: "quick-lemon-butter-salmon",
-    name: "Lemon Butter Salmon",
-    effort: "quick",
-    photoUrl: "/images/quick-lemon-butter-salmon.webp",
-    tags: ["dinner", "seafood", "fish", "salmon", "quick", "healthy"],
-    notes: "An easy skillet salmon recipe with bright lemon flavor and minimal cleanup.",
-    ingredients: `4 salmon fillets
+ {
+  id: "quick-lemon-butter-salmon",
+  slug: "quick-lemon-butter-salmon",
+  name: "Lemon Butter Salmon",
+  effort: "quick",
+  photoUrl: "/images/quick-lemon-butter-salmon.webp",
+  tags: ["dinner", "seafood", "fish", "salmon", "quick", "healthy"],
+  notes: "An easy skillet salmon recipe with bright lemon flavor and minimal cleanup.",
+  ingredients: `4 salmon fillets
 Salt and pepper, to taste
-3 tbsp butter
+3 Tbsp butter
 2 cloves garlic, minced
 Juice of 1 lemon
 Fresh parsley (optional)`,
-    instructions: `Season salmon with salt and pepper.
+  instructions: `Season salmon with salt and pepper.
 
 Melt butter in a skillet over medium heat. Add garlic and cook 30 seconds.
 
 Place salmon skin-side down and cook 4 to 5 minutes per side until flaky.
 
 Squeeze lemon juice over salmon and garnish with parsley before serving.`,
-  },
+},
 
   {
     id: "quick-chicken-fried-rice",
@@ -772,8 +772,8 @@ Squeeze lemon juice over salmon and garnish with parsley before serving.`,
 1 lb cooked chicken, diced
 2 eggs, beaten
 1 cup frozen mixed vegetables
-3 tbsp soy sauce
-1 tbsp sesame oil
+3 Tbsp soy sauce
+1 Tbsp sesame oil
 2 green onions, sliced`,
     instructions: `Heat sesame oil in a large skillet.
 
@@ -867,23 +867,23 @@ Stir in Parmesan until smooth.
 Add chicken and pasta. Toss and serve.`,
   },
 
-  {
-    id: "normal-beef-stroganoff",
-    slug: "normal-beef-stroganoff",
-    name: "Beef Stroganoff",
-    effort: "normal",
-    photoUrl: "/images/normal-beef-stroganoff.webp",
-    tags: ["dinner", "beef", "comfort", "stovetop", "pasta"],
-    notes: "A rich and cozy skillet dinner that is especially good on colder nights.",
-    ingredients: `1 lb beef sirloin, sliced
+ {
+  id: "normal-beef-stroganoff",
+  slug: "normal-beef-stroganoff",
+  name: "Beef Stroganoff",
+  effort: "normal",
+  photoUrl: "/images/normal-beef-stroganoff.webp",
+  tags: ["dinner", "beef", "comfort", "stovetop", "pasta"],
+  notes: "A rich and cozy skillet dinner that is especially good on colder nights.",
+  ingredients: `1 lb beef sirloin, sliced
 8 oz mushrooms
 1 small onion, diced
 2 cloves garlic, minced
 1 cup beef broth
 1/2 cup sour cream
-2 tbsp flour
+2 Tbsp flour
 Egg noodles`,
-    instructions: `Cook noodles according to package directions.
+  instructions: `Cook noodles according to package directions.
 
 Sauté beef until browned. Remove and set aside.
 
@@ -894,35 +894,37 @@ Stir in flour, then add beef broth and simmer until thickened.
 Stir in sour cream and return beef to pan.
 
 Serve over noodles.`,
-  },
+},
 
   {
-    id: "normal-chicken-pot-pie",
-    slug: "normal-chicken-pot-pie",
-    name: "Chicken Pot Pie",
-    effort: "normal",
-    photoUrl: "/images/normal-chicken-pot-pie.webp",
-    tags: ["dinner", "chicken", "bake", "comfort", "casserole"],
-    notes: "Creamy, classic, and one of those dinners that always feels like home.",
-    ingredients: `2 cups cooked chicken, diced
+  id: "normal-chicken-pot-pie",
+  slug: "normal-chicken-pot-pie",
+  name: "Chicken Pot Pie",
+  effort: "normal",
+  photoUrl: "/images/normal-chicken-pot-pie.webp",
+  tags: ["dinner", "chicken", "bake", "comfort", "casserole"],
+  notes: "Creamy, classic, and one of those dinners that always feels like home.",
+  ingredients: `2 cups cooked chicken, diced
 1 cup frozen mixed vegetables
 1/2 cup butter
 1/2 cup flour
 2 cups chicken broth
 1 cup milk
 1 refrigerated pie crust`,
-    instructions: `Preheat oven to 400°F.
+  instructions: `Preheat oven to 400°F.
 
-Melt butter in saucepan. Stir in flour and cook 1 minute.
+Melt butter in a saucepan. Stir in flour and cook 1 minute.
 
 Whisk in broth and milk. Cook until thickened.
 
 Stir in chicken and vegetables.
 
-Pour mixture into baking dish and top with pie crust.
+Pour mixture into a baking dish and top with pie crust.
 
-Bake 30 to 35 minutes until golden.`,
-  },
+Bake 30 to 35 minutes until golden brown and bubbly.
+
+Let rest 5 minutes before serving.`,
+},
 
   {
   id: "normal-taco-pasta",
@@ -938,7 +940,7 @@ Bake 30 to 35 minutes until golden.`,
 1 cup shredded cheddar cheese
 
 Taco Pasta Seasoning:
-1 tbsp chili powder
+1 Tbsp chili powder
 1 tsp cumin
 1/2 tsp paprika
 1/2 tsp garlic powder
@@ -970,7 +972,7 @@ Serve warm.`,
     ingredients: `10 large sea scallops
 1 cup Arborio rice
 3 cups warm chicken stock
-1 tbsp lemon zest
+1 Tbsp lemon zest
 1/2 cup parmesan cheese`,
     instructions: `Sauté rice in butter, then add warm stock one ladle at a time, stirring until absorbed.
 
@@ -992,9 +994,9 @@ Fold lemon zest and parmesan into the risotto and top with the scallops.`,
     ingredients: `4 salmon fillets
 1 bunch asparagus
 1 lemon, sliced
-2 tbsp chopped fresh dill
+2 Tbsp chopped fresh dill
 2 cloves garlic, minced
-2 tbsp olive oil`,
+2 Tbsp olive oil`,
     instructions: `Preheat oven to 400°F.
 
 Place salmon and asparagus on a baking sheet.
@@ -1016,8 +1018,8 @@ Roast for 12 to 15 minutes until salmon flakes easily with a fork.`,
 3 cups broccoli florets
 1/4 cup soy sauce
 1 tsp fresh ginger, grated
-1 tbsp brown sugar
-1 tbsp sesame oil`,
+1 Tbsp brown sugar
+1 Tbsp sesame oil`,
     instructions: `Whisk soy sauce, ginger, and brown sugar in a small bowl.
 
 Heat sesame oil in a wok or large skillet.
@@ -1038,12 +1040,12 @@ Return beef to pan, add sauce, and toss until thickened.`,
     tags: ["dinner", "soup", "pork", "italian", "comfort", "one-pot"],
     notes: "A rich and cozy soup that feels like restaurant comfort food at home.",
     ingredients: `1 lb Italian ground sausage
-4 tbsp butter
+4 Tbsp butter
 1 white onion, diced
-1 tbsp minced garlic
+1 Tbsp minced garlic
 6 cups chicken broth
 2 cups water
-4–5 yellow potatoes, cut into 1-inch pieces
+4-5 yellow potatoes, cut into 1-inch pieces
 3 tsp salt, or to taste
 1 tsp black pepper
 2 cups heavy cream
@@ -1084,14 +1086,14 @@ Serve topped with grated parmesan cheese and bacon bits if desired.`,
 1 large egg
 3/4 cup panko breadcrumbs
 1/4 cup milk
-1 tbsp Worcestershire sauce
+1 Tbsp Worcestershire sauce
 1 tsp garlic powder
 1 tsp salt
 1/2 tsp pepper
 
 For the glaze:
 1/2 cup ketchup
-1 tbsp brown sugar
+1 Tbsp brown sugar
 1 tsp mustard`,
     instructions: `Preheat oven to 375°F.
 
@@ -1127,20 +1129,20 @@ Let rest for 5 to 10 minutes before slicing.`,
 1 (16 oz) can tomato sauce
 1 (6 oz) can tomato paste
 2 tsp dried thyme
-4 tbsp Italian seasoning, divided
+4 Tbsp Italian seasoning, divided
 1 tsp salt
 1/2 tsp black pepper
-2 tbsp butter
-1 tbsp olive oil`,
+2 Tbsp butter
+1 Tbsp olive oil`,
     instructions: `Cook ground beef in a skillet over medium heat until browned. Drain grease.
 
-Add diced green pepper, diced tomatoes, tomato sauce, tomato paste, thyme, 2 tbsp Italian seasoning, salt, and pepper. Stir well.
+Add diced green pepper, diced tomatoes, tomato sauce, tomato paste, thyme, 2 Tbsp Italian seasoning, salt, and pepper. Stir well.
 
 Bring to a simmer, reduce heat to low, and simmer for 30 minutes.
 
 In a pot, bring 6 cups of salted water to a boil. Add angel hair pasta and cook for about 5 minutes, stirring occasionally.
 
-Drain pasta and return it to the pot. Add butter, olive oil, and remaining 2 tbsp Italian seasoning. Stir well.
+Drain pasta and return it to the pot. Add butter, olive oil, and remaining 2 Tbsp Italian seasoning. Stir well.
 
 Serve pasta topped with meat sauce.
 
@@ -1156,18 +1158,18 @@ Optional: Pair with Caesar salad and garlic bread.`,
     tags: ["dinner", "seafood", "shellfish", "shrimp", "quick", "skillet", "pasta"],
     notes: "Light, buttery, and full of flavor. Great over angel hair pasta for an easy restaurant-style dinner at home.",
     ingredients: `1 1/2 lbs large shrimp, peeled and deveined
-2 tbsp butter
-2 tbsp olive oil
+2 Tbsp butter
+2 Tbsp olive oil
 4 garlic cloves, minced
 1/4 tsp red pepper flakes (optional)
 1/2 cup dry white wine or low-sodium chicken broth
-1 1/2 tbsp lemon juice
+1 1/2 Tbsp lemon juice
 1 lemon, cut into wedges
 1/4 cup chopped fresh parsley
 Salt and black pepper to taste`,
     instructions: `Pat shrimp dry and season with 1/2 tsp salt and 1/2 tsp pepper.
 
-Heat 1 tbsp olive oil and 1 tbsp butter in a large non-reactive skillet over medium-high heat.
+Heat 1 Tbsp olive oil and 1 Tbsp butter in a large non-reactive skillet over medium-high heat.
 
 Add shrimp in a single layer and cook 1 to 2 minutes per side until just opaque. Remove to a plate.
 
@@ -1233,28 +1235,28 @@ Serve with lemon wedges and your choice of cocktail sauce or tartar sauce.`,
     photoUrl: "/images/crock-pot-roast-beef.webp",
     tags: ["dinner", "beef", "roast", "slow-cooker", "comfort", "family", "leftovers"],
     notes: "A hearty slow-cooker classic with tender beef, vegetables, and an optional homemade gravy.",
-    ingredients: `1 1/2 tbsp olive oil, divided
+    ingredients: `1 1/2 Tbsp olive oil, divided
 1 (3 lb) chuck roast
 Salt and freshly ground black pepper
 1 medium yellow onion, peeled, halved, and cut into thick slices
 5 garlic cloves, minced
 2 cups beef broth
 2 tsp Worcestershire sauce
-1 tbsp minced fresh thyme
-1 tbsp minced fresh rosemary
+1 Tbsp minced fresh thyme
+1 Tbsp minced fresh rosemary
 2 1/2 lbs small Yukon gold potatoes, left whole
 2 cups baby carrots
 2 cups celery, cut into 1-inch pieces
 1 (8 oz) package baby bella mushrooms
-2 1/2 tbsp cornstarch mixed with 3 tbsp beef broth, optional
-2 tbsp chopped fresh parsley`,
-    instructions: `Heat 1 tbsp olive oil in a large pot over medium-high heat.
+2 1/2 Tbsp cornstarch mixed with 3 Tbsp beef broth, optional
+2 Tbsp chopped fresh parsley`,
+    instructions: `Heat 1 Tbsp olive oil in a large pot over medium-high heat.
 
 Pat roast dry and season generously with salt and pepper.
 
 Sear roast until browned on both sides, about 4 to 5 minutes per side. Transfer to slow cooker.
 
-Add remaining 1/2 tbsp olive oil to the pot. Add onion and cook for 2 minutes.
+Add remaining 1/2 Tbsp olive oil to the pot. Add onion and cook for 2 minutes.
 
 Add mushrooms and cook until they begin to brown. Add garlic and cook for 30 seconds more.
 
@@ -1307,7 +1309,7 @@ Serve hot and top with cheddar cheese, bacon bits, and green onions if desired.`
   tags: ["dessert", "quick", "sweet", "baked", "blueberry", "easy"],
   ingredients: `3 oz cream cheese, softened
 1/2 tsp vanilla extract
-2 1/2 tbsp powdered sugar
+2 1/2 Tbsp powdered sugar
 1 tube crescent roll dough
 2/3 cup fresh blueberries`,
   instructions: `Preheat oven to 375°F.
@@ -1334,7 +1336,7 @@ Place on a baking sheet and bake for 10 minutes or until golden brown.`,
 8 large eggs
 2 cups milk
 1/2 cup heavy cream
-1 tbsp vanilla extract
+1 Tbsp vanilla extract
 3/4 cup sugar
 1/2 cup all-purpose flour
 1/2 cup light brown sugar
@@ -1368,9 +1370,9 @@ Top with fresh fruit if desired.`,
   photoUrl: "/images/big-crispy-chicken-wings.webp",
   effort: "big",
   tags: ["dinner", "wings", "fried", "game-day", "crispy", "comfort"],
-  ingredients: `2–3 lbs chicken wings
+  ingredients: `2-3 lbs chicken wings
 Vegetable oil (for frying)
-1 tbsp beef tallow
+1 Tbsp beef tallow
 1/2 cup cornstarch
 Celery (optional)
 Carrots (optional)
@@ -1387,7 +1389,7 @@ Heat oil and beef tallow to 375°F.
 
 Toss wings with cornstarch and seasoning.
 
-Fry in batches for 10–12 minutes until golden and internal temp reaches 165°F.
+Fry in batches for 10-12 minutes until golden and internal temp reaches 165°F.
 
 Remove to a wire rack.
 
@@ -1405,7 +1407,7 @@ Toss in sauce or serve sauce on the side.`,
   notes: "Juicy, smoky chicken thighs coated in sticky BBQ sauce.",
   ingredients: `6 bone-in chicken thighs
 Salt and pepper
-1 tbsp olive oil
+1 Tbsp olive oil
 1 cup BBQ sauce`,
   instructions: `Preheat grill to medium heat.
 Pat chicken dry and season with salt and pepper.
@@ -1427,7 +1429,7 @@ Rest 5 minutes before serving.`
   ingredients: `2 ribeye or sirloin steaks
 Salt
 Black pepper
-1 tbsp olive oil`,
+1 Tbsp olive oil`,
   instructions: `Preheat grill to high heat.
 Pat steaks dry and rub with olive oil.
 Season generously with salt and pepper.
@@ -1445,7 +1447,7 @@ Rest 5 minutes before slicing.`
   tags: ["dinner", "chicken", "grilling", "healthy"],
   notes: "A simple go-to grilled chicken recipe that works with anything.",
   ingredients: `4 chicken breasts
-2 tbsp olive oil
+2 Tbsp olive oil
 Salt and pepper
 1 tsp garlic powder`,
   instructions: `Preheat grill to medium-high.
@@ -1464,7 +1466,7 @@ Rest before slicing.`
   tags: ["dinner", "seafood", "shrimp", "grilling", "quick"],
   notes: "Fast-cooking shrimp skewers with bright, fresh flavor.",
   ingredients: `1 lb shrimp, peeled and deveined
-2 tbsp olive oil
+2 Tbsp olive oil
 2 cloves garlic, minced
 Juice of 1 lemon
 Salt and pepper`,
@@ -1486,7 +1488,7 @@ Grill 2 to 3 minutes per side until pink and opaque.`
   ingredients: `1 package smoked sausage
 2 bell peppers, sliced
 1 onion, sliced
-1 tbsp olive oil
+1 Tbsp olive oil
 Salt and pepper`,
   instructions: `Preheat grill to medium.
 Toss peppers and onions with olive oil, salt, and pepper.
@@ -1504,7 +1506,7 @@ Serve together.`
   tags: ["dinner", "pork", "grilling", "juicy"],
   notes: "Tender grilled pork chops with a simple seasoning.",
   ingredients: `4 pork chops
-2 tbsp olive oil
+2 Tbsp olive oil
 Salt and pepper
 1 tsp paprika`,
   instructions: `Preheat grill to medium-high.
@@ -1526,7 +1528,7 @@ Rest 5 minutes before serving.`
 1 1/2 tsp salt
 1 tsp black pepper
 1/2 tsp garlic powder
-1/2 tbsp olive oil
+1/2 Tbsp olive oil
 4 to 6 hamburger buns
 Sliced cheddar cheese
 Lettuce
@@ -1574,7 +1576,7 @@ export const SIDE_DISHES: Meal[] = [
     ingredients: `1 large russet potato
 1/2 tsp salt
 1 Tbsp olive oil (or cooking spray)
-1–2 Tbsp butter (depending on potato size)
+1-2 Tbsp butter (depending on potato size)
 Shredded cheese (optional)
 Sour cream (optional)`,
     instructions: `Rinse the potato and dry completely.
@@ -1598,8 +1600,8 @@ Slice down the middle, fluff with a fork, and add butter and toppings.`,
 1/4 cup olive oil
 1 1/2 tsp kosher salt
 1 tsp freshly ground black pepper
-2 tbsp minced garlic
-2 tbsp minced fresh parsley`,
+2 Tbsp minced garlic
+2 Tbsp minced fresh parsley`,
     instructions: `Preheat oven to 400°F.
 
 Cut potatoes in halves or quarters and place in a bowl with olive oil, salt, pepper, and garlic. Toss until coated.
@@ -1713,8 +1715,8 @@ Use in place of one store-bought chili seasoning packet.`,
   photoUrl: "/images/quick-captains-wing-rub.webp",
   effort: "quick",
   tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian", "wings" ],
-  ingredients: `2 tbsp smoked paprika
-1 1/2 tbsp cayenne pepper
+  ingredients: `2 Tbsp smoked paprika
+1 1/2 Tbsp cayenne pepper
 1 tsp ancho chili powder
 1 tsp garlic powder
 1 tsp onion powder
@@ -1768,7 +1770,7 @@ Bake for 20 minutes or until set and lightly browned.`,
     ingredients: `Sourdough bread
 Butter
 Mild cheddar cheese slices`,
-    instructions: `Spread 1/2 tbsp butter on one side of each slice of bread.
+    instructions: `Spread 1/2 Tbsp butter on one side of each slice of bread.
 
 Heat a non-stick pan over medium-low heat.
 
@@ -1836,7 +1838,7 @@ Cook until cheese melts and everything is hot. Serve immediately.`,
     effort: "quick",
     tags: ["dinner", "fish", "quick", "seafood", "light"],
     ingredients: `4 tilapia fillets
-1 tbsp olive oil
+1 Tbsp olive oil
 1 tsp lemon pepper seasoning
 1/2 tsp garlic powder
 1 lemon, sliced
@@ -1845,7 +1847,7 @@ Salt to taste`,
 
 Season tilapia with lemon pepper, garlic powder, and salt.
 
-Cook 3–4 minutes per side until fish flakes easily.
+Cook 3-4 minutes per side until fish flakes easily.
 
 Serve with lemon slices and a simple side.`,
   },
@@ -1894,7 +1896,7 @@ hot sauce (optional)
 sour cream (optional)
 
 Taco seasoning:
-½ tbsp chili powder
+½ Tbsp chili powder
 1 tsp cumin
 1 tsp salt
 ½ tsp garlic powder
@@ -1924,8 +1926,8 @@ Cook taco shells according to the package. Place diced onions, diced tomatoes, s
 1 lb ground beef
 8 oz tomato sauce
 ½ cup ketchup
-2 tbsp brown sugar
-2 tbsp Worcestershire sauce
+2 Tbsp brown sugar
+2 Tbsp Worcestershire sauce
 1 tsp mustard
 ½ tsp garlic powder
 ¼ tsp onion powder
@@ -2001,7 +2003,7 @@ Rest for at least 15 minutes before cutting.`,
 Quick Chili Topping:
 1 lb ground beef
 1 can tomato sauce
-1 tbsp chili powder
+1 Tbsp chili powder
 1 tsp cumin
 1/2 tsp garlic powder
 1/2 tsp onion powder
@@ -2072,7 +2074,7 @@ Serve hot.`,
 2 cups beef broth
 
 Taco Seasoning:
-1 tbsp chili powder
+1 Tbsp chili powder
 1 tsp cumin
 1/2 tsp paprika
 1/2 tsp garlic powder
@@ -2100,10 +2102,10 @@ Serve with shredded cheese, sour cream, or tortilla chips if desired.`,
   ingredients: `1 1/2 lbs chicken breast, sliced
 2 bell peppers, sliced
 1 onion, sliced
-2 tbsp olive oil
+2 Tbsp olive oil
 
 Fajita Seasoning:
-1 tbsp chili powder
+1 Tbsp chili powder
 1 tsp paprika
 1 tsp cumin
 1/2 tsp garlic powder
@@ -2167,7 +2169,7 @@ Serve hot.`,
   effort: "big",
   tags: ["dinner", "chicken", "baked", "family", "crispy", "comfort"],
   ingredients: `6 bone-in chicken thighs
-1 tbsp olive oil
+1 Tbsp olive oil
 
 Chicken Rub:
 1 tsp smoked paprika
@@ -2198,7 +2200,7 @@ Serve hot.`,
   effort: "big",
   tags: ["dinner", "chicken", "bbq", "baked", "family", "comfort"],
   ingredients: `8 chicken drumsticks
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 cup barbecue sauce
 
 BBQ Rub:
@@ -2236,7 +2238,7 @@ export const NEW_VEGETARIAN_RECIPES: Meal[] = [
     photoUrl: "/images/quick-vegetable-stir-fry.webp",
     tags: ["vegetarian", "dinner", "quick", "healthy", "skillet", "asian"],
     notes: "A flexible, colorful dinner that is easy to adjust with whatever vegetables you have on hand.",
-    ingredients: `2 tbsp olive oil
+    ingredients: `2 Tbsp olive oil
 1 red bell pepper, sliced
 1 yellow bell pepper, sliced
 8 oz baby bella mushrooms, sliced
@@ -2249,12 +2251,12 @@ Sesame seeds, for garnish
 STIR FRY SAUCE
 1/2 cup water
 1/3 cup low-sodium soy sauce
-1 tbsp honey or brown sugar
-1 tbsp rice vinegar
+1 Tbsp honey or brown sugar
+1 Tbsp rice vinegar
 2 tsp toasted sesame oil
 2 garlic cloves, grated
 2 tsp grated fresh ginger
-1 tbsp cornstarch
+1 Tbsp cornstarch
 1/2 tsp red pepper flakes, optional
 Salt and pepper, to taste`,
     instructions: `In a medium bowl, whisk together the water, soy sauce, honey or brown sugar, rice vinegar, sesame oil, garlic, ginger, cornstarch, and red pepper flakes if using. Set aside.
@@ -2274,14 +2276,14 @@ Top with remaining green onions and sesame seeds and serve.`,
     photoUrl: "/images/normal-vegan-jambalaya.webp",
     tags: ["vegetarian", "dinner", "one-pot", "healthy", "spicy"],
     notes: "A hearty one-pot dinner with bold seasoning and good pantry-friendly ingredients.",
-    ingredients: `2 tbsp olive oil
+    ingredients: `2 Tbsp olive oil
 1/2 onion, chopped
 2 garlic cloves, minced
 1/2 red bell pepper, chopped
 1/2 green bell pepper, chopped
 1 carrot, peeled and chopped
 1 (14 oz) can crushed tomatoes
-2 tbsp soy sauce
+2 Tbsp soy sauce
 2 tsp dried oregano
 1 tsp dried thyme
 1 tsp garlic powder
@@ -2353,8 +2355,8 @@ Bake 8 to 10 minutes until cheese is bubbly and edges are crisp.`,
     tags: ["vegetarian", "dinner", "quick", "spicy", "skillet", "healthy"],
     notes: "A fast tofu dinner with bold spice and a little kick.",
     ingredients: `1 block extra-firm tofu
-2 tbsp Jamaican jerk seasoning
-1 tbsp olive oil
+2 Tbsp Jamaican jerk seasoning
+1 Tbsp olive oil
 1 cup bell peppers, sliced`,
     instructions: `Press tofu to remove excess water and cut into cubes. Toss tofu and bell peppers with jerk seasoning.
 
@@ -2374,8 +2376,8 @@ Heat olive oil in a skillet over medium-high heat. Sauté 8 to 10 minutes until 
 2 cups mixed vegetables (carrots, peas, corn)
 1 cup vegetable broth
 1/4 cup milk
-2 tbsp butter
-1 tbsp olive oil
+2 Tbsp butter
+1 Tbsp olive oil
 Salt and pepper, to taste`,
     instructions: `Preheat oven to 400°F.
 
@@ -2424,11 +2426,11 @@ Top with remaining mozzarella and bake 25 minutes until bubbly.`,
     ingredients: `2 (15 oz) cans chickpeas, drained and rinsed
 1 (13.5 oz) can coconut milk
 1 cup crushed tomatoes
-2 tbsp curry powder
+2 Tbsp curry powder
 2 cups cooked basmati rice
 1 small onion, diced
 2 garlic cloves, minced
-1 tbsp olive oil
+1 Tbsp olive oil
 Salt and pepper, to taste`,
     instructions: `Heat olive oil in a pot over medium heat. Sauté onion 3 to 4 minutes until softened. Add garlic and cook 30 seconds.
 
@@ -2451,13 +2453,13 @@ Serve over hot basmati rice.`,
 2 cups king oyster mushrooms, sliced
 2 cups potatoes, diced
 1 cup bell peppers, diced
-2 tbsp Cajun spice blend
-2 tbsp olive oil
+2 Tbsp Cajun spice blend
+2 Tbsp olive oil
 Salt and pepper, to taste
 Fresh parsley, optional`,
-    instructions: `Heat 1 tbsp olive oil in a large skillet over medium-high heat. Add diced potatoes and cook, stirring occasionally, until crisping and tender, 10 to 12 minutes. Season lightly.
+    instructions: `Heat 1 Tbsp olive oil in a large skillet over medium-high heat. Add diced potatoes and cook, stirring occasionally, until crisping and tender, 10 to 12 minutes. Season lightly.
 
-Push potatoes to the side and add remaining 1 tbsp olive oil. Add tofu and mushrooms and cook until browned, 6 to 8 minutes.
+Push potatoes to the side and add remaining 1 Tbsp olive oil. Add tofu and mushrooms and cook until browned, 6 to 8 minutes.
 
 Stir in bell peppers and Cajun seasoning. Cook 5 to 7 minutes until peppers are tender. Season to taste.
 
@@ -2476,7 +2478,7 @@ Garnish with fresh parsley if desired and serve.`,
 1 cup cherry tomatoes, halved
 1/2 cup mozzarella pearls
 1/4 cup fresh basil
-2 tbsp olive oil
+2 Tbsp olive oil
 Salt and pepper, to taste`,
     instructions: `Cook pasta according to package directions. While pasta boils, halve the cherry tomatoes.
 
@@ -2521,7 +2523,7 @@ Place peppers in a baking dish with a splash of water in the bottom. Cover with 
 1 cup bean sprouts
 1/3 cup pad Thai sauce
 2 tsp crushed peanuts
-1 tbsp olive oil
+1 Tbsp olive oil
 Lime wedges, optional`,
     instructions: `Soak rice noodles in warm water according to package directions. Drain well.
 
@@ -2548,7 +2550,7 @@ Serve topped with crushed peanuts and a lime wedge if desired.`,
 2 large portobello mushrooms
 4 oz goat cheese
 1 egg, for egg wash
-1 tbsp olive oil
+1 Tbsp olive oil
 Salt and pepper, to taste`,
     instructions: `Preheat oven to 400°F.
 
@@ -2574,17 +2576,17 @@ Bake 25 to 30 minutes until golden and puffed.`,
 1/2 cup breadcrumbs
 1/2 red onion, finely diced
 3 garlic cloves, minced
-1 tbsp ground cumin
-3 tbsp olive oil
+1 Tbsp ground cumin
+3 Tbsp olive oil
 4 burger buns
 Salt and pepper, to taste`,
     instructions: `Preheat oven to 400°F.
 
-Toss sweet potato wedges with 1 1/2 tbsp olive oil, salt, and pepper. Spread on a baking sheet and roast 25 to 30 minutes, flipping halfway.
+Toss sweet potato wedges with 1 1/2 Tbsp olive oil, salt, and pepper. Spread on a baking sheet and roast 25 to 30 minutes, flipping halfway.
 
 In a bowl, mash black beans until mostly pasty. Stir in onion, garlic, breadcrumbs, cumin, salt, and pepper. Form into 4 patties.
 
-Heat remaining 1 1/2 tbsp olive oil in a skillet over medium heat. Cook patties 5 minutes per side until browned.
+Heat remaining 1 1/2 Tbsp olive oil in a skillet over medium heat. Cook patties 5 minutes per side until browned.
 
 Serve on buns with favorite toppings alongside sweet potato fries.`,
   },
@@ -2628,15 +2630,15 @@ Bake 20 minutes until cheese is bubbly. Garnish with remaining cilantro.`,
 1 medium white onion, chopped
 1 can Loma Linda Fri-Chik & Gravy
 2 eggs, beaten
-2 1/2 tbsp McKay's Chicken Seasoning
+2 1/2 Tbsp McKay's Chicken Seasoning
 1 (10.5 oz) can cream of mushroom soup
 1 cup milk
 1 (8 oz) block sharp cheddar cheese, shredded
 1 (8 oz) baby bella mushrooms, sliced
-2 tbsp butter
-1 tbsp olive oil
-1 tbsp minced garlic
-1 (4–7 oz) can green chilies (optional)
+2 Tbsp butter
+1 Tbsp olive oil
+1 Tbsp minced garlic
+1 (4-7 oz) can green chilies (optional)
 Salt and pepper to taste`,
     instructions: `Preheat oven to 350°F.
 
@@ -2708,7 +2710,7 @@ Let rest slightly before slicing and serving.`,
 1/2 cup grated Parmesan
 2 cups fresh spinach
 2 cloves garlic, minced
-1 tbsp butter
+1 Tbsp butter
 1/2 cup reserved pasta water
 Salt and black pepper to taste`,
     instructions: `Cook pasta and reserve 1/2 cup pasta water.
@@ -2734,7 +2736,7 @@ Season to taste and serve.`,
 4 oz fresh mozzarella, sliced
 1 tomato, thinly sliced
 1/4 cup fresh basil leaves
-1 tbsp butter`,
+1 Tbsp butter`,
     instructions: `Layer mozzarella, tomato, and basil between bread slices.
 
 Butter the outside of the sandwiches.
@@ -2751,7 +2753,7 @@ Grill in a skillet over medium heat for 3 to 4 minutes per side until bread is g
   tags: ["side", "grilling", "summer", "vegetarian"],
   notes: "Sweet corn with a light char and buttery finish.",
   ingredients: `4 ears corn, husked
-2 tbsp butter
+2 Tbsp butter
 Salt`,
   instructions: `Preheat grill to medium.
 Place corn directly on grill.
@@ -2765,13 +2767,13 @@ Brush with butter and sprinkle with salt before serving.`
   name: "Grilled Veggie Kabobs",
   effort: "quick",
   photoUrl: "/images/quick-grilled-veggie-kabobs.webp",
-  tags: ["side", "vegetarian", "grilling", "healthy"],
+  tags: ["dinner", "vegetarian", "grilling", "healthy"],
   notes: "Colorful grilled vegetables that pair with any main dish.",
   ingredients: `Zucchini, sliced
 Bell peppers, chopped
 Red onion, chunks
 Mushrooms
-2 tbsp olive oil
+2 Tbsp olive oil
 Salt and pepper`,
   instructions: `Preheat grill to medium.
 Thread vegetables onto skewers.
@@ -2793,8 +2795,8 @@ export const VEGETARIAN_EXTRAS: Meal[] = [
     notes: "A fast no-cook option for lunch or a lighter meal.",
     ingredients: `1 cup cannellini beans, drained and rinsed
 1 ripe avocado
-1 tbsp lime juice
-2 tbsp fresh cilantro, chopped
+1 Tbsp lime juice
+2 Tbsp fresh cilantro, chopped
 Salt and pepper, to taste
 2 large whole wheat tortillas
 1/4 cup shredded carrots
@@ -2820,7 +2822,7 @@ Roll tightly, tuck in ends, and slice in half to serve.`,
 1/2 red onion, diced
 1 tsp smoked paprika
 2 eggs
-2 tbsp olive oil
+2 Tbsp olive oil
 Salt and pepper, to taste`,
     instructions: `Parboil diced potatoes in salted water for 5 minutes, then drain.
 
@@ -2870,8 +2872,8 @@ Drizzle with dressing just before serving and toss well.`,
 1 green bell pepper, chopped
 1/2 cup kalamata olives
 1/2 cup feta cheese, crumbled
-2 tbsp olive oil
-1 tbsp red wine vinegar
+2 Tbsp olive oil
+1 Tbsp red wine vinegar
 1 tsp dried oregano
 Salt and black pepper to taste`,
     instructions: `Add cucumber, tomatoes, onion, bell pepper, olives, and feta to a large bowl.
@@ -2891,8 +2893,8 @@ Serve immediately or chill until ready to serve.`,
     ingredients: `3 large tomatoes, sliced
 8 oz fresh mozzarella, sliced
 1/4 cup fresh basil leaves
-2 tbsp olive oil
-1 tbsp balsamic glaze
+2 Tbsp olive oil
+1 Tbsp balsamic glaze
 Salt and black pepper to taste`,
     instructions: `Arrange tomato slices and mozzarella slices on a platter.
 Tuck fresh basil leaves between the layers.
@@ -2933,8 +2935,8 @@ Drizzle with southwest ranch dressing and toss just before serving.`,
     ingredients: `2 cucumbers, sliced
 3 tomatoes, chopped
 1/4 red onion, thinly sliced
-2 tbsp olive oil
-1 tbsp red wine vinegar
+2 Tbsp olive oil
+1 Tbsp red wine vinegar
 1 tsp sugar
 Salt and black pepper to taste`,
     instructions: `Add cucumbers, tomatoes, and red onion to a bowl.
@@ -2955,7 +2957,7 @@ Chill for 15 minutes before serving if desired.`,
     effort: "normal",
     tags: ["salad", "normal", "chicken", "dinner", "protein", "classic"],
     ingredients: `2 chicken breasts
-1 tbsp olive oil
+1 Tbsp olive oil
 1 tsp garlic powder
 1/2 tsp salt
 1/4 tsp black pepper
@@ -2999,7 +3001,7 @@ Drizzle with dressing or serve dressing on the side.`,
     effort: "normal",
     tags: ["salad", "normal", "beef", "dinner", "protein", "hearty"],
     ingredients: `1 lb sirloin steak
-1 tbsp olive oil
+1 Tbsp olive oil
 1 tsp salt
 1/2 tsp black pepper
 1 head romaine lettuce, chopped
@@ -3028,8 +3030,8 @@ Top with steak and drizzle with balsamic vinaigrette.`,
 1/2 cup shredded cheddar cheese
 1/4 cup sunflower seeds
 1/3 cup mayonnaise
-1 tbsp apple cider vinegar
-1 tbsp sugar`,
+1 Tbsp apple cider vinegar
+1 Tbsp sugar`,
     instructions: `Add broccoli, bacon, red onion, cheddar, and sunflower seeds to a large bowl.
 Whisk together mayonnaise, apple cider vinegar, and sugar.
 Pour dressing over salad and mix well.
@@ -3162,8 +3164,8 @@ Add salsa, sour cream, and crushed tortilla chips before serving.`,
 1/2 red onion, diced
 1/2 cup feta cheese
 1/4 cup parsley, chopped
-2 tbsp olive oil
-1 tbsp lemon juice
+2 Tbsp olive oil
+1 Tbsp lemon juice
 1 tsp dried oregano
 Salt and black pepper to taste`,
     instructions: `Add chickpeas, cucumber, tomatoes, red onion, feta, and parsley to a large bowl.

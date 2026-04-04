@@ -158,7 +158,7 @@ function normalizeUnit(unit: string | null): string | null {
   if (["lb", "lbs", "pound", "pounds"].includes(u)) return "lb";
   if (["oz", "ounce", "ounces"].includes(u)) return "oz";
   if (["cup", "cups"].includes(u)) return "cup";
-  if (["tbsp", "tablespoon", "tablespoons"].includes(u)) return "tbsp";
+  if (["Tbsp", "tablespoon", "tablespoons"].includes(u)) return "Tbsp";
   if (["tsp", "teaspoon", "teaspoons"].includes(u)) return "tsp";
   if (["can", "cans"].includes(u)) return "can";
   if (["package", "packages", "pkg", "pkgs"].includes(u)) return "package";
@@ -172,7 +172,7 @@ function pluralizeUnit(unit: string, quantity: number): string {
     if (unit === "lb") return "lb";
     if (unit === "oz") return "oz";
     if (unit === "cup") return "cup";
-    if (unit === "tbsp") return "tbsp";
+    if (unit === "Tbsp") return "Tbsp";
     if (unit === "tsp") return "tsp";
     if (unit === "can") return "can";
     if (unit === "package") return "package";
@@ -183,7 +183,7 @@ function pluralizeUnit(unit: string, quantity: number): string {
   if (unit === "lb") return "lbs";
   if (unit === "oz") return "oz";
   if (unit === "cup") return "cups";
-  if (unit === "tbsp") return "tbsp";
+  if (unit === "Tbsp") return "Tbsp";
   if (unit === "tsp") return "tsp";
   if (unit === "can") return "cans";
   if (unit === "package") return "packages";
@@ -351,7 +351,7 @@ function parseIngredient(line: string): ParsedAmount {
   const raw = line.trim();
 
   const measuredMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves)\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|Tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves)\s+(.*)$/i
   );
 
   if (measuredMatch) {
@@ -427,7 +427,7 @@ function shouldShowMeasuredTotal(
     return true;
   }
 
-  if ((unit === "cup" || unit === "tbsp" || unit === "tsp") && total >= 2) {
+  if ((unit === "cup" || unit === "Tbsp" || unit === "tsp") && total >= 2) {
     return true;
   }
 

@@ -98,7 +98,7 @@ function ingredientMatchesStep(step: string, ingredient: string) {
     .toLowerCase()
     .replace(/^[\d/\s.,()-]+/, "")
     .replace(
-      /\b(cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|lb|lbs|oz|ounce|ounces|clove|cloves|can|cans|package|packages|slice|slices)\b/g,
+      /\b(cup|cups|Tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|lb|lbs|oz|ounce|ounces|clove|cloves|can|cans|package|packages|slice|slices)\b/g,
       ""
     )
     .replace(/\s+/g, " ")

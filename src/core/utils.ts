@@ -13,9 +13,9 @@ export const formatIngredients = (line: string, simplify = false) => {
 
   // 2. If simplify is true, strip measurements (New logic)
   if (simplify) {
-    // This regex looks for numbers and common units (cups, tbsp, oz, lbs, g, ml, etc.)
+    // This regex looks for numbers and common units (cups, Tbsp, oz, lbs, g, ml, etc.)
     // and removes them from the start of the string.
-    const measurementRegex = /^(\d+\s*\/\s*\d+|\d+\s*\d+\s*\/\s*\d+|\d+(\.\d+)?)\s*(cups?|tbsp|tsp|oz|ounces?|lbs?|pounds?|g|kg|ml|l|cans?|jars?|packets?|slices?|sticks?|cloves?|heads?)\s*(of\s+)?/i;
+    const measurementRegex = /^(\d+\s*\/\s*\d+|\d+\s*\d+\s*\/\s*\d+|\d+(\.\d+)?)\s*(cups?|Tbsp|tsp|oz|ounces?|lbs?|pounds?|g|kg|ml|l|cans?|jars?|packets?|slices?|sticks?|cloves?|heads?)\s*(of\s+)?/i;
     
     // Also strip simple leading numbers (e.g., "2 onions" becomes "Onions")
     const leadingNumberRegex = /^(\d+\s*\/\s*\d+|\d+(\.\d+)?)\s*/;
