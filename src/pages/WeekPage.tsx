@@ -10,7 +10,6 @@ import {
   ChefHat,
   Trash2,
   CalendarPlus,
-  Download,
   Utensils,
   Share2,
 } from "lucide-react";
@@ -679,32 +678,33 @@ export default function WeekPage({
                           style={{ display: "flex", gap: 10, flexWrap: "wrap" }}
                         >
                           <button
-                            onClick={() => openGoogleCalendar(day, meal)}
-                            style={{
-                              ...btnBase,
-                              flex: 1,
-                              minWidth: 0,
-                              background: "rgba(59,130,246,0.12)",
-                              color: "#60a5fa",
-                            }}
-                          >
-                            <CalendarPlus size={16} />
-                            Add to Calendar
-                          </button>
+  title="Long press to download .ics"
+  onClick={() => openGoogleCalendar(day, meal)}
+  onContextMenu={(e) => {
+    e.preventDefault();
+    downloadDayICS(day, meal);
+  }}
+  onTouchStart={(e) => {
+    const timer = setTimeout(() => {
+      downloadDayICS(day, meal);
+    }, 600);
 
-                          <button
-                            onClick={() => downloadDayICS(day, meal)}
-                            style={{
-                              ...btnBase,
-                              flex: 1,
-                              minWidth: 0,
-                              background: "rgba(255,255,255,0.08)",
-                              color: "rgba(255,255,255,0.88)",
-                            }}
-                          >
-                            <Download size={16} />
-                            .ics
-                          </button>
+    const clear = () => clearTimeout(timer);
+
+    e.currentTarget.addEventListener("touchend", clear, { once: true });
+    e.currentTarget.addEventListener("touchmove", clear, { once: true });
+  }}
+  style={{
+    ...btnBase,
+    flex: 1,
+    minWidth: 0,
+    background: "rgba(59,130,246,0.12)",
+    color: "#60a5fa",
+  }}
+>
+  <CalendarPlus size={16} />
+  Add to Calendar
+</button>
                         </div>
                       </>
                     ) : (
