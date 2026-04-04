@@ -1393,7 +1393,169 @@ Remove to a wire rack.
 
 Toss in sauce or serve sauce on the side.`,
   notes: "Crispy, restaurant-quality wings at home. Drying them well is key.",
-}
+},
+
+{
+  id: "normal-grilled-bbq-chicken-thighs",
+  slug: "normal-grilled-bbq-chicken-thighs",
+  name: "Grilled BBQ Chicken Thighs",
+  effort: "normal",
+  photoUrl: "/images/normal-grilled-bbq-chicken-thighs.webp",
+  tags: ["dinner", "chicken", "grilling", "bbq", "juicy"],
+  notes: "Juicy, smoky chicken thighs coated in sticky BBQ sauce.",
+  ingredients: `6 bone-in chicken thighs
+Salt and pepper
+1 tbsp olive oil
+1 cup BBQ sauce`,
+  instructions: `Preheat grill to medium heat.
+Pat chicken dry and season with salt and pepper.
+Brush lightly with olive oil.
+Grill skin-side down for 6 to 7 minutes.
+Flip and grill another 6 to 7 minutes.
+Brush BBQ sauce on both sides and cook 2 to 3 more minutes until caramelized.
+Rest 5 minutes before serving.`
+},
+
+{
+  id: "quick-grilled-steak",
+  slug: "quick-grilled-steak",
+  name: "Grilled Steak",
+  effort: "quick",
+  photoUrl: "/images/quick-grilled-steak.webp",
+  tags: ["dinner", "beef", "grilling", "classic"],
+  notes: "Simple grilled steak with a perfect crust and juicy center.",
+  ingredients: `2 ribeye or sirloin steaks
+Salt
+Black pepper
+1 tbsp olive oil`,
+  instructions: `Preheat grill to high heat.
+Pat steaks dry and rub with olive oil.
+Season generously with salt and pepper.
+Grill 4 to 5 minutes per side for medium-rare.
+Adjust time for desired doneness.
+Rest 5 minutes before slicing.`
+},
+
+{
+  id: "quick-grilled-chicken-breasts",
+  slug: "quick-grilled-chicken-breasts",
+  name: "Grilled Chicken Breasts",
+  effort: "quick",
+  photoUrl: "/images/quick-grilled-chicken-breasts.webp",
+  tags: ["dinner", "chicken", "grilling", "healthy"],
+  notes: "A simple go-to grilled chicken recipe that works with anything.",
+  ingredients: `4 chicken breasts
+2 tbsp olive oil
+Salt and pepper
+1 tsp garlic powder`,
+  instructions: `Preheat grill to medium-high.
+Brush chicken with olive oil.
+Season with salt, pepper, and garlic powder.
+Grill 5 to 7 minutes per side until internal temp reaches 165°F.
+Rest before slicing.`
+},
+
+{
+  id: "quick-grilled-shrimp-skewers",
+  slug: "quick-grilled-shrimp-skewers",
+  name: "Grilled Shrimp Skewers",
+  effort: "quick",
+  photoUrl: "/images/quick-grilled-shrimp-skewers.webp",
+  tags: ["dinner", "seafood", "shrimp", "grilling", "quick"],
+  notes: "Fast-cooking shrimp skewers with bright, fresh flavor.",
+  ingredients: `1 lb shrimp, peeled and deveined
+2 tbsp olive oil
+2 cloves garlic, minced
+Juice of 1 lemon
+Salt and pepper`,
+  instructions: `Preheat grill to medium-high.
+Thread shrimp onto skewers.
+Mix olive oil, garlic, lemon juice, salt, and pepper.
+Brush over shrimp.
+Grill 2 to 3 minutes per side until pink and opaque.`
+},
+
+{
+  id: "quick-grilled-sausage-peppers",
+  slug: "quick-grilled-sausage-peppers",
+  name: "Grilled Sausage and Peppers",
+  effort: "quick",
+  photoUrl: "/images/quick-grilled-sausage-peppers.webp",
+  tags: ["dinner", "sausage", "grilling", "one-pan"],
+  notes: "A simple and flavorful cookout favorite.",
+  ingredients: `1 package smoked sausage
+2 bell peppers, sliced
+1 onion, sliced
+1 tbsp olive oil
+Salt and pepper`,
+  instructions: `Preheat grill to medium.
+Toss peppers and onions with olive oil, salt, and pepper.
+Grill sausage 10 to 12 minutes, turning occasionally.
+Grill vegetables in a grill basket or foil pan until tender.
+Serve together.`
+},
+
+{
+  id: "normal-grilled-pork-chops",
+  slug: "normal-grilled-pork-chops",
+  name: "Grilled Pork Chops",
+  effort: "normal",
+  photoUrl: "/images/normal-grilled-pork-chops.webp",
+  tags: ["dinner", "pork", "grilling", "juicy"],
+  notes: "Tender grilled pork chops with a simple seasoning.",
+  ingredients: `4 pork chops
+2 tbsp olive oil
+Salt and pepper
+1 tsp paprika`,
+  instructions: `Preheat grill to medium-high.
+Rub pork chops with olive oil.
+Season with salt, pepper, and paprika.
+Grill 4 to 6 minutes per side until cooked through.
+Rest 5 minutes before serving.`
+},
+
+{
+  id: "quick-grilled-burgers",
+  slug: "quick-grilled-burgers",
+  name: "Grilled Burgers",
+  effort: "quick",
+  photoUrl: "/images/quick-grilled-burgers.webp",
+  tags: ["dinner", "beef", "grilling", "cookout", "quick", "summer"],
+  notes: "A classic backyard burger with juicy patties, melted cheese, and all your favorite toppings.",
+  ingredients: `2 lbs ground beef (80/20)
+1 1/2 tsp salt
+1 tsp black pepper
+1/2 tsp garlic powder
+1/2 tbsp olive oil
+4 to 6 hamburger buns
+Sliced cheddar cheese
+Lettuce
+Tomato, sliced
+Onion, sliced
+Pickles`,
+  instructions: `Divide the ground beef into equal portions (about 1/3 to 1/2 lb each).
+Gently shape into patties about 1 inch thick.
+Press a small dimple into the center of each patty to prevent puffing.
+
+Preheat grill to medium-high heat.
+
+Lightly brush patties with olive oil, then season generously with salt, pepper, and garlic powder just before grilling.
+
+Place patties on the grill and close the lid.
+Grill for 4 to 5 minutes on the first side until a nice char develops.
+
+Flip once and do not press down on the patties.
+Cook another 4 to 5 minutes, or until desired doneness.
+
+During the last minute, add cheese slices and close the lid to melt.
+
+Remove from grill and let rest for 2 to 3 minutes.
+
+While burgers rest, toast buns and onions on the grill for 30 to 45 seconds.
+
+Assemble burgers with toppings and serve with chips or potato wedges.`
+},
+
 ];
 
 // =====================================================
@@ -1777,114 +1939,6 @@ Set a large pot over medium-low heat. Add a few drops of extra-virgin olive oil,
 Pour the sauce over the browned meat, stir to combine, and simmer for at least 10 minutes until heated through, stirring occasionally.
 
 Serve warm on hamburger buns with sliced pickles on top.`,
-  },
-
-  {
-    id: "quick-taco-mac-skillet",
-    slug: "quick-taco-mac-skillet",
-    name: "Taco Mac Skillet",
-    photoUrl: "/images/quick-taco-mac-skillet.webp",
-    notes: "A fast one-pan mashup of taco night and mac and cheese with bold Tex-Mex flavor.",
-    effort: "quick",
-    tags: ["dinner", "beef", "pasta", "quick", "tex-mex", "one-pan"],
-    ingredients: `1 lb ground beef
-2 cups cooked macaroni
-1 packet taco seasoning
-1/2 cup water
-1 cup salsa
-1 cup shredded cheddar`,
-    instructions: `Brown ground beef in a skillet and drain if needed.
-
-Add taco seasoning, water, and salsa. Stir well.
-
-Fold in cooked macaroni and cheddar.
-
-Cook until cheese melts and everything is hot. Serve immediately.`,
-  },
-
-  {
-    id: "quick-lemon-pepper-tilapia",
-    slug: "quick-lemon-pepper-tilapia",
-    name: "Lemon Pepper Tilapia",
-    photoUrl: "/images/quick-lemon-pepper-tilapia.webp",
-    notes: "A light and quick seafood dinner with bright lemon flavor and simple seasoning.",
-    effort: "quick",
-    tags: ["dinner", "fish", "quick", "seafood", "light"],
-    ingredients: `4 tilapia fillets
-1 tbsp olive oil
-1 tsp lemon pepper seasoning
-1/2 tsp garlic powder
-1 lemon, sliced
-Salt to taste`,
-    instructions: `Heat olive oil in a skillet over medium heat.
-
-Season tilapia with lemon pepper, garlic powder, and salt.
-
-Cook 3–4 minutes per side until fish flakes easily.
-
-Serve with lemon slices and a simple side.`,
-  },
-
-   {
-    id: "quick-bbq-chicken",
-    slug: "quick-bbq-chicken",
-    name: "Oven BBQ Chicken",
-    photoUrl: "/images/quick-bbq-chicken.webp",
-    notes: "BBQ chicken is a savory dish featuring tender, juicy chicken that is seasoned with a savory BBQ sauce and baked to perfection",
-    effort: "quick",
-    tags: ["dinner", "chicken", "quick", "bbq", "family-friendly"],
-    ingredients: `4 boneless skinless chicken breasts
-extra virgin olive oil
-salt , to taste
-pepper , to taste
-½ cup BBQ sauce`,
-    instructions: `Preheat the oven to 450. 
-
-Drizzle each chicken breast with oil. Season with kosher salt and black pepper. Place on a baking sheet lined with aluminum foil.
-
-Bake in the oven for 15 minutes. Brush the top side of the chicken with BBQ sauce, return to the oven and cook for 5-8 minutes longer, or until the internal temperature is 160°.
-
-Let the chicken rest a few minutes for the internal temp to raise to 165° and the juices to settle before serving.
-
-Serve with corn in the cob.`,
-  },
-
-  {
-    id: "normal-simple-tacos",
-    slug: "normal-simple-tacos",
-    name: "Simple Tacos",
-    photoUrl: "/images/normal-simple-tacos.webp",
-    notes: "Tacos are a fast, versatile, and crowd-pleasing dish featuring seasoned ground beef tucked into crispy hard shells or soft tortillas",
-    effort: "normal",
-    tags: ["dinner", "beef", "tacos", "simple", "family-friendly"],
-    ingredients: `1 lb ground beef 
-1 packet taco seasoning (Store bought or make your own, see below 👇)
-2/3 cup of water
-1/2 white onion, diced
-4 roma tomatoes, diced
-1 cup shredded cheddar cheese 
-2 cups lettuce, chopped 
-Taco shells (hard or soft)
-hot sauce (optional)
-sour cream (optional)
-
-Taco seasoning:
-½ tbsp chili powder
-1 tsp cumin
-1 tsp salt
-½ tsp garlic powder
-½ tsp onion powder
-½ tsp paprika
-⅛ tsp oregano
-¼ tsp pepper
-⅛ tsp crushed red pepper or jalapeno flakes `,
-    instructions: `Preheat oven to 350
-
-If you are making the taco seasoning, add all the ingredients in a bowl and stir until combined. Set aside.
-
-In a skillet add you ground beef and cook until there is no more pink, drain excess grease. Add water and seasoning and bring to a simmer. Cook until the meat mixture soaks up all the water.
-
-Cook taco shells according to the package. Place diced onions, diced tomatoes, shredded cheese, chopped lettuce and optional ingredients out for a taco bar.`,
   },
 
   {
@@ -2687,6 +2741,43 @@ Butter the outside of the sandwiches.
 
 Grill in a skillet over medium heat for 3 to 4 minutes per side until bread is golden and cheese is melted.`,
   }, 
+
+  {
+  id: "quick-grilled-corn",
+  slug: "quick-grilled-corn",
+  name: "Grilled Corn on the Cob",
+  effort: "quick",
+  photoUrl: "/images/quick-grilled-corn.webp",
+  tags: ["side", "grilling", "summer", "vegetarian"],
+  notes: "Sweet corn with a light char and buttery finish.",
+  ingredients: `4 ears corn, husked
+2 tbsp butter
+Salt`,
+  instructions: `Preheat grill to medium.
+Place corn directly on grill.
+Turn every few minutes until lightly charred, about 10 minutes.
+Brush with butter and sprinkle with salt before serving.`
+},
+
+{
+  id: "quick-grilled-veggie-kabobs",
+  slug: "quick-grilled-veggie-kabobs",
+  name: "Grilled Veggie Kabobs",
+  effort: "quick",
+  photoUrl: "/images/quick-grilled-veggie-kabobs.webp",
+  tags: ["side", "vegetarian", "grilling", "healthy"],
+  notes: "Colorful grilled vegetables that pair with any main dish.",
+  ingredients: `Zucchini, sliced
+Bell peppers, chopped
+Red onion, chunks
+Mushrooms
+2 tbsp olive oil
+Salt and pepper`,
+  instructions: `Preheat grill to medium.
+Thread vegetables onto skewers.
+Brush with olive oil and season.
+Grill 8 to 10 minutes, turning occasionally, until tender.`
+},
 
 ];
 
