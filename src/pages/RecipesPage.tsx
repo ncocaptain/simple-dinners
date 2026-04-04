@@ -8,6 +8,7 @@ import {
   Clock3,
   Plus,
   CalendarPlus,
+  Flame,
 } from "lucide-react";
 import Card from "../components/Card";
 import type { Meal, Effort } from "../core/types";
@@ -77,6 +78,7 @@ export default function RecipesPage({
   const [showCookbookOnly, setShowCookbookOnly] = useState(false);
   const [showVegetarianOnly, setShowVegetarianOnly] = useState(false);
   const [showSaladsOnly, setShowSaladsOnly] = useState(false);
+  const [showGrillingOnly, setShowGrillingOnly] = useState(false);
   const [cookbook, setCookbook] = useState<Meal[]>(() => getCookbook() as Meal[]);
   const [justAddedSlug, setJustAddedSlug] = useState<string | null>(null);
   const [saveMessage, setSaveMessage] = useState("");
@@ -132,6 +134,14 @@ export default function RecipesPage({
   }, [recipes, cookbook]);
 
   // =====================================================
+  // Builder: quick grouped stats
+  // =====================================================
+
+  const grillingCount = useMemo(() => {
+    return mergedRecipes.filter((recipe) => hasTag(recipe, "grilling")).length;
+  }, [mergedRecipes]);
+
+  // =====================================================
   // Builder: filtering
   // =====================================================
 
@@ -160,6 +170,7 @@ export default function RecipesPage({
       if (showCookbookOnly && !cookbookKeys.has(recipeKey)) return false;
       if (showVegetarianOnly && !hasTag(recipe, "vegetarian")) return false;
       if (showSaladsOnly && !hasTag(recipe, "salad")) return false;
+      if (showGrillingOnly && !hasTag(recipe, "grilling")) return false;
 
       return true;
     });
@@ -170,6 +181,7 @@ export default function RecipesPage({
     showCookbookOnly,
     showVegetarianOnly,
     showSaladsOnly,
+    showGrillingOnly,
     cookbookKeys,
   ]);
 
@@ -230,6 +242,14 @@ export default function RecipesPage({
 
     setDayPickerOpen(false);
     setSelectedMealForWeek(null);
+    setSaveMessage(`Added to ${day} ✓`);
+  };
+
+  const clearExtraFilters = () => {
+    setShowCookbookOnly(false);
+    setShowVegetarianOnly(false);
+    setShowSaladsOnly(false);
+    setShowGrillingOnly(false);
   };
 
   // =====================================================
@@ -345,6 +365,16 @@ export default function RecipesPage({
     color: "rgba(255,255,255,0.75)",
   };
 
+  const grillingTagStyle: React.CSSProperties = {
+    padding: "5px 9px",
+    borderRadius: 999,
+    fontSize: 12,
+    fontWeight: 800,
+    background: "rgba(250,204,21,0.15)",
+    border: "1px solid rgba(250,204,21,0.35)",
+    color: "#fde68a",
+  };
+
   const btnRow: React.CSSProperties = {
     display: "flex",
     flexWrap: "wrap",
@@ -386,7 +416,7 @@ export default function RecipesPage({
 
               <p style={{ margin: 0, fontSize: 14, opacity: 0.65, lineHeight: 1.5 }}>
                 Search your recipe library like a dinner dictionary. Browse built-ins,
-                salads, and anything saved to your cookbook.
+                salads, grilling favorites, and anything saved to your cookbook.
               </p>
             </div>
 
@@ -495,12 +525,41 @@ export default function RecipesPage({
                   Salads
                 </span>
               </button>
+
+              <button
+                type="button"
+                onClick={() => setShowGrillingOnly((v) => !v)}
+                style={{
+                  ...chipBase,
+                  background: showGrillingOnly
+                    ? "rgba(250,204,21,0.15)"
+                    : chipBase.background,
+                  border: showGrillingOnly
+                    ? "1px solid rgba(250,204,21,0.35)"
+                    : chipBase.border,
+                  color: showGrillingOnly ? "#fde68a" : chipBase.color,
+                }}
+              >
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                  <Flame size={14} />
+                  Grilling
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={clearExtraFilters}
+                style={chipBase}
+              >
+                Clear Extras
+              </button>
             </div>
 
             <div style={statsRow}>
               <span>{mergedRecipes.length} total recipes</span>
               <span>{filteredRecipes.length} showing</span>
               <span>{cookbook.length} in cookbook</span>
+              <span>{grillingCount} grilling recipes</span>
             </div>
 
             {saveMessage && (
@@ -530,6 +589,7 @@ export default function RecipesPage({
 
             const isSaved = cookbookKeys.has(recipeKey);
             const recipePhotoUrl = normalizePhotoUrl(recipe.photoUrl);
+            const isGrilling = hasTag(recipe, "grilling");
 
             return (
               <Card key={recipeKey} style={recipeCardStyle}>
@@ -557,11 +617,19 @@ export default function RecipesPage({
 
                     <div style={tagsWrap}>
                       <span style={tagStyle}>{effortLabel(recipe.effort)}</span>
-                      {(recipe.tags ?? []).slice(0, 4).map((tag) => (
-                        <span key={tag} style={tagStyle}>
-                          {tag}
-                        </span>
-                      ))}
+
+                      {isGrilling && (
+                        <span style={grillingTagStyle}>🔥 Grilling</span>
+                      )}
+
+                      {(recipe.tags ?? [])
+                        .filter((tag) => normalizeText(tag) !== "grilling")
+                        .slice(0, 4)
+                        .map((tag) => (
+                          <span key={tag} style={tagStyle}>
+                            {tag}
+                          </span>
+                        ))}
                     </div>
 
                     <p
@@ -639,9 +707,25 @@ export default function RecipesPage({
                 textAlign: "center",
                 padding: "24px 12px",
                 opacity: 0.7,
+                display: "grid",
+                gap: 10,
               }}
             >
-              No recipes found. Try adjusting your search or filters.
+              <div>No recipes found. Try adjusting your search or filters.</div>
+
+              <div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setQuery("");
+                    setEffort("all");
+                    clearExtraFilters();
+                  }}
+                  style={btnStyle}
+                >
+                  Reset Filters
+                </button>
+              </div>
             </div>
           </Card>
         )}

@@ -530,15 +530,18 @@ export default function WeekPage({
 
               return (
                 <Card
-                  key={day}
-                  style={{
-                    padding: 0,
-                    overflow: "hidden",
-                    borderRadius: "24px",
-                    position: "relative",
-                    zIndex: showWalkthrough ? 2 : "auto",
-                  }}
-                >
+  key={day}
+  style={{
+    padding: 0,
+    overflow: "hidden",
+    borderRadius: "24px",
+    position: "relative",
+    zIndex: showWalkthrough ? 2 : "auto",
+    background: "rgba(15, 23, 42, 0.92)",
+    color: "#f8fafc",
+    border: "1px solid rgba(255,255,255,0.08)",
+  }}
+>
                   <div style={{ padding: "20px", display: "grid", gap: 16 }}>
                     <div
                       style={{

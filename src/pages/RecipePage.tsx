@@ -53,13 +53,13 @@ function normalizePhotoUrl(url?: string) {
 function extractTimerSeconds(text: string): number | null {
   const lower = text.toLowerCase();
 
-  const rangeHourMinuteMatch = lower.match(
+  const hourMinuteMatch = lower.match(
     /(\d+)\s*(hour|hours|hr|hrs)\s*(\d+)\s*(minute|minutes|min|mins)/i
   );
-  if (rangeHourMinuteMatch) {
+  if (hourMinuteMatch) {
     return (
-      parseInt(rangeHourMinuteMatch[1], 10) * 3600 +
-      parseInt(rangeHourMinuteMatch[3], 10) * 60
+      parseInt(hourMinuteMatch[1], 10) * 3600 +
+      parseInt(hourMinuteMatch[3], 10) * 60
     );
   }
 
@@ -93,6 +93,7 @@ function formatTimer(seconds: number) {
 
 function ingredientMatchesStep(step: string, ingredient: string) {
   const stepText = step.toLowerCase();
+
   const cleaned = ingredient
     .toLowerCase()
     .replace(/^[\d/\s.,()-]+/, "")
@@ -105,8 +106,8 @@ function ingredientMatchesStep(step: string, ingredient: string) {
 
   const words = cleaned
     .split(" ")
-    .map((w) => w.trim())
-    .filter((w) => w.length > 2)
+    .map((word) => word.trim())
+    .filter((word) => word.length > 2)
     .slice(0, 3);
 
   return words.some((word) => stepText.includes(word));
@@ -123,35 +124,32 @@ function playTimerDoneSound() {
     if (!AudioCtx) return;
 
     const ctx = new AudioCtx();
-    const oscillator = ctx.createOscillator();
-    const gain = ctx.createGain();
 
-    oscillator.type = "sine";
-    oscillator.frequency.setValueAtTime(880, ctx.currentTime);
+    const oscillator1 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
 
-    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + 0.02);
-    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.22);
+    oscillator1.type = "sine";
+    oscillator1.frequency.setValueAtTime(880, ctx.currentTime);
+    gain1.gain.setValueAtTime(0.0001, ctx.currentTime);
+    gain1.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + 0.02);
+    gain1.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.22);
 
-    oscillator.connect(gain);
-    gain.connect(ctx.destination);
-
-    oscillator.start();
-    oscillator.stop(ctx.currentTime + 0.22);
+    oscillator1.connect(gain1);
+    gain1.connect(ctx.destination);
+    oscillator1.start();
+    oscillator1.stop(ctx.currentTime + 0.22);
 
     const oscillator2 = ctx.createOscillator();
     const gain2 = ctx.createGain();
 
     oscillator2.type = "sine";
     oscillator2.frequency.setValueAtTime(1174, ctx.currentTime + 0.25);
-
     gain2.gain.setValueAtTime(0.0001, ctx.currentTime + 0.22);
     gain2.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + 0.28);
     gain2.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.65);
 
     oscillator2.connect(gain2);
     gain2.connect(ctx.destination);
-
     oscillator2.start(ctx.currentTime + 0.22);
     oscillator2.stop(ctx.currentTime + 0.65);
   } catch {
@@ -160,7 +158,7 @@ function playTimerDoneSound() {
 }
 
 // =====================================================
-// Builder: page
+// Builder: types
 // =====================================================
 
 type RecipePageProps = {
@@ -170,6 +168,10 @@ type RecipePageProps = {
     reason?: string;
   };
 };
+
+// =====================================================
+// Builder: page
+// =====================================================
 
 export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   const navigate = useNavigate();
@@ -202,6 +204,7 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
     "idle"
   );
   const [saveMessage, setSaveMessage] = useState("");
+  const [finishMessage, setFinishMessage] = useState("");
   const [checkedIngredients, setCheckedIngredients] = useState<
     Record<number, boolean>
   >({});
@@ -210,7 +213,7 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchEndX, setTouchEndX] = useState<number | null>(null);
   const [keepAwake, setKeepAwake] = useState(false);
-  const [finishMessage, setFinishMessage] = useState("");
+
   const wakeLockRef = useRef<any>(null);
 
   // =====================================================
@@ -263,14 +266,10 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   }
 
   // =====================================================
-  // Builder: narrowed recipe
+  // Builder: derived recipe data
   // =====================================================
 
   const safeRecipe = recipe;
-
-  // =====================================================
-  // Builder: derived recipe content
-  // =====================================================
 
   const ingredients = useMemo(
     () => splitLines(safeRecipe.ingredients),
@@ -285,10 +284,15 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   const photoUrl = normalizePhotoUrl(safeRecipe.photoUrl);
   const currentStep = instructions[stepIndex] || "";
   const detectedTimerSeconds = extractTimerSeconds(currentStep);
-  const isLastStep = instructions.length > 0 && stepIndex >= instructions.length - 1;
+  const isLastStep =
+    instructions.length > 0 && stepIndex >= instructions.length - 1;
+  const isGrilling = Array.isArray(safeRecipe.tags)
+    ? safeRecipe.tags.includes("grilling")
+    : false;
 
   const stepIngredients = useMemo(() => {
     if (!currentStep) return [];
+
     return ingredients.filter((ingredient) =>
       ingredientMatchesStep(currentStep, ingredient)
     );
@@ -305,11 +309,20 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   }, [safeRecipe.slug]);
 
   useEffect(() => {
-    if (printMode) {
-      const id = window.setTimeout(() => window.print(), 300);
-      return () => window.clearTimeout(id);
-    }
+    if (!printMode) return;
+
+    const id = window.setTimeout(() => window.print(), 300);
+    return () => window.clearTimeout(id);
   }, [printMode]);
+
+  useEffect(() => {
+    setStepIndex(0);
+    setCheckedIngredients({});
+    setTimerSeconds(null);
+    setTimerRunning(false);
+    setSaveMessage("");
+    setFinishMessage("");
+  }, [slug]);
 
   useEffect(() => {
     if (!cookMode) return;
@@ -339,12 +352,12 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   useEffect(() => {
     if (!timerRunning || timerSeconds === null) return;
 
-    const t = window.setInterval(() => {
+    const intervalId = window.setInterval(() => {
       setTimerSeconds((prev) => {
         if (prev === null) return null;
 
         if (prev <= 1) {
-          window.clearInterval(t);
+          window.clearInterval(intervalId);
           setTimerRunning(false);
           setTimerSeconds(null);
           setSaveMessage("⏱️ Timer done!");
@@ -361,7 +374,7 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
       });
     }, 1000);
 
-    return () => window.clearInterval(t);
+    return () => window.clearInterval(intervalId);
   }, [timerRunning, timerSeconds]);
 
   useEffect(() => {
@@ -424,8 +437,10 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
     };
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () =>
+
+    return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, [keepAwake, cookMode]);
 
   useEffect(() => {
@@ -491,21 +506,20 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
       instructions: safeRecipe.instructions ?? "",
     });
 
-    if (result.ok) {
-      localStorage.setItem("scrollToCookbook", safeRecipe.slug);
-
-      if (result.already) {
-        setSavedState("already");
-        setSaveMessage("Already in Cookbook");
-      } else {
-        setSavedState("saved");
-        setSaveMessage("Saved to Cookbook ✓");
-      }
-
+    if (!result.ok) {
+      setSaveMessage("Could not save recipe");
       return;
     }
 
-    setSaveMessage("Could not save recipe");
+    localStorage.setItem("scrollToCookbook", safeRecipe.slug);
+
+    if (result.already) {
+      setSavedState("already");
+      setSaveMessage("Already in Cookbook");
+    } else {
+      setSavedState("saved");
+      setSaveMessage("Saved to Cookbook ✓");
+    }
   };
 
   const toggleIngredient = (index: number) => {
@@ -535,6 +549,7 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
 
   const handleCooked = () => {
     if (!safeRecipe.slug) return;
+
     recordCook(safeRecipe.slug);
     const history = getCookHistoryFor(safeRecipe.slug);
     setHistoryCount(history?.timesCooked ?? 0);
@@ -585,9 +600,9 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
     const minSwipeDistance = 50;
 
     if (distance > minSwipeDistance) {
-      setStepIndex((v) => Math.min(instructions.length - 1, v + 1));
+      setStepIndex((prev) => Math.min(instructions.length - 1, prev + 1));
     } else if (distance < -minSwipeDistance) {
-      setStepIndex((v) => Math.max(0, v - 1));
+      setStepIndex((prev) => Math.max(0, prev - 1));
     }
 
     setTouchStartX(null);
@@ -637,6 +652,17 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
     alignItems: "center",
     gap: 8,
     fontSize: 13,
+  };
+
+  const messageStyle: React.CSSProperties = {
+    padding: "10px 14px",
+    borderRadius: 12,
+    background: "rgba(34,197,94,0.12)",
+    border: "1px solid rgba(34,197,94,0.35)",
+    color: "#86efac",
+    fontSize: 13,
+    fontWeight: 800,
+    width: "fit-content",
   };
 
   // =====================================================
@@ -718,22 +744,7 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
               </button>
             </div>
 
-            {saveMessage && (
-              <div
-                style={{
-                  padding: "10px 14px",
-                  borderRadius: 12,
-                  background: "rgba(34,197,94,0.12)",
-                  border: "1px solid rgba(34,197,94,0.35)",
-                  color: "#86efac",
-                  fontSize: 13,
-                  fontWeight: 800,
-                  width: "fit-content",
-                }}
-              >
-                {saveMessage}
-              </div>
-            )}
+            {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
           </>
         )}
 
@@ -761,7 +772,7 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
               </div>
 
               <button
-                onClick={() => setKeepAwake((v) => !v)}
+                onClick={() => setKeepAwake((prev) => !prev)}
                 style={{
                   ...cookChipBtn,
                   border: keepAwake
@@ -780,22 +791,7 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
 
             {(saveMessage || finishMessage) && (
               <div style={{ display: "grid", gap: 10 }}>
-                {saveMessage && (
-                  <div
-                    style={{
-                      padding: "10px 14px",
-                      borderRadius: 12,
-                      background: "rgba(34,197,94,0.12)",
-                      border: "1px solid rgba(34,197,94,0.35)",
-                      color: "#86efac",
-                      fontSize: 13,
-                      fontWeight: 800,
-                      width: "fit-content",
-                    }}
-                  >
-                    {saveMessage}
-                  </div>
-                )}
+                {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
 
                 {finishMessage && (
                   <div
@@ -843,6 +839,40 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
             <h1 style={{ margin: 0, fontSize: 30, fontWeight: 1000 }}>
               {safeRecipe.name}
             </h1>
+
+            <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
+              {safeRecipe.effort && (
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 900,
+                    padding: "4px 8px",
+                    borderRadius: 999,
+                    background: "rgba(255,255,255,0.08)",
+                    letterSpacing: 0.5,
+                  }}
+                >
+                  {String(safeRecipe.effort).toUpperCase()}
+                </span>
+              )}
+
+              {isGrilling && (
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 900,
+                    padding: "4px 8px",
+                    borderRadius: 999,
+                    background: "rgba(250,204,21,0.15)",
+                    border: "1px solid rgba(250,204,21,0.35)",
+                    color: "#fde68a",
+                    letterSpacing: 0.5,
+                  }}
+                >
+                  🔥 GRILLING
+                </span>
+              )}
+            </div>
 
             {!!safeRecipe.notes?.trim() && (
               <p
@@ -996,7 +1026,7 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
 
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               <button
-                onClick={() => setStepIndex((v) => Math.max(0, v - 1))}
+                onClick={() => setStepIndex((prev) => Math.max(0, prev - 1))}
                 style={topBtn}
                 disabled={stepIndex <= 0}
               >
@@ -1007,8 +1037,8 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
               {!isLastStep ? (
                 <button
                   onClick={() =>
-                    setStepIndex((v) =>
-                      Math.min(instructions.length - 1, v + 1)
+                    setStepIndex((prev) =>
+                      Math.min(instructions.length - 1, prev + 1)
                     )
                   }
                   style={topBtn}
