@@ -18,9 +18,9 @@ export type Theme = {
 export const darkTheme: Theme = {
   colors: {
     bg: "#0b1220",
-    card: "rgba(17, 24, 39, 0.72)",
-    text: "#f9fafb",
-    muted: "#9ca3af",
+    card: "rgba(30, 41, 59, 0.9)",
+    text: "#f8fafc",
+    muted: "#94a3b8",
     primary: "#14b8a6",
     primaryDark: "#0f766e",
     danger: "#ef4444",
