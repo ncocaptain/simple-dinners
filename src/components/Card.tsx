@@ -22,7 +22,7 @@ export default function Card({ children, title, subtitle, actions, style, onClic
         border: `1px solid ${theme.colors.border}`,
         borderRadius: theme.radius.lg,
         padding: theme.spacing.lg,
-        boxShadow: "0 10px 30px rgba(0,0,0,0.45)",
+        boxShadow: "0 12px 32px rgba(0,0,0,0.55)",
         cursor: onClick ? "pointer" : "default", // 4. Add a cursor pointer if it's clickable
         ...style,
       }}
