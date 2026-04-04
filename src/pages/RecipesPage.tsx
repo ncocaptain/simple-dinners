@@ -25,6 +25,8 @@ type RecipesPageProps = {
   };
 };
 
+const RECIPES_PAGE_STATE_KEY = "simple-dinners:recipes-page-state";
+
 // =====================================================
 // Builder: helpers
 // =====================================================
@@ -82,9 +84,77 @@ export default function RecipesPage({
   const [cookbook, setCookbook] = useState<Meal[]>(() => getCookbook() as Meal[]);
   const [justAddedSlug, setJustAddedSlug] = useState<string | null>(null);
   const [saveMessage, setSaveMessage] = useState("");
-
   const [dayPickerOpen, setDayPickerOpen] = useState(false);
-  const [selectedMealForWeek, setSelectedMealForWeek] = useState<Meal | null>(null);
+  const [selectedMealForWeek, setSelectedMealForWeek] = useState<Meal | null>(
+    null
+  );
+  const [hasRestoredState, setHasRestoredState] = useState(false);
+
+  // =====================================================
+  // Builder: recipes page state persistence
+  // =====================================================
+
+  function saveRecipesPageState(customScrollY?: number) {
+    sessionStorage.setItem(
+      RECIPES_PAGE_STATE_KEY,
+      JSON.stringify({
+        query,
+        effort,
+        showCookbookOnly,
+        showVegetarianOnly,
+        showSaladsOnly,
+        showGrillingOnly,
+        scrollY:
+          typeof customScrollY === "number" ? customScrollY : window.scrollY,
+      })
+    );
+  }
+
+  function restoreRecipesPageState() {
+    try {
+      const raw = sessionStorage.getItem(RECIPES_PAGE_STATE_KEY);
+      if (!raw) {
+        setHasRestoredState(true);
+        return;
+      }
+
+      const saved = JSON.parse(raw);
+
+      if (typeof saved.query === "string") setQuery(saved.query);
+      if (saved.effort) setEffort(saved.effort);
+
+      if (typeof saved.showCookbookOnly === "boolean") {
+        setShowCookbookOnly(saved.showCookbookOnly);
+      }
+      if (typeof saved.showVegetarianOnly === "boolean") {
+        setShowVegetarianOnly(saved.showVegetarianOnly);
+      }
+      if (typeof saved.showSaladsOnly === "boolean") {
+        setShowSaladsOnly(saved.showSaladsOnly);
+      }
+      if (typeof saved.showGrillingOnly === "boolean") {
+        setShowGrillingOnly(saved.showGrillingOnly);
+      }
+
+      const scrollY = Number(saved.scrollY ?? 0);
+
+      setTimeout(() => {
+        window.scrollTo({ top: scrollY, behavior: "auto" });
+      }, 0);
+    } catch {
+      // ignore bad saved state
+    } finally {
+      setHasRestoredState(true);
+    }
+  }
+
+  // =====================================================
+  // Builder: effects
+  // =====================================================
+
+  useEffect(() => {
+    restoreRecipesPageState();
+  }, []);
 
   useEffect(() => {
     if (!saveMessage) return;
@@ -97,6 +167,39 @@ export default function RecipesPage({
     const t = window.setTimeout(() => setJustAddedSlug(null), 1200);
     return () => window.clearTimeout(t);
   }, [justAddedSlug]);
+
+  useEffect(() => {
+    if (!hasRestoredState) return;
+
+    saveRecipesPageState();
+  }, [
+    hasRestoredState,
+    query,
+    effort,
+    showCookbookOnly,
+    showVegetarianOnly,
+    showSaladsOnly,
+    showGrillingOnly,
+  ]);
+
+  useEffect(() => {
+    if (!hasRestoredState) return;
+
+    const handleScroll = () => {
+      saveRecipesPageState(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [
+    hasRestoredState,
+    query,
+    effort,
+    showCookbookOnly,
+    showVegetarianOnly,
+    showSaladsOnly,
+    showGrillingOnly,
+  ]);
 
   // =====================================================
   // Builder: cookbook data
@@ -191,10 +294,13 @@ export default function RecipesPage({
 
   const handleOpenRecipe = (recipe: Meal) => {
     if (!recipe.slug) return;
+    saveRecipesPageState();
     navigate(`/recipe/${recipe.slug}?from=%2Frecipes`);
   };
 
   const handleAddToCookbook = (recipe: Meal) => {
+    saveRecipesPageState();
+
     const result = onAddToCookbook(recipe);
     const slug = String(recipe.slug || recipe.id || "").trim().toLowerCase();
 
@@ -227,12 +333,15 @@ export default function RecipesPage({
   };
 
   const handleOpenDayPicker = (recipe: Meal) => {
+    saveRecipesPageState();
     setSelectedMealForWeek(recipe);
     setDayPickerOpen(true);
   };
 
   const handleSelectDay = (day: string) => {
     if (!selectedMealForWeek) return;
+
+    saveRecipesPageState();
 
     if (onAddToWeek) {
       onAddToWeek(selectedMealForWeek, day);
@@ -452,7 +561,11 @@ export default function RecipesPage({
                       }}
                     >
                       <span
-                        style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 8,
+                        }}
                       >
                         <Clock3 size={14} />
                         {value === "all"
@@ -480,7 +593,9 @@ export default function RecipesPage({
                   color: showCookbookOnly ? "#86efac" : chipBase.color,
                 }}
               >
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                <span
+                  style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
+                >
                   <BookOpen size={14} />
                   In Cookbook
                 </span>
@@ -500,7 +615,9 @@ export default function RecipesPage({
                   color: showVegetarianOnly ? "#86efac" : chipBase.color,
                 }}
               >
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                <span
+                  style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
+                >
                   <Leaf size={14} />
                   Vegetarian
                 </span>
@@ -520,7 +637,9 @@ export default function RecipesPage({
                   color: showSaladsOnly ? "#86efac" : chipBase.color,
                 }}
               >
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                <span
+                  style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
+                >
                   <Salad size={14} />
                   Salads
                 </span>
@@ -540,17 +659,15 @@ export default function RecipesPage({
                   color: showGrillingOnly ? "#fde68a" : chipBase.color,
                 }}
               >
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                <span
+                  style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
+                >
                   <Flame size={14} />
                   Grilling
                 </span>
               </button>
 
-              <button
-                type="button"
-                onClick={clearExtraFilters}
-                style={chipBase}
-              >
+              <button type="button" onClick={clearExtraFilters} style={chipBase}>
                 Clear Extras
               </button>
             </div>
