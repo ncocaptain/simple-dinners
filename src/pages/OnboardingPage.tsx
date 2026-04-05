@@ -4,16 +4,16 @@ import { completeOnboarding } from "../core/onboardingStore";
 
 const STARTER_ITEMS = [
   "chicken",
-  "ground beef",
+  "Ground beef",
   "pasta",
   "rice",
-  "eggs",
-  "milk",
-  "butter",
+  "Eggs",
+  "Milk",
+  "Butter",
   "cheese",
-  "onion",
-  "garlic",
-  "potatoes",
+  "Onion",
+  "Garlic",
+  "Potatoes",
   "canned tomatoes",
 ];
 

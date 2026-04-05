@@ -38,7 +38,7 @@ export const ALLERGENS = [
   "shellfish",
   "fish",
   "dairy",
-  "eggs",
+  "Eggs",
   "peanuts",
   "tree_nuts",
   "gluten",
@@ -48,7 +48,7 @@ export const ALLERGENS = [
 
 const ALLERGEN_KEYWORDS: Record<string, string[]> = {
   shellfish: [
-    "shrimp",
+    "Shrimp",
     "crab",
     "lobster",
     "scallop",
@@ -80,8 +80,8 @@ const ALLERGEN_KEYWORDS: Record<string, string[]> = {
     "anchovy",
   ],
   dairy: [
-    "milk",
-    "butter",
+    "Milk",
+    "Butter",
     "cheese",
     "cream",
     "half and half",
@@ -93,14 +93,14 @@ const ALLERGEN_KEYWORDS: Record<string, string[]> = {
     "parmesan",
     "american cheese",
     "heavy cream",
-    "evaporated milk",
-    "condensed milk",
+    "evaporated Milk",
+    "condensed Milk",
     "ricotta",
     "feta",
     "swiss",
   ],
-  eggs: ["egg", "eggs", "mayonnaise", "mayo"],
-  peanuts: ["peanut", "peanuts", "peanut butter"],
+  Eggs: ["Egg", "Eggs", "mayonnaise", "mayo"],
+  peanuts: ["peanut", "peanuts", "peanut Butter"],
   tree_nuts: [
     "almond",
     "almonds",
@@ -119,12 +119,12 @@ const ALLERGEN_KEYWORDS: Record<string, string[]> = {
   ],
   gluten: [
     "flour",
-    "breadcrumbs",
-    "bread crumb",
+    "Breadcrumbs",
+    "Bread crumb",
     "pasta",
     "noodle",
     "noodles",
-    "bread",
+    "Bread",
     "bun",
     "roll",
     "cracker",
@@ -134,7 +134,7 @@ const ALLERGEN_KEYWORDS: Record<string, string[]> = {
     "pie crust",
     "pizza dough",
     "manicotti",
-    "egg noodles",
+    "Egg noodles",
     "panko",
   ],
   soy: ["soy", "soy sauce", "tofu", "edamame", "miso", "teriyaki", "tempeh"],
@@ -288,12 +288,12 @@ export function filterMealsForPrefs(meals: Meal[], prefs: PlannerPrefs) {
         "bacon",
         "steak",
         "meatball",
-        "ground beef",
-        "pepperoni",
+        "Ground beef",
+        "Pepperoni",
         "fish",
         "salmon",
         "tilapia",
-        "shrimp",
+        "Shrimp",
         "crab",
         "scallop",
         "scallops",
@@ -493,8 +493,8 @@ function getAllergenSelections(preferences: {
   if (notes.includes("shellfish")) selected.add("shellfish");
   if (notes.includes("fish")) selected.add("fish");
   if (notes.includes("dairy")) selected.add("dairy");
-  if (notes.includes("egg")) selected.add("eggs");
-  if (notes.includes("eggs")) selected.add("eggs");
+  if (notes.includes("Egg")) selected.add("Eggs");
+  if (notes.includes("Eggs")) selected.add("Eggs");
   if (notes.includes("peanut")) selected.add("peanuts");
   if (notes.includes("tree nut")) selected.add("tree_nuts");
   if (notes.includes("nuts")) selected.add("tree_nuts");

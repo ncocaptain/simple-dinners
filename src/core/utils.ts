@@ -17,7 +17,7 @@ export const formatIngredients = (line: string, simplify = false) => {
     // and removes them from the start of the string.
     const measurementRegex = /^(\d+\s*\/\s*\d+|\d+\s*\d+\s*\/\s*\d+|\d+(\.\d+)?)\s*(cups?|Tbsp|tsp|oz|ounces?|lbs?|pounds?|g|kg|ml|l|cans?|jars?|packets?|slices?|sticks?|cloves?|heads?)\s*(of\s+)?/i;
     
-    // Also strip simple leading numbers (e.g., "2 onions" becomes "Onions")
+    // Also strip simple leading numbers (e.g., "2 Onions" becomes "Onions")
     const leadingNumberRegex = /^(\d+\s*\/\s*\d+|\d+(\.\d+)?)\s*/;
 
     formatted = formatted.replace(measurementRegex, "").replace(leadingNumberRegex, "");

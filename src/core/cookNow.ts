@@ -64,12 +64,12 @@ export function rankCookNowMeals(args: {
 
     score += matched.length * 12;
     const pantryBasics = [
-  "salt",
-  "pepper",
-  "olive oil",
+  "Salt",
+  "Pepper",
+  "Olive Oil",
   "oil",
-  "butter",
-  "garlic",
+  "Butter",
+  "Garlic",
   "sugar"
 ];
 

@@ -148,7 +148,7 @@ export default function PlanPage({
     shellfish: "Shellfish",
     fish: "Fish",
     dairy: "Dairy",
-    eggs: "Eggs",
+    Eggs: "Eggs",
     peanuts: "Peanuts",
     tree_nuts: "Tree Nuts",
     gluten: "Gluten",

@@ -60,7 +60,7 @@ export default async function handler(req, res) {
 
       return (
         s.length > 220 ||
-        /@context|@graph|schema\.org|wp-|--wp-|linear-gradient|svg\+xml|data:image|@media|function\(|document\.|window\.|json|stylesheet|breadcrumb|organization|listitem/i.test(
+        /@context|@graph|schema\.org|wp-|--wp-|linear-gradient|svg\+xml|data:image|@media|function\(|document\.|window\.|json|stylesheet|Breadcrumb|organization|listitem/i.test(
           s
         ) ||
         /<\/?[a-z][\s\S]*>/i.test(s) ||
@@ -263,7 +263,7 @@ export default async function handler(req, res) {
         const filtered = matches.filter(
           (line) =>
             !isGarbageLine(line) &&
-            /(\d|½|¼|¾|⅓|⅔|cup|cups|Tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu|sugar|flour|egg|eggs)/i.test(
+            /(\d|½|¼|¾|⅓|⅔|cup|cups|Tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|Salt|Pepper|oil|Butter|Garlic|Onion|tofu|sugar|flour|Egg|Eggs)/i.test(
               line
             )
         );
@@ -462,7 +462,7 @@ export default async function handler(req, res) {
       const likelyIngredients = lines.filter(
         (line) =>
           !isGarbageLine(line) &&
-          /(\d|½|¼|¾|⅓|⅔|cup|cups|Tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|salt|pepper|oil|butter|garlic|onion|tofu|sugar|flour|egg|eggs)/i.test(
+          /(\d|½|¼|¾|⅓|⅔|cup|cups|Tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|Salt|Pepper|oil|Butter|Garlic|Onion|tofu|sugar|flour|Egg|Eggs)/i.test(
             line
           )
       );

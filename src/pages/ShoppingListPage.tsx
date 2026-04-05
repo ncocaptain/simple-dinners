@@ -38,8 +38,8 @@ type CombinedItem = {
 };
 
 const COUNTABLE_BASE_WORDS = new Set([
-  "egg",
-  "onion",
+  "Egg",
+  "Onion",
   "potato",
   "tomato",
   "avocado",
@@ -53,7 +53,7 @@ const COUNTABLE_BASE_WORDS = new Set([
   "roll",
   "bagel",
   "pickle",
-  "pepper",
+  "Pepper",
   "carrot",
   "cucumber",
   "zucchini",
@@ -62,9 +62,9 @@ const COUNTABLE_BASE_WORDS = new Set([
 ]);
 
 const COUNTABLE_PHRASES: Record<string, string> = {
-  eggs: "egg",
-  onions: "onion",
-  potatoes: "potato",
+  Eggs: "Egg",
+  Onions: "Onion",
+  Potatoes: "potato",
   tomatoes: "tomato",
   avocados: "avocado",
   bananas: "banana",
@@ -77,7 +77,7 @@ const COUNTABLE_PHRASES: Record<string, string> = {
   rolls: "roll",
   bagels: "bagel",
   pickles: "pickle",
-  peppers: "pepper",
+  Peppers: "Pepper",
   carrots: "carrot",
   cucumbers: "cucumber",
   zucchinis: "zucchini",
@@ -91,7 +91,7 @@ const COUNTABLE_PHRASES: Record<string, string> = {
 };
 
 const ALWAYS_SHOW_MEASURED_TOTALS = new Set([
-  "ground beef",
+  "Ground beef",
   "beef",
   "chicken",
   "chicken breast",
@@ -101,7 +101,7 @@ const ALWAYS_SHOW_MEASURED_TOTALS = new Set([
   "sausage",
   "bacon",
   "turkey",
-  "shrimp",
+  "Shrimp",
   "salmon",
   "fish",
   "cheddar cheese",
@@ -112,12 +112,12 @@ const ALWAYS_SHOW_MEASURED_TOTALS = new Set([
 ]);
 
 const HIDE_MEASURED_TOTALS = new Set([
-  "salt",
-  "black pepper",
-  "pepper",
-  "garlic powder",
-  "onion powder",
-  "paprika",
+  "Salt",
+  "Pepper",
+  "Pepper",
+  "Garlic Powder",
+  "Onion powder",
+  "Paprika",
   "italian seasoning",
   "cumin",
   "chili powder",
@@ -195,9 +195,9 @@ function singularizeWord(word: string): string {
   const lower = word.trim().toLowerCase();
 
   const irregular: Record<string, string> = {
-    eggs: "egg",
-    onions: "onion",
-    potatoes: "potato",
+    Eggs: "Egg",
+    Onions: "Onion",
+    Potatoes: "potato",
     tomatoes: "tomato",
     avocados: "avocado",
     bananas: "banana",
@@ -210,7 +210,7 @@ function singularizeWord(word: string): string {
     rolls: "roll",
     bagels: "bagel",
     pickles: "pickle",
-    peppers: "pepper",
+    Peppers: "Pepper",
     carrots: "carrot",
     cucumbers: "cucumber",
     zucchinis: "zucchini",
@@ -230,9 +230,9 @@ function pluralizeCountable(name: string, quantity: number): string {
   if (quantity === 1) return name;
 
   const irregular: Record<string, string> = {
-    egg: "eggs",
-    onion: "onions",
-    potato: "potatoes",
+    Egg: "Eggs",
+    Onion: "Onions",
+    potato: "Potatoes",
     tomato: "tomatoes",
     avocado: "avocados",
     banana: "bananas",
@@ -245,7 +245,7 @@ function pluralizeCountable(name: string, quantity: number): string {
     roll: "rolls",
     bagel: "bagels",
     pickle: "pickles",
-    pepper: "peppers",
+    Pepper: "Peppers",
     carrot: "carrots",
     cucumber: "cucumbers",
     zucchini: "zucchinis",
@@ -270,15 +270,15 @@ function cleanIngredientName(line: string) {
   text = text.replace(/\bcremini mushrooms?\b/g, "baby bella mushrooms");
   text = text.replace(/\bbaby bella mushrooms?\b/g, "baby bella mushrooms");
 
-  text = text.replace(/\bonion powders?\b/g, "onion powder");
-  text = text.replace(/\bgarlic powders?\b/g, "garlic powder");
+  text = text.replace(/\bOnion powders?\b/g, "Onion powder");
+  text = text.replace(/\bGarlic Powders?\b/g, "Garlic Powder");
 
-  text = text.replace(/\bonions?\b/g, "onion");
+  text = text.replace(/\bOnions?\b/g, "Onion");
   text = text.replace(/\bcarrots?\b/g, "carrot");
-  text = text.replace(/\beggs?\b/g, "egg");
+  text = text.replace(/\bEggs?\b/g, "Egg");
 
   text = text.replace(
-    /^\d*\.?\d+\s+(carrot|onion|egg|onion powder|garlic powder)\b/g,
+    /^\d*\.?\d+\s+(carrot|Onion|Egg|Onion powder|Garlic Powder)\b/g,
     "$1"
   );
 
@@ -342,7 +342,7 @@ function cleanIngredientName(line: string) {
   text = text.replace(/^[-•*]\s*/, "");
   text = text.replace(/\s+/g, " ").trim();
 
-  if (text === "salt and pepper") return "salt / pepper";
+  if (text === "Salt and Pepper") return "Salt / Pepper";
 
   return text;
 }
@@ -673,7 +673,7 @@ export default function ShoppingListPage() {
         <Card style={{ marginBottom: 8 }}>
           <form onSubmit={handleAddItem} style={{ display: "flex", gap: 10 }}>
             <input
-              placeholder="Add milk, bread, snacks..."
+              placeholder="Add Milk, Bread, snacks..."
               value={newItem}
               onChange={(e) => setNewItem(e.target.value)}
               style={{

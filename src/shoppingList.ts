@@ -362,17 +362,17 @@ function normalizeIngredientName(line: string) {
   }
 
   // normalize common variants
-  text = text.replace(/\blean ground beef\b/g, "ground beef");
-  text = text.replace(/\bextra lean ground beef\b/g, "ground beef");
-  text = text.replace(/\bground black pepper\b/g, "black pepper");
-  text = text.replace(/\bonion powders?\b/g, "onion powder");
-  text = text.replace(/\bgarlic powders?\b/g, "garlic powder");
-  text = text.replace(/\bslices?\s+bread\b/g, "bread");
+  text = text.replace(/\blean Ground beef\b/g, "Ground beef");
+  text = text.replace(/\bextra lean Ground beef\b/g, "Ground beef");
+  text = text.replace(/\bPepper\b/g, "Pepper");
+  text = text.replace(/\bOnion powders?\b/g, "Onion powder");
+  text = text.replace(/\bGarlic Powders?\b/g, "Garlic Powder");
+  text = text.replace(/\bslices?\s+Bread\b/g, "Bread");
   text = text.replace(/\bbaby bella mushrooms?\b/g, "cremini mushrooms");
   text = text.replace(/\bcremini mushrooms?\b/g, "cremini mushrooms");
-  text = text.replace(/\bgarlic cloves?\b/g, "garlic");
-  text = text.replace(/\beggs?\b/g, "egg");
-  text = text.replace(/\bonions?\b/g, "onion");
+  text = text.replace(/\bGarlic cloves?\b/g, "Garlic");
+  text = text.replace(/\bEggs?\b/g, "Egg");
+  text = text.replace(/\bOnions?\b/g, "Onion");
   text = text.replace(/\bcarrots?\b/g, "carrot");
 
   text = text.replace(/\s*\/\s*/g, " / ");
@@ -449,24 +449,24 @@ function buildDisplayText(
     }
 
     // natural count nouns
-    if (normalizedName === "onion") {
-      return `${qty} ${Math.abs(quantity - 1) < 0.0001 ? "onion" : "onions"}`;
+    if (normalizedName === "Onion") {
+      return `${qty} ${Math.abs(quantity - 1) < 0.0001 ? "Onion" : "Onions"}`;
     }
 
     if (normalizedName === "carrot") {
       return `${qty} ${Math.abs(quantity - 1) < 0.0001 ? "carrot" : "carrots"}`;
     }
 
-    if (normalizedName === "egg") {
-      return `${qty} ${Math.abs(quantity - 1) < 0.0001 ? "egg" : "eggs"}`;
+    if (normalizedName === "Egg") {
+      return `${qty} ${Math.abs(quantity - 1) < 0.0001 ? "Egg" : "Eggs"}`;
     }
 
     return `${qty} ${normalizedName}`.trim();
   }
 
-  if (normalizedName === "egg") return "eggs";
+  if (normalizedName === "Egg") return "Eggs";
   if (normalizedName === "carrot") return "carrots";
-  if (normalizedName === "onion") return "onions";
+  if (normalizedName === "Onion") return "Onions";
 
   return normalizedName;
 }
