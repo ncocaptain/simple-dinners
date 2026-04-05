@@ -6,7 +6,7 @@ import {
   ShoppingCart,
   Play,
   History,
-  Star,
+  Share2,
   ChevronRight,
   ChevronLeft,
   CheckCircle2,
@@ -757,7 +757,7 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
                 </button>
 
                 <button onClick={handleShare} style={topBtn}>
-                  <Star size={16} />
+                  <Share2 size={16} />
                   Share
                 </button>
               </div>
