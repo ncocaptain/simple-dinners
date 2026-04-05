@@ -159,12 +159,12 @@ function playTimerDoneSound() {
 
 const FINISH_MESSAGES = [
   "Dinner is ready 🎉",
-  "Boom. You crushed it 👨‍🍳",
   "That smells amazing 😎",
-  "Another win in the kitchen 🔥",
-  "Plates up! Let’s eat 🍽️",
-  "You just leveled up dinner 💪",
-  "Chef status achieved ⭐",
+  "Another kitchen win 🔥",
+  "Plates up! 🍽️",
+  "Nicely done, chef 👨‍🍳",
+  "Dinner = handled 💪",
+  "Boom. Nailed it. ⭐",
 ];
 
 // =====================================================
@@ -824,34 +824,39 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
             {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
 
             {finishMessage && (
-              <div
-                style={{
-                  position: "fixed",
-                  inset: 0,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: "rgba(0,0,0,0.55)",
-                  zIndex: 999,
-                }}
-              >
-                <div
-                  style={{
-                    padding: "24px 28px",
-                    borderRadius: 20,
-                    background: "rgba(34,197,94,0.12)",
-                    border: "1px solid rgba(34,197,94,0.35)",
-                    color: "#86efac",
-                    fontSize: 18,
-                    fontWeight: 900,
-                    textAlign: "center",
-                    maxWidth: 300,
-                  }}
-                >
-                  {finishMessage}
-                </div>
-              </div>
-            )}
+  <div
+    style={{
+      position: "fixed",
+      inset: 0,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      background: "rgba(0,0,0,0.35)",
+      zIndex: 999,
+      padding: 24,
+    }}
+  >
+    <div
+      style={{
+        minWidth: 280,
+        maxWidth: 360,
+        padding: "22px 24px",
+        borderRadius: 22,
+        background: "rgba(22,163,74,0.20)",
+        border: "1px solid rgba(34,197,94,0.40)",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.45)",
+        color: "#dcfce7",
+        fontSize: 17,
+        lineHeight: 1.35,
+        fontWeight: 900,
+        textAlign: "center",
+        backdropFilter: "blur(8px)",
+      }}
+    >
+      {finishMessage}
+    </div>
+  </div>
+)}
           </>
         )}
 
