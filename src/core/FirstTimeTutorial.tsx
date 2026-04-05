@@ -39,19 +39,27 @@ export default function FirstTimeTutorial({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    padding: 16,
+    padding: "max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom))",
+    boxSizing: "border-box",
   };
 
   const cardStyle: React.CSSProperties = {
     width: "min(100%, 420px)",
-    maxHeight: "min(82vh, 700px)",
-    overflowY: "auto",
-    padding: 20,
+    maxHeight: "min(78dvh, 680px)",
+    display: "flex",
+    flexDirection: "column",
     borderRadius: 22,
     background: "linear-gradient(180deg, #162338 0%, #132033 100%)",
     border: "1px solid rgba(255,255,255,0.10)",
     boxShadow: "0 20px 60px rgba(0,0,0,0.42)",
     color: "#f8fafc",
+    overflow: "hidden",
+  };
+
+  const scrollAreaStyle: React.CSSProperties = {
+    padding: 20,
+    overflowY: "auto",
+    WebkitOverflowScrolling: "touch",
   };
 
   const topRowStyle: React.CSSProperties = {
@@ -108,9 +116,14 @@ export default function FirstTimeTutorial({
   };
 
   const footerStyle: React.CSSProperties = {
-    marginTop: 20,
+    padding: "14px 20px calc(14px + env(safe-area-inset-bottom))",
+    borderTop: "1px solid rgba(255,255,255,0.08)",
+    background: "rgba(10,16,28,0.88)",
+    backdropFilter: "blur(10px)",
+    WebkitBackdropFilter: "blur(10px)",
     display: "grid",
     gap: 10,
+    flexShrink: 0,
   };
 
   const btnBase: React.CSSProperties = {
@@ -148,43 +161,57 @@ export default function FirstTimeTutorial({
   return (
     <div style={overlayStyle}>
       <div style={cardStyle}>
-        <div style={topRowStyle}>
-          <div style={badgeStyle}>QUICK TOUR</div>
+        <div style={scrollAreaStyle}>
+          <div style={topRowStyle}>
+            <div style={badgeStyle}>QUICK TOUR</div>
 
-          <div style={dotsWrapStyle} aria-hidden="true">
-            {steps.map((_, index) => {
-              const active = index === stepIndex;
+            <div style={dotsWrapStyle} aria-hidden="true">
+              {steps.map((_, index) => {
+                const active = index === stepIndex;
 
-              return (
-                <span
-                  key={index}
-                  style={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: 999,
-                    background: active ? "#22d3ee" : "rgba(255,255,255,0.35)",
-                    boxShadow: active
-                      ? "0 0 0 3px rgba(34,211,238,0.14)"
-                      : "none",
-                    display: "inline-block",
-                  }}
-                />
-              );
-            })}
+                return (
+                  <span
+                    key={index}
+                    style={{
+                      width: 10,
+                      height: 10,
+                      borderRadius: 999,
+                      background: active ? "#22d3ee" : "rgba(255,255,255,0.35)",
+                      boxShadow: active
+                        ? "0 0 0 3px rgba(34,211,238,0.14)"
+                        : "none",
+                      display: "inline-block",
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </div>
+
+          <h2 style={titleStyle}>{step.title}</h2>
+          <p style={bodyStyle}>{step.body}</p>
+
+          {!!step.targetLabel && (
+            <div style={targetStyle}>✨ {step.targetLabel}</div>
+          )}
+
+          <div
+            style={{
+              marginTop: 14,
+              fontSize: 12,
+              opacity: 0.55,
+              fontWeight: 700,
+              textAlign: "center",
+            }}
+          >
+            Step {stepIndex + 1} of {steps.length}
           </div>
         </div>
-
-        <h2 style={titleStyle}>{step.title}</h2>
-        <p style={bodyStyle}>{step.body}</p>
-
-        {!!step.targetLabel && (
-          <div style={targetStyle}>✨ {step.targetLabel}</div>
-        )}
 
         <div style={footerStyle}>
           {!isLast ? (
             <button type="button" onClick={onNext} style={primaryBtn}>
-              Next ➜
+              Next →
             </button>
           ) : (
             <button type="button" onClick={onFinish} style={primaryBtn}>
@@ -201,18 +228,6 @@ export default function FirstTimeTutorial({
           <button type="button" onClick={onSkip} style={ghostBtn}>
             Skip
           </button>
-        </div>
-
-        <div
-          style={{
-            marginTop: 14,
-            fontSize: 12,
-            opacity: 0.55,
-            fontWeight: 700,
-            textAlign: "center",
-          }}
-        >
-          Step {stepIndex + 1} of {steps.length}
         </div>
       </div>
     </div>
