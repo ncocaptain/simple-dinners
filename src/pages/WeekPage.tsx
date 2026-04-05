@@ -138,11 +138,24 @@ export default function WeekPage({
     left = Math.max(16, left);
     left = Math.min(left, window.innerWidth - tooltipWidth - 16);
 
-    let top = rect.bottom + 14;
+    const spaceBelow = window.innerHeight - rect.bottom;
+const spaceAbove = rect.top;
 
-    if (top > window.innerHeight - 220) {
-      top = rect.top - 170;
-    }
+const tooltipHeight = 200; // approx
+
+let top;
+
+// Prefer above if bottom is cramped
+if (spaceBelow < tooltipHeight && spaceAbove > tooltipHeight) {
+  top = rect.top - tooltipHeight - 12;
+} else {
+  top = rect.bottom + 12;
+}
+
+// FINAL fallback: center if both are bad
+if (top < 16 || top > window.innerHeight - tooltipHeight) {
+  top = window.innerHeight * 0.35;
+}
 
     top = Math.max(16, top);
 
@@ -446,32 +459,32 @@ export default function WeekPage({
     gap: 8,
   };
 
-  function renderWalkthroughContent() {
-    if (walkthroughStep === 1) {
-      return {
-        title: "Generate your week",
-        body:
-          "Tap Generate New Plan anytime to instantly build a fresh week of dinners.",
-        cta: "Next →",
-      };
-    }
-
-    if (walkthroughStep === 2) {
-      return {
-        title: "Lock meals you want to keep",
-        body:
-          "Use Lock on any day to keep that dinner in place when you reroll the rest of the week.",
-        cta: "Next →",
-      };
-    }
-
+ function renderWalkthroughContent() {
+  if (walkthroughStep === 1) {
     return {
-      title: "Add your week to calendar",
+      title: "Build your first week",
       body:
-        "Add one meal or your whole week to your calendar so dinner is already scheduled.",
-      cta: "Start Planning →",
+        "Tap Generate New Plan to instantly create a full week of dinners tailored for you.",
+      cta: "Next →",
     };
   }
+
+  if (walkthroughStep === 2) {
+    return {
+      title: "Lock meals you like",
+      body:
+        "Lock a day to keep that meal when you generate a new plan for the rest of the week.",
+      cta: "Next →",
+    };
+  }
+
+  return {
+    title: "Plan ahead with your calendar",
+    body:
+      "Add meals to your calendar so dinner is already scheduled and one less thing to think about.",
+    cta: "Start Planning →",
+  };
+}
 
   const walkthroughContent = renderWalkthroughContent();
 
@@ -915,21 +928,21 @@ export default function WeekPage({
 
           {tooltipPosition && (
             <div
-              style={{
-                position: "fixed",
-                top: tooltipPosition.top,
-                left: tooltipPosition.left,
-                width: tooltipPosition.width,
-                zIndex: 10002,
-                borderRadius: 22,
-                background:
-                  "linear-gradient(180deg, rgba(15,23,42,0.98) 0%, rgba(2,6,23,0.98) 100%)",
-                border: "1px solid rgba(255,255,255,0.10)",
-                boxShadow: "0 24px 60px rgba(0,0,0,0.42)",
-                padding: 20,
-                color: "#f8fafc",
-              }}
-            >
+  style={{
+    position: "fixed",
+    top: tooltipPosition.top,
+    left: tooltipPosition.left,
+    width: tooltipPosition.width,
+    zIndex: 10002,
+    borderRadius: 20,
+    background:
+      "linear-gradient(180deg, rgba(15,23,42,0.96) 0%, rgba(2,6,23,0.98) 100%)",
+    border: "1px solid rgba(255,255,255,0.10)",
+    boxShadow: "0 24px 60px rgba(0,0,0,0.42)",
+    padding: 22,
+    color: "#f8fafc",
+  }}
+>
               <div
                 style={{
                   display: "flex",
@@ -993,6 +1006,27 @@ export default function WeekPage({
               >
                 {walkthroughContent.body}
               </p>
+
+              <div
+  style={{
+    marginTop: 12,
+    padding: "8px 10px",
+    borderRadius: 12,
+    background: "rgba(20,184,166,0.14)",
+    border: "1px solid rgba(20,184,166,0.28)",
+    fontSize: 12,
+    fontWeight: 800,
+    color: "#ccfbf1",
+    display: "flex",
+    alignItems: "center",
+    gap: 6,
+  }}
+>
+  <Sparkles size={12} />
+  {walkthroughStep === 1 && "Tap the button below"}
+  {walkthroughStep === 2 && "Try locking a day"}
+  {walkthroughStep === 3 && "Add your meals to calendar"}
+</div>
 
               <div style={{ display: "grid", gap: 10, marginTop: 18 }}>
                 {walkthroughStep < 3 ? (

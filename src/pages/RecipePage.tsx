@@ -674,74 +674,93 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
       <div style={innerWrap}>
         {!printMode && !cookMode && (
           <>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-              <button onClick={handleBack} style={topBtn}>
-                <ArrowLeft size={16} />
-                Back
-              </button>
+            <div style={{ display: "grid", gap: 12 }}>
+              <div style={{ fontSize: 12, opacity: 0.5, fontWeight: 800 }}>
+                Recipe Actions
+              </div>
 
-              <button
-                onClick={() =>
-                  navigate(
-                    `/recipe/${encodeURIComponent(
-                      safeRecipe.slug || safeRecipe.name || ""
-                    )}?from=${encodeURIComponent(from)}&print=1`
-                  )
-                }
-                style={topBtn}
-              >
-                <Printer size={16} />
-                Print
-              </button>
-
-              <button onClick={handleShare} style={topBtn}>
-                <Star size={16} />
-                Share
-              </button>
-
-              <button
-                onClick={handleAddToCookbook}
-                disabled={savedState === "already"}
+              <div
                 style={{
-                  ...topBtn,
-                  opacity: savedState === "already" ? 0.7 : 1,
-                  transform:
-                    savedState === "saved" ? "scale(1.05)" : "scale(1)",
-                  border:
-                    savedState !== "idle"
-                      ? "1px solid rgba(34,197,94,0.45)"
-                      : topBtn.border,
-                  background:
-                    savedState !== "idle"
-                      ? "rgba(34,197,94,0.12)"
-                      : topBtn.background,
-                  color: savedState !== "idle" ? "#86efac" : "white",
-                  cursor: savedState === "already" ? "default" : "pointer",
-                  transition: "all 0.18s ease",
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 10,
                 }}
               >
-                <BookOpen size={16} />
-                {savedState === "saved"
-                  ? "Saved ✓"
-                  : savedState === "already"
-                  ? "Saved"
-                  : "Add to Cookbook"}
-              </button>
+                <button onClick={handleBack} style={topBtn}>
+                  <ArrowLeft size={16} />
+                  Back
+                </button>
 
-              <button onClick={handleAddIngredients} style={topBtn}>
-                <ShoppingCart size={16} />
-                Add Ingredients
-              </button>
+                <button onClick={() => setCookMode(true)} style={topBtn}>
+                  <Play size={16} />
+                  Cook Mode
+                </button>
 
-              <button onClick={() => setCookMode(true)} style={topBtn}>
-                <Play size={16} />
-                Cook Mode
-              </button>
+                <button onClick={handleAddIngredients} style={topBtn}>
+                  <ShoppingCart size={16} />
+                  Add Ingredients
+                </button>
 
-              <button onClick={handleCooked} style={topBtn}>
-                <History size={16} />
-                Mark Cooked
-              </button>
+                <button
+                  onClick={handleAddToCookbook}
+                  disabled={savedState === "already"}
+                  style={{
+                    ...topBtn,
+                    opacity: savedState === "already" ? 0.7 : 1,
+                    border:
+                      savedState !== "idle"
+                        ? "1px solid rgba(34,197,94,0.45)"
+                        : topBtn.border,
+                    background:
+                      savedState !== "idle"
+                        ? "rgba(34,197,94,0.12)"
+                        : topBtn.background,
+                    color: savedState !== "idle" ? "#86efac" : "white",
+                    cursor: savedState === "already" ? "default" : "pointer",
+                    transition: "all 0.18s ease",
+                  }}
+                >
+                  <BookOpen size={16} />
+                  {savedState === "saved"
+                    ? "Saved ✓"
+                    : savedState === "already"
+                    ? "Saved"
+                    : "Save Recipe"}
+                </button>
+              </div>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 10,
+                  opacity: 0.85,
+                }}
+              >
+                <button onClick={handleCooked} style={topBtn}>
+                  <History size={16} />
+                  Mark Cooked
+                </button>
+
+                <button
+                  onClick={() =>
+                    navigate(
+                      `/recipe/${encodeURIComponent(
+                        safeRecipe.slug || safeRecipe.name || ""
+                      )}?from=${encodeURIComponent(from)}&print=1`
+                    )
+                  }
+                  style={topBtn}
+                >
+                  <Printer size={16} />
+                  Print
+                </button>
+
+                <button onClick={handleShare} style={topBtn}>
+                  <Star size={16} />
+                  Share
+                </button>
+              </div>
             </div>
 
             {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
@@ -840,7 +859,14 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
               {safeRecipe.name}
             </h1>
 
-            <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
+            <div
+              style={{
+                display: "flex",
+                gap: 8,
+                marginTop: 8,
+                flexWrap: "wrap",
+              }}
+            >
               {safeRecipe.effort && (
                 <span
                   style={{

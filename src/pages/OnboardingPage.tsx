@@ -19,15 +19,19 @@ const STARTER_ITEMS = [
 
 const cardStyle: React.CSSProperties = {
   maxWidth: 760,
-  margin: "40px auto",
-  padding: 24,
+  margin: "0 auto",
+  padding: "20px 20px 40px",
+  minHeight: "100vh",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
   color: "#f8fafc",
 };
 
 const panelStyle: React.CSSProperties = {
-  padding: 24,
+  padding: 28,
   borderRadius: 22,
-  background: "rgba(15,23,42,0.45)",
+  background: "rgba(15,23,42,0.55)",
   border: "1px solid rgba(255,255,255,0.10)",
   boxShadow: "0 18px 40px rgba(0,0,0,0.28)",
   backdropFilter: "blur(10px)",
