@@ -157,6 +157,16 @@ function playTimerDoneSound() {
   }
 }
 
+const FINISH_MESSAGES = [
+  "Dinner is ready 🎉",
+  "Boom. You crushed it 👨‍🍳",
+  "That smells amazing 😎",
+  "Another win in the kitchen 🔥",
+  "Plates up! Let’s eat 🍽️",
+  "You just leveled up dinner 💪",
+  "Chef status achieved ⭐",
+];
+
 // =====================================================
 // Builder: types
 // =====================================================
@@ -563,7 +573,10 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
       setHistoryCount(history?.timesCooked ?? 0);
     }
 
-    setFinishMessage("Dinner is ready 🎉");
+    const randomMessage =
+      FINISH_MESSAGES[Math.floor(Math.random() * FINISH_MESSAGES.length)];
+
+    setFinishMessage(randomMessage);
     setSaveMessage("Recipe finished ✓");
   };
 
@@ -808,26 +821,35 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
               </button>
             </div>
 
-            {(saveMessage || finishMessage) && (
-              <div style={{ display: "grid", gap: 10 }}>
-                {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
+            {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
 
-                {finishMessage && (
-                  <div
-                    style={{
-                      padding: "12px 16px",
-                      borderRadius: 14,
-                      background: "rgba(250,204,21,0.12)",
-                      border: "1px solid rgba(250,204,21,0.35)",
-                      color: "#fde68a",
-                      fontSize: 14,
-                      fontWeight: 900,
-                      width: "fit-content",
-                    }}
-                  >
-                    {finishMessage}
-                  </div>
-                )}
+            {finishMessage && (
+              <div
+                style={{
+                  position: "fixed",
+                  inset: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: "rgba(0,0,0,0.55)",
+                  zIndex: 999,
+                }}
+              >
+                <div
+                  style={{
+                    padding: "24px 28px",
+                    borderRadius: 20,
+                    background: "rgba(34,197,94,0.12)",
+                    border: "1px solid rgba(34,197,94,0.35)",
+                    color: "#86efac",
+                    fontSize: 18,
+                    fontWeight: 900,
+                    textAlign: "center",
+                    maxWidth: 300,
+                  }}
+                >
+                  {finishMessage}
+                </div>
               </div>
             )}
           </>
