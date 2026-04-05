@@ -139,23 +139,22 @@ export default function WeekPage({
     left = Math.min(left, window.innerWidth - tooltipWidth - 16);
 
     const spaceBelow = window.innerHeight - rect.bottom;
-const spaceAbove = rect.top;
 
-const tooltipHeight = 200; // approx
+
+const tooltipHeight = Math.min(320, window.innerHeight * 0.5);
 
 let top;
 
-// Prefer above if bottom is cramped
-if (spaceBelow < tooltipHeight && spaceAbove > tooltipHeight) {
-  top = rect.top - tooltipHeight - 12;
+// If there's not enough space below → place ABOVE
+if (spaceBelow < tooltipHeight) {
+  top = rect.top - tooltipHeight - 16;
 } else {
-  top = rect.bottom + 12;
+  top = rect.bottom + 16;
 }
 
-// FINAL fallback: center if both are bad
-if (top < 16 || top > window.innerHeight - tooltipHeight) {
-  top = window.innerHeight * 0.35;
-}
+// Clamp inside screen
+top = Math.max(20, top);
+top = Math.min(top, window.innerHeight - tooltipHeight - 20);
 
     top = Math.max(16, top);
 
