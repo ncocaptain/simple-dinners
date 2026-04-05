@@ -18,7 +18,6 @@ import RecipePage from "./pages/RecipePage";
 import HomePage from "./pages/HomePage";
 import TestersGuidePage from "./pages/TestersGuidePage";
 import FeedbackForm from "./pages/FeedbackForm";
-import WhatsNewPage from "./pages/WhatsNewPage";
 import RecipesPage from "./pages/RecipesPage";
 import { ToastProvider, useToast } from "./components/Toast";
 import { ThemeProvider } from "./theme";
@@ -407,14 +406,6 @@ function AppContent() {
     return () => window.removeEventListener("error", handleError, true);
   }, [toast]);
 
-  useEffect(() => {
-    const seenVersion = localStorage.getItem("seen-whats-new");
-
-    if (seenVersion !== APP_VERSION) {
-      navigate("/whats-new");
-      localStorage.setItem("seen-whats-new", APP_VERSION);
-    }
-  }, [navigate]);
 
   // =====================================================
   // Builder: repair meals when cookbook/library changes
@@ -638,7 +629,7 @@ function AppContent() {
 
         <Route path="/settings" element={<Navigate to="/plan" replace />} />
         <Route path="/guide" element={<TestersGuidePage />} />
-        <Route path="/whats-new" element={<WhatsNewPage />} />
+        <Route path="/" element={<OnboardingPage />} />
         <Route path="/feedback" element={<FeedbackForm />} />
 
         <Route

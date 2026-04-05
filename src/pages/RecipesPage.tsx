@@ -404,6 +404,13 @@ export default function RecipesPage({
     fontFamily: "inherit",
   };
 
+  const sectionLabel: React.CSSProperties = {
+    fontSize: 12,
+    opacity: 0.55,
+    fontWeight: 800,
+    letterSpacing: 0.6,
+  };
+
   const chipRow: React.CSSProperties = {
     display: "flex",
     flexWrap: "wrap",
@@ -426,7 +433,19 @@ export default function RecipesPage({
     flexWrap: "wrap",
     gap: 14,
     fontSize: 13,
-    opacity: 0.6,
+    opacity: 0.75,
+  };
+
+  const statStyle: React.CSSProperties = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 4,
+  };
+
+  const statNumber: React.CSSProperties = {
+    fontWeight: 900,
+    color: "white",
+    opacity: 1,
   };
 
   const gridStyle: React.CSSProperties = {
@@ -534,10 +553,12 @@ export default function RecipesPage({
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search recipes, ingredients, tags, notes..."
+                placeholder="Search recipes, ingredients, tags..."
                 style={searchInput}
               />
             </div>
+
+            <div style={sectionLabel}>EFFORT</div>
 
             <div style={chipRow}>
               {(["all", "quick", "normal", "big", "frozen", "takeout"] as const).map(
@@ -577,6 +598,8 @@ export default function RecipesPage({
                 }
               )}
             </div>
+
+            <div style={sectionLabel}>CATEGORIES</div>
 
             <div style={chipRow}>
               <button
@@ -667,16 +690,33 @@ export default function RecipesPage({
                 </span>
               </button>
 
-              <button type="button" onClick={clearExtraFilters} style={chipBase}>
+              <button
+                type="button"
+                onClick={clearExtraFilters}
+                style={{
+                  ...chipBase,
+                  background: "transparent",
+                  border: "1px dashed rgba(255,255,255,0.25)",
+                  color: "rgba(255,255,255,0.6)",
+                }}
+              >
                 Clear Extras
               </button>
             </div>
 
             <div style={statsRow}>
-              <span>{mergedRecipes.length} total recipes</span>
-              <span>{filteredRecipes.length} showing</span>
-              <span>{cookbook.length} in cookbook</span>
-              <span>{grillingCount} grilling recipes</span>
+              <span style={statStyle}>
+                <span style={statNumber}>{mergedRecipes.length}</span> total
+              </span>
+              <span style={statStyle}>
+                <span style={statNumber}>{filteredRecipes.length}</span> showing
+              </span>
+              <span style={statStyle}>
+                <span style={statNumber}>{cookbook.length}</span> in cookbook
+              </span>
+              <span style={statStyle}>
+                <span style={statNumber}>{grillingCount}</span> grilling
+              </span>
             </div>
 
             {saveMessage && (
