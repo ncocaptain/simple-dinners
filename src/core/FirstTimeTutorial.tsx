@@ -37,15 +37,17 @@ export default function FirstTimeTutorial({
     background: "rgba(2,6,23,0.76)",
     zIndex: 5000,
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "center",
-    padding: "max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom))",
+    padding: "16px",
+    overflowY: "auto",
     boxSizing: "border-box",
   };
 
   const cardStyle: React.CSSProperties = {
     width: "min(100%, 420px)",
-    maxHeight: "min(78dvh, 680px)",
+    maxHeight: "calc(100dvh - 32px)",
+    marginTop: 8,
     display: "flex",
     flexDirection: "column",
     borderRadius: 22,
@@ -57,7 +59,7 @@ export default function FirstTimeTutorial({
   };
 
   const scrollAreaStyle: React.CSSProperties = {
-    padding: 20,
+    padding: 18,
     overflowY: "auto",
     WebkitOverflowScrolling: "touch",
   };
@@ -90,23 +92,23 @@ export default function FirstTimeTutorial({
   };
 
   const titleStyle: React.CSSProperties = {
-    margin: "16px 0 10px",
-    fontSize: 24,
+    margin: "14px 0 8px",
+    fontSize: 22,
     lineHeight: 1.08,
     fontWeight: 1000,
-    letterSpacing: -0.4,
+    letterSpacing: -0.3,
   };
 
   const bodyStyle: React.CSSProperties = {
     margin: 0,
-    fontSize: 16,
-    lineHeight: 1.6,
+    fontSize: 15,
+    lineHeight: 1.5,
     opacity: 0.9,
   };
 
   const targetStyle: React.CSSProperties = {
-    marginTop: 16,
-    padding: "11px 13px",
+    marginTop: 14,
+    padding: "10px 12px",
     borderRadius: 14,
     background: "rgba(20,184,166,0.14)",
     border: "1px solid rgba(20,184,166,0.28)",
@@ -116,11 +118,9 @@ export default function FirstTimeTutorial({
   };
 
   const footerStyle: React.CSSProperties = {
-    padding: "14px 20px calc(14px + env(safe-area-inset-bottom))",
+    padding: "14px 18px 16px",
     borderTop: "1px solid rgba(255,255,255,0.08)",
-    background: "rgba(10,16,28,0.88)",
-    backdropFilter: "blur(10px)",
-    WebkitBackdropFilter: "blur(10px)",
+    background: "rgba(10,16,28,0.9)",
     display: "grid",
     gap: 10,
     flexShrink: 0,
@@ -128,8 +128,8 @@ export default function FirstTimeTutorial({
 
   const btnBase: React.CSSProperties = {
     width: "100%",
-    minHeight: 48,
-    padding: "12px 16px",
+    minHeight: 46,
+    padding: "11px 14px",
     borderRadius: 14,
     fontWeight: 900,
     cursor: "pointer",
@@ -197,7 +197,7 @@ export default function FirstTimeTutorial({
 
           <div
             style={{
-              marginTop: 14,
+              marginTop: 12,
               fontSize: 12,
               opacity: 0.55,
               fontWeight: 700,
