@@ -28,7 +28,10 @@ const cardStyle: React.CSSProperties = {
 };
 
 const panelStyle: React.CSSProperties = {
+  width: "100%",
   marginTop: 12,
+  maxHeight: "calc(100vh - 24px)",
+  overflowY: "auto",
   padding: 28,
   borderRadius: 22,
   background: "rgba(15,23,42,0.55)",
@@ -328,21 +331,21 @@ export default function OnboardingPage() {
             />
 
             <div
-              style={{
-                marginTop: 28,
-                display: "flex",
-                gap: 12,
-                flexWrap: "wrap",
-              }}
-            >
-              <button onClick={() => setStep(2)} style={secondaryButton}>
-                Back
-              </button>
+  style={{
+    marginTop: 28,
+    display: "grid",
+    gap: 12,
+    gridTemplateColumns: "1fr",
+  }}
+>
+  <button onClick={() => setStep(2)} style={secondaryButton}>
+    Back
+  </button>
 
-              <button onClick={finishSetup} style={primaryButton}>
-                Generate My First Week →
-              </button>
-            </div>
+  <button onClick={finishSetup} style={primaryButton}>
+    Generate My First Week →
+  </button>
+</div>
           </div>
         )}
       </div>
