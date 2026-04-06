@@ -27,6 +27,8 @@ export type Recipe = {
   instructions?: string;
   photoUrl?: string;
   effort?: Effort;
+  tags?: string[];
+  notes?: string;
   favorite?: boolean;
   sourceUrl?: string;
   createdAt: number;

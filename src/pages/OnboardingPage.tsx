@@ -3,18 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { completeOnboarding } from "../core/onboardingStore";
 
 const STARTER_ITEMS = [
-  "chicken",
+  "Chicken",
   "Ground beef",
-  "pasta",
-  "rice",
+  "Pasta",
+  "Rice",
   "Eggs",
   "Milk",
   "Butter",
-  "cheese",
+  "Cheese",
   "Onion",
   "Garlic",
   "Potatoes",
-  "canned tomatoes",
+  "Canned tomatoes",
+  "Frozen meals",
+  "Bread",
 ];
 
 const cardStyle: React.CSSProperties = {
@@ -30,8 +32,6 @@ const cardStyle: React.CSSProperties = {
 const panelStyle: React.CSSProperties = {
   width: "100%",
   marginTop: 12,
-  maxHeight: "calc(100vh - 24px)",
-  overflowY: "auto",
   padding: 28,
   borderRadius: 22,
   background: "rgba(15,23,42,0.55)",
@@ -61,20 +61,60 @@ const secondaryButton: React.CSSProperties = {
   cursor: "pointer",
 };
 
+function normalizeItem(text: string) {
+  return text.trim().toLowerCase();
+}
+
+function formatItem(text: string) {
+  const trimmed = text.trim();
+  if (!trimmed) return "";
+  return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+}
+
 export default function OnboardingPage() {
   const navigate = useNavigate();
 
   const [step, setStep] = useState(1);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [customItem, setCustomItem] = useState("");
   const [vegetarian, setVegetarian] = useState(false);
   const [dietaryNotes, setDietaryNotes] = useState("");
 
   const progressLabel = useMemo(() => `Step ${step} of 3`, [step]);
 
   function toggleItem(item: string) {
+    setSelectedItems((prev) => {
+      const exists = prev.some(
+        (x) => normalizeItem(x) === normalizeItem(item)
+      );
+
+      if (exists) {
+        return prev.filter((x) => normalizeItem(x) !== normalizeItem(item));
+      }
+
+      return [...prev, item];
+    });
+  }
+
+  function removeItem(item: string) {
     setSelectedItems((prev) =>
-      prev.includes(item) ? prev.filter((x) => x !== item) : [...prev, item]
+      prev.filter((x) => normalizeItem(x) !== normalizeItem(item))
     );
+  }
+
+  function addCustomItem() {
+    const formatted = formatItem(customItem);
+    if (!formatted) return;
+
+    setSelectedItems((prev) => {
+      const exists = prev.some(
+        (x) => normalizeItem(x) === normalizeItem(formatted)
+      );
+      if (exists) return prev;
+      return [...prev, formatted];
+    });
+
+    setCustomItem("");
   }
 
   function finishSetup() {
@@ -229,12 +269,15 @@ export default function OnboardingPage() {
             </h1>
 
             <p style={{ opacity: 0.82, marginBottom: 20, lineHeight: 1.5 }}>
-              Pick a few basics so your first plan feels more personal.
+              Pick a few basics, then add anything else you almost always keep
+              around.
             </p>
 
             <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
               {STARTER_ITEMS.map((item) => {
-                const active = selectedItems.includes(item);
+                const active = selectedItems.some(
+                  (x) => normalizeItem(x) === normalizeItem(item)
+                );
 
                 return (
                   <button
@@ -252,7 +295,6 @@ export default function OnboardingPage() {
                       color: "#f8fafc",
                       fontWeight: 800,
                       cursor: "pointer",
-                      textTransform: "capitalize",
                     }}
                   >
                     {item}
@@ -260,6 +302,92 @@ export default function OnboardingPage() {
                 );
               })}
             </div>
+
+            <div style={{ marginTop: 22, display: "grid", gap: 10 }}>
+              <div
+                style={{
+                  fontSize: 12,
+                  fontWeight: 900,
+                  letterSpacing: 0.7,
+                  opacity: 0.7,
+                  textTransform: "uppercase",
+                }}
+              >
+                Add your own
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  gap: 10,
+                  flexWrap: "wrap",
+                }}
+              >
+                <input
+                  value={customItem}
+                  onChange={(e) => setCustomItem(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addCustomItem();
+                    }
+                  }}
+                  placeholder="Example: Tortillas, broccoli, beans..."
+                  style={{
+                    flex: 1,
+                    minWidth: 220,
+                    padding: "12px 14px",
+                    borderRadius: 14,
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    background: "rgba(255,255,255,0.06)",
+                    color: "#f8fafc",
+                    outline: "none",
+                    fontSize: 15,
+                  }}
+                />
+
+                <button onClick={addCustomItem} style={primaryButton}>
+                  Add
+                </button>
+              </div>
+            </div>
+
+            {!!selectedItems.length && (
+              <div style={{ marginTop: 22, display: "grid", gap: 10 }}>
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 900,
+                    letterSpacing: 0.7,
+                    opacity: 0.7,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Your kitchen
+                </div>
+
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                  {selectedItems.map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => removeItem(item)}
+                      style={{
+                        padding: "10px 14px",
+                        borderRadius: 999,
+                        border: "1px solid rgba(20,184,166,0.38)",
+                        background: "rgba(20,184,166,0.14)",
+                        color: "#ccfbf1",
+                        fontWeight: 800,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {item} ✕
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div
               style={{
@@ -327,25 +455,26 @@ export default function OnboardingPage() {
                 resize: "vertical",
                 outline: "none",
                 fontSize: 15,
+                boxSizing: "border-box",
               }}
             />
 
             <div
-  style={{
-    marginTop: 28,
-    display: "grid",
-    gap: 12,
-    gridTemplateColumns: "1fr",
-  }}
->
-  <button onClick={() => setStep(2)} style={secondaryButton}>
-    Back
-  </button>
+              style={{
+                marginTop: 28,
+                display: "flex",
+                gap: 12,
+                flexWrap: "wrap",
+              }}
+            >
+              <button onClick={() => setStep(2)} style={secondaryButton}>
+                Back
+              </button>
 
-  <button onClick={finishSetup} style={primaryButton}>
-    Generate My First Week →
-  </button>
-</div>
+              <button onClick={finishSetup} style={primaryButton}>
+                Generate My First Week →
+              </button>
+            </div>
           </div>
         )}
       </div>

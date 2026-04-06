@@ -1,13 +1,5 @@
 import type { Meal, Effort } from "./types";
-import {
-  NEW_BUILTIN_RECIPES,
-  NEW_VEGETARIAN_RECIPES,
-  NEW_SALAD_RECIPES,
-  FROZEN_MEALS,
-  SIDE_DISHES,
-  DESSERTS,
-  days,
-} from "./data";
+import { ALL_RECIPES, SIDE_DISHES, DESSERTS, days } from "./data";
 
 // =====================================================
 // Planner types
@@ -182,7 +174,8 @@ function mealSearchText(meal: Meal) {
 }
 
 function hasAnyKeyword(text: string, keywords: string[]) {
-  return keywords.some((word) => text.includes(word));
+  const lower = text.toLowerCase();
+  return keywords.some((word) => lower.includes(word.toLowerCase()));
 }
 
 // =====================================================
@@ -231,6 +224,21 @@ function matchesEffort(meal: Meal, requested?: Effort | "any") {
   return normalizeEffort(meal.effort) === normalizeEffort(requested);
 }
 
+function getMealCategory(meal: Meal) {
+  const tags = normalizeTags(meal.tags);
+  const effort = normalizeEffort(meal.effort);
+
+  if (tags.includes("salad")) return "salad";
+  if (tags.includes("grilling")) return "grilling";
+  if (tags.includes("comfort")) return "comfort";
+  if (tags.includes("kid-friendly")) return "kid-friendly";
+  if (effort === "frozen") return "frozen";
+  if (effort === "takeout") return "takeout";
+  if (tags.includes("vegetarian") || meal.isVegetarian) return "vegetarian";
+
+  return "general";
+}
+
 // =====================================================
 // Source library
 // =====================================================
@@ -246,12 +254,17 @@ function dedupeMeals(items: Meal[]) {
   });
 }
 
-export const dinnerLibrary: Meal[] = dedupeMeals([
-  ...NEW_BUILTIN_RECIPES,
-  ...NEW_VEGETARIAN_RECIPES,
-  ...NEW_SALAD_RECIPES,
-  ...FROZEN_MEALS,
-]);
+export const dinnerLibrary: Meal[] = dedupeMeals(
+  ALL_RECIPES.filter((meal) => {
+    const tags = normalizeTags(meal.tags);
+
+    return (
+      !tags.includes("dessert") &&
+      !tags.includes("side") &&
+      !tags.includes("side-dish")
+    );
+  })
+);
 
 export const candidateLibrary = dinnerLibrary;
 
@@ -370,17 +383,29 @@ export function buildPlannerBuckets(prefs: PlannerPrefs): MealBucket {
 // Planner scoring
 // =====================================================
 
-function scoreMealAgainstPantry(meal: Meal, pantry: string[] = []) {
+function scoreMealAgainstPantry(
+  meal: Meal,
+  pantry: string[] = [],
+  opts?: { isFirstRun?: boolean }
+) {
   const text = mealSearchText(meal);
   const normalizedPantry = pantry.map((item) => normalizeText(item)).filter(Boolean);
 
   if (normalizedPantry.length === 0) return 0;
 
   let score = 0;
+  let matches = 0;
+  const pantryWeight = opts?.isFirstRun ? 5 : 4;
 
   for (const item of normalizedPantry) {
-    if (text.includes(item)) score += 2;
+    if (text.includes(item)) {
+      score += pantryWeight;
+      matches += 1;
+    }
   }
+
+  if (matches >= 2) score += opts?.isFirstRun ? 5 : 3;
+  if (matches >= 3) score += opts?.isFirstRun ? 7 : 5;
 
   return score;
 }
@@ -404,19 +429,25 @@ export function getPlannerScore(
     pantry?: string[];
     favorites?: string[];
     cookedRecently?: string[];
+    isFirstRun?: boolean;
+    usedCategories?: string[];
   }
 ) {
   const pantry = opts?.pantry ?? [];
   const favorites = (opts?.favorites ?? []).map(normalizeText);
   const cookedRecently = (opts?.cookedRecently ?? []).map(normalizeText);
+  const isFirstRun = !!opts?.isFirstRun;
+  const usedCategories = opts?.usedCategories ?? [];
+  
 
   const nameKey = normalizeText(meal.name);
   const idKey = normalizeText(meal.id || meal.slug || meal.name);
   const tags = normalizeTags(meal.tags);
+  const category = getMealCategory(meal);
 
   let score = 0;
 
-  score += scoreMealAgainstPantry(meal, pantry);
+  score += scoreMealAgainstPantry(meal, pantry, { isFirstRun });
 
   if (favorites.includes(nameKey) || favorites.includes(idKey)) {
     score += 8;
@@ -430,11 +461,31 @@ export function getPlannerScore(
   if (tags.includes("comfort")) score += 1;
   if (tags.includes("kid-friendly")) score += 1;
   if (tags.includes("salad") && tags.includes("dinner")) {
-  score += 1;
-}
+    score += 1;
+  }
 
   // Cookbook meals should win more often than built-ins
   if (tags.includes("cookbook")) score += 10;
+
+  const effort = normalizeEffort(meal.effort);
+
+if (effort === "frozen") {
+  score += opts?.isFirstRun ? 2 : 1;
+}
+
+  const recentCategories = usedCategories.slice(-2);
+
+  if (recentCategories.includes(category)) {
+    score -= 4;
+  }
+
+  if (
+    recentCategories.length >= 2 &&
+    recentCategories[0] === recentCategories[1] &&
+    recentCategories[0] === category
+  ) {
+    score -= 6;
+  }
 
   const todaySeed = getTodaySeed();
   score += (hashString(meal.id || meal.slug || meal.name) + todaySeed) % 7;
@@ -493,8 +544,7 @@ function getAllergenSelections(preferences: {
   if (notes.includes("shellfish")) selected.add("shellfish");
   if (notes.includes("fish")) selected.add("fish");
   if (notes.includes("dairy")) selected.add("dairy");
-  if (notes.includes("Egg")) selected.add("Eggs");
-  if (notes.includes("Eggs")) selected.add("Eggs");
+  if (notes.includes("egg")) selected.add("Eggs");
   if (notes.includes("peanut")) selected.add("peanuts");
   if (notes.includes("tree nut")) selected.add("tree_nuts");
   if (notes.includes("nuts")) selected.add("tree_nuts");
@@ -515,12 +565,12 @@ export function generatePlan(opts: {
   daySettings?: Partial<Record<Day, Effort>>;
   lockedMeals?: Partial<Record<Day, Meal | null>>;
   preferences: {
-  vegetarian: boolean;
-  allergens?: string[];
-  dietaryNotes?: string;
-  includeDesserts?: boolean;
-  includeFrozen?: boolean;
-};
+    vegetarian: boolean;
+    allergens?: string[];
+    dietaryNotes?: string;
+    includeDesserts?: boolean;
+    includeFrozen?: boolean;
+  };
   favorites?: string[];
   cookedRecently?: string[];
 }) {
@@ -534,13 +584,16 @@ export function generatePlan(opts: {
     cookedRecently = [],
   } = opts;
 
+  const isFirstRun =
+    localStorage.getItem("simple-dinners.hasGeneratedFirstPlan") !== "true";
+
   const plannerPrefs: PlannerPrefs = {
-  vegetarian: preferences.vegetarian,
-  allergens: getAllergenSelections(preferences),
-  includeFrozen: true,
-  includeDesserts: preferences.includeDesserts,
-  effort: "any",
-};
+    vegetarian: preferences.vegetarian,
+    allergens: getAllergenSelections(preferences),
+    includeFrozen: preferences.includeFrozen ?? true,
+    includeDesserts: preferences.includeDesserts,
+    effort: "any",
+  };
 
   const cookbookMeals = dedupeMeals(cookbook.map(normalizeCookbookMeal));
 
@@ -551,9 +604,10 @@ export function generatePlan(opts: {
 
   const dinnerPool = filterMealsForPrefs(combinedDinnerLibrary, plannerPrefs);
   const usedNames = new Set<string>();
+  const usedCategories: string[] = [];
   const plan = {} as Record<Day, Meal>;
   let saladCount = 0;
-const MAX_SALADS = 2;
+  const MAX_SALADS = 2;
 
   for (const day of days) {
     const locked = lockedMeals[day];
@@ -561,6 +615,7 @@ const MAX_SALADS = 2;
     if (locked?.name) {
       plan[day] = locked;
       usedNames.add(normalizeText(locked.name));
+      usedCategories.push(getMealCategory(locked));
       continue;
     }
 
@@ -572,21 +627,23 @@ const MAX_SALADS = 2;
         slug: `takeout-${day.toLowerCase()}`,
         name: "Takeout Night",
         ingredients: "Order out (no groceries)",
-        instructions: "Choose your favorite takeout spot and enjoy a night off from cooking.",
+        instructions:
+          "Choose your favorite takeout spot and enjoy a night off from cooking.",
         effort: "takeout",
         tags: ["dinner", "takeout"],
         notes: "A built-in night off from cooking.",
       };
       usedNames.add(normalizeText(plan[day].name));
+      usedCategories.push(getMealCategory(plan[day]));
       continue;
     }
 
     let candidates = dinnerPool
-  .filter((meal) => mealMatchesDayEffort(meal, requestedEffort))
-  .filter((meal) => {
-    if (isSalad(meal) && saladCount >= MAX_SALADS) return false;
-    return true;
-  });
+      .filter((meal) => mealMatchesDayEffort(meal, requestedEffort))
+      .filter((meal) => {
+        if (isSalad(meal) && saladCount >= MAX_SALADS) return false;
+        return true;
+      });
 
     if (candidates.length === 0) {
       candidates = [...dinnerPool];
@@ -601,8 +658,20 @@ const MAX_SALADS = 2;
     }
 
     const ranked = [...candidates].sort((a, b) => {
-      const aScore = getPlannerScore(a, { pantry, favorites, cookedRecently });
-      const bScore = getPlannerScore(b, { pantry, favorites, cookedRecently });
+      const aScore = getPlannerScore(a, {
+        pantry,
+        favorites,
+        cookedRecently,
+        isFirstRun,
+        usedCategories,
+      });
+      const bScore = getPlannerScore(b, {
+        pantry,
+        favorites,
+        cookedRecently,
+        isFirstRun,
+        usedCategories,
+      });
       return bScore - aScore;
     });
 
@@ -619,11 +688,16 @@ const MAX_SALADS = 2;
       } satisfies Meal);
 
     plan[day] = selected;
-usedNames.add(normalizeText(selected.name));
+    usedNames.add(normalizeText(selected.name));
+    usedCategories.push(getMealCategory(selected));
 
-if (isSalad(selected)) {
-  saladCount++;
-}
+    if (isSalad(selected)) {
+      saladCount++;
+    }
+  }
+
+  if (isFirstRun) {
+    localStorage.setItem("simple-dinners.hasGeneratedFirstPlan", "true");
   }
 
   return plan;
