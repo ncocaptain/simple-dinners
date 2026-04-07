@@ -2050,7 +2050,7 @@ export const EXTRA_RECIPES: Meal[] = [
     name: "Guacamole",
     effort: "quick",
     photoUrl: "/images/quick-classic-guacamole.webp",
-    tags: ["dip", "snack", "mexican", "no-cook", "quick", "vegetarian"],
+    tags: ["dip", "side", "mexican", "no-cook", "quick", "vegetarian"],
     notes: "Fresh and simple guacamole that works as a snack, side, or taco-night add-on.",
     ingredients: `3 ripe avocados, peeled and pitted
 1 lime, juiced
