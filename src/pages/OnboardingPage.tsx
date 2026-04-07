@@ -15,7 +15,6 @@ const STARTER_ITEMS = [
   "Garlic",
   "Potatoes",
   "Canned tomatoes",
-  "Frozen meals",
   "Bread",
 ];
 

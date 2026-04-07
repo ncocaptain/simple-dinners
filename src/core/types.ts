@@ -1,4 +1,4 @@
-export type Effort = "quick" | "normal" | "big" | "frozen" | "takeout";
+export type Effort = "quick" | "normal" | "big" | "takeout";
 
 export interface Meal {
   id?: string;
@@ -41,7 +41,6 @@ export type Preferences = {
   allergens?: string[];
   includeDesserts?: boolean;
   includeAppetizers?: boolean;
-  includeFrozen?: boolean;
 };
 
 export type DayMode = "planned" | "leftovers" | "freezer";

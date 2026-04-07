@@ -665,7 +665,7 @@ export default function WeekPage({
                           }}
                         >
                           <img
-                            src="/images/freezer.webp"
+                            src="/images/freezer-night.webp"
                             alt="Freezer Night"
                             style={{
                               width: 85,

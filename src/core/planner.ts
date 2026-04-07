@@ -9,7 +9,6 @@ export type PlannerPrefs = {
   vegetarian: boolean;
   allergens?: string[];
   effort?: Effort | "any";
-  includeFrozen?: boolean;
   includeDesserts?: boolean;
   includeSides?: boolean;
 };
@@ -137,7 +136,6 @@ const EFFORT_ALIASES: Record<string, string> = {
   quick: "quick",
   normal: "normal",
   big: "big",
-  frozen: "frozen",
   takeout: "takeout",
   medium: "normal",
   effort: "big",
@@ -210,11 +208,6 @@ function isSideDish(meal: Meal) {
   return tags.includes("side") || tags.includes("side-dish");
 }
 
-function isFrozen(meal: Meal) {
-  const tags = normalizeTags(meal.tags);
-  return normalizeEffort(meal.effort) === "frozen" || tags.includes("frozen");
-}
-
 function isSalad(meal: Meal) {
   return normalizeTags(meal.tags).includes("salad");
 }
@@ -232,7 +225,6 @@ function getMealCategory(meal: Meal) {
   if (tags.includes("grilling")) return "grilling";
   if (tags.includes("comfort")) return "comfort";
   if (tags.includes("kid-friendly")) return "kid-friendly";
-  if (effort === "frozen") return "frozen";
   if (effort === "takeout") return "takeout";
   if (tags.includes("vegetarian") || meal.isVegetarian) return "vegetarian";
 
@@ -317,11 +309,7 @@ export function filterMealsForPrefs(meals: Meal[], prefs: PlannerPrefs) {
     });
   }
 
-  if (!prefs.includeFrozen) {
-    filtered = filtered.filter((meal) => !isFrozen(meal));
-  }
-
-  filtered = filtered.filter((meal) => matchesEffort(meal, prefs.effort));
+    filtered = filtered.filter((meal) => matchesEffort(meal, prefs.effort));
 
   const blocked = (prefs.allergens ?? []).map(normalizeText).filter(Boolean);
   if (blocked.length > 0) {
@@ -467,12 +455,7 @@ export function getPlannerScore(
   // Cookbook meals should win more often than built-ins
   if (tags.includes("cookbook")) score += 10;
 
-  const effort = normalizeEffort(meal.effort);
-
-if (effort === "frozen") {
-  score += opts?.isFirstRun ? 2 : 1;
-}
-
+  
   const recentCategories = usedCategories.slice(-2);
 
   if (recentCategories.includes(category)) {
@@ -569,7 +552,7 @@ export function generatePlan(opts: {
     allergens?: string[];
     dietaryNotes?: string;
     includeDesserts?: boolean;
-    includeFrozen?: boolean;
+    
   };
   favorites?: string[];
   cookedRecently?: string[];
@@ -590,7 +573,6 @@ export function generatePlan(opts: {
   const plannerPrefs: PlannerPrefs = {
     vegetarian: preferences.vegetarian,
     allergens: getAllergenSelections(preferences),
-    includeFrozen: preferences.includeFrozen ?? true,
     includeDesserts: preferences.includeDesserts,
     effort: "any",
   };

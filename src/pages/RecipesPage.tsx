@@ -561,7 +561,7 @@ export default function RecipesPage({
             <div style={sectionLabel}>EFFORT</div>
 
             <div style={chipRow}>
-              {(["all", "quick", "normal", "big", "frozen", "takeout"] as const).map(
+              {(["all", "quick", "normal", "big", "takeout"] as const).map(
                 (value) => {
                   const active = effort === value;
 

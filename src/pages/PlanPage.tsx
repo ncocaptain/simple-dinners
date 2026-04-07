@@ -115,8 +115,7 @@ export default function PlanPage({
   const effortOptions: { key: Effort; label: string }[] = [
   { key: "quick", label: "Quick" },
   { key: "normal", label: "Normal" },
-  { key: "big", label: "Big cook" },
-  { key: "frozen", label: "Freezer" },
+  { key: "big", label: "Big" },
   { key: "takeout", label: "Takeout" },
 ];
 
@@ -525,23 +524,6 @@ export default function PlanPage({
                 ))}
               </div>
             </section>
-
-            <button
-              type="button"
-              onClick={() => navigate("/whats-new")}
-              style={{
-                padding: 14,
-                borderRadius: 12,
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                color: "white",
-                fontWeight: 800,
-                cursor: "pointer",
-                width: "100%",
-              }}
-            >
-              What’s New
-            </button>
 
             <div
               style={{
