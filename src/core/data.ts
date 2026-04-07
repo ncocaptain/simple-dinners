@@ -1278,43 +1278,7 @@ Roll from the wide end to the tip.
 Place on a baking sheet and bake for 10 minutes or until golden brown.`,
   notes: "Simple dessert that feels fancy. Great for breakfast treats too.",
 },
-{
-  id: "big-french-toast-casserole",
-  slug: "big-french-toast-casserole",
-  name: "French Toast Casserole",
-  photoUrl: "/images/big-french-toast-casserole.webp",
-  effort: "big",
-  tags: ["breakfast", "brunch", "baked", "sweet", "family", "make-ahead"],
-  ingredients: `1 loaf sourdough bread
-8 large eggs
-2 cups milk
-1/2 cup heavy cream
-1 Tbsp vanilla extract
-3/4 cup sugar
-1/2 cup all-purpose flour
-1/2 cup light brown sugar
-1 tsp ground cinnamon
-1/4 tsp salt
-1 stick unsalted butter, cut into pieces
-Fresh blueberries (optional)
-Fresh strawberries (optional)`,
-  instructions: `Preheat oven to 350°F.
 
-Cut bread into cubes and place in a greased 9x13 baking dish.
-
-Mix eggs, milk, cream, vanilla, and sugar. Pour over bread.
-
-Cover and refrigerate for at least 4 hours.
-
-Mix flour, brown sugar, cinnamon, and salt. Cut in butter until crumbly. Refrigerate.
-
-Remove dish from fridge and sprinkle topping over bread.
-
-Bake uncovered for 50 minutes.
-
-Top with fresh fruit if desired.`,
-  notes: "Perfect make-ahead breakfast for holidays or weekends.",
-},
 
 {
   id: "big-crispy-chicken-wings",
@@ -1511,208 +1475,7 @@ While burgers rest, toast buns and onions on the grill for 30 to 45 seconds.
 Assemble burgers with toppings and serve with chips or potato wedges.`
 },
 
-];
-
-// =====================================================
-// SIDE DISHES / DESSERTS / NON-DINNER EXTRAS
-// =====================================================
-
-export const SIDE_DISHES: Meal[] = [
-  {
-    id: "quick-airfryer-baked-potato",
-    slug: "quick-airfryer-baked-potato",
-    name: "Air Fryer Baked Potato",
-    effort: "quick",
-    photoUrl: "/images/quick-airfryer-baked-potato.webp",
-    tags: ["side", "air-fryer", "comfort", "quick", "vegetarian"],
-    notes: "An easy side dish that goes with almost anything and needs very little hands-on work.",
-    ingredients: `1 large russet potato
-1/2 tsp salt
-1 Tbsp olive oil (or cooking spray)
-1-2 Tbsp butter (depending on potato size)
-shredded cheese (optional)
-Sour cream (optional)`,
-    instructions: `Rinse the potato and dry completely.
-Pierce the potato with a fork in 4 to 6 spots.
-Coat the potato evenly with olive oil or spray.
-Sprinkle with salt and rotate to coat all sides.
-Preheat air fryer to 400°F.
-Air fry for 60 minutes, shaking the basket once or twice.
-Slice down the middle, fluff with a fork, and add butter and toppings.`,
-  },
-
-  {
-    id: "quick-garlic-roasted-Potatoes",
-    slug: "quick-garlic-roasted-Potatoes",
-    name: "garlic Roasted Potatoes",
-    effort: "quick",
-    photoUrl: "/images/quick-garlic-roasted-Potatoes.webp",
-    tags: ["side", "roasted", "vegetarian", "comfort"],
-    notes: "Crispy, simple Potatoes that work with almost any main dish.",
-    ingredients: `3 lbs small red or white Potatoes
-1/4 cup olive oil
-1 1/2 tsp salt
-1 tsp freshly pepper
-2 Tbsp garlic, minced
-2 Tbsp minced fresh parsley`,
-    instructions: `Preheat oven to 400°F.
-
-Cut Potatoes in halves or quarters and place in a bowl with olive oil, salt, pepper, and garlic. Toss until coated.
-
-Transfer to a sheet pan and spread into a single layer.
-
-Roast 45 minutes to 1 hour until browned and crisp, flipping twice during cooking for even browning.
-
-Remove from oven, toss with parsley, season to taste, and serve hot.`,
-  },
-
-  {
-    id: "quick-roasted-broccoli",
-    slug: "quick-roasted-broccoli",
-    name: "Roasted Broccoli",
-    effort: "quick",
-    photoUrl: "/images/quick-roasted-broccoli.webp",
-    tags: ["side", "roasted", "vegetarian", "healthy", "quick"],
-    notes: "A fast vegetable side that pairs well with chicken, pasta, or fish.",
-    ingredients: `1 1/2 lbs broccoli florets
-1/4 cup olive oil
-1 1/2 tsp salt
-1/2 tsp freshly pepper`,
-    instructions: `Place a foil-lined baking sheet on the middle rack in the oven and preheat to 425°F.
-
-Toss broccoli with olive oil, salt, and pepper until fully coated.
-
-Carefully spread broccoli on the hot baking sheet in an even layer, scraping any oil and seasoning from the bowl over the broccoli.
-
-Roast 14 to 16 minutes, tossing halfway through, until browned and tender-crisp.
-
-Transfer to a serving platter and serve hot.`,
-  },
-];
-
-export const DESSERTS: Meal[] = [
-  {
-    id: "quick-dark-chocolate-dipped-strawberries",
-    slug: "quick-dark-chocolate-dipped-strawberries",
-    name: "Dark Chocolate Dipped Strawberries",
-    effort: "quick",
-    photoUrl: "/images/quick-dark-chocolate-dipped-strawberries.webp",
-    tags: ["dessert", "snack", "no-bake", "quick", "vegetarian"],
-    notes: "A simple dessert that feels special without a lot of work.",
-    ingredients: `12 large ripe strawberries
-1/2 cup dark chocolate baking chips
-1 tsp coconut oil`,
-    instructions: `Wash strawberries and dry completely. Chocolate will not stick if wet.
-Bring a small pot with a few inches of water to a gentle simmer.
-Add chocolate chips and coconut oil to a heat-safe glass bowl.
-Set bowl over the pot like a double boiler, making sure the bowl does not touch the water.
-Stir until chocolate is fully melted and smooth.
-Line a sheet pan with parchment paper.
-Dip strawberries one at a time and place on parchment.
-Refrigerate 20 to 30 minutes until chocolate sets.
-Store leftovers in an airtight container in the refrigerator.`,
-  },
-];
-
-export const EXTRA_RECIPES: Meal[] = [
-  {
-    id: "quick-classic-guacamole",
-    slug: "quick-classic-guacamole",
-    name: "Guacamole",
-    effort: "quick",
-    photoUrl: "/images/quick-classic-guacamole.webp",
-    tags: ["dip", "snack", "mexican", "no-cook", "quick", "vegetarian"],
-    notes: "Fresh and simple guacamole that works as a snack, side, or taco-night add-on.",
-    ingredients: `3 ripe avocados, peeled and pitted
-1 lime, juiced
-1 tsp salt
-1/2 cup diced white onion
-3 Tbsp chopped fresh cilantro
-2 Roma tomatoes, diced
-1 tsp garlic, minced
-Pinch of ground cayenne pepper (optional)`,
-    instructions: `Mash avocados with lime juice and salt until slightly chunky.
-Stir in onion, cilantro, tomatoes, and garlic.
-Add cayenne pepper if desired and mix well.
-Taste and adjust salt or lime as needed.
-Refrigerate 1 hour for best flavor, or serve immediately.`,
-  },
-
-  {
-    id: "quick-homemade-chili-seasoning",
-    slug: "quick-homemade-chili-seasoning",
-    name: "Homemade Chili Seasoning",
-    effort: "quick",
-    photoUrl: "/images/quick-homemade-chili-seasoning.webp",
-    tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian"],
-    notes: "A pantry staple that is great to keep on hand for chili nights.",
-    ingredients: `1 Tbsp chili powder
-1 tsp ground cumin
-1/4 tsp cayenne pepper
-1/4 tsp garlic powder
-1/2 tsp onion powder
-1 tsp salt
-1/4 tsp freshly pepper
-Small pinch ground cinnamon`,
-    instructions: `Add all ingredients to a small bowl.
-Stir very well until evenly combined.
-Transfer to an airtight container or spice shaker.
-Store in a cool, dry place.
-Use in place of one store-bought chili seasoning packet.`,
-  },
-
-  {
-  id: "quick-captains-wing-rub",
-  slug: "quick-captains-wing-rub",
-  name: "Captain's Wing Rub",
-  photoUrl: "/images/quick-captains-wing-rub.webp",
-  effort: "quick",
-  tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian", "wings" ],
-  ingredients: `2 Tbsp smoked paprika
-1 1/2 Tbsp cayenne pepper
-1 tsp ancho chili powder
-1 tsp garlic powder
-1 tsp onion powder
-1 tsp fine sea salt
-1/2 tsp citric acid
-1/2 tsp cumin
-1/4 tsp chipotle powder
-1/2 tsp jalapeno pepper flakes`,
-  instructions: `Combine all ingredients in a bowl.
-
-Mix thoroughly and store in an airtight container.
-
-Use as a dry rub or seasoning for wings and meats.`,
-  notes: "Bold, spicy, and tangy. Great for wings or grilled meats.",
-},
-
-
-  {
-    id: "quick-sausage-muffins",
-    slug: "quick-sausage-muffins",
-    name: "Sausage Muffins",
-    effort: "quick",
-    photoUrl: "/images/quick-sausage-muffins.webp",
-    tags: ["breakfast", "quick", "kid-friendly", "meal-prep", "pork"],
-    notes: "Easy grab-and-go breakfast muffins that also work for busy mornings or snacks.",
-    ingredients: `1 cup Bisquick
-1 lb breakfast sausage, cooked
-4 eggs, beaten
-1 cup cheddar cheese, shredded cheese`,
-    instructions: `Preheat oven to 350°F.
-
-Cook sausage and set aside.
-
-In a medium bowl, combine eggs, Bisquick, sausage, and cheese. Mix well.
-
-Spray muffin tins with cooking spray.
-
-Fill each muffin cup 1/2 to 3/4 full.
-
-Bake for 20 minutes or until set and lightly browned.`,
-  },
-
-  {
+ {
     id: "grilled-cheese-sandwich",
     slug: "grilled-cheese-sandwich",
     name: "Grilled Cheese Sandwich",
@@ -2176,6 +1939,246 @@ Brush with barbecue sauce and bake an additional 10 minutes until sticky and coo
 Serve hot.`,
   notes: "A simple baked BBQ chicken recipe with great flavor from the rub.",
 },
+
+];
+
+// =====================================================
+// SIDE DISHES / DESSERTS / NON-DINNER EXTRAS
+// =====================================================
+
+export const SIDE_DISHES: Meal[] = [
+  {
+    id: "quick-airfryer-baked-potato",
+    slug: "quick-airfryer-baked-potato",
+    name: "Air Fryer Baked Potato",
+    effort: "quick",
+    photoUrl: "/images/quick-airfryer-baked-potato.webp",
+    tags: ["side", "air-fryer", "comfort", "quick", "vegetarian"],
+    notes: "An easy side dish that goes with almost anything and needs very little hands-on work.",
+    ingredients: `1 large russet potato
+1/2 tsp salt
+1 Tbsp olive oil (or cooking spray)
+1-2 Tbsp butter (depending on potato size)
+shredded cheese (optional)
+Sour cream (optional)`,
+    instructions: `Rinse the potato and dry completely.
+Pierce the potato with a fork in 4 to 6 spots.
+Coat the potato evenly with olive oil or spray.
+Sprinkle with salt and rotate to coat all sides.
+Preheat air fryer to 400°F.
+Air fry for 60 minutes, shaking the basket once or twice.
+Slice down the middle, fluff with a fork, and add butter and toppings.`,
+  },
+
+  {
+    id: "quick-garlic-roasted-Potatoes",
+    slug: "quick-garlic-roasted-Potatoes",
+    name: "garlic Roasted Potatoes",
+    effort: "quick",
+    photoUrl: "/images/quick-garlic-roasted-Potatoes.webp",
+    tags: ["side", "roasted", "vegetarian", "comfort"],
+    notes: "Crispy, simple Potatoes that work with almost any main dish.",
+    ingredients: `3 lbs small red or white Potatoes
+1/4 cup olive oil
+1 1/2 tsp salt
+1 tsp freshly pepper
+2 Tbsp garlic, minced
+2 Tbsp minced fresh parsley`,
+    instructions: `Preheat oven to 400°F.
+
+Cut Potatoes in halves or quarters and place in a bowl with olive oil, salt, pepper, and garlic. Toss until coated.
+
+Transfer to a sheet pan and spread into a single layer.
+
+Roast 45 minutes to 1 hour until browned and crisp, flipping twice during cooking for even browning.
+
+Remove from oven, toss with parsley, season to taste, and serve hot.`,
+  },
+
+  {
+    id: "quick-roasted-broccoli",
+    slug: "quick-roasted-broccoli",
+    name: "Roasted Broccoli",
+    effort: "quick",
+    photoUrl: "/images/quick-roasted-broccoli.webp",
+    tags: ["side", "roasted", "vegetarian", "healthy", "quick"],
+    notes: "A fast vegetable side that pairs well with chicken, pasta, or fish.",
+    ingredients: `1 1/2 lbs broccoli florets
+1/4 cup olive oil
+1 1/2 tsp salt
+1/2 tsp freshly pepper`,
+    instructions: `Place a foil-lined baking sheet on the middle rack in the oven and preheat to 425°F.
+
+Toss broccoli with olive oil, salt, and pepper until fully coated.
+
+Carefully spread broccoli on the hot baking sheet in an even layer, scraping any oil and seasoning from the bowl over the broccoli.
+
+Roast 14 to 16 minutes, tossing halfway through, until browned and tender-crisp.
+
+Transfer to a serving platter and serve hot.`,
+  },
+];
+
+export const DESSERTS: Meal[] = [
+  {
+    id: "quick-dark-chocolate-dipped-strawberries",
+    slug: "quick-dark-chocolate-dipped-strawberries",
+    name: "Dark Chocolate Dipped Strawberries",
+    effort: "quick",
+    photoUrl: "/images/quick-dark-chocolate-dipped-strawberries.webp",
+    tags: ["dessert", "snack", "no-bake", "quick", "vegetarian"],
+    notes: "A simple dessert that feels special without a lot of work.",
+    ingredients: `12 large ripe strawberries
+1/2 cup dark chocolate baking chips
+1 tsp coconut oil`,
+    instructions: `Wash strawberries and dry completely. Chocolate will not stick if wet.
+Bring a small pot with a few inches of water to a gentle simmer.
+Add chocolate chips and coconut oil to a heat-safe glass bowl.
+Set bowl over the pot like a double boiler, making sure the bowl does not touch the water.
+Stir until chocolate is fully melted and smooth.
+Line a sheet pan with parchment paper.
+Dip strawberries one at a time and place on parchment.
+Refrigerate 20 to 30 minutes until chocolate sets.
+Store leftovers in an airtight container in the refrigerator.`,
+  },
+];
+
+export const EXTRA_RECIPES: Meal[] = [
+  {
+    id: "quick-classic-guacamole",
+    slug: "quick-classic-guacamole",
+    name: "Guacamole",
+    effort: "quick",
+    photoUrl: "/images/quick-classic-guacamole.webp",
+    tags: ["dip", "snack", "mexican", "no-cook", "quick", "vegetarian"],
+    notes: "Fresh and simple guacamole that works as a snack, side, or taco-night add-on.",
+    ingredients: `3 ripe avocados, peeled and pitted
+1 lime, juiced
+1 tsp salt
+1/2 cup diced white onion
+3 Tbsp chopped fresh cilantro
+2 Roma tomatoes, diced
+1 tsp garlic, minced
+Pinch of ground cayenne pepper (optional)`,
+    instructions: `Mash avocados with lime juice and salt until slightly chunky.
+Stir in onion, cilantro, tomatoes, and garlic.
+Add cayenne pepper if desired and mix well.
+Taste and adjust salt or lime as needed.
+Refrigerate 1 hour for best flavor, or serve immediately.`,
+  },
+
+  {
+    id: "quick-homemade-chili-seasoning",
+    slug: "quick-homemade-chili-seasoning",
+    name: "Homemade Chili Seasoning",
+    effort: "quick",
+    photoUrl: "/images/quick-homemade-chili-seasoning.webp",
+    tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian"],
+    notes: "A pantry staple that is great to keep on hand for chili nights.",
+    ingredients: `1 Tbsp chili powder
+1 tsp ground cumin
+1/4 tsp cayenne pepper
+1/4 tsp garlic powder
+1/2 tsp onion powder
+1 tsp salt
+1/4 tsp freshly pepper
+Small pinch ground cinnamon`,
+    instructions: `Add all ingredients to a small bowl.
+Stir very well until evenly combined.
+Transfer to an airtight container or spice shaker.
+Store in a cool, dry place.
+Use in place of one store-bought chili seasoning packet.`,
+  },
+
+  {
+  id: "quick-captains-wing-rub",
+  slug: "quick-captains-wing-rub",
+  name: "Captain's Wing Rub",
+  photoUrl: "/images/quick-captains-wing-rub.webp",
+  effort: "quick",
+  tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian", "wings" ],
+  ingredients: `2 Tbsp smoked paprika
+1 1/2 Tbsp cayenne pepper
+1 tsp ancho chili powder
+1 tsp garlic powder
+1 tsp onion powder
+1 tsp fine sea salt
+1/2 tsp citric acid
+1/2 tsp cumin
+1/4 tsp chipotle powder
+1/2 tsp jalapeno pepper flakes`,
+  instructions: `Combine all ingredients in a bowl.
+
+Mix thoroughly and store in an airtight container.
+
+Use as a dry rub or seasoning for wings and meats.`,
+  notes: "Bold, spicy, and tangy. Great for wings or grilled meats.",
+},
+
+
+  {
+    id: "quick-sausage-muffins",
+    slug: "quick-sausage-muffins",
+    name: "Sausage Muffins",
+    effort: "quick",
+    photoUrl: "/images/quick-sausage-muffins.webp",
+    tags: ["breakfast", "quick", "kid-friendly", "meal-prep", "pork"],
+    notes: "Easy grab-and-go breakfast muffins that also work for busy mornings or snacks.",
+    ingredients: `1 cup Bisquick
+1 lb breakfast sausage, cooked
+4 eggs, beaten
+1 cup cheddar cheese, shredded cheese`,
+    instructions: `Preheat oven to 350°F.
+
+Cook sausage and set aside.
+
+In a medium bowl, combine eggs, Bisquick, sausage, and cheese. Mix well.
+
+Spray muffin tins with cooking spray.
+
+Fill each muffin cup 1/2 to 3/4 full.
+
+Bake for 20 minutes or until set and lightly browned.`,
+  },
+
+ {
+  id: "big-french-toast-casserole",
+  slug: "big-french-toast-casserole",
+  name: "French Toast Casserole",
+  photoUrl: "/images/big-french-toast-casserole.webp",
+  effort: "big",
+  tags: ["breakfast", "brunch", "baked", "sweet", "family", "make-ahead"],
+  ingredients: `1 loaf sourdough bread
+8 large eggs
+2 cups milk
+1/2 cup heavy cream
+1 Tbsp vanilla extract
+3/4 cup sugar
+1/2 cup all-purpose flour
+1/2 cup light brown sugar
+1 tsp ground cinnamon
+1/4 tsp salt
+1 stick unsalted butter, cut into pieces
+Fresh blueberries (optional)
+Fresh strawberries (optional)`,
+  instructions: `Preheat oven to 350°F.
+
+Cut bread into cubes and place in a greased 9x13 baking dish.
+
+Mix eggs, milk, cream, vanilla, and sugar. Pour over bread.
+
+Cover and refrigerate for at least 4 hours.
+
+Mix flour, brown sugar, cinnamon, and salt. Cut in butter until crumbly. Refrigerate.
+
+Remove dish from fridge and sprinkle topping over bread.
+
+Bake uncovered for 50 minutes.
+
+Top with fresh fruit if desired.`,
+  notes: "Perfect make-ahead breakfast for holidays or weekends.",
+},
+
 ];
 
 // =====================================================
@@ -3214,7 +3217,7 @@ export const SUBS = [
   { pattern: /\bscallops?\b/gi, replacement: "king oyster mushrooms" },
 ];
 
-export const VeggIE_POOL = NEW_VEGETARIAN_RECIPES.map((meal) => ({
+export const VEGGIE_POOL = NEW_VEGETARIAN_RECIPES.map((meal) => ({
   ...meal,
   isVegetarian: true,
 }));
@@ -3222,8 +3225,6 @@ export const VeggIE_POOL = NEW_VEGETARIAN_RECIPES.map((meal) => ({
 export const ALL_RECIPES: Meal[] = [
   ...NEW_BUILTIN_RECIPES,
   ...NEW_VEGETARIAN_RECIPES,
-  ...SIDE_DISHES,
-  ...DESSERTS,
   ...EXTRA_RECIPES,
   ...VEGETARIAN_EXTRAS,
   ...NEW_SALAD_RECIPES,
