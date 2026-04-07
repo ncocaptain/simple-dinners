@@ -43,3 +43,10 @@ export type Preferences = {
   includeAppetizers?: boolean;
   includeFrozen?: boolean;
 };
+
+export type DayMode = "planned" | "leftovers" | "freezer";
+
+export interface PlannedDay {
+  mode: DayMode;
+  meal: Meal | null;
+}

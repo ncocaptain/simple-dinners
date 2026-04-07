@@ -31,7 +31,13 @@ import {
 } from "lucide-react";
 
 // Core
-import type { Effort, Meal, PantryItem, Preferences } from "./core/types";
+import type {
+  Effort,
+  Meal,
+  PantryItem,
+  Preferences,
+  PlannedDay,
+} from "./core/types";
 import { generatePlan } from "./core/planner";
 import { days, ALL_RECIPES } from "./core/data";
 import {
@@ -108,7 +114,10 @@ function findRecipeInSources(
   return cookbookMatch ?? null;
 }
 
-function resolveMeal(meal: Meal | undefined, cookbook: CookbookRecipe[]): Meal | undefined {
+function resolveMeal(
+  meal: Meal | undefined,
+  cookbook: CookbookRecipe[]
+): Meal | undefined {
   if (!meal) return meal;
 
   const latest = findRecipeInSources(meal, cookbook);
@@ -128,18 +137,46 @@ function resolveMeal(meal: Meal | undefined, cookbook: CookbookRecipe[]): Meal |
   };
 }
 
-function migrateSavedMeals(
-  rawMeals: Record<string, Meal>,
+function normalizePlannedDay(
+  value: any,
   cookbook: CookbookRecipe[]
-): Record<string, Meal> {
-  const next: Record<string, Meal> = {};
+): PlannedDay {
+  if (!value) {
+    return { mode: "planned", meal: null };
+  }
+
+  if (
+    typeof value === "object" &&
+    "mode" in value &&
+    "meal" in value
+  ) {
+    return {
+      mode:
+        value.mode === "leftovers" || value.mode === "freezer"
+          ? value.mode
+          : "planned",
+      meal:
+        value.mode === "planned"
+          ? resolveMeal(value.meal, cookbook) ?? null
+          : null,
+    };
+  }
+
+  const repaired = resolveMeal(value as Meal, cookbook);
+  return {
+    mode: "planned",
+    meal: repaired ?? null,
+  };
+}
+
+function migrateSavedMeals(
+  rawMeals: Record<string, any>,
+  cookbook: CookbookRecipe[]
+): Record<string, PlannedDay> {
+  const next: Record<string, PlannedDay> = {};
 
   for (const day of days) {
-    const meal = rawMeals?.[day];
-    if (!meal) continue;
-
-    const repaired = resolveMeal(meal, cookbook);
-    if (repaired) next[day] = repaired;
+    next[day] = normalizePlannedDay(rawMeals?.[day], cookbook);
   }
 
   return next;
@@ -157,7 +194,6 @@ function getAdaptiveBottomInset() {
   const ua = navigator.userAgent.toLowerCase();
   const isSamsung = ua.includes("samsung");
 
-  // Samsung needs more breathing room
   return isSamsung ? 26 : 16;
 }
 
@@ -309,13 +345,15 @@ function AppContent() {
 
   const [cookbook, setCookbook] = useState<CookbookRecipe[]>(() => getCookbook());
 
-  const [meals, setMeals] = useState<Record<string, Meal>>(() => {
+  const [meals, setMeals] = useState<Record<string, PlannedDay>>(() => {
     try {
       const savedMeals = JSON.parse(localStorage.getItem("meals") || "{}");
       const savedCookbook = getCookbook();
       return migrateSavedMeals(savedMeals, savedCookbook);
     } catch {
-      return {};
+      return Object.fromEntries(
+        days.map((day) => [day, { mode: "planned", meal: null }])
+      ) as Record<string, PlannedDay>;
     }
   });
 
@@ -406,7 +444,6 @@ function AppContent() {
     return () => window.removeEventListener("error", handleError, true);
   }, [toast]);
 
-
   // =====================================================
   // Builder: repair meals when cookbook/library changes
   // =====================================================
@@ -480,7 +517,7 @@ function AppContent() {
   };
 
   const addDayToCookbook = (day: string) => {
-    const meal = meals[day];
+    const meal = meals[day]?.meal;
     if (!meal?.name) return;
     handleAddToCookbook(meal as CookbookRecipe);
   };
@@ -490,34 +527,50 @@ function AppContent() {
   // =====================================================
 
   const generateDinnerPlan = (force = false) => {
-    const seedMeals = force
-      ? Object.fromEntries(
-          days.map((d) => [
-            d,
-            lockedDays[d]
-              ? meals[d]
-              : { name: "", ingredients: "", instructions: "", photoUrl: "" },
-          ])
-        )
-      : meals;
+    const lockedMeals = Object.fromEntries(
+      days.map((d) => {
+        const dayPlan = meals[d];
+
+        if (lockedDays[d] && dayPlan?.mode === "planned" && dayPlan?.meal) {
+          return [d, dayPlan.meal];
+        }
+
+        return [d, null];
+      })
+    ) as Partial<Record<(typeof days)[number], Meal | null>>;
 
     const next = generatePlan({
       cookbook,
       pantry: pantry.map((item) => item.name),
       daySettings,
-      lockedMeals: seedMeals as Partial<Record<(typeof days)[number], Meal | null>>,
+      lockedMeals: force ? lockedMeals : lockedMeals,
       preferences: prefs,
     });
 
-    const hydratedMeals: Record<string, Meal> = {};
+    const hydratedMeals: Record<string, PlannedDay> = {} as Record<
+      string,
+      PlannedDay
+    >;
 
     for (const d of days) {
-      const meal = next[d];
-      if (!meal) continue;
+      const existing = meals[d];
 
-      hydratedMeals[d] = resolveMeal(meal, cookbook) ?? {
-        ...meal,
-        photoUrl: normalizePhotoUrl(meal.photoUrl) || mealImageUrl(meal.name),
+      if (lockedDays[d] && existing) {
+        hydratedMeals[d] = existing;
+        continue;
+      }
+
+      const meal = next[d];
+
+      hydratedMeals[d] = {
+        mode: "planned",
+        meal: meal
+          ? resolveMeal(meal, cookbook) ?? {
+              ...meal,
+              photoUrl:
+                normalizePhotoUrl(meal.photoUrl) || mealImageUrl(meal.name),
+            }
+          : null,
       };
     }
 
@@ -532,13 +585,13 @@ function AppContent() {
 
   return (
     <div
-  style={{
-    minHeight: "100vh",
-    paddingBottom: hideBottomNav
-  ? "24px"
-  : `calc(120px + env(safe-area-inset-bottom, 0px) + ${adaptiveInset}px)`,
-  }}
->
+      style={{
+        minHeight: "100vh",
+        paddingBottom: hideBottomNav
+          ? "24px"
+          : `calc(120px + env(safe-area-inset-bottom, 0px) + ${adaptiveInset}px)`,
+      }}
+    >
       <BackHandler />
 
       <header
@@ -573,11 +626,11 @@ function AppContent() {
 
       <Routes>
         <Route
-          path="/"
-          element={requireOnboarding(
-            <HomePage meals={meals} setMeals={setMeals} />
-          )}
-        />
+  path="/"
+  element={requireOnboarding(
+    <HomePage meals={meals} setMeals={setMeals} />
+  )}
+/>
 
         <Route path="/onboarding" element={<OnboardingPage />} />
 
@@ -597,18 +650,18 @@ function AppContent() {
         />
 
         <Route
-          path="/week"
-          element={
-            <WeekPage
-              meals={meals}
-              setMeals={setMeals}
-              generateDinnerPlan={generateDinnerPlan}
-              lockedDays={lockedDays}
-              setLockedDays={setLockedDays}
-              addDayToCookbook={addDayToCookbook}
-            />
-          }
-        />
+  path="/week"
+  element={
+    <WeekPage
+      meals={meals}
+      setMeals={setMeals}
+      generateDinnerPlan={generateDinnerPlan}
+      lockedDays={lockedDays}
+      setLockedDays={setLockedDays}
+      addDayToCookbook={addDayToCookbook}
+    />
+  }
+/>
 
         <Route
           path="/cookbook"
@@ -629,31 +682,33 @@ function AppContent() {
 
         <Route path="/settings" element={<Navigate to="/plan" replace />} />
         <Route path="/guide" element={<TestersGuidePage />} />
-        <Route path="/" element={<OnboardingPage />} />
         <Route path="/feedback" element={<FeedbackForm />} />
 
         <Route
-  path="/recipes"
-  element={
-    <RecipesPage
-      onAddToCookbook={handleAddToCookbook}
-      onAddToWeek={(meal: Meal, day: string) => {
-        const resolvedMeal = resolveMeal(meal, cookbook) ?? {
-          ...meal,
-          photoUrl:
-            normalizePhotoUrl(meal.photoUrl) || mealImageUrl(meal.name),
-        };
+          path="/recipes"
+          element={
+            <RecipesPage
+              onAddToCookbook={handleAddToCookbook}
+              onAddToWeek={(meal: Meal, day: string) => {
+                const resolvedMeal = resolveMeal(meal, cookbook) ?? {
+                  ...meal,
+                  photoUrl:
+                    normalizePhotoUrl(meal.photoUrl) || mealImageUrl(meal.name),
+                };
 
-        setMeals((prev) => ({
-          ...prev,
-          [day]: resolvedMeal,
-        }));
+                setMeals((prev) => ({
+                  ...prev,
+                  [day]: {
+                    mode: "planned",
+                    meal: resolvedMeal,
+                  },
+                }));
 
-        navigate("/week");
-      }}
-    />
-  }
-/>
+                navigate("/week");
+              }}
+            />
+          }
+        />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

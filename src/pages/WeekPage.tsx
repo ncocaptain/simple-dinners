@@ -15,29 +15,15 @@ import {
 } from "lucide-react";
 import Card from "../components/Card";
 import { days } from "../core/data";
-import type { Meal } from "../core/types";
+import type { Meal, PlannedDay } from "../core/types";
 
 type WalkthroughStep = 1 | 2 | 3;
+
 type TooltipPosition = {
   top: number;
   left: number;
   width: number;
 };
-
-function createLeftoversMeal(day: string): Meal {
-  return {
-    id: `leftovers-${day.toLowerCase()}`,
-    slug: `leftovers-${day.toLowerCase()}`,
-    name: "Leftovers",
-    ingredients: "",
-    instructions: "",
-    notes: "Use what’s already in the fridge.",
-    effort: "quick" as any,
-    tags: ["leftovers"],
-    photoUrl: "/images/leftovers.webp",
-    isLeftovers: true as any,
-  } as Meal;
-}
 
 export default function WeekPage({
   meals,
@@ -47,8 +33,8 @@ export default function WeekPage({
   setLockedDays,
   addDayToCookbook,
 }: {
-  meals: Record<string, Meal>;
-  setMeals: React.Dispatch<React.SetStateAction<Record<string, Meal>>>;
+  meals: Record<string, PlannedDay>;
+  setMeals: React.Dispatch<React.SetStateAction<Record<string, PlannedDay>>>;
   generateDinnerPlan: (force?: boolean) => void;
   lockedDays: Record<string, boolean>;
   setLockedDays: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
@@ -74,7 +60,10 @@ export default function WeekPage({
 
     if (!isFirst) return;
 
-    const hasMeals = days.some((day) => !!meals[day]?.name?.trim());
+    const hasMeals = days.some((day) => {
+      const dayPlan = meals[day];
+      return dayPlan?.mode === "planned" && !!dayPlan?.meal?.name?.trim();
+    });
 
     if (!hasMeals) {
       generateDinnerPlan();
@@ -139,24 +128,18 @@ export default function WeekPage({
     left = Math.min(left, window.innerWidth - tooltipWidth - 16);
 
     const spaceBelow = window.innerHeight - rect.bottom;
+    const tooltipHeight = Math.min(320, window.innerHeight * 0.5);
 
+    let top: number;
 
-const tooltipHeight = Math.min(320, window.innerHeight * 0.5);
+    if (spaceBelow < tooltipHeight) {
+      top = rect.top - tooltipHeight - 16;
+    } else {
+      top = rect.bottom + 16;
+    }
 
-let top;
-
-// If there's not enough space below → place ABOVE
-if (spaceBelow < tooltipHeight) {
-  top = rect.top - tooltipHeight - 16;
-} else {
-  top = rect.bottom + 16;
-}
-
-// Clamp inside screen
-top = Math.max(20, top);
-top = Math.min(top, window.innerHeight - tooltipHeight - 20);
-
-    top = Math.max(16, top);
+    top = Math.max(20, top);
+    top = Math.min(top, window.innerHeight - tooltipHeight - 20);
 
     setTooltipPosition({
       top,
@@ -177,7 +160,7 @@ top = Math.min(top, window.innerHeight - tooltipHeight - 20);
     }, 120);
 
     return () => window.clearTimeout(t);
-  }, [showWalkthrough, walkthroughStep, meals]);
+  }, [showWalkthrough, walkthroughStep, meals, activeTargetRef]);
 
   useEffect(() => {
     if (!showWalkthrough) return;
@@ -229,17 +212,23 @@ top = Math.min(top, window.innerHeight - tooltipHeight - 20);
   };
 
   const clearDay = (day: string) => {
-    setMeals((prev) => {
-      const next = { ...prev };
-      delete next[day];
-      return next;
-    });
+    setMeals((prev) => ({
+      ...prev,
+      [day]: { mode: "planned", meal: null },
+    }));
   };
 
   const setLeftovers = (day: string) => {
     setMeals((prev) => ({
       ...prev,
-      [day]: createLeftoversMeal(day),
+      [day]: { mode: "leftovers", meal: null },
+    }));
+  };
+
+  const setFreezer = (day: string) => {
+    setMeals((prev) => ({
+      ...prev,
+      [day]: { mode: "freezer", meal: null },
     }));
   };
 
@@ -381,10 +370,15 @@ top = Math.min(top, window.innerHeight - tooltipHeight - 20);
   function shareWeekPlan() {
     const lines = days
       .map((day) => {
-        const meal = meals[day];
-        return meal?.name?.trim() ? `${day}: ${meal.name}` : null;
+        const dayPlan = meals[day];
+        const meal = dayPlan?.meal;
+
+        if (dayPlan?.mode !== "planned") return null;
+        if (!meal?.name?.trim()) return null;
+
+        return `${day}: ${meal.name}`;
       })
-      .filter(Boolean);
+      .filter(Boolean) as string[];
 
     if (!lines.length) return;
 
@@ -411,11 +405,15 @@ top = Math.min(top, window.innerHeight - tooltipHeight - 20);
   }
 
   function downloadWholeWeekICS() {
-    const plannedDays = days.filter((day) => !!meals[day]?.name?.trim());
+    const plannedDays = days.filter((day) => {
+      const dayPlan = meals[day];
+      return dayPlan?.mode === "planned" && !!dayPlan?.meal?.name?.trim();
+    });
+
     if (!plannedDays.length) return;
 
     const events = plannedDays.map((day, index) =>
-      buildICSEvent(day, meals[day], index)
+      buildICSEvent(day, meals[day].meal as Meal, index)
     );
 
     downloadICSFile("simple-dinners-week-plan.ics", events);
@@ -436,15 +434,20 @@ top = Math.min(top, window.innerHeight - tooltipHeight - 20);
   }
 
   function addWholeWeekToCalendar() {
-    const plannedDays = days.filter((day) => !!meals[day]?.name?.trim());
+    const plannedDays = days.filter((day) => {
+      const dayPlan = meals[day];
+      return dayPlan?.mode === "planned" && !!dayPlan?.meal?.name?.trim();
+    });
+
     if (!plannedDays.length) return;
 
     downloadWholeWeekICS();
   }
 
-  const plannedMealCount = days.filter(
-    (day) => !!meals[day]?.name?.trim()
-  ).length;
+  const plannedMealCount = days.filter((day) => {
+    const dayPlan = meals[day];
+    return dayPlan?.mode === "planned" && !!dayPlan?.meal?.name?.trim();
+  }).length;
 
   const btnBase: React.CSSProperties = {
     border: "none",
@@ -458,32 +461,32 @@ top = Math.min(top, window.innerHeight - tooltipHeight - 20);
     gap: 8,
   };
 
- function renderWalkthroughContent() {
-  if (walkthroughStep === 1) {
+  function renderWalkthroughContent() {
+    if (walkthroughStep === 1) {
+      return {
+        title: "Build your first week",
+        body:
+          "Tap Generate New Plan to instantly create a full week of dinners tailored for you.",
+        cta: "Next →",
+      };
+    }
+
+    if (walkthroughStep === 2) {
+      return {
+        title: "Lock meals you like",
+        body:
+          "Lock a day to keep that meal when you generate a new plan for the rest of the week.",
+        cta: "Next →",
+      };
+    }
+
     return {
-      title: "Build your first week",
+      title: "Plan ahead with your calendar",
       body:
-        "Tap Generate New Plan to instantly create a full week of dinners tailored for you.",
-      cta: "Next →",
+        "Add meals to your calendar so dinner is already scheduled and one less thing to think about.",
+      cta: "Start Planning →",
     };
   }
-
-  if (walkthroughStep === 2) {
-    return {
-      title: "Lock meals you like",
-      body:
-        "Lock a day to keep that meal when you generate a new plan for the rest of the week.",
-      cta: "Next →",
-    };
-  }
-
-  return {
-    title: "Plan ahead with your calendar",
-    body:
-      "Add meals to your calendar so dinner is already scheduled and one less thing to think about.",
-    cta: "Start Planning →",
-  };
-}
 
   const walkthroughContent = renderWalkthroughContent();
 
@@ -533,23 +536,26 @@ top = Math.min(top, window.innerHeight - tooltipHeight - 20);
 
           <div style={{ display: "grid", gap: 16 }}>
             {days.map((day, index) => {
-              const meal = meals[day];
-              const isLeftovers = !!(meal as any)?.isLeftovers;
+              const dayPlan = meals[day];
+              const mode = dayPlan?.mode ?? "planned";
+              const meal = dayPlan?.meal ?? null;
+              const isLeftovers = mode === "leftovers";
+              const isFreezer = mode === "freezer";
               const hasMeal = !!meal?.name?.trim();
               const isLocked = !!lockedDays[day];
               const mealPhotoUrl = normalizePhotoUrl(meal?.photoUrl);
 
               return (
                 <Card
-  key={day}
-  style={{
-    padding: 0,
-    overflow: "hidden",
-    borderRadius: "24px",
-    position: "relative",
-    zIndex: showWalkthrough ? 2 : "auto",
-  }}
->
+                  key={day}
+                  style={{
+                    padding: 0,
+                    overflow: "hidden",
+                    borderRadius: "24px",
+                    position: "relative",
+                    zIndex: showWalkthrough ? 2 : "auto",
+                  }}
+                >
                   <div style={{ padding: "20px", display: "grid", gap: 16 }}>
                     <div
                       style={{
@@ -599,23 +605,121 @@ top = Math.min(top, window.innerHeight - tooltipHeight - 20);
                       </button>
                     </div>
 
-                    {hasMeal ? (
+                    {isLeftovers ? (
+                      <div style={{ display: "grid", gap: 16 }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: 16,
+                            alignItems: "center",
+                          }}
+                        >
+                          <img
+                            src="/images/leftovers.webp"
+                            alt="Leftovers"
+                            style={{
+                              width: 85,
+                              height: 85,
+                              borderRadius: 18,
+                              objectFit: "cover",
+                              border: "1px solid rgba(255,255,255,0.1)",
+                              background: "rgba(255,255,255,0.04)",
+                              flexShrink: 0,
+                            }}
+                          />
+
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div
+                              style={{
+                                fontWeight: 800,
+                                fontSize: 19,
+                                marginBottom: 4,
+                                lineHeight: 1.2,
+                              }}
+                            >
+                              Leftovers Night
+                            </div>
+
+                            <div
+                              style={{
+                                fontSize: 13,
+                                opacity: 0.5,
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 4,
+                              }}
+                            >
+                              <ChefHat size={14} />
+                              No cooking tonight 👍
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : isFreezer ? (
+                      <div style={{ display: "grid", gap: 16 }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: 16,
+                            alignItems: "center",
+                          }}
+                        >
+                          <img
+                            src="/images/freezer.webp"
+                            alt="Freezer Night"
+                            style={{
+                              width: 85,
+                              height: 85,
+                              borderRadius: 18,
+                              objectFit: "cover",
+                              border: "1px solid rgba(255,255,255,0.1)",
+                              background: "rgba(255,255,255,0.04)",
+                              flexShrink: 0,
+                            }}
+                          />
+
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div
+                              style={{
+                                fontWeight: 800,
+                                fontSize: 19,
+                                marginBottom: 4,
+                                lineHeight: 1.2,
+                              }}
+                            >
+                              Freezer Night
+                            </div>
+
+                            <div
+                              style={{
+                                fontSize: 13,
+                                opacity: 0.5,
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 4,
+                              }}
+                            >
+                              <ChefHat size={14} />
+                              No cooking tonight 👍
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : hasMeal && meal ? (
                       <>
                         <div
                           onClick={() => {
-                            if (!isLeftovers) {
-                              navigate(
-                                `/recipe/${encodeURIComponent(
-                                  meal.slug || meal.name || ""
-                                )}?from=/week`
-                              );
-                            }
+                            navigate(
+                              `/recipe/${encodeURIComponent(
+                                meal.slug || meal.name || ""
+                              )}?from=/week`
+                            );
                           }}
                           style={{
                             display: "flex",
                             gap: 16,
                             alignItems: "center",
-                            cursor: isLeftovers ? "default" : "pointer",
+                            cursor: "pointer",
                           }}
                         >
                           {mealPhotoUrl ? (
@@ -659,7 +763,7 @@ top = Math.min(top, window.innerHeight - tooltipHeight - 20);
                                 lineHeight: 1.2,
                               }}
                             >
-                              {isLeftovers ? "Leftovers Night" : meal.name}
+                              {meal.name}
                             </div>
 
                             <div
@@ -672,51 +776,53 @@ top = Math.min(top, window.innerHeight - tooltipHeight - 20);
                               }}
                             >
                               <ChefHat size={14} />
-                              {isLeftovers
-                                ? "No cooking tonight 👍"
-                                : "Tap for Details"}
+                              Tap for Details
                             </div>
                           </div>
 
-                          {!isLeftovers && (
-                            <ChevronRight
-                              size={20}
-                              style={{ opacity: 0.2, flexShrink: 0 }}
-                            />
-                          )}
+                          <ChevronRight
+                            size={20}
+                            style={{ opacity: 0.2, flexShrink: 0 }}
+                          />
                         </div>
 
                         <div
                           style={{ display: "flex", gap: 10, flexWrap: "wrap" }}
                         >
                           <button
-  title="Long press to download .ics"
-  onClick={() => openGoogleCalendar(day, meal)}
-  onContextMenu={(e) => {
-    e.preventDefault();
-    downloadDayICS(day, meal);
-  }}
-  onTouchStart={(e) => {
-    const timer = setTimeout(() => {
-      downloadDayICS(day, meal);
-    }, 600);
+                            title="Long press to download .ics"
+                            onClick={() => {
+                              if (meal) openGoogleCalendar(day, meal);
+                            }}
+                            onContextMenu={(e) => {
+                              e.preventDefault();
+                              if (meal) downloadDayICS(day, meal);
+                            }}
+                            onTouchStart={(e) => {
+                              const timer = setTimeout(() => {
+                                if (meal) downloadDayICS(day, meal);
+                              }, 600);
 
-    const clear = () => clearTimeout(timer);
+                              const clear = () => clearTimeout(timer);
 
-    e.currentTarget.addEventListener("touchend", clear, { once: true });
-    e.currentTarget.addEventListener("touchmove", clear, { once: true });
-  }}
-  style={{
-    ...btnBase,
-    flex: 1,
-    minWidth: 0,
-    background: "rgba(59,130,246,0.12)",
-    color: "#60a5fa",
-  }}
->
-  <CalendarPlus size={16} />
-  Add to Calendar
-</button>
+                              e.currentTarget.addEventListener("touchend", clear, {
+                                once: true,
+                              });
+                              e.currentTarget.addEventListener("touchmove", clear, {
+                                once: true,
+                              });
+                            }}
+                            style={{
+                              ...btnBase,
+                              flex: 1,
+                              minWidth: 0,
+                              background: "rgba(59,130,246,0.12)",
+                              color: "#60a5fa",
+                            }}
+                          >
+                            <CalendarPlus size={16} />
+                            Add to Calendar
+                          </button>
                         </div>
                       </>
                     ) : (
@@ -755,10 +861,25 @@ top = Math.min(top, window.innerHeight - tooltipHeight - 20);
                           />
                           Set as Leftovers
                         </button>
+
+                        <button
+                          onClick={() => setFreezer(day)}
+                          style={{
+                            padding: "12px",
+                            borderRadius: "14px",
+                            background: "rgba(59,130,246,0.12)",
+                            color: "#60a5fa",
+                            border: "none",
+                            fontWeight: 800,
+                            cursor: "pointer",
+                          }}
+                        >
+                          🧊 Freezer Night
+                        </button>
                       </div>
                     )}
 
-                    {hasMeal && !isLocked && (
+                    {!isLocked && (
                       <div
                         style={{
                           display: "flex",
@@ -789,6 +910,24 @@ top = Math.min(top, window.innerHeight - tooltipHeight - 20);
                           </button>
                         )}
 
+                        {!isFreezer && (
+                          <button
+                            onClick={() => setFreezer(day)}
+                            style={{
+                              flex: 1,
+                              padding: "12px",
+                              borderRadius: "14px",
+                              background: "rgba(59,130,246,0.12)",
+                              color: "#60a5fa",
+                              border: "none",
+                              fontWeight: 800,
+                              cursor: "pointer",
+                            }}
+                          >
+                            🧊 Freezer
+                          </button>
+                        )}
+
                         <button
                           onClick={() => clearDay(day)}
                           style={{
@@ -809,7 +948,7 @@ top = Math.min(top, window.innerHeight - tooltipHeight - 20);
                           Remove
                         </button>
 
-                        {!isLeftovers && (
+                        {mode === "planned" && hasMeal && (
                           <button
                             onClick={() => addDayToCookbook(day)}
                             style={{
@@ -927,21 +1066,21 @@ top = Math.min(top, window.innerHeight - tooltipHeight - 20);
 
           {tooltipPosition && (
             <div
-  style={{
-    position: "fixed",
-    top: tooltipPosition.top,
-    left: tooltipPosition.left,
-    width: tooltipPosition.width,
-    zIndex: 10002,
-    borderRadius: 20,
-    background:
-      "linear-gradient(180deg, rgba(15,23,42,0.96) 0%, rgba(2,6,23,0.98) 100%)",
-    border: "1px solid rgba(255,255,255,0.10)",
-    boxShadow: "0 24px 60px rgba(0,0,0,0.42)",
-    padding: 22,
-    color: "#f8fafc",
-  }}
->
+              style={{
+                position: "fixed",
+                top: tooltipPosition.top,
+                left: tooltipPosition.left,
+                width: tooltipPosition.width,
+                zIndex: 10002,
+                borderRadius: 20,
+                background:
+                  "linear-gradient(180deg, rgba(15,23,42,0.96) 0%, rgba(2,6,23,0.98) 100%)",
+                border: "1px solid rgba(255,255,255,0.10)",
+                boxShadow: "0 24px 60px rgba(0,0,0,0.42)",
+                padding: 22,
+                color: "#f8fafc",
+              }}
+            >
               <div
                 style={{
                   display: "flex",
@@ -1007,25 +1146,25 @@ top = Math.min(top, window.innerHeight - tooltipHeight - 20);
               </p>
 
               <div
-  style={{
-    marginTop: 12,
-    padding: "8px 10px",
-    borderRadius: 12,
-    background: "rgba(20,184,166,0.14)",
-    border: "1px solid rgba(20,184,166,0.28)",
-    fontSize: 12,
-    fontWeight: 800,
-    color: "#ccfbf1",
-    display: "flex",
-    alignItems: "center",
-    gap: 6,
-  }}
->
-  <Sparkles size={12} />
-  {walkthroughStep === 1 && "Tap the button below"}
-  {walkthroughStep === 2 && "Try locking a day"}
-  {walkthroughStep === 3 && "Add your meals to calendar"}
-</div>
+                style={{
+                  marginTop: 12,
+                  padding: "8px 10px",
+                  borderRadius: 12,
+                  background: "rgba(20,184,166,0.14)",
+                  border: "1px solid rgba(20,184,166,0.28)",
+                  fontSize: 12,
+                  fontWeight: 800,
+                  color: "#ccfbf1",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                }}
+              >
+                <Sparkles size={12} />
+                {walkthroughStep === 1 && "Tap the button below"}
+                {walkthroughStep === 2 && "Try locking a day"}
+                {walkthroughStep === 3 && "Add your meals to calendar"}
+              </div>
 
               <div style={{ display: "grid", gap: 10, marginTop: 18 }}>
                 {walkthroughStep < 3 ? (
