@@ -947,176 +947,180 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
         </div>
 
         {cookMode ? (
+  <div
+    onTouchStart={handleTouchStart}
+    onTouchMove={handleTouchMove}
+    onTouchEnd={handleTouchEnd}
+    style={{
+      padding: 20,
+      borderRadius: 24,
+      border: "1px solid rgba(255,255,255,0.08)",
+      background: "rgba(255,255,255,0.04)",
+      display: "grid",
+      gap: 14,
+    }}
+  >
+    {/* Step Header */}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        gap: 12,
+        alignItems: "center",
+        flexWrap: "wrap",
+      }}
+    >
+      <div style={{ fontSize: 14, opacity: 0.75, fontWeight: 900 }}>
+        Step {instructions.length ? stepIndex + 1 : 0} of {instructions.length}
+      </div>
+
+      {detectedTimerSeconds && timerSeconds === null && (
+        <div style={{ fontSize: 12, opacity: 0.5, fontWeight: 700 }}>
+          Timer detected for this step
+        </div>
+      )}
+    </div>
+
+    {/* Instruction (HERO) */}
+    <div
+      style={{
+        fontSize: 28,
+        lineHeight: 1.5,
+        fontWeight: 900,
+      }}
+    >
+      {currentStep || "No instructions available."}
+    </div>
+
+    {/* Ingredients in Step */}
+    {stepIngredients.length > 0 && (
+      <div
+        style={{
+          padding: 14,
+          borderRadius: 16,
+          background: "rgba(255,255,255,0.02)",
+          border: "1px solid rgba(255,255,255,0.08)",
+          display: "grid",
+          gap: 6,
+        }}
+      >
+        <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 800 }}>
+          Ingredients in this step
+        </div>
+
+        {stepIngredients.map((ingredient, index) => (
           <div
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
+            key={`${ingredient}-${index}`}
             style={{
-              padding: 20,
-              borderRadius: 24,
-              border: "1px solid rgba(255,255,255,0.08)",
-              background: "rgba(255,255,255,0.04)",
-              display: "grid",
-              gap: 16,
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              opacity: 0.8,
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                gap: 12,
-                alignItems: "center",
-                flexWrap: "wrap",
-              }}
-            >
-              <div style={{ fontSize: 13, opacity: 0.6, fontWeight: 800 }}>
-                Step {instructions.length ? stepIndex + 1 : 0} of{" "}
-                {instructions.length}
-              </div>
+            <CheckCircle2 size={14} style={{ opacity: 0.4 }} />
+            <span style={{ fontSize: 13 }}>{ingredient}</span>
+          </div>
+        ))}
+      </div>
+    )}
 
-              {detectedTimerSeconds && timerSeconds === null && (
-                <div style={{ fontSize: 12, opacity: 0.55, fontWeight: 700 }}>
-                  Timer detected for this step
-                </div>
-              )}
-            </div>
+    {/* Timer */}
+    {(detectedTimerSeconds || timerSeconds !== null) && (
+      <div
+        style={{
+          padding: 14,
+          borderRadius: 16,
+          background: "rgba(255,255,255,0.03)",
+          border: "1px solid rgba(255,255,255,0.08)",
+          display: "grid",
+          gap: 10,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            fontWeight: 900,
+          }}
+        >
+          <Timer size={16} />
+          Timer
+        </div>
 
-            <div
-              style={{
-                fontSize: 24,
-                lineHeight: 1.55,
-                fontWeight: 900,
-              }}
-            >
-              {currentStep || "No instructions available."}
-            </div>
+        <div style={{ fontSize: 28, fontWeight: 1000 }}>
+          {timerSeconds !== null
+            ? formatTimer(timerSeconds)
+            : detectedTimerSeconds
+            ? formatTimer(detectedTimerSeconds)
+            : "0:00"}
+        </div>
 
-            {stepIngredients.length > 0 && (
-              <div
-                style={{
-                  padding: 14,
-                  borderRadius: 16,
-                  background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  display: "grid",
-                  gap: 8,
-                }}
-              >
-                <div style={{ fontSize: 12, opacity: 0.65, fontWeight: 800 }}>
-                  Ingredients in this step
-                </div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+          {timerSeconds === null && detectedTimerSeconds && (
+            <button onClick={handleStartTimer} style={topBtn}>
+              <Timer size={16} />
+              Start Timer
+            </button>
+          )}
 
-                {stepIngredients.map((ingredient, index) => (
-                  <div
-                    key={`${ingredient}-${index}`}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 8,
-                      opacity: 0.85,
-                    }}
-                  >
-                    <CheckCircle2 size={14} style={{ opacity: 0.5 }} />
-                    <span style={{ fontSize: 14 }}>{ingredient}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {(detectedTimerSeconds || timerSeconds !== null) && (
-              <div
-                style={{
-                  padding: 14,
-                  borderRadius: 16,
-                  background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  display: "grid",
-                  gap: 12,
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    fontWeight: 900,
-                  }}
-                >
-                  <Timer size={16} />
-                  Timer
-                </div>
-
-                <div style={{ fontSize: 30, fontWeight: 1000 }}>
-                  {timerSeconds !== null
-                    ? formatTimer(timerSeconds)
-                    : detectedTimerSeconds
-                    ? formatTimer(detectedTimerSeconds)
-                    : "0:00"}
-                </div>
-
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-                  {timerSeconds === null && detectedTimerSeconds && (
-                    <button onClick={handleStartTimer} style={topBtn}>
-                      <Timer size={16} />
-                      Start Timer
-                    </button>
-                  )}
-
-                  {timerSeconds !== null && (
-                    <>
-                      <button onClick={handlePauseResumeTimer} style={topBtn}>
-                        {timerRunning ? "Pause Timer" : "Resume Timer"}
-                      </button>
-
-                      <button onClick={handleClearTimer} style={topBtn}>
-                        Clear Timer
-                      </button>
-                    </>
-                  )}
-                </div>
-              </div>
-            )}
-
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <button
-                onClick={() => setStepIndex((prev) => Math.max(0, prev - 1))}
-                style={topBtn}
-                disabled={stepIndex <= 0}
-              >
-                <ChevronLeft size={16} />
-                Previous
+          {timerSeconds !== null && (
+            <>
+              <button onClick={handlePauseResumeTimer} style={topBtn}>
+                {timerRunning ? "Pause Timer" : "Resume Timer"}
               </button>
 
-              {!isLastStep ? (
-                <button
-                  onClick={() =>
-                    setStepIndex((prev) =>
-                      Math.min(instructions.length - 1, prev + 1)
-                    )
-                  }
-                  style={topBtn}
-                  disabled={stepIndex >= instructions.length - 1}
-                >
-                  Next
-                  <ChevronRight size={16} />
-                </button>
-              ) : (
-                <button
-                  onClick={handleFinishCooking}
-                  style={{
-                    ...topBtn,
-                    border: "1px solid rgba(34,197,94,0.45)",
-                    background: "rgba(34,197,94,0.12)",
-                    color: "#86efac",
-                  }}
-                >
-                  <ChefHat size={16} />
-                  Finish Cooking
-                </button>
-              )}
-            </div>
-          </div>
-        ) : (
+              <button onClick={handleClearTimer} style={topBtn}>
+                Clear Timer
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    )}
+
+    {/* Navigation */}
+    <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+      <button
+        onClick={() => setStepIndex((prev) => Math.max(0, prev - 1))}
+        style={topBtn}
+        disabled={stepIndex <= 0}
+      >
+        <ChevronLeft size={16} />
+        Previous
+      </button>
+
+      {!isLastStep ? (
+        <button
+          onClick={() =>
+            setStepIndex((prev) =>
+              Math.min(instructions.length - 1, prev + 1)
+            )
+          }
+          style={topBtn}
+          disabled={stepIndex >= instructions.length - 1}
+        >
+          Next
+          <ChevronRight size={16} />
+        </button>
+      ) : (
+        <button
+          onClick={handleFinishCooking}
+          style={{
+            ...topBtn,
+            border: "1px solid rgba(34,197,94,0.45)",
+            background: "rgba(34,197,94,0.12)",
+            color: "#86efac",
+          }}
+        >
+          <ChefHat size={16} />
+          Finish Cooking
+        </button>
+      )}
+    </div>
+  </div>
+) : (
           <>
             <div
               style={{

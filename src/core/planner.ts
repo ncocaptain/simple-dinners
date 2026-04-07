@@ -657,17 +657,22 @@ export function generatePlan(opts: {
       return bScore - aScore;
     });
 
-    const selected =
-      ranked[0] ??
-      ({
-        id: `meal-fallback-${day.toLowerCase()}`,
-        slug: `meal-fallback-${day.toLowerCase()}`,
-        name: "Dinner Night",
-        ingredients: "",
-        instructions: "",
-        effort: requestedEffort ?? "normal",
-        tags: ["dinner"],
-      } satisfies Meal);
+    // Pick from top candidates instead of always #1
+const TOP_N = 6;
+const pool = ranked.slice(0, TOP_N);
+
+// random pick from top group
+const selected =
+  pool[Math.floor(Math.random() * pool.length)] ??
+  ({
+    id: `meal-fallback-${day.toLowerCase()}`,
+    slug: `meal-fallback-${day.toLowerCase()}`,
+    name: "Dinner Night",
+    ingredients: "",
+    instructions: "",
+    effort: requestedEffort ?? "normal",
+    tags: ["dinner"],
+  } satisfies Meal);
 
     plan[day] = selected;
     usedNames.add(normalizeText(selected.name));
