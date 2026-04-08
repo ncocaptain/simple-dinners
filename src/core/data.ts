@@ -458,44 +458,49 @@ Add drained corn on top and bake 1 additional minute.
 Toss gently and garnish with fresh parsley before serving.`,
   },
 
-  {
-    id: "normal-classic-meatloaf",
-    slug: "normal-classic-meatloaf",
-    name: "Meatloaf",
-    effort: "normal",
-    photoUrl: "/images/normal-classic-meatloaf.webp",
-    tags: ["dinner", "beef", "bake", "comfort", "kid-friendly", "leftovers"],
-    notes: "A family-style meatloaf with a sweet tangy topping and dependable leftovers.",
-    ingredients: `2 large eggs
-2/3 cup milk
-2 tsp salt
-1/4 tsp pepper
-3 slices bread, crumbled
-1 1/2 lbs ground beef
-1 onion, chopped
-1 cup cheddar cheese, shredded
-1/2 cup carrot, shredded
+ {
+  id: "classic-meatloaf",
+  slug: "classic-meatloaf",
+  name: "Classic Meatloaf",
+  ingredients: `1 1/2 lbs ground beef (80/20 preferred) or 1 lb beef + 1/2 lb ground pork
+1 cup breadcrumbs (or crushed crackers)
+1/2 cup milk
+1 small yellow onion, finely diced
+2 cloves garlic, minced
+2 large eggs
+2 tbsp ketchup
+1 tbsp Worcestershire sauce
+1 tsp salt
+1/2 tsp black pepper
+1 tsp smoked paprika (optional)
+1/2 tsp dried thyme
+1/2 tsp dried parsley
+1/2 tsp onion powder
+1/3 cup ketchup (for glaze)
+2 tbsp brown sugar (for glaze)
+1 tbsp Worcestershire sauce (for glaze)
+1 tsp yellow mustard (optional, for glaze)`,
+  instructions: `Preheat oven to 375°F. Line a baking sheet with parchment paper or lightly grease a loaf pan.
 
-FOR TOPPING:
-1/4 cup brown sugar
-1/4 cup ketchup
-1 Tbsp mustard`,
-    instructions: `Preheat oven to 350°F.
+In a large bowl, combine breadcrumbs and milk. Let sit for 2 to 3 minutes until absorbed.
 
-In a large bowl, whisk together eggs, milk, salt, and pepper.
-Add crumbled bread and stir until softened.
+Add ground meat, diced onion, garlic, eggs, ketchup, Worcestershire sauce, salt, pepper, and spices. Mix gently with your hands until just combined. Do not overmix.
 
-Mix in ground beef, chopped onion, cheddar cheese, shredded cheese, and carrot, shredded until evenly combined.
+Transfer the mixture to the prepared baking sheet or loaf pan. Shape into a loaf about 8 to 9 inches long.
 
-Transfer mixture to a 9x5-inch loaf pan and shape evenly.
+In a small bowl, whisk together ketchup, brown sugar, Worcestershire sauce, and mustard. Spread half of the glaze over the meatloaf.
 
-In a small bowl, combine brown sugar, ketchup, and mustard.
-Spread mixture evenly over the top of the meatloaf.
+Bake for 40 minutes. Remove from the oven, spread the remaining glaze on top, and return to the oven.
 
-Bake for 60 to 75 minutes, or until the center reaches at least 160°F and is no longer pink.
+Bake for an additional 15 to 25 minutes, until the internal temperature reaches 160°F and the glaze is caramelized.
 
-Let rest 5 to 10 minutes before slicing and serving.`,
-  },
+Let rest for 10 minutes before slicing and serving.`,
+  photoUrl: "/images/classic-meatloaf.webp",
+  effort: "normal",
+  tags: ["beef", "comfort food", "classic", "oven-baked", "family dinner"],
+  isVegetarian: false,
+  notes: "Juicy, tender meatloaf with a sweet and tangy glaze. For extra flavor, sauté the onions and garlic before mixing. Great served with mashed potatoes and green beans."
+},
 
   {
     id: "normal-tilapia-asparagus-foil-packets",
