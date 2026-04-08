@@ -90,85 +90,116 @@ function formatTimer(seconds: number) {
 
   return `${mins}:${String(secs).padStart(2, "0")}`;
 }
-
-function ingredientMatchesStep(step: string, ingredient: string) {
-  const stepText = step.toLowerCase();
-
-  const cleaned = ingredient
+function normalizeIngredientName(ingredient: string) {
+  return ingredient
     .toLowerCase()
     .replace(/^[\d/\s.,()-]+/, "")
     .replace(
       /\b(cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|lb|lbs|oz|ounce|ounces|clove|cloves|can|cans|package|packages|slice|slices)\b/g,
       ""
     )
-    .replace(/\b(chopped|diced|minced|sliced|drained|rinsed|to taste)\b/g, "")
+    .replace(
+      /\b(chopped|diced|minced|sliced|drained|rinsed|softened|melted|divided|optional|for glaze|for topping|to taste)\b/g,
+      ""
+    )
+    .replace(/[()]/g, "")
     .replace(/\s+/g, " ")
+    .trim()
+    .split(",")[0]
     .trim();
+}
 
-  const main = cleaned.split(",")[0].trim();
-  if (main.length <= 2) return false;
+function getIngredientSearchTerms(ingredient: string) {
+  const main = normalizeIngredientName(ingredient);
+  if (!main || main.length <= 2) return [];
+
+  const terms = new Set<string>([main]);
 
   const singular = main.endsWith("s") ? main.slice(0, -1) : main;
   const plural = main.endsWith("s") ? main : `${main}s`;
 
-  const parts = main.split(" ").filter((word) => word.length > 2);
-  const reversed =
-    parts.length === 2 ? `${parts[1]} ${parts[0]}` : "";
+  terms.add(singular);
+  terms.add(plural);
 
-  const aliases = new Set<string>([main, singular, plural, reversed]);
+  const parts = main.split(" ").filter((word) => word.length > 2);
+  if (parts.length === 2) {
+    terms.add(`${parts[1]} ${parts[0]}`);
+  }
 
   if (main.includes("ground beef")) {
-    aliases.add("ground meat");
-    aliases.add("beef");
+    terms.add("ground meat");
+    terms.add("beef");
   }
 
   if (main.includes("ground turkey")) {
-    aliases.add("ground meat");
-    aliases.add("turkey");
+    terms.add("ground meat");
+    terms.add("turkey");
   }
 
   if (main.includes("onion")) {
-    aliases.add("onion");
-    aliases.add("onions");
+    terms.add("onion");
+    terms.add("onions");
   }
 
   if (main.includes("egg")) {
-    aliases.add("egg");
-    aliases.add("eggs");
+    terms.add("egg");
+    terms.add("eggs");
   }
 
   if (main.includes("garlic")) {
-    aliases.add("garlic");
+    terms.add("garlic");
   }
 
-  if (main.includes("bell pepper") || main.includes("red pepper") || main.includes("green pepper")) {
-    aliases.add("pepper");
-    aliases.add("peppers");
-    aliases.add("bell pepper");
-    aliases.add("red pepper");
-    aliases.add("green pepper");
+  if (main.includes("brown sugar")) {
+    terms.add("brown sugar");
+    terms.add("sugar");
+  }
+
+  if (main.includes("mustard")) {
+    terms.add("mustard");
+  }
+
+  if (main.includes("ketchup")) {
+    terms.add("ketchup");
+  }
+
+  if (main.includes("worcestershire")) {
+    terms.add("worcestershire");
+    terms.add("worcestershire sauce");
   }
 
   if (
     main.includes("italian seasoning") ||
-    main.includes("seasoning") ||
     main.includes("cajun seasoning") ||
-    main.includes("taco seasoning")
+    main.includes("taco seasoning") ||
+    main.includes("seasoning")
   ) {
-    aliases.add("seasoning");
-    aliases.add("seasonings");
-    aliases.add("spice");
-    aliases.add("spices");
+    terms.add("seasoning");
+    terms.add("seasonings");
+    terms.add("spice");
+    terms.add("spices");
   }
 
-  if (main.includes("worcestershire")) {
-    aliases.add("worcestershire sauce");
-    aliases.add("worcestershire");
+  if (
+    main.includes("bell pepper") ||
+    main.includes("red pepper") ||
+    main.includes("green pepper")
+  ) {
+    terms.add("pepper");
+    terms.add("peppers");
+    terms.add("bell pepper");
+    terms.add("red pepper");
+    terms.add("green pepper");
   }
 
-  return Array.from(aliases)
-    .filter((value) => value && value.length > 2)
-    .some((value) => stepText.includes(value));
+  return Array.from(terms).filter((term) => term.length > 2);
+}
+
+function ingredientMatchesStep(step: string, ingredient: string) {
+  const stepText = step.toLowerCase();
+  const terms = getIngredientSearchTerms(ingredient);
+
+  return terms.some((term) => stepText.includes(term));
 }
 
 function playTimerDoneSound() {
@@ -359,12 +390,21 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
     : false;
 
   const stepIngredients = useMemo(() => {
-    if (!currentStep) return [];
+  if (!currentStep) return [];
 
-    return ingredients.filter((ingredient) =>
-      ingredientMatchesStep(currentStep, ingredient)
-    );
-  }, [currentStep, ingredients]);
+  const matches = ingredients.filter((ingredient) =>
+    ingredientMatchesStep(currentStep, ingredient)
+  );
+
+  const seen = new Set<string>();
+
+  return matches.filter((ingredient) => {
+    const key = normalizeIngredientName(ingredient);
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}, [currentStep, ingredients]);
 
   // =====================================================
   // Builder: effects
