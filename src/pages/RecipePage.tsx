@@ -683,183 +683,184 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   // =====================================================
 
   return (
-    <div style={pageWrap}>
-      <div style={innerWrap}>
-        {!printMode && !cookMode && (
-          <>
-            <div style={{ display: "grid", gap: 12 }}>
-              <div style={{ fontSize: 12, opacity: 0.5, fontWeight: 800 }}>
-                Recipe Actions
-              </div>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: 10,
-                }}
-              >
-                <button onClick={handleBack} style={topBtn}>
-                  <ArrowLeft size={16} />
-                  Back
-                </button>
-
-                <button onClick={() => setCookMode(true)} style={topBtn}>
-                  <Play size={16} />
-                  Cook Mode
-                </button>
-
-                <button onClick={handleAddIngredients} style={topBtn}>
-                  <ShoppingCart size={16} />
-                  Add Ingredients
-                </button>
-
-                <button
-                  onClick={handleAddToCookbook}
-                  disabled={savedState === "already"}
-                  style={{
-                    ...topBtn,
-                    opacity: savedState === "already" ? 0.7 : 1,
-                    border:
-                      savedState !== "idle"
-                        ? "1px solid rgba(34,197,94,0.45)"
-                        : topBtn.border,
-                    background:
-                      savedState !== "idle"
-                        ? "rgba(34,197,94,0.12)"
-                        : topBtn.background,
-                    color: savedState !== "idle" ? "#86efac" : "white",
-                    cursor: savedState === "already" ? "default" : "pointer",
-                    transition: "all 0.18s ease",
-                  }}
-                >
-                  <BookOpen size={16} />
-                  {savedState === "saved"
-                    ? "Saved ✓"
-                    : savedState === "already"
-                    ? "Saved"
-                    : "Save Recipe"}
-                </button>
-              </div>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: 10,
-                  opacity: 0.85,
-                }}
-              >
-                <button onClick={handleCooked} style={topBtn}>
-                  <History size={16} />
-                  Mark Cooked
-                </button>
-
-                <button
-                  onClick={() =>
-                    navigate(
-                      `/recipe/${encodeURIComponent(
-                        safeRecipe.slug || safeRecipe.name || ""
-                      )}?from=${encodeURIComponent(from)}&print=1`
-                    )
-                  }
-                  style={topBtn}
-                >
-                  <Printer size={16} />
-                  Print
-                </button>
-
-                <button onClick={handleShare} style={topBtn}>
-                  <Share2 size={16} />
-                  Share
-                </button>
-              </div>
+  <div style={pageWrap}>
+    <div style={innerWrap}>
+      {!printMode && !cookMode && (
+        <>
+          <div style={{ display: "grid", gap: 12 }}>
+            <div style={{ fontSize: 12, opacity: 0.5, fontWeight: 800 }}>
+              Recipe Actions
             </div>
 
-            {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
-          </>
-        )}
-
-        {!printMode && cookMode && (
-          <>
             <div
               style={{
-                display: "flex",
-                flexWrap: "wrap",
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
                 gap: 10,
-                alignItems: "center",
-                justifyContent: "space-between",
               }}
             >
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-                <button onClick={() => setCookMode(false)} style={topBtn}>
-                  <ArrowLeft size={16} />
-                  Exit Cook Mode
-                </button>
+              <button onClick={handleBack} style={topBtn}>
+                <ArrowLeft size={16} />
+                Back
+              </button>
 
-                <button onClick={handleCooked} style={topBtn}>
-                  <History size={16} />
-                  Mark Cooked
-                </button>
-              </div>
+              <button onClick={() => setCookMode(true)} style={topBtn}>
+                <Play size={16} />
+                Cook Mode
+              </button>
+
+              <button onClick={handleAddIngredients} style={topBtn}>
+                <ShoppingCart size={16} />
+                Add Ingredients
+              </button>
 
               <button
-                onClick={() => setKeepAwake((prev) => !prev)}
+                onClick={handleAddToCookbook}
+                disabled={savedState === "already"}
                 style={{
-                  ...cookChipBtn,
-                  border: keepAwake
-                    ? "1px solid rgba(34,197,94,0.45)"
-                    : cookChipBtn.border,
-                  background: keepAwake
-                    ? "rgba(34,197,94,0.12)"
-                    : cookChipBtn.background,
-                  color: keepAwake ? "#86efac" : "white",
+                  ...topBtn,
+                  opacity: savedState === "already" ? 0.7 : 1,
+                  border:
+                    savedState !== "idle"
+                      ? "1px solid rgba(34,197,94,0.45)"
+                      : topBtn.border,
+                  background:
+                    savedState !== "idle"
+                      ? "rgba(34,197,94,0.12)"
+                      : topBtn.background,
+                  color: savedState !== "idle" ? "#86efac" : "white",
+                  cursor: savedState === "already" ? "default" : "pointer",
+                  transition: "all 0.18s ease",
                 }}
               >
-                <Moon size={15} />
-                {keepAwake ? "Screen Awake On" : "Keep Screen Awake"}
+                <BookOpen size={16} />
+                {savedState === "saved"
+                  ? "Saved ✓"
+                  : savedState === "already"
+                  ? "Saved"
+                  : "Save Recipe"}
               </button>
             </div>
 
-            {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 10,
+                opacity: 0.85,
+              }}
+            >
+              <button onClick={handleCooked} style={topBtn}>
+                <History size={16} />
+                Mark Cooked
+              </button>
 
-            {finishMessage && (
-  <div
-    style={{
-      position: "fixed",
-      inset: 0,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      background: "rgba(0,0,0,0.35)",
-      zIndex: 999,
-      padding: 24,
-    }}
-  >
-    <div
-      style={{
-        minWidth: 280,
-        maxWidth: 360,
-        padding: "22px 24px",
-        borderRadius: 22,
-        background: "rgba(22,163,74,0.20)",
-        border: "1px solid rgba(34,197,94,0.40)",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.45)",
-        color: "#dcfce7",
-        fontSize: 17,
-        lineHeight: 1.35,
-        fontWeight: 900,
-        textAlign: "center",
-        backdropFilter: "blur(8px)",
-      }}
-    >
-      {finishMessage}
-    </div>
-  </div>
-)}
-          </>
-        )}
+              <button
+                onClick={() =>
+                  navigate(
+                    `/recipe/${encodeURIComponent(
+                      safeRecipe.slug || safeRecipe.name || ""
+                    )}?from=${encodeURIComponent(from)}&print=1`
+                  )
+                }
+                style={topBtn}
+              >
+                <Printer size={16} />
+                Print
+              </button>
 
+              <button onClick={handleShare} style={topBtn}>
+                <Share2 size={16} />
+                Share
+              </button>
+            </div>
+          </div>
+
+          {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
+        </>
+      )}
+
+      {!printMode && cookMode && (
+        <>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 10,
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+              <button onClick={() => setCookMode(false)} style={topBtn}>
+                <ArrowLeft size={16} />
+                Exit Cook Mode
+              </button>
+
+              <button onClick={handleCooked} style={topBtn}>
+                <History size={16} />
+                Mark Cooked
+              </button>
+            </div>
+
+            <button
+              onClick={() => setKeepAwake((prev) => !prev)}
+              style={{
+                ...cookChipBtn,
+                border: keepAwake
+                  ? "1px solid rgba(34,197,94,0.45)"
+                  : cookChipBtn.border,
+                background: keepAwake
+                  ? "rgba(34,197,94,0.12)"
+                  : cookChipBtn.background,
+                color: keepAwake ? "#86efac" : "white",
+              }}
+            >
+              <Moon size={15} />
+              {keepAwake ? "Screen Awake On" : "Keep Screen Awake"}
+            </button>
+          </div>
+
+          {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
+
+          {finishMessage && (
+            <div
+              style={{
+                position: "fixed",
+                inset: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "rgba(0,0,0,0.35)",
+                zIndex: 999,
+                padding: 24,
+              }}
+            >
+              <div
+                style={{
+                  minWidth: 280,
+                  maxWidth: 360,
+                  padding: "22px 24px",
+                  borderRadius: 22,
+                  background: "rgba(22,163,74,0.20)",
+                  border: "1px solid rgba(34,197,94,0.40)",
+                  boxShadow: "0 20px 60px rgba(0,0,0,0.45)",
+                  color: "#dcfce7",
+                  fontSize: 17,
+                  lineHeight: 1.35,
+                  fontWeight: 900,
+                  textAlign: "center",
+                  backdropFilter: "blur(8px)",
+                }}
+              >
+                {finishMessage}
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      {!cookMode && (
         <div
           style={{
             overflow: "hidden",
@@ -945,297 +946,295 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
             </div>
           </div>
         </div>
-
-        {cookMode ? (
-  <div
-    onTouchStart={handleTouchStart}
-    onTouchMove={handleTouchMove}
-    onTouchEnd={handleTouchEnd}
-    style={{
-      padding: 20,
-      borderRadius: 24,
-      border: "1px solid rgba(255,255,255,0.08)",
-      background: "rgba(255,255,255,0.04)",
-      display: "grid",
-      gap: 14,
-    }}
-  >
-    {/* Step Header */}
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        gap: 12,
-        alignItems: "center",
-        flexWrap: "wrap",
-      }}
-    >
-      <div style={{ fontSize: 14, opacity: 0.75, fontWeight: 900 }}>
-        Step {instructions.length ? stepIndex + 1 : 0} of {instructions.length}
-      </div>
-
-      {detectedTimerSeconds && timerSeconds === null && (
-        <div style={{ fontSize: 12, opacity: 0.5, fontWeight: 700 }}>
-          Timer detected for this step
-        </div>
       )}
-    </div>
 
-    {/* Instruction (HERO) */}
-    <div
-      style={{
-        fontSize: 28,
-        lineHeight: 1.5,
-        fontWeight: 900,
-      }}
-    >
-      {currentStep || "No instructions available."}
-    </div>
-
-    {/* Ingredients in Step */}
-    {stepIngredients.length > 0 && (
-      <div
-        style={{
-          padding: 14,
-          borderRadius: 16,
-          background: "rgba(255,255,255,0.02)",
-          border: "1px solid rgba(255,255,255,0.08)",
-          display: "grid",
-          gap: 6,
-        }}
-      >
-        <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 800 }}>
-          Ingredients in this step
-        </div>
-
-        {stepIngredients.map((ingredient, index) => (
+      {cookMode ? (
+        <div
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          style={{
+            padding: 20,
+            borderRadius: 24,
+            border: "1px solid rgba(255,255,255,0.08)",
+            background: "rgba(255,255,255,0.04)",
+            display: "grid",
+            gap: 14,
+          }}
+        >
           <div
-            key={`${ingredient}-${index}`}
             style={{
               display: "flex",
+              justifyContent: "space-between",
+              gap: 12,
               alignItems: "center",
-              gap: 8,
-              opacity: 0.8,
+              flexWrap: "wrap",
             }}
           >
-            <CheckCircle2 size={14} style={{ opacity: 0.4 }} />
-            <span style={{ fontSize: 13 }}>{ingredient}</span>
+            <div style={{ fontSize: 14, opacity: 0.75, fontWeight: 900 }}>
+              Step {instructions.length ? stepIndex + 1 : 0} of{" "}
+              {instructions.length}
+            </div>
+
+            {detectedTimerSeconds && timerSeconds === null && (
+              <div style={{ fontSize: 12, opacity: 0.5, fontWeight: 700 }}>
+                Timer detected for this step
+              </div>
+            )}
           </div>
-        ))}
-      </div>
-    )}
 
-    {/* Timer */}
-    {(detectedTimerSeconds || timerSeconds !== null) && (
-      <div
-        style={{
-          padding: 14,
-          borderRadius: 16,
-          background: "rgba(255,255,255,0.03)",
-          border: "1px solid rgba(255,255,255,0.08)",
-          display: "grid",
-          gap: 10,
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            fontWeight: 900,
-          }}
-        >
-          <Timer size={16} />
-          Timer
-        </div>
+          <div
+            style={{
+              fontSize: 28,
+              lineHeight: 1.5,
+              fontWeight: 900,
+            }}
+          >
+            {currentStep || "No instructions available."}
+          </div>
 
-        <div style={{ fontSize: 28, fontWeight: 1000 }}>
-          {timerSeconds !== null
-            ? formatTimer(timerSeconds)
-            : detectedTimerSeconds
-            ? formatTimer(detectedTimerSeconds)
-            : "0:00"}
-        </div>
-
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-          {timerSeconds === null && detectedTimerSeconds && (
-            <button onClick={handleStartTimer} style={topBtn}>
-              <Timer size={16} />
-              Start Timer
-            </button>
-          )}
-
-          {timerSeconds !== null && (
-            <>
-              <button onClick={handlePauseResumeTimer} style={topBtn}>
-                {timerRunning ? "Pause Timer" : "Resume Timer"}
-              </button>
-
-              <button onClick={handleClearTimer} style={topBtn}>
-                Clear Timer
-              </button>
-            </>
-          )}
-        </div>
-      </div>
-    )}
-
-    {/* Navigation */}
-    <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-      <button
-        onClick={() => setStepIndex((prev) => Math.max(0, prev - 1))}
-        style={topBtn}
-        disabled={stepIndex <= 0}
-      >
-        <ChevronLeft size={16} />
-        Previous
-      </button>
-
-      {!isLastStep ? (
-        <button
-          onClick={() =>
-            setStepIndex((prev) =>
-              Math.min(instructions.length - 1, prev + 1)
-            )
-          }
-          style={topBtn}
-          disabled={stepIndex >= instructions.length - 1}
-        >
-          Next
-          <ChevronRight size={16} />
-        </button>
-      ) : (
-        <button
-          onClick={handleFinishCooking}
-          style={{
-            ...topBtn,
-            border: "1px solid rgba(34,197,94,0.45)",
-            background: "rgba(34,197,94,0.12)",
-            color: "#86efac",
-          }}
-        >
-          <ChefHat size={16} />
-          Finish Cooking
-        </button>
-      )}
-    </div>
-  </div>
-) : (
-          <>
+          {stepIngredients.length > 0 && (
             <div
               style={{
-                padding: 20,
-                borderRadius: 24,
+                padding: 14,
+                borderRadius: 16,
+                background: "rgba(255,255,255,0.02)",
                 border: "1px solid rgba(255,255,255,0.08)",
-                background: "rgba(255,255,255,0.04)",
+                display: "grid",
+                gap: 6,
+              }}
+            >
+              <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 800 }}>
+                Ingredients in this step
+              </div>
+
+              {stepIngredients.map((ingredient, index) => (
+                <div
+                  key={`${ingredient}-${index}`}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    opacity: 0.8,
+                  }}
+                >
+                  <CheckCircle2 size={14} style={{ opacity: 0.4 }} />
+                  <span style={{ fontSize: 13 }}>{ingredient}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {(detectedTimerSeconds || timerSeconds !== null) && (
+            <div
+              style={{
+                padding: 14,
+                borderRadius: 16,
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                display: "grid",
+                gap: 10,
               }}
             >
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "space-between",
-                  gap: 12,
                   alignItems: "center",
-                  flexWrap: "wrap",
-                  marginBottom: 10,
+                  gap: 8,
+                  fontWeight: 900,
                 }}
               >
-                <h2 style={{ margin: 0 }}>Ingredients</h2>
-
-                <div style={{ fontSize: 12, opacity: 0.6 }}>
-                  Tap ingredients to select specific items
-                </div>
+                <Timer size={16} />
+                Timer
               </div>
 
-              <div style={{ display: "grid", gap: 10 }}>
-                {ingredients.map((item, index) => {
-                  const checked = !!checkedIngredients[index];
+              <div style={{ fontSize: 28, fontWeight: 1000 }}>
+                {timerSeconds !== null
+                  ? formatTimer(timerSeconds)
+                  : detectedTimerSeconds
+                  ? formatTimer(detectedTimerSeconds)
+                  : "0:00"}
+              </div>
 
-                  return (
-                    <button
-                      key={`${item}-${index}`}
-                      type="button"
-                      onClick={() => toggleIngredient(index)}
-                      style={{
-                        display: "flex",
-                        alignItems: "flex-start",
-                        gap: 10,
-                        textAlign: "left",
-                        background: "transparent",
-                        border: "none",
-                        padding: 0,
-                        cursor: "pointer",
-                        color: "white",
-                        opacity: checked ? 0.55 : 1,
-                      }}
-                    >
-                      <CheckCircle2
-                        size={16}
-                        style={{
-                          marginTop: 2,
-                          color: checked ? "#22c55e" : "rgba(255,255,255,0.35)",
-                          flexShrink: 0,
-                        }}
-                      />
-                      <span
-                        style={{
-                          textDecoration: checked ? "line-through" : "none",
-                        }}
-                      >
-                        {item}
-                      </span>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                {timerSeconds === null && detectedTimerSeconds && (
+                  <button onClick={handleStartTimer} style={topBtn}>
+                    <Timer size={16} />
+                    Start Timer
+                  </button>
+                )}
+
+                {timerSeconds !== null && (
+                  <>
+                    <button onClick={handlePauseResumeTimer} style={topBtn}>
+                      {timerRunning ? "Pause Timer" : "Resume Timer"}
                     </button>
-                  );
-                })}
+
+                    <button onClick={handleClearTimer} style={topBtn}>
+                      Clear Timer
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <button
+              onClick={() => setStepIndex((prev) => Math.max(0, prev - 1))}
+              style={topBtn}
+              disabled={stepIndex <= 0}
+            >
+              <ChevronLeft size={16} />
+              Previous
+            </button>
+
+            {!isLastStep ? (
+              <button
+                onClick={() =>
+                  setStepIndex((prev) =>
+                    Math.min(instructions.length - 1, prev + 1)
+                  )
+                }
+                style={topBtn}
+                disabled={stepIndex >= instructions.length - 1}
+              >
+                Next
+                <ChevronRight size={16} />
+              </button>
+            ) : (
+              <button
+                onClick={handleFinishCooking}
+                style={{
+                  ...topBtn,
+                  border: "1px solid rgba(34,197,94,0.45)",
+                  background: "rgba(34,197,94,0.12)",
+                  color: "#86efac",
+                }}
+              >
+                <ChefHat size={16} />
+                Finish Cooking
+              </button>
+            )}
+          </div>
+        </div>
+      ) : (
+        <>
+          <div
+            style={{
+              padding: 20,
+              borderRadius: 24,
+              border: "1px solid rgba(255,255,255,0.08)",
+              background: "rgba(255,255,255,0.04)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                gap: 12,
+                alignItems: "center",
+                flexWrap: "wrap",
+                marginBottom: 10,
+              }}
+            >
+              <h2 style={{ margin: 0 }}>Ingredients</h2>
+
+              <div style={{ fontSize: 12, opacity: 0.6 }}>
+                Tap ingredients to select specific items
               </div>
             </div>
 
-            <div
-              style={{
-                padding: 20,
-                borderRadius: 24,
-                border: "1px solid rgba(255,255,255,0.08)",
-                background: "rgba(255,255,255,0.04)",
-              }}
-            >
-              <h2 style={{ marginTop: 0 }}>Instructions</h2>
+            <div style={{ display: "grid", gap: 10 }}>
+              {ingredients.map((item, index) => {
+                const checked = !!checkedIngredients[index];
 
-              <div style={{ display: "grid", gap: 14 }}>
-                {instructions.map((step, index) => (
-                  <div
-                    key={`${step}-${index}`}
+                return (
+                  <button
+                    key={`${item}-${index}`}
+                    type="button"
+                    onClick={() => toggleIngredient(index)}
                     style={{
                       display: "flex",
                       alignItems: "flex-start",
-                      gap: 12,
+                      gap: 10,
+                      textAlign: "left",
+                      background: "transparent",
+                      border: "none",
+                      padding: 0,
+                      cursor: "pointer",
+                      color: "white",
+                      opacity: checked ? 0.55 : 1,
                     }}
                   >
-                    <div
+                    <CheckCircle2
+                      size={16}
                       style={{
-                        minWidth: 28,
-                        height: 28,
-                        borderRadius: 999,
-                        background: "rgba(34,197,94,0.12)",
-                        color: "#86efac",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontWeight: 900,
-                        fontSize: 13,
                         marginTop: 2,
+                        color: checked
+                          ? "#22c55e"
+                          : "rgba(255,255,255,0.35)",
+                        flexShrink: 0,
+                      }}
+                    />
+                    <span
+                      style={{
+                        textDecoration: checked ? "line-through" : "none",
                       }}
                     >
-                      {index + 1}
-                    </div>
-
-                    <div style={{ lineHeight: 1.6 }}>{step}</div>
-                  </div>
-                ))}
-              </div>
+                      {item}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
-          </>
-        )}
-      </div>
+          </div>
+
+          <div
+            style={{
+              padding: 20,
+              borderRadius: 24,
+              border: "1px solid rgba(255,255,255,0.08)",
+              background: "rgba(255,255,255,0.04)",
+            }}
+          >
+            <h2 style={{ marginTop: 0 }}>Instructions</h2>
+
+            <div style={{ display: "grid", gap: 14 }}>
+              {instructions.map((step, index) => (
+                <div
+                  key={`${step}-${index}`}
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: 12,
+                  }}
+                >
+                  <div
+                    style={{
+                      minWidth: 28,
+                      height: 28,
+                      borderRadius: 999,
+                      background: "rgba(34,197,94,0.12)",
+                      color: "#86efac",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: 900,
+                      fontSize: 13,
+                      marginTop: 2,
+                    }}
+                  >
+                    {index + 1}
+                  </div>
+
+                  <div style={{ lineHeight: 1.6 }}>{step}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </div>
-  );
-}
+  </div>
+);}

@@ -2398,29 +2398,48 @@ Top with remaining mozzarella and bake 25 minutes until bubbly.`,
   },
 
   {
-    id: "normal-chickpea-curry-basmati",
-    slug: "normal-chickpea-curry-basmati",
-    name: "Chickpea Curry with Basmati Rice",
-    effort: "normal",
-    photoUrl: "/images/normal-chickpea-curry-basmati.webp",
-    tags: ["vegetarian", "dinner", "one-pot", "healthy", "spicy"],
-    notes: "A flavorful pantry-friendly dinner with a creamy curry sauce.",
+    id: "normal-chickpea-curry",
+    slug: "normal-chickpea-curry",
+    name: "Chickpea Curry",
     ingredients: `2 (15 oz) cans chickpeas, drained and rinsed
-1 (13.5 oz) can coconut milk
-1 cup crushed tomatoes
-2 Tbsp curry powder
-2 cups cooked basmati rice
-1 small onion, diced
-2 garlic cloves, minced
-1 Tbsp olive oil
-salt and pepper, to taste`,
-    instructions: `Heat olive oil in a pot over medium heat. Sauté onion 3 to 4 minutes until softened. Add garlic and cook 30 seconds.
+1 tbsp olive oil
+1 small yellow onion, finely diced
+3 cloves garlic, minced
+1 medium red pepper, diced
+1 tbsp fresh ginger, grated
+1 tsp ground cumin
+1 tsp ground coriander
+1 tsp turmeric
+1/2 tsp smoked paprika
+1/2 tsp chili powder
+1 tsp salt, to taste
+1 (14 oz) can crushed tomatoes
+1 (13.5 oz) can full-fat coconut milk
+1/2 cup vegetable broth
+1 tsp sugar (optional)
+Juice of 1/2 lemon
+1/4 cup fresh cilantro, chopped
+Cooked basmati rice`,
+    instructions: `Heat the olive oil in a large skillet or Dutch oven over medium heat. Add the diced onion and red pepper and cook for 5 to 7 minutes, stirring occasionally, until softened and lightly golden.
 
-Stir in curry powder and toast 1 minute.
+Add the garlic and ginger. Cook for 1 to 2 minutes, stirring often, until fragrant.
 
-Add chickpeas, coconut milk, and crushed tomatoes. Simmer 15 to 20 minutes until sauce thickens. Season to taste.
+Add the cumin, coriander, turmeric, smoked paprika, chili powder, and salt. Stir constantly for 30 to 60 seconds over medium-low heat to bloom the spices.
 
-Serve over hot basmati rice.`,
+Pour in the crushed tomatoes and stir well. Cook for 5 minutes, stirring occasionally, until the mixture thickens slightly and deepens in color.
+
+Add the chickpeas, coconut milk, and vegetable broth. Stir to combine, then bring to a gentle simmer over medium heat.
+
+Reduce the heat to low and simmer uncovered for 15 to 20 minutes, stirring occasionally, until the sauce thickens and coats the back of a spoon.
+
+Stir in the lemon juice and chopped cilantro. Taste and adjust salt if needed.
+
+Serve hot over basmati rice or with warm naan.`,
+    photoUrl: "/images/normal-chickpea-curry.webp",
+    effort: "normal",
+    tags: ["vegetarian", "curry", "chickpeas", "one-pot", "comfort food"],
+    isVegetarian: true,
+    notes: "Creamy, warmly spiced chickpea curry with a tomato-coconut sauce. Great with basmati rice, naan, or a simple cucumber yogurt salad."
   },
 
   {
