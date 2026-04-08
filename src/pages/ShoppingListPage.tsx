@@ -673,7 +673,7 @@ export default function ShoppingListPage() {
         <Card style={{ marginBottom: 8 }}>
           <form onSubmit={handleAddItem} style={{ display: "flex", gap: 10 }}>
             <input
-              placeholder="Add Milk, Bread, snacks..."
+              placeholder="Add groceries or household items"
               value={newItem}
               onChange={(e) => setNewItem(e.target.value)}
               style={{
