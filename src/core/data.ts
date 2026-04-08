@@ -459,8 +459,8 @@ Toss gently and garnish with fresh parsley before serving.`,
   },
 
  {
-  id: "classic-meatloaf",
-  slug: "classic-meatloaf",
+  id: "normal-classic-meatloaf",
+  slug: "normal-classic-meatloaf",
   name: "Classic Meatloaf",
   ingredients: `1 1/2 lbs ground beef (80/20 preferred) or 1 lb beef + 1/2 lb ground pork
 1 cup breadcrumbs (or crushed crackers)
@@ -495,7 +495,7 @@ Bake for 40 minutes. Remove from the oven, spread the remaining glaze on top, an
 Bake for an additional 15 to 25 minutes, until the internal temperature reaches 160°F and the glaze is caramelized.
 
 Let rest for 10 minutes before slicing and serving.`,
-  photoUrl: "/images/classic-meatloaf.webp",
+  photoUrl: "/images/normal-classic-meatloaf.webp",
   effort: "normal",
   tags: ["beef", "comfort food", "classic", "oven-baked", "family dinner"],
   isVegetarian: false,
@@ -1976,11 +1976,11 @@ Slice down the middle, fluff with a fork, and add butter and toppings.`,
   },
 
   {
-    id: "quick-garlic-roasted-Potatoes",
-    slug: "quick-garlic-roasted-Potatoes",
-    name: "garlic Roasted Potatoes",
+    id: "quick-garlic-roasted-potatoes",
+    slug: "quick-garlic-roasted-potatoes",
+    name: "Garlic Roasted Potatoes",
     effort: "quick",
-    photoUrl: "/images/quick-garlic-roasted-Potatoes.webp",
+    photoUrl: "/images/quick-garlic-roasted-potatoes.webp",
     tags: ["side", "roasted", "vegetarian", "comfort"],
     notes: "Crispy, simple Potatoes that work with almost any main dish.",
     ingredients: `3 lbs small red or white Potatoes

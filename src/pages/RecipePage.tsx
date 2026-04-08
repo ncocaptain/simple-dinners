@@ -98,19 +98,18 @@ function ingredientMatchesStep(step: string, ingredient: string) {
     .toLowerCase()
     .replace(/^[\d/\s.,()-]+/, "")
     .replace(
-      /\b(cup|cups|Tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|lb|lbs|oz|ounce|ounces|clove|cloves|can|cans|package|packages|slice|slices)\b/g,
+      /\b(cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|lb|lbs|oz|ounce|ounces|clove|cloves|can|cans|package|packages|slice|slices)\b/g,
       ""
     )
+    .replace(/\b(chopped|diced|minced|sliced|drained|rinsed|to taste)\b/g, "")
     .replace(/\s+/g, " ")
     .trim();
 
-  const words = cleaned
-    .split(" ")
-    .map((word) => word.trim())
-    .filter((word) => word.length > 2)
-    .slice(0, 3);
+  // Take the FIRST meaningful ingredient phrase (not all words)
+  const main = cleaned.split(",")[0].trim();
 
-  return words.some((word) => stepText.includes(word));
+  // Only match if the main ingredient phrase exists in the step
+  return main.length > 2 && stepText.includes(main);
 }
 
 function playTimerDoneSound() {
