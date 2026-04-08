@@ -105,11 +105,70 @@ function ingredientMatchesStep(step: string, ingredient: string) {
     .replace(/\s+/g, " ")
     .trim();
 
-  // Take the FIRST meaningful ingredient phrase (not all words)
   const main = cleaned.split(",")[0].trim();
+  if (main.length <= 2) return false;
 
-  // Only match if the main ingredient phrase exists in the step
-  return main.length > 2 && stepText.includes(main);
+  const singular = main.endsWith("s") ? main.slice(0, -1) : main;
+  const plural = main.endsWith("s") ? main : `${main}s`;
+
+  const parts = main.split(" ").filter((word) => word.length > 2);
+  const reversed =
+    parts.length === 2 ? `${parts[1]} ${parts[0]}` : "";
+
+  const aliases = new Set<string>([main, singular, plural, reversed]);
+
+  if (main.includes("ground beef")) {
+    aliases.add("ground meat");
+    aliases.add("beef");
+  }
+
+  if (main.includes("ground turkey")) {
+    aliases.add("ground meat");
+    aliases.add("turkey");
+  }
+
+  if (main.includes("onion")) {
+    aliases.add("onion");
+    aliases.add("onions");
+  }
+
+  if (main.includes("egg")) {
+    aliases.add("egg");
+    aliases.add("eggs");
+  }
+
+  if (main.includes("garlic")) {
+    aliases.add("garlic");
+  }
+
+  if (main.includes("bell pepper") || main.includes("red pepper") || main.includes("green pepper")) {
+    aliases.add("pepper");
+    aliases.add("peppers");
+    aliases.add("bell pepper");
+    aliases.add("red pepper");
+    aliases.add("green pepper");
+  }
+
+  if (
+    main.includes("italian seasoning") ||
+    main.includes("seasoning") ||
+    main.includes("cajun seasoning") ||
+    main.includes("taco seasoning")
+  ) {
+    aliases.add("seasoning");
+    aliases.add("seasonings");
+    aliases.add("spice");
+    aliases.add("spices");
+  }
+
+  if (main.includes("worcestershire")) {
+    aliases.add("worcestershire sauce");
+    aliases.add("worcestershire");
+  }
+
+  return Array.from(aliases)
+    .filter((value) => value && value.length > 2)
+    .some((value) => stepText.includes(value));
 }
 
 function playTimerDoneSound() {
