@@ -556,21 +556,7 @@ const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
             </div>
           </header>
 
-          {showAddedMessage && (
-  <div
-    style={{
-      padding: "12px 16px",
-      borderRadius: 14,
-      background: "rgba(34,197,94,0.12)",
-      border: "1px solid rgba(34,197,94,0.35)",
-      color: "#86efac",
-      fontWeight: 800,
-      textAlign: "center",
-    }}
-  >
-    Added to {showAddedMessage} ✅
-  </div>
-)}
+          
 
           {showFirstMessage && (
             <div
@@ -599,442 +585,453 @@ const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
               const isLocked = !!lockedDays[day];
               const mealPhotoUrl = normalizePhotoUrl(meal?.photoUrl);
 
-              return (
-                <Card
-  key={day}
-  style={{
-    padding: 0,
-    overflow: "hidden",
-    borderRadius: "24px",
-    position: "relative",
-    zIndex: showWalkthrough ? 2 : "auto",
-    outline:
-      highlightDay === day ? "2px solid #22c55e" : undefined,
-    boxShadow:
-      highlightDay === day
-        ? "0 0 0 6px rgba(34,197,94,0.18)"
-        : undefined,
-    transition: "all 0.25s ease",
-  }}
->
-  <div
-  id={`day-${day}`}
-  style={{ padding: "20px", display: "grid", gap: 16 }}
-></div>
-                  <div style={{ padding: "20px", display: "grid", gap: 16 }}>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
-                    >
-                      <div
-                        style={{ display: "flex", alignItems: "center", gap: 10 }}
-                      >
-                        <CalendarDays size={18} style={{ opacity: 0.4 }} />
-                        <span
-                          style={{
-                            fontWeight: 900,
-                            fontSize: 18,
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          {day}
-                        </span>
-                      </div>
+             return (
+  <Card
+    key={day}
+    style={{
+      padding: 0,
+      overflow: "hidden",
+      borderRadius: "24px",
+      position: "relative",
+      zIndex: showWalkthrough ? 2 : "auto",
+      outline: highlightDay === day ? "2px solid #22c55e" : undefined,
+      boxShadow:
+        highlightDay === day
+          ? "0 0 0 6px rgba(34,197,94,0.18)"
+          : undefined,
+      transition: "all 0.25s ease",
+    }}
+  >
+    <div
+      id={`day-${day}`}
+      style={{ padding: "20px", display: "grid", gap: 16 }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <CalendarDays size={18} style={{ opacity: 0.4 }} />
+          <span
+            style={{
+              fontWeight: 900,
+              fontSize: 18,
+              textTransform: "uppercase",
+            }}
+          >
+            {day}
+          </span>
+        </div>
 
-                      <button
-                        ref={index === 0 ? firstLockRef : undefined}
-                        onClick={() => toggleLock(day)}
-                        style={{
-                          background: isLocked
-                            ? "rgba(34,197,94,0.15)"
-                            : "rgba(255,255,255,0.05)",
-                          border: "none",
-                          padding: "8px 12px",
-                          borderRadius: "12px",
-                          color: isLocked ? "#22c55e" : "rgba(255,255,255,0.4)",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 6,
-                          cursor: "pointer",
-                          fontWeight: 800,
-                          ...getSpotlightStyle(
-                            index === 0 && isActiveTarget("lock")
-                          ),
-                        }}
-                      >
-                        {isLocked ? <Lock size={14} /> : <Unlock size={14} />}
-                        {isLocked ? "LOCKED" : "LOCK"}
-                      </button>
-                    </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          {showAddedMessage === day && (
+            <div
+              style={{
+                padding: "6px 10px",
+                borderRadius: 999,
+                background: "rgba(34,197,94,0.14)",
+                border: "1px solid rgba(34,197,94,0.35)",
+                color: "#86efac",
+                fontSize: 12,
+                fontWeight: 800,
+                whiteSpace: "nowrap",
+              }}
+            >
+              Added ✅
+            </div>
+          )}
 
-                    {isLeftovers ? (
-                      <div style={{ display: "grid", gap: 16 }}>
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: 16,
-                            alignItems: "center",
-                          }}
-                        >
-                          <img
-                            src="/images/leftovers.webp"
-                            alt="Leftovers"
-                            style={{
-                              width: 85,
-                              height: 85,
-                              borderRadius: 18,
-                              objectFit: "cover",
-                              border: "1px solid rgba(255,255,255,0.1)",
-                              background: "rgba(255,255,255,0.04)",
-                              flexShrink: 0,
-                            }}
-                          />
+          <button
+            ref={index === 0 ? firstLockRef : undefined}
+            onClick={() => toggleLock(day)}
+            style={{
+              background: isLocked
+                ? "rgba(34,197,94,0.15)"
+                : "rgba(255,255,255,0.05)",
+              border: "none",
+              padding: "8px 12px",
+              borderRadius: "12px",
+              color: isLocked ? "#22c55e" : "rgba(255,255,255,0.4)",
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              cursor: "pointer",
+              fontWeight: 800,
+              ...getSpotlightStyle(index === 0 && isActiveTarget("lock")),
+            }}
+          >
+            {isLocked ? <Lock size={14} /> : <Unlock size={14} />}
+            {isLocked ? "LOCKED" : "LOCK"}
+          </button>
+        </div>
+      </div>
 
-                          <div style={{ flex: 1, minWidth: 0 }}>
-                            <div
-                              style={{
-                                fontWeight: 800,
-                                fontSize: 19,
-                                marginBottom: 4,
-                                lineHeight: 1.2,
-                              }}
-                            >
-                              Leftovers Night
-                            </div>
+      {isLeftovers ? (
+        <div style={{ display: "grid", gap: 16 }}>
+          <div
+            style={{
+              display: "flex",
+              gap: 16,
+              alignItems: "center",
+            }}
+          >
+            <img
+              src="/images/leftovers.webp"
+              alt="Leftovers"
+              style={{
+                width: 85,
+                height: 85,
+                borderRadius: 18,
+                objectFit: "cover",
+                border: "1px solid rgba(255,255,255,0.1)",
+                background: "rgba(255,255,255,0.04)",
+                flexShrink: 0,
+              }}
+            />
 
-                            <div
-                              style={{
-                                fontSize: 13,
-                                opacity: 0.5,
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 4,
-                              }}
-                            >
-                              <ChefHat size={14} />
-                              No cooking tonight 👍
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ) : isFreezer ? (
-                      <div style={{ display: "grid", gap: 16 }}>
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: 16,
-                            alignItems: "center",
-                          }}
-                        >
-                          <img
-                            src="/images/freezer-night.webp"
-                            alt="Freezer Night"
-                            style={{
-                              width: 85,
-                              height: 85,
-                              borderRadius: 18,
-                              objectFit: "cover",
-                              border: "1px solid rgba(255,255,255,0.1)",
-                              background: "rgba(255,255,255,0.04)",
-                              flexShrink: 0,
-                            }}
-                          />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div
+                style={{
+                  fontWeight: 800,
+                  fontSize: 19,
+                  marginBottom: 4,
+                  lineHeight: 1.2,
+                }}
+              >
+                Leftovers Night
+              </div>
 
-                          <div style={{ flex: 1, minWidth: 0 }}>
-                            <div
-                              style={{
-                                fontWeight: 800,
-                                fontSize: 19,
-                                marginBottom: 4,
-                                lineHeight: 1.2,
-                              }}
-                            >
-                              Freezer Night
-                            </div>
+              <div
+                style={{
+                  fontSize: 13,
+                  opacity: 0.5,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 4,
+                }}
+              >
+                <ChefHat size={14} />
+                No cooking tonight 👍
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : isFreezer ? (
+        <div style={{ display: "grid", gap: 16 }}>
+          <div
+            style={{
+              display: "flex",
+              gap: 16,
+              alignItems: "center",
+            }}
+          >
+            <img
+              src="/images/freezer-night.webp"
+              alt="Freezer Night"
+              style={{
+                width: 85,
+                height: 85,
+                borderRadius: 18,
+                objectFit: "cover",
+                border: "1px solid rgba(255,255,255,0.1)",
+                background: "rgba(255,255,255,0.04)",
+                flexShrink: 0,
+              }}
+            />
 
-                            <div
-                              style={{
-                                fontSize: 13,
-                                opacity: 0.5,
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 4,
-                              }}
-                            >
-                              <ChefHat size={14} />
-                              No cooking tonight 👍
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ) : hasMeal && meal ? (
-                      <>
-                        <div
-                          onClick={() => {
-                            navigate(
-                              `/recipe/${encodeURIComponent(
-                                meal.slug || meal.name || ""
-                              )}?from=/week`
-                            );
-                          }}
-                          style={{
-                            display: "flex",
-                            gap: 16,
-                            alignItems: "center",
-                            cursor: "pointer",
-                          }}
-                        >
-                          {mealPhotoUrl ? (
-                            <img
-                              src={mealPhotoUrl}
-                              alt={meal.name || "Meal"}
-                              style={{
-                                width: 85,
-                                height: 85,
-                                borderRadius: 18,
-                                objectFit: "cover",
-                                border: "1px solid rgba(255,255,255,0.1)",
-                                background: "rgba(255,255,255,0.04)",
-                                flexShrink: 0,
-                              }}
-                            />
-                          ) : (
-                            <div
-                              style={{
-                                width: 85,
-                                height: 85,
-                                borderRadius: 18,
-                                border: "1px solid rgba(255,255,255,0.1)",
-                                background: "rgba(255,255,255,0.04)",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                flexShrink: 0,
-                              }}
-                            >
-                              <Utensils size={22} style={{ opacity: 0.4 }} />
-                            </div>
-                          )}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div
+                style={{
+                  fontWeight: 800,
+                  fontSize: 19,
+                  marginBottom: 4,
+                  lineHeight: 1.2,
+                }}
+              >
+                Freezer Night
+              </div>
 
-                          <div style={{ flex: 1, minWidth: 0 }}>
-                            <div
-                              style={{
-                                fontWeight: 800,
-                                fontSize: 19,
-                                marginBottom: 4,
-                                lineHeight: 1.2,
-                              }}
-                            >
-                              {meal.name}
-                            </div>
-
-                            <div
-                              style={{
-                                fontSize: 13,
-                                opacity: 0.5,
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 4,
-                              }}
-                            >
-                              <ChefHat size={14} />
-                              Tap for Details
-                            </div>
-                          </div>
-
-                          <ChevronRight
-                            size={20}
-                            style={{ opacity: 0.2, flexShrink: 0 }}
-                          />
-                        </div>
-
-                        <div
-                          style={{ display: "flex", gap: 10, flexWrap: "wrap" }}
-                        >
-                          <button
-                            title="Long press to download .ics"
-                            onClick={() => {
-                              if (meal) openGoogleCalendar(day, meal);
-                            }}
-                            onContextMenu={(e) => {
-                              e.preventDefault();
-                              if (meal) downloadDayICS(day, meal);
-                            }}
-                            onTouchStart={(e) => {
-                              const timer = setTimeout(() => {
-                                if (meal) downloadDayICS(day, meal);
-                              }, 600);
-
-                              const clear = () => clearTimeout(timer);
-
-                              e.currentTarget.addEventListener("touchend", clear, {
-                                once: true,
-                              });
-                              e.currentTarget.addEventListener("touchmove", clear, {
-                                once: true,
-                              });
-                            }}
-                            style={{
-                              ...btnBase,
-                              flex: 1,
-                              minWidth: 0,
-                              background: "rgba(59,130,246,0.12)",
-                              color: "#60a5fa",
-                            }}
-                          >
-                            <CalendarPlus size={16} />
-                            Add to Calendar
-                          </button>
-                        </div>
-                      </>
-                    ) : (
-                      <div style={{ display: "grid", gap: 10 }}>
-                        <div
-  onClick={() => navigate("/cookbook", { state: { pickForDay: day } })}
-  style={{
-    padding: "24px",
-    borderRadius: "18px",
-    border: "2px dashed rgba(255,255,255,0.1)",
-    textAlign: "center",
-    cursor: "pointer",
-    color: "rgba(255,255,255,0.4)",
-    fontWeight: 700,
-  }}
->
-  <Plus size={24} style={{ marginBottom: 6 }} />
-  <div>Pick a meal from Cookbook</div>
-</div>
-
-                        <button
-                          onClick={() => setLeftovers(day)}
-                          style={{
-                            padding: "12px",
-                            borderRadius: "14px",
-                            background: "rgba(234,179,8,0.12)",
-                            color: "#facc15",
-                            border: "none",
-                            fontWeight: 800,
-                            cursor: "pointer",
-                          }}
-                        >
-                          <Utensils
-                            size={16}
-                            style={{ marginRight: 6, marginBottom: -3 }}
-                          />
-                          Set as Leftovers
-                        </button>
-
-                        <button
-                          onClick={() => setFreezer(day)}
-                          style={{
-                            padding: "12px",
-                            borderRadius: "14px",
-                            background: "rgba(59,130,246,0.12)",
-                            color: "#60a5fa",
-                            border: "none",
-                            fontWeight: 800,
-                            cursor: "pointer",
-                          }}
-                        >
-                          🧊 Freezer Night
-                        </button>
-                      </div>
-                    )}
-
-                    {!isLocked && (
-                      <div
-                        style={{
-                          display: "flex",
-                          gap: 10,
-                          marginTop: 4,
-                          flexWrap: "wrap",
-                        }}
-                      >
-                        {!isLeftovers && (
-                          <button
-                            onClick={() => setLeftovers(day)}
-                            style={{
-                              flex: 1,
-                              padding: "12px",
-                              borderRadius: "14px",
-                              background: "rgba(234,179,8,0.12)",
-                              color: "#facc15",
-                              border: "none",
-                              fontWeight: 800,
-                              cursor: "pointer",
-                            }}
-                          >
-                            <Utensils
-                              size={16}
-                              style={{ marginBottom: -3, marginRight: 4 }}
-                            />
-                            Leftovers
-                          </button>
-                        )}
-
-                        {!isFreezer && (
-                          <button
-                            onClick={() => setFreezer(day)}
-                            style={{
-                              flex: 1,
-                              padding: "12px",
-                              borderRadius: "14px",
-                              background: "rgba(59,130,246,0.12)",
-                              color: "#60a5fa",
-                              border: "none",
-                              fontWeight: 800,
-                              cursor: "pointer",
-                            }}
-                          >
-                            🧊 Freezer
-                          </button>
-                        )}
-
-                        <button
-                          onClick={() => clearDay(day)}
-                          style={{
-                            flex: 1,
-                            padding: "12px",
-                            borderRadius: "14px",
-                            background: "rgba(239,68,68,0.1)",
-                            color: "#ef4444",
-                            border: "none",
-                            fontWeight: 800,
-                            cursor: "pointer",
-                          }}
-                        >
-                          <Trash2
-                            size={16}
-                            style={{ marginBottom: -3, marginRight: 4 }}
-                          />
-                          Remove
-                        </button>
-
-                        {mode === "planned" && hasMeal && (
-                          <button
-                            onClick={() => addDayToCookbook(day)}
-                            style={{
-                              flex: 1,
-                              padding: "12px",
-                              borderRadius: "14px",
-                              background: "rgba(34,197,94,0.1)",
-                              color: "#22c55e",
-                              border: "none",
-                              fontWeight: 800,
-                              cursor: "pointer",
-                            }}
-                          >
-                            Save Recipe
-                          </button>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </Card>
+              <div
+                style={{
+                  fontSize: 13,
+                  opacity: 0.5,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 4,
+                }}
+              >
+                <ChefHat size={14} />
+                No cooking tonight 👍
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : hasMeal && meal ? (
+        <>
+          <div
+            onClick={() => {
+              navigate(
+                `/recipe/${encodeURIComponent(
+                  meal.slug || meal.name || ""
+                )}?from=/week`
               );
+            }}
+            style={{
+              display: "flex",
+              gap: 16,
+              alignItems: "center",
+              cursor: "pointer",
+            }}
+          >
+            {mealPhotoUrl ? (
+              <img
+                src={mealPhotoUrl}
+                alt={meal.name || "Meal"}
+                style={{
+                  width: 85,
+                  height: 85,
+                  borderRadius: 18,
+                  objectFit: "cover",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  background: "rgba(255,255,255,0.04)",
+                  flexShrink: 0,
+                }}
+              />
+            ) : (
+              <div
+                style={{
+                  width: 85,
+                  height: 85,
+                  borderRadius: 18,
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  background: "rgba(255,255,255,0.04)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                }}
+              >
+                <Utensils size={22} style={{ opacity: 0.4 }} />
+              </div>
+            )}
+
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div
+                style={{
+                  fontWeight: 800,
+                  fontSize: 19,
+                  marginBottom: 4,
+                  lineHeight: 1.2,
+                }}
+              >
+                {meal.name}
+              </div>
+
+              <div
+                style={{
+                  fontSize: 13,
+                  opacity: 0.5,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 4,
+                }}
+              >
+                <ChefHat size={14} />
+                Tap for Details
+              </div>
+            </div>
+
+            <ChevronRight
+              size={20}
+              style={{ opacity: 0.2, flexShrink: 0 }}
+            />
+          </div>
+
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <button
+              title="Long press to download .ics"
+              onClick={() => {
+                if (meal) openGoogleCalendar(day, meal);
+              }}
+              onContextMenu={(e) => {
+                e.preventDefault();
+                if (meal) downloadDayICS(day, meal);
+              }}
+              onTouchStart={(e) => {
+                const timer = setTimeout(() => {
+                  if (meal) downloadDayICS(day, meal);
+                }, 600);
+
+                const clear = () => clearTimeout(timer);
+
+                e.currentTarget.addEventListener("touchend", clear, {
+                  once: true,
+                });
+                e.currentTarget.addEventListener("touchmove", clear, {
+                  once: true,
+                });
+              }}
+              style={{
+                ...btnBase,
+                flex: 1,
+                minWidth: 0,
+                background: "rgba(59,130,246,0.12)",
+                color: "#60a5fa",
+              }}
+            >
+              <CalendarPlus size={16} />
+              Add to Calendar
+            </button>
+          </div>
+        </>
+      ) : (
+        <div style={{ display: "grid", gap: 10 }}>
+          <div
+            onClick={() => navigate("/cookbook", { state: { pickForDay: day } })}
+            style={{
+              padding: "24px",
+              borderRadius: "18px",
+              border: "2px dashed rgba(255,255,255,0.1)",
+              textAlign: "center",
+              cursor: "pointer",
+              color: "rgba(255,255,255,0.4)",
+              fontWeight: 700,
+            }}
+          >
+            <Plus size={24} style={{ marginBottom: 6 }} />
+            <div>Pick a meal from Cookbook</div>
+          </div>
+
+          <button
+            onClick={() => setLeftovers(day)}
+            style={{
+              padding: "12px",
+              borderRadius: "14px",
+              background: "rgba(234,179,8,0.12)",
+              color: "#facc15",
+              border: "none",
+              fontWeight: 800,
+              cursor: "pointer",
+            }}
+          >
+            <Utensils
+              size={16}
+              style={{ marginRight: 6, marginBottom: -3 }}
+            />
+            Set as Leftovers
+          </button>
+
+          <button
+            onClick={() => setFreezer(day)}
+            style={{
+              padding: "12px",
+              borderRadius: "14px",
+              background: "rgba(59,130,246,0.12)",
+              color: "#60a5fa",
+              border: "none",
+              fontWeight: 800,
+              cursor: "pointer",
+            }}
+          >
+            🧊 Freezer Night
+          </button>
+        </div>
+      )}
+
+      {!isLocked && (
+        <div
+          style={{
+            display: "flex",
+            gap: 10,
+            marginTop: 4,
+            flexWrap: "wrap",
+          }}
+        >
+          {!isLeftovers && (
+            <button
+              onClick={() => setLeftovers(day)}
+              style={{
+                flex: 1,
+                padding: "12px",
+                borderRadius: "14px",
+                background: "rgba(234,179,8,0.12)",
+                color: "#facc15",
+                border: "none",
+                fontWeight: 800,
+                cursor: "pointer",
+              }}
+            >
+              <Utensils
+                size={16}
+                style={{ marginBottom: -3, marginRight: 4 }}
+              />
+              Leftovers
+            </button>
+          )}
+
+          {!isFreezer && (
+            <button
+              onClick={() => setFreezer(day)}
+              style={{
+                flex: 1,
+                padding: "12px",
+                borderRadius: "14px",
+                background: "rgba(59,130,246,0.12)",
+                color: "#60a5fa",
+                border: "none",
+                fontWeight: 800,
+                cursor: "pointer",
+              }}
+            >
+              🧊 Freezer
+            </button>
+          )}
+
+          <button
+            onClick={() => clearDay(day)}
+            style={{
+              flex: 1,
+              padding: "12px",
+              borderRadius: "14px",
+              background: "rgba(239,68,68,0.1)",
+              color: "#ef4444",
+              border: "none",
+              fontWeight: 800,
+              cursor: "pointer",
+            }}
+          >
+            <Trash2
+              size={16}
+              style={{ marginBottom: -3, marginRight: 4 }}
+            />
+            Remove
+          </button>
+
+          {mode === "planned" && hasMeal && (
+            <button
+              onClick={() => addDayToCookbook(day)}
+              style={{
+                flex: 1,
+                padding: "12px",
+                borderRadius: "14px",
+                background: "rgba(34,197,94,0.1)",
+                color: "#22c55e",
+                border: "none",
+                fontWeight: 800,
+                cursor: "pointer",
+              }}
+            >
+              Save Recipe
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  </Card>
+);
             })}
           </div>
 
