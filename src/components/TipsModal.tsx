@@ -78,7 +78,7 @@ export default function TipsModal({ tips }: { tips: string[] }) {
                   key={index}
                   style={{
                     fontSize: 14,
-                    opacity: 0.85,
+                    opacity: 0.6,
                   }}
                 >
                   • {tip}
