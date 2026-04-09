@@ -674,7 +674,7 @@ export default function ShoppingListPage() {
       <div style={{ maxWidth: "550px", width: "100%" }}>
         <header>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-  <h1>Week Plan</h1>
+  <h1>Shopping List</h1>
   <TipsModal tips={SHOPPING_TIPS} />
 </div>
         </header>

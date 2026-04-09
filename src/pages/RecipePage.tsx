@@ -19,6 +19,7 @@ import {
 import { getRecipeBySlug } from "../core/recipes";
 import { addIngredientsToList } from "../shoppingList";
 import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
+import TipsModal from "../components/TipsModal";
 
 
 // =====================================================
@@ -277,6 +278,18 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const { slug = "" } = useParams();
+  const RECIPE_TIPS = [
+  "Select ingredients to add only what you need",
+  "Save recipes to your cookbook",
+  "Use Cook Mode for step-by-step guidance",
+  "Tap back to return to your plan",
+];
+const COOK_TIPS = [
+  "Swipe left or right to move between steps",
+  "Start timers when detected",
+  "Ingredients match the current step",
+  "Mark Cooked to track history",
+];
 
   // =====================================================
   // Builder: route state
@@ -786,10 +799,12 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
     <div style={innerWrap}>
       {!printMode && !cookMode && (
         <>
+        
           <div style={{ display: "grid", gap: 12 }}>
-            <div style={{ fontSize: 12, opacity: 0.5, fontWeight: 800 }}>
-              Recipe Actions
-            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+  <h1>Recipe</h1>
+  <TipsModal tips={RECIPE_TIPS} />
+</div>
 
             <div
               style={{
@@ -918,6 +933,9 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
               <Moon size={15} />
               {keepAwake ? "Screen Awake On" : "Keep Screen Awake"}
             </button>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <TipsModal tips={COOK_TIPS} />
+</div>
           </div>
 
           {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
