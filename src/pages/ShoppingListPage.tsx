@@ -19,6 +19,14 @@ import {
   type GroceryCategory,
   GROCERY_CATEGORY_ORDER,
 } from "../core/groceryCategories";
+import TipsModal from "../components/TipsModal";
+
+const SHOPPING_TIPS = [
+  "Add groceries or household items",
+  "Items are grouped by store section",
+  "Tap items to check them off",
+  "Add only selected ingredients from recipes",
+];
 
 type ParsedAmount = {
   quantity: number | null;
@@ -664,10 +672,11 @@ export default function ShoppingListPage() {
       }}
     >
       <div style={{ maxWidth: "550px", width: "100%" }}>
-        <header style={{ textAlign: "center", margin: "20px 0" }}>
-          <h2 style={{ fontSize: 28, fontWeight: 1000, margin: 0 }}>
-            Shopping List
-          </h2>
+        <header>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+  <h1>Week Plan</h1>
+  <TipsModal tips={SHOPPING_TIPS} />
+</div>
         </header>
 
         <Card style={{ marginBottom: 8 }}>

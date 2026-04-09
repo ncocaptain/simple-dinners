@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Card from "../components/Card";
 import type { Meal } from "../core/types";
+import TipsModal from "../components/TipsModal";
 
 type CookbookPageProps = {
   cookbook: CookbookRecipe[];
@@ -93,6 +94,11 @@ export default function CookbookPage({
   setCookbook,
 }: CookbookPageProps) {
   const navigate = useNavigate();
+  const COOKBOOK_TIPS = [
+  "Save your favorite recipes",
+  "Tap a recipe to cook it anytime",
+  "Your saved recipes update instantly",
+];
 
   const [importUrl, setImportUrl] = useState("");
   const [isImporting, setIsImporting] = useState(false);
@@ -345,8 +351,10 @@ useEffect(() => {
       }}
     >
       <div style={{ maxWidth: 680, width: "100%" }}>
-        <header style={{ textAlign: "center", margin: "0 0 18px" }}>
-          <h2 style={{ fontSize: 34, fontWeight: 1000, margin: 0 }}>Cookbook</h2>
+        <header><div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+  <h1>Cookbook</h1>
+  <TipsModal tips={COOKBOOK_TIPS} />
+</div>
         </header>
 
         <Card style={{ padding: 14, marginBottom: 12 }}>

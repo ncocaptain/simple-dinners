@@ -518,11 +518,10 @@ export default function WeekPage({
           }}
         >
           <header>
-                       
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-  <h1>Week Plan</h1>
-  <TipsModal tips={WEEK_TIPS} />
-</div>
+              <h1>Week Plan</h1>
+                <TipsModal tips={WEEK_TIPS} />
+            </div>
           </header>
 
           {showFirstMessage && (
