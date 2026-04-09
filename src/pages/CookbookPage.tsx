@@ -346,7 +346,7 @@ useEffect(() => {
   const handleRecipeClick = (recipe: CookbookRecipe, recipeSlug: string) => {
   if (pickForDay && onAddToWeek) {
     onAddToWeek(recipe, pickForDay);
-    navigate("/week");
+    navigate("/week", { state: { addedDay: pickForDay } });
     return;
   }
 

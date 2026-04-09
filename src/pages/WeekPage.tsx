@@ -57,6 +57,8 @@ export default function WeekPage({
   const [tooltipPosition, setTooltipPosition] = useState<TooltipPosition | null>(
     null
   );
+  const [highlightDay, setHighlightDay] = useState<string | null>(null);
+const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
 
   const generatePlanRef = useRef<HTMLButtonElement | null>(null);
   const firstLockRef = useRef<HTMLButtonElement | null>(null);
@@ -202,6 +204,36 @@ export default function WeekPage({
         "0 0 0 3px rgba(20,184,166,0.95), 0 0 0 8px rgba(20,184,166,0.18), 0 18px 40px rgba(0,0,0,0.38)",
     };
   }
+
+  useEffect(() => {
+  const addedDay = location.state?.addedDay as string | undefined;
+
+  if (!addedDay) return;
+
+  setHighlightDay(addedDay);
+  setShowAddedMessage(addedDay);
+
+  // scroll to the card
+  const el = document.getElementById(`day-${addedDay}`);
+  if (el) {
+    setTimeout(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 100);
+  }
+
+  // clear highlight after animation
+  setTimeout(() => {
+    setHighlightDay(null);
+  }, 2000);
+
+  // clear message
+  setTimeout(() => {
+    setShowAddedMessage(null);
+  }, 2500);
+
+  // clean URL state so it doesn't repeat
+  navigate("/week", { replace: true });
+}, [location.state]);
 
   function normalizePhotoUrl(url?: string) {
     if (!url) return "";
@@ -524,6 +556,22 @@ export default function WeekPage({
             </div>
           </header>
 
+          {showAddedMessage && (
+  <div
+    style={{
+      padding: "12px 16px",
+      borderRadius: 14,
+      background: "rgba(34,197,94,0.12)",
+      border: "1px solid rgba(34,197,94,0.35)",
+      color: "#86efac",
+      fontWeight: 800,
+      textAlign: "center",
+    }}
+  >
+    Added to {showAddedMessage} ✅
+  </div>
+)}
+
           {showFirstMessage && (
             <div
               style={{
@@ -553,15 +601,26 @@ export default function WeekPage({
 
               return (
                 <Card
-                  key={day}
-                  style={{
-                    padding: 0,
-                    overflow: "hidden",
-                    borderRadius: "24px",
-                    position: "relative",
-                    zIndex: showWalkthrough ? 2 : "auto",
-                  }}
-                >
+  key={day}
+  style={{
+    padding: 0,
+    overflow: "hidden",
+    borderRadius: "24px",
+    position: "relative",
+    zIndex: showWalkthrough ? 2 : "auto",
+    outline:
+      highlightDay === day ? "2px solid #22c55e" : undefined,
+    boxShadow:
+      highlightDay === day
+        ? "0 0 0 6px rgba(34,197,94,0.18)"
+        : undefined,
+    transition: "all 0.25s ease",
+  }}
+>
+  <div
+  id={`day-${day}`}
+  style={{ padding: "20px", display: "grid", gap: 16 }}
+></div>
                   <div style={{ padding: "20px", display: "grid", gap: 16 }}>
                     <div
                       style={{
