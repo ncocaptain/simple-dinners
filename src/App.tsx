@@ -666,7 +666,19 @@ function AppContent() {
         <Route
           path="/cookbook"
           element={requireOnboarding(
-            <CookbookPage cookbook={cookbook} setCookbook={setCookbook} />
+            <CookbookPage
+  cookbook={cookbook}
+  setCookbook={setCookbook}
+  onAddToWeek={(recipe, day) => {
+    setMeals((prev) => ({
+      ...prev,
+      [day]: {
+        mode: "planned",
+        meal: recipe,
+      },
+    }));
+  }}
+/>
           )}
         />
 

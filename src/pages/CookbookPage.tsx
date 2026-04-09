@@ -17,8 +17,8 @@ import TipsModal from "../components/TipsModal";
 type CookbookPageProps = {
   cookbook: CookbookRecipe[];
   setCookbook: React.Dispatch<React.SetStateAction<CookbookRecipe[]>>;
+  onAddToWeek?: (recipe: CookbookRecipe, day: string) => void;
 };
-
 type CookbookRecipe = Meal & {
   sourceUrl?: string;
 };
@@ -92,7 +92,9 @@ function normalizePhotoUrl(url?: string) {
 export default function CookbookPage({
   cookbook = [],
   setCookbook,
+  onAddToWeek,
 }: CookbookPageProps) {
+
   const navigate = useNavigate();
   const location = useLocation();
 const pickForDay = location.state?.pickForDay as string | undefined;
@@ -342,24 +344,14 @@ useEffect(() => {
   };
 
   const handleRecipeClick = (recipe: CookbookRecipe, recipeSlug: string) => {
-  if (pickForDay) {
-    // 👇 IMPORTANT: store in localStorage (simple + matches your app patterns)
-    const existingWeek = JSON.parse(localStorage.getItem("week") || "{}");
-
-    existingWeek[pickForDay] = {
-      mode: "planned",
-      meal: recipe,
-    };
-
-    localStorage.setItem("week", JSON.stringify(existingWeek));
-
+  if (pickForDay && onAddToWeek) {
+    onAddToWeek(recipe, pickForDay);
     navigate("/week");
     return;
   }
 
   navigate(`/recipe/${recipeSlug}?from=/cookbook`);
 };
-
   return (
     <div
       style={{
