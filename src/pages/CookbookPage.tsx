@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { CSSProperties, FormEvent, MouseEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Plus,
   X,
@@ -94,6 +94,8 @@ export default function CookbookPage({
   setCookbook,
 }: CookbookPageProps) {
   const navigate = useNavigate();
+  const location = useLocation();
+const pickForDay = location.state?.pickForDay as string | undefined;
   const COOKBOOK_TIPS = [
   "Save your favorite recipes",
   "Tap a recipe to cook it anytime",
@@ -339,6 +341,25 @@ useEffect(() => {
     flexShrink: 0,
   };
 
+  const handleRecipeClick = (recipe: CookbookRecipe, recipeSlug: string) => {
+  if (pickForDay) {
+    // 👇 IMPORTANT: store in localStorage (simple + matches your app patterns)
+    const existingWeek = JSON.parse(localStorage.getItem("week") || "{}");
+
+    existingWeek[pickForDay] = {
+      mode: "planned",
+      meal: recipe,
+    };
+
+    localStorage.setItem("week", JSON.stringify(existingWeek));
+
+    navigate("/week");
+    return;
+  }
+
+  navigate(`/recipe/${recipeSlug}?from=/cookbook`);
+};
+
   return (
     <div
       style={{
@@ -356,6 +377,38 @@ useEffect(() => {
   <TipsModal tips={COOKBOOK_TIPS} />
 </div>
         </header>
+
+        {pickForDay && (
+  <div
+    style={{
+      marginBottom: 12,
+      padding: "12px 14px",
+      borderRadius: 14,
+      background: "rgba(59,130,246,0.12)",
+      border: "1px solid rgba(59,130,246,0.35)",
+      color: "#60a5fa",
+      fontWeight: 800,
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+    }}
+  >
+    <span>Selecting recipe for {pickForDay}</span>
+
+    <button
+      onClick={() => navigate("/week")}
+      style={{
+        border: "none",
+        background: "transparent",
+        color: "#93c5fd",
+        fontWeight: 800,
+        cursor: "pointer",
+      }}
+    >
+      Cancel
+    </button>
+  </div>
+)}
 
         <Card style={{ padding: 14, marginBottom: 12 }}>
           <div style={{ display: "grid", gap: 12 }}>
@@ -734,7 +787,7 @@ useEffect(() => {
               <div
   key={recipeSlug}
   id={`cookbook-${recipeSlug}`}
-  onClick={() => navigate(`/recipe/${recipeSlug}?from=/cookbook`)}
+  onClick={() => handleRecipeClick(recipe, recipeSlug)}
   style={{ cursor: "pointer" }}
 >
   <Card
@@ -782,6 +835,19 @@ useEffect(() => {
                       >
                         {recipe.name}
                       </div>
+
+                      {pickForDay && (
+  <div
+    style={{
+      marginTop: 6,
+      fontSize: 12,
+      fontWeight: 800,
+      color: "#60a5fa",
+    }}
+  >
+    Tap to add to {pickForDay}
+  </div>
+)}
 
                       <div
                         style={{

@@ -834,20 +834,20 @@ export default function WeekPage({
                     ) : (
                       <div style={{ display: "grid", gap: 10 }}>
                         <div
-                          onClick={() => navigate("/cookbook")}
-                          style={{
-                            padding: "24px",
-                            borderRadius: "18px",
-                            border: "2px dashed rgba(255,255,255,0.1)",
-                            textAlign: "center",
-                            cursor: "pointer",
-                            color: "rgba(255,255,255,0.4)",
-                            fontWeight: 700,
-                          }}
-                        >
-                          <Plus size={24} style={{ marginBottom: 6 }} />
-                          <div>Pick a meal from Cookbook</div>
-                        </div>
+  onClick={() => navigate("/cookbook", { state: { pickForDay: day } })}
+  style={{
+    padding: "24px",
+    borderRadius: "18px",
+    border: "2px dashed rgba(255,255,255,0.1)",
+    textAlign: "center",
+    cursor: "pointer",
+    color: "rgba(255,255,255,0.4)",
+    fontWeight: 700,
+  }}
+>
+  <Plus size={24} style={{ marginBottom: 6 }} />
+  <div>Pick a meal from Cookbook</div>
+</div>
 
                         <button
                           onClick={() => setLeftovers(day)}
