@@ -517,13 +517,10 @@ export default function WeekPage({
             gap: 24,
           }}
         >
-          <header style={{ textAlign: "center", marginTop: 20 }}>
+          <header>
                        
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
   <h1>Week Plan</h1>
-  <p style={{ opacity: 0.5, fontSize: 15, marginTop: 4 }}>
-              Tap a day to view the recipe.
-            </p>
   <TipsModal tips={WEEK_TIPS} />
 </div>
           </header>
