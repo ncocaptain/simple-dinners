@@ -918,25 +918,23 @@ const COOK_TIPS = [
             </div>
 
             <button
-              onClick={() => setKeepAwake((prev) => !prev)}
-              style={{
-                ...cookChipBtn,
-                border: keepAwake
-                  ? "1px solid rgba(34,197,94,0.45)"
-                  : cookChipBtn.border,
-                background: keepAwake
-                  ? "rgba(34,197,94,0.12)"
-                  : cookChipBtn.background,
-                color: keepAwake ? "#86efac" : "white",
-              }}
-            >
-              <Moon size={15} />
-              {keepAwake ? "Screen Awake On" : "Keep Screen Awake"}
-            </button>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-    <TipsModal tips={COOK_TIPS} />
-</div>
-          </div>
+  onClick={() => setKeepAwake((prev) => !prev)}
+  style={{
+    ...cookChipBtn,
+    border: keepAwake
+      ? "1px solid rgba(34,197,94,0.45)"
+      : cookChipBtn.border,
+    background: keepAwake
+      ? "rgba(34,197,94,0.12)"
+      : cookChipBtn.background,
+    color: keepAwake ? "#86efac" : "white",
+  }}
+>
+  <Moon size={15} />
+  {keepAwake ? "Screen Awake On" : "Keep Screen Awake"}
+</button>
+
+<TipsModal tips={COOK_TIPS} /></div>
 
           {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
 
