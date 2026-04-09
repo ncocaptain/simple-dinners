@@ -16,6 +16,7 @@ import {
 import Card from "../components/Card";
 import { days } from "../core/data";
 import type { Meal, PlannedDay } from "../core/types";
+import TipsModal from "../components/TipsModal";
 
 type WalkthroughStep = 1 | 2 | 3;
 
@@ -42,6 +43,13 @@ export default function WeekPage({
 }) {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const WEEK_TIPS = [
+  "Tap a meal to view the recipe",
+  "Lock a day to keep it when regenerating",
+  "Use leftovers or freezer nights to mix things up",
+  "Generate a new plan anytime",
+];
 
   const [showFirstMessage, setShowFirstMessage] = useState(false);
   const [showWalkthrough, setShowWalkthrough] = useState(false);
@@ -516,6 +524,10 @@ export default function WeekPage({
             <p style={{ opacity: 0.5, fontSize: 15, marginTop: 4 }}>
               Tap a day to view the recipe.
             </p>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+  <h1>Week Plan</h1>
+  <TipsModal tips={WEEK_TIPS} />
+</div>
           </header>
 
           {showFirstMessage && (
