@@ -599,7 +599,7 @@ const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
         highlightDay === day
           ? "0 0 0 6px rgba(34,197,94,0.18)"
           : undefined,
-      transition: "all 0.25s ease",
+      transition: "outline 0.4s ease, box-shadow 0.4s ease",
     }}
   >
     <div
