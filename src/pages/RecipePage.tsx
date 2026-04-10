@@ -163,15 +163,23 @@ function ingredientMatchesStep(ingredient: string, step: string) {
 const isGlaze = isGlazeIngredient(ingredient);
 const activeGlazeStep = isActiveGlazeStep(step);
 
+// glaze ingredients only belong in active glaze steps
 if (isGlaze && !activeGlazeStep) {
   return false;
 }
-if (
-  (stepText.includes("spice") || stepText.includes("spices")) &&
-  isCommonPantryStaple(ingredient, normalizeCookText) &&
-  !isGlazeIngredient(ingredient)
-) {
-  return true;
+
+// in active glaze steps, suppress non-glaze duplicates
+if (activeGlazeStep && !isGlaze) {
+  const ingredientText = getIngredientCoreText(ingredient);
+
+  if (
+    ingredientText.includes("ketchup") ||
+    ingredientText.includes("mustard") ||
+    ingredientText.includes("worcestershire") ||
+    ingredientText.includes("brown sugar")
+  ) {
+    return false;
+  }
 }
 
   const ingredientText = getIngredientCoreText(ingredient);
@@ -266,6 +274,10 @@ if (strongKeywords.some((word) =>
   return false;
 }
 
+function hasCookWord(text: string, word: string) {
+  return new RegExp(`\\b${word}\\b`, "i").test(text);
+}
+
 function isGlazeIngredient(ingredient: string) {
   return normalizeCookText(ingredient).includes("glaze");
 }
@@ -273,19 +285,19 @@ function isGlazeIngredient(ingredient: string) {
 function isActiveGlazeStep(step: string) {
   const text = normalizeCookText(step);
 
-  if (!text.includes("glaze")) return false;
+  if (!hasCookWord(text, "glaze")) return false;
 
   return (
-    text.includes("mix") ||
-    text.includes("whisk") ||
-    text.includes("stir") ||
-    text.includes("make") ||
-    text.includes("combine") ||
-    text.includes("spread") ||
-    text.includes("brush") ||
-    text.includes("add")
+    hasCookWord(text, "mix") ||
+    hasCookWord(text, "whisk") ||
+    hasCookWord(text, "stir") ||
+    hasCookWord(text, "make") ||
+    hasCookWord(text, "combine") ||
+    hasCookWord(text, "spread") ||
+    hasCookWord(text, "brush")
   );
 }
+
 function playTimerDoneSound() {
   try {
     const AudioCtx =
