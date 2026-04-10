@@ -100,11 +100,6 @@ function getIngredientKeywords(ingredient: string) {
     );
 }
 
-function hasWholeWord(text: string, word: string) {
-  const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return new RegExp(`\\b${escaped}\\b`, "i").test(text);
-}
-
 function normalizePhotoUrl(url?: string) {
   if (!url) return "";
   const trimmed = url.trim();
@@ -159,20 +154,81 @@ function formatTimer(seconds: number) {
 
 function ingredientMatchesStep(ingredient: string, step: string) {
   const stepText = normalizeCookText(step);
+  const ingredientText = getIngredientCoreText(ingredient);
   const keywords = getIngredientKeywords(ingredient);
 
   if (!stepText || !keywords.length) return false;
 
-  const longKeywords = keywords.filter((word) => word.length >= 4);
-  const shortKeywords = keywords.filter((word) => word.length >= 3 && word.length < 4);
+  // =====================================================
+  // SMART RULES (high-value cooking logic)
+  // =====================================================
+
+  // 🧂 salt & pepper pairing
+  if (
+    (stepText.includes("salt") && ingredientText.includes("pepper")) ||
+    (stepText.includes("pepper") && ingredientText.includes("salt"))
+  ) {
+    return true;
+  }
+
+  // 🌶 seasoning family
+  if (
+    stepText.includes("season") &&
+    ingredientText.includes("season")
+  ) {
+    return true;
+  }
+
+  // 🧅 onion singular/plural
+  if (
+    (stepText.includes("onion") || stepText.includes("onions")) &&
+    ingredientText.includes("onion")
+  ) {
+    return true;
+  }
+
+  // 🧄 garlic variations
+  if (
+    stepText.includes("garlic") &&
+    ingredientText.includes("garlic")
+  ) {
+    return true;
+  }
+
+  // 🥩 PROTECTION: avoid meat vs stock confusion
+  if (
+    ingredientText.includes("beef") &&
+    stepText.includes("stock")
+  ) {
+    return false;
+  }
+
+  if (
+    ingredientText.includes("chicken") &&
+    stepText.includes("broth")
+  ) {
+    return false;
+  }
+
+  // =====================================================
+  // BASE MATCHING (your improved logic)
+  // =====================================================
+
+  const longKeywords = keywords.filter((w) => w.length >= 4);
+  const shortKeywords = keywords.filter((w) => w.length >= 3 && w.length < 4);
 
   const exactPhrase = getIngredientCoreText(ingredient);
   if (exactPhrase && exactPhrase.length >= 6 && stepText.includes(exactPhrase)) {
     return true;
   }
 
-  const longMatches = longKeywords.filter((word) => hasWholeWord(stepText, word));
-  const shortMatches = shortKeywords.filter((word) => hasWholeWord(stepText, word));
+  const longMatches = longKeywords.filter((word) =>
+    new RegExp(`\\b${word}\\b`, "i").test(stepText)
+  );
+
+  const shortMatches = shortKeywords.filter((word) =>
+    new RegExp(`\\b${word}\\b`, "i").test(stepText)
+  );
 
   if (keywords.length === 1) {
     return longMatches.length > 0 || shortMatches.length > 0;
@@ -180,36 +236,6 @@ function ingredientMatchesStep(ingredient: string, step: string) {
 
   if (longMatches.length >= 2) return true;
   if (longMatches.length >= 1 && shortMatches.length >= 1) return true;
-
-  const ingredientText = getIngredientCoreText(ingredient);
-
-  if (
-    ingredientText.includes("salt") &&
-    hasWholeWord(stepText, "salt")
-  ) {
-    return true;
-  }
-
-  if (
-    ingredientText.includes("pepper") &&
-    hasWholeWord(stepText, "pepper")
-  ) {
-    return true;
-  }
-
-  if (
-    ingredientText.includes("garlic") &&
-    hasWholeWord(stepText, "garlic")
-  ) {
-    return true;
-  }
-
-  if (
-    ingredientText.includes("onion") &&
-    hasWholeWord(stepText, "onion")
-  ) {
-    return true;
-  }
 
   return false;
 }
