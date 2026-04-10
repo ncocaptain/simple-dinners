@@ -96,6 +96,7 @@ function getIngredientKeywords(ingredient: string) {
           "shredded",
           "softened",
           "melted",
+          "beaten",
         ].includes(word)
     );
 }
@@ -159,11 +160,7 @@ function ingredientMatchesStep(ingredient: string, step: string) {
 
   if (!stepText || !keywords.length) return false;
 
-  // =====================================================
-  // SMART RULES (high-value cooking logic)
-  // =====================================================
-
-  // 🧂 salt & pepper pairing
+  // smart rules
   if (
     (stepText.includes("salt") && ingredientText.includes("pepper")) ||
     (stepText.includes("pepper") && ingredientText.includes("salt"))
@@ -171,15 +168,10 @@ function ingredientMatchesStep(ingredient: string, step: string) {
     return true;
   }
 
-  // 🌶 seasoning family
-  if (
-    stepText.includes("season") &&
-    ingredientText.includes("season")
-  ) {
+  if (stepText.includes("season") && ingredientText.includes("season")) {
     return true;
   }
 
-  // 🧅 onion singular/plural
   if (
     (stepText.includes("onion") || stepText.includes("onions")) &&
     ingredientText.includes("onion")
@@ -187,55 +179,46 @@ function ingredientMatchesStep(ingredient: string, step: string) {
     return true;
   }
 
-  // 🧄 garlic variations
-  if (
-    stepText.includes("garlic") &&
-    ingredientText.includes("garlic")
-  ) {
+  if (stepText.includes("garlic") && ingredientText.includes("garlic")) {
     return true;
   }
 
-  // 🥩 PROTECTION: avoid meat vs stock confusion
-  if (
-    ingredientText.includes("beef") &&
-    stepText.includes("stock")
-  ) {
+  // protection rules
+  if (ingredientText.includes("ground beef") && stepText.includes("beef stock")) {
     return false;
   }
 
-  if (
-    ingredientText.includes("chicken") &&
-    stepText.includes("broth")
-  ) {
+  if (ingredientText.includes("ground beef") && stepText.includes("beef broth")) {
     return false;
   }
 
-  // =====================================================
-  // BASE MATCHING (your improved logic)
-  // =====================================================
+  if (ingredientText.includes("chicken breast") && stepText.includes("chicken broth")) {
+    return false;
+  }
 
-  const longKeywords = keywords.filter((w) => w.length >= 4);
-  const shortKeywords = keywords.filter((w) => w.length >= 3 && w.length < 4);
+  if (ingredientText.includes("chicken thighs") && stepText.includes("chicken broth")) {
+    return false;
+  }
 
-  const exactPhrase = getIngredientCoreText(ingredient);
-  if (exactPhrase && exactPhrase.length >= 6 && stepText.includes(exactPhrase)) {
+  // exact phrase wins
+  if (ingredientText && ingredientText.length >= 4 && stepText.includes(ingredientText)) {
     return true;
   }
 
-  const longMatches = longKeywords.filter((word) =>
-    new RegExp(`\\b${word}\\b`, "i").test(stepText)
-  );
-
-  const shortMatches = shortKeywords.filter((word) =>
-    new RegExp(`\\b${word}\\b`, "i").test(stepText)
-  );
-
-  if (keywords.length === 1) {
-    return longMatches.length > 0 || shortMatches.length > 0;
+  // any strong keyword match
+  const strongKeywords = keywords.filter((word) => word.length >= 4);
+  if (strongKeywords.some((word) => new RegExp(`\\b${word}\\b`, "i").test(stepText))) {
+    return true;
   }
 
-  if (longMatches.length >= 2) return true;
-  if (longMatches.length >= 1 && shortMatches.length >= 1) return true;
+  // allow shorter useful words for common items
+  const usefulShortKeywords = keywords.filter((word) =>
+    ["egg", "eggs", "oil", "ham"].includes(word)
+  );
+
+  if (usefulShortKeywords.some((word) => new RegExp(`\\b${word}\\b`, "i").test(stepText))) {
+    return true;
+  }
 
   return false;
 }
