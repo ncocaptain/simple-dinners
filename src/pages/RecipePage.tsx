@@ -158,6 +158,25 @@ function formatTimer(seconds: number) {
 function ingredientMatchesStep(ingredient: string, step: string) {
   const isPantry = isCommonPantryStaple(ingredient, normalizeCookText);
   const stepText = normalizeCookText(step);
+  const isGlaze = isGlazeIngredient(ingredient);
+
+// If ingredient is for glaze, only match when step mentions glaze
+if (isGlaze && !stepText.includes("glaze")) {
+  return false;
+}
+
+// If step is about glaze, prefer glaze ingredients
+if (stepText.includes("glaze") && !isGlaze) {
+  return false;
+}
+if (
+  (stepText.includes("spice") || stepText.includes("spices")) &&
+  isCommonPantryStaple(ingredient, normalizeCookText) &&
+  !isGlazeIngredient(ingredient)
+) {
+  return true;
+}
+
   const ingredientText = getIngredientCoreText(ingredient);
   const keywords = getIngredientKeywords(ingredient);
 
@@ -250,6 +269,10 @@ if (strongKeywords.some((word) =>
   return false;
 }
 
+function isGlazeIngredient(ingredient: string) {
+  return normalizeCookText(ingredient).includes("glaze");
+}
+
 function playTimerDoneSound() {
   try {
     const AudioCtx =
@@ -306,9 +329,12 @@ const FINISH_MESSAGES = [
 
 function getIngredientDisplayKey(ingredient: string) {
   const text = getIngredientCoreText(ingredient);
+  const isGlaze = normalizeCookText(ingredient).includes("glaze");
 
-  if (text.includes("ketchup")) return "ketchup";
-  if (text.includes("mustard")) return "mustard";
+  if (text.includes("ketchup")) return isGlaze ? "ketchup_glaze" : "ketchup";
+  if (text.includes("mustard")) return isGlaze ? "mustard_glaze" : "mustard";
+  if (text.includes("worcestershire"))
+    return isGlaze ? "worcestershire_glaze" : "worcestershire";
   if (text.includes("egg")) return "egg";
   if (text.includes("breadcrumbs")) return "breadcrumbs";
   if (text.includes("beef stock")) return "beef stock";
