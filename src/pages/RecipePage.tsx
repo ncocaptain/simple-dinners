@@ -156,24 +156,6 @@ function formatTimer(seconds: number) {
 
   return `${mins}:${String(secs).padStart(2, "0")}`;
 }
-function normalizeIngredientName(ingredient: string) {
-  return ingredient
-    .toLowerCase()
-    .replace(/^[\d/\s.,()-]+/, "")
-    .replace(
-      /\b(cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|lb|lbs|oz|ounce|ounces|clove|cloves|can|cans|package|packages|slice|slices)\b/g,
-      ""
-    )
-    .replace(
-      /\b(chopped|diced|minced|sliced|drained|rinsed|softened|melted|divided|optional|for glaze|for topping|to taste)\b/g,
-      ""
-    )
-    .replace(/[()]/g, "")
-    .replace(/\s+/g, " ")
-    .trim()
-    .split(",")[0]
-    .trim();
-}
 
 function ingredientMatchesStep(ingredient: string, step: string) {
   const stepText = normalizeCookText(step);
