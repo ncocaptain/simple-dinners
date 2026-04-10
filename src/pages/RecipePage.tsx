@@ -200,6 +200,20 @@ function ingredientMatchesStep(ingredient: string, step: string) {
     return false;
   }
 
+  if (
+  ingredientText.includes("stock") &&
+  !stepText.includes("stock")
+) {
+  return false;
+}
+
+if (
+  ingredientText.includes("broth") &&
+  !stepText.includes("broth")
+) {
+  return false;
+}
+
   // exact phrase wins
   if (ingredientText && ingredientText.length >= 4 && stepText.includes(ingredientText)) {
     return true;
@@ -276,6 +290,19 @@ const FINISH_MESSAGES = [
   "Dinner = handled 💪",
   "Boom. Nailed it. ⭐",
 ];
+
+function getIngredientDisplayKey(ingredient: string) {
+  const text = getIngredientCoreText(ingredient);
+
+  if (text.includes("ketchup")) return "ketchup";
+  if (text.includes("mustard")) return "mustard";
+  if (text.includes("egg")) return "egg";
+  if (text.includes("breadcrumbs")) return "breadcrumbs";
+  if (text.includes("beef stock")) return "beef stock";
+  if (text.includes("oregano")) return "oregano";
+
+  return text;
+}
 
 // =====================================================
 // Builder: types
@@ -422,12 +449,34 @@ const COOK_TIPS = [
     ? safeRecipe.tags.includes("grilling")
     : false;
 
+    function isIngredientHeader(line: string) {
+  const text = String(line || "").trim();
+
+  if (!text) return true;
+
+  return (
+    text === text.toUpperCase() &&
+    text.length < 40 &&
+    !/\d/.test(text)
+  );
+}
+
   const stepIngredients = useMemo(() => {
   if (!currentStep?.trim()) return [];
 
-  return ingredients.filter((ingredient) =>
-    ingredientMatchesStep(ingredient, currentStep)
-  );
+  const matched = ingredients.filter((ingredient) => {
+    if (isIngredientHeader(ingredient)) return false;
+    return ingredientMatchesStep(ingredient, currentStep);
+  });
+
+  const seen = new Set<string>();
+
+  return matched.filter((ingredient) => {
+    const key = getIngredientDisplayKey(ingredient);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }, [ingredients, currentStep]);
 
   // =====================================================
