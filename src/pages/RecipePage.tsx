@@ -41,6 +41,70 @@ function splitLines(s?: string) {
     .filter(Boolean);
 }
 
+function cleanIngredientText(text: string) {
+  return String(text || "")
+    .replace(/,?\s*to taste/gi, "")
+    .replace(/,?\s*optional/gi, "")
+    .replace(/,?\s*divided/gi, "")
+    .trim();
+}
+
+function normalizeCookText(text: string) {
+  return String(text || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getIngredientCoreText(ingredient: string) {
+  return normalizeCookText(
+    cleanIngredientText(ingredient)
+      .replace(
+        /\b\d+(?:[\/.]\d+)?\b/g,
+        " "
+      )
+      .replace(
+        /\b(cup|cups|tablespoon|tablespoons|tbsp|teaspoon|teaspoons|tsp|pound|pounds|lb|lbs|ounce|ounces|oz|clove|cloves|can|cans|package|packages|pkg|slice|slices)\b/g,
+        " "
+      )
+  );
+}
+
+function getIngredientKeywords(ingredient: string) {
+  return getIngredientCoreText(ingredient)
+    .split(" ")
+    .map((word) => word.trim())
+    .filter(Boolean)
+    .filter(
+      (word) =>
+        ![
+          "fresh",
+          "large",
+          "small",
+          "medium",
+          "extra",
+          "virgin",
+          "boneless",
+          "skinless",
+          "lean",
+          "halved",
+          "diced",
+          "chopped",
+          "minced",
+          "sliced",
+          "shredded",
+          "softened",
+          "melted",
+        ].includes(word)
+    );
+}
+
+function hasWholeWord(text: string, word: string) {
+  const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`\\b${escaped}\\b`, "i").test(text);
+}
+
 function normalizePhotoUrl(url?: string) {
   if (!url) return "";
   const trimmed = url.trim();
@@ -111,97 +175,61 @@ function normalizeIngredientName(ingredient: string) {
     .trim();
 }
 
-function getIngredientSearchTerms(ingredient: string) {
-  const main = normalizeIngredientName(ingredient);
-  if (!main || main.length <= 2) return [];
+function ingredientMatchesStep(ingredient: string, step: string) {
+  const stepText = normalizeCookText(step);
+  const keywords = getIngredientKeywords(ingredient);
 
-  const terms = new Set<string>([main]);
+  if (!stepText || !keywords.length) return false;
 
-  const singular = main.endsWith("s") ? main.slice(0, -1) : main;
-  const plural = main.endsWith("s") ? main : `${main}s`;
+  const longKeywords = keywords.filter((word) => word.length >= 4);
+  const shortKeywords = keywords.filter((word) => word.length >= 3 && word.length < 4);
 
-  terms.add(singular);
-  terms.add(plural);
-
-  const parts = main.split(" ").filter((word) => word.length > 2);
-  if (parts.length === 2) {
-    terms.add(`${parts[1]} ${parts[0]}`);
+  const exactPhrase = getIngredientCoreText(ingredient);
+  if (exactPhrase && exactPhrase.length >= 6 && stepText.includes(exactPhrase)) {
+    return true;
   }
 
-  if (main.includes("ground beef")) {
-    terms.add("ground meat");
-    terms.add("beef");
+  const longMatches = longKeywords.filter((word) => hasWholeWord(stepText, word));
+  const shortMatches = shortKeywords.filter((word) => hasWholeWord(stepText, word));
+
+  if (keywords.length === 1) {
+    return longMatches.length > 0 || shortMatches.length > 0;
   }
 
-  if (main.includes("ground turkey")) {
-    terms.add("ground meat");
-    terms.add("turkey");
-  }
+  if (longMatches.length >= 2) return true;
+  if (longMatches.length >= 1 && shortMatches.length >= 1) return true;
 
-  if (main.includes("onion")) {
-    terms.add("onion");
-    terms.add("onions");
-  }
+  const ingredientText = getIngredientCoreText(ingredient);
 
-  if (main.includes("egg")) {
-    terms.add("egg");
-    terms.add("eggs");
-  }
-
-  if (main.includes("garlic")) {
-    terms.add("garlic");
-  }
-
-  if (main.includes("brown sugar")) {
-    terms.add("brown sugar");
-    terms.add("sugar");
-  }
-
-  if (main.includes("mustard")) {
-    terms.add("mustard");
-  }
-
-  if (main.includes("ketchup")) {
-    terms.add("ketchup");
-  }
-
-  if (main.includes("worcestershire")) {
-    terms.add("worcestershire");
-    terms.add("worcestershire sauce");
+  if (
+    ingredientText.includes("salt") &&
+    hasWholeWord(stepText, "salt")
+  ) {
+    return true;
   }
 
   if (
-    main.includes("italian seasoning") ||
-    main.includes("cajun seasoning") ||
-    main.includes("taco seasoning") ||
-    main.includes("seasoning")
+    ingredientText.includes("pepper") &&
+    hasWholeWord(stepText, "pepper")
   ) {
-    terms.add("seasoning");
-    terms.add("seasonings");
-    terms.add("spice");
-    terms.add("spices");
+    return true;
   }
 
   if (
-    main.includes("bell pepper") ||
-    main.includes("red pepper") ||
-    main.includes("green pepper")
+    ingredientText.includes("garlic") &&
+    hasWholeWord(stepText, "garlic")
   ) {
-    terms.add("pepper");
-    terms.add("peppers");
-    terms.add("bell pepper");
-    terms.add("red pepper");
-    terms.add("green pepper");
+    return true;
   }
 
-  return Array.from(terms).filter((term) => term.length > 2);
-}
+  if (
+    ingredientText.includes("onion") &&
+    hasWholeWord(stepText, "onion")
+  ) {
+    return true;
+  }
 
-function ingredientMatchesStep(step: string, ingredient: string) {
-  const stepText = step.toLowerCase();
-  const terms = getIngredientSearchTerms(ingredient);
-
-  return terms.some((term) => stepText.includes(term));
+  return false;
 }
 
 function playTimerDoneSound() {
@@ -404,21 +432,12 @@ const COOK_TIPS = [
     : false;
 
   const stepIngredients = useMemo(() => {
-  if (!currentStep) return [];
+  if (!currentStep?.trim()) return [];
 
-  const matches = ingredients.filter((ingredient) =>
-    ingredientMatchesStep(currentStep, ingredient)
+  return ingredients.filter((ingredient) =>
+    ingredientMatchesStep(ingredient, currentStep)
   );
-
-  const seen = new Set<string>();
-
-  return matches.filter((ingredient) => {
-    const key = normalizeIngredientName(ingredient);
-    if (!key || seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-}, [currentStep, ingredients]);
+}, [ingredients, currentStep]);
 
   // =====================================================
   // Builder: effects
@@ -799,12 +818,17 @@ const COOK_TIPS = [
     <div style={innerWrap}>
       {!printMode && !cookMode && (
         <>
-        
           <div style={{ display: "grid", gap: 12 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-  <h1>Recipe</h1>
-  <TipsModal tips={RECIPE_TIPS} />
-</div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <h1>Recipe</h1>
+              <TipsModal tips={RECIPE_TIPS} />
+            </div>
 
             <div
               style={{
@@ -917,24 +941,27 @@ const COOK_TIPS = [
               </button>
             </div>
 
-            <button
-  onClick={() => setKeepAwake((prev) => !prev)}
-  style={{
-    ...cookChipBtn,
-    border: keepAwake
-      ? "1px solid rgba(34,197,94,0.45)"
-      : cookChipBtn.border,
-    background: keepAwake
-      ? "rgba(34,197,94,0.12)"
-      : cookChipBtn.background,
-    color: keepAwake ? "#86efac" : "white",
-  }}
->
-  <Moon size={15} />
-  {keepAwake ? "Screen Awake On" : "Keep Screen Awake"}
-</button>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <button
+                onClick={() => setKeepAwake((prev) => !prev)}
+                style={{
+                  ...cookChipBtn,
+                  border: keepAwake
+                    ? "1px solid rgba(34,197,94,0.45)"
+                    : cookChipBtn.border,
+                  background: keepAwake
+                    ? "rgba(34,197,94,0.12)"
+                    : cookChipBtn.background,
+                  color: keepAwake ? "#86efac" : "white",
+                }}
+              >
+                <Moon size={15} />
+                {keepAwake ? "Screen Awake On" : "Keep Screen Awake"}
+              </button>
 
-<TipsModal tips={COOK_TIPS} /></div>
+              <TipsModal tips={COOK_TIPS} />
+            </div>
+          </div>
 
           {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
 
@@ -1134,7 +1161,11 @@ const COOK_TIPS = [
                   }}
                 >
                   <CheckCircle2 size={14} style={{ opacity: 0.4 }} />
-                  <span style={{ fontSize: 13 }}>{ingredient}</span>
+                  <span style={{ fontSize: 13 }}>
+                    {typeof cleanIngredientText === "function"
+                      ? cleanIngredientText(ingredient)
+                      : ingredient}
+                  </span>
                 </div>
               ))}
             </div>
@@ -1352,4 +1383,4 @@ const COOK_TIPS = [
       )}
     </div>
   </div>
-);}
+); }
