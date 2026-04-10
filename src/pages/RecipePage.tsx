@@ -48,6 +48,8 @@ function cleanIngredientText(text: string) {
     .replace(/,?\s*to taste/gi, "")
     .replace(/,?\s*optional/gi, "")
     .replace(/,?\s*divided/gi, "")
+    .replace(/\(\s*,/g, "(")
+    .replace(/\s{2,}/g, " ")
     .trim();
 }
 
@@ -62,10 +64,7 @@ function normalizeCookText(text: string) {
 function getIngredientCoreText(ingredient: string) {
   return normalizeCookText(
     cleanIngredientText(ingredient)
-      .replace(
-        /\b\d+(?:[\/.]\d+)?\b/g,
-        " "
-      )
+      .replace(/\b\d+(?:[\/.]\d+)?\b/g, " ")
       .replace(
         /\b(cup|cups|tablespoon|tablespoons|tbsp|teaspoon|teaspoons|tsp|pound|pounds|lb|lbs|ounce|ounces|oz|clove|cloves|can|cans|package|packages|pkg|slice|slices)\b/g,
         " "
@@ -155,125 +154,6 @@ function formatTimer(seconds: number) {
   return `${mins}:${String(secs).padStart(2, "0")}`;
 }
 
-function ingredientMatchesStep(ingredient: string, step: string) {
-  const isPantry = isCommonPantryStaple(ingredient, normalizeCookText);
-  const stepText = normalizeCookText(step);
-  
-// If ingredient is for glaze, only match when step mentions glaze
-const isGlaze = isGlazeIngredient(ingredient);
-const activeGlazeStep = isActiveGlazeStep(step);
-
-// glaze ingredients only belong in active glaze steps
-if (isGlaze && !activeGlazeStep) {
-  return false;
-}
-
-// in active glaze steps, suppress non-glaze duplicates
-if (activeGlazeStep && !isGlaze) {
-  const ingredientText = getIngredientCoreText(ingredient);
-
-  if (
-    ingredientText.includes("ketchup") ||
-    ingredientText.includes("mustard") ||
-    ingredientText.includes("worcestershire") ||
-    ingredientText.includes("brown sugar")
-  ) {
-    return false;
-  }
-}
-
-  const ingredientText = getIngredientCoreText(ingredient);
-  const keywords = getIngredientKeywords(ingredient);
-
-  if (!stepText || !keywords.length) return false;
-
-  // smart rules
-  if (
-    (stepText.includes("salt") && ingredientText.includes("pepper")) ||
-    (stepText.includes("pepper") && ingredientText.includes("salt"))
-  ) {
-    return true;
-  }
-
-  if (stepText.includes("season") && ingredientText.includes("season")) {
-    return true;
-  }
-
-  if (
-    (stepText.includes("onion") || stepText.includes("onions")) &&
-    ingredientText.includes("onion")
-  ) {
-    return true;
-  }
-
-  if (stepText.includes("garlic") && ingredientText.includes("garlic")) {
-    return true;
-  }
-
-  // protection rules
-  if (ingredientText.includes("ground beef") && stepText.includes("beef stock")) {
-    return false;
-  }
-
-  if (ingredientText.includes("ground beef") && stepText.includes("beef broth")) {
-    return false;
-  }
-
-  if (ingredientText.includes("chicken breast") && stepText.includes("chicken broth")) {
-    return false;
-  }
-
-  if (ingredientText.includes("chicken thighs") && stepText.includes("chicken broth")) {
-    return false;
-  }
-
-  if (
-  ingredientText.includes("stock") &&
-  !stepText.includes("stock")
-) {
-  return false;
-}
-
-if (
-  ingredientText.includes("broth") &&
-  !stepText.includes("broth")
-) {
-  return false;
-}
-
-  // exact phrase wins
-  if (ingredientText && ingredientText.length >= 4 && stepText.includes(ingredientText)) {
-    return true;
-  }
-
-  // any strong keyword match
-  const strongKeywords = keywords.filter((word) => word.length >= 4);
-  if (isPantry) {
-  // pantry items require stronger match (avoid noise)
-  return strongKeywords.some((word) =>
-    new RegExp(`\\b${word}\\b`, "i").test(stepText)
-  );
-}
-
-// non-pantry items can match normally
-if (strongKeywords.some((word) =>
-  new RegExp(`\\b${word}\\b`, "i").test(stepText)
-)) {
-  return true;
-}
-
-  // allow shorter useful words for common items
-  const usefulShortKeywords = keywords.filter((word) =>
-    ["egg", "eggs", "oil", "ham"].includes(word)
-  );
-
-  if (usefulShortKeywords.some((word) => new RegExp(`\\b${word}\\b`, "i").test(stepText))) {
-    return true;
-  }
-
-  return false;
-}
-
 function hasCookWord(text: string, word: string) {
   return new RegExp(`\\b${word}\\b`, "i").test(text);
 }
@@ -296,6 +176,196 @@ function isActiveGlazeStep(step: string) {
     hasCookWord(text, "spread") ||
     hasCookWord(text, "brush")
   );
+}
+
+function isIngredientHeader(line: string) {
+  const text = String(line || "").trim();
+
+  if (!text) return true;
+
+  return text === text.toUpperCase() && text.length < 40 && !/\d/.test(text);
+}
+
+function getIngredientDisplayKey(ingredient: string) {
+  const text = getIngredientCoreText(ingredient);
+  const isGlaze = isGlazeIngredient(ingredient);
+
+  if (text.includes("ketchup")) {
+    return isGlaze ? "ketchup_glaze" : "ketchup";
+  }
+
+  if (text.includes("mustard")) {
+    return isGlaze ? "mustard_glaze" : "mustard";
+  }
+
+  if (text.includes("worcestershire")) {
+    return isGlaze ? "worcestershire_glaze" : "worcestershire";
+  }
+
+  if (text.includes("brown sugar")) {
+    return isGlaze ? "brown_sugar_glaze" : "brown_sugar";
+  }
+
+  if (text.includes("egg")) return "egg";
+  if (text.includes("breadcrumbs")) return "breadcrumbs";
+  if (text.includes("beef stock")) return "beef_stock";
+  if (text.includes("oregano")) return "oregano";
+  if (text.includes("old bay")) return "old_bay";
+  if (text.includes("cherry peppers")) return "cherry_peppers";
+  if (text.includes("black pepper")) return "black_pepper";
+  if (text === "pepper") return "pepper";
+  if (text.includes("salt")) return "salt";
+
+  return text;
+}
+
+function ingredientMatchesStep(ingredient: string, step: string) {
+  const stepText = normalizeCookText(step);
+  const ingredientText = getIngredientCoreText(ingredient);
+  const keywords = getIngredientKeywords(ingredient);
+  const isPantry = isCommonPantryStaple(ingredient, normalizeCookText);
+  const isGlaze = isGlazeIngredient(ingredient);
+  const activeGlazeStep = isActiveGlazeStep(step);
+
+  if (!stepText || !keywords.length) return false;
+
+  // =====================================================
+  // Glaze logic
+  // =====================================================
+
+  if (isGlaze && !activeGlazeStep) {
+    return false;
+  }
+
+  if (activeGlazeStep && !isGlaze) {
+    if (
+      ingredientText.includes("ketchup") ||
+      ingredientText.includes("mustard") ||
+      ingredientText.includes("worcestershire") ||
+      ingredientText.includes("brown sugar")
+    ) {
+      return false;
+    }
+  }
+
+  // =====================================================
+  // Protections for stock / broth
+  // =====================================================
+
+  if (ingredientText.includes("stock") && !stepText.includes("stock")) {
+    return false;
+  }
+
+  if (ingredientText.includes("broth") && !stepText.includes("broth")) {
+    return false;
+  }
+
+  if (
+    ingredientText.includes("ground beef") &&
+    (stepText.includes("beef stock") || stepText.includes("beef broth"))
+  ) {
+    return false;
+  }
+
+  if (
+    (ingredientText.includes("chicken breast") ||
+      ingredientText.includes("chicken breasts") ||
+      ingredientText.includes("chicken thighs")) &&
+    stepText.includes("chicken broth")
+  ) {
+    return false;
+  }
+
+  // =====================================================
+  // Pepper handling
+  // =====================================================
+
+  if (ingredientText.includes("cherry peppers")) {
+    return (
+      stepText.includes("cherry peppers") ||
+      stepText.includes("chopped cherry peppers")
+    );
+  }
+
+  if (ingredientText.includes("black pepper")) {
+    if (stepText.includes("black pepper")) return true;
+    if (stepText.includes("pepper") && !stepText.includes("cherry peppers")) {
+      return true;
+    }
+    return false;
+  }
+
+  if (ingredientText === "pepper") {
+    if (stepText.includes("pepper") && !stepText.includes("cherry peppers")) {
+      return true;
+    }
+    return false;
+  }
+
+  // =====================================================
+  // Salt handling
+  // =====================================================
+
+  if (ingredientText.includes("salt")) {
+    return stepText.includes("salt");
+  }
+
+  // =====================================================
+  // Smart rules
+  // =====================================================
+
+  if (
+    (stepText.includes("onion") || stepText.includes("onions")) &&
+    ingredientText.includes("onion")
+  ) {
+    return true;
+  }
+
+  if (stepText.includes("garlic") && ingredientText.includes("garlic")) {
+    return true;
+  }
+
+  if (stepText.includes("season") && ingredientText.includes("season")) {
+    return true;
+  }
+
+  if (
+    (stepText.includes("spice") || stepText.includes("spices")) &&
+    isPantry &&
+    !isGlaze
+  ) {
+    return true;
+  }
+
+  // =====================================================
+  // Exact phrase
+  // =====================================================
+
+  if (ingredientText && ingredientText.length >= 4 && stepText.includes(ingredientText)) {
+    return true;
+  }
+
+  // =====================================================
+  // Keyword matching
+  // =====================================================
+
+  const strongKeywords = keywords.filter((word) => word.length >= 4);
+
+  if (
+    strongKeywords.some((word) => hasCookWord(stepText, word))
+  ) {
+    return true;
+  }
+
+  const usefulShortKeywords = keywords.filter((word) =>
+    ["egg", "eggs", "oil", "ham"].includes(word)
+  );
+
+  if (usefulShortKeywords.some((word) => hasCookWord(stepText, word))) {
+    return true;
+  }
+
+  return false;
 }
 
 function playTimerDoneSound() {
@@ -352,21 +422,6 @@ const FINISH_MESSAGES = [
   "Boom. Nailed it. ⭐",
 ];
 
-function getIngredientDisplayKey(ingredient: string) {
-  const text = getIngredientCoreText(ingredient);
-  const isGlaze = normalizeCookText(ingredient).includes("glaze");
-
-  if (text.includes("ketchup")) return isGlaze ? "ketchup_glaze" : "ketchup";
-  if (text.includes("mustard")) return isGlaze ? "mustard_glaze" : "mustard";
-  if (text.includes("worcestershire"))
-    return isGlaze ? "worcestershire_glaze" : "worcestershire";
-  if (text.includes("egg")) return "egg";
-  if (text.includes("breadcrumbs")) return "breadcrumbs";
-  if (text.includes("beef stock")) return "beef stock";
-  if (text.includes("oregano")) return "oregano";
-
-  return text;
-}
 
 // =====================================================
 // Builder: types
@@ -513,19 +568,9 @@ const COOK_TIPS = [
     ? safeRecipe.tags.includes("grilling")
     : false;
 
-    function isIngredientHeader(line: string) {
-  const text = String(line || "").trim();
+    
 
-  if (!text) return true;
-
-  return (
-    text === text.toUpperCase() &&
-    text.length < 40 &&
-    !/\d/.test(text)
-  );
-}
-
-  const stepIngredients = useMemo(() => {
+const stepIngredients = useMemo(() => {
   if (!currentStep?.trim()) return [];
 
   const matched = ingredients.filter((ingredient) => {
@@ -535,12 +580,14 @@ const COOK_TIPS = [
 
   const seen = new Set<string>();
 
-  return matched.filter((ingredient) => {
+  const deduped = matched.filter((ingredient) => {
     const key = getIngredientDisplayKey(ingredient);
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
   });
+
+  return deduped.slice(0, 6);
 }, [ingredients, currentStep]);
 
   // =====================================================
