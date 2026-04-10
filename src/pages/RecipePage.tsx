@@ -19,7 +19,9 @@ import {
 import { getRecipeBySlug } from "../core/recipes";
 import { addIngredientsToList } from "../shoppingList";
 import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
+import { isCommonPantryStaple } from "../core/pantry";
 import TipsModal from "../components/TipsModal";
+
 
 
 // =====================================================
@@ -154,6 +156,7 @@ function formatTimer(seconds: number) {
 }
 
 function ingredientMatchesStep(ingredient: string, step: string) {
+  const isPantry = isCommonPantryStaple(ingredient, normalizeCookText);
   const stepText = normalizeCookText(step);
   const ingredientText = getIngredientCoreText(ingredient);
   const keywords = getIngredientKeywords(ingredient);
@@ -221,9 +224,19 @@ if (
 
   // any strong keyword match
   const strongKeywords = keywords.filter((word) => word.length >= 4);
-  if (strongKeywords.some((word) => new RegExp(`\\b${word}\\b`, "i").test(stepText))) {
-    return true;
-  }
+  if (isPantry) {
+  // pantry items require stronger match (avoid noise)
+  return strongKeywords.some((word) =>
+    new RegExp(`\\b${word}\\b`, "i").test(stepText)
+  );
+}
+
+// non-pantry items can match normally
+if (strongKeywords.some((word) =>
+  new RegExp(`\\b${word}\\b`, "i").test(stepText)
+)) {
+  return true;
+}
 
   // allow shorter useful words for common items
   const usefulShortKeywords = keywords.filter((word) =>
