@@ -158,15 +158,12 @@ function formatTimer(seconds: number) {
 function ingredientMatchesStep(ingredient: string, step: string) {
   const isPantry = isCommonPantryStaple(ingredient, normalizeCookText);
   const stepText = normalizeCookText(step);
-  const isGlaze = isGlazeIngredient(ingredient);
-
+  
 // If ingredient is for glaze, only match when step mentions glaze
-if (isGlaze && !stepText.includes("glaze")) {
-  return false;
-}
+const isGlaze = isGlazeIngredient(ingredient);
+const activeGlazeStep = isActiveGlazeStep(step);
 
-// If step is about glaze, prefer glaze ingredients
-if (stepText.includes("glaze") && !isGlaze) {
+if (isGlaze && !activeGlazeStep) {
   return false;
 }
 if (
@@ -273,6 +270,22 @@ function isGlazeIngredient(ingredient: string) {
   return normalizeCookText(ingredient).includes("glaze");
 }
 
+function isActiveGlazeStep(step: string) {
+  const text = normalizeCookText(step);
+
+  if (!text.includes("glaze")) return false;
+
+  return (
+    text.includes("mix") ||
+    text.includes("whisk") ||
+    text.includes("stir") ||
+    text.includes("make") ||
+    text.includes("combine") ||
+    text.includes("spread") ||
+    text.includes("brush") ||
+    text.includes("add")
+  );
+}
 function playTimerDoneSound() {
   try {
     const AudioCtx =
