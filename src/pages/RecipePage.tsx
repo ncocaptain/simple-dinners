@@ -43,6 +43,35 @@ function splitLines(s?: string) {
     .filter(Boolean);
 }
 
+const RECIPE_NOTES_KEY = "simple-dinners.recipe-notes.v1";
+
+type RecipeNotesMap = Record<string, string>;
+
+function loadRecipeNotes(): RecipeNotesMap {
+  try {
+    return JSON.parse(localStorage.getItem(RECIPE_NOTES_KEY) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function saveRecipeNotes(notes: RecipeNotesMap) {
+  localStorage.setItem(RECIPE_NOTES_KEY, JSON.stringify(notes));
+}
+
+function getRecipeUserNote(recipeKey: string) {
+  if (!recipeKey) return "";
+  const all = loadRecipeNotes();
+  return all[recipeKey] || "";
+}
+
+function setRecipeUserNote(recipeKey: string, note: string) {
+  if (!recipeKey) return;
+  const all = loadRecipeNotes();
+  all[recipeKey] = note;
+  saveRecipeNotes(all);
+}
+
 function cleanIngredientText(text: string) {
   return String(text || "")
     .replace(/,?\s*to taste/gi, "")
@@ -536,6 +565,7 @@ const COOK_TIPS = [
   // =====================================================
 
   const [cookMode, setCookMode] = useState(startInCookMode);
+  
   const [stepIndex, setStepIndex] = useState(0);
   const [historyCount, setHistoryCount] = useState(0);
   const [savedState, setSavedState] = useState<"idle" | "saved" | "already">(
@@ -553,6 +583,10 @@ const COOK_TIPS = [
   const [keepAwake, setKeepAwake] = useState(false);
 
   const wakeLockRef = useRef<any>(null);
+
+  const [userNote, setUserNote] = useState<string>(() =>
+  getRecipeUserNote(recipeNoteKey)
+);
 
   // =====================================================
   // Builder: empty state
@@ -608,6 +642,7 @@ const COOK_TIPS = [
   // =====================================================
 
   const safeRecipe = recipe;
+  const recipeNoteKey = safeRecipe.slug || safeRecipe.name || "";
 
   const ingredients = useMemo(
     () => splitLines(safeRecipe.ingredients),
@@ -678,6 +713,10 @@ const stepIngredients = useMemo(() => {
     const history = getCookHistoryFor(safeRecipe.slug);
     setHistoryCount(history?.timesCooked ?? 0);
   }, [safeRecipe.slug]);
+
+  useEffect(() => {
+  setUserNote(getRecipeUserNote(recipeNoteKey));
+}, [recipeNoteKey]);
 
   useEffect(() => {
     if (!printMode) return;
@@ -857,7 +896,18 @@ const stepIngredients = useMemo(() => {
     await navigator.clipboard.writeText(shareUrl);
     setSaveMessage("Link copied!");
   };
+function handleEditUserNote() {
+  const next =
+    window.prompt("Edit your note for this recipe:", userNote) ?? userNote;
 
+  setUserNote(next);
+  setRecipeUserNote(recipeNoteKey, next.trim());
+  setSaveMessage("Personal note saved ✓");
+
+  window.setTimeout(() => {
+    setSaveMessage("");
+  }, 1800);
+}
   const handleAddToCookbook = () => {
     if (!safeRecipe?.slug) {
       setSaveMessage("Missing recipe info");
@@ -1372,6 +1422,52 @@ const stepIngredients = useMemo(() => {
     <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 800 }}>
       Ingredients in this step
     </div>
+
+    <div
+  style={{
+    padding: 14,
+    borderRadius: 16,
+    background: "rgba(255,255,255,0.03)",
+    border: "1px solid rgba(255,255,255,0.08)",
+    display: "grid",
+    gap: 10,
+  }}
+>
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      gap: 10,
+      flexWrap: "wrap",
+    }}
+  >
+    <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 800 }}>
+      My Notes
+    </div>
+
+    <button onClick={handleEditUserNote} style={topBtn}>
+      Edit Note
+    </button>
+  </div>
+
+  {userNote.trim() ? (
+    <div
+      style={{
+        fontSize: 14,
+        lineHeight: 1.5,
+        opacity: 0.92,
+        whiteSpace: "pre-wrap",
+      }}
+    >
+      {userNote}
+    </div>
+  ) : (
+    <div style={{ fontSize: 13, opacity: 0.5 }}>
+      No personal notes yet.
+    </div>
+  )}
+</div>
 
     {stepIngredients.map((ingredient, index) => (
       <div
