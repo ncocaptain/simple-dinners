@@ -102,6 +102,22 @@ function getIngredientKeywords(ingredient: string) {
     );
 }
 
+function getCookModeIngredientLabel(text: string) {
+  return cleanIngredientText(text)
+    .replace(/\([^)]*\)/g, "")
+    .replace(/\b\d+(?:[\/.]\d+)?\b/g, "")
+    .replace(
+      /\b(cup|cups|tablespoon|tablespoons|tbsp|teaspoon|teaspoons|tsp|pound|pounds|lb|lbs|ounce|ounces|oz|clove|cloves|can|cans|package|packages|pkg|slice|slices)\b/gi,
+      ""
+    )
+    .replace(
+      /\b(large|small|medium|fresh|boneless|skinless|lean|halved|diced|chopped|minced|sliced|shredded|softened|melted|beaten|dried|finely)\b/gi,
+      ""
+    )
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
 function normalizePhotoUrl(url?: string) {
   if (!url) return "";
   const trimmed = url.trim();
@@ -1287,40 +1303,40 @@ const stepIngredients = useMemo(() => {
           </div>
 
           {stepIngredients.length > 0 && (
-            <div
-              style={{
-                padding: 14,
-                borderRadius: 16,
-                background: "rgba(255,255,255,0.02)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                display: "grid",
-                gap: 6,
-              }}
-            >
-              <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 800 }}>
-                Ingredients in this step
-              </div>
+  <div
+    style={{
+      padding: 14,
+      borderRadius: 16,
+      background: "rgba(255,255,255,0.02)",
+      border: "1px solid rgba(255,255,255,0.08)",
+      display: "grid",
+      gap: 6,
+    }}
+  >
+    <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 800 }}>
+      Ingredients in this step
+    </div>
 
-              {stepIngredients.map((ingredient, index) => (
-                <div
-                  key={`${ingredient}-${index}`}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    opacity: 0.8,
-                  }}
-                >
-                  <CheckCircle2 size={14} style={{ opacity: 0.4 }} />
-                  <span style={{ fontSize: 13 }}>
-                    {typeof cleanIngredientText === "function"
-                      ? cleanIngredientText(ingredient)
-                      : ingredient}
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
+    {stepIngredients.map((ingredient, index) => (
+      <div
+        key={`${ingredient}-${index}`}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          opacity: 0.8,
+        }}
+      >
+        <CheckCircle2 size={14} style={{ opacity: 0.4 }} />
+        <span style={{ fontSize: 13 }}>
+          {typeof getCookModeIngredientLabel === "function"
+            ? getCookModeIngredientLabel(ingredient)
+            : ingredient}
+        </span>
+      </div>
+    ))}
+  </div>
+)}
 
           {(detectedTimerSeconds || timerSeconds !== null) && (
             <div

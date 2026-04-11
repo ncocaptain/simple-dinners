@@ -528,12 +528,10 @@ Carefully open packets. Steam will be hot. Remove from foil before serving.`,
 1 white onion, diced
 10 (6-inch) corn tortillas, cut into wedges
 1 1/2 cups shredded Mexican cheese blend
-
-FOR GARNISH:
 cilantro, chopped
 Pico de gallo
 Sour cream`,
-    instructions: `In a large skillet over medium-high heat, cook ground beef until browned, about 7 minutes.
+    instructions: `In a large skillet over medium-high heat, cook ground beef until browned.
 Drain excess grease and stir in taco seasoning.
 
 Transfer beef to the slow cooker.
@@ -562,17 +560,17 @@ Garnish with cilantro, pico de gallo, and sour cream before serving.`,
   ingredients: `1 1/2 to 2 lbs Potatoes (about 3 large), peeled and quartered
 8 Tbsp butter (1 stick), divided
 1 medium onion, chopped
-1-2 cups mixed vegetables (diced carrots, corn, peas)
+2 cups mixed vegetables (diced carrots, corn, peas)
 1 1/2 lbs ground beef
 1/2 cup beef broth
 1 tsp worcestershire sauce
-salt, to taste
-pepper, to taste
+salt
+pepper
 8 oz baby bella mushrooms
 2 cloves garlic`,
-  instructions: `Place Potatoes in a pot and cover with at least 1 inch of cold water. Add a teaspoon of salt. Bring to a boil, reduce to a simmer, and cook until tender, about 20 minutes.
+  instructions: `Place potatoes in a pot and cover with at least 1 inch of cold water. Add a teaspoon of salt. Bring to a boil, reduce to a simmer, and cook until tender, about 20 minutes.
 
-While Potatoes cook, melt 4 Tbsp butter in a large sauté pan over medium heat. Add onion and carrots and cook until tender, about 6 to 10 minutes.
+While potatoes cook, melt 4 Tbsp butter in a large sauté pan over medium heat. Add onion and carrots and cook until tender, about 6 to 10 minutes.
 
 Add mushrooms and garlic and cook 2 to 3 minutes until mushrooms soften.
 
@@ -580,11 +578,11 @@ Add ground beef, corn, and peas. Cook until no longer pink. Season with salt and
 
 Stir in worcestershire sauce and beef broth. Bring to a simmer, reduce heat to low, and cook uncovered for about 10 minutes. Add a splash more broth if needed to keep it from drying out.
 
-Drain Potatoes and place in a bowl with remaining 4 Tbsp butter. Mash and season with salt and pepper to taste.
+Drain potatoes and place in a bowl with remaining 4 Tbsp butter. Mash and season with salt and pepper to taste.
 
 Preheat oven to 400°F. Spread beef mixture in an even layer in an 8x13 baking dish.
 
-Spread mashed Potatoes over the top. Rough up the surface with a fork to create peaks.
+Spread mashed potatoes over the top. Rough up the surface with a fork to create peaks.
 
 Bake about 30 minutes until browned and bubbling.`,
 },
