@@ -49,6 +49,7 @@ function cleanIngredientText(text: string) {
     .replace(/,?\s*optional/gi, "")
     .replace(/,?\s*divided/gi, "")
     .replace(/\(\s*,/g, "(")
+    .replace(/,+$/g, "") // 👈 removes trailing commas
     .replace(/\s{2,}/g, " ")
     .trim();
 }
@@ -357,21 +358,35 @@ function ingredientMatchesStep(ingredient: string, step: string) {
   // Exact phrase
   // =====================================================
 
-  if (ingredientText && ingredientText.length >= 4 && stepText.includes(ingredientText)) {
-    return true;
-  }
-
-  // =====================================================
-  // Keyword matching
-  // =====================================================
-
-  const strongKeywords = keywords.filter((word) => word.length >= 4);
-
   if (
-    strongKeywords.some((word) => hasCookWord(stepText, word))
+    ingredientText &&
+    ingredientText.length >= 4 &&
+    stepText.includes(ingredientText)
   ) {
     return true;
   }
+
+  // =====================================================
+  // Partial keyword matching
+  // Helps things like:
+  // "smoked paprika" -> "paprika"
+  // "dried thyme" -> "thyme"
+  // "yellow onion" -> "onion"
+  // =====================================================
+
+  const meaningfulKeywords = keywords.filter(
+    (word) =>
+      word.length >= 4 &&
+      !["yellow", "white", "fresh", "dried", "smoked", "ground"].includes(word)
+  );
+
+  if (meaningfulKeywords.some((word) => hasCookWord(stepText, word))) {
+    return true;
+  }
+
+  // =====================================================
+  // Short useful keywords
+  // =====================================================
 
   const usefulShortKeywords = keywords.filter((word) =>
     ["egg", "eggs", "oil", "ham"].includes(word)

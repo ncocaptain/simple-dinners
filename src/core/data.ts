@@ -131,9 +131,9 @@ export const NEW_BUILTIN_RECIPES: Meal[] = [
 1 (15 oz) can corn, drained
 1 (15 oz) can black beans, drained and rinsed
 1 packet chili seasoning
-shredded cheese (optional)
-sour cream (optional)
-Fresh or pickled jalapeños (optional)`,
+shredded cheese
+sour cream
+Fresh or pickled jalapeños`,
     instructions: `Brown the ground beef in a large pot over medium heat until fully cooked.
 Drain excess grease.
 Add fire-roasted tomatoes, diced tomatoes, chili beans, corn, black beans, and chili seasoning. Stir well.
@@ -452,7 +452,7 @@ Toss gently and garnish with fresh parsley before serving.`,
 1/2 tsp onion powder`,
   instructions: `Preheat oven to 375°F. Line a baking sheet with parchment paper or lightly grease a loaf pan.
 
-In a large bowl, combine breadcrumbs and milk. Let sit for 2 to 3 minutes until absorbed.
+In a large bowl, combine 1 cup breadcrumbs and 1/2 cup milk. Let sit for 2 to 3 minutes until absorbed.
 
 Add ground meat, diced onion, garlic, eggs, 2 Tbsp ketchup, 1 Tbsp Worcestershire sauce, salt, pepper, paprika, thyme, parsley, and onion powder. Mix gently with your hands until just combined. Do not overmix.
 
@@ -555,7 +555,7 @@ Garnish with cilantro, pico de gallo, and sour cream before serving.`,
   name: "Shepherd’s Pie",
   effort: "normal",
   photoUrl: "/images/normal-shepherds-pie.webp",
-  tags: ["dinner", "beef", "bake", "comfort", "casserole", "leftovers"],
+  tags: ["dinner", "beef", "bake", "comfort", "casserole", "leftovers-friendly"],
   notes: "A warm, classic comfort meal that feels right at home on chilly nights.",
   ingredients: `1 1/2 to 2 lbs Potatoes (about 3 large), peeled and quartered
 8 Tbsp butter (1 stick), divided
@@ -607,17 +607,17 @@ Bake about 30 minutes until browned and bubbling.`,
 1/4 cup grated Parmesan cheese
 1 cup mozzarella cheese, grated
 3 large bell peppers
-red pepper flakes (optional)
-fresh basil (optional)`,
+red pepper flakes
+fresh basil`,
   instructions: `Preheat oven to 375°F.
 
 Cut around the stem of each bell pepper and remove it. Slice peppers in half lengthwise and remove seeds and white membrane. Place cut-side up in a baking dish.
 
-Heat olive oil in a large skillet over medium-high heat. Brown sausage, breaking into small pieces, about 3 to 4 minutes. Drain grease if needed.
+Heat  2 tsp olive oil in a large skillet over medium-high heat. Brown sausage, breaking into small pieces, about 3 to 4 minutes. Drain grease if needed.
 
-Add tomatoes, garlic powder, onion powder, Italian seasoning, worcestershire sauce, chicken broth, and cooked rice. Stir to combine and bring to a simmer. Cook 3 to 4 minutes until liquid is mostly gone.
+Add can of tomatoes, 2 tsp garlic powder, 2 tsp onion powder, 2 tsp Italian seasoning, 1 tsp worcestershire sauce, 1/4 cup chicken broth, and cooked rice. Stir to combine and bring to a simmer. Cook 3 to 4 minutes until liquid is mostly gone.
 
-Stir in Parmesan cheese and remove from heat.
+Stir in 1/4 cup Parmesan cheese and remove from heat.
 
 Fill pepper halves with sausage mixture and top with mozzarella.
 
@@ -630,29 +630,42 @@ Cool 1 to 2 minutes. Top with fresh basil and red pepper flakes if desired and s
 
   {
   id: "quick-honey-garlic-chicken",
-  slug: "quick-honey-garlic-chicken",
+  slug: "quickhoney-garlic-chicken",
   name: "Honey Garlic Chicken",
-  effort: "quick",
-  photoUrl: "/images/quick-honey-garlic-chicken.webp",
-  tags: ["dinner", "chicken", "stovetop", "quick", "sweet-savory"],
-  notes: "Fast, simple, and family-friendly with a sweet-savory sauce that works well over rice.",
-  ingredients: `4 boneless skinless chicken breasts
-salt, to taste
-pepper, to taste
+  ingredients: `1 1/2 lbs boneless, skinless chicken breast
+2 Tbsp cornstarch (optional)
+1 Tbsp olive oil
+1/2 tsp salt
+1/2 tsp black pepper
 1/3 cup honey
 1/4 cup soy sauce
 4 cloves garlic, minced
-1 Tbsp olive oil
-1 tsp cornstarch (optional, for thickening)`,
-  instructions: `Season chicken with salt and pepper.
+1 Tbsp fresh ginger, grated (or 1/2 tsp ground ginger)
+1 Tbsp rice vinegar (or apple cider vinegar)
+1 tsp sesame oil (optional)
+1 tsp cornstarch + 2 tbsp water (for slurry)
+2 green onions, sliced
+1 tsp sesame seeds (optional)`,
+  instructions: `Pat the chicken dry and cut into bite-sized pieces. Season with  1/2 tsp salt and 1/2 tsp pepper, then toss lightly with cornstarch if using.
 
-Heat olive oil in a skillet over medium heat. Cook chicken 5 to 6 minutes per side until cooked through. Remove and set aside.
+Heat 1 tsp olive oil in a large skillet or cast iron pan over medium-high heat. Add chicken in a single layer and cook for 4 to 5 minutes without moving, until a deep golden-brown crust forms. Flip and cook another 3 to 4 minutes until nearly cooked through.
 
-In the same pan, add honey, soy sauce, and garlic. Simmer 2 to 3 minutes.
+Reduce heat to medium. Add garlic and ginger to the pan and cook for 30 to 60 seconds until fragrant.
 
-If thicker sauce is desired, stir cornstarch with 1 Tbsp water and add to pan.
+Pour in 1/3 cup honey, 1/4 cup soy sauce, 1 Tbsp vinegar, and 1 tsp sesame oil. Stir well, scraping up any browned bits from the pan.
 
-Return chicken to skillet and coat in sauce. Simmer 2 to 3 minutes and serve.`,
+Bring the sauce to a gentle simmer. Mix 1 tsp cornstarch with 2 tbsp water to create a slurry. 
+
+Stir in cornstarch slurry and cook for 2 to 3 minutes, stirring frequently, until the sauce thickens and becomes glossy.
+
+Remove from heat and toss the chicken until fully coated in the sauce.
+
+Garnish with sliced green onions and sesame seeds before serving.`,
+  photoUrl: "/images/quick-honey-garlic-chicken.webp",
+  effort: "quick",
+  tags: ["chicken", "quick", "one-pan", "sweet-savory", "weeknight", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Fast and flavorful honey garlic chicken with a sticky, glossy sauce. Great served over rice with steamed broccoli or stir-fried vegetables."
 },
 
 
