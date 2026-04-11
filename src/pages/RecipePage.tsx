@@ -621,14 +621,23 @@ const COOK_TIPS = [
 const stepIngredients = useMemo(() => {
   if (!currentStep?.trim()) return [];
 
-  // Special case: active glaze step
+  // Active glaze step: show glaze ingredients directly
   if (isActiveGlazeStep(currentStep)) {
-    return ingredients
-      .filter((ingredient) => {
-        if (isIngredientHeader(ingredient)) return false;
-        return isGlazeIngredient(ingredient);
-      })
-      .slice(0, 15);
+    const glazeItems = ingredients.filter((ingredient) => {
+      if (isIngredientHeader(ingredient)) return false;
+      return isGlazeIngredient(ingredient);
+    });
+
+    const seen = new Set<string>();
+
+    const dedupedGlazeItems = glazeItems.filter((ingredient) => {
+      const key = getIngredientDisplayKey(ingredient);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    return dedupedGlazeItems.slice(0, 15);
   }
 
   const matched = ingredients.filter((ingredient) => {
