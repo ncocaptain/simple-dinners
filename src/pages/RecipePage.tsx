@@ -265,6 +265,23 @@ function ingredientMatchesStep(ingredient: string, step: string) {
     }
   }
 
+  if (activeGlazeStep && isGlaze) {
+  if (
+    (ingredientText.includes("ketchup") && stepText.includes("ketchup")) ||
+    (ingredientText.includes("mustard") && stepText.includes("mustard")) ||
+    (ingredientText.includes("worcestershire") &&
+      stepText.includes("worcestershire")) ||
+    (ingredientText.includes("brown sugar") &&
+      stepText.includes("brown sugar"))
+  ) {
+    return true;
+  }
+
+  if (stepText.includes("glaze")) {
+    return true;
+  }
+}
+
   // =====================================================
   // Protections for stock / broth
   // =====================================================
