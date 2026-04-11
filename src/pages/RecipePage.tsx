@@ -176,7 +176,11 @@ function hasCookWord(text: string, word: string) {
 }
 
 function isGlazeIngredient(ingredient: string) {
-  return normalizeCookText(ingredient).includes("glaze");
+  const text = normalizeCookText(ingredient);
+  return (
+    text.includes("glaze") ||
+    text.includes("for glaze")
+  );
 }
 
 function isActiveGlazeStep(step: string) {
