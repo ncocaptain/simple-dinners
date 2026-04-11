@@ -1148,89 +1148,82 @@ const stepIngredients = useMemo(() => {
         </>
       )}
 
-      {!printMode && cookMode && (
-        <>
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 10,
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-              <button onClick={() => setCookMode(false)} style={topBtn}>
-                <ArrowLeft size={16} />
-                Exit Cook Mode
-              </button>
+     {!printMode && cookMode && (
+  <>
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 10,
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+    >
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+        <button onClick={() => setCookMode(false)} style={topBtn}>
+          <ArrowLeft size={16} />
+          Exit Cook Mode
+        </button>
 
-              <button onClick={handleCooked} style={topBtn}>
-                <History size={16} />
-                Mark Cooked
-              </button>
-            </div>
+        <button
+          onClick={() => setKeepAwake((prev) => !prev)}
+          style={{
+            ...cookChipBtn,
+            border: keepAwake
+              ? "1px solid rgba(34,197,94,0.45)"
+              : cookChipBtn.border,
+            background: keepAwake
+              ? "rgba(34,197,94,0.12)"
+              : cookChipBtn.background,
+            color: keepAwake ? "#86efac" : "white",
+          }}
+        >
+          <Moon size={15} />
+          {keepAwake ? "Screen Awake On" : "Keep Screen Awake"}
+        </button>
 
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <button
-                onClick={() => setKeepAwake((prev) => !prev)}
-                style={{
-                  ...cookChipBtn,
-                  border: keepAwake
-                    ? "1px solid rgba(34,197,94,0.45)"
-                    : cookChipBtn.border,
-                  background: keepAwake
-                    ? "rgba(34,197,94,0.12)"
-                    : cookChipBtn.background,
-                  color: keepAwake ? "#86efac" : "white",
-                }}
-              >
-                <Moon size={15} />
-                {keepAwake ? "Screen Awake On" : "Keep Screen Awake"}
-              </button>
+        <TipsModal tips={COOK_TIPS} />
+      </div>
+    </div>
 
-              <TipsModal tips={COOK_TIPS} />
-            </div>
-          </div>
+    {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
 
-          {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
-
-          {finishMessage && (
-            <div
-              style={{
-                position: "fixed",
-                inset: 0,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: "rgba(0,0,0,0.35)",
-                zIndex: 999,
-                padding: 24,
-              }}
-            >
-              <div
-                style={{
-                  minWidth: 280,
-                  maxWidth: 360,
-                  padding: "22px 24px",
-                  borderRadius: 22,
-                  background: "rgba(22,163,74,0.20)",
-                  border: "1px solid rgba(34,197,94,0.40)",
-                  boxShadow: "0 20px 60px rgba(0,0,0,0.45)",
-                  color: "#dcfce7",
-                  fontSize: 17,
-                  lineHeight: 1.35,
-                  fontWeight: 900,
-                  textAlign: "center",
-                  backdropFilter: "blur(8px)",
-                }}
-              >
-                {finishMessage}
-              </div>
-            </div>
-          )}
-        </>
-      )}
+    {finishMessage && (
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "rgba(0,0,0,0.35)",
+          zIndex: 999,
+          padding: 24,
+        }}
+      >
+        <div
+          style={{
+            minWidth: 280,
+            maxWidth: 360,
+            padding: "22px 24px",
+            borderRadius: 22,
+            background: "rgba(22,163,74,0.20)",
+            border: "1px solid rgba(34,197,94,0.40)",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.45)",
+            color: "#dcfce7",
+            fontSize: 17,
+            lineHeight: 1.35,
+            fontWeight: 900,
+            textAlign: "center",
+            backdropFilter: "blur(8px)",
+          }}
+        >
+          {finishMessage}
+        </div>
+      </div>
+    )}
+  </>
+)}
 
       {!cookMode && (
         <div
@@ -1456,43 +1449,48 @@ const stepIngredients = useMemo(() => {
           )}
 
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <button
-              onClick={() => setStepIndex((prev) => Math.max(0, prev - 1))}
-              style={topBtn}
-              disabled={stepIndex <= 0}
-            >
-              <ChevronLeft size={16} />
-              Previous
-            </button>
+  <button
+    onClick={() => setStepIndex((prev) => Math.max(0, prev - 1))}
+    style={topBtn}
+    disabled={stepIndex <= 0}
+  >
+    <ChevronLeft size={16} />
+    Previous
+  </button>
 
-            {!isLastStep ? (
-              <button
-                onClick={() =>
-                  setStepIndex((prev) =>
-                    Math.min(instructions.length - 1, prev + 1)
-                  )
-                }
-                style={topBtn}
-                disabled={stepIndex >= instructions.length - 1}
-              >
-                Next
-                <ChevronRight size={16} />
-              </button>
-            ) : (
-              <button
-                onClick={handleFinishCooking}
-                style={{
-                  ...topBtn,
-                  border: "1px solid rgba(34,197,94,0.45)",
-                  background: "rgba(34,197,94,0.12)",
-                  color: "#86efac",
-                }}
-              >
-                <ChefHat size={16} />
-                Finish Cooking
-              </button>
-            )}
-          </div>
+  {!isLastStep ? (
+    <button
+      onClick={() =>
+        setStepIndex((prev) =>
+          Math.min(instructions.length - 1, prev + 1)
+        )
+      }
+      style={topBtn}
+      disabled={stepIndex >= instructions.length - 1}
+    >
+      Next
+      <ChevronRight size={16} />
+    </button>
+  ) : (
+    <button
+      onClick={handleFinishCooking}
+      style={{
+        ...topBtn,
+        border: "1px solid rgba(34,197,94,0.45)",
+        background: "rgba(34,197,94,0.12)",
+        color: "#86efac",
+      }}
+    >
+      <ChefHat size={16} />
+      Finish Cooking
+    </button>
+  )}
+
+  <button onClick={handleCooked} style={topBtn}>
+    <History size={16} />
+    Mark Cooked
+  </button>
+</div>
         </div>
       ) : (
         <>
