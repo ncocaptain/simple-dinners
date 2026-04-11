@@ -433,28 +433,34 @@ Toss gently and garnish with fresh parsley before serving.`,
   },
 
  {
-  id: "normal-classic-meatloaf",
+   id: "normal-classic-meatloaf",
   slug: "normal-classic-meatloaf",
   name: "Classic Meatloaf",
   ingredients: `1 1/2 lbs ground beef
-1 cup breadcrumbs
+1 cup breadcrumbs (or crushed crackers)
 1/2 cup milk
 1 small yellow onion, finely diced
 2 cloves garlic, minced
 2 large eggs
-7 tbsp ketchup
-2 tbsp Worcestershire sauce
+2 Tbsp ketchup
+1 Tbsp Worcestershire sauce
 1 tsp salt
-1/2 tsp black pepper
+1/2 tsp pepper
 1 tsp smoked paprika
 1/2 tsp dried thyme
 1/2 tsp dried parsley
-1/2 tsp onion powder`,
+1/2 tsp onion powder
+
+FOR GLAZE
+1/3 cup ketchup (for glaze)
+2 Tbsp brown sugar (for glaze)
+1 Tbsp Worcestershire sauce (for glaze)
+1 tsp yellow mustard (for glaze)`,
   instructions: `Preheat oven to 375°F. Line a baking sheet with parchment paper or lightly grease a loaf pan.
 
 In a large bowl, combine 1 cup breadcrumbs and 1/2 cup milk. Let sit for 2 to 3 minutes until absorbed.
 
-Add ground meat, diced onion, garlic, eggs, 2 Tbsp ketchup, 1 Tbsp Worcestershire sauce, salt, pepper, paprika, thyme, parsley, and onion powder. Mix gently with your hands until just combined. Do not overmix.
+Add ground beef, diced onion, garlic, eggs, 2 Tbsp ketchup, 1 Tbsp Worcestershire sauce, salt, pepper, paprika, thyme, parsley, and onion powder. Mix gently with your hands until just combined. Do not overmix.
 
 Transfer the mixture to the prepared baking sheet or loaf pan. Shape into a loaf about 8 to 9 inches long.
 
@@ -467,7 +473,7 @@ Bake for an additional 15 to 25 minutes, until the internal temperature reaches 
 Let rest for 10 minutes before slicing and serving.`,
   photoUrl: "/images/normal-classic-meatloaf.webp",
   effort: "normal",
-  tags: ["beef", "comfort food", "classic", "oven-baked", "family dinner", "leftovers-Friendly"],
+  tags: ["beef", "comfort food", "classic", "oven-baked", "family dinner", "leftovers-friendly"],
   isVegetarian: false,
   notes: "Juicy, tender meatloaf with a sweet and tangy glaze. For extra flavor, sauté the onions and garlic before mixing. Great served with mashed potatoes and green beans."
 },
@@ -643,7 +649,7 @@ Cool 1 to 2 minutes. Top with fresh basil and red pepper flakes if desired and s
 1 Tbsp fresh ginger, grated (or 1/2 tsp ground ginger)
 1 Tbsp rice vinegar (or apple cider vinegar)
 1 tsp sesame oil (optional)
-1 tsp cornstarch + 2 tbsp water (for slurry)
+1 tsp cornstarch + 2 Tbsp water (for slurry)
 2 green onions, sliced
 1 tsp sesame seeds (optional)`,
   instructions: `Pat the chicken dry and cut into bite-sized pieces. Season with  1/2 tsp salt and 1/2 tsp pepper, then toss lightly with cornstarch if using.
@@ -654,7 +660,7 @@ Reduce heat to medium. Add garlic and ginger to the pan and cook for 30 to 60 se
 
 Pour in 1/3 cup honey, 1/4 cup soy sauce, 1 Tbsp vinegar, and 1 tsp sesame oil. Stir well, scraping up any browned bits from the pan.
 
-Bring the sauce to a gentle simmer. Mix 1 tsp cornstarch with 2 tbsp water to create a slurry. 
+Bring the sauce to a gentle simmer. Mix 1 tsp cornstarch with 2 Tbsp water to create a slurry. 
 
 Stir in cornstarch slurry and cook for 2 to 3 minutes, stirring frequently, until the sauce thickens and becomes glossy.
 
@@ -2386,11 +2392,11 @@ Top with remaining mozzarella and bake 25 minutes until bubbly.`,
     slug: "normal-chickpea-curry",
     name: "Chickpea Curry",
     ingredients: `2 (15 oz) cans chickpeas, drained and rinsed
-1 tbsp olive oil
+1 Tbsp olive oil
 1 small yellow onion, finely diced
 3 cloves garlic, minced
 1 medium red pepper, diced
-1 tbsp fresh ginger, grated
+1 Tbsp fresh ginger, grated
 1 tsp ground cumin
 1 tsp ground coriander
 1 tsp turmeric
