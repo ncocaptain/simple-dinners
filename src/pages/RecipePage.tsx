@@ -564,85 +564,83 @@ const COOK_TIPS = [
   // Builder: local state
   // =====================================================
 
-  const [cookMode, setCookMode] = useState(startInCookMode);
-  
-  const [stepIndex, setStepIndex] = useState(0);
-  const [historyCount, setHistoryCount] = useState(0);
-  const [savedState, setSavedState] = useState<"idle" | "saved" | "already">(
-    "idle"
-  );
-  const [saveMessage, setSaveMessage] = useState("");
-  const [finishMessage, setFinishMessage] = useState("");
-  const [checkedIngredients, setCheckedIngredients] = useState<
-    Record<number, boolean>
-  >({});
-  const [timerSeconds, setTimerSeconds] = useState<number | null>(null);
-  const [timerRunning, setTimerRunning] = useState(false);
-  const [touchStartX, setTouchStartX] = useState<number | null>(null);
-  const [touchEndX, setTouchEndX] = useState<number | null>(null);
-  const [keepAwake, setKeepAwake] = useState(false);
+const [cookMode, setCookMode] = useState(startInCookMode);
 
-  const wakeLockRef = useRef<any>(null);
-
-  const [userNote, setUserNote] = useState<string>(() =>
-  getRecipeUserNote(recipeNoteKey)
+const [stepIndex, setStepIndex] = useState(0);
+const [historyCount, setHistoryCount] = useState(0);
+const [savedState, setSavedState] = useState<"idle" | "saved" | "already">(
+  "idle"
 );
+const [saveMessage, setSaveMessage] = useState("");
+const [finishMessage, setFinishMessage] = useState("");
+const [checkedIngredients, setCheckedIngredients] = useState<
+  Record<number, boolean>
+>({});
+const [timerSeconds, setTimerSeconds] = useState<number | null>(null);
+const [timerRunning, setTimerRunning] = useState(false);
+const [touchStartX, setTouchStartX] = useState<number | null>(null);
+const [touchEndX, setTouchEndX] = useState<number | null>(null);
+const [keepAwake, setKeepAwake] = useState(false);
 
-  // =====================================================
-  // Builder: empty state
-  // =====================================================
+const wakeLockRef = useRef<any>(null);
+const recipeNoteKey = recipe?.slug || recipe?.name || "";
 
-  if (!recipe) {
-    return (
+const [userNote, setUserNote] = useState<string>("");
+
+// =====================================================
+// Builder: empty state
+// =====================================================
+
+if (!recipe) {
+  return (
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        padding: "40px 20px 120px",
+      }}
+    >
       <div
         style={{
           width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          padding: "40px 20px 120px",
+          maxWidth: 700,
+          textAlign: "center",
+          padding: 24,
+          borderRadius: 20,
+          background: "rgba(255,255,255,0.04)",
+          border: "1px solid rgba(255,255,255,0.08)",
         }}
       >
-        <div
+        <h2 style={{ marginTop: 0 }}>Recipe not found</h2>
+        <p style={{ opacity: 0.7, marginBottom: 20 }}>
+          This recipe could not be loaded.
+        </p>
+
+        <button
+          onClick={() => navigate("/recipes")}
           style={{
-            width: "100%",
-            maxWidth: 700,
-            textAlign: "center",
-            padding: 24,
-            borderRadius: 20,
-            background: "rgba(255,255,255,0.04)",
-            border: "1px solid rgba(255,255,255,0.08)",
+            border: "none",
+            borderRadius: 12,
+            padding: "12px 16px",
+            background: "rgba(34,197,94,0.12)",
+            color: "#86efac",
+            fontWeight: 800,
+            cursor: "pointer",
           }}
         >
-          <h2 style={{ marginTop: 0 }}>Recipe not found</h2>
-          <p style={{ opacity: 0.7, marginBottom: 20 }}>
-            This recipe could not be loaded.
-          </p>
-
-          <button
-            onClick={() => navigate("/recipes")}
-            style={{
-              border: "none",
-              borderRadius: 12,
-              padding: "12px 16px",
-              background: "rgba(34,197,94,0.12)",
-              color: "#86efac",
-              fontWeight: 800,
-              cursor: "pointer",
-            }}
-          >
-            Back to Recipes
-          </button>
-        </div>
+          Back to Recipes
+        </button>
       </div>
-    );
-  }
+    </div>
+  );
+}
+
+const safeRecipe = recipe;
 
   // =====================================================
   // Builder: derived recipe data
   // =====================================================
-
-  const safeRecipe = recipe;
-  const recipeNoteKey = safeRecipe.slug || safeRecipe.name || "";
 
   const ingredients = useMemo(
     () => splitLines(safeRecipe.ingredients),
