@@ -458,7 +458,7 @@ Add ground meat, diced onion, garlic, eggs, 2 Tbsp ketchup, 1 Tbsp Worcestershir
 
 Transfer the mixture to the prepared baking sheet or loaf pan. Shape into a loaf about 8 to 9 inches long.
 
-In a small bowl, whisk together 5 Tbspketchup, brown sugar, 1 Tbsp Worcestershire sauce, and mustard. Spread half of the glaze over the meatloaf.
+In a small bowl, whisk together 5 Tbsp ketchup, brown sugar, 1 Tbsp Worcestershire sauce, and mustard. Spread half of the glaze over the meatloaf.
 
 Bake for 40 minutes. Remove from the oven, spread the remaining glaze on top, and return to the oven.
 
@@ -467,7 +467,7 @@ Bake for an additional 15 to 25 minutes, until the internal temperature reaches 
 Let rest for 10 minutes before slicing and serving.`,
   photoUrl: "/images/normal-classic-meatloaf.webp",
   effort: "normal",
-  tags: ["beef", "comfort food", "classic", "oven-baked", "family dinner"],
+  tags: ["beef", "comfort food", "classic", "oven-baked", "family dinner", "leftovers-Friendly"],
   isVegetarian: false,
   notes: "Juicy, tender meatloaf with a sweet and tangy glaze. For extra flavor, sauté the onions and garlic before mixing. Great served with mashed potatoes and green beans."
 },
@@ -480,30 +480,28 @@ Let rest for 10 minutes before slicing and serving.`,
     photoUrl: "/images/normal-tilapia-asparagus-foil-packets.webp",
     tags: ["dinner", "seafood", "fish", "foil-packets", "bake", "healthy"],
     notes: "A light and easy fish dinner with almost no cleanup.",
-    ingredients: `1 bunch asparagus, tough ends removed and divided
-2 yellow squash, sliced and divided
-garlic powder, to taste
-4 (6 oz) tilapia fillets, thawed
-salt, to taste
-paprika, to taste
-4 Tbsp butter, divided
-4 tsp lemon juice, divided
-1 tsp dried oregano, divided
-Capers (optional)`,
+    ingredients: `1 bunch asparagus
+2 yellow squash
+1/4 tsp garlic powder
+4 tilapia fillets, thawed
+1/4 tsp salt
+1/4 tsp paprika
+4 Tbsp butter
+4 tsp lemon juice
+1 tsp dried oregano`,
     instructions: `Preheat oven to 375°F.
 
 Lay out four 2-foot sheets of aluminum foil.
 
-For each packet:
-Place asparagus slightly off-center on the foil, forming a base layer.
+Cut off end of asparagus and place slightly off-center on the foil, forming a base layer.
 Top with sliced squash and sprinkle with garlic powder.
 
 Place one tilapia fillet on top of the vegetables.
 Season with salt and paprika.
 
-Add 1 tablespoon butter on top of each fillet.
-Drizzle with 1 teaspoon lemon juice.
-Sprinkle with dried oregano and optional capers.
+Add 2 Tbsp butter on top of each fillet.
+Drizzle with 2 tsp lemon juice.
+Sprinkle with dried oregano.
 
 Fold foil over and seal all three edges tightly to create a packet.
 
