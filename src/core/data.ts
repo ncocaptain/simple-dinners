@@ -122,7 +122,7 @@ export const NEW_BUILTIN_RECIPES: Meal[] = [
     name: "Chili",
     effort: "quick",
     photoUrl: "/images/quick-beef-chili.webp",
-    tags: ["dinner", "beef", "one-pot", "spicy", "comfort", "quick", "leftovers"],
+    tags: ["dinner", "beef", "one-pot", "spicy", "comfort", "quick", "leftovers-friendly"],
     notes: "A hearty, no-fuss chili that is easy to throw together and even better the next day.",
     ingredients: `1 lb ground beef
 2 (14.5 oz) cans fire-roasted diced tomatoes
@@ -132,15 +132,14 @@ export const NEW_BUILTIN_RECIPES: Meal[] = [
 1 (15 oz) can black beans, drained and rinsed
 1 packet chili seasoning
 shredded cheese (optional)
-Sour cream (optional)
+sour cream (optional)
 Fresh or pickled jalapeños (optional)`,
     instructions: `Brown the ground beef in a large pot over medium heat until fully cooked.
 Drain excess grease.
 Add fire-roasted tomatoes, diced tomatoes, chili beans, corn, black beans, and chili seasoning. Stir well.
 Bring to a gentle simmer.
 Reduce heat and simmer uncovered for 30 minutes, stirring occasionally.
-Taste and adjust seasoning if needed.
-Serve hot on its own or with crackers or cornbread. Top as desired.`,
+Serve hot and top as desired.`,
   },
 
   {
@@ -149,7 +148,7 @@ Serve hot on its own or with crackers or cornbread. Top as desired.`,
     name: "Chicken Green Bean Mushroom Bake",
     effort: "normal",
     photoUrl: "/images/normal-chicken-greenbean-mushroom-bake.webp",
-    tags: ["dinner", "chicken", "bake", "casserole", "comfort"],
+    tags: ["dinner", "chicken", "bake", "casserole", "comfort", "leftovers-friendly"],
     notes: "A creamy baked chicken dinner that works well for cozy weeknights and reheats nicely.",
     ingredients: `4 skinless chicken breasts
 8 oz baby bella mushrooms, sliced
@@ -160,17 +159,17 @@ Serve hot on its own or with crackers or cornbread. Top as desired.`,
 1 cup white rice
 2 cups water
 1/2 cup shredded mozzarella cheese
-salt, to taste
- pepper, to taste`,
+salt
+ pepper`,
     instructions: `Preheat oven to 375°F.
-In a baking dish, mix 1 can cream of mushroom soup, mushrooms, and drained green beans.
-In a skillet over medium-high heat, melt butter and brown chicken on both sides with garlic, minced.
+In a baking dish, mix  1 can of cream of mushroom soup, mushrooms, and green beans.
+In a skillet over medium-high heat, melt butter and brown chicken on both sides with garlic.
 Place chicken on top of the mixture in the baking dish.
-Spread the remaining can of cream of mushroom soup over the chicken.
+Spread the remaining  1 can of cream of mushroom soup over the chicken.
 Cover tightly with foil and bake for 30 minutes, or until chicken reaches 165°F.
 Meanwhile, bring 2 cups water to a boil, add rice, reduce heat, cover, and simmer 15 minutes. Rest 5 minutes.
 Uncover dish, sprinkle mozzarella on top, and return to oven 5 to 10 minutes until melted.
-Serve chicken and mushroom mixture over rice; season with salt and pepper to taste.`,
+Serve chicken and mushroom mixture over rice; season with salt and pepper.`,
   },
 
   {
@@ -181,35 +180,31 @@ Serve chicken and mushroom mixture over rice; season with salt and pepper to tas
     photoUrl: "/images/big-beef-salisbury-steak.webp",
     tags: ["dinner", "beef", "stovetop", "comfort", "gravy"],
     notes: "Classic comfort food with rich mushroom gravy that is perfect over mashed Potatoes.",
-    ingredients: `FOR STEAKS
-1 lb ground beef
+    ingredients: `1 lb ground beef
 1/4 cup panko breadcrumbs
 1 large egg, beaten
-2 tsp ketchup
+5 tsp ketchup
 1 tsp dijon mustard
 1/2 tsp dried oregano
 1 Tbsp olive oil
-
-FOR GRAVY
 2 Tbsp butter
 2 Tbsp flour
 1 1/2 cups beef stock
-1 Tbsp ketchup
 1 tsp worcestershire sauce
 1/2 tsp onion powder
 8 oz baby bella mushrooms, sliced
-salt, to taste
-pepper, to taste`,
-    instructions: `In a bowl, mix ground beef, breadcrumbs, egg, ketchup, dijon, and oregano until just combined.
+salt
+pepper`,
+    instructions: `In a bowl, mix ground beef, breadcrumbs, egg, 2 tsp ketchup, dijon, and oregano until just combined.
 Shape into 4 oval patties, about 3/4-inch thick.
 Heat olive oil in a large skillet over medium-high heat.
 Cook patties about 3 minutes per side until browned; transfer to a plate.
 Reduce heat to medium; melt butter in the same skillet.
 Whisk in flour until smooth; cook 1 to 2 minutes.
 Reduce heat to medium-low and slowly whisk in beef stock until smooth.
-Stir in ketchup, worcestershire, and onion powder.
+Stir in 1 Tbsp ketchup, worcestershire, and onion powder.
 Add mushrooms and simmer about 5 minutes until thickened; season with salt and pepper.
-Return patties to skillet, nestle into gravy, cover, and cook 10 minutes until 160°F.
+Return patties to skillet, nestle into gravy, cover, and cook 10 minutes or until temperature reaches 160°F.
 Serve over mashed Potatoes with mushroom gravy spooned on top.`,
   },
 
@@ -227,9 +222,7 @@ Serve over mashed Potatoes with mushroom gravy spooned on top.`,
 1/2 tsp salt
 1 cup milk
 frying oil (enough for about 2 inches deep)
-Old Bay seasoning (to taste)
-
-FOR SAUCE:
+Old Bay seasoning
 1/2 cup butter
 1 Tbsp garlic, minced
 1 Tbsp lemon juice
@@ -243,10 +236,10 @@ Remove with a slotted spoon and drain on paper towels.
 
 In a separate pan, melt butter over low heat.
 Add garlic and lemon juice and stir.
-Add chopped cherry peppers and about 1 1/2 tablespoons Old Bay seasoning.
+Add cherry peppers and about 1 1/2 tablespoons Old Bay seasoning.
 Sauté over low heat for 2 to 3 minutes.
 
-Drizzle the butter sauce and peppers over fried shrimp.
+Drizzle the mixture over the fried shrimp.
 Serve warm with ranch dressing.`,
   },
 
@@ -268,45 +261,32 @@ Serve warm with ranch dressing.`,
 1 tsp garlic, minced
 1 lb ground beef
 1/2 tsp worcestershire sauce
-
-FOR MUSHROOM SWISS SAUCE:
-1/2 cup (1 stick) butter
+3/4 cup (1 1/2 stick) butter
 8 oz baby bella mushrooms, sliced
 1/4 cup beef broth
 1/4 cup milk
 1/2 cup shredded Swiss cheese
-1/4 tsp salt
-1/4 tsp pepper
-
-FOR SEASONED butter:
-1/4 cup (1/2 stick) butter, melted
 1 tsp garlic salt
 2 tsp sesame seeds
-
-FOR ASSEMBLY:
 1 package King’s Hawaiian Rolls (12 count)
 12 slices Swiss cheese`,
     instructions: `Preheat oven to 350°F. Spray a 9x13-inch baking dish with nonstick spray.
 
-HAMBURGER:
-In a small bowl, mix seasoned salt, hamburger seasoning, salt, and pepper.
+In a small bowl, mix seasoned salt, hamburger seasoning, 1/4 tsp salt, and 1/4 tsppepper.
 Heat oil in a large skillet over medium heat.
 Add onion and garlic and cook 1 to 2 minutes.
 Add ground beef and break apart with a spoon.
 Stir in worcestershire and seasoning mixture.
 Cook 8 to 10 minutes until no pink remains. Drain and set aside.
 
-MUSHROOM SWISS SAUCE:
-In a medium saucepan over medium heat, melt butter.
+In a medium saucepan over medium heat, melt  1/2 cup butter.
 Add mushrooms and cook 5 to 10 minutes until softened.
 Add beef broth and milk.
 Reduce heat and slowly whisk in shredded Swiss cheese until melted.
 Stir in cooked hamburger mixture and combine well.
 
-SEASONED butter:
-Mix melted butter, garlic salt, and sesame seeds in a small bowl.
+Melt 1/4 cup butter and mix with garlic salt, and sesame seeds in a small bowl.
 
-ASSEMBLY:
 Slice rolls in half and place bottom halves in baking dish.
 Layer 6 slices Swiss cheese on bottom buns.
 Spread hamburger mixture evenly over cheese.
@@ -335,7 +315,7 @@ Serve warm.`,
 1 (13 oz) jar pizza sauce
 4 cups shredded mozzarella cheese`,
     instructions: `Preheat oven to 400°F.
-Drizzle 3 tablespoons olive oil onto a half sheet pan and brush to coat evenly.
+Drizzle 3 Tbsp olive oil onto a half sheet pan and brush to coat evenly.
 Sprinkle cornmeal over the pan.
 
 Stretch pizza dough into a rectangle to fit the sheet pan.
@@ -403,10 +383,10 @@ Serve hot.`,
     name: "Shrimp and Sausage Bake",
     effort: "normal",
     photoUrl: "/images/normal-shrimp-and-sausage-bake.webp",
-    tags: ["dinner", "sheet-pan", "seafood", "shellfish", "shrimp", "sausage", "one-pan", "leftovers"],
+    tags: ["dinner", "sheet-pan", "seafood", "shellfish", "shrimp", "sausage", "one-pan", "leftovers-friendly"],
     notes: "A low-mess sheet-pan dinner with big flavor and a nice mix of protein and veggies.",
     ingredients: `Cooking spray
-1 lb red potatoes (about 3 cups), cut into 1-inch pieces
+3 cups red potatoes, cut into 1-inch pieces
 4 Tbsp butter, melted
 3 Tbsp olive oil
 2 tsp garlic, minced
@@ -415,43 +395,37 @@ Serve hot.`,
 1/2 tsp garlic powder
 1/2 tsp seasoned salt
 1 tsp paprika
-1/4 tsp cayenne pepper (optional)
-
+1/4 tsp cayenne pepper
 1 lb extra-large shrimp, peeled and deveined
 1 package smoked sausage, sliced into coins
 1 large yellow onion, cut into 1/2-inch pieces
 1 red bell pepper, cut into 1-inch pieces
 1 green bell pepper, cut into 1-inch pieces
 1 can corn, drained
-Fresh parsley (optional, for garnish)`,
+Fresh parsley`,
     instructions: `Preheat oven to 400°F.
-Lightly coat a large sheet pan with cooking spray.
+Lightly coat a large sheet pan with cooking spray. Add cut potatoes to the sheet pan.
 
-Add cut Potatoes to the sheet pan.
+In a small bowl, whisk together melted butter, olive oil, garlic, dried parsley, dried oregano, garlic powder, 
+seasoned salt, paprika, and cayenne pepper. 
 
-In a small bowl, whisk together melted butter, olive oil, garlic, dried parsley, dried oregano, garlic powder, seasoned salt, paprika, and optional cayenne.
-
-Remove 2 tablespoons of this mixture and toss with Potatoes until evenly coated.
-Spread Potatoes into an even layer and bake for 15 minutes.
+Remove 2 tablespoons of this mixture and toss with potatoes until evenly coated. Spread potatoes into an even layer 
+and bake for 15 minutes.
 
 Meanwhile, pat shrimp dry and toss with 2 1/2 tablespoons of the butter-herb mixture. Set aside.
 
-Slice sausage into coins.
-Cut onion into 1/2-inch pieces.
-Cut bell peppers into 1-inch pieces.
-Drain corn thoroughly.
+Slice sausage into coins, cut onion into 1/2-inch pieces, cut bell peppers into 1-inch pieces and drain corn thoroughly.
 
-Remove Potatoes from oven and toss.
-Push Potatoes to one side of the sheet pan.
-Add sausage, onion, and bell peppers to the other side.
+Remove potatoes from oven and toss. Push potatoes to one side of the sheet pan. Add sausage, onion, and bell peppers 
+to the other side.
 
-Pour remaining herb-butter mixture over everything and toss well.
-Spread into an even layer and return to oven for 15 minutes.
+Pour remaining herb-butter mixture over everything and toss well. Spread into an even layer and return to 
+oven for 15 minutes. 
 
 Toss and bake an additional 8 minutes.
 
-Remove from oven and space vegetables evenly.
-Add shrimp to pan and bake 6 minutes, or until shrimp is cooked through and vegetables are crisp-tender.
+Remove from oven and space vegetables evenly. Add shrimp to pan and bake 6 minutes, or until shrimp is cooked through 
+and vegetables are crisp-tender.
 
 Add drained corn on top and bake 1 additional minute.
 
