@@ -455,16 +455,16 @@ FOR GLAZE
 1/3 cup ketchup (for glaze)
 2 Tbsp brown sugar (for glaze)
 1 Tbsp Worcestershire sauce (for glaze)
-1 tsp yellow mustard (for glaze)`,
+1 tsp mustard (for glaze)`,
   instructions: `Preheat oven to 375°F. Line a baking sheet with parchment paper or lightly grease a loaf pan.
 
 In a large bowl, combine 1 cup breadcrumbs and 1/2 cup milk. Let sit for 2 to 3 minutes until absorbed.
 
-Add ground beef, diced onion, garlic, eggs, 2 Tbsp ketchup, 1 Tbsp Worcestershire sauce, salt, pepper, paprika, thyme, parsley, and onion powder. Mix gently with your hands until just combined. Do not overmix.
+Add ground beef, diced onion, garlic, eggs, 2 Tbsp ketchup, 1 Tbsp Worcestershire sauce, 1 tsp salt, 1/2 tsp pepper, 1 tsp smoked paprika, 1/2 tsp thyme, 1/2 tsp parsley, and 1/2 tsp onion powder. Mix gently with your hands until just combined. Do not overmix.
 
 Transfer the mixture to the prepared baking sheet or loaf pan. Shape into a loaf about 8 to 9 inches long.
 
-In a small bowl, whisk together 5 Tbsp ketchup, brown sugar, 1 Tbsp Worcestershire sauce, and mustard. Spread half of the glaze over the meatloaf.
+In a small bowl, whisk together 5 Tbsp ketchup, 2 Tbsp brown sugar, 1 Tbsp Worcestershire sauce, and 1 tsp mustard. Spread half of the glaze over the meatloaf.
 
 Bake for 40 minutes. Remove from the oven, spread the remaining glaze on top, and return to the oven.
 

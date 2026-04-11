@@ -49,8 +49,16 @@ function cleanIngredientText(text: string) {
     .replace(/,?\s*optional/gi, "")
     .replace(/,?\s*divided/gi, "")
     .replace(/\(\s*,/g, "(")
-    .replace(/,+$/g, "") // 👈 removes trailing commas
+    .replace(/\bfor glaze\b/gi, "") // remove "for glaze"
+    .replace(/,+$/, "") // 🔥 remove trailing commas
     .replace(/\s{2,}/g, " ")
+    .trim();
+}
+function formatIngredientDisplay(text: string) {
+  return String(text || "")
+    .replace(/\b\w/g, (c) => c.toUpperCase()) // capitalize words
+    .replace(/\s+/g, " ")
+    .replace(/,+$/, "") // remove trailing commas
     .trim();
 }
 
@@ -1384,10 +1392,10 @@ const stepIngredients = useMemo(() => {
       >
         <CheckCircle2 size={14} style={{ opacity: 0.4 }} />
         <span style={{ fontSize: 13 }}>
-          {typeof getCookModeIngredientLabel === "function"
-            ? getCookModeIngredientLabel(ingredient)
-            : ingredient}
-        </span>
+  {typeof getCookModeIngredientLabel === "function"
+    ? formatIngredientDisplay(getCookModeIngredientLabel(ingredient))
+    : formatIngredientDisplay(ingredient)}
+</span>
       </div>
     ))}
   </div>
