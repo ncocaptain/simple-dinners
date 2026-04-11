@@ -436,33 +436,29 @@ Toss gently and garnish with fresh parsley before serving.`,
   id: "normal-classic-meatloaf",
   slug: "normal-classic-meatloaf",
   name: "Classic Meatloaf",
-  ingredients: `1 1/2 lbs ground beef (80/20 preferred) or 1 lb beef + 1/2 lb ground pork
-1 cup breadcrumbs (or crushed crackers)
+  ingredients: `1 1/2 lbs ground beef
+1 cup breadcrumbs
 1/2 cup milk
 1 small yellow onion, finely diced
 2 cloves garlic, minced
 2 large eggs
-2 tbsp ketchup
-1 tbsp Worcestershire sauce
+7 tbsp ketchup
+2 tbsp Worcestershire sauce
 1 tsp salt
 1/2 tsp black pepper
-1 tsp smoked paprika (optional)
+1 tsp smoked paprika
 1/2 tsp dried thyme
 1/2 tsp dried parsley
-1/2 tsp onion powder
-1/3 cup ketchup (for glaze)
-2 tbsp brown sugar (for glaze)
-1 tbsp Worcestershire sauce (for glaze)
-1 tsp yellow mustard (optional, for glaze)`,
+1/2 tsp onion powder`,
   instructions: `Preheat oven to 375°F. Line a baking sheet with parchment paper or lightly grease a loaf pan.
 
 In a large bowl, combine breadcrumbs and milk. Let sit for 2 to 3 minutes until absorbed.
 
-Add ground meat, diced onion, garlic, eggs, ketchup, Worcestershire sauce, salt, pepper, and spices. Mix gently with your hands until just combined. Do not overmix.
+Add ground meat, diced onion, garlic, eggs, 2 Tbsp ketchup, 1 Tbsp Worcestershire sauce, salt, pepper, paprika, thyme, parsley, and onion powder. Mix gently with your hands until just combined. Do not overmix.
 
 Transfer the mixture to the prepared baking sheet or loaf pan. Shape into a loaf about 8 to 9 inches long.
 
-In a small bowl, whisk together ketchup, brown sugar, Worcestershire sauce, and mustard. Spread half of the glaze over the meatloaf.
+In a small bowl, whisk together 5 Tbspketchup, brown sugar, 1 Tbsp Worcestershire sauce, and mustard. Spread half of the glaze over the meatloaf.
 
 Bake for 40 minutes. Remove from the oven, spread the remaining glaze on top, and return to the oven.
 
