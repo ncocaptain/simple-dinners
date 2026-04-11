@@ -621,6 +621,16 @@ const COOK_TIPS = [
 const stepIngredients = useMemo(() => {
   if (!currentStep?.trim()) return [];
 
+  // Special case: active glaze step
+  if (isActiveGlazeStep(currentStep)) {
+    return ingredients
+      .filter((ingredient) => {
+        if (isIngredientHeader(ingredient)) return false;
+        return isGlazeIngredient(ingredient);
+      })
+      .slice(0, 15);
+  }
+
   const matched = ingredients.filter((ingredient) => {
     if (isIngredientHeader(ingredient)) return false;
     return ingredientMatchesStep(ingredient, currentStep);
