@@ -618,7 +618,7 @@ const stepIngredients = useMemo(() => {
     return true;
   });
 
-  return deduped.slice(0, 6);
+  return deduped.slice(0, 10);
 }, [ingredients, currentStep]);
 
   // =====================================================
