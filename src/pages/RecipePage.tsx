@@ -524,26 +524,24 @@ type RecipePageProps = {
   };
 };
 
-// =====================================================
-// Builder: page
-// =====================================================
-
 export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const { slug = "" } = useParams();
+
   const RECIPE_TIPS = [
-  "Select ingredients to add only what you need",
-  "Save recipes to your cookbook",
-  "Use Cook Mode for step-by-step guidance",
-  "Tap back to return to your plan",
-];
-const COOK_TIPS = [
-  "Swipe left or right to move between steps",
-  "Start timers when detected",
-  "Ingredients match the current step",
-  "Mark Cooked to track history",
-];
+    "Select ingredients to add only what you need",
+    "Save recipes to your cookbook",
+    "Use Cook Mode for step-by-step guidance",
+    "Tap back to return to your plan",
+  ];
+
+  const COOK_TIPS = [
+    "Swipe left or right to move between steps",
+    "Start timers when detected",
+    "Ingredients match the current step",
+    "Mark Cooked to track history",
+  ];
 
   // =====================================================
   // Builder: route state
@@ -564,157 +562,101 @@ const COOK_TIPS = [
   // Builder: local state
   // =====================================================
 
-const [cookMode, setCookMode] = useState(startInCookMode);
-
-const [stepIndex, setStepIndex] = useState(0);
-const [historyCount, setHistoryCount] = useState(0);
-const [savedState, setSavedState] = useState<"idle" | "saved" | "already">(
-  "idle"
-);
-const [saveMessage, setSaveMessage] = useState("");
-const [finishMessage, setFinishMessage] = useState("");
-const [checkedIngredients, setCheckedIngredients] = useState<
-  Record<number, boolean>
->({});
-const [timerSeconds, setTimerSeconds] = useState<number | null>(null);
-const [timerRunning, setTimerRunning] = useState(false);
-const [touchStartX, setTouchStartX] = useState<number | null>(null);
-const [touchEndX, setTouchEndX] = useState<number | null>(null);
-const [keepAwake, setKeepAwake] = useState(false);
-
-const wakeLockRef = useRef<any>(null);
-const recipeNoteKey = recipe?.slug || recipe?.name || "";
-
-const [userNote, setUserNote] = useState<string>("");
-
-// =====================================================
-// Builder: empty state
-// =====================================================
-
-if (!recipe) {
-  return (
-    <div
-      style={{
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        padding: "40px 20px 120px",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: 700,
-          textAlign: "center",
-          padding: 24,
-          borderRadius: 20,
-          background: "rgba(255,255,255,0.04)",
-          border: "1px solid rgba(255,255,255,0.08)",
-        }}
-      >
-        <h2 style={{ marginTop: 0 }}>Recipe not found</h2>
-        <p style={{ opacity: 0.7, marginBottom: 20 }}>
-          This recipe could not be loaded.
-        </p>
-
-        <button
-          onClick={() => navigate("/recipes")}
-          style={{
-            border: "none",
-            borderRadius: 12,
-            padding: "12px 16px",
-            background: "rgba(34,197,94,0.12)",
-            color: "#86efac",
-            fontWeight: 800,
-            cursor: "pointer",
-          }}
-        >
-          Back to Recipes
-        </button>
-      </div>
-    </div>
+  const [cookMode, setCookMode] = useState(startInCookMode);
+  const [stepIndex, setStepIndex] = useState(0);
+  const [historyCount, setHistoryCount] = useState(0);
+  const [savedState, setSavedState] = useState<"idle" | "saved" | "already">(
+    "idle"
   );
-}
+  const [saveMessage, setSaveMessage] = useState("");
+  const [finishMessage, setFinishMessage] = useState("");
+  const [checkedIngredients, setCheckedIngredients] = useState<
+    Record<number, boolean>
+  >({});
+  const [timerSeconds, setTimerSeconds] = useState<number | null>(null);
+  const [timerRunning, setTimerRunning] = useState(false);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
+  const [keepAwake, setKeepAwake] = useState(false);
+  const [userNote, setUserNote] = useState<string>("");
 
-const safeRecipe = recipe;
+  const wakeLockRef = useRef<any>(null);
+  const recipeNoteKey = recipe?.slug || recipe?.name || "";
 
   // =====================================================
   // Builder: derived recipe data
   // =====================================================
 
   const ingredients = useMemo(
-    () => splitLines(safeRecipe.ingredients),
-    [safeRecipe.ingredients]
+    () => splitLines(recipe?.ingredients),
+    [recipe?.ingredients]
   );
 
   const instructions = useMemo(
-    () => splitLines(safeRecipe.instructions),
-    [safeRecipe.instructions]
+    () => splitLines(recipe?.instructions),
+    [recipe?.instructions]
   );
 
-  const photoUrl = normalizePhotoUrl(safeRecipe.photoUrl);
+  const photoUrl = normalizePhotoUrl(recipe?.photoUrl);
   const currentStep = instructions[stepIndex] || "";
   const detectedTimerSeconds = extractTimerSeconds(currentStep);
   const isLastStep =
     instructions.length > 0 && stepIndex >= instructions.length - 1;
-  const isGrilling = Array.isArray(safeRecipe.tags)
-    ? safeRecipe.tags.includes("grilling")
+  const isGrilling = Array.isArray(recipe?.tags)
+    ? recipe.tags.includes("grilling")
     : false;
 
-    
+  const stepIngredients = useMemo(() => {
+    if (!currentStep?.trim()) return [];
 
-const stepIngredients = useMemo(() => {
-  if (!currentStep?.trim()) return [];
+    if (isActiveGlazeStep(currentStep)) {
+      const glazeItems = ingredients.filter((ingredient) => {
+        if (isIngredientHeader(ingredient)) return false;
+        return isGlazeIngredient(ingredient);
+      });
 
-  // Active glaze step: show glaze ingredients directly
-  if (isActiveGlazeStep(currentStep)) {
-    const glazeItems = ingredients.filter((ingredient) => {
+      const seen = new Set<string>();
+
+      const dedupedGlazeItems = glazeItems.filter((ingredient) => {
+        const key = getIngredientDisplayKey(ingredient);
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+
+      return dedupedGlazeItems.slice(0, 15);
+    }
+
+    const matched = ingredients.filter((ingredient) => {
       if (isIngredientHeader(ingredient)) return false;
-      return isGlazeIngredient(ingredient);
+      return ingredientMatchesStep(ingredient, currentStep);
     });
 
     const seen = new Set<string>();
 
-    const dedupedGlazeItems = glazeItems.filter((ingredient) => {
+    const deduped = matched.filter((ingredient) => {
       const key = getIngredientDisplayKey(ingredient);
       if (seen.has(key)) return false;
       seen.add(key);
       return true;
     });
 
-    return dedupedGlazeItems.slice(0, 15);
-  }
-
-  const matched = ingredients.filter((ingredient) => {
-    if (isIngredientHeader(ingredient)) return false;
-    return ingredientMatchesStep(ingredient, currentStep);
-  });
-
-  const seen = new Set<string>();
-
-  const deduped = matched.filter((ingredient) => {
-    const key = getIngredientDisplayKey(ingredient);
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-
-  return deduped.slice(0, 15);
-}, [ingredients, currentStep]);
+    return deduped.slice(0, 15);
+  }, [ingredients, currentStep]);
 
   // =====================================================
   // Builder: effects
   // =====================================================
 
   useEffect(() => {
-    if (!safeRecipe.slug) return;
-    const history = getCookHistoryFor(safeRecipe.slug);
+    if (!recipe?.slug) return;
+    const history = getCookHistoryFor(recipe.slug);
     setHistoryCount(history?.timesCooked ?? 0);
-  }, [safeRecipe.slug]);
+  }, [recipe?.slug]);
 
   useEffect(() => {
-  setUserNote(getRecipeUserNote(recipeNoteKey));
-}, [recipeNoteKey]);
+    setUserNote(getRecipeUserNote(recipeNoteKey));
+  }, [recipeNoteKey]);
 
   useEffect(() => {
     if (!printMode) return;
@@ -861,6 +803,57 @@ const stepIngredients = useMemo(() => {
   }, []);
 
   // =====================================================
+  // Builder: empty state
+  // =====================================================
+
+  if (!recipe) {
+    return (
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          padding: "40px 20px 120px",
+        }}
+      >
+        <div
+          style={{
+            width: "100%",
+            maxWidth: 700,
+            textAlign: "center",
+            padding: 24,
+            borderRadius: 20,
+            background: "rgba(255,255,255,0.04)",
+            border: "1px solid rgba(255,255,255,0.08)",
+          }}
+        >
+          <h2 style={{ marginTop: 0 }}>Recipe not found</h2>
+          <p style={{ opacity: 0.7, marginBottom: 20 }}>
+            This recipe could not be loaded.
+          </p>
+
+          <button
+            onClick={() => navigate("/recipes")}
+            style={{
+              border: "none",
+              borderRadius: 12,
+              padding: "12px 16px",
+              background: "rgba(34,197,94,0.12)",
+              color: "#86efac",
+              fontWeight: 800,
+              cursor: "pointer",
+            }}
+          >
+            Back to Recipes
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const safeRecipe = recipe;
+
+  // =====================================================
   // Builder: actions
   // =====================================================
 
@@ -894,20 +887,22 @@ const stepIngredients = useMemo(() => {
     await navigator.clipboard.writeText(shareUrl);
     setSaveMessage("Link copied!");
   };
-function handleEditUserNote() {
-  const next =
-    window.prompt("Edit your note for this recipe:", userNote) ?? userNote;
 
-  setUserNote(next);
-  setRecipeUserNote(recipeNoteKey, next.trim());
-  setSaveMessage("Personal note saved ✓");
+  function handleEditUserNote() {
+    const next =
+      window.prompt("Edit your note for this recipe:", userNote) ?? userNote;
 
-  window.setTimeout(() => {
-    setSaveMessage("");
-  }, 1800);
-}
+    setUserNote(next);
+    setRecipeUserNote(recipeNoteKey, next.trim());
+    setSaveMessage("Personal note saved ✓");
+
+    window.setTimeout(() => {
+      setSaveMessage("");
+    }, 1800);
+  }
+
   const handleAddToCookbook = () => {
-    if (!safeRecipe?.slug) {
+    if (!safeRecipe.slug) {
       setSaveMessage("Missing recipe info");
       return;
     }
