@@ -2533,7 +2533,7 @@ Use in place of one store-bought chili seasoning packet.`,
   name: "Captain's Wing Rub",
   photoUrl: "/images/quick-captains-wing-rub.webp",
   effort: "quick",
-  tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian", "wings" ],
+  tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian" ],
   ingredients: `2 Tbsp smoked paprika
 1 1/2 Tbsp cayenne pepper
 1 tsp ancho chili powder
@@ -4017,7 +4017,7 @@ Pour the dressing over the chickpea mixture and toss well to ensure everything i
 Serve immediately or chill in the refrigerator to allow the flavors to meld.`,
     notes: "Protein-packed, fresh, and great for lunches the next day too.",
   },
-  
+
 ];
 
 
