@@ -103,14 +103,30 @@ export default async function handler(req, res) {
     }
 
     function extractInstructionText(input) {
-      if (!input) return [];
-      if (typeof input === "string") return [input];
-      if (Array.isArray(input)) return input.flatMap(item => extractInstructionText(item));
-      if (typeof input === "object") {
-        return extractInstructionText(input.text || input.name || input.itemListElement || "");
+  if (!input) return [];
+  
+  // If it's just a string, return it in an array
+  if (typeof input === "string") return [input];
+
+  // If it's an array (common for recipeInstructions)
+  if (Array.isArray(input)) {
+    return input.flatMap(item => {
+      if (typeof item === "string") return item;
+      // This part handles the { "@type": "HowToStep", "text": "..." } structure
+      if (typeof item === "object") {
+        return item.text || item.name || "";
       }
-      return [];
-    }
+      return "";
+    });
+  }
+
+  // If it's a nested object (some sites use a single object for one step)
+  if (typeof input === "object") {
+    return extractInstructionText(input.text || input.itemListElement || []);
+  }
+
+  return [];
+}
 
     async function fetchWithTimeout(targetUrl) {
       const controller = new AbortController();
