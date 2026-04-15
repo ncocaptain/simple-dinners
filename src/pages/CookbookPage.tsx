@@ -14,6 +14,7 @@ import Card from "../components/Card";
 import type { Meal } from "../core/types";
 import TipsModal from "../components/TipsModal";
 
+
 type CookbookPageProps = {
   cookbook: CookbookRecipe[];
   setCookbook: React.Dispatch<React.SetStateAction<CookbookRecipe[]>>;
@@ -22,6 +23,7 @@ type CookbookPageProps = {
 type CookbookRecipe = Meal & {
   sourceUrl?: string;
 };
+
 
 function slugify(text: string) {
   return (text || "recipe")
@@ -32,12 +34,14 @@ function slugify(text: string) {
     .replace(/-+/g, "-");
 }
 
+
 function splitLines(text?: string) {
   return (text || "")
     .split("\n")
     .map((line) => line.trim())
     .filter(Boolean);
 }
+
 
 function normalizeMultilineField(value: unknown): string {
   if (Array.isArray(value)) {
@@ -46,6 +50,7 @@ function normalizeMultilineField(value: unknown): string {
       .filter(Boolean)
       .join("\n");
   }
+
 
   return String(value ?? "")
     .replace(/<br\s*\/?>/gi, "\n")
@@ -64,6 +69,7 @@ function normalizeMultilineField(value: unknown): string {
     .join("\n");
 }
 
+
 function getRecipeStatus(recipe: CookbookRecipe) {
   const ingredientCount = splitLines(recipe?.ingredients).length;
   const instructionsMissing =
@@ -71,29 +77,36 @@ function getRecipeStatus(recipe: CookbookRecipe) {
     recipe.instructions === "Steps available at source link!";
   const stepCount = instructionsMissing ? 0 : splitLines(recipe?.instructions).length;
 
+
   if (ingredientCount === 0 && stepCount === 0) return "Needs finishing";
   if (ingredientCount === 0) return "Needs ingredients";
   if (stepCount === 0) return "Needs steps";
   return "Ready";
 }
 
+
 function normalizePhotoUrl(url?: string) {
   if (!url) return "";
 
+
   const trimmed = url.trim();
+
 
   if (trimmed.startsWith("/images/")) {
     return trimmed.replace(/\.(png|jpg|jpeg)$/i, ".webp");
   }
 
+
   return trimmed;
 }
+
 
 export default function CookbookPage({
   cookbook = [],
   setCookbook,
   onAddToWeek,
 }: CookbookPageProps) {
+
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -104,12 +117,14 @@ const pickForDay = location.state?.pickForDay as string | undefined;
   "Your saved recipes update instantly",
 ];
 
+
   const [importUrl, setImportUrl] = useState("");
   const [isImporting, setIsImporting] = useState(false);
   const [showManual, setShowManual] = useState(false);
   const [editingSlug, setEditingSlug] = useState<string | null>(null);
   const [hasImportedDraft, setHasImportedDraft] = useState(false);
   const [highlightSlug, setHighlightSlug] = useState<string | null>(null);
+
 
   const [manualRecipe, setManualRecipe] = useState({
     name: "",
@@ -119,11 +134,14 @@ const pickForDay = location.state?.pickForDay as string | undefined;
     sourceUrl: "",
   });
 
+
   useEffect(() => {
   const savedSlug = localStorage.getItem("scrollToCookbook");
   if (!savedSlug) return;
 
+
   setHighlightSlug(savedSlug);
+
 
   const timer = window.setTimeout(() => {
     const el = document.getElementById(`cookbook-${savedSlug}`);
@@ -132,20 +150,26 @@ const pickForDay = location.state?.pickForDay as string | undefined;
     }
   }, 100);
 
+
   localStorage.removeItem("scrollToCookbook");
+
 
   return () => window.clearTimeout(timer);
 }, []);
 
+
 useEffect(() => {
   if (!highlightSlug) return;
+
 
   const timer = window.setTimeout(() => {
     setHighlightSlug(null);
   }, 2000);
 
+
   return () => window.clearTimeout(timer);
 }, [highlightSlug]);
+
 
   const resetManualRecipe = () => {
     setManualRecipe({
@@ -159,16 +183,19 @@ useEffect(() => {
     setHasImportedDraft(false);
   };
 
+
   const closeManualModal = () => {
     setShowManual(false);
     resetManualRecipe();
   };
+
 
   const openNewRecipeModal = () => {
     resetManualRecipe();
     setImportUrl("");
     setShowManual(true);
   };
+
 
   const openEditRecipe = (recipe: CookbookRecipe) => {
     setManualRecipe({
@@ -182,37 +209,46 @@ useEffect(() => {
       sourceUrl: recipe?.sourceUrl || "",
     });
 
+
     setEditingSlug(recipe?.slug || null);
     setHasImportedDraft(false);
     setShowManual(true);
   };
 
+
   const handleDeleteRecipe = (recipe: CookbookRecipe) => {
     const ok = window.confirm(`Delete "${recipe?.name}" from your cookbook?`);
     if (!ok) return;
+
 
     setCookbook((prev) => prev.filter((r) => r.slug !== recipe.slug));
     alert("Recipe deleted.");
   };
 
+
   const handleImport = async (e?: React.FormEvent | React.MouseEvent) => {
     e?.preventDefault();
+
 
     if (!importUrl.trim()) {
       alert("Please paste a recipe URL.");
       return;
     }
 
+
     setIsImporting(true);
+
 
     try {
       const API_BASE = "https://dinners.ncocaptain.com";
+
 
       const response = await fetch(`${API_BASE}/api/import-recipe`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url: importUrl.trim() }),
       });
+
 
       if (!response.ok) {
         const text = await response.text();
@@ -221,10 +257,13 @@ useEffect(() => {
         return;
       }
 
+
       const data = await response.json();
+
 
       if (data?.recipe) {
         const imported = data.recipe;
+
 
         const normalizedRecipe = {
           name: String(imported?.name ?? "").trim(),
@@ -235,6 +274,7 @@ useEffect(() => {
             String(imported?.sourceUrl ?? "").trim() || importUrl.trim(),
         };
 
+
         setManualRecipe({
           name: normalizedRecipe.name,
           ingredients: normalizedRecipe.ingredients,
@@ -243,10 +283,12 @@ useEffect(() => {
           sourceUrl: normalizedRecipe.sourceUrl,
         });
 
+
         setEditingSlug(null);
         setHasImportedDraft(true);
         setShowManual(true);
         setImportUrl("");
+
 
         if (
           !normalizedRecipe.name &&
@@ -270,13 +312,16 @@ useEffect(() => {
     }
   };
 
+
   const handleManualSave = (e?: FormEvent | MouseEvent) => {
     e?.preventDefault();
+
 
     if (!manualRecipe.name.trim()) {
       alert("Please enter a name.");
       return;
     }
+
 
     const cleanedRecipe: CookbookRecipe = {
   name: manualRecipe.name.trim(),
@@ -287,6 +332,7 @@ useEffect(() => {
   effort: "normal",
   id: slugify(manualRecipe.name),
 };
+
 
     if (editingSlug) {
       setCookbook((prev) =>
@@ -306,12 +352,15 @@ useEffect(() => {
   slug: `${slugify(manualRecipe.name)}-${Date.now().toString().slice(-4)}`,
 };
 
+
       setCookbook((prev) => [...prev, recipeToSave]);
       alert("Recipe saved to Cookbook!");
     }
 
+
     closeManualModal();
   };
+
 
   const btn: CSSProperties = {
     border: "none",
@@ -320,6 +369,7 @@ useEffect(() => {
     cursor: "pointer",
     fontWeight: 800,
   };
+
 
   const pillStyle: CSSProperties = {
     padding: "6px 10px",
@@ -330,6 +380,7 @@ useEffect(() => {
     fontWeight: 700,
     color: "rgba(255,255,255,0.85)",
   };
+
 
   const actionBtnStyle: CSSProperties = {
     width: 42,
@@ -343,12 +394,14 @@ useEffect(() => {
     flexShrink: 0,
   };
 
+
   const handleRecipeClick = (recipe: CookbookRecipe, recipeSlug: string) => {
   if (pickForDay && onAddToWeek) {
     onAddToWeek(recipe, pickForDay);
     navigate("/week", { state: { addedDay: pickForDay } });
     return;
   }
+
 
   navigate(`/recipe/${recipeSlug}?from=/cookbook`);
 };
@@ -370,6 +423,7 @@ useEffect(() => {
 </div>
         </header>
 
+
         {pickForDay && (
   <div
     style={{
@@ -387,6 +441,7 @@ useEffect(() => {
   >
     <span>Selecting recipe for {pickForDay}</span>
 
+
     <button
       onClick={() => navigate("/week")}
       style={{
@@ -401,6 +456,7 @@ useEffect(() => {
     </button>
   </div>
 )}
+
 
         <Card style={{ padding: 14, marginBottom: 12 }}>
           <div style={{ display: "grid", gap: 12 }}>
@@ -442,6 +498,7 @@ useEffect(() => {
                   />
                 </div>
 
+
                 <button
                   type="submit"
                   disabled={isImporting}
@@ -458,6 +515,7 @@ useEffect(() => {
                 </button>
               </div>
             </form>
+
 
             <button
               onClick={openNewRecipeModal}
@@ -480,6 +538,7 @@ useEffect(() => {
             </button>
           </div>
         </Card>
+
 
         {showManual && (
           <div
@@ -524,6 +583,7 @@ useEffect(() => {
                 <X size={24} />
               </button>
 
+
               <h2 style={{ fontSize: 24, fontWeight: 900, marginBottom: 8 }}>
                 {editingSlug
                   ? "Edit Recipe"
@@ -531,6 +591,7 @@ useEffect(() => {
                   ? "Review Imported Recipe"
                   : "New Recipe"}
               </h2>
+
 
               <p
                 style={{
@@ -547,6 +608,7 @@ useEffect(() => {
                   ? "Review the imported details and make any edits before saving."
                   : "Add a recipe manually, or paste a recipe URL below to import details."}
               </p>
+
 
               {!editingSlug && (
                 <div
@@ -567,6 +629,7 @@ useEffect(() => {
                   >
                     Import from URL
                   </div>
+
 
                   <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 8 }}>
                     <div style={{ position: "relative", minWidth: 0 }}>
@@ -597,6 +660,7 @@ useEffect(() => {
                       />
                     </div>
 
+
                     <button
                       onClick={handleImport}
                       disabled={isImporting}
@@ -614,6 +678,7 @@ useEffect(() => {
                     </button>
                   </div>
 
+
                   <p
                     style={{
                       fontSize: 12,
@@ -629,6 +694,7 @@ useEffect(() => {
                   </p>
                 </div>
               )}
+
 
               <form onSubmit={handleManualSave} style={{ display: "grid", gap: 12 }}>
                 <input
@@ -646,6 +712,7 @@ useEffect(() => {
                     outline: "none",
                   }}
                 />
+
 
                 <textarea
                   placeholder="Ingredients (one per line)"
@@ -668,6 +735,7 @@ useEffect(() => {
                   }}
                 />
 
+
                 <textarea
                   placeholder="Instructions (one step per line)"
                   value={manualRecipe.instructions}
@@ -688,6 +756,7 @@ useEffect(() => {
                     resize: "vertical",
                   }}
                 />
+
 
                 <div style={{ position: "relative" }}>
                   <ImageIcon
@@ -716,6 +785,7 @@ useEffect(() => {
                   />
                 </div>
 
+
                 <div style={{ position: "relative" }}>
                   <ExternalLink
                     size={18}
@@ -743,6 +813,7 @@ useEffect(() => {
                   />
                 </div>
 
+
                 <button
                   type="submit"
                   style={{
@@ -760,6 +831,7 @@ useEffect(() => {
           </div>
         )}
 
+
         <div style={{ display: "grid", gap: 14 }}>
           {(cookbook || []).map((recipe, index) => {
             const status = getRecipeStatus(recipe);
@@ -770,10 +842,13 @@ useEffect(() => {
                 ? 0
                 : splitLines(recipe?.instructions).length;
 
+
             const recipeSlug =
               recipe.slug || `${slugify(recipe.name || "recipe")}-${index}`;
 
+
             const recipePhotoUrl = normalizePhotoUrl(recipe?.photoUrl);
+
 
             return (
               <div
@@ -815,6 +890,7 @@ useEffect(() => {
                       />
                     )}
 
+
                     <div style={{ padding: 16, minWidth: 0 }}>
                       <div
                         style={{
@@ -827,6 +903,7 @@ useEffect(() => {
                       >
                         {recipe.name}
                       </div>
+
 
                       {pickForDay && (
   <div
@@ -841,6 +918,7 @@ useEffect(() => {
   </div>
 )}
 
+
                       <div
                         style={{
                           display: "flex",
@@ -850,6 +928,7 @@ useEffect(() => {
                       >
                         <div style={pillStyle}>{ingredientCount} ingredients</div>
                         <div style={pillStyle}>{stepCount} steps</div>
+
 
                         <div
                           style={{
@@ -870,6 +949,7 @@ useEffect(() => {
                         </div>
                       </div>
                     </div>
+
 
                     <div
                       style={{
@@ -894,6 +974,7 @@ useEffect(() => {
                       >
                         <Pencil size={16} />
                       </button>
+
 
                       <button
                         onClick={(e) => {
@@ -921,3 +1002,4 @@ useEffect(() => {
     </div>
   );
 }
+
