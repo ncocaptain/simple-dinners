@@ -19,7 +19,7 @@ function updatePhotoUrls() {
 
     const updated = original.replace(
       /photoUrl:\s*"(\/images\/[^"]+)\.(png|jpg|jpeg)"/gi,
-      'photoUrl: "$1.webp"'
+      'photoUrl: "$1.jpg"'
     );
 
     if (updated === original) {
@@ -28,7 +28,7 @@ function updatePhotoUrls() {
     }
 
     fs.writeFileSync(targetFile, updated, "utf8");
-    console.log(`Updated photoUrl values to .webp in: ${targetFile}`);
+    console.log(`Updated photoUrl values to .jpg in: ${targetFile}`);
     console.log("✅ Done!");
   } catch (err) {
     console.error("Error updating photoUrl values:", err);

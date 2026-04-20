@@ -30,7 +30,7 @@ async function convertImages() {
 
   for (const file of imageFiles) {
     const inputPath = path.join(imageDir, file);
-    const outputFile = file.replace(/\.(png|jpe?g)$/i, ".webp");
+    const outputFile = file.replace(/\.(png|jpe?g)$/i, ".jpg");
     const outputPath = path.join(imageDir, outputFile);
 
     if (fs.existsSync(outputPath)) {
@@ -40,7 +40,7 @@ async function convertImages() {
 
     await sharp(inputPath)
       .resize({ width: MAX_WIDTH, withoutEnlargement: true })
-      .webp({ quality: QUALITY })
+      .jpg({ quality: QUALITY })
       .toFile(outputPath);
 
     console.log(`Converted: ${file} → ${outputFile}`);
@@ -69,12 +69,12 @@ function updatePhotoUrls() {
 
   const updated = original.replace(
     /photoUrl:\s*"(\/images\/[^"]+)\.(png|jpg|jpeg)"/gi,
-    'photoUrl: "$1.webp"'
+    'photoUrl: "$1.jpg"'
   );
 
   if (updated !== original) {
     fs.writeFileSync(dataFile, updated, "utf8");
-    console.log("Updated photoUrl → .webp");
+    console.log("Updated photoUrl → .jpg");
   } else {
     console.log("No photoUrl updates needed.");
   }

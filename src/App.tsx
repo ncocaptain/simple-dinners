@@ -68,7 +68,7 @@ function normalizePhotoUrl(url?: string) {
   if (!trimmed) return "";
 
   if (trimmed.startsWith("/images/")) {
-    return trimmed.replace(/\.(png|jpe?g)$/i, ".webp");
+    return trimmed.replace(/\.(png|jpe?g)$/i, ".jpg");
   }
 
   return trimmed;
@@ -587,9 +587,10 @@ function AppContent() {
     <div
       style={{
         minHeight: "100vh",
-        paddingBottom: hideBottomNav
-          ? "24px"
-          : `calc(120px + env(safe-area-inset-bottom, 0px) + ${adaptiveInset}px)`,
+paddingTop: "calc(env(safe-area-inset-top, 0px) + 12px)",
+paddingBottom: hideBottomNav
+  ? "24px"
+  : `calc(120px + env(safe-area-inset-bottom, 0px) + ${adaptiveInset}px)`,
       }}
     >
       <BackHandler />

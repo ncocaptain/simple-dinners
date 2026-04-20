@@ -121,7 +121,7 @@ export const NEW_BUILTIN_RECIPES: Meal[] = [
     slug: "quick-beef-chili",
     name: "Chili",
     effort: "quick",
-    photoUrl: "/images/quick-beef-chili.webp",
+    photoUrl: "/images/quick-beef-chili.jpg",
     tags: ["dinner", "beef", "one-pot", "spicy", "comfort", "quick", "leftovers-friendly"],
     notes: "A hearty, no-fuss chili that is easy to throw together and even better the next day.",
     ingredients: `1 lb ground beef
@@ -147,7 +147,7 @@ Serve hot and top with shredded cheese, sour cream, and jalapeños.`,
     slug: "normal-chicken-greenbean-mushroom-bake",
     name: "Chicken Green Bean Mushroom Bake",
     effort: "normal",
-    photoUrl: "/images/normal-chicken-greenbean-mushroom-bake.webp",
+    photoUrl: "/images/normal-chicken-greenbean-mushroom-bake.jpg",
     tags: ["dinner", "chicken", "bake", "casserole", "comfort", "leftovers-friendly"],
     notes: "A creamy baked chicken dinner that works well for cozy weeknights and reheats nicely.",
     ingredients: `4 skinless chicken breasts
@@ -177,7 +177,7 @@ Serve chicken and mushroom mixture over rice; season with salt and pepper.`,
     slug: "big-beef-salisbury-steak",
     name: "Salisbury Steak with Mushroom Gravy",
     effort: "big",
-    photoUrl: "/images/big-beef-salisbury-steak.webp",
+    photoUrl: "/images/big-beef-salisbury-steak.jpg",
     tags: ["dinner", "beef", "stovetop", "comfort", "gravy"],
     notes: "Classic comfort food with rich mushroom gravy that is perfect over mashed Potatoes.",
     ingredients: `1 lb ground beef
@@ -213,7 +213,7 @@ Serve over mashed potatoes with mushroom gravy spooned on top.`,
     slug: "normal-wild-west-shrimp",
     name: "Wild West Shrimp",
     effort: "normal",
-    photoUrl: "/images/normal-wild-west-shrimp.webp",
+    photoUrl: "/images/normal-wild-west-shrimp.jpg",
     tags: ["dinner", "seafood", "shellfish", "shrimp", "fried", "spicy"],
     notes: "A restaurant-style shrimp dish with bold buttery heat and a crunchy coating.",
     ingredients: `1 lb medium shrimp, peeled and deveined
@@ -248,7 +248,7 @@ Serve warm with ranch dressing.`,
     slug: "big-mushroom-swiss-sliders",
     name: "Mushroom Swiss Sliders",
     effort: "big",
-    photoUrl: "/images/big-mushroom-swiss-sliders.webp",
+    photoUrl: "/images/big-mushroom-swiss-sliders.jpg",
     tags: ["dinner", "beef", "sandwich", "bake", "party", "comfort"],
     notes: "Great for feeding a crowd or using as a fun family dinner night.",
     ingredients: `1 Tbsp seasoned salt
@@ -303,7 +303,7 @@ Serve warm.`,
     slug: "normal-school-pizza",
     name: "School Pizza",
     effort: "normal",
-    photoUrl: "/images/normal-school-pizza.webp",
+    photoUrl: "/images/normal-school-pizza.jpg",
     tags: ["dinner", "pizza", "bake", "comfort", "kid-friendly"],
     notes: "A nostalgic sheet-pan pizza that brings back cafeteria memories in the best way.",
     ingredients: `4 Tbsp olive oil, divided
@@ -342,7 +342,7 @@ Serve warm.`,
     slug: "big-shotgun-shells",
     name: "Shotgun Shells",
     effort: "big",
-    photoUrl: "/images/big-shotgun-shells.webp",
+    photoUrl: "/images/big-shotgun-shells.jpg",
     tags: ["dinner", "beef", "pork", "bake", "bbq", "party", "comfort"],
     notes: "A big-flavor BBQ dinner that is fun for weekends, cookouts, or game day.",
     ingredients: `2 (8 oz) boxes manicotti shells (uncooked)
@@ -381,7 +381,7 @@ Serve hot.`,
     slug: "normal-shrimp-and-sausage-bake",
     name: "Shrimp and Sausage Bake",
     effort: "normal",
-    photoUrl: "/images/normal-shrimp-and-sausage-bake.webp",
+    photoUrl: "/images/normal-shrimp-and-sausage-bake.jpg",
     tags: ["dinner", "sheet-pan", "seafood", "shellfish", "shrimp", "sausage", "one-pan", "leftovers-friendly"],
     notes: "A low-mess sheet-pan dinner with big flavor and a nice mix of protein and veggies.",
     ingredients: `Cooking spray
@@ -470,7 +470,7 @@ Bake for 40 minutes. Remove from the oven, spread the remaining glaze on top, an
 Bake for an additional 15 to 25 minutes, until the internal temperature reaches 160°F and the glaze is caramelized.
 
 Let rest for 10 minutes before slicing and serving.`,
-  photoUrl: "/images/normal-classic-meatloaf.webp",
+  photoUrl: "/images/normal-classic-meatloaf.jpg",
   effort: "normal",
   tags: ["beef", "comfort food", "classic", "oven-baked", "family dinner", "leftovers-friendly"],
   isVegetarian: false,
@@ -482,7 +482,7 @@ Let rest for 10 minutes before slicing and serving.`,
     slug: "normal-tilapia-asparagus-foil-packets",
     name: "Tilapia & Asparagus Foil Packets",
     effort: "normal",
-    photoUrl: "/images/normal-tilapia-asparagus-foil-packets.webp",
+    photoUrl: "/images/normal-tilapia-asparagus-foil-packets.jpg",
     tags: ["dinner", "seafood", "fish", "foil-packets", "bake", "healthy"],
     notes: "A light and easy fish dinner with almost no cleanup.",
     ingredients: `1 bunch asparagus
@@ -522,7 +522,7 @@ Carefully open packets. Steam will be hot. Remove from foil before serving.`,
     slug: "normal-slow-cooker-beef-enchilada-casserole",
     name: "Slow Cooker Beef Enchilada Casserole",
     effort: "normal",
-    photoUrl: "/images/normal-slow-cooker-beef-enchilada-casserole.webp",
+    photoUrl: "/images/normal-slow-cooker-beef-enchilada-casserole.jpg",
     tags: ["dinner", "beef", "slow-cooker", "mexican", "comfort", "casserole", "leftovers"],
     notes: "An easy crockpot dinner that is filling, cheesy, and great for busy evenings.",
     ingredients: `1 1/2 lbs lean ground beef
@@ -559,7 +559,7 @@ Garnish with chopped cilantro, pico de gallo, and sour cream before serving.`,
   slug: "normal-shepherds-pie",
   name: "Shepherd’s Pie",
   effort: "normal",
-  photoUrl: "/images/normal-shepherds-pie.webp",
+  photoUrl: "/images/normal-shepherds-pie.jpg",
   tags: ["dinner", "beef", "bake", "comfort", "casserole", "leftovers-friendly"],
   notes: "A warm, classic comfort meal that feels right at home on chilly nights.",
   ingredients: `1 1/2 to 2 lbs Potatoes (about 3 large), peeled and quartered
@@ -597,7 +597,7 @@ Bake about 30 minutes until browned and bubbling.`,
   slug: "normal-italian-sausage-stuffed-peppers",
   name: "Italian Sausage Stuffed peppers",
   effort: "normal",
-  photoUrl: "/images/normal-italian-sausage-stuffed-peppers.webp",
+  photoUrl: "/images/normal-italian-sausage-stuffed-peppers.jpg",
   tags: ["dinner", "pork", "bake", "italian", "comfort"],
   notes: "A solid weeknight baked dinner that is filling without being too fussy.",
   ingredients: `1 lb Italian sausage
@@ -666,7 +666,7 @@ Stir the cornstarch slurry into the pan and cook for 2 to 3 minutes, stirring fr
 Remove from heat and toss the chicken until fully coated in the sauce.
 
 Garnish with 2 sliced green onions and 1 tsp sesame seeds before serving.`,
-  photoUrl: "/images/quick-honey-garlic-chicken.webp",
+  photoUrl: "/images/quick-honey-garlic-chicken.jpg",
   effort: "quick",
   tags: ["chicken", "quick", "one-pan", "sweet-savory", "weeknight", "leftovers-friendly"],
   isVegetarian: false,
@@ -702,7 +702,7 @@ Reduce heat to medium-low. Add 3 Tbsp unsalted butter to the pan and let it melt
 Squeeze in the juice of 1 lemon and add 1 tsp lemon zest if using. Spoon the lemon butter sauce over the salmon continuously for about 1 minute.
 
 Remove from heat. Garnish with 1 Tbsp chopped fresh parsley and serve immediately.`,
-  photoUrl: "/images/quick-lemon-butter-salmon.webp",
+  photoUrl: "/images/quick-lemon-butter-salmon.jpg",
   effort: "quick",
   tags: ["dinner", "seafood", "fish", "salmon", "quick", "healthy", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
@@ -741,7 +741,7 @@ Add 2 Tbsp soy sauce, 1 Tbsp sesame oil, and 1/2 tsp black pepper. Toss everythi
 Return the scrambled eggs to the pan and gently fold them in.
 
 Remove from heat, sprinkle with 2 sliced green onions, and serve immediately.`,
-  photoUrl: "/images/quick-chicken-fried-rice.webp",
+  photoUrl: "/images/quick-chicken-fried-rice.jpg",
   effort: "quick",
   tags: ["dinner", "chicken", "rice", "one-pan", "quick", "leftovers-friendly"],
   isVegetarian: false,
@@ -778,7 +778,7 @@ For extra caramelization, broil on high for 1 to 2 minutes, watching closely so 
 Remove from the oven, drizzle with additional BBQ sauce if desired, and sprinkle with 1 tbsp chopped fresh cilantro.
 
 Slice and serve immediately.`,
-  photoUrl: "/images/quick-bbq-chicken-flatbread.webp",
+  photoUrl: "/images/quick-bbq-chicken-flatbread.jpg",
   effort: "quick",
   tags: ["dinner", "chicken", "quick", "pizza", "kid-friendly", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
@@ -824,7 +824,7 @@ Repeat with the remaining pasta, 1/2 cup ricotta, and 1 cup mozzarella. Top with
 Cover loosely with foil and bake for 20 minutes. Remove foil and bake another 10 to 15 minutes until the cheese is melted and bubbly with lightly golden edges.
 
 Let rest for 10 minutes before serving. Garnish with 1/4 cup fresh chopped parsley if desired.`,
-  photoUrl: "/images/normal-baked-ziti.webp",
+  photoUrl: "/images/normal-baked-ziti.jpg",
   effort: "normal",
   tags: ["dinner", "pasta", "beef", "bake", "comfort", "kid-friendly", "leftovers-friendly"],
   isVegetarian: false,
@@ -865,7 +865,7 @@ Add a splash of the 1/2 cup reserved pasta water and stir until the sauce become
 Return the chicken to the pan, then add the cooked pasta. Toss everything together until evenly coated with the sauce (adding 1/4 tsp black pepper for seasoning).
 
 Taste and adjust salt and pepper as needed. Remove from heat and garnish with 1/4 cup chopped fresh parsley before serving.`,
-  photoUrl: "/images/normal-chicken-alfredo.webp",
+  photoUrl: "/images/normal-chicken-alfredo.jpg",
   effort: "normal",
   tags: ["dinner", "pasta", "chicken", "comfort", "italian", "leftovers-friendly"],
   isVegetarian: false,
@@ -911,7 +911,7 @@ Reduce heat to low. Stir in 1/2 cup sour cream until smooth and creamy.
 Return the beef to the pan and cook for 2 to 3 minutes until heated through. Do not boil after adding sour cream.
 
 Serve over the cooked egg noodles and garnish with 1/4 cup fresh chopped parsley if desired.`,
-  photoUrl: "/images/normal-beef-stroganoff.webp",
+  photoUrl: "/images/normal-beef-stroganoff.jpg",
   effort: "normal",
   tags: ["dinner", "beef", "comfort", "stovetop", "pasta", "leftovers-friendly"],
   isVegetarian: false,
@@ -958,7 +958,7 @@ Brush with 1 beaten egg if using for a golden finish.
 Bake for 30 to 35 minutes, until the crust is golden brown and the filling is bubbling around the edges.
 
 Let rest for 10 minutes before serving to allow the filling to set.`,
-  photoUrl: "/images/normal-chicken-pot-pie.webp",
+  photoUrl: "/images/normal-chicken-pot-pie.jpg",
   effort: "normal",
   tags: ["dinner", "chicken", "bake", "comfort", "casserole", "leftovers-friendly"],
   isVegetarian: false,
@@ -1009,7 +1009,7 @@ Add the cooked pasta and toss to coat evenly.
 Stir in 1 cup shredded cheddar cheese (and 1/2 cup Monterey Jack if using) until melted and creamy.
 
 Remove from heat and serve warm.`,
-  photoUrl: "/images/normal-taco-pasta.webp",
+  photoUrl: "/images/normal-taco-pasta.jpg",
   effort: "normal",
   tags: ["dinner", "pasta", "tex-mex", "beef", "cheesy", "family", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
@@ -1059,7 +1059,7 @@ Place scallops in the pan and sear undisturbed for 1 1/2 to 2 minutes until a de
 Flip and cook another 1 to 2 minutes until just opaque in the center. Do not overcook.
 
 Spoon risotto onto plates and top with the seared scallops. Garnish with 1 tbsp chopped fresh parsley if desired and serve immediately.`,
-  photoUrl: "/images/pan-seared-scallops-lemon-risotto.webp",
+  photoUrl: "/images/pan-seared-scallops-lemon-risotto.jpg",
   effort: "big",
   tags: ["dinner", "seafood", "shellfish", "scallops", "risotto", "date-night", "restaurant-style"],
   isVegetarian: false,
@@ -1095,7 +1095,7 @@ Roast for 12 to 15 minutes, depending on thickness, until the salmon is opaque a
 For a slightly crisp top, broil on high for 1 to 2 minutes at the end, watching closely.
 
 Remove from the oven and serve immediately.`,
-  photoUrl: "/images/lemon-herb-roasted-salmon.webp",
+  photoUrl: "/images/lemon-herb-roasted-salmon.jpg",
   effort: "normal",
   tags: ["dinner", "seafood", "fish", "salmon", "oven", "healthy", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
@@ -1134,7 +1134,7 @@ Bring to a quick simmer over high heat. Mix 1 tsp cornstarch with 2 tbsp water t
 Drizzle with 1 tbsp sesame oil and sprinkle with 1/2 tsp black pepper. Toss everything together until well coated.
 
 Remove from heat, garnish with 2 sliced green onions if desired, and serve immediately.`,
-  photoUrl: "/images/beef-broccoli-stir-fry.webp",
+  photoUrl: "/images/beef-broccoli-stir-fry.jpg",
   effort: "quick",
   tags: ["dinner", "beef", "stir-fry", "one-pan", "quick", "takeout-style", "leftovers-friendly"],
   isVegetarian: false,
@@ -1146,7 +1146,7 @@ Remove from heat, garnish with 2 sliced green onions if desired, and serve immed
     slug: "zuppa-toscana-soup",
     name: "Zuppa Toscana Soup",
     effort: "normal",
-    photoUrl: "/images/zuppa-toscana-soup.webp",
+    photoUrl: "/images/zuppa-toscana-soup.jpg",
     tags: ["dinner", "soup", "pork", "italian", "comfort", "one-pot"],
     notes: "A rich and cozy soup that feels like restaurant comfort food at home.",
     ingredients: `1 lb Italian ground sausage
@@ -1225,7 +1225,7 @@ Remove the meatloaf from the oven, spread the glaze evenly over the top, and ret
 Bake for an additional 15 to 20 minutes, until the internal temperature reaches 160°F and the glaze is slightly caramelized.
 
 Let rest for 10 minutes before slicing and serving.`,
-  photoUrl: "/images/hidden-veggie-meatloaf.webp",
+  photoUrl: "/images/hidden-veggie-meatloaf.jpg",
   effort: "normal",
   tags: ["dinner", "beef", "meatloaf", "family", "comfort", "kid-friendly", "leftovers-friendly"],
   isVegetarian: false,
@@ -1237,7 +1237,7 @@ Let rest for 10 minutes before slicing and serving.`,
     slug: "toms-spaghetti",
     name: "Tom's Spaghetti",
     effort: "normal",
-    photoUrl: "/images/toms-spaghetti.webp",
+    photoUrl: "/images/toms-spaghetti.jpg",
     tags: ["dinner", "pasta", "beef", "spaghetti", "family", "comfort", "leftovers"],
     notes: "A classic, hearty spaghetti dinner that pairs perfectly with Caesar salad and garlic bread.",
     ingredients: `1 box angel hair pasta
@@ -1272,7 +1272,7 @@ Optional: Pair with Caesar salad and garlic bread.`,
     slug: "shrimp-scampi",
     name: "Shrimp Scampi",
     effort: "quick",
-    photoUrl: "/images/shrimp-scampi.webp",
+    photoUrl: "/images/shrimp-scampi.jpg",
     tags: ["dinner", "seafood", "shellfish", "shrimp", "quick", "skillet", "pasta"],
     notes: "Light, buttery, and full of flavor. Great over angel hair pasta for an easy restaurant-style dinner at home.",
     ingredients: `1 1/2 lbs large shrimp, peeled and deveined
@@ -1314,7 +1314,7 @@ Optional: Pair with angel hair pasta.`,
     slug: "maryland-crab-cake",
     name: "Maryland Crab Cake",
     effort: "normal",
-    photoUrl: "/images/maryland-crab-cake.webp",
+    photoUrl: "/images/maryland-crab-cake.jpg",
     tags: ["dinner", "seafood", "shellfish", "crab", "baked", "maryland"],
     notes: "Classic crab cakes with plenty of crab flavor and just enough binder to hold them together.",
     ingredients: `1 lb lump crab meat
@@ -1351,7 +1351,7 @@ Serve with lemon wedges from 1 lemon and your choice of cocktail sauce or tartar
     slug: "crock-pot-roast-beef",
     name: "Crock Pot Roast Beef",
     effort: "big",
-    photoUrl: "/images/crock-pot-roast-beef.webp",
+    photoUrl: "/images/crock-pot-roast-beef.jpg",
     tags: ["dinner", "beef", "roast", "slow-cooker", "comfort", "family", "leftovers"],
     notes: "A hearty slow-cooker classic with tender beef, vegetables, and an optional homemade gravy.",
     ingredients: `1 1/2 Tbsp olive oil, divided
@@ -1428,7 +1428,7 @@ Stir in 1/2 cup sour cream if using, and cook for an additional 20 to 30 minutes
 Taste and adjust seasoning as needed.
 
 Serve hot and top with shredded cheddar cheese, bacon bits, and sliced green onions if desired.`,
-  photoUrl: "/images/big-crockpot-potato-soup.webp",
+  photoUrl: "/images/big-crockpot-potato-soup.jpg",
   effort: "big",
   tags: ["dinner", "soup", "comfort", "slow-cooker", "potatoes", "family", "leftovers-friendly"],
   isVegetarian: false,
@@ -1439,7 +1439,7 @@ Serve hot and top with shredded cheddar cheese, bacon bits, and sliced green oni
   id: "quick-blueberry-cheesecake-crescent-rolls",
   slug: "quick-blueberry-cheesecake-crescent-rolls",
   name: "Blueberry Cheesecake Crescent Rolls",
-  photoUrl: "/images/quick-blueberry-cheesecake-crescent-rolls.webp",
+  photoUrl: "/images/quick-blueberry-cheesecake-crescent-rolls.jpg",
   effort: "quick",
   tags: ["dessert", "quick", "sweet", "baked", "blueberry", "easy"],
   ingredients: `3 oz cream cheese, softened
@@ -1500,7 +1500,7 @@ In a separate bowl, whisk together 1/2 cup Frank’s RedHot and 1/3 cup melted u
 Toss the wings in the sauce until evenly coated, or serve sauce on the side for dipping.
 
 Serve immediately with celery sticks, carrot sticks, and ranch or blue cheese dressing if desired.`,
-  photoUrl: "/images/big-crispy-chicken-wings.webp",
+  photoUrl: "/images/big-crispy-chicken-wings.jpg",
   effort: "big",
   tags: ["dinner", "wings", "fried", "game-day", "crispy", "comfort", "crowd-pleaser"],
   isVegetarian: false,
@@ -1531,7 +1531,7 @@ Brush 1 cup BBQ sauce on both sides of the chicken and return briefly to direct 
 Remove from grill when internal temperature reaches 165°F.
 
 Let rest for 5 minutes before serving.`,
-  photoUrl: "/images/normal-grilled-bbq-chicken-thighs.webp",
+  photoUrl: "/images/normal-grilled-bbq-chicken-thighs.jpg",
   effort: "normal",
   tags: ["dinner", "chicken", "grilling", "bbq", "juicy", "summer", "leftovers-friendly"],
   isVegetarian: false,
@@ -1563,7 +1563,7 @@ Remove from grill when internal temperature reaches about 130°F for medium-rare
 Top with a small pat of butter (1 tbsp) if desired and let rest for 5 to 10 minutes before slicing.
 
 Slice against the grain and serve.`,
-  photoUrl: "/images/quick-grilled-steak.webp",
+  photoUrl: "/images/quick-grilled-steak.jpg",
   effort: "quick",
   tags: ["dinner", "beef", "grilling", "classic", "high-protein", "low-carb"],
   isVegetarian: false,
@@ -1596,7 +1596,7 @@ If needed, move to a slightly cooler part of the grill and close the lid to fini
 Remove from grill and drizzle with 1 tbsp lemon juice if using.
 
 Let rest for 5 minutes before slicing to keep juices locked in.`,
-  photoUrl: "/images/quick-grilled-chicken-breasts.webp",
+  photoUrl: "/images/quick-grilled-chicken-breasts.jpg",
   effort: "quick",
   tags: ["dinner", "chicken", "grilling", "healthy", "high-protein", "meal-prep", "leftovers-friendly"],
   isVegetarian: false,
@@ -1631,7 +1631,7 @@ Place skewers on the grill and cook for 2 to 3 minutes per side, until the shrim
 Avoid overcooking—shrimp should form a loose “C” shape, not a tight “O”.
 
 Remove from grill and sprinkle with 1 tbsp fresh chopped parsley if desired. Serve immediately.`,
-  photoUrl: "/images/quick-grilled-shrimp-skewers.webp",
+  photoUrl: "/images/quick-grilled-shrimp-skewers.jpg",
   effort: "quick",
   tags: ["dinner", "seafood", "shrimp", "grilling", "quick", "healthy", "high-protein", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
@@ -1665,7 +1665,7 @@ For extra flavor, drizzle the vegetables with 1 tbsp balsamic vinegar during the
 Remove everything from the grill and let rest for a few minutes.
 
 Serve the sausage with the peppers and onions, either on a plate or in toasted hoagie rolls.`,
-  photoUrl: "/images/quick-grilled-sausage-peppers.webp",
+  photoUrl: "/images/quick-grilled-sausage-peppers.jpg",
   effort: "quick",
   tags: ["dinner", "sausage", "grilling", "one-pan", "quick", "summer", "leftovers-friendly"],
   isVegetarian: false,
@@ -1697,7 +1697,7 @@ Move pork chops to indirect heat, close the lid, and cook for an additional 4 to
 Remove from grill and let rest for 5 minutes. The temperature will rise slightly as it rests.
 
 Serve warm.`,
-  photoUrl: "/images/normal-grilled-pork-chops.webp",
+  photoUrl: "/images/normal-grilled-pork-chops.jpg",
   effort: "normal",
   tags: ["dinner", "pork", "grilling", "juicy", "high-protein", "summer", "leftovers-friendly"],
   isVegetarian: false,
@@ -1709,7 +1709,7 @@ Serve warm.`,
   slug: "quick-grilled-burgers",
   name: "Grilled Burgers",
   effort: "quick",
-  photoUrl: "/images/quick-grilled-burgers.webp",
+  photoUrl: "/images/quick-grilled-burgers.jpg",
   tags: ["dinner", "beef", "grilling", "cookout", "quick", "summer"],
   notes: "A classic backyard burger with juicy patties, melted cheese, and all your favorite toppings.",
   ingredients: `2 lbs ground beef (80/20)
@@ -1751,7 +1751,7 @@ Assemble burgers with lettuce, sliced tomato, and pickles, and serve with chips 
     slug: "grilled-cheese-sandwich",
     name: "Grilled Cheese Sandwich",
     effort: "quick",
-    photoUrl: "/images/grilled-cheese-sandwich.webp",
+    photoUrl: "/images/grilled-cheese-sandwich.jpg",
     tags: ["lunch", "sandwich", "quick", "comfort", "cheese"],
     notes: "Simple, classic, and always a winner. Even better with a bowl of warm tomato soup.",
     ingredients: `Sourdough bread
@@ -1800,7 +1800,7 @@ Sprinkle lightly with 1/2 tsp garlic powder and 1/2 tsp Italian seasoning.
 Bake for 5 to 7 minutes, or broil for 2 to 3 minutes, until the cheese is melted, bubbly, and slightly golden.
 
 Remove from the oven, garnish with fresh basil or parsley if desired, and serve immediately with extra marinara for dipping.`,
-  photoUrl: "/images/quick-chicken-parmesan-melts.webp",
+  photoUrl: "/images/quick-chicken-parmesan-melts.jpg",
   effort: "quick",
   tags: ["dinner", "chicken", "quick", "italian", "sandwiches", "cheesy", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
@@ -1847,7 +1847,7 @@ Stir in 1 cup shredded cheddar (and 1/2 cup Monterey Jack if using) until melted
 Season with 1/2 tsp black pepper (or more to taste). Remove from heat.
 
 Serve immediately with optional toppings like sour cream, sliced green onions, or jalapeños if desired.`,
-  photoUrl: "/images/quick-taco-mac-skillet.webp",
+  photoUrl: "/images/quick-taco-mac-skillet.jpg",
   effort: "quick",
   tags: ["dinner", "beef", "pasta", "quick", "tex-mex", "one-pan", "family", "leftovers-friendly"],
   isVegetarian: false,
@@ -1881,7 +1881,7 @@ Flip carefully and cook another 2 to 3 minutes, until the fish flakes easily wit
 Add 1 tbsp butter and squeeze 1 tbsp fresh lemon juice into the pan. Spoon the lemon butter over the fish for about 30 seconds.
 
 Remove from heat and garnish with 1 sliced lemon and 1 tbsp fresh chopped parsley if desired. Serve immediately.`,
-  photoUrl: "/images/quick-lemon-pepper-tilapia.webp",
+  photoUrl: "/images/quick-lemon-pepper-tilapia.jpg",
   effort: "quick",
   tags: ["dinner", "fish", "quick", "seafood", "light", "healthy", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
@@ -1916,7 +1916,7 @@ For extra caramelization, broil on high for 1 to 2 minutes, watching closely to 
 Remove from oven and let rest for 5 minutes. The temperature will rise to 165°F as it rests.
 
 Serve warm with additional BBQ sauce if desired.`,
-  photoUrl: "/images/quick-bbq-chicken.webp",
+  photoUrl: "/images/quick-bbq-chicken.jpg",
   effort: "quick",
   tags: ["dinner", "chicken", "quick", "bbq", "family-friendly", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
@@ -1964,7 +1964,7 @@ Warm 8 to 10 taco shells according to package directions.
 Set out 1/2 diced small white onion, 4 diced roma tomatoes, 1 cup shredded cheddar cheese, 2 cups chopped lettuce, and any optional toppings to create a taco bar.
 
 Fill shells with seasoned beef and desired toppings. Serve immediately.`,
-  photoUrl: "/images/normal-simple-tacos.webp",
+  photoUrl: "/images/normal-simple-tacos.jpg",
   effort: "normal",
   tags: ["dinner", "beef", "tacos", "simple", "family-friendly", "build-your-own", "leftovers-friendly"],
   isVegetarian: false,
@@ -2007,7 +2007,7 @@ Reduce heat to low and simmer for 10 to 15 minutes, stirring occasionally, until
 Lightly toast the hamburger buns if desired.
 
 Spoon the sloppy joe mixture onto the buns and top with sliced pickles. Serve warm.`,
-  photoUrl: "/images/quick-sloppy-joes-sandwich.webp",
+  photoUrl: "/images/quick-sloppy-joes-sandwich.jpg",
   effort: "quick",
   tags: ["dinner", "beef", "sandwiches", "quick", "family-friendly", "comfort", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
@@ -2018,7 +2018,7 @@ Spoon the sloppy joe mixture onto the buns and top with sliced pickles. Serve wa
     id: "big-beef-lasagna",
     slug: "big-beef-lasagna",
     name: "Classic Lasagna",
-    photoUrl: "/images/big-beef-lasagna.webp",
+    photoUrl: "/images/big-beef-lasagna.jpg",
     notes: "A crowd-pleasing layered pasta bake with beef, sausage, ricotta, and plenty of cheese.",
     effort: "big",
     tags: ["dinner", "pasta", "beef", "baked", "italian", "crowd-pleaser"],
@@ -2093,7 +2093,7 @@ Lightly toast 8 hot dog buns if desired.
 Place hot dogs in the buns and top generously with the prepared chili, 1 cup shredded cheddar cheese, and 1/2 finely diced small onion if using.
 
 Serve immediately while hot.`,
-  photoUrl: "/images/normal-chili-cheese-dogs.webp",
+  photoUrl: "/images/normal-chili-cheese-dogs.jpg",
   effort: "normal",
   tags: ["dinner", "hot-dogs", "family", "comfort", "quick-ish", "one-pan", "crowd-pleaser"],
   isVegetarian: false,
@@ -2149,7 +2149,7 @@ Stir in 1/2 cup sour cream if using, and add 1 tbsp lime juice to brighten the f
 Taste and adjust seasoning as needed.
 
 Serve hot with desired toppings like shredded cheese, cilantro, green onions, and tortilla chips.`,
-  photoUrl: "/images/big-white-chicken-chili.webp",
+  photoUrl: "/images/big-white-chicken-chili.jpg",
   effort: "big",
   tags: ["dinner", "chili", "chicken", "comfort", "one-pot", "creamy", "leftovers-friendly"],
   isVegetarian: false,
@@ -2200,7 +2200,7 @@ Bring to a simmer and cook for 20 to 25 minutes, stirring occasionally, until fl
 Taste and adjust seasoning if needed.
 
 Serve hot with desired toppings such as shredded cheese, sour cream, tortilla chips, and green onions.`,
-  photoUrl: "/images/normal-taco-soup.webp",
+  photoUrl: "/images/normal-taco-soup.jpg",
   effort: "normal",
   tags: ["dinner", "soup", "tex-mex", "one-pot", "beef", "family", "leftovers-friendly"],
   isVegetarian: false,
@@ -2247,7 +2247,7 @@ Bake for 20 to 25 minutes, stirring once halfway through, until the chicken is c
 For extra char, broil on high for 2 to 3 minutes at the end, watching closely.
 
 Remove from oven and serve immediately in warm tortillas with sour cream, shredded cheese, and guacamole if desired.`,
-  photoUrl: "/images/big-sheet-pan-fajitas.webp",
+  photoUrl: "/images/big-sheet-pan-fajitas.jpg",
   effort: "big",
   tags: ["dinner", "chicken", "sheet-pan", "tex-mex", "family", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
@@ -2286,7 +2286,7 @@ Cook for 10 to 12 minutes, flipping halfway through, until golden brown and the 
 For extra crispiness, spray lightly again with cooking spray after flipping.
 
 Serve hot with your favorite dipping sauces.`,
-  photoUrl: "/images/normal-air-fryer-chicken-tenders.webp",
+  photoUrl: "/images/normal-air-fryer-chicken-tenders.jpg",
   effort: "normal",
   tags: ["dinner", "chicken", "air-fryer", "family", "crispy", "kid-friendly", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
@@ -2323,7 +2323,7 @@ Bake for 35 to 40 minutes, until the skin is crispy and the internal temperature
 For extra crispiness, broil on high for 2 to 3 minutes at the end, watching closely.
 
 Remove from the oven and let rest for 5 minutes before serving.`,
-  photoUrl: "/images/big-baked-chicken-thighs.webp",
+  photoUrl: "/images/big-baked-chicken-thighs.jpg",
   effort: "big",
   tags: ["dinner", "chicken", "baked", "family", "crispy", "comfort", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
@@ -2365,7 +2365,7 @@ Return to the oven and bake for another 10 to 15 minutes, until the sauce is sti
 For extra caramelization, broil on high for 2 to 3 minutes at the end, watching closely.
 
 Let rest for 5 minutes before serving with extra barbecue sauce if desired.`,
-  photoUrl: "/images/big-bbq-chicken-drumsticks.webp",
+  photoUrl: "/images/big-bbq-chicken-drumsticks.jpg",
   effort: "big",
   tags: ["dinner", "chicken", "bbq", "baked", "family", "comfort", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
@@ -2384,7 +2384,7 @@ export const SIDE_DISHES: Meal[] = [
     slug: "quick-airfryer-baked-potato",
     name: "Air Fryer Baked Potato",
     effort: "quick",
-    photoUrl: "/images/quick-airfryer-baked-potato.webp",
+    photoUrl: "/images/quick-airfryer-baked-potato.jpg",
     tags: ["side", "air-fryer", "comfort", "quick", "vegetarian"],
     notes: "An easy side dish that goes with almost anything and needs very little hands-on work.",
     ingredients: `1 large russet potato
@@ -2407,7 +2407,7 @@ Slice down the middle, fluff with a fork, and add 1-2 Tbsp butter along with opt
     slug: "quick-garlic-roasted-potatoes",
     name: "Garlic Roasted Potatoes",
     effort: "quick",
-    photoUrl: "/images/quick-garlic-roasted-potatoes.webp",
+    photoUrl: "/images/quick-garlic-roasted-potatoes.jpg",
     tags: ["side", "roasted", "vegetarian", "comfort"],
     notes: "Crispy, simple Potatoes that work with almost any main dish.",
     ingredients: `3 lbs small red or white Potatoes
@@ -2432,7 +2432,7 @@ Remove from oven, toss with 2 Tbsp minced fresh parsley, season to taste, and se
     slug: "quick-garlic-roasted-potatoes",
     name: "Garlic Roasted Potatoes",
     effort: "quick",
-    photoUrl: "/images/quick-garlic-roasted-potatoes.webp",
+    photoUrl: "/images/quick-garlic-roasted-potatoes.jpg",
     tags: ["side", "roasted", "vegetarian", "comfort"],
     notes: "Crispy, simple Potatoes that work with almost any main dish.",
     ingredients: `3 lbs small red or white Potatoes
@@ -2460,7 +2460,7 @@ export const DESSERTS: Meal[] = [
     slug: "quick-dark-chocolate-dipped-strawberries",
     name: "Dark Chocolate Dipped Strawberries",
     effort: "quick",
-    photoUrl: "/images/quick-dark-chocolate-dipped-strawberries.webp",
+    photoUrl: "/images/quick-dark-chocolate-dipped-strawberries.jpg",
     tags: ["dessert", "snack", "no-bake", "quick", "vegetarian"],
     notes: "A simple dessert that feels special without a lot of work.",
     ingredients: `12 large ripe strawberries
@@ -2486,7 +2486,7 @@ export const EXTRA_RECIPES: Meal[] = [
     slug: "quick-classic-guacamole",
     name: "Guacamole",
     effort: "quick",
-    photoUrl: "/images/quick-classic-guacamole.webp",
+    photoUrl: "/images/quick-classic-guacamole.jpg",
     tags: ["dip", "side", "mexican", "no-cook", "quick", "vegetarian"],
     notes: "Fresh and simple guacamole that works as a snack, side, or taco-night add-on.",
     ingredients: `3 ripe avocados, peeled and pitted
@@ -2509,7 +2509,7 @@ Refrigerate for 1 hour for the best flavor, or serve immediately with tortilla c
     slug: "quick-homemade-chili-seasoning",
     name: "Homemade Chili Seasoning",
     effort: "quick",
-    photoUrl: "/images/quick-homemade-chili-seasoning.webp",
+    photoUrl: "/images/quick-homemade-chili-seasoning.jpg",
     tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian"],
     notes: "A pantry staple that is great to keep on hand for chili nights.",
     ingredients: `1 Tbsp chili powder
@@ -2531,7 +2531,7 @@ Use in place of one store-bought chili seasoning packet.`,
   id: "quick-captains-wing-rub",
   slug: "quick-captains-wing-rub",
   name: "Captain's Wing Rub",
-  photoUrl: "/images/quick-captains-wing-rub.webp",
+  photoUrl: "/images/quick-captains-wing-rub.jpg",
   effort: "quick",
   tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian" ],
   ingredients: `2 Tbsp smoked paprika
@@ -2558,7 +2558,7 @@ Use as a dry rub or seasoning for wings and meats.`,
     slug: "quick-sausage-muffins",
     name: "Sausage Muffins",
     effort: "quick",
-    photoUrl: "/images/quick-sausage-muffins.webp",
+    photoUrl: "/images/quick-sausage-muffins.jpg",
     tags: ["breakfast", "quick", "kid-friendly", "meal-prep", "pork"],
     notes: "Easy grab-and-go breakfast muffins that also work for busy mornings or snacks.",
     ingredients: `1 cup Bisquick
@@ -2582,7 +2582,7 @@ Bake for 20 minutes or until the muffins are set and lightly browned on top.`,
   id: "big-french-toast-casserole",
   slug: "big-french-toast-casserole",
   name: "French Toast Casserole",
-  photoUrl: "/images/big-french-toast-casserole.webp",
+  photoUrl: "/images/big-french-toast-casserole.jpg",
   effort: "big",
   tags: ["breakfast", "brunch", "baked", "sweet", "family", "make-ahead"],
   ingredients: `1 loaf sourdough bread
@@ -2629,7 +2629,7 @@ export const NEW_VEGETARIAN_RECIPES: Meal[] = [
     slug: "quick-vegetable-stir-fry",
     name: "Vegetable Stir Fry",
     effort: "quick",
-    photoUrl: "/images/quick-vegetable-stir-fry.webp",
+    photoUrl: "/images/quick-vegetable-stir-fry.jpg",
     tags: ["vegetarian", "dinner", "quick", "healthy", "skillet", "asian"],
     notes: "A flexible, colorful dinner that is easy to adjust with whatever vegetables you have on hand.",
     ingredients: `2 Tbsp olive oil
@@ -2711,7 +2711,7 @@ Stir in 1 (15 oz) can drained and rinsed chickpeas and 1 (15 oz) can drained and
 Remove from heat and stir in 1 tbsp lemon juice if using. Let sit for 5 minutes before serving.
 
 Garnish with fresh chopped parsley if desired and serve warm.`,
-  photoUrl: "/images/normal-vegan-jambalaya.webp",
+  photoUrl: "/images/normal-vegan-jambalaya.jpg",
   effort: "normal",
   tags: ["vegetarian", "dinner", "one-pot", "healthy", "spicy", "vegan", "leftovers-friendly"],
   isVegetarian: true,
@@ -2746,7 +2746,7 @@ Flip and cook another 2 to 3 minutes, until the cheese is fully melted and the t
 Repeat with the remaining tortillas, adding 1 tbsp olive oil or butter to the pan as needed.
 
 Slice and serve warm with extra salsa.`,
-  photoUrl: "/images/quick-black-bean-quesadillas.webp",
+  photoUrl: "/images/quick-black-bean-quesadillas.jpg",
   effort: "quick",
   tags: ["vegetarian", "dinner", "quick", "mexican", "kid-friendly", "skillet", "one-pan", "leftovers-friendly"],
   isVegetarian: true,
@@ -2780,7 +2780,7 @@ Bake for 8 to 10 minutes, until the cheese is melted, bubbly, and the edges are 
 For extra browning, broil on high for 1 to 2 minutes, watching closely.
 
 Remove from oven and top with 1 tbsp fresh chopped basil if desired. Slice and serve immediately.`,
-  photoUrl: "/images/quick-pesto-naan-pizzas.webp",
+  photoUrl: "/images/quick-pesto-naan-pizzas.jpg",
   effort: "quick",
   tags: ["vegetarian", "dinner", "quick", "pizza", "kid-friendly", "one-pan", "leftovers-friendly"],
   isVegetarian: true,
@@ -2815,7 +2815,7 @@ Add 1 cup sliced bell peppers and 1/2 sliced small red onion to the skillet. Coo
 Drizzle with 1 tbsp lime juice if using and toss everything together.
 
 Serve hot.`,
-  photoUrl: "/images/quick-jamaican-jerk-tofu.webp",
+  photoUrl: "/images/quick-jamaican-jerk-tofu.jpg",
   effort: "quick",
   tags: ["vegetarian", "dinner", "quick", "spicy", "skillet", "healthy", "vegan", "one-pan", "leftovers-friendly"],
   isVegetarian: true,
@@ -2865,7 +2865,7 @@ Bake for 20 to 25 minutes, until heated through and the top is lightly golden.
 For extra browning, broil on high for 2 to 3 minutes at the end, watching closely.
 
 Let rest for 5 to 10 minutes before serving.`,
-  photoUrl: "/images/big-vegetarian-shepherds-pie.webp",
+  photoUrl: "/images/big-vegetarian-shepherds-pie.jpg",
   effort: "big",
   tags: ["vegetarian", "dinner", "bake", "comfort", "casserole", "family", "leftovers-friendly"],
   isVegetarian: true,
@@ -2902,7 +2902,7 @@ Add the cooked tortellini to the skillet and toss to coat. Add a splash of the 1
 Season with 1/2 tsp salt, 1/4 tsp black pepper, and 1/4 tsp red pepper flakes if using.
 
 Remove from heat and stir in 1 tbsp lemon juice if desired. Serve immediately.`,
-  photoUrl: "/images/quick-creamy-tortellini.webp",
+  photoUrl: "/images/quick-creamy-tortellini.jpg",
   effort: "quick",
   tags: ["dinner", "pasta", "vegetarian", "quick", "comfort", "one-pan", "leftovers-friendly"],
   isVegetarian: true,
@@ -2941,7 +2941,7 @@ Cover loosely with foil and bake for 20 minutes.
 Remove foil and bake an additional 10 to 15 minutes, until the cheese is melted and bubbly with lightly golden edges.
 
 Let rest for 5 to 10 minutes before serving.`,
-  photoUrl: "/images/big-spinach-ricotta-stuffed-shells.webp",
+  photoUrl: "/images/big-spinach-ricotta-stuffed-shells.jpg",
   effort: "big",
   tags: ["vegetarian", "dinner", "pasta", "bake", "comfort", "italian", "family", "leftovers-friendly"],
   isVegetarian: true,
@@ -2986,7 +2986,7 @@ Reduce the heat to low and simmer uncovered for 15 to 20 minutes, stirring occas
 Stir in the juice of 1/2 lemon and 1/4 cup chopped fresh cilantro. Taste and adjust salt if needed.
 
 Serve hot over cooked basmati rice or with warm naan.`,
-    photoUrl: "/images/normal-chickpea-curry.webp",
+    photoUrl: "/images/normal-chickpea-curry.jpg",
     effort: "normal",
     tags: ["vegetarian", "curry", "chickpeas", "one-pot", "comfort food"],
     isVegetarian: true,
@@ -3025,7 +3025,7 @@ Cook for 5 to 7 minutes, stirring occasionally, until peppers are tender and eve
 Drizzle with 1 tbsp soy sauce if using and toss to combine. Taste and adjust seasoning as needed.
 
 Remove from heat, garnish with 1 tbsp fresh chopped parsley if desired, and serve hot.`,
-  photoUrl: "/images/normal-spicy-tofu-mushroom-hash.webp",
+  photoUrl: "/images/normal-spicy-tofu-mushroom-hash.jpg",
   effort: "normal",
   tags: ["vegetarian", "dinner", "skillet", "spicy", "healthy", "one-pan", "vegan", "leftovers-friendly"],
   isVegetarian: true,
@@ -3061,7 +3061,7 @@ Remove from heat and fold in 1/4 cup torn fresh basil.
 Season with 1/2 tsp salt and 1/4 tsp black pepper to taste. Drizzle with 1 tbsp balsamic glaze if desired for finishing.
 
 Serve immediately.`,
-  photoUrl: "/images/quick-caprese-pasta.webp",
+  photoUrl: "/images/quick-caprese-pasta.jpg",
   effort: "quick",
   tags: ["vegetarian", "dinner", "pasta", "quick", "italian", "healthy", "one-pan", "light"],
   isVegetarian: true,
@@ -3104,7 +3104,7 @@ Cover the dish with foil and bake for 30 minutes, until the peppers are tender.
 Remove foil and bake an additional 5 to 10 minutes for slight browning on top.
 
 Garnish with 1/4 cup fresh chopped parsley if desired and serve warm.`,
-  photoUrl: "/images/big-mediterranean-stuffed-peppers.webp",
+  photoUrl: "/images/big-mediterranean-stuffed-peppers.jpg",
   effort: "big",
   tags: ["vegetarian", "dinner", "bake", "healthy", "mediterranean", "one-pan", "leftovers-friendly"],
   isVegetarian: true,
@@ -3151,7 +3151,7 @@ Toss everything together for 1 to 2 minutes until heated through and evenly coat
 Remove from heat and top with 2 tsp crushed peanuts.
 
 Serve immediately with lime wedges and optional extra peanuts or cilantro.`,
-  photoUrl: "/images/quick-vegetable-pad-thai.webp",
+  photoUrl: "/images/quick-vegetable-pad-thai.jpg",
   effort: "quick",
   tags: ["vegetarian", "dinner", "quick", "asian", "skillet", "one-pan", "vegan-friendly", "leftovers-friendly"],
   isVegetarian: true,
@@ -3199,7 +3199,7 @@ Brush the pastry with 1 beaten egg and score the top lightly with a knife for de
 Bake for 25 to 30 minutes, until the pastry is golden brown and puffed.
 
 Let rest for 5 to 10 minutes before slicing and serving.`,
-  photoUrl: "/images/big-roasted-vegetable-wellington.webp",
+  photoUrl: "/images/big-roasted-vegetable-wellington.jpg",
   effort: "big",
   tags: ["vegetarian", "dinner", "bake", "comfort", "holiday", "showstopper", "leftovers-friendly"],
   isVegetarian: true,
@@ -3247,7 +3247,7 @@ Cook the 4 patties for 4 to 5 minutes per side, until deeply browned and crisp o
 Toast 4 burger buns if desired.
 
 Serve patties on buns with your favorite toppings like lettuce, tomato, sliced avocado, or burger sauce, alongside the hot sweet potato fries.`,
-  photoUrl: "/images/big-black-bean-burgers-sweet-potato-fries.webp",
+  photoUrl: "/images/big-black-bean-burgers-sweet-potato-fries.jpg",
   effort: "big",
   tags: ["vegetarian", "dinner", "comfort", "kid-friendly", "american", "crispy", "family", "leftovers-friendly"],
   isVegetarian: true,
@@ -3291,7 +3291,7 @@ Pour the remaining enchilada sauce over the top and sprinkle evenly with 1 1/2 c
 Bake for 20 to 25 minutes, until the cheese is melted and bubbly.
 
 Garnish with 1/4 cup chopped fresh cilantro before serving.`,
-  photoUrl: "/images/big-sweet-potato-black-bean-enchiladas.webp",
+  photoUrl: "/images/big-sweet-potato-black-bean-enchiladas.jpg",
   effort: "big",
   tags: ["vegetarian", "dinner", "bake", "mexican", "comfort", "family", "leftovers-friendly"],
   isVegetarian: true,
@@ -3303,7 +3303,7 @@ Garnish with 1/4 cup chopped fresh cilantro before serving.`,
     slug: "vegetarian-fri-chik-noodle-casserole",
     name: "Vegetarian Fri-Chik Noodle Casserole",
     effort: "normal",
-    photoUrl: "/images/vegetarian-fri-chik-noodle-casserole.webp",
+    photoUrl: "/images/vegetarian-fri-chik-noodle-casserole.jpg",
     tags: ["vegetarian", "dinner", "casserole", "pasta", "comfort", "baked"],
     notes: "A hearty, comforting casserole that even non-vegetarians will love. Perfect for make-ahead dinners since it tastes even better the next day.",
     ingredients: `12 oz egg noodles
@@ -3373,7 +3373,7 @@ For extra browning, broil on high for 1 to 2 minutes, watching closely.
 In a small saucepan, combine 1/4 cup balsamic vinegar and 2 tsp brown sugar. Bring to a simmer and cook for 5 to 8 minutes until reduced and syrupy.
 
 Drizzle the balsamic glaze over the mushrooms, top with shredded fresh basil, and serve immediately.`,
-  photoUrl: "/images/normal-caprese-stuffed-portobello-mushrooms.webp",
+  photoUrl: "/images/normal-caprese-stuffed-portobello-mushrooms.jpg",
   effort: "normal",
   tags: ["dinner", "vegetarian", "bake", "italian", "healthy", "low-carb", "one-pan", "light"],
   isVegetarian: true,
@@ -3386,7 +3386,7 @@ Drizzle the balsamic glaze over the mushrooms, top with shredded fresh basil, an
     slug: "normal-spinach-mushroom-feta-crustless-quiche",
     name: "Spinach Mushroom Feta Crustless Quiche",
     effort: "normal",
-    photoUrl: "/images/normal-spinach-mushroom-feta-crustless-quiche.webp",
+    photoUrl: "/images/normal-spinach-mushroom-feta-crustless-quiche.jpg",
     tags: ["breakfast", "brunch", "dinner","vegetarian", "bake", "meal-prep", "healthy"],
     notes: "A good breakfast-for-dinner or meal-prep option with lots of savory flavor.",
     ingredients: `1 (10 oz) bag spinach
@@ -3451,7 +3451,7 @@ Add the cooked pasta and toss well to coat evenly.
 Season with 1/2 tsp salt, 1/4 tsp black pepper, and 1/4 tsp red pepper flakes if using.
 
 Remove from heat and stir in 1 tsp lemon juice if desired for brightness. Serve immediately.`,
-  photoUrl: "/images/quick-cream-cheese-spinach-pasta.webp",
+  photoUrl: "/images/quick-cream-cheese-spinach-pasta.jpg",
   effort: "quick",
   tags: ["dinner", "vegetarian", "pasta", "quick", "meatless", "creamy", "one-pan", "leftovers-friendly"],
   isVegetarian: true,
@@ -3486,7 +3486,7 @@ Flip and cook another 3 to 4 minutes, until the cheese is fully melted.
 Remove from skillet and let rest for 1 to 2 minutes before slicing.
 
 Drizzle with 1 tbsp balsamic glaze if desired and serve warm.`,
-  photoUrl: "/images/quick-caprese-sandwich.webp",
+  photoUrl: "/images/quick-caprese-sandwich.jpg",
   effort: "quick",
   tags: ["vegetarian", "dinner", "quick", "skillet", "comfort", "italian", "one-pan"],
   isVegetarian: true,
@@ -3518,7 +3518,7 @@ Remove from the grill and brush generously with 2 tbsp melted butter.
 Sprinkle with 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp garlic powder if using.
 
 Garnish with 1 tbsp fresh chopped parsley or cilantro and serve with lime wedges if desired.`,
-  photoUrl: "/images/quick-grilled-corn.webp",
+  photoUrl: "/images/quick-grilled-corn.jpg",
   effort: "quick",
   tags: ["side", "grilling", "summer", "vegetarian", "bbq", "easy"],
   isVegetarian: true,
@@ -3552,7 +3552,7 @@ Place kabobs on the grill and cook for 8 to 10 minutes, turning every few minute
 Remove from grill and drizzle with 1 tbsp balsamic vinegar or lemon juice if using for a bright finish.
 
 Serve warm.`,
-  photoUrl: "/images/quick-grilled-veggie-kabobs.webp",
+  photoUrl: "/images/quick-grilled-veggie-kabobs.jpg",
   effort: "quick",
   tags: ["dinner", "vegetarian", "grilling", "healthy", "side", "summer", "one-pan"],
   isVegetarian: true,
@@ -3591,7 +3591,7 @@ Top the mixture with 1/4 cup shredded carrots and 1/2 cup fresh spinach leaves.
 Roll the tortillas tightly, folding in the sides as you go to secure the filling.
 
 Slice in half and serve immediately.`,
-  photoUrl: "/images/quick-avocado-white-bean-wraps.webp",
+  photoUrl: "/images/quick-avocado-white-bean-wraps.jpg",
   effort: "quick",
   tags: ["vegetarian", "lunch", "quick", "no-cook", "healthy", "vegan", "meal-prep"],
   isVegetarian: true,
@@ -3628,7 +3628,7 @@ Reduce heat to medium. Create two small wells in the hash and crack 2 eggs (one 
 Cover the skillet and cook until the eggs are set to your preference (about 3 to 5 minutes).
 
 Garnish with 1 tbsp fresh chopped parsley or green onions if desired and serve hot.`,
-  photoUrl: "/images/normal-spicy-mushroom-potato-hash.webp",
+  photoUrl: "/images/normal-spicy-mushroom-potato-hash.jpg",
   effort: "normal",
   tags: ["vegetarian", "breakfast", "skillet", "spicy", "comfort", "one-pan", "brunch", "leftovers-friendly"],
   isVegetarian: true,
@@ -3645,7 +3645,7 @@ export const NEW_SALAD_RECIPES: Meal[] = [
     id: "quick-classic-garden-salad",
     slug: "quick-classic-garden-salad",
     name: "Classic Garden Salad",
-    photoUrl: "/images/quick-classic-garden-salad.webp",
+    photoUrl: "/images/quick-classic-garden-salad.jpg",
     effort: "quick",
     tags: ["salad", "quick", "vegetarian", "side", "fresh", "healthy"],
     ingredients: `1 head romaine lettuce, chopped
@@ -3669,7 +3669,7 @@ Drizzle with 1/4 cup ranch or Italian dressing just before serving and toss well
     id: "quick-greek-salad",
     slug: "quick-greek-salad",
     name: "Greek Salad",
-    photoUrl: "/images/quick-greek-salad.webp",
+    photoUrl: "/images/quick-greek-salad.jpg",
     effort: "quick",
     tags: ["salad", "quick", "vegetarian", "mediterranean", "fresh", "healthy"],
     ingredients: `1 cucumber, chopped
@@ -3696,7 +3696,7 @@ Serve immediately or chill in the refrigerator until ready to serve.`,
     id: "quick-caprese-salad",
     slug: "quick-caprese-salad",
     name: "Caprese Salad",
-    photoUrl: "/images/quick-caprese-salad.webp",
+    photoUrl: "/images/quick-caprese-salad.jpg",
     effort: "quick",
     tags: ["salad", "quick", "vegetarian", "italian", "fresh", "no-cook"],
     ingredients: `3 large tomatoes, sliced
@@ -3719,7 +3719,7 @@ Season lightly with salt and pepper to taste just before serving.`,
     id: "quick-southwest-chicken-salad",
     slug: "quick-southwest-chicken-salad",
     name: "Southwest Chicken Salad",
-    photoUrl: "/images/quick-southwest-chicken-salad.webp",
+    photoUrl: "/images/quick-southwest-chicken-salad.jpg",
     effort: "quick",
     tags: ["salad", "quick", "chicken", "dinner", "protein", "tex-mex"],
     ingredients: `2 cups cooked chicken, chopped
@@ -3743,7 +3743,7 @@ Drizzle with 1/3 cup southwest ranch dressing and toss well just before serving 
     id: "quick-cucumber-tomato-salad",
     slug: "quick-cucumber-tomato-salad",
     name: "Cucumber Tomato Salad",
-    photoUrl: "/images/quick-cucumber-tomato-salad.webp",
+    photoUrl: "/images/quick-cucumber-tomato-salad.jpg",
     effort: "quick",
     tags: ["salad", "quick", "vegetarian", "side", "fresh", "summer"],
     ingredients: `2 cucumbers, sliced
@@ -3770,7 +3770,7 @@ For the best flavor, chill in the refrigerator for 15 minutes before serving to 
     id: "normal-grilled-chicken-caesar-salad",
     slug: "normal-grilled-chicken-caesar-salad",
     name: "Grilled Chicken Caesar Salad",
-    photoUrl: "/images/normal-grilled-chicken-caesar-salad.webp",
+    photoUrl: "/images/normal-grilled-chicken-caesar-salad.jpg",
     effort: "normal",
     tags: ["salad", "normal", "chicken", "dinner", "protein", "classic"],
     ingredients: `2 chicken breasts
@@ -3796,7 +3796,7 @@ Top the salad with the warm sliced chicken and serve immediately.`,
     id: "normal-cobb-salad",
     slug: "normal-cobb-salad",
     name: "Cobb Salad",
-    photoUrl: "/images/normal-cobb-salad.webp",
+    photoUrl: "/images/normal-cobb-salad.jpg",
     effort: "normal",
     tags: ["salad", "normal", "chicken", "bacon", "dinner", "protein"],
     ingredients: `1 head romaine lettuce, chopped
@@ -3819,7 +3819,7 @@ Drizzle 1/3 cup ranch dressing over the top just before serving, or serve the dr
     id: "normal-steakhouse-salad",
     slug: "normal-steakhouse-salad",
     name: "Steakhouse Salad",
-    photoUrl: "/images/normal-steakhouse-salad.webp",
+    photoUrl: "/images/normal-steakhouse-salad.jpg",
     effort: "normal",
     tags: ["salad", "normal", "beef", "dinner", "protein", "hearty"],
     ingredients: `1 lb sirloin steak
@@ -3846,7 +3846,7 @@ Top the vegetable mixture with the sliced steak and drizzle with 1/3 cup balsami
     id: "normal-broccoli-bacon-salad",
     slug: "normal-broccoli-bacon-salad",
     name: "Broccoli Bacon Salad",
-    photoUrl: "/images/normal-broccoli-bacon-salad.webp",
+    photoUrl: "/images/normal-broccoli-bacon-salad.jpg",
     effort: "normal",
     tags: ["salad", "normal", "side", "broccoli", "bacon", "potluck"],
     ingredients: `4 cups broccoli florets
@@ -3871,7 +3871,7 @@ Chill in the refrigerator for at least 30 minutes before serving for the best fl
     id: "normal-avocado-ranch-chicken-salad",
     slug: "normal-avocado-ranch-chicken-salad",
     name: "Avocado Ranch Chicken Salad",
-    photoUrl: "/images/normal-avocado-ranch-chicken-salad.webp",
+    photoUrl: "/images/normal-avocado-ranch-chicken-salad.jpg",
     effort: "normal",
     tags: ["salad", "normal", "chicken", "avocado", "dinner", "protein"],
     ingredients: `2 cups cooked chicken, chopped
@@ -3897,7 +3897,7 @@ Toss gently to coat everything in the dressing without mashing the avocado, and 
     id: "big-buffalo-chicken-salad",
     slug: "big-buffalo-chicken-salad",
     name: "Buffalo Chicken Salad",
-    photoUrl: "/images/big-buffalo-chicken-salad.webp",
+    photoUrl: "/images/big-buffalo-chicken-salad.jpg",
     effort: "big",
     tags: ["salad", "big", "chicken", "buffalo", "dinner", "spicy"],
     ingredients: `2 chicken breasts, breaded or grilled
@@ -3923,7 +3923,7 @@ Top the vegetable mixture with the buffalo chicken and drizzle with 1/3 cup ranc
     id: "big-asian-chicken-salad",
     slug: "big-asian-chicken-salad",
     name: "Asian Chicken Salad",
-    photoUrl: "/images/big-asian-chicken-salad.webp",
+    photoUrl: "/images/big-asian-chicken-salad.jpg",
     effort: "big",
     tags: ["salad", "big", "chicken", "dinner", "crunchy", "asian-inspired"],
     ingredients: `2 cups cooked chicken, shredded
@@ -3946,7 +3946,7 @@ Drizzle with 1/4 cup sesame ginger dressing and toss thoroughly just before serv
     id: "big-strawberry-spinach-salad",
     slug: "big-strawberry-spinach-salad",
     name: "Strawberry Spinach Salad",
-    photoUrl: "/images/big-strawberry-spinach-salad.webp",
+    photoUrl: "/images/big-strawberry-spinach-salad.jpg",
     effort: "big",
     tags: ["salad", "big", "vegetarian", "spinach", "fruit", "fresh"],
     ingredients: `1 bag baby spinach
@@ -3968,7 +3968,7 @@ Toss gently to ensure the delicate spinach and berries are evenly coated, and se
     id: "big-taco-salad",
     slug: "big-taco-salad",
     name: "Taco Salad",
-    photoUrl: "/images/big-taco-salad.webp",
+    photoUrl: "/images/big-taco-salad.jpg",
     effort: "big",
     tags: ["salad", "big", "beef", "tex-mex", "dinner", "family-friendly"],
     ingredients: `1 lb ground beef
@@ -3995,7 +3995,7 @@ Finish by adding 1/2 cup salsa, 1/2 cup sour cream, and 1 cup crushed tortilla c
     id: "big-mediterranean-chickpea-salad",
     slug: "big-mediterranean-chickpea-salad",
     name: "Mediterranean Chickpea Salad",
-    photoUrl: "/images/big-mediterranean-chickpea-salad.webp",
+    photoUrl: "/images/big-mediterranean-chickpea-salad.jpg",
     effort: "big",
     tags: ["salad", "big", "vegetarian", "chickpeas", "healthy", "meal-prep"],
     ingredients: `2 cans chickpeas, drained and rinsed

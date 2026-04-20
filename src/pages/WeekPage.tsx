@@ -45,11 +45,11 @@ export default function WeekPage({
   const location = useLocation();
 
   const WEEK_TIPS = [
-  "Tap a meal to view the recipe",
-  "Lock a day to keep it when regenerating",
-  "Use leftovers or freezer nights to mix things up",
-  "Generate a new plan anytime",
-];
+    "Tap a meal to view the recipe",
+    "Lock a day to keep it when regenerating",
+    "Use leftovers or freezer nights to mix things up",
+    "Generate a new plan anytime",
+  ];
 
   const [showFirstMessage, setShowFirstMessage] = useState(false);
   const [showWalkthrough, setShowWalkthrough] = useState(false);
@@ -58,7 +58,7 @@ export default function WeekPage({
     null
   );
   const [highlightDay, setHighlightDay] = useState<string | null>(null);
-const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
+  const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
 
   const generatePlanRef = useRef<HTMLButtonElement | null>(null);
   const firstLockRef = useRef<HTMLButtonElement | null>(null);
@@ -206,34 +206,35 @@ const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
   }
 
   useEffect(() => {
-  const addedDay = location.state?.addedDay as string | undefined;
+    const addedDay = location.state?.addedDay as string | undefined;
 
-  if (!addedDay) return;
+    if (!addedDay) return;
 
-  setHighlightDay(addedDay);
-  setShowAddedMessage(addedDay);
+    setHighlightDay(addedDay);
+    setShowAddedMessage(addedDay);
 
-  // scroll to the card
-  const el = document.getElementById(`day-${addedDay}`);
-  if (el) {
-    setTimeout(() => {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 100);
-  }
+    const el = document.getElementById(`day-${addedDay}`);
+    if (el) {
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 100);
+    }
 
-  // clear highlight after animation
-  setTimeout(() => {
-    setHighlightDay(null);
-  }, 2000);
+    const highlightTimeout = setTimeout(() => {
+      setHighlightDay(null);
+    }, 2000);
 
-  // clear message
-  setTimeout(() => {
-    setShowAddedMessage(null);
-  }, 2500);
+    const messageTimeout = setTimeout(() => {
+      setShowAddedMessage(null);
+    }, 2500);
 
-  // clean URL state so it doesn't repeat
-  navigate("/week", { replace: true });
-}, [location.state]);
+    navigate("/week", { replace: true });
+
+    return () => {
+      clearTimeout(highlightTimeout);
+      clearTimeout(messageTimeout);
+    };
+  }, [location.state, navigate]);
 
   function normalizePhotoUrl(url?: string) {
     if (!url) return "";
@@ -241,7 +242,7 @@ const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
     const trimmed = url.trim();
 
     if (trimmed.startsWith("/images/")) {
-      return trimmed.replace(/\.(png|jpg|jpeg)$/i, ".webp");
+      return trimmed.replace(/\.(png|jpg|jpeg)$/i, ".jpg");
     }
 
     return trimmed;
@@ -360,21 +361,38 @@ const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
     return parts.join("\n\n");
   }
 
+  function getDayLabel(dayPlan: PlannedDay | undefined) {
+    if (!dayPlan) return null;
+
+    if (dayPlan.mode === "leftovers") return "Leftovers";
+    if (dayPlan.mode === "freezer") return "Freezer Night";
+
+    if (dayPlan.mode === "planned") {
+      return dayPlan.meal?.name?.trim() || null;
+    }
+
+    return null;
+  }
+
   function buildEventTimes(day: string) {
     const start = getNextDateForDay(day);
     const end = new Date(start.getTime() + 60 * 60 * 1000);
     return { start, end };
   }
 
-  function buildICSEvent(day: string, meal: Meal, index = 0) {
+  function buildICSEvent(day: string, dayPlan: PlannedDay, index = 0) {
     const { start, end } = buildEventTimes(day);
-    const title = `Dinner: ${meal?.name?.trim() || "Meal"}`;
-    const description = buildMealDescription(meal);
+    const label = getDayLabel(dayPlan) || "Meal";
+    const title = `Dinner: ${label}`;
+    const description =
+      dayPlan.mode === "planned" && dayPlan.meal
+        ? buildMealDescription(dayPlan.meal)
+        : "Planned in Simple Dinners";
 
     return [
       "BEGIN:VEVENT",
       `UID:${Date.now()}-${index}-${safeFileName(day)}-${safeFileName(
-        meal?.name || "meal"
+        label
       )}@simpledinners`,
       `DTSTAMP:${toICSLocal(new Date())}`,
       `DTSTART:${toICSLocal(start)}`,
@@ -410,13 +428,9 @@ const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
   function shareWeekPlan() {
     const lines = days
       .map((day) => {
-        const dayPlan = meals[day];
-        const meal = dayPlan?.meal;
-
-        if (dayPlan?.mode !== "planned") return null;
-        if (!meal?.name?.trim()) return null;
-
-        return `${day}: ${meal.name}`;
+        const label = getDayLabel(meals[day]);
+        if (!label) return null;
+        return `${day}: ${label}`;
       })
       .filter(Boolean) as string[];
 
@@ -437,32 +451,32 @@ const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
     }
   }
 
-  function downloadDayICS(day: string, meal: Meal) {
-    const filename = `${safeFileName(day)}-${safeFileName(
-      meal?.name || "meal"
-    )}.ics`;
-    downloadICSFile(filename, [buildICSEvent(day, meal)]);
+  function downloadDayICS(day: string, dayPlan: PlannedDay) {
+    const label = getDayLabel(dayPlan) || "meal";
+    const filename = `${safeFileName(day)}-${safeFileName(label)}.ics`;
+    downloadICSFile(filename, [buildICSEvent(day, dayPlan)]);
   }
 
   function downloadWholeWeekICS() {
-    const plannedDays = days.filter((day) => {
-      const dayPlan = meals[day];
-      return dayPlan?.mode === "planned" && !!dayPlan?.meal?.name?.trim();
-    });
+    const validDays = days.filter((day) => !!getDayLabel(meals[day]));
 
-    if (!plannedDays.length) return;
+    if (!validDays.length) return;
 
-    const events = plannedDays.map((day, index) =>
-      buildICSEvent(day, meals[day].meal as Meal, index)
+    const events = validDays.map((day, index) =>
+      buildICSEvent(day, meals[day], index)
     );
 
     downloadICSFile("simple-dinners-week-plan.ics", events);
   }
 
-  function openGoogleCalendar(day: string, meal: Meal) {
+  function openGoogleCalendar(day: string, dayPlan: PlannedDay) {
     const { start, end } = buildEventTimes(day);
-    const title = `Dinner: ${meal?.name?.trim() || "Meal"}`;
-    const details = buildMealDescription(meal);
+    const label = getDayLabel(dayPlan) || "Meal";
+    const title = `Dinner: ${label}`;
+    const details =
+      dayPlan.mode === "planned" && dayPlan.meal
+        ? buildMealDescription(dayPlan.meal)
+        : "Planned in Simple Dinners";
 
     const url =
       "https://calendar.google.com/calendar/render?action=TEMPLATE" +
@@ -474,20 +488,12 @@ const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
   }
 
   function addWholeWeekToCalendar() {
-    const plannedDays = days.filter((day) => {
-      const dayPlan = meals[day];
-      return dayPlan?.mode === "planned" && !!dayPlan?.meal?.name?.trim();
-    });
-
-    if (!plannedDays.length) return;
-
+    const validDays = days.filter((day) => !!getDayLabel(meals[day]));
+    if (!validDays.length) return;
     downloadWholeWeekICS();
   }
 
-  const plannedMealCount = days.filter((day) => {
-    const dayPlan = meals[day];
-    return dayPlan?.mode === "planned" && !!dayPlan?.meal?.name?.trim();
-  }).length;
+  const plannedMealCount = days.filter((day) => !!getDayLabel(meals[day])).length;
 
   const btnBase: React.CSSProperties = {
     border: "none",
@@ -550,13 +556,13 @@ const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
           }}
         >
           <header>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div
+              style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+            >
               <h1>Week Plan</h1>
-                <TipsModal tips={WEEK_TIPS} />
+              <TipsModal tips={WEEK_TIPS} />
             </div>
           </header>
-
-          
 
           {showFirstMessage && (
             <div
@@ -585,453 +591,527 @@ const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
               const isLocked = !!lockedDays[day];
               const mealPhotoUrl = normalizePhotoUrl(meal?.photoUrl);
 
-             return (
-  <Card
-    key={day}
-    style={{
-      padding: 0,
-      overflow: "hidden",
-      borderRadius: "24px",
-      position: "relative",
-      zIndex: showWalkthrough ? 2 : "auto",
-      outline: highlightDay === day ? "2px solid #22c55e" : undefined,
-      boxShadow:
-        highlightDay === day
-          ? "0 0 0 6px rgba(34,197,94,0.18)"
-          : undefined,
-      transition: "outline 0.4s ease, box-shadow 0.4s ease",
-    }}
-  >
-    <div
-      id={`day-${day}`}
-      style={{ padding: "20px", display: "grid", gap: 16 }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <CalendarDays size={18} style={{ opacity: 0.4 }} />
-          <span
-            style={{
-              fontWeight: 900,
-              fontSize: 18,
-              textTransform: "uppercase",
-            }}
-          >
-            {day}
-          </span>
-        </div>
+              return (
+                <Card
+                  key={day}
+                  style={{
+                    padding: 0,
+                    overflow: "hidden",
+                    borderRadius: "24px",
+                    position: "relative",
+                    zIndex: showWalkthrough ? 2 : "auto",
+                    outline: highlightDay === day ? "2px solid #22c55e" : undefined,
+                    boxShadow:
+                      highlightDay === day
+                        ? "0 0 0 6px rgba(34,197,94,0.18)"
+                        : undefined,
+                    transition: "outline 0.4s ease, box-shadow 0.4s ease",
+                  }}
+                >
+                  <div
+                    id={`day-${day}`}
+                    style={{ padding: "20px", display: "grid", gap: 16 }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                        <CalendarDays size={18} style={{ opacity: 0.4 }} />
+                        <span
+                          style={{
+                            fontWeight: 900,
+                            fontSize: 18,
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          {day}
+                        </span>
+                      </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          {showAddedMessage === day && (
-            <div
-              style={{
-                padding: "6px 10px",
-                borderRadius: 999,
-                background: "rgba(34,197,94,0.14)",
-                border: "1px solid rgba(34,197,94,0.35)",
-                color: "#86efac",
-                fontSize: 12,
-                fontWeight: 800,
-                whiteSpace: "nowrap",
-              }}
-            >
-              Added ✅
-            </div>
-          )}
+                      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                        {showAddedMessage === day && (
+                          <div
+                            style={{
+                              padding: "6px 10px",
+                              borderRadius: 999,
+                              background: "rgba(34,197,94,0.14)",
+                              border: "1px solid rgba(34,197,94,0.35)",
+                              color: "#86efac",
+                              fontSize: 12,
+                              fontWeight: 800,
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            Added ✅
+                          </div>
+                        )}
 
-          <button
-            ref={index === 0 ? firstLockRef : undefined}
-            onClick={() => toggleLock(day)}
-            style={{
-              background: isLocked
-                ? "rgba(34,197,94,0.15)"
-                : "rgba(255,255,255,0.05)",
-              border: "none",
-              padding: "8px 12px",
-              borderRadius: "12px",
-              color: isLocked ? "#22c55e" : "rgba(255,255,255,0.4)",
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              cursor: "pointer",
-              fontWeight: 800,
-              ...getSpotlightStyle(index === 0 && isActiveTarget("lock")),
-            }}
-          >
-            {isLocked ? <Lock size={14} /> : <Unlock size={14} />}
-            {isLocked ? "LOCKED" : "LOCK"}
-          </button>
-        </div>
-      </div>
+                        <button
+                          ref={index === 0 ? firstLockRef : undefined}
+                          onClick={() => toggleLock(day)}
+                          style={{
+                            background: isLocked
+                              ? "rgba(34,197,94,0.15)"
+                              : "rgba(255,255,255,0.05)",
+                            border: "none",
+                            padding: "8px 12px",
+                            borderRadius: "12px",
+                            color: isLocked ? "#22c55e" : "rgba(255,255,255,0.4)",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 6,
+                            cursor: "pointer",
+                            fontWeight: 800,
+                            ...getSpotlightStyle(index === 0 && isActiveTarget("lock")),
+                          }}
+                        >
+                          {isLocked ? <Lock size={14} /> : <Unlock size={14} />}
+                          {isLocked ? "LOCKED" : "LOCK"}
+                        </button>
+                      </div>
+                    </div>
 
-      {isLeftovers ? (
-        <div style={{ display: "grid", gap: 16 }}>
-          <div
-            style={{
-              display: "flex",
-              gap: 16,
-              alignItems: "center",
-            }}
-          >
-            <img
-              src="/images/leftovers.webp"
-              alt="Leftovers"
-              style={{
-                width: 85,
-                height: 85,
-                borderRadius: 18,
-                objectFit: "cover",
-                border: "1px solid rgba(255,255,255,0.1)",
-                background: "rgba(255,255,255,0.04)",
-                flexShrink: 0,
-              }}
-            />
+                    {isLeftovers ? (
+                      <div style={{ display: "grid", gap: 16 }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: 16,
+                            alignItems: "center",
+                          }}
+                        >
+                          <img
+                            src="/images/leftovers.jpg"
+                            alt="Leftovers"
+                            style={{
+                              width: 85,
+                              height: 85,
+                              borderRadius: 18,
+                              objectFit: "cover",
+                              border: "1px solid rgba(255,255,255,0.1)",
+                              background: "rgba(255,255,255,0.04)",
+                              flexShrink: 0,
+                            }}
+                          />
 
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div
-                style={{
-                  fontWeight: 800,
-                  fontSize: 19,
-                  marginBottom: 4,
-                  lineHeight: 1.2,
-                }}
-              >
-                Leftovers Night
-              </div>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div
+                              style={{
+                                fontWeight: 800,
+                                fontSize: 19,
+                                marginBottom: 4,
+                                lineHeight: 1.2,
+                              }}
+                            >
+                              Leftovers Night
+                            </div>
 
-              <div
-                style={{
-                  fontSize: 13,
-                  opacity: 0.5,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 4,
-                }}
-              >
-                <ChefHat size={14} />
-                No cooking tonight 👍
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : isFreezer ? (
-        <div style={{ display: "grid", gap: 16 }}>
-          <div
-            style={{
-              display: "flex",
-              gap: 16,
-              alignItems: "center",
-            }}
-          >
-            <img
-              src="/images/freezer-night.webp"
-              alt="Freezer Night"
-              style={{
-                width: 85,
-                height: 85,
-                borderRadius: 18,
-                objectFit: "cover",
-                border: "1px solid rgba(255,255,255,0.1)",
-                background: "rgba(255,255,255,0.04)",
-                flexShrink: 0,
-              }}
-            />
+                            <div
+                              style={{
+                                fontSize: 13,
+                                opacity: 0.5,
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 4,
+                              }}
+                            >
+                              <ChefHat size={14} />
+                              No cooking tonight 👍
+                            </div>
+                          </div>
+                        </div>
 
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div
-                style={{
-                  fontWeight: 800,
-                  fontSize: 19,
-                  marginBottom: 4,
-                  lineHeight: 1.2,
-                }}
-              >
-                Freezer Night
-              </div>
+                        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                          <button
+                            title="Long press to download .ics"
+                            onClick={() => {
+                              if (dayPlan) openGoogleCalendar(day, dayPlan);
+                            }}
+                            onContextMenu={(e) => {
+                              e.preventDefault();
+                              if (dayPlan) downloadDayICS(day, dayPlan);
+                            }}
+                            onTouchStart={(e) => {
+                              const timer = setTimeout(() => {
+                                if (dayPlan) downloadDayICS(day, dayPlan);
+                              }, 600);
 
-              <div
-                style={{
-                  fontSize: 13,
-                  opacity: 0.5,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 4,
-                }}
-              >
-                <ChefHat size={14} />
-                No cooking tonight 👍
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : hasMeal && meal ? (
-        <>
-          <div
-            onClick={() => {
-              navigate(
-                `/recipe/${encodeURIComponent(
-                  meal.slug || meal.name || ""
-                )}?from=/week`
+                              const clear = () => clearTimeout(timer);
+
+                              e.currentTarget.addEventListener("touchend", clear, {
+                                once: true,
+                              });
+                              e.currentTarget.addEventListener("touchmove", clear, {
+                                once: true,
+                              });
+                            }}
+                            style={{
+                              ...btnBase,
+                              flex: 1,
+                              minWidth: 0,
+                              background: "rgba(59,130,246,0.12)",
+                              color: "#60a5fa",
+                            }}
+                          >
+                            <CalendarPlus size={16} />
+                            Add to Calendar
+                          </button>
+                        </div>
+                      </div>
+                    ) : isFreezer ? (
+                      <div style={{ display: "grid", gap: 16 }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: 16,
+                            alignItems: "center",
+                          }}
+                        >
+                          <img
+                            src="/images/freezer-night.jpg"
+                            alt="Freezer Night"
+                            style={{
+                              width: 85,
+                              height: 85,
+                              borderRadius: 18,
+                              objectFit: "cover",
+                              border: "1px solid rgba(255,255,255,0.1)",
+                              background: "rgba(255,255,255,0.04)",
+                              flexShrink: 0,
+                            }}
+                          />
+
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div
+                              style={{
+                                fontWeight: 800,
+                                fontSize: 19,
+                                marginBottom: 4,
+                                lineHeight: 1.2,
+                              }}
+                            >
+                              Freezer Night
+                            </div>
+
+                            <div
+                              style={{
+                                fontSize: 13,
+                                opacity: 0.5,
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 4,
+                              }}
+                            >
+                              <ChefHat size={14} />
+                              No cooking tonight 👍
+                            </div>
+                          </div>
+                        </div>
+
+                        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                          <button
+                            title="Long press to download .ics"
+                            onClick={() => {
+                              if (dayPlan) openGoogleCalendar(day, dayPlan);
+                            }}
+                            onContextMenu={(e) => {
+                              e.preventDefault();
+                              if (dayPlan) downloadDayICS(day, dayPlan);
+                            }}
+                            onTouchStart={(e) => {
+                              const timer = setTimeout(() => {
+                                if (dayPlan) downloadDayICS(day, dayPlan);
+                              }, 600);
+
+                              const clear = () => clearTimeout(timer);
+
+                              e.currentTarget.addEventListener("touchend", clear, {
+                                once: true,
+                              });
+                              e.currentTarget.addEventListener("touchmove", clear, {
+                                once: true,
+                              });
+                            }}
+                            style={{
+                              ...btnBase,
+                              flex: 1,
+                              minWidth: 0,
+                              background: "rgba(59,130,246,0.12)",
+                              color: "#60a5fa",
+                            }}
+                          >
+                            <CalendarPlus size={16} />
+                            Add to Calendar
+                          </button>
+                        </div>
+                      </div>
+                    ) : hasMeal && meal ? (
+                      <>
+                        <div
+                          onClick={() => {
+                            navigate(
+                              `/recipe/${encodeURIComponent(
+                                meal.slug || meal.name || ""
+                              )}?from=/week`
+                            );
+                          }}
+                          style={{
+                            display: "flex",
+                            gap: 16,
+                            alignItems: "center",
+                            cursor: "pointer",
+                          }}
+                        >
+                          {mealPhotoUrl ? (
+                            <img
+                              src={mealPhotoUrl}
+                              alt={meal.name || "Meal"}
+                              style={{
+                                width: 85,
+                                height: 85,
+                                borderRadius: 18,
+                                objectFit: "cover",
+                                border: "1px solid rgba(255,255,255,0.1)",
+                                background: "rgba(255,255,255,0.04)",
+                                flexShrink: 0,
+                              }}
+                            />
+                          ) : (
+                            <div
+                              style={{
+                                width: 85,
+                                height: 85,
+                                borderRadius: 18,
+                                border: "1px solid rgba(255,255,255,0.1)",
+                                background: "rgba(255,255,255,0.04)",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                flexShrink: 0,
+                              }}
+                            >
+                              <Utensils size={22} style={{ opacity: 0.4 }} />
+                            </div>
+                          )}
+
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div
+                              style={{
+                                fontWeight: 800,
+                                fontSize: 19,
+                                marginBottom: 4,
+                                lineHeight: 1.2,
+                              }}
+                            >
+                              {meal.name}
+                            </div>
+
+                            <div
+                              style={{
+                                fontSize: 13,
+                                opacity: 0.5,
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 4,
+                              }}
+                            >
+                              <ChefHat size={14} />
+                              Tap for Details
+                            </div>
+                          </div>
+
+                          <ChevronRight
+                            size={20}
+                            style={{ opacity: 0.2, flexShrink: 0 }}
+                          />
+                        </div>
+
+                        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                          <button
+                            title="Long press to download .ics"
+                            onClick={() => {
+                              if (dayPlan) openGoogleCalendar(day, dayPlan);
+                            }}
+                            onContextMenu={(e) => {
+                              e.preventDefault();
+                              if (dayPlan) downloadDayICS(day, dayPlan);
+                            }}
+                            onTouchStart={(e) => {
+                              const timer = setTimeout(() => {
+                                if (dayPlan) downloadDayICS(day, dayPlan);
+                              }, 600);
+
+                              const clear = () => clearTimeout(timer);
+
+                              e.currentTarget.addEventListener("touchend", clear, {
+                                once: true,
+                              });
+                              e.currentTarget.addEventListener("touchmove", clear, {
+                                once: true,
+                              });
+                            }}
+                            style={{
+                              ...btnBase,
+                              flex: 1,
+                              minWidth: 0,
+                              background: "rgba(59,130,246,0.12)",
+                              color: "#60a5fa",
+                            }}
+                          >
+                            <CalendarPlus size={16} />
+                            Add to Calendar
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <div style={{ display: "grid", gap: 10 }}>
+                        <div
+                          onClick={() => navigate("/cookbook", { state: { pickForDay: day } })}
+                          style={{
+                            padding: "24px",
+                            borderRadius: "18px",
+                            border: "2px dashed rgba(255,255,255,0.1)",
+                            textAlign: "center",
+                            cursor: "pointer",
+                            color: "rgba(255,255,255,0.4)",
+                            fontWeight: 700,
+                          }}
+                        >
+                          <Plus size={24} style={{ marginBottom: 6 }} />
+                          <div>Pick a meal from Cookbook</div>
+                        </div>
+
+                        <button
+                          onClick={() => setLeftovers(day)}
+                          style={{
+                            padding: "12px",
+                            borderRadius: "14px",
+                            background: "rgba(234,179,8,0.12)",
+                            color: "#facc15",
+                            border: "none",
+                            fontWeight: 800,
+                            cursor: "pointer",
+                          }}
+                        >
+                          <Utensils
+                            size={16}
+                            style={{ marginRight: 6, marginBottom: -3 }}
+                          />
+                          Set as Leftovers
+                        </button>
+
+                        <button
+                          onClick={() => setFreezer(day)}
+                          style={{
+                            padding: "12px",
+                            borderRadius: "14px",
+                            background: "rgba(59,130,246,0.12)",
+                            color: "#60a5fa",
+                            border: "none",
+                            fontWeight: 800,
+                            cursor: "pointer",
+                          }}
+                        >
+                          🧊 Freezer Night
+                        </button>
+                      </div>
+                    )}
+
+                    {!isLocked && (
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: 10,
+                          marginTop: 4,
+                          flexWrap: "wrap",
+                        }}
+                      >
+                        {!isLeftovers && (
+                          <button
+                            onClick={() => setLeftovers(day)}
+                            style={{
+                              flex: 1,
+                              padding: "12px",
+                              borderRadius: "14px",
+                              background: "rgba(234,179,8,0.12)",
+                              color: "#facc15",
+                              border: "none",
+                              fontWeight: 800,
+                              cursor: "pointer",
+                            }}
+                          >
+                            <Utensils
+                              size={16}
+                              style={{ marginBottom: -3, marginRight: 4 }}
+                            />
+                            Leftovers
+                          </button>
+                        )}
+
+                        {!isFreezer && (
+                          <button
+                            onClick={() => setFreezer(day)}
+                            style={{
+                              flex: 1,
+                              padding: "12px",
+                              borderRadius: "14px",
+                              background: "rgba(59,130,246,0.12)",
+                              color: "#60a5fa",
+                              border: "none",
+                              fontWeight: 800,
+                              cursor: "pointer",
+                            }}
+                          >
+                            🧊 Freezer
+                          </button>
+                        )}
+
+                        <button
+                          onClick={() => clearDay(day)}
+                          style={{
+                            flex: 1,
+                            padding: "12px",
+                            borderRadius: "14px",
+                            background: "rgba(239,68,68,0.1)",
+                            color: "#ef4444",
+                            border: "none",
+                            fontWeight: 800,
+                            cursor: "pointer",
+                          }}
+                        >
+                          <Trash2
+                            size={16}
+                            style={{ marginBottom: -3, marginRight: 4 }}
+                          />
+                          Remove
+                        </button>
+
+                        {mode === "planned" && hasMeal && (
+                          <button
+                            onClick={() => addDayToCookbook(day)}
+                            style={{
+                              flex: 1,
+                              padding: "12px",
+                              borderRadius: "14px",
+                              background: "rgba(34,197,94,0.1)",
+                              color: "#22c55e",
+                              border: "none",
+                              fontWeight: 800,
+                              cursor: "pointer",
+                            }}
+                          >
+                            Save Recipe
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </Card>
               );
-            }}
-            style={{
-              display: "flex",
-              gap: 16,
-              alignItems: "center",
-              cursor: "pointer",
-            }}
-          >
-            {mealPhotoUrl ? (
-              <img
-                src={mealPhotoUrl}
-                alt={meal.name || "Meal"}
-                style={{
-                  width: 85,
-                  height: 85,
-                  borderRadius: 18,
-                  objectFit: "cover",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  background: "rgba(255,255,255,0.04)",
-                  flexShrink: 0,
-                }}
-              />
-            ) : (
-              <div
-                style={{
-                  width: 85,
-                  height: 85,
-                  borderRadius: 18,
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  background: "rgba(255,255,255,0.04)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                }}
-              >
-                <Utensils size={22} style={{ opacity: 0.4 }} />
-              </div>
-            )}
-
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div
-                style={{
-                  fontWeight: 800,
-                  fontSize: 19,
-                  marginBottom: 4,
-                  lineHeight: 1.2,
-                }}
-              >
-                {meal.name}
-              </div>
-
-              <div
-                style={{
-                  fontSize: 13,
-                  opacity: 0.5,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 4,
-                }}
-              >
-                <ChefHat size={14} />
-                Tap for Details
-              </div>
-            </div>
-
-            <ChevronRight
-              size={20}
-              style={{ opacity: 0.2, flexShrink: 0 }}
-            />
-          </div>
-
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <button
-              title="Long press to download .ics"
-              onClick={() => {
-                if (meal) openGoogleCalendar(day, meal);
-              }}
-              onContextMenu={(e) => {
-                e.preventDefault();
-                if (meal) downloadDayICS(day, meal);
-              }}
-              onTouchStart={(e) => {
-                const timer = setTimeout(() => {
-                  if (meal) downloadDayICS(day, meal);
-                }, 600);
-
-                const clear = () => clearTimeout(timer);
-
-                e.currentTarget.addEventListener("touchend", clear, {
-                  once: true,
-                });
-                e.currentTarget.addEventListener("touchmove", clear, {
-                  once: true,
-                });
-              }}
-              style={{
-                ...btnBase,
-                flex: 1,
-                minWidth: 0,
-                background: "rgba(59,130,246,0.12)",
-                color: "#60a5fa",
-              }}
-            >
-              <CalendarPlus size={16} />
-              Add to Calendar
-            </button>
-          </div>
-        </>
-      ) : (
-        <div style={{ display: "grid", gap: 10 }}>
-          <div
-            onClick={() => navigate("/cookbook", { state: { pickForDay: day } })}
-            style={{
-              padding: "24px",
-              borderRadius: "18px",
-              border: "2px dashed rgba(255,255,255,0.1)",
-              textAlign: "center",
-              cursor: "pointer",
-              color: "rgba(255,255,255,0.4)",
-              fontWeight: 700,
-            }}
-          >
-            <Plus size={24} style={{ marginBottom: 6 }} />
-            <div>Pick a meal from Cookbook</div>
-          </div>
-
-          <button
-            onClick={() => setLeftovers(day)}
-            style={{
-              padding: "12px",
-              borderRadius: "14px",
-              background: "rgba(234,179,8,0.12)",
-              color: "#facc15",
-              border: "none",
-              fontWeight: 800,
-              cursor: "pointer",
-            }}
-          >
-            <Utensils
-              size={16}
-              style={{ marginRight: 6, marginBottom: -3 }}
-            />
-            Set as Leftovers
-          </button>
-
-          <button
-            onClick={() => setFreezer(day)}
-            style={{
-              padding: "12px",
-              borderRadius: "14px",
-              background: "rgba(59,130,246,0.12)",
-              color: "#60a5fa",
-              border: "none",
-              fontWeight: 800,
-              cursor: "pointer",
-            }}
-          >
-            🧊 Freezer Night
-          </button>
-        </div>
-      )}
-
-      {!isLocked && (
-        <div
-          style={{
-            display: "flex",
-            gap: 10,
-            marginTop: 4,
-            flexWrap: "wrap",
-          }}
-        >
-          {!isLeftovers && (
-            <button
-              onClick={() => setLeftovers(day)}
-              style={{
-                flex: 1,
-                padding: "12px",
-                borderRadius: "14px",
-                background: "rgba(234,179,8,0.12)",
-                color: "#facc15",
-                border: "none",
-                fontWeight: 800,
-                cursor: "pointer",
-              }}
-            >
-              <Utensils
-                size={16}
-                style={{ marginBottom: -3, marginRight: 4 }}
-              />
-              Leftovers
-            </button>
-          )}
-
-          {!isFreezer && (
-            <button
-              onClick={() => setFreezer(day)}
-              style={{
-                flex: 1,
-                padding: "12px",
-                borderRadius: "14px",
-                background: "rgba(59,130,246,0.12)",
-                color: "#60a5fa",
-                border: "none",
-                fontWeight: 800,
-                cursor: "pointer",
-              }}
-            >
-              🧊 Freezer
-            </button>
-          )}
-
-          <button
-            onClick={() => clearDay(day)}
-            style={{
-              flex: 1,
-              padding: "12px",
-              borderRadius: "14px",
-              background: "rgba(239,68,68,0.1)",
-              color: "#ef4444",
-              border: "none",
-              fontWeight: 800,
-              cursor: "pointer",
-            }}
-          >
-            <Trash2
-              size={16}
-              style={{ marginBottom: -3, marginRight: 4 }}
-            />
-            Remove
-          </button>
-
-          {mode === "planned" && hasMeal && (
-            <button
-              onClick={() => addDayToCookbook(day)}
-              style={{
-                flex: 1,
-                padding: "12px",
-                borderRadius: "14px",
-                background: "rgba(34,197,94,0.1)",
-                color: "#22c55e",
-                border: "none",
-                fontWeight: 800,
-                cursor: "pointer",
-              }}
-            >
-              Save Recipe
-            </button>
-          )}
-        </div>
-      )}
-    </div>
-  </Card>
-);
             })}
           </div>
 
@@ -1104,7 +1184,7 @@ const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
             >
               <CalendarPlus size={16} />
               {plannedMealCount
-                ? `Add ${plannedMealCount} Meal${
+                ? `Add ${plannedMealCount} Day${
                     plannedMealCount > 1 ? "s" : ""
                   } to Calendar`
                 : "No meals planned"}

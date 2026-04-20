@@ -93,7 +93,7 @@ function normalizePhotoUrl(url?: string) {
 
 
   if (trimmed.startsWith("/images/")) {
-    return trimmed.replace(/\.(png|jpg|jpeg)$/i, ".webp");
+    return trimmed.replace(/\.(png|jpg|jpeg)$/i, ".jpg");
   }
 
 

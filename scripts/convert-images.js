@@ -40,7 +40,7 @@ async function convertImages() {
 
     for (const file of imageFiles) {
       const inputPath = path.join(inputDir, file);
-      const outputFile = file.replace(/\.(png|jpe?g)$/i, ".webp");
+      const outputFile = file.replace(/\.(png|jpe?g)$/i, ".jpg");
       const outputPath = path.join(inputDir, outputFile);
 
       try {
@@ -55,7 +55,7 @@ async function convertImages() {
             width: MAX_WIDTH,
             withoutEnlargement: true,
           })
-          .webp({ quality: QUALITY })
+          .jpg({ quality: QUALITY })
           .toFile(outputPath);
 
         console.log(`Converted: ${file} -> ${outputFile}`);
