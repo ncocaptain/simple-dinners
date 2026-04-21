@@ -20,6 +20,8 @@ export type GroceryCategory =
 
 // =====================================================
 // Builder: keyword map for smart grocery grouping
+// Order matters. More specific categories should appear
+// before broader ones when keyword overlap is possible.
 // =====================================================
 const CATEGORY_KEYWORDS: Array<{
   category: GroceryCategory;
@@ -29,30 +31,51 @@ const CATEGORY_KEYWORDS: Array<{
     category: "Produce",
     keywords: [
       "onion",
+      "yellow onion",
+      "red onion",
+      "white onion",
+      "green onion",
+      "scallion",
+      "scallions",
       "garlic",
+      "garlic cloves",
       "tomato",
       "tomatoes",
       "lettuce",
       "spinach",
+      "spinach leaves",
       "broccoli",
+      "broccoli florets",
       "carrot",
       "carrots",
       "celery",
       "bell pepper",
+      "red bell pepper",
+      "yellow bell pepper",
+      "green bell pepper",
+      "orange bell pepper",
+      "pepper",
       "peppers",
       "potato",
       "potatoes",
       "lime",
       "lemon",
+      "lemon juice",
+      "lime juice",
+      "lemon zest",
+      "lime zest",
       "cilantro",
       "parsley",
       "avocado",
-      "green onion",
       "cucumber",
       "zucchini",
+      "yellow squash",
+      "squash",
       "mushroom",
       "mushrooms",
+      "baby bella mushrooms",
       "corn",
+      "corn on the cob",
       "apple",
       "apples",
       "banana",
@@ -60,6 +83,28 @@ const CATEGORY_KEYWORDS: Array<{
       "grapes",
       "strawberries",
       "blueberries",
+      "raspberries",
+      "blackberries",
+      "asparagus",
+      "bunch asparagus",
+      "sugar snap peas",
+      "snap peas",
+      "snow peas",
+      "peas",
+      "dill",
+      "ginger",
+      "fresh ginger",
+      "jalapeno",
+      "jalapenos",
+      "poblano",
+      "serrano",
+      "cabbage",
+      "cauliflower",
+      "green beans",
+      "brussels sprouts",
+      "sweet potato",
+      "sweet potatoes",
+      "fresh herbs",
     ],
   },
   {
@@ -68,20 +113,33 @@ const CATEGORY_KEYWORDS: Array<{
       "ground beef",
       "beef",
       "chicken",
+      "chicken breast",
+      "chicken thighs",
+      "chicken tenders",
+      "chicken tenderloins",
       "pork",
+      "pork chop",
+      "pork chops",
       "sausage",
+      "italian sausage",
+      "ground italian sausage",
+      "mild ground italian sausage",
       "turkey",
+      "ground turkey",
       "bacon",
       "ham",
       "steak",
       "shrimp",
       "fish",
       "salmon",
+      "salmon fillets",
       "tilapia",
+      "tilapia fillets",
       "tuna",
       "crab",
       "lobster",
       "scallops",
+      "ground chicken",
     ],
   },
   {
@@ -103,6 +161,34 @@ const CATEGORY_KEYWORDS: Array<{
       "ricotta",
       "feta",
       "swiss",
+      "cream cheese",
+      "cottage cheese",
+    ],
+  },
+  {
+    category: "Bakery",
+    keywords: [
+      "bread",
+      "rolls",
+      "bun",
+      "buns",
+      "hamburger bun",
+      "hamburger buns",
+      "hot dog bun",
+      "hot dog buns",
+      "tortilla",
+      "tortillas",
+      "wheat tortillas",
+      "corn tortillas",
+      "bagel",
+      "bagels",
+      "pita",
+      "naan",
+      "english muffin",
+      "english muffins",
+      "pizza dough",
+      "prepared pizza dough",
+      "dough",
     ],
   },
   {
@@ -113,8 +199,67 @@ const CATEGORY_KEYWORDS: Array<{
       "frozen pizza",
       "ice cream",
       "frozen vegetables",
+      "frozen vegetable",
+      "mixed vegetables",
       "frozen fruit",
       "waffles",
+      "freezer meal",
+      "freezer item",
+    ],
+  },
+  {
+    category: "Pantry",
+    keywords: [
+      "rice",
+      "pasta",
+      "spaghetti",
+      "flour",
+      "cornmeal",
+      "cornstarch",
+      "sugar",
+      "brown sugar",
+      "honey",
+      "beans",
+      "black beans",
+      "chili beans",
+      "tomato sauce",
+      "diced tomatoes",
+      "broth",
+      "stock",
+      "beef broth",
+      "chicken broth",
+      "vegetable broth",
+      "oil",
+      "olive oil",
+      "sesame oil",
+      "toasted sesame oil",
+      "vinegar",
+      "rice vinegar",
+      "soy sauce",
+      "low sodium soy sauce",
+      "salsa",
+      "peanut butter",
+      "jelly",
+      "macaroni",
+      "ketchup",
+      "yellow mustard",
+      "mustard",
+      "mayonnaise",
+      "mayo",
+      "breadcrumbs",
+      "crackers",
+      "cereal",
+      "oats",
+      "pizza sauce",
+      "jar pizza sauce",
+      "stir fry sauce",
+      "worcestershire sauce",
+      "sesame seeds",
+      "pickles",
+      "citric acid",
+      "beef broth",
+      "chicken seasoning",
+      "prepared sauce",
     ],
   },
   {
@@ -122,6 +267,7 @@ const CATEGORY_KEYWORDS: Array<{
     keywords: [
       "salt",
       "pepper",
+      "black pepper",
       "paprika",
       "cumin",
       "oregano",
@@ -135,57 +281,13 @@ const CATEGORY_KEYWORDS: Array<{
       "cajun seasoning",
       "taco seasoning",
       "parsley flakes",
-    ],
-  },
-  {
-    category: "Bakery",
-    keywords: [
-      "bread",
-      "rolls",
-      "bun",
-      "buns",
-      "tortilla",
-      "tortillas",
-      "bagel",
-      "pita",
-      "naan",
-      "hamburger buns",
-      "hot dog buns",
-      "english muffin",
-    ],
-  },
-  {
-    category: "Pantry",
-    keywords: [
-      "rice",
-      "pasta",
-      "spaghetti",
-      "flour",
-      "sugar",
-      "brown sugar",
-      "beans",
-      "black beans",
-      "chili beans",
-      "tomato sauce",
-      "diced tomatoes",
-      "broth",
-      "stock",
-      "oil",
-      "olive oil",
-      "vinegar",
-      "soy sauce",
-      "salsa",
-      "peanut butter",
-      "jelly",
-      "macaroni",
-      "ketchup",
-      "mustard",
-      "mayonnaise",
-      "mayo",
-      "breadcrumbs",
-      "crackers",
-      "cereal",
-      "oats",
+      "dried dill",
+      "dried parsley",
+      "ground ginger",
+      "ginger powder",
+      "smoked paprika",
+      "seasoned salt",
+      "chicken seasoning",
     ],
   },
   {
@@ -199,6 +301,8 @@ const CATEGORY_KEYWORDS: Array<{
       "sparkling water",
       "sports drink",
       "drink mix",
+      "orange juice",
+      "apple juice",
     ],
   },
   {
@@ -300,12 +404,54 @@ function normalize(text: string) {
 
 // =====================================================
 // Builder: category matcher
+// Uses a few direct rules first for items that are
+// especially common or ambiguous, then falls back to
+// the keyword map above.
 // =====================================================
 export function categorizeGroceryItem(name: string): GroceryCategory {
   const normalized = normalize(name);
 
+  // pantry shortcuts
   if (normalized.includes("stock") || normalized.includes("broth")) {
     return "Pantry";
+  }
+
+  // bakery shortcuts
+  if (
+    normalized.includes("pizza dough") ||
+    normalized.includes("prepared pizza dough")
+  ) {
+    return "Bakery";
+  }
+
+  // frozen shortcuts
+  if (
+    normalized.includes("mixed vegetables") ||
+    normalized.includes("frozen vegetables")
+  ) {
+    return "Frozen";
+  }
+
+  // produce shortcuts
+  if (
+    normalized.includes("asparagus") ||
+    normalized.includes("sugar snap peas") ||
+    normalized.includes("snap peas") ||
+    normalized.includes("yellow squash") ||
+    normalized.includes("spinach leaves") ||
+    normalized.includes("broccoli florets")
+  ) {
+    return "Produce";
+  }
+
+  // spice shortcuts
+  if (
+    normalized.includes("garlic powder") ||
+    normalized.includes("onion powder") ||
+    normalized.includes("italian seasoning") ||
+    normalized.includes("black pepper")
+  ) {
+    return "Spices / Seasonings";
   }
 
   for (const group of CATEGORY_KEYWORDS) {
