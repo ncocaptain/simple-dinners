@@ -648,6 +648,8 @@ export default function ShoppingListPage() {
         name: string;
         isCountable: boolean;
         totalQuantity: number;
+          minQuantity: number;
+          maxQuantity: number;
         unit: string | null;
         mixedUnits: boolean;
         recipeNames: Set<string>;
@@ -681,8 +683,10 @@ export default function ShoppingListPage() {
         existing.checked = existing.checked && item.checked;
 
         if (quantityToAdd > 0) {
-          existing.totalQuantity += quantityToAdd;
-        }
+  existing.totalQuantity += quantityToAdd;
+  existing.minQuantity = Math.min(existing.minQuantity, quantityToAdd);
+  existing.maxQuantity = Math.max(existing.maxQuantity, quantityToAdd);
+}
 
         if (existing.unit !== mergeUnit) {
           if (existing.unit !== null || mergeUnit !== null) {
@@ -702,6 +706,8 @@ export default function ShoppingListPage() {
           name: normalizedName,
           isCountable,
           totalQuantity: quantityToAdd,
+            minQuantity: quantityToAdd,
+            maxQuantity: quantityToAdd,
           unit: mergeUnit ?? null,
           mixedUnits: false,
           recipeNames: recipeName ? new Set([recipeName]) : new Set(),
@@ -717,7 +723,11 @@ export default function ShoppingListPage() {
         const formattedName = formatDisplayName(
           pluralizeCountable(value.name, qty)
         );
-        displayText = `${formatQuantity(qty)} ${formattedName}`;
+        if (value.minQuantity !== value.maxQuantity) {
+  displayText = `${formatQuantity(value.minQuantity)}–${formatQuantity(value.maxQuantity)} ${formattedName}`;
+} else {
+  displayText = `${formatQuantity(qty)} ${formattedName}`;
+}
       } else if (
         !value.mixedUnits &&
         value.unit &&
