@@ -313,10 +313,16 @@ function cleanIngredientName(line: string) {
     "seeds removed",
     "for topping",
     "for serving",
+    "to",
+    "up to",
+    "for serving",
+"serve with",
   ];
 
   removePhrases.forEach((phrase) => {
     text = text.replaceAll(phrase, " ");
+    text = text.replace(/\bto\b/g, " ");
+text = text.replace(/\bup to\b/g, " ");
   });
 
   const removeWords = [
