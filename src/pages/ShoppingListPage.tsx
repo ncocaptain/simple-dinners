@@ -329,6 +329,7 @@ function cleanIngredientName(line: string) {
   text = text.replace(/\bonions?\b/g, "onion");
   text = text.replace(/\bcarrots?\b/g, "carrot");
   text = text.replace(/\beggs?\b/g, "egg");
+  text = text.replace(/\bspinach leaves\b/g, "spinach");
 
   // special cleanup for lines like "2 carrots"
   text = text.replace(
@@ -393,6 +394,7 @@ function cleanIngredientName(line: string) {
     "whole",
     "boneless",
     "skinless",
+    "ripe",
   ];
 
   removeWords.forEach((word) => {
@@ -403,8 +405,10 @@ function cleanIngredientName(line: string) {
   text = text.split(",")[0];
   text = text.replace(/^[-•*]\s*/, "");
   text = text.replace(/\s+/g, " ").trim();
+  text = text.replace(/[:]+$/, "");
 
   if (text === "salt and pepper") return "salt / pepper";
+  
 
   return text;
 }
@@ -697,7 +701,8 @@ export default function ShoppingListPage() {
       const parsed = parseIngredient(cleanedRaw);
       const cleanedName = parsed.name || cleanedRaw;
 
-      const isCountable = isCountableIngredient(cleanedName);
+      const isMeasured = parsed.unit !== null && parsed.unit !== "__count__";
+const isCountable = !isMeasured && isCountableIngredient(cleanedName);
       const normalizedName = isCountable
         ? normalizeCountableName(cleanedName)
         : cleanedName.toLowerCase();
@@ -707,17 +712,27 @@ export default function ShoppingListPage() {
       const key = `${category}::${normalizedName}`;
 
       const quantityToAdd =
-        parsed.quantity !== null ? parsed.quantity : isCountable ? 1 : 0;
+  parsed.quantity !== null
+    ? isCountable
+      ? Math.ceil(parsed.quantity)
+      : parsed.quantity
+    : isCountable
+    ? 1
+    : 0;
 
       const minQuantityToAdd =
-        parsed.minQuantity !== null && parsed.minQuantity !== undefined
-          ? parsed.minQuantity
-          : quantityToAdd;
+  parsed.minQuantity !== null && parsed.minQuantity !== undefined
+    ? isCountable
+      ? Math.ceil(parsed.minQuantity)
+      : parsed.minQuantity
+    : quantityToAdd;
 
-      const maxQuantityToAdd =
-        parsed.maxQuantity !== null && parsed.maxQuantity !== undefined
-          ? parsed.maxQuantity
-          : quantityToAdd;
+const maxQuantityToAdd =
+  parsed.maxQuantity !== null && parsed.maxQuantity !== undefined
+    ? isCountable
+      ? Math.ceil(parsed.maxQuantity)
+      : parsed.maxQuantity
+    : quantityToAdd;
 
       const recipeName = String((item as any).sourceRecipe || "").trim();
 
