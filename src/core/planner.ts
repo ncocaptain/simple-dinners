@@ -250,11 +250,26 @@ export const dinnerLibrary: Meal[] = dedupeMeals(
   ALL_RECIPES.filter((meal) => {
     const tags = normalizeTags(meal.tags);
 
-    return (
-      !tags.includes("dessert") &&
-      !tags.includes("side") &&
-      !tags.includes("side-dish")
-    );
+    const blockedTags = [
+      "dessert",
+      "side",
+      "side-dish",
+      "seasoning",
+      "spice-mix",
+      "dip",
+      "breakfast",
+      "brunch",
+      "lunch",
+    ];
+
+    const hasBlockedTag = blockedTags.some((tag) => tags.includes(tag));
+
+    // allow dinner salads, but keep non-dinner salads out of weekly generation
+    const isDinnerSalad = tags.includes("salad") && tags.includes("dinner");
+
+    if (isDinnerSalad) return true;
+
+    return !hasBlockedTag;
   })
 );
 
@@ -273,7 +288,27 @@ export const extrasLibrary: MealBucket = {
 export function filterMealsForPrefs(meals: Meal[], prefs: PlannerPrefs) {
   let filtered = [...meals];
 
-  filtered = filtered.filter((meal) => !isDessert(meal) && !isSideDish(meal));
+  filtered = filtered.filter((meal) => {
+  const tags = normalizeTags(meal.tags);
+
+  const blockedTags = [
+    "dessert",
+    "side",
+    "side-dish",
+    "seasoning",
+    "spice-mix",
+    "dip",
+    "breakfast",
+    "brunch",
+    "lunch",
+  ];
+
+  const isDinnerSalad = tags.includes("salad") && tags.includes("dinner");
+
+  if (isDinnerSalad) return true;
+
+  return !blockedTags.some((tag) => tags.includes(tag));
+});
 
   if (prefs.vegetarian) {
     filtered = filtered.filter((meal) => {

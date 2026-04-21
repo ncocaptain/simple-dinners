@@ -411,6 +411,32 @@ function normalize(text: string) {
 export function categorizeGroceryItem(name: string): GroceryCategory {
   const normalized = normalize(name);
 
+  // ===== FORCE SPICES FIRST =====
+if (
+  normalized.includes("pepper flakes") ||
+  normalized.includes("red pepper flakes") ||
+  normalized.includes("cayenne") ||
+  normalized.includes("cayenne pepper") ||
+  normalized.includes("black pepper") ||
+  normalized.includes("ground pepper") ||
+  normalized.includes("paprika") ||
+  normalized.includes("cumin") ||
+  normalized.includes("oregano") ||
+  normalized.includes("basil") ||
+  normalized.includes("seasoning") ||
+  normalized.includes("spice")
+) {
+  return "Spices / Seasonings";
+}
+
+// ===== GINGER RULE (important) =====
+if (normalized.includes("ginger")) {
+  if (normalized.includes("tsp") || normalized.includes("tbsp")) {
+    return "Spices / Seasonings"; // ground ginger
+  }
+  return "Produce"; // fresh ginger
+}
+
   // pantry shortcuts
   if (normalized.includes("stock") || normalized.includes("broth")) {
     return "Pantry";

@@ -122,7 +122,7 @@ export const NEW_BUILTIN_RECIPES: Meal[] = [
     name: "Chili",
     effort: "quick",
     photoUrl: "/images/quick-beef-chili.jpg",
-    tags: ["dinner", "beef", "one-pot", "spicy", "comfort", "quick", "leftovers-friendly"],
+    tags: ["dinner", "beef", "one-pot", "stovetop", "spicy", "comfort", "quick", "leftovers-friendly"],
     notes: "A hearty, no-fuss chili that is easy to throw together and even better the next day.",
     ingredients: `1 lb ground beef
 2 (14.5 oz) cans fire-roasted diced tomatoes
@@ -133,7 +133,7 @@ export const NEW_BUILTIN_RECIPES: Meal[] = [
 1 packet chili seasoning
 shredded cheese
 sour cream
-Fresh or pickled jalapeños`,
+fresh or pickled jalapeños`,
     instructions: `Brown the ground beef in a large pot over medium heat until fully cooked.
 Drain excess grease.
 Add fire-roasted tomatoes, diced tomatoes, chili beans, corn, black beans, and chili seasoning. Stir well.
@@ -148,7 +148,7 @@ Serve hot and top with shredded cheese, sour cream, and jalapeños.`,
     name: "Chicken Green Bean Mushroom Bake",
     effort: "normal",
     photoUrl: "/images/normal-chicken-greenbean-mushroom-bake.jpg",
-    tags: ["dinner", "chicken", "bake", "casserole", "comfort", "leftovers-friendly"],
+    tags: ["dinner", "chicken", "bake", "casserole", "comfort", "family-friendly", "leftovers-friendly"],
     notes: "A creamy baked chicken dinner that works well for cozy weeknights and reheats nicely.",
     ingredients: `4 skinless chicken breasts
 8 oz baby bella mushrooms, sliced
@@ -160,12 +160,12 @@ Serve hot and top with shredded cheese, sour cream, and jalapeños.`,
 2 cups water
 1/2 cup shredded mozzarella cheese
 salt
- pepper`,
+pepper`,
     instructions: `Preheat oven to 375°F.
-In a baking dish, mix  1 can of cream of mushroom soup, mushrooms, and green beans.
-In a skillet over medium-high heat, melt 2 Tbspbutter and brown chicken on both sides with 1 Tbsp garlic.
+In a baking dish, mix 1 can of cream of mushroom soup, mushrooms, and green beans.
+In a skillet over medium-high heat, melt 2 Tbsp butter and brown chicken on both sides with 1 Tbsp garlic.
 Place chicken on top of the mixture in the baking dish.
-Spread the remaining  1 can of cream of mushroom soup over the chicken.
+Spread the remaining 1 can of cream of mushroom soup over the chicken.
 Cover tightly with foil and bake for 30 minutes, or until chicken reaches 165°F.
 Meanwhile, bring 2 cups water to a boil, add rice, reduce heat, cover, and simmer 15 minutes. Rest 5 minutes.
 Uncover dish, sprinkle mozzarella on top, and return to oven 5 to 10 minutes until melted.
@@ -178,8 +178,8 @@ Serve chicken and mushroom mixture over rice; season with salt and pepper.`,
     name: "Salisbury Steak with Mushroom Gravy",
     effort: "big",
     photoUrl: "/images/big-beef-salisbury-steak.jpg",
-    tags: ["dinner", "beef", "stovetop", "comfort", "gravy"],
-    notes: "Classic comfort food with rich mushroom gravy that is perfect over mashed Potatoes.",
+    tags: ["dinner", "beef", "stovetop", "comfort", "gravy", "family-friendly"],
+    notes: "Classic comfort food with rich mushroom gravy that is perfect over mashed potatoes.",
     ingredients: `1 lb ground beef
 1/4 cup panko breadcrumbs
 1 large egg, beaten
@@ -214,7 +214,7 @@ Serve over mashed potatoes with mushroom gravy spooned on top.`,
     name: "Wild West Shrimp",
     effort: "normal",
     photoUrl: "/images/normal-wild-west-shrimp.jpg",
-    tags: ["dinner", "seafood", "shellfish", "shrimp", "fried", "spicy"],
+    tags: ["dinner", "seafood", "shellfish", "shrimp", "fried", "spicy", "restaurant-style"],
     notes: "A restaurant-style shrimp dish with bold buttery heat and a crunchy coating.",
     ingredients: `1 lb medium shrimp, peeled and deveined
 1 1/2 cups flour
@@ -249,7 +249,7 @@ Serve warm with ranch dressing.`,
     name: "Mushroom Swiss Sliders",
     effort: "big",
     photoUrl: "/images/big-mushroom-swiss-sliders.jpg",
-    tags: ["dinner", "beef", "sandwich", "bake", "party", "comfort"],
+    tags: ["dinner", "beef", "sliders", "sandwich", "bake", "party", "comfort", "family-friendly"],
     notes: "Great for feeding a crowd or using as a fun family dinner night.",
     ingredients: `1 Tbsp seasoned salt
 1 Tbsp hamburger seasoning
@@ -267,7 +267,7 @@ Serve warm with ranch dressing.`,
 1/2 cup shredded Swiss cheese
 1 tsp garlic salt
 2 tsp sesame seeds
-1 package King’s Hawaiian Rolls (12 count)
+1 package King’s Hawaiian rolls (12 count)
 12 slices Swiss cheese`,
     instructions: `Preheat oven to 350°F. Spray a 9x13-inch baking dish with nonstick spray.
 
@@ -278,13 +278,13 @@ Add ground beef and break apart with a spoon.
 Stir in 1/2 tsp worcestershire and seasoning mixture.
 Cook 8 to 10 minutes until no pink remains. Drain and set aside.
 
-In a medium saucepan over medium heat, melt  1/2 cup butter.
+In a medium saucepan over medium heat, melt 1/2 cup butter.
 Add mushrooms and cook 5 to 10 minutes until softened.
 Add 1/4 cup beef broth and 1/4 cup milk.
 Reduce heat and slowly whisk in 1/2 cup shredded Swiss cheese until melted.
 Stir in cooked hamburger mixture and combine well.
 
-Melt 1/4 cup butter and mix with 1 tsp garlic salt, and 2 tsp sesame seeds in a small bowl.
+Melt 1/4 cup butter and mix with 1 tsp garlic salt and 2 tsp sesame seeds in a small bowl.
 
 Slice rolls in half and place bottom halves in baking dish.
 Layer 6 slices Swiss cheese on bottom buns.
@@ -304,7 +304,7 @@ Serve warm.`,
     name: "School Pizza",
     effort: "normal",
     photoUrl: "/images/normal-school-pizza.jpg",
-    tags: ["dinner", "pizza", "bake", "comfort", "kid-friendly"],
+    tags: ["dinner", "pizza", "bake", "comfort", "kid-friendly", "sheet-pan", "family-friendly"],
     notes: "A nostalgic sheet-pan pizza that brings back cafeteria memories in the best way.",
     ingredients: `4 Tbsp olive oil, divided
 3 Tbsp cornmeal
@@ -320,7 +320,7 @@ Sprinkle 3 Tbsp cornmeal over the pan.
 Stretch pizza dough into a rectangle to fit the sheet pan.
 If the dough resists stretching, let it rest 5 minutes and continue.
 
-Heat remaining 1 tablespoon olive oil in a skillet over medium-high heat.
+Heat remaining 1 Tbsp olive oil in a skillet over medium-high heat.
 Add sausage and 3 Tbsp Italian seasoning.
 Cook 7 to 8 minutes until browned and no longer pink.
 Drain excess grease.
@@ -343,7 +343,7 @@ Serve warm.`,
     name: "Shotgun Shells",
     effort: "big",
     photoUrl: "/images/big-shotgun-shells.jpg",
-    tags: ["dinner", "beef", "pork", "bake", "bbq", "party", "comfort"],
+    tags: ["dinner", "beef", "pork", "bbq", "bake", "party", "comfort", "game-day"],
     notes: "A big-flavor BBQ dinner that is fun for weekends, cookouts, or game day.",
     ingredients: `2 (8 oz) boxes manicotti shells (uncooked)
 1 1/2 lb ground beef
@@ -384,7 +384,7 @@ Serve hot.`,
     photoUrl: "/images/normal-shrimp-and-sausage-bake.jpg",
     tags: ["dinner", "sheet-pan", "seafood", "shellfish", "shrimp", "sausage", "one-pan", "leftovers-friendly"],
     notes: "A low-mess sheet-pan dinner with big flavor and a nice mix of protein and veggies.",
-    ingredients: `Cooking spray
+    ingredients: `cooking spray
 3 cups red potatoes, cut into 1-inch pieces
 4 Tbsp butter, melted
 3 Tbsp olive oil
@@ -401,48 +401,48 @@ Serve hot.`,
 1 red bell pepper, cut into 1-inch pieces
 1 green bell pepper, cut into 1-inch pieces
 1 can corn, drained
-Fresh parsley`,
+fresh parsley`,
     instructions: `Preheat oven to 400°F.
 Lightly coat a large sheet pan with cooking spray. Add cut potatoes to the sheet pan.
 
-In a small bowl, whisk together 4 Tbsp melted butter, 3 Tbsp olive oil, 2 tsp garlic, 1 Tbsp dried parsley, 1 Tbsp dried oregano, 1/2 tsp garlic powder, 
-1/2 tsp seasoned salt, 1 tsp paprika, and 1/4 tsp cayenne pepper. 
+In a small bowl, whisk together 4 Tbsp melted butter, 3 Tbsp olive oil, 2 tsp garlic, 1 Tbsp dried parsley, 1 Tbsp dried oregano, 1/2 tsp garlic powder, 1/2 tsp seasoned salt, 1 tsp paprika, and 1/4 tsp cayenne pepper.
 
-Remove 2 tablespoons of this mixture and toss with potatoes until evenly coated. Spread potatoes into an even layer 
-and bake for 15 minutes.
+Remove 2 tablespoons of this mixture and toss with potatoes until evenly coated. Spread potatoes into an even layer and bake for 15 minutes.
 
 Meanwhile, pat shrimp dry and toss with 2 1/2 tablespoons of the butter-herb mixture. Set aside.
 
-Slice sausage into coins, cut onion into 1/2-inch pieces, cut bell peppers into 1-inch pieces and drain corn thoroughly.
+Slice sausage into coins, cut onion into 1/2-inch pieces, cut bell peppers into 1-inch pieces, and drain corn thoroughly.
 
-Remove potatoes from oven and toss. Push potatoes to one side of the sheet pan. Add sausage, onion, and bell peppers 
-to the other side.
+Remove potatoes from oven and toss. Push potatoes to one side of the sheet pan. Add sausage, onion, and bell peppers to the other side.
 
-Pour remaining herb-butter mixture over everything and toss well. Spread into an even layer and return to 
-oven for 15 minutes. 
+Pour remaining herb-butter mixture over everything and toss well. Spread into an even layer and return to oven for 15 minutes.
 
 Toss and bake an additional 8 minutes.
 
-Remove from oven and space vegetables evenly. Add shrimp to pan and bake 6 minutes, or until shrimp is cooked through 
-and vegetables are crisp-tender.
+Remove from oven and space vegetables evenly. Add shrimp to pan and bake 6 minutes, or until shrimp is cooked through and vegetables are crisp-tender.
 
 Add drained corn on top and bake 1 additional minute.
 
 Toss gently and garnish with fresh parsley before serving.`,
   },
 
- {
-   id: "normal-classic-meatloaf",
-  slug: "normal-classic-meatloaf",
-  name: "Classic Meatloaf",
-  ingredients: `1 1/2 lbs ground beef
+  {
+    id: "normal-classic-meatloaf",
+    slug: "normal-classic-meatloaf",
+    name: "Classic Meatloaf",
+    effort: "normal",
+    photoUrl: "/images/normal-classic-meatloaf.jpg",
+    tags: ["dinner", "beef", "bake", "comfort", "classic", "family-friendly", "leftovers-friendly"],
+    isVegetarian: false,
+    notes: "Juicy, tender meatloaf with a sweet and tangy glaze. For extra flavor, sauté the onions and garlic before mixing. Great served with mashed potatoes and green beans.",
+    ingredients: `1 1/2 lbs ground beef
 1 cup breadcrumbs (or crushed crackers)
 1/2 cup milk
 1 small yellow onion, finely diced
 2 cloves garlic, minced
 2 large eggs
 2 Tbsp ketchup
-1 Tbsp Worcestershire sauce
+1 Tbsp worcestershire sauce
 1 tsp salt
 1/2 tsp pepper
 1 tsp smoked paprika
@@ -451,31 +451,26 @@ Toss gently and garnish with fresh parsley before serving.`,
 1/2 tsp onion powder
 
 FOR GLAZE
-1/3 cup ketchup (for glaze)
-2 Tbsp brown sugar (for glaze)
-1 Tbsp Worcestershire sauce (for glaze)
-1 tsp mustard (for glaze)`,
-  instructions: `Preheat oven to 375°F. Line a baking sheet with parchment paper or lightly grease a loaf pan.
+1/3 cup ketchup
+2 Tbsp brown sugar
+1 Tbsp worcestershire sauce
+1 tsp mustard`,
+    instructions: `Preheat oven to 375°F. Line a baking sheet with parchment paper or lightly grease a loaf pan.
 
 In a large bowl, combine 1 cup breadcrumbs and 1/2 cup milk. Let sit for 2 to 3 minutes until absorbed.
 
-Add ground beef, diced onion, garlic, eggs, 2 Tbsp ketchup, 1 Tbsp Worcestershire sauce, 1 tsp salt, 1/2 tsp pepper, 1 tsp smoked paprika, 1/2 tsp thyme, 1/2 tsp parsley, and 1/2 tsp onion powder. Mix gently with your hands until just combined. Do not overmix.
+Add ground beef, diced onion, garlic, eggs, 2 Tbsp ketchup, 1 Tbsp worcestershire sauce, 1 tsp salt, 1/2 tsp pepper, 1 tsp smoked paprika, 1/2 tsp thyme, 1/2 tsp parsley, and 1/2 tsp onion powder. Mix gently with your hands until just combined. Do not overmix.
 
 Transfer the mixture to the prepared baking sheet or loaf pan. Shape into a loaf about 8 to 9 inches long.
 
-In a small bowl, whisk together 5 Tbsp ketchup, 2 Tbsp brown sugar, 1 Tbsp Worcestershire sauce, and 1 tsp mustard. Spread half of the glaze over the meatloaf.
+In a small bowl, whisk together 1/3 cup ketchup, 2 Tbsp brown sugar, 1 Tbsp worcestershire sauce, and 1 tsp mustard. Spread half of the glaze over the meatloaf.
 
 Bake for 40 minutes. Remove from the oven, spread the remaining glaze on top, and return to the oven.
 
 Bake for an additional 15 to 25 minutes, until the internal temperature reaches 160°F and the glaze is caramelized.
 
 Let rest for 10 minutes before slicing and serving.`,
-  photoUrl: "/images/normal-classic-meatloaf.jpg",
-  effort: "normal",
-  tags: ["beef", "comfort food", "classic", "oven-baked", "family dinner", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Juicy, tender meatloaf with a sweet and tangy glaze. For extra flavor, sauté the onions and garlic before mixing. Great served with mashed potatoes and green beans."
-},
+  },
 
   {
     id: "normal-tilapia-asparagus-foil-packets",
@@ -483,7 +478,7 @@ Let rest for 10 minutes before slicing and serving.`,
     name: "Tilapia & Asparagus Foil Packets",
     effort: "normal",
     photoUrl: "/images/normal-tilapia-asparagus-foil-packets.jpg",
-    tags: ["dinner", "seafood", "fish", "foil-packets", "bake", "healthy"],
+    tags: ["dinner", "seafood", "fish", "tilapia", "foil-packets", "bake", "healthy", "one-pan"],
     notes: "A light and easy fish dinner with almost no cleanup.",
     ingredients: `1 bunch asparagus
 2 yellow squash
@@ -517,13 +512,13 @@ Bake for 20 minutes.
 Carefully open packets. Steam will be hot. Remove from foil before serving.`,
   },
 
- {
+  {
     id: "normal-slow-cooker-beef-enchilada-casserole",
     slug: "normal-slow-cooker-beef-enchilada-casserole",
     name: "Slow Cooker Beef Enchilada Casserole",
     effort: "normal",
     photoUrl: "/images/normal-slow-cooker-beef-enchilada-casserole.jpg",
-    tags: ["dinner", "beef", "slow-cooker", "mexican", "comfort", "casserole", "leftovers"],
+    tags: ["dinner", "beef", "slow-cooker", "casserole", "mexican", "comfort", "leftovers-friendly"],
     notes: "An easy crockpot dinner that is filling, cheesy, and great for busy evenings.",
     ingredients: `1 1/2 lbs lean ground beef
 1 packet taco seasoning
@@ -534,8 +529,8 @@ Carefully open packets. Steam will be hot. Remove from foil before serving.`,
 10 (6-inch) corn tortillas, cut into wedges
 1 1/2 cups shredded Mexican cheese blend
 cilantro, chopped
-Pico de gallo
-Sour cream`,
+pico de gallo
+sour cream`,
     instructions: `In a large skillet over medium-high heat, cook 1 1/2 lbs lean ground beef until browned.
 Drain excess grease and stir in 1 packet of taco seasoning.
 
@@ -551,18 +546,17 @@ Layer the remaining tortilla wedges and the remaining 3/4 cup of cheese on top.
 Cover and cook on High for about 30 minutes, or until the cheese is fully melted.
 
 Garnish with chopped cilantro, pico de gallo, and sour cream before serving.`,
-},
+  },
 
- 
- {
-  id: "normal-shepherds-pie",
-  slug: "normal-shepherds-pie",
-  name: "Shepherd’s Pie",
-  effort: "normal",
-  photoUrl: "/images/normal-shepherds-pie.jpg",
-  tags: ["dinner", "beef", "bake", "comfort", "casserole", "leftovers-friendly"],
-  notes: "A warm, classic comfort meal that feels right at home on chilly nights.",
-  ingredients: `1 1/2 to 2 lbs Potatoes (about 3 large), peeled and quartered
+  {
+    id: "normal-shepherds-pie",
+    slug: "normal-shepherds-pie",
+    name: "Shepherd’s Pie",
+    effort: "normal",
+    photoUrl: "/images/normal-shepherds-pie.jpg",
+    tags: ["dinner", "beef", "bake", "comfort", "casserole", "family-friendly", "leftovers-friendly"],
+    notes: "A warm, classic comfort meal that feels right at home on chilly nights.",
+    ingredients: `1 1/2 to 2 lbs potatoes (about 3 large), peeled and quartered
 8 Tbsp butter (1 stick), divided
 1 medium onion, chopped
 2 cups mixed vegetables (diced carrots, corn, peas)
@@ -573,11 +567,11 @@ salt
 pepper
 8 oz baby bella mushrooms
 2 cloves garlic`,
-  instructions: `Place 1 1/2 to 2 lbs of peeled and quartered potatoes in a pot and cover with at least 1 inch of cold water. Add a teaspoon of salt. Bring to a boil, reduce to a simmer, and cook until tender, about 20 minutes.
+    instructions: `Place 1 1/2 to 2 lbs of peeled and quartered potatoes in a pot and cover with at least 1 inch of cold water. Add a teaspoon of salt. Bring to a boil, reduce to a simmer, and cook until tender, about 20 minutes.
 
-While potatoes cook, melt 4 Tbsp butter in a large sauté pan over medium heat. Add 1 chopped medium onion and the diced carrots (from the 2 cups of mixed vegetables) and cook until tender, about 6 to 10 minutes.
+While potatoes cook, melt 4 Tbsp butter in a large sauté pan over medium heat. Add 1 chopped medium onion and the diced carrots from the mixed vegetables and cook until tender, about 6 to 10 minutes.
 
-Add 8 oz baby bella mushrooms and 2 cloves of garlic; cook 2 to 3 minutes until mushrooms soften.
+Add 8 oz baby bella mushrooms and 2 cloves garlic; cook 2 to 3 minutes until mushrooms soften.
 
 Add 1 1/2 lbs ground beef, along with the remaining corn and peas from the mixed vegetables. Cook until the beef is no longer pink. Season with salt and pepper.
 
@@ -590,17 +584,17 @@ Preheat oven to 400°F. Spread the beef mixture in an even layer in an 8x13 baki
 Spread the mashed potatoes over the top. Rough up the surface with a fork to create peaks.
 
 Bake about 30 minutes until browned and bubbling.`,
-},
+  },
 
- {
-  id: "normal-italian-sausage-stuffed-peppers",
-  slug: "normal-italian-sausage-stuffed-peppers",
-  name: "Italian Sausage Stuffed peppers",
-  effort: "normal",
-  photoUrl: "/images/normal-italian-sausage-stuffed-peppers.jpg",
-  tags: ["dinner", "pork", "bake", "italian", "comfort"],
-  notes: "A solid weeknight baked dinner that is filling without being too fussy.",
-  ingredients: `1 lb Italian sausage
+  {
+    id: "normal-italian-sausage-stuffed-peppers",
+    slug: "normal-italian-sausage-stuffed-peppers",
+    name: "Italian Sausage Stuffed Peppers",
+    effort: "normal",
+    photoUrl: "/images/normal-italian-sausage-stuffed-peppers.jpg",
+    tags: ["dinner", "pork", "italian", "bake", "stuffed-peppers", "comfort", "family-friendly"],
+    notes: "A solid weeknight baked dinner that is filling without being too fussy.",
+    ingredients: `1 lb Italian sausage
 2 tsp olive oil
 1 (14.5 oz) can fire-roasted diced tomatoes
 2 tsp garlic powder
@@ -614,7 +608,7 @@ Bake about 30 minutes until browned and bubbling.`,
 3 large bell peppers
 red pepper flakes
 fresh basil`,
-  instructions: `Preheat oven to 375°F.
+    instructions: `Preheat oven to 375°F.
 
 Cut around the stem of 3 large bell peppers and remove it. Slice peppers in half lengthwise and remove seeds and white membrane. Place cut-side up in a baking dish.
 
@@ -631,17 +625,22 @@ Cover with foil and bake 25 to 30 minutes, or longer if you like softer peppers,
 Remove foil and broil 2 to 3 minutes until cheese is browned.
 
 Cool 1 to 2 minutes. Top with fresh basil and red pepper flakes if desired and serve.`,
-},
+  },
 
   {
-  id: "quick-honey-garlic-chicken",
-  slug: "quickhoney-garlic-chicken",
-  name: "Honey Garlic Chicken",
-  ingredients: `1 1/2 lbs boneless, skinless chicken breast
+    id: "quick-honey-garlic-chicken",
+    slug: "quick-honey-garlic-chicken",
+    name: "Honey Garlic Chicken",
+    effort: "quick",
+    photoUrl: "/images/quick-honey-garlic-chicken.jpg",
+    tags: ["dinner", "chicken", "quick", "one-pan", "sweet-savory", "weeknight", "leftovers-friendly"],
+    isVegetarian: false,
+    notes: "Fast and flavorful honey garlic chicken with a sticky, glossy sauce. Great served over rice with steamed broccoli or stir-fried vegetables.",
+    ingredients: `1 1/2 lbs boneless, skinless chicken breast
 2 Tbsp cornstarch (optional)
 1 Tbsp olive oil
 1/2 tsp salt
-1/2 tsp black pepper
+1/2 tsp pepper
 1/3 cup honey
 1/4 cup soy sauce
 4 cloves garlic, minced
@@ -651,7 +650,7 @@ Cool 1 to 2 minutes. Top with fresh basil and red pepper flakes if desired and s
 1 tsp cornstarch + 2 Tbsp water (for slurry)
 2 green onions, sliced
 1 tsp sesame seeds (optional)`,
-  instructions: `Pat 1 1/2 lbs boneless, skinless chicken breast dry and cut into bite-sized pieces. Season with 1/2 tsp salt and 1/2 tsp pepper, then toss lightly with 2 Tbsp cornstarch if using.
+    instructions: `Pat 1 1/2 lbs boneless, skinless chicken breast dry and cut into bite-sized pieces. Season with 1/2 tsp salt and 1/2 tsp pepper, then toss lightly with 2 Tbsp cornstarch if using.
 
 Heat 1 Tbsp olive oil in a large skillet or cast iron pan over medium-high heat. Add chicken in a single layer and cook for 4 to 5 minutes without moving, until a deep golden-brown crust forms. Flip and cook another 3 to 4 minutes until nearly cooked through.
 
@@ -659,35 +658,34 @@ Reduce heat to medium. Add 4 cloves minced garlic and 1 Tbsp fresh grated ginger
 
 Pour in 1/3 cup honey, 1/4 cup soy sauce, 1 Tbsp rice vinegar, and 1 tsp sesame oil. Stir well, scraping up any browned bits from the pan.
 
-Bring the sauce to a gentle simmer. Mix 1 tsp cornstarch with 2 Tbsp water to create a slurry. 
+Bring the sauce to a gentle simmer. Mix 1 tsp cornstarch with 2 Tbsp water to create a slurry.
 
 Stir the cornstarch slurry into the pan and cook for 2 to 3 minutes, stirring frequently, until the sauce thickens and becomes glossy.
 
 Remove from heat and toss the chicken until fully coated in the sauce.
 
 Garnish with 2 sliced green onions and 1 tsp sesame seeds before serving.`,
-  photoUrl: "/images/quick-honey-garlic-chicken.jpg",
-  effort: "quick",
-  tags: ["chicken", "quick", "one-pan", "sweet-savory", "weeknight", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Fast and flavorful honey garlic chicken with a sticky, glossy sauce. Great served over rice with steamed broccoli or stir-fried vegetables."
-},
+  },
 
-
- {
-  id: "quick-lemon-butter-salmon",
-  slug: "quick-lemon-butter-salmon",
-  name: "Lemon Butter Salmon",
-  ingredients: `4 salmon fillets (about 6 oz each, skin-on preferred)
+  {
+    id: "quick-lemon-butter-salmon",
+    slug: "quick-lemon-butter-salmon",
+    name: "Lemon Butter Salmon",
+    effort: "quick",
+    photoUrl: "/images/quick-lemon-butter-salmon.jpg",
+    tags: ["dinner", "seafood", "fish", "salmon", "quick", "healthy", "one-pan", "leftovers-friendly"],
+    isVegetarian: false,
+    notes: "Quick, restaurant-quality salmon with a rich lemon butter sauce. Crispy on the outside, tender inside. Excellent with rice, roasted vegetables, or a light salad.",
+    ingredients: `4 salmon fillets (about 6 oz each, skin-on preferred)
 1/2 tsp salt
 1/2 tsp pepper
 1 Tbsp olive oil
 3 Tbsp unsalted butter
 3 cloves garlic, minced
-Juice of 1 lemon
+juice of 1 lemon
 1 tsp lemon zest
 1 Tbsp fresh parsley`,
-  instructions: `Pat 4 salmon fillets (about 6 oz each) dry with paper towels. Season both sides with 1/2 tsp salt and 1/2 tsp black pepper.
+    instructions: `Pat 4 salmon fillets (about 6 oz each) dry with paper towels. Season both sides with 1/2 tsp salt and 1/2 tsp pepper.
 
 Heat 1 Tbsp olive oil in a large skillet (preferably cast iron or stainless steel) over medium-high heat.
 
@@ -702,18 +700,18 @@ Reduce heat to medium-low. Add 3 Tbsp unsalted butter to the pan and let it melt
 Squeeze in the juice of 1 lemon and add 1 tsp lemon zest if using. Spoon the lemon butter sauce over the salmon continuously for about 1 minute.
 
 Remove from heat. Garnish with 1 Tbsp chopped fresh parsley and serve immediately.`,
-  photoUrl: "/images/quick-lemon-butter-salmon.jpg",
-  effort: "quick",
-  tags: ["dinner", "seafood", "fish", "salmon", "quick", "healthy", "one-pan", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Quick, restaurant-quality salmon with a rich lemon butter sauce. Crispy on the outside, tender inside. Excellent with rice, roasted vegetables, or a light salad."
-},
- 
-{
-  id: "quick-chicken-fried-rice",
-  slug: "quick-chicken-fried-rice",
-  name: "Chicken Fried Rice",
-  ingredients: `2 cups cooked and chilled rice (day-old preferred)
+  },
+
+  {
+    id: "quick-chicken-fried-rice",
+    slug: "quick-chicken-fried-rice",
+    name: "Chicken Fried Rice",
+    effort: "quick",
+    photoUrl: "/images/quick-chicken-fried-rice.jpg",
+    tags: ["dinner", "chicken", "rice", "one-pan", "quick", "takeout-style", "leftovers-friendly"],
+    isVegetarian: false,
+    notes: "Quick and flavorful fried rice using leftover chicken and rice. For best texture, use cold, day-old rice so it crisps up instead of getting mushy.",
+    ingredients: `2 cups cooked and chilled rice (day-old preferred)
 1 lb cooked chicken, diced (or rotisserie chicken)
 2 eggs, beaten
 1 cup frozen mixed vegetables
@@ -723,8 +721,8 @@ Remove from heat. Garnish with 1 Tbsp chopped fresh parsley and serve immediatel
 2 green onions, sliced
 2 cloves garlic, minced
 1 tsp fresh ginger, grated
-1/2 tsp black pepper`,
-  instructions: `Heat a large skillet or wok over medium-high heat. Add 1 Tbsp vegetable oil.
+1/2 tsp pepper`,
+    instructions: `Heat a large skillet or wok over medium-high heat. Add 1 Tbsp vegetable oil.
 
 Pour in 2 beaten eggs and scramble quickly until just set, about 1 minute. Remove from the pan and set aside.
 
@@ -736,38 +734,38 @@ Add 2 cups cooked and chilled rice, breaking up any clumps with a spatula. Cook 
 
 Stir in 1 lb diced cooked chicken and cook for another 2 to 3 minutes until heated through.
 
-Add 2 Tbsp soy sauce, 1 Tbsp sesame oil, and 1/2 tsp black pepper. Toss everything together until evenly coated.
+Add 2 Tbsp soy sauce, 1 Tbsp sesame oil, and 1/2 tsp pepper. Toss everything together until evenly coated.
 
 Return the scrambled eggs to the pan and gently fold them in.
 
 Remove from heat, sprinkle with 2 sliced green onions, and serve immediately.`,
-  photoUrl: "/images/quick-chicken-fried-rice.jpg",
-  effort: "quick",
-  tags: ["dinner", "chicken", "rice", "one-pan", "quick", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Quick and flavorful fried rice using leftover chicken and rice. For best texture, use cold, day-old rice so it crisps up instead of getting mushy."
-},
+  },
 
   {
-  id: "quick-bbq-chicken-flatbread",
-  slug: "quick-bbq-chicken-flatbread",
-  name: "BBQ Chicken Flatbread",
-  ingredients: `2 flatbreads or naan
+    id: "quick-bbq-chicken-flatbread",
+    slug: "quick-bbq-chicken-flatbread",
+    name: "BBQ Chicken Flatbread",
+    effort: "quick",
+    photoUrl: "/images/quick-bbq-chicken-flatbread.jpg",
+    tags: ["dinner", "chicken", "quick", "flatbread", "pizza", "kid-friendly", "one-pan", "leftovers-friendly"],
+    isVegetarian: false,
+    notes: "A quick, fun flatbread loaded with BBQ chicken and melty cheese. Great for using leftover or rotisserie chicken and easy to customize with your favorite toppings.",
+    ingredients: `2 flatbreads or naan
 1 cup cooked chicken, shredded (rotisserie works great)
 1/2 cup BBQ sauce (plus extra for drizzling)
 1/2 small red onion, thinly sliced
 1 cup mozzarella cheese, shredded
 1/2 cup smoked gouda or cheddar cheese (optional, for more flavor)
-1 tbsp olive oil
-1 tbsp fresh cilantro, chopped (optional)
+1 Tbsp olive oil
+1 Tbsp fresh cilantro, chopped (optional)
 1/2 tsp garlic powder`,
-  instructions: `Preheat oven to 400°F. Place 2 flatbreads on a baking sheet and lightly brush the edges with 1 tbsp olive oil.
+    instructions: `Preheat oven to 400°F. Place 2 flatbreads on a baking sheet and lightly brush the edges with 1 Tbsp olive oil.
 
 Spread 1/2 cup BBQ sauce evenly over each flatbread, leaving a small border around the edges.
 
 Toss 1 cup shredded cooked chicken with a spoonful of BBQ sauce for extra flavor, then distribute evenly over the flatbreads.
 
-Top with 1/2 thinly sliced small red onion, 1 cup shredded mozzarella, and 1/2 cup smoked gouda or cheddar.
+Top with 1/2 small red onion, 1 cup shredded mozzarella, and 1/2 cup smoked gouda or cheddar.
 
 Sprinkle lightly with 1/2 tsp garlic powder.
 
@@ -775,134 +773,134 @@ Bake for 8 to 10 minutes, until the cheese is fully melted, bubbly, and starting
 
 For extra caramelization, broil on high for 1 to 2 minutes, watching closely so it doesn’t burn.
 
-Remove from the oven, drizzle with additional BBQ sauce if desired, and sprinkle with 1 tbsp chopped fresh cilantro.
+Remove from the oven, drizzle with additional BBQ sauce if desired, and sprinkle with 1 Tbsp chopped fresh cilantro.
 
 Slice and serve immediately.`,
-  photoUrl: "/images/quick-bbq-chicken-flatbread.jpg",
-  effort: "quick",
-  tags: ["dinner", "chicken", "quick", "pizza", "kid-friendly", "one-pan", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "A quick, fun flatbread loaded with BBQ chicken and melty cheese. Great for using leftover or rotisserie chicken and easy to customize with your favorite toppings."
-},
+  },
 
   {
-  id: "normal-baked-ziti",
-  slug: "normal-baked-ziti",
-  name: "Baked Ziti",
-  ingredients: `1 lb ziti pasta
+    id: "normal-baked-ziti",
+    slug: "normal-baked-ziti",
+    name: "Baked Ziti",
+    effort: "normal",
+    photoUrl: "/images/normal-baked-ziti.jpg",
+    tags: ["dinner", "pasta", "beef", "bake", "comfort", "italian", "family-friendly", "leftovers-friendly"],
+    isVegetarian: false,
+    notes: "A hearty, cheesy baked pasta layered with rich meat sauce. Perfect for feeding a crowd and excellent for leftovers—flavors deepen even more the next day.",
+    ingredients: `1 lb ziti pasta
 1 lb ground beef (or Italian sausage for more flavor)
 1 (24 oz) jar marinara sauce
 1/2 cup water (or reserved pasta water)
 1 cup ricotta cheese
 2 cups mozzarella cheese, shredded
-1/2 cup parmesan cheese, grated
+1/2 cup Parmesan cheese, grated
 1 small yellow onion, diced
 2 cloves garlic, minced
-1 tbsp olive oil
+1 Tbsp olive oil
 1 tsp Italian seasoning
 1/2 tsp salt
-1/2 tsp black pepper
+1/2 tsp pepper
 1/4 cup fresh parsley, chopped (optional)`,
-  instructions: `Preheat oven to 375°F. Lightly grease a 9x13 baking dish.
+    instructions: `Preheat oven to 375°F. Lightly grease a 9x13 baking dish.
 
 Bring a large pot of salted water to a boil. Cook 1 lb ziti pasta until just al dente, about 1 to 2 minutes less than package directions. Drain and set aside.
 
-Heat 1 tbsp olive oil in a large skillet over medium heat. Add 1 diced small yellow onion and cook for 4 to 5 minutes until softened.
+Heat 1 Tbsp olive oil in a large skillet over medium heat. Add 1 diced small yellow onion and cook for 4 to 5 minutes until softened.
 
 Add 2 cloves minced garlic and cook for 30 seconds until fragrant.
 
 Add 1 lb ground beef and cook until browned, breaking it apart as it cooks. Drain excess grease if needed.
 
-Stir in 1 (24 oz) jar marinara sauce, 1/2 cup water, 1 tsp Italian seasoning, 1/2 tsp salt, and 1/2 tsp black pepper. Simmer for 5 to 10 minutes until slightly thickened.
+Stir in 1 (24 oz) jar marinara sauce, 1/2 cup water, 1 tsp Italian seasoning, 1/2 tsp salt, and 1/2 tsp pepper. Simmer for 5 to 10 minutes until slightly thickened.
 
 In a large bowl, combine the cooked pasta with most of the meat sauce, reserving about 1 cup for layering.
 
 Spread a thin layer of sauce on the bottom of the baking dish. Add half of the pasta mixture, then dollop 1/2 cup ricotta and sprinkle with 1 cup mozzarella.
 
-Repeat with the remaining pasta, 1/2 cup ricotta, and 1 cup mozzarella. Top with the reserved sauce and finish with 1/2 cup grated parmesan cheese.
+Repeat with the remaining pasta, 1/2 cup ricotta, and 1 cup mozzarella. Top with the reserved sauce and finish with 1/2 cup Parmesan cheese.
 
 Cover loosely with foil and bake for 20 minutes. Remove foil and bake another 10 to 15 minutes until the cheese is melted and bubbly with lightly golden edges.
 
 Let rest for 10 minutes before serving. Garnish with 1/4 cup fresh chopped parsley if desired.`,
-  photoUrl: "/images/normal-baked-ziti.jpg",
-  effort: "normal",
-  tags: ["dinner", "pasta", "beef", "bake", "comfort", "kid-friendly", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "A hearty, cheesy baked pasta layered with rich meat sauce. Perfect for feeding a crowd and excellent for leftovers—flavors deepen even more the next day."
-},
+  },
 
   {
-  id: "normal-chicken-alfredo",
-  slug: "normal-chicken-alfredo",
-  name: "Chicken Alfredo",
-  ingredients: `2 boneless, skinless chicken breasts, sliced
+    id: "normal-chicken-alfredo",
+    slug: "normal-chicken-alfredo",
+    name: "Chicken Alfredo",
+    effort: "normal",
+    photoUrl: "/images/normal-chicken-alfredo.jpg",
+    tags: ["dinner", "pasta", "chicken", "comfort", "italian", "stovetop", "leftovers-friendly"],
+    isVegetarian: false,
+    notes: "Rich and creamy chicken alfredo with a smooth Parmesan sauce. Use freshly grated Parmesan for best results and add pasta water to achieve a silky, restaurant-style finish.",
+    ingredients: `2 boneless, skinless chicken breasts, sliced
 12 oz fettuccine
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 tsp salt
-1/2 tsp black pepper
+1/2 tsp pepper
 1/2 tsp garlic powder (optional)
 1/2 cup (1 stick) unsalted butter
 3 cloves garlic, minced
 1 cup heavy cream
-1 cup freshly grated parmesan cheese
+1 cup freshly grated Parmesan cheese
 1/2 cup reserved pasta water
-1/4 tsp black pepper (for sauce)
+1/4 tsp pepper (for sauce)
 1/4 cup fresh parsley, chopped (optional)`,
-  instructions: `Bring a large pot of salted water to a boil. Cook 12 oz fettuccine according to package directions until al dente. Reserve 1/2 cup pasta water, then drain.
+    instructions: `Bring a large pot of salted water to a boil. Cook 12 oz fettuccine according to package directions until al dente. Reserve 1/2 cup pasta water, then drain.
 
-Season 2 sliced chicken breasts with 1/2 tsp salt, 1/2 tsp black pepper, and 1/2 tsp garlic powder.
+Season 2 sliced chicken breasts with 1/2 tsp salt, 1/2 tsp pepper, and 1/2 tsp garlic powder.
 
-Heat 1 tbsp olive oil in a large skillet over medium-high heat. Add the chicken and cook for 4 to 5 minutes, stirring occasionally, until golden brown and cooked through. Remove and set aside.
+Heat 1 Tbsp olive oil in a large skillet over medium-high heat. Add the chicken and cook for 4 to 5 minutes, stirring occasionally, until golden brown and cooked through. Remove and set aside.
 
-Reduce heat to medium. In the same pan, melt 1/2 cup (1 stick) unsalted butter. Add 3 cloves minced garlic and cook for 30 to 60 seconds until fragrant.
+Reduce heat to medium. In the same pan, melt 1/2 cup unsalted butter. Add 3 cloves minced garlic and cook for 30 to 60 seconds until fragrant.
 
 Pour in 1 cup heavy cream and bring to a gentle simmer. Cook for 3 to 5 minutes, stirring occasionally, until slightly thickened.
 
-Stir in 1 cup freshly grated parmesan cheese gradually, whisking until melted and smooth.
+Stir in 1 cup freshly grated Parmesan cheese gradually, whisking until melted and smooth.
 
-Add a splash of the 1/2 cup reserved pasta water and stir until the sauce becomes silky and coats the back of a spoon.
+Add a splash of the reserved pasta water and stir until the sauce becomes silky and coats the back of a spoon.
 
-Return the chicken to the pan, then add the cooked pasta. Toss everything together until evenly coated with the sauce (adding 1/4 tsp black pepper for seasoning).
+Return the chicken to the pan, then add the cooked pasta. Toss everything together until evenly coated with the sauce. Add 1/4 tsp pepper for seasoning.
 
 Taste and adjust salt and pepper as needed. Remove from heat and garnish with 1/4 cup chopped fresh parsley before serving.`,
-  photoUrl: "/images/normal-chicken-alfredo.jpg",
-  effort: "normal",
-  tags: ["dinner", "pasta", "chicken", "comfort", "italian", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Rich and creamy chicken alfredo with a smooth parmesan sauce. Use freshly grated parmesan for best results and add pasta water to achieve a silky, restaurant-style finish."
-},
+  },
 
-{
-  id: "normal-beef-stroganoff",
-  slug: "normal-beef-stroganoff",
-  name: "Beef Stroganoff",
-  ingredients: `1 lb beef sirloin, thinly sliced
+  {
+    id: "normal-beef-stroganoff",
+    slug: "normal-beef-stroganoff",
+    name: "Beef Stroganoff",
+    effort: "normal",
+    photoUrl: "/images/normal-beef-stroganoff.jpg",
+    tags: ["dinner", "beef", "comfort", "stovetop", "pasta", "family-friendly", "leftovers-friendly"],
+    isVegetarian: false,
+    notes: "Creamy, savory beef stroganoff with tender beef and mushrooms in a rich sauce. For best results, sear the beef quickly over high heat and avoid boiling after adding sour cream to prevent curdling.",
+    ingredients: `1 lb beef sirloin, thinly sliced
 8 oz baby bella mushrooms, sliced
 1 small yellow onion, diced
 2 cloves garlic, minced
-2 tbsp butter
-1 tbsp olive oil
-2 tbsp flour
+2 Tbsp butter
+1 Tbsp olive oil
+2 Tbsp flour
 1 cup beef broth
-1 tsp Worcestershire sauce
+1 tsp worcestershire sauce
 1/2 cup sour cream
 1/2 tsp salt (plus more to taste)
-1/2 tsp black pepper
+1/2 tsp pepper
 8 oz egg noodles
 1/4 cup fresh parsley, chopped (optional)`,
-  instructions: `Cook 8 oz egg noodles in a large pot of salted boiling water according to package directions. Drain and set aside.
+    instructions: `Cook 8 oz egg noodles in a large pot of salted boiling water according to package directions. Drain and set aside.
 
-Heat 1 tbsp olive oil in a large skillet over medium-high heat. Add 1 lb thinly sliced beef sirloin in a single layer and sear for 2 to 3 minutes until browned (seasoned with 1/2 tsp salt and 1/2 tsp black pepper). Do not overcrowd the pan. Remove and set aside.
+Heat 1 Tbsp olive oil in a large skillet over medium-high heat. Add 1 lb thinly sliced beef sirloin in a single layer and sear for 2 to 3 minutes until browned. Season with 1/2 tsp salt and 1/2 tsp pepper. Do not overcrowd the pan. Remove and set aside.
 
-In the same skillet, reduce heat to medium and add 2 tbsp butter. Add 1 small diced yellow onion and cook for 4 to 5 minutes until softened.
+In the same skillet, reduce heat to medium and add 2 Tbsp butter. Add 1 small diced yellow onion and cook for 4 to 5 minutes until softened.
 
 Add 8 oz sliced baby bella mushrooms and cook for 5 to 7 minutes, stirring occasionally, until they release their moisture and begin to brown.
 
 Add 2 cloves minced garlic and cook for 30 seconds until fragrant.
 
-Sprinkle 2 tbsp flour over the mixture and stir continuously for 1 minute to cook out the raw flour taste.
+Sprinkle 2 Tbsp flour over the mixture and stir continuously for 1 minute to cook out the raw flour taste.
 
-Slowly pour in 1 cup beef broth while stirring, scraping up any browned bits from the bottom of the pan. Stir in 1 tsp Worcestershire sauce.
+Slowly pour in 1 cup beef broth while stirring, scraping up any browned bits from the bottom of the pan. Stir in 1 tsp worcestershire sauce.
 
 Bring to a gentle simmer and cook for 3 to 5 minutes, until the sauce thickens and coats the back of a spoon.
 
@@ -910,19 +908,19 @@ Reduce heat to low. Stir in 1/2 cup sour cream until smooth and creamy.
 
 Return the beef to the pan and cook for 2 to 3 minutes until heated through. Do not boil after adding sour cream.
 
-Serve over the cooked egg noodles and garnish with 1/4 cup fresh chopped parsley if desired.`,
-  photoUrl: "/images/normal-beef-stroganoff.jpg",
-  effort: "normal",
-  tags: ["dinner", "beef", "comfort", "stovetop", "pasta", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Creamy, savory beef stroganoff with tender beef and mushrooms in a rich sauce. For best results, sear the beef quickly over high heat and avoid boiling after adding sour cream to prevent curdling."
-},
+Serve over the cooked egg noodles and garnish with 1/4 cup fresh parsley if desired.`,
+  },
 
   {
-  id: "normal-chicken-pot-pie",
-  slug: "normal-chicken-pot-pie",
-  name: "Chicken Pot Pie",
-  ingredients: `2 cups cooked chicken, diced (rotisserie works great)
+    id: "normal-chicken-pot-pie",
+    slug: "normal-chicken-pot-pie",
+    name: "Chicken Pot Pie",
+    effort: "normal",
+    photoUrl: "/images/normal-chicken-pot-pie.jpg",
+    tags: ["dinner", "chicken", "bake", "comfort", "casserole", "family-friendly", "leftovers-friendly"],
+    isVegetarian: false,
+    notes: "Creamy, classic chicken pot pie with a flaky golden crust. Letting it rest before serving helps the filling set and makes cleaner portions.",
+    ingredients: `2 cups cooked chicken, diced (rotisserie works great)
 1 cup frozen mixed vegetables
 1/2 cup (1 stick) unsalted butter
 1/2 cup all-purpose flour
@@ -931,13 +929,13 @@ Serve over the cooked egg noodles and garnish with 1/4 cup fresh chopped parsley
 1 small yellow onion, diced
 2 cloves garlic, minced
 1/2 tsp salt (plus more to taste)
-1/2 tsp black pepper
+1/2 tsp pepper
 1/2 tsp dried thyme (optional)
 1 refrigerated pie crust
 1 egg, beaten (optional, for egg wash)`,
-  instructions: `Preheat oven to 400°F. Lightly grease a baking dish or pie dish.
+    instructions: `Preheat oven to 400°F. Lightly grease a baking dish or pie dish.
 
-In a large skillet or saucepan, melt 1/2 cup (1 stick) unsalted butter over medium heat. Add 1 diced small yellow onion and cook for 4 to 5 minutes until softened.
+In a large skillet or saucepan, melt 1/2 cup unsalted butter over medium heat. Add 1 diced small yellow onion and cook for 4 to 5 minutes until softened.
 
 Add 2 cloves minced garlic and cook for 30 seconds until fragrant.
 
@@ -947,7 +945,7 @@ Slowly whisk in 2 cups chicken broth and 1 cup milk, stirring continuously to pr
 
 Bring to a gentle simmer and cook for 5 to 7 minutes, stirring often, until the sauce thickens and coats the back of a spoon.
 
-Stir in 2 cups diced cooked chicken, 1 cup frozen mixed vegetables, 1/2 tsp salt, 1/2 tsp black pepper, and 1/2 tsp dried thyme. Cook for 2 to 3 minutes until heated through.
+Stir in 2 cups diced cooked chicken, 1 cup frozen mixed vegetables, 1/2 tsp salt, 1/2 tsp pepper, and 1/2 tsp dried thyme. Cook for 2 to 3 minutes until heated through.
 
 Pour the filling into the prepared baking dish.
 
@@ -958,20 +956,20 @@ Brush with 1 beaten egg if using for a golden finish.
 Bake for 30 to 35 minutes, until the crust is golden brown and the filling is bubbling around the edges.
 
 Let rest for 10 minutes before serving to allow the filling to set.`,
-  photoUrl: "/images/normal-chicken-pot-pie.jpg",
-  effort: "normal",
-  tags: ["dinner", "chicken", "bake", "comfort", "casserole", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Creamy, classic chicken pot pie with a flaky golden crust. Letting it rest before serving helps the filling set and makes cleaner portions."
-},
+  },
 
- {
-  id: "normal-taco-pasta",
-  slug: "normal-taco-pasta",
-  name: "Cheesy Taco Pasta",
-  ingredients: `1 lb ground beef
+  {
+    id: "normal-taco-pasta",
+    slug: "normal-taco-pasta",
+    name: "Cheesy Taco Pasta",
+    effort: "normal",
+    photoUrl: "/images/normal-taco-pasta.jpg",
+    tags: ["dinner", "pasta", "tex-mex", "beef", "cheesy", "one-pan", "family-friendly", "leftovers-friendly"],
+    isVegetarian: false,
+    notes: "A cheesy, taco-inspired pasta with bold flavor and a creamy finish. Great for family dinners and even better as leftovers the next day.",
+    ingredients: `1 lb ground beef
 8 oz pasta (rotini or shells work best)
-1 tbsp olive oil
+1 Tbsp olive oil
 1 small yellow onion, diced
 2 cloves garlic, minced
 1 (14.5 oz) can diced tomatoes (with juices)
@@ -981,22 +979,22 @@ Let rest for 10 minutes before serving to allow the filling to set.`,
 1/4 cup cream cheese (optional, for extra creaminess)
 
 Taco Pasta Seasoning:
-1 tbsp chili powder
+1 Tbsp chili powder
 1 tsp cumin
 1/2 tsp paprika (or smoked paprika for extra depth)
 1/2 tsp garlic powder
 1/2 tsp onion powder
 1/2 tsp salt
-1/4 tsp black pepper`,
-  instructions: `Bring a large pot of salted water to a boil. Cook 8 oz pasta according to package directions until al dente. Drain and set aside.
+1/4 tsp pepper`,
+    instructions: `Bring a large pot of salted water to a boil. Cook 8 oz pasta according to package directions until al dente. Drain and set aside.
 
-Heat 1 tbsp olive oil in a large skillet over medium heat. Add 1 diced small yellow onion and cook for 4 to 5 minutes until softened.
+Heat 1 Tbsp olive oil in a large skillet over medium heat. Add 1 diced small yellow onion and cook for 4 to 5 minutes until softened.
 
 Add 2 cloves minced garlic and cook for 30 seconds until fragrant.
 
 Add 1 lb ground beef and cook until browned, breaking it apart as it cooks. Drain excess grease if needed.
 
-Stir in the taco seasoning (1 tbsp chili powder, 1 tsp cumin, 1/2 tsp paprika, 1/2 tsp garlic powder, 1/2 tsp onion powder, 1/2 tsp salt, and 1/4 tsp black pepper) and cook for 1 minute to toast the spices.
+Stir in the taco seasoning: 1 Tbsp chili powder, 1 tsp cumin, 1/2 tsp paprika, 1/2 tsp garlic powder, 1/2 tsp onion powder, 1/2 tsp salt, and 1/4 tsp pepper. Cook for 1 minute to toast the spices.
 
 Add 1 (14.5 oz) can diced tomatoes with their juices and 1 cup beef broth. Stir well and bring to a simmer.
 
@@ -1006,37 +1004,37 @@ Reduce heat to low. Stir in 1/4 cup cream cheese if using until melted and smoot
 
 Add the cooked pasta and toss to coat evenly.
 
-Stir in 1 cup shredded cheddar cheese (and 1/2 cup Monterey Jack if using) until melted and creamy.
+Stir in 1 cup shredded cheddar cheese and 1/2 cup Monterey Jack if using until melted and creamy.
 
 Remove from heat and serve warm.`,
-  photoUrl: "/images/normal-taco-pasta.jpg",
-  effort: "normal",
-  tags: ["dinner", "pasta", "tex-mex", "beef", "cheesy", "family", "one-pan", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "A cheesy, taco-inspired pasta with bold flavor and a creamy finish. Great for family dinners and even better as leftovers the next day."
-},
+  },
 
- {
-  id: "pan-seared-scallops-lemon-risotto",
-  slug: "pan-seared-scallops-lemon-risotto",
-  name: "Pan-Seared Scallops with Lemon Risotto",
-  ingredients: `10 large sea scallops (side muscle removed)
+  {
+    id: "pan-seared-scallops-lemon-risotto",
+    slug: "pan-seared-scallops-lemon-risotto",
+    name: "Pan-Seared Scallops with Lemon Risotto",
+    effort: "big",
+    photoUrl: "/images/pan-seared-scallops-lemon-risotto.jpg",
+    tags: ["dinner", "seafood", "shellfish", "scallops", "risotto", "date-night", "restaurant-style"],
+    isVegetarian: false,
+    notes: "Elegant, restaurant-quality scallops with creamy lemon risotto. Key to success: keep the stock warm, stir the risotto gradually, and ensure scallops are very dry before searing for a perfect golden crust.",
+    ingredients: `10 large sea scallops (side muscle removed)
 1 cup Arborio rice
 3 cups chicken stock (kept warm)
 1/2 cup dry white wine (optional, or extra stock)
-1/2 cup parmesan cheese, freshly grated
-2 tbsp butter (divided)
-1 tbsp olive oil
+1/2 cup Parmesan cheese, freshly grated
+2 Tbsp butter (divided)
+1 Tbsp olive oil
 1 small shallot, finely diced (or 1/4 onion)
 2 cloves garlic, minced
-1 tbsp lemon zest
-1 tbsp lemon juice
+1 Tbsp lemon zest
+1 Tbsp lemon juice
 1/2 tsp salt (plus more to taste)
-1/2 tsp black pepper
-1 tbsp fresh parsley, chopped (optional)`,
-  instructions: `In a saucepan, keep 3 cups chicken stock warm over low heat.
+1/2 tsp pepper
+1 Tbsp fresh parsley, chopped (optional)`,
+    instructions: `In a saucepan, keep 3 cups chicken stock warm over low heat.
 
-In a large skillet or sauté pan, melt 1 tbsp butter with 1 tbsp olive oil over medium heat. Add 1 finely diced small shallot and cook for 2 to 3 minutes until softened.
+In a large skillet or sauté pan, melt 1 Tbsp butter with 1 Tbsp olive oil over medium heat. Add 1 finely diced small shallot and cook for 2 to 3 minutes until softened.
 
 Add 2 cloves minced garlic and cook for 30 seconds until fragrant.
 
@@ -1048,80 +1046,80 @@ Add the warm chicken stock one ladle at a time, stirring frequently. Allow each 
 
 Continue this process for 18 to 22 minutes, until the rice is creamy and tender with a slight bite.
 
-Stir in the remaining 1 tbsp butter, 1/2 cup freshly grated parmesan cheese, 1 tbsp lemon zest, 1 tbsp lemon juice, 1/2 tsp salt, and 1/2 tsp black pepper. The risotto should be loose and creamy, not stiff. Adjust with a splash of stock if needed. Keep warm.
+Stir in the remaining 1 Tbsp butter, 1/2 cup freshly grated Parmesan cheese, 1 Tbsp lemon zest, 1 Tbsp lemon juice, 1/2 tsp salt, and 1/2 tsp pepper. The risotto should be loose and creamy, not stiff. Adjust with a splash of stock if needed. Keep warm.
 
 Pat 10 large sea scallops very dry with paper towels and season lightly with salt and pepper.
 
-Heat a separate skillet (preferably cast iron or stainless steel) over high heat until very hot. Add a small amount of oil.
+Heat a separate skillet over high heat until very hot. Add a small amount of oil.
 
 Place scallops in the pan and sear undisturbed for 1 1/2 to 2 minutes until a deep golden-brown crust forms.
 
 Flip and cook another 1 to 2 minutes until just opaque in the center. Do not overcook.
 
-Spoon risotto onto plates and top with the seared scallops. Garnish with 1 tbsp chopped fresh parsley if desired and serve immediately.`,
-  photoUrl: "/images/pan-seared-scallops-lemon-risotto.jpg",
-  effort: "big",
-  tags: ["dinner", "seafood", "shellfish", "scallops", "risotto", "date-night", "restaurant-style"],
-  isVegetarian: false,
-  notes: "Elegant, restaurant-quality scallops with creamy lemon risotto. Key to success: keep the stock warm, stir the risotto gradually, and ensure scallops are very dry before searing for a perfect golden crust."
-},
+Spoon risotto onto plates and top with the seared scallops. Garnish with 1 Tbsp chopped fresh parsley if desired and serve immediately.`,
+  },
 
- {
-  id: "lemon-herb-roasted-salmon",
-  slug: "lemon-herb-roasted-salmon",
-  name: "Lemon Herb Roasted Salmon",
-  ingredients: `4 salmon fillets (about 6 oz each)
+  {
+    id: "lemon-herb-roasted-salmon",
+    slug: "lemon-herb-roasted-salmon",
+    name: "Lemon Herb Roasted Salmon",
+    effort: "normal",
+    photoUrl: "/images/lemon-herb-roasted-salmon.jpg",
+    tags: ["dinner", "seafood", "fish", "salmon", "oven", "healthy", "one-pan", "leftovers-friendly"],
+    isVegetarian: false,
+    notes: "Light, fresh roasted salmon with lemon and herbs. A simple one-pan meal that pairs perfectly with rice or roasted potatoes and reheats well for leftovers.",
+    ingredients: `4 salmon fillets (about 6 oz each)
 1 bunch asparagus, trimmed
-2 tbsp olive oil
+2 Tbsp olive oil
 2 cloves garlic, minced
 1 lemon, sliced
-1 tbsp lemon juice
-2 tbsp fresh dill, chopped (or 1 tsp dried dill)
+1 Tbsp lemon juice
+2 Tbsp fresh dill, chopped (or 1 tsp dried dill)
 1/2 tsp salt
-1/2 tsp black pepper
+1/2 tsp pepper
 1/2 tsp paprika (optional, for light color and depth)`,
-  instructions: `Preheat oven to 400°F. Line a baking sheet with parchment paper or foil for easy cleanup.
+    instructions: `Preheat oven to 400°F. Line a baking sheet with parchment paper or foil for easy cleanup.
 
-Arrange 4 salmon fillets (about 6 oz each) and 1 bunch trimmed asparagus on the baking sheet in a single layer.
+Arrange 4 salmon fillets and 1 bunch trimmed asparagus on the baking sheet in a single layer.
 
-Drizzle 2 tbsp olive oil evenly over the salmon and asparagus.
+Drizzle 2 Tbsp olive oil evenly over the salmon and asparagus.
 
-Sprinkle 2 cloves minced garlic, 2 tbsp chopped fresh dill, 1/2 tsp salt, 1/2 tsp black pepper, and 1/2 tsp paprika (if using) over everything.
+Sprinkle 2 cloves minced garlic, 2 Tbsp chopped fresh dill, 1/2 tsp salt, 1/2 tsp pepper, and 1/2 tsp paprika if using over everything.
 
-Place 1 sliced lemon on top of the salmon and drizzle with 1 tbsp fresh lemon juice.
+Place 1 sliced lemon on top of the salmon and drizzle with 1 Tbsp fresh lemon juice.
 
 Roast for 12 to 15 minutes, depending on thickness, until the salmon is opaque and flakes easily with a fork.
 
 For a slightly crisp top, broil on high for 1 to 2 minutes at the end, watching closely.
 
 Remove from the oven and serve immediately.`,
-  photoUrl: "/images/lemon-herb-roasted-salmon.jpg",
-  effort: "normal",
-  tags: ["dinner", "seafood", "fish", "salmon", "oven", "healthy", "one-pan", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Light, fresh roasted salmon with lemon and herbs. A simple one-pan meal that pairs perfectly with rice or roasted potatoes and reheats well for leftovers."
-},
+  },
 
   {
-  id: "beef-broccoli-stir-fry",
-  slug: "beef-broccoli-stir-fry",
-  name: "Beef and Broccoli Stir-Fry",
-  ingredients: `1 lb flank steak, thinly sliced against the grain
+    id: "beef-broccoli-stir-fry",
+    slug: "beef-broccoli-stir-fry",
+    name: "Beef and Broccoli Stir-Fry",
+    effort: "quick",
+    photoUrl: "/images/beef-broccoli-stir-fry.jpg",
+    tags: ["dinner", "beef", "stir-fry", "one-pan", "quick", "takeout-style", "leftovers-friendly"],
+    isVegetarian: false,
+    notes: "Quick, takeout-style beef and broccoli with a savory, glossy sauce. Slice the beef thinly against the grain for maximum tenderness and cook quickly over high heat.",
+    ingredients: `1 lb flank steak, thinly sliced against the grain
 3 cups broccoli florets
-2 tbsp soy sauce (plus more to taste)
-1 tbsp oyster sauce (optional, for deeper flavor)
+2 Tbsp soy sauce (plus more to taste)
+1 Tbsp oyster sauce (optional, for deeper flavor)
 1 tsp fresh ginger, grated (or 1/2 tsp ground ginger)
 2 cloves garlic, minced
-1 tbsp brown sugar
-1 tbsp sesame oil
-1 tbsp vegetable oil (or canola oil)
+1 Tbsp brown sugar
+1 Tbsp sesame oil
+1 Tbsp vegetable oil (or canola oil)
 1/2 cup beef broth (or water)
-1 tsp cornstarch + 2 tbsp water (for slurry)
-1/2 tsp black pepper
+1 tsp cornstarch + 2 Tbsp water (for slurry)
+1/2 tsp pepper
 2 green onions, sliced (optional)`,
-  instructions: `In a small bowl, whisk together 2 tbsp soy sauce, 1 tbsp oyster sauce (if using), 1 tsp grated ginger, 2 cloves minced garlic, 1 tbsp brown sugar, and 1/2 cup beef broth. Set aside.
+    instructions: `In a small bowl, whisk together 2 Tbsp soy sauce, 1 Tbsp oyster sauce if using, 1 tsp grated ginger, 2 cloves minced garlic, 1 Tbsp brown sugar, and 1/2 cup beef broth. Set aside.
 
-Heat a wok or large skillet over high heat. Add 1 tbsp vegetable oil.
+Heat a wok or large skillet over high heat. Add 1 Tbsp vegetable oil.
 
 Add 1 lb thinly sliced flank steak in a single layer and sear for 2 to 3 minutes without stirring too much, until browned. Remove and set aside.
 
@@ -1129,27 +1127,22 @@ In the same pan, add 3 cups broccoli florets and stir-fry for 3 to 4 minutes unt
 
 Return the beef to the pan and pour in the prepared sauce.
 
-Bring to a quick simmer over high heat. Mix 1 tsp cornstarch with 2 tbsp water to create a slurry; stir it into the pan and cook for 1 to 2 minutes, stirring constantly, until the sauce thickens and becomes glossy.
+Bring to a quick simmer over high heat. Mix 1 tsp cornstarch with 2 Tbsp water to create a slurry; stir it into the pan and cook for 1 to 2 minutes, stirring constantly, until the sauce thickens and becomes glossy.
 
-Drizzle with 1 tbsp sesame oil and sprinkle with 1/2 tsp black pepper. Toss everything together until well coated.
+Drizzle with 1 Tbsp sesame oil and sprinkle with 1/2 tsp pepper. Toss everything together until well coated.
 
 Remove from heat, garnish with 2 sliced green onions if desired, and serve immediately.`,
-  photoUrl: "/images/beef-broccoli-stir-fry.jpg",
-  effort: "quick",
-  tags: ["dinner", "beef", "stir-fry", "one-pan", "quick", "takeout-style", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Quick, takeout-style beef and broccoli with a savory, glossy sauce. Slice the beef thinly against the grain for maximum tenderness and cook quickly over high heat."
-},
+  },
 
  {
-    id: "zuppa-toscana-soup",
-    slug: "zuppa-toscana-soup",
-    name: "Zuppa Toscana Soup",
-    effort: "normal",
-    photoUrl: "/images/zuppa-toscana-soup.jpg",
-    tags: ["dinner", "soup", "pork", "italian", "comfort", "one-pot"],
-    notes: "A rich and cozy soup that feels like restaurant comfort food at home.",
-    ingredients: `1 lb Italian ground sausage
+  id: "zuppa-toscana-soup",
+  slug: "zuppa-toscana-soup",
+  name: "Zuppa Toscana Soup",
+  effort: "normal",
+  photoUrl: "/images/zuppa-toscana-soup.jpg",
+  tags: ["dinner", "soup", "pork", "italian", "comfort", "one-pot", "family-friendly", "leftovers-friendly"],
+  notes: "A rich and cozy soup that feels like restaurant comfort food at home.",
+  ingredients: `1 lb Italian ground sausage
 4 Tbsp butter
 1 white onion, diced
 1 Tbsp garlic, minced
@@ -1160,9 +1153,9 @@ Remove from heat, garnish with 2 sliced green onions if desired, and serve immed
 1 tsp pepper
 2 cups heavy cream
 4 cups fresh kale, chopped
-Bacon bits
-parmesan cheese, grated`,
-    instructions: `In a large pot, sauté 1 lb Italian ground sausage for 5 to 6 minutes until browned.
+bacon bits
+Parmesan cheese, grated`,
+  instructions: `In a large pot, sauté 1 lb Italian ground sausage for 5 to 6 minutes until browned.
 
 Use a slotted spoon to transfer the sausage to a plate and set aside.
 
@@ -1170,7 +1163,7 @@ In the same pot, add 4 Tbsp butter and sauté 1 diced white onion over medium he
 
 Add 1 Tbsp minced garlic and sauté for another minute until fragrant.
 
-Add 6 cups chicken broth, 2 cups water, 5 yellow potatoes (cut into 1-inch pieces), 3 tsp salt, and 1 tsp pepper, and bring to a boil.
+Add 6 cups chicken broth, 2 cups water, 5 yellow potatoes cut into 1-inch pieces, 3 tsp salt, and 1 tsp pepper, and bring to a boil.
 
 Boil until the potatoes are tender.
 
@@ -1178,13 +1171,18 @@ Stir in 4 cups fresh chopped kale and 2 cups heavy cream, then add the cooked sa
 
 Taste and adjust salt and pepper if needed.
 
-Serve topped with grated parmesan cheese and bacon bits if desired.`,
-  },
+Serve topped with grated Parmesan cheese and bacon bits if desired.`,
+},
 
-  {
+{
   id: "hidden-veggie-meatloaf",
   slug: "hidden-veggie-meatloaf",
   name: "Hidden Veggie Meatloaf",
+  effort: "normal",
+  photoUrl: "/images/hidden-veggie-meatloaf.jpg",
+  tags: ["dinner", "beef", "meatloaf", "comfort", "family-friendly", "kid-friendly", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "A moist, flavorful meatloaf packed with hidden vegetables. Squeezing moisture from the zucchini is key to preventing a soggy texture. Perfect with mashed potatoes and great for leftovers.",
   ingredients: `1 1/2 lbs ground beef (80/20 preferred)
 1 medium zucchini, peeled and finely grated
 2 carrots, peeled and finely grated
@@ -1193,22 +1191,22 @@ Serve topped with grated parmesan cheese and bacon bits if desired.`,
 1 large egg
 3/4 cup panko breadcrumbs
 1/4 cup milk
-1 tbsp Worcestershire sauce
-1 tbsp ketchup
+1 Tbsp worcestershire sauce
+1 Tbsp ketchup
 1 tsp garlic powder
 1/2 tsp dried Italian seasoning (optional)
 1 tsp salt
-1/2 tsp black pepper
+1/2 tsp pepper
 
 For the glaze:
 1/2 cup ketchup
-1 tbsp brown sugar
+1 Tbsp brown sugar
 1 tsp yellow mustard`,
   instructions: `Preheat oven to 375°F. Line a baking sheet with parchment paper or lightly grease a loaf pan.
 
 Place 1 medium peeled and finely grated zucchini in a clean towel or paper towels and squeeze out as much moisture as possible. This step prevents a watery meatloaf.
 
-In a large bowl, combine 1 large egg, 1/4 cup milk, 3/4 cup panko breadcrumbs, 1 tbsp Worcestershire sauce, 1 tbsp ketchup, 1 tsp garlic powder, 1/2 tsp dried Italian seasoning (if using), 1 tsp salt, and 1/2 tsp black pepper.
+In a large bowl, combine 1 large egg, 1/4 cup milk, 3/4 cup panko breadcrumbs, 1 Tbsp worcestershire sauce, 1 Tbsp ketchup, 1 tsp garlic powder, 1/2 tsp dried Italian seasoning if using, 1 tsp salt, and 1/2 tsp pepper.
 
 Add the squeezed grated zucchini, 2 peeled and finely grated carrots, 1/2 small finely minced yellow onion, and 1/2 cup finely chopped fresh spinach. Mix until evenly combined.
 
@@ -1218,31 +1216,26 @@ Shape the mixture into a loaf on the prepared baking sheet or press into a loaf 
 
 Bake for 40 minutes.
 
-Meanwhile, whisk together 1/2 cup ketchup, 1 tbsp brown sugar, and 1 tsp yellow mustard in a small bowl.
+Meanwhile, whisk together 1/2 cup ketchup, 1 Tbsp brown sugar, and 1 tsp yellow mustard in a small bowl.
 
 Remove the meatloaf from the oven, spread the glaze evenly over the top, and return to the oven.
 
 Bake for an additional 15 to 20 minutes, until the internal temperature reaches 160°F and the glaze is slightly caramelized.
 
 Let rest for 10 minutes before slicing and serving.`,
-  photoUrl: "/images/hidden-veggie-meatloaf.jpg",
-  effort: "normal",
-  tags: ["dinner", "beef", "meatloaf", "family", "comfort", "kid-friendly", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "A moist, flavorful meatloaf packed with hidden vegetables. Squeezing moisture from the zucchini is key to preventing a soggy texture. Perfect with mashed potatoes and great for leftovers."
 },
 
-  {
-    id: "toms-spaghetti",
-    slug: "toms-spaghetti",
-    name: "Tom's Spaghetti",
-    effort: "normal",
-    photoUrl: "/images/toms-spaghetti.jpg",
-    tags: ["dinner", "pasta", "beef", "spaghetti", "family", "comfort", "leftovers"],
-    notes: "A classic, hearty spaghetti dinner that pairs perfectly with Caesar salad and garlic bread.",
-    ingredients: `1 box angel hair pasta
+{
+  id: "toms-spaghetti",
+  slug: "toms-spaghetti",
+  name: "Tom's Spaghetti",
+  effort: "normal",
+  photoUrl: "/images/toms-spaghetti.jpg",
+  tags: ["dinner", "pasta", "beef", "spaghetti", "comfort", "family-friendly", "leftovers-friendly"],
+  notes: "A classic, hearty spaghetti dinner that pairs perfectly with Caesar salad and garlic bread.",
+  ingredients: `1 box angel hair pasta
 1 lb ground beef
-1 green pepper, diced
+1 green bell pepper, diced
 1 (28 oz) can diced tomatoes
 1 (16 oz) can tomato sauce
 1 (6 oz) can tomato paste
@@ -1252,9 +1245,9 @@ Let rest for 10 minutes before slicing and serving.`,
 1/2 tsp pepper
 2 Tbsp butter
 1 Tbsp olive oil`,
-    instructions: `Cook 1 lb ground beef in a skillet over medium heat until browned. Drain grease.
+  instructions: `Cook 1 lb ground beef in a skillet over medium heat until browned. Drain grease.
 
-Add 1 diced green pepper, 1 (28 oz) can diced tomatoes, 1 (16 oz) can tomato sauce, 1 (6 oz) can tomato paste, 2 tsp dried thyme, 2 Tbsp of the Italian seasoning, 1 tsp salt, and 1/2 tsp pepper. Stir well.
+Add 1 diced green bell pepper, 1 can diced tomatoes, 1 can tomato sauce, 1 can tomato paste, 2 tsp dried thyme, 2 Tbsp Italian seasoning, 1 tsp salt, and 1/2 tsp pepper. Stir well.
 
 Bring to a simmer, reduce heat to low, and simmer for 30 minutes.
 
@@ -1265,17 +1258,17 @@ Drain the pasta and return it to the pot. Add 2 Tbsp butter, 1 Tbsp olive oil, a
 Serve pasta topped with meat sauce.
 
 Optional: Pair with Caesar salad and garlic bread.`,
-  },
+},
 
-  {
-    id: "shrimp-scampi",
-    slug: "shrimp-scampi",
-    name: "Shrimp Scampi",
-    effort: "quick",
-    photoUrl: "/images/shrimp-scampi.jpg",
-    tags: ["dinner", "seafood", "shellfish", "shrimp", "quick", "skillet", "pasta"],
-    notes: "Light, buttery, and full of flavor. Great over angel hair pasta for an easy restaurant-style dinner at home.",
-    ingredients: `1 1/2 lbs large shrimp, peeled and deveined
+{
+  id: "shrimp-scampi",
+  slug: "shrimp-scampi",
+  name: "Shrimp Scampi",
+  effort: "quick",
+  photoUrl: "/images/shrimp-scampi.jpg",
+  tags: ["dinner", "seafood", "shellfish", "shrimp", "quick", "skillet", "pasta", "restaurant-style"],
+  notes: "Light, buttery, and full of flavor. Great over angel hair pasta for an easy restaurant-style dinner at home.",
+  ingredients: `1 1/2 lbs large shrimp, peeled and deveined
 2 Tbsp butter
 2 Tbsp olive oil
 4 garlic cloves, minced
@@ -1286,7 +1279,7 @@ Optional: Pair with Caesar salad and garlic bread.`,
 1/4 cup chopped fresh parsley
 salt, to taste
 pepper, to taste`,
-    instructions: `Pat 1 1/2 lbs large shrimp dry and season with 1/2 tsp salt and 1/2 tsp pepper.
+  instructions: `Pat 1 1/2 lbs large shrimp dry and season with 1/2 tsp salt and 1/2 tsp pepper.
 
 Heat 1 Tbsp olive oil and 1 Tbsp butter in a large non-reactive skillet over medium-high heat.
 
@@ -1307,17 +1300,17 @@ Remove from heat and stir in 1/4 cup chopped fresh parsley.
 Serve with lemon wedges from 1 lemon.
 
 Optional: Pair with angel hair pasta.`,
-  },
+},
 
-  {
-    id: "maryland-crab-cake",
-    slug: "maryland-crab-cake",
-    name: "Maryland Crab Cake",
-    effort: "normal",
-    photoUrl: "/images/maryland-crab-cake.jpg",
-    tags: ["dinner", "seafood", "shellfish", "crab", "baked", "maryland"],
-    notes: "Classic crab cakes with plenty of crab flavor and just enough binder to hold them together.",
-    ingredients: `1 lb lump crab meat
+{
+  id: "maryland-crab-cake",
+  slug: "maryland-crab-cake",
+  name: "Maryland Crab Cake",
+  effort: "normal",
+  photoUrl: "/images/maryland-crab-cake.jpg",
+  tags: ["dinner", "seafood", "shellfish", "crab", "baked", "classic", "maryland"],
+  notes: "Classic crab cakes with plenty of crab flavor and just enough binder to hold them together.",
+  ingredients: `1 lb lump crab meat
 1 large egg
 1/4 cup mayonnaise
 1 tsp dijon mustard
@@ -1327,7 +1320,7 @@ Optional: Pair with angel hair pasta.`,
 1 tsp fresh parsley, chopped
 2/3 cup cracker crumbs
 1 lemon, cut into wedges`,
-    instructions: `In a small bowl, whisk together 1/4 cup mayonnaise, 1 large egg, 1 tsp dijon mustard, 1 tsp worcestershire sauce, 1 1/2 tsp Old Bay seasoning, 1 tsp fresh lemon juice, and 1 tsp chopped fresh parsley.
+  instructions: `In a small bowl, whisk together 1/4 cup mayonnaise, 1 large egg, 1 tsp dijon mustard, 1 tsp worcestershire sauce, 1 1/2 tsp Old Bay seasoning, 1 tsp fresh lemon juice, and 1 tsp chopped fresh parsley.
 
 Add 1 lb lump crab meat and gently fold it into the sauce.
 
@@ -1344,17 +1337,17 @@ Place on a parchment-lined baking sheet.
 Bake for 15 to 18 minutes, until lightly browned.
 
 Serve with lemon wedges from 1 lemon and your choice of cocktail sauce or tartar sauce.`,
-  },
+},
 
-  {
-    id: "crock-pot-roast-beef",
-    slug: "crock-pot-roast-beef",
-    name: "Crock Pot Roast Beef",
-    effort: "big",
-    photoUrl: "/images/crock-pot-roast-beef.jpg",
-    tags: ["dinner", "beef", "roast", "slow-cooker", "comfort", "family", "leftovers"],
-    notes: "A hearty slow-cooker classic with tender beef, vegetables, and an optional homemade gravy.",
-    ingredients: `1 1/2 Tbsp olive oil, divided
+{
+  id: "crock-pot-roast-beef",
+  slug: "crock-pot-roast-beef",
+  name: "Crock Pot Roast Beef",
+  effort: "big",
+  photoUrl: "/images/crock-pot-roast-beef.jpg",
+  tags: ["dinner", "beef", "roast", "slow-cooker", "comfort", "family-friendly", "leftovers-friendly"],
+  notes: "A hearty slow-cooker classic with tender beef, vegetables, and an optional homemade gravy.",
+  ingredients: `1 1/2 Tbsp olive oil, divided
 1 (3 lb) chuck roast
 1 tsp salt
 1 tsp pepper
@@ -1364,19 +1357,19 @@ Serve with lemon wedges from 1 lemon and your choice of cocktail sauce or tartar
 2 tsp worcestershire sauce
 1 Tbsp fresh thyme, minced
 1 Tbsp fresh rosemary, minced
-2 1/2 lbs small Yukon gold Potatoes, left whole
+2 1/2 lbs small Yukon gold potatoes, left whole
 2 cups baby carrots
 2 cups celery, cut into 1-inch pieces
 1 (8 oz) package baby bella mushrooms
 2 1/2 Tbsp cornstarch mixed with 3 Tbsp beef broth (optional)
 2 Tbsp fresh parsley, chopped`,
-    instructions: `Heat 1 Tbsp olive oil in a large pot over medium-high heat.
+  instructions: `Heat 1 Tbsp olive oil in a large pot over medium-high heat.
 
 Pat the 3 lb chuck roast dry and season generously with 1 tsp salt and 1 tsp pepper.
 
 Sear roast until browned on both sides, about 4 to 5 minutes per side. Transfer to the slow cooker.
 
-Add the remaining 1/2 Tbsp olive oil to the pot. Add 1 medium yellow onion (cut into thick slices) and cook for 2 minutes.
+Add the remaining 1/2 Tbsp olive oil to the pot. Add 1 medium yellow onion cut into thick slices and cook for 2 minutes.
 
 Add the 8 oz package of baby bella mushrooms and cook until they begin to brown. Add 5 minced garlic cloves and cook for 30 seconds more.
 
@@ -1384,7 +1377,7 @@ Pour the onion and mushroom mixture over the roast in the slow cooker.
 
 Return the pot to heat. Add 2 cups beef broth, 2 tsp worcestershire sauce, 1 Tbsp minced fresh thyme, and 1 Tbsp minced fresh rosemary. Scrape up any browned bits from the bottom of the pot, then remove from heat.
 
-Layer 2 1/2 lbs small Yukon gold potatoes, 2 cups baby carrots, and 2 cups celery (cut into 1-inch pieces) over and around the roast. Pour the broth mixture over the top and season lightly with additional salt and pepper.
+Layer 2 1/2 lbs small Yukon gold potatoes, 2 cups baby carrots, and 2 cups celery cut into 1-inch pieces over and around the roast. Pour the broth mixture over the top and season lightly with additional salt and pepper.
 
 Cover and cook on low for 8 to 9 hours, until the roast and vegetables are tender.
 
@@ -1393,18 +1386,23 @@ Remove the roast and vegetables. Shred the roast and discard excess fat.
 Optional gravy: Strain the broth into a saucepan. Heat over medium-high. Whisk the 2 1/2 Tbsp cornstarch with 3 Tbsp beef broth, then stir into the simmering broth. Simmer for 30 to 60 seconds until thickened.
 
 Serve the roast and vegetables topped with gravy and sprinkled with 2 Tbsp fresh chopped parsley.`,
-  },
+},
 
-  {
+{
   id: "big-crockpot-potato-soup",
   slug: "big-crockpot-potato-soup",
   name: "Crock Pot Potato Soup",
+  effort: "big",
+  photoUrl: "/images/big-crockpot-potato-soup.jpg",
+  tags: ["dinner", "soup", "comfort", "slow-cooker", "potatoes", "family-friendly", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Creamy, hearty potato soup made easy in the slow cooker. Mashing some of the potatoes creates a thicker, more comforting texture without extra effort.",
   ingredients: `1 (30 oz) bag frozen diced hash brown potatoes
 1 (32 oz) chicken broth
 1 (10.75 oz) can cream of chicken soup
 1/2 cup yellow onion, finely chopped
 2 cloves garlic, minced
-1/2 tsp black pepper
+1/2 tsp pepper
 1/2 tsp salt (plus more to taste)
 1 tsp dried parsley (optional)
 1/2 tsp smoked paprika (optional, for depth)
@@ -1415,7 +1413,7 @@ Toppings (optional):
 green onions, sliced
 cheddar cheese, shredded
 bacon bits`,
-  instructions: `Add 1 (30 oz) bag frozen diced hash brown potatoes, 32 oz chicken broth, 1 (10.75 oz) can cream of chicken soup, 1/2 cup finely chopped yellow onion, 2 minced cloves garlic, 1/2 tsp black pepper, 1/2 tsp salt, 1 tsp dried parsley, and 1/2 tsp smoked paprika (if using) to a slow cooker. Stir to combine.
+  instructions: `Add 1 bag frozen diced hash brown potatoes, 1 carton chicken broth, 1 can cream of chicken soup, 1/2 cup finely chopped yellow onion, 2 minced garlic cloves, 1/2 tsp pepper, 1/2 tsp salt, 1 tsp dried parsley, and 1/2 tsp smoked paprika if using to a slow cooker. Stir to combine.
 
 Cover and cook on low for 5 to 6 hours or on high for 3 to 4 hours, until the potatoes are tender and the flavors are well blended.
 
@@ -1428,11 +1426,6 @@ Stir in 1/2 cup sour cream if using, and cook for an additional 20 to 30 minutes
 Taste and adjust seasoning as needed.
 
 Serve hot and top with shredded cheddar cheese, bacon bits, and sliced green onions if desired.`,
-  photoUrl: "/images/big-crockpot-potato-soup.jpg",
-  effort: "big",
-  tags: ["dinner", "soup", "comfort", "slow-cooker", "potatoes", "family", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Creamy, hearty potato soup made easy in the slow cooker. Mashing some of the potatoes creates a thicker, more comforting texture without extra effort."
 },
 
 {
@@ -1441,7 +1434,8 @@ Serve hot and top with shredded cheddar cheese, bacon bits, and sliced green oni
   name: "Blueberry Cheesecake Crescent Rolls",
   photoUrl: "/images/quick-blueberry-cheesecake-crescent-rolls.jpg",
   effort: "quick",
-  tags: ["dessert", "quick", "sweet", "baked", "blueberry", "easy"],
+  tags: ["dessert", "quick", "sweet", "bake", "blueberry", "easy"],
+  notes: "Simple dessert that feels fancy. Great for breakfast treats too.",
   ingredients: `3 oz cream cheese, softened
 1/2 tsp vanilla extract
 2 1/2 Tbsp powdered sugar
@@ -1453,25 +1447,28 @@ In a bowl, mix 3 oz softened cream cheese, 1/2 tsp vanilla extract, and 2 1/2 Tb
 
 Separate 1 tube of crescent dough into triangles.
 
-Spread the cream cheese mixture on the bottom third of each triangle and top with 2/3 cup fresh blueberries (distributed evenly among triangles).
+Spread the cream cheese mixture on the bottom third of each triangle and top with 2/3 cup fresh blueberries distributed evenly among triangles.
 
 Roll from the wide end to the tip.
 
 Place on a baking sheet and bake for 10 minutes or until golden brown.`,
-  notes: "Simple dessert that feels fancy. Great for breakfast treats too.",
 },
-
 
 {
   id: "big-crispy-chicken-wings",
   slug: "big-crispy-chicken-wings",
   name: "Crispy Chicken Wings",
+  effort: "big",
+  photoUrl: "/images/big-crispy-chicken-wings.jpg",
+  tags: ["dinner", "chicken", "wings", "fried", "game-day", "crispy", "comfort", "crowd-pleaser"],
+  isVegetarian: false,
+  notes: "Ultra crispy, restaurant-style wings made at home. Drying the wings thoroughly and frying at the correct temperature are the keys to achieving that perfect crunch.",
   ingredients: `2 to 3 lbs chicken wings (flats and drums, separated)
 vegetable oil (for frying)
-1 tbsp beef tallow (optional, for extra flavor)
+1 Tbsp beef tallow (optional, for extra flavor)
 1/2 cup cornstarch
 1 tsp salt
-1/2 tsp black pepper
+1/2 tsp pepper
 1/2 tsp garlic powder
 1/2 tsp paprika (optional)
 
@@ -1487,40 +1484,40 @@ ranch or blue cheese dressing`,
 
 Pat the wings completely dry with paper towels. For best results, place wings on a rack and refrigerate uncovered for several hours or overnight to dry out the skin.
 
-In a large bowl, toss the wings with 1/2 cup cornstarch, 1 tsp salt, 1/2 tsp black pepper, 1/2 tsp garlic powder, and 1/2 tsp paprika until evenly coated.
+In a large bowl, toss the wings with 1/2 cup cornstarch, 1 tsp salt, 1/2 tsp pepper, 1/2 tsp garlic powder, and 1/2 tsp paprika until evenly coated.
 
-Heat vegetable oil (and 1 tbsp beef tallow if using) in a deep pot or fryer to 375°F.
+Heat vegetable oil and 1 Tbsp beef tallow if using in a deep pot or fryer to 375°F.
 
 Fry wings in batches for 10 to 12 minutes, until golden brown, crispy, and the internal temperature reaches at least 165°F. Do not overcrowd the pot.
 
-Remove wings to a wire rack (not paper towels) to keep them crispy.
+Remove wings to a wire rack, not paper towels, to keep them crispy.
 
 In a separate bowl, whisk together 1/2 cup Frank’s RedHot and 1/3 cup melted unsalted butter.
 
 Toss the wings in the sauce until evenly coated, or serve sauce on the side for dipping.
 
 Serve immediately with celery sticks, carrot sticks, and ranch or blue cheese dressing if desired.`,
-  photoUrl: "/images/big-crispy-chicken-wings.jpg",
-  effort: "big",
-  tags: ["dinner", "wings", "fried", "game-day", "crispy", "comfort", "crowd-pleaser"],
-  isVegetarian: false,
-  notes: "Ultra crispy, restaurant-style wings made at home. Drying the wings thoroughly and frying at the correct temperature are the keys to achieving that perfect crunch."
 },
 
 {
   id: "normal-grilled-bbq-chicken-thighs",
   slug: "normal-grilled-bbq-chicken-thighs",
   name: "Grilled BBQ Chicken Thighs",
+  effort: "normal",
+  photoUrl: "/images/normal-grilled-bbq-chicken-thighs.jpg",
+  tags: ["dinner", "chicken", "grilling", "bbq", "summer", "juicy", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Juicy, smoky grilled chicken thighs with a sticky BBQ glaze. Cooking over indirect heat prevents burning while keeping the inside tender and flavorful.",
   ingredients: `6 bone-in, skin-on chicken thighs
-1 tbsp olive oil
+1 Tbsp olive oil
 1 tsp salt
-1/2 tsp black pepper
+1/2 tsp pepper
 1/2 tsp garlic powder
 1/2 tsp paprika (or smoked paprika for extra flavor)
 1 cup BBQ sauce (plus extra for serving)`,
-  instructions: `Preheat grill to medium heat (about 375°F to 400°F). Set up for indirect heat if possible.
+  instructions: `Preheat grill to medium heat, about 375°F to 400°F. Set up for indirect heat if possible.
 
-Pat 6 bone-in, skin-on chicken thighs dry with paper towels. Rub with 1 tbsp olive oil, then season evenly with 1 tsp salt, 1/2 tsp black pepper, 1/2 tsp garlic powder, and 1/2 tsp paprika.
+Pat 6 bone-in, skin-on chicken thighs dry with paper towels. Rub with 1 Tbsp olive oil, then season evenly with 1 tsp salt, 1/2 tsp pepper, 1/2 tsp garlic powder, and 1/2 tsp paprika.
 
 Place chicken skin-side down over direct heat. Grill for 5 to 7 minutes, until the skin is crispy and has nice grill marks.
 
@@ -1531,26 +1528,26 @@ Brush 1 cup BBQ sauce on both sides of the chicken and return briefly to direct 
 Remove from grill when internal temperature reaches 165°F.
 
 Let rest for 5 minutes before serving.`,
-  photoUrl: "/images/normal-grilled-bbq-chicken-thighs.jpg",
-  effort: "normal",
-  tags: ["dinner", "chicken", "grilling", "bbq", "juicy", "summer", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Juicy, smoky grilled chicken thighs with a sticky BBQ glaze. Cooking over indirect heat prevents burning while keeping the inside tender and flavorful."
 },
 
 {
   id: "quick-grilled-steak",
   slug: "quick-grilled-steak",
   name: "Grilled Steak",
+  effort: "quick",
+  photoUrl: "/images/quick-grilled-steak.jpg",
+  tags: ["dinner", "beef", "grilling", "classic", "quick", "high-protein", "low-carb"],
+  isVegetarian: false,
+  notes: "Simple, classic grilled steak with a flavorful crust and juicy center. Letting the steak rest before slicing is key to keeping it tender and juicy.",
   ingredients: `2 ribeye or sirloin steaks (about 1 to 1 1/2 inches thick)
-1 tbsp olive oil
+1 Tbsp olive oil
 1 tsp salt
-1/2 tsp black pepper
+1/2 tsp pepper
 1/2 tsp garlic powder (optional)
-1 tbsp butter (optional, for finishing)`,
-  instructions: `Preheat grill to high heat (about 450°F to 500°F).
+1 Tbsp butter (optional, for finishing)`,
+  instructions: `Preheat grill to high heat, about 450°F to 500°F.
 
-Pat 2 ribeye or sirloin steaks (about 1 to 1 1/2 inches thick) completely dry with paper towels. Rub with 1 tbsp olive oil and season generously with 1 tsp salt, 1/2 tsp black pepper, and 1/2 tsp garlic powder if using.
+Pat 2 ribeye or sirloin steaks completely dry with paper towels. Rub with 1 Tbsp olive oil and season generously with 1 tsp salt, 1/2 tsp pepper, and 1/2 tsp garlic powder if using.
 
 Place steaks on the hot grill and cook undisturbed for 4 to 5 minutes, until a deep golden-brown crust forms.
 
@@ -1558,34 +1555,34 @@ Flip and cook another 3 to 5 minutes, depending on thickness and desired donenes
 
 For more even cooking, move steaks to a slightly cooler part of the grill and close the lid if needed.
 
-Remove from grill when internal temperature reaches about 130°F for medium-rare (it will rise as it rests).
+Remove from grill when internal temperature reaches about 130°F for medium-rare. It will rise as it rests.
 
-Top with a small pat of butter (1 tbsp) if desired and let rest for 5 to 10 minutes before slicing.
+Top with a small pat of butter if desired and let rest for 5 to 10 minutes before slicing.
 
 Slice against the grain and serve.`,
-  photoUrl: "/images/quick-grilled-steak.jpg",
-  effort: "quick",
-  tags: ["dinner", "beef", "grilling", "classic", "high-protein", "low-carb"],
-  isVegetarian: false,
-  notes: "Simple, classic grilled steak with a flavorful crust and juicy center. Letting the steak rest before slicing is key to keeping it tender and juicy."
 },
 
 {
   id: "quick-grilled-chicken-breasts",
   slug: "quick-grilled-chicken-breasts",
   name: "Grilled Chicken Breasts",
+  effort: "quick",
+  photoUrl: "/images/quick-grilled-chicken-breasts.jpg",
+  tags: ["dinner", "chicken", "grilling", "healthy", "high-protein", "meal-prep", "quick", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Juicy, versatile grilled chicken breasts that pair with almost anything. Pounding to even thickness and not overcooking are key to keeping them tender.",
   ingredients: `4 boneless, skinless chicken breasts
-2 tbsp olive oil
+2 Tbsp olive oil
 1 tsp salt
-1/2 tsp black pepper
+1/2 tsp pepper
 1 tsp garlic powder
 1/2 tsp paprika (optional, for color and flavor)
-1 tbsp lemon juice (optional, for brightness)`,
-  instructions: `Preheat grill to medium-high heat (about 400°F to 425°F).
+1 Tbsp lemon juice (optional, for brightness)`,
+  instructions: `Preheat grill to medium-high heat, about 400°F to 425°F.
 
 If 4 boneless, skinless chicken breasts are thick, pound them to an even thickness for more even cooking.
 
-Pat chicken dry with paper towels. Brush with 2 tbsp olive oil, then season evenly with 1 tsp salt, 1/2 tsp black pepper, 1 tsp garlic powder, and 1/2 tsp paprika if using.
+Pat chicken dry with paper towels. Brush with 2 Tbsp olive oil, then season evenly with 1 tsp salt, 1/2 tsp pepper, 1 tsp garlic powder, and 1/2 tsp paprika if using.
 
 Place chicken on the grill and cook for 5 to 6 minutes without moving, until grill marks form and the chicken releases easily.
 
@@ -1593,36 +1590,36 @@ Flip and cook another 5 to 7 minutes, or until internal temperature reaches 160�
 
 If needed, move to a slightly cooler part of the grill and close the lid to finish cooking without burning.
 
-Remove from grill and drizzle with 1 tbsp lemon juice if using.
+Remove from grill and drizzle with 1 Tbsp lemon juice if using.
 
 Let rest for 5 minutes before slicing to keep juices locked in.`,
-  photoUrl: "/images/quick-grilled-chicken-breasts.jpg",
-  effort: "quick",
-  tags: ["dinner", "chicken", "grilling", "healthy", "high-protein", "meal-prep", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Juicy, versatile grilled chicken breasts that pair with almost anything. Pounding to even thickness and not overcooking are key to keeping them tender."
 },
 
 {
   id: "quick-grilled-shrimp-skewers",
   slug: "quick-grilled-shrimp-skewers",
   name: "Grilled Shrimp Skewers",
+  effort: "quick",
+  photoUrl: "/images/quick-grilled-shrimp-skewers.jpg",
+  tags: ["dinner", "seafood", "shellfish", "shrimp", "grilling", "quick", "healthy", "high-protein", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Quick and flavorful grilled shrimp with bright lemon and garlic. Watch closely while cooking—shrimp cook fast and can become rubbery if overdone.",
   ingredients: `1 lb large shrimp, peeled and deveined (tails on or off)
-2 tbsp olive oil
+2 Tbsp olive oil
 2 cloves garlic, minced
-Juice of 1 lemon
+juice of 1 lemon
 1 tsp lemon zest (optional, for extra brightness)
 1/2 tsp salt
-1/2 tsp black pepper
+1/2 tsp pepper
 1/2 tsp paprika (optional, for color and mild flavor)
-1 tbsp fresh parsley, chopped (optional)`,
-  instructions: `Preheat grill to medium-high heat (about 400°F to 425°F).
+1 Tbsp fresh parsley, chopped (optional)`,
+  instructions: `Preheat grill to medium-high heat, about 400°F to 425°F.
 
 If using wooden skewers, soak them in water for at least 20 minutes to prevent burning.
 
 Pat 1 lb large shrimp dry with paper towels. Thread onto skewers, keeping them close together but not overcrowded.
 
-In a small bowl, whisk together 2 tbsp olive oil, 2 minced cloves garlic, the juice of 1 lemon, 1 tsp lemon zest (if using), 1/2 tsp salt, 1/2 tsp black pepper, and 1/2 tsp paprika.
+In a small bowl, whisk together 2 Tbsp olive oil, 2 minced cloves garlic, the juice of 1 lemon, 1 tsp lemon zest if using, 1/2 tsp salt, 1/2 tsp pepper, and 1/2 tsp paprika.
 
 Brush the mixture evenly over the shrimp.
 
@@ -1630,63 +1627,63 @@ Place skewers on the grill and cook for 2 to 3 minutes per side, until the shrim
 
 Avoid overcooking—shrimp should form a loose “C” shape, not a tight “O”.
 
-Remove from grill and sprinkle with 1 tbsp fresh chopped parsley if desired. Serve immediately.`,
-  photoUrl: "/images/quick-grilled-shrimp-skewers.jpg",
-  effort: "quick",
-  tags: ["dinner", "seafood", "shrimp", "grilling", "quick", "healthy", "high-protein", "one-pan", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Quick and flavorful grilled shrimp with bright lemon and garlic. Watch closely while cooking—shrimp cook fast and can become rubbery if overdone."
+Remove from grill and sprinkle with 1 Tbsp fresh chopped parsley if desired. Serve immediately.`,
 },
 
 {
   id: "quick-grilled-sausage-peppers",
   slug: "quick-grilled-sausage-peppers",
   name: "Grilled Sausage and Peppers",
+  effort: "quick",
+  photoUrl: "/images/quick-grilled-sausage-peppers.jpg",
+  tags: ["dinner", "sausage", "grilling", "quick", "summer", "one-pan", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "A quick, flavorful grilling classic with smoky sausage and tender peppers. Adding a splash of balsamic at the end brings a subtle sweetness that elevates the dish.",
   ingredients: `1 (12 to 14 oz) package smoked sausage or Italian sausage
 2 bell peppers (any color), sliced
 1 large yellow onion, sliced
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 tsp salt
-1/2 tsp black pepper
+1/2 tsp pepper
 1/2 tsp Italian seasoning (optional)
 1/2 tsp garlic powder
-1 tbsp balsamic vinegar (optional, for finishing)
+1 Tbsp balsamic vinegar (optional, for finishing)
 hoagie rolls or buns (optional, for serving)`,
-  instructions: `Preheat grill to medium heat (about 375°F to 400°F).
+  instructions: `Preheat grill to medium heat, about 375°F to 400°F.
 
-Toss 2 sliced bell peppers and 1 large sliced yellow onion with 1 tbsp olive oil, 1/2 tsp salt, 1/2 tsp black pepper, 1/2 tsp Italian seasoning, and 1/2 tsp garlic powder.
+Toss 2 sliced bell peppers and 1 large sliced yellow onion with 1 Tbsp olive oil, 1/2 tsp salt, 1/2 tsp pepper, 1/2 tsp Italian seasoning, and 1/2 tsp garlic powder.
 
-Place the 12 to 14 oz package of sausage directly on the grill and cook for 10 to 12 minutes, turning occasionally, until heated through and lightly charred.
+Place the sausage directly on the grill and cook for 10 to 12 minutes, turning occasionally, until heated through and lightly charred.
 
 Meanwhile, place the seasoned vegetables in a grill basket or foil pan. Grill for 8 to 10 minutes, stirring occasionally, until tender and slightly charred at the edges.
 
-For extra flavor, drizzle the vegetables with 1 tbsp balsamic vinegar during the last minute of cooking.
+For extra flavor, drizzle the vegetables with 1 Tbsp balsamic vinegar during the last minute of cooking.
 
 Remove everything from the grill and let rest for a few minutes.
 
 Serve the sausage with the peppers and onions, either on a plate or in toasted hoagie rolls.`,
-  photoUrl: "/images/quick-grilled-sausage-peppers.jpg",
-  effort: "quick",
-  tags: ["dinner", "sausage", "grilling", "one-pan", "quick", "summer", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "A quick, flavorful grilling classic with smoky sausage and tender peppers. Adding a splash of balsamic at the end brings a subtle sweetness that elevates the dish."
 },
 
 {
   id: "normal-grilled-pork-chops",
   slug: "normal-grilled-pork-chops",
   name: "Grilled Pork Chops",
+  effort: "normal",
+  photoUrl: "/images/normal-grilled-pork-chops.jpg",
+  tags: ["dinner", "pork", "grilling", "juicy", "high-protein", "summer", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Juicy grilled pork chops with a flavorful crust. Avoid overcooking—pulling at 140°F to 145°F and resting ensures tender, not dry, pork.",
   ingredients: `4 bone-in pork chops (about 1 inch thick)
-2 tbsp olive oil
+2 Tbsp olive oil
 1 tsp salt
-1/2 tsp black pepper
+1/2 tsp pepper
 1 tsp paprika (or smoked paprika for extra depth)
 1/2 tsp garlic powder
 1/2 tsp onion powder
-1 tbsp brown sugar (optional, for light caramelization)`,
-  instructions: `Preheat grill to medium-high heat (about 400°F to 425°F). Set up a two-zone fire if possible.
+1 Tbsp brown sugar (optional, for light caramelization)`,
+  instructions: `Preheat grill to medium-high heat, about 400°F to 425°F. Set up a two-zone fire if possible.
 
-Pat 4 bone-in pork chops (about 1 inch thick) dry with paper towels. Rub with 2 tbsp olive oil, then season evenly with 1 tsp salt, 1/2 tsp black pepper, 1 tsp paprika, 1/2 tsp garlic powder, 1/2 tsp onion powder, and 1 tbsp brown sugar if using.
+Pat 4 bone-in pork chops dry with paper towels. Rub with 2 Tbsp olive oil, then season evenly with 1 tsp salt, 1/2 tsp pepper, 1 tsp paprika, 1/2 tsp garlic powder, 1/2 tsp onion powder, and 1 Tbsp brown sugar if using.
 
 Place pork chops over direct heat and grill for 3 to 4 minutes without moving, until grill marks form.
 
@@ -1697,11 +1694,6 @@ Move pork chops to indirect heat, close the lid, and cook for an additional 4 to
 Remove from grill and let rest for 5 minutes. The temperature will rise slightly as it rests.
 
 Serve warm.`,
-  photoUrl: "/images/normal-grilled-pork-chops.jpg",
-  effort: "normal",
-  tags: ["dinner", "pork", "grilling", "juicy", "high-protein", "summer", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Juicy grilled pork chops with a flavorful crust. Avoid overcooking—pulling at 140°F to 145°F and resting ensures tender, not dry, pork."
 },
 
 {
@@ -1710,7 +1702,7 @@ Serve warm.`,
   name: "Grilled Burgers",
   effort: "quick",
   photoUrl: "/images/quick-grilled-burgers.jpg",
-  tags: ["dinner", "beef", "grilling", "cookout", "quick", "summer"],
+  tags: ["dinner", "beef", "grilling", "cookout", "quick", "summer", "family-friendly"],
   notes: "A classic backyard burger with juicy patties, melted cheese, and all your favorite toppings.",
   ingredients: `2 lbs ground beef (80/20)
 1 1/2 tsp salt
@@ -1718,12 +1710,12 @@ Serve warm.`,
 1/2 tsp garlic powder
 1/2 Tbsp olive oil
 4 to 6 hamburger buns
-Sliced cheddar cheese
-Lettuce
-Tomato, sliced
+sliced cheddar cheese
+lettuce
+tomato, sliced
 onion, sliced
-Pickles`,
-  instructions: `Divide 2 lbs ground beef (80/20) into equal portions (about 1/3 to 1/2 lb each).
+pickles`,
+  instructions: `Divide 2 lbs ground beef into equal portions, about 1/3 to 1/2 lb each.
 Gently shape into patties about 1 inch thick.
 Press a small dimple into the center of each patty to prevent puffing.
 
@@ -1743,98 +1735,103 @@ Remove from grill and let rest for 2 to 3 minutes.
 
 While burgers rest, toast 4 to 6 hamburger buns and sliced onions on the grill for 30 to 45 seconds.
 
-Assemble burgers with lettuce, sliced tomato, and pickles, and serve with chips or potato wedges.`
+Assemble burgers with lettuce, sliced tomato, and pickles, and serve with chips or potato wedges.`,
 },
 
- {
-    id: "grilled-cheese-sandwich",
-    slug: "grilled-cheese-sandwich",
-    name: "Grilled Cheese Sandwich",
-    effort: "quick",
-    photoUrl: "/images/grilled-cheese-sandwich.jpg",
-    tags: ["lunch", "sandwich", "quick", "comfort", "cheese"],
-    notes: "Simple, classic, and always a winner. Even better with a bowl of warm tomato soup.",
-    ingredients: `Sourdough bread
+{
+  id: "grilled-cheese-sandwich",
+  slug: "grilled-cheese-sandwich",
+  name: "Grilled Cheese Sandwich",
+  effort: "quick",
+  photoUrl: "/images/grilled-cheese-sandwich.jpg",
+  tags: ["lunch", "sandwich", "quick", "comfort", "cheese", "kid-friendly"],
+  notes: "Simple, classic, and always a winner. Even better with a bowl of warm tomato soup.",
+  ingredients: `sourdough bread
 butter
-Mild cheddar cheese slices`,
-    instructions: `Spread 1/2 Tbsp butter on one side of each slice of sourdough bread.
+mild cheddar cheese slices`,
+  instructions: `Spread 1/2 Tbsp butter on one side of each slice of sourdough bread.
 
 Heat a non-stick pan over medium-low heat.
 
 Place 2 slices of bread in the pan, buttered side down.
 
-Stack mild cheddar cheese slices on one piece of bread, then top with the other piece of bread (buttered side facing up).
+Stack mild cheddar cheese slices on one piece of bread, then top with the other piece of bread, buttered side facing up.
 
 Cook, flipping once, until both sides are golden brown and the cheese is melted, about 6 minutes total.
 
 Cut in half diagonally and serve.
 
 Optional: Serve with warm tomato soup.`,
-  },
+},
 
-  {
+{
   id: "quick-chicken-parmesan-melts",
   slug: "quick-chicken-parmesan-melts",
   name: "Chicken Parmesan Melts",
+  effort: "quick",
+  photoUrl: "/images/quick-chicken-parmesan-melts.jpg",
+  tags: ["dinner", "chicken", "quick", "italian", "sandwich", "cheesy", "one-pan", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Crispy chicken parmesan sandwiches with melty cheese and warm marinara. Toasting the bread first keeps the rolls from getting soggy and adds great texture.",
   ingredients: `4 cooked chicken cutlets or breaded chicken patties
 1 cup marinara sauce (plus extra for dipping)
 1 cup mozzarella cheese, shredded
-1/4 cup parmesan cheese, grated
+1/4 cup Parmesan cheese, grated
 4 sandwich rolls (hoagie or sub rolls)
-1 tbsp olive oil or butter
+1 Tbsp olive oil or butter
 1/2 tsp garlic powder
 1/2 tsp Italian seasoning
 fresh basil or parsley (optional)`,
   instructions: `Preheat oven to 400°F or set broiler to high.
 
-Slice 4 sandwich rolls and lightly brush the cut sides with 1 tbsp olive oil or butter. Place on a baking sheet and toast for 3 to 4 minutes until lightly golden.
+Slice 4 sandwich rolls and lightly brush the cut sides with 1 Tbsp olive oil or butter. Place on a baking sheet and toast for 3 to 4 minutes until lightly golden.
 
 Heat 4 cooked chicken cutlets or breaded chicken patties according to package directions or warm leftover cutlets until hot and crispy.
 
 Warm 1 cup marinara sauce in a small saucepan or microwave.
 
-Place the chicken on the toasted rolls. Spoon the marinara over each piece, then top with 1 cup shredded mozzarella and a sprinkle of 1/4 cup grated parmesan.
+Place the chicken on the toasted rolls. Spoon the marinara over each piece, then top with 1 cup shredded mozzarella and a sprinkle of 1/4 cup grated Parmesan.
 
 Sprinkle lightly with 1/2 tsp garlic powder and 1/2 tsp Italian seasoning.
 
 Bake for 5 to 7 minutes, or broil for 2 to 3 minutes, until the cheese is melted, bubbly, and slightly golden.
 
 Remove from the oven, garnish with fresh basil or parsley if desired, and serve immediately with extra marinara for dipping.`,
-  photoUrl: "/images/quick-chicken-parmesan-melts.jpg",
-  effort: "quick",
-  tags: ["dinner", "chicken", "quick", "italian", "sandwiches", "cheesy", "one-pan", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Crispy chicken parmesan sandwiches with melty cheese and warm marinara. Toasting the bread first keeps the rolls from getting soggy and adds great texture."
 },
 
-  {
+{
   id: "quick-taco-mac-skillet",
   slug: "quick-taco-mac-skillet",
   name: "Taco Mac Skillet",
+  effort: "quick",
+  photoUrl: "/images/quick-taco-mac-skillet.jpg",
+  tags: ["dinner", "beef", "pasta", "quick", "tex-mex", "one-pan", "family-friendly", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "A quick, cheesy taco-inspired pasta made in one pan. Adding cream cheese creates a smoother, richer sauce and helps everything come together perfectly.",
   ingredients: `1 lb ground beef
 2 cups cooked macaroni (elbow pasta)
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 small yellow onion, diced
 2 cloves garlic, minced
-1 packet taco seasoning (or 2 tbsp homemade taco seasoning)
+1 packet taco seasoning (or 2 Tbsp homemade taco seasoning)
 1/2 cup water
 1 cup salsa
 1 cup cheddar cheese, shredded
 1/2 cup Monterey Jack cheese (optional, for extra melt)
 1/4 cup cream cheese (optional, for extra creaminess)
-1/2 tsp black pepper
+1/2 tsp pepper
 
 Optional toppings:
 sour cream
 green onions, sliced
 jalapeños`,
-  instructions: `Heat 1 tbsp olive oil in a large skillet over medium heat. Add 1/2 diced small yellow onion and cook for 3 to 4 minutes until softened.
+  instructions: `Heat 1 Tbsp olive oil in a large skillet over medium heat. Add 1/2 diced small yellow onion and cook for 3 to 4 minutes until softened.
 
 Add 2 minced cloves garlic and cook for 30 seconds until fragrant.
 
 Add 1 lb ground beef and cook until browned, breaking it apart as it cooks. Drain excess grease if needed.
 
-Stir in 1 packet taco seasoning (or 2 tbsp homemade seasoning) and cook for 1 minute to toast the spices.
+Stir in 1 packet taco seasoning or 2 Tbsp homemade seasoning and cook for 1 minute to toast the spices.
 
 Add 1/2 cup water and 1 cup salsa, stirring to combine. Bring to a simmer and cook for 3 to 5 minutes until slightly thickened.
 
@@ -1842,60 +1839,60 @@ Reduce heat to low. Stir in 1/4 cup cream cheese if using until melted and smoot
 
 Add 2 cups cooked macaroni and toss until evenly coated.
 
-Stir in 1 cup shredded cheddar (and 1/2 cup Monterey Jack if using) until melted and creamy.
+Stir in 1 cup shredded cheddar and 1/2 cup Monterey Jack if using until melted and creamy.
 
-Season with 1/2 tsp black pepper (or more to taste). Remove from heat.
+Season with 1/2 tsp pepper, or more to taste. Remove from heat.
 
 Serve immediately with optional toppings like sour cream, sliced green onions, or jalapeños if desired.`,
-  photoUrl: "/images/quick-taco-mac-skillet.jpg",
-  effort: "quick",
-  tags: ["dinner", "beef", "pasta", "quick", "tex-mex", "one-pan", "family", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "A quick, cheesy taco-inspired pasta made in one pan. Adding cream cheese creates a smoother, richer sauce and helps everything come together perfectly."
 },
 
-  {
+{
   id: "quick-lemon-pepper-tilapia",
   slug: "quick-lemon-pepper-tilapia",
   name: "Lemon Pepper Tilapia",
+  effort: "quick",
+  photoUrl: "/images/quick-lemon-pepper-tilapia.jpg",
+  tags: ["dinner", "seafood", "fish", "tilapia", "quick", "light", "healthy", "one-pan", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Light, quick tilapia with bright lemon flavor and simple seasoning. Patting the fish dry and not overcooking are key to a tender, flaky result.",
   ingredients: `4 tilapia fillets
-1 tbsp olive oil
+1 Tbsp olive oil
 1 tsp lemon pepper seasoning
 1/2 tsp garlic powder
 1/2 tsp paprika (optional, for color)
 1/2 tsp salt (adjust based on seasoning)
-1 tbsp fresh lemon juice
+1 Tbsp fresh lemon juice
 1 lemon, sliced
-1 tbsp butter (optional, for finishing)
-1 tbsp fresh parsley, chopped (optional)`,
+1 Tbsp butter (optional, for finishing)
+1 Tbsp fresh parsley, chopped (optional)`,
   instructions: `Pat 4 tilapia fillets dry with paper towels to help achieve a light sear.
 
-Season both sides with 1 tsp lemon pepper seasoning, 1/2 tsp garlic powder, 1/2 tsp paprika (if using), and 1/2 tsp salt.
+Season both sides with 1 tsp lemon pepper seasoning, 1/2 tsp garlic powder, 1/2 tsp paprika if using, and 1/2 tsp salt.
 
-Heat 1 tbsp olive oil in a large skillet over medium heat.
+Heat 1 Tbsp olive oil in a large skillet over medium heat.
 
 Once the oil is hot, add the tilapia and cook for 3 to 4 minutes without moving, until the edges turn opaque and the bottom develops a light golden color.
 
 Flip carefully and cook another 2 to 3 minutes, until the fish flakes easily with a fork.
 
-Add 1 tbsp butter and squeeze 1 tbsp fresh lemon juice into the pan. Spoon the lemon butter over the fish for about 30 seconds.
+Add 1 Tbsp butter and squeeze 1 Tbsp fresh lemon juice into the pan. Spoon the lemon butter over the fish for about 30 seconds.
 
-Remove from heat and garnish with 1 sliced lemon and 1 tbsp fresh chopped parsley if desired. Serve immediately.`,
-  photoUrl: "/images/quick-lemon-pepper-tilapia.jpg",
-  effort: "quick",
-  tags: ["dinner", "fish", "quick", "seafood", "light", "healthy", "one-pan", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Light, quick tilapia with bright lemon flavor and simple seasoning. Patting the fish dry and not overcooking are key to a tender, flaky result."
+Remove from heat and garnish with sliced lemon and fresh parsley if desired. Serve immediately.`,
 },
 
-   {
+{
   id: "quick-bbq-chicken",
   slug: "quick-bbq-chicken",
   name: "Oven BBQ Chicken",
+  effort: "quick",
+  photoUrl: "/images/quick-bbq-chicken.jpg",
+  tags: ["dinner", "chicken", "quick", "bbq", "family-friendly", "one-pan", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Juicy oven-baked BBQ chicken with a sticky, caramelized finish. Adding the sauce near the end prevents burning while keeping the chicken tender and flavorful.",
   ingredients: `4 boneless, skinless chicken breasts
-1 tbsp olive oil
+1 Tbsp olive oil
 1 tsp salt
-1/2 tsp black pepper
+1/2 tsp pepper
 1/2 tsp garlic powder
 1/2 tsp paprika (or smoked paprika for extra flavor)
 1/2 cup BBQ sauce (plus extra for serving)`,
@@ -1903,7 +1900,7 @@ Remove from heat and garnish with 1 sliced lemon and 1 tbsp fresh chopped parsle
 
 If 4 boneless, skinless chicken breasts are thick, pound them to an even thickness for more even cooking.
 
-Pat chicken dry with paper towels. Drizzle with 1 tbsp olive oil and season evenly with 1 tsp salt, 1/2 tsp black pepper, 1/2 tsp garlic powder, and 1/2 tsp paprika.
+Pat chicken dry with paper towels. Drizzle with 1 Tbsp olive oil and season evenly with 1 tsp salt, 1/2 tsp pepper, 1/2 tsp garlic powder, and 1/2 tsp paprika.
 
 Place chicken on the prepared baking sheet and bake for 15 minutes.
 
@@ -1916,17 +1913,17 @@ For extra caramelization, broil on high for 1 to 2 minutes, watching closely to 
 Remove from oven and let rest for 5 minutes. The temperature will rise to 165°F as it rests.
 
 Serve warm with additional BBQ sauce if desired.`,
-  photoUrl: "/images/quick-bbq-chicken.jpg",
-  effort: "quick",
-  tags: ["dinner", "chicken", "quick", "bbq", "family-friendly", "one-pan", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Juicy oven-baked BBQ chicken with a sticky, caramelized finish. Adding the sauce near the end prevents burning while keeping the chicken tender and flavorful."
 },
 
-  {
+{
   id: "normal-simple-tacos",
   slug: "normal-simple-tacos",
   name: "Simple Tacos",
+  effort: "normal",
+  photoUrl: "/images/normal-simple-tacos.jpg",
+  tags: ["dinner", "beef", "tacos", "tex-mex", "family-friendly", "build-your-own", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Classic, easy taco night with seasoned ground beef and fresh toppings. Letting the meat simmer with seasoning helps build deeper flavor and prevents it from being dry.",
   ingredients: `1 lb ground beef
 2/3 cup water
 1/2 small white onion, diced
@@ -1940,18 +1937,18 @@ sour cream
 hot sauce
 
 Taco Seasoning:
-1/2 tbsp chili powder
+1/2 Tbsp chili powder
 1 tsp cumin
 1 tsp salt
 1/2 tsp garlic powder
 1/2 tsp onion powder
 1/2 tsp paprika
 1/8 tsp dried oregano
-1/4 tsp black pepper
+1/4 tsp pepper
 1/8 tsp crushed red pepper or jalapeño flakes`,
   instructions: `Preheat oven to 350°F if using hard taco shells.
 
-In a small bowl, mix all taco seasoning ingredients (1/2 tbsp chili powder, 1 tsp cumin, 1 tsp salt, 1/2 tsp garlic powder, 1/2 tsp onion powder, 1/2 tsp paprika, 1/8 tsp dried oregano, 1/4 tsp black pepper, and 1/8 tsp crushed red pepper) until well combined. Set aside.
+In a small bowl, mix all taco seasoning ingredients until well combined. Set aside.
 
 Heat a large skillet over medium heat. Add 1 lb ground beef and cook for 5 to 7 minutes, breaking it apart as it cooks, until no longer pink. Drain excess grease if needed.
 
@@ -1961,44 +1958,44 @@ Cook for 3 to 5 minutes, stirring occasionally, until the sauce thickens and coa
 
 Warm 8 to 10 taco shells according to package directions.
 
-Set out 1/2 diced small white onion, 4 diced roma tomatoes, 1 cup shredded cheddar cheese, 2 cups chopped lettuce, and any optional toppings to create a taco bar.
+Set out the diced onion, diced roma tomatoes, shredded cheddar cheese, chopped lettuce, and any optional toppings to create a taco bar.
 
 Fill shells with seasoned beef and desired toppings. Serve immediately.`,
-  photoUrl: "/images/normal-simple-tacos.jpg",
-  effort: "normal",
-  tags: ["dinner", "beef", "tacos", "simple", "family-friendly", "build-your-own", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Classic, easy taco night with seasoned ground beef and fresh toppings. Letting the meat simmer with seasoning helps build deeper flavor and prevents it from being dry."
 },
 
-   {
+{
   id: "quick-sloppy-joes-sandwich",
   slug: "quick-sloppy-joes-sandwich",
   name: "Sloppy Joes Sandwich",
+  effort: "quick",
+  photoUrl: "/images/quick-sloppy-joes-sandwich.jpg",
+  tags: ["dinner", "beef", "sandwich", "quick", "family-friendly", "comfort", "one-pan", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Classic sloppy joes with a rich, slightly sweet and tangy sauce. Simmering the sauce helps deepen the flavor and gives it that signature thick, saucy texture.",
   ingredients: `1 lb ground beef
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 small yellow onion, finely diced
 2 cloves garlic, minced
 8 oz tomato sauce
 1/2 cup ketchup
-2 tbsp brown sugar
-2 tbsp Worcestershire sauce
+2 Tbsp brown sugar
+2 Tbsp worcestershire sauce
 1 tsp yellow mustard
 1/2 tsp garlic powder
 1/4 tsp onion powder
-1/4 tsp black pepper
+1/4 tsp pepper
 1/2 tsp salt (adjust to taste)
 
 For serving:
 hamburger buns
 sliced pickles`,
-  instructions: `Heat 1 tbsp olive oil in a large skillet over medium heat. Add 1/2 small finely diced yellow onion and cook for 3 to 4 minutes until softened.
+  instructions: `Heat 1 Tbsp olive oil in a large skillet over medium heat. Add 1/2 small finely diced yellow onion and cook for 3 to 4 minutes until softened.
 
 Add 2 minced cloves garlic and cook for 30 seconds until fragrant.
 
 Add 1 lb ground beef and cook over medium to medium-high heat for 5 to 7 minutes, breaking it apart as it cooks, until browned with no pink remaining. Drain excess grease if needed.
 
-In a small bowl, whisk together 8 oz tomato sauce, 1/2 cup ketchup, 2 tbsp brown sugar, 2 tbsp Worcestershire sauce, 1 tsp yellow mustard, 1/2 tsp garlic powder, 1/4 tsp onion powder, 1/2 tsp salt, and 1/4 tsp black pepper.
+In a small bowl, whisk together 8 oz tomato sauce, 1/2 cup ketchup, 2 Tbsp brown sugar, 2 Tbsp worcestershire sauce, 1 tsp yellow mustard, 1/2 tsp garlic powder, 1/4 tsp onion powder, 1/2 tsp salt, and 1/4 tsp pepper.
 
 Pour the sauce into the skillet with the beef and stir to combine.
 
@@ -2007,63 +2004,64 @@ Reduce heat to low and simmer for 10 to 15 minutes, stirring occasionally, until
 Lightly toast the hamburger buns if desired.
 
 Spoon the sloppy joe mixture onto the buns and top with sliced pickles. Serve warm.`,
-  photoUrl: "/images/quick-sloppy-joes-sandwich.jpg",
-  effort: "quick",
-  tags: ["dinner", "beef", "sandwiches", "quick", "family-friendly", "comfort", "one-pan", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Classic sloppy joes with a rich, slightly sweet and tangy sauce. Simmering the sauce helps deepen the flavor and gives it that signature thick, saucy texture."
 },
 
- {
-    id: "big-beef-lasagna",
-    slug: "big-beef-lasagna",
-    name: "Classic Lasagna",
-    photoUrl: "/images/big-beef-lasagna.jpg",
-    notes: "A crowd-pleasing layered pasta bake with beef, sausage, ricotta, and plenty of cheese.",
-    effort: "big",
-    tags: ["dinner", "pasta", "beef", "baked", "italian", "crowd-pleaser"],
-    ingredients: `12 lasagna noodles uncooked
-2 ½ cups shredded mozzarella cheese
-¼ cup shredded Parmesan cheese
-½ pound lean ground beef
-½ pound Italian sausage
-1 yellow onion diced
-2 cloves garlic minced
-36 ounces pasta sauce
-2 tablespoons tomato paste
-1 teaspoon Italian seasoning
-½ teaspoon salt more to taste
+{
+  id: "big-beef-lasagna",
+  slug: "big-beef-lasagna",
+  name: "Classic Lasagna",
+  photoUrl: "/images/big-beef-lasagna.jpg",
+  effort: "big",
+  tags: ["dinner", "pasta", "beef", "bake", "italian", "comfort", "crowd-pleaser", "leftovers-friendly"],
+  notes: "A crowd-pleasing layered pasta bake with beef, sausage, ricotta, and plenty of cheese.",
+  ingredients: `12 lasagna noodles, uncooked
+2 1/2 cups shredded mozzarella cheese
+1/4 cup shredded Parmesan cheese
+1/2 lb lean ground beef
+1/2 lb Italian sausage
+1 yellow onion, diced
+2 cloves garlic, minced
+36 oz pasta sauce
+2 Tbsp tomato paste
+1 tsp Italian seasoning
+1/2 tsp salt, plus more to taste
 2 cups ricotta cheese or cottage cheese
-¼ cup chopped fresh parsley
-1 large egg beaten
-1 ½ cups shredded mozzarella cheese
-¼ cup shredded Parmesan cheese
-¼ teaspoon salt`,
-    instructions: `Preheat the oven to 350°F. 
+1/4 cup chopped fresh parsley
+1 large egg, beaten
+1 1/2 cups shredded mozzarella cheese
+1/4 cup shredded Parmesan cheese
+1/4 tsp salt
+1/4 tsp pepper`,
+  instructions: `Preheat the oven to 350°F.
 
 Bring a large pot of salted water to a boil. Add 12 uncooked lasagna noodles and cook until al dente. Drain, rinse under cold water, and set aside.
 
-In a large skillet, brown ½ pound lean ground beef, ½ pound Italian sausage, 1 diced yellow onion, and 2 cloves minced garlic over medium-high heat until no pink remains. Drain any fat.
+In a large skillet, brown 1/2 lb lean ground beef, 1/2 lb Italian sausage, 1 diced yellow onion, and 2 minced garlic cloves over medium-high heat until no pink remains. Drain any fat.
 
-Stir in 36 ounces pasta sauce, 2 tablespoons tomato paste, 1 teaspoon Italian seasoning, ½ teaspoon of salt, and ¼ teaspoon of pepper. Simmer uncovered over medium heat for 5 minutes or until slightly thickened. Taste and season with additional salt if desired.
+Stir in 36 oz pasta sauce, 2 Tbsp tomato paste, 1 tsp Italian seasoning, 1/2 tsp salt, and 1/4 tsp pepper. Simmer uncovered over medium heat for 5 minutes or until slightly thickened. Taste and season with additional salt if desired.
 
-In a separate medium bowl, combine 1 ½ cups shredded mozzarella cheese, ¼ cup shredded parmesan cheese, 2 cups ricotta cheese (or cottage cheese), ¼ cup chopped fresh parsley, 1 beaten large egg, and ¼ teaspoon salt.
+In a separate medium bowl, combine 1 1/2 cups shredded mozzarella cheese, 1/4 cup shredded Parmesan cheese, 2 cups ricotta cheese or cottage cheese, 1/4 cup chopped fresh parsley, 1 beaten large egg, and 1/4 tsp salt.
 
-Spread 1 cup of the meat sauce in a 9×13 pan or casserole dish. Top it with 3 lasagna noodles. Layer with 1 cup of the ricotta cheese mixture and 1 cup of meat sauce. Repeat twice more. Finish with 3 noodles topped with the remaining sauce.
+Spread 1 cup of the meat sauce in a 9x13 pan or casserole dish. Top with 3 lasagna noodles. Layer with 1 cup of the ricotta cheese mixture and 1 cup of meat sauce. Repeat twice more. Finish with 3 noodles topped with the remaining sauce.
 
-Cover with foil and bake for 45 minutes. 
+Cover with foil and bake for 45 minutes.
 
-Remove the foil and sprinkle the top of the lasagna with the remaining 2 ½ cups shredded mozzarella cheese and ¼ cup shredded Parmesan cheese. 
+Remove the foil and sprinkle the top of the lasagna with the remaining 2 1/2 cups shredded mozzarella cheese and 1/4 cup shredded Parmesan cheese.
 
-Bake uncovered for an additional 15 minutes or until browned and bubbly. Broil for 2-3 minutes if desired.
+Bake uncovered for an additional 15 minutes or until browned and bubbly. Broil for 2 to 3 minutes if desired.
 
 Rest for at least 15 minutes before cutting.`,
-  },
+},
 
   {
   id: "normal-chili-cheese-dogs",
   slug: "normal-chili-cheese-dogs",
   name: "Chili Cheese Dogs",
+  effort: "normal",
+  photoUrl: "/images/normal-chili-cheese-dogs.jpg",
+  tags: ["dinner", "hot-dogs", "comfort", "family-friendly", "one-pan", "crowd-pleaser"],
+  isVegetarian: false,
+  notes: "Loaded chili cheese dogs with a rich, flavorful beef chili. Letting the chili simmer helps it thicken so it stays on the dog instead of running off.",
   ingredients: `8 hot dogs
 8 hot dog buns
 1 cup cheddar cheese, shredded
@@ -2073,39 +2071,39 @@ Quick Chili Topping:
 1 lb ground beef
 1 (8 oz) can tomato sauce
 1/2 cup water
-1 tbsp chili powder
+1 Tbsp chili powder
 1 tsp cumin
 1/2 tsp garlic powder
 1/2 tsp onion powder
 1/2 tsp salt
-1/4 tsp black pepper
-1 tsp Worcestershire sauce (optional, for depth)`,
+1/4 tsp pepper
+1 tsp worcestershire sauce (optional, for depth)`,
   instructions: `Heat a large skillet over medium heat. Add 1 lb ground beef and cook for 5 to 7 minutes, breaking it apart until browned. Drain excess grease if needed.
 
-Add 8 oz tomato sauce, 1/2 cup water, 1 tbsp chili powder, 1 tsp cumin, 1/2 tsp garlic powder, 1/2 tsp onion powder, 1/2 tsp salt, 1/4 tsp black pepper, and 1 tsp Worcestershire sauce if using. Stir well.
+Add 8 oz tomato sauce, 1/2 cup water, 1 Tbsp chili powder, 1 tsp cumin, 1/2 tsp garlic powder, 1/2 tsp onion powder, 1/2 tsp salt, 1/4 tsp pepper, and 1 tsp worcestershire sauce if using. Stir well.
 
 Bring to a simmer and cook for 10 to 15 minutes, stirring occasionally, until the chili thickens and becomes rich and scoopable.
 
-Meanwhile, cook 8 hot dogs using your preferred method (grill, stovetop, or air fryer) until heated through and lightly browned.
+Meanwhile, cook 8 hot dogs using your preferred method, grill, stovetop, or air fryer, until heated through and lightly browned.
 
 Lightly toast 8 hot dog buns if desired.
 
 Place hot dogs in the buns and top generously with the prepared chili, 1 cup shredded cheddar cheese, and 1/2 finely diced small onion if using.
 
 Serve immediately while hot.`,
-  photoUrl: "/images/normal-chili-cheese-dogs.jpg",
-  effort: "normal",
-  tags: ["dinner", "hot-dogs", "family", "comfort", "quick-ish", "one-pan", "crowd-pleaser"],
-  isVegetarian: false,
-  notes: "Loaded chili cheese dogs with a rich, flavorful beef chili. Letting the chili simmer helps it thicken so it stays on the dog instead of running off."
 },
 
 {
   id: "big-white-chicken-chili",
   slug: "big-white-chicken-chili",
   name: "White Chicken Chili",
+  effort: "big",
+  photoUrl: "/images/big-white-chicken-chili.jpg",
+  tags: ["dinner", "chili", "chicken", "one-pot", "comfort", "creamy", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Creamy, cozy white chicken chili with bold flavor and a smooth texture. Mashing some of the beans and adding cream cheese creates a rich, hearty consistency without needing heavy cream.",
   ingredients: `2 cups cooked shredded chicken (rotisserie works great)
-1 tbsp olive oil
+1 Tbsp olive oil
 1 small yellow onion, chopped
 2 cloves garlic, minced
 2 (15 oz) cans white beans, drained and rinsed
@@ -2113,7 +2111,7 @@ Serve immediately while hot.`,
 4 cups chicken broth
 4 oz cream cheese, softened and cubed
 1/2 cup sour cream (optional, for extra creaminess)
-1 tbsp lime juice
+1 Tbsp lime juice
 
 White Chili Seasoning:
 1 tsp cumin
@@ -2122,7 +2120,7 @@ White Chili Seasoning:
 1/2 tsp garlic powder
 1/2 tsp onion powder
 1/2 tsp salt
-1/4 tsp black pepper
+1/4 tsp pepper
 1/4 tsp cayenne pepper (optional)
 
 Optional toppings:
@@ -2130,13 +2128,13 @@ shredded cheese
 cilantro
 green onions
 tortilla chips`,
-  instructions: `Heat 1 tbsp olive oil in a large pot or Dutch oven over medium heat. Add 1 chopped small yellow onion and cook for 4 to 5 minutes until softened.
+  instructions: `Heat 1 Tbsp olive oil in a large pot or Dutch oven over medium heat. Add 1 chopped small yellow onion and cook for 4 to 5 minutes until softened.
 
 Add 2 minced cloves garlic and cook for 30 seconds until fragrant.
 
-Stir in 2 cups cooked shredded chicken, 2 (15 oz) cans drained and rinsed white beans, 1 (4 oz) can green chiles, and 4 cups chicken broth.
+Stir in 2 cups cooked shredded chicken, 2 cans drained and rinsed white beans, 1 can green chiles, and 4 cups chicken broth.
 
-In a small bowl, mix all White Chili Seasoning ingredients (1 tsp cumin, 1 tsp chili powder, 1/2 tsp dried oregano, 1/2 tsp garlic powder, 1/2 tsp onion powder, 1/2 tsp salt, 1/4 tsp black pepper, and 1/4 tsp cayenne pepper if using). Add to the pot and stir well.
+In a small bowl, mix all White Chili Seasoning ingredients. Add to the pot and stir well.
 
 Bring to a gentle simmer and cook for 20 to 25 minutes, allowing flavors to develop.
 
@@ -2144,24 +2142,24 @@ Use a spoon or potato masher to lightly mash some of the beans to naturally thic
 
 Reduce heat to low. Stir in 4 oz softened and cubed cream cheese until fully melted and smooth.
 
-Stir in 1/2 cup sour cream if using, and add 1 tbsp lime juice to brighten the flavor.
+Stir in 1/2 cup sour cream if using, and add 1 Tbsp lime juice to brighten the flavor.
 
 Taste and adjust seasoning as needed.
 
 Serve hot with desired toppings like shredded cheese, cilantro, green onions, and tortilla chips.`,
-  photoUrl: "/images/big-white-chicken-chili.jpg",
-  effort: "big",
-  tags: ["dinner", "chili", "chicken", "comfort", "one-pot", "creamy", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Creamy, cozy white chicken chili with bold flavor and a smooth texture. Mashing some of the beans and adding cream cheese creates a rich, hearty consistency without needing heavy cream."
 },
 
 {
   id: "normal-taco-soup",
   slug: "normal-taco-soup",
   name: "Taco Soup",
+  effort: "normal",
+  photoUrl: "/images/normal-taco-soup.jpg",
+  tags: ["dinner", "soup", "tex-mex", "one-pot", "beef", "family-friendly", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Hearty taco-inspired soup with bold flavor and a rich broth. Letting it simmer helps everything come together, and it tastes even better the next day.",
   ingredients: `1 lb ground beef
-1 tbsp olive oil
+1 Tbsp olive oil
 1 small yellow onion, chopped
 2 cloves garlic, minced
 1 (15 oz) can corn, drained
@@ -2169,62 +2167,62 @@ Serve hot with desired toppings like shredded cheese, cilantro, green onions, an
 1 (14.5 oz) can diced tomatoes (with juices)
 1 (10 oz) can Rotel
 2 cups beef broth
-1 tbsp tomato paste (optional, for deeper flavor)
+1 Tbsp tomato paste (optional, for deeper flavor)
 
 Taco Seasoning:
-1 tbsp chili powder
+1 Tbsp chili powder
 1 tsp cumin
 1/2 tsp paprika (or smoked paprika for extra depth)
 1/2 tsp garlic powder
 1/2 tsp onion powder
 1/2 tsp salt
-1/4 tsp black pepper
+1/4 tsp pepper
 
 Optional toppings:
 shredded cheese
 sour cream
 tortilla chips
 green onions`,
-  instructions: `Heat 1 tbsp olive oil in a large pot or Dutch oven over medium heat. Add 1 chopped small yellow onion and cook for 4 to 5 minutes until softened.
+  instructions: `Heat 1 Tbsp olive oil in a large pot or Dutch oven over medium heat. Add 1 chopped small yellow onion and cook for 4 to 5 minutes until softened.
 
 Add 2 minced cloves garlic and cook for 30 seconds until fragrant.
 
 Add 1 lb ground beef and cook for 5 to 7 minutes, breaking it apart as it cooks, until browned. Drain excess grease if needed.
 
-Stir in the taco seasoning (1 tbsp chili powder, 1 tsp cumin, 1/2 tsp paprika, 1/2 tsp garlic powder, 1/2 tsp onion powder, 1/2 tsp salt, and 1/4 tsp black pepper) and cook for 1 minute to toast the spices.
+Stir in the taco seasoning and cook for 1 minute to toast the spices.
 
-Add 1 (15 oz) can drained corn, 1 (15 oz) can drained and rinsed black beans, 1 (14.5 oz) can diced tomatoes with juices, 1 (10 oz) can Rotel, 2 cups beef broth, and 1 tbsp tomato paste if using. Stir well.
+Add 1 can drained corn, 1 can drained and rinsed black beans, 1 can diced tomatoes with juices, 1 can Rotel, 2 cups beef broth, and 1 Tbsp tomato paste if using. Stir well.
 
 Bring to a simmer and cook for 20 to 25 minutes, stirring occasionally, until flavors are well combined.
 
 Taste and adjust seasoning if needed.
 
 Serve hot with desired toppings such as shredded cheese, sour cream, tortilla chips, and green onions.`,
-  photoUrl: "/images/normal-taco-soup.jpg",
-  effort: "normal",
-  tags: ["dinner", "soup", "tex-mex", "one-pot", "beef", "family", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Hearty taco-inspired soup with bold flavor and a rich broth. Letting it simmer helps everything come together, and it tastes even better the next day."
 },
 
 {
   id: "big-sheet-pan-fajitas",
   slug: "big-sheet-pan-fajitas",
   name: "Sheet Pan Fajitas",
+  effort: "big",
+  photoUrl: "/images/big-sheet-pan-fajitas.jpg",
+  tags: ["dinner", "chicken", "sheet-pan", "tex-mex", "family-friendly", "one-pan", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Easy, colorful sheet pan fajitas with bold seasoning and roasted flavor. Spreading everything in a single layer and using high heat helps achieve those slightly charred, restaurant-style edges.",
   ingredients: `1 1/2 lbs chicken breast, sliced into strips
 2 bell peppers (any color), sliced
 1 large yellow onion, sliced
-2 tbsp olive oil
-1 tbsp lime juice
+2 Tbsp olive oil
+1 Tbsp lime juice
 
 Fajita Seasoning:
-1 tbsp chili powder
+1 Tbsp chili powder
 1 tsp paprika (or smoked paprika for extra depth)
 1 tsp cumin
 1/2 tsp garlic powder
 1/2 tsp onion powder
 1/2 tsp salt
-1/4 tsp black pepper
+1/4 tsp pepper
 1/4 tsp cayenne pepper (optional)
 
 For serving:
@@ -2236,9 +2234,9 @@ guacamole (optional)`,
 
 Spread 1 1/2 lbs sliced chicken breast, 2 sliced bell peppers, and 1 large sliced yellow onion evenly across the sheet pan in a single layer. Avoid overcrowding to ensure proper roasting.
 
-In a small bowl, mix all fajita seasoning ingredients (1 tbsp chili powder, 1 tsp paprika, 1 tsp cumin, 1/2 tsp garlic powder, 1/2 tsp onion powder, 1/2 tsp salt, 1/4 tsp black pepper, and 1/4 tsp cayenne pepper if using).
+In a small bowl, mix all fajita seasoning ingredients.
 
-Drizzle 2 tbsp olive oil and 1 tbsp lime juice over the chicken and vegetables. Sprinkle the prepared seasoning evenly over everything.
+Drizzle 2 Tbsp olive oil and 1 Tbsp lime juice over the chicken and vegetables. Sprinkle the prepared seasoning evenly over everything.
 
 Toss well to coat, then spread back out into a single layer.
 
@@ -2247,17 +2245,17 @@ Bake for 20 to 25 minutes, stirring once halfway through, until the chicken is c
 For extra char, broil on high for 2 to 3 minutes at the end, watching closely.
 
 Remove from oven and serve immediately in warm tortillas with sour cream, shredded cheese, and guacamole if desired.`,
-  photoUrl: "/images/big-sheet-pan-fajitas.jpg",
-  effort: "big",
-  tags: ["dinner", "chicken", "sheet-pan", "tex-mex", "family", "one-pan", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Easy, colorful sheet pan fajitas with bold seasoning and roasted flavor. Spreading everything in a single layer and using high heat helps achieve those slightly charred, restaurant-style edges."
 },
 
 {
   id: "normal-air-fryer-chicken-tenders",
   slug: "normal-air-fryer-chicken-tenders",
   name: "Air Fryer Chicken Tenders",
+  effort: "normal",
+  photoUrl: "/images/normal-air-fryer-chicken-tenders.jpg",
+  tags: ["dinner", "chicken", "air-fryer", "crispy", "family-friendly", "kid-friendly", "one-pan", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Crispy, golden chicken tenders made in the air fryer. Using panko breadcrumbs and spraying lightly with oil helps achieve that extra crunch without deep frying.",
   ingredients: `1 1/2 lbs chicken tenders
 1/2 cup all-purpose flour
 2 large eggs, beaten
@@ -2268,14 +2266,14 @@ Chicken Seasoning:
 1/2 tsp garlic powder
 1/2 tsp onion powder
 1/2 tsp salt
-1/4 tsp black pepper
+1/4 tsp pepper
 
 Cooking spray`,
   instructions: `Preheat air fryer to 400°F.
 
 Pat 1 1/2 lbs chicken tenders dry with paper towels.
 
-In three shallow bowls, set up a breading station: one with 1/2 cup all-purpose flour, one with 2 large beaten eggs, and one with 1 cup breadcrumbs (panko preferred) mixed with the Chicken Seasoning (1 tsp paprika, 1/2 tsp garlic powder, 1/2 tsp onion powder, 1/2 tsp salt, and 1/4 tsp black pepper).
+In three shallow bowls, set up a breading station: one with 1/2 cup all-purpose flour, one with 2 large beaten eggs, and one with 1 cup breadcrumbs mixed with the Chicken Seasoning.
 
 Dredge each chicken tender in the flour, shaking off excess. Dip into the egg, then coat thoroughly in the seasoned breadcrumbs, pressing lightly so the coating sticks.
 
@@ -2286,35 +2284,35 @@ Cook for 10 to 12 minutes, flipping halfway through, until golden brown and the 
 For extra crispiness, spray lightly again with cooking spray after flipping.
 
 Serve hot with your favorite dipping sauces.`,
-  photoUrl: "/images/normal-air-fryer-chicken-tenders.jpg",
-  effort: "normal",
-  tags: ["dinner", "chicken", "air-fryer", "family", "crispy", "kid-friendly", "one-pan", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Crispy, golden chicken tenders made in the air fryer. Using panko breadcrumbs and spraying lightly with oil helps achieve that extra crunch without deep frying."
 },
 
 {
   id: "big-baked-chicken-thighs",
   slug: "big-baked-chicken-thighs",
   name: "Baked Chicken Thighs",
+  effort: "big",
+  photoUrl: "/images/big-baked-chicken-thighs.jpg",
+  tags: ["dinner", "chicken", "bake", "crispy", "comfort", "family-friendly", "one-pan", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Crispy, flavorful baked chicken thighs with juicy meat and golden skin. Patting the chicken dry and using high heat are key to achieving that perfect crisp.",
   ingredients: `6 bone-in, skin-on chicken thighs
-1 tbsp olive oil
+1 Tbsp olive oil
 
 Chicken Rub:
 1 tsp smoked paprika
 1 tsp garlic powder
 1 tsp onion powder
 1/2 tsp salt
-1/2 tsp black pepper
+1/2 tsp pepper
 1/2 tsp dried thyme
 1/2 tsp baking powder (optional, for extra crispy skin)`,
   instructions: `Preheat oven to 425°F. Line a baking sheet with foil and place a wire rack on top if available.
 
 Pat 6 bone-in, skin-on chicken thighs very dry with paper towels. This is key for crispy skin.
 
-Rub the chicken with 1 tbsp olive oil.
+Rub the chicken with 1 Tbsp olive oil.
 
-In a small bowl, mix all Chicken Rub ingredients (1 tsp smoked paprika, 1 tsp garlic powder, 1 tsp onion powder, 1/2 tsp salt, 1/2 tsp black pepper, 1/2 tsp dried thyme, and 1/2 tsp baking powder if using). Sprinkle evenly over the chicken, rubbing to coat all sides and under the skin where possible.
+In a small bowl, mix all Chicken Rub ingredients. Sprinkle evenly over the chicken, rubbing to coat all sides and under the skin where possible.
 
 Place chicken thighs skin-side up on the rack or baking sheet, leaving space between each piece.
 
@@ -2323,19 +2321,19 @@ Bake for 35 to 40 minutes, until the skin is crispy and the internal temperature
 For extra crispiness, broil on high for 2 to 3 minutes at the end, watching closely.
 
 Remove from the oven and let rest for 5 minutes before serving.`,
-  photoUrl: "/images/big-baked-chicken-thighs.jpg",
-  effort: "big",
-  tags: ["dinner", "chicken", "baked", "family", "crispy", "comfort", "one-pan", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Crispy, flavorful baked chicken thighs with juicy meat and golden skin. Patting the chicken dry and using high heat are key to achieving that perfect crisp."
 },
 
 {
   id: "big-bbq-chicken-drumsticks",
   slug: "big-bbq-chicken-drumsticks",
   name: "BBQ Chicken Drumsticks",
+  effort: "big",
+  photoUrl: "/images/big-bbq-chicken-drumsticks.jpg",
+  tags: ["dinner", "chicken", "bbq", "bake", "comfort", "family-friendly", "one-pan", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Sticky, flavorful BBQ drumsticks with a seasoned crust and caramelized sauce. Drying the chicken and baking at higher heat helps achieve crispy skin before adding the sauce.",
   ingredients: `8 chicken drumsticks
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 cup barbecue sauce (plus extra for serving)
 
 BBQ Rub:
@@ -2343,16 +2341,16 @@ BBQ Rub:
 1 tsp garlic powder
 1/2 tsp onion powder
 1/2 tsp salt
-1/2 tsp black pepper
+1/2 tsp pepper
 1/2 tsp brown sugar
 1/2 tsp baking powder (optional, for crispier skin)`,
   instructions: `Preheat oven to 425°F. Line a baking sheet with foil and place a wire rack on top if available.
 
 Pat 8 chicken drumsticks very dry with paper towels. This helps the skin crisp up.
 
-Rub the drumsticks with 1 tbsp olive oil.
+Rub the drumsticks with 1 Tbsp olive oil.
 
-In a small bowl, mix all BBQ Rub ingredients (1 tsp smoked paprika, 1 tsp garlic powder, 1/2 tsp onion powder, 1/2 tsp salt, 1/2 tsp black pepper, 1/2 tsp brown sugar, and 1/2 tsp baking powder if using). Sprinkle evenly over the drumsticks, coating all sides.
+In a small bowl, mix all BBQ Rub ingredients. Sprinkle evenly over the drumsticks, coating all sides.
 
 Place drumsticks on the rack or baking sheet with space between each piece.
 
@@ -2365,11 +2363,6 @@ Return to the oven and bake for another 10 to 15 minutes, until the sauce is sti
 For extra caramelization, broil on high for 2 to 3 minutes at the end, watching closely.
 
 Let rest for 5 minutes before serving with extra barbecue sauce if desired.`,
-  photoUrl: "/images/big-bbq-chicken-drumsticks.jpg",
-  effort: "big",
-  tags: ["dinner", "chicken", "bbq", "baked", "family", "comfort", "one-pan", "leftovers-friendly"],
-  isVegetarian: false,
-  notes: "Sticky, flavorful BBQ drumsticks with a seasoned crust and caramelized sauce. Drying the chicken and baking at higher heat helps achieve crispy skin before adding the sauce."
 },
 
 ];
@@ -2390,16 +2383,16 @@ export const SIDE_DISHES: Meal[] = [
     ingredients: `1 large russet potato
 1/2 tsp salt
 1 Tbsp olive oil (or cooking spray)
-1-2 Tbsp butter (depending on potato size)
+1 to 2 Tbsp butter (depending on potato size)
 shredded cheese (optional)
-Sour cream (optional)`,
+sour cream (optional)`,
     instructions: `Rinse 1 large russet potato and dry completely.
 Pierce the potato with a fork in 4 to 6 spots.
-Coat the potato evenly with 1 Tbsp olive oil (or cooking spray).
+Coat the potato evenly with 1 Tbsp olive oil or cooking spray.
 Sprinkle with 1/2 tsp salt and rotate to coat all sides.
 Preheat air fryer to 400°F.
 Air fry for 60 minutes, shaking the basket once or twice.
-Slice down the middle, fluff with a fork, and add 1-2 Tbsp butter along with optional shredded cheese and sour cream.`,
+Slice down the middle, fluff with a fork, and add 1 to 2 Tbsp butter along with optional shredded cheese and sour cream.`,
   },
 
   {
@@ -2408,17 +2401,17 @@ Slice down the middle, fluff with a fork, and add 1-2 Tbsp butter along with opt
     name: "Garlic Roasted Potatoes",
     effort: "quick",
     photoUrl: "/images/quick-garlic-roasted-potatoes.jpg",
-    tags: ["side", "roasted", "vegetarian", "comfort"],
-    notes: "Crispy, simple Potatoes that work with almost any main dish.",
-    ingredients: `3 lbs small red or white Potatoes
+    tags: ["side", "roasted", "vegetarian", "comfort", "oven"],
+    notes: "Crispy, simple potatoes that work with almost any main dish.",
+    ingredients: `3 lbs small red or white potatoes
 1/4 cup olive oil
 1 1/2 tsp salt
-1 tsp freshly pepper
+1 tsp pepper
 2 Tbsp garlic, minced
-2 Tbsp minced fresh parsley`,
+2 Tbsp fresh parsley, minced`,
     instructions: `Preheat oven to 400°F.
 
-Cut 3 lbs small red or white potatoes in halves or quarters and place in a bowl with 1/4 cup olive oil, 1 1/2 tsp salt, 1 tsp freshly pepper, and 2 Tbsp minced garlic. Toss until coated.
+Cut 3 lbs small red or white potatoes in halves or quarters and place in a bowl with 1/4 cup olive oil, 1 1/2 tsp salt, 1 tsp pepper, and 2 Tbsp minced garlic. Toss until coated.
 
 Transfer to a sheet pan and spread into a single layer.
 
@@ -2426,32 +2419,6 @@ Roast 45 minutes to 1 hour until browned and crisp, flipping twice during cookin
 
 Remove from oven, toss with 2 Tbsp minced fresh parsley, season to taste, and serve hot.`,
   },
-
- {
-    id: "quick-garlic-roasted-potatoes",
-    slug: "quick-garlic-roasted-potatoes",
-    name: "Garlic Roasted Potatoes",
-    effort: "quick",
-    photoUrl: "/images/quick-garlic-roasted-potatoes.jpg",
-    tags: ["side", "roasted", "vegetarian", "comfort"],
-    notes: "Crispy, simple Potatoes that work with almost any main dish.",
-    ingredients: `3 lbs small red or white Potatoes
-1/4 cup olive oil
-1 1/2 tsp salt
-1 tsp freshly pepper
-2 Tbsp garlic, minced
-2 Tbsp minced fresh parsley`,
-    instructions: `Preheat oven to 400°F.
-
-Cut 3 lbs small red or white potatoes in halves or quarters and place in a bowl with 1/4 cup olive oil, 1 1/2 tsp salt, 1 tsp freshly pepper, and 2 Tbsp minced garlic. Toss until coated.
-
-Transfer to a sheet pan and spread into a single layer.
-
-Roast 45 minutes to 1 hour until browned and crisp, flipping twice during cooking for even browning.
-
-Remove from oven, toss with 2 Tbsp minced fresh parsley, season to taste, and serve hot.`,
-  },
-
 ];
 
 export const DESSERTS: Meal[] = [
@@ -2476,11 +2443,9 @@ Dip the strawberries one at a time and place on the parchment.
 Refrigerate for 20 to 30 minutes until the chocolate sets.
 Store leftovers in an airtight container in the refrigerator.`,
   },
-
 ];
 
 export const EXTRA_RECIPES: Meal[] = [
-  
   {
     id: "quick-classic-guacamole",
     slug: "quick-classic-guacamole",
@@ -2496,10 +2461,10 @@ export const EXTRA_RECIPES: Meal[] = [
 3 Tbsp chopped fresh cilantro
 2 Roma tomatoes, diced
 1 tsp garlic, minced
-Pinch of ground cayenne pepper (optional)`,
-    instructions: `In a medium bowl, mash 3 peeled and pitted ripe avocados with the juice of 1 lime and 1 tsp salt until your desired consistency (slightly chunky is usually best).
+pinch of cayenne pepper (optional)`,
+    instructions: `In a medium bowl, mash 3 peeled and pitted ripe avocados with the juice of 1 lime and 1 tsp salt until your desired consistency, slightly chunky is usually best.
 Stir in 1/2 cup diced white onion, 3 Tbsp chopped fresh cilantro, 2 diced Roma tomatoes, and 1 tsp minced garlic.
-Add a pinch of ground cayenne pepper if desired and mix well.
+Add a pinch of cayenne pepper if desired and mix well.
 Taste and adjust salt or lime as needed.
 Refrigerate for 1 hour for the best flavor, or serve immediately with tortilla chips.`,
   },
@@ -2518,8 +2483,8 @@ Refrigerate for 1 hour for the best flavor, or serve immediately with tortilla c
 1/4 tsp garlic powder
 1/2 tsp onion powder
 1 tsp salt
-1/4 tsp freshly pepper
-Small pinch ground cinnamon`,
+1/4 tsp pepper
+small pinch ground cinnamon`,
     instructions: `Add all ingredients to a small bowl.
 Stir very well until evenly combined.
 Transfer to an airtight container or spice shaker.
@@ -2528,13 +2493,14 @@ Use in place of one store-bought chili seasoning packet.`,
   },
 
   {
-  id: "quick-captains-wing-rub",
-  slug: "quick-captains-wing-rub",
-  name: "Captain's Wing Rub",
-  photoUrl: "/images/quick-captains-wing-rub.jpg",
-  effort: "quick",
-  tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian" ],
-  ingredients: `2 Tbsp smoked paprika
+    id: "quick-captains-wing-rub",
+    slug: "quick-captains-wing-rub",
+    name: "Captain's Wing Rub",
+    photoUrl: "/images/quick-captains-wing-rub.jpg",
+    effort: "quick",
+    tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian"],
+    notes: "Bold, spicy, and tangy. Great for wings or grilled meats.",
+    ingredients: `2 Tbsp smoked paprika
 1 1/2 Tbsp cayenne pepper
 1 tsp ancho chili powder
 1 tsp garlic powder
@@ -2544,16 +2510,14 @@ Use in place of one store-bought chili seasoning packet.`,
 1/2 tsp cumin
 1/4 tsp chipotle powder
 1/2 tsp jalapeno pepper flakes`,
-  instructions: `Combine all ingredients in a bowl.
+    instructions: `Combine all ingredients in a bowl.
 
 Mix thoroughly and store in an airtight container.
 
 Use as a dry rub or seasoning for wings and meats.`,
-  notes: "Bold, spicy, and tangy. Great for wings or grilled meats.",
-},
+  },
 
-
- {
+  {
     id: "quick-sausage-muffins",
     slug: "quick-sausage-muffins",
     name: "Sausage Muffins",
@@ -2564,7 +2528,7 @@ Use as a dry rub or seasoning for wings and meats.`,
     ingredients: `1 cup Bisquick
 1 lb breakfast sausage, cooked
 4 eggs, beaten
-1 cup cheddar cheese, shredded cheese`,
+1 cup cheddar cheese, shredded`,
     instructions: `Preheat oven to 350°F.
 
 Cook 1 lb breakfast sausage in a skillet until browned and set aside to cool slightly.
@@ -2578,14 +2542,15 @@ Fill each muffin cup 1/2 to 3/4 full with the mixture.
 Bake for 20 minutes or until the muffins are set and lightly browned on top.`,
   },
 
- {
-  id: "big-french-toast-casserole",
-  slug: "big-french-toast-casserole",
-  name: "French Toast Casserole",
-  photoUrl: "/images/big-french-toast-casserole.jpg",
-  effort: "big",
-  tags: ["breakfast", "brunch", "baked", "sweet", "family", "make-ahead"],
-  ingredients: `1 loaf sourdough bread
+  {
+    id: "big-french-toast-casserole",
+    slug: "big-french-toast-casserole",
+    name: "French Toast Casserole",
+    photoUrl: "/images/big-french-toast-casserole.jpg",
+    effort: "big",
+    tags: ["breakfast", "brunch", "bake", "sweet", "family-friendly", "make-ahead"],
+    notes: "Perfect make-ahead breakfast for holidays or weekends.",
+    ingredients: `1 loaf sourdough bread
 8 large eggs
 2 cups milk
 1/2 cup heavy cream
@@ -2596,26 +2561,24 @@ Bake for 20 minutes or until the muffins are set and lightly browned on top.`,
 1 tsp ground cinnamon
 1/4 tsp salt
 1 stick unsalted butter, cut into pieces
-Fresh blueberries (optional)
-Fresh strawberries (optional)`,
-  instructions: `Preheat oven to 350°F.
+fresh blueberries (optional)
+fresh strawberries (optional)`,
+    instructions: `Preheat oven to 350°F.
 
 Cut 1 loaf sourdough bread into cubes and place in a greased 9x13 baking dish.
 
 In a large bowl, whisk together 8 large eggs, 2 cups milk, 1/2 cup heavy cream, 1 Tbsp vanilla extract, and 3/4 cup sugar. Pour the mixture evenly over the bread cubes.
 
-Cover and refrigerate for at least 4 hours (or overnight).
+Cover and refrigerate for at least 4 hours, or overnight.
 
-In a separate bowl, mix 1/2 cup all-purpose flour, 1/2 cup light brown sugar, 1 tsp ground cinnamon, and 1/4 tsp salt. Cut in 1 stick of unsalted butter (cut into pieces) using a pastry cutter or fork until the mixture is crumbly. Refrigerate the topping until ready to bake.
+In a separate bowl, mix 1/2 cup all-purpose flour, 1/2 cup light brown sugar, 1 tsp ground cinnamon, and 1/4 tsp salt. Cut in 1 stick of unsalted butter using a pastry cutter or fork until the mixture is crumbly. Refrigerate the topping until ready to bake.
 
 Remove the dish from the fridge and sprinkle the chilled crumble topping evenly over the soaked bread.
 
 Bake uncovered for 50 minutes until the top is golden and the center is set.
 
 Top with fresh blueberries and strawberries if desired before serving.`,
-  notes: "Perfect make-ahead breakfast for holidays or weekends.",
-},
-
+  },
 ];
 
 // =====================================================
@@ -2623,14 +2586,13 @@ Top with fresh blueberries and strawberries if desired before serving.`,
 // =====================================================
 
 export const NEW_VEGETARIAN_RECIPES: Meal[] = [
-  
   {
     id: "quick-vegetable-stir-fry",
     slug: "quick-vegetable-stir-fry",
     name: "Vegetable Stir Fry",
     effort: "quick",
     photoUrl: "/images/quick-vegetable-stir-fry.jpg",
-    tags: ["vegetarian", "dinner", "quick", "healthy", "skillet", "asian"],
+    tags: ["vegetarian", "dinner", "quick", "healthy", "skillet", "one-pan", "asian"],
     notes: "A flexible, colorful dinner that is easy to adjust with whatever vegetables you have on hand.",
     ingredients: `2 Tbsp olive oil
 1 red bell pepper, sliced
@@ -2640,7 +2602,7 @@ export const NEW_VEGETARIAN_RECIPES: Meal[] = [
 1 cup sugar snap peas
 1 cup carrots, thinly sliced
 3 green onions, thinly sliced
-Sesame seeds, for garnish
+sesame seeds, for garnish
 
 STIR FRY SAUCE
 1/2 cup water
@@ -2663,17 +2625,22 @@ Top with the remaining green onions and sesame seeds and serve immediately.`,
   },
 
   {
-  id: "normal-vegan-jambalaya",
-  slug: "normal-vegan-jambalaya",
-  name: "Vegan Jambalaya",
-  ingredients: `2 tbsp olive oil
+    id: "normal-vegan-jambalaya",
+    slug: "normal-vegan-jambalaya",
+    name: "Vegan Jambalaya",
+    effort: "normal",
+    photoUrl: "/images/normal-vegan-jambalaya.jpg",
+    tags: ["vegetarian", "vegan", "dinner", "one-pot", "healthy", "spicy", "leftovers-friendly"],
+    isVegetarian: true,
+    notes: "Hearty, plant-based jambalaya with bold spices and a rich tomato base. Letting it rest before serving helps the rice finish absorbing flavor and improves texture.",
+    ingredients: `2 Tbsp olive oil
 1/2 large yellow onion, chopped
 2 cloves garlic, minced
 1/2 red bell pepper, chopped
 1/2 green bell pepper, chopped
 1 carrot, peeled and chopped
 1 (14 oz) can crushed tomatoes
-2 tbsp soy sauce (or tamari)
+2 Tbsp soy sauce (or tamari)
 1 tsp smoked paprika (or regular paprika)
 1 tsp ground cumin
 1 tsp dried oregano
@@ -2681,97 +2648,97 @@ Top with the remaining green onions and sesame seeds and serve immediately.`,
 1 tsp garlic powder
 1 tsp onion powder
 1/2 tsp salt
-1/4 tsp black pepper
+1/4 tsp pepper
 1/8 tsp cayenne pepper (optional)
 1 cup uncooked white rice
 3 cups vegetable stock
 1 (15 oz) can chickpeas, drained and rinsed
 1 (15 oz) can kidney beans, drained and rinsed
-1 tbsp tomato paste (optional, for deeper flavor)
-1 tbsp lemon juice (optional, for brightness)
+1 Tbsp tomato paste (optional, for deeper flavor)
+1 Tbsp lemon juice (optional, for brightness)
 
 Optional garnish:
 fresh parsley, chopped`,
-  instructions: `Heat 2 tbsp olive oil in a large pot or Dutch oven over medium heat. Add 1/2 chopped large yellow onion, 1/2 chopped red bell pepper, 1/2 chopped green bell pepper, and 1 chopped carrot. Cook for 5 to 6 minutes until softened.
+    instructions: `Heat 2 Tbsp olive oil in a large pot or Dutch oven over medium heat. Add 1/2 chopped large yellow onion, 1/2 chopped red bell pepper, 1/2 chopped green bell pepper, and 1 chopped carrot. Cook for 5 to 6 minutes until softened.
 
 Add 2 minced cloves garlic and cook for 30 seconds until fragrant.
 
-Stir in 1 tbsp tomato paste if using and cook for 1 minute to deepen flavor.
+Stir in 1 Tbsp tomato paste if using and cook for 1 minute to deepen flavor.
 
-Add 1 (14 oz) can crushed tomatoes and cook for 4 to 5 minutes, stirring occasionally, until slightly thickened.
+Add 1 can crushed tomatoes and cook for 4 to 5 minutes, stirring occasionally, until slightly thickened.
 
-Stir in 2 tbsp soy sauce, 1 tsp smoked paprika, 1 tsp ground cumin, 1 tsp dried oregano, 1 tsp dried thyme, 1 tsp garlic powder, 1 tsp onion powder, 1/2 tsp salt, 1/4 tsp black pepper, and 1/8 tsp cayenne pepper if using. Cook for 1 minute to bloom the spices.
+Stir in 2 Tbsp soy sauce, 1 tsp smoked paprika, 1 tsp ground cumin, 1 tsp dried oregano, 1 tsp dried thyme, 1 tsp garlic powder, 1 tsp onion powder, 1/2 tsp salt, 1/4 tsp pepper, and 1/8 tsp cayenne pepper if using. Cook for 1 minute to bloom the spices.
 
 Add 1 cup uncooked white rice and 3 cups vegetable stock. Stir well and bring to a boil.
 
 Reduce heat to low, cover, and simmer for 15 to 18 minutes, stirring once or twice, until the rice is tender and most of the liquid is absorbed.
 
-Stir in 1 (15 oz) can drained and rinsed chickpeas and 1 (15 oz) can drained and rinsed kidney beans; cook for 2 to 3 minutes until heated through.
+Stir in 1 can drained and rinsed chickpeas and 1 can drained and rinsed kidney beans. Cook for 2 to 3 minutes until heated through.
 
-Remove from heat and stir in 1 tbsp lemon juice if using. Let sit for 5 minutes before serving.
+Remove from heat and stir in 1 Tbsp lemon juice if using. Let sit for 5 minutes before serving.
 
 Garnish with fresh chopped parsley if desired and serve warm.`,
-  photoUrl: "/images/normal-vegan-jambalaya.jpg",
-  effort: "normal",
-  tags: ["vegetarian", "dinner", "one-pot", "healthy", "spicy", "vegan", "leftovers-friendly"],
-  isVegetarian: true,
-  notes: "Hearty, plant-based jambalaya with bold spices and a rich tomato base. Letting it rest before serving helps the rice finish absorbing flavor and improves texture."
-},
+  },
 
- {
-  id: "quick-black-bean-quesadillas",
-  slug: "quick-black-bean-quesadillas",
-  name: "Black Bean Quesadillas",
-  ingredients: `4 small flour tortillas
+  {
+    id: "quick-black-bean-quesadillas",
+    slug: "quick-black-bean-quesadillas",
+    name: "Black Bean Quesadillas",
+    effort: "quick",
+    photoUrl: "/images/quick-black-bean-quesadillas.jpg",
+    tags: ["vegetarian", "dinner", "quick", "mexican", "kid-friendly", "skillet", "one-pan", "leftovers-friendly"],
+    isVegetarian: true,
+    notes: "Quick and satisfying quesadillas with creamy black beans and melted cheese. Mashing some of the beans helps everything hold together and creates a better texture.",
+    ingredients: `4 small flour tortillas
 1 cup cheddar cheese, shredded
 1 (15 oz) can black beans, drained and rinsed
 1/2 cup salsa (plus extra for serving)
-1 tbsp olive oil or butter
+1 Tbsp olive oil or butter
 1/2 tsp cumin (optional, for extra flavor)
 1/2 tsp garlic powder
 1/4 tsp salt
-1/4 tsp black pepper`,
-  instructions: `Heat a large skillet over medium heat.
+1/4 tsp pepper`,
+    instructions: `Heat a large skillet over medium heat.
 
-In a small bowl, lightly mash about half of 1 (15 oz) can of drained and rinsed black beans with a fork to help them hold together. Stir in 1/2 tsp cumin (if using), 1/2 tsp garlic powder, 1/4 tsp salt, and 1/4 tsp black pepper.
+In a small bowl, lightly mash about half of 1 can of drained and rinsed black beans with a fork to help them hold together. Stir in 1/2 tsp cumin if using, 1/2 tsp garlic powder, 1/4 tsp salt, and 1/4 tsp pepper.
 
 Place one of the 4 small flour tortillas in the skillet and sprinkle a layer of shredded cheddar cheese over half of it.
 
-Add a layer of the seasoned black beans, then a spoonful of salsa, followed by a little more of the 1 cup shredded cheese.
+Add a layer of the seasoned black beans, then a spoonful of salsa, followed by a little more of the cheese.
 
 Fold the tortilla over and cook for 2 to 3 minutes, until the bottom is golden and crispy.
 
 Flip and cook another 2 to 3 minutes, until the cheese is fully melted and the tortilla is crisp.
 
-Repeat with the remaining tortillas, adding 1 tbsp olive oil or butter to the pan as needed.
+Repeat with the remaining tortillas, adding 1 Tbsp olive oil or butter to the pan as needed.
 
 Slice and serve warm with extra salsa.`,
-  photoUrl: "/images/quick-black-bean-quesadillas.jpg",
-  effort: "quick",
-  tags: ["vegetarian", "dinner", "quick", "mexican", "kid-friendly", "skillet", "one-pan", "leftovers-friendly"],
-  isVegetarian: true,
-  notes: "Quick and satisfying quesadillas with creamy black beans and melted cheese. Mashing some of the beans helps everything hold together and creates a better texture."
-},
+  },
 
   {
-  id: "quick-pesto-naan-pizzas",
-  slug: "quick-pesto-naan-pizzas",
-  name: "Pesto Naan Pizzas",
-  ingredients: `2 naan breads
+    id: "quick-pesto-naan-pizzas",
+    slug: "quick-pesto-naan-pizzas",
+    name: "Pesto Naan Pizzas",
+    effort: "quick",
+    photoUrl: "/images/quick-pesto-naan-pizzas.jpg",
+    tags: ["vegetarian", "dinner", "quick", "pizza", "kid-friendly", "one-pan", "leftovers-friendly"],
+    isVegetarian: true,
+    notes: "Quick and flavorful naan pizzas with bright pesto and melty cheese. Brushing the edges with olive oil helps create a crisp, golden crust.",
+    ingredients: `2 naan breads
 1/4 cup basil pesto
 1 cup mozzarella cheese, shredded
 1/2 cup cherry tomatoes, halved
-1 tbsp olive oil
-1/4 cup parmesan cheese, grated (optional)
+1 Tbsp olive oil
+1/4 cup Parmesan cheese, grated (optional)
 1/2 tsp garlic powder
-1 tbsp fresh basil, chopped (optional)`,
-  instructions: `Preheat oven to 400°F. Place 2 naan breads on a baking sheet.
+1 Tbsp fresh basil, chopped (optional)`,
+    instructions: `Preheat oven to 400°F. Place 2 naan breads on a baking sheet.
 
-Lightly brush the edges of the naan with 1 tbsp olive oil for a crispier crust.
+Lightly brush the edges of the naan with 1 Tbsp olive oil for a crispier crust.
 
 Spread 1/4 cup basil pesto evenly over each naan, leaving a small border around the edges.
 
-Sprinkle 1 cup shredded mozzarella evenly over the top, followed by 1/2 cup halved cherry tomatoes and 1/4 cup grated parmesan if using.
+Sprinkle 1 cup shredded mozzarella evenly over the top, followed by 1/2 cup halved cherry tomatoes and 1/4 cup grated Parmesan if using.
 
 Sprinkle lightly with 1/2 tsp garlic powder.
 
@@ -2779,32 +2746,32 @@ Bake for 8 to 10 minutes, until the cheese is melted, bubbly, and the edges are 
 
 For extra browning, broil on high for 1 to 2 minutes, watching closely.
 
-Remove from oven and top with 1 tbsp fresh chopped basil if desired. Slice and serve immediately.`,
-  photoUrl: "/images/quick-pesto-naan-pizzas.jpg",
-  effort: "quick",
-  tags: ["vegetarian", "dinner", "quick", "pizza", "kid-friendly", "one-pan", "leftovers-friendly"],
-  isVegetarian: true,
-  notes: "Quick and flavorful naan pizzas with bright pesto and melty cheese. Brushing the edges with olive oil helps create a crisp, golden crust."
-},
+Remove from oven and top with 1 Tbsp fresh chopped basil if desired. Slice and serve immediately.`,
+  },
 
   {
-  id: "quick-jamaican-jerk-tofu",
-  slug: "quick-jamaican-jerk-tofu",
-  name: "Jamaican Jerk Tofu",
-  ingredients: `1 (14 oz) block extra-firm tofu, pressed
-2 tbsp Jamaican jerk seasoning
-1 tbsp olive oil
-1 tbsp soy sauce (or tamari)
+    id: "quick-jamaican-jerk-tofu",
+    slug: "quick-jamaican-jerk-tofu",
+    name: "Jamaican Jerk Tofu",
+    effort: "quick",
+    photoUrl: "/images/quick-jamaican-jerk-tofu.jpg",
+    tags: ["vegetarian", "vegan", "dinner", "quick", "spicy", "skillet", "healthy", "one-pan", "leftovers-friendly"],
+    isVegetarian: true,
+    notes: "Bold, spicy jerk tofu with crisp edges and tender vegetables. Pressing the tofu and letting it sear undisturbed are key to getting a great texture.",
+    ingredients: `1 (14 oz) block extra-firm tofu, pressed
+2 Tbsp Jamaican jerk seasoning
+1 Tbsp olive oil
+1 Tbsp soy sauce (or tamari)
 1 tsp brown sugar (optional, to balance heat)
 1 cup bell peppers, sliced
 1/2 small red onion, sliced
-1 tbsp lime juice (optional, for brightness)
-1 tbsp cornstarch (optional, for extra crispiness)`,
-  instructions: `Press 1 (14 oz) block extra-firm tofu for at least 10 to 15 minutes to remove excess moisture, then cut into bite-sized cubes.
+1 Tbsp lime juice (optional, for brightness)
+1 Tbsp cornstarch (optional, for extra crispiness)`,
+    instructions: `Press 1 block extra-firm tofu for at least 10 to 15 minutes to remove excess moisture, then cut into bite-sized cubes.
 
-In a bowl, toss the tofu with 2 tbsp Jamaican jerk seasoning, 1 tbsp soy sauce (or tamari), and 1 tsp brown sugar if using. For extra crispiness, lightly coat with 1 tbsp cornstarch.
+In a bowl, toss the tofu with 2 Tbsp Jamaican jerk seasoning, 1 Tbsp soy sauce or tamari, and 1 tsp brown sugar if using. For extra crispiness, lightly coat with 1 Tbsp cornstarch.
 
-Heat 1 tbsp olive oil in a large skillet over medium-high heat.
+Heat 1 Tbsp olive oil in a large skillet over medium-high heat.
 
 Add the tofu in a single layer and cook for 4 to 5 minutes without moving, until golden and crisp on one side.
 
@@ -2812,45 +2779,45 @@ Flip and cook another 3 to 4 minutes until crisp on multiple sides.
 
 Add 1 cup sliced bell peppers and 1/2 sliced small red onion to the skillet. Cook for 4 to 5 minutes, stirring occasionally, until tender but still slightly crisp.
 
-Drizzle with 1 tbsp lime juice if using and toss everything together.
+Drizzle with 1 Tbsp lime juice if using and toss everything together.
 
 Serve hot.`,
-  photoUrl: "/images/quick-jamaican-jerk-tofu.jpg",
-  effort: "quick",
-  tags: ["vegetarian", "dinner", "quick", "spicy", "skillet", "healthy", "vegan", "one-pan", "leftovers-friendly"],
-  isVegetarian: true,
-  notes: "Bold, spicy jerk tofu with crisp edges and tender vegetables. Pressing the tofu and letting it sear undisturbed are key to getting a great texture."
-},
+  },
 
   {
-  id: "big-vegetarian-shepherds-pie",
-  slug: "big-vegetarian-shepherds-pie",
-  name: "Vegetarian Shepherd’s Pie",
-  ingredients: `1 1/2 cups cooked lentils
+    id: "big-vegetarian-shepherds-pie",
+    slug: "big-vegetarian-shepherds-pie",
+    name: "Vegetarian Shepherd’s Pie",
+    effort: "big",
+    photoUrl: "/images/big-vegetarian-shepherds-pie.jpg",
+    tags: ["vegetarian", "dinner", "bake", "comfort", "casserole", "family-friendly", "leftovers-friendly"],
+    isVegetarian: true,
+    notes: "Hearty vegetarian shepherd’s pie with a rich lentil filling and creamy mashed potato topping. Letting it rest before serving helps the layers hold together and improves texture.",
+    ingredients: `1 1/2 cups cooked lentils
 4 large potatoes, peeled and chopped
 2 cups mixed vegetables (carrots, peas, corn)
 1 cup vegetable broth
 1/4 cup milk
-2 tbsp butter
-1 tbsp olive oil
+2 Tbsp butter
+1 Tbsp olive oil
 1 small yellow onion, diced
 2 cloves garlic, minced
-1 tbsp tomato paste (optional, for depth)
+1 Tbsp tomato paste (optional, for depth)
 1 tsp dried thyme (optional)
 1/2 tsp salt (plus more to taste)
-1/2 tsp black pepper
+1/2 tsp pepper
 1/2 cup shredded cheddar cheese (optional, for topping)`,
-  instructions: `Preheat oven to 400°F. Lightly grease a baking dish.
+    instructions: `Preheat oven to 400°F. Lightly grease a baking dish.
 
-Bring a large pot of salted water to a boil. Add 4 large peeled and chopped potatoes and cook for 12 to 15 minutes until fork-tender. Drain and mash with 2 tbsp butter and 1/4 cup milk until smooth. Season with salt and 1/2 tsp black pepper and set aside.
+Bring a large pot of salted water to a boil. Add 4 large peeled and chopped potatoes and cook for 12 to 15 minutes until fork-tender. Drain and mash with 2 Tbsp butter and 1/4 cup milk until smooth. Season with salt and 1/2 tsp pepper and set aside.
 
-Heat 1 tbsp olive oil in a large skillet over medium heat. Add 1 small diced yellow onion and cook for 4 to 5 minutes until softened.
+Heat 1 Tbsp olive oil in a large skillet over medium heat. Add 1 small diced yellow onion and cook for 4 to 5 minutes until softened.
 
 Add 2 minced cloves garlic and cook for 30 seconds until fragrant.
 
-Stir in 2 cups mixed vegetables (carrots, peas, corn) and cook for 5 to 7 minutes until tender.
+Stir in 2 cups mixed vegetables and cook for 5 to 7 minutes until tender.
 
-Add 1 1/2 cups cooked lentils, 1 cup vegetable broth, 1 tbsp tomato paste, and 1 tsp dried thyme if using. Stir well and simmer for 5 to 7 minutes until the mixture thickens slightly.
+Add 1 1/2 cups cooked lentils, 1 cup vegetable broth, 1 Tbsp tomato paste, and 1 tsp dried thyme if using. Stir well and simmer for 5 to 7 minutes until the mixture thickens slightly.
 
 Season to taste with additional salt and pepper.
 
@@ -2865,72 +2832,72 @@ Bake for 20 to 25 minutes, until heated through and the top is lightly golden.
 For extra browning, broil on high for 2 to 3 minutes at the end, watching closely.
 
 Let rest for 5 to 10 minutes before serving.`,
-  photoUrl: "/images/big-vegetarian-shepherds-pie.jpg",
-  effort: "big",
-  tags: ["vegetarian", "dinner", "bake", "comfort", "casserole", "family", "leftovers-friendly"],
-  isVegetarian: true,
-  notes: "Hearty vegetarian shepherd’s pie with a rich lentil filling and creamy mashed potato topping. Letting it rest before serving helps the layers hold together and improves texture."
-},
+  },
 
   {
-  id: "quick-creamy-tortellini",
-  slug: "quick-creamy-tortellini",
-  name: "Creamy Spinach Tortellini",
-  ingredients: `1 (20 oz) package cheese tortellini
-1 tbsp olive oil or butter
+    id: "quick-creamy-tortellini",
+    slug: "quick-creamy-tortellini",
+    name: "Creamy Spinach Tortellini",
+    effort: "quick",
+    photoUrl: "/images/quick-creamy-tortellini.jpg",
+    tags: ["vegetarian", "dinner", "pasta", "quick", "comfort", "one-pan", "leftovers-friendly"],
+    isVegetarian: true,
+    notes: "Creamy, comforting tortellini with a smooth Parmesan sauce. Adding pasta water helps create a silky texture that clings perfectly to the pasta.",
+    ingredients: `1 (20 oz) package cheese tortellini
+1 Tbsp olive oil or butter
 2 cloves garlic, minced
 1 cup heavy cream
-1/2 cup parmesan cheese, freshly grated
+1/2 cup Parmesan cheese, freshly grated
 2 cups fresh spinach
 1/2 cup reserved pasta water
 1/2 tsp salt (plus more to taste)
-1/4 tsp black pepper
+1/4 tsp pepper
 1/4 tsp red pepper flakes (optional)
-1 tbsp lemon juice (optional, for brightness)`,
-  instructions: `Bring a large pot of salted water to a boil. Cook 1 (20 oz) package cheese tortellini according to package directions. Reserve 1/2 cup pasta water, then drain.
+1 Tbsp lemon juice (optional, for brightness)`,
+    instructions: `Bring a large pot of salted water to a boil. Cook 1 package cheese tortellini according to package directions. Reserve 1/2 cup pasta water, then drain.
 
-Heat 1 tbsp olive oil or butter in a large skillet over medium heat. Add 2 minced cloves garlic and cook for 30 seconds until fragrant.
+Heat 1 Tbsp olive oil or butter in a large skillet over medium heat. Add 2 minced cloves garlic and cook for 30 seconds until fragrant.
 
 Pour in 1 cup heavy cream and bring to a gentle simmer. Cook for 3 to 4 minutes, stirring occasionally, until slightly thickened.
 
-Stir in 1/2 cup freshly grated parmesan cheese gradually, whisking until smooth.
+Stir in 1/2 cup freshly grated Parmesan cheese gradually, whisking until smooth.
 
 Add 2 cups fresh spinach and cook for 1 to 2 minutes until wilted.
 
-Add the cooked tortellini to the skillet and toss to coat. Add a splash of the 1/2 cup reserved pasta water as needed to loosen the sauce and make it silky.
+Add the cooked tortellini to the skillet and toss to coat. Add a splash of the reserved pasta water as needed to loosen the sauce and make it silky.
 
-Season with 1/2 tsp salt, 1/4 tsp black pepper, and 1/4 tsp red pepper flakes if using.
+Season with 1/2 tsp salt, 1/4 tsp pepper, and 1/4 tsp red pepper flakes if using.
 
-Remove from heat and stir in 1 tbsp lemon juice if desired. Serve immediately.`,
-  photoUrl: "/images/quick-creamy-tortellini.jpg",
-  effort: "quick",
-  tags: ["dinner", "pasta", "vegetarian", "quick", "comfort", "one-pan", "leftovers-friendly"],
-  isVegetarian: true,
-  notes: "Creamy, comforting tortellini with a smooth parmesan sauce. Adding pasta water helps create a silky texture that clings perfectly to the pasta."
-},
+Remove from heat and stir in 1 Tbsp lemon juice if desired. Serve immediately.`,
+  },
 
   {
-  id: "big-spinach-ricotta-stuffed-shells",
-  slug: "big-spinach-ricotta-stuffed-shells",
-  name: "Spinach and Ricotta Stuffed Shells",
-  ingredients: `1 box jumbo pasta shells
+    id: "big-spinach-ricotta-stuffed-shells",
+    slug: "big-spinach-ricotta-stuffed-shells",
+    name: "Spinach and Ricotta Stuffed Shells",
+    effort: "big",
+    photoUrl: "/images/big-spinach-ricotta-stuffed-shells.jpg",
+    tags: ["vegetarian", "dinner", "pasta", "bake", "comfort", "italian", "family-friendly", "leftovers-friendly"],
+    isVegetarian: true,
+    notes: "Classic stuffed shells with a creamy ricotta and spinach filling. Adding an egg helps bind the filling, and baking covered first keeps everything moist before finishing uncovered for a golden top.",
+    ingredients: `1 box jumbo pasta shells
 1 (15 oz) ricotta cheese
 2 cups fresh spinach, chopped
 1 (24 oz) marinara sauce
 1 cup mozzarella cheese, shredded
-1/2 cup parmesan cheese, grated
+1/2 cup Parmesan cheese, grated
 1 large egg
 2 cloves garlic, minced
 1/2 tsp salt
-1/2 tsp black pepper
+1/2 tsp pepper
 1/2 tsp dried Italian seasoning (optional)`,
-  instructions: `Preheat oven to 375°F. Lightly grease a 9x13 baking dish.
+    instructions: `Preheat oven to 375°F. Lightly grease a 9x13 baking dish.
 
 Bring a large pot of salted water to a boil. Cook 1 box jumbo pasta shells until al dente, about 1 to 2 minutes less than package directions. Drain and set aside to cool slightly.
 
-In a large bowl, combine 15 oz ricotta cheese, 2 cups chopped fresh spinach, 1/2 cup shredded mozzarella (half of the total), 1/2 cup grated parmesan, 1 large egg, 2 minced cloves garlic, 1/2 tsp salt, 1/2 tsp black pepper, and 1/2 tsp dried Italian seasoning if using. Mix until smooth and well combined.
+In a large bowl, combine 15 oz ricotta cheese, 2 cups chopped fresh spinach, 1/2 cup shredded mozzarella, 1/2 cup grated Parmesan, 1 large egg, 2 minced cloves garlic, 1/2 tsp salt, 1/2 tsp pepper, and 1/2 tsp dried Italian seasoning if using. Mix until smooth and well combined.
 
-Spread a thin layer of 1 (24 oz) jar of marinara sauce on the bottom of the baking dish.
+Spread a thin layer of 1 jar marinara sauce on the bottom of the baking dish.
 
 Stuff each cooked shell with the ricotta mixture and arrange them in the dish.
 
@@ -2941,22 +2908,22 @@ Cover loosely with foil and bake for 20 minutes.
 Remove foil and bake an additional 10 to 15 minutes, until the cheese is melted and bubbly with lightly golden edges.
 
 Let rest for 5 to 10 minutes before serving.`,
-  photoUrl: "/images/big-spinach-ricotta-stuffed-shells.jpg",
-  effort: "big",
-  tags: ["vegetarian", "dinner", "pasta", "bake", "comfort", "italian", "family", "leftovers-friendly"],
-  isVegetarian: true,
-  notes: "Classic stuffed shells with a creamy ricotta and spinach filling. Adding an egg helps bind the filling, and baking covered first keeps everything moist before finishing uncovered for a golden top."
-},
+  },
 
   {
     id: "normal-chickpea-curry",
     slug: "normal-chickpea-curry",
     name: "Chickpea Curry",
+    effort: "normal",
+    photoUrl: "/images/normal-chickpea-curry.jpg",
+    tags: ["vegetarian", "vegan", "dinner", "curry", "chickpeas", "one-pot", "comfort", "leftovers-friendly"],
+    isVegetarian: true,
+    notes: "Creamy, warmly spiced chickpea curry with a tomato-coconut sauce. Great with basmati rice, naan, or a simple cucumber yogurt salad.",
     ingredients: `2 (15 oz) cans chickpeas, drained and rinsed
 1 Tbsp olive oil
 1 small yellow onion, finely diced
 3 cloves garlic, minced
-1 medium red pepper, diced
+1 medium red bell pepper, diced
 1 Tbsp fresh ginger, grated
 1 tsp ground cumin
 1 tsp ground coriander
@@ -2968,134 +2935,134 @@ Let rest for 5 to 10 minutes before serving.`,
 1 (13.5 oz) can full-fat coconut milk
 1/2 cup vegetable broth
 1 tsp sugar (optional)
-Juice of 1/2 lemon
+juice of 1/2 lemon
 1/4 cup fresh cilantro, chopped
-Cooked basmati rice`,
-    instructions: `Heat 1 Tbsp olive oil in a large skillet or Dutch oven over medium heat. Add 1 finely diced small yellow onion and 1 diced medium red pepper and cook for 5 to 7 minutes, stirring occasionally, until softened and lightly golden.
+cooked basmati rice`,
+    instructions: `Heat 1 Tbsp olive oil in a large skillet or Dutch oven over medium heat. Add 1 finely diced small yellow onion and 1 diced medium red bell pepper and cook for 5 to 7 minutes, stirring occasionally, until softened and lightly golden.
 
 Add 3 minced cloves garlic and 1 Tbsp grated fresh ginger. Cook for 1 to 2 minutes, stirring often, until fragrant.
 
 Add 1 tsp ground cumin, 1 tsp ground coriander, 1 tsp turmeric, 1/2 tsp smoked paprika, 1/2 tsp chili powder, and 1 tsp salt. Stir constantly for 30 to 60 seconds over medium-low heat to bloom the spices.
 
-Pour in 1 (14 oz) can crushed tomatoes and stir well. Cook for 5 minutes, stirring occasionally, until the mixture thickens slightly and deepens in color.
+Pour in 1 can crushed tomatoes and stir well. Cook for 5 minutes, stirring occasionally, until the mixture thickens slightly and deepens in color.
 
-Add 2 (15 oz) cans drained and rinsed chickpeas, 1 (13.5 oz) can full-fat coconut milk, 1/2 cup vegetable broth, and 1 tsp sugar if using. Stir to combine, then bring to a gentle simmer over medium heat.
+Add 2 cans drained and rinsed chickpeas, 1 can full-fat coconut milk, 1/2 cup vegetable broth, and 1 tsp sugar if using. Stir to combine, then bring to a gentle simmer over medium heat.
 
 Reduce the heat to low and simmer uncovered for 15 to 20 minutes, stirring occasionally, until the sauce thickens and coats the back of a spoon.
 
 Stir in the juice of 1/2 lemon and 1/4 cup chopped fresh cilantro. Taste and adjust salt if needed.
 
 Serve hot over cooked basmati rice or with warm naan.`,
-    photoUrl: "/images/normal-chickpea-curry.jpg",
-    effort: "normal",
-    tags: ["vegetarian", "curry", "chickpeas", "one-pot", "comfort food"],
-    isVegetarian: true,
-    notes: "Creamy, warmly spiced chickpea curry with a tomato-coconut sauce. Great with basmati rice, naan, or a simple cucumber yogurt salad."
   },
 
   {
-  id: "normal-spicy-tofu-mushroom-hash",
-  slug: "normal-spicy-tofu-mushroom-hash",
-  name: "Vegetarian Spicy Skillet Surf and Turf Hash",
-  ingredients: `1 (14 oz) block firm tofu, pressed and cubed
+    id: "normal-spicy-tofu-mushroom-hash",
+    slug: "normal-spicy-tofu-mushroom-hash",
+    name: "Vegetarian Spicy Skillet Hash",
+    effort: "normal",
+    photoUrl: "/images/normal-spicy-tofu-mushroom-hash.jpg",
+    tags: ["vegetarian", "vegan", "dinner", "skillet", "spicy", "healthy", "one-pan", "leftovers-friendly"],
+    isVegetarian: true,
+    notes: "Crispy, hearty skillet hash with bold Cajun flavor. Letting the tofu and potatoes cook undisturbed helps develop a golden crust and great texture.",
+    ingredients: `1 (14 oz) block firm tofu, pressed and cubed
 2 cups king oyster mushrooms, sliced
 2 cups potatoes, diced (small cubes for even cooking)
 1 cup bell peppers, diced
-2 tbsp Cajun spice blend
-2 tbsp olive oil
+2 Tbsp Cajun spice blend
+2 Tbsp olive oil
 1/2 tsp salt (plus more to taste)
-1/2 tsp black pepper
-1 tbsp soy sauce (optional, for depth)
+1/2 tsp pepper
+1 Tbsp soy sauce (optional, for depth)
 1/2 tsp smoked paprika (optional)
-1 tbsp fresh parsley, chopped (optional)`,
-  instructions: `Heat 1 tablespoon olive oil in a large skillet over medium-high heat.
+1 Tbsp fresh parsley, chopped (optional)`,
+    instructions: `Heat 1 Tbsp olive oil in a large skillet over medium-high heat.
 
-Add 2 cups diced potatoes in a single layer and cook for 10 to 12 minutes, stirring occasionally, until golden, crispy on the edges, and tender inside. Season lightly with 1/2 tsp salt and 1/2 tsp black pepper.
+Add 2 cups diced potatoes in a single layer and cook for 10 to 12 minutes, stirring occasionally, until golden, crispy on the edges, and tender inside. Season lightly with 1/2 tsp salt and 1/2 tsp pepper.
 
-While potatoes cook, pat 1 (14 oz) block of cubed firm tofu dry with paper towels for better browning.
+While potatoes cook, pat 1 block cubed firm tofu dry with paper towels for better browning.
 
-Push potatoes to one side of the skillet. Add the remaining 1 tablespoon olive oil to the empty side, then add the tofu and 2 cups sliced king oyster mushrooms.
+Push potatoes to one side of the skillet. Add the remaining 1 Tbsp olive oil to the empty side, then add the tofu and 2 cups sliced king oyster mushrooms.
 
 Cook undisturbed for 3 to 4 minutes to develop a golden crust, then stir and continue cooking for another 3 to 4 minutes until browned.
 
-Add 1 cup diced bell peppers and sprinkle 2 tbsp Cajun seasoning and 1/2 tsp smoked paprika if using over everything. Stir to combine.
+Add 1 cup diced bell peppers and sprinkle 2 Tbsp Cajun seasoning and 1/2 tsp smoked paprika if using over everything. Stir to combine.
 
 Cook for 5 to 7 minutes, stirring occasionally, until peppers are tender and everything is well coated in seasoning.
 
-Drizzle with 1 tbsp soy sauce if using and toss to combine. Taste and adjust seasoning as needed.
+Drizzle with 1 Tbsp soy sauce if using and toss to combine. Taste and adjust seasoning as needed.
 
-Remove from heat, garnish with 1 tbsp fresh chopped parsley if desired, and serve hot.`,
-  photoUrl: "/images/normal-spicy-tofu-mushroom-hash.jpg",
-  effort: "normal",
-  tags: ["vegetarian", "dinner", "skillet", "spicy", "healthy", "one-pan", "vegan", "leftovers-friendly"],
-  isVegetarian: true,
-  notes: "Crispy, hearty skillet hash with bold Cajun flavor. Letting the tofu and potatoes cook undisturbed helps develop a golden crust and great texture."
-},
+Remove from heat, garnish with 1 Tbsp fresh chopped parsley if desired, and serve hot.`,
+  },
 
   {
   id: "quick-caprese-pasta",
   slug: "quick-caprese-pasta",
   name: "Caprese Pasta",
+  effort: "quick",
+  photoUrl: "/images/quick-caprese-pasta.jpg",
+  tags: ["vegetarian", "dinner", "pasta", "quick", "italian", "healthy", "one-pan", "light"],
+  isVegetarian: true,
+  notes: "Fresh and light pasta with juicy tomatoes and creamy mozzarella. Adding pasta water helps create a light sauce that brings everything together without heaviness.",
   ingredients: `1/2 lb penne pasta
 1 cup cherry tomatoes, halved
 1/2 cup mozzarella pearls
 1/4 cup fresh basil, torn
-2 tbsp olive oil
+2 Tbsp olive oil
 1 clove garlic, minced (optional)
-1 tbsp balsamic glaze (optional, for finishing)
+1 Tbsp balsamic glaze (optional, for finishing)
 1/4 cup reserved pasta water
 1/2 tsp salt (plus more to taste)
-1/4 tsp black pepper`,
+1/4 tsp pepper`,
   instructions: `Bring a large pot of salted water to a boil. Cook 1/2 lb penne pasta according to package directions until al dente. Reserve 1/4 cup pasta water, then drain.
 
-Heat 2 tbsp olive oil in the same pot or a large skillet over medium heat. Add 1 minced clove of garlic if using and cook for 30 seconds until fragrant.
+Heat 2 Tbsp olive oil in the same pot or a large skillet over medium heat. Add 1 minced clove garlic if using and cook for 30 seconds until fragrant.
 
 Add 1 cup halved cherry tomatoes and cook for 2 to 3 minutes, just until they begin to soften and release some juices.
 
 Return the cooked pasta to the pot and toss with the tomatoes.
 
-Add 1/2 cup mozzarella pearls and a splash of the 1/4 cup reserved pasta water. Toss gently until everything is combined and slightly glossy.
+Add 1/2 cup mozzarella pearls and a splash of the reserved pasta water. Toss gently until everything is combined and slightly glossy.
 
 Remove from heat and fold in 1/4 cup torn fresh basil.
 
-Season with 1/2 tsp salt and 1/4 tsp black pepper to taste. Drizzle with 1 tbsp balsamic glaze if desired for finishing.
+Season with 1/2 tsp salt and 1/4 tsp pepper to taste. Drizzle with 1 Tbsp balsamic glaze if desired.
 
 Serve immediately.`,
-  photoUrl: "/images/quick-caprese-pasta.jpg",
-  effort: "quick",
-  tags: ["vegetarian", "dinner", "pasta", "quick", "italian", "healthy", "one-pan", "light"],
-  isVegetarian: true,
-  notes: "Fresh and light pasta with juicy tomatoes and creamy mozzarella. Adding pasta water helps create a light sauce that brings everything together without heaviness."
 },
 
-  {
+{
   id: "big-mediterranean-stuffed-peppers",
   slug: "big-mediterranean-stuffed-peppers",
   name: "Mediterranean Stuffed Bell Peppers",
+  effort: "big",
+  photoUrl: "/images/big-mediterranean-stuffed-peppers.jpg",
+  tags: ["vegetarian", "dinner", "bake", "healthy", "mediterranean", "one-pan", "leftovers-friendly"],
+  isVegetarian: true,
+  notes: "Bright and flavorful stuffed peppers with a Mediterranean twist. Adding lemon juice and fresh herbs helps balance the richness of the feta and brings everything together.",
   ingredients: `4 large bell peppers, tops removed and seeds discarded
 2 cups cooked quinoa
 1/2 cup feta cheese, crumbled
 1/4 cup Kalamata olives, chopped
 1/2 cup cherry tomatoes, chopped
-2 tbsp olive oil
+2 Tbsp olive oil
 2 cloves garlic, minced
 1/2 small red onion, finely diced
 1 tsp dried oregano
 1/2 tsp salt (plus more to taste)
-1/4 tsp black pepper
-1 tbsp lemon juice
+1/4 tsp pepper
+1 Tbsp lemon juice
 1/4 cup fresh parsley, chopped (optional)`,
   instructions: `Preheat oven to 375°F. Lightly grease a baking dish.
 
-Place 4 prepared bell peppers (tops removed and seeds discarded) upright in the dish. Add a small amount of water to the bottom of the dish to help steam the peppers.
+Place 4 prepared bell peppers upright in the dish. Add a small amount of water to the bottom of the dish to help steam the peppers.
 
-Heat 2 tbsp olive oil in a skillet over medium heat. Add 1/2 finely diced small red onion and cook for 3 to 4 minutes until softened.
+Heat 2 Tbsp olive oil in a skillet over medium heat. Add 1/2 finely diced small red onion and cook for 3 to 4 minutes until softened.
 
 Add 2 minced cloves garlic and cook for 30 seconds until fragrant.
 
-In a large bowl, combine 2 cups cooked quinoa, the sautéed onion and garlic, 1/2 cup crumbled feta, 1/4 cup chopped Kalamata olives, 1/2 cup chopped cherry tomatoes, 1 tsp dried oregano, 1/2 tsp salt, and 1/4 tsp black pepper. Stir well.
+In a large bowl, combine 2 cups cooked quinoa, the sautéed onion and garlic, 1/2 cup crumbled feta, 1/4 cup chopped Kalamata olives, 1/2 cup chopped cherry tomatoes, 1 tsp dried oregano, 1/2 tsp salt, and 1/4 tsp pepper. Stir well.
 
-Add 1 tbsp lemon juice and mix to combine.
+Add 1 Tbsp lemon juice and mix to combine.
 
 Spoon the filling evenly into the bell peppers, packing lightly.
 
@@ -3104,28 +3071,28 @@ Cover the dish with foil and bake for 30 minutes, until the peppers are tender.
 Remove foil and bake an additional 5 to 10 minutes for slight browning on top.
 
 Garnish with 1/4 cup fresh chopped parsley if desired and serve warm.`,
-  photoUrl: "/images/big-mediterranean-stuffed-peppers.jpg",
-  effort: "big",
-  tags: ["vegetarian", "dinner", "bake", "healthy", "mediterranean", "one-pan", "leftovers-friendly"],
-  isVegetarian: true,
-  notes: "Bright and flavorful stuffed peppers with a Mediterranean twist. Adding lemon juice and fresh herbs helps balance the richness of the feta and brings everything together."
 },
 
-  {
+{
   id: "quick-vegetable-pad-thai",
   slug: "quick-vegetable-pad-thai",
   name: "Vegetable Pad Thai",
+  effort: "quick",
+  photoUrl: "/images/quick-vegetable-pad-thai.jpg",
+  tags: ["vegetarian", "dinner", "quick", "asian", "skillet", "one-pan", "leftovers-friendly"],
+  isVegetarian: true,
+  notes: "Quick, takeout-style pad Thai with balanced sweet, savory, and tangy flavors. Cooking tofu undisturbed helps create a crispy texture, and adding lime at the end brightens the dish.",
   ingredients: `8 oz rice noodles
 8 oz firm tofu, pressed and cubed
 1 cup bean sprouts
 1/3 cup pad Thai sauce
-1 tbsp olive oil (or neutral oil)
+1 Tbsp olive oil (or neutral oil)
 1 egg (optional, for traditional style)
 2 green onions, sliced
 2 cloves garlic, minced
 2 tsp crushed peanuts (plus more for serving)
-1 tbsp soy sauce (optional, for depth)
-1 tbsp lime juice
+1 Tbsp soy sauce (optional, for depth)
+1 Tbsp lime juice
 1 tsp brown sugar (optional, to balance flavors)
 
 Optional toppings:
@@ -3134,7 +3101,7 @@ lime wedges
 cilantro`,
   instructions: `Soak 8 oz rice noodles in warm water according to package directions until just tender, then drain well.
 
-Heat 1 tbsp olive oil in a wok or large skillet over medium-high heat.
+Heat 1 Tbsp olive oil in a wok or large skillet over medium-high heat.
 
 Add 8 oz pressed and cubed firm tofu in a single layer and cook for 4 to 5 minutes without moving, until golden and crisp on one side. Flip and cook another 3 to 4 minutes. Remove and set aside.
 
@@ -3144,51 +3111,51 @@ If using 1 egg, push ingredients to one side and scramble the egg until just set
 
 Add the drained noodles and 1/3 cup pad Thai sauce. Toss quickly to coat and heat through.
 
-Return the tofu to the pan. Add 1 cup bean sprouts, 2 sliced green onions, 1 tbsp soy sauce if using, 1 tbsp lime juice, and 1 tsp brown sugar if using.
+Return the tofu to the pan. Add 1 cup bean sprouts, 2 sliced green onions, 1 Tbsp soy sauce if using, 1 Tbsp lime juice, and 1 tsp brown sugar if using.
 
 Toss everything together for 1 to 2 minutes until heated through and evenly coated.
 
 Remove from heat and top with 2 tsp crushed peanuts.
 
 Serve immediately with lime wedges and optional extra peanuts or cilantro.`,
-  photoUrl: "/images/quick-vegetable-pad-thai.jpg",
-  effort: "quick",
-  tags: ["vegetarian", "dinner", "quick", "asian", "skillet", "one-pan", "vegan-friendly", "leftovers-friendly"],
-  isVegetarian: true,
-  notes: "Quick, takeout-style pad Thai with balanced sweet, savory, and tangy flavors. Cooking tofu undisturbed helps create a crispy texture, and adding lime at the end brightens the dish."
 },
 
-  {
+{
   id: "big-roasted-vegetable-wellington",
   slug: "big-roasted-vegetable-wellington",
   name: "Roasted Vegetable Wellington",
+  effort: "big",
+  photoUrl: "/images/big-roasted-vegetable-wellington.jpg",
+  tags: ["vegetarian", "dinner", "bake", "comfort", "holiday", "showstopper", "leftovers-friendly"],
+  isVegetarian: true,
+  notes: "An elegant vegetarian main with layers of roasted vegetables and flaky pastry. Removing excess moisture from the filling and using breadcrumbs helps keep the pastry crisp.",
   ingredients: `1 sheet puff pastry, thawed
 1 large sweet potato, peeled and sliced into rounds
 4 cups fresh spinach
 2 large portobello mushrooms, stems removed
 4 oz goat cheese
 1 egg, beaten (for egg wash)
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 small onion, finely diced
 2 cloves garlic, minced
 1/2 tsp salt (plus more to taste)
-1/2 tsp black pepper
+1/2 tsp pepper
 1/2 tsp dried thyme (optional)
-1 tbsp balsamic vinegar (optional, for depth)
-1 tbsp breadcrumbs (optional, to prevent sogginess)`,
+1 Tbsp balsamic vinegar (optional, for depth)
+1 Tbsp breadcrumbs (optional, to prevent sogginess)`,
   instructions: `Preheat oven to 400°F. Line a baking sheet with parchment paper.
 
-Toss 1 large sweet potato (peeled and sliced into rounds) with a little olive oil, 1/2 tsp salt, and 1/2 tsp black pepper. Roast on a baking sheet for 15 to 20 minutes until tender. Set aside.
+Toss 1 large sweet potato with a little olive oil, 1/2 tsp salt, and 1/2 tsp pepper. Roast on a baking sheet for 15 to 20 minutes until tender. Set aside.
 
-Heat 1 tbsp olive oil in a skillet over medium heat. Add 1/2 finely diced small onion and cook for 3 to 4 minutes until softened.
+Heat 1 Tbsp olive oil in a skillet over medium heat. Add 1/2 finely diced small onion and cook for 3 to 4 minutes until softened.
 
 Add 2 minced cloves garlic and cook for 30 seconds until fragrant.
 
 Add 4 cups fresh spinach and cook until wilted. Remove from heat and let cool slightly, then squeeze out excess moisture thoroughly.
 
-In the same skillet, cook 2 large portobello mushrooms (stems removed) for 5 to 7 minutes until tender and most of their moisture has released. Drizzle with 1 tbsp balsamic vinegar if using and cook 1 minute more. Let cool.
+In the same skillet, cook 2 large portobello mushrooms for 5 to 7 minutes until tender and most of their moisture has released. Drizzle with 1 Tbsp balsamic vinegar if using and cook 1 minute more. Let cool.
 
-Roll out 1 sheet of thawed puff pastry slightly if needed. Sprinkle 1 tbsp breadcrumbs in the center area to help absorb moisture and prevent a soggy bottom.
+Roll out 1 sheet of thawed puff pastry slightly if needed. Sprinkle 1 Tbsp breadcrumbs in the center area to help absorb moisture and prevent a soggy bottom.
 
 Layer the roasted sweet potato, the spinach mixture, and the mushrooms, then crumble 4 oz goat cheese over the top. Sprinkle with 1/2 tsp dried thyme if using.
 
@@ -3199,28 +3166,28 @@ Brush the pastry with 1 beaten egg and score the top lightly with a knife for de
 Bake for 25 to 30 minutes, until the pastry is golden brown and puffed.
 
 Let rest for 5 to 10 minutes before slicing and serving.`,
-  photoUrl: "/images/big-roasted-vegetable-wellington.jpg",
-  effort: "big",
-  tags: ["vegetarian", "dinner", "bake", "comfort", "holiday", "showstopper", "leftovers-friendly"],
-  isVegetarian: true,
-  notes: "An elegant vegetarian main with layers of roasted vegetables and flaky pastry. Removing excess moisture from the filling and using breadcrumbs helps keep the pastry crisp."
 },
 
-  {
+{
   id: "big-black-bean-burgers-sweet-potato-fries",
   slug: "big-black-bean-burgers-sweet-potato-fries",
   name: "Black Bean Burgers with Sweet Potato Fries",
+  effort: "big",
+  photoUrl: "/images/big-black-bean-burgers-sweet-potato-fries.jpg",
+  tags: ["vegetarian", "dinner", "comfort", "kid-friendly", "american", "crispy", "family-friendly", "leftovers-friendly"],
+  isVegetarian: true,
+  notes: "A hearty homemade black bean burger dinner with crispy sweet potato fries. Letting the patties rest before cooking helps them hold together better, while high heat gives them a nicely browned crust.",
   ingredients: `2 (15 oz) cans black beans, drained and rinsed
 2 large sweet potatoes, cut into wedges
 1/2 cup breadcrumbs
 1/2 small red onion, finely diced
 3 cloves garlic, minced
-1 tbsp ground cumin
+1 Tbsp ground cumin
 1/2 tsp smoked paprika (optional, for extra depth)
-3 tbsp olive oil, divided
+3 Tbsp olive oil, divided
 1 large egg
 1/2 tsp salt, plus more to taste
-1/2 tsp black pepper
+1/2 tsp pepper
 4 burger buns
 
 Optional for serving:
@@ -3230,55 +3197,55 @@ sliced avocado
 burger sauce`,
   instructions: `Preheat oven to 425°F. Line a large baking sheet with parchment paper.
 
-Toss 2 large sweet potatoes (cut into wedges) with 1 1/2 tablespoons olive oil, a pinch of salt, and a pinch of black pepper. Spread in a single layer on the baking sheet.
+Toss 2 large sweet potatoes with 1 1/2 Tbsp olive oil, a pinch of salt, and a pinch of pepper. Spread in a single layer on the baking sheet.
 
 Roast for 25 to 30 minutes, flipping halfway through, until tender inside and browned on the edges.
 
-While the fries roast, place 2 (15 oz) cans of drained and rinsed black beans in a large bowl and mash until mostly broken down but still slightly chunky.
+While the fries roast, place 2 cans of drained and rinsed black beans in a large bowl and mash until mostly broken down but still slightly chunky.
 
-Add 1/2 finely diced small red onion, 3 minced cloves garlic, 1/2 cup breadcrumbs, 1 tbsp ground cumin, 1/2 tsp smoked paprika if using, 1 large egg, 1/2 tsp salt, and 1/2 tsp black pepper. Mix until well combined.
+Add 1/2 finely diced small red onion, 3 minced cloves garlic, 1/2 cup breadcrumbs, 1 Tbsp ground cumin, 1/2 tsp smoked paprika if using, 1 large egg, 1/2 tsp salt, and 1/2 tsp pepper. Mix until well combined.
 
 Form the mixture into 4 firm patties. If the mixture feels too soft, let it rest for 5 to 10 minutes so the breadcrumbs can absorb moisture.
 
-Heat the remaining 1 1/2 tablespoons olive oil in a large skillet over medium heat.
+Heat the remaining 1 1/2 Tbsp olive oil in a large skillet over medium heat.
 
 Cook the 4 patties for 4 to 5 minutes per side, until deeply browned and crisp on the outside. Flip carefully.
 
 Toast 4 burger buns if desired.
 
 Serve patties on buns with your favorite toppings like lettuce, tomato, sliced avocado, or burger sauce, alongside the hot sweet potato fries.`,
-  photoUrl: "/images/big-black-bean-burgers-sweet-potato-fries.jpg",
-  effort: "big",
-  tags: ["vegetarian", "dinner", "comfort", "kid-friendly", "american", "crispy", "family", "leftovers-friendly"],
-  isVegetarian: true,
-  notes: "A hearty homemade black bean burger dinner with crispy sweet potato fries. Letting the patties rest before cooking helps them hold together better, while high heat gives them a nicely browned crust."
 },
 
-  {
+{
   id: "big-sweet-potato-black-bean-enchiladas",
   slug: "big-sweet-potato-black-bean-enchiladas",
   name: "Sweet Potato and Black Bean Enchiladas",
+  effort: "big",
+  photoUrl: "/images/big-sweet-potato-black-bean-enchiladas.jpg",
+  tags: ["vegetarian", "dinner", "bake", "mexican", "comfort", "family-friendly", "leftovers-friendly"],
+  isVegetarian: true,
+  notes: "Hearty vegetarian enchiladas with a perfect balance of sweet and savory flavors. Roasting the sweet potatoes instead of boiling adds depth and prevents the filling from becoming watery.",
   ingredients: `2 large sweet potatoes, peeled and cubed
 1 (15 oz) can black beans, drained and rinsed
 8 corn tortillas
 2 cups enchilada sauce
 1 1/2 cups Monterey Jack cheese, shredded
 1/4 cup fresh cilantro, chopped
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 small red onion, finely diced
 2 cloves garlic, minced
 1 tsp cumin
 1/2 tsp chili powder
 1/2 tsp salt
-1/4 tsp black pepper
-1 tbsp lime juice`,
+1/4 tsp pepper
+1 Tbsp lime juice`,
   instructions: `Preheat oven to 400°F. Line a baking sheet with parchment paper.
 
-Toss 2 large peeled and cubed sweet potatoes with 1 tbsp olive oil, 1/2 tsp salt, and 1/4 tsp black pepper. Roast for 20 to 25 minutes until tender and lightly caramelized.
+Toss 2 large peeled and cubed sweet potatoes with 1 Tbsp olive oil, 1/2 tsp salt, and 1/4 tsp pepper. Roast for 20 to 25 minutes until tender and lightly caramelized.
 
 In a skillet over medium heat, cook 1/2 finely diced small red onion for 3 to 4 minutes until softened. Add 2 minced cloves garlic and cook for 30 seconds.
 
-In a large bowl, mash the roasted sweet potatoes slightly, leaving some texture. Stir in 1 (15 oz) can of drained and rinsed black beans, the sautéed onion and garlic, 1 tsp cumin, 1/2 tsp chili powder, and 1 tbsp lime juice. Mix well.
+In a large bowl, mash the roasted sweet potatoes slightly, leaving some texture. Stir in 1 can drained and rinsed black beans, the sautéed onion and garlic, 1 tsp cumin, 1/2 tsp chili powder, and 1 Tbsp lime juice. Mix well.
 
 Reduce oven temperature to 375°F.
 
@@ -3291,22 +3258,18 @@ Pour the remaining enchilada sauce over the top and sprinkle evenly with 1 1/2 c
 Bake for 20 to 25 minutes, until the cheese is melted and bubbly.
 
 Garnish with 1/4 cup chopped fresh cilantro before serving.`,
-  photoUrl: "/images/big-sweet-potato-black-bean-enchiladas.jpg",
-  effort: "big",
-  tags: ["vegetarian", "dinner", "bake", "mexican", "comfort", "family", "leftovers-friendly"],
-  isVegetarian: true,
-  notes: "Hearty vegetarian enchiladas with a perfect balance of sweet and savory flavors. Roasting the sweet potatoes instead of boiling adds depth and prevents the filling from becoming watery."
 },
 
-  {
-    id: "vegetarian-fri-chik-noodle-casserole",
-    slug: "vegetarian-fri-chik-noodle-casserole",
-    name: "Vegetarian Fri-Chik Noodle Casserole",
-    effort: "normal",
-    photoUrl: "/images/vegetarian-fri-chik-noodle-casserole.jpg",
-    tags: ["vegetarian", "dinner", "casserole", "pasta", "comfort", "baked"],
-    notes: "A hearty, comforting casserole that even non-vegetarians will love. Perfect for make-ahead dinners since it tastes even better the next day.",
-    ingredients: `12 oz egg noodles
+{
+  id: "vegetarian-fri-chik-noodle-casserole",
+  slug: "vegetarian-fri-chik-noodle-casserole",
+  name: "Vegetarian Fri-Chik Noodle Casserole",
+  effort: "normal",
+  photoUrl: "/images/vegetarian-fri-chik-noodle-casserole.jpg",
+  tags: ["vegetarian", "dinner", "casserole", "pasta", "comfort", "bake", "leftovers-friendly"],
+  isVegetarian: true,
+  notes: "A hearty, comforting casserole that even non-vegetarians will love. Perfect for make-ahead dinners since it tastes even better the next day.",
+  ingredients: `12 oz egg noodles
 1 medium yellow onion, chopped
 1 medium white onion, chopped
 1 can Loma Linda Fri-Chik & Gravy
@@ -3319,9 +3282,10 @@ Garnish with 1/4 cup chopped fresh cilantro before serving.`,
 2 Tbsp butter
 1 Tbsp olive oil
 1 Tbsp garlic, minced
-1 (4-7 oz) can green chilies (optional)
-salt and pepper to taste`,
-    instructions: `Preheat oven to 350°F.
+1 (4 to 7 oz) can green chilies (optional)
+salt
+pepper`,
+  instructions: `Preheat oven to 350°F.
 
 Cook 12 oz egg noodles according to package directions, omitting salt. Drain and set aside.
 
@@ -3331,40 +3295,45 @@ Add 8 oz sliced baby bella mushrooms and cook until they begin to brown. Stir in
 
 Chop the contents of 1 can Loma Linda Fri-Chik into small pieces.
 
-In a large bowl, combine the cooked noodles, 2 beaten eggs, 1 cup milk, the cooked onions and mushrooms, 1 (10.5 oz) can cream of mushroom soup, most of the 8 oz shredded sharp cheddar cheese (reserving some for the topping), the chopped Fri-Chik (with its gravy), 2 1/2 Tbsp McKay's Chicken Seasoning, salt, pepper, and 1 (4-7 oz) can green chilies if using. Mix well.
+In a large bowl, combine the cooked noodles, 2 beaten eggs, 1 cup milk, the cooked onions and mushrooms, 1 can cream of mushroom soup, most of the shredded sharp cheddar cheese, reserving some for the topping, the chopped Fri-Chik with its gravy, 2 1/2 Tbsp McKay's Chicken Seasoning, salt, pepper, and 1 can green chilies if using. Mix well.
 
 Transfer the mixture to a baking dish and cover tightly with foil. Bake for 1 hour.
 
 Remove the foil, top with the remaining shredded cheese, and bake uncovered for 5 to 10 minutes until the cheese is fully melted and bubbly.`,
-  },
+},
 
-   {
+{
   id: "normal-caprese-stuffed-portobello-mushrooms",
   slug: "normal-caprese-stuffed-portobello-mushrooms",
   name: "Caprese Stuffed Portobello Mushrooms",
+  effort: "normal",
+  photoUrl: "/images/normal-caprese-stuffed-portobello-mushrooms.jpg",
+  tags: ["vegetarian", "dinner", "bake", "italian", "healthy", "low-carb", "one-pan", "light"],
+  isVegetarian: true,
+  notes: "A lighter caprese-inspired dinner with juicy tomatoes and melted mozzarella. Roasting the mushrooms first helps remove excess moisture and prevents a soggy final dish.",
   ingredients: `5 to 6 large portobello mushrooms, stems removed and gills scraped
-2 tbsp butter
+2 Tbsp butter
 2 cloves garlic, minced
-1 tbsp fresh parsley, chopped
+1 Tbsp fresh parsley, chopped
 5 to 6 fresh mozzarella balls, sliced
 1 cup cherry tomatoes, halved
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 tsp salt
-1/4 tsp black pepper
+1/4 tsp pepper
 1/4 cup balsamic vinegar
 2 tsp brown sugar
 fresh basil, shredded`,
   instructions: `Preheat oven to 400°F. Line a baking sheet with parchment paper.
 
-Brush 5 to 6 large portobello mushrooms (stems removed and gills scraped) lightly with 1 tbsp olive oil and season with 1/2 tsp salt and 1/4 tsp black pepper. Place gill-side down and roast for 8 to 10 minutes to release excess moisture.
+Brush 5 to 6 large portobello mushrooms lightly with 1 Tbsp olive oil and season with 1/2 tsp salt and 1/4 tsp pepper. Place gill-side down and roast for 8 to 10 minutes to release excess moisture.
 
-Meanwhile, melt 2 tbsp butter in a small pan over medium heat. Add 2 minced cloves garlic and 1 tbsp chopped fresh parsley; cook for 30 seconds until fragrant. Remove from heat.
+Meanwhile, melt 2 Tbsp butter in a small pan over medium heat. Add 2 minced cloves garlic and 1 Tbsp chopped fresh parsley; cook for 30 seconds until fragrant. Remove from heat.
 
 Remove mushrooms from oven and carefully drain any liquid. Flip so they are gill-side up.
 
 Brush the insides with the garlic butter mixture.
 
-Fill each mushroom with the sliced fresh mozzarella balls and 1 cup halved cherry tomatoes.
+Fill each mushroom with the sliced fresh mozzarella and 1 cup halved cherry tomatoes.
 
 Return to the oven and bake for 8 to 10 minutes, until cheese is melted and bubbly.
 
@@ -3373,23 +3342,18 @@ For extra browning, broil on high for 1 to 2 minutes, watching closely.
 In a small saucepan, combine 1/4 cup balsamic vinegar and 2 tsp brown sugar. Bring to a simmer and cook for 5 to 8 minutes until reduced and syrupy.
 
 Drizzle the balsamic glaze over the mushrooms, top with shredded fresh basil, and serve immediately.`,
-  photoUrl: "/images/normal-caprese-stuffed-portobello-mushrooms.jpg",
-  effort: "normal",
-  tags: ["dinner", "vegetarian", "bake", "italian", "healthy", "low-carb", "one-pan", "light"],
-  isVegetarian: true,
-  notes: "A lighter caprese-inspired dinner with juicy tomatoes and melted mozzarella. Roasting the mushrooms first helps remove excess moisture and prevents a soggy final dish."
 },
 
-
- {
-    id: "normal-spinach-mushroom-feta-crustless-quiche",
-    slug: "normal-spinach-mushroom-feta-crustless-quiche",
-    name: "Spinach Mushroom Feta Crustless Quiche",
-    effort: "normal",
-    photoUrl: "/images/normal-spinach-mushroom-feta-crustless-quiche.jpg",
-    tags: ["breakfast", "brunch", "dinner","vegetarian", "bake", "meal-prep", "healthy"],
-    notes: "A good breakfast-for-dinner or meal-prep option with lots of savory flavor.",
-    ingredients: `1 (10 oz) bag spinach
+{
+  id: "normal-spinach-mushroom-feta-crustless-quiche",
+  slug: "normal-spinach-mushroom-feta-crustless-quiche",
+  name: "Spinach Mushroom Feta Crustless Quiche",
+  effort: "normal",
+  photoUrl: "/images/normal-spinach-mushroom-feta-crustless-quiche.jpg",
+  tags: ["vegetarian", "breakfast", "brunch", "dinner", "bake", "meal-prep", "healthy"],
+  isVegetarian: true,
+  notes: "A good breakfast-for-dinner or meal-prep option with lots of savory flavor.",
+  ingredients: `1 (10 oz) bag spinach
 8 oz baby bella mushrooms, sliced
 1 clove garlic, minced
 1/8 tsp salt
@@ -3400,15 +3364,15 @@ Drizzle the balsamic glaze over the mushrooms, top with shredded fresh basil, an
 1/4 tsp pepper
 1 cup milk
 1/2 cup shredded mozzarella`,
-    instructions: `Preheat oven to 350°F.
+  instructions: `Preheat oven to 350°F.
 
-Rinse 8 oz baby bella mushrooms and slice thinly. Mince 1 clove of garlic.
+Rinse 8 oz baby bella mushrooms and slice thinly. Mince 1 clove garlic.
 
 In a skillet over medium heat, add the sliced mushrooms, minced garlic, 1/8 tsp salt, and 1/2 Tbsp cooking oil. Sauté until mushrooms release their moisture and it fully evaporates. No liquid should remain in the pan.
 
 Brush the remaining 1/2 Tbsp oil inside a 9-inch pie plate.
 
-Layer the cooked mushrooms, 1 (10 oz) bag of fresh spinach, and 2 oz crumbled feta cheese into the pie plate.
+Layer the cooked mushrooms, 1 bag fresh spinach, and 2 oz crumbled feta cheese into the pie plate.
 
 In a large bowl, whisk together 4 large eggs, 1/4 cup grated Parmesan cheese, 1/4 tsp pepper, and 1 cup milk until well combined.
 
@@ -3417,28 +3381,33 @@ Pour the egg mixture evenly over the vegetables and cheese. Top with 1/2 cup shr
 Bake for about 50 minutes, or until the quiche is golden on top and the internal temperature reaches 160°F.
 
 Let the quiche rest slightly to set before slicing and serving.`,
-  },
+},
 
-   {
+{
   id: "quick-cream-cheese-spinach-pasta",
   slug: "quick-cream-cheese-spinach-pasta",
   name: "Cream Cheese Spinach Pasta",
+  effort: "quick",
+  photoUrl: "/images/quick-cream-cheese-spinach-pasta.jpg",
+  tags: ["vegetarian", "dinner", "pasta", "quick", "comfort", "creamy", "one-pan", "leftovers-friendly"],
+  isVegetarian: true,
+  notes: "Creamy, comforting pasta made with simple ingredients. Adding pasta water gradually helps create a smooth, silky sauce that clings perfectly to the noodles.",
   ingredients: `12 oz pasta (penne or rotini)
 4 oz cream cheese, softened and cubed
 1/2 cup Parmesan cheese, freshly grated
 2 cups fresh spinach
 2 cloves garlic, minced
-1 tbsp butter
+1 Tbsp butter
 1/2 cup reserved pasta water
 1/2 tsp salt (plus more to taste)
-1/4 tsp black pepper
+1/4 tsp pepper
 1/4 tsp red pepper flakes (optional)
 1 tsp lemon juice (optional, for brightness)`,
-  instructions: `Bring a large pot of salted water to a boil. Cook 12 oz pasta (penne or rotini) according to package directions until al dente. Reserve 1/2 cup pasta water, then drain.
+  instructions: `Bring a large pot of salted water to a boil. Cook 12 oz pasta according to package directions until al dente. Reserve 1/2 cup pasta water, then drain.
 
-In the same pot or a large skillet, melt 1 tbsp butter over medium heat. Add 2 minced cloves garlic and cook for 30 seconds until fragrant.
+In the same pot or a large skillet, melt 1 Tbsp butter over medium heat. Add 2 minced cloves garlic and cook for 30 seconds until fragrant.
 
-Add 4 oz softened and cubed cream cheese and a splash of the 1/2 cup reserved pasta water. Stir until the cream cheese begins to melt and form a smooth sauce.
+Add 4 oz softened and cubed cream cheese and a splash of the reserved pasta water. Stir until the cream cheese begins to melt and form a smooth sauce.
 
 Gradually add 1/2 cup freshly grated Parmesan cheese, stirring continuously until fully melted and combined.
 
@@ -3448,36 +3417,36 @@ Stir in 2 cups fresh spinach and cook for 1 to 2 minutes until wilted.
 
 Add the cooked pasta and toss well to coat evenly.
 
-Season with 1/2 tsp salt, 1/4 tsp black pepper, and 1/4 tsp red pepper flakes if using.
+Season with 1/2 tsp salt, 1/4 tsp pepper, and 1/4 tsp red pepper flakes if using.
 
 Remove from heat and stir in 1 tsp lemon juice if desired for brightness. Serve immediately.`,
-  photoUrl: "/images/quick-cream-cheese-spinach-pasta.jpg",
-  effort: "quick",
-  tags: ["dinner", "vegetarian", "pasta", "quick", "meatless", "creamy", "one-pan", "leftovers-friendly"],
-  isVegetarian: true,
-  notes: "Creamy, comforting pasta made with simple ingredients. Adding pasta water gradually helps create a smooth, silky sauce that clings perfectly to the noodles."
 },
 
-  {
+{
   id: "quick-caprese-sandwich",
   slug: "quick-caprese-sandwich",
   name: "Caprese Grilled Cheese",
+  effort: "quick",
+  photoUrl: "/images/quick-caprese-sandwich.jpg",
+  tags: ["vegetarian", "dinner", "sandwich", "quick", "skillet", "comfort", "italian", "one-pan"],
+  isVegetarian: true,
+  notes: "A fresh twist on grilled cheese with melty mozzarella, juicy tomato, and basil. Letting the sandwich rest briefly helps the cheese set slightly for cleaner slices.",
   ingredients: `4 slices sourdough bread
 4 oz fresh mozzarella, sliced
 1 tomato, thinly sliced
 1/4 cup fresh basil leaves
-1 tbsp butter
-1 tbsp olive oil (optional, for extra crisp)
+1 Tbsp butter
+1 Tbsp olive oil (optional, for extra crisp)
 1/4 tsp salt
-1/4 tsp black pepper
-1 tbsp balsamic glaze (optional, for finishing)`,
+1/4 tsp pepper
+1 Tbsp balsamic glaze (optional, for finishing)`,
   instructions: `Heat a skillet over medium heat.
 
-Lightly season 1 thinly sliced tomato with 1/4 tsp salt and 1/4 tsp black pepper to enhance flavor.
+Lightly season 1 thinly sliced tomato with 1/4 tsp salt and 1/4 tsp pepper to enhance flavor.
 
 Layer 4 oz sliced fresh mozzarella, the seasoned tomato slices, and 1/4 cup fresh basil leaves between 4 slices of sourdough bread to make two sandwiches.
 
-Spread 1 tbsp butter evenly on the outside of each sandwich. For extra crispiness, you can also add a light drizzle of 1 tbsp olive oil to the pan.
+Spread 1 Tbsp butter evenly on the outside of each sandwich. For extra crispiness, you can also add a light drizzle of 1 Tbsp olive oil to the pan.
 
 Place sandwiches in the skillet and cook for 3 to 4 minutes, pressing gently, until the bread is golden brown and crisp.
 
@@ -3485,104 +3454,104 @@ Flip and cook another 3 to 4 minutes, until the cheese is fully melted.
 
 Remove from skillet and let rest for 1 to 2 minutes before slicing.
 
-Drizzle with 1 tbsp balsamic glaze if desired and serve warm.`,
-  photoUrl: "/images/quick-caprese-sandwich.jpg",
-  effort: "quick",
-  tags: ["vegetarian", "dinner", "quick", "skillet", "comfort", "italian", "one-pan"],
-  isVegetarian: true,
-  notes: "A fresh twist on grilled cheese with melty mozzarella, juicy tomato, and basil. Letting the sandwich rest briefly helps the cheese set slightly for cleaner slices."
+Drizzle with 1 Tbsp balsamic glaze if desired and serve warm.`,
 },
 
-  {
+{
   id: "quick-grilled-corn",
   slug: "quick-grilled-corn",
   name: "Grilled Corn on the Cob",
+  effort: "quick",
+  photoUrl: "/images/quick-grilled-corn.jpg",
+  tags: ["side", "grilling", "summer", "vegetarian", "bbq", "easy"],
+  isVegetarian: true,
+  notes: "Sweet, juicy grilled corn with a light char and buttery finish. Brushing with oil before grilling helps achieve even color and prevents sticking.",
   ingredients: `4 ears corn, husked
-2 tbsp butter, melted
-1 tbsp olive oil
+2 Tbsp butter, melted
+1 Tbsp olive oil
 1/2 tsp salt (plus more to taste)
-1/4 tsp black pepper (optional)
+1/4 tsp pepper (optional)
 1/2 tsp garlic powder (optional)
-1 tbsp fresh parsley or cilantro, chopped (optional)
+1 Tbsp fresh parsley or cilantro, chopped (optional)
 lime wedges (optional)`,
-  instructions: `Preheat grill to medium heat (about 375°F to 400°F).
+  instructions: `Preheat grill to medium heat, about 375°F to 400°F.
 
-Brush 4 husked ears of corn lightly with 1 tbsp olive oil to help prevent sticking and promote even charring.
+Brush 4 husked ears of corn lightly with 1 Tbsp olive oil to help prevent sticking and promote even charring.
 
 Place the corn directly on the grill grates.
 
 Grill for 8 to 10 minutes, turning every 2 to 3 minutes, until kernels are tender and lightly charred on all sides.
 
-Remove from the grill and brush generously with 2 tbsp melted butter.
+Remove from the grill and brush generously with 2 Tbsp melted butter.
 
-Sprinkle with 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp garlic powder if using.
+Sprinkle with 1/2 tsp salt, 1/4 tsp pepper, and 1/2 tsp garlic powder if using.
 
-Garnish with 1 tbsp fresh chopped parsley or cilantro and serve with lime wedges if desired.`,
-  photoUrl: "/images/quick-grilled-corn.jpg",
-  effort: "quick",
-  tags: ["side", "grilling", "summer", "vegetarian", "bbq", "easy"],
-  isVegetarian: true,
-  notes: "Sweet, juicy grilled corn with a light char and buttery finish. Brushing with oil before grilling helps achieve even color and prevents sticking."
+Garnish with 1 Tbsp fresh chopped parsley or cilantro and serve with lime wedges if desired.`,
 },
 
 {
   id: "quick-grilled-veggie-kabobs",
   slug: "quick-grilled-veggie-kabobs",
   name: "Grilled Veggie Kabobs",
+  effort: "quick",
+  photoUrl: "/images/quick-grilled-veggie-kabobs.jpg",
+  tags: ["vegetarian", "dinner", "grilling", "healthy", "side", "summer", "one-pan"],
+  isVegetarian: true,
+  notes: "Simple, colorful grilled vegetables with a light char. Cutting vegetables to similar sizes helps them cook evenly, and a quick finish with acid brightens the flavor.",
   ingredients: `1 zucchini, sliced into thick rounds
 1 bell pepper (any color), chopped into chunks
 1/2 red onion, cut into chunks
 8 oz mushrooms (whole or halved)
-2 tbsp olive oil
+2 Tbsp olive oil
 1/2 tsp salt (plus more to taste)
-1/4 tsp black pepper
+1/4 tsp pepper
 1/2 tsp garlic powder
 1/2 tsp dried Italian seasoning (optional)
-1 tbsp balsamic vinegar or lemon juice (optional, for finishing)`,
-  instructions: `Preheat grill to medium heat (about 375°F to 400°F).
+1 Tbsp balsamic vinegar or lemon juice (optional, for finishing)`,
+  instructions: `Preheat grill to medium heat, about 375°F to 400°F.
 
 If using wooden skewers, soak them in water for at least 20 minutes to prevent burning.
 
-In a large bowl, toss 1 zucchini (sliced into thick rounds), 1 chopped bell pepper, 1/2 red onion (cut into chunks), and 8 oz mushrooms with 2 tbsp olive oil, 1/2 tsp salt, 1/4 tsp black pepper, 1/2 tsp garlic powder, and 1/2 tsp dried Italian seasoning if using.
+In a large bowl, toss 1 zucchini, 1 chopped bell pepper, 1/2 red onion, and 8 oz mushrooms with 2 Tbsp olive oil, 1/2 tsp salt, 1/4 tsp pepper, 1/2 tsp garlic powder, and 1/2 tsp dried Italian seasoning if using.
 
 Thread the seasoned vegetables onto skewers, alternating pieces for even cooking and a colorful presentation.
 
 Place kabobs on the grill and cook for 8 to 10 minutes, turning every few minutes, until vegetables are tender and lightly charred.
 
-Remove from grill and drizzle with 1 tbsp balsamic vinegar or lemon juice if using for a bright finish.
+Remove from grill and drizzle with 1 Tbsp balsamic vinegar or lemon juice if using for a bright finish.
 
 Serve warm.`,
-  photoUrl: "/images/quick-grilled-veggie-kabobs.jpg",
-  effort: "quick",
-  tags: ["dinner", "vegetarian", "grilling", "healthy", "side", "summer", "one-pan"],
-  isVegetarian: true,
-  notes: "Simple, colorful grilled vegetables with a light char. Cutting vegetables to similar sizes helps them cook evenly, and a quick finish with acid brightens the flavor."
 },
 
 ];
 
 // Optional non-dinner vegetarian meals
 export const VEGETARIAN_EXTRAS: Meal[] = [
-{
-  id: "quick-avocado-white-bean-wraps",
-  slug: "quick-avocado-white-bean-wraps",
-  name: "Avocado and White Bean Wraps",
-  ingredients: `1 cup cannellini beans, drained and rinsed
+  {
+    id: "quick-avocado-white-bean-wraps",
+    slug: "quick-avocado-white-bean-wraps",
+    name: "Avocado and White Bean Wraps",
+    effort: "quick",
+    photoUrl: "/images/quick-avocado-white-bean-wraps.jpg",
+    tags: ["vegetarian", "vegan", "lunch", "quick", "no-cook", "healthy", "meal-prep"],
+    isVegetarian: true,
+    notes: "A quick, fresh wrap with creamy avocado and protein-packed beans. Lightly mashing the beans helps everything hold together while keeping a good texture.",
+    ingredients: `1 cup cannellini beans, drained and rinsed
 1 ripe avocado
-1 tbsp lime juice
-2 tbsp fresh cilantro, chopped
+1 Tbsp lime juice
+2 Tbsp fresh cilantro, chopped
 1/4 tsp salt (plus more to taste)
-1/4 tsp black pepper
+1/4 tsp pepper
 1/4 tsp garlic powder (optional)
 2 large whole wheat tortillas
 1/4 cup shredded carrots
 1/2 cup fresh spinach leaves
-1 tbsp olive oil (optional, for richness)`,
-  instructions: `In a medium bowl, mash 1 ripe avocado with 1 tbsp lime juice, 1/4 tsp salt, 1/4 tsp black pepper, and 1/4 tsp garlic powder (if using) until mostly smooth.
+1 Tbsp olive oil (optional, for richness)`,
+    instructions: `In a medium bowl, mash 1 ripe avocado with 1 Tbsp lime juice, 1/4 tsp salt, 1/4 tsp pepper, and 1/4 tsp garlic powder if using until mostly smooth.
 
 Add 1 cup drained and rinsed cannellini beans and lightly mash about half of them into the avocado mixture, leaving some whole for texture.
 
-Stir in 2 tbsp chopped fresh cilantro and 1 tbsp olive oil if using. Taste and adjust seasoning as needed.
+Stir in 2 Tbsp chopped fresh cilantro and 1 Tbsp olive oil if using. Taste and adjust seasoning as needed.
 
 Lay 2 large whole wheat tortillas flat and spread the bean and avocado mixture evenly down the center of each.
 
@@ -3591,57 +3560,51 @@ Top the mixture with 1/4 cup shredded carrots and 1/2 cup fresh spinach leaves.
 Roll the tortillas tightly, folding in the sides as you go to secure the filling.
 
 Slice in half and serve immediately.`,
-  photoUrl: "/images/quick-avocado-white-bean-wraps.jpg",
-  effort: "quick",
-  tags: ["vegetarian", "lunch", "quick", "no-cook", "healthy", "vegan", "meal-prep"],
-  isVegetarian: true,
-  notes: "A quick, fresh wrap with creamy avocado and protein-packed beans. Lightly mashing the beans helps everything hold together while keeping a good texture."
-},
+  },
 
   {
-  id: "normal-spicy-mushroom-potato-hash",
-  slug: "normal-spicy-mushroom-potato-hash",
-  name: "Spicy Skillet Mushroom and Potato Hash",
-  ingredients: `2 large russet potatoes, diced (small cubes)
+    id: "normal-spicy-mushroom-potato-hash",
+    slug: "normal-spicy-mushroom-potato-hash",
+    name: "Spicy Skillet Mushroom and Potato Hash",
+    effort: "normal",
+    photoUrl: "/images/normal-spicy-mushroom-potato-hash.jpg",
+    tags: ["vegetarian", "breakfast", "brunch", "skillet", "spicy", "comfort", "one-pan", "leftovers-friendly"],
+    isVegetarian: true,
+    notes: "Crispy, hearty skillet hash with bold flavor and tender vegetables. Letting the potatoes cook undisturbed at first helps build a golden crust for the best texture.",
+    ingredients: `2 large russet potatoes, diced (small cubes)
 8 oz baby bella mushrooms, sliced
 1 jalapeño, minced
 1/2 red onion, diced
-2 tbsp olive oil
+2 Tbsp olive oil
 1 tsp smoked paprika
 1/2 tsp garlic powder
 1/2 tsp salt (plus more to taste)
-1/4 tsp black pepper
+1/4 tsp pepper
 2 eggs
-1 tbsp fresh parsley or green onions, chopped (optional)`,
-  instructions: `Bring a pot of salted water to a boil. Add 2 large diced russet potatoes and parboil for 5 minutes, then drain and let them dry slightly.
+1 Tbsp fresh parsley or green onions, chopped (optional)`,
+    instructions: `Bring a pot of salted water to a boil. Add 2 large diced russet potatoes and parboil for 5 minutes, then drain and let them dry slightly.
 
-Heat 2 tbsp olive oil in a large, heavy skillet (cast iron preferred) over medium-high heat.
+Heat 2 Tbsp olive oil in a large, heavy skillet over medium-high heat.
 
 Add the potatoes in a single layer and cook for 8 to 10 minutes, stirring occasionally, until golden and crispy on the outside.
 
 Add 8 oz sliced baby bella mushrooms, 1/2 diced red onion, and 1 minced jalapeño. Let cook undisturbed for 2 to 3 minutes, then stir and continue cooking for another 4 to 5 minutes until vegetables are tender and lightly browned.
 
-Sprinkle 1 tsp smoked paprika, 1/2 tsp garlic powder, 1/2 tsp salt, and 1/4 tsp black pepper over the hash and toss to combine.
+Sprinkle 1 tsp smoked paprika, 1/2 tsp garlic powder, 1/2 tsp salt, and 1/4 tsp pepper over the hash and toss to combine.
 
-Reduce heat to medium. Create two small wells in the hash and crack 2 eggs (one into each well).
+Reduce heat to medium. Create two small wells in the hash and crack 2 eggs, one into each well.
 
-Cover the skillet and cook until the eggs are set to your preference (about 3 to 5 minutes).
+Cover the skillet and cook until the eggs are set to your preference, about 3 to 5 minutes.
 
-Garnish with 1 tbsp fresh chopped parsley or green onions if desired and serve hot.`,
-  photoUrl: "/images/normal-spicy-mushroom-potato-hash.jpg",
-  effort: "normal",
-  tags: ["vegetarian", "breakfast", "skillet", "spicy", "comfort", "one-pan", "brunch", "leftovers-friendly"],
-  isVegetarian: true,
-  notes: "Crispy, hearty skillet hash with bold flavor and tender vegetables. Letting the potatoes cook undisturbed at first helps build a golden crust for the best texture."
-}
-
+Garnish with 1 Tbsp fresh chopped parsley or green onions if desired and serve hot.`,
+  },
 ];
 
 export const NEW_SALAD_RECIPES: Meal[] = [
   // =====================================================
   // QUICK
   // =====================================================
- {
+  {
     id: "quick-classic-garden-salad",
     slug: "quick-classic-garden-salad",
     name: "Classic Garden Salad",
@@ -3652,7 +3615,7 @@ export const NEW_SALAD_RECIPES: Meal[] = [
 1 cup cherry tomatoes, halved
 1 cucumber, sliced
 1/2 red onion, thinly sliced
-1/2 cup carrot, shreddeds
+1/2 cup shredded carrots
 1/2 cup croutons
 1/4 cup ranch or Italian dressing`,
     instructions: `Wash and chop 1 head of romaine lettuce.
@@ -3665,7 +3628,7 @@ Drizzle with 1/4 cup ranch or Italian dressing just before serving and toss well
     notes: "A crisp everyday salad that works as a side or a light lunch.",
   },
 
- {
+  {
     id: "quick-greek-salad",
     slug: "quick-greek-salad",
     name: "Greek Salad",
@@ -3676,13 +3639,13 @@ Drizzle with 1/4 cup ranch or Italian dressing just before serving and toss well
 1 pint cherry tomatoes, halved
 1/2 red onion, sliced
 1 green bell pepper, chopped
-1/2 cup kalamata olives
+1/2 cup Kalamata olives
 1/2 cup feta cheese, crumbled
 2 Tbsp olive oil
 1 Tbsp red wine vinegar
 1 tsp dried oregano
 salt and pepper to taste`,
-    instructions: `In a large bowl, combine 1 chopped cucumber, 1 pint halved cherry tomatoes, 1/2 sliced red onion, 1 chopped green bell pepper, 1/2 cup kalamata olives, and 1/2 cup crumbled feta cheese.
+    instructions: `In a large bowl, combine 1 chopped cucumber, 1 pint halved cherry tomatoes, 1/2 sliced red onion, 1 chopped green bell pepper, 1/2 cup Kalamata olives, and 1/2 cup crumbled feta cheese.
 
 In a small bowl, whisk together 2 Tbsp olive oil, 1 Tbsp red wine vinegar, 1 tsp dried oregano, and salt and pepper to taste.
 
@@ -3727,11 +3690,11 @@ Season lightly with salt and pepper to taste just before serving.`,
 1 cup corn
 1 cup black beans, drained and rinsed
 1 cup cherry tomatoes, halved
-1/2 cup cheddar cheese, shredded cheese
+1/2 cup cheddar cheese, shredded
 1 avocado, diced
 1/4 cup tortilla strips
 1/3 cup southwest ranch dressing`,
-    instructions: `In a large bowl, combine 1 head of chopped romaine lettuce, 2 cups chopped cooked chicken, 1 cup corn, 1 cup drained and rinsed black beans, 1 cup halved cherry tomatoes, 1/2 cup shredded cheddar cheese, and 1 diced avocado.
+    instructions: `In a large bowl, combine 1 head chopped romaine lettuce, 2 cups chopped cooked chicken, 1 cup corn, 1 cup drained and rinsed black beans, 1 cup halved cherry tomatoes, 1/2 cup shredded cheddar cheese, and 1 diced avocado.
 
 Top the mixture with 1/4 cup tortilla strips for crunch.
 
@@ -3739,7 +3702,7 @@ Drizzle with 1/3 cup southwest ranch dressing and toss well just before serving 
     notes: "A hearty salad that feels like a full dinner, not just a side.",
   },
 
- {
+  {
     id: "quick-cucumber-tomato-salad",
     slug: "quick-cucumber-tomato-salad",
     name: "Cucumber Tomato Salad",
@@ -3780,19 +3743,19 @@ For the best flavor, chill in the refrigerator for 15 minutes before serving to 
 1/4 tsp pepper
 1 head romaine lettuce, chopped
 1/2 cup Caesar dressing
-1/3 cup parmesan cheese
+1/3 cup Parmesan cheese
 1 cup croutons`,
     instructions: `Season 2 chicken breasts with 1 Tbsp olive oil, 1 tsp garlic powder, 1/2 tsp salt, and 1/4 tsp pepper.
 
-Cook the chicken in a skillet or grill pan over medium-high heat until fully cooked (reaching an internal temperature of 165°F), then slice into strips.
+Cook the chicken in a skillet or grill pan over medium-high heat until fully cooked, reaching an internal temperature of 165°F, then slice into strips.
 
-In a large bowl, add 1 head of chopped romaine lettuce, 1/2 cup Caesar dressing, 1/3 cup parmesan cheese, and 1 cup croutons. Toss well to coat the leaves evenly.
+In a large bowl, add 1 head chopped romaine lettuce, 1/2 cup Caesar dressing, 1/3 cup Parmesan cheese, and 1 cup croutons. Toss well to coat the leaves evenly.
 
 Top the salad with the warm sliced chicken and serve immediately.`,
     notes: "A restaurant-style classic that works perfectly as a dinner salad.",
   },
 
- {
+  {
     id: "normal-cobb-salad",
     slug: "normal-cobb-salad",
     name: "Cobb Salad",
@@ -3807,9 +3770,9 @@ Top the salad with the warm sliced chicken and serve immediately.`,
 1 cup cherry tomatoes, halved
 1/2 cup blue cheese crumbles
 1/3 cup ranch dressing`,
-    instructions: `Arrange 1 head of chopped romaine lettuce in a large serving bowl or on a wide platter as the base.
+    instructions: `Arrange 1 head chopped romaine lettuce in a large serving bowl or on a wide platter as the base.
 
-Top the lettuce in neat, parallel rows with 2 cups chopped cooked chicken, 4 strips of cooked and crumbled bacon, 2 chopped hard-boiled eggs, 1 diced avocado, 1 cup halved cherry tomatoes, and 1/2 cup blue cheese crumbles.
+Top the lettuce in neat, parallel rows with 2 cups chopped cooked chicken, 4 strips cooked and crumbled bacon, 2 chopped hard-boiled eggs, 1 diced avocado, 1 cup halved cherry tomatoes, and 1/2 cup blue cheese crumbles.
 
 Drizzle 1/3 cup ranch dressing over the top just before serving, or serve the dressing on the side to keep the ingredients fresh.`,
     notes: "Loaded with protein and toppings, this one eats like a full meal.",
@@ -3836,13 +3799,13 @@ Drizzle 1/3 cup ranch dressing over the top just before serving, or serve the dr
 
 Cook the steak in a skillet over medium-high heat until it reaches your desired doneness. Let the steak rest for at least 5 minutes, then slice it thinly against the grain.
 
-In a large bowl, combine 1 head of chopped romaine lettuce, 1 cup halved cherry tomatoes, 1/2 sliced red onion, 1/2 cup crumbled blue cheese, and 1/4 cup crispy fried onions.
+In a large bowl, combine 1 head chopped romaine lettuce, 1 cup halved cherry tomatoes, 1/2 sliced red onion, 1/2 cup crumbled blue cheese, and 1/4 cup crispy fried onions.
 
 Top the vegetable mixture with the sliced steak and drizzle with 1/3 cup balsamic vinaigrette just before serving.`,
     notes: "Bold steakhouse flavor in a lighter, salad-style dinner.",
   },
 
- {
+  {
     id: "normal-broccoli-bacon-salad",
     slug: "normal-broccoli-bacon-salad",
     name: "Broccoli Bacon Salad",
@@ -3852,12 +3815,12 @@ Top the vegetable mixture with the sliced steak and drizzle with 1/3 cup balsami
     ingredients: `4 cups broccoli florets
 6 strips bacon, cooked and crumbled
 1/2 red onion, diced
-1/2 cup cheddar cheese, shredded cheese
+1/2 cup cheddar cheese, shredded
 1/4 cup sunflower seeds
 1/3 cup mayonnaise
 1 Tbsp apple cider vinegar
 1 Tbsp sugar`,
-    instructions: `In a large bowl, combine 4 cups broccoli florets, 6 strips of cooked and crumbled bacon, 1/2 diced red onion, 1/2 cup shredded cheddar cheese, and 1/4 cup sunflower seeds.
+    instructions: `In a large bowl, combine 4 cups broccoli florets, 6 strips cooked and crumbled bacon, 1/2 diced red onion, 1/2 cup shredded cheddar cheese, and 1/4 cup sunflower seeds.
 
 In a separate small bowl, whisk together 1/3 cup mayonnaise, 1 Tbsp apple cider vinegar, and 1 Tbsp sugar until the dressing is smooth and the sugar has dissolved.
 
@@ -3880,9 +3843,9 @@ Chill in the refrigerator for at least 30 minutes before serving for the best fl
 1 cup cherry tomatoes, halved
 1/2 cucumber, sliced
 1/4 red onion, sliced
-1/2 cup cheddar cheese, shredded cheese
+1/2 cup cheddar cheese, shredded
 1/3 cup ranch dressing`,
-    instructions: `In a large bowl, combine 1 head of chopped romaine lettuce, 2 cups chopped cooked chicken, 1 diced avocado, 1 cup halved cherry tomatoes, 1/2 sliced cucumber, 1/4 sliced red onion, and 1/2 cup shredded cheddar cheese.
+    instructions: `In a large bowl, combine 1 head chopped romaine lettuce, 2 cups chopped cooked chicken, 1 diced avocado, 1 cup halved cherry tomatoes, 1/2 sliced cucumber, 1/4 sliced red onion, and 1/2 cup shredded cheddar cheese.
 
 Drizzle 1/3 cup ranch dressing over the ingredients.
 
@@ -3906,14 +3869,14 @@ Toss gently to coat everything in the dressing without mashing the avocado, and 
 1 cup cherry tomatoes, halved
 1/2 cucumber, sliced
 1/4 red onion, sliced
-1/2 cup cheddar cheese, shredded cheese
+1/2 cup cheddar cheese, shredded
 1/4 cup blue cheese crumbles
 1/3 cup ranch or blue cheese dressing`,
-    instructions: `Cook 2 chicken breasts (breaded or grilled) until fully done and they reach an internal temperature of 165°F, then slice into strips or bite-sized pieces.
+    instructions: `Cook 2 chicken breasts, breaded or grilled, until fully done and they reach an internal temperature of 165°F, then slice into strips or bite-sized pieces.
 
 In a small bowl, toss the cooked chicken with 1/3 cup buffalo sauce until every piece is well coated.
 
-In a large serving bowl, combine 1 head of chopped romaine lettuce, 1 cup halved cherry tomatoes, 1/2 sliced cucumber, 1/4 sliced red onion, 1/2 cup shredded cheddar cheese, and 1/4 cup blue cheese crumbles.
+In a large serving bowl, combine 1 head chopped romaine lettuce, 1 cup halved cherry tomatoes, 1/2 sliced cucumber, 1/4 sliced red onion, 1/2 cup shredded cheddar cheese, and 1/4 cup blue cheese crumbles.
 
 Top the vegetable mixture with the buffalo chicken and drizzle with 1/3 cup ranch or blue cheese dressing before serving.`,
     notes: "Big flavor and just enough heat to make salad night exciting.",
@@ -3929,12 +3892,12 @@ Top the vegetable mixture with the buffalo chicken and drizzle with 1/3 cup ranc
     ingredients: `2 cups cooked chicken, shredded
 1 bag coleslaw mix
 1 cup romaine lettuce, chopped
-1/2 cup carrot, shreddeds
+1/2 cup shredded carrots
 1/2 cup sliced almonds
 1/4 cup crispy chow mein noodles
 2 green onions, sliced
 1/4 cup sesame ginger dressing`,
-    instructions: `In a large bowl, combine 1 bag of coleslaw mix, 1 cup chopped romaine lettuce, 1/2 cup shredded carrots, 1/2 cup sliced almonds, 1/4 cup crispy chow mein noodles, and 2 sliced green onions.
+    instructions: `In a large bowl, combine 1 bag coleslaw mix, 1 cup chopped romaine lettuce, 1/2 cup shredded carrots, 1/2 cup sliced almonds, 1/4 cup crispy chow mein noodles, and 2 sliced green onions.
 
 Top the vegetable and nut mixture with 2 cups shredded cooked chicken.
 
@@ -3956,9 +3919,9 @@ Drizzle with 1/4 cup sesame ginger dressing and toss thoroughly just before serv
 1/2 cup feta cheese
 1/4 cup candied pecans
 1/3 cup poppy seed dressing`,
-    instructions: `In a large serving bowl, combine 1 bag of baby spinach, 1 cup sliced strawberries, 1/2 cup blueberries, 1/4 thinly sliced red onion, 1/2 cup feta cheese, and 1/4 cup candied pecans.
+    instructions: `In a large serving bowl, combine 1 bag baby spinach, 1 cup sliced strawberries, 1/2 cup blueberries, 1/4 thinly sliced red onion, 1/2 cup feta cheese, and 1/4 cup candied pecans.
 
-Drizzle 1/3 cup poppy seed dressing over the salad components.
+Drizzle 1/3 cup poppy seed dressing over the salad.
 
 Toss gently to ensure the delicate spinach and berries are evenly coated, and serve immediately to keep the pecans crunchy.`,
     notes: "Sweet, tangy, and pretty enough to steal the show on the table.",
@@ -3977,13 +3940,13 @@ Toss gently to ensure the delicate spinach and berries are evenly coated, and se
 1 cup cherry tomatoes, halved
 1 cup corn
 1 cup black beans, drained and rinsed
-1 cup cheddar cheese, shredded cheese
+1 cup cheddar cheese, shredded
 1/2 cup salsa
 1/2 cup sour cream
 1 cup tortilla chips, crushed`,
-    instructions: `In a skillet over medium-high heat, cook 1 lb ground beef until fully browned. Drain any excess fat, then stir in 1 packet of taco seasoning (following packet directions for water if needed).
+    instructions: `In a skillet over medium-high heat, cook 1 lb ground beef until fully browned. Drain any excess fat, then stir in 1 packet taco seasoning, following packet directions for water if needed.
 
-In a large serving bowl, combine 1 head of chopped romaine lettuce, 1 cup halved cherry tomatoes, 1 cup corn, 1 cup drained and rinsed black beans, and 1 cup shredded cheddar cheese.
+In a large serving bowl, combine 1 head chopped romaine lettuce, 1 cup halved cherry tomatoes, 1 cup corn, 1 cup drained and rinsed black beans, and 1 cup shredded cheddar cheese.
 
 Top the vegetable mixture with the warm seasoned taco meat.
 
@@ -3991,7 +3954,7 @@ Finish by adding 1/2 cup salsa, 1/2 cup sour cream, and 1 cup crushed tortilla c
     notes: "A fun dinner salad that still feels hearty and family-friendly.",
   },
 
- {
+  {
     id: "big-mediterranean-chickpea-salad",
     slug: "big-mediterranean-chickpea-salad",
     name: "Mediterranean Chickpea Salad",
@@ -4008,7 +3971,7 @@ Finish by adding 1/2 cup salsa, 1/2 cup sour cream, and 1 cup crushed tortilla c
 1 Tbsp lemon juice
 1 tsp dried oregano
 salt and pepper to taste`,
-    instructions: `In a large bowl, combine 2 cans of drained and rinsed chickpeas, 1 chopped cucumber, 1 pint halved cherry tomatoes, 1/2 diced red onion, 1/2 cup feta cheese, and 1/4 cup chopped parsley.
+    instructions: `In a large bowl, combine 2 cans drained and rinsed chickpeas, 1 chopped cucumber, 1 pint halved cherry tomatoes, 1/2 diced red onion, 1/2 cup feta cheese, and 1/4 cup chopped parsley.
 
 In a small bowl, whisk together 2 Tbsp olive oil, 1 Tbsp lemon juice, 1 tsp dried oregano, and salt and pepper to taste.
 
@@ -4017,7 +3980,6 @@ Pour the dressing over the chickpea mixture and toss well to ensure everything i
 Serve immediately or chill in the refrigerator to allow the flavors to meld.`,
     notes: "Protein-packed, fresh, and great for lunches the next day too.",
   },
-
 ];
 
 
