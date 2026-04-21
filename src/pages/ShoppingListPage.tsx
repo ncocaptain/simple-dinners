@@ -21,6 +21,9 @@ import {
 } from "../core/groceryCategories";
 import TipsModal from "../components/TipsModal";
 
+// =====================================================
+// Page tips
+// =====================================================
 const SHOPPING_TIPS = [
   "Add groceries or household items",
   "Items are grouped by store section",
@@ -28,6 +31,9 @@ const SHOPPING_TIPS = [
   "Add only selected ingredients from recipes",
 ];
 
+// =====================================================
+// Parsed / combined item types
+// =====================================================
 type ParsedAmount = {
   quantity: number | null;
   unit: string | null;
@@ -45,9 +51,14 @@ type CombinedItem = {
   displayText: string;
 };
 
+// =====================================================
+// Countable ingredient rules
+// These are ingredients that should display like:
+// 1 Onion, 2 Eggs, 6 Hamburger Buns
+// =====================================================
 const COUNTABLE_BASE_WORDS = new Set([
-  "Egg",
-  "Onion",
+  "egg",
+  "onion",
   "potato",
   "tomato",
   "avocado",
@@ -61,7 +72,7 @@ const COUNTABLE_BASE_WORDS = new Set([
   "roll",
   "bagel",
   "pickle",
-  "Pepper",
+  "pepper",
   "carrot",
   "cucumber",
   "zucchini",
@@ -70,9 +81,9 @@ const COUNTABLE_BASE_WORDS = new Set([
 ]);
 
 const COUNTABLE_PHRASES: Record<string, string> = {
-  Eggs: "Egg",
-  Onions: "Onion",
-  Potatoes: "potato",
+  eggs: "egg",
+  onions: "onion",
+  potatoes: "potato",
   tomatoes: "tomato",
   avocados: "avocado",
   bananas: "banana",
@@ -85,7 +96,7 @@ const COUNTABLE_PHRASES: Record<string, string> = {
   rolls: "roll",
   bagels: "bagel",
   pickles: "pickle",
-  Peppers: "Pepper",
+  peppers: "pepper",
   carrots: "carrot",
   cucumbers: "cucumber",
   zucchinis: "zucchini",
@@ -96,10 +107,16 @@ const COUNTABLE_PHRASES: Record<string, string> = {
   drumsticks: "drumstick",
   porkchops: "porkchop",
   "pork chops": "pork chop",
+  "hamburger buns": "hamburger bun",
+  "hot dog buns": "hot dog bun",
 };
 
+// =====================================================
+// Rules for when measured totals should be shown
+// Example: Ground Beef, 3.5 lbs
+// =====================================================
 const ALWAYS_SHOW_MEASURED_TOTALS = new Set([
-  "Ground beef",
+  "ground beef",
   "beef",
   "chicken",
   "chicken breast",
@@ -109,7 +126,7 @@ const ALWAYS_SHOW_MEASURED_TOTALS = new Set([
   "sausage",
   "bacon",
   "turkey",
-  "Shrimp",
+  "shrimp",
   "salmon",
   "fish",
   "cheddar cheese",
@@ -120,12 +137,11 @@ const ALWAYS_SHOW_MEASURED_TOTALS = new Set([
 ]);
 
 const HIDE_MEASURED_TOTALS = new Set([
-  "Salt",
-  "Pepper",
-  "Pepper",
-  "Garlic Powder",
-  "Onion powder",
-  "Paprika",
+  "salt",
+  "pepper",
+  "garlic powder",
+  "onion powder",
+  "paprika",
   "italian seasoning",
   "cumin",
   "chili powder",
@@ -133,6 +149,9 @@ const HIDE_MEASURED_TOTALS = new Set([
   "baby bella mushrooms",
 ]);
 
+// =====================================================
+// Fraction / quantity helpers
+// =====================================================
 function parseFraction(value: string): number | null {
   const trimmed = value.trim();
 
@@ -153,6 +172,15 @@ function parseFraction(value: string): number | null {
   return Number.isFinite(n) ? n : null;
 }
 
+function formatQuantity(n: number): string {
+  if (Number.isInteger(n)) return String(n);
+  return n.toFixed(2).replace(/\.?0+$/, "");
+}
+
+// =====================================================
+// Display helpers
+// These control how items look on screen
+// =====================================================
 function formatDisplayName(name: string) {
   if (!name) return "";
 
@@ -165,11 +193,6 @@ function formatDisplayName(name: string) {
     .join(" ");
 }
 
-function formatQuantity(n: number): string {
-  if (Number.isInteger(n)) return String(n);
-  return n.toFixed(2).replace(/\.?0+$/, "");
-}
-
 function normalizeUnit(unit: string | null): string | null {
   if (!unit) return null;
 
@@ -178,7 +201,7 @@ function normalizeUnit(unit: string | null): string | null {
   if (["lb", "lbs", "pound", "pounds"].includes(u)) return "lb";
   if (["oz", "ounce", "ounces"].includes(u)) return "oz";
   if (["cup", "cups"].includes(u)) return "cup";
-  if (["Tbsp", "tablespoon", "tablespoons"].includes(u)) return "Tbsp";
+  if (["tbsp", "tablespoon", "tablespoons"].includes(u)) return "Tbsp";
   if (["tsp", "teaspoon", "teaspoons"].includes(u)) return "tsp";
   if (["can", "cans"].includes(u)) return "can";
   if (["package", "packages", "pkg", "pkgs"].includes(u)) return "package";
@@ -211,13 +234,16 @@ function pluralizeUnit(unit: string, quantity: number): string {
   return `${unit}s`;
 }
 
+// =====================================================
+// Singular / plural helpers for countable items
+// =====================================================
 function singularizeWord(word: string): string {
   const lower = word.trim().toLowerCase();
 
   const irregular: Record<string, string> = {
-    Eggs: "Egg",
-    Onions: "Onion",
-    Potatoes: "potato",
+    eggs: "egg",
+    onions: "onion",
+    potatoes: "potato",
     tomatoes: "tomato",
     avocados: "avocado",
     bananas: "banana",
@@ -230,7 +256,7 @@ function singularizeWord(word: string): string {
     rolls: "roll",
     bagels: "bagel",
     pickles: "pickle",
-    Peppers: "Pepper",
+    peppers: "pepper",
     carrots: "carrot",
     cucumbers: "cucumber",
     zucchinis: "zucchini",
@@ -250,9 +276,9 @@ function pluralizeCountable(name: string, quantity: number): string {
   if (quantity === 1) return name;
 
   const irregular: Record<string, string> = {
-    Egg: "Eggs",
-    Onion: "Onions",
-    potato: "Potatoes",
+    egg: "eggs",
+    onion: "onions",
+    potato: "potatoes",
     tomato: "tomatoes",
     avocado: "avocados",
     banana: "bananas",
@@ -265,7 +291,7 @@ function pluralizeCountable(name: string, quantity: number): string {
     roll: "rolls",
     bagel: "bagels",
     pickle: "pickles",
-    Pepper: "Peppers",
+    pepper: "peppers",
     carrot: "carrots",
     cucumber: "cucumbers",
     zucchini: "zucchinis",
@@ -276,32 +302,44 @@ function pluralizeCountable(name: string, quantity: number): string {
     drumstick: "drumsticks",
     porkchop: "porkchops",
     "pork chop": "pork chops",
+    "hamburger bun": "hamburger buns",
+    "hot dog bun": "hot dog buns",
   };
 
   return irregular[name] || `${name}s`;
 }
 
+// =====================================================
+// Ingredient cleanup
+// This is where recipe-style ingredient lines get cleaned
+// into shopper-friendly names
+// =====================================================
 function cleanIngredientName(line: string) {
   let text = line.toLowerCase().trim();
 
   text = text.replace(/^[/\\\-–—]+\s*/, "");
   text = text.replace(/\([^)]*\)/g, " ");
 
+  // normalize common ingredient naming
   text = text.replace(/\bcremini mushrooms?\b/g, "baby bella mushrooms");
   text = text.replace(/\bbaby bella mushrooms?\b/g, "baby bella mushrooms");
 
-  text = text.replace(/\bOnion powders?\b/g, "Onion powder");
-  text = text.replace(/\bGarlic Powders?\b/g, "Garlic Powder");
+  // normalize seasoning naming
+  text = text.replace(/\bonion powders?\b/g, "onion powder");
+  text = text.replace(/\bgarlic powders?\b/g, "garlic powder");
 
-  text = text.replace(/\bOnions?\b/g, "Onion");
+  // singular normalization for some countables
+  text = text.replace(/\bonions?\b/g, "onion");
   text = text.replace(/\bcarrots?\b/g, "carrot");
-  text = text.replace(/\bEggs?\b/g, "Egg");
+  text = text.replace(/\beggs?\b/g, "egg");
 
+  // special cleanup for lines like "2 carrots"
   text = text.replace(
-    /^\d*\.?\d+\s+(carrot|Onion|Egg|Onion powder|Garlic Powder)\b/g,
+    /^\d*\.?\d+\s+(carrot|onion|egg|onion powder|garlic powder)\b/g,
     "$1"
   );
 
+  // remove recipe-style phrases
   const removePhrases = [
     "to taste",
     "as needed",
@@ -313,19 +351,19 @@ function cleanIngredientName(line: string) {
     "seeds removed",
     "for topping",
     "for serving",
-    "to",
-    "up to",
-    "for serving",
-"serve with",
+    "serve with",
   ];
 
   removePhrases.forEach((phrase) => {
-  text = text.replaceAll(phrase, " ");
-});
-// remove leading "to" or "up to" safely
-text = text.replace(/^\s*up to\s+/i, "");
-text = text.replace(/^\s*to\s+/i, "");
+    text = text.replaceAll(phrase, " ");
+  });
 
+  // safely remove leading "to" / "up to" only
+  text = text.replace(/^\s*up to\s+/i, "");
+  text = text.replace(/^\s*to\s+/i, "");
+
+  // remove prep words, but keep meaningful descriptors like:
+  // red onion, yellow onion, green onion
   const removeWords = [
     "small",
     "medium",
@@ -369,16 +407,20 @@ text = text.replace(/^\s*to\s+/i, "");
   text = text.replace(/^[-•*]\s*/, "");
   text = text.replace(/\s+/g, " ").trim();
 
-  if (text === "Salt and Pepper") return "Salt / Pepper";
+  if (text === "salt and pepper") return "salt / pepper";
 
   return text;
 }
 
+// =====================================================
+// Ingredient parsing
+// This figures out quantity, unit, and cleaned name
+// =====================================================
 function parseIngredient(line: string): ParsedAmount {
   const raw = line.trim();
 
   const measuredMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|Tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves)\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves)\s+(.*)$/i
   );
 
   if (measuredMatch) {
@@ -412,39 +454,48 @@ function parseIngredient(line: string): ParsedAmount {
   };
 }
 
+// =====================================================
+// Countable ingredient helpers
+// =====================================================
 function normalizeCountableName(name: string): string {
   const cleaned = cleanIngredientName(name);
+  const lower = cleaned.toLowerCase();
 
-  if (COUNTABLE_PHRASES[cleaned]) return COUNTABLE_PHRASES[cleaned];
+  if (COUNTABLE_PHRASES[lower]) return COUNTABLE_PHRASES[lower];
 
-  const words = cleaned.split(" ").filter(Boolean);
-  if (!words.length) return cleaned;
+  const words = lower.split(" ").filter(Boolean);
+  if (!words.length) return lower;
 
   if (words.length === 1) {
     const singular = singularizeWord(words[0]);
     if (COUNTABLE_BASE_WORDS.has(singular)) return singular;
   }
 
-  return cleaned;
+  return lower;
 }
 
 function isCountableIngredient(name: string): boolean {
   const normalized = normalizeCountableName(name);
-  if (normalized !== cleanIngredientName(name)) return true;
+  const cleaned = cleanIngredientName(name).toLowerCase();
+
+  if (normalized !== cleaned) return true;
 
   const words = normalized.split(" ").filter(Boolean);
   if (!words.length) return false;
 
-  const firstWord = singularizeWord(words[0]);
-  return COUNTABLE_BASE_WORDS.has(firstWord);
+  const lastWord = singularizeWord(words[words.length - 1]);
+  return COUNTABLE_BASE_WORDS.has(lastWord);
 }
 
+// =====================================================
+// Measured total display rules
+// =====================================================
 function shouldShowMeasuredTotal(
   name: string,
   unit: string | null,
   total: number
 ) {
-  const cleaned = cleanIngredientName(name);
+  const cleaned = cleanIngredientName(name).toLowerCase();
 
   if (!unit) return false;
   if (HIDE_MEASURED_TOTALS.has(cleaned)) return false;
@@ -461,6 +512,9 @@ function shouldShowMeasuredTotal(
   return false;
 }
 
+// =====================================================
+// Manual item id helper
+// =====================================================
 function makeManualId(text: string) {
   return text
     .toLowerCase()
@@ -468,6 +522,9 @@ function makeManualId(text: string) {
     .replace(/(^-|-$)/g, "");
 }
 
+// =====================================================
+// Page component
+// =====================================================
 export default function ShoppingListPage() {
   const [newItem, setNewItem] = useState("");
   const [shoppingItems, setShoppingItems] = useState<ShoppingItem[]>(() =>
@@ -476,6 +533,9 @@ export default function ShoppingListPage() {
   const [hideChecked, setHideChecked] = useState(false);
   const [touchStartX, setTouchStartX] = useState<Record<string, number>>({});
 
+  // =====================================================
+  // Refresh list when returning to page
+  // =====================================================
   useEffect(() => {
     const refresh = () => {
       setShoppingItems(loadShoppingList());
@@ -492,11 +552,17 @@ export default function ShoppingListPage() {
     };
   }, []);
 
+  // =====================================================
+  // Save helper
+  // =====================================================
   const persistShoppingItems = (updated: ShoppingItem[]) => {
     setShoppingItems(updated);
     saveShoppingList(updated);
   };
 
+  // =====================================================
+  // Manual add item
+  // =====================================================
   const handleAddItem = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -524,12 +590,15 @@ export default function ShoppingListPage() {
       addedAt: Date.now(),
       category: categorizeGroceryItem(cleanedName),
       sourceRecipe: "",
-    };
+    } as ShoppingItem & { sourceRecipe?: string };
 
     persistShoppingItems([...shoppingItems, added]);
     setNewItem("");
   };
 
+  // =====================================================
+  // Toggle grouped item checked state
+  // =====================================================
   const toggleItemGroup = (group: CombinedItem) => {
     const shouldCheck = !group.checked;
 
@@ -540,6 +609,9 @@ export default function ShoppingListPage() {
     persistShoppingItems(updated);
   };
 
+  // =====================================================
+  // Delete grouped item
+  // =====================================================
   const deleteItemGroup = (group: CombinedItem) => {
     const updated = shoppingItems.filter(
       (item) => !group.sourceIds.includes(item.id)
@@ -547,6 +619,9 @@ export default function ShoppingListPage() {
     persistShoppingItems(updated);
   };
 
+  // =====================================================
+  // Clear helpers
+  // =====================================================
   const clearCheckedItems = () => {
     persistShoppingItems(shoppingItems.filter((item) => !item.checked));
   };
@@ -559,6 +634,9 @@ export default function ShoppingListPage() {
 
   const checkedCount = shoppingItems.filter((item) => item.checked).length;
 
+  // =====================================================
+  // Combine / merge shopping items for cleaner display
+  // =====================================================
   const combinedItems = useMemo(() => {
     const map = new Map<
       string,
@@ -584,7 +662,7 @@ export default function ShoppingListPage() {
       const isCountable = isCountableIngredient(cleanedName);
       const normalizedName = isCountable
         ? normalizeCountableName(cleanedName)
-        : cleanedName;
+        : cleanedName.toLowerCase();
 
       const category = item.category || categorizeGroceryItem(normalizedName);
       const mergeUnit = isCountable ? "__count__" : parsed.unit;
@@ -632,29 +710,24 @@ export default function ShoppingListPage() {
     }
 
     return Array.from(map.entries()).map(([key, value]) => {
-      let displayText = value.name;
+      let displayText = formatDisplayName(value.name);
 
       if (value.isCountable) {
-  const qty = value.totalQuantity > 0 ? value.totalQuantity : value.count;
-
-  const formattedName = formatDisplayName(
-    pluralizeCountable(value.name, qty)
-  );
-
-  displayText = `${formatQuantity(qty)} ${formattedName}`;
-} else if (
+        const qty = value.totalQuantity > 0 ? value.totalQuantity : value.count;
+        const formattedName = formatDisplayName(
+          pluralizeCountable(value.name, qty)
+        );
+        displayText = `${formatQuantity(qty)} ${formattedName}`;
+      } else if (
         !value.mixedUnits &&
         value.unit &&
         value.totalQuantity > 0 &&
         shouldShowMeasuredTotal(value.name, value.unit, value.totalQuantity)
       ) {
         const formattedName = formatDisplayName(value.name);
-
-displayText = `${formattedName}, ${formatQuantity(
-  value.totalQuantity
-)} ${pluralizeUnit(value.unit, value.totalQuantity)}`;
-      } else {
-        displayText = formatDisplayName(value.name);
+        displayText = `${formattedName}, ${formatQuantity(
+          value.totalQuantity
+        )} ${pluralizeUnit(value.unit, value.totalQuantity)}`;
       }
 
       const recipeCount = value.recipeNames.size;
@@ -672,6 +745,9 @@ displayText = `${formattedName}, ${formatQuantity(
     });
   }, [shoppingItems]);
 
+  // =====================================================
+  // Group items by grocery section
+  // =====================================================
   const grouped = useMemo(() => {
     const visibleItems = hideChecked
       ? combinedItems.filter((item) => !item.checked)
@@ -683,6 +759,9 @@ displayText = `${formattedName}, ${formatQuantity(
     })).filter((group) => group.items.length > 0);
   }, [combinedItems, hideChecked]);
 
+  // =====================================================
+  // Render
+  // =====================================================
   return (
     <div
       style={{
@@ -695,10 +774,16 @@ displayText = `${formattedName}, ${formatQuantity(
     >
       <div style={{ maxWidth: "550px", width: "100%" }}>
         <header>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-  <h1>Shopping List</h1>
-  <TipsModal tips={SHOPPING_TIPS} />
-</div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <h1>Shopping List</h1>
+            <TipsModal tips={SHOPPING_TIPS} />
+          </div>
         </header>
 
         <Card style={{ marginBottom: 8 }}>
