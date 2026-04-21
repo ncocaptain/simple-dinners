@@ -320,10 +320,11 @@ function cleanIngredientName(line: string) {
   ];
 
   removePhrases.forEach((phrase) => {
-    text = text.replaceAll(phrase, " ");
-    text = text.replace(/\bto\b/g, " ");
-text = text.replace(/\bup to\b/g, " ");
-  });
+  text = text.replaceAll(phrase, " ");
+});
+// remove leading "to" or "up to" safely
+text = text.replace(/^\s*up to\s+/i, "");
+text = text.replace(/^\s*to\s+/i, "");
 
   const removeWords = [
     "small",
@@ -634,13 +635,14 @@ export default function ShoppingListPage() {
       let displayText = value.name;
 
       if (value.isCountable) {
-        const qty = value.totalQuantity > 0 ? value.totalQuantity : value.count;
-        const formattedName = formatDisplayName(
-  pluralizeCountable(value.name, qty)
-);
+  const qty = value.totalQuantity > 0 ? value.totalQuantity : value.count;
 
-displayText = `${formattedName}, ${formatQuantity(qty)}`;
-      } else if (
+  const formattedName = formatDisplayName(
+    pluralizeCountable(value.name, qty)
+  );
+
+  displayText = `${formatQuantity(qty)} ${formattedName}`;
+} else if (
         !value.mixedUnits &&
         value.unit &&
         value.totalQuantity > 0 &&
