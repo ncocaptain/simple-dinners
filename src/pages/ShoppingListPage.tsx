@@ -719,15 +719,20 @@ export default function ShoppingListPage() {
       let displayText = formatDisplayName(value.name);
 
       if (value.isCountable) {
-        const qty = value.totalQuantity > 0 ? value.totalQuantity : value.count;
-        const formattedName = formatDisplayName(
-          pluralizeCountable(value.name, qty)
-        );
-        if (value.minQuantity !== value.maxQuantity) {
-  displayText = `${formatQuantity(value.minQuantity)}–${formatQuantity(value.maxQuantity)} ${formattedName}`;
-} else {
-  displayText = `${formatQuantity(qty)} ${formattedName}`;
-}
+  const qty = value.totalQuantity > 0 ? value.totalQuantity : value.count;
+
+  // 👇 THIS is the important fix (#2 goes here)
+  const baseName = singularizeWord(value.name);
+
+  const formattedName = formatDisplayName(
+    pluralizeCountable(baseName, qty)
+  );
+
+  if (value.minQuantity !== value.maxQuantity) {
+    displayText = `${formatQuantity(value.minQuantity)}–${formatQuantity(value.maxQuantity)} ${formattedName}`;
+  } else {
+    displayText = `${formatQuantity(qty)} ${formattedName}`;
+  }
       } else if (
         !value.mixedUnits &&
         value.unit &&
