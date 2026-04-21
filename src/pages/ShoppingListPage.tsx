@@ -40,6 +40,11 @@ type ParsedAmount = {
   name: string;
 };
 
+type ParsedIngredient = ParsedAmount & {
+  minQuantity?: number | null;
+  maxQuantity?: number | null;
+};
+
 type CombinedItem = {
   id: string;
   checked: boolean;
@@ -251,8 +256,6 @@ function singularizeWord(word: string): string {
     buns: "bun",
     rolls: "roll",
     bagels: "bagel",
-    pickles: "pickle",
-    peppers: "pepper",
     carrots: "carrot",
     cucumbers: "cucumber",
     zucchinis: "zucchini",
@@ -408,10 +411,43 @@ function cleanIngredientName(line: string) {
 
 // =====================================================
 // Ingredient parsing
-// This figures out quantity, unit, and cleaned name
+// This figures out quantity, unit, cleaned name,
+// and supports ranges like "4 to 6 hamburger buns"
 // =====================================================
-function parseIngredient(line: string): ParsedAmount {
+function parseIngredient(line: string): ParsedIngredient {
   const raw = line.trim();
+
+  const measuredRangeMatch = raw.match(
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:-|–|to)\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves)\s+(.*)$/i
+  );
+
+  if (measuredRangeMatch) {
+    const [, minRaw, maxRaw, unitRaw, rest] = measuredRangeMatch;
+
+    return {
+      quantity: parseFraction(maxRaw),
+      minQuantity: parseFraction(minRaw),
+      maxQuantity: parseFraction(maxRaw),
+      unit: normalizeUnit(unitRaw),
+      name: cleanIngredientName(rest),
+    };
+  }
+
+  const countedRangeMatch = raw.match(
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:-|–|to)\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(.+)$/i
+  );
+
+  if (countedRangeMatch) {
+    const [, minRaw, maxRaw, rest] = countedRangeMatch;
+
+    return {
+      quantity: parseFraction(maxRaw),
+      minQuantity: parseFraction(minRaw),
+      maxQuantity: parseFraction(maxRaw),
+      unit: "__count__",
+      name: cleanIngredientName(rest),
+    };
+  }
 
   const measuredMatch = raw.match(
     /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves)\s+(.*)$/i
@@ -422,6 +458,8 @@ function parseIngredient(line: string): ParsedAmount {
 
     return {
       quantity: parseFraction(qtyRaw),
+      minQuantity: parseFraction(qtyRaw),
+      maxQuantity: parseFraction(qtyRaw),
       unit: normalizeUnit(unitRaw),
       name: cleanIngredientName(rest),
     };
@@ -436,6 +474,8 @@ function parseIngredient(line: string): ParsedAmount {
 
     return {
       quantity: parseFraction(qtyRaw),
+      minQuantity: parseFraction(qtyRaw),
+      maxQuantity: parseFraction(qtyRaw),
       unit: "__count__",
       name: cleanIngredientName(rest),
     };
@@ -443,6 +483,8 @@ function parseIngredient(line: string): ParsedAmount {
 
   return {
     quantity: null,
+    minQuantity: null,
+    maxQuantity: null,
     unit: null,
     name: cleanIngredientName(raw),
   };
@@ -632,133 +674,146 @@ export default function ShoppingListPage() {
   // Combine / merge shopping items for cleaner display
   // =====================================================
   const combinedItems = useMemo(() => {
-  const map = new Map<
-    string,
-    {
-      checked: boolean;
-      category: GroceryCategory;
-      sourceIds: string[];
-      count: number;
-      name: string;
-      isCountable: boolean;
-      totalQuantity: number;
-      minQuantity: number;
-      maxQuantity: number;
-      unit: string | null;
-      mixedUnits: boolean;
-      recipeNames: Set<string>;
-    }
-  >();
-
-  for (const item of shoppingItems) {
-    const cleanedRaw = cleanIngredientName(item.text);
-    const parsed = parseIngredient(cleanedRaw);
-    const cleanedName = parsed.name || cleanedRaw;
-
-    const isCountable = isCountableIngredient(cleanedName);
-    const normalizedName = isCountable
-      ? normalizeCountableName(cleanedName)
-      : cleanedName.toLowerCase();
-
-    const category = item.category || categorizeGroceryItem(normalizedName);
-    const mergeUnit = isCountable ? "__count__" : parsed.unit;
-    const key = `${category}::${normalizedName}`;
-
-    const quantityToAdd =
-      parsed.quantity !== null ? parsed.quantity : isCountable ? 1 : 0;
-
-    const recipeName = String((item as any).sourceRecipe || "").trim();
-
-    const existing = map.get(key);
-
-    if (existing) {
-      existing.sourceIds.push(item.id);
-      existing.count += 1;
-      existing.checked = existing.checked && item.checked;
-
-      if (quantityToAdd > 0) {
-        existing.totalQuantity += quantityToAdd;
-        existing.minQuantity =
-          existing.minQuantity > 0
-            ? Math.min(existing.minQuantity, quantityToAdd)
-            : quantityToAdd;
-        existing.maxQuantity = Math.max(existing.maxQuantity, quantityToAdd);
+    const map = new Map<
+      string,
+      {
+        checked: boolean;
+        category: GroceryCategory;
+        sourceIds: string[];
+        count: number;
+        name: string;
+        isCountable: boolean;
+        totalQuantity: number;
+        minQuantity: number;
+        maxQuantity: number;
+        unit: string | null;
+        mixedUnits: boolean;
+        recipeNames: Set<string>;
       }
+    >();
 
-      if (existing.unit !== mergeUnit) {
-        if (existing.unit !== null || mergeUnit !== null) {
-          existing.mixedUnits = true;
+    for (const item of shoppingItems) {
+      const cleanedRaw = cleanIngredientName(item.text);
+      const parsed = parseIngredient(cleanedRaw);
+      const cleanedName = parsed.name || cleanedRaw;
+
+      const isCountable = isCountableIngredient(cleanedName);
+      const normalizedName = isCountable
+        ? normalizeCountableName(cleanedName)
+        : cleanedName.toLowerCase();
+
+      const category = item.category || categorizeGroceryItem(normalizedName);
+      const mergeUnit = isCountable ? "__count__" : parsed.unit;
+      const key = `${category}::${normalizedName}`;
+
+      const quantityToAdd =
+        parsed.quantity !== null ? parsed.quantity : isCountable ? 1 : 0;
+
+      const minQuantityToAdd =
+        parsed.minQuantity !== null && parsed.minQuantity !== undefined
+          ? parsed.minQuantity
+          : quantityToAdd;
+
+      const maxQuantityToAdd =
+        parsed.maxQuantity !== null && parsed.maxQuantity !== undefined
+          ? parsed.maxQuantity
+          : quantityToAdd;
+
+      const recipeName = String((item as any).sourceRecipe || "").trim();
+
+      const existing = map.get(key);
+
+      if (existing) {
+        existing.sourceIds.push(item.id);
+        existing.count += 1;
+        existing.checked = existing.checked && item.checked;
+
+        if (quantityToAdd > 0) {
+          existing.totalQuantity += quantityToAdd;
+          existing.minQuantity =
+            existing.minQuantity > 0
+              ? Math.min(existing.minQuantity, minQuantityToAdd)
+              : minQuantityToAdd;
+          existing.maxQuantity = Math.max(
+            existing.maxQuantity,
+            maxQuantityToAdd
+          );
         }
-      }
 
-      if (recipeName) {
-        existing.recipeNames.add(recipeName);
-      }
-    } else {
-      map.set(key, {
-        checked: item.checked,
-        category,
-        sourceIds: [item.id],
-        count: 1,
-        name: normalizedName,
-        isCountable,
-        totalQuantity: quantityToAdd,
-        minQuantity: quantityToAdd,
-        maxQuantity: quantityToAdd,
-        unit: mergeUnit ?? null,
-        mixedUnits: false,
-        recipeNames: recipeName ? new Set([recipeName]) : new Set(),
-      });
-    }
-  }
+        if (existing.unit !== mergeUnit) {
+          if (existing.unit !== null || mergeUnit !== null) {
+            existing.mixedUnits = true;
+          }
+        }
 
-  return Array.from(map.entries()).map(([key, value]) => {
-    let displayText = formatDisplayName(value.name);
-
-    if (value.isCountable) {
-      const qty = value.totalQuantity > 0 ? value.totalQuantity : value.count;
-      const baseName = singularizeWord(value.name);
-      const formattedName = formatDisplayName(
-        pluralizeCountable(baseName, qty)
-      );
-
-      if (
-        value.minQuantity > 0 &&
-        value.maxQuantity > 0 &&
-        value.minQuantity !== value.maxQuantity
-      ) {
-        displayText = `${formatQuantity(value.minQuantity)}-${formatQuantity(
-          value.maxQuantity
-        )} ${formattedName}`;
+        if (recipeName) {
+          existing.recipeNames.add(recipeName);
+        }
       } else {
-        displayText = `${formatQuantity(qty)} ${formattedName}`;
+        map.set(key, {
+          checked: item.checked,
+          category,
+          sourceIds: [item.id],
+          count: 1,
+          name: normalizedName,
+          isCountable,
+          totalQuantity: quantityToAdd,
+          minQuantity: minQuantityToAdd,
+          maxQuantity: maxQuantityToAdd,
+          unit: mergeUnit ?? null,
+          mixedUnits: false,
+          recipeNames: recipeName ? new Set([recipeName]) : new Set(),
+        });
       }
-    } else if (
-      !value.mixedUnits &&
-      value.unit &&
-      value.totalQuantity > 0 &&
-      shouldShowMeasuredTotal(value.name, value.unit, value.totalQuantity)
-    ) {
-      const formattedName = formatDisplayName(value.name);
-      displayText = `${formattedName}, ${formatQuantity(
-        value.totalQuantity
-      )} ${pluralizeUnit(value.unit, value.totalQuantity)}`;
     }
 
-    const recipeCount = value.recipeNames.size;
+    return Array.from(map.entries()).map(([key, value]) => {
+      let displayText = formatDisplayName(value.name);
 
-    return {
-      id: key,
-      checked: value.checked,
-      category: value.category,
-      sourceIds: value.sourceIds,
-      count: value.count,
-      recipeCount,
-      recipeCountLabel: recipeCount > 1 ? `(${recipeCount} recipes)` : "",
-      displayText,
-    } satisfies CombinedItem;
-  });
-}, [shoppingItems]);
+      if (value.isCountable) {
+        const qty = value.totalQuantity > 0 ? value.totalQuantity : value.count;
+        const baseName = singularizeWord(value.name);
+        const formattedName = formatDisplayName(
+          pluralizeCountable(baseName, qty)
+        );
+
+        if (
+          value.minQuantity > 0 &&
+          value.maxQuantity > 0 &&
+          value.minQuantity !== value.maxQuantity
+        ) {
+          displayText = `${formatQuantity(value.minQuantity)}-${formatQuantity(
+            value.maxQuantity
+          )} ${formattedName}`;
+        } else {
+          displayText = `${formatQuantity(qty)} ${formattedName}`;
+        }
+      } else if (
+        !value.mixedUnits &&
+        value.unit &&
+        value.totalQuantity > 0 &&
+        shouldShowMeasuredTotal(value.name, value.unit, value.totalQuantity)
+      ) {
+        const formattedName = formatDisplayName(value.name);
+        displayText = `${formattedName}, ${formatQuantity(
+          value.totalQuantity
+        )} ${pluralizeUnit(value.unit, value.totalQuantity)}`;
+      }
+
+      const recipeCount = value.recipeNames.size;
+
+      return {
+        id: key,
+        checked: value.checked,
+        category: value.category,
+        sourceIds: value.sourceIds,
+        count: value.count,
+        recipeCount,
+        recipeCountLabel: recipeCount > 1 ? `(${recipeCount} recipes)` : "",
+        displayText,
+      } satisfies CombinedItem;
+    });
+  }, [shoppingItems]);
 
   // =====================================================
   // Group items by grocery section
