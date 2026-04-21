@@ -71,8 +71,6 @@ const COUNTABLE_BASE_WORDS = new Set([
   "bun",
   "roll",
   "bagel",
-  "pickle",
-  "pepper",
   "carrot",
   "cucumber",
   "zucchini",
@@ -95,8 +93,6 @@ const COUNTABLE_PHRASES: Record<string, string> = {
   buns: "bun",
   rolls: "roll",
   bagels: "bagel",
-  pickles: "pickle",
-  peppers: "pepper",
   carrots: "carrot",
   cucumbers: "cucumber",
   zucchinis: "zucchini",
@@ -290,8 +286,6 @@ function pluralizeCountable(name: string, quantity: number): string {
     bun: "buns",
     roll: "rolls",
     bagel: "bagels",
-    pickle: "pickles",
-    pepper: "peppers",
     carrot: "carrots",
     cucumber: "cucumbers",
     zucchini: "zucchinis",
@@ -638,127 +632,133 @@ export default function ShoppingListPage() {
   // Combine / merge shopping items for cleaner display
   // =====================================================
   const combinedItems = useMemo(() => {
-    const map = new Map<
-      string,
-      {
-        checked: boolean;
-        category: GroceryCategory;
-        sourceIds: string[];
-        count: number;
-        name: string;
-        isCountable: boolean;
-        totalQuantity: number;
-          minQuantity: number;
-          maxQuantity: number;
-        unit: string | null;
-        mixedUnits: boolean;
-        recipeNames: Set<string>;
+  const map = new Map<
+    string,
+    {
+      checked: boolean;
+      category: GroceryCategory;
+      sourceIds: string[];
+      count: number;
+      name: string;
+      isCountable: boolean;
+      totalQuantity: number;
+      minQuantity: number;
+      maxQuantity: number;
+      unit: string | null;
+      mixedUnits: boolean;
+      recipeNames: Set<string>;
+    }
+  >();
+
+  for (const item of shoppingItems) {
+    const cleanedRaw = cleanIngredientName(item.text);
+    const parsed = parseIngredient(cleanedRaw);
+    const cleanedName = parsed.name || cleanedRaw;
+
+    const isCountable = isCountableIngredient(cleanedName);
+    const normalizedName = isCountable
+      ? normalizeCountableName(cleanedName)
+      : cleanedName.toLowerCase();
+
+    const category = item.category || categorizeGroceryItem(normalizedName);
+    const mergeUnit = isCountable ? "__count__" : parsed.unit;
+    const key = `${category}::${normalizedName}`;
+
+    const quantityToAdd =
+      parsed.quantity !== null ? parsed.quantity : isCountable ? 1 : 0;
+
+    const recipeName = String((item as any).sourceRecipe || "").trim();
+
+    const existing = map.get(key);
+
+    if (existing) {
+      existing.sourceIds.push(item.id);
+      existing.count += 1;
+      existing.checked = existing.checked && item.checked;
+
+      if (quantityToAdd > 0) {
+        existing.totalQuantity += quantityToAdd;
+        existing.minQuantity =
+          existing.minQuantity > 0
+            ? Math.min(existing.minQuantity, quantityToAdd)
+            : quantityToAdd;
+        existing.maxQuantity = Math.max(existing.maxQuantity, quantityToAdd);
       }
-    >();
 
-    for (const item of shoppingItems) {
-      const cleanedRaw = cleanIngredientName(item.text);
-      const parsed = parseIngredient(cleanedRaw);
-      const cleanedName = parsed.name || cleanedRaw;
-
-      const isCountable = isCountableIngredient(cleanedName);
-      const normalizedName = isCountable
-        ? normalizeCountableName(cleanedName)
-        : cleanedName.toLowerCase();
-
-      const category = item.category || categorizeGroceryItem(normalizedName);
-      const mergeUnit = isCountable ? "__count__" : parsed.unit;
-      const key = `${category}::${normalizedName}`;
-
-      const quantityToAdd =
-        parsed.quantity !== null ? parsed.quantity : isCountable ? 1 : 0;
-
-      const recipeName = String((item as any).sourceRecipe || "").trim();
-
-      const existing = map.get(key);
-
-      if (existing) {
-        existing.sourceIds.push(item.id);
-        existing.count += 1;
-        existing.checked = existing.checked && item.checked;
-
-        if (quantityToAdd > 0) {
-  existing.totalQuantity += quantityToAdd;
-  existing.minQuantity = Math.min(existing.minQuantity, quantityToAdd);
-  existing.maxQuantity = Math.max(existing.maxQuantity, quantityToAdd);
-}
-
-        if (existing.unit !== mergeUnit) {
-          if (existing.unit !== null || mergeUnit !== null) {
-            existing.mixedUnits = true;
-          }
+      if (existing.unit !== mergeUnit) {
+        if (existing.unit !== null || mergeUnit !== null) {
+          existing.mixedUnits = true;
         }
+      }
 
-        if (recipeName) {
-          existing.recipeNames.add(recipeName);
-        }
+      if (recipeName) {
+        existing.recipeNames.add(recipeName);
+      }
+    } else {
+      map.set(key, {
+        checked: item.checked,
+        category,
+        sourceIds: [item.id],
+        count: 1,
+        name: normalizedName,
+        isCountable,
+        totalQuantity: quantityToAdd,
+        minQuantity: quantityToAdd,
+        maxQuantity: quantityToAdd,
+        unit: mergeUnit ?? null,
+        mixedUnits: false,
+        recipeNames: recipeName ? new Set([recipeName]) : new Set(),
+      });
+    }
+  }
+
+  return Array.from(map.entries()).map(([key, value]) => {
+    let displayText = formatDisplayName(value.name);
+
+    if (value.isCountable) {
+      const qty = value.totalQuantity > 0 ? value.totalQuantity : value.count;
+      const baseName = singularizeWord(value.name);
+      const formattedName = formatDisplayName(
+        pluralizeCountable(baseName, qty)
+      );
+
+      if (
+        value.minQuantity > 0 &&
+        value.maxQuantity > 0 &&
+        value.minQuantity !== value.maxQuantity
+      ) {
+        displayText = `${formatQuantity(value.minQuantity)}-${formatQuantity(
+          value.maxQuantity
+        )} ${formattedName}`;
       } else {
-        map.set(key, {
-          checked: item.checked,
-          category,
-          sourceIds: [item.id],
-          count: 1,
-          name: normalizedName,
-          isCountable,
-          totalQuantity: quantityToAdd,
-            minQuantity: quantityToAdd,
-            maxQuantity: quantityToAdd,
-          unit: mergeUnit ?? null,
-          mixedUnits: false,
-          recipeNames: recipeName ? new Set([recipeName]) : new Set(),
-        });
+        displayText = `${formatQuantity(qty)} ${formattedName}`;
       }
+    } else if (
+      !value.mixedUnits &&
+      value.unit &&
+      value.totalQuantity > 0 &&
+      shouldShowMeasuredTotal(value.name, value.unit, value.totalQuantity)
+    ) {
+      const formattedName = formatDisplayName(value.name);
+      displayText = `${formattedName}, ${formatQuantity(
+        value.totalQuantity
+      )} ${pluralizeUnit(value.unit, value.totalQuantity)}`;
     }
 
-    return Array.from(map.entries()).map(([key, value]) => {
-      let displayText = formatDisplayName(value.name);
+    const recipeCount = value.recipeNames.size;
 
-      if (value.isCountable) {
-  const qty = value.totalQuantity > 0 ? value.totalQuantity : value.count;
-
-  // 👇 THIS is the important fix (#2 goes here)
-  const baseName = singularizeWord(value.name);
-
-  const formattedName = formatDisplayName(
-    pluralizeCountable(baseName, qty)
-  );
-
-  if (value.minQuantity !== value.maxQuantity) {
-    displayText = `${formatQuantity(value.minQuantity)}–${formatQuantity(value.maxQuantity)} ${formattedName}`;
-  } else {
-    displayText = `${formatQuantity(qty)} ${formattedName}`;
-  }
-      } else if (
-        !value.mixedUnits &&
-        value.unit &&
-        value.totalQuantity > 0 &&
-        shouldShowMeasuredTotal(value.name, value.unit, value.totalQuantity)
-      ) {
-        const formattedName = formatDisplayName(value.name);
-        displayText = `${formattedName}, ${formatQuantity(
-          value.totalQuantity
-        )} ${pluralizeUnit(value.unit, value.totalQuantity)}`;
-      }
-
-      const recipeCount = value.recipeNames.size;
-
-      return {
-        id: key,
-        checked: value.checked,
-        category: value.category,
-        sourceIds: value.sourceIds,
-        count: value.count,
-        recipeCount,
-        recipeCountLabel: recipeCount > 1 ? `(${recipeCount} recipes)` : "",
-        displayText,
-      } satisfies CombinedItem;
-    });
-  }, [shoppingItems]);
+    return {
+      id: key,
+      checked: value.checked,
+      category: value.category,
+      sourceIds: value.sourceIds,
+      count: value.count,
+      recipeCount,
+      recipeCountLabel: recipeCount > 1 ? `(${recipeCount} recipes)` : "",
+      displayText,
+    } satisfies CombinedItem;
+  });
+}, [shoppingItems]);
 
   // =====================================================
   // Group items by grocery section
