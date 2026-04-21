@@ -786,23 +786,25 @@ const maxQuantityToAdd =
       let displayText = formatDisplayName(value.name);
 
       if (value.isCountable) {
-        const qty = value.totalQuantity > 0 ? value.totalQuantity : value.count;
-        const baseName = singularizeWord(value.name);
-        const formattedName = formatDisplayName(
-          pluralizeCountable(baseName, qty)
-        );
+  const qty = value.totalQuantity > 0 ? value.totalQuantity : value.count;
 
-        if (
-          value.minQuantity > 0 &&
-          value.maxQuantity > 0 &&
-          value.minQuantity !== value.maxQuantity
-        ) {
-          displayText = `${formatQuantity(value.minQuantity)}-${formatQuantity(
-            value.maxQuantity
-          )} ${formattedName}`;
-        } else {
-          displayText = `${formatQuantity(qty)} ${formattedName}`;
-        }
+  const baseName = singularizeWord(value.name);
+
+  // ✅ round everything here
+  const min = Math.ceil(value.minQuantity || qty);
+  const max = Math.ceil(value.maxQuantity || qty);
+  const finalQty = Math.ceil(qty);
+
+  const formattedName = formatDisplayName(
+    pluralizeCountable(baseName, finalQty)
+  );
+
+  // ✅ collapse 1–1 → 1
+  if (min !== max) {
+    displayText = `${min}-${max} ${formattedName}`;
+  } else {
+    displayText = `${finalQty} ${formattedName}`;
+  }
       } else if (
         !value.mixedUnits &&
         value.unit &&
