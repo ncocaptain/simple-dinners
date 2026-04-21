@@ -153,6 +153,18 @@ function parseFraction(value: string): number | null {
   return Number.isFinite(n) ? n : null;
 }
 
+function formatDisplayName(name: string) {
+  if (!name) return "";
+
+  return name
+    .split(" ")
+    .map((word) => {
+      if (!word) return word;
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(" ");
+}
+
 function formatQuantity(n: number): string {
   if (Number.isInteger(n)) return String(n);
   return n.toFixed(2).replace(/\.?0+$/, "");
@@ -617,22 +629,24 @@ export default function ShoppingListPage() {
 
       if (value.isCountable) {
         const qty = value.totalQuantity > 0 ? value.totalQuantity : value.count;
-        displayText = `${formatQuantity(qty)} ${pluralizeCountable(
-          value.name,
-          qty
-        )}`;
+        const formattedName = formatDisplayName(
+  pluralizeCountable(value.name, qty)
+);
+
+displayText = `${formattedName}, ${formatQuantity(qty)}`;
       } else if (
         !value.mixedUnits &&
         value.unit &&
         value.totalQuantity > 0 &&
         shouldShowMeasuredTotal(value.name, value.unit, value.totalQuantity)
       ) {
-        displayText = `${formatQuantity(value.totalQuantity)} ${pluralizeUnit(
-          value.unit,
-          value.totalQuantity
-        )} ${value.name}`;
+        const formattedName = formatDisplayName(value.name);
+
+displayText = `${formattedName}, ${formatQuantity(
+  value.totalQuantity
+)} ${pluralizeUnit(value.unit, value.totalQuantity)}`;
       } else {
-        displayText = value.name;
+        displayText = formatDisplayName(value.name);
       }
 
       const recipeCount = value.recipeNames.size;
