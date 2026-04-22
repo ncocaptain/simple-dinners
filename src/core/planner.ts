@@ -488,7 +488,7 @@ export function getPlannerScore(
   }
 
   // Cookbook meals should win more often than built-ins
-  if (tags.includes("cookbook")) score += 10;
+  if (tags.includes("cookbook")) score += 25;
 
   
   const recentCategories = usedCategories.slice(-2);
@@ -675,30 +675,40 @@ export function generatePlan(opts: {
     }
 
     const ranked = [...candidates].sort((a, b) => {
-      const aScore = getPlannerScore(a, {
-        pantry,
-        favorites,
-        cookedRecently,
-        isFirstRun,
-        usedCategories,
-      });
-      const bScore = getPlannerScore(b, {
-        pantry,
-        favorites,
-        cookedRecently,
-        isFirstRun,
-        usedCategories,
-      });
-      return bScore - aScore;
-    });
+  const aScore = getPlannerScore(a, {
+    pantry,
+    favorites,
+    cookedRecently,
+    isFirstRun,
+    usedCategories,
+  });
+  const bScore = getPlannerScore(b, {
+    pantry,
+    favorites,
+    cookedRecently,
+    isFirstRun,
+    usedCategories,
+  });
+  return bScore - aScore;
+});
 
-    // Pick from top candidates instead of always #1
+const cookbookRanked = ranked.filter((meal) =>
+  normalizeTags(meal.tags).includes("cookbook")
+);
+
+const regularRanked = ranked.filter(
+  (meal) => !normalizeTags(meal.tags).includes("cookbook")
+);
+
 const TOP_N = 6;
-const pool = ranked.slice(0, TOP_N);
 
-// random pick from top group
+const cookbookPool = cookbookRanked.slice(0, TOP_N);
+const regularPool = regularRanked.slice(0, TOP_N);
+
 const selected =
-  pool[Math.floor(Math.random() * pool.length)] ??
+  (cookbookPool.length > 0
+    ? cookbookPool[Math.floor(Math.random() * cookbookPool.length)]
+    : regularPool[Math.floor(Math.random() * regularPool.length)]) ??
   ({
     id: `meal-fallback-${day.toLowerCase()}`,
     slug: `meal-fallback-${day.toLowerCase()}`,
