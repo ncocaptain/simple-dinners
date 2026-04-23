@@ -2390,7 +2390,7 @@ Unwrap and shred the pork using your hands or forks.
 Toss the shredded pork with 1 cup barbecue sauce until well coated.
 
 Serve warm or use in recipes like Pork Street Tacos.`,
-  photoUrl: "/images/smoked-pulled-pork.webp",
+  photoUrl: "/images/smoked-pulled-pork.jpg",
   effort: "big",
   tags: ["dinner", "pork", "smoker", "bbq", "meal-prep", "protein", "base-recipe"],
   isVegetarian: false,
@@ -2429,7 +2429,7 @@ Pour in the remaining 1/2 cup milk and sprinkle the remaining 1/4 cup cheddar ch
 Increase temperature to 400°F and cook for 5 to 10 minutes until melted, bubbly, and lightly browned.
 
 Remove and let rest for a few minutes before serving.`,
-  photoUrl: "/images/big-smoked-mac-and-cheese.webp",
+  photoUrl: "/images/big-smoked-mac-and-cheese.jpg",
   effort: "big",
   tags: ["side", "bbq", "smoker", "comfort", "cheesy", "family", "cookout"],
   isVegetarian: true,
@@ -2472,7 +2472,7 @@ Brush 1 cup BBQ sauce generously over the meatloaf and continue smoking for anot
 Remove from smoker and let rest for 10 minutes before slicing.
 
 Serve warm with extra BBQ sauce if desired.`,
-  photoUrl: "/images/big-smoked-meatloaf.webp",
+  photoUrl: "/images/big-smoked-meatloaf.jpg",
   effort: "big",
   tags: ["dinner", "beef", "pork", "smoker", "bbq", "comfort", "family", "leftovers-friendly"],
   isVegetarian: false,
@@ -2499,7 +2499,7 @@ Top with chopped white onion, fresh cilantro, sliced avocado, and jalapeños.
 Squeeze fresh lime juice over the tacos if desired.
 
 Serve immediately.`,
-  photoUrl: "/images/pork-street-tacos.webp",
+  photoUrl: "/images/pork-street-tacos.jpg",
   effort: "normal",
   tags: ["dinner", "tacos", "pork", "mexican", "assembly", "family", "street-food"],
   isVegetarian: false,
@@ -2599,7 +2599,7 @@ Return to oven and bake 5 to 10 minutes, until cheese is melted and everything i
 Remove from oven and drizzle with ranch or blue cheese dressing.
 
 Garnish with sliced green onions and serve immediately.`,
-  photoUrl: "/images/buffalo-chicken-tots.webp",
+  photoUrl: "/images/buffalo-chicken-tots.jpg",
   effort: "quick",
   tags: ["appetizer", "snack", "chicken", "buffalo", "game-day", "comfort", "party", "loaded"],
   isVegetarian: false,
@@ -2654,7 +2654,7 @@ Pour the melted chocolate over the oat mixture and spread evenly across the top.
 Refrigerate for 1 to 2 hours, or until firm.
 
 Slice into bars and serve.`,
-  photoUrl: "/images/chocolate-peanut-butter-no-bake-bars.webp",
+  photoUrl: "/images/chocolate-peanut-butter-no-bake-bars.jpg",
   effort: "quick",
   tags: ["dessert", "snack", "no-bake", "gluten-free", "dairy-free", "sweet", "meal-prep"],
   isVegetarian: true,
@@ -2820,7 +2820,7 @@ Refrigerate until well chilled.
 Before serving, add sliced lemon and the remaining 1/8 cup blueberries as garnish.
 
 Serve over ice.`,
-  photoUrl: "/images/blueberry-lemonade.webp",
+  photoUrl: "/images/blueberry-lemonade.jpg",
   effort: "quick",
   tags: ["drink", "beverage", "summer", "refreshing", "batch", "non-alcoholic"],
   isVegetarian: true,
@@ -2850,7 +2850,7 @@ Fill the glass with more crushed ice.
 Top with 2 oz club soda.
 
 Garnish with a fresh mint sprig and serve immediately.`,
-  photoUrl: "/images/nojito.webp",
+  photoUrl: "/images/nojito.jpg",
   effort: "quick",
   tags: ["drink", "beverage", "mocktail", "refreshing", "summer", "non-alcoholic"],
   isVegetarian: true,
