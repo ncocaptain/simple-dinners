@@ -40,7 +40,7 @@ async function convertImages() {
 
     await sharp(inputPath)
       .resize({ width: MAX_WIDTH, withoutEnlargement: true })
-      .jpg({ quality: QUALITY })
+      .jpeg({ quality: QUALITY })
       .toFile(outputPath);
 
     console.log(`Converted: ${file} → ${outputFile}`);
