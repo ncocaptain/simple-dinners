@@ -2365,6 +2365,148 @@ For extra caramelization, broil on high for 2 to 3 minutes at the end, watching 
 Let rest for 5 minutes before serving with extra barbecue sauce if desired.`,
 },
 
+{
+  id: "smoked-pulled-pork",
+  slug: "smoked-pulled-pork",
+  name: "Smoked Pulled Pork",
+  ingredients: `8 lb pork shoulder
+1/4 cup yellow mustard
+1/4 cup Kinder's Woodfire Garlic seasoning (or similar BBQ rub)
+1 cup barbecue sauce (plus extra for serving)`,
+  instructions: `Remove the 8 lb pork shoulder from packaging and pat it completely dry with paper towels.
+
+Rub the pork shoulder all over with 1/4 cup yellow mustard as a binder.
+
+Season generously on all sides with 1/4 cup Kinder's Woodfire Garlic, pressing it into the meat.
+
+Preheat smoker to 250°F and add pellets.
+
+Place the pork shoulder directly on the smoker grates and cook for about 7 hours, or until the internal temperature reaches 200°F.
+
+Remove from smoker, wrap tightly in aluminum foil, and let rest for 1 hour.
+
+Unwrap and shred the pork using your hands or forks.
+
+Toss the shredded pork with 1 cup barbecue sauce until well coated.
+
+Serve warm or use in recipes like Pork Street Tacos.`,
+  photoUrl: "/images/smoked-pulled-pork.webp",
+  effort: "big",
+  tags: ["dinner", "pork", "smoker", "bbq", "meal-prep", "protein", "base-recipe"],
+  isVegetarian: false,
+  notes: "Tender, smoky pulled pork that works as a base for multiple meals like tacos, sandwiches, and bowls."
+},
+
+{
+  id: "big-smoked-mac-and-cheese",
+  slug: "big-smoked-mac-and-cheese",
+  name: "Smoked Mac and Cheese",
+  ingredients: `2 cups uncooked macaroni noodles
+1 cup milk, divided
+1 cup shredded cheddar cheese, divided
+4 oz cream cheese, cubed
+12 oz Velveeta cheese, cubed
+1/2 tsp salt
+1/2 tsp black pepper
+1/4 tsp garlic powder
+1/8 tsp ground cumin`,
+  instructions: `Bring a pot of water to a boil and cook 2 cups macaroni noodles according to package directions. Drain and place in a large bowl.
+
+Add 1/2 tsp salt, 1/2 tsp black pepper, 1/4 tsp garlic powder, and 1/8 tsp cumin to the noodles. Stir to combine.
+
+Mix in 3/4 cup shredded cheddar cheese, 4 oz cubed cream cheese, and 12 oz cubed Velveeta.
+
+Transfer everything to a baking dish and pour 1/2 cup milk over the top.
+
+Preheat smoker or grill to 250°F.
+
+Place the dish in the smoker and cook for 15 minutes.
+
+Stir the mac and cheese, then continue cooking another 15 minutes. Stir again.
+
+Pour in the remaining 1/2 cup milk and sprinkle the remaining 1/4 cup cheddar cheese over the top.
+
+Increase temperature to 400°F and cook for 5 to 10 minutes until melted, bubbly, and lightly browned.
+
+Remove and let rest for a few minutes before serving.`,
+  photoUrl: "/images/big-smoked-mac-and-cheese.webp",
+  effort: "big",
+  tags: ["side", "bbq", "smoker", "comfort", "cheesy", "family", "cookout"],
+  isVegetarian: true,
+  notes: "Ultra-creamy smoked mac and cheese made without a traditional sauce. The cheese melts directly into the noodles while smoking, creating rich flavor with minimal effort."
+},
+
+{
+  id: "big-smoked-meatloaf",
+  slug: "big-smoked-meatloaf",
+  name: "Smoked Meatloaf",
+  ingredients: `1/2 cup breadcrumbs
+1/3 cup milk
+1 lb ground beef
+1 lb ground pork
+1/2 cup Parmesan cheese, grated
+1/2 cup white onion, minced
+1 Tbsp dried parsley
+4 cloves garlic, minced
+2 Tbsp ketchup
+1 Tbsp Worcestershire sauce
+2 tsp salt
+1 tsp pepper
+1/2 tsp red pepper flakes
+2 Tbsp BBQ rub (your favorite)
+1 cup BBQ sauce (plus extra for serving)`,
+  instructions: `In a large bowl, combine 1/2 cup breadcrumbs and 1/3 cup milk. Let soak for 5 minutes to form a panade.
+
+Add 1 lb ground beef, 1 lb ground pork, 1/2 cup grated Parmesan, 1/2 cup minced onion, 1 Tbsp dried parsley, 4 cloves minced garlic, 2 Tbsp ketchup, 1 Tbsp Worcestershire sauce, 2 tsp salt, 1 tsp pepper, and 1/2 tsp red pepper flakes. Mix gently by hand until just combined. Do not overmix.
+
+Shape the mixture into a loaf using a loaf pan, then refrigerate for 30 minutes to help it hold its shape.
+
+Preheat smoker to 250°F.
+
+Remove meatloaf from pan and place directly on a smoker rack or basket. Season all sides evenly with about 2 Tbsp BBQ rub.
+
+Smoke for 90 minutes.
+
+Brush 1 cup BBQ sauce generously over the meatloaf and continue smoking for another 30 minutes, until the internal temperature reaches 160°F.
+
+Remove from smoker and let rest for 10 minutes before slicing.
+
+Serve warm with extra BBQ sauce if desired.`,
+  photoUrl: "/images/big-smoked-meatloaf.webp",
+  effort: "big",
+  tags: ["dinner", "beef", "pork", "smoker", "bbq", "comfort", "family", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Smoky, juicy meatloaf with a rich BBQ glaze. Including measurements in each step makes it easier to follow in Cook Mode without jumping back and forth."
+},
+
+{
+  id: "pork-street-tacos",
+  slug: "pork-street-tacos",
+  name: "Pork Street Tacos",
+  ingredients: `Pulled pork (see "Smoked Pulled Pork" recipe)
+8 small corn or flour tortillas
+1/2 cup white onion, finely chopped
+1/2 cup fresh cilantro, chopped
+2 avocados, sliced
+2 fresh jalapeños, sliced
+lime wedges (optional)`,
+  instructions: `Warm 8 tortillas in a skillet over medium heat or directly over a flame until soft and slightly charred.
+
+Fill each tortilla with a generous portion of prepared pulled pork (see Smoked Pulled Pork recipe).
+
+Top with chopped white onion, fresh cilantro, sliced avocado, and jalapeños.
+
+Squeeze fresh lime juice over the tacos if desired.
+
+Serve immediately.`,
+  photoUrl: "/images/pork-street-tacos.webp",
+  effort: "normal",
+  tags: ["dinner", "tacos", "pork", "mexican", "assembly", "family", "street-food"],
+  isVegetarian: false,
+  notes: "Simple street-style tacos built around flavorful smoked pulled pork. Use the Smoked Pulled Pork recipe for the base protein."
+}
+,
+
 ];
 
 // =====================================================
@@ -2419,6 +2561,51 @@ Roast 45 minutes to 1 hour until browned and crisp, flipping twice during cookin
 
 Remove from oven, toss with 2 Tbsp minced fresh parsley, season to taste, and serve hot.`,
   },
+
+  {
+  id: "buffalo-chicken-tots",
+  slug: "buffalo-chicken-tots",
+  name: "Buffalo Chicken Tots",
+  ingredients: `1 (32 oz) bag frozen tater tots
+1 tbsp olive oil
+
+2 cups cooked chicken, shredded
+1/2 cup buffalo sauce (plus more for drizzle)
+
+1 cup cheddar cheese, shredded
+1/2 cup mozzarella cheese, shredded (optional)
+
+1/2 cup blue cheese crumbles (optional)
+1/2 cup ranch or blue cheese dressing
+
+2 green onions, sliced
+1 jalapeño or chili pepper, thinly sliced (optional)`,
+  instructions: `Preheat oven to 400°F.
+
+Toss 1 (32 oz) bag tater tots with 1 tbsp olive oil and spread in a single layer on a baking sheet.
+
+Bake according to package directions, about 20 to 25 minutes, until crispy and golden.
+
+While the tots bake, combine 2 cups shredded chicken with 1/2 cup buffalo sauce in a bowl. Toss until evenly coated.
+
+Remove tots from the oven and transfer to an oven-safe skillet or baking dish.
+
+Top with buffalo chicken, then sprinkle 1 cup cheddar cheese and 1/2 cup mozzarella if using.
+
+Add 1/2 cup blue cheese crumbles and sliced jalapeños if desired.
+
+Return to oven and bake 5 to 10 minutes, until cheese is melted and everything is hot.
+
+Remove from oven and drizzle with ranch or blue cheese dressing.
+
+Garnish with sliced green onions and serve immediately.`,
+  photoUrl: "/images/buffalo-chicken-tots.webp",
+  effort: "quick",
+  tags: ["appetizer", "snack", "chicken", "buffalo", "game-day", "comfort", "party", "loaded"],
+  isVegetarian: false,
+  notes: "Crispy tater tots loaded with buffalo chicken, melty cheese, and cool ranch. Inspired by restaurant-style totchos but simplified for easy home cooking."
+},
+
 ];
 
 export const DESSERTS: Meal[] = [
@@ -2443,6 +2630,37 @@ Dip the strawberries one at a time and place on the parchment.
 Refrigerate for 20 to 30 minutes until the chocolate sets.
 Store leftovers in an airtight container in the refrigerator.`,
   },
+
+  {
+  id: "chocolate-peanut-butter-no-bake-bars",
+  slug: "chocolate-peanut-butter-no-bake-bars",
+  name: "Chocolate Peanut Butter No-Bake Bars",
+  ingredients: `1 cup natural peanut butter
+1/2 cup maple syrup
+1 tsp vanilla extract
+2 cups gluten-free oats (quick or rolled)
+1 cup dairy-free chocolate chips
+1 Tbsp coconut oil`,
+  instructions: `In a large bowl, mix 1 cup peanut butter, 1/2 cup maple syrup, and 1 tsp vanilla extract until smooth and fully combined.
+
+Stir in 2 cups oats until everything is evenly coated and forms a thick mixture.
+
+Line an 8x8 pan with parchment paper and press the mixture firmly into an even layer.
+
+In a microwave-safe bowl, combine 1 cup chocolate chips and 1 Tbsp coconut oil. Microwave in 30-second intervals, stirring between each, until smooth and melted.
+
+Pour the melted chocolate over the oat mixture and spread evenly across the top.
+
+Refrigerate for 1 to 2 hours, or until firm.
+
+Slice into bars and serve.`,
+  photoUrl: "/images/chocolate-peanut-butter-no-bake-bars.webp",
+  effort: "quick",
+  tags: ["dessert", "snack", "no-bake", "gluten-free", "dairy-free", "sweet", "meal-prep"],
+  isVegetarian: true,
+  notes: "An easy no-bake treat with peanut butter and chocolate. Perfect for meal prep, snacks, or a quick dessert without turning on the oven."
+}
+
 ];
 
 export const EXTRA_RECIPES: Meal[] = [
@@ -2579,6 +2797,67 @@ Bake uncovered for 50 minutes until the top is golden and the center is set.
 
 Top with fresh blueberries and strawberries if desired before serving.`,
   },
+
+  {
+  id: "blueberry-lemonade",
+  slug: "blueberry-lemonade",
+  name: "Blueberry Lemonade",
+  ingredients: `2 1/8 cups fresh blueberries (divided)
+3/4 cup granulated sugar
+2/3 cup freshly squeezed lemon juice
+4 cups cold water (divided)
+1 lemon, sliced`,
+  instructions: `Add 2 cups blueberries, 3/4 cup sugar, and 1 cup water to a blender. Blend on medium-high speed for about 1 minute, until completely smooth.
+
+Strain the blueberry puree through a fine mesh sieve into a pitcher to remove skins.
+
+Add 2/3 cup freshly squeezed lemon juice and the remaining 3 cups cold water to the pitcher. Stir well to combine.
+
+Taste and add more water if a lighter flavor is desired.
+
+Refrigerate until well chilled.
+
+Before serving, add sliced lemon and the remaining 1/8 cup blueberries as garnish.
+
+Serve over ice.`,
+  photoUrl: "/images/blueberry-lemonade.webp",
+  effort: "quick",
+  tags: ["drink", "beverage", "summer", "refreshing", "batch", "non-alcoholic"],
+  isVegetarian: true,
+  notes: "Bright and refreshing homemade lemonade with a natural blueberry twist. Straining the puree gives it a smooth texture while keeping all the fresh flavor."
+},
+
+{
+  id: "nojito",
+  slug: "nojito",
+  name: "Nojito (Mint Lime Mocktail)",
+  ingredients: `crushed ice
+8 mint leaves
+3 oz lime juice
+1 1/2 oz simple syrup
+2 oz club soda
+mint sprig, for garnish`,
+  instructions: `Fill a pint glass about 1/3 full with crushed ice.
+
+Add 8 mint leaves to the glass.
+
+Pour in 3 oz lime juice and 1 1/2 oz simple syrup.
+
+Gently muddle the mint leaves into the liquid using a muddler or wooden spoon, pressing lightly to release flavor without tearing the leaves.
+
+Fill the glass with more crushed ice.
+
+Top with 2 oz club soda.
+
+Garnish with a fresh mint sprig and serve immediately.`,
+  photoUrl: "/images/nojito.webp",
+  effort: "quick",
+  tags: ["drink", "beverage", "mocktail", "refreshing", "summer", "non-alcoholic"],
+  isVegetarian: true,
+  notes: "A refreshing non-alcoholic mojito-style drink with bright lime and fresh mint. Gently muddling the mint keeps the flavor clean without bitterness."
+},
+
+
 ];
 
 // =====================================================

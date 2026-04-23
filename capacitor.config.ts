@@ -9,14 +9,14 @@ const config: CapacitorConfig = {
     cleartext: true
   },
   plugins: {
-    SplashScreen: {
-      launchShowDuration: 1800,
-      launchAutoHide: true,
-      backgroundColor: "#4E6E8E",
-      showSpinner: false,
-      androidScaleType: "CENTER_CROP",
-    },
-  },
+  SplashScreen: {
+    launchShowDuration: 1500,
+    launchAutoHide: true,
+    backgroundColor: "#1e88e5",
+    androidScaleType: "CENTER_INSIDE",
+    showSpinner: false
+  }
+}
 };
 
 export default config;

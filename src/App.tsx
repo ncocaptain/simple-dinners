@@ -805,10 +805,24 @@ paddingBottom: hideBottomNav
 }
 
 export default function App() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(true), 30);
+    return () => clearTimeout(t);
+  }, []);
+
   return (
     <ThemeProvider>
       <ToastProvider>
-        <AppContent />
+        <div
+          style={{
+            opacity: visible ? 1 : 0,
+            transition: "opacity 300ms ease",
+          }}
+        >
+          <AppContent />
+        </div>
       </ToastProvider>
     </ThemeProvider>
   );
