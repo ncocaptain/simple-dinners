@@ -319,32 +319,7 @@ function cleanIngredientName(line: string) {
   text = text.replace(/^[/\\\-–—]+\s*/, "");
   text = text.replace(/\([^)]*\)/g, " ");
 
-  // normalize common ingredient naming
-  text = text.replace(/\bcremini mushrooms?\b/g, "baby bella mushrooms");
-  text = text.replace(/\bbaby bella mushrooms?\b/g, "baby bella mushrooms");
-
-  // normalize seasoning naming
-  text = text.replace(/\bonion powders?\b/g, "onion powder");
-  text = text.replace(/\bgarlic powders?\b/g, "garlic powder");
-
-  // normalize pepper variations
-text = text.replace(/\bpepper\b/g, "black pepper");
-text = text.replace(/\bground black pepper\b/g, "black pepper");
-text = text.replace(/\bfreshly ground black pepper\b/g, "black pepper");
-
-  // singular normalization for some countables
-  text = text.replace(/\bonions?\b/g, "onion");
-  text = text.replace(/\bcarrots?\b/g, "carrot");
-  text = text.replace(/\beggs?\b/g, "egg");
-  text = text.replace(/\bspinach leaves\b/g, "spinach");
-
-  // special cleanup for lines like "2 carrots"
-  text = text.replace(
-    /^\d*\.?\d+\s+(carrot|onion|egg|onion powder|garlic powder)\b/g,
-    "$1"
-  );
-
-  // remove recipe-style phrases
+  // remove recipe-style phrases early
   const removePhrases = [
     "to taste",
     "as needed",
@@ -363,12 +338,66 @@ text = text.replace(/\bfreshly ground black pepper\b/g, "black pepper");
     text = text.replaceAll(phrase, " ");
   });
 
-  // safely remove leading "to" / "up to" only
-  text = text.replace(/^\s*up to\s+/i, "");
-  text = text.replace(/^\s*to\s+/i, "");
+  // common pantry / seasoning normalization
+  if (text.trim() === "salt and pepper") return "salt / pepper";
 
-  // remove prep words, but keep meaningful descriptors like:
-  // red onion, yellow onion, green onion
+  text = text
+    .replace(/\bfreshly ground black pepper\b/g, "black pepper")
+    .replace(/\bground black pepper\b/g, "black pepper")
+    .replace(/\bblack pepper\b/g, "black pepper")
+    .replace(/\bpepper\b/g, "black pepper")
+    .replace(/\bblack black pepper\b/g, "black pepper");
+
+  text = text
+    .replace(/\bonion powders?\b/g, "onion powder")
+    .replace(/\bgarlic powders?\b/g, "garlic powder")
+    .replace(/\bsmoked paprika\b/g, "paprika")
+    .replace(/\bpaprikas\b/g, "paprika");
+
+  // garlic normalization
+  text = text
+    .replace(/\bgarlic cloves?\b/g, "garlic")
+    .replace(/\bcloves? garlic\b/g, "garlic")
+    .replace(/\bminced garlic\b/g, "garlic")
+    .replace(/\bgarlic, minced\b/g, "garlic");
+
+  // mushroom normalization
+  text = text
+    .replace(/\bcremini mushrooms?\b/g, "baby bella mushrooms")
+    .replace(/\bbaby bella mushrooms?\b/g, "baby bella mushrooms");
+
+  // cheese normalization
+  text = text
+    .replace(/\bshredded mozzarella cheese\b/g, "mozzarella cheese")
+    .replace(/\bgrated mozzarella cheese\b/g, "mozzarella cheese")
+    .replace(/\bmozzarella, shredded\b/g, "mozzarella cheese")
+    .replace(/\bmozzarella cheese, shredded\b/g, "mozzarella cheese")
+    .replace(/\bshredded cheddar cheese\b/g, "cheddar cheese")
+    .replace(/\bgrated cheddar cheese\b/g, "cheddar cheese")
+    .replace(/\bcheddar cheese, shredded\b/g, "cheddar cheese")
+    .replace(/\bshredded mexican cheese blend\b/g, "mexican cheese blend")
+    .replace(/\bmexican cheese blend, shredded\b/g, "mexican cheese blend")
+    .replace(/\bgrated parmesan cheese\b/g, "parmesan cheese")
+    .replace(/\bfreshly grated parmesan cheese\b/g, "parmesan cheese")
+    .replace(/\bparmesan cheese, grated\b/g, "parmesan cheese")
+    .replace(/\bshredded swiss cheese\b/g, "swiss cheese")
+    .replace(/\bswiss cheese, shredded\b/g, "swiss cheese");
+
+  // onion normalization — keep type when useful
+  text = text
+    .replace(/\byellow onions?\b/g, "yellow onion")
+    .replace(/\bwhite onions?\b/g, "white onion")
+    .replace(/\bred onions?\b/g, "red onion")
+    .replace(/\bgreen onions?\b/g, "green onion")
+    .replace(/\bonions?\b/g, "onion");
+
+  // countable normalization
+  text = text
+    .replace(/\bcarrots?\b/g, "carrot")
+    .replace(/\beggs?\b/g, "egg")
+    .replace(/\bspinach leaves\b/g, "spinach");
+
+  // remove prep words, but keep meaningful descriptors like red/yellow/white/green onion
   const removeWords = [
     "small",
     "medium",
@@ -409,13 +438,18 @@ text = text.replace(/\bfreshly ground black pepper\b/g, "black pepper");
     text = text.replace(regex, " ");
   });
 
+  // special cleanup for quantity + common countables
+  text = text.replace(
+    /^\d*\.?\d+\s+(carrot|onion|red onion|yellow onion|white onion|green onion|egg|garlic|onion powder|garlic powder)\b/g,
+    "$1"
+  );
+
+  // final cleanup
   text = text.split(",")[0];
   text = text.replace(/^[-•*]\s*/, "");
+  text = text.replace(/\b(\w+)\s+\1\b/g, "$1");
   text = text.replace(/\s+/g, " ").trim();
   text = text.replace(/[:]+$/, "");
-
-  if (text === "salt and pepper") return "salt / pepper";
-  
 
   return text;
 }
