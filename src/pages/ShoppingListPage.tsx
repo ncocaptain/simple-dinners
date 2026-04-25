@@ -141,7 +141,7 @@ const ALWAYS_SHOW_MEASURED_TOTALS = new Set([
 
 const HIDE_MEASURED_TOTALS = new Set([
   "salt",
-  "pepper",
+  "black pepper",
   "garlic powder",
   "onion powder",
   "paprika",
@@ -326,6 +326,11 @@ function cleanIngredientName(line: string) {
   // normalize seasoning naming
   text = text.replace(/\bonion powders?\b/g, "onion powder");
   text = text.replace(/\bgarlic powders?\b/g, "garlic powder");
+
+  // normalize pepper variations
+text = text.replace(/\bpepper\b/g, "black pepper");
+text = text.replace(/\bground black pepper\b/g, "black pepper");
+text = text.replace(/\bfreshly ground black pepper\b/g, "black pepper");
 
   // singular normalization for some countables
   text = text.replace(/\bonions?\b/g, "onion");
