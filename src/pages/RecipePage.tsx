@@ -529,8 +529,12 @@ type RecipePageProps = {
 
 export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   const navigate = useNavigate();
-  const location = useLocation();
   const { slug = "" } = useParams();
+  const location = useLocation();
+
+useEffect(() => {
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+}, [location.pathname]);
 
   const RECIPE_TIPS = [
     "Select ingredients to add only what you need",
