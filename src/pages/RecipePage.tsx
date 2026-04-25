@@ -14,6 +14,8 @@ import {
   Timer,
   Moon,
   ChefHat,
+  StickyNote,
+  X,
 } from "lucide-react";
 
 import { getRecipeBySlug } from "../core/recipes";
@@ -579,6 +581,8 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   const [touchEndX, setTouchEndX] = useState<number | null>(null);
   const [keepAwake, setKeepAwake] = useState(false);
   const [userNote, setUserNote] = useState<string>("");
+  const [noteDraft, setNoteDraft] = useState<string>("");
+  const [noteModalOpen, setNoteModalOpen] = useState(false);
 
   const wakeLockRef = useRef<any>(null);
   const recipeNoteKey = recipe?.slug || recipe?.name || "";
@@ -655,7 +659,10 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   }, [recipe?.slug]);
 
   useEffect(() => {
-    setUserNote(getRecipeUserNote(recipeNoteKey));
+    const savedNote = getRecipeUserNote(recipeNoteKey);
+    setUserNote(savedNote);
+    setNoteDraft(savedNote);
+    setNoteModalOpen(false);
   }, [recipeNoteKey]);
 
   useEffect(() => {
@@ -889,16 +896,24 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   };
 
   function handleEditUserNote() {
-    const next =
-      window.prompt("Edit your note for this recipe:", userNote) ?? userNote;
+    setNoteDraft(userNote);
+    setNoteModalOpen(true);
+  }
 
+  function handleSaveUserNote() {
+    const next = noteDraft.trim();
     setUserNote(next);
-    setRecipeUserNote(recipeNoteKey, next.trim());
-    setSaveMessage("Personal note saved ✓");
+    setRecipeUserNote(recipeNoteKey, next);
+    setNoteModalOpen(false);
+    setSaveMessage(next ? "Personal note saved ✓" : "Personal note cleared");
+  }
 
-    window.setTimeout(() => {
-      setSaveMessage("");
-    }, 1800);
+  function handleClearUserNote() {
+    setNoteDraft("");
+    setUserNote("");
+    setRecipeUserNote(recipeNoteKey, "");
+    setNoteModalOpen(false);
+    setSaveMessage("Personal note cleared");
   }
 
   const handleAddToCookbook = () => {
@@ -1184,10 +1199,74 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
                 <Share2 size={16} />
                 Share
               </button>
+
+              <button
+                onClick={handleEditUserNote}
+                style={{
+                  ...topBtn,
+                  border: userNote.trim()
+                    ? "1px solid rgba(34,197,94,0.35)"
+                    : topBtn.border,
+                  background: userNote.trim()
+                    ? "rgba(34,197,94,0.10)"
+                    : topBtn.background,
+                  color: userNote.trim() ? "#86efac" : "white",
+                }}
+              >
+                <StickyNote size={16} />
+                {userNote.trim() ? "View Note" : "Add Note"}
+              </button>
             </div>
           </div>
 
           {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
+
+          {!!userNote.trim() && (
+            <button
+              type="button"
+              onClick={handleEditUserNote}
+              style={{
+                width: "100%",
+                textAlign: "left",
+                border: "1px solid rgba(34,197,94,0.22)",
+                background: "rgba(34,197,94,0.08)",
+                color: "white",
+                borderRadius: 16,
+                padding: "12px 14px",
+                cursor: "pointer",
+                display: "grid",
+                gap: 4,
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  color: "#86efac",
+                  fontSize: 12,
+                  fontWeight: 900,
+                  letterSpacing: 0.3,
+                }}
+              >
+                <StickyNote size={14} />
+                PERSONAL NOTE
+              </div>
+              <div
+                style={{
+                  fontSize: 13,
+                  lineHeight: 1.45,
+                  opacity: 0.9,
+                  overflow: "hidden",
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                }}
+              >
+                {userNote}
+              </div>
+            </button>
+          )}
         </>
       )}
 
@@ -1690,6 +1769,158 @@ export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
             </div>
           </div>
         </>
+      )}
+
+
+      {noteModalOpen && !printMode && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 1000,
+            background: "rgba(0,0,0,0.58)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 20,
+          }}
+          onClick={() => setNoteModalOpen(false)}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 520,
+              borderRadius: 24,
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(12,18,28,0.96)",
+              boxShadow: "0 24px 80px rgba(0,0,0,0.55)",
+              color: "white",
+              padding: 18,
+              display: "grid",
+              gap: 14,
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: 12,
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    fontWeight: 1000,
+                    fontSize: 18,
+                  }}
+                >
+                  <StickyNote size={18} />
+                  Personal Note
+                </div>
+                <div style={{ fontSize: 12, opacity: 0.6, marginTop: 4 }}>
+                  Save reminders, tweaks, or family preferences for this recipe.
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setNoteModalOpen(false)}
+                style={{
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  background: "rgba(255,255,255,0.04)",
+                  color: "white",
+                  width: 38,
+                  height: 38,
+                  borderRadius: 999,
+                  cursor: "pointer",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                }}
+                aria-label="Close note editor"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <textarea
+              value={noteDraft}
+              onChange={(e) => setNoteDraft(e.target.value)}
+              placeholder="Example: Add extra garlic next time, make sauce on the side, kids liked this one..."
+              autoFocus
+              rows={6}
+              style={{
+                width: "100%",
+                boxSizing: "border-box",
+                resize: "vertical",
+                borderRadius: 16,
+                border: "1px solid rgba(255,255,255,0.12)",
+                background: "rgba(255,255,255,0.05)",
+                color: "white",
+                padding: 14,
+                fontSize: 15,
+                lineHeight: 1.45,
+                outline: "none",
+                fontFamily: "inherit",
+              }}
+            />
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                gap: 10,
+                flexWrap: "wrap",
+              }}
+            >
+              <button
+                type="button"
+                onClick={handleClearUserNote}
+                disabled={!userNote.trim() && !noteDraft.trim()}
+                style={{
+                  ...topBtn,
+                  opacity: !userNote.trim() && !noteDraft.trim() ? 0.45 : 1,
+                }}
+              >
+                Clear Note
+              </button>
+
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNoteDraft(userNote);
+                    setNoteModalOpen(false);
+                  }}
+                  style={topBtn}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleSaveUserNote}
+                  style={{
+                    ...topBtn,
+                    border: "1px solid rgba(34,197,94,0.45)",
+                    background: "rgba(34,197,94,0.12)",
+                    color: "#86efac",
+                  }}
+                >
+                  Save Note
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   </div>
