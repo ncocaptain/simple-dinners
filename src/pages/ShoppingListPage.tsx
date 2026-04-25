@@ -410,19 +410,42 @@ function removeRecipeStylePhrases(text: string) {
 
 function normalizePantryAndSeasonings(text: string) {
   const cleaned = cleanupSpacing(text);
+
   if (cleaned === "salt and pepper") return "salt / pepper";
 
   return text
-    .replace(/\bfreshly ground black pepper\b/g, "black pepper")
-    .replace(/\bground black pepper\b/g, "black pepper")
+    // ✅ ONLY normalize actual black pepper references
+    .replace(/\bfreshly ground pepper\b/g, "black pepper")
+    .replace(/\bground pepper\b/g, "black pepper")
     .replace(/\bblack pepper\b/g, "black pepper")
-    .replace(/\bpepper\b/g, "black pepper")
+
+    // ❌ DO NOT touch these (prevents "green bell black pepper")
+    .replace(/\bgreen bell pepper\b/g, "green bell pepper")
+    .replace(/\bred bell pepper\b/g, "red bell pepper")
+    .replace(/\byellow bell pepper\b/g, "yellow bell pepper")
+    .replace(/\bjalapeno pepper\b/g, "jalapeno")
+    .replace(/\bcayenne pepper\b/g, "cayenne")
+    .replace(/\bred pepper flakes\b/g, "red pepper flakes")
+
+    // ❌ Remove fallback "pepper → black pepper" (this caused your bug)
+
     .replace(/\bblack black pepper\b/g, "black pepper")
+
+    // seasoning cleanup
     .replace(/\bonion powders?\b/g, "onion powder")
     .replace(/\bgarlic powders?\b/g, "garlic powder")
     .replace(/\bsmoked paprika\b/g, "paprika")
     .replace(/\bpaprikas\b/g, "paprika")
     .replace(/\bchile powder\b/g, "chili powder");
+}
+
+function removeNonShoppingItems(text: string) {
+  return text
+    .replace(/\bwater\b/g, "")
+    .replace(/\bice\b/g, "")
+    .replace(/\s*\+\s*/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function normalizeProduce(text: string) {
@@ -445,7 +468,10 @@ function normalizeProduce(text: string) {
     .replace(/\bparsley leaves?\b/g, "parsley")
     .replace(/\bjalapeños?\b/g, "jalapeno")
     .replace(/\bjalapenos?\b/g, "jalapeno")
-    .replace(/\bjalapeno peppers?\b/g, "jalapeno");
+    .replace(/\bjalapeno peppers?\b/g, "jalapeno")
+    .replace(/\bjuice of (\d+ )?lemons?\b/g, "lemon")
+.replace(/\blemon juice\b/g, "lemon")
+.replace(/\blemon zest\b/g, "lemon");
 }
 
 function normalizeProteinsAndBakery(text: string) {
@@ -456,7 +482,9 @@ function normalizeProteinsAndBakery(text: string) {
     .replace(/\bchicken breasts?\b/g, "chicken breast")
     .replace(/\bchicken thighs?\b/g, "chicken thigh")
     .replace(/\bdrumsticks?\b/g, "drumstick")
-    .replace(/\bpork chops?\b/g, "pork chop");
+    .replace(/\bpork chops?\b/g, "pork chop")
+    .replace(/\blean ground beef\b/g, "ground beef")
+.replace(/\bextra lean ground beef\b/g, "ground beef");
 }
 
 function normalizeDairyAndCheese(text: string) {
@@ -496,12 +524,18 @@ function removePrepWords(text: string) {
 
 function normalizeIngredientText(text: string) {
   let next = text;
+
   next = normalizePantryAndSeasonings(next);
   next = normalizeProduce(next);
   next = normalizeProteinsAndBakery(next);
   next = normalizeDairyAndCheese(next);
   next = normalizeMushrooms(next);
+
+  // ✅ NEW
+  next = removeNonShoppingItems(next);
+
   next = removePrepWords(next);
+
   return next;
 }
 
@@ -533,6 +567,9 @@ function cleanIngredientName(line: string) {
     /^\d*\.?\d+\s+(carrot|onion|red onion|yellow onion|white onion|green onion|egg|garlic|jalapeno|mint|onion powder|garlic powder)\b/g,
     "$1"
   );
+
+  // remove "or ..." phrasing
+text = text.replace(/\bor\s+[a-z\s]+/g, "");
 
   // final cleanup
   text = text.split(",")[0];
@@ -707,6 +744,9 @@ function resolveShoppingCategory(name: string): GroceryCategory {
   if (forcedSpices.has(cleaned)) {
     return "Spices" as GroceryCategory;
   }
+  if (cleaned === "salt / pepper") {
+  return null as any; // will be filtered out
+}
 
   return categorizeGroceryItem(cleaned);
 }
@@ -861,13 +901,16 @@ export default function ShoppingListPage() {
         mixedUnits: boolean;
         recipeNames: Set<string>;
       }
+
+      
     >();
 
     for (const item of shoppingItems) {
-      const cleanedRaw = cleanIngredientName(item.text);
-      const parsed = parseIngredient(cleanedRaw);
-      const cleanedName = parsed.name || cleanedRaw;
-      if (!cleanedName) continue;
+  const cleanedRaw = cleanIngredientName(item.text);
+  const parsed = parseIngredient(cleanedRaw);
+  const cleanedName = parsed.name || cleanedRaw;
+
+  if (!cleanedName || cleanedName === "salt / pepper") continue;
 
       const isMeasured = parsed.unit !== null && parsed.unit !== "__count__";
 const isCountable = !isMeasured && isCountableIngredient(cleanedName);
