@@ -411,25 +411,34 @@ function removeRecipeStylePhrases(text: string) {
 function normalizePantryAndSeasonings(text: string) {
   const cleaned = cleanupSpacing(text);
 
-  if (cleaned === "salt and pepper") return "salt / pepper";
+  if (cleaned === "salt and pepper" || cleaned === "salt and black pepper") {
+    return "salt / pepper";
+  }
 
   return text
-    // ✅ ONLY normalize actual black pepper references
+    // repair previously saved bad pepper names
+    .replace(/\bgreen bell black pepper\b/g, "green bell pepper")
+    .replace(/\bred bell black pepper\b/g, "red bell pepper")
+    .replace(/\byellow bell black pepper\b/g, "yellow bell pepper")
+    .replace(/\bcayenne black pepper\b/g, "cayenne pepper")
+    .replace(/\bred black pepper flakes\b/g, "red pepper flakes")
+    .replace(/\bsalt and black pepper\b/g, "salt / pepper")
+
+    // normalize only true black pepper references
+    .replace(/\bfreshly ground black pepper\b/g, "black pepper")
+    .replace(/\bground black pepper\b/g, "black pepper")
     .replace(/\bfreshly ground pepper\b/g, "black pepper")
     .replace(/\bground pepper\b/g, "black pepper")
     .replace(/\bblack pepper\b/g, "black pepper")
+    .replace(/\bblack black pepper\b/g, "black pepper")
 
-    // ❌ DO NOT touch these (prevents "green bell black pepper")
+    // keep these as their own real ingredients
     .replace(/\bgreen bell pepper\b/g, "green bell pepper")
     .replace(/\bred bell pepper\b/g, "red bell pepper")
     .replace(/\byellow bell pepper\b/g, "yellow bell pepper")
     .replace(/\bjalapeno pepper\b/g, "jalapeno")
-    .replace(/\bcayenne pepper\b/g, "cayenne")
+    .replace(/\bcayenne pepper\b/g, "cayenne pepper")
     .replace(/\bred pepper flakes\b/g, "red pepper flakes")
-
-    // ❌ Remove fallback "pepper → black pepper" (this caused your bug)
-
-    .replace(/\bblack black pepper\b/g, "black pepper")
 
     // seasoning cleanup
     .replace(/\bonion powders?\b/g, "onion powder")
@@ -439,17 +448,13 @@ function normalizePantryAndSeasonings(text: string) {
     .replace(/\bchile powder\b/g, "chili powder");
 }
 
-function removeNonShoppingItems(text: string) {
-  return text
-    .replace(/\bwater\b/g, "")
-    .replace(/\bice\b/g, "")
-    .replace(/\s*\+\s*/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
 function normalizeProduce(text: string) {
   return text
+    .replace(/\bjuice of (\d+ )?lemons?\b/g, "lemon")
+    .replace(/\blemon juice\b/g, "lemon")
+    .replace(/\blemon zest\b/g, "lemon")
+    .replace(/\bsweet potatoes\b/g, "sweet potato")
+    .replace(/\bsweet potatoe\b/g, "sweet potato")
     .replace(/\bgarlic cloves?\b/g, "garlic")
     .replace(/\bcloves? garlic\b/g, "garlic")
     .replace(/\bminced garlic\b/g, "garlic")
@@ -468,23 +473,20 @@ function normalizeProduce(text: string) {
     .replace(/\bparsley leaves?\b/g, "parsley")
     .replace(/\bjalapeños?\b/g, "jalapeno")
     .replace(/\bjalapenos?\b/g, "jalapeno")
-    .replace(/\bjalapeno peppers?\b/g, "jalapeno")
-    .replace(/\bjuice of (\d+ )?lemons?\b/g, "lemon")
-.replace(/\blemon juice\b/g, "lemon")
-.replace(/\blemon zest\b/g, "lemon");
+    .replace(/\bjalapeno peppers?\b/g, "jalapeno");
 }
 
 function normalizeProteinsAndBakery(text: string) {
   return text
+    .replace(/\bextra lean ground beef\b/g, "ground beef")
+    .replace(/\blean ground beef\b/g, "ground beef")
     .replace(/\bhot dog buns?\b/g, "hot dog bun")
     .replace(/\bhot dogs?\b/g, "hot dog")
     .replace(/\bhamburger buns?\b/g, "hamburger bun")
     .replace(/\bchicken breasts?\b/g, "chicken breast")
     .replace(/\bchicken thighs?\b/g, "chicken thigh")
     .replace(/\bdrumsticks?\b/g, "drumstick")
-    .replace(/\bpork chops?\b/g, "pork chop")
-    .replace(/\blean ground beef\b/g, "ground beef")
-.replace(/\bextra lean ground beef\b/g, "ground beef");
+    .replace(/\bpork chops?\b/g, "pork chop");
 }
 
 function normalizeDairyAndCheese(text: string) {
@@ -522,20 +524,24 @@ function removePrepWords(text: string) {
   return next;
 }
 
+function removeNonShoppingItems(text: string) {
+  return text
+    .replace(/\bwater\b/g, "")
+    .replace(/\bice\b/g, "")
+    .replace(/\s*\+\s*/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function normalizeIngredientText(text: string) {
   let next = text;
-
   next = normalizePantryAndSeasonings(next);
   next = normalizeProduce(next);
   next = normalizeProteinsAndBakery(next);
   next = normalizeDairyAndCheese(next);
   next = normalizeMushrooms(next);
-
-  // ✅ NEW
   next = removeNonShoppingItems(next);
-
   next = removePrepWords(next);
-
   return next;
 }
 
@@ -568,8 +574,8 @@ function cleanIngredientName(line: string) {
     "$1"
   );
 
-  // remove "or ..." phrasing
-text = text.replace(/\bor\s+[a-z\s]+/g, "");
+  // remove loose alternate phrasing like "or pickled"
+  text = text.replace(/\bor\s+[a-z\s]+/g, "");
 
   // final cleanup
   text = text.split(",")[0];
@@ -744,11 +750,35 @@ function resolveShoppingCategory(name: string): GroceryCategory {
   if (forcedSpices.has(cleaned)) {
     return "Spices" as GroceryCategory;
   }
-  if (cleaned === "salt / pepper") {
-  return null as any; // will be filtered out
-}
 
   return categorizeGroceryItem(cleaned);
+}
+
+function shouldHideShoppingItem(name: string) {
+  const cleaned = cleanIngredientName(name).toLowerCase();
+
+  return (
+    !cleaned ||
+    [
+      "salt / pepper",
+      "salt and pepper",
+      "salt and black pepper",
+      "water",
+      "ice",
+      "cup",
+      "cups",
+      "tsp",
+      "tbsp",
+      "oz",
+      "lb",
+      "can",
+      "cans",
+      "box",
+      "boxes",
+      "package",
+      "packages",
+    ].includes(cleaned)
+  );
 }
 
 // =====================================================
@@ -901,16 +931,13 @@ export default function ShoppingListPage() {
         mixedUnits: boolean;
         recipeNames: Set<string>;
       }
-
-      
     >();
 
     for (const item of shoppingItems) {
-  const cleanedRaw = cleanIngredientName(item.text);
-  const parsed = parseIngredient(cleanedRaw);
-  const cleanedName = parsed.name || cleanedRaw;
-
-  if (!cleanedName || cleanedName === "salt / pepper") continue;
+      const cleanedRaw = cleanIngredientName(item.text);
+      const parsed = parseIngredient(cleanedRaw);
+      const cleanedName = parsed.name || cleanedRaw;
+      if (shouldHideShoppingItem(cleanedName)) continue;
 
       const isMeasured = parsed.unit !== null && parsed.unit !== "__count__";
 const isCountable = !isMeasured && isCountableIngredient(cleanedName);
