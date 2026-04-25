@@ -7,6 +7,7 @@ import {
   Circle,
   Eye,
   EyeOff,
+  Pencil,
 } from "lucide-react";
 import Card from "../components/Card";
 import {
@@ -572,6 +573,9 @@ export default function ShoppingListPage() {
   );
   const [hideChecked, setHideChecked] = useState(false);
   const [touchStartX, setTouchStartX] = useState<Record<string, number>>({});
+  const [editModalOpen, setEditModalOpen] = useState(false);
+const [editText, setEditText] = useState("");
+const [editingGroup, setEditingGroup] = useState<CombinedItem | null>(null);
 
   // =====================================================
   // Refresh list when returning to page
@@ -846,6 +850,36 @@ const maxQuantityToAdd =
     })).filter((group) => group.items.length > 0);
   }, [combinedItems, hideChecked]);
 
+  const openEditItem = (group: CombinedItem) => {
+  setEditingGroup(group);
+  setEditText(group.displayText); // prefill
+  setEditModalOpen(true);
+};
+
+const handleSaveEditItem = () => {
+  const trimmed = editText.trim();
+  if (!trimmed || !editingGroup) return;
+
+  const updated = shoppingItems.map((item) =>
+    editingGroup.sourceIds.includes(item.id)
+      ? {
+          ...item,
+          text: trimmed,
+          category: categorizeGroceryItem(trimmed),
+        }
+      : item
+  );
+
+  persistShoppingItems(updated);
+  setEditModalOpen(false);
+  setEditingGroup(null);
+};
+
+const handleCloseEditModal = () => {
+  setEditModalOpen(false);
+  setEditingGroup(null);
+};
+
   // =====================================================
   // Render
   // =====================================================
@@ -1102,27 +1136,48 @@ const maxQuantityToAdd =
                     </span>
                   </div>
 
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteItemGroup(item);
-                    }}
-                    style={{
-                      background: "none",
-                      border: "none",
-                      color: "#ef4444",
-                      opacity: 0.55,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: 0,
-                      flexShrink: 0,
-                    }}
-                    aria-label={`Delete ${item.displayText}`}
-                    title="Delete item"
-                  >
-                    <Trash2 size={16} />
-                  </button>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+  <button
+    onClick={(e) => {
+      e.stopPropagation();
+      openEditItem(item);
+    }}
+    style={{
+      background: "none",
+      border: "none",
+      color: "white",
+      opacity: 0.5,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 0,
+    }}
+    title="Edit item"
+  >
+    <Pencil size={16} />
+  </button>
+
+  <button
+    onClick={(e) => {
+      e.stopPropagation();
+      deleteItemGroup(item);
+    }}
+    style={{
+      background: "none",
+      border: "none",
+      color: "#ef4444",
+      opacity: 0.55,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 0,
+    }}
+    aria-label={`Delete ${item.displayText}`}
+    title="Delete item"
+  >
+    <Trash2 size={16} />
+  </button>
+</div>
                 </div>
               ))}
             </div>
@@ -1137,6 +1192,58 @@ const maxQuantityToAdd =
             </div>
           </div>
         )}
+
+        {editModalOpen && (
+  <div
+    style={{
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,0.5)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 1000,
+      padding: 20,
+    }}
+  >
+    <div
+      style={{
+        width: "100%",
+        maxWidth: 420,
+        background: "#111",
+        borderRadius: 20,
+        padding: 20,
+        display: "grid",
+        gap: 12,
+        border: "1px solid rgba(255,255,255,0.1)",
+      }}
+    >
+      <div style={{ fontWeight: 900 }}>Edit Item</div>
+
+      <input
+        value={editText}
+        onChange={(e) => setEditText(e.target.value)}
+        style={{
+          width: "100%",
+          padding: 12,
+          borderRadius: 12,
+          border: "1px solid rgba(255,255,255,0.1)",
+          background: "rgba(255,255,255,0.05)",
+          color: "white",
+        }}
+      />
+
+      <div style={{ display: "flex", gap: 10 }}>
+        <button onClick={handleSaveEditItem} style={{ flex: 1 }}>
+          Save
+        </button>
+        <button onClick={handleCloseEditModal} style={{ flex: 1 }}>
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
       </div>
     </div>
   );
