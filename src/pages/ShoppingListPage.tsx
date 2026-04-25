@@ -8,6 +8,7 @@ import {
   Eye,
   EyeOff,
   Pencil,
+  X,
 } from "lucide-react";
 import Card from "../components/Card";
 import {
@@ -574,8 +575,8 @@ export default function ShoppingListPage() {
   const [hideChecked, setHideChecked] = useState(false);
   const [touchStartX, setTouchStartX] = useState<Record<string, number>>({});
   const [editModalOpen, setEditModalOpen] = useState(false);
-const [editText, setEditText] = useState("");
-const [editingGroup, setEditingGroup] = useState<CombinedItem | null>(null);
+  const [editText, setEditText] = useState("");
+  const [editingGroup, setEditingGroup] = useState<CombinedItem | null>(null);
 
   // =====================================================
   // Refresh list when returning to page
@@ -851,34 +852,36 @@ const maxQuantityToAdd =
   }, [combinedItems, hideChecked]);
 
   const openEditItem = (group: CombinedItem) => {
-  setEditingGroup(group);
-  setEditText(group.displayText); // prefill
-  setEditModalOpen(true);
-};
+    setEditingGroup(group);
+    setEditText(group.displayText);
+    setEditModalOpen(true);
+  };
 
-const handleSaveEditItem = () => {
-  const trimmed = editText.trim();
-  if (!trimmed || !editingGroup) return;
+  const handleSaveEditItem = () => {
+    const trimmed = editText.trim();
+    if (!trimmed || !editingGroup) return;
 
-  const updated = shoppingItems.map((item) =>
-    editingGroup.sourceIds.includes(item.id)
-      ? {
-          ...item,
-          text: trimmed,
-          category: categorizeGroceryItem(trimmed),
-        }
-      : item
-  );
+    const updated = shoppingItems.map((item) =>
+      editingGroup.sourceIds.includes(item.id)
+        ? {
+            ...item,
+            text: trimmed,
+            category: categorizeGroceryItem(trimmed),
+          }
+        : item
+    );
 
-  persistShoppingItems(updated);
-  setEditModalOpen(false);
-  setEditingGroup(null);
-};
+    persistShoppingItems(updated);
+    setEditModalOpen(false);
+    setEditingGroup(null);
+    setEditText("");
+  };
 
-const handleCloseEditModal = () => {
-  setEditModalOpen(false);
-  setEditingGroup(null);
-};
+  const handleCloseEditModal = () => {
+    setEditModalOpen(false);
+    setEditingGroup(null);
+    setEditText("");
+  };
 
   // =====================================================
   // Render
@@ -1136,48 +1139,57 @@ const handleCloseEditModal = () => {
                     </span>
                   </div>
 
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-  <button
-    onClick={(e) => {
-      e.stopPropagation();
-      openEditItem(item);
-    }}
-    style={{
-      background: "none",
-      border: "none",
-      color: "white",
-      opacity: 0.5,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: 0,
-    }}
-    title="Edit item"
-  >
-    <Pencil size={16} />
-  </button>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openEditItem(item);
+                      }}
+                      style={{
+                        width: 32,
+                        height: 32,
+                        borderRadius: 999,
+                        background: "rgba(255,255,255,0.04)",
+                        border: "1px solid rgba(255,255,255,0.08)",
+                        color: "white",
+                        opacity: 0.7,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: 0,
+                        flexShrink: 0,
+                      }}
+                      aria-label={`Edit ${item.displayText}`}
+                      title="Edit item"
+                    >
+                      <Pencil size={15} />
+                    </button>
 
-  <button
-    onClick={(e) => {
-      e.stopPropagation();
-      deleteItemGroup(item);
-    }}
-    style={{
-      background: "none",
-      border: "none",
-      color: "#ef4444",
-      opacity: 0.55,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: 0,
-    }}
-    aria-label={`Delete ${item.displayText}`}
-    title="Delete item"
-  >
-    <Trash2 size={16} />
-  </button>
-</div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteItemGroup(item);
+                      }}
+                      style={{
+                        width: 32,
+                        height: 32,
+                        borderRadius: 999,
+                        background: "rgba(239,68,68,0.08)",
+                        border: "1px solid rgba(239,68,68,0.14)",
+                        color: "#ef4444",
+                        opacity: 0.75,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: 0,
+                        flexShrink: 0,
+                      }}
+                      aria-label={`Delete ${item.displayText}`}
+                      title="Delete item"
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -1194,56 +1206,150 @@ const handleCloseEditModal = () => {
         )}
 
         {editModalOpen && (
-  <div
-    style={{
-      position: "fixed",
-      inset: 0,
-      background: "rgba(0,0,0,0.5)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      zIndex: 1000,
-      padding: 20,
-    }}
-  >
-    <div
-      style={{
-        width: "100%",
-        maxWidth: 420,
-        background: "#111",
-        borderRadius: 20,
-        padding: 20,
-        display: "grid",
-        gap: 12,
-        border: "1px solid rgba(255,255,255,0.1)",
-      }}
-    >
-      <div style={{ fontWeight: 900 }}>Edit Item</div>
+          <div
+            onClick={handleCloseEditModal}
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(0,0,0,0.55)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 1000,
+              padding: 20,
+              backdropFilter: "blur(6px)",
+            }}
+          >
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSaveEditItem();
+              }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                width: "100%",
+                maxWidth: 420,
+                background: "rgba(17,17,17,0.96)",
+                borderRadius: 22,
+                padding: 20,
+                display: "grid",
+                gap: 14,
+                border: "1px solid rgba(255,255,255,0.12)",
+                boxShadow: "0 24px 80px rgba(0,0,0,0.55)",
+                transform: "scale(1)",
+                transition: "all 0.2s ease",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: 12,
+                }}
+              >
+                <div style={{ display: "grid", gap: 3 }}>
+                  <div style={{ fontSize: 18, fontWeight: 900 }}>Edit Item</div>
+                  <div style={{ fontSize: 12, opacity: 0.55 }}>
+                    Update the item name or quantity.
+                  </div>
+                </div>
 
-      <input
-        value={editText}
-        onChange={(e) => setEditText(e.target.value)}
-        style={{
-          width: "100%",
-          padding: 12,
-          borderRadius: 12,
-          border: "1px solid rgba(255,255,255,0.1)",
-          background: "rgba(255,255,255,0.05)",
-          color: "white",
-        }}
-      />
+                <button
+                  type="button"
+                  onClick={handleCloseEditModal}
+                  style={{
+                    width: 34,
+                    height: 34,
+                    borderRadius: 999,
+                    background: "rgba(255,255,255,0.06)",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    color: "white",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: 0,
+                    flexShrink: 0,
+                  }}
+                  aria-label="Close edit item"
+                  title="Close"
+                >
+                  <X size={17} />
+                </button>
+              </div>
 
-      <div style={{ display: "flex", gap: 10 }}>
-        <button onClick={handleSaveEditItem} style={{ flex: 1 }}>
-          Save
-        </button>
-        <button onClick={handleCloseEditModal} style={{ flex: 1 }}>
-          Cancel
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+              <input
+                autoFocus
+                value={editText}
+                onChange={(e) => setEditText(e.target.value)}
+                placeholder="Example: 2 red onions"
+                style={{
+                  width: "100%",
+                  boxSizing: "border-box",
+                  padding: "14px 16px",
+                  borderRadius: 14,
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  background: "rgba(255,255,255,0.06)",
+                  color: "white",
+                  outline: "none",
+                  fontSize: 15,
+                  transition: "border 0.18s ease, box-shadow 0.18s ease",
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.border =
+                    "1px solid rgba(34,197,94,0.55)";
+                  e.currentTarget.style.boxShadow =
+                    "0 0 0 4px rgba(34,197,94,0.08)";
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.border =
+                    "1px solid rgba(255,255,255,0.12)";
+                  e.currentTarget.style.boxShadow = "none";
+                }}
+              />
+
+              <div style={{ display: "flex", gap: 10, marginTop: 2 }}>
+                <button
+                  type="submit"
+                  disabled={!editText.trim()}
+                  style={{
+                    flex: 1,
+                    padding: "12px 14px",
+                    borderRadius: 14,
+                    background: editText.trim()
+                      ? "rgba(34,197,94,0.15)"
+                      : "rgba(255,255,255,0.04)",
+                    border: editText.trim()
+                      ? "1px solid rgba(34,197,94,0.35)"
+                      : "1px solid rgba(255,255,255,0.08)",
+                    color: editText.trim() ? "#86efac" : "rgba(255,255,255,0.35)",
+                    fontWeight: 900,
+                    cursor: editText.trim() ? "pointer" : "not-allowed",
+                  }}
+                >
+                  Save
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleCloseEditModal}
+                  style={{
+                    flex: 1,
+                    padding: "12px 14px",
+                    borderRadius: 14,
+                    background: "rgba(255,255,255,0.06)",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    color: "white",
+                    opacity: 0.82,
+                    fontWeight: 800,
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );
