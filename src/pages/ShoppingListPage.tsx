@@ -84,6 +84,10 @@ const COUNTABLE_BASE_WORDS = new Set([
   "jalapeno",
   "jalapeño",
   "clove",
+  "green bell pepper",
+"red bell pepper",
+"yellow bell pepper",
+"bell pepper",
 ]);
 
 const COUNTABLE_PHRASES: Record<string, string> = {
@@ -115,6 +119,10 @@ const COUNTABLE_PHRASES: Record<string, string> = {
   "pork chops": "pork chop",
   "hamburger buns": "hamburger bun",
   "hot dog buns": "hot dog bun",
+  "green bell peppers": "green bell pepper",
+"red bell peppers": "red bell pepper",
+"yellow bell peppers": "yellow bell pepper",
+"bell peppers": "bell pepper",
 };
 
 // =====================================================
@@ -141,6 +149,7 @@ const ALWAYS_SHOW_MEASURED_TOTALS = new Set([
   "rice",
   "pasta",
   "manicotti shells",
+  "baby bella mushrooms"
 ]);
 
 const HIDE_MEASURED_TOTALS = new Set([
@@ -153,7 +162,6 @@ const HIDE_MEASURED_TOTALS = new Set([
   "cumin",
   "chili powder",
   "oregano",
-  "baby bella mushrooms",
   "simple syrup",
 ]);
 
@@ -416,7 +424,6 @@ function normalizePantryAndSeasonings(text: string) {
   }
 
   return text
-    // repair previously saved bad pepper names
     .replace(/\bgreen bell black pepper\b/g, "green bell pepper")
     .replace(/\bred bell black pepper\b/g, "red bell pepper")
     .replace(/\byellow bell black pepper\b/g, "yellow bell pepper")
@@ -424,23 +431,32 @@ function normalizePantryAndSeasonings(text: string) {
     .replace(/\bred black pepper flakes\b/g, "red pepper flakes")
     .replace(/\bsalt and black pepper\b/g, "salt / pepper")
 
-    // normalize only true black pepper references
     .replace(/\bfreshly ground black pepper\b/g, "black pepper")
     .replace(/\bground black pepper\b/g, "black pepper")
     .replace(/\bfreshly ground pepper\b/g, "black pepper")
     .replace(/\bground pepper\b/g, "black pepper")
-    .replace(/\bblack pepper\b/g, "black pepper")
     .replace(/\bblack black pepper\b/g, "black pepper")
 
-    // keep these as their own real ingredients
-    .replace(/\bgreen bell pepper\b/g, "green bell pepper")
-    .replace(/\bred bell pepper\b/g, "red bell pepper")
-    .replace(/\byellow bell pepper\b/g, "yellow bell pepper")
-    .replace(/\bjalapeno pepper\b/g, "jalapeno")
-    .replace(/\bcayenne pepper\b/g, "cayenne pepper")
-    .replace(/\bred pepper flakes\b/g, "red pepper flakes")
+    .replace(/\bpepper\b/g, (match, offset, full) => {
+      const before = full.slice(0, offset).trimEnd();
+      const after = full.slice(offset + match.length).trimStart();
 
-    // seasoning cleanup
+      if (
+        before.endsWith("bell") ||
+        before.endsWith("cayenne") ||
+        before.endsWith("red") ||
+        before.endsWith("green") ||
+        before.endsWith("yellow") ||
+        after.startsWith("flakes")
+      ) {
+        return match;
+      }
+
+      return "black pepper";
+    })
+
+    .replace(/\bblack black pepper\b/g, "black pepper")
+    .replace(/\bjalapeno pepper\b/g, "jalapeno")
     .replace(/\bonion powders?\b/g, "onion powder")
     .replace(/\bgarlic powders?\b/g, "garlic powder")
     .replace(/\bsmoked paprika\b/g, "paprika")
