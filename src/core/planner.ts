@@ -488,13 +488,13 @@ export function getPlannerScore(
   }
 
   // Cookbook meals should win more often than built-ins
-  if (tags.includes("cookbook")) score += 25;
+  if (tags.includes("cookbook")) score += 15;
 
   
   const recentCategories = usedCategories.slice(-2);
 
   if (recentCategories.includes(category)) {
-    score -= 4;
+    score -= 8;
   }
 
   if (
@@ -502,7 +502,7 @@ export function getPlannerScore(
     recentCategories[0] === recentCategories[1] &&
     recentCategories[0] === category
   ) {
-    score -= 6;
+    score -= 10;
   }
 
   const todaySeed = getTodaySeed();
