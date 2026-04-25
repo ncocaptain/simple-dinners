@@ -150,6 +150,7 @@ const HIDE_MEASURED_TOTALS = new Set([
   "chili powder",
   "oregano",
   "baby bella mushrooms",
+  "simple syrup",
 ]);
 
 // =====================================================
@@ -313,61 +314,146 @@ function pluralizeCountable(name: string, quantity: number): string {
 // This is where recipe-style ingredient lines get cleaned
 // into shopper-friendly names
 // =====================================================
-function cleanIngredientName(line: string) {
-  let text = line.toLowerCase().trim();
+const SECTION_HEADER_PATTERNS = [
+  /seasoning:?$/,
+  /sauce:?$/,
+  /glaze:?$/,
+  /topping:?$/,
+  /toppings:?$/,
+  /marinade:?$/,
+  /dressing:?$/,
+  /filling:?$/,
+];
 
-  text = text.replace(/^[/\\\-–—]+\s*/, "");
-  text = text.replace(/\([^)]*\)/g, " ");
+const RECIPE_STYLE_PHRASES = [
+  "to taste",
+  "as needed",
+  "optional",
+  "for garnish",
+  "plus more for garnish",
+  "divided",
+  "stems removed",
+  "seeds removed",
+  "for topping",
+  "for serving",
+  "serve with",
+  "if desired",
+  "if using",
+];
 
-  // remove recipe-style phrases early
-  const removePhrases = [
-    "to taste",
-    "as needed",
-    "optional",
-    "for garnish",
-    "plus more for garnish",
-    "divided",
-    "stems removed",
-    "seeds removed",
-    "for topping",
-    "for serving",
-    "serve with",
-  ];
+const PREP_WORDS = [
+  "small",
+  "medium",
+  "large",
+  "extra-large",
+  "fresh",
+  "freshly",
+  "thin",
+  "thinly",
+  "thick",
+  "thickly",
+  "finely",
+  "roughly",
+  "chopped",
+  "diced",
+  "minced",
+  "sliced",
+  "halved",
+  "cubed",
+  "shredded",
+  "grated",
+  "peeled",
+  "crushed",
+  "softened",
+  "melted",
+  "beaten",
+  "drained",
+  "rinsed",
+  "packed",
+  "whole",
+  "boneless",
+  "skinless",
+  "ripe",
+  "trimmed",
+  "thawed",
+];
 
-  removePhrases.forEach((phrase) => {
-    text = text.replaceAll(phrase, " ");
+function cleanupSpacing(text: string) {
+  return text
+    .replace(/^[-•*]\s*/, "")
+    .replace(/\b(\w+)\s+\1\b/g, "$1")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/[:]+$/, "");
+}
+
+function isSectionHeader(text: string) {
+  const cleaned = cleanupSpacing(text.toLowerCase());
+  if (!cleaned) return true;
+  if (text.trim().endsWith(":")) return true;
+  return SECTION_HEADER_PATTERNS.some((pattern) => pattern.test(cleaned));
+}
+
+function removeRecipeStylePhrases(text: string) {
+  let next = text;
+  RECIPE_STYLE_PHRASES.forEach((phrase) => {
+    next = next.replaceAll(phrase, " ");
   });
+  return next;
+}
 
-  // common pantry / seasoning normalization
-  if (text.trim() === "salt and pepper") return "salt / pepper";
+function normalizePantryAndSeasonings(text: string) {
+  const cleaned = cleanupSpacing(text);
+  if (cleaned === "salt and pepper") return "salt / pepper";
 
-  text = text
+  return text
     .replace(/\bfreshly ground black pepper\b/g, "black pepper")
     .replace(/\bground black pepper\b/g, "black pepper")
     .replace(/\bblack pepper\b/g, "black pepper")
     .replace(/\bpepper\b/g, "black pepper")
-    .replace(/\bblack black pepper\b/g, "black pepper");
-
-  text = text
+    .replace(/\bblack black pepper\b/g, "black pepper")
     .replace(/\bonion powders?\b/g, "onion powder")
     .replace(/\bgarlic powders?\b/g, "garlic powder")
     .replace(/\bsmoked paprika\b/g, "paprika")
-    .replace(/\bpaprikas\b/g, "paprika");
+    .replace(/\bpaprikas\b/g, "paprika")
+    .replace(/\bchile powder\b/g, "chili powder");
+}
 
-  // garlic normalization
-  text = text
+function normalizeProduce(text: string) {
+  return text
     .replace(/\bgarlic cloves?\b/g, "garlic")
     .replace(/\bcloves? garlic\b/g, "garlic")
     .replace(/\bminced garlic\b/g, "garlic")
-    .replace(/\bgarlic, minced\b/g, "garlic");
+    .replace(/\bgarlic, minced\b/g, "garlic")
+    .replace(/\byellow onions?\b/g, "yellow onion")
+    .replace(/\bwhite onions?\b/g, "white onion")
+    .replace(/\bred onions?\b/g, "red onion")
+    .replace(/\bgreen onions?\b/g, "green onion")
+    .replace(/\bonions?\b/g, "onion")
+    .replace(/\bcarrots?\b/g, "carrot")
+    .replace(/\beggs?\b/g, "egg")
+    .replace(/\bspinach leaves\b/g, "spinach")
+    .replace(/\bmint leaves?\b/g, "mint")
+    .replace(/\bmint sprigs?\b/g, "mint")
+    .replace(/\bcilantro leaves?\b/g, "cilantro")
+    .replace(/\bparsley leaves?\b/g, "parsley")
+    .replace(/\bjalapeños?\b/g, "jalapeno")
+    .replace(/\bjalapenos?\b/g, "jalapeno");
+}
 
-  // mushroom normalization
-  text = text
-    .replace(/\bcremini mushrooms?\b/g, "baby bella mushrooms")
-    .replace(/\bbaby bella mushrooms?\b/g, "baby bella mushrooms");
+function normalizeProteinsAndBakery(text: string) {
+  return text
+    .replace(/\bhot dog buns?\b/g, "hot dog bun")
+    .replace(/\bhot dogs?\b/g, "hot dog")
+    .replace(/\bhamburger buns?\b/g, "hamburger bun")
+    .replace(/\bchicken breasts?\b/g, "chicken breast")
+    .replace(/\bchicken thighs?\b/g, "chicken thigh")
+    .replace(/\bdrumsticks?\b/g, "drumstick")
+    .replace(/\bpork chops?\b/g, "pork chop");
+}
 
-  // cheese normalization
-  text = text
+function normalizeDairyAndCheese(text: string) {
+  return text
     .replace(/\bshredded mozzarella cheese\b/g, "mozzarella cheese")
     .replace(/\bgrated mozzarella cheese\b/g, "mozzarella cheese")
     .replace(/\bmozzarella, shredded\b/g, "mozzarella cheese")
@@ -381,75 +467,65 @@ function cleanIngredientName(line: string) {
     .replace(/\bfreshly grated parmesan cheese\b/g, "parmesan cheese")
     .replace(/\bparmesan cheese, grated\b/g, "parmesan cheese")
     .replace(/\bshredded swiss cheese\b/g, "swiss cheese")
-    .replace(/\bswiss cheese, shredded\b/g, "swiss cheese");
+    .replace(/\bswiss cheese, shredded\b/g, "swiss cheese")
+    .replace(/\bcream cheese, softened\b/g, "cream cheese")
+    .replace(/\bcream cheese, cubed\b/g, "cream cheese");
+}
 
-  // onion normalization — keep type when useful
-  text = text
-    .replace(/\byellow onions?\b/g, "yellow onion")
-    .replace(/\bwhite onions?\b/g, "white onion")
-    .replace(/\bred onions?\b/g, "red onion")
-    .replace(/\bgreen onions?\b/g, "green onion")
-    .replace(/\bonions?\b/g, "onion");
+function normalizeMushrooms(text: string) {
+  return text
+    .replace(/\bcremini mushrooms?\b/g, "baby bella mushrooms")
+    .replace(/\bbaby bella mushrooms?\b/g, "baby bella mushrooms");
+}
 
-  // countable normalization
-  text = text
-    .replace(/\bcarrots?\b/g, "carrot")
-    .replace(/\beggs?\b/g, "egg")
-    .replace(/\bspinach leaves\b/g, "spinach");
-
-  // remove prep words, but keep meaningful descriptors like red/yellow/white/green onion
-  const removeWords = [
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-    "fresh",
-    "freshly",
-    "thin",
-    "thinly",
-    "thick",
-    "thickly",
-    "finely",
-    "roughly",
-    "chopped",
-    "diced",
-    "minced",
-    "sliced",
-    "halved",
-    "cubed",
-    "shredded",
-    "grated",
-    "peeled",
-    "crushed",
-    "softened",
-    "melted",
-    "beaten",
-    "drained",
-    "rinsed",
-    "packed",
-    "whole",
-    "boneless",
-    "skinless",
-    "ripe",
-  ];
-
-  removeWords.forEach((word) => {
+function removePrepWords(text: string) {
+  let next = text;
+  PREP_WORDS.forEach((word) => {
     const regex = new RegExp(`\\b${word}\\b`, "g");
-    text = text.replace(regex, " ");
+    next = next.replace(regex, " ");
   });
+  return next;
+}
+
+function normalizeIngredientText(text: string) {
+  let next = text;
+  next = normalizePantryAndSeasonings(next);
+  next = normalizeProduce(next);
+  next = normalizeProteinsAndBakery(next);
+  next = normalizeDairyAndCheese(next);
+  next = normalizeMushrooms(next);
+  next = removePrepWords(next);
+  return next;
+}
+
+// =====================================================
+// Ingredient cleanup
+// This is where recipe-style ingredient lines get cleaned
+// into shopper-friendly names
+// =====================================================
+function cleanIngredientName(line: string) {
+  let text = line.toLowerCase().trim();
+
+  text = text.replace(/^[/\\\-–—]+\s*/, "");
+  text = text.replace(/\([^)]*\)/g, " ");
+  text = cleanupSpacing(text);
+
+  if (isSectionHeader(text)) return "";
+
+  text = removeRecipeStylePhrases(text);
+  text = text.replace(/^\s*up to\s+/i, "");
+  text = text.replace(/^\s*to\s+/i, "");
+  text = normalizeIngredientText(text);
 
   // special cleanup for quantity + common countables
   text = text.replace(
-    /^\d*\.?\d+\s+(carrot|onion|red onion|yellow onion|white onion|green onion|egg|garlic|onion powder|garlic powder)\b/g,
+    /^\d*\.?\d+\s+(carrot|onion|red onion|yellow onion|white onion|green onion|egg|garlic|jalapeno|mint|onion powder|garlic powder)\b/g,
     "$1"
   );
 
   // final cleanup
   text = text.split(",")[0];
-  text = text.replace(/^[-•*]\s*/, "");
-  text = text.replace(/\b(\w+)\s+\1\b/g, "$1");
-  text = text.replace(/\s+/g, " ").trim();
-  text = text.replace(/[:]+$/, "");
+  text = cleanupSpacing(text);
 
   return text;
 }
@@ -656,6 +732,11 @@ export default function ShoppingListPage() {
     const cleanedRaw = cleanIngredientName(raw);
     const parsed = parseIngredient(cleanedRaw);
     const cleanedName = parsed.name || cleanedRaw;
+    if (!cleanedName) {
+      setNewItem("");
+      return;
+    }
+
     const id = makeManualId(cleanedName || raw);
 
     const alreadyExists = shoppingItems.some(
@@ -744,6 +825,7 @@ export default function ShoppingListPage() {
       const cleanedRaw = cleanIngredientName(item.text);
       const parsed = parseIngredient(cleanedRaw);
       const cleanedName = parsed.name || cleanedRaw;
+      if (!cleanedName) continue;
 
       const isMeasured = parsed.unit !== null && parsed.unit !== "__count__";
 const isCountable = !isMeasured && isCountableIngredient(cleanedName);
