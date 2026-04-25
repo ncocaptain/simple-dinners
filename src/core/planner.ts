@@ -518,6 +518,16 @@ export function getPlannerScore(
 // Plan building helpers
 // =====================================================
 
+function isDinnerCandidate(meal: Meal) {
+  const tags = meal.tags || [];
+
+  return (
+    !tags.includes("drink") &&
+    !tags.includes("dessert") &&
+    !tags.includes("side") &&
+    !tags.includes("appetizer")
+  );
+}
 function mealMatchesDayEffort(meal: Meal, effort?: Effort) {
   if (!effort) return true;
   if (effort === "takeout") return normalizeEffort(meal.effort) === "takeout";
@@ -656,23 +666,24 @@ export function generatePlan(opts: {
     }
 
     let candidates = dinnerPool
-      .filter((meal) => mealMatchesDayEffort(meal, requestedEffort))
-      .filter((meal) => {
-        if (isSalad(meal) && saladCount >= MAX_SALADS) return false;
-        return true;
-      });
+  .filter(isDinnerCandidate)
+  .filter((meal) => mealMatchesDayEffort(meal, requestedEffort))
+  .filter((meal) => {
+    if (isSalad(meal) && saladCount >= MAX_SALADS) return false;
+    return true;
+  });
 
-    if (candidates.length === 0) {
-      candidates = [...dinnerPool];
-    }
+if (candidates.length === 0) {
+  candidates = dinnerPool.filter(isDinnerCandidate);
+}
 
-    candidates = dedupeByName(candidates).filter(
-      (meal) => !usedNames.has(normalizeText(meal.name))
-    );
+candidates = dedupeByName(candidates).filter(
+  (meal) => !usedNames.has(normalizeText(meal.name))
+);
 
-    if (candidates.length === 0) {
-      candidates = dedupeByName(dinnerPool);
-    }
+if (candidates.length === 0) {
+  candidates = dedupeByName(dinnerPool.filter(isDinnerCandidate));
+}
 
     const ranked = [...candidates].sort((a, b) => {
   const aScore = getPlannerScore(a, {
