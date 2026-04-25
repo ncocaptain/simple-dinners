@@ -348,7 +348,7 @@ Serve warm.`,
     ingredients: `2 (8 oz) boxes manicotti shells (uncooked)
 1 1/2 lb ground beef
 1 lb hot Italian sausage
-1 medium onion, finely diced
+1 medium red onion, finely diced
 2 cups colby jack cheese, shredded
 6 oz cream cheese, softened
 1 jalapeno, finely diced
@@ -558,7 +558,7 @@ Garnish with chopped cilantro, pico de gallo, and sour cream before serving.`,
     notes: "A warm, classic comfort meal that feels right at home on chilly nights.",
     ingredients: `1 1/2 to 2 lbs potatoes (about 3 large), peeled and quartered
 8 Tbsp butter (1 stick), divided
-1 medium onion, chopped
+1 medium yellow onion, chopped
 2 cups mixed vegetables (diced carrots, corn, peas)
 1 1/2 lbs ground beef
 1/2 cup beef broth
@@ -2065,7 +2065,7 @@ Rest for at least 15 minutes before cutting.`,
   ingredients: `8 hot dogs
 8 hot dog buns
 1 cup cheddar cheese, shredded
-1/2 small onion, finely diced (optional)
+1/2 small white onion, finely diced (optional)
 
 Quick Chili Topping:
 1 lb ground beef
@@ -3415,7 +3415,7 @@ Serve immediately with lime wedges and optional extra peanuts or cilantro.`,
 4 oz goat cheese
 1 egg, beaten (for egg wash)
 1 Tbsp olive oil
-1/2 small onion, finely diced
+1/2 small yellow onion, finely diced
 2 cloves garlic, minced
 1/2 tsp salt (plus more to taste)
 1/2 tsp pepper
@@ -4072,7 +4072,7 @@ Drizzle 1/3 cup ranch dressing over the top just before serving, or serve the dr
 1 cup cherry tomatoes, halved
 1/2 red onion, sliced
 1/2 cup crumbled blue cheese
-1/4 cup crispy fried onions
+1/4 cup French's fried onions
 1/3 cup balsamic vinaigrette`,
     instructions: `Season 1 lb sirloin steak with 1 Tbsp olive oil, 1 tsp salt, and 1/2 tsp pepper.
 
