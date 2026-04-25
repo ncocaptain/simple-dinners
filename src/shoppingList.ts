@@ -374,6 +374,9 @@ function normalizeIngredientName(line: string) {
   text = text.replace(/\bEggs?\b/g, "Egg");
   text = text.replace(/\bOnions?\b/g, "Onion");
   text = text.replace(/\bcarrots?\b/g, "carrot");
+  text = text
+  .replace(/\bjalapeños\b/g, "jalapeno")
+  .replace(/\bjalapeño\b/g, "jalapeno");
 
   text = text.replace(/\s*\/\s*/g, " / ");
   text = text.replace(/\s+/g, " ").trim();
@@ -414,7 +417,7 @@ function parseIngredientParts(line: string): {
   }
 
   const unitMatch = text.match(
-    /^(cup|cups|Tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|l|clove|cloves|can|cans|package|packages|slice|slices)\b/
+    /^(cup|cups|Tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|l|clove|cloves|can|cans|package|packages|slice|slices|box|boxes)\b/
   );
 
   if (unitMatch) {

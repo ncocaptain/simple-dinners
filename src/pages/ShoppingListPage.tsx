@@ -82,6 +82,7 @@ const COUNTABLE_BASE_WORDS = new Set([
   "cucumber",
   "zucchini",
   "jalapeno",
+  "jalapeño",
   "clove",
 ]);
 
@@ -104,6 +105,8 @@ const COUNTABLE_PHRASES: Record<string, string> = {
   cucumbers: "cucumber",
   zucchinis: "zucchini",
   jalapenos: "jalapeno",
+  jalapeños: "jalapeno",
+"jalapeño": "jalapeno",
   cloves: "clove",
   "chicken breasts": "chicken breast",
   "chicken thighs": "chicken thigh",
@@ -210,6 +213,7 @@ function normalizeUnit(unit: string | null): string | null {
   if (["can", "cans"].includes(u)) return "can";
   if (["package", "packages", "pkg", "pkgs"].includes(u)) return "package";
   if (["clove", "cloves"].includes(u)) return "clove";
+  if (["box", "boxes"].includes(u)) return "box";
 
   return u;
 }
@@ -235,6 +239,7 @@ function pluralizeUnit(unit: string, quantity: number): string {
   if (unit === "can") return "cans";
   if (unit === "package") return "packages";
   if (unit === "clove") return "cloves";
+  if (unit === "box") return quantity === 1 ? "box" : "boxes";
   return `${unit}s`;
 }
 
@@ -571,7 +576,7 @@ function parseIngredient(line: string): ParsedIngredient {
   }
 
   const measuredMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves)\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes)\s+(.*)$/i
   );
 
   if (measuredMatch) {
