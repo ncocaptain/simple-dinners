@@ -140,6 +140,7 @@ const ALWAYS_SHOW_MEASURED_TOTALS = new Set([
   "parmesan cheese",
   "rice",
   "pasta",
+  "manicotti shells",
 ]);
 
 const HIDE_MEASURED_TOTALS = new Set([
@@ -443,7 +444,8 @@ function normalizeProduce(text: string) {
     .replace(/\bcilantro leaves?\b/g, "cilantro")
     .replace(/\bparsley leaves?\b/g, "parsley")
     .replace(/\bjalapeños?\b/g, "jalapeno")
-    .replace(/\bjalapenos?\b/g, "jalapeno");
+    .replace(/\bjalapenos?\b/g, "jalapeno")
+    .replace(/\bjalapeno peppers?\b/g, "jalapeno");
 }
 
 function normalizeProteinsAndBakery(text: string) {
@@ -509,7 +511,11 @@ function normalizeIngredientText(text: string) {
 // into shopper-friendly names
 // =====================================================
 function cleanIngredientName(line: string) {
-  let text = line.toLowerCase().trim();
+  let text = line
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
 
   text = text.replace(/^[/\\\-–—]+\s*/, "");
   text = text.replace(/\([^)]*\)/g, " ");
@@ -541,10 +547,13 @@ function cleanIngredientName(line: string) {
 // and supports ranges like "4 to 6 hamburger buns"
 // =====================================================
 function parseIngredient(line: string): ParsedIngredient {
-  const raw = line.trim();
+  const raw = line
+    .trim()
+    .replace(/\([^)]*\)/g, " ")
+    .replace(/\s+/g, " ");
 
   const measuredRangeMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:-|–|to)\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves)\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:-|–|to)\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|box|boxes|clove|cloves)\s+(.*)$/i
   );
 
   if (measuredRangeMatch) {
@@ -663,7 +672,7 @@ function shouldShowMeasuredTotal(
   if (HIDE_MEASURED_TOTALS.has(cleaned)) return false;
   if (ALWAYS_SHOW_MEASURED_TOTALS.has(cleaned)) return true;
 
-  if (unit === "lb" || unit === "oz" || unit === "can" || unit === "package") {
+  if (["lb", "oz", "can", "package", "box"].includes(unit)) {
     return true;
   }
 
@@ -672,6 +681,34 @@ function shouldShowMeasuredTotal(
   }
 
   return false;
+}
+
+
+function resolveShoppingCategory(name: string): GroceryCategory {
+  const cleaned = cleanIngredientName(name).toLowerCase();
+
+  const forcedSpices = new Set([
+    "salt",
+    "black pepper",
+    "salt / pepper",
+    "garlic powder",
+    "onion powder",
+    "paprika",
+    "italian seasoning",
+    "cumin",
+    "chili powder",
+    "oregano",
+    "cajun seasoning",
+    "old bay seasoning",
+    "seasoned salt",
+    "red pepper flakes",
+  ]);
+
+  if (forcedSpices.has(cleaned)) {
+    return "Spices" as GroceryCategory;
+  }
+
+  return categorizeGroceryItem(cleaned);
 }
 
 // =====================================================
@@ -758,7 +795,7 @@ export default function ShoppingListPage() {
       text: cleanedName,
       checked: false,
       addedAt: Date.now(),
-      category: categorizeGroceryItem(cleanedName),
+      category: resolveShoppingCategory(cleanedName),
       sourceRecipe: "",
     } as ShoppingItem & { sourceRecipe?: string };
 
@@ -838,7 +875,7 @@ const isCountable = !isMeasured && isCountableIngredient(cleanedName);
         ? normalizeCountableName(cleanedName)
         : cleanedName.toLowerCase();
 
-      const category = item.category || categorizeGroceryItem(normalizedName);
+      const category = resolveShoppingCategory(normalizedName);
       const mergeUnit = isCountable ? "__count__" : parsed.unit;
       const key = `${category}::${normalizedName}`;
 
@@ -992,7 +1029,7 @@ const maxQuantityToAdd =
         ? {
             ...item,
             text: trimmed,
-            category: categorizeGroceryItem(trimmed),
+            category: resolveShoppingCategory(trimmed),
           }
         : item
     );

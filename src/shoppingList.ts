@@ -157,6 +157,7 @@ function pluralizeUnit(unit: string, quantity: number | null | undefined) {
   if (!unit) return "";
   if (quantity === null || quantity === undefined) return unit;
   if (Math.abs(quantity - 1) < 0.0001) return unit;
+  if (unit === "box") return quantity === 1 ? "box" : "boxes";
 
   const pluralMap: Record<string, string> = {
     cup: "cups",
@@ -178,6 +179,7 @@ function pluralizeUnit(unit: string, quantity: number | null | undefined) {
 // =====================================================
 function cleanIngredientForCategory(line: string) {
   let text = String(line || "").toLowerCase().trim();
+  text = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
   text = text.replace(/\([^)]*\)/g, " ");
   text = text.replace(/^[-•*]\s*/, "");
@@ -245,6 +247,8 @@ function cleanIngredientForCategory(line: string) {
   text = text.replace(/\bcans?\s+/g, " ");
   text = text.replace(/^[/\\\-–—]+\s*/, "");
   text = text.replace(/\s+/g, " ").trim();
+  text = text.replace(/\bboxes?\s+of\s+/g, " ");
+text = text.replace(/\bboxes?\s+/g, " ");
 
   return text;
 }
@@ -274,6 +278,7 @@ export function normalizeIngredientLines(ingredients: string): string[] {
 // =====================================================
 function normalizeIngredientName(line: string) {
   let text = String(line || "").toLowerCase().trim();
+  text = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
   text = text.replace(/\([^)]*\)/g, " ");
   text = text.replace(/<[^>]+>/g, " ");
@@ -342,6 +347,8 @@ function normalizeIngredientName(line: string) {
   text = text.replace(/\bcans?\s+of\s+/g, " ");
   text = text.replace(/\bcans?\s+/g, " ");
   text = text.replace(/\bcan\s+/g, " ");
+  text = text.replace(/\bboxes?\s+of\s+/g, " ");
+text = text.replace(/\bboxes?\s+/g, " ");
 
   // strip leading quantity chunks repeatedly
   let changed = true;
@@ -354,7 +361,7 @@ function normalizeIngredientName(line: string) {
     );
 
     text = text.replace(
-      /^\s*(cup|cups|Tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|l|clove|cloves|can|cans|package|packages|slice|slices)\b\s*/i,
+      /^\s*(cup|cups|Tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|l|clove|cloves|can|cans|package|packages|slice|slices|box|boxes)\b\s*/i,
       ""
     );
 
@@ -362,11 +369,15 @@ function normalizeIngredientName(line: string) {
   }
 
   // normalize common variants
-  text = text.replace(/\blean Ground beef\b/g, "Ground beef");
-  text = text.replace(/\bextra lean Ground beef\b/g, "Ground beef");
-  text = text.replace(/\bPepper\b/g, "Pepper");
-  text = text.replace(/\bOnion powders?\b/g, "Onion powder");
-  text = text.replace(/\bGarlic Powders?\b/g, "Garlic Powder");
+  text = text.replace(/\blean ground beef\b/g, "ground beef");
+  text = text.replace(/\bextra lean ground beef\b/g, "ground beef");
+  text = text
+  .replace(/\bfreshly ground black pepper\b/g, "black pepper")
+  .replace(/\bground black pepper\b/g, "black pepper")
+  .replace(/\bblack pepper\b/g, "black pepper")
+  .replace(/\bpepper\b/g, "black pepper");
+  text = text.replace(/\bonion powders?\b/g, "onion powder");
+  text = text.replace(/\bgarlic powders?\b/g, "garlic powder");
   text = text.replace(/\bslices?\s+Bread\b/g, "Bread");
   text = text.replace(/\bbaby bella mushrooms?\b/g, "cremini mushrooms");
   text = text.replace(/\bcremini mushrooms?\b/g, "cremini mushrooms");
@@ -376,7 +387,10 @@ function normalizeIngredientName(line: string) {
   text = text.replace(/\bcarrots?\b/g, "carrot");
   text = text
   .replace(/\bjalapeños\b/g, "jalapeno")
-  .replace(/\bjalapeño\b/g, "jalapeno");
+  .replace(/\bjalapeño\b/g, "jalapeno")
+  .replace(/\bjalapeños?\b/g, "jalapeno")
+.replace(/\bjalapenos?\b/g, "jalapeno");
+  
 
   text = text.replace(/\s*\/\s*/g, " / ");
   text = text.replace(/\s+/g, " ").trim();
@@ -396,6 +410,7 @@ function parseIngredientParts(line: string): {
   unit: string;
 } {
   let text = String(line || "").toLowerCase().trim();
+  text = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
   text = text.replace(/\([^)]*\)/g, " ");
   text = text.replace(/<[^>]+>/g, " ");
@@ -475,6 +490,35 @@ function buildDisplayText(
 }
 
 // =====================================================
+// =====================================================
+// Builder: category resolver
+// Keeps normalized seasonings in the right store section
+// =====================================================
+const FORCED_SPICE_ITEMS = new Set([
+  "salt",
+  "black pepper",
+  "garlic powder",
+  "onion powder",
+  "paprika",
+  "italian seasoning",
+  "cumin",
+  "chili powder",
+  "oregano",
+  "old bay seasoning",
+  "cajun seasoning",
+  "seasoned salt",
+]);
+
+function resolveShoppingCategory(name: string): GroceryCategory {
+  const cleaned = normalizeIngredientName(name) || cleanIngredientForCategory(name);
+
+  if (FORCED_SPICE_ITEMS.has(cleaned.toLowerCase())) {
+    return "Spices" as GroceryCategory;
+  }
+
+  return categorizeGroceryItem(cleaned);
+}
+
 // Builder: load list with backward compatibility
 // =====================================================
 export function loadShoppingList(): ShoppingItem[] {
@@ -501,7 +545,7 @@ export function loadShoppingList(): ShoppingItem[] {
         normalizedName,
         quantity,
         unit,
-        category: categorizeGroceryItem(cleanIngredientForCategory(normalizedName)),
+        category: resolveShoppingCategory(normalizedName),
         sourceRecipe: item.sourceRecipe || "",
       } as ShoppingItem;
     })
@@ -548,9 +592,7 @@ export function addIngredientsToList(
       text,
       checked: false,
       addedAt: now,
-      category: categorizeGroceryItem(
-        cleanIngredientForCategory(parsed.normalizedName)
-      ),
+      category: resolveShoppingCategory(parsed.normalizedName),
       sourceRecipe: recipeName || "",
       normalizedName: parsed.normalizedName,
       quantity: parsed.quantity,
