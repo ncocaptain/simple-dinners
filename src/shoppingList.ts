@@ -160,6 +160,12 @@ const CUP_MEASURE_NOISE = new Set([
   "brown sugar",
   "bread crumbs",
   "breadcrumbs",
+  "oil",
+  "olive oil",
+  "vegetable oil",
+  "canola oil",
+  "sesame oil",
+  "toasted sesame oil",
 ]);
 
 const DEFAULT_BUY_DISPLAY: Record<string, string> = {
@@ -682,6 +688,17 @@ function parseIngredientParts(line: string): {
 
   const normalizedName = normalizeIngredientName(text);
 
+  // Smart defaults stored as real metadata so ShoppingListPage can merge correctly.
+  if (normalizedName === "garlic") {
+    unit = "clove";
+    if (quantity === null) quantity = 1;
+  }
+
+  if (normalizedName === "cilantro" || normalizedName === "parsley") {
+    unit = "bunch";
+    if (quantity === null) quantity = 1;
+  }
+
   return {
     normalizedName,
     quantity,
@@ -701,6 +718,7 @@ const COUNTABLE_DISPLAY_NAMES = new Set([
   "red onion",
   "green onion",
   "carrot",
+  "garlic",
   "potato",
   "sweet potato",
   "tomato",
@@ -742,6 +760,7 @@ function pluralizeCountableName(name: string, quantity: number) {
     "red onion": "red onions",
     "green onion": "green onions",
     carrot: "carrots",
+    garlic: "garlic",
     potato: "potatoes",
     "sweet potato": "sweet potatoes",
     tomato: "tomatoes",

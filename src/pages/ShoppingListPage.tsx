@@ -1143,17 +1143,43 @@ const FORCE_COUNTABLE = new Set([
   "drumstick",
   "pork chop",
   "porkchop",
+  "garlic",
 ]);
 
-const forceCountable = FORCE_COUNTABLE.has(preNormalizedName);
+let safeName = preNormalizedName
+  .replace(/[^a-z0-9\s]/g, " ")
+  .replace(/\s+/g, " ")
+  .trim();
+
+if (safeName.includes("garlic")) {
+  safeName = "garlic";
+}
+
+if (safeName.includes("pork") && safeName.includes("chop")) {
+  safeName = "pork chop";
+}
+
+if (safeName.includes("chicken") && safeName.includes("breast")) {
+  safeName = "chicken breast";
+}
+
+if (safeName.includes("onion")) {
+  if (safeName.includes("green")) safeName = "green onion";
+  else if (safeName.includes("red")) safeName = "red onion";
+  else if (safeName.includes("yellow")) safeName = "yellow onion";
+  else if (safeName.includes("white")) safeName = "white onion";
+  else safeName = "onion";
+}
+
+const forceCountable = FORCE_COUNTABLE.has(safeName);
 
 const isMeasured = !forceCountable && parsedUnit !== null;
 const isCountable =
-  forceCountable || (!isMeasured && isCountableIngredient(cleanedName));
+  forceCountable || (!isMeasured && isCountableIngredient(safeName));
 
-const normalizedName = isCountable
-  ? normalizeCountableName(cleanedName)
-  : cleanedName.toLowerCase();
+let normalizedName = isCountable
+  ? normalizeCountableName(safeName)
+  : safeName;
         
 
       const mergeUnit = isCountable ? "__count__" : parsedUnit;
@@ -1167,13 +1193,13 @@ const normalizedName = isCountable
       const key = `${category}::${normalizedName}::${mergeUnit || ""}::${packageKey}`;
 
       const quantityToAdd =
-        parsedQuantity !== null
-          ? isCountable
-            ? Math.ceil(parsedQuantity)
-            : parsedQuantity
-          : isCountable
-          ? 1
-          : 0;
+  parsedQuantity !== null
+    ? isCountable
+      ? Math.ceil(parsedQuantity)
+      : parsedQuantity
+    : isCountable
+    ? 1   // ✅ force countable fallback
+    : 0;
 
       const minQuantityToAdd =
   parsed.minQuantity !== null && parsed.minQuantity !== undefined
@@ -1277,9 +1303,11 @@ const maxQuantityToAdd =
 
       if (value.isCountable) {
   const qty =
-  value.totalQuantity && value.totalQuantity > 0
+  value.totalQuantity > 0
     ? value.totalQuantity
-    : value.count || 1;
+    : value.count > 0
+    ? value.count
+    : 1;
 
   const baseName = singularizeWord(value.name);
 
@@ -1288,9 +1316,14 @@ const maxQuantityToAdd =
   const max = Math.ceil(value.maxQuantity || qty);
   const finalQty = Math.ceil(qty);
 
-  const formattedName = formatDisplayName(
-    pluralizeCountable(baseName, finalQty)
-  );
+  let formattedName = formatDisplayName(
+  pluralizeCountable(baseName, finalQty)
+);
+
+// 🔥 Garlic display polish
+if (baseName === "garlic") {
+  formattedName = finalQty === 1 ? "clove Garlic" : "cloves Garlic";
+}
 
   // ✅ collapse 1–1 → 1
   if (min !== max) {
