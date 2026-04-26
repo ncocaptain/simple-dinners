@@ -40,6 +40,7 @@ type ParsedAmount = {
   quantity: number | null;
   unit: string | null;
   name: string;
+  packageSize?: string;
 };
 
 type ParsedIngredient = ParsedAmount & {
@@ -50,6 +51,10 @@ type ParsedIngredient = ParsedAmount & {
 type RecipeBreakdownItem = {
   recipeName: string;
   amountText: string;
+};
+
+type ShoppingItemWithSmartMeta = ShoppingItem & {
+  packageSize?: string;
 };
 
 type CombinedItem = {
@@ -615,18 +620,54 @@ function cleanIngredientName(line: string) {
 }
 
 // =====================================================
+// Package size helpers
+// Keeps details like "14.5 oz" for canned/boxed goods
+// =====================================================
+function normalizePackageSize(value: string | null | undefined) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function extractPackageSize(text: string) {
+  const match = text.match(/\(([^)]*(?:oz|ounce|ounces|g|kg|ml|l)[^)]*)\)/i);
+  return match ? normalizePackageSize(match[1]) : "";
+}
+
+function isPackageSizeSensitiveUnit(unit: string | null) {
+  return (
+    unit === "can" ||
+    unit === "package" ||
+    unit === "box" ||
+    unit === "jar" ||
+    unit === "carton" ||
+    unit === "bag"
+  );
+}
+
+function formatPackageSize(packageSize: string) {
+  return normalizePackageSize(packageSize);
+}
+
+// =====================================================
 // Ingredient parsing
 // This figures out quantity, unit, cleaned name,
 // and supports ranges like "4 to 6 hamburger buns"
 // =====================================================
 function parseIngredient(line: string): ParsedIngredient {
-  const raw = line
+  const originalRaw = String(line || "")
     .trim()
+    .replace(/\s+/g, " ");
+
+  const packageSize = extractPackageSize(originalRaw);
+
+  const raw = originalRaw
     .replace(/\([^)]*\)/g, " ")
     .replace(/\s+/g, " ");
 
   const measuredRangeMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:-|–|to)\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|box|boxes|clove|cloves)\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:-|–|to)\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|box|boxes|clove|cloves|jar|jars|carton|cartons|bag|bags)\s+(.*)$/i
   );
 
   if (measuredRangeMatch) {
@@ -638,6 +679,7 @@ function parseIngredient(line: string): ParsedIngredient {
       maxQuantity: parseFraction(maxRaw),
       unit: normalizeUnit(unitRaw),
       name: cleanIngredientName(rest),
+      packageSize,
     };
   }
 
@@ -654,11 +696,12 @@ function parseIngredient(line: string): ParsedIngredient {
       maxQuantity: parseFraction(maxRaw),
       unit: "__count__",
       name: cleanIngredientName(rest),
+      packageSize,
     };
   }
 
   const measuredMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes)\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags)\s+(.*)$/i
   );
 
   if (measuredMatch) {
@@ -670,6 +713,7 @@ function parseIngredient(line: string): ParsedIngredient {
       maxQuantity: parseFraction(qtyRaw),
       unit: normalizeUnit(unitRaw),
       name: cleanIngredientName(rest),
+      packageSize,
     };
   }
 
@@ -686,6 +730,7 @@ function parseIngredient(line: string): ParsedIngredient {
       maxQuantity: parseFraction(qtyRaw),
       unit: "__count__",
       name: cleanIngredientName(rest),
+      packageSize,
     };
   }
 
@@ -695,6 +740,7 @@ function parseIngredient(line: string): ParsedIngredient {
     maxQuantity: null,
     unit: null,
     name: cleanIngredientName(raw),
+    packageSize,
   };
 }
 
@@ -825,7 +871,8 @@ function formatRecipeBreakdownAmount(
   name: string,
   quantity: number,
   unit: string | null,
-  isCountable: boolean
+  isCountable: boolean,
+  packageSize?: string
 ) {
   if (quantity <= 0) return "";
 
@@ -836,7 +883,11 @@ function formatRecipeBreakdownAmount(
   }
 
   if (unit && unit !== "__count__") {
-    return `${formatQuantity(quantity)} ${pluralizeUnit(unit, quantity)}`;
+    const sizeText =
+      packageSize && isPackageSizeSensitiveUnit(unit)
+        ? ` (${formatPackageSize(packageSize)})`
+        : "";
+    return `${formatQuantity(quantity)}${sizeText} ${pluralizeUnit(unit, quantity)}`;
   }
 
   return formatQuantity(quantity);
@@ -992,6 +1043,7 @@ export default function ShoppingListPage() {
         minQuantity: number;
         maxQuantity: number;
         unit: string | null;
+        packageSize: string;
         mixedUnits: boolean;
         recipeNames: Set<string>;
         recipeBreakdown: Map<
@@ -999,6 +1051,7 @@ export default function ShoppingListPage() {
           {
             quantity: number;
             unit: string | null;
+            packageSize: string;
             isCountable: boolean;
             name: string;
             mixedUnits: boolean;
@@ -1008,29 +1061,38 @@ export default function ShoppingListPage() {
     >();
 
     for (const item of shoppingItems) {
+      const smartItem = item as ShoppingItemWithSmartMeta;
       const cleanedRaw = cleanIngredientName(item.text);
-      const parsed = parseIngredient(cleanedRaw);
-      const cleanedName = parsed.name || cleanedRaw;
+      const parsed = parseIngredient(item.text || cleanedRaw);
+      const cleanedName = smartItem.normalizedName || parsed.name || cleanedRaw;
       if (shouldHideShoppingItem(cleanedName)) continue;
 
-      const isMeasured = parsed.unit !== null && parsed.unit !== "__count__";
+      const parsedUnit = normalizeUnit(smartItem.unit || parsed.unit || "") || parsed.unit;
+      const parsedQuantity =
+        typeof smartItem.quantity === "number" ? smartItem.quantity : parsed.quantity;
+      const packageSize =
+        normalizePackageSize(smartItem.packageSize) || normalizePackageSize(parsed.packageSize);
+
+      const isMeasured = parsedUnit !== null && parsedUnit !== "__count__";
       const isCountable = !isMeasured && isCountableIngredient(cleanedName);
       const normalizedName = isCountable
         ? normalizeCountableName(cleanedName)
         : cleanedName.toLowerCase();
 
       const category = resolveShoppingCategory(normalizedName);
-      const mergeUnit = isCountable ? "__count__" : parsed.unit;
-      const key = `${category}::${normalizedName}`;
+      const mergeUnit = isCountable ? "__count__" : parsedUnit;
+      const packageKey =
+        packageSize && isPackageSizeSensitiveUnit(mergeUnit) ? packageSize : "";
+      const key = `${category}::${normalizedName}::${mergeUnit || ""}::${packageKey}`;
 
       const quantityToAdd =
-  parsed.quantity !== null
-    ? isCountable
-      ? Math.ceil(parsed.quantity)
-      : parsed.quantity
-    : isCountable
-    ? 1
-    : 0;
+        parsedQuantity !== null
+          ? isCountable
+            ? Math.ceil(parsedQuantity)
+            : parsedQuantity
+          : isCountable
+          ? 1
+          : 0;
 
       const minQuantityToAdd =
   parsed.minQuantity !== null && parsed.minQuantity !== undefined
@@ -1069,8 +1131,8 @@ const maxQuantityToAdd =
           );
         }
 
-        if (existing.unit !== mergeUnit) {
-          if (existing.unit !== null || mergeUnit !== null) {
+        if (existing.unit !== mergeUnit || existing.packageSize !== packageSize) {
+          if (existing.unit !== null || mergeUnit !== null || existing.packageSize || packageSize) {
             existing.mixedUnits = true;
           }
         }
@@ -1081,13 +1143,14 @@ const maxQuantityToAdd =
           const breakdown = existing.recipeBreakdown.get(recipeName);
           if (breakdown) {
             breakdown.quantity += recipeQuantityToAdd;
-            if (breakdown.unit !== recipeUnit) {
+            if (breakdown.unit !== recipeUnit || breakdown.packageSize !== packageSize) {
               breakdown.mixedUnits = true;
             }
           } else {
             existing.recipeBreakdown.set(recipeName, {
               quantity: recipeQuantityToAdd,
               unit: recipeUnit,
+              packageSize,
               isCountable,
               name: normalizedName,
               mixedUnits: false,
@@ -1106,6 +1169,7 @@ const maxQuantityToAdd =
           minQuantity: minQuantityToAdd,
           maxQuantity: maxQuantityToAdd,
           unit: mergeUnit ?? null,
+          packageSize,
           mixedUnits: false,
           recipeNames: recipeName ? new Set([recipeName]) : new Set(),
           recipeBreakdown: recipeName
@@ -1115,6 +1179,7 @@ const maxQuantityToAdd =
                   {
                     quantity: recipeQuantityToAdd,
                     unit: recipeUnit,
+                    packageSize,
                     isCountable,
                     name: normalizedName,
                     mixedUnits: false,
@@ -1156,9 +1221,13 @@ const maxQuantityToAdd =
         shouldShowMeasuredTotal(value.name, value.unit, value.totalQuantity)
       ) {
         const formattedName = formatDisplayName(value.name);
+        const packageText =
+          value.packageSize && isPackageSizeSensitiveUnit(value.unit)
+            ? ` (${formatPackageSize(value.packageSize)})`
+            : "";
         displayText = `${formattedName}, ${formatQuantity(
           value.totalQuantity
-        )} ${pluralizeUnit(value.unit, value.totalQuantity)}`;
+        )}${packageText} ${pluralizeUnit(value.unit, value.totalQuantity)}`;
       }
 
       const recipeNames = Array.from(value.recipeNames).sort((a, b) =>
@@ -1172,7 +1241,8 @@ const maxQuantityToAdd =
               breakdown.name,
               breakdown.quantity,
               breakdown.mixedUnits ? null : breakdown.unit,
-              breakdown.isCountable
+              breakdown.isCountable,
+              breakdown.mixedUnits ? "" : breakdown.packageSize
             )
           : "";
 
