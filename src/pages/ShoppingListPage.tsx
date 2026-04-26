@@ -47,6 +47,11 @@ type ParsedIngredient = ParsedAmount & {
   maxQuantity?: number | null;
 };
 
+type RecipeBreakdownItem = {
+  recipeName: string;
+  amountText: string;
+};
+
 type CombinedItem = {
   id: string;
   checked: boolean;
@@ -56,6 +61,7 @@ type CombinedItem = {
   recipeCount: number;
   recipeCountLabel: string;
   recipeNames: string[];
+  recipeBreakdown: RecipeBreakdownItem[];
   displayText: string;
 };
 
@@ -430,22 +436,22 @@ function normalizePantryAndSeasonings(text: string) {
 
   return text
     // repair older saved bad names first
-    .replace(/green bell black pepper/g, "green bell pepper")
-    .replace(/red bell black pepper/g, "red bell pepper")
-    .replace(/yellow bell black pepper/g, "yellow bell pepper")
-    .replace(/cayenne black pepper/g, "cayenne pepper")
-    .replace(/red black pepper flakes/g, "red pepper flakes")
-    .replace(/salt and black pepper/g, "salt / pepper")
+    .replace(/\bgreen bell black pepper\b/g, "green bell pepper")
+    .replace(/\bred bell black pepper\b/g, "red bell pepper")
+    .replace(/\byellow bell black pepper\b/g, "yellow bell pepper")
+    .replace(/\bcayenne black pepper\b/g, "cayenne pepper")
+    .replace(/\bred black pepper flakes\b/g, "red pepper flakes")
+    .replace(/\bsalt and black pepper\b/g, "salt / pepper")
 
     // true black pepper references
-    .replace(/freshly ground black pepper/g, "black pepper")
-    .replace(/ground black pepper/g, "black pepper")
-    .replace(/freshly ground pepper/g, "black pepper")
-    .replace(/ground pepper/g, "black pepper")
-    .replace(/black black pepper/g, "black pepper")
+    .replace(/\bfreshly ground black pepper\b/g, "black pepper")
+    .replace(/\bground black pepper\b/g, "black pepper")
+    .replace(/\bfreshly ground pepper\b/g, "black pepper")
+    .replace(/\bground pepper\b/g, "black pepper")
+    .replace(/\bblack black pepper\b/g, "black pepper")
 
     // safe fallback: plain "pepper" becomes black pepper, but real peppers stay real peppers
-    .replace(/pepper/g, (match, offset, full) => {
+    .replace(/\bpepper\b/g, (match, offset, full) => {
       const before = full.slice(0, offset).trimEnd();
       const after = full.slice(offset + match.length).trimStart();
 
@@ -463,13 +469,13 @@ function normalizePantryAndSeasonings(text: string) {
       return "black pepper";
     })
 
-    .replace(/black black pepper/g, "black pepper")
-    .replace(/jalapeno pepper/g, "jalapeno")
-    .replace(/onion powders?/g, "onion powder")
-    .replace(/garlic powders?/g, "garlic powder")
-    .replace(/smoked paprika/g, "paprika")
-    .replace(/paprikas/g, "paprika")
-    .replace(/chile powder/g, "chili powder");
+    .replace(/\bblack black pepper\b/g, "black pepper")
+    .replace(/\bjalapeno pepper\b/g, "jalapeno")
+    .replace(/\bonion powders?\b/g, "onion powder")
+    .replace(/\bgarlic powders?\b/g, "garlic powder")
+    .replace(/\bsmoked paprika\b/g, "paprika")
+    .replace(/\bpaprikas\b/g, "paprika")
+    .replace(/\bchile powder\b/g, "chili powder");
 }
 
 function normalizeProduce(text: string) {
@@ -814,6 +820,29 @@ function shouldHideShoppingItem(name: string) {
   return !cleaned || unitOnlyOrJunk.has(cleaned) || /^[^a-z]+$/i.test(cleaned);
 }
 
+
+function formatRecipeBreakdownAmount(
+  name: string,
+  quantity: number,
+  unit: string | null,
+  isCountable: boolean
+) {
+  if (quantity <= 0) return "";
+
+  if (isCountable) {
+    const qty = Math.ceil(quantity);
+    const baseName = singularizeWord(name);
+    return `${qty} ${formatDisplayName(pluralizeCountable(baseName, qty))}`;
+  }
+
+  if (unit && unit !== "__count__") {
+    return `${formatQuantity(quantity)} ${pluralizeUnit(unit, quantity)}`;
+  }
+
+  return formatQuantity(quantity);
+}
+
+
 // =====================================================
 // Manual item id helper
 // =====================================================
@@ -965,6 +994,16 @@ export default function ShoppingListPage() {
         unit: string | null;
         mixedUnits: boolean;
         recipeNames: Set<string>;
+        recipeBreakdown: Map<
+          string,
+          {
+            quantity: number;
+            unit: string | null;
+            isCountable: boolean;
+            name: string;
+            mixedUnits: boolean;
+          }
+        >;
       }
     >();
 
@@ -1008,6 +1047,8 @@ const maxQuantityToAdd =
     : quantityToAdd;
 
       const recipeName = String((item as any).sourceRecipe || "").trim();
+      const recipeQuantityToAdd = quantityToAdd > 0 ? quantityToAdd : 0;
+      const recipeUnit = mergeUnit ?? null;
 
       const existing = map.get(key);
 
@@ -1036,6 +1077,22 @@ const maxQuantityToAdd =
 
         if (recipeName) {
           existing.recipeNames.add(recipeName);
+
+          const breakdown = existing.recipeBreakdown.get(recipeName);
+          if (breakdown) {
+            breakdown.quantity += recipeQuantityToAdd;
+            if (breakdown.unit !== recipeUnit) {
+              breakdown.mixedUnits = true;
+            }
+          } else {
+            existing.recipeBreakdown.set(recipeName, {
+              quantity: recipeQuantityToAdd,
+              unit: recipeUnit,
+              isCountable,
+              name: normalizedName,
+              mixedUnits: false,
+            });
+          }
         }
       } else {
         map.set(key, {
@@ -1051,6 +1108,20 @@ const maxQuantityToAdd =
           unit: mergeUnit ?? null,
           mixedUnits: false,
           recipeNames: recipeName ? new Set([recipeName]) : new Set(),
+          recipeBreakdown: recipeName
+            ? new Map([
+                [
+                  recipeName,
+                  {
+                    quantity: recipeQuantityToAdd,
+                    unit: recipeUnit,
+                    isCountable,
+                    name: normalizedName,
+                    mixedUnits: false,
+                  },
+                ],
+              ])
+            : new Map(),
         });
       }
     }
@@ -1094,6 +1165,19 @@ const maxQuantityToAdd =
         a.localeCompare(b)
       );
       const recipeCount = recipeNames.length;
+      const recipeBreakdown = recipeNames.map((recipeName) => {
+        const breakdown = value.recipeBreakdown.get(recipeName);
+        const amountText = breakdown
+          ? formatRecipeBreakdownAmount(
+              breakdown.name,
+              breakdown.quantity,
+              breakdown.mixedUnits ? null : breakdown.unit,
+              breakdown.isCountable
+            )
+          : "";
+
+        return { recipeName, amountText };
+      });
 
       return {
         id: key,
@@ -1104,6 +1188,7 @@ const maxQuantityToAdd =
         recipeCount,
         recipeCountLabel: recipeCount > 1 ? `(${recipeCount} recipes)` : "",
         recipeNames,
+        recipeBreakdown,
         displayText,
       } satisfies CombinedItem;
     });
@@ -1599,19 +1684,46 @@ const maxQuantityToAdd =
                   paddingRight: 2,
                 }}
               >
-                {sourceModalGroup.recipeNames.map((recipeName) => (
+                {sourceModalGroup.recipeBreakdown.map((recipe) => (
                   <div
-                    key={recipeName}
+                    key={recipe.recipeName}
                     style={{
                       padding: "11px 12px",
                       borderRadius: 14,
                       background: "rgba(255,255,255,0.05)",
                       border: "1px solid rgba(255,255,255,0.08)",
-                      fontSize: 14,
-                      fontWeight: 800,
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      gap: 12,
                     }}
                   >
-                    {recipeName}
+                    <span
+                      style={{
+                        minWidth: 0,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        fontSize: 14,
+                        fontWeight: 800,
+                      }}
+                    >
+                      {recipe.recipeName}
+                    </span>
+
+                    {recipe.amountText ? (
+                      <span
+                        style={{
+                          flexShrink: 0,
+                          fontSize: 12,
+                          fontWeight: 900,
+                          color: "#86efac",
+                          opacity: 0.95,
+                        }}
+                      >
+                        {recipe.amountText}
+                      </span>
+                    ) : null}
                   </div>
                 ))}
               </div>
