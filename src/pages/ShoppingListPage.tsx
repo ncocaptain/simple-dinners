@@ -55,6 +55,7 @@ type CombinedItem = {
   count: number;
   recipeCount: number;
   recipeCountLabel: string;
+  recipeNames: string[];
   displayText: string;
 };
 
@@ -318,6 +319,10 @@ function pluralizeCountable(name: string, quantity: number): string {
     "pork chop": "pork chops",
     "hamburger bun": "hamburger buns",
     "hot dog bun": "hot dog buns",
+    "green bell pepper": "green bell peppers",
+    "red bell pepper": "red bell peppers",
+    "yellow bell pepper": "yellow bell peppers",
+    "bell pepper": "bell peppers",
   };
 
   return irregular[name] || `${name}s`;
@@ -424,20 +429,23 @@ function normalizePantryAndSeasonings(text: string) {
   }
 
   return text
-    .replace(/\bgreen bell black pepper\b/g, "green bell pepper")
-    .replace(/\bred bell black pepper\b/g, "red bell pepper")
-    .replace(/\byellow bell black pepper\b/g, "yellow bell pepper")
-    .replace(/\bcayenne black pepper\b/g, "cayenne pepper")
-    .replace(/\bred black pepper flakes\b/g, "red pepper flakes")
-    .replace(/\bsalt and black pepper\b/g, "salt / pepper")
+    // repair older saved bad names first
+    .replace(/green bell black pepper/g, "green bell pepper")
+    .replace(/red bell black pepper/g, "red bell pepper")
+    .replace(/yellow bell black pepper/g, "yellow bell pepper")
+    .replace(/cayenne black pepper/g, "cayenne pepper")
+    .replace(/red black pepper flakes/g, "red pepper flakes")
+    .replace(/salt and black pepper/g, "salt / pepper")
 
-    .replace(/\bfreshly ground black pepper\b/g, "black pepper")
-    .replace(/\bground black pepper\b/g, "black pepper")
-    .replace(/\bfreshly ground pepper\b/g, "black pepper")
-    .replace(/\bground pepper\b/g, "black pepper")
-    .replace(/\bblack black pepper\b/g, "black pepper")
+    // true black pepper references
+    .replace(/freshly ground black pepper/g, "black pepper")
+    .replace(/ground black pepper/g, "black pepper")
+    .replace(/freshly ground pepper/g, "black pepper")
+    .replace(/ground pepper/g, "black pepper")
+    .replace(/black black pepper/g, "black pepper")
 
-    .replace(/\bpepper\b/g, (match, offset, full) => {
+    // safe fallback: plain "pepper" becomes black pepper, but real peppers stay real peppers
+    .replace(/pepper/g, (match, offset, full) => {
       const before = full.slice(0, offset).trimEnd();
       const after = full.slice(offset + match.length).trimStart();
 
@@ -455,13 +463,13 @@ function normalizePantryAndSeasonings(text: string) {
       return "black pepper";
     })
 
-    .replace(/\bblack black pepper\b/g, "black pepper")
-    .replace(/\bjalapeno pepper\b/g, "jalapeno")
-    .replace(/\bonion powders?\b/g, "onion powder")
-    .replace(/\bgarlic powders?\b/g, "garlic powder")
-    .replace(/\bsmoked paprika\b/g, "paprika")
-    .replace(/\bpaprikas\b/g, "paprika")
-    .replace(/\bchile powder\b/g, "chili powder");
+    .replace(/black black pepper/g, "black pepper")
+    .replace(/jalapeno pepper/g, "jalapeno")
+    .replace(/onion powders?/g, "onion powder")
+    .replace(/garlic powders?/g, "garlic powder")
+    .replace(/smoked paprika/g, "paprika")
+    .replace(/paprikas/g, "paprika")
+    .replace(/chile powder/g, "chili powder");
 }
 
 function normalizeProduce(text: string) {
@@ -692,6 +700,7 @@ function normalizeCountableName(name: string): string {
   const lower = cleaned.toLowerCase();
 
   if (COUNTABLE_PHRASES[lower]) return COUNTABLE_PHRASES[lower];
+  if (COUNTABLE_BASE_WORDS.has(lower)) return lower;
 
   const words = lower.split(" ").filter(Boolean);
   if (!words.length) return lower;
@@ -773,28 +782,36 @@ function resolveShoppingCategory(name: string): GroceryCategory {
 function shouldHideShoppingItem(name: string) {
   const cleaned = cleanIngredientName(name).toLowerCase();
 
-  return (
-    !cleaned ||
-    [
-      "salt / pepper",
-      "salt and pepper",
-      "salt and black pepper",
-      "water",
-      "ice",
-      "cup",
-      "cups",
-      "tsp",
-      "tbsp",
-      "oz",
-      "lb",
-      "can",
-      "cans",
-      "box",
-      "boxes",
-      "package",
-      "packages",
-    ].includes(cleaned)
-  );
+  const unitOnlyOrJunk = new Set([
+    "salt / pepper",
+    "salt and pepper",
+    "salt and black pepper",
+    "water",
+    "ice",
+    "cup",
+    "cups",
+    "tsp",
+    "tbsp",
+    "tablespoon",
+    "tablespoons",
+    "teaspoon",
+    "teaspoons",
+    "oz",
+    "ounce",
+    "ounces",
+    "lb",
+    "lbs",
+    "pound",
+    "pounds",
+    "can",
+    "cans",
+    "box",
+    "boxes",
+    "package",
+    "packages",
+  ]);
+
+  return !cleaned || unitOnlyOrJunk.has(cleaned) || /^[^a-z]+$/i.test(cleaned);
 }
 
 // =====================================================
@@ -820,6 +837,7 @@ export default function ShoppingListPage() {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editText, setEditText] = useState("");
   const [editingGroup, setEditingGroup] = useState<CombinedItem | null>(null);
+  const [sourceModalGroup, setSourceModalGroup] = useState<CombinedItem | null>(null);
 
   // =====================================================
   // Refresh list when returning to page
@@ -867,9 +885,10 @@ export default function ShoppingListPage() {
 
     const id = makeManualId(cleanedName || raw);
 
-    const alreadyExists = shoppingItems.some(
-      (item) => item.text.trim().toLowerCase() === cleanedName.toLowerCase()
-    );
+    const alreadyExists = shoppingItems.some((item) => {
+      const existingName = cleanIngredientName(item.text).toLowerCase();
+      return existingName === cleanedName.toLowerCase();
+    });
 
     if (alreadyExists) {
       setNewItem("");
@@ -956,7 +975,7 @@ export default function ShoppingListPage() {
       if (shouldHideShoppingItem(cleanedName)) continue;
 
       const isMeasured = parsed.unit !== null && parsed.unit !== "__count__";
-const isCountable = !isMeasured && isCountableIngredient(cleanedName);
+      const isCountable = !isMeasured && isCountableIngredient(cleanedName);
       const normalizedName = isCountable
         ? normalizeCountableName(cleanedName)
         : cleanedName.toLowerCase();
@@ -1071,7 +1090,10 @@ const maxQuantityToAdd =
         )} ${pluralizeUnit(value.unit, value.totalQuantity)}`;
       }
 
-      const recipeCount = value.recipeNames.size;
+      const recipeNames = Array.from(value.recipeNames).sort((a, b) =>
+        a.localeCompare(b)
+      );
+      const recipeCount = recipeNames.length;
 
       return {
         id: key,
@@ -1081,6 +1103,7 @@ const maxQuantityToAdd =
         count: value.count,
         recipeCount,
         recipeCountLabel: recipeCount > 1 ? `(${recipeCount} recipes)` : "",
+        recipeNames,
         displayText,
       } satisfies CombinedItem;
     });
@@ -1110,12 +1133,16 @@ const maxQuantityToAdd =
     const trimmed = editText.trim();
     if (!trimmed || !editingGroup) return;
 
+    const parsed = parseIngredient(trimmed);
+    const cleanedName = parsed.name || cleanIngredientName(trimmed);
+    if (shouldHideShoppingItem(cleanedName)) return;
+
     const updated = shoppingItems.map((item) =>
       editingGroup.sourceIds.includes(item.id)
         ? {
             ...item,
             text: trimmed,
-            category: resolveShoppingCategory(trimmed),
+            category: resolveShoppingCategory(cleanedName),
           }
         : item
     );
@@ -1130,6 +1157,15 @@ const maxQuantityToAdd =
     setEditModalOpen(false);
     setEditingGroup(null);
     setEditText("");
+  };
+
+  const openSourceModal = (group: CombinedItem) => {
+    if (group.recipeNames.length === 0) return;
+    setSourceModalGroup(group);
+  };
+
+  const closeSourceModal = () => {
+    setSourceModalGroup(null);
   };
 
   // =====================================================
@@ -1364,28 +1400,61 @@ const maxQuantityToAdd =
                       <Circle size={18} style={{ opacity: 0.2, flexShrink: 0 }} />
                     )}
 
-                    <span
-                      style={{
-                        fontWeight: 600,
-                        textDecoration: item.checked ? "line-through" : "none",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        if (item.recipeNames.length === 0) return;
+                        e.stopPropagation();
+                        openSourceModal(item);
                       }}
+                      style={{
+                        flex: 1,
+                        minWidth: 0,
+                        background: "none",
+                        border: "none",
+                        padding: 0,
+                        color: "inherit",
+                        font: "inherit",
+                        textAlign: "left",
+                        cursor: item.recipeNames.length > 0 ? "pointer" : "default",
+                      }}
+                      aria-label={
+                        item.recipeNames.length > 0
+                          ? `Show recipes using ${item.displayText}`
+                          : undefined
+                      }
+                      title={
+                        item.recipeNames.length > 0
+                          ? "Show recipes using this item"
+                          : undefined
+                      }
                     >
-                      {item.displayText}
-                      {item.recipeCountLabel ? (
-                        <span
-                          style={{
-                            marginLeft: 8,
-                            fontSize: 12,
-                            opacity: 0.6,
-                            fontWeight: 800,
-                          }}
-                        >
-                          {item.recipeCountLabel}
-                        </span>
-                      ) : null}
-                    </span>
+                      <span
+                        style={{
+                          fontWeight: 600,
+                          textDecoration: item.checked ? "line-through" : "none",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          display: "block",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {item.displayText}
+                        {item.recipeCountLabel ? (
+                          <span
+                            style={{
+                              marginLeft: 8,
+                              fontSize: 12,
+                              opacity: 0.85,
+                              fontWeight: 900,
+                              color: "#86efac",
+                            }}
+                          >
+                            {item.recipeCountLabel}
+                          </span>
+                        ) : null}
+                      </span>
+                    </button>
                   </div>
 
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -1450,6 +1519,118 @@ const maxQuantityToAdd =
             <ShoppingCart size={48} style={{ marginBottom: 16 }} />
             <div style={{ fontWeight: 800 }}>
               {hideChecked ? "No unchecked items" : "List is empty"}
+            </div>
+          </div>
+        )}
+
+        {sourceModalGroup && (
+          <div
+            onClick={closeSourceModal}
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(0,0,0,0.55)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 1000,
+              padding: 20,
+              backdropFilter: "blur(6px)",
+            }}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                width: "100%",
+                maxWidth: 420,
+                background: "rgba(17,17,17,0.96)",
+                borderRadius: 22,
+                padding: 20,
+                display: "grid",
+                gap: 14,
+                border: "1px solid rgba(255,255,255,0.12)",
+                boxShadow: "0 24px 80px rgba(0,0,0,0.55)",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: 12,
+                }}
+              >
+                <div style={{ display: "grid", gap: 3 }}>
+                  <div style={{ fontSize: 18, fontWeight: 900 }}>Used In</div>
+                  <div style={{ fontSize: 13, opacity: 0.65 }}>
+                    {sourceModalGroup.displayText}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={closeSourceModal}
+                  style={{
+                    width: 34,
+                    height: 34,
+                    borderRadius: 999,
+                    background: "rgba(255,255,255,0.06)",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    color: "white",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: 0,
+                    flexShrink: 0,
+                  }}
+                  aria-label="Close recipe source details"
+                  title="Close"
+                >
+                  <X size={17} />
+                </button>
+              </div>
+
+              <div
+                style={{
+                  display: "grid",
+                  gap: 8,
+                  maxHeight: 260,
+                  overflowY: "auto",
+                  paddingRight: 2,
+                }}
+              >
+                {sourceModalGroup.recipeNames.map((recipeName) => (
+                  <div
+                    key={recipeName}
+                    style={{
+                      padding: "11px 12px",
+                      borderRadius: 14,
+                      background: "rgba(255,255,255,0.05)",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      fontSize: 14,
+                      fontWeight: 800,
+                    }}
+                  >
+                    {recipeName}
+                  </div>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={closeSourceModal}
+                style={{
+                  padding: "12px 14px",
+                  borderRadius: 14,
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  color: "white",
+                  opacity: 0.9,
+                  fontWeight: 900,
+                }}
+              >
+                Done
+              </button>
             </div>
           </div>
         )}
