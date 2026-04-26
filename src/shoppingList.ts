@@ -15,6 +15,7 @@ export type ShoppingItem = {
   normalizedName?: string;
   quantity?: number | null;
   unit?: string;
+  packageSize?: string;
 };
 
 const KEY = "simple-dinners.shoppingList.v1";
@@ -115,6 +116,26 @@ function formatQuantity(value: number | null | undefined) {
   }
 
   return String(rounded);
+}
+
+function normalizePackageSize(value?: string) {
+  const cleaned = String(value || "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!cleaned) return "";
+
+  return cleaned
+    .replace(/ounces?\b/g, "oz")
+    .replace(/pounds?\b/g, "lb")
+    .replace(/\blbs?\b/g, "lb")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function formatPackageSize(value?: string) {
+  return normalizePackageSize(value);
 }
 
 // =====================================================
@@ -412,6 +433,22 @@ function normalizeProduce(text: string) {
     .replace(/\bjalapenos?\b/g, "jalapeno");
 }
 
+function normalizeCannedAndJarredGoods(text: string) {
+  return text
+    .replace(/\bfire[- ]roasted diced tomatoes?\b/g, "fire-roasted diced tomatoes")
+    .replace(/\bfire[- ]roasted tomatoes?\b/g, "fire-roasted tomatoes")
+    .replace(/\bdiced tomatoes?\b/g, "diced tomatoes")
+    .replace(/\bcrushed tomatoes?\b/g, "crushed tomatoes")
+    .replace(/\bstewed tomatoes?\b/g, "stewed tomatoes")
+    .replace(/\btomato sauce\b/g, "tomato sauce")
+    .replace(/\btomato paste\b/g, "tomato paste")
+    .replace(/\bchili beans?\b/g, "chili beans")
+    .replace(/\bblack beans?\b/g, "black beans")
+    .replace(/\bkidney beans?\b/g, "kidney beans")
+    .replace(/\bpinto beans?\b/g, "pinto beans")
+    .replace(/\bwhite beans?\b/g, "white beans");
+}
+
 function normalizeProteinsAndBakery(text: string) {
   return text
     .replace(/\bextra lean ground beef\b/g, "ground beef")
@@ -482,6 +519,7 @@ function normalizeIngredientCore(text: string) {
   next = next.replace(/^\s*to\s+/i, "");
   next = normalizePantryAndSeasonings(next);
   next = normalizeProduce(next);
+  next = normalizeCannedAndJarredGoods(next);
   next = normalizeProteinsAndBakery(next);
   next = normalizeDairyAndCheese(next);
   next = normalizeMushrooms(next);
@@ -555,6 +593,7 @@ function parseIngredientParts(line: string): {
   normalizedName: string;
   quantity: number | null;
   unit: string;
+  packageSize: string;
 } {
   let text = normalizeAscii(line);
 
@@ -565,7 +604,7 @@ function parseIngredientParts(line: string): {
   text = text.replace(/\s+/g, " ").trim();
 
   if (isSectionHeader(text)) {
-    return { normalizedName: "", quantity: null, unit: "" };
+    return { normalizedName: "", quantity: null, unit: "", packageSize: "" };
   }
 
   let quantity: number | null = null;
@@ -578,10 +617,18 @@ function parseIngredientParts(line: string): {
       normalizedName: "lemon",
       quantity: parseFraction(juiceOfLemonMatch[1]),
       unit: "",
+      packageSize: "",
     };
   }
 
-  // Keep outer unit quantities such as "2 (8 oz) boxes manicotti shells".
+  // Preserve package/can sizes such as "2 (14.5 oz) cans fire-roasted diced tomatoes".
+  let packageSize = "";
+  const sizeMatch = text.match(/\(([^)]+)\)/);
+  if (sizeMatch) {
+    packageSize = normalizePackageSize(sizeMatch[1]);
+  }
+
+  // Remove parenthetical size after capturing so quantity + unit parsing still works.
   text = text.replace(/\([^)]*\)/g, " ").replace(/\s+/g, " ").trim();
 
   const quantityMatch = text.match(
@@ -606,6 +653,7 @@ function parseIngredientParts(line: string): {
     normalizedName,
     quantity,
     unit,
+    packageSize,
   };
 }
 
@@ -694,7 +742,8 @@ function pluralizeCountableName(name: string, quantity: number) {
 function buildDisplayText(
   normalizedName: string,
   quantity: number | null,
-  unit: string
+  unit: string,
+  packageSize?: string
 ) {
   if (!normalizedName) return "";
 
@@ -702,6 +751,11 @@ function buildDisplayText(
     const qty = formatQuantity(quantity);
 
     if (unit) {
+      const size = formatPackageSize(packageSize);
+      if (size) {
+        return `${qty} (${size}) ${pluralizeUnit(unit, quantity)} ${normalizedName}`.trim();
+      }
+
       return `${qty} ${pluralizeUnit(unit, quantity)} ${normalizedName}`.trim();
     }
 
@@ -792,16 +846,18 @@ export function loadShoppingList(): ShoppingItem[] {
       const quantity =
         typeof item.quantity === "number" ? item.quantity : parsed.quantity;
       const unit = normalizeUnit(item.unit || parsed.unit || "");
+      const packageSize = normalizePackageSize(item.packageSize || parsed.packageSize || "");
 
       return {
         ...item,
         id:
           item.id ||
           `${makeId(normalizedName)}-${item.sourceRecipe || "item"}-${item.addedAt || 0}`,
-        text: buildDisplayText(normalizedName, quantity, unit),
+        text: buildDisplayText(normalizedName, quantity, unit, packageSize),
         normalizedName,
         quantity,
         unit,
+        packageSize,
         category: resolveShoppingCategory(normalizedName),
         sourceRecipe: item.sourceRecipe || "",
       } as ShoppingItem;
@@ -843,7 +899,8 @@ export function addIngredientsToList(
     const text = buildDisplayText(
       parsed.normalizedName,
       parsed.quantity,
-      parsed.unit
+      parsed.unit,
+      parsed.packageSize
     );
 
     newItems.push({
@@ -856,10 +913,17 @@ export function addIngredientsToList(
       normalizedName: parsed.normalizedName,
       quantity: parsed.quantity,
       unit: parsed.unit,
+      packageSize: parsed.packageSize,
     });
   }
 
-  const merged = [...existing, ...newItems];
+  // Idempotent recipe adds: adding the same recipe again refreshes its ingredients instead of duplicating them.
+  const recipeKey = String(recipeName || "").trim().toLowerCase();
+  const existingWithoutSameRecipe = recipeKey
+    ? existing.filter((item) => String(item.sourceRecipe || "").trim().toLowerCase() !== recipeKey)
+    : existing;
+
+  const merged = [...existingWithoutSameRecipe, ...newItems];
   saveShoppingList(merged);
 
   return { items: merged, addedCount: newItems.length };
