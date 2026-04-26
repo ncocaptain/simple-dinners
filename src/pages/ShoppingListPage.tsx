@@ -1110,21 +1110,48 @@ export default function ShoppingListPage() {
     for (const item of shoppingItems) {
       const smartItem = item as ShoppingItemWithSmartMeta;
       const cleanedRaw = cleanIngredientName(item.text);
-      const parsed = parseIngredient(item.text || cleanedRaw);
+      const parsed = parseIngredient(item.text);
       const cleanedName = smartItem.normalizedName || parsed.name || cleanedRaw;
       if (shouldHideShoppingItem(cleanedName)) continue;
 
-      const parsedUnit = normalizeUnit(smartItem.unit || parsed.unit || "") || parsed.unit;
+      let parsedUnit =
+  smartItem.unit !== undefined && smartItem.unit !== null
+    ? smartItem.unit
+    : parsed.unit;
+
+// 🚨 CRITICAL FIX
+if (parsedUnit === "__count__") {
+  parsedUnit = null;
+}
+
+parsedUnit = normalizeUnit(parsedUnit);
       const parsedQuantity =
-        typeof smartItem.quantity === "number" ? smartItem.quantity : parsed.quantity;
+  typeof smartItem.quantity === "number"
+    ? smartItem.quantity
+    : parsed.quantity ?? null;
       const packageSize =
         normalizePackageSize(smartItem.packageSize) || normalizePackageSize(parsed.packageSize);
 
-      const isMeasured = parsedUnit !== null && parsedUnit !== "__count__";
-      const isCountable = !isMeasured && isCountableIngredient(cleanedName);
-      const normalizedName = isCountable
-        ? normalizeCountableName(cleanedName)
-        : cleanedName.toLowerCase();
+      const preNormalizedName = cleanIngredientName(cleanedName).toLowerCase();
+
+const FORCE_COUNTABLE = new Set([
+  "chicken breast",
+  "chicken thigh",
+  "drumstick",
+  "pork chop",
+  "porkchop",
+]);
+
+const forceCountable = FORCE_COUNTABLE.has(preNormalizedName);
+
+const isMeasured = !forceCountable && parsedUnit !== null;
+const isCountable =
+  forceCountable || (!isMeasured && isCountableIngredient(cleanedName));
+
+const normalizedName = isCountable
+  ? normalizeCountableName(cleanedName)
+  : cleanedName.toLowerCase();
+        
 
       const mergeUnit = isCountable ? "__count__" : parsedUnit;
       const category = resolveShoppingCategoryForItem(
@@ -1246,7 +1273,10 @@ const maxQuantityToAdd =
       let displayText = formatDisplayName(value.name);
 
       if (value.isCountable) {
-  const qty = value.totalQuantity > 0 ? value.totalQuantity : value.count;
+  const qty =
+  value.totalQuantity && value.totalQuantity > 0
+    ? value.totalQuantity
+    : value.count || 1;
 
   const baseName = singularizeWord(value.name);
 
