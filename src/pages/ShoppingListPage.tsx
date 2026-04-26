@@ -925,10 +925,15 @@ function formatRecipeBreakdownAmount(
   if (quantity <= 0) return "";
 
   if (isCountable) {
-    const qty = Math.ceil(quantity);
-    const baseName = singularizeWord(name);
-    return `${qty} ${formatDisplayName(pluralizeCountable(baseName, qty))}`;
+  const qty = Math.ceil(quantity);
+  const baseName = singularizeWord(name);
+
+  if (baseName === "garlic") {
+    return `${qty} ${qty === 1 ? "clove" : "cloves"}`;
   }
+
+  return `${qty} ${formatDisplayName(pluralizeCountable(baseName, qty))}`;
+}
 
   if (unit && unit !== "__count__") {
     const sizeText =
@@ -1320,17 +1325,13 @@ const maxQuantityToAdd =
   pluralizeCountable(baseName, finalQty)
 );
 
-// 🔥 Garlic display polish
 if (baseName === "garlic") {
-  formattedName = finalQty === 1 ? "clove Garlic" : "cloves Garlic";
+  displayText = `${finalQty} ${finalQty === 1 ? "clove" : "cloves"} Garlic`;
+} else if (min !== max) {
+  displayText = `${min}-${max} ${formattedName}`;
+} else {
+  displayText = `${finalQty} ${formattedName}`;
 }
-
-  // ✅ collapse 1–1 → 1
-  if (min !== max) {
-    displayText = `${min}-${max} ${formattedName}`;
-  } else {
-    displayText = `${finalQty} ${formattedName}`;
-  }
       } else if (
         !value.mixedUnits &&
         value.unit &&
