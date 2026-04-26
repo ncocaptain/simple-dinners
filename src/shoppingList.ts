@@ -138,6 +138,38 @@ function formatPackageSize(value?: string) {
   return normalizePackageSize(value);
 }
 
+function formatSmartName(value: string) {
+  const smallWords = new Set(["of", "and", "or", "the", "in", "with"]);
+
+  return String(value || "")
+    .split(" ")
+    .filter(Boolean)
+    .map((word, index) => {
+      const lower = word.toLowerCase();
+      if (index > 0 && smallWords.has(lower)) return lower;
+      return lower.charAt(0).toUpperCase() + lower.slice(1);
+    })
+    .join(" ");
+}
+
+const CUP_MEASURE_NOISE = new Set([
+  "pasta",
+  "rice",
+  "flour",
+  "sugar",
+  "brown sugar",
+  "bread crumbs",
+  "breadcrumbs",
+]);
+
+const DEFAULT_BUY_DISPLAY: Record<string, string> = {
+  garlic: "Garlic",
+  cilantro: "Cilantro",
+  parsley: "Parsley",
+  cheese: "Cheese",
+  "brown sugar": "Brown Sugar",
+};
+
 // =====================================================
 // Builder: unit helpers
 // =====================================================
@@ -461,6 +493,7 @@ function normalizeProteinsAndBakery(text: string) {
     .replace(/\bchicken breasts?\b/g, "chicken breast")
     .replace(/\bchicken thighs?\b/g, "chicken thigh")
     .replace(/\bdrumsticks?\b/g, "drumstick")
+    .replace(/\bbone[- ]in pork chops?\b/g, "bone-in pork chop")
     .replace(/\bpork chops?\b/g, "pork chop")
     .replace(/\bmanicotti shells?\b/g, "manicotti shells");
 }
@@ -694,6 +727,7 @@ const COUNTABLE_DISPLAY_NAMES = new Set([
   "chicken thigh",
   "drumstick",
   "pork chop",
+  "bone-in pork chop",
   "hot dog",
 ]);
 
@@ -731,6 +765,7 @@ function pluralizeCountableName(name: string, quantity: number) {
     "chicken thigh": "chicken thighs",
     drumstick: "drumsticks",
     "pork chop": "pork chops",
+    "bone-in pork chop": "bone-in pork chops",
     "hot dog": "hot dogs",
   };
 
@@ -747,26 +782,39 @@ function buildDisplayText(
 ) {
   if (!normalizedName) return "";
 
+  const name = normalizedName.toLowerCase().trim();
+  const displayName = formatSmartName(name);
+  const size = formatPackageSize(packageSize);
+
+  // Avoid grocery-noise measurements like "1/2 cup pasta". Users buy pasta, not half a cup.
+  if (unit === "cup" && CUP_MEASURE_NOISE.has(name)) {
+    return displayName;
+  }
+
+  // Helpful defaults for common loose items when recipes do not include a real quantity.
+  if (quantity === null && DEFAULT_BUY_DISPLAY[name]) {
+    return DEFAULT_BUY_DISPLAY[name];
+  }
+
   if (quantity !== null) {
     const qty = formatQuantity(quantity);
 
-    if (unit) {
-      const size = formatPackageSize(packageSize);
+    if (unit && unit !== "__count__") {
       if (size) {
-        return `${qty} (${size}) ${pluralizeUnit(unit, quantity)} ${normalizedName}`.trim();
+        return `${qty} (${size}) ${pluralizeUnit(unit, quantity)} ${displayName}`.trim();
       }
 
-      return `${qty} ${pluralizeUnit(unit, quantity)} ${normalizedName}`.trim();
+      return `${qty} ${pluralizeUnit(unit, quantity)} ${displayName}`.trim();
     }
 
-    if (COUNTABLE_DISPLAY_NAMES.has(normalizedName)) {
-      return `${qty} ${pluralizeCountableName(normalizedName, quantity)}`;
+    if (COUNTABLE_DISPLAY_NAMES.has(name)) {
+      return `${qty} ${formatSmartName(pluralizeCountableName(name, quantity))}`;
     }
 
-    return `${qty} ${normalizedName}`.trim();
+    return `${qty} ${displayName}`.trim();
   }
 
-  return normalizedName;
+  return displayName;
 }
 
 // =====================================================
@@ -810,6 +858,7 @@ const HIDDEN_ITEMS = new Set([
   "kg",
   "ml",
   "l",
+  "__count__",
 ]);
 
 function shouldHideShoppingItem(name: string) {
