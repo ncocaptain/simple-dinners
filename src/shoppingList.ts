@@ -163,9 +163,9 @@ const CUP_MEASURE_NOISE = new Set([
 ]);
 
 const DEFAULT_BUY_DISPLAY: Record<string, string> = {
-  garlic: "Garlic",
-  cilantro: "Cilantro",
-  parsley: "Parsley",
+  garlic: "1 clove Garlic",
+  cilantro: "1 bunch Cilantro",
+  parsley: "1 bunch Parsley",
   cheese: "Cheese",
   "brown sugar": "Brown Sugar",
 };
@@ -772,6 +772,19 @@ function pluralizeCountableName(name: string, quantity: number) {
   return irregular[name] || `${name}s`;
 }
 
+const DEFAULT_COUNTABLE_FALLBACK = new Set([
+  "lemon",
+  "lime",
+  "onion",
+  "yellow onion",
+  "white onion",
+  "red onion",
+  "green onion",
+  "carrot",
+  "jalapeno",
+  "apple",
+  "banana",
+]);
 
 
 function buildDisplayText(
@@ -781,15 +794,24 @@ function buildDisplayText(
   packageSize?: string
 ) {
   if (!normalizedName) return "";
+  
 
   const name = normalizedName.toLowerCase().trim();
   const displayName = formatSmartName(name);
   const size = formatPackageSize(packageSize);
 
   // Avoid grocery-noise measurements like "1/2 cup pasta". Users buy pasta, not half a cup.
-  if (unit === "cup" && CUP_MEASURE_NOISE.has(name)) {
-    return displayName;
-  }
+  if (
+  unit &&
+  ["cup", "Tbsp", "tsp"].includes(unit) &&
+  CUP_MEASURE_NOISE.has(name)
+) {
+  return displayName;
+}
+  // Default to 1 for loose countable produce if no quantity
+if (quantity === null && DEFAULT_COUNTABLE_FALLBACK.has(name)) {
+  return `1 ${formatSmartName(name)}`;
+}
 
   // Helpful defaults for common loose items when recipes do not include a real quantity.
   if (quantity === null && DEFAULT_BUY_DISPLAY[name]) {

@@ -1801,7 +1801,14 @@ const maxQuantityToAdd =
                 }}
               >
                 <div style={{ display: "grid", gap: 3 }}>
-                  <div style={{ fontSize: 18, fontWeight: 900 }}>Used In</div>
+                  <div style={{ fontSize: 18, fontWeight: 900 }}>
+  Used In{" "}
+  {sourceModalGroup.recipeCount > 0
+    ? `(${sourceModalGroup.recipeCount} ${
+        sourceModalGroup.recipeCount === 1 ? "recipe" : "recipes"
+      })`
+    : ""}
+</div>
                   <div style={{ fontSize: 13, opacity: 0.65 }}>
                     {sourceModalGroup.displayText}
                   </div>
