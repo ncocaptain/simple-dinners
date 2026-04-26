@@ -539,7 +539,8 @@ function normalizeProteinsAndBakery(text: string) {
     .replace(/\bchicken breasts?\b/g, "chicken breast")
     .replace(/\bchicken thighs?\b/g, "chicken thigh")
     .replace(/\bdrumsticks?\b/g, "drumstick")
-    .replace(/\bpork chops?\b/g, "pork chop");
+    .replace(/\bpork chops?\b/g, "pork chop")
+    .replace(/\bbone-in pork chops?\b/g, "pork chop");
 }
 
 function normalizeDairyAndCheese(text: string) {
@@ -1132,7 +1133,9 @@ parsedUnit = normalizeUnit(parsedUnit);
       const packageSize =
         normalizePackageSize(smartItem.packageSize) || normalizePackageSize(parsed.packageSize);
 
-      const preNormalizedName = cleanIngredientName(cleanedName).toLowerCase();
+      const preNormalizedName = cleanIngredientName(cleanedName)
+  .toLowerCase()
+  .replace(/\bbone-in pork chops?\b/g, "pork chop");
 
 const FORCE_COUNTABLE = new Set([
   "chicken breast",
