@@ -209,14 +209,22 @@ function formatQuantity(n: number): string {
 // Display helpers
 // These control how items look on screen
 // =====================================================
+const SMALL_TITLE_WORDS = new Set(["of", "and", "or", "the", "a", "an", "with", "in"]);
+
 function formatDisplayName(name: string) {
   if (!name) return "";
 
   return name
     .split(" ")
-    .map((word) => {
+    .map((word, index) => {
       if (!word) return word;
-      return word.charAt(0).toUpperCase() + word.slice(1);
+
+      const lower = word.toLowerCase();
+      if (index !== 0 && SMALL_TITLE_WORDS.has(lower)) {
+        return lower;
+      }
+
+      return lower.charAt(0).toUpperCase() + lower.slice(1);
     })
     .join(" ");
 }
@@ -235,6 +243,11 @@ function normalizeUnit(unit: string | null): string | null {
   if (["package", "packages", "pkg", "pkgs"].includes(u)) return "package";
   if (["clove", "cloves"].includes(u)) return "clove";
   if (["box", "boxes"].includes(u)) return "box";
+  if (["jar", "jars"].includes(u)) return "jar";
+  if (["carton", "cartons"].includes(u)) return "carton";
+  if (["bag", "bags"].includes(u)) return "bag";
+  if (["tube", "tubes"].includes(u)) return "tube";
+  if (["packet", "packets"].includes(u)) return "packet";
 
   return u;
 }
@@ -261,6 +274,11 @@ function pluralizeUnit(unit: string, quantity: number): string {
   if (unit === "package") return "packages";
   if (unit === "clove") return "cloves";
   if (unit === "box") return quantity === 1 ? "box" : "boxes";
+  if (unit === "jar") return quantity === 1 ? "jar" : "jars";
+  if (unit === "carton") return quantity === 1 ? "carton" : "cartons";
+  if (unit === "bag") return quantity === 1 ? "bag" : "bags";
+  if (unit === "tube") return quantity === 1 ? "tube" : "tubes";
+  if (unit === "packet") return quantity === 1 ? "packet" : "packets";
   return `${unit}s`;
 }
 
@@ -792,7 +810,7 @@ function shouldShowMeasuredTotal(
   if (HIDE_MEASURED_TOTALS.has(cleaned)) return false;
   if (ALWAYS_SHOW_MEASURED_TOTALS.has(cleaned)) return true;
 
-  if (["lb", "oz", "can", "package", "box"].includes(unit)) {
+  if (["lb", "oz", "can", "package", "box", "jar", "carton", "bag", "tube", "packet"].includes(unit)) {
     return true;
   }
 
@@ -829,6 +847,35 @@ function resolveShoppingCategory(name: string): GroceryCategory {
   }
 
   return categorizeGroceryItem(cleaned);
+}
+
+function resolveShoppingCategoryForItem(
+  name: string,
+  unit: string | null,
+  packageSize?: string
+): GroceryCategory {
+  // Canned/boxed/jarred items belong in pantry even if the ingredient name
+  // contains produce words like tomatoes or corn.
+  if (
+    unit &&
+    ["can", "package", "box", "jar", "carton", "bag", "tube", "packet"].includes(unit)
+  ) {
+    return "Pantry" as GroceryCategory;
+  }
+
+  if (packageSize) {
+    const cleaned = cleanIngredientName(name).toLowerCase();
+    if (
+      cleaned.includes("tomato") ||
+      cleaned.includes("beans") ||
+      cleaned.includes("corn") ||
+      cleaned.includes("soup")
+    ) {
+      return "Pantry" as GroceryCategory;
+    }
+  }
+
+  return resolveShoppingCategory(name);
 }
 
 function shouldHideShoppingItem(name: string) {
@@ -1079,8 +1126,12 @@ export default function ShoppingListPage() {
         ? normalizeCountableName(cleanedName)
         : cleanedName.toLowerCase();
 
-      const category = resolveShoppingCategory(normalizedName);
       const mergeUnit = isCountable ? "__count__" : parsedUnit;
+      const category = resolveShoppingCategoryForItem(
+        normalizedName,
+        mergeUnit,
+        packageSize
+      );
       const packageKey =
         packageSize && isPackageSizeSensitiveUnit(mergeUnit) ? packageSize : "";
       const key = `${category}::${normalizedName}::${mergeUnit || ""}::${packageKey}`;
@@ -1225,9 +1276,10 @@ const maxQuantityToAdd =
           value.packageSize && isPackageSizeSensitiveUnit(value.unit)
             ? ` (${formatPackageSize(value.packageSize)})`
             : "";
-        displayText = `${formattedName}, ${formatQuantity(
+        displayText = `${formatQuantity(value.totalQuantity)}${packageText} ${pluralizeUnit(
+          value.unit,
           value.totalQuantity
-        )}${packageText} ${pluralizeUnit(value.unit, value.totalQuantity)}`;
+        )} ${formattedName}`;
       }
 
       const recipeNames = Array.from(value.recipeNames).sort((a, b) =>
