@@ -584,15 +584,19 @@ function AppContent() {
   const adaptiveInset = getAdaptiveBottomInset();
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-paddingTop: "calc(env(safe-area-inset-top, 0px) + 12px)",
-paddingBottom: hideBottomNav
-  ? "24px"
-  : `calc(120px + env(safe-area-inset-bottom, 0px) + ${adaptiveInset}px)`,
-      }}
-    >
+  <div
+    style={{
+      minHeight: "100dvh",
+      background:
+        "linear-gradient(180deg, #050505 0%, #07111f 45%, #06111f 100%)",
+      color: "#f8fafc",
+      paddingTop: "calc(env(safe-area-inset-top, 0px) + 12px)",
+      paddingBottom: hideBottomNav
+        ? "calc(24px + env(safe-area-inset-bottom, 0px))"
+        : `calc(120px + env(safe-area-inset-bottom, 0px) + ${adaptiveInset}px)`,
+      overflowX: "hidden",
+    }}
+  >
       <BackHandler />
 
       <header
@@ -816,11 +820,14 @@ export default function App() {
     <ThemeProvider>
       <ToastProvider>
         <div
-          style={{
-            opacity: visible ? 1 : 0,
-            transition: "opacity 300ms ease",
-          }}
-        >
+  style={{
+    minHeight: "100dvh",
+    background:
+      "linear-gradient(180deg, #050505 0%, #07111f 45%, #06111f 100%)",
+    opacity: visible ? 1 : 0,
+    transition: "opacity 300ms ease",
+  }}
+>
           <AppContent />
         </div>
       </ToastProvider>
