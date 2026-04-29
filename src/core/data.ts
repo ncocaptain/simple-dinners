@@ -2544,7 +2544,7 @@ Simmer over low heat for at least 30 minutes, stirring occasionally, until flavo
 Remove the thyme sprig. Taste and adjust seasoning with additional salt and pepper if needed.
 
 Serve warm.`,
-  photoUrl: "/images/roasted-tomato-basil-soup.webp",
+  photoUrl: "/images/roasted-tomato-basil-soup.jpg",
   effort: "normal",
   tags: ["dinner", "soup", "comfort", "vegetarian", "roasted", "cozy"],
   isVegetarian: false,
@@ -2592,7 +2592,7 @@ Add 1 1/2 cups frozen peas and cover again. Cook until the stew thickens and pea
 Stir in 2 tbsp chopped fresh parsley. Taste and adjust salt and pepper as needed.
 
 Serve warm.`,
-  photoUrl: "/images/slow-cooker-beef-stew.webp",
+  photoUrl: "/images/slow-cooker-beef-stew.jpg",
   effort: "big",
   tags: ["dinner", "beef", "slow-cooker", "comfort", "one-pot", "family", "hearty", "leftovers-friendly"],
   isVegetarian: false,
@@ -2637,7 +2637,7 @@ Brush the top with 2 tbsp olive oil and sprinkle with 1 tbsp red pepper flakes i
 Slice and serve.
 
 For the rice: In a bowl, combine 10 oz cooked rice with 2 tbsp cilantro lime seasoning (or mix in lime juice, chopped cilantro, and salt to taste). Serve alongside.`,
-  photoUrl: "/images/loaded-taco-party-ring.webp",
+  photoUrl: "/images/loaded-taco-party-ring.jpg",
   effort: "normal",
   tags: ["dinner", "beef", "bake", "party", "family", "tex-mex", "fun", "shareable"],
   isVegetarian: false,
@@ -2685,7 +2685,7 @@ Transfer to a pizza peel or baking sheet and bake for 10 to 14 minutes, until th
 Remove from oven and sprinkle with 1/4 cup fresh cilantro.
 
 Let rest for 2 to 3 minutes before slicing and serving.`,
-  photoUrl: "/images/barbecue-chicken-pizza.webp",
+  photoUrl: "/images/barbecue-chicken-pizza.jpg",
   effort: "normal",
   tags: ["dinner", "pizza", "chicken", "bbq", "oven", "family", "comfort"],
   isVegetarian: false,
@@ -2733,7 +2733,7 @@ Fry for 12 to 15 minutes, turning occasionally, until the crust is deep golden-b
 Transfer chicken to a wire rack (not paper towels) to drain and stay crispy.
 
 Let rest for 5 minutes before serving.`,
-  photoUrl: "/images/homemade-fried-chicken.webp",
+  photoUrl: "/images/homemade-fried-chicken.jpg",
   effort: "big",
   tags: ["dinner", "chicken", "fried", "comfort", "crispy", "family", "southern"],
   isVegetarian: false,
@@ -2875,7 +2875,7 @@ Add chopped eggs, 1/2 cup celery, 1/3 cup red onion, 1/4 cup pickles, and 2 tbsp
 Cover and refrigerate for at least 1 to 2 hours to allow flavors to develop.
 
 Before serving, taste and adjust salt and pepper if needed. Sprinkle with additional paprika if desired.`,
-  photoUrl: "/images/classic-potato-salad.webp",
+  photoUrl: "/images/classic-potato-salad.jpg",
   effort: "normal",
   tags: ["side", "potatoes", "salad", "bbq", "summer", "comfort", "family", "cookout"],
   isVegetarian: true,
@@ -3120,7 +3120,7 @@ Slice 4 croissants and layer with lettuce if desired.
 Spoon chicken salad generously onto each croissant and top with tomato slices if using.
 
 Serve immediately.`,
-  photoUrl: "/images/chicken-salad-croissant.webp",
+  photoUrl: "/images/chicken-salad-croissant.jpg",
   effort: "normal",
   tags: ["lunch", "chicken", "sandwich", "quick", "meal-prep", "family", "fresh"],
   isVegetarian: false,
@@ -3147,7 +3147,7 @@ Add 16 oz pineapple juice and stir well to combine.
 Refrigerate overnight for best flavor.
 
 Serve over ice and garnish with fresh pineapple spears.`,
-  photoUrl: "/images/plantation-tea.webp",
+  photoUrl: "/images/plantation-tea.jpg",
   effort: "quick",
   tags: ["drink", "beverage", "tea", "summer", "batch", "refreshing", "non-alcoholic"],
   isVegetarian: true,
