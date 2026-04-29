@@ -2504,8 +2504,242 @@ Serve immediately.`,
   tags: ["dinner", "tacos", "pork", "mexican", "assembly", "family", "street-food"],
   isVegetarian: false,
   notes: "Simple street-style tacos built around flavorful smoked pulled pork. Use the Smoked Pulled Pork recipe for the base protein."
-}
-,
+},
+
+{
+  id: "roasted-tomato-basil-soup",
+  slug: "roasted-tomato-basil-soup",
+  name: "Roasted Tomato Basil Soup",
+  ingredients: `3 lbs tomatoes, halved
+1 sweet onion, cut into thick wedges
+3 tbsp olive oil
+1 tsp salt
+1/2 tsp black pepper
+1 tbsp butter
+1 tbsp garlic, minced
+2 1/2 cups chicken broth
+1/2 cup fresh basil leaves, chopped
+1 sprig fresh thyme
+1/4 cup heavy cream`,
+  instructions: `Preheat oven to 425°F. Line a large baking sheet with parchment paper.
+
+Arrange 3 lbs halved tomatoes (cut-side up) and 1 sliced sweet onion on the baking sheet.
+
+Drizzle with 3 tbsp olive oil and sprinkle with 1 tsp salt and 1/2 tsp black pepper.
+
+Roast for 40 to 45 minutes, until the tomatoes are softened and beginning to caramelize.
+
+In a large pot, melt 1 tbsp butter over medium heat. Add 1 tbsp minced garlic and cook for 30 seconds until fragrant.
+
+Carefully transfer the roasted tomatoes and onion, along with their juices, into the pot.
+
+Add 2 1/2 cups chicken broth and 1/2 cup chopped fresh basil. Stir well.
+
+Use an immersion blender (or carefully transfer to a blender) and blend until smooth.
+
+Add 1 sprig fresh thyme and 1/4 cup heavy cream. Stir to combine.
+
+Simmer over low heat for at least 30 minutes, stirring occasionally, until flavors deepen.
+
+Remove the thyme sprig. Taste and adjust seasoning with additional salt and pepper if needed.
+
+Serve warm.`,
+  photoUrl: "/images/roasted-tomato-basil-soup.webp",
+  effort: "normal",
+  tags: ["dinner", "soup", "comfort", "vegetarian", "roasted", "cozy"],
+  isVegetarian: false,
+  notes: "Roasting the tomatoes and onion brings out natural sweetness and depth of flavor. Pairs perfectly with a grilled cheese sandwich."
+},
+
+{
+  id: "slow-cooker-beef-stew",
+  slug: "slow-cooker-beef-stew",
+  name: "Slow Cooker Beef Stew",
+  ingredients: `2 lbs beef stew meat
+2 tbsp olive oil
+1 yellow onion, chopped
+1 lb baby potatoes, cubed
+1/2 lb carrots, diced
+4 cups beef broth
+3 tsp garlic, minced
+2 tbsp tomato paste
+2 tbsp Worcestershire sauce
+1 tsp dried thyme
+1 bay leaf
+3 tbsp cornstarch
+3 tbsp water
+1 1/2 cups frozen peas
+2 tbsp fresh parsley, chopped
+salt and black pepper, to taste`,
+  instructions: `Heat 2 tbsp olive oil in a skillet over medium heat.
+
+Season 2 lbs beef stew meat with salt and black pepper. Add to the skillet and sear for about 3 minutes, turning to brown all sides.
+
+Transfer the seared beef to a slow cooker along with 1 chopped onion, 1 lb cubed baby potatoes, and 1/2 lb diced carrots.
+
+In a bowl, whisk together 4 cups beef broth, 3 tsp minced garlic, 2 tbsp tomato paste, 2 tbsp Worcestershire sauce, and 1 tsp thyme.
+
+Pour the broth mixture over the beef and vegetables. Add 1 bay leaf.
+
+Cover and cook on low for 6 to 7 hours or on high for 3 to 4 hours, until the beef is tender.
+
+About 20 minutes before serving, remove the bay leaf.
+
+In a small bowl, mix 3 tbsp cornstarch with 3 tbsp water to create a slurry. Stir into the stew.
+
+Add 1 1/2 cups frozen peas and cover again. Cook until the stew thickens and peas are heated through.
+
+Stir in 2 tbsp chopped fresh parsley. Taste and adjust salt and pepper as needed.
+
+Serve warm.`,
+  photoUrl: "/images/slow-cooker-beef-stew.webp",
+  effort: "big",
+  tags: ["dinner", "beef", "slow-cooker", "comfort", "one-pot", "family", "hearty", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "A classic, hearty beef stew with tender meat and rich broth. Searing the beef first adds deeper flavor, and the cornstarch slurry gives it a perfectly thick finish."
+},
+
+{
+  id: "loaded-taco-party-ring",
+  slug: "loaded-taco-party-ring",
+  name: "Loaded Taco Party Ring with Cilantro Lime Rice",
+  ingredients: `Taco Ring:
+1 lb ground beef
+1/2 lb onion, diced
+1/2 cup water
+3 tbsp taco seasoning
+16 oz refrigerated crescent rolls
+1 cup cheddar cheese, shredded
+2 tbsp olive oil
+1 tbsp red pepper flakes (optional)
+
+Cilantro Lime Rice:
+10 oz cooked rice
+2 tbsp cilantro lime seasoning (or lime juice + chopped cilantro + pinch of salt)`,
+  instructions: `Preheat oven to 375°F.
+
+In a skillet over medium heat, cook 1 lb ground beef and 1/2 lb diced onion until beef is browned. Drain excess grease.
+
+Add 1/2 cup water and 3 tbsp taco seasoning. Stir and simmer for 10 minutes until slightly thickened.
+
+Arrange 16 oz crescent roll dough in a sunburst pattern on a baking sheet, with the wide ends overlapping in the center and the points facing outward.
+
+Spoon the beef mixture into the center ring.
+
+Sprinkle 1 cup shredded cheddar cheese evenly over the beef.
+
+Fold the pointed ends of the dough over the filling and tuck underneath to form a ring.
+
+Bake for about 18 minutes, until golden brown.
+
+Brush the top with 2 tbsp olive oil and sprinkle with 1 tbsp red pepper flakes if using.
+
+Slice and serve.
+
+For the rice: In a bowl, combine 10 oz cooked rice with 2 tbsp cilantro lime seasoning (or mix in lime juice, chopped cilantro, and salt to taste). Serve alongside.`,
+  photoUrl: "/images/loaded-taco-party-ring.webp",
+  effort: "normal",
+  tags: ["dinner", "beef", "bake", "party", "family", "tex-mex", "fun", "shareable"],
+  isVegetarian: false,
+  notes: "A fun, shareable taco-inspired bake wrapped in flaky crescent dough. Great for parties or family dinners and pairs perfectly with fresh cilantro lime rice."
+},
+{
+  id: "barbecue-chicken-pizza",
+  slug: "barbecue-chicken-pizza",
+  name: "Barbecue Chicken Pizza",
+  ingredients: `Chicken:
+1 lb boneless skinless chicken breast or thighs
+1 tbsp olive oil
+1/2 tsp salt
+1/4 tsp black pepper
+1/2 tsp smoked paprika (optional, for extra depth)
+
+Pizza Base:
+1 lb pizza dough (store-bought or homemade)
+1/2 cup barbecue sauce (plus 2 tbsp for chicken)
+1 1/2 cups mozzarella cheese, shredded
+1/2 cup red onion, thinly sliced
+1/4 cup fresh cilantro, chopped
+
+Optional:
+1/4 cup cheddar cheese, shredded
+1/2 jalapeño, thinly sliced`,
+  instructions: `Preheat oven to 475°F. If using a pizza stone or steel, place it in the oven while preheating.
+
+Heat 1 tbsp olive oil in a skillet over medium-high heat.
+
+Season 1 lb chicken with 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp smoked paprika if using.
+
+Cook chicken for 5 to 6 minutes per side, until a deep golden-brown crust forms and the internal temperature reaches 165°F.
+
+Remove from heat, let rest for 5 minutes, then slice or shred. Toss with 2 tbsp barbecue sauce.
+
+On a lightly floured surface, stretch 1 lb pizza dough into a 12 to 14-inch round.
+
+Spread 1/2 cup barbecue sauce evenly over the dough, leaving a small border around the edges.
+
+Top with 1 1/2 cups mozzarella cheese, followed by the barbecue chicken, 1/2 cup sliced red onion, and optional cheddar or jalapeños.
+
+Transfer to a pizza peel or baking sheet and bake for 10 to 14 minutes, until the crust is golden and the cheese is melted and bubbly with light browning.
+
+Remove from oven and sprinkle with 1/4 cup fresh cilantro.
+
+Let rest for 2 to 3 minutes before slicing and serving.`,
+  photoUrl: "/images/barbecue-chicken-pizza.webp",
+  effort: "normal",
+  tags: ["dinner", "pizza", "chicken", "bbq", "oven", "family", "comfort"],
+  isVegetarian: false,
+  notes: "A bold, smoky-sweet pizza with tender barbecue chicken and melty cheese. Cooking the chicken separately ensures great texture and prevents excess moisture on the pizza."
+},
+
+{
+  id: "homemade-fried-chicken",
+  slug: "homemade-fried-chicken",
+  name: "Homemade Fried Chicken",
+  ingredients: `Chicken:
+3 lbs bone-in chicken pieces (legs, thighs, breasts, wings)
+2 cups buttermilk
+1 tbsp hot sauce (optional)
+1 tsp salt
+1/2 tsp black pepper
+
+Flour Coating:
+2 cups all-purpose flour
+1 tbsp paprika (or smoked paprika for extra depth)
+1 tsp garlic powder
+1 tsp onion powder
+1 tsp salt
+1/2 tsp black pepper
+1/2 tsp cayenne pepper (optional)
+
+For Frying:
+vegetable oil (enough for 2 to 3 inches in a skillet or pot)`,
+  instructions: `In a large bowl, combine 2 cups buttermilk, 1 tbsp hot sauce if using, 1 tsp salt, and 1/2 tsp black pepper.
+
+Add 3 lbs chicken pieces, making sure they are fully coated. Cover and refrigerate for at least 2 hours, or overnight for best flavor and tenderness.
+
+In a separate bowl, mix 2 cups flour, 1 tbsp paprika, 1 tsp garlic powder, 1 tsp onion powder, 1 tsp salt, 1/2 tsp black pepper, and 1/2 tsp cayenne if using.
+
+Remove chicken from the buttermilk, letting excess drip off.
+
+Dredge each piece in the seasoned flour, pressing firmly so a thick coating adheres. Set coated chicken on a rack and let rest for 10 to 15 minutes to help the crust stick.
+
+Heat vegetable oil in a large cast iron skillet or heavy pot over medium heat until it reaches 325°F to 350°F.
+
+Carefully place chicken in the hot oil, skin-side down. Do not overcrowd the pan.
+
+Fry for 12 to 15 minutes, turning occasionally, until the crust is deep golden-brown and crispy and the internal temperature reaches 165°F.
+
+Transfer chicken to a wire rack (not paper towels) to drain and stay crispy.
+
+Let rest for 5 minutes before serving.`,
+  photoUrl: "/images/homemade-fried-chicken.webp",
+  effort: "big",
+  tags: ["dinner", "chicken", "fried", "comfort", "crispy", "family", "southern"],
+  isVegetarian: false,
+  notes: "Classic crispy fried chicken with a flavorful, well-seasoned crust. Marinating in buttermilk keeps the chicken juicy while creating a tender interior."
+},
+
 
 ];
 
@@ -2605,6 +2839,49 @@ Garnish with sliced green onions and serve immediately.`,
   isVegetarian: false,
   notes: "Crispy tater tots loaded with buffalo chicken, melty cheese, and cool ranch. Inspired by restaurant-style totchos but simplified for easy home cooking."
 },
+
+{
+  id: "classic-potato-salad",
+  slug: "classic-potato-salad",
+  name: "Classic Potato Salad",
+  ingredients: `2 lbs Yukon Gold or red potatoes, cut into 1-inch chunks
+1 tsp salt (for boiling water)
+3 large eggs
+
+1/2 cup celery, finely diced
+1/3 cup red onion, finely diced
+1/4 cup dill pickles or relish, chopped
+2 tbsp fresh parsley, chopped
+
+3/4 cup mayonnaise
+1 tbsp Dijon mustard
+1 tbsp apple cider vinegar
+1 tsp sugar
+1/2 tsp salt (plus more to taste)
+1/4 tsp black pepper
+1/2 tsp paprika`,
+  instructions: `Place 2 lbs chopped potatoes in a large pot and cover with cold water. Add 1 tsp salt and bring to a boil over high heat.
+
+Reduce to a gentle boil and cook for 10 to 12 minutes, until potatoes are fork-tender but still hold their shape. Drain and let cool slightly.
+
+While potatoes cook, place 3 eggs in a saucepan and cover with water. Bring to a boil, then turn off heat, cover, and let sit for 10 to 12 minutes. Transfer to ice water, peel, and chop.
+
+In a large bowl, whisk together 3/4 cup mayonnaise, 1 tbsp Dijon mustard, 1 tbsp apple cider vinegar, 1 tsp sugar, 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp paprika until smooth.
+
+Add the slightly warm potatoes to the dressing and gently toss to coat.
+
+Add chopped eggs, 1/2 cup celery, 1/3 cup red onion, 1/4 cup pickles, and 2 tbsp parsley. Fold everything together until evenly combined.
+
+Cover and refrigerate for at least 1 to 2 hours to allow flavors to develop.
+
+Before serving, taste and adjust salt and pepper if needed. Sprinkle with additional paprika if desired.`,
+  photoUrl: "/images/classic-potato-salad.webp",
+  effort: "normal",
+  tags: ["side", "potatoes", "salad", "bbq", "summer", "comfort", "family", "cookout"],
+  isVegetarian: true,
+  notes: "A creamy, classic potato salad with balanced tang and texture. Dressing the potatoes while slightly warm helps them absorb more flavor."
+},
+
 
 ];
 
@@ -2797,6 +3074,86 @@ Bake uncovered for 50 minutes until the top is golden and the center is set.
 
 Top with fresh blueberries and strawberries if desired before serving.`,
   },
+
+  {
+  id: "chicken-salad-croissant",
+  slug: "chicken-salad-croissant",
+  name: "Chicken Salad Croissant",
+  ingredients: `Chicken:
+1 lb boneless skinless chicken breasts
+1 tbsp olive oil
+1/2 tsp salt
+1/4 tsp black pepper
+
+Chicken Salad:
+1/2 cup mayonnaise
+1 tbsp Dijon mustard
+1 tbsp lemon juice
+1/2 tsp garlic powder
+1/4 tsp salt (plus more to taste)
+1/4 tsp black pepper
+1/2 cup celery, finely diced
+1/3 cup red grapes, halved (optional)
+1/4 cup sliced almonds or pecans (optional)
+2 tbsp fresh parsley, chopped
+
+Assembly:
+4 croissants, sliced
+lettuce leaves (optional)
+tomato slices (optional)`,
+  instructions: `Preheat a skillet over medium heat. Add 1 tbsp olive oil.
+
+Season 1 lb chicken breasts with 1/2 tsp salt and 1/4 tsp black pepper.
+
+Cook chicken for 5 to 6 minutes per side, until a golden-brown crust forms and the internal temperature reaches 165°F.
+
+Remove from heat and let rest for 5 to 10 minutes, then dice or shred into bite-sized pieces.
+
+In a large bowl, whisk together 1/2 cup mayonnaise, 1 tbsp Dijon mustard, 1 tbsp lemon juice, 1/2 tsp garlic powder, 1/4 tsp salt, and 1/4 tsp black pepper until smooth.
+
+Add the chopped chicken, 1/2 cup celery, 1/3 cup grapes if using, 1/4 cup nuts if using, and 2 tbsp parsley. Fold gently until everything is evenly coated.
+
+Taste and adjust seasoning with additional salt, pepper, or lemon juice as needed.
+
+Slice 4 croissants and layer with lettuce if desired.
+
+Spoon chicken salad generously onto each croissant and top with tomato slices if using.
+
+Serve immediately.`,
+  photoUrl: "/images/chicken-salad-croissant.webp",
+  effort: "normal",
+  tags: ["lunch", "chicken", "sandwich", "quick", "meal-prep", "family", "fresh"],
+  isVegetarian: false,
+  notes: "A creamy, balanced chicken salad served on flaky croissants. Letting the chicken rest before chopping keeps it juicy, and a splash of lemon brightens the entire dish."
+},
+
+{
+  id: "plantation-tea",
+  slug: "plantation-tea",
+  name: "Plantation Tea",
+  ingredients: `1 quart hot water
+6 black tea bags
+1 quart cold water
+16 oz pineapple juice
+1 fresh pineapple, peeled, cored, and cut into spears`,
+  instructions: `Bring 1 quart water to just below boiling and pour into a large pitcher.
+
+Add 6 black tea bags and steep for 5 minutes.
+
+Remove the tea bags and pour in 1 quart cold water.
+
+Add 16 oz pineapple juice and stir well to combine.
+
+Refrigerate overnight for best flavor.
+
+Serve over ice and garnish with fresh pineapple spears.`,
+  photoUrl: "/images/plantation-tea.webp",
+  effort: "quick",
+  tags: ["drink", "beverage", "tea", "summer", "batch", "refreshing", "non-alcoholic"],
+  isVegetarian: true,
+  notes: "A refreshing iced tea with a tropical pineapple twist. Letting it chill overnight helps the flavors fully blend and mellow."
+},
+
 
   {
   id: "blueberry-lemonade",
