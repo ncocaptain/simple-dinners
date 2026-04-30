@@ -2512,11 +2512,11 @@ Serve immediately.`,
   name: "Roasted Tomato Basil Soup",
   ingredients: `3 lbs tomatoes, halved
 1 sweet onion, cut into thick wedges
-3 tbsp olive oil
+3 Tbsp olive oil
 1 tsp salt
 1/2 tsp black pepper
-1 tbsp butter
-1 tbsp garlic, minced
+1 Tbsp butter
+1 Tbsp garlic, minced
 2 1/2 cups chicken broth
 1/2 cup fresh basil leaves, chopped
 1 sprig fresh thyme
@@ -2525,11 +2525,11 @@ Serve immediately.`,
 
 Arrange 3 lbs halved tomatoes (cut-side up) and 1 sliced sweet onion on the baking sheet.
 
-Drizzle with 3 tbsp olive oil and sprinkle with 1 tsp salt and 1/2 tsp black pepper.
+Drizzle with 3 Tbsp olive oil and sprinkle with 1 tsp salt and 1/2 tsp black pepper.
 
 Roast for 40 to 45 minutes, until the tomatoes are softened and beginning to caramelize.
 
-In a large pot, melt 1 tbsp butter over medium heat. Add 1 tbsp minced garlic and cook for 30 seconds until fragrant.
+In a large pot, melt 1 Tbsp butter over medium heat. Add 1 Tbsp minced garlic and cook for 30 seconds until fragrant.
 
 Carefully transfer the roasted tomatoes and onion, along with their juices, into the pot.
 
@@ -2556,28 +2556,28 @@ Serve warm.`,
   slug: "slow-cooker-beef-stew",
   name: "Slow Cooker Beef Stew",
   ingredients: `2 lbs beef stew meat
-2 tbsp olive oil
+2 Tbsp olive oil
 1 yellow onion, chopped
 1 lb baby potatoes, cubed
 1/2 lb carrots, diced
 4 cups beef broth
 3 tsp garlic, minced
-2 tbsp tomato paste
-2 tbsp Worcestershire sauce
+2 Tbsp tomato paste
+2 Tbsp Worcestershire sauce
 1 tsp dried thyme
 1 bay leaf
-3 tbsp cornstarch
-3 tbsp water
+3 Tbsp cornstarch
+3 Tbsp water
 1 1/2 cups frozen peas
-2 tbsp fresh parsley, chopped
+2 Tbsp fresh parsley, chopped
 salt and black pepper, to taste`,
-  instructions: `Heat 2 tbsp olive oil in a skillet over medium heat.
+  instructions: `Heat 2 Tbsp olive oil in a skillet over medium heat.
 
 Season 2 lbs beef stew meat with salt and black pepper. Add to the skillet and sear for about 3 minutes, turning to brown all sides.
 
 Transfer the seared beef to a slow cooker along with 1 chopped onion, 1 lb cubed baby potatoes, and 1/2 lb diced carrots.
 
-In a bowl, whisk together 4 cups beef broth, 3 tsp minced garlic, 2 tbsp tomato paste, 2 tbsp Worcestershire sauce, and 1 tsp thyme.
+In a bowl, whisk together 4 cups beef broth, 3 tsp minced garlic, 2 Tbsp tomato paste, 2 Tbsp Worcestershire sauce, and 1 tsp thyme.
 
 Pour the broth mixture over the beef and vegetables. Add 1 bay leaf.
 
@@ -2585,11 +2585,11 @@ Cover and cook on low for 6 to 7 hours or on high for 3 to 4 hours, until the be
 
 About 20 minutes before serving, remove the bay leaf.
 
-In a small bowl, mix 3 tbsp cornstarch with 3 tbsp water to create a slurry. Stir into the stew.
+In a small bowl, mix 3 Tbsp cornstarch with 3 Tbsp water to create a slurry. Stir into the stew.
 
 Add 1 1/2 cups frozen peas and cover again. Cook until the stew thickens and peas are heated through.
 
-Stir in 2 tbsp chopped fresh parsley. Taste and adjust salt and pepper as needed.
+Stir in 2 Tbsp chopped fresh parsley. Taste and adjust salt and pepper as needed.
 
 Serve warm.`,
   photoUrl: "/images/slow-cooker-beef-stew.jpg",
@@ -2607,20 +2607,20 @@ Serve warm.`,
 1 lb ground beef
 1/2 lb onion, diced
 1/2 cup water
-3 tbsp taco seasoning
+3 Tbsp taco seasoning
 16 oz refrigerated crescent rolls
 1 cup cheddar cheese, shredded
-2 tbsp olive oil
-1 tbsp red pepper flakes (optional)
+2 Tbsp olive oil
+1 Tbsp red pepper flakes (optional)
 
 Cilantro Lime Rice:
 10 oz cooked rice
-2 tbsp cilantro lime seasoning (or lime juice + chopped cilantro + pinch of salt)`,
+2 Tbsp cilantro lime seasoning (or lime juice + chopped cilantro + pinch of salt)`,
   instructions: `Preheat oven to 375°F.
 
 In a skillet over medium heat, cook 1 lb ground beef and 1/2 lb diced onion until beef is browned. Drain excess grease.
 
-Add 1/2 cup water and 3 tbsp taco seasoning. Stir and simmer for 10 minutes until slightly thickened.
+Add 1/2 cup water and 3 Tbsp taco seasoning. Stir and simmer for 10 minutes until slightly thickened.
 
 Arrange 16 oz crescent roll dough in a sunburst pattern on a baking sheet, with the wide ends overlapping in the center and the points facing outward.
 
@@ -2632,11 +2632,11 @@ Fold the pointed ends of the dough over the filling and tuck underneath to form 
 
 Bake for about 18 minutes, until golden brown.
 
-Brush the top with 2 tbsp olive oil and sprinkle with 1 tbsp red pepper flakes if using.
+Brush the top with 2 Tbsp olive oil and sprinkle with 1 Tbsp red pepper flakes if using.
 
 Slice and serve.
 
-For the rice: In a bowl, combine 10 oz cooked rice with 2 tbsp cilantro lime seasoning (or mix in lime juice, chopped cilantro, and salt to taste). Serve alongside.`,
+For the rice: In a bowl, combine 10 oz cooked rice with 2 Tbsp cilantro lime seasoning (or mix in lime juice, chopped cilantro, and salt to taste). Serve alongside.`,
   photoUrl: "/images/loaded-taco-party-ring.jpg",
   effort: "normal",
   tags: ["dinner", "beef", "bake", "party", "family", "tex-mex", "fun", "shareable"],
@@ -2649,14 +2649,14 @@ For the rice: In a bowl, combine 10 oz cooked rice with 2 tbsp cilantro lime sea
   name: "Barbecue Chicken Pizza",
   ingredients: `Chicken:
 1 lb boneless skinless chicken breast or thighs
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 tsp salt
 1/4 tsp black pepper
 1/2 tsp smoked paprika (optional, for extra depth)
 
 Pizza Base:
 1 lb pizza dough (store-bought or homemade)
-1/2 cup barbecue sauce (plus 2 tbsp for chicken)
+1/2 cup barbecue sauce (plus 2 Tbsp for chicken)
 1 1/2 cups mozzarella cheese, shredded
 1/2 cup red onion, thinly sliced
 1/4 cup fresh cilantro, chopped
@@ -2666,13 +2666,13 @@ Optional:
 1/2 jalapeño, thinly sliced`,
   instructions: `Preheat oven to 475°F. If using a pizza stone or steel, place it in the oven while preheating.
 
-Heat 1 tbsp olive oil in a skillet over medium-high heat.
+Heat 1 Tbsp olive oil in a skillet over medium-high heat.
 
 Season 1 lb chicken with 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp smoked paprika if using.
 
 Cook chicken for 5 to 6 minutes per side, until a deep golden-brown crust forms and the internal temperature reaches 165°F.
 
-Remove from heat, let rest for 5 minutes, then slice or shred. Toss with 2 tbsp barbecue sauce.
+Remove from heat, let rest for 5 minutes, then slice or shred. Toss with 2 Tbsp barbecue sauce.
 
 On a lightly floured surface, stretch 1 lb pizza dough into a 12 to 14-inch round.
 
@@ -2699,13 +2699,13 @@ Let rest for 2 to 3 minutes before slicing and serving.`,
   ingredients: `Chicken:
 3 lbs bone-in chicken pieces (legs, thighs, breasts, wings)
 2 cups buttermilk
-1 tbsp hot sauce (optional)
+1 Tbsp hot sauce (optional)
 1 tsp salt
 1/2 tsp black pepper
 
 Flour Coating:
 2 cups all-purpose flour
-1 tbsp paprika (or smoked paprika for extra depth)
+1 Tbsp paprika (or smoked paprika for extra depth)
 1 tsp garlic powder
 1 tsp onion powder
 1 tsp salt
@@ -2714,11 +2714,11 @@ Flour Coating:
 
 For Frying:
 vegetable oil (enough for 2 to 3 inches in a skillet or pot)`,
-  instructions: `In a large bowl, combine 2 cups buttermilk, 1 tbsp hot sauce if using, 1 tsp salt, and 1/2 tsp black pepper.
+  instructions: `In a large bowl, combine 2 cups buttermilk, 1 Tbsp hot sauce if using, 1 tsp salt, and 1/2 tsp black pepper.
 
 Add 3 lbs chicken pieces, making sure they are fully coated. Cover and refrigerate for at least 2 hours, or overnight for best flavor and tenderness.
 
-In a separate bowl, mix 2 cups flour, 1 tbsp paprika, 1 tsp garlic powder, 1 tsp onion powder, 1 tsp salt, 1/2 tsp black pepper, and 1/2 tsp cayenne if using.
+In a separate bowl, mix 2 cups flour, 1 Tbsp paprika, 1 tsp garlic powder, 1 tsp onion powder, 1 tsp salt, 1/2 tsp black pepper, and 1/2 tsp cayenne if using.
 
 Remove chicken from the buttermilk, letting excess drip off.
 
@@ -2801,7 +2801,7 @@ Remove from oven, toss with 2 Tbsp minced fresh parsley, season to taste, and se
   slug: "buffalo-chicken-tots",
   name: "Buffalo Chicken Tots",
   ingredients: `1 (32 oz) bag frozen tater tots
-1 tbsp olive oil
+1 Tbsp olive oil
 
 2 cups cooked chicken, shredded
 1/2 cup buffalo sauce (plus more for drizzle)
@@ -2816,7 +2816,7 @@ Remove from oven, toss with 2 Tbsp minced fresh parsley, season to taste, and se
 1 jalapeño or chili pepper, thinly sliced (optional)`,
   instructions: `Preheat oven to 400°F.
 
-Toss 1 (32 oz) bag tater tots with 1 tbsp olive oil and spread in a single layer on a baking sheet.
+Toss 1 (32 oz) bag tater tots with 1 Tbsp olive oil and spread in a single layer on a baking sheet.
 
 Bake according to package directions, about 20 to 25 minutes, until crispy and golden.
 
@@ -2851,11 +2851,11 @@ Garnish with sliced green onions and serve immediately.`,
 1/2 cup celery, finely diced
 1/3 cup red onion, finely diced
 1/4 cup dill pickles or relish, chopped
-2 tbsp fresh parsley, chopped
+2 Tbsp fresh parsley, chopped
 
 3/4 cup mayonnaise
-1 tbsp Dijon mustard
-1 tbsp apple cider vinegar
+1 Tbsp Dijon mustard
+1 Tbsp apple cider vinegar
 1 tsp sugar
 1/2 tsp salt (plus more to taste)
 1/4 tsp black pepper
@@ -2866,11 +2866,11 @@ Reduce to a gentle boil and cook for 10 to 12 minutes, until potatoes are fork-t
 
 While potatoes cook, place 3 eggs in a saucepan and cover with water. Bring to a boil, then turn off heat, cover, and let sit for 10 to 12 minutes. Transfer to ice water, peel, and chop.
 
-In a large bowl, whisk together 3/4 cup mayonnaise, 1 tbsp Dijon mustard, 1 tbsp apple cider vinegar, 1 tsp sugar, 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp paprika until smooth.
+In a large bowl, whisk together 3/4 cup mayonnaise, 1 Tbsp Dijon mustard, 1 Tbsp apple cider vinegar, 1 tsp sugar, 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp paprika until smooth.
 
 Add the slightly warm potatoes to the dressing and gently toss to coat.
 
-Add chopped eggs, 1/2 cup celery, 1/3 cup red onion, 1/4 cup pickles, and 2 tbsp parsley. Fold everything together until evenly combined.
+Add chopped eggs, 1/2 cup celery, 1/3 cup red onion, 1/4 cup pickles, and 2 Tbsp parsley. Fold everything together until evenly combined.
 
 Cover and refrigerate for at least 1 to 2 hours to allow flavors to develop.
 
@@ -3081,27 +3081,27 @@ Top with fresh blueberries and strawberries if desired before serving.`,
   name: "Chicken Salad Croissant",
   ingredients: `Chicken:
 1 lb boneless skinless chicken breasts
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 tsp salt
 1/4 tsp black pepper
 
 Chicken Salad:
 1/2 cup mayonnaise
-1 tbsp Dijon mustard
-1 tbsp lemon juice
+1 Tbsp Dijon mustard
+1 Tbsp lemon juice
 1/2 tsp garlic powder
 1/4 tsp salt (plus more to taste)
 1/4 tsp black pepper
 1/2 cup celery, finely diced
 1/3 cup red grapes, halved (optional)
 1/4 cup sliced almonds or pecans (optional)
-2 tbsp fresh parsley, chopped
+2 Tbsp fresh parsley, chopped
 
 Assembly:
 4 croissants, sliced
 lettuce leaves (optional)
 tomato slices (optional)`,
-  instructions: `Preheat a skillet over medium heat. Add 1 tbsp olive oil.
+  instructions: `Preheat a skillet over medium heat. Add 1 Tbsp olive oil.
 
 Season 1 lb chicken breasts with 1/2 tsp salt and 1/4 tsp black pepper.
 
@@ -3109,9 +3109,9 @@ Cook chicken for 5 to 6 minutes per side, until a golden-brown crust forms and t
 
 Remove from heat and let rest for 5 to 10 minutes, then dice or shred into bite-sized pieces.
 
-In a large bowl, whisk together 1/2 cup mayonnaise, 1 tbsp Dijon mustard, 1 tbsp lemon juice, 1/2 tsp garlic powder, 1/4 tsp salt, and 1/4 tsp black pepper until smooth.
+In a large bowl, whisk together 1/2 cup mayonnaise, 1 Tbsp Dijon mustard, 1 Tbsp lemon juice, 1/2 tsp garlic powder, 1/4 tsp salt, and 1/4 tsp black pepper until smooth.
 
-Add the chopped chicken, 1/2 cup celery, 1/3 cup grapes if using, 1/4 cup nuts if using, and 2 tbsp parsley. Fold gently until everything is evenly coated.
+Add the chopped chicken, 1/2 cup celery, 1/3 cup grapes if using, 1/4 cup nuts if using, and 2 Tbsp parsley. Fold gently until everything is evenly coated.
 
 Taste and adjust seasoning with additional salt, pepper, or lemon juice as needed.
 
@@ -4091,6 +4091,150 @@ Flip and cook another 3 to 4 minutes, until the cheese is fully melted.
 Remove from skillet and let rest for 1 to 2 minutes before slicing.
 
 Drizzle with 1 Tbsp balsamic glaze if desired and serve warm.`,
+},
+
+{
+  id: "creamy-mushroom-stroganoff",
+  slug: "creamy-mushroom-stroganoff",
+  name: "Creamy Mushroom Stroganoff",
+  ingredients: `8 oz egg noodles
+2 tbsp butter
+1 tbsp olive oil
+16 oz mushrooms, sliced
+1/2 onion, diced
+2 cloves garlic, minced
+1 tbsp flour
+1 1/2 cups vegetable broth
+1/2 cup sour cream
+1 tsp paprika
+1/2 tsp salt
+1/4 tsp black pepper`,
+  instructions: `Cook 8 oz egg noodles according to package directions and set aside.
+
+Heat 2 tbsp butter and 1 tbsp olive oil in a skillet over medium-high heat.
+
+Add 16 oz mushrooms and cook 6 to 8 minutes until deeply browned.
+
+Add 1/2 diced onion and cook 3 to 4 minutes until softened. Add 2 cloves garlic and cook 30 seconds.
+
+Stir in 1 tbsp flour and cook 1 minute.
+
+Add 1 1/2 cups vegetable broth and simmer until slightly thickened.
+
+Reduce heat to low and stir in 1/2 cup sour cream, 1 tsp paprika, 1/2 tsp salt, and 1/4 tsp pepper.
+
+Add noodles and toss to coat. Serve warm.`,
+  photoUrl: "/images/creamy-mushroom-stroganoff.webp",
+  effort: "normal",
+  tags: ["vegetarian", "dinner", "comfort", "pasta", "creamy", "one-pan"],
+  isVegetarian: true,
+  notes: "A rich, creamy vegetarian twist on a comfort classic with deep mushroom flavor."
+},
+
+{
+  id: "black-bean-sweet-potato-tacos",
+  slug: "black-bean-sweet-potato-tacos",
+  name: "Black Bean and Sweet Potato Tacos",
+  ingredients: `2 cups sweet potatoes, diced
+1 tbsp olive oil
+1/2 tsp salt
+1/4 tsp pepper
+1 tsp chili powder
+1/2 tsp cumin
+1 (15 oz) can black beans, drained
+8 tortillas
+1/2 cup avocado, sliced
+1/4 cup cilantro, chopped`,
+  instructions: `Preheat oven to 425°F.
+
+Toss 2 cups diced sweet potatoes with 1 tbsp olive oil, 1/2 tsp salt, 1/4 tsp pepper, 1 tsp chili powder, and 1/2 tsp cumin.
+
+Roast for 20 to 25 minutes until tender and slightly caramelized.
+
+Warm 8 tortillas.
+
+Fill tortillas with roasted sweet potatoes and black beans.
+
+Top with avocado and cilantro. Serve warm.`,
+  photoUrl: "/images/black-bean-sweet-potato-tacos.webp",
+  effort: "normal",
+  tags: ["vegetarian", "dinner", "tacos", "tex-mex", "healthy"],
+  isVegetarian: true,
+  notes: "Sweet, smoky, and filling tacos perfect for a meatless night."
+},
+
+{
+  id: "chickpea-salad-sandwich",
+  slug: "chickpea-salad-sandwich",
+  name: "Chickpea Salad Sandwich",
+  ingredients: `1 (15 oz) can chickpeas, drained
+1/3 cup mayonnaise
+1 tbsp Dijon mustard
+1 tbsp lemon juice
+1/4 cup celery, diced
+2 tbsp red onion, diced
+4 slices bread`,
+  instructions: `In a bowl, mash 1 can chickpeas until slightly chunky.
+
+Add 1/3 cup mayonnaise, 1 tbsp Dijon mustard, and 1 tbsp lemon juice. Stir to combine.
+
+Mix in 1/4 cup celery and 2 tbsp red onion.
+
+Spread onto 4 slices of bread and assemble sandwiches. Serve immediately.`,
+  photoUrl: "/images/chickpea-salad-sandwich.webp",
+  effort: "quick",
+  tags: ["vegetarian", "lunch", "sandwich", "quick", "meal-prep"],
+  isVegetarian: true,
+  notes: "A simple, protein-packed vegetarian alternative to chicken or tuna salad."
+},
+
+{
+  id: "mediterranean-chickpea-bowl",
+  slug: "mediterranean-chickpea-bowl",
+  name: "Mediterranean Chickpea Bowl",
+  ingredients: `2 cups cooked rice or quinoa
+1 (15 oz) can chickpeas, drained
+1 cup cucumber, diced
+1 cup cherry tomatoes, halved
+1/2 cup feta cheese
+2 tbsp olive oil
+1 tbsp lemon juice
+1/2 tsp salt`,
+  instructions: `In a bowl, combine 2 cups cooked rice or quinoa with 1 can chickpeas.
+
+Add 1 cup cucumber, 1 cup tomatoes, and 1/2 cup feta.
+
+Drizzle with 2 tbsp olive oil and 1 tbsp lemon juice.
+
+Season with 1/2 tsp salt and toss. Serve.`,
+  photoUrl: "/images/mediterranean-chickpea-bowl.webp",
+  effort: "quick",
+  tags: ["vegetarian", "dinner", "bowl", "healthy", "meal-prep"],
+  isVegetarian: true,
+  notes: "Fresh, filling, and perfect for quick healthy meals."
+},
+
+{
+  id: "cheese-enchiladas",
+  slug: "cheese-enchiladas",
+  name: "Cheese Enchiladas",
+  ingredients: `8 tortillas
+2 cups enchilada sauce
+2 cups cheddar cheese, shredded`,
+  instructions: `Preheat oven to 375°F.
+
+Spread 1/2 cup enchilada sauce in a baking dish.
+
+Fill each tortilla with cheese, roll, and place seam-side down.
+
+Pour remaining sauce over the top and sprinkle with remaining cheese.
+
+Bake for 20 minutes until bubbly. Serve warm.`,
+  photoUrl: "/images/cheese-enchiladas.webp",
+  effort: "normal",
+  tags: ["vegetarian", "dinner", "comfort", "mexican", "bake"],
+  isVegetarian: true,
+  notes: "Simple, cheesy comfort food perfect for busy nights."
 },
 
 {
