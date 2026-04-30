@@ -579,9 +579,16 @@ function removePrepWords(text: string) {
 }
 
 function removeNonShoppingItems(text: string) {
-  return text
+  let next = text;
+
+  // Keep real grocery items like "ice cream".
+  // Only remove ice when it is a standalone item.
+  if (cleanupSpacing(next) === "ice") {
+    next = "";
+  }
+
+  return next
     .replace(/\bwater\b/g, "")
-    .replace(/\bice\b/g, "")
     .replace(/\s*\+\s*/g, " ")
     .replace(/\s+/g, " ")
     .trim();

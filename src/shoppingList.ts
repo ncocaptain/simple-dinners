@@ -531,10 +531,15 @@ function normalizeMushrooms(text: string) {
 }
 
 function removeNonShoppingItems(text: string) {
-  return text
+  let next = text;
+
+  // Only remove "ice" if it's the entire item
+  if (cleanupSpacing(next) === "ice" || cleanupSpacing(next) === "crushed ice") {
+    next = "";
+  }
+
+  return next
     .replace(/\bwater\b/g, " ")
-    .replace(/\bice\b/g, " ")
-    .replace(/\bcrushed ice\b/g, " ")
     .replace(/\bcooking spray\b/g, " ")
     .replace(/\bnonstick spray\b/g, " ")
     .replace(/\s*\+\s*/g, " ")
