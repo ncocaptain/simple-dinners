@@ -521,7 +521,11 @@ function normalizeDairyAndCheese(text: string) {
     .replace(/\bshredded swiss cheese\b/g, "swiss cheese")
     .replace(/\bswiss cheese, shredded\b/g, "swiss cheese")
     .replace(/\bcream cheese, softened\b/g, "cream cheese")
-    .replace(/\bcream cheese, cubed\b/g, "cream cheese");
+    .replace(/\bcream cheese, cubed\b/g, "cream cheese")
+    .replace(/\bice creams?\b/g, "ice cream")
+    .replace(/\bvanilla ice cream\b/g, "vanilla ice cream")
+    .replace(/\bstrawberry ice cream\b/g, "strawberry ice cream")
+    .replace(/\bchocolate ice cream\b/g, "chocolate ice cream");
 }
 
 function normalizeMushrooms(text: string) {
@@ -532,9 +536,11 @@ function normalizeMushrooms(text: string) {
 
 function removeNonShoppingItems(text: string) {
   let next = text;
+  const cleaned = cleanupSpacing(next);
 
-  // Only remove "ice" if it's the entire item
-  if (cleanupSpacing(next) === "ice" || cleanupSpacing(next) === "crushed ice") {
+  // Only remove ice when it is the whole item.
+  // Keep real items like "ice cream", "iced coffee", etc.
+  if (cleaned === "ice" || cleaned === "crushed ice") {
     next = "";
   }
 
