@@ -4124,7 +4124,7 @@ Add 1 1/2 cups vegetable broth and simmer until slightly thickened.
 Reduce heat to low and stir in 1/2 cup sour cream, 1 tsp paprika, 1/2 tsp salt, and 1/4 tsp pepper.
 
 Add noodles and toss to coat. Serve warm.`,
-  photoUrl: "/images/creamy-mushroom-stroganoff.webp",
+  photoUrl: "/images/creamy-mushroom-stroganoff.jpg",
   effort: "normal",
   tags: ["vegetarian", "dinner", "comfort", "pasta", "creamy", "one-pan"],
   isVegetarian: true,
@@ -4156,7 +4156,7 @@ Warm 8 tortillas.
 Fill tortillas with roasted sweet potatoes and black beans.
 
 Top with avocado and cilantro. Serve warm.`,
-  photoUrl: "/images/black-bean-sweet-potato-tacos.webp",
+  photoUrl: "/images/black-bean-sweet-potato-tacos.jpg",
   effort: "normal",
   tags: ["vegetarian", "dinner", "tacos", "tex-mex", "healthy"],
   isVegetarian: true,
@@ -4181,7 +4181,7 @@ Add 1/3 cup mayonnaise, 1 tbsp Dijon mustard, and 1 tbsp lemon juice. Stir to co
 Mix in 1/4 cup celery and 2 tbsp red onion.
 
 Spread onto 4 slices of bread and assemble sandwiches. Serve immediately.`,
-  photoUrl: "/images/chickpea-salad-sandwich.webp",
+  photoUrl: "/images/chickpea-salad-sandwich.jpg",
   effort: "quick",
   tags: ["vegetarian", "lunch", "sandwich", "quick", "meal-prep"],
   isVegetarian: true,
@@ -4207,7 +4207,7 @@ Add 1 cup cucumber, 1 cup tomatoes, and 1/2 cup feta.
 Drizzle with 2 tbsp olive oil and 1 tbsp lemon juice.
 
 Season with 1/2 tsp salt and toss. Serve.`,
-  photoUrl: "/images/mediterranean-chickpea-bowl.webp",
+  photoUrl: "/images/mediterranean-chickpea-bowl.jpg",
   effort: "quick",
   tags: ["vegetarian", "dinner", "bowl", "healthy", "meal-prep"],
   isVegetarian: true,
@@ -4230,7 +4230,7 @@ Fill each tortilla with cheese, roll, and place seam-side down.
 Pour remaining sauce over the top and sprinkle with remaining cheese.
 
 Bake for 20 minutes until bubbly. Serve warm.`,
-  photoUrl: "/images/cheese-enchiladas.webp",
+  photoUrl: "/images/cheese-enchiladas.jpg",
   effort: "normal",
   tags: ["vegetarian", "dinner", "comfort", "mexican", "bake"],
   isVegetarian: true,
