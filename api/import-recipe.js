@@ -577,10 +577,11 @@ export default async function handler(req, res) {
     };
 
     return res.status(200).json({
-      success: true,
-      successLevel,
-      recipe: formatted,
-    });
+  success: true,
+  successLevel,
+  debugVersion: "importer-v2-allrecipes-fallback",
+  recipe: formatted,
+});
   } catch (err) {
     console.error("Magic Import failed:", err);
     return res.status(500).json({
