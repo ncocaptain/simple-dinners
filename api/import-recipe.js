@@ -18,20 +18,16 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
-
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "POST only" });
-  }
+  if (req.method === "OPTIONS") return res.status(200).end();
+  if (req.method !== "POST") return res.status(405).json({ error: "POST only" });
 
   const { url } = req.body || {};
-  if (!url) {
-    return res.status(400).json({ error: "URL required" });
-  }
+  if (!url) return res.status(400).json({ error: "URL required" });
 
   try {
+    const target = new URL(url);
+    const hostname = target.hostname.toLowerCase();
+
     function toArray(value) {
       if (!value) return [];
       return Array.isArray(value) ? value : [value];
@@ -59,14 +55,12 @@ export default async function handler(req, res) {
       if (!s) return true;
 
       return (
-        s.length > 220 ||
-        /@context|@graph|schema\.org|wp-|--wp-|linear-gradient|svg\+xml|data:image|@media|function\(|document\.|window\.|json|stylesheet|Breadcrumb|organization|listitem/i.test(
-          s
-        ) ||
+        s.length > 300 ||
+        /@context|@graph|schema\.org|wp-|--wp-|linear-gradient|svg\+xml|data:image|@media|function\(|document\.|window\.|stylesheet|Breadcrumb|organization|listitem/i.test(s) ||
         /<\/?[a-z][\s\S]*>/i.test(s) ||
         /[{};]/.test(s) ||
         /(https?:\/\/\S+)/i.test(s) ||
-        s.split(" ").length > 35
+        s.split(" ").length > 45
       );
     }
 
@@ -106,7 +100,6 @@ export default async function handler(req, res) {
 
     function extractImage(imageField) {
       if (!imageField) return "";
-
       if (typeof imageField === "string") return imageField;
 
       if (Array.isArray(imageField)) {
@@ -118,12 +111,7 @@ export default async function handler(req, res) {
       }
 
       if (typeof imageField === "object") {
-        return (
-          imageField.url ||
-          imageField.contentUrl ||
-          imageField.thumbnailUrl ||
-          ""
-        );
+        return imageField.url || imageField.contentUrl || imageField.thumbnailUrl || "";
       }
 
       return "";
@@ -145,10 +133,7 @@ export default async function handler(req, res) {
 
       const type = obj["@type"];
 
-      if (
-        type === "Recipe" ||
-        (Array.isArray(type) && type.includes("Recipe"))
-      ) {
+      if (type === "Recipe" || (Array.isArray(type) && type.includes("Recipe"))) {
         return obj;
       }
 
@@ -188,6 +173,7 @@ export default async function handler(req, res) {
       while ((match = jsonLdRegex.exec(html)) !== null) {
         const raw = match[1]?.trim();
         if (!raw) continue;
+
         const parsed = parsePossibleJson(raw);
         if (parsed) blocks.push(parsed);
       }
@@ -228,9 +214,7 @@ export default async function handler(req, res) {
       if (typeof input === "object") {
         if (input.text) return extractInstructionText(input.text);
         if (input.name && !input.text) return extractInstructionText(input.name);
-        if (input.itemListElement) {
-          return extractInstructionText(input.itemListElement);
-        }
+        if (input.itemListElement) return extractInstructionText(input.itemListElement);
 
         if (input["@type"] === "HowToStep" && input.text) {
           return extractInstructionText(input.text);
@@ -242,6 +226,76 @@ export default async function handler(req, res) {
       }
 
       return [];
+    }
+
+    function looksLikeIngredient(line) {
+      const s = cleanText(line);
+      if (!s || isGarbageLine(s)) return false;
+
+      return /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|tablespoon|oz|ounce|lb|pound|clove|can|package|box|salt|pepper|oil|butter|garlic|onion|cheese|milk|cream|egg|flour|sugar|basil|tomato|broth|stock|beans|corn|rice|pasta|chicken|beef|pork|shrimp|lemon|lime|cilantro|parsley)/i.test(
+        s
+      );
+    }
+
+    function looksLikeStep(line) {
+      const s = cleanText(line);
+      if (!s || isGarbageLine(s)) return false;
+      if (s.length < 18) return false;
+      if (/advertisement|rate this recipe|print|save|share|review|nutrition/i.test(s)) {
+        return false;
+      }
+
+      return /mix|stir|cook|bake|heat|place|add|whisk|combine|pour|season|serve|grill|broil|simmer|preheat|remove|transfer|marinate|drain|slice|flip|cover|reduce|bring|boil|blend|puree/i.test(
+        s
+      );
+    }
+
+    function extractAllRecipesIngredients(html) {
+      const collected = [];
+
+      const patterns = [
+        /<span[^>]*class=["'][^"']*ingredients-item-name[^"']*["'][^>]*>([\s\S]*?)<\/span>/gi,
+        /<li[^>]*class=["'][^"']*mntl-structured-ingredients__list-item[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+        /<p[^>]*class=["'][^"']*mntl-structured-ingredients__list-item[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
+        /<span[^>]*data-ingredient-name=["']true["'][^>]*>([\s\S]*?)<\/span>/gi,
+      ];
+
+      for (const pattern of patterns) {
+        const matches = [...html.matchAll(pattern)]
+          .map((m) => cleanText(m[1]))
+          .filter(Boolean);
+
+        if (matches.length > 0) {
+          collected.push(...matches);
+          break;
+        }
+      }
+
+      return cleanLineArray(collected).slice(0, 60);
+    }
+
+    function extractAllRecipesInstructions(html) {
+      const collected = [];
+
+      const patterns = [
+        /<li[^>]*class=["'][^"']*mntl-sc-block-group--LI[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+        /<p[^>]*class=["'][^"']*comp mntl-sc-block mntl-sc-block-html[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
+        /<div[^>]*class=["'][^"']*comp mntl-sc-block mntl-sc-block-html[^"']*["'][^>]*>([\s\S]*?)<\/div>/gi,
+      ];
+
+      for (const pattern of patterns) {
+        const matches = [...html.matchAll(pattern)]
+          .map((m) => cleanText(m[1]))
+          .filter(Boolean)
+          .filter(looksLikeStep);
+
+        if (matches.length > 0) {
+          collected.push(...matches);
+          break;
+        }
+      }
+
+      return cleanLineArray(collected).slice(0, 30);
     }
 
     function extractIngredientsFromHtml(html) {
@@ -260,21 +314,15 @@ export default async function handler(req, res) {
           .map((m) => cleanText(m[1]))
           .filter(Boolean);
 
-        const filtered = matches.filter(
-          (line) =>
-            !isGarbageLine(line) &&
-            /(\d|½|¼|¾|⅓|⅔|cup|cups|Tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|Salt|Pepper|oil|Butter|Garlic|Onion|tofu|sugar|flour|Egg|Eggs)/i.test(
-              line
-            )
-        );
+        const filtered = matches.filter(looksLikeIngredient);
 
-        if (filtered.length >= 2) {
+        if (filtered.length >= 1) {
           collected.push(...filtered);
           break;
         }
       }
 
-      return cleanLineArray(collected).slice(0, 40);
+      return cleanLineArray(collected).slice(0, 60);
     }
 
     function extractInstructionsFromHtml(html) {
@@ -291,30 +339,16 @@ export default async function handler(req, res) {
       for (const pattern of patterns) {
         const matches = [...html.matchAll(pattern)]
           .map((m) => cleanText(m[1]))
-          .map((line) => line.replace(/\s+/g, " ").trim())
-          .filter(Boolean);
+          .filter(Boolean)
+          .filter(looksLikeStep);
 
-        const filtered = matches.filter((line) => {
-          if (isGarbageLine(line)) return false;
-          if (line.length < 20) return false;
-          if (
-            /advertisement|rate this recipe|print|save|share|review/i.test(line)
-          ) {
-            return false;
-          }
-
-          return /mix|stir|cook|bake|heat|place|add|whisk|combine|pour|season|serve|grill|broil|simmer|preheat|remove|transfer|marinate|drain|slice|flip/i.test(
-            line
-          );
-        });
-
-        if (filtered.length >= 2) {
-          collected.push(...filtered);
+        if (matches.length >= 1) {
+          collected.push(...matches);
           break;
         }
       }
 
-      return cleanLineArray(collected).slice(0, 20);
+      return cleanLineArray(collected).slice(0, 30);
     }
 
     async function fetchDirectHtml(targetUrl) {
@@ -347,9 +381,8 @@ export default async function handler(req, res) {
       safeHtml = await fetchDirectHtml(url);
       safeText = cleanText(safeHtml);
       safeTitle =
-        cleanText(
-          safeHtml.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || ""
-        ) || "";
+        cleanText(safeHtml.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || "") ||
+        "";
 
       const jsonLdBlocks = extractJsonLdBlocks(safeHtml);
       for (const block of jsonLdBlocks) {
@@ -367,6 +400,7 @@ export default async function handler(req, res) {
         htmlLength: safeHtml.length,
         textLength: safeText.length,
         foundRecipe: !!recipeData,
+        hostname,
       });
     } catch (directErr) {
       console.log("DIRECT FETCH FAILED:", directErr?.message || directErr);
@@ -415,10 +449,7 @@ export default async function handler(req, res) {
           });
         }
       } catch (microlinkErr) {
-        console.log(
-          "MICROLINK FAILED:",
-          microlinkErr?.message || microlinkErr
-        );
+        console.log("MICROLINK FAILED:", microlinkErr?.message || microlinkErr);
       }
     }
 
@@ -449,6 +480,10 @@ export default async function handler(req, res) {
       }
     }
 
+    if (ingredientsList.length === 0 && hostname.includes("allrecipes") && safeHtml) {
+      ingredientsList = extractAllRecipesIngredients(safeHtml);
+    }
+
     if (ingredientsList.length === 0 && safeHtml) {
       ingredientsList = extractIngredientsFromHtml(safeHtml);
     }
@@ -459,15 +494,7 @@ export default async function handler(req, res) {
         .map((line) => cleanText(line))
         .filter(Boolean);
 
-      const likelyIngredients = lines.filter(
-        (line) =>
-          !isGarbageLine(line) &&
-          /(\d|½|¼|¾|⅓|⅔|cup|cups|Tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|oz|ounce|ounces|lb|lbs|pound|pounds|clove|cloves|Salt|Pepper|oil|Butter|Garlic|Onion|tofu|sugar|flour|Egg|Eggs)/i.test(
-            line
-          )
-      );
-
-      ingredientsList = cleanLineArray(likelyIngredients).slice(0, 30);
+      ingredientsList = cleanLineArray(lines.filter(looksLikeIngredient)).slice(0, 40);
     }
 
     let instructionList = [];
@@ -479,9 +506,11 @@ export default async function handler(req, res) {
     }
 
     if (instructionList.length === 0 && recipeData?.instructions) {
-      instructionList = cleanLineArray(
-        extractInstructionText(recipeData.instructions)
-      );
+      instructionList = cleanLineArray(extractInstructionText(recipeData.instructions));
+    }
+
+    if (instructionList.length === 0 && hostname.includes("allrecipes") && safeHtml) {
+      instructionList = extractAllRecipesInstructions(safeHtml);
     }
 
     if (instructionList.length === 0 && safeHtml) {
@@ -494,49 +523,62 @@ export default async function handler(req, res) {
         .map((line) => cleanText(line))
         .filter(Boolean);
 
-      const likelySteps = lines.filter((line) => {
-        if (isGarbageLine(line)) return false;
-        if (line.length < 25) return false;
-        if (
-          /advertisement|rate this recipe|print|save|share|review/i.test(line)
-        ) {
-          return false;
-        }
-
-        return /mix|stir|cook|bake|heat|place|add|whisk|combine|pour|season|serve|grill|broil|simmer|preheat|remove|transfer|marinate|drain|slice|flip/i.test(
-          line
-        );
-      });
-
-      instructionList = cleanLineArray(likelySteps).slice(0, 15);
+      instructionList = cleanLineArray(lines.filter(looksLikeStep)).slice(0, 20);
     }
 
     const rawName =
       recipeData?.name || safeTitle || titleFromUrl(url) || "New Recipe";
+
     const recipeName = toTitleCase(cleanText(rawName)) || "New Recipe";
+
+    if (!photoUrl && safeHtml) {
+      photoUrl =
+        cleanText(
+          safeHtml.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i)?.[1] ||
+            ""
+        ) ||
+        cleanText(
+          safeHtml.match(/<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i)?.[1] ||
+            ""
+        ) ||
+        "";
+    }
+
+    const hasIngredients = ingredientsList.length > 0;
+    const hasInstructions = instructionList.length > 0;
+
+    const successLevel =
+      hasIngredients && hasInstructions
+        ? "full"
+        : hasIngredients || hasInstructions
+        ? "partial"
+        : "metadata-only";
 
     console.log("FINAL IMPORT RESULT", {
       recipeName,
       ingredientsCount: ingredientsList.length,
       instructionsCount: instructionList.length,
       hasPhoto: !!photoUrl,
+      successLevel,
+      hostname,
     });
 
     const formatted = {
       name: recipeName,
       ingredients: ingredientsList.join("\n"),
-      instructions:
-        instructionList.length > 0
-          ? instructionList.join("\n")
-          : "Steps available at source link!",
+      instructions: hasInstructions
+        ? instructionList.join("\n")
+        : "Steps available at source link!",
       photoUrl,
       slug: `${slugify(recipeName)}-${Date.now().toString().slice(-4)}`,
       sourceUrl: url,
       effort: "normal",
+      importStatus: successLevel,
     };
 
     return res.status(200).json({
       success: true,
+      successLevel,
       recipe: formatted,
     });
   } catch (err) {
