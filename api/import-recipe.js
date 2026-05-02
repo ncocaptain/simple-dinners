@@ -614,3 +614,10 @@ return res.status(200).json({
   debugVersion: "importer-v3-rendered-html",
   recipe: formatted,
 });
+  } catch (err) {
+    console.error("Magic Import failed:", err);
+    return res.status(500).json({
+      error: "Magic Import failed. Use manual entry!",
+    });
+  }
+}
