@@ -352,38 +352,117 @@ export default async function handler(req, res) {
     }
 
     async function fetchDirectHtml(targetUrl) {
-      const response = await fetch(targetUrl, {
-        headers: {
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-          Accept:
-            "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-          "Accept-Language": "en-US,en;q=0.9",
-          Referer: "https://www.google.com/",
-          DNT: "1",
-        },
-      });
+  const response = await fetch(targetUrl, {
+    headers: {
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+      Accept:
+        "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+      "Accept-Language": "en-US,en;q=0.9",
+      Referer: "https://www.google.com/",
+      DNT: "1",
+    },
+  });
 
-      if (!response.ok) {
-        throw new Error(`Direct fetch failed: ${response.status}`);
-      }
+  if (!response.ok) {
+    throw new Error(`Direct fetch failed: ${response.status}`);
+  }
 
-      return await response.text();
+  return await response.text();
+}
+
+async function fetchRenderedHtml(targetUrl) {
+  const response = await fetch(
+    `https://api.microlink.io?url=${encodeURIComponent(
+      targetUrl
+    )}&meta=true&screenshot=false&audio=false&video=false&iframe=false&palette=false&render=true`
+  );
+
+  const result = await response.json();
+
+  if (result.status !== "success") {
+    throw new Error("Rendered Microlink fetch failed");
+  }
+
+  return {
+    html: result?.data?.html || "",
+    text: result?.data?.text || "",
+    title: result?.data?.title || "",
+    image: result?.data?.image || "",
+  };
+}
+
+function htmlLooksUsefulForRecipe(html) {
+  const value = String(html || "").toLowerCase();
+
+  return (
+    value.includes("recipeingredient") ||
+    value.includes("recipeinstructions") ||
+    value.includes("ingredients-item-name") ||
+    value.includes("mntl-structured-ingredients") ||
+    value.includes("mntl-sc-block")
+  );
+}
+
+let safeHtml = "";
+let safeText = "";
+let safeTitle = "";
+let recipeData = null;
+let photoUrl = "";
+
+try {
+  safeHtml = await fetchDirectHtml(url);
+  safeText = cleanText(safeHtml);
+  safeTitle =
+    cleanText(safeHtml.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || "") ||
+    "";
+
+  if (hostname.includes("allrecipes") && !htmlLooksUsefulForRecipe(safeHtml)) {
+    console.log("DIRECT HTML WEAK - TRYING RENDERED HTML");
+
+    const rendered = await fetchRenderedHtml(url);
+
+    if (rendered.html) {
+      safeHtml = rendered.html;
+      safeText = rendered.text || cleanText(rendered.html);
+      safeTitle = rendered.title || safeTitle;
+      photoUrl = photoUrl || extractImage(rendered.image);
     }
+  }
 
-    let safeHtml = "";
-    let safeText = "";
-    let safeTitle = "";
-    let recipeData = null;
-    let photoUrl = "";
+  const jsonLdBlocks = extractJsonLdBlocks(safeHtml);
+  for (const block of jsonLdBlocks) {
+    const found = findRecipeInObject(block);
+    if (found) {
+      recipeData = found;
+      break;
+    }
+  }
 
-    try {
-      safeHtml = await fetchDirectHtml(url);
-      safeText = cleanText(safeHtml);
-      safeTitle =
-        cleanText(safeHtml.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || "") ||
-        "";
+  photoUrl = photoUrl || extractImage(recipeData?.image);
 
+  console.log("FETCH OK", {
+    title: safeTitle,
+    htmlLength: safeHtml.length,
+    textLength: safeText.length,
+    foundRecipe: !!recipeData,
+    usefulHtml: htmlLooksUsefulForRecipe(safeHtml),
+    hostname,
+  });
+} catch (directErr) {
+  console.log("DIRECT/RENDERED FETCH FAILED:", directErr?.message || directErr);
+}
+
+if (!safeHtml || (!recipeData && !safeTitle)) {
+  try {
+    const rendered = await fetchRenderedHtml(url);
+
+    if (!safeHtml) safeHtml = rendered.html;
+    if (!safeText) safeText = rendered.text || cleanText(rendered.html);
+    if (!safeTitle) safeTitle = rendered.title || "";
+    if (!photoUrl) photoUrl = extractImage(rendered.image);
+
+    if (!recipeData && safeHtml) {
       const jsonLdBlocks = extractJsonLdBlocks(safeHtml);
       for (const block of jsonLdBlocks) {
         const found = findRecipeInObject(block);
@@ -392,200 +471,146 @@ export default async function handler(req, res) {
           break;
         }
       }
-
-      photoUrl = extractImage(recipeData?.image);
-
-      console.log("DIRECT FETCH OK", {
-        title: safeTitle,
-        htmlLength: safeHtml.length,
-        textLength: safeText.length,
-        foundRecipe: !!recipeData,
-        hostname,
-      });
-    } catch (directErr) {
-      console.log("DIRECT FETCH FAILED:", directErr?.message || directErr);
     }
 
-    if (!safeHtml || (!recipeData && !safeTitle)) {
-      try {
-        const mLink = `https://api.microlink.io?url=${encodeURIComponent(
-          url
-        )}&meta=true`;
-        const response = await fetch(mLink);
-        const result = await response.json();
-
-        if (result.status === "success") {
-          const microlinkHtml = result?.data?.html || "";
-          const microlinkText = result?.data?.text || "";
-          const microlinkTitle = result?.data?.title || "";
-
-          if (!safeHtml) safeHtml = microlinkHtml;
-          if (!safeText) safeText = microlinkText;
-          if (!safeTitle) safeTitle = microlinkTitle;
-
-          if (!recipeData && microlinkHtml) {
-            const jsonLdBlocks = extractJsonLdBlocks(microlinkHtml);
-            for (const block of jsonLdBlocks) {
-              const found = findRecipeInObject(block);
-              if (found) {
-                recipeData = found;
-                break;
-              }
-            }
-          }
-
-          if (!photoUrl) {
-            photoUrl =
-              extractImage(recipeData?.image) ||
-              extractImage(result?.data?.image) ||
-              "";
-          }
-
-          console.log("MICROLINK FALLBACK", {
-            title: microlinkTitle,
-            htmlLength: microlinkHtml.length,
-            textLength: microlinkText.length,
-            foundRecipe: !!recipeData,
-          });
-        }
-      } catch (microlinkErr) {
-        console.log("MICROLINK FAILED:", microlinkErr?.message || microlinkErr);
-      }
-    }
-
-    let ingredientsList = [];
-
-    if (recipeData?.recipeIngredient) {
-      ingredientsList = cleanLineArray(toArray(recipeData.recipeIngredient));
-    }
-
-    if (ingredientsList.length === 0 && recipeData?.nutrition?.ingredient) {
-      ingredientsList = cleanLineArray(toArray(recipeData.nutrition.ingredient));
-    }
-
-    if (ingredientsList.length === 0 && recipeData) {
-      const altFields = [
-        recipeData.ingredients,
-        recipeData.recipeIngredients,
-        recipeData.ingredient,
-      ];
-
-      for (const field of altFields) {
-        if (!field) continue;
-        const extracted = cleanLineArray(toArray(field));
-        if (extracted.length > 0) {
-          ingredientsList = extracted;
-          break;
-        }
-      }
-    }
-
-    if (ingredientsList.length === 0 && hostname.includes("allrecipes") && safeHtml) {
-      ingredientsList = extractAllRecipesIngredients(safeHtml);
-    }
-
-    if (ingredientsList.length === 0 && safeHtml) {
-      ingredientsList = extractIngredientsFromHtml(safeHtml);
-    }
-
-    if (ingredientsList.length === 0 && safeText) {
-      const lines = safeText
-        .split(/\r?\n/)
-        .map((line) => cleanText(line))
-        .filter(Boolean);
-
-      ingredientsList = cleanLineArray(lines.filter(looksLikeIngredient)).slice(0, 40);
-    }
-
-    let instructionList = [];
-
-    if (recipeData?.recipeInstructions) {
-      instructionList = cleanLineArray(
-        extractInstructionText(recipeData.recipeInstructions)
-      );
-    }
-
-    if (instructionList.length === 0 && recipeData?.instructions) {
-      instructionList = cleanLineArray(extractInstructionText(recipeData.instructions));
-    }
-
-    if (instructionList.length === 0 && hostname.includes("allrecipes") && safeHtml) {
-      instructionList = extractAllRecipesInstructions(safeHtml);
-    }
-
-    if (instructionList.length === 0 && safeHtml) {
-      instructionList = extractInstructionsFromHtml(safeHtml);
-    }
-
-    if (instructionList.length === 0 && safeText) {
-      const lines = safeText
-        .split(/\r?\n/)
-        .map((line) => cleanText(line))
-        .filter(Boolean);
-
-      instructionList = cleanLineArray(lines.filter(looksLikeStep)).slice(0, 20);
-    }
-
-    const rawName =
-      recipeData?.name || safeTitle || titleFromUrl(url) || "New Recipe";
-
-    const recipeName = toTitleCase(cleanText(rawName)) || "New Recipe";
-
-    if (!photoUrl && safeHtml) {
-      photoUrl =
-        cleanText(
-          safeHtml.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i)?.[1] ||
-            ""
-        ) ||
-        cleanText(
-          safeHtml.match(/<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i)?.[1] ||
-            ""
-        ) ||
-        "";
-    }
-
-    const hasIngredients = ingredientsList.length > 0;
-    const hasInstructions = instructionList.length > 0;
-
-    const successLevel =
-      hasIngredients && hasInstructions
-        ? "full"
-        : hasIngredients || hasInstructions
-        ? "partial"
-        : "metadata-only";
-
-    console.log("FINAL IMPORT RESULT", {
-      recipeName,
-      ingredientsCount: ingredientsList.length,
-      instructionsCount: instructionList.length,
-      hasPhoto: !!photoUrl,
-      successLevel,
-      hostname,
+    console.log("RENDERED FALLBACK", {
+      title: safeTitle,
+      htmlLength: safeHtml.length,
+      textLength: safeText.length,
+      foundRecipe: !!recipeData,
+      usefulHtml: htmlLooksUsefulForRecipe(safeHtml),
     });
-
-    const formatted = {
-      name: recipeName,
-      ingredients: ingredientsList.join("\n"),
-      instructions: hasInstructions
-        ? instructionList.join("\n")
-        : "Steps available at source link!",
-      photoUrl,
-      slug: `${slugify(recipeName)}-${Date.now().toString().slice(-4)}`,
-      sourceUrl: url,
-      effort: "normal",
-      importStatus: successLevel,
-    };
-
-    return res.status(200).json({
-  success: true,
-  successLevel,
-  debugVersion: "importer-v2-allrecipes-fallback",
-  recipe: formatted,
-});
-  } catch (err) {
-    console.error("Magic Import failed:", err);
-    return res.status(500).json({
-      error: "Magic Import failed. Use manual entry!",
-    });
+  } catch (renderedErr) {
+    console.log("RENDERED FALLBACK FAILED:", renderedErr?.message || renderedErr);
   }
 }
+
+let ingredientsList = [];
+
+if (recipeData?.recipeIngredient) {
+  ingredientsList = cleanLineArray(toArray(recipeData.recipeIngredient));
+}
+
+if (ingredientsList.length === 0 && recipeData?.nutrition?.ingredient) {
+  ingredientsList = cleanLineArray(toArray(recipeData.nutrition.ingredient));
+}
+
+if (ingredientsList.length === 0 && recipeData) {
+  const altFields = [
+    recipeData.ingredients,
+    recipeData.recipeIngredients,
+    recipeData.ingredient,
+  ];
+
+  for (const field of altFields) {
+    if (!field) continue;
+    const extracted = cleanLineArray(toArray(field));
+    if (extracted.length > 0) {
+      ingredientsList = extracted;
+      break;
+    }
+  }
+}
+
+if (ingredientsList.length === 0 && hostname.includes("allrecipes") && safeHtml) {
+  ingredientsList = extractAllRecipesIngredients(safeHtml);
+}
+
+if (ingredientsList.length === 0 && safeHtml) {
+  ingredientsList = extractIngredientsFromHtml(safeHtml);
+}
+
+if (ingredientsList.length === 0 && safeText) {
+  const lines = safeText
+    .split(/\r?\n/)
+    .map((line) => cleanText(line))
+    .filter(Boolean);
+
+  ingredientsList = cleanLineArray(lines.filter(looksLikeIngredient)).slice(0, 40);
+}
+
+let instructionList = [];
+
+if (recipeData?.recipeInstructions) {
+  instructionList = cleanLineArray(
+    extractInstructionText(recipeData.recipeInstructions)
+  );
+}
+
+if (instructionList.length === 0 && recipeData?.instructions) {
+  instructionList = cleanLineArray(extractInstructionText(recipeData.instructions));
+}
+
+if (instructionList.length === 0 && hostname.includes("allrecipes") && safeHtml) {
+  instructionList = extractAllRecipesInstructions(safeHtml);
+}
+
+if (instructionList.length === 0 && safeHtml) {
+  instructionList = extractInstructionsFromHtml(safeHtml);
+}
+
+if (instructionList.length === 0 && safeText) {
+  const lines = safeText
+    .split(/\r?\n/)
+    .map((line) => cleanText(line))
+    .filter(Boolean);
+
+  instructionList = cleanLineArray(lines.filter(looksLikeStep)).slice(0, 20);
+}
+
+const rawName = recipeData?.name || safeTitle || titleFromUrl(url) || "New Recipe";
+
+const recipeName = toTitleCase(cleanText(rawName)) || "New Recipe";
+
+if (!photoUrl && safeHtml) {
+  photoUrl =
+    cleanText(
+      safeHtml.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i)?.[1] ||
+        ""
+    ) ||
+    cleanText(
+      safeHtml.match(/<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i)?.[1] ||
+        ""
+    ) ||
+    "";
+}
+
+const hasIngredients = ingredientsList.length > 0;
+const hasInstructions = instructionList.length > 0;
+
+const successLevel =
+  hasIngredients && hasInstructions
+    ? "full"
+    : hasIngredients || hasInstructions
+    ? "partial"
+    : "metadata-only";
+
+console.log("FINAL IMPORT RESULT", {
+  recipeName,
+  ingredientsCount: ingredientsList.length,
+  instructionsCount: instructionList.length,
+  hasPhoto: !!photoUrl,
+  successLevel,
+  debugVersion: "importer-v3-rendered-html",
+  hostname,
+});
+
+const formatted = {
+  name: recipeName,
+  ingredients: ingredientsList.join("\n"),
+  instructions: hasInstructions
+    ? instructionList.join("\n")
+    : "Steps available at source link!",
+  photoUrl,
+  slug: `${slugify(recipeName)}-${Date.now().toString().slice(-4)}`,
+  sourceUrl: url,
+  effort: "normal",
+  importStatus: successLevel,
+};
+
+return res.status(200).json({
+  success: true,
+  successLevel,
+  debugVersion: "importer-v3-rendered-html",
+  recipe: formatted,
+});
