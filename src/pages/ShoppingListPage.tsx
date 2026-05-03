@@ -984,29 +984,7 @@ function savePantryItems(items: PantryItem[]) {
   window.dispatchEvent(new Event("simple-dinners:pantry-updated"));
 }
 
-function getPantryNameFromShoppingText(text: string) {
-  const parsed = parseIngredient(text);
 
-  let name = (parsed.name || cleanIngredientName(text)).toLowerCase();
-
-  // 🔥 Remove common quantity words
-  name = name.replace(
-    /\b(cloves?|bunches?|cans?|packages?|lbs?|pounds?|cups?)\b/gi,
-    ""
-  );
-
-  // 🔥 Normalize plurals (basic)
-  name = name
-    .replace(/\bavocados\b/g, "avocado")
-    .replace(/\btomatoes\b/g, "tomato")
-    .replace(/\bonions\b/g, "onion")
-    .replace(/\bcloves garlic\b/g, "garlic");
-
-  // 🔥 Cleanup
-  name = name.replace(/\s+/g, " ").trim();
-
-  return formatDisplayName(name);
-}
 
 
 // =====================================================
@@ -1141,8 +1119,8 @@ export default function ShoppingListPage() {
   };
 
   const addCheckedItemsToPantry = () => {
-  const checkedItems = shoppingItems.filter((item) => item.checked);
-  if (checkedItems.length === 0) return;
+  const checkedGroups = combinedItems.filter((item) => item.checked);
+  if (checkedGroups.length === 0) return;
 
   const existingPantry = loadPantryItems();
 
@@ -1152,8 +1130,23 @@ export default function ShoppingListPage() {
 
   const newPantryItems: PantryItem[] = [];
 
-  for (const item of checkedItems) {
-    const pantryName = getPantryNameFromShoppingText(item.text);
+  for (const group of checkedGroups) {
+    let pantryName = group.displayText;
+
+    // Remove leading amounts from grouped display names:
+    // "10 cloves Garlic" -> "Garlic"
+    // "2 Avocados" -> "Avocado"
+    pantryName = pantryName
+      .replace(/^\d+(\.\d+)?\s+(clove|cloves)\s+/i, "")
+      .replace(/^\d+(\.\d+)?\s+/i, "")
+      .trim();
+
+    pantryName = cleanIngredientName(pantryName);
+
+    // Extra safety fixes
+    if (pantryName.includes("garlic")) pantryName = "garlic";
+    if (pantryName.includes("cilantro")) pantryName = "cilantro";
+
     if (!pantryName || shouldHideShoppingItem(pantryName)) continue;
 
     const key = cleanIngredientName(pantryName).toLowerCase();
