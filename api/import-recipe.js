@@ -480,8 +480,12 @@ export default async function handler(req, res) {
     let photoUrl = "";
 
     try {
-      safeHtml = await fetchDirectHtml(url);
-      safeText = extractReadableText(safeHtml);
+      const rendered = await fetchRenderedHtml(url);
+
+safeHtml = rendered.html || "";
+safeText = rendered.text || extractReadableText(rendered.html);
+safeTitle = rendered.title || "";
+photoUrl = extractImage(rendered.image) || "";
       safeTitle =
         cleanText(safeHtml.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || "") ||
         "";
