@@ -478,6 +478,23 @@ function AppContent() {
     localStorage.setItem("prefs", JSON.stringify(prefs));
   }, [prefs]);
 
+  useEffect(() => {
+  const refreshPantry = () => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("pantry") || "[]");
+      setPantry(Array.isArray(saved) ? saved : []);
+    } catch {
+      setPantry([]);
+    }
+  };
+
+  window.addEventListener("simple-dinners:pantry-updated", refreshPantry);
+
+  return () => {
+    window.removeEventListener("simple-dinners:pantry-updated", refreshPantry);
+  };
+}, []);
+
   // =====================================================
   // Builder: cookbook actions
   // =====================================================

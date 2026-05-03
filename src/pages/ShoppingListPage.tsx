@@ -952,6 +952,43 @@ function formatRecipeBreakdownAmount(
   return formatQuantity(quantity);
 }
 
+// =====================================================
+// Pantry helpers
+// =====================================================
+type PantryItem = {
+  id: string;
+  name: string;
+  createdAt: number;
+};
+
+const PANTRY_STORAGE_KEY = "pantry";
+
+function makePantryId(text: string) {
+  return `pantry-${text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")}-${Date.now()}`;
+}
+
+function loadPantryItems(): PantryItem[] {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(PANTRY_STORAGE_KEY) || "[]");
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function savePantryItems(items: PantryItem[]) {
+  localStorage.setItem(PANTRY_STORAGE_KEY, JSON.stringify(items));
+  window.dispatchEvent(new Event("simple-dinners:pantry-updated"));
+}
+
+function getPantryNameFromShoppingText(text: string) {
+  const parsed = parseIngredient(text);
+  return cleanupSpacing(parsed.name || cleanIngredientName(text));
+}
+
 
 // =====================================================
 // Manual item id helper
@@ -977,6 +1014,7 @@ export default function ShoppingListPage() {
   const [editText, setEditText] = useState("");
   const [editingGroup, setEditingGroup] = useState<CombinedItem | null>(null);
   const [sourceModalGroup, setSourceModalGroup] = useState<CombinedItem | null>(null);
+  const [pantryMessage, setPantryMessage] = useState("");
 
   // =====================================================
   // Refresh list when returning to page
@@ -1082,6 +1120,51 @@ export default function ShoppingListPage() {
     if (!confirmed) return;
     persistShoppingItems([]);
   };
+
+  const addCheckedItemsToPantry = () => {
+  const checkedItems = shoppingItems.filter((item) => item.checked);
+  if (checkedItems.length === 0) return;
+
+  const existingPantry = loadPantryItems();
+
+  const existingNames = new Set(
+    existingPantry.map((item) => cleanIngredientName(item.name).toLowerCase())
+  );
+
+  const newPantryItems: PantryItem[] = [];
+
+  for (const item of checkedItems) {
+    const pantryName = getPantryNameFromShoppingText(item.text);
+    if (!pantryName || shouldHideShoppingItem(pantryName)) continue;
+
+    const key = cleanIngredientName(pantryName).toLowerCase();
+    if (existingNames.has(key)) continue;
+
+    existingNames.add(key);
+
+    newPantryItems.push({
+      id: makePantryId(pantryName),
+      name: formatDisplayName(pantryName),
+      createdAt: Date.now(),
+    });
+  }
+
+  if (newPantryItems.length === 0) {
+    setPantryMessage("Those items are already in your Pantry.");
+    setTimeout(() => setPantryMessage(""), 2500);
+    return;
+  }
+
+  savePantryItems([...existingPantry, ...newPantryItems]);
+
+  setPantryMessage(
+    `Added ${newPantryItems.length} ${
+      newPantryItems.length === 1 ? "item" : "items"
+    } to Pantry`
+  );
+
+  setTimeout(() => setPantryMessage(""), 2500);
+};
 
   const checkedCount = shoppingItems.filter((item) => item.checked).length;
 
@@ -1563,6 +1646,27 @@ if (baseName === "garlic") {
           )}
 
           {checkedCount > 0 && (
+  <button
+    onClick={addCheckedItemsToPantry}
+    style={{
+      background: "rgba(34,197,94,0.12)",
+      border: "1px solid rgba(34,197,94,0.28)",
+      color: "#86efac",
+      fontSize: 11,
+      fontWeight: 900,
+      padding: "6px 12px",
+      borderRadius: "999px",
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 6,
+      letterSpacing: 0.3,
+    }}
+  >
+    ADD BOUGHT TO PANTRY ({checkedCount})
+  </button>
+)}
+
+          {checkedCount > 0 && (
             <button
               onClick={clearCheckedItems}
               style={{
@@ -1583,6 +1687,24 @@ if (baseName === "garlic") {
             </button>
           )}
         </div>
+
+        {pantryMessage && (
+  <div
+    style={{
+      marginBottom: 16,
+      padding: "10px 12px",
+      borderRadius: 14,
+      background: "rgba(34,197,94,0.12)",
+      border: "1px solid rgba(34,197,94,0.22)",
+      color: "#86efac",
+      fontSize: 13,
+      fontWeight: 800,
+      textAlign: "center",
+    }}
+  >
+    {pantryMessage}
+  </div>
+)}
 
         {grouped.map((group) => (
           <div key={group.section} style={{ marginBottom: 28 }}>
