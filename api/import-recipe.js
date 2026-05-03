@@ -11,10 +11,7 @@ export default async function handler(req, res) {
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   } else {
-    res.setHeader(
-      "Access-Control-Allow-Origin",
-      "https://dinners.ncocaptain.com"
-    );
+    res.setHeader("Access-Control-Allow-Origin", "https://dinners.ncocaptain.com");
   }
 
   res.setHeader("Vary", "Origin");
@@ -22,9 +19,7 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   if (req.method === "OPTIONS") return res.status(200).end();
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "POST only" });
-  }
+  if (req.method !== "POST") return res.status(405).json({ error: "POST only" });
 
   const { url } = req.body || {};
   if (!url) return res.status(400).json({ error: "URL required" });
@@ -36,6 +31,28 @@ export default async function handler(req, res) {
     function toArray(value) {
       if (!value) return [];
       return Array.isArray(value) ? value : [value];
+    }
+
+    function extractReadableText(html) {
+      return String(html || "")
+        .replace(/<li[^>]*>/gi, "\n")
+        .replace(/<\/li>/gi, "\n")
+        .replace(/<p[^>]*>/gi, "\n")
+        .replace(/<\/p>/gi, "\n")
+        .replace(/<br\s*\/?>/gi, "\n")
+        .replace(/<\/h\d>/gi, "\n")
+        .replace(/<[^>]+>/g, " ")
+        .replace(/&nbsp;/gi, " ")
+        .replace(/&amp;/gi, "&")
+        .replace(/&#39;/gi, "'")
+        .replace(/&quot;/gi, '"')
+        .replace(/&frac12;/gi, "½")
+        .replace(/&frac14;/gi, "¼")
+        .replace(/&frac34;/gi, "¾")
+        .replace(/[ \t]+/g, " ")
+        .replace(/\n\s+/g, "\n")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
     }
 
     function cleanText(value) {
@@ -61,9 +78,7 @@ export default async function handler(req, res) {
 
       return (
         s.length > 300 ||
-        /@context|@graph|schema\.org|wp-|--wp-|linear-gradient|svg\+xml|data:image|@media|function\(|document\.|window\.|stylesheet|Breadcrumb|organization|listitem/i.test(
-          s
-        ) ||
+        /@context|@graph|schema\.org|wp-|--wp-|linear-gradient|svg\+xml|data:image|@media|function\(|document\.|window\.|stylesheet|Breadcrumb|organization|listitem/i.test(s) ||
         /<\/?[a-z][\s\S]*>/i.test(s) ||
         /[{};]/.test(s) ||
         /(https?:\/\/\S+)/i.test(s) ||
@@ -118,12 +133,7 @@ export default async function handler(req, res) {
       }
 
       if (typeof imageField === "object") {
-        return (
-          imageField.url ||
-          imageField.contentUrl ||
-          imageField.thumbnailUrl ||
-          ""
-        );
+        return imageField.url || imageField.contentUrl || imageField.thumbnailUrl || "";
       }
 
       return "";
@@ -226,9 +236,7 @@ export default async function handler(req, res) {
       if (typeof input === "object") {
         if (input.text) return extractInstructionText(input.text);
         if (input.name && !input.text) return extractInstructionText(input.name);
-        if (input.itemListElement) {
-          return extractInstructionText(input.itemListElement);
-        }
+        if (input.itemListElement) return extractInstructionText(input.itemListElement);
 
         if (input["@type"] === "HowToStep" && input.text) {
           return extractInstructionText(input.text);
@@ -246,9 +254,7 @@ export default async function handler(req, res) {
       const s = cleanText(line);
       if (!s || isGarbageLine(s)) return false;
 
-      return /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|tablespoon|oz|ounce|lb|pound|clove|can|package|box|salt|pepper|oil|butter|garlic|onion|cheese|milk|cream|egg|flour|sugar|basil|tomato|broth|stock|beans|corn|rice|pasta|chicken|beef|pork|shrimp|lemon|lime|cilantro|parsley)/i.test(
-        s
-      );
+      return /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|tablespoon|oz|ounce|lb|pound|clove|can|package|box|salt|pepper|oil|butter|garlic|onion|cheese|milk|cream|egg|flour|sugar|basil|tomato|broth|stock|beans|corn|rice|pasta|chicken|beef|pork|shrimp|lemon|lime|cilantro|parsley)/i.test(s);
     }
 
     function looksLikeStep(line) {
@@ -260,9 +266,7 @@ export default async function handler(req, res) {
         return false;
       }
 
-      return /mix|stir|cook|bake|heat|place|add|whisk|combine|pour|season|serve|grill|broil|simmer|preheat|remove|transfer|marinate|drain|slice|flip|cover|reduce|bring|boil|blend|puree/i.test(
-        s
-      );
+      return /mix|stir|cook|bake|heat|place|add|whisk|combine|pour|season|serve|grill|broil|simmer|preheat|remove|transfer|marinate|drain|slice|flip|cover|reduce|bring|boil|blend|puree/i.test(s);
     }
 
     function magicParseRecipeText(rawText) {
@@ -282,7 +286,7 @@ export default async function handler(req, res) {
       const instructionLines = [];
 
       const ingredientRegex =
-        /^(\d+|\d+\s+\d+\/\d+|\d+\/\d+|½|¼|¾|⅓|⅔|⅛)\s*(cup|cups|tbsp|tablespoons?|tsp|teaspoons?|oz|ounces?|lb|lbs|pounds?|cloves?|cans?|packages?|boxes?|jars?|bags?)?\s+.+/i;
+        /^(\d+|\d+\s+\d+\/\d+|\d+\/\d+|½|¼|¾|⅓|⅔|⅛)?\s*(\([^)]+\))?\s*(cup|cups|tbsp|tablespoons?|tsp|teaspoons?|oz|ounces?|lb|lbs|pounds?|cloves?|cans?|packages?|boxes?|jars?|bags?)?\s+.+/i;
 
       const stepRegex =
         /^(step\s*)?\d+[\).\s-]+|^(preheat|heat|add|stir|mix|cook|bake|simmer|boil|combine|whisk|pour|place|cover|remove|serve|season|blend|drain|transfer)\b/i;
@@ -293,9 +297,7 @@ export default async function handler(req, res) {
         if (ingredientRegex.test(cleaned) || looksLikeIngredient(cleaned)) {
           if (
             cleaned.length <= 140 &&
-            !/directions|instructions|nutrition|reviews|advertisement|submit|rating/i.test(
-              cleaned
-            )
+            !/directions|instructions|nutrition|reviews|advertisement|submit|rating/i.test(cleaned)
           ) {
             ingredientLines.push(cleaned);
           }
@@ -479,11 +481,10 @@ export default async function handler(req, res) {
 
     try {
       safeHtml = await fetchDirectHtml(url);
-      safeText = cleanText(safeHtml);
+      safeText = extractReadableText(safeHtml);
       safeTitle =
-        cleanText(
-          safeHtml.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || ""
-        ) || "";
+        cleanText(safeHtml.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || "") ||
+        "";
 
       if (hostname.includes("allrecipes") && !htmlLooksUsefulForRecipe(safeHtml)) {
         console.log("DIRECT HTML WEAK - TRYING RENDERED HTML");
@@ -492,7 +493,7 @@ export default async function handler(req, res) {
 
         if (rendered.html) {
           safeHtml = rendered.html;
-          safeText = rendered.text || cleanText(rendered.html);
+          safeText = rendered.text || extractReadableText(rendered.html);
           safeTitle = rendered.title || safeTitle;
           photoUrl = photoUrl || extractImage(rendered.image);
         }
@@ -518,10 +519,7 @@ export default async function handler(req, res) {
         hostname,
       });
     } catch (directErr) {
-      console.log(
-        "DIRECT/RENDERED FETCH FAILED:",
-        directErr?.message || directErr
-      );
+      console.log("DIRECT/RENDERED FETCH FAILED:", directErr?.message || directErr);
     }
 
     if (!safeHtml || (!recipeData && !safeTitle)) {
@@ -529,7 +527,7 @@ export default async function handler(req, res) {
         const rendered = await fetchRenderedHtml(url);
 
         if (!safeHtml) safeHtml = rendered.html;
-        if (!safeText) safeText = rendered.text || cleanText(rendered.html);
+        if (!safeText) safeText = rendered.text || extractReadableText(rendered.html);
         if (!safeTitle) safeTitle = rendered.title || "";
         if (!photoUrl) photoUrl = extractImage(rendered.image);
 
@@ -552,10 +550,7 @@ export default async function handler(req, res) {
           usefulHtml: htmlLooksUsefulForRecipe(safeHtml),
         });
       } catch (renderedErr) {
-        console.log(
-          "RENDERED FALLBACK FAILED:",
-          renderedErr?.message || renderedErr
-        );
+        console.log("RENDERED FALLBACK FAILED:", renderedErr?.message || renderedErr);
       }
     }
 
@@ -586,11 +581,7 @@ export default async function handler(req, res) {
       }
     }
 
-    if (
-      ingredientsList.length === 0 &&
-      hostname.includes("allrecipes") &&
-      safeHtml
-    ) {
+    if (ingredientsList.length === 0 && hostname.includes("allrecipes") && safeHtml) {
       ingredientsList = extractAllRecipesIngredients(safeHtml);
     }
 
@@ -604,14 +595,16 @@ export default async function handler(req, res) {
         .map((line) => cleanText(line))
         .filter(Boolean);
 
-      ingredientsList = cleanLineArray(lines.filter(looksLikeIngredient)).slice(
-        0,
-        40
-      );
+      ingredientsList = cleanLineArray(lines.filter(looksLikeIngredient)).slice(0, 40);
     }
 
     if (ingredientsList.length === 0 && safeText) {
       const magic = magicParseRecipeText(safeText);
+
+      console.log("MAGIC PARSER INGREDIENT RESULT", {
+        ingredients: magic.ingredients.length,
+      });
+
       if (magic.ingredients.length > 0) {
         ingredientsList = magic.ingredients;
       }
@@ -626,16 +619,10 @@ export default async function handler(req, res) {
     }
 
     if (instructionList.length === 0 && recipeData?.instructions) {
-      instructionList = cleanLineArray(
-        extractInstructionText(recipeData.instructions)
-      );
+      instructionList = cleanLineArray(extractInstructionText(recipeData.instructions));
     }
 
-    if (
-      instructionList.length === 0 &&
-      hostname.includes("allrecipes") &&
-      safeHtml
-    ) {
+    if (instructionList.length === 0 && hostname.includes("allrecipes") && safeHtml) {
       instructionList = extractAllRecipesInstructions(safeHtml);
     }
 
@@ -654,13 +641,17 @@ export default async function handler(req, res) {
 
     if (instructionList.length === 0 && safeText) {
       const magic = magicParseRecipeText(safeText);
+
+      console.log("MAGIC PARSER INSTRUCTION RESULT", {
+        instructions: magic.instructions.length,
+      });
+
       if (magic.instructions.length > 0) {
         instructionList = magic.instructions;
       }
     }
 
-    const rawName =
-      recipeData?.name || safeTitle || titleFromUrl(url) || "New Recipe";
+    const rawName = recipeData?.name || safeTitle || titleFromUrl(url) || "New Recipe";
 
     const recipeName = toTitleCase(cleanText(rawName)) || "New Recipe";
 
@@ -699,7 +690,7 @@ export default async function handler(req, res) {
       instructionsCount: instructionList.length,
       hasPhoto: !!photoUrl,
       successLevel,
-      debugVersion: "importer-v5-magic-parser",
+      debugVersion: "importer-v6-readable-magic-parser",
       hostname,
     });
 
@@ -727,7 +718,7 @@ export default async function handler(req, res) {
     return res.status(200).json({
       success: true,
       successLevel,
-      debugVersion: "importer-v5-magic-parser",
+      debugVersion: "importer-v6-readable-magic-parser",
       recipe: formatted,
     });
   } catch (err) {
