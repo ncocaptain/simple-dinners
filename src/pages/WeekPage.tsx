@@ -26,6 +26,104 @@ type TooltipPosition = {
   width: number;
 };
 
+// =====================================================
+// Prep Ahead helpers
+// =====================================================
+const PREP_AHEAD_IGNORE = new Set([
+  "salt",
+  "pepper",
+  "black pepper",
+  "salt and pepper",
+  "oil",
+  "olive oil",
+  "vegetable oil",
+  "water",
+  "butter",
+  "cooking spray",
+  "flour",
+  "sugar",
+]);
+
+const PREP_AHEAD_NORMALIZE: Record<string, string> = {
+  onions: "onion",
+  "yellow onion": "onion",
+  "white onion": "onion",
+  "red onion": "onion",
+  garlic: "garlic",
+  "garlic cloves": "garlic",
+  "cloves garlic": "garlic",
+  lemons: "lemon",
+  limes: "lime",
+  tomatoes: "tomato",
+  avocados: "avocado",
+  cilantro: "cilantro",
+  parsley: "parsley",
+  "green onions": "green onion",
+  "bell peppers": "bell pepper",
+  "green bell pepper": "bell pepper",
+  "red bell pepper": "bell pepper",
+  "yellow bell pepper": "bell pepper",
+};
+
+function cleanupPrepIngredient(line: string) {
+  let text = String(line || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\([^)]*\)/g, " ")
+    .replace(/^\s*[-•*]\s*/, "")
+    .replace(
+      /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(cup|cups|tbsp|tablespoons?|tsp|teaspoons?|oz|ounces?|lb|lbs|pounds?|cloves?|cans?|packages?|boxes?|jars?|bags?)?\s+/i,
+      ""
+    )
+    .replace(/\b(chopped|diced|minced|sliced|shredded|grated|fresh|freshly|small|medium|large|drained|rinsed|divided|optional|to taste)\b/g, " ")
+    .split(",")[0]
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (PREP_AHEAD_NORMALIZE[text]) {
+    text = PREP_AHEAD_NORMALIZE[text];
+  }
+
+  if (text.includes("garlic")) text = "garlic";
+  if (text.includes("cilantro")) text = "cilantro";
+  if (text.includes("lime")) text = "lime";
+  if (text.includes("lemon")) text = "lemon";
+  if (text.includes("onion")) text = text.includes("green") ? "green onion" : "onion";
+  if (text.includes("bell pepper")) text = "bell pepper";
+
+  if (!text || PREP_AHEAD_IGNORE.has(text)) return "";
+
+  return text;
+}
+
+function extractPrepIngredients(ingredients?: string) {
+  return Array.from(
+    new Set(
+      String(ingredients || "")
+        .split(/\n+/)
+        .map(cleanupPrepIngredient)
+        .filter(Boolean)
+    )
+  );
+}
+
+function formatPrepIngredient(name: string) {
+  return name
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+function getPrepAheadItems(todayMeal?: Meal | null, tomorrowMeal?: Meal | null) {
+  if (!todayMeal || !tomorrowMeal) return [];
+
+  const todayItems = extractPrepIngredients(todayMeal.ingredients);
+  const tomorrowItems = new Set(extractPrepIngredients(tomorrowMeal.ingredients));
+
+  return todayItems.filter((item) => tomorrowItems.has(item)).slice(0, 4);
+}
+
 export default function WeekPage({
   meals,
   setMeals,
@@ -590,6 +688,11 @@ export default function WeekPage({
               const hasMeal = !!meal?.name?.trim();
               const isLocked = !!lockedDays[day];
               const mealPhotoUrl = normalizePhotoUrl(meal?.photoUrl);
+              const nextDay = days[index + 1];
+const nextDayPlan = nextDay ? meals[nextDay] : undefined;
+const nextMeal =
+  nextDayPlan?.mode === "planned" ? nextDayPlan.meal ?? null : null;
+const prepAheadItems = getPrepAheadItems(meal, nextMeal);
 
               return (
                 <Card
@@ -929,6 +1032,50 @@ export default function WeekPage({
                             style={{ opacity: 0.2, flexShrink: 0 }}
                           />
                         </div>
+
+                        {prepAheadItems.length >= 2 && nextDay && (
+  <div
+    style={{
+      padding: "12px 14px",
+      borderRadius: 16,
+      background: "rgba(20,184,166,0.12)",
+      border: "1px solid rgba(20,184,166,0.24)",
+      color: "#ccfbf1",
+      display: "grid",
+      gap: 4,
+    }}
+  >
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 7,
+        fontSize: 13,
+        fontWeight: 900,
+      }}
+    >
+      <Sparkles size={14} />
+      Prep Ahead Tip
+    </div>
+
+    <div
+      style={{
+        fontSize: 13,
+        lineHeight: 1.45,
+        opacity: 0.86,
+      }}
+    >
+      You’ll use{" "}
+      <strong>
+        {prepAheadItems
+          .slice(0, 3)
+          .map(formatPrepIngredient)
+          .join(", ")}
+      </strong>{" "}
+      again on {nextDay}. Prep a little extra tonight to save time tomorrow.
+    </div>
+  </div>
+)}
 
                         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                           <button

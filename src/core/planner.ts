@@ -418,7 +418,9 @@ function scoreMealAgainstPantry(
 
   let score = 0;
   let matches = 0;
-  const pantryWeight = opts?.isFirstRun ? 5 : 4;
+
+  // 🔥 Stronger base weight
+  const pantryWeight = opts?.isFirstRun ? 8 : 6;
 
   for (const item of normalizedPantry) {
     if (text.includes(item)) {
@@ -427,8 +429,12 @@ function scoreMealAgainstPantry(
     }
   }
 
-  if (matches >= 2) score += opts?.isFirstRun ? 5 : 3;
-  if (matches >= 3) score += opts?.isFirstRun ? 7 : 5;
+  // 🔥 Big bonuses for multiple matches
+  if (matches >= 2) score += opts?.isFirstRun ? 10 : 7;
+  if (matches >= 3) score += opts?.isFirstRun ? 14 : 10;
+
+  // 🔥 HUGE bonus if meal heavily uses pantry
+  if (matches >= 4) score += 15;
 
   return score;
 }
@@ -471,6 +477,11 @@ export function getPlannerScore(
   let score = 0;
 
   score += scoreMealAgainstPantry(meal, pantry, { isFirstRun });
+
+  // 🔥 Small bonus if meal uses ANY pantry items
+if (pantry.length > 0 && score > 0) {
+  score += 2;
+}
 
   if (favorites.includes(nameKey) || favorites.includes(idKey)) {
     score += 8;
