@@ -344,6 +344,8 @@ export default async function handler(req, res) {
     let photoUrl = "";
 
     try {
+      const target = new URL(url);
+const hostname = target.hostname.toLowerCase();
       safeHtml = await fetchDirectHtml(url);
       safeText = cleanText(safeHtml);
       safeTitle =
@@ -372,7 +374,7 @@ export default async function handler(req, res) {
       console.log("DIRECT FETCH FAILED:", directErr?.message || directErr);
     }
 
-    if (!safeHtml || (!recipeData && !safeTitle)) {
+    if (!safeHtml || (!recipeData && !safeTitle) || hostname.includes("allrecipes")) {
       try {
         const mLink = `https://api.microlink.io?url=${encodeURIComponent(
           url
