@@ -7,6 +7,7 @@ export default async function handler(req, res) {
   ];
 
   const origin = req.headers.origin;
+
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   } else {
@@ -27,10 +28,31 @@ export default async function handler(req, res) {
     const target = new URL(url);
     const hostname = target.hostname.toLowerCase();
 
-    // --- HELPER FUNCTIONS ---
     function toArray(value) {
       if (!value) return [];
       return Array.isArray(value) ? value : [value];
+    }
+
+    function extractReadableText(html) {
+      return String(html || "")
+        .replace(/<li[^>]*>/gi, "\n")
+        .replace(/<\/li>/gi, "\n")
+        .replace(/<p[^>]*>/gi, "\n")
+        .replace(/<\/p>/gi, "\n")
+        .replace(/<br\s*\/?>/gi, "\n")
+        .replace(/<\/h\d>/gi, "\n")
+        .replace(/<[^>]+>/g, " ")
+        .replace(/&nbsp;/gi, " ")
+        .replace(/&amp;/gi, "&")
+        .replace(/&#39;/gi, "'")
+        .replace(/&quot;/gi, '"')
+        .replace(/&frac12;/gi, "½")
+        .replace(/&frac14;/gi, "¼")
+        .replace(/&frac34;/gi, "¾")
+        .replace(/[ \t]+/g, " ")
+        .replace(/\n\s+/g, "\n")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
     }
 
     function cleanText(value) {
@@ -50,208 +72,663 @@ export default async function handler(req, res) {
         .trim();
     }
 
-    function extractReadableText(html) {
-      return String(html || "")
-        .replace(/<li[^>]*>/gi, "\n")
-        .replace(/<\/li>/gi, "\n")
-        .replace(/<p[^>]*>/gi, "\n")
-        .replace(/<\/p>/gi, "\n")
-        .replace(/<[^>]+>/g, " ")
-        .replace(/[ \t]+/g, " ")
-        .replace(/\n\s+/g, "\n")
-        .replace(/\n{3,}/g, "\n\n")
-        .trim();
-    }
-
     function isGarbageLine(line) {
       const s = String(line || "").trim();
-      if (!s || s.length > 500) return true;
-      return /@context|@graph|schema\.org|wp-|--wp-|linear-gradient|svg\+xml|data:image|function\(|document\.|window\.|stylesheet/i.test(s);
+      if (!s) return true;
+
+      return (
+        s.length > 300 ||
+        /@context|@graph|schema\.org|wp-|--wp-|linear-gradient|svg\+xml|data:image|@media|function\(|document\.|window\.|stylesheet|Breadcrumb|organization|listitem/i.test(s) ||
+        /<\/?[a-z][\s\S]*>/i.test(s) ||
+        /[{};]/.test(s) ||
+        /(https?:\/\/\S+)/i.test(s) ||
+        s.split(" ").length > 45
+      );
     }
 
     function cleanLineArray(lines) {
       return lines
         .map((line) => cleanText(line))
         .filter(Boolean)
-        .filter((line) => line.length > 1 && !isGarbageLine(line))
+        .filter((line) => line.length > 1)
+        .filter((line) => !isGarbageLine(line))
         .filter((line, index, arr) => arr.indexOf(line) === index);
     }
 
     function slugify(text) {
-      return String(text || "recipe").toLowerCase().trim()
-        .replace(/[^\w\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-");
+      return String(text || "recipe")
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-");
     }
 
     function toTitleCase(text) {
-      return String(text || "").toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
+      return String(text || "")
+        .toLowerCase()
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+    }
+
+    function titleFromUrl(inputUrl) {
+      try {
+        const pathname = new URL(inputUrl).pathname;
+        const lastPart = pathname.split("/").filter(Boolean).pop() || "";
+        return lastPart.replace(/[-_]+/g, " ").trim();
+      } catch {
+        return "";
+      }
     }
 
     function extractImage(imageField) {
       if (!imageField) return "";
       if (typeof imageField === "string") return imageField;
-      if (Array.isArray(imageField)) return extractImage(imageField[0]);
-      if (typeof imageField === "object") return imageField.url || imageField.contentUrl || "";
+
+      if (Array.isArray(imageField)) {
+        for (const item of imageField) {
+          const found = extractImage(item);
+          if (found) return found;
+        }
+        return "";
+      }
+
+      if (typeof imageField === "object") {
+        return imageField.url || imageField.contentUrl || imageField.thumbnailUrl || "";
+      }
+
       return "";
+    }
+
+    function parsePossibleJson(value) {
+      if (!value) return null;
+      if (typeof value !== "string") return value;
+
+      try {
+        return JSON.parse(value);
+      } catch {
+        return null;
+      }
     }
 
     function findRecipeInObject(obj) {
       if (!obj) return null;
+
       const type = obj["@type"];
-      if (type === "Recipe" || (Array.isArray(type) && type.includes("Recipe"))) return obj;
+
+      if (type === "Recipe" || (Array.isArray(type) && type.includes("Recipe"))) {
+        return obj;
+      }
+
       if (Array.isArray(obj)) {
         for (const item of obj) {
           const found = findRecipeInObject(item);
           if (found) return found;
         }
       }
+
       if (obj["@graph"] && Array.isArray(obj["@graph"])) {
         for (const item of obj["@graph"]) {
           const found = findRecipeInObject(item);
           if (found) return found;
         }
       }
+
       if (typeof obj === "object") {
         for (const key of Object.keys(obj)) {
-          const found = findRecipeInObject(obj[key]);
-          if (found) return found;
+          const value = obj[key];
+          if (value && typeof value === "object") {
+            const found = findRecipeInObject(value);
+            if (found) return found;
+          }
         }
       }
+
       return null;
     }
 
     function extractJsonLdBlocks(html) {
       const blocks = [];
-      const jsonLdRegex = /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+      const jsonLdRegex =
+        /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+
       let match;
       while ((match = jsonLdRegex.exec(html)) !== null) {
-        try {
-          const parsed = JSON.parse(match[1].trim());
-          if (parsed) blocks.push(parsed);
-        } catch (e) {}
+        const raw = match[1]?.trim();
+        if (!raw) continue;
+
+        const parsed = parsePossibleJson(raw);
+        if (parsed) blocks.push(parsed);
       }
+
       return blocks;
     }
 
     function extractInstructionText(input) {
       if (!input) return [];
-      if (typeof input === "string") return [cleanText(input)];
+
+      if (typeof input === "string") {
+        const text = cleanText(input);
+        if (!text) return [];
+
+        const splitByLines = text
+          .split(/\r?\n/)
+          .map((x) => cleanText(x))
+          .filter(Boolean);
+
+        if (splitByLines.length > 1) return splitByLines;
+
+        const splitBySentence = text
+          .split(/(?<=[.?!])\s+(?=[A-Z0-9])/)
+          .map((x) => cleanText(x))
+          .filter(Boolean);
+
+        return splitBySentence.length > 1 ? splitBySentence : [text];
+      }
+
       if (Array.isArray(input)) {
         let all = [];
-        for (const item of input) all = all.concat(extractInstructionText(item));
-        return all;
+        for (const item of input) {
+          all = all.concat(extractInstructionText(item));
+        }
+        return cleanLineArray(all);
       }
+
       if (typeof input === "object") {
-        if (input.text) return [cleanText(input.text)];
+        if (input.text) return extractInstructionText(input.text);
+        if (input.name && !input.text) return extractInstructionText(input.name);
         if (input.itemListElement) return extractInstructionText(input.itemListElement);
+
+        if (input["@type"] === "HowToStep" && input.text) {
+          return extractInstructionText(input.text);
+        }
+
+        if (input["@type"] === "HowToSection") {
+          return extractInstructionText(input.itemListElement || []);
+        }
       }
+
       return [];
     }
 
-    // --- FETCH LOGIC ---
-    async function fetchRenderedHtml(targetUrl) {
-      // Added waitForSelector to ensure Allrecipes JS loads the list
-      const apiUrl = `https://api.microlink.io?url=${encodeURIComponent(targetUrl)}&render=true&waitForSelector=.mntl-structured-ingredients__list`;
-      const response = await fetch(apiUrl);
-      const result = await response.json();
-      if (result.status !== "success") throw new Error("Microlink failed");
-      return result.data;
+    function looksLikeIngredient(line) {
+      const s = cleanText(line);
+      if (!s || isGarbageLine(s)) return false;
+
+      return /(\d|½|¼|¾|⅓|⅔|cup|cups|tbsp|tsp|teaspoon|tablespoon|oz|ounce|lb|pound|clove|can|package|box|salt|pepper|oil|butter|garlic|onion|cheese|milk|cream|egg|flour|sugar|basil|tomato|broth|stock|beans|corn|rice|pasta|chicken|beef|pork|shrimp|lemon|lime|cilantro|parsley)/i.test(s);
+    }
+
+    function looksLikeStep(line) {
+      const s = cleanText(line);
+      if (!s || isGarbageLine(s)) return false;
+      if (s.length < 18) return false;
+
+      if (/advertisement|rate this recipe|print|save|share|review|nutrition/i.test(s)) {
+        return false;
+      }
+
+      return /mix|stir|cook|bake|heat|place|add|whisk|combine|pour|season|serve|grill|broil|simmer|preheat|remove|transfer|marinate|drain|slice|flip|cover|reduce|bring|boil|blend|puree/i.test(s);
+    }
+
+    function magicParseRecipeText(rawText) {
+      const text = String(rawText || "")
+        .replace(/\r/g, "\n")
+        .replace(/\t/g, " ")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+
+      const lines = text
+        .split(/\n+/)
+        .map((line) => cleanText(line))
+        .filter(Boolean)
+        .filter((line) => !isGarbageLine(line));
+
+      const ingredientLines = [];
+      const instructionLines = [];
+
+      const ingredientRegex =
+        /^(\d+|\d+\s+\d+\/\d+|\d+\/\d+|½|¼|¾|⅓|⅔|⅛)?\s*(\([^)]+\))?\s*(cup|cups|tbsp|tablespoons?|tsp|teaspoons?|oz|ounces?|lb|lbs|pounds?|cloves?|cans?|packages?|boxes?|jars?|bags?)?\s+.+/i;
+
+      const stepRegex =
+        /^(step\s*)?\d+[\).\s-]+|^(preheat|heat|add|stir|mix|cook|bake|simmer|boil|combine|whisk|pour|place|cover|remove|serve|season|blend|drain|transfer)\b/i;
+
+      for (const line of lines) {
+        const cleaned = cleanText(line);
+
+        if (ingredientRegex.test(cleaned) || looksLikeIngredient(cleaned)) {
+          if (
+            cleaned.length <= 140 &&
+            !/directions|instructions|nutrition|reviews|advertisement|submit|rating/i.test(cleaned)
+          ) {
+            ingredientLines.push(cleaned);
+          }
+          continue;
+        }
+
+        if (stepRegex.test(cleaned) || looksLikeStep(cleaned)) {
+          if (cleaned.length >= 18 && cleaned.length <= 500) {
+            instructionLines.push(
+              cleaned.replace(/^(step\s*)?\d+[\).\s-]+/i, "")
+            );
+          }
+        }
+      }
+
+      return {
+        ingredients: cleanLineArray(ingredientLines).slice(0, 60),
+        instructions: cleanLineArray(instructionLines).slice(0, 30),
+      };
+    }
+
+    function extractAllRecipesIngredients(html) {
+      const collected = [];
+
+      const patterns = [
+        /<span[^>]*class=["'][^"']*ingredients-item-name[^"']*["'][^>]*>([\s\S]*?)<\/span>/gi,
+        /<li[^>]*class=["'][^"']*mntl-structured-ingredients__list-item[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+        /<p[^>]*class=["'][^"']*mntl-structured-ingredients__list-item[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
+        /<span[^>]*data-ingredient-name=["']true["'][^>]*>([\s\S]*?)<\/span>/gi,
+      ];
+
+      for (const pattern of patterns) {
+        const matches = [...html.matchAll(pattern)]
+          .map((m) => cleanText(m[1]))
+          .filter(Boolean);
+
+        if (matches.length > 0) {
+          collected.push(...matches);
+          break;
+        }
+      }
+
+      return cleanLineArray(collected).slice(0, 60);
+    }
+
+    function extractAllRecipesInstructions(html) {
+      const collected = [];
+
+      const patterns = [
+        /<li[^>]*class=["'][^"']*mntl-sc-block-group--LI[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+        /<p[^>]*class=["'][^"']*comp mntl-sc-block mntl-sc-block-html[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
+        /<div[^>]*class=["'][^"']*comp mntl-sc-block mntl-sc-block-html[^"']*["'][^>]*>([\s\S]*?)<\/div>/gi,
+      ];
+
+      for (const pattern of patterns) {
+        const matches = [...html.matchAll(pattern)]
+          .map((m) => cleanText(m[1]))
+          .filter(Boolean)
+          .filter(looksLikeStep);
+
+        if (matches.length > 0) {
+          collected.push(...matches);
+          break;
+        }
+      }
+
+      return cleanLineArray(collected).slice(0, 30);
+    }
+
+    function extractIngredientsFromHtml(html) {
+      const collected = [];
+
+      const patterns = [
+        /<span[^>]*class=["'][^"']*ingredients-item-name[^"']*["'][^>]*>([\s\S]*?)<\/span>/gi,
+        /<li[^>]*class=["'][^"']*mntl-structured-ingredients__list-item[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+        /<p[^>]*class=["'][^"']*mntl-structured-ingredients__list-item[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
+        /<li[^>]*class=["'][^"']*ingredient[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+        /<li[^>]*data-ingredient[^>]*>([\s\S]*?)<\/li>/gi,
+      ];
+
+      for (const pattern of patterns) {
+        const matches = [...html.matchAll(pattern)]
+          .map((m) => cleanText(m[1]))
+          .filter(Boolean);
+
+        const filtered = matches.filter(looksLikeIngredient);
+
+        if (filtered.length >= 1) {
+          collected.push(...filtered);
+          break;
+        }
+      }
+
+      return cleanLineArray(collected).slice(0, 60);
+    }
+
+    function extractInstructionsFromHtml(html) {
+      const collected = [];
+
+      const patterns = [
+        /<li[^>]*class=["'][^"']*mntl-sc-block-group--LI[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+        /<li[^>]*class=["'][^"']*comp mntl-sc-block mntl-sc-block-html[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+        /<li[^>]*class=["'][^"']*instruction[^"']*["'][^>]*>([\s\S]*?)<\/li>/gi,
+        /<div[^>]*class=["'][^"']*direction[^"']*["'][^>]*>([\s\S]*?)<\/div>/gi,
+        /<p[^>]*class=["'][^"']*instruction[^"']*["'][^>]*>([\s\S]*?)<\/p>/gi,
+      ];
+
+      for (const pattern of patterns) {
+        const matches = [...html.matchAll(pattern)]
+          .map((m) => cleanText(m[1]))
+          .filter(Boolean)
+          .filter(looksLikeStep);
+
+        if (matches.length >= 1) {
+          collected.push(...matches);
+          break;
+        }
+      }
+
+      return cleanLineArray(collected).slice(0, 30);
     }
 
     async function fetchDirectHtml(targetUrl) {
       const response = await fetch(targetUrl, {
-        headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" }
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+          Accept:
+            "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+          "Accept-Language": "en-US,en;q=0.9",
+          Referer: "https://www.google.com/",
+          DNT: "1",
+        },
       });
-      if (!response.ok) throw new Error("Direct fetch blocked");
+
+      if (!response.ok) {
+        throw new Error(`Direct fetch failed: ${response.status}`);
+      }
+
       return await response.text();
     }
 
-    let safeHtml = "";
-    let safeTitle = "";
-    let photoUrl = "";
-    let recipeData = null;
+    async function fetchRenderedHtml(targetUrl) {
+      const response = await fetch(
+        `https://api.microlink.io?url=${encodeURIComponent(
+          targetUrl
+        )}&meta=true&screenshot=false&audio=false&video=false&iframe=false&palette=false&render=true`
+      );
 
-    // Logic: Allrecipes requires rendering. Others try direct first.
-    if (hostname.includes("allrecipes.com")) {
+      const result = await response.json();
+
+      if (result.status !== "success") {
+        throw new Error("Rendered Microlink fetch failed");
+      }
+
+      return {
+        html: result?.data?.html || "",
+        text: result?.data?.text || "",
+        title: result?.data?.title || "",
+        image: result?.data?.image || "",
+      };
+    }
+
+    function htmlLooksUsefulForRecipe(html) {
+      const value = String(html || "").toLowerCase();
+
+      return (
+        value.includes("recipeingredient") ||
+        value.includes("recipeinstructions") ||
+        value.includes("ingredients-item-name") ||
+        value.includes("mntl-structured-ingredients") ||
+        value.includes("mntl-sc-block")
+      );
+    }
+
+    let safeHtml = "";
+    let safeText = "";
+    let safeTitle = "";
+    let recipeData = null;
+    let photoUrl = "";
+
+    try {
       const rendered = await fetchRenderedHtml(url);
-      safeHtml = rendered.html;
-      safeTitle = rendered.title;
-      photoUrl = extractImage(rendered.image);
-    } else {
-      try {
-        safeHtml = await fetchDirectHtml(url);
-      } catch (e) {
+
+safeHtml = rendered.html || "";
+safeText = rendered.text || extractReadableText(rendered.html);
+safeTitle = rendered.title || "";
+photoUrl = extractImage(rendered.image) || "";
+      safeTitle =
+        cleanText(safeHtml.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || "") ||
+        "";
+
+      if (hostname.includes("allrecipes") && !htmlLooksUsefulForRecipe(safeHtml)) {
+        console.log("DIRECT HTML WEAK - TRYING RENDERED HTML");
+
         const rendered = await fetchRenderedHtml(url);
-        safeHtml = rendered.html;
-        safeTitle = rendered.title;
-        photoUrl = extractImage(rendered.image);
+
+        if (rendered.html) {
+          safeHtml = rendered.html;
+          safeText = rendered.text || extractReadableText(rendered.html);
+          safeTitle = rendered.title || safeTitle;
+          photoUrl = photoUrl || extractImage(rendered.image);
+        }
+      }
+
+      const jsonLdBlocks = extractJsonLdBlocks(safeHtml);
+      for (const block of jsonLdBlocks) {
+        const found = findRecipeInObject(block);
+        if (found) {
+          recipeData = found;
+          break;
+        }
+      }
+
+      photoUrl = photoUrl || extractImage(recipeData?.image);
+
+      console.log("FETCH OK", {
+        title: safeTitle,
+        htmlLength: safeHtml.length,
+        textLength: safeText.length,
+        foundRecipe: !!recipeData,
+        usefulHtml: htmlLooksUsefulForRecipe(safeHtml),
+        hostname,
+      });
+    } catch (directErr) {
+      console.log("DIRECT/RENDERED FETCH FAILED:", directErr?.message || directErr);
+    }
+
+    if (!safeHtml || (!recipeData && !safeTitle)) {
+      try {
+        const rendered = await fetchRenderedHtml(url);
+
+        if (!safeHtml) safeHtml = rendered.html;
+        if (!safeText) safeText = rendered.text || extractReadableText(rendered.html);
+        if (!safeTitle) safeTitle = rendered.title || "";
+        if (!photoUrl) photoUrl = extractImage(rendered.image);
+
+        if (!recipeData && safeHtml) {
+          const jsonLdBlocks = extractJsonLdBlocks(safeHtml);
+          for (const block of jsonLdBlocks) {
+            const found = findRecipeInObject(block);
+            if (found) {
+              recipeData = found;
+              break;
+            }
+          }
+        }
+
+        console.log("RENDERED FALLBACK", {
+          title: safeTitle,
+          htmlLength: safeHtml.length,
+          textLength: safeText.length,
+          foundRecipe: !!recipeData,
+          usefulHtml: htmlLooksUsefulForRecipe(safeHtml),
+        });
+      } catch (renderedErr) {
+        console.log("RENDERED FALLBACK FAILED:", renderedErr?.message || renderedErr);
       }
     }
 
-    // Try JSON-LD first (Most accurate)
-    const blocks = extractJsonLdBlocks(safeHtml);
-    recipeData = findRecipeInObject(blocks);
-
-    // --- INGREDIENT EXTRACTION ---
     let ingredientsList = [];
+
     if (recipeData?.recipeIngredient) {
       ingredientsList = cleanLineArray(toArray(recipeData.recipeIngredient));
     }
 
-    if (ingredientsList.length === 0) {
-      // Current Allrecipes class patterns
-      const patterns = [
-        /class="[^"]*mntl-structured-ingredients__list-item[^"]*"[^>]*>([\s\S]*?)<\/li>/gi,
-        /class="[^"]*ingredients-item-name[^"]*"[^>]*>([\s\S]*?)<\/span>/gi
+    if (ingredientsList.length === 0 && recipeData?.nutrition?.ingredient) {
+      ingredientsList = cleanLineArray(toArray(recipeData.nutrition.ingredient));
+    }
+
+    if (ingredientsList.length === 0 && recipeData) {
+      const altFields = [
+        recipeData.ingredients,
+        recipeData.recipeIngredients,
+        recipeData.ingredient,
       ];
-      for (const pattern of patterns) {
-        const matches = [...safeHtml.matchAll(pattern)].map(m => cleanText(m[1]));
-        if (matches.length > 0) {
-          ingredientsList = cleanLineArray(matches);
+
+      for (const field of altFields) {
+        if (!field) continue;
+        const extracted = cleanLineArray(toArray(field));
+        if (extracted.length > 0) {
+          ingredientsList = extracted;
           break;
         }
       }
     }
 
-    // --- INSTRUCTION EXTRACTION ---
+    if (ingredientsList.length === 0 && hostname.includes("allrecipes") && safeHtml) {
+      ingredientsList = extractAllRecipesIngredients(safeHtml);
+    }
+
+    if (ingredientsList.length === 0 && safeHtml) {
+      ingredientsList = extractIngredientsFromHtml(safeHtml);
+    }
+
+    if (ingredientsList.length === 0 && safeText) {
+      const lines = safeText
+        .split(/\r?\n/)
+        .map((line) => cleanText(line))
+        .filter(Boolean);
+
+      ingredientsList = cleanLineArray(lines.filter(looksLikeIngredient)).slice(0, 40);
+    }
+
+    if (ingredientsList.length === 0 && safeText) {
+      const magic = magicParseRecipeText(safeText);
+
+      console.log("MAGIC PARSER INGREDIENT RESULT", {
+        ingredients: magic.ingredients.length,
+      });
+
+      if (magic.ingredients.length > 0) {
+        ingredientsList = magic.ingredients;
+      }
+    }
+
     let instructionList = [];
+
     if (recipeData?.recipeInstructions) {
-      instructionList = cleanLineArray(extractInstructionText(recipeData.recipeInstructions));
+      instructionList = cleanLineArray(
+        extractInstructionText(recipeData.recipeInstructions)
+      );
     }
 
-    if (instructionList.length === 0) {
-      const patterns = [
-        /class="[^"]*mntl-sc-block-group--LI[^"]*"[^>]*>([\s\S]*?)<\/li>/gi,
-        /class="[^"]*recipe__steps-content[^"]*"[^>]*>([\s\S]*?)<\/div>/gi
-      ];
-      for (const pattern of patterns) {
-        const matches = [...safeHtml.matchAll(pattern)].map(m => cleanText(m[1]));
-        if (matches.length > 0) {
-          instructionList = cleanLineArray(matches);
-          break;
-        }
+    if (instructionList.length === 0 && recipeData?.instructions) {
+      instructionList = cleanLineArray(extractInstructionText(recipeData.instructions));
+    }
+
+    if (instructionList.length === 0 && hostname.includes("allrecipes") && safeHtml) {
+      instructionList = extractAllRecipesInstructions(safeHtml);
+    }
+
+    if (instructionList.length === 0 && safeHtml) {
+      instructionList = extractInstructionsFromHtml(safeHtml);
+    }
+
+    if (instructionList.length === 0 && safeText) {
+      const lines = safeText
+        .split(/\r?\n/)
+        .map((line) => cleanText(line))
+        .filter(Boolean);
+
+      instructionList = cleanLineArray(lines.filter(looksLikeStep)).slice(0, 20);
+    }
+
+    if (instructionList.length === 0 && safeText) {
+      const magic = magicParseRecipeText(safeText);
+
+      console.log("MAGIC PARSER INSTRUCTION RESULT", {
+        instructions: magic.instructions.length,
+      });
+
+      if (magic.instructions.length > 0) {
+        instructionList = magic.instructions;
       }
     }
 
-    // Final clean up
-    const finalName = toTitleCase(recipeData?.name || safeTitle || "New Recipe");
-    const successLevel = (ingredientsList.length > 0 && instructionList.length > 0) ? "full" : "partial";
+    const rawName = recipeData?.name || safeTitle || titleFromUrl(url) || "New Recipe";
+
+    const recipeName = toTitleCase(cleanText(rawName)) || "New Recipe";
+
+    if (!photoUrl && safeHtml) {
+      photoUrl =
+        cleanText(
+          safeHtml.match(
+            /<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i
+          )?.[1] || ""
+        ) ||
+        cleanText(
+          safeHtml.match(
+            /<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i
+          )?.[1] || ""
+        ) ||
+        "";
+    }
+
+    const hasIngredients = ingredientsList.length > 0;
+    const hasInstructions = instructionList.length > 0;
+
+    const successLevel =
+      hasIngredients && hasInstructions
+        ? "full"
+        : hasIngredients || hasInstructions
+        ? "partial"
+        : "metadata-only";
+
+    const fallbackText = safeText
+      ? safeText.split(/\n+/).slice(0, 30).join("\n")
+      : "";
+
+    console.log("FINAL IMPORT RESULT", {
+      recipeName,
+      ingredientsCount: ingredientsList.length,
+      instructionsCount: instructionList.length,
+      hasPhoto: !!photoUrl,
+      successLevel,
+      debugVersion: "importer-v6-readable-magic-parser",
+      hostname,
+    });
+
+    let instructionsText = "Steps available at source link!";
+
+    if (hasInstructions) {
+      instructionsText = instructionList.join("\n");
+    } else if (successLevel === "metadata-only") {
+      instructionsText =
+        "Paste recipe text below or open source link to view full instructions.";
+    }
+
+    const formatted = {
+      name: recipeName,
+      ingredients: hasIngredients ? ingredientsList.join("\n") : "",
+      instructions: instructionsText,
+      photoUrl,
+      slug: `${slugify(recipeName)}-${Date.now().toString().slice(-4)}`,
+      sourceUrl: url,
+      effort: "normal",
+      importStatus: successLevel,
+      fallbackText,
+    };
 
     return res.status(200).json({
       success: true,
       successLevel,
-      recipe: {
-        name: finalName,
-        ingredients: ingredientsList.join("\n"),
-        instructions: instructionList.length > 0 ? instructionList.join("\n") : "Steps available at source link!",
-        photoUrl: photoUrl || extractImage(recipeData?.image),
-        slug: `${slugify(finalName)}-${Date.now().toString().slice(-4)}`,
-        sourceUrl: url,
-        importStatus: successLevel
-      }
+      debugVersion: "importer-v6-readable-magic-parser",
+      recipe: formatted,
     });
-
   } catch (err) {
-    console.error("Import failed:", err);
-    return res.status(500).json({ error: "Magic Import failed. Use manual entry!" });
+    console.error("Magic Import failed:", err);
+    return res.status(500).json({
+      error: "Magic Import failed. Use manual entry!",
+    });
   }
 }
