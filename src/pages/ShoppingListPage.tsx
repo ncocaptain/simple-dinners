@@ -986,7 +986,26 @@ function savePantryItems(items: PantryItem[]) {
 
 function getPantryNameFromShoppingText(text: string) {
   const parsed = parseIngredient(text);
-  return cleanupSpacing(parsed.name || cleanIngredientName(text));
+
+  let name = (parsed.name || cleanIngredientName(text)).toLowerCase();
+
+  // 🔥 Remove common quantity words
+  name = name.replace(
+    /\b(cloves?|bunches?|cans?|packages?|lbs?|pounds?|cups?)\b/gi,
+    ""
+  );
+
+  // 🔥 Normalize plurals (basic)
+  name = name
+    .replace(/\bavocados\b/g, "avocado")
+    .replace(/\btomatoes\b/g, "tomato")
+    .replace(/\bonions\b/g, "onion")
+    .replace(/\bcloves garlic\b/g, "garlic");
+
+  // 🔥 Cleanup
+  name = name.replace(/\s+/g, " ").trim();
+
+  return formatDisplayName(name);
 }
 
 
