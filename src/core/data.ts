@@ -173,6 +173,53 @@ Serve chicken and mushroom mixture over rice; season with salt and pepper.`,
   },
 
   {
+  id: "seared-ahi-tuna",
+  slug: "seared-ahi-tuna",
+  name: "Seared Ahi Tuna",
+  ingredients: `Tuna:
+2 ahi tuna steaks (about 6 oz each)
+1 tbsp sesame oil (or olive oil)
+1/2 tsp salt
+1/4 tsp black pepper
+
+Crust (optional but recommended):
+2 tbsp sesame seeds (white or mixed)
+1 tsp soy sauce
+
+Sauce:
+2 tbsp soy sauce
+1 tbsp rice vinegar
+1 tsp honey
+1/2 tsp sesame oil
+
+Optional:
+1 tsp wasabi
+1 tbsp green onions, sliced`,
+  instructions: `Pat 2 ahi tuna steaks completely dry with paper towels.
+
+Lightly brush tuna with 1 tsp soy sauce, then press into 2 tbsp sesame seeds to coat all sides if using.
+
+Season with 1/2 tsp salt and 1/4 tsp black pepper.
+
+Heat 1 tbsp sesame oil in a skillet (preferably cast iron) over high heat until just smoking.
+
+Place tuna in the pan and sear for 60 to 90 seconds per side, until a deep golden crust forms while the center remains rare.
+
+Remove from heat and let rest for 2 minutes.
+
+In a small bowl, whisk together 2 tbsp soy sauce, 1 tbsp rice vinegar, 1 tsp honey, and 1/2 tsp sesame oil.
+
+Slice tuna against the grain into thin pieces.
+
+Serve with sauce, wasabi if desired, and garnish with green onions.`,
+  photoUrl: "/images/seared-ahi-tuna.jpg",
+  effort: "quick",
+  tags: ["dinner", "seafood", "tuna", "quick", "healthy", "high-protein", "asian", "premium"],
+  isVegetarian: false,
+  notes: "Use sushi-grade ahi tuna for best results. The key is a very hot pan and a quick sear to keep the center tender and rare."
+},
+
+  {
     id: "big-beef-salisbury-steak",
     slug: "big-beef-salisbury-steak",
     name: "Salisbury Steak with Mushroom Gravy",
@@ -2882,6 +2929,49 @@ Before serving, taste and adjust salt and pepper if needed. Sprinkle with additi
   notes: "A creamy, classic potato salad with balanced tang and texture. Dressing the potatoes while slightly warm helps them absorb more flavor."
 },
 
+{
+  id: "classic-potato-salad",
+  slug: "classic-potato-salad",
+  name: "Classic Potato Salad",
+  ingredients: `2 lbs Yukon Gold or red potatoes, cut into 1-inch chunks
+1 tsp salt (for boiling water)
+3 large eggs
+
+1/2 cup celery, finely diced
+1/3 cup red onion, finely diced
+1/4 cup dill pickles or relish, chopped
+2 tbsp fresh parsley, chopped
+
+3/4 cup mayonnaise
+1 tbsp Dijon mustard
+1 tbsp apple cider vinegar
+1 tsp sugar
+1/2 tsp salt (plus more to taste)
+1/4 tsp black pepper
+1/2 tsp paprika`,
+  instructions: `Place 2 lbs chopped potatoes in a large pot and cover with cold water. Add 1 tsp salt and bring to a boil over high heat.
+
+Reduce to a gentle boil and cook for 10 to 12 minutes, until potatoes are fork-tender but still hold their shape. Drain and let cool slightly.
+
+While potatoes cook, place 3 eggs in a saucepan and cover with water. Bring to a boil, then turn off heat, cover, and let sit for 10 to 12 minutes. Transfer to ice water, peel, and chop.
+
+In a large bowl, whisk together 3/4 cup mayonnaise, 1 tbsp Dijon mustard, 1 tbsp apple cider vinegar, 1 tsp sugar, 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp paprika until smooth.
+
+Add the slightly warm potatoes to the dressing and gently toss to coat.
+
+Add chopped eggs, 1/2 cup celery, 1/3 cup red onion, 1/4 cup pickles, and 2 tbsp parsley. Fold everything together until evenly combined.
+
+Cover and refrigerate for at least 1 to 2 hours to allow flavors to develop.
+
+Before serving, taste and adjust salt and pepper if needed. Sprinkle with additional paprika if desired.`,
+  photoUrl: "/images/classic-potato-salad.jpg",
+  effort: "normal",
+  tags: ["side", "potatoes", "salad", "bbq", "summer", "comfort", "family", "cookout"],
+  isVegetarian: true,
+  notes: "A creamy, classic potato salad with balanced tang and texture. Dressing the potatoes while slightly warm helps them absorb more flavor."
+},
+
+
 
 ];
 
@@ -3011,6 +3101,59 @@ Mix thoroughly and store in an airtight container.
 
 Use as a dry rub or seasoning for wings and meats.`,
   },
+
+  {
+  id: "chicken-salad-croissant",
+  slug: "chicken-salad-croissant",
+  name: "Chicken Salad Croissant",
+  ingredients: `Chicken:
+1 lb boneless skinless chicken breasts
+1 tbsp olive oil
+1/2 tsp salt
+1/4 tsp black pepper
+
+Chicken Salad:
+1/2 cup mayonnaise
+1 tbsp Dijon mustard
+1 tbsp lemon juice
+1/2 tsp garlic powder
+1/4 tsp salt (plus more to taste)
+1/4 tsp black pepper
+1/2 cup celery, finely diced
+1/3 cup red grapes, halved (optional)
+1/4 cup sliced almonds or pecans (optional)
+2 tbsp fresh parsley, chopped
+
+Assembly:
+4 croissants, sliced
+lettuce leaves (optional)
+tomato slices (optional)`,
+  instructions: `Preheat a skillet over medium heat. Add 1 tbsp olive oil.
+
+Season 1 lb chicken breasts with 1/2 tsp salt and 1/4 tsp black pepper.
+
+Cook chicken for 5 to 6 minutes per side, until a golden-brown crust forms and the internal temperature reaches 165°F.
+
+Remove from heat and let rest for 5 to 10 minutes, then dice or shred into bite-sized pieces.
+
+In a large bowl, whisk together 1/2 cup mayonnaise, 1 tbsp Dijon mustard, 1 tbsp lemon juice, 1/2 tsp garlic powder, 1/4 tsp salt, and 1/4 tsp black pepper until smooth.
+
+Add the chopped chicken, 1/2 cup celery, 1/3 cup grapes if using, 1/4 cup nuts if using, and 2 tbsp parsley. Fold gently until everything is evenly coated.
+
+Taste and adjust seasoning with additional salt, pepper, or lemon juice as needed.
+
+Slice 4 croissants and layer with lettuce if desired.
+
+Spoon chicken salad generously onto each croissant and top with tomato slices if using.
+
+Serve immediately.`,
+  photoUrl: "/images/chicken-salad-croissant.jpg",
+  effort: "normal",
+  tags: ["lunch", "chicken", "sandwich", "quick", "meal-prep", "family", "fresh"],
+  isVegetarian: false,
+  notes: "A creamy, balanced chicken salad served on flaky croissants. Letting the chicken rest before chopping keeps it juicy, and a splash of lemon brightens the entire dish."
+},
+
 
   {
     id: "quick-sausage-muffins",
@@ -4129,6 +4272,555 @@ Add noodles and toss to coat. Serve warm.`,
   tags: ["vegetarian", "dinner", "comfort", "pasta", "creamy", "one-pan"],
   isVegetarian: true,
   notes: "A rich, creamy vegetarian twist on a comfort classic with deep mushroom flavor."
+},
+
+{
+  id: "oyster-mushroom-bbq-tacos",
+  slug: "oyster-mushroom-bbq-tacos",
+  name: "Oyster Mushroom BBQ Tacos",
+  ingredients: `Mushrooms:
+12 oz oyster mushrooms, torn into strips
+1 tbsp olive oil
+1/2 tsp salt
+1/4 tsp black pepper
+1/2 tsp smoked paprika (or regular paprika)
+
+BBQ Sauce:
+1/2 cup barbecue sauce
+1 tbsp apple cider vinegar
+1 tsp honey or maple syrup (optional)
+
+Assembly:
+8 small tortillas
+1 cup coleslaw mix
+1/4 cup red onion, thinly sliced
+2 tbsp fresh cilantro, chopped`,
+  instructions: `Preheat oven to 425°F.
+
+Toss 12 oz oyster mushrooms with 1 tbsp olive oil, 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp smoked paprika.
+
+Spread mushrooms in a single layer on a baking sheet.
+
+Roast for 20 to 25 minutes, stirring halfway, until edges are crispy and slightly charred.
+
+In a bowl, mix 1/2 cup barbecue sauce with 1 tbsp apple cider vinegar and 1 tsp honey if using.
+
+Toss the roasted mushrooms with the BBQ sauce until evenly coated.
+
+Warm 8 tortillas in a skillet over medium heat or directly over a flame.
+
+Fill tortillas with BBQ mushrooms, then top with coleslaw mix, sliced red onion, and cilantro.
+
+Serve immediately.`,
+  photoUrl: "/images/oyster-mushroom-bbq-tacos.jpg",
+  effort: "quick",
+  tags: ["vegetarian", "dinner", "tacos", "bbq", "vegan", "plant-based", "comfort", "tex-mex"],
+  isVegetarian: true,
+  notes: "Oyster mushrooms roast into a tender, slightly crispy texture that mimics pulled meat. Don’t overcrowd the pan to get the best caramelization."
+},
+
+{
+  id: "gochujang-tofu-broccoli-stir-fry",
+  slug: "gochujang-tofu-broccoli-stir-fry",
+  name: "Gochujang Tofu Broccoli Stir-Fry",
+  ingredients: `Tofu:
+1 (14 oz) block extra-firm tofu, pressed and cubed
+1 tbsp cornstarch
+1 tbsp olive oil
+
+Sauce:
+2 tbsp gochujang (Korean chili paste)
+1 tbsp soy sauce
+1 tbsp honey or maple syrup
+1 tsp sesame oil
+1 tbsp rice vinegar
+1/4 cup water
+
+Stir-Fry:
+2 cups broccoli florets
+2 cloves garlic, minced
+1 tsp fresh ginger, grated
+1 tbsp olive oil
+
+Optional:
+2 cups cooked rice, for serving
+1 tbsp sesame seeds
+2 green onions, sliced`,
+  instructions: `Press 1 (14 oz) tofu for at least 10 minutes to remove excess moisture, then cut into cubes.
+
+Toss tofu with 1 tbsp cornstarch until lightly coated.
+
+Heat 1 tbsp olive oil in a large skillet or wok over medium-high heat.
+
+Add tofu in a single layer and cook 4 to 5 minutes without moving, until golden and crisp. Flip and cook another 3 to 4 minutes. Remove and set aside.
+
+In a small bowl, whisk together 2 tbsp gochujang, 1 tbsp soy sauce, 1 tbsp honey or maple syrup, 1 tsp sesame oil, 1 tbsp rice vinegar, and 1/4 cup water.
+
+In the same pan, heat 1 tbsp olive oil over medium-high heat. Add 2 cups broccoli and cook 4 to 5 minutes until tender-crisp.
+
+Add 2 cloves garlic and 1 tsp ginger. Cook 30 seconds until fragrant.
+
+Return tofu to the pan and pour in the sauce.
+
+Cook 2 to 3 minutes, stirring, until the sauce thickens slightly and coats the tofu and broccoli.
+
+Serve over rice and garnish with sesame seeds and green onions if desired.`,
+  photoUrl: "/images/gochujang-tofu-broccoli-stir-fry.jpg",
+  effort: "quick",
+  tags: ["vegetarian", "dinner", "stir-fry", "spicy", "healthy", "one-pan", "vegan", "asian"],
+  isVegetarian: true,
+  notes: "A bold, spicy-sweet stir-fry with crispy tofu and tender broccoli. Letting the tofu cook undisturbed helps create the best texture."
+},
+
+{
+  id: "coconut-curry-ramen",
+  slug: "coconut-curry-ramen",
+  name: "Coconut Curry Ramen",
+  ingredients: `Broth:
+1 tbsp olive oil
+2 cloves garlic, minced
+1 tsp fresh ginger, grated
+2 tbsp red curry paste
+1 (13.5 oz) can coconut milk
+3 cups vegetable broth
+1 tbsp soy sauce
+1 tsp brown sugar
+1 tbsp lime juice
+
+Noodles & Add-ins:
+8 oz ramen noodles (discard seasoning packets)
+1 cup mushrooms, sliced
+1 cup baby spinach
+1/2 cup carrots, shredded
+1/2 cup bell peppers, sliced
+
+Optional Toppings:
+2 soft-boiled eggs
+2 green onions, sliced
+1 tbsp chili oil
+fresh cilantro`,
+  instructions: `Heat 1 tbsp olive oil in a large pot over medium heat.
+
+Add 2 cloves garlic and 1 tsp ginger. Cook for 30 seconds until fragrant.
+
+Stir in 2 tbsp red curry paste and cook for 1 minute to deepen the flavor.
+
+Pour in 1 can coconut milk and 3 cups vegetable broth. Stir to combine.
+
+Add 1 tbsp soy sauce and 1 tsp brown sugar. Bring to a gentle simmer.
+
+Add mushrooms, carrots, and bell peppers. Simmer for 5 to 7 minutes until tender.
+
+Add 8 oz ramen noodles and cook according to package directions, about 3 to 4 minutes.
+
+Stir in 1 cup spinach and 1 tbsp lime juice. Cook until spinach wilts.
+
+Ladle into bowls and top with soft-boiled eggs, green onions, chili oil, and cilantro if desired. Serve hot.`,
+  photoUrl: "/images/coconut-curry-ramen.jpg",
+  effort: "normal",
+  tags: ["vegetarian", "dinner", "soup", "ramen", "comfort", "spicy", "one-pot", "asian"],
+  isVegetarian: true,
+  notes: "A rich, creamy ramen with bold curry flavor and a silky coconut broth. Adjust spice by adding more or less curry paste or chili oil."
+},
+
+{
+  id: "mediterranean-zucchini-fritters-tzatziki",
+  slug: "mediterranean-zucchini-fritters-tzatziki",
+  name: "Mediterranean Zucchini Fritters with Tzatziki",
+  ingredients: `Fritters:
+2 medium zucchini, grated
+1/2 tsp salt
+1/3 cup all-purpose flour (or chickpea flour for gluten-free)
+1/4 cup feta cheese, crumbled
+2 tbsp fresh dill, chopped (or parsley)
+2 tbsp green onion, sliced
+1 clove garlic, minced
+1 large egg
+1/4 tsp black pepper
+2 tbsp olive oil (for frying)
+
+Tzatziki:
+1 cup Greek yogurt
+1/2 cup cucumber, grated and squeezed dry
+1 tbsp lemon juice
+1 tbsp olive oil
+1 clove garlic, minced
+1 tbsp fresh dill, chopped
+1/4 tsp salt`,
+  instructions: `Grate 2 zucchini and place in a bowl with 1/2 tsp salt. Let sit for 10 minutes to draw out moisture.
+
+Transfer zucchini to a clean towel and squeeze out as much liquid as possible. This step is key for crispy fritters.
+
+In a bowl, combine the drained zucchini with 1/3 cup flour, 1/4 cup feta, 2 tbsp dill, 2 tbsp green onion, 1 clove garlic, 1 egg, and 1/4 tsp black pepper. Mix until a thick batter forms.
+
+Heat 2 tbsp olive oil in a skillet over medium heat.
+
+Scoop about 2 tbsp of the mixture per fritter into the pan and flatten slightly.
+
+Cook 3 to 4 minutes per side, until deep golden-brown and crisp on the outside.
+
+Transfer to a paper towel-lined plate or wire rack.
+
+In a separate bowl, combine 1 cup Greek yogurt, 1/2 cup squeezed cucumber, 1 tbsp lemon juice, 1 tbsp olive oil, 1 clove garlic, 1 tbsp dill, and 1/4 tsp salt. Stir until smooth.
+
+Serve fritters warm with tzatziki on the side.`,
+  photoUrl: "/images/mediterranean-zucchini-fritters-tzatziki.jpg",
+  effort: "normal",
+  tags: ["vegetarian", "dinner", "appetizer", "mediterranean", "crispy", "skillet", "healthy"],
+  isVegetarian: true,
+  notes: "Crispy on the outside and tender inside, these fritters depend on removing excess moisture from the zucchini. The tzatziki adds a cool, tangy balance."
+},
+
+{
+  id: "kimchi-brown-rice-bliss-bowl",
+  slug: "kimchi-brown-rice-bliss-bowl",
+  name: "Kimchi Brown Rice Bliss Bowls",
+  ingredients: `Rice Base:
+2 cups cooked brown rice
+
+Protein:
+1 (14 oz) block firm tofu, cubed
+1 tbsp soy sauce
+1 tsp sesame oil
+1 tbsp olive oil
+
+Vegetables:
+1 cup kimchi, chopped
+1/2 cup carrots, shredded
+1/2 cup cucumber, sliced
+1 cup baby spinach
+
+Sauce:
+1 tbsp gochujang
+1 tbsp soy sauce
+1 tsp honey or maple syrup
+1 tsp sesame oil
+1 tbsp water
+
+Optional Toppings:
+2 fried or soft-boiled eggs
+1 tbsp sesame seeds
+2 green onions, sliced`,
+  instructions: `Heat 1 tbsp olive oil in a skillet over medium-high heat.
+
+Add 1 (14 oz) cubed tofu and cook 4 to 5 minutes until lightly browned. Flip and cook another 3 to 4 minutes until crisp.
+
+Add 1 tbsp soy sauce and 1 tsp sesame oil to the tofu. Toss to coat and cook 1 more minute. Remove from heat.
+
+In a small bowl, whisk together 1 tbsp gochujang, 1 tbsp soy sauce, 1 tsp honey or maple syrup, 1 tsp sesame oil, and 1 tbsp water.
+
+Warm 2 cups cooked brown rice if needed.
+
+Assemble bowls with rice as the base.
+
+Top with tofu, 1 cup kimchi, 1/2 cup shredded carrots, 1/2 cup cucumber, and 1 cup spinach.
+
+Drizzle sauce over the top.
+
+Add eggs, sesame seeds, and green onions if desired. Serve immediately.`,
+  photoUrl: "/images/kimchi-brown-rice-bliss-bowl.jpg",
+  effort: "quick",
+  tags: ["vegetarian", "dinner", "bowl", "healthy", "fermented", "asian", "meal-prep"],
+  isVegetarian: true,
+  notes: "A bold, tangy bowl with probiotic-rich kimchi and crispy tofu. Adjust spice by increasing or reducing gochujang."
+},
+
+{
+  id: "sweet-potato-kale-chili",
+  slug: "sweet-potato-kale-chili",
+  name: "Sweet Potato and Kale Chili",
+  ingredients: `Base:
+1 tbsp olive oil
+1 small onion, diced
+2 cloves garlic, minced
+
+Chili:
+2 cups sweet potatoes, peeled and cubed
+1 (15 oz) can black beans, drained
+1 (15 oz) can kidney beans, drained
+1 (14 oz) can diced tomatoes
+2 cups vegetable broth
+2 cups kale, chopped
+
+Seasoning:
+1 tbsp chili powder
+1 tsp cumin
+1/2 tsp smoked paprika (or regular paprika)
+1/2 tsp salt
+1/4 tsp black pepper
+
+Optional:
+1/2 tsp cayenne pepper (for heat)
+1 tbsp lime juice`,
+  instructions: `Heat 1 tbsp olive oil in a large pot over medium heat.
+
+Add 1 diced onion and cook 4 to 5 minutes until softened.
+
+Add 2 cloves garlic and cook 30 seconds until fragrant.
+
+Stir in 2 cups cubed sweet potatoes, 1 can black beans, 1 can kidney beans, 1 can diced tomatoes, and 2 cups vegetable broth.
+
+Add 1 tbsp chili powder, 1 tsp cumin, 1/2 tsp smoked paprika, 1/2 tsp salt, 1/4 tsp black pepper, and cayenne if using. Stir well.
+
+Bring to a boil, then reduce heat to a low simmer.
+
+Cover and cook for 20 to 25 minutes, until sweet potatoes are fork-tender.
+
+Stir in 2 cups chopped kale and cook 3 to 5 minutes until wilted.
+
+Finish with 1 tbsp lime juice if desired. Taste and adjust seasoning.
+
+Serve hot.`,
+  photoUrl: "/images/sweet-potato-kale-chili.jpg",
+  effort: "normal",
+  tags: ["vegetarian", "dinner", "chili", "one-pot", "comfort", "healthy", "meal-prep"],
+  isVegetarian: true,
+  notes: "A hearty, nutrient-packed chili with natural sweetness from the potatoes and a slight kick from the spices. Great for leftovers and freezer-friendly."
+},
+
+{
+  id: "greek-style-baked-orzo",
+  slug: "greek-style-baked-orzo",
+  name: "Greek-Style Baked Orzo",
+  ingredients: `Base:
+1 tbsp olive oil
+1/2 onion, diced
+2 cloves garlic, minced
+
+Orzo Bake:
+1 cup uncooked orzo
+1 (14 oz) can diced tomatoes
+2 cups vegetable broth
+1/2 cup kalamata olives, sliced
+1 tsp dried oregano
+1/2 tsp salt
+1/4 tsp black pepper
+
+Finish:
+1/2 cup feta cheese, crumbled
+1/4 cup fresh parsley, chopped
+1 tbsp lemon juice`,
+  instructions: `Preheat oven to 375°F.
+
+Heat 1 tbsp olive oil in an oven-safe skillet or pot over medium heat.
+
+Add 1/2 diced onion and cook 4 to 5 minutes until softened.
+
+Add 2 cloves garlic and cook 30 seconds until fragrant.
+
+Stir in 1 cup uncooked orzo and toast for 1 to 2 minutes, stirring, until lightly golden and nutty.
+
+Add 1 can diced tomatoes, 2 cups vegetable broth, 1/2 cup olives, 1 tsp oregano, 1/2 tsp salt, and 1/4 tsp black pepper. Stir well.
+
+Bring to a light simmer, then transfer to the oven.
+
+Bake uncovered for 18 to 22 minutes, until the orzo is tender and most of the liquid is absorbed.
+
+Remove from oven and stir gently.
+
+Top with 1/2 cup feta, 1/4 cup parsley, and 1 tbsp lemon juice.
+
+Let rest for 5 minutes before serving.`,
+  photoUrl: "/images/greek-style-baked-orzo.jpg",
+  effort: "normal",
+  tags: ["vegetarian", "dinner", "pasta", "bake", "mediterranean", "one-pan", "comfort"],
+  isVegetarian: true,
+  notes: "A bright, savory baked orzo dish with Mediterranean flavors. Toasting the orzo first adds depth, and the lemon at the end keeps it fresh and balanced."
+},
+
+{
+  id: "mushroom-sage-tagliatelle",
+  slug: "mushroom-sage-tagliatelle",
+  name: "Mushroom and Sage Tagliatelle",
+  ingredients: `Pasta:
+12 oz tagliatelle (or fettuccine)
+
+Mushrooms:
+2 tbsp olive oil
+1 tbsp butter
+16 oz mushrooms, sliced (cremini or mixed mushrooms)
+1/2 tsp salt
+1/4 tsp black pepper
+
+Sauce:
+2 cloves garlic, minced
+1 tsp fresh sage, finely chopped (or 1/2 tsp dried sage)
+1/2 cup heavy cream (or half-and-half for lighter)
+1/2 cup parmesan cheese, grated
+1/2 cup reserved pasta water
+
+Finish:
+1 tbsp butter
+1 tbsp fresh parsley, chopped (optional)`,
+  instructions: `Bring a large pot of salted water to a boil and cook 12 oz tagliatelle according to package directions. Reserve 1/2 cup pasta water before draining.
+
+Heat 2 tbsp olive oil and 1 tbsp butter in a large skillet over medium-high heat.
+
+Add 16 oz mushrooms in a single layer and cook 6 to 8 minutes without stirring too much, until deeply browned and slightly crisp on the edges.
+
+Season with 1/2 tsp salt and 1/4 tsp black pepper.
+
+Add 2 cloves garlic and 1 tsp sage. Cook 30 seconds until fragrant.
+
+Reduce heat to medium and pour in 1/2 cup heavy cream. Simmer gently for 2 to 3 minutes.
+
+Stir in 1/2 cup grated parmesan and a splash of reserved pasta water, stirring until the sauce becomes smooth and lightly coats the back of a spoon.
+
+Add cooked pasta and toss to coat, adding more pasta water as needed to loosen the sauce.
+
+Finish with 1 tbsp butter for extra richness and gloss.
+
+Garnish with parsley if using and serve immediately.`,
+  photoUrl: "/images/mushroom-sage-tagliatelle.jpg",
+  effort: "normal",
+  tags: ["vegetarian", "dinner", "pasta", "comfort", "italian", "creamy", "date-night"],
+  isVegetarian: true,
+  notes: "Deeply browned mushrooms create rich, savory flavor while sage adds warmth. Avoid overcrowding the pan so the mushrooms caramelize instead of steaming."
+},
+
+{
+  id: "vegan-crunchwrap-supreme",
+  slug: "vegan-crunchwrap-supreme",
+  name: "Vegan Crunchwrap Supreme",
+  ingredients: `Filling:
+1 tbsp olive oil
+1/2 onion, diced
+1 (15 oz) can black beans, drained and rinsed
+1 tsp chili powder
+1/2 tsp cumin
+1/2 tsp paprika
+1/2 tsp salt
+1/4 tsp black pepper
+
+Creamy Sauce:
+1/2 cup vegan sour cream (or dairy-free yogurt)
+1 tbsp lime juice
+1/2 tsp garlic powder
+1/4 tsp salt
+
+Assembly:
+4 large flour tortillas
+4 small tostada shells (or tortilla chips)
+1 cup shredded lettuce
+1/2 cup tomatoes, diced
+1/2 cup vegan cheese, shredded`,
+  instructions: `Heat 1 tbsp olive oil in a skillet over medium heat.
+
+Add 1/2 diced onion and cook 4 to 5 minutes until softened.
+
+Add 1 can black beans, 1 tsp chili powder, 1/2 tsp cumin, 1/2 tsp paprika, 1/2 tsp salt, and 1/4 tsp black pepper. Cook 5 to 7 minutes, lightly mashing some beans until the mixture is thick and slightly creamy.
+
+In a small bowl, mix 1/2 cup vegan sour cream, 1 tbsp lime juice, 1/2 tsp garlic powder, and 1/4 tsp salt until smooth.
+
+Warm 4 large tortillas until soft and flexible.
+
+In the center of each tortilla, spread a layer of bean filling.
+
+Top with a tostada shell, then add a spoonful of sauce, 1/4 cup lettuce, tomatoes, and vegan cheese.
+
+Fold the edges of the tortilla up and over the center, working around to create a sealed wrap.
+
+Heat a clean skillet over medium heat and place the crunchwrap seam-side down.
+
+Cook 3 to 4 minutes until golden and sealed, then flip and cook another 2 to 3 minutes until crisp.
+
+Serve warm.`,
+  photoUrl: "/images/vegan-crunchwrap-supreme.jpg",
+  effort: "normal",
+  tags: ["vegetarian", "vegan", "dinner", "wraps", "tex-mex", "comfort", "handheld", "fun"],
+  isVegetarian: true,
+  notes: "A plant-based take on a fast-food favorite with a crispy exterior and layered textures. Pressing seam-side down first helps seal the wrap."
+},
+
+{
+  id: "cauliflower-gnocchi-mushroom-alfredo",
+  slug: "cauliflower-gnocchi-mushroom-alfredo",
+  name: "Cauliflower Gnocchi with Mushroom Alfredo",
+  ingredients: `Gnocchi:
+1 (12 oz) package cauliflower gnocchi
+1 tbsp olive oil
+
+Mushrooms:
+1 tbsp olive oil
+1 tbsp butter
+12 oz mushrooms, sliced
+1/2 tsp salt
+1/4 tsp black pepper
+
+Alfredo Sauce:
+2 cloves garlic, minced
+1 cup heavy cream (or half-and-half for lighter)
+3/4 cup parmesan cheese, grated
+1/2 tsp garlic powder
+1/4 tsp salt
+1/4 tsp black pepper
+1/4 cup reserved pasta water (optional, for thinning)
+
+Finish:
+1 tbsp butter
+2 tbsp fresh parsley, chopped (optional)`,
+  instructions: `Heat 1 tbsp olive oil in a large skillet over medium-high heat.
+
+Add 1 (12 oz) cauliflower gnocchi in a single layer and cook 4 to 5 minutes without stirring until golden and crisp. Flip and cook another 3 to 4 minutes. Remove and set aside.
+
+In the same pan, heat 1 tbsp olive oil and 1 tbsp butter over medium-high heat.
+
+Add 12 oz mushrooms and cook 6 to 8 minutes until deeply browned and slightly crispy on the edges.
+
+Season with 1/2 tsp salt and 1/4 tsp black pepper.
+
+Add 2 cloves garlic and cook 30 seconds until fragrant.
+
+Reduce heat to medium and pour in 1 cup heavy cream. Simmer for 2 to 3 minutes.
+
+Stir in 3/4 cup parmesan cheese, 1/2 tsp garlic powder, 1/4 tsp salt, and 1/4 tsp black pepper. Stir until smooth and creamy.
+
+Add the cooked gnocchi back to the pan and toss to coat. Add a splash of pasta water if needed to loosen the sauce.
+
+Finish with 1 tbsp butter for extra richness and gloss.
+
+Garnish with parsley if using and serve immediately.`,
+  photoUrl: "/images/cauliflower-gnocchi-mushroom-alfredo.jpg",
+  effort: "normal",
+  tags: ["vegetarian", "dinner", "pasta", "comfort", "creamy", "skillet", "modern"],
+  isVegetarian: true,
+  notes: "Crisping the gnocchi first gives it a better texture than boiling. Let the mushrooms brown properly to build deep flavor before adding the sauce."
+},
+
+{
+  id: "avocado-toast",
+  slug: "avocado-toast",
+  name: "Avocado Toast",
+  ingredients: `Base:
+2 slices bread (sourdough or whole grain recommended)
+1 tbsp olive oil (optional, for toasting)
+
+Avocado:
+1 ripe avocado
+1 tbsp lemon juice
+1/4 tsp salt
+1/4 tsp black pepper
+
+Optional Toppings:
+2 eggs (fried or poached)
+1/4 tsp red pepper flakes
+1 tbsp feta cheese, crumbled
+1 tbsp cherry tomatoes, halved
+1 tsp everything bagel seasoning`,
+  instructions: `Toast 2 slices of bread until golden and crisp. For extra flavor, brush lightly with 1 tbsp olive oil before toasting in a skillet over medium heat.
+
+In a bowl, mash 1 ripe avocado with 1 tbsp lemon juice, 1/4 tsp salt, and 1/4 tsp black pepper until smooth but slightly chunky.
+
+Spread the avocado mixture evenly over the toasted bread.
+
+Add desired toppings such as eggs, feta, tomatoes, red pepper flakes, or everything bagel seasoning.
+
+Serve immediately.`,
+  photoUrl: "/images/avocado-toast.jpg",
+  effort: "quick",
+  tags: ["vegetarian", "breakfast", "lunch", "quick", "healthy", "toast", "simple"],
+  isVegetarian: true,
+  notes: "Use ripe avocados for the best texture and flavor. A squeeze of lemon helps brighten the taste and prevent browning."
 },
 
 {
