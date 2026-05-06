@@ -409,7 +409,18 @@ const cleanedRecipe: CookbookRecipe = {
 
   navigate(`/recipe/${recipeSlug}?from=/cookbook`);
 };
+
+const spinnerStyles = `
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+`;
   return (
+  <>
+    <style>{spinnerStyles}</style>
+
     <div
       style={{
         width: "100%",
@@ -854,6 +865,7 @@ const cleanedRecipe: CookbookRecipe = {
             const recipePhotoUrl = normalizePhotoUrl(recipe?.photoUrl);
 
 
+
             return (
               <div
   key={recipeSlug}
@@ -1003,9 +1015,76 @@ const cleanedRecipe: CookbookRecipe = {
               </div>
             );
           })}
+          {/* =========================================================
+    IMPORT LOADING OVERLAY
+========================================================= */}
+
+{isImporting && (
+  <div
+    style={{
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,0.76)",
+      zIndex: 10000,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 20,
+      backdropFilter: "blur(4px)",
+    }}
+  >
+    <div
+      style={{
+        width: "100%",
+        maxWidth: 360,
+        borderRadius: 28,
+        padding: "28px 24px",
+        background: "#1e293b",
+        border: "1px solid rgba(255,255,255,0.1)",
+        boxShadow: "0 25px 70px rgba(0,0,0,0.5)",
+        textAlign: "center",
+      }}
+    >
+      <div
+        style={{
+          width: 54,
+          height: 54,
+          borderRadius: 999,
+          margin: "0 auto 18px",
+          border: "4px solid rgba(34,197,94,0.18)",
+          borderTopColor: "#22c55e",
+          animation: "spin 0.9s linear infinite",
+        }}
+      />
+
+      <div
+        style={{
+          fontSize: 22,
+          fontWeight: 900,
+          marginBottom: 10,
+        }}
+      >
+        Importing Recipe...
+      </div>
+
+      <div
+        style={{
+          fontSize: 14,
+          opacity: 0.72,
+          lineHeight: 1.6,
+        }}
+      >
+        We're grabbing the ingredients, instructions, and recipe image.
+        <br />
+        Some websites can take up to a minute.
+      </div>
+    </div>
+  </div>
+)}
         </div>
       </div>
     </div>
+    </>
   );
 }
 
