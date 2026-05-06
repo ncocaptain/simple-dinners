@@ -878,9 +878,10 @@ const cleanedRecipe: CookbookRecipe = {
                     style={{
                       display: "grid",
                       gridTemplateColumns: recipePhotoUrl
-                        ? "84px minmax(0,1fr) auto"
-                        : "minmax(0,1fr) auto",
-                      alignItems: "stretch",
+  ? "140px minmax(0,1fr) auto"
+  : "minmax(0,1fr) auto",
+alignItems: "stretch",
+minHeight: 140,
                     }}
                   >
                     {recipePhotoUrl && (
@@ -889,7 +890,9 @@ const cleanedRecipe: CookbookRecipe = {
                           backgroundImage: `url(${recipePhotoUrl})`,
                           backgroundSize: "cover",
                           backgroundPosition: "center",
-                          minHeight: 104,
+                          height: "100%",
+minHeight: 140,
+borderRight: "1px solid rgba(255,255,255,0.06)",
                         }}
                       />
                     )}
