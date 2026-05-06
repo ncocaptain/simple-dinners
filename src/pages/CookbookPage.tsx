@@ -884,15 +884,17 @@ const cleanedRecipe: CookbookRecipe = {
                     }}
                   >
                     {recipePhotoUrl && (
-                      <div
-                        style={{
-                          backgroundImage: `url(${recipePhotoUrl})`,
-                          backgroundSize: "cover",
-                          backgroundPosition: "center",
-                          minHeight: 104,
-                        }}
-                      />
-                    )}
+  <img
+    src={recipePhotoUrl}
+    alt={recipe.name}
+    style={{
+      width: 84,
+      minHeight: 104,
+      objectFit: "cover",
+      display: "block",
+    }}
+  />
+)}
 
 
                     <div style={{ padding: 16, minWidth: 0 }}>
