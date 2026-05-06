@@ -323,11 +323,15 @@ useEffect(() => {
     }
 
 
-    const cleanedRecipe: CookbookRecipe = {
+    const normalizedPhotoUrl = normalizePhotoUrl(
+  manualRecipe.photoUrl
+);
+
+const cleanedRecipe: CookbookRecipe = {
   name: manualRecipe.name.trim(),
   ingredients: normalizeMultilineField(manualRecipe.ingredients),
   instructions: normalizeMultilineField(manualRecipe.instructions),
-  photoUrl: manualRecipe.photoUrl.trim(),
+  photoUrl: normalizedPhotoUrl,
   sourceUrl: manualRecipe.sourceUrl.trim(),
   effort: "normal",
   id: slugify(manualRecipe.name),
