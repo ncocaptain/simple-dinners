@@ -9,6 +9,7 @@ import {
   EyeOff,
   Pencil,
   X,
+  Share2,
 } from "lucide-react";
 import Card from "../components/Card";
 import {
@@ -997,6 +998,8 @@ function makeManualId(text: string) {
     .replace(/(^-|-$)/g, "");
 }
 
+
+
 // =====================================================
 // Page component
 // =====================================================
@@ -1122,6 +1125,8 @@ export default function ShoppingListPage() {
   const checkedGroups = combinedItems.filter((item) => item.checked);
   if (checkedGroups.length === 0) return;
 
+
+
   const existingPantry = loadPantryItems();
 
   const existingNames = new Set(
@@ -1179,6 +1184,49 @@ export default function ShoppingListPage() {
 };
 
   const checkedCount = shoppingItems.filter((item) => item.checked).length;
+
+  const shareShoppingList = async () => {
+  const itemsToShare = combinedItems.filter((item) => !item.checked);
+
+  if (itemsToShare.length === 0) {
+    alert("No unchecked items to share.");
+    return;
+  }
+
+  let text = "🛒 Simple Dinners Shopping List\n\n";
+
+  GROCERY_CATEGORY_ORDER.forEach((section) => {
+    const sectionItems = itemsToShare.filter(
+      (item) => item.category === section
+    );
+
+    if (sectionItems.length === 0) return;
+
+    text += `${section.toUpperCase()}\n`;
+
+    sectionItems.forEach((item) => {
+      text += `• ${item.displayText}\n`;
+    });
+
+    text += "\n";
+  });
+
+  text += "Generated with Simple Dinners";
+
+  try {
+    if (navigator.share) {
+      await navigator.share({
+        title: "Shopping List",
+        text,
+      });
+    } else {
+      await navigator.clipboard.writeText(text);
+      alert("Shopping list copied to clipboard!");
+    }
+  } catch (err) {
+    console.error("Share shopping list failed:", err);
+  }
+};
 
   // =====================================================
   // Combine / merge shopping items for cleaner display
@@ -1616,6 +1664,28 @@ if (baseName === "garlic") {
             flexWrap: "wrap",
           }}
         >
+
+          {combinedItems.length > 0 && (
+  <button
+    onClick={shareShoppingList}
+    style={{
+      background: "rgba(59,130,246,0.12)",
+      border: "1px solid rgba(59,130,246,0.28)",
+      color: "#93c5fd",
+      fontSize: 11,
+      fontWeight: 900,
+      padding: "6px 12px",
+      borderRadius: "999px",
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 6,
+      letterSpacing: 0.3,
+    }}
+  >
+    <Share2 size={14} />
+    SHARE LIST
+  </button>
+)}
           <button
             onClick={() => setHideChecked((prev) => !prev)}
             style={{
