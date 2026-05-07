@@ -251,11 +251,23 @@ useEffect(() => {
 
 
       if (!response.ok) {
-        const text = await response.text();
-        console.error("Import API error:", response.status, text);
-        alert("Recipe import failed.");
-        return;
-      }
+  let errorMessage = "Recipe import failed.";
+
+  try {
+    const errorData = await response.json();
+
+    if (errorData?.error) {
+      errorMessage = errorData.error;
+    }
+  } catch {
+    // Ignore JSON parse errors
+  }
+
+  console.error("Import API error:", response.status, errorMessage);
+
+  alert(errorMessage);
+  return;
+}
 
 
       const data = await response.json();
