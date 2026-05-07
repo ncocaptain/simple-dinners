@@ -93,10 +93,13 @@ export default async function handler(req, res) {
     // API FAILED
     // =========================================================
 
-    return res.status(500).json({
-      error: "Import failed from API",
-      debug: data,
-    });
+    return res.status(502).json({
+  error:
+    data?.error ||
+    "Recipe import failed. Try another recipe link or add it manually.",
+  successLevel: data?.successLevel || "error",
+  debug: data,
+});
   } catch (err) {
     console.error("Render API Import failed:", err);
 
