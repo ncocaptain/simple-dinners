@@ -86,8 +86,8 @@ export default async function handler(req, res) {
     // =========================================================
 
     if (data?.success && data?.recipe) {
-      return res.status(200).json(data);
-    }
+  return res.status(200).json(data);
+}
 
     // =========================================================
     // API FAILED
