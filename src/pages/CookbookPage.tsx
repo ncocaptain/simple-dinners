@@ -617,7 +617,10 @@ const spinnerStyles = `
   </button>
 
   <button
-    onClick={() => setShowTextImport(true)}
+    onClick={() => {
+  setShowManual(false);
+  setShowTextImport(true);
+}}
     style={{
       ...btn,
       padding: "14px 16px",
@@ -659,7 +662,7 @@ const spinnerStyles = `
       position: "fixed",
       inset: 0,
       backgroundColor: "rgba(0,0,0,0.88)",
-      zIndex: 9999,
+      zIndex: 10001,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
