@@ -643,20 +643,267 @@ const spinnerStyles = `
 
 
         {showManual && (
-          <div
+  <div
+    style={{
+      position: "fixed",
+      inset: 0,
+      backgroundColor: "rgba(0,0,0,0.88)",
+      zIndex: 9999,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "20px",
+    }}
+  >
+    <div
+      style={{
+        width: "100%",
+        maxWidth: "520px",
+        background: "#1e293b",
+        borderRadius: "24px",
+        padding: "28px",
+        position: "relative",
+        border: "1px solid rgba(255,255,255,0.1)",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.45)",
+        maxHeight: "90vh",
+        overflowY: "auto",
+        boxSizing: "border-box",
+      }}
+    >
+      <button
+        onClick={closeManualModal}
+        style={{
+          position: "absolute",
+          right: 18,
+          top: 18,
+          background: "none",
+          border: "none",
+          color: "white",
+          cursor: "pointer",
+        }}
+      >
+        <X size={24} />
+      </button>
+
+      <h2 style={{ fontSize: 24, fontWeight: 900, marginBottom: 8 }}>
+        {editingSlug
+          ? "Edit Recipe"
+          : hasImportedDraft
+          ? "Review Imported Recipe"
+          : "New Recipe"}
+      </h2>
+
+      <p
+        style={{
+          marginTop: 0,
+          marginBottom: 18,
+          opacity: 0.72,
+          lineHeight: 1.5,
+          fontSize: 14,
+        }}
+      >
+        {editingSlug
+          ? "Update your recipe details below."
+          : hasImportedDraft
+          ? "Review the imported details and make any edits before saving."
+          : "Add a recipe manually, or paste a recipe URL below to import details."}
+      </p>
+
+      {!editingSlug && (
+        <div
+          style={{
+            background: "rgba(255,255,255,0.03)",
+            border: "1px dashed rgba(255,255,255,0.12)",
+            borderRadius: 16,
+            padding: 16,
+            marginBottom: 18,
+          }}
+        >
+          <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 10 }}>
+            Import from URL
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 8 }}>
+            <div style={{ position: "relative", minWidth: 0 }}>
+              <LinkIcon
+                size={18}
+                style={{
+                  position: "absolute",
+                  left: 12,
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  opacity: 0.45,
+                }}
+              />
+              <input
+                placeholder="Paste recipe link..."
+                value={importUrl}
+                onChange={(e) => setImportUrl(e.target.value)}
+                style={{
+                  width: "100%",
+                  boxSizing: "border-box",
+                  background: "rgba(0,0,0,0.3)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  color: "white",
+                  padding: "12px 12px 12px 40px",
+                  borderRadius: 12,
+                  outline: "none",
+                }}
+              />
+            </div>
+
+            <button
+              onClick={handleImport}
+              disabled={isImporting}
+              style={{
+                ...btn,
+                background: "#22c55e",
+                padding: "0 16px",
+                borderRadius: 12,
+                color: "white",
+                cursor: isImporting ? "default" : "pointer",
+                minWidth: 96,
+              }}
+            >
+              {isImporting ? "..." : hasImportedDraft ? "Re-import" : "Import"}
+            </button>
+          </div>
+
+          <p
             style={{
-              position: "fixed",
-              inset: 0,
-              backgroundColor: "rgba(0,0,0,0.88)",
-              zIndex: 9999,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "20px",
+              fontSize: 12,
+              opacity: 0.66,
+              marginTop: 10,
+              lineHeight: 1.5,
+              marginBottom: 0,
             }}
           >
+            {hasImportedDraft
+              ? "Imported details are loaded below. Edit anything you want before saving."
+              : "Ingredients and instructions are imported when available. You can edit everything before saving."}
+          </p>
+        </div>
+      )}
 
-            {showTextImport && (
+      <form onSubmit={handleManualSave} style={{ display: "grid", gap: 12 }}>
+        <input
+          placeholder="Recipe Name"
+          value={manualRecipe.name}
+          onChange={(e) =>
+            setManualRecipe({ ...manualRecipe, name: e.target.value })
+          }
+          style={{
+            padding: 14,
+            borderRadius: 12,
+            background: "rgba(255,255,255,0.05)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            color: "white",
+            outline: "none",
+          }}
+        />
+
+        <textarea
+          placeholder="Ingredients (one per line)"
+          value={manualRecipe.ingredients}
+          onChange={(e) =>
+            setManualRecipe({ ...manualRecipe, ingredients: e.target.value })
+          }
+          style={{
+            padding: 14,
+            borderRadius: 12,
+            background: "rgba(255,255,255,0.05)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            color: "white",
+            minHeight: 110,
+            outline: "none",
+            resize: "vertical",
+          }}
+        />
+
+        <textarea
+          placeholder="Instructions (one step per line)"
+          value={manualRecipe.instructions}
+          onChange={(e) =>
+            setManualRecipe({ ...manualRecipe, instructions: e.target.value })
+          }
+          style={{
+            padding: 14,
+            borderRadius: 12,
+            background: "rgba(255,255,255,0.05)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            color: "white",
+            minHeight: 130,
+            outline: "none",
+            resize: "vertical",
+          }}
+        />
+
+        <div style={{ position: "relative" }}>
+          <ImageIcon
+            size={18}
+            style={{ position: "absolute", left: 12, top: 14, opacity: 0.45 }}
+          />
+          <input
+            placeholder="Photo URL (optional)"
+            value={manualRecipe.photoUrl}
+            onChange={(e) =>
+              setManualRecipe({ ...manualRecipe, photoUrl: e.target.value })
+            }
+            style={{
+              width: "100%",
+              padding: "14px 14px 14px 40px",
+              borderRadius: 12,
+              background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.1)",
+              color: "white",
+              boxSizing: "border-box",
+              outline: "none",
+            }}
+          />
+        </div>
+
+        <div style={{ position: "relative" }}>
+          <ExternalLink
+            size={18}
+            style={{ position: "absolute", left: 12, top: 14, opacity: 0.45 }}
+          />
+          <input
+            placeholder="Source URL (optional)"
+            value={manualRecipe.sourceUrl}
+            onChange={(e) =>
+              setManualRecipe({ ...manualRecipe, sourceUrl: e.target.value })
+            }
+            style={{
+              width: "100%",
+              padding: "14px 14px 14px 40px",
+              borderRadius: 12,
+              background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.1)",
+              color: "white",
+              boxSizing: "border-box",
+              outline: "none",
+            }}
+          />
+        </div>
+
+        <button
+          type="submit"
+          style={{
+            ...btn,
+            padding: 16,
+            background: "rgba(34, 197, 94, 0.12)",
+            color: "#22c55e",
+            border: "1px solid #22c55e",
+          }}
+        >
+          {editingSlug ? "Update Recipe" : "Save to Cookbook"}
+        </button>
+      </form>
+    </div>
+  </div>
+)}
+
+{showTextImport && (
   <div
     style={{
       position: "fixed",
@@ -688,13 +935,7 @@ const spinnerStyles = `
           marginBottom: 18,
         }}
       >
-        <h2
-          style={{
-            margin: 0,
-            fontSize: 24,
-            fontWeight: 900,
-          }}
-        >
+        <h2 style={{ margin: 0, fontSize: 24, fontWeight: 900 }}>
           Paste Recipe Text
         </h2>
 
@@ -711,16 +952,8 @@ const spinnerStyles = `
         </button>
       </div>
 
-      <p
-        style={{
-          opacity: 0.72,
-          lineHeight: 1.6,
-          marginBottom: 18,
-          fontSize: 14,
-        }}
-      >
-        Paste recipe text from websites, Facebook posts, notes,
-        screenshots, or anywhere else.
+      <p style={{ opacity: 0.72, lineHeight: 1.6, marginBottom: 18, fontSize: 14 }}>
+        Paste recipe text from websites, Facebook posts, notes, screenshots, or anywhere else.
       </p>
 
       <textarea
@@ -754,6 +987,7 @@ const spinnerStyles = `
           background: "rgba(59,130,246,0.18)",
           border: "1px solid rgba(59,130,246,0.35)",
           color: "#93c5fd",
+          cursor: isTextImporting ? "default" : "pointer",
         }}
       >
         {isTextImporting ? "Importing..." : "Import Recipe Text"}
@@ -761,283 +995,6 @@ const spinnerStyles = `
     </div>
   </div>
 )}
-            <div
-              style={{
-                width: "100%",
-                maxWidth: "520px",
-                background: "#1e293b",
-                borderRadius: "24px",
-                padding: "28px",
-                position: "relative",
-                border: "1px solid rgba(255,255,255,0.1)",
-                boxShadow: "0 20px 60px rgba(0,0,0,0.45)",
-                maxHeight: "90vh",
-                overflowY: "auto",
-                boxSizing: "border-box",
-              }}
-            >
-              <button
-                onClick={closeManualModal}
-                style={{
-                  position: "absolute",
-                  right: 18,
-                  top: 18,
-                  background: "none",
-                  border: "none",
-                  color: "white",
-                  cursor: "pointer",
-                }}
-              >
-                <X size={24} />
-              </button>
-
-
-              <h2 style={{ fontSize: 24, fontWeight: 900, marginBottom: 8 }}>
-                {editingSlug
-                  ? "Edit Recipe"
-                  : hasImportedDraft
-                  ? "Review Imported Recipe"
-                  : "New Recipe"}
-              </h2>
-
-
-              <p
-                style={{
-                  marginTop: 0,
-                  marginBottom: 18,
-                  opacity: 0.72,
-                  lineHeight: 1.5,
-                  fontSize: 14,
-                }}
-              >
-                {editingSlug
-                  ? "Update your recipe details below."
-                  : hasImportedDraft
-                  ? "Review the imported details and make any edits before saving."
-                  : "Add a recipe manually, or paste a recipe URL below to import details."}
-              </p>
-
-
-              {!editingSlug && (
-                <div
-                  style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px dashed rgba(255,255,255,0.12)",
-                    borderRadius: 16,
-                    padding: 16,
-                    marginBottom: 18,
-                  }}
-                >
-                  <div
-                    style={{
-                      fontSize: 15,
-                      fontWeight: 800,
-                      marginBottom: 10,
-                    }}
-                  >
-                    Import from URL
-                  </div>
-
-
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 8 }}>
-                    <div style={{ position: "relative", minWidth: 0 }}>
-                      <LinkIcon
-                        size={18}
-                        style={{
-                          position: "absolute",
-                          left: 12,
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          opacity: 0.45,
-                        }}
-                      />
-                      <input
-                        placeholder="Paste recipe link..."
-                        value={importUrl}
-                        onChange={(e) => setImportUrl(e.target.value)}
-                        style={{
-                          width: "100%",
-                          boxSizing: "border-box",
-                          background: "rgba(0,0,0,0.3)",
-                          border: "1px solid rgba(255,255,255,0.1)",
-                          color: "white",
-                          padding: "12px 12px 12px 40px",
-                          borderRadius: 12,
-                          outline: "none",
-                        }}
-                      />
-                    </div>
-
-
-                    <button
-                      onClick={handleImport}
-                      disabled={isImporting}
-                      style={{
-                        ...btn,
-                        background: "#22c55e",
-                        padding: "0 16px",
-                        borderRadius: 12,
-                        color: "white",
-                        cursor: isImporting ? "default" : "pointer",
-                        minWidth: 96,
-                      }}
-                    >
-                      {isImporting ? "..." : hasImportedDraft ? "Re-import" : "Import"}
-                    </button>
-                  </div>
-
-
-                  <p
-                    style={{
-                      fontSize: 12,
-                      opacity: 0.66,
-                      marginTop: 10,
-                      lineHeight: 1.5,
-                      marginBottom: 0,
-                    }}
-                  >
-                    {hasImportedDraft
-                      ? "Imported details are loaded below. Edit anything you want before saving."
-                      : "Ingredients and instructions are imported when available. You can edit everything before saving."}
-                  </p>
-                </div>
-              )}
-
-
-              <form onSubmit={handleManualSave} style={{ display: "grid", gap: 12 }}>
-                <input
-                  placeholder="Recipe Name"
-                  value={manualRecipe.name}
-                  onChange={(e) =>
-                    setManualRecipe({ ...manualRecipe, name: e.target.value })
-                  }
-                  style={{
-                    padding: 14,
-                    borderRadius: 12,
-                    background: "rgba(255,255,255,0.05)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    color: "white",
-                    outline: "none",
-                  }}
-                />
-
-
-                <textarea
-                  placeholder="Ingredients (one per line)"
-                  value={manualRecipe.ingredients}
-                  onChange={(e) =>
-                    setManualRecipe({
-                      ...manualRecipe,
-                      ingredients: e.target.value,
-                    })
-                  }
-                  style={{
-                    padding: 14,
-                    borderRadius: 12,
-                    background: "rgba(255,255,255,0.05)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    color: "white",
-                    minHeight: 110,
-                    outline: "none",
-                    resize: "vertical",
-                  }}
-                />
-
-
-                <textarea
-                  placeholder="Instructions (one step per line)"
-                  value={manualRecipe.instructions}
-                  onChange={(e) =>
-                    setManualRecipe({
-                      ...manualRecipe,
-                      instructions: e.target.value,
-                    })
-                  }
-                  style={{
-                    padding: 14,
-                    borderRadius: 12,
-                    background: "rgba(255,255,255,0.05)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    color: "white",
-                    minHeight: 130,
-                    outline: "none",
-                    resize: "vertical",
-                  }}
-                />
-
-
-                <div style={{ position: "relative" }}>
-                  <ImageIcon
-                    size={18}
-                    style={{ position: "absolute", left: 12, top: 14, opacity: 0.45 }}
-                  />
-                  <input
-                    placeholder="Photo URL (optional)"
-                    value={manualRecipe.photoUrl}
-                    onChange={(e) =>
-                      setManualRecipe({
-                        ...manualRecipe,
-                        photoUrl: e.target.value,
-                      })
-                    }
-                    style={{
-                      width: "100%",
-                      padding: "14px 14px 14px 40px",
-                      borderRadius: 12,
-                      background: "rgba(255,255,255,0.05)",
-                      border: "1px solid rgba(255,255,255,0.1)",
-                      color: "white",
-                      boxSizing: "border-box",
-                      outline: "none",
-                    }}
-                  />
-                </div>
-
-
-                <div style={{ position: "relative" }}>
-                  <ExternalLink
-                    size={18}
-                    style={{ position: "absolute", left: 12, top: 14, opacity: 0.45 }}
-                  />
-                  <input
-                    placeholder="Source URL (optional)"
-                    value={manualRecipe.sourceUrl}
-                    onChange={(e) =>
-                      setManualRecipe({
-                        ...manualRecipe,
-                        sourceUrl: e.target.value,
-                      })
-                    }
-                    style={{
-                      width: "100%",
-                      padding: "14px 14px 14px 40px",
-                      borderRadius: 12,
-                      background: "rgba(255,255,255,0.05)",
-                      border: "1px solid rgba(255,255,255,0.1)",
-                      color: "white",
-                      boxSizing: "border-box",
-                      outline: "none",
-                    }}
-                  />
-                </div>
-
-
-                <button
-                  type="submit"
-                  style={{
-                    ...btn,
-                    padding: 16,
-                    background: "rgba(34, 197, 94, 0.12)",
-                    color: "#22c55e",
-                    border: "1px solid #22c55e",
-                  }}
-                >
-                  {editingSlug ? "Update Recipe" : "Save to Cookbook"}
-                </button>
-              </form>
-            </div>
-          </div>
-        )}
 
 
         <div style={{ display: "grid", gap: 14 }}>
