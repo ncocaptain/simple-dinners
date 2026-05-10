@@ -246,6 +246,8 @@ useEffect(() => {
     try {
       const API_BASE = "https://dinners.ncocaptain.com";
 
+      (document.activeElement as HTMLElement)?.blur();
+
 
       const response = await fetch(`${API_BASE}/api/import-recipe`, {
         method: "POST",
@@ -338,6 +340,8 @@ useEffect(() => {
 
   try {
     const API_BASE = "https://dinners.ncocaptain.com";
+
+    (document.activeElement as HTMLElement)?.blur();
 
     const response = await fetch(`${API_BASE}/api/import-text`, {
       method: "POST",
@@ -990,7 +994,7 @@ const spinnerStyles = `
           cursor: isTextImporting ? "default" : "pointer",
         }}
       >
-        {isTextImporting ? "Importing..." : "Import Recipe Text"}
+        {isTextImporting ? "Simple Dinners is organizing your recipe..." : "Import Recipe Text"}
       </button>
     </div>
   </div>
