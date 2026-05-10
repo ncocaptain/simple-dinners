@@ -9,6 +9,7 @@ import {
   Trash2,
   Image as ImageIcon,
   ExternalLink,
+  FileText,
 } from "lucide-react";
 import Card from "../components/Card";
 import type { Meal } from "../core/types";
@@ -119,6 +120,9 @@ const pickForDay = location.state?.pickForDay as string | undefined;
 
 
   const [importUrl, setImportUrl] = useState("");
+  const [showTextImport, setShowTextImport] = useState(false);
+const [pasteText, setPasteText] = useState("");
+const [isTextImporting, setIsTextImporting] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
   const [showManual, setShowManual] = useState(false);
   const [editingSlug, setEditingSlug] = useState<string | null>(null);
@@ -323,6 +327,55 @@ useEffect(() => {
       setIsImporting(false);
     }
   };
+
+  const handleTextImport = async () => {
+  if (!pasteText.trim()) {
+    alert("Please paste recipe text.");
+    return;
+  }
+
+  setIsTextImporting(true);
+
+  try {
+    const API_BASE = "https://dinners.ncocaptain.com";
+
+    const response = await fetch(`${API_BASE}/api/import-text`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: pasteText.trim() }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data?.recipe) {
+      alert(data?.error || "Text import failed.");
+      return;
+    }
+
+    const imported = data.recipe;
+
+    setManualRecipe({
+      name: String(imported?.name ?? "").trim(),
+      ingredients: normalizeMultilineField(imported?.ingredients),
+      instructions: normalizeMultilineField(imported?.instructions),
+      photoUrl: "",
+      sourceUrl: "",
+    });
+
+    setPasteText("");
+    setShowTextImport(false);
+    setEditingSlug(null);
+    setHasImportedDraft(true);
+    setShowManual(true);
+
+    alert("Text recipe imported. Review and save before adding it.");
+  } catch (err) {
+    console.error("Text import failed:", err);
+    alert("Unable to import text right now. Please try again.");
+  } finally {
+    setIsTextImporting(false);
+  }
+};
 
 
   const handleManualSave = (e?: FormEvent | MouseEvent) => {
@@ -544,25 +597,44 @@ const spinnerStyles = `
             </form>
 
 
-            <button
-              onClick={openNewRecipeModal}
-              style={{
-                ...btn,
-                width: "100%",
-                padding: "14px 16px",
-                borderRadius: 18,
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 10,
-              }}
-              title="Add recipe manually"
-            >
-              <Plus size={18} />
-              Add Recipe Manually
-            </button>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+  <button
+    onClick={openNewRecipeModal}
+    style={{
+      ...btn,
+      padding: "14px 16px",
+      borderRadius: 18,
+      background: "rgba(255,255,255,0.06)",
+      border: "1px solid rgba(255,255,255,0.1)",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 10,
+    }}
+  >
+    <Plus size={18} />
+    Add Manually
+  </button>
+
+  <button
+    onClick={() => setShowTextImport(true)}
+    style={{
+      ...btn,
+      padding: "14px 16px",
+      borderRadius: 18,
+      background: "rgba(59,130,246,0.12)",
+      border: "1px solid rgba(59,130,246,0.28)",
+      color: "#93c5fd",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 10,
+    }}
+  >
+    <FileText size={18} />
+    Paste Text
+  </button>
+</div>
           </div>
         </Card>
 
@@ -580,6 +652,112 @@ const spinnerStyles = `
               padding: "20px",
             }}
           >
+
+            {showTextImport && (
+  <div
+    style={{
+      position: "fixed",
+      inset: 0,
+      backgroundColor: "rgba(0,0,0,0.88)",
+      zIndex: 9999,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "20px",
+    }}
+  >
+    <div
+      style={{
+        width: "100%",
+        maxWidth: 560,
+        background: "#1e293b",
+        borderRadius: 24,
+        padding: 28,
+        border: "1px solid rgba(255,255,255,0.1)",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.45)",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 18,
+        }}
+      >
+        <h2
+          style={{
+            margin: 0,
+            fontSize: 24,
+            fontWeight: 900,
+          }}
+        >
+          Paste Recipe Text
+        </h2>
+
+        <button
+          onClick={() => setShowTextImport(false)}
+          style={{
+            background: "none",
+            border: "none",
+            color: "white",
+            cursor: "pointer",
+          }}
+        >
+          <X size={24} />
+        </button>
+      </div>
+
+      <p
+        style={{
+          opacity: 0.72,
+          lineHeight: 1.6,
+          marginBottom: 18,
+          fontSize: 14,
+        }}
+      >
+        Paste recipe text from websites, Facebook posts, notes,
+        screenshots, or anywhere else.
+      </p>
+
+      <textarea
+        value={pasteText}
+        onChange={(e) => setPasteText(e.target.value)}
+        placeholder="Paste recipe text here..."
+        style={{
+          width: "100%",
+          minHeight: 260,
+          resize: "vertical",
+          borderRadius: 16,
+          padding: 16,
+          boxSizing: "border-box",
+          background: "rgba(255,255,255,0.05)",
+          border: "1px solid rgba(255,255,255,0.1)",
+          color: "white",
+          outline: "none",
+          marginBottom: 18,
+          lineHeight: 1.6,
+        }}
+      />
+
+      <button
+        onClick={handleTextImport}
+        disabled={isTextImporting}
+        style={{
+          ...btn,
+          width: "100%",
+          padding: 16,
+          borderRadius: 16,
+          background: "rgba(59,130,246,0.18)",
+          border: "1px solid rgba(59,130,246,0.35)",
+          color: "#93c5fd",
+        }}
+      >
+        {isTextImporting ? "Importing..." : "Import Recipe Text"}
+      </button>
+    </div>
+  </div>
+)}
             <div
               style={{
                 width: "100%",
