@@ -178,36 +178,36 @@ Serve chicken and mushroom mixture over rice; season with salt and pepper.`,
   name: "Seared Ahi Tuna",
   ingredients: `Tuna:
 2 ahi tuna steaks (about 6 oz each)
-1 tbsp sesame oil (or olive oil)
+1 Tbsp sesame oil (or olive oil)
 1/2 tsp salt
 1/4 tsp black pepper
 
 Crust (optional but recommended):
-2 tbsp sesame seeds (white or mixed)
+2 Tbsp sesame seeds (white or mixed)
 1 tsp soy sauce
 
 Sauce:
-2 tbsp soy sauce
-1 tbsp rice vinegar
+2 Tbsp soy sauce
+1 Tbsp rice vinegar
 1 tsp honey
 1/2 tsp sesame oil
 
 Optional:
 1 tsp wasabi
-1 tbsp green onions, sliced`,
+1 Tbsp green onions, sliced`,
   instructions: `Pat 2 ahi tuna steaks completely dry with paper towels.
 
-Lightly brush tuna with 1 tsp soy sauce, then press into 2 tbsp sesame seeds to coat all sides if using.
+Lightly brush tuna with 1 tsp soy sauce, then press into 2 Tbsp sesame seeds to coat all sides if using.
 
 Season with 1/2 tsp salt and 1/4 tsp black pepper.
 
-Heat 1 tbsp sesame oil in a skillet (preferably cast iron) over high heat until just smoking.
+Heat 1 Tbsp sesame oil in a skillet (preferably cast iron) over high heat until just smoking.
 
 Place tuna in the pan and sear for 60 to 90 seconds per side, until a deep golden crust forms while the center remains rare.
 
 Remove from heat and let rest for 2 minutes.
 
-In a small bowl, whisk together 2 tbsp soy sauce, 1 tbsp rice vinegar, 1 tsp honey, and 1/2 tsp sesame oil.
+In a small bowl, whisk together 2 Tbsp soy sauce, 1 Tbsp rice vinegar, 1 tsp honey, and 1/2 tsp sesame oil.
 
 Slice tuna against the grain into thin pieces.
 
@@ -2940,11 +2940,11 @@ Before serving, taste and adjust salt and pepper if needed. Sprinkle with additi
 1/2 cup celery, finely diced
 1/3 cup red onion, finely diced
 1/4 cup dill pickles or relish, chopped
-2 tbsp fresh parsley, chopped
+2 Tbsp fresh parsley, chopped
 
 3/4 cup mayonnaise
-1 tbsp Dijon mustard
-1 tbsp apple cider vinegar
+1 Tbsp Dijon mustard
+1 Tbsp apple cider vinegar
 1 tsp sugar
 1/2 tsp salt (plus more to taste)
 1/4 tsp black pepper
@@ -2955,11 +2955,11 @@ Reduce to a gentle boil and cook for 10 to 12 minutes, until potatoes are fork-t
 
 While potatoes cook, place 3 eggs in a saucepan and cover with water. Bring to a boil, then turn off heat, cover, and let sit for 10 to 12 minutes. Transfer to ice water, peel, and chop.
 
-In a large bowl, whisk together 3/4 cup mayonnaise, 1 tbsp Dijon mustard, 1 tbsp apple cider vinegar, 1 tsp sugar, 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp paprika until smooth.
+In a large bowl, whisk together 3/4 cup mayonnaise, 1 Tbsp Dijon mustard, 1 Tbsp apple cider vinegar, 1 tsp sugar, 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp paprika until smooth.
 
 Add the slightly warm potatoes to the dressing and gently toss to coat.
 
-Add chopped eggs, 1/2 cup celery, 1/3 cup red onion, 1/4 cup pickles, and 2 tbsp parsley. Fold everything together until evenly combined.
+Add chopped eggs, 1/2 cup celery, 1/3 cup red onion, 1/4 cup pickles, and 2 Tbsp parsley. Fold everything together until evenly combined.
 
 Cover and refrigerate for at least 1 to 2 hours to allow flavors to develop.
 
@@ -3108,27 +3108,27 @@ Use as a dry rub or seasoning for wings and meats.`,
   name: "Chicken Salad Croissant",
   ingredients: `Chicken:
 1 lb boneless skinless chicken breasts
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 tsp salt
 1/4 tsp black pepper
 
 Chicken Salad:
 1/2 cup mayonnaise
-1 tbsp Dijon mustard
-1 tbsp lemon juice
+1 Tbsp Dijon mustard
+1 Tbsp lemon juice
 1/2 tsp garlic powder
 1/4 tsp salt (plus more to taste)
 1/4 tsp black pepper
 1/2 cup celery, finely diced
 1/3 cup red grapes, halved (optional)
 1/4 cup sliced almonds or pecans (optional)
-2 tbsp fresh parsley, chopped
+2 Tbsp fresh parsley, chopped
 
 Assembly:
 4 croissants, sliced
 lettuce leaves (optional)
 tomato slices (optional)`,
-  instructions: `Preheat a skillet over medium heat. Add 1 tbsp olive oil.
+  instructions: `Preheat a skillet over medium heat. Add 1 Tbsp olive oil.
 
 Season 1 lb chicken breasts with 1/2 tsp salt and 1/4 tsp black pepper.
 
@@ -3136,9 +3136,9 @@ Cook chicken for 5 to 6 minutes per side, until a golden-brown crust forms and t
 
 Remove from heat and let rest for 5 to 10 minutes, then dice or shred into bite-sized pieces.
 
-In a large bowl, whisk together 1/2 cup mayonnaise, 1 tbsp Dijon mustard, 1 tbsp lemon juice, 1/2 tsp garlic powder, 1/4 tsp salt, and 1/4 tsp black pepper until smooth.
+In a large bowl, whisk together 1/2 cup mayonnaise, 1 Tbsp Dijon mustard, 1 Tbsp lemon juice, 1/2 tsp garlic powder, 1/4 tsp salt, and 1/4 tsp black pepper until smooth.
 
-Add the chopped chicken, 1/2 cup celery, 1/3 cup grapes if using, 1/4 cup nuts if using, and 2 tbsp parsley. Fold gently until everything is evenly coated.
+Add the chopped chicken, 1/2 cup celery, 1/3 cup grapes if using, 1/4 cup nuts if using, and 2 Tbsp parsley. Fold gently until everything is evenly coated.
 
 Taste and adjust seasoning with additional salt, pepper, or lemon juice as needed.
 
@@ -4241,12 +4241,12 @@ Drizzle with 1 Tbsp balsamic glaze if desired and serve warm.`,
   slug: "creamy-mushroom-stroganoff",
   name: "Creamy Mushroom Stroganoff",
   ingredients: `8 oz egg noodles
-2 tbsp butter
-1 tbsp olive oil
+2 Tbsp butter
+1 Tbsp olive oil
 16 oz mushrooms, sliced
 1/2 onion, diced
 2 cloves garlic, minced
-1 tbsp flour
+1 Tbsp flour
 1 1/2 cups vegetable broth
 1/2 cup sour cream
 1 tsp paprika
@@ -4254,13 +4254,13 @@ Drizzle with 1 Tbsp balsamic glaze if desired and serve warm.`,
 1/4 tsp black pepper`,
   instructions: `Cook 8 oz egg noodles according to package directions and set aside.
 
-Heat 2 tbsp butter and 1 tbsp olive oil in a skillet over medium-high heat.
+Heat 2 Tbsp butter and 1 Tbsp olive oil in a skillet over medium-high heat.
 
 Add 16 oz mushrooms and cook 6 to 8 minutes until deeply browned.
 
 Add 1/2 diced onion and cook 3 to 4 minutes until softened. Add 2 cloves garlic and cook 30 seconds.
 
-Stir in 1 tbsp flour and cook 1 minute.
+Stir in 1 Tbsp flour and cook 1 minute.
 
 Add 1 1/2 cups vegetable broth and simmer until slightly thickened.
 
@@ -4280,30 +4280,30 @@ Add noodles and toss to coat. Serve warm.`,
   name: "Oyster Mushroom BBQ Tacos",
   ingredients: `Mushrooms:
 12 oz oyster mushrooms, torn into strips
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 tsp salt
 1/4 tsp black pepper
 1/2 tsp smoked paprika (or regular paprika)
 
 BBQ Sauce:
 1/2 cup barbecue sauce
-1 tbsp apple cider vinegar
+1 Tbsp apple cider vinegar
 1 tsp honey or maple syrup (optional)
 
 Assembly:
 8 small tortillas
 1 cup coleslaw mix
 1/4 cup red onion, thinly sliced
-2 tbsp fresh cilantro, chopped`,
+2 Tbsp fresh cilantro, chopped`,
   instructions: `Preheat oven to 425°F.
 
-Toss 12 oz oyster mushrooms with 1 tbsp olive oil, 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp smoked paprika.
+Toss 12 oz oyster mushrooms with 1 Tbsp olive oil, 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp smoked paprika.
 
 Spread mushrooms in a single layer on a baking sheet.
 
 Roast for 20 to 25 minutes, stirring halfway, until edges are crispy and slightly charred.
 
-In a bowl, mix 1/2 cup barbecue sauce with 1 tbsp apple cider vinegar and 1 tsp honey if using.
+In a bowl, mix 1/2 cup barbecue sauce with 1 Tbsp apple cider vinegar and 1 tsp honey if using.
 
 Toss the roasted mushrooms with the BBQ sauce until evenly coated.
 
@@ -4325,38 +4325,38 @@ Serve immediately.`,
   name: "Gochujang Tofu Broccoli Stir-Fry",
   ingredients: `Tofu:
 1 (14 oz) block extra-firm tofu, pressed and cubed
-1 tbsp cornstarch
-1 tbsp olive oil
+1 Tbsp cornstarch
+1 Tbsp olive oil
 
 Sauce:
-2 tbsp gochujang (Korean chili paste)
-1 tbsp soy sauce
-1 tbsp honey or maple syrup
+2 Tbsp gochujang (Korean chili paste)
+1 Tbsp soy sauce
+1 Tbsp honey or maple syrup
 1 tsp sesame oil
-1 tbsp rice vinegar
+1 Tbsp rice vinegar
 1/4 cup water
 
 Stir-Fry:
 2 cups broccoli florets
 2 cloves garlic, minced
 1 tsp fresh ginger, grated
-1 tbsp olive oil
+1 Tbsp olive oil
 
 Optional:
 2 cups cooked rice, for serving
-1 tbsp sesame seeds
+1 Tbsp sesame seeds
 2 green onions, sliced`,
   instructions: `Press 1 (14 oz) tofu for at least 10 minutes to remove excess moisture, then cut into cubes.
 
-Toss tofu with 1 tbsp cornstarch until lightly coated.
+Toss tofu with 1 Tbsp cornstarch until lightly coated.
 
-Heat 1 tbsp olive oil in a large skillet or wok over medium-high heat.
+Heat 1 Tbsp olive oil in a large skillet or wok over medium-high heat.
 
 Add tofu in a single layer and cook 4 to 5 minutes without moving, until golden and crisp. Flip and cook another 3 to 4 minutes. Remove and set aside.
 
-In a small bowl, whisk together 2 tbsp gochujang, 1 tbsp soy sauce, 1 tbsp honey or maple syrup, 1 tsp sesame oil, 1 tbsp rice vinegar, and 1/4 cup water.
+In a small bowl, whisk together 2 Tbsp gochujang, 1 Tbsp soy sauce, 1 Tbsp honey or maple syrup, 1 tsp sesame oil, 1 Tbsp rice vinegar, and 1/4 cup water.
 
-In the same pan, heat 1 tbsp olive oil over medium-high heat. Add 2 cups broccoli and cook 4 to 5 minutes until tender-crisp.
+In the same pan, heat 1 Tbsp olive oil over medium-high heat. Add 2 cups broccoli and cook 4 to 5 minutes until tender-crisp.
 
 Add 2 cloves garlic and 1 tsp ginger. Cook 30 seconds until fragrant.
 
@@ -4377,15 +4377,15 @@ Serve over rice and garnish with sesame seeds and green onions if desired.`,
   slug: "coconut-curry-ramen",
   name: "Coconut Curry Ramen",
   ingredients: `Broth:
-1 tbsp olive oil
+1 Tbsp olive oil
 2 cloves garlic, minced
 1 tsp fresh ginger, grated
-2 tbsp red curry paste
+2 Tbsp red curry paste
 1 (13.5 oz) can coconut milk
 3 cups vegetable broth
-1 tbsp soy sauce
+1 Tbsp soy sauce
 1 tsp brown sugar
-1 tbsp lime juice
+1 Tbsp lime juice
 
 Noodles & Add-ins:
 8 oz ramen noodles (discard seasoning packets)
@@ -4397,23 +4397,23 @@ Noodles & Add-ins:
 Optional Toppings:
 2 soft-boiled eggs
 2 green onions, sliced
-1 tbsp chili oil
+1 Tbsp chili oil
 fresh cilantro`,
-  instructions: `Heat 1 tbsp olive oil in a large pot over medium heat.
+  instructions: `Heat 1 Tbsp olive oil in a large pot over medium heat.
 
 Add 2 cloves garlic and 1 tsp ginger. Cook for 30 seconds until fragrant.
 
-Stir in 2 tbsp red curry paste and cook for 1 minute to deepen the flavor.
+Stir in 2 Tbsp red curry paste and cook for 1 minute to deepen the flavor.
 
 Pour in 1 can coconut milk and 3 cups vegetable broth. Stir to combine.
 
-Add 1 tbsp soy sauce and 1 tsp brown sugar. Bring to a gentle simmer.
+Add 1 Tbsp soy sauce and 1 tsp brown sugar. Bring to a gentle simmer.
 
 Add mushrooms, carrots, and bell peppers. Simmer for 5 to 7 minutes until tender.
 
 Add 8 oz ramen noodles and cook according to package directions, about 3 to 4 minutes.
 
-Stir in 1 cup spinach and 1 tbsp lime juice. Cook until spinach wilts.
+Stir in 1 cup spinach and 1 Tbsp lime juice. Cook until spinach wilts.
 
 Ladle into bowls and top with soft-boiled eggs, green onions, chili oil, and cilantro if desired. Serve hot.`,
   photoUrl: "/images/coconut-curry-ramen.jpg",
@@ -4432,36 +4432,36 @@ Ladle into bowls and top with soft-boiled eggs, green onions, chili oil, and cil
 1/2 tsp salt
 1/3 cup all-purpose flour (or chickpea flour for gluten-free)
 1/4 cup feta cheese, crumbled
-2 tbsp fresh dill, chopped (or parsley)
-2 tbsp green onion, sliced
+2 Tbsp fresh dill, chopped (or parsley)
+2 Tbsp green onion, sliced
 1 clove garlic, minced
 1 large egg
 1/4 tsp black pepper
-2 tbsp olive oil (for frying)
+2 Tbsp olive oil (for frying)
 
 Tzatziki:
 1 cup Greek yogurt
 1/2 cup cucumber, grated and squeezed dry
-1 tbsp lemon juice
-1 tbsp olive oil
+1 Tbsp lemon juice
+1 Tbsp olive oil
 1 clove garlic, minced
-1 tbsp fresh dill, chopped
+1 Tbsp fresh dill, chopped
 1/4 tsp salt`,
   instructions: `Grate 2 zucchini and place in a bowl with 1/2 tsp salt. Let sit for 10 minutes to draw out moisture.
 
 Transfer zucchini to a clean towel and squeeze out as much liquid as possible. This step is key for crispy fritters.
 
-In a bowl, combine the drained zucchini with 1/3 cup flour, 1/4 cup feta, 2 tbsp dill, 2 tbsp green onion, 1 clove garlic, 1 egg, and 1/4 tsp black pepper. Mix until a thick batter forms.
+In a bowl, combine the drained zucchini with 1/3 cup flour, 1/4 cup feta, 2 Tbsp dill, 2 Tbsp green onion, 1 clove garlic, 1 egg, and 1/4 tsp black pepper. Mix until a thick batter forms.
 
-Heat 2 tbsp olive oil in a skillet over medium heat.
+Heat 2 Tbsp olive oil in a skillet over medium heat.
 
-Scoop about 2 tbsp of the mixture per fritter into the pan and flatten slightly.
+Scoop about 2 Tbsp of the mixture per fritter into the pan and flatten slightly.
 
 Cook 3 to 4 minutes per side, until deep golden-brown and crisp on the outside.
 
 Transfer to a paper towel-lined plate or wire rack.
 
-In a separate bowl, combine 1 cup Greek yogurt, 1/2 cup squeezed cucumber, 1 tbsp lemon juice, 1 tbsp olive oil, 1 clove garlic, 1 tbsp dill, and 1/4 tsp salt. Stir until smooth.
+In a separate bowl, combine 1 cup Greek yogurt, 1/2 cup squeezed cucumber, 1 Tbsp lemon juice, 1 Tbsp olive oil, 1 clove garlic, 1 Tbsp dill, and 1/4 tsp salt. Stir until smooth.
 
 Serve fritters warm with tzatziki on the side.`,
   photoUrl: "/images/mediterranean-zucchini-fritters-tzatziki.jpg",
@@ -4480,9 +4480,9 @@ Serve fritters warm with tzatziki on the side.`,
 
 Protein:
 1 (14 oz) block firm tofu, cubed
-1 tbsp soy sauce
+1 Tbsp soy sauce
 1 tsp sesame oil
-1 tbsp olive oil
+1 Tbsp olive oil
 
 Vegetables:
 1 cup kimchi, chopped
@@ -4491,23 +4491,23 @@ Vegetables:
 1 cup baby spinach
 
 Sauce:
-1 tbsp gochujang
-1 tbsp soy sauce
+1 Tbsp gochujang
+1 Tbsp soy sauce
 1 tsp honey or maple syrup
 1 tsp sesame oil
-1 tbsp water
+1 Tbsp water
 
 Optional Toppings:
 2 fried or soft-boiled eggs
-1 tbsp sesame seeds
+1 Tbsp sesame seeds
 2 green onions, sliced`,
-  instructions: `Heat 1 tbsp olive oil in a skillet over medium-high heat.
+  instructions: `Heat 1 Tbsp olive oil in a skillet over medium-high heat.
 
 Add 1 (14 oz) cubed tofu and cook 4 to 5 minutes until lightly browned. Flip and cook another 3 to 4 minutes until crisp.
 
-Add 1 tbsp soy sauce and 1 tsp sesame oil to the tofu. Toss to coat and cook 1 more minute. Remove from heat.
+Add 1 Tbsp soy sauce and 1 tsp sesame oil to the tofu. Toss to coat and cook 1 more minute. Remove from heat.
 
-In a small bowl, whisk together 1 tbsp gochujang, 1 tbsp soy sauce, 1 tsp honey or maple syrup, 1 tsp sesame oil, and 1 tbsp water.
+In a small bowl, whisk together 1 Tbsp gochujang, 1 Tbsp soy sauce, 1 tsp honey or maple syrup, 1 tsp sesame oil, and 1 Tbsp water.
 
 Warm 2 cups cooked brown rice if needed.
 
@@ -4530,7 +4530,7 @@ Add eggs, sesame seeds, and green onions if desired. Serve immediately.`,
   slug: "sweet-potato-kale-chili",
   name: "Sweet Potato and Kale Chili",
   ingredients: `Base:
-1 tbsp olive oil
+1 Tbsp olive oil
 1 small onion, diced
 2 cloves garlic, minced
 
@@ -4543,7 +4543,7 @@ Chili:
 2 cups kale, chopped
 
 Seasoning:
-1 tbsp chili powder
+1 Tbsp chili powder
 1 tsp cumin
 1/2 tsp smoked paprika (or regular paprika)
 1/2 tsp salt
@@ -4551,8 +4551,8 @@ Seasoning:
 
 Optional:
 1/2 tsp cayenne pepper (for heat)
-1 tbsp lime juice`,
-  instructions: `Heat 1 tbsp olive oil in a large pot over medium heat.
+1 Tbsp lime juice`,
+  instructions: `Heat 1 Tbsp olive oil in a large pot over medium heat.
 
 Add 1 diced onion and cook 4 to 5 minutes until softened.
 
@@ -4560,7 +4560,7 @@ Add 2 cloves garlic and cook 30 seconds until fragrant.
 
 Stir in 2 cups cubed sweet potatoes, 1 can black beans, 1 can kidney beans, 1 can diced tomatoes, and 2 cups vegetable broth.
 
-Add 1 tbsp chili powder, 1 tsp cumin, 1/2 tsp smoked paprika, 1/2 tsp salt, 1/4 tsp black pepper, and cayenne if using. Stir well.
+Add 1 Tbsp chili powder, 1 tsp cumin, 1/2 tsp smoked paprika, 1/2 tsp salt, 1/4 tsp black pepper, and cayenne if using. Stir well.
 
 Bring to a boil, then reduce heat to a low simmer.
 
@@ -4568,7 +4568,7 @@ Cover and cook for 20 to 25 minutes, until sweet potatoes are fork-tender.
 
 Stir in 2 cups chopped kale and cook 3 to 5 minutes until wilted.
 
-Finish with 1 tbsp lime juice if desired. Taste and adjust seasoning.
+Finish with 1 Tbsp lime juice if desired. Taste and adjust seasoning.
 
 Serve hot.`,
   photoUrl: "/images/sweet-potato-kale-chili.jpg",
@@ -4583,7 +4583,7 @@ Serve hot.`,
   slug: "greek-style-baked-orzo",
   name: "Greek-Style Baked Orzo",
   ingredients: `Base:
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 onion, diced
 2 cloves garlic, minced
 
@@ -4599,10 +4599,10 @@ Orzo Bake:
 Finish:
 1/2 cup feta cheese, crumbled
 1/4 cup fresh parsley, chopped
-1 tbsp lemon juice`,
+1 Tbsp lemon juice`,
   instructions: `Preheat oven to 375°F.
 
-Heat 1 tbsp olive oil in an oven-safe skillet or pot over medium heat.
+Heat 1 Tbsp olive oil in an oven-safe skillet or pot over medium heat.
 
 Add 1/2 diced onion and cook 4 to 5 minutes until softened.
 
@@ -4618,7 +4618,7 @@ Bake uncovered for 18 to 22 minutes, until the orzo is tender and most of the li
 
 Remove from oven and stir gently.
 
-Top with 1/2 cup feta, 1/4 cup parsley, and 1 tbsp lemon juice.
+Top with 1/2 cup feta, 1/4 cup parsley, and 1 Tbsp lemon juice.
 
 Let rest for 5 minutes before serving.`,
   photoUrl: "/images/greek-style-baked-orzo.jpg",
@@ -4636,8 +4636,8 @@ Let rest for 5 minutes before serving.`,
 12 oz tagliatelle (or fettuccine)
 
 Mushrooms:
-2 tbsp olive oil
-1 tbsp butter
+2 Tbsp olive oil
+1 Tbsp butter
 16 oz mushrooms, sliced (cremini or mixed mushrooms)
 1/2 tsp salt
 1/4 tsp black pepper
@@ -4650,11 +4650,11 @@ Sauce:
 1/2 cup reserved pasta water
 
 Finish:
-1 tbsp butter
-1 tbsp fresh parsley, chopped (optional)`,
+1 Tbsp butter
+1 Tbsp fresh parsley, chopped (optional)`,
   instructions: `Bring a large pot of salted water to a boil and cook 12 oz tagliatelle according to package directions. Reserve 1/2 cup pasta water before draining.
 
-Heat 2 tbsp olive oil and 1 tbsp butter in a large skillet over medium-high heat.
+Heat 2 Tbsp olive oil and 1 Tbsp butter in a large skillet over medium-high heat.
 
 Add 16 oz mushrooms in a single layer and cook 6 to 8 minutes without stirring too much, until deeply browned and slightly crisp on the edges.
 
@@ -4668,7 +4668,7 @@ Stir in 1/2 cup grated parmesan and a splash of reserved pasta water, stirring u
 
 Add cooked pasta and toss to coat, adding more pasta water as needed to loosen the sauce.
 
-Finish with 1 tbsp butter for extra richness and gloss.
+Finish with 1 Tbsp butter for extra richness and gloss.
 
 Garnish with parsley if using and serve immediately.`,
   photoUrl: "/images/mushroom-sage-tagliatelle.jpg",
@@ -4683,7 +4683,7 @@ Garnish with parsley if using and serve immediately.`,
   slug: "vegan-crunchwrap-supreme",
   name: "Vegan Crunchwrap Supreme",
   ingredients: `Filling:
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 onion, diced
 1 (15 oz) can black beans, drained and rinsed
 1 tsp chili powder
@@ -4694,7 +4694,7 @@ Garnish with parsley if using and serve immediately.`,
 
 Creamy Sauce:
 1/2 cup vegan sour cream (or dairy-free yogurt)
-1 tbsp lime juice
+1 Tbsp lime juice
 1/2 tsp garlic powder
 1/4 tsp salt
 
@@ -4704,13 +4704,13 @@ Assembly:
 1 cup shredded lettuce
 1/2 cup tomatoes, diced
 1/2 cup vegan cheese, shredded`,
-  instructions: `Heat 1 tbsp olive oil in a skillet over medium heat.
+  instructions: `Heat 1 Tbsp olive oil in a skillet over medium heat.
 
 Add 1/2 diced onion and cook 4 to 5 minutes until softened.
 
 Add 1 can black beans, 1 tsp chili powder, 1/2 tsp cumin, 1/2 tsp paprika, 1/2 tsp salt, and 1/4 tsp black pepper. Cook 5 to 7 minutes, lightly mashing some beans until the mixture is thick and slightly creamy.
 
-In a small bowl, mix 1/2 cup vegan sour cream, 1 tbsp lime juice, 1/2 tsp garlic powder, and 1/4 tsp salt until smooth.
+In a small bowl, mix 1/2 cup vegan sour cream, 1 Tbsp lime juice, 1/2 tsp garlic powder, and 1/4 tsp salt until smooth.
 
 Warm 4 large tortillas until soft and flexible.
 
@@ -4738,11 +4738,11 @@ Serve warm.`,
   name: "Cauliflower Gnocchi with Mushroom Alfredo",
   ingredients: `Gnocchi:
 1 (12 oz) package cauliflower gnocchi
-1 tbsp olive oil
+1 Tbsp olive oil
 
 Mushrooms:
-1 tbsp olive oil
-1 tbsp butter
+1 Tbsp olive oil
+1 Tbsp butter
 12 oz mushrooms, sliced
 1/2 tsp salt
 1/4 tsp black pepper
@@ -4757,13 +4757,13 @@ Alfredo Sauce:
 1/4 cup reserved pasta water (optional, for thinning)
 
 Finish:
-1 tbsp butter
-2 tbsp fresh parsley, chopped (optional)`,
-  instructions: `Heat 1 tbsp olive oil in a large skillet over medium-high heat.
+1 Tbsp butter
+2 Tbsp fresh parsley, chopped (optional)`,
+  instructions: `Heat 1 Tbsp olive oil in a large skillet over medium-high heat.
 
 Add 1 (12 oz) cauliflower gnocchi in a single layer and cook 4 to 5 minutes without stirring until golden and crisp. Flip and cook another 3 to 4 minutes. Remove and set aside.
 
-In the same pan, heat 1 tbsp olive oil and 1 tbsp butter over medium-high heat.
+In the same pan, heat 1 Tbsp olive oil and 1 Tbsp butter over medium-high heat.
 
 Add 12 oz mushrooms and cook 6 to 8 minutes until deeply browned and slightly crispy on the edges.
 
@@ -4777,7 +4777,7 @@ Stir in 3/4 cup parmesan cheese, 1/2 tsp garlic powder, 1/4 tsp salt, and 1/4 ts
 
 Add the cooked gnocchi back to the pan and toss to coat. Add a splash of pasta water if needed to loosen the sauce.
 
-Finish with 1 tbsp butter for extra richness and gloss.
+Finish with 1 Tbsp butter for extra richness and gloss.
 
 Garnish with parsley if using and serve immediately.`,
   photoUrl: "/images/cauliflower-gnocchi-mushroom-alfredo.jpg",
@@ -4793,23 +4793,23 @@ Garnish with parsley if using and serve immediately.`,
   name: "Avocado Toast",
   ingredients: `Base:
 2 slices bread (sourdough or whole grain recommended)
-1 tbsp olive oil (optional, for toasting)
+1 Tbsp olive oil (optional, for toasting)
 
 Avocado:
 1 ripe avocado
-1 tbsp lemon juice
+1 Tbsp lemon juice
 1/4 tsp salt
 1/4 tsp black pepper
 
 Optional Toppings:
 2 eggs (fried or poached)
 1/4 tsp red pepper flakes
-1 tbsp feta cheese, crumbled
-1 tbsp cherry tomatoes, halved
+1 Tbsp feta cheese, crumbled
+1 Tbsp cherry tomatoes, halved
 1 tsp everything bagel seasoning`,
-  instructions: `Toast 2 slices of bread until golden and crisp. For extra flavor, brush lightly with 1 tbsp olive oil before toasting in a skillet over medium heat.
+  instructions: `Toast 2 slices of bread until golden and crisp. For extra flavor, brush lightly with 1 Tbsp olive oil before toasting in a skillet over medium heat.
 
-In a bowl, mash 1 ripe avocado with 1 tbsp lemon juice, 1/4 tsp salt, and 1/4 tsp black pepper until smooth but slightly chunky.
+In a bowl, mash 1 ripe avocado with 1 Tbsp lemon juice, 1/4 tsp salt, and 1/4 tsp black pepper until smooth but slightly chunky.
 
 Spread the avocado mixture evenly over the toasted bread.
 
@@ -4828,7 +4828,7 @@ Serve immediately.`,
   slug: "black-bean-sweet-potato-tacos",
   name: "Black Bean and Sweet Potato Tacos",
   ingredients: `2 cups sweet potatoes, diced
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 tsp salt
 1/4 tsp pepper
 1 tsp chili powder
@@ -4839,7 +4839,7 @@ Serve immediately.`,
 1/4 cup cilantro, chopped`,
   instructions: `Preheat oven to 425°F.
 
-Toss 2 cups diced sweet potatoes with 1 tbsp olive oil, 1/2 tsp salt, 1/4 tsp pepper, 1 tsp chili powder, and 1/2 tsp cumin.
+Toss 2 cups diced sweet potatoes with 1 Tbsp olive oil, 1/2 tsp salt, 1/4 tsp pepper, 1 tsp chili powder, and 1/2 tsp cumin.
 
 Roast for 20 to 25 minutes until tender and slightly caramelized.
 
@@ -4861,16 +4861,16 @@ Top with avocado and cilantro. Serve warm.`,
   name: "Chickpea Salad Sandwich",
   ingredients: `1 (15 oz) can chickpeas, drained
 1/3 cup mayonnaise
-1 tbsp Dijon mustard
-1 tbsp lemon juice
+1 Tbsp Dijon mustard
+1 Tbsp lemon juice
 1/4 cup celery, diced
-2 tbsp red onion, diced
+2 Tbsp red onion, diced
 4 slices bread`,
   instructions: `In a bowl, mash 1 can chickpeas until slightly chunky.
 
-Add 1/3 cup mayonnaise, 1 tbsp Dijon mustard, and 1 tbsp lemon juice. Stir to combine.
+Add 1/3 cup mayonnaise, 1 Tbsp Dijon mustard, and 1 Tbsp lemon juice. Stir to combine.
 
-Mix in 1/4 cup celery and 2 tbsp red onion.
+Mix in 1/4 cup celery and 2 Tbsp red onion.
 
 Spread onto 4 slices of bread and assemble sandwiches. Serve immediately.`,
   photoUrl: "/images/chickpea-salad-sandwich.jpg",
@@ -4889,14 +4889,14 @@ Spread onto 4 slices of bread and assemble sandwiches. Serve immediately.`,
 1 cup cucumber, diced
 1 cup cherry tomatoes, halved
 1/2 cup feta cheese
-2 tbsp olive oil
-1 tbsp lemon juice
+2 Tbsp olive oil
+1 Tbsp lemon juice
 1/2 tsp salt`,
   instructions: `In a bowl, combine 2 cups cooked rice or quinoa with 1 can chickpeas.
 
 Add 1 cup cucumber, 1 cup tomatoes, and 1/2 cup feta.
 
-Drizzle with 2 tbsp olive oil and 1 tbsp lemon juice.
+Drizzle with 2 Tbsp olive oil and 1 Tbsp lemon juice.
 
 Season with 1/2 tsp salt and toss. Serve.`,
   photoUrl: "/images/mediterranean-chickpea-bowl.jpg",
