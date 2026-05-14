@@ -43,6 +43,31 @@ function hasTag(meal: Meal, tag: string) {
   return normalizeTags(meal.tags).includes(normalizeText(tag));
 }
 
+function getVisibleRecipeTags(recipe: Meal) {
+  const hiddenTags = new Set([
+    "quick",
+    "normal",
+    "big",
+    "takeout",
+    "grilling",
+  ]);
+
+  const seen = new Set<string>();
+
+  return (recipe.tags ?? [])
+    .map((tag) => String(tag || "").trim())
+    .filter(Boolean)
+    .filter((tag) => {
+      const normalized = normalizeText(tag);
+
+      if (hiddenTags.has(normalized)) return false;
+      if (seen.has(normalized)) return false;
+
+      seen.add(normalized);
+      return true;
+    });
+}
+
 function effortLabel(effort?: Effort | string) {
   if (!effort) return "Normal";
   const value = String(effort);
@@ -779,14 +804,13 @@ export default function RecipesPage({
                         <span style={grillingTagStyle}>🔥 Grilling</span>
                       )}
 
-                      {(recipe.tags ?? [])
-                        .filter((tag) => normalizeText(tag) !== "grilling")
-                        .slice(0, 4)
-                        .map((tag) => (
-                          <span key={tag} style={tagStyle}>
-                            {tag}
-                          </span>
-                        ))}
+                      {getVisibleRecipeTags(recipe)
+  .slice(0, 4)
+  .map((tag) => (
+    <span key={tag} style={tagStyle}>
+      {tag}
+    </span>
+  ))}
                     </div>
 
                     <p
