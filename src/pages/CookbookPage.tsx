@@ -156,35 +156,167 @@ function getRecipeStatus(recipe: CookbookRecipe) {
   return "Ready";
 }
 
+function normalizeIngredientForMatching(value: string) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, " ")
+    .replace(/\b\d+\s*x\s*\d+\b/g, " ")
+    .replace(/\d+\/\d+|\d+(\.\d+)?/g, " ")
+    .replace(
+      /\b(cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|lb|lbs|pound|pounds|oz|ounce|ounces|g|gram|grams|ml|milliliter|milliliters|liter|liters|can|cans|jar|jars|package|packages|pinch|dash|clove|cloves|slice|slices|piece|pieces|medium|large|small)\b/g,
+      " "
+    )
+    .replace(
+      /\b(chopped|minced|sliced|diced|grated|shredded|softened|melted|divided|optional|fresh|dried|finely|roughly|thinly|halved|peeled|seeded|drained|rinsed|packed|about|plus|more|less|for|serving|serve|to|taste|if|using)\b/g,
+      " "
+    )
+    .replace(/[^a-z\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function ingredientLooksLikeHeading(line: string) {
+  const text = line.trim();
+
+  return (
+    text.endsWith(":") &&
+    text.length <= 32 &&
+    !/\d/.test(text)
+  );
+}
+
+function getIngredientKeywords(ingredient: string) {
+  const normalized = normalizeIngredientForMatching(ingredient);
+
+  if (!normalized) return [];
+
+  const stopWords = new Set([
+    "and",
+    "or",
+    "with",
+    "the",
+    "for",
+    "into",
+    "from",
+    "your",
+    "their",
+    "this",
+    "that",
+    "mixture",
+  ]);
+
+  const synonymMap: Record<string, string[]> = {
+    oil: ["oil", "olive oil", "canola oil", "vegetable oil"],
+    tomatoes: ["tomato", "tomatoes"],
+    tomato: ["tomato", "tomatoes"],
+    potatoes: ["potato", "potatoes"],
+    potato: ["potato", "potatoes"],
+    mushrooms: ["mushroom", "mushrooms"],
+    mushroom: ["mushroom", "mushrooms"],
+    noodles: ["noodle", "noodles", "pasta"],
+    noodle: ["noodle", "noodles", "pasta"],
+    cheese: ["cheese", "cheddar", "mozzarella", "parmesan", "gouda"],
+    cheddar: ["cheddar", "cheese"],
+    mozzarella: ["mozzarella", "cheese"],
+    parmesan: ["parmesan", "cheese"],
+    garlic: ["garlic"],
+    ginger: ["ginger"],
+    basil: ["basil"],
+    parsley: ["parsley"],
+    cilantro: ["cilantro"],
+    onion: ["onion", "onions", "shallot", "shallots"],
+    onions: ["onion", "onions", "shallot", "shallots"],
+    shallot: ["shallot", "shallots", "onion", "onions"],
+    shallots: ["shallot", "shallots", "onion", "onions"],
+    chicken: ["chicken"],
+    beef: ["beef"],
+    pork: ["pork", "sausage"],
+    sausage: ["sausage", "pork"],
+    tofu: ["tofu"],
+    broth: ["broth", "stock"],
+    stock: ["stock", "broth"],
+    sauce: ["sauce"],
+    vinegar: ["vinegar"],
+    honey: ["honey"],
+    preserves: ["preserves", "jam"],
+    seasoning: ["seasoning", "seasonings"],
+    soup: ["soup"],
+  };
+
+  const words = normalized
+    .split(" ")
+    .map((word) => word.trim())
+    .filter((word) => word.length > 2)
+    .filter((word) => !stopWords.has(word));
+
+  const keywords = new Set<string>();
+
+  words.forEach((word) => {
+    keywords.add(word);
+
+    if (word.endsWith("s") && word.length > 4) {
+      keywords.add(word.slice(0, -1));
+    }
+
+    const synonyms = synonymMap[word];
+
+    if (synonyms) {
+      synonyms.forEach((synonym) => keywords.add(synonym));
+    }
+  });
+
+  return Array.from(keywords);
+}
+
 function findPossiblyUnusedIngredients(
   ingredientsText: string,
   instructionsText: string
 ) {
-  const instructions = instructionsText.toLowerCase();
+  const instructions = normalizeIngredientForMatching(instructionsText);
+
+  if (!instructions) return [];
+
+  const alwaysIgnore = [
+    "salt",
+    "pepper",
+    "black pepper",
+    "chili flakes",
+    "red pepper flakes",
+    "water",
+    "cooking spray",
+    "nonstick cooking spray",
+    "oil for frying",
+  ];
 
   return splitLines(ingredientsText).filter((ingredient) => {
-    const cleaned = ingredient
-      .toLowerCase()
-      .replace(/\([^)]*\)/g, "")
-      .replace(/\d+\/\d+|\d+(\.\d+)?/g, "")
-      .replace(
-        /\b(cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|lb|lbs|pound|pounds|oz|ounce|ounces|g|gram|grams|ml|milliliter|milliliters|liter|liters|can|cans|jar|jars|package|packages|pinch|dash)\b/g,
-        ""
+    const original = ingredient.trim();
+    const normalized = normalizeIngredientForMatching(original);
+
+    if (!original || !normalized) return false;
+    if (ingredientLooksLikeHeading(original)) return false;
+
+    if (
+      alwaysIgnore.some(
+        (item) =>
+          normalized === item ||
+          normalized.includes(item) ||
+          item.includes(normalized)
       )
-      .replace(/[^a-z\s]/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
+    ) {
+      return false;
+    }
 
-    if (!cleaned || cleaned.length < 3) return false;
+    const keywords = getIngredientKeywords(original);
 
-    const words = cleaned
-      .split(" ")
-      .map((word) => word.trim())
-      .filter((word) => word.length > 3);
+    if (keywords.length === 0) return false;
 
-    if (words.length === 0) return false;
+    const meaningfulKeywords = keywords.filter((keyword) => keyword.length > 3);
 
-    return !words.some((word) => instructions.includes(word));
+    if (meaningfulKeywords.length === 0) return false;
+
+    return !meaningfulKeywords.some((keyword) =>
+      instructions.includes(keyword)
+    );
   });
 }
 
