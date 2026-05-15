@@ -146,15 +146,23 @@ function getIngredientKeywords(ingredient: string) {
 function getCookModeIngredientLabel(text: string) {
   return cleanIngredientText(text)
     .replace(/\([^)]*\)/g, "")
+
+    // Remove common measurements, including metric
     .replace(/\b\d+(?:[\/.]\d+)?\b/g, "")
     .replace(
-      /\b(cup|cups|tablespoon|tablespoons|tbsp|teaspoon|teaspoons|tsp|pound|pounds|lb|lbs|ounce|ounces|oz|clove|cloves|can|cans|package|packages|pkg|slice|slices)\b/gi,
+      /\b(cup|cups|tablespoon|tablespoons|tbsp|teaspoon|teaspoons|tsp|pound|pounds|lb|lbs|ounce|ounces|oz|gram|grams|g|kilogram|kilograms|kg|milliliter|milliliters|ml|liter|liters|l|clove|cloves|can|cans|package|packages|pkg|slice|slices)\b/gi,
       ""
     )
+
+    // Remove approximate measurement words that can be left behind
+    .replace(/\b(about|approx|approximately|around|roughly)\b/gi, "")
+
+    // Remove prep descriptors
     .replace(
       /\b(large|small|medium|fresh|boneless|skinless|lean|halved|diced|chopped|minced|sliced|shredded|softened|melted|beaten|dried|finely)\b/gi,
       ""
     )
+
     .replace(/\s{2,}/g, " ")
     .trim();
 }
@@ -325,6 +333,27 @@ function ingredientMatchesStep(ingredient: string, step: string) {
     return true;
   }
 }
+
+  // =====================================================
+  // Garnish / serving-only ingredients
+  // Only show these on finishing or serving steps
+  // =====================================================
+
+  if (
+    ingredientText.includes("to serve") ||
+    ingredientText.includes("for serving") ||
+    ingredientText.includes("garnish") ||
+    ingredientText.includes("optional garnish")
+  ) {
+    return (
+      stepText.includes("serve") ||
+      stepText.includes("serving") ||
+      stepText.includes("garnish") ||
+      stepText.includes("top with") ||
+      stepText.includes("sprinkle") ||
+      stepText.includes("finish with")
+    );
+  }
 
   // =====================================================
   // Protections for stock / broth
