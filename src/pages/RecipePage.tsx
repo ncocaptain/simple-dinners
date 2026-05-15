@@ -388,6 +388,38 @@ function ingredientMatchesStep(ingredient: string, step: string) {
     return stepText.includes("salt");
   }
 
+    // =====================================================
+  // Strong food-specific matching
+  // Prevents long ingredient descriptions from matching weak words
+  // like "bite", "pieces", "firm", "mixed", etc.
+  // =====================================================
+
+  if (ingredientText.includes("tofu")) {
+    return hasCookWord(stepText, "tofu");
+  }
+
+  if (ingredientText.includes("noodle") || ingredientText.includes("noodles")) {
+    return (
+      hasCookWord(stepText, "noodle") ||
+      hasCookWord(stepText, "noodles") ||
+      stepText.includes("chow mein")
+    );
+  }
+
+  if (
+    ingredientText.includes("mixed stir fry vegetables") ||
+    ingredientText.includes("mixed stir-fry vegetables") ||
+    ingredientText.includes("stir fry vegetables") ||
+    ingredientText.includes("stir-fry vegetables")
+  ) {
+    return (
+      hasCookWord(stepText, "vegetable") ||
+      hasCookWord(stepText, "vegetables") ||
+      stepText.includes("stir fry") ||
+      stepText.includes("stir-fry")
+    );
+  }
+
   // =====================================================
   // Smart rules
   // =====================================================
@@ -435,10 +467,42 @@ function ingredientMatchesStep(ingredient: string, step: string) {
   // "yellow onion" -> "onion"
   // =====================================================
 
+    const weakIngredientWords = new Set([
+    "yellow",
+    "white",
+    "fresh",
+    "dried",
+    "smoked",
+    "ground",
+    "extra",
+    "firm",
+    "pressed",
+    "bite",
+    "size",
+    "pieces",
+    "piece",
+    "cut",
+    "into",
+    "mixed",
+    "stir",
+    "fry",
+    "chopped",
+    "minced",
+    "sliced",
+    "diced",
+    "grated",
+    "shredded",
+    "divided",
+    "optional",
+    "about",
+    "medium",
+    "large",
+    "small",
+    "tender",
+  ]);
+
   const meaningfulKeywords = keywords.filter(
-    (word) =>
-      word.length >= 4 &&
-      !["yellow", "white", "fresh", "dried", "smoked", "ground"].includes(word)
+    (word) => word.length >= 4 && !weakIngredientWords.has(word)
   );
 
   if (meaningfulKeywords.some((word) => hasCookWord(stepText, word))) {
