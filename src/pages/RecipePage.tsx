@@ -428,12 +428,25 @@ function ingredientMatchesStep(ingredient: string, step: string) {
   }
 
   if (ingredientText.includes("noodle") || ingredientText.includes("noodles")) {
-    return (
-      hasCookWord(stepText, "noodle") ||
-      hasCookWord(stepText, "noodles") ||
-      stepText.includes("chow mein")
-    );
+  const hasDirectNoodleWord =
+    hasCookWord(stepText, "noodle") || hasCookWord(stepText, "noodles");
+
+  const hasActiveNoodleAction =
+    stepText.includes("add") ||
+    stepText.includes("toss") ||
+    stepText.includes("mix") ||
+    stepText.includes("stir") ||
+    stepText.includes("cook") ||
+    stepText.includes("combine");
+
+  if (hasDirectNoodleWord) return true;
+
+  if (stepText.includes("chow mein") && hasActiveNoodleAction) {
+    return true;
   }
+
+  return false;
+}
 
   if (
     ingredientText.includes("mixed stir fry vegetables") ||
