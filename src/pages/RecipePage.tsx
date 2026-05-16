@@ -1395,10 +1395,7 @@ const handleCloseNoteModal = () => {
             </div>
 
             <div style={utilityGrid}>
-              <button onClick={handleCooked} style={smallActionBtn}>
-                <History size={15} />
-                Cooked
-              </button>
+              
 
               <button
                 onClick={() =>
