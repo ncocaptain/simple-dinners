@@ -1263,16 +1263,16 @@ const handleCloseNoteModal = () => {
   };
 
   const actionGrid: React.CSSProperties = {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
-    gap: 10,
-  };
+  display: "grid",
+  gridTemplateColumns: "repeat(3, 1fr)",
+  gap: 10,
+};
 
   const utilityGrid: React.CSSProperties = {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(95px, 1fr))",
-    gap: 8,
-  };
+  display: "grid",
+  gridTemplateColumns: "repeat(3, 1fr)",
+  gap: 8,
+};
 
   const smallActionBtn: React.CSSProperties = {
     ...topBtn,
