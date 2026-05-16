@@ -139,6 +139,52 @@ export default function PlanPage({
     marginBottom: 10,
   };
 
+  const heroTitle: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  gap: 10,
+  lineHeight: 1.1,
+};
+
+const heroIconWrap: React.CSSProperties = {
+  width: 34,
+  height: 34,
+  borderRadius: 14,
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  background: "rgba(34,197,94,0.12)",
+  border: "1px solid rgba(34,197,94,0.22)",
+  color: "#86efac",
+  flexShrink: 0,
+};
+
+const helperRow: React.CSSProperties = {
+  marginTop: 10,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  gap: 10,
+  flexWrap: "wrap",
+};
+
+const helperText: React.CSSProperties = {
+  fontSize: 12,
+  opacity: 0.55,
+  lineHeight: 1.4,
+};
+
+const countPill: React.CSSProperties = {
+  padding: "5px 9px",
+  borderRadius: 999,
+  background: "rgba(255,255,255,0.05)",
+  border: "1px solid rgba(255,255,255,0.08)",
+  color: "rgba(255,255,255,0.72)",
+  fontSize: 12,
+  fontWeight: 800,
+  whiteSpace: "nowrap",
+};
+
   const activeAllergens: string[] = Array.isArray(prefs.allergens)
     ? prefs.allergens
     : [];
@@ -174,14 +220,16 @@ export default function PlanPage({
         }}
       >
         <Card
-          title={
-            <>
-              <Sparkles size={22} />
-              Kitchen & Plan
-            </>
-          }
-          subtitle="Use what you already have, set your preferences, and generate smarter dinners."
-        >
+  title={
+    <span style={heroTitle}>
+      <span style={heroIconWrap}>
+        <Sparkles size={19} />
+      </span>
+      <span>Kitchen & Plan</span>
+    </span>
+  }
+  subtitle="Use what you already have, set your preferences, and generate smarter dinners."
+>
           <div style={{ display: "grid", gap: 24 }}>
             <section
               style={{
@@ -247,25 +295,18 @@ export default function PlanPage({
                 value={pantryText}
                 onChange={(e) => setPantryText(e.target.value)}
                 onBlur={commitPantry}
-                style={{ ...inputBase, minHeight: 110 }}
+                style={{ ...inputBase, minHeight: 96 }}
               />
 
-              <div
-                style={{
-                  marginTop: 10,
-                  fontSize: 13,
-                  opacity: 0.5,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: 12,
-                }}
-              >
-                <span>Separate items with commas or new lines.</span>
-                <span>
-                  {pantryItems.length} item{pantryItems.length !== 1 ? "s" : ""}
-                </span>
-              </div>
+              <div style={helperRow}>
+  <span style={helperText}>
+    Separate items with commas or new lines.
+  </span>
+
+  <span style={countPill}>
+    {pantryItems.length} item{pantryItems.length !== 1 ? "s" : ""}
+  </span>
+</div>
             </section>
 
             <section
