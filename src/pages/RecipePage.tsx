@@ -94,6 +94,37 @@ function formatIngredientDisplay(text: string) {
     .trim();
 }
 
+function formatEffortLabel(effort?: string) {
+  if (!effort) return "";
+  const value = String(effort).trim();
+  if (!value) return "";
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function normalizeTagForDisplay(tag: string) {
+  return String(tag || "")
+    .trim()
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function getVisibleRecipeTags(recipe: any) {
+  const hiddenTags = new Set(["quick", "normal", "big", "takeout", "grilling"]);
+  const seen = new Set<string>();
+
+  return (Array.isArray(recipe?.tags) ? recipe.tags : [])
+    .map((tag: string) => String(tag || "").trim())
+    .filter(Boolean)
+    .filter((tag: string) => {
+      const normalized = tag.toLowerCase();
+      if (hiddenTags.has(normalized)) return false;
+      if (seen.has(normalized)) return false;
+
+      seen.add(normalized);
+      return true;
+    });
+}
+
 function normalizeCookText(text: string) {
   return String(text || "")
     .toLowerCase()
@@ -1206,6 +1237,64 @@ const handleCloseNoteModal = () => {
     width: "fit-content",
   };
 
+  const pageHeaderCard: React.CSSProperties = {
+    padding: 16,
+    borderRadius: 24,
+    border: "1px solid rgba(255,255,255,0.08)",
+    background: "rgba(255,255,255,0.03)",
+    display: "grid",
+    gap: 14,
+  };
+
+  const primaryCookButton: React.CSSProperties = {
+    border: "1px solid rgba(34,197,94,0.45)",
+    background: "rgba(34,197,94,0.14)",
+    color: "#86efac",
+    borderRadius: 18,
+    padding: "15px 16px",
+    fontWeight: 1000,
+    fontSize: 16,
+    cursor: "pointer",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+    width: "100%",
+  };
+
+  const actionGrid: React.CSSProperties = {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
+    gap: 10,
+  };
+
+  const utilityGrid: React.CSSProperties = {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(95px, 1fr))",
+    gap: 8,
+  };
+
+  const smallActionBtn: React.CSSProperties = {
+    ...topBtn,
+    justifyContent: "center",
+    fontSize: 12,
+    padding: "9px 8px",
+    opacity: 0.86,
+  };
+
+  const metadataPill: React.CSSProperties = {
+    fontSize: 11,
+    fontWeight: 900,
+    padding: "5px 9px",
+    borderRadius: 999,
+    background: "rgba(255,255,255,0.08)",
+    border: "1px solid rgba(255,255,255,0.08)",
+    color: "rgba(255,255,255,0.82)",
+    letterSpacing: 0.35,
+  };
+
+  const visibleRecipeTags = getVisibleRecipeTags(safeRecipe);
+
   // =====================================================
   // Builder: render
   // =====================================================
@@ -1215,38 +1304,65 @@ const handleCloseNoteModal = () => {
     <div style={innerWrap}>
       {!printMode && !cookMode && (
         <>
-          <div style={{ display: "grid", gap: 12 }}>
+          {/* =====================================================
+              Recipe page header + primary actions
+          ===================================================== */}
+
+          <div style={pageHeaderCard}>
             <div
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                alignItems: "center",
+                gap: 12,
+                alignItems: "flex-start",
               }}
             >
-              <h1>Recipe</h1>
+              <div style={{ display: "grid", gap: 6, minWidth: 0 }}>
+                <div
+                  style={{
+                    fontSize: 12,
+                    opacity: 0.55,
+                    fontWeight: 900,
+                    letterSpacing: 0.8,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Recipe Details
+                </div>
+
+                <h1
+                  style={{
+                    margin: 0,
+                    fontSize: 32,
+                    lineHeight: 1.08,
+                    fontWeight: 1000,
+                    wordBreak: "break-word",
+                  }}
+                >
+                  {safeRecipe.name}
+                </h1>
+              </div>
+
               <TipsModal tips={RECIPE_TIPS} />
             </div>
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 10,
-              }}
-            >
-              <button onClick={handleBack} style={topBtn}>
+            <button onClick={() => setCookMode(true)} style={primaryCookButton}>
+              <Play size={18} />
+              Start Cook Mode
+            </button>
+
+            <div style={actionGrid}>
+              <button onClick={handleBack} style={{ ...topBtn, justifyContent: "center" }}>
                 <ArrowLeft size={16} />
                 Back
               </button>
 
-              <button onClick={() => setCookMode(true)} style={topBtn}>
-                <Play size={16} />
-                Cook Mode
-              </button>
-
-              <button onClick={handleAddIngredients} style={topBtn}>
+              <button
+                onClick={handleAddIngredients}
+                style={{ ...topBtn, justifyContent: "center" }}
+              >
                 <ShoppingCart size={16} />
-                Add Ingredients
+                Add Items
               </button>
 
               <button
@@ -1254,6 +1370,7 @@ const handleCloseNoteModal = () => {
                 disabled={savedState === "already"}
                 style={{
                   ...topBtn,
+                  justifyContent: "center",
                   opacity: savedState === "already" ? 0.7 : 1,
                   border:
                     savedState !== "idle"
@@ -1273,21 +1390,14 @@ const handleCloseNoteModal = () => {
                   ? "Saved ✓"
                   : savedState === "already"
                   ? "Saved"
-                  : "Save Recipe"}
+                  : "Save"}
               </button>
             </div>
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 10,
-                opacity: 0.85,
-              }}
-            >
-              <button onClick={handleCooked} style={topBtn}>
-                <History size={16} />
-                Mark Cooked
+            <div style={utilityGrid}>
+              <button onClick={handleCooked} style={smallActionBtn}>
+                <History size={15} />
+                Cooked
               </button>
 
               <button
@@ -1298,121 +1408,121 @@ const handleCloseNoteModal = () => {
                     )}?from=${encodeURIComponent(from)}&print=1`
                   )
                 }
-                style={topBtn}
+                style={smallActionBtn}
               >
-                <Printer size={16} />
+                <Printer size={15} />
                 Print
               </button>
 
-              <button onClick={handleShare} style={topBtn}>
-                <Share2 size={16} />
+              <button onClick={handleShare} style={smallActionBtn}>
+                <Share2 size={15} />
                 Share
               </button>
 
-              <button onClick={openNoteModal} style={topBtn}>
-  <Pin size={16} />
-  {userNote.trim() ? "View Note" : "Add Note"}
-</button>
+              <button onClick={openNoteModal} style={smallActionBtn}>
+                <Pin size={15} />
+                {userNote.trim() ? "Note" : "Note"}
+              </button>
             </div>
           </div>
 
           {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
 
           {!!userNote.trim() && (
-  <button
-    type="button"
-    onClick={openNoteModal}
-    style={{
-      marginTop: 4,
-      padding: 12,
-      borderRadius: 14,
-      background: "rgba(250,204,21,0.10)",
-      border: "1px solid rgba(250,204,21,0.25)",
-      color: "#fde68a",
-      textAlign: "left",
-      fontSize: 13,
-      lineHeight: 1.45,
-      cursor: "pointer",
-      display: "flex",
-      gap: 8,
-      alignItems: "flex-start",
-    }}
-  >
-    <Pin size={15} style={{ marginTop: 2, flexShrink: 0 }} />
-    <span>
-      <strong>Your note:</strong>{" "}
-      {userNote.length > 90 ? `${userNote.slice(0, 90)}...` : userNote}
-    </span>
-  </button>
-)}
+            <button
+              type="button"
+              onClick={openNoteModal}
+              style={{
+                marginTop: 4,
+                padding: 12,
+                borderRadius: 14,
+                background: "rgba(250,204,21,0.10)",
+                border: "1px solid rgba(250,204,21,0.25)",
+                color: "#fde68a",
+                textAlign: "left",
+                fontSize: 13,
+                lineHeight: 1.45,
+                cursor: "pointer",
+                display: "flex",
+                gap: 8,
+                alignItems: "flex-start",
+              }}
+            >
+              <Pin size={15} style={{ marginTop: 2, flexShrink: 0 }} />
+              <span>
+                <strong>Your note:</strong>{" "}
+                {userNote.length > 90 ? `${userNote.slice(0, 90)}...` : userNote}
+              </span>
+            </button>
+          )}
 
-{showNoteModal && (
-  <div
-    style={{
-      position: "fixed",
-      inset: 0,
-      background: "rgba(0,0,0,0.5)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      zIndex: 1000,
-      padding: 20,
-    }}
-  >
-    <div
-      style={{
-        width: "100%",
-        maxWidth: 420,
-        background: "#111",
-        borderRadius: 20,
-        padding: 20,
-        display: "grid",
-        gap: 12,
-        border: "1px solid rgba(255,255,255,0.1)",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <div style={{ fontWeight: 900 }}>Personal Note</div>
+          {showNoteModal && (
+            <div
+              style={{
+                position: "fixed",
+                inset: 0,
+                background: "rgba(0,0,0,0.5)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                zIndex: 1000,
+                padding: 20,
+              }}
+            >
+              <div
+                style={{
+                  width: "100%",
+                  maxWidth: 420,
+                  background: "#111",
+                  borderRadius: 20,
+                  padding: 20,
+                  display: "grid",
+                  gap: 12,
+                  border: "1px solid rgba(255,255,255,0.1)",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <div style={{ fontWeight: 900 }}>Personal Note</div>
 
-        <button onClick={handleCloseNoteModal} style={{ ...topBtn }}>
-          <X size={16} />
-        </button>
-      </div>
+                  <button onClick={handleCloseNoteModal} style={{ ...topBtn }}>
+                    <X size={16} />
+                  </button>
+                </div>
 
-      <textarea
-        value={draftUserNote}
-        onChange={(e) => setDraftUserNote(e.target.value)}
-        placeholder="Add a reminder, tweak, or family preference..."
-        style={{
-          width: "100%",
-          minHeight: 120,
-          borderRadius: 12,
-          padding: 10,
-          border: "1px solid rgba(255,255,255,0.1)",
-          background: "rgba(255,255,255,0.04)",
-          color: "white",
-          resize: "none",
-        }}
-      />
+                <textarea
+                  value={draftUserNote}
+                  onChange={(e) => setDraftUserNote(e.target.value)}
+                  placeholder="Add a reminder, tweak, or family preference..."
+                  style={{
+                    width: "100%",
+                    minHeight: 120,
+                    borderRadius: 12,
+                    padding: 10,
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    background: "rgba(255,255,255,0.04)",
+                    color: "white",
+                    resize: "none",
+                  }}
+                />
 
-      <div style={{ display: "flex", gap: 10 }}>
-        <button onClick={handleSaveUserNote} style={topBtn}>
-          Save
-        </button>
+                <div style={{ display: "flex", gap: 10 }}>
+                  <button onClick={handleSaveUserNote} style={topBtn}>
+                    Save
+                  </button>
 
-        <button onClick={handleCloseNoteModal} style={topBtn}>
-          Cancel
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+                  <button onClick={handleCloseNoteModal} style={topBtn}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </>
       )}
 
@@ -1515,58 +1625,45 @@ const handleCloseNoteModal = () => {
             />
           ) : null}
 
-          <div style={{ padding: 20 }}>
-            <h1 style={{ margin: 0, fontSize: 30, fontWeight: 1000 }}>
-              {safeRecipe.name}
-            </h1>
-
+          <div style={{ padding: 18, display: "grid", gap: 10 }}>
             <div
               style={{
                 display: "flex",
                 gap: 8,
-                marginTop: 8,
                 flexWrap: "wrap",
               }}
             >
               {safeRecipe.effort && (
-                <span
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 900,
-                    padding: "4px 8px",
-                    borderRadius: 999,
-                    background: "rgba(255,255,255,0.08)",
-                    letterSpacing: 0.5,
-                  }}
-                >
-                  {String(safeRecipe.effort).toUpperCase()}
+                <span style={metadataPill}>
+                  {formatEffortLabel(String(safeRecipe.effort))}
                 </span>
               )}
 
               {isGrilling && (
                 <span
                   style={{
-                    fontSize: 11,
-                    fontWeight: 900,
-                    padding: "4px 8px",
-                    borderRadius: 999,
+                    ...metadataPill,
                     background: "rgba(250,204,21,0.15)",
                     border: "1px solid rgba(250,204,21,0.35)",
                     color: "#fde68a",
-                    letterSpacing: 0.5,
                   }}
                 >
-                  🔥 GRILLING
+                  🔥 Grilling
                 </span>
               )}
+
+              {visibleRecipeTags.slice(0, 4).map((tag: string) => (
+                <span key={tag} style={metadataPill}>
+                  {normalizeTagForDisplay(tag)}
+                </span>
+              ))}
             </div>
 
             {!!safeRecipe.notes?.trim() && (
               <p
                 style={{
-                  marginTop: 10,
-                  marginBottom: 0,
-                  opacity: 0.7,
+                  margin: 0,
+                  opacity: 0.72,
                   lineHeight: 1.5,
                 }}
               >
@@ -1574,7 +1671,7 @@ const handleCloseNoteModal = () => {
               </p>
             )}
 
-            <div style={{ marginTop: 10, fontSize: 13, opacity: 0.55 }}>
+            <div style={{ fontSize: 13, opacity: 0.55 }}>
               Cooked {historyCount} time{historyCount === 1 ? "" : "s"}
             </div>
           </div>
