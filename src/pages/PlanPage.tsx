@@ -135,7 +135,7 @@ export default function PlanPage({
   const sectionTitleRow: React.CSSProperties = {
     display: "flex",
     alignItems: "center",
-    gap: 8,
+    gap: 10,
     marginBottom: 10,
   };
 
@@ -155,6 +155,19 @@ const heroIconWrap: React.CSSProperties = {
   justifyContent: "center",
   background: "rgba(34,197,94,0.12)",
   border: "1px solid rgba(34,197,94,0.22)",
+  color: "#86efac",
+  flexShrink: 0,
+};
+
+const sectionIconWrap: React.CSSProperties = {
+  width: 30,
+  height: 30,
+  borderRadius: 12,
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  background: "rgba(34,197,94,0.1)",
+  border: "1px solid rgba(34,197,94,0.18)",
   color: "#86efac",
   flexShrink: 0,
 };
@@ -240,7 +253,9 @@ const countPill: React.CSSProperties = {
               }}
             >
               <div style={sectionTitleRow}>
-                <Refrigerator size={18} style={{ opacity: 0.6 }} />
+                <span style={sectionIconWrap}>
+  <Refrigerator size={17} />
+</span>
                 <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
                   What’s In Your Kitchen
                 </h3>
@@ -318,7 +333,9 @@ const countPill: React.CSSProperties = {
               }}
             >
               <div style={sectionTitleRow}>
-                <Leaf size={18} style={{ opacity: 0.6 }} />
+                <span style={sectionIconWrap}>
+  <Leaf size={17} />
+</span>
                 <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
                   Dietary Preferences
                 </h3>
@@ -394,7 +411,9 @@ const countPill: React.CSSProperties = {
               }}
             >
               <div style={sectionTitleRow}>
-                <AlertCircle size={18} style={{ opacity: 0.6 }} />
+                <span style={sectionIconWrap}>
+  <AlertCircle size={17} />
+</span>
                 <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
                   Allergies & Restrictions
                 </h3>
@@ -451,7 +470,9 @@ const countPill: React.CSSProperties = {
               }}
             >
               <div style={sectionTitleRow}>
-                <Info size={18} style={{ opacity: 0.6 }} />
+                <span style={sectionIconWrap}>
+  <Info size={17} />
+</span>
                 <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
                   Dietary Notes
                 </h3>
@@ -485,7 +506,9 @@ const countPill: React.CSSProperties = {
               }}
             >
               <div style={sectionTitleRow}>
-                <Utensils size={18} style={{ opacity: 0.6 }} />
+                <span style={sectionIconWrap}>
+  <Utensils size={17} />
+</span>
                 <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
                   Set Your Week
                 </h3>
