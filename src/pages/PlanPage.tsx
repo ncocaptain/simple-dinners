@@ -347,26 +347,15 @@ const countPill: React.CSSProperties = {
                   alignItems: "center",
                   justifyContent: "space-between",
                   gap: 16,
-                  padding: "10px 0 4px 0",
+                  padding: "8px 0 2px 0",
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div
-                    style={{
-                      padding: 10,
-                      background: "rgba(34, 197, 94, 0.1)",
-                      borderRadius: 12,
-                    }}
-                  >
-                    <Leaf size={20} color="#22c55e" />
-                  </div>
-                  <div>
-                    <div style={{ fontWeight: 800 }}>Vegetarian Mode</div>
-                    <div style={{ fontSize: 12, opacity: 0.5 }}>
-                      Prioritize plant-based meals
-                    </div>
-                  </div>
-                </div>
+                <div style={{ display: "grid", gap: 4 }}>
+  <div style={{ fontWeight: 900, fontSize: 15 }}>Vegetarian Mode</div>
+  <div style={{ fontSize: 12, opacity: 0.58 }}>
+    Prioritize plant-based meals
+  </div>
+</div>
 
                 <button
                   type="button"
