@@ -1318,6 +1318,17 @@ const handleCloseNoteModal = () => {
 >
   <TipsModal tips={RECIPE_TIPS} />
 </div>
+<h1
+  style={{
+    margin: "4px 0 4px",
+    fontSize: 34,
+    lineHeight: 1.08,
+    fontWeight: 1000,
+    letterSpacing: "-0.04em",
+  }}
+>
+  {safeRecipe.name}
+</h1>
 
             <button onClick={() => setCookMode(true)} style={primaryCookButton}>
               <Play size={18} />
