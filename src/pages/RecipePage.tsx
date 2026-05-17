@@ -1310,41 +1310,14 @@ const handleCloseNoteModal = () => {
 
           <div style={pageHeaderCard}>
             <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                gap: 12,
-                alignItems: "flex-start",
-              }}
-            >
-              <div style={{ display: "grid", gap: 6, minWidth: 0 }}>
-                <div
-                  style={{
-                    fontSize: 12,
-                    opacity: 0.55,
-                    fontWeight: 900,
-                    letterSpacing: 0.8,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Recipe Details
-                </div>
-
-                <h1
-                  style={{
-                    margin: 0,
-                    fontSize: 32,
-                    lineHeight: 1.08,
-                    fontWeight: 1000,
-                    wordBreak: "break-word",
-                  }}
-                >
-                  {safeRecipe.name}
-                </h1>
-              </div>
-
-              <TipsModal tips={RECIPE_TIPS} />
-            </div>
+  style={{
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  }}
+>
+  <TipsModal tips={RECIPE_TIPS} />
+</div>
 
             <button onClick={() => setCookMode(true)} style={primaryCookButton}>
               <Play size={18} />
