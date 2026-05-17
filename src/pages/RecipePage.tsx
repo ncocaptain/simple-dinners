@@ -710,6 +710,8 @@ useEffect(() => {
 const [draftUserNote, setDraftUserNote] = useState("");
   const [noteDraft, setNoteDraft] = useState<string>("");
   const [noteModalOpen, setNoteModalOpen] = useState(false);
+  const [showAllIngredients, setShowAllIngredients] = useState(false);
+const [showAllInstructions, setShowAllInstructions] = useState(false);
 
   const wakeLockRef = useRef<any>(null);
   const recipeNoteKey = recipe?.slug || recipe?.name || "";
@@ -727,6 +729,16 @@ const [draftUserNote, setDraftUserNote] = useState("");
     () => splitLines(recipe?.instructions),
     [recipe?.instructions]
   );
+  const visibleIngredients = showAllIngredients
+  ? ingredients
+  : ingredients.slice(0, 5);
+
+const visibleInstructions = showAllInstructions
+  ? instructions
+  : instructions.slice(0, 5);
+
+const hasMoreIngredients = ingredients.length > 5;
+const hasMoreInstructions = instructions.length > 5;
 
   const photoUrl = normalizePhotoUrl(recipe?.photoUrl);
   const currentStep = instructions[stepIndex] || "";
@@ -1967,7 +1979,7 @@ const instructionStepStyle: React.CSSProperties = {
   </div>
 
             <div style={{ display: "grid", gap: 10 }}>
-              {ingredients.map((item, index) => {
+              {visibleIngredients.map((item, index) => {
   const checked = !!checkedIngredients[index];
   const isHeader = isIngredientHeader(item) || item.trim().endsWith(":");
 
@@ -2021,6 +2033,28 @@ const instructionStepStyle: React.CSSProperties = {
       </span>
     </button>
   );
+
+  {hasMoreIngredients && (
+  <button
+    type="button"
+    onClick={() => setShowAllIngredients((prev) => !prev)}
+    style={{
+      marginTop: 12,
+      width: "100%",
+      border: "1px solid rgba(255,255,255,0.08)",
+      background: "rgba(255,255,255,0.04)",
+      color: "#86efac",
+      borderRadius: 14,
+      padding: "12px 14px",
+      fontWeight: 900,
+      cursor: "pointer",
+    }}
+  >
+    {showAllIngredients
+      ? "Show fewer ingredients"
+      : `Show all ${ingredients.length} ingredients`}
+  </button>
+)}
 })}
             </div>
           </div>
@@ -2046,13 +2080,13 @@ const instructionStepStyle: React.CSSProperties = {
   </div>
 
   <div style={{ display: "grid", gap: 0 }}>
-              {instructions.map((step, index) => (
+              {visibleInstructions.map((step, index) => (
                 <div
   key={`${step}-${index}`}
   style={{
     ...instructionStepStyle,
     borderBottom:
-      index === instructions.length - 1
+      index === visibleInstructions.length - 1
         ? "none"
         : instructionStepStyle.borderBottom,
   }}
@@ -2082,6 +2116,28 @@ const instructionStepStyle: React.CSSProperties = {
           </div>
         </>
       )}
+
+      {hasMoreInstructions && (
+  <button
+    type="button"
+    onClick={() => setShowAllInstructions((prev) => !prev)}
+    style={{
+      marginTop: 12,
+      width: "100%",
+      border: "1px solid rgba(255,255,255,0.08)",
+      background: "rgba(255,255,255,0.04)",
+      color: "#86efac",
+      borderRadius: 14,
+      padding: "12px 14px",
+      fontWeight: 900,
+      cursor: "pointer",
+    }}
+  >
+    {showAllInstructions
+      ? "Show fewer steps"
+      : `Show all ${instructions.length} steps`}
+  </button>
+)}
 
 
       {noteModalOpen && !printMode && (
