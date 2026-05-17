@@ -594,15 +594,25 @@ function removePrepWords(text: string) {
 }
 
 function removeNonShoppingItems(text: string) {
-  let next = text;
-  const cleaned = cleanupSpacing(next);
+  const cleaned = cleanupSpacing(text.toLowerCase());
 
-  if (cleaned === "ice" || cleaned === "crushed ice") {
-    next = "";
+  // Hide plain non-shopping items, but do NOT remove these words
+  // when they are part of a real grocery item like "bag of ice".
+  const nonShoppingExactItems = new Set([
+    "water",
+    "tap water",
+    "cold water",
+    "warm water",
+    "hot water",
+    "ice",
+    "crushed ice",
+  ]);
+
+  if (nonShoppingExactItems.has(cleaned)) {
+    return "";
   }
 
-  return next
-    .replace(/\bwater\b/g, "")
+  return text
     .replace(/\s*\+\s*/g, " ")
     .replace(/\s+/g, " ")
     .trim();
@@ -653,10 +663,15 @@ function cleanIngredientName(line: string) {
   text = text.replace(/\bor\s+[a-z\s]+/g, "");
 
   // final cleanup
-  text = text.split(",")[0];
-  text = cleanupSpacing(text);
+text = text.split(",")[0];
+text = cleanupSpacing(text);
 
-  return text;
+// Keep common household/store items readable.
+if (text === "bag of ice" || text === "bags of ice") {
+  return "bag of ice";
+}
+
+return text;
 }
 
 // =====================================================
