@@ -1237,6 +1237,70 @@ const handleCloseNoteModal = () => {
     width: "fit-content",
   };
 
+  const sectionCardStyle: React.CSSProperties = {
+  padding: 20,
+  borderRadius: 24,
+  border: "1px solid rgba(255,255,255,0.08)",
+  background: "rgba(255,255,255,0.04)",
+};
+
+const sectionHeaderRow: React.CSSProperties = {
+  display: "flex",
+  justifyContent: "space-between",
+  gap: 12,
+  alignItems: "center",
+  flexWrap: "wrap",
+  marginBottom: 14,
+};
+
+const sectionHeadingWrap: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  gap: 10,
+};
+
+const sectionIconBadge: React.CSSProperties = {
+  width: 30,
+  height: 30,
+  borderRadius: 12,
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  background: "rgba(34,197,94,0.10)",
+  border: "1px solid rgba(34,197,94,0.20)",
+  color: "#86efac",
+  flexShrink: 0,
+};
+
+const countBadge: React.CSSProperties = {
+  padding: "5px 9px",
+  borderRadius: 999,
+  background: "rgba(255,255,255,0.05)",
+  border: "1px solid rgba(255,255,255,0.08)",
+  color: "rgba(255,255,255,0.72)",
+  fontSize: 12,
+  fontWeight: 800,
+  whiteSpace: "nowrap",
+};
+
+const ingredientHeaderStyle: React.CSSProperties = {
+  marginTop: 4,
+  marginBottom: 2,
+  fontSize: 12,
+  fontWeight: 1000,
+  letterSpacing: 0.8,
+  textTransform: "uppercase",
+  color: "#86efac",
+};
+
+const instructionStepStyle: React.CSSProperties = {
+  display: "flex",
+  alignItems: "flex-start",
+  gap: 12,
+  padding: "12px 0",
+  borderBottom: "1px solid rgba(255,255,255,0.055)",
+};
+
   const pageHeaderCard: React.CSSProperties = {
     padding: 16,
     borderRadius: 24,
@@ -1882,96 +1946,117 @@ const handleCloseNoteModal = () => {
   </div>
 ) : (
         <>
-          <div
-            style={{
-              padding: 20,
-              borderRadius: 24,
-              border: "1px solid rgba(255,255,255,0.08)",
-              background: "rgba(255,255,255,0.04)",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                gap: 12,
-                alignItems: "center",
-                flexWrap: "wrap",
-                marginBottom: 10,
-              }}
-            >
-              <h2 style={{ margin: 0 }}>Ingredients</h2>
+          <div style={sectionCardStyle}>
+  <div style={sectionHeaderRow}>
+    <div style={sectionHeadingWrap}>
+      <span style={sectionIconBadge}>
+        <ShoppingCart size={16} />
+      </span>
 
-              <div style={{ fontSize: 12, opacity: 0.6 }}>
-                Tap ingredients to select specific items
-              </div>
-            </div>
+      <div>
+        <h2 style={{ margin: 0, fontSize: 22 }}>Ingredients</h2>
+        <div style={{ fontSize: 12, opacity: 0.58, marginTop: 3 }}>
+          Tap ingredients to select specific items
+        </div>
+      </div>
+    </div>
+
+    <span style={countBadge}>
+      {ingredients.length} ingredient{ingredients.length === 1 ? "" : "s"}
+    </span>
+  </div>
 
             <div style={{ display: "grid", gap: 10 }}>
               {ingredients.map((item, index) => {
-                const checked = !!checkedIngredients[index];
+  const checked = !!checkedIngredients[index];
+  const isHeader = isIngredientHeader(item) || item.trim().endsWith(":");
 
-                return (
-                  <button
-                    key={`${item}-${index}`}
-                    type="button"
-                    onClick={() => toggleIngredient(index)}
-                    style={{
-                      display: "flex",
-                      alignItems: "flex-start",
-                      gap: 10,
-                      textAlign: "left",
-                      background: "transparent",
-                      border: "none",
-                      padding: 0,
-                      cursor: "pointer",
-                      color: "white",
-                      opacity: checked ? 0.55 : 1,
-                    }}
-                  >
-                    <CheckCircle2
-                      size={16}
-                      style={{
-                        marginTop: 2,
-                        color: checked
-                          ? "#22c55e"
-                          : "rgba(255,255,255,0.35)",
-                        flexShrink: 0,
-                      }}
-                    />
-                    <span
-                      style={{
-                        textDecoration: checked ? "line-through" : "none",
-                      }}
-                    >
-                      {item}
-                    </span>
-                  </button>
-                );
-              })}
+  if (isHeader) {
+    return (
+      <div key={`${item}-${index}`} style={ingredientHeaderStyle}>
+        {item.replace(/:$/, "")}
+      </div>
+    );
+  }
+
+  return (
+    <button
+      key={`${item}-${index}`}
+      type="button"
+      onClick={() => toggleIngredient(index)}
+      style={{
+        display: "flex",
+        alignItems: "flex-start",
+        gap: 10,
+        textAlign: "left",
+        background: checked
+          ? "rgba(34,197,94,0.06)"
+          : "rgba(255,255,255,0.02)",
+        border: checked
+          ? "1px solid rgba(34,197,94,0.18)"
+          : "1px solid rgba(255,255,255,0.045)",
+        padding: "10px 11px",
+        borderRadius: 14,
+        cursor: "pointer",
+        color: "white",
+        opacity: checked ? 0.72 : 1,
+      }}
+    >
+      <CheckCircle2
+        size={16}
+        style={{
+          marginTop: 2,
+          color: checked ? "#22c55e" : "rgba(255,255,255,0.35)",
+          flexShrink: 0,
+        }}
+      />
+
+      <span
+        style={{
+          lineHeight: 1.45,
+          textDecoration: checked ? "line-through" : "none",
+        }}
+      >
+        {item}
+      </span>
+    </button>
+  );
+})}
             </div>
           </div>
 
-          <div
-            style={{
-              padding: 20,
-              borderRadius: 24,
-              border: "1px solid rgba(255,255,255,0.08)",
-              background: "rgba(255,255,255,0.04)",
-            }}
-          >
-            <h2 style={{ marginTop: 0 }}>Instructions</h2>
+          <div style={sectionCardStyle}>
+  <div style={sectionHeaderRow}>
+    <div style={sectionHeadingWrap}>
+      <span style={sectionIconBadge}>
+        <ChefHat size={16} />
+      </span>
 
-            <div style={{ display: "grid", gap: 14 }}>
+      <div>
+        <h2 style={{ margin: 0, fontSize: 22 }}>Instructions</h2>
+        <div style={{ fontSize: 12, opacity: 0.58, marginTop: 3 }}>
+          Follow each step or switch to Cook Mode
+        </div>
+      </div>
+    </div>
+
+    <span style={countBadge}>
+      {instructions.length} step{instructions.length === 1 ? "" : "s"}
+    </span>
+  </div>
+
+  <div style={{ display: "grid", gap: 0 }}>
               {instructions.map((step, index) => (
                 <div
-                  key={`${step}-${index}`}
-                  style={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    gap: 12,
-                  }}
-                >
+  key={`${step}-${index}`}
+  style={{
+    ...instructionStepStyle,
+    borderBottom:
+      index === instructions.length - 1
+        ? "none"
+        : instructionStepStyle.borderBottom,
+  }}
+>
                   <div
                     style={{
                       minWidth: 28,
