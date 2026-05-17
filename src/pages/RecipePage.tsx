@@ -1312,23 +1312,26 @@ const handleCloseNoteModal = () => {
             <div
   style={{
     display: "flex",
-    justifyContent: "flex-end",
-    alignItems: "center",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    gap: 12,
   }}
 >
+  <h1
+    style={{
+      margin: 0,
+      fontSize: 34,
+      lineHeight: 1.08,
+      fontWeight: 1000,
+      letterSpacing: "-0.04em",
+      flex: 1,
+    }}
+  >
+    {safeRecipe.name}
+  </h1>
+
   <TipsModal tips={RECIPE_TIPS} />
 </div>
-<h1
-  style={{
-    margin: "4px 0 4px",
-    fontSize: 34,
-    lineHeight: 1.08,
-    fontWeight: 1000,
-    letterSpacing: "-0.04em",
-  }}
->
-  {safeRecipe.name}
-</h1>
 
             <button onClick={() => setCookMode(true)} style={primaryCookButton}>
               <Play size={18} />
