@@ -55,6 +55,9 @@ type RecipeBreakdownItem = {
 };
 
 type ShoppingItemWithSmartMeta = ShoppingItem & {
+  normalizedName?: string;
+  quantity?: number;
+  unit?: string | null;
   packageSize?: string;
 };
 
@@ -546,6 +549,8 @@ function normalizeProteinsAndBakery(text: string) {
 
 function normalizeDairyAndCheese(text: string) {
   return text
+    .replace(/\bcheese slices?\b/g, "sliced cheese")
+    .replace(/\bsliced cheese\b/g, "sliced cheese")
     .replace(/\bshredded mozzarella cheese\b/g, "mozzarella cheese")
     .replace(/\bgrated mozzarella cheese\b/g, "mozzarella cheese")
     .replace(/\bmozzarella, shredded\b/g, "mozzarella cheese")
@@ -572,11 +577,20 @@ function normalizeMushrooms(text: string) {
 
 function removePrepWords(text: string) {
   let next = text;
+
+  // Keep shopper-specific cheese wording. "Sliced cheese" is a real grocery
+  // item, while "sliced onion" is just prep wording.
+  const keepSlicedCheese =
+    /\bsliced cheese\b/i.test(next) || /\bcheese slices?\b/i.test(next);
+
   PREP_WORDS.forEach((word) => {
+    if (word === "sliced" && keepSlicedCheese) return;
+
     const regex = new RegExp(`\\b${word}\\b`, "g");
     next = next.replace(regex, " ");
   });
-  return next;
+
+  return next.replace(/\bcheese slices?\b/gi, "sliced cheese");
 }
 
 function removeNonShoppingItems(text: string) {
@@ -1052,35 +1066,45 @@ export default function ShoppingListPage() {
     const raw = newItem.trim();
     if (!raw) return;
 
+    // Parse the original text first so manual quantities like
+    // "2 white onions" or "1 lb ground beef" are preserved.
+    const parsed = parseIngredient(raw);
     const cleanedRaw = cleanIngredientName(raw);
-    const parsed = parseIngredient(cleanedRaw);
     const cleanedName = parsed.name || cleanedRaw;
-    if (!cleanedName) {
+
+    if (!cleanedName || shouldHideShoppingItem(cleanedName)) {
       setNewItem("");
       return;
     }
 
-    const id = makeManualId(cleanedName || raw);
-
-    const alreadyExists = shoppingItems.some((item) => {
-      const existingName = cleanIngredientName(item.text).toLowerCase();
-      return existingName === cleanedName.toLowerCase();
-    });
-
-    if (alreadyExists) {
-      setNewItem("");
-      return;
-    }
+    const id = `${makeManualId(cleanedName || raw)}-${Date.now()}`;
 
     const added: ShoppingItem = {
       id,
-      text: cleanedName,
+      text: raw,
       checked: false,
       addedAt: Date.now(),
-      category: resolveShoppingCategory(cleanedName),
+      category: resolveShoppingCategoryForItem(
+        cleanedName,
+        parsed.unit,
+        parsed.packageSize
+      ),
       sourceRecipe: "",
-    } as ShoppingItem & { sourceRecipe?: string };
+      normalizedName: cleanedName,
+      quantity: parsed.quantity ?? undefined,
+      unit: parsed.unit ?? undefined,
+      packageSize: parsed.packageSize || undefined,
+    } as ShoppingItem & {
+      sourceRecipe?: string;
+      normalizedName?: string;
+      quantity?: number;
+      unit?: string | null;
+      packageSize?: string;
+    };
 
+    // Do not block duplicates here. The combined list below is responsible for
+    // merging matching items, so adding "1 white onion" twice becomes
+    // "2 White Onions" instead of getting ignored.
     persistShoppingItems([...shoppingItems, added]);
     setNewItem("");
   };
@@ -1562,11 +1586,24 @@ if (baseName === "garlic") {
 
     const updated = shoppingItems.map((item) =>
       editingGroup.sourceIds.includes(item.id)
-        ? {
+        ? ({
             ...item,
             text: trimmed,
-            category: resolveShoppingCategory(cleanedName),
-          }
+            category: resolveShoppingCategoryForItem(
+              cleanedName,
+              parsed.unit,
+              parsed.packageSize
+            ),
+            normalizedName: cleanedName,
+            quantity: parsed.quantity ?? undefined,
+            unit: parsed.unit ?? undefined,
+            packageSize: parsed.packageSize || undefined,
+          } as ShoppingItem & {
+            normalizedName?: string;
+            quantity?: number;
+            unit?: string | null;
+            packageSize?: string;
+          })
         : item
     );
 
