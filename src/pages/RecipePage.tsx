@@ -1978,86 +1978,86 @@ const instructionStepStyle: React.CSSProperties = {
     </span>
   </div>
 
-            <div style={{ display: "grid", gap: 10 }}>
-              {visibleIngredients.map((item, index) => {
-  const checked = !!checkedIngredients[index];
-  const isHeader = isIngredientHeader(item) || item.trim().endsWith(":");
+  <div style={{ display: "grid", gap: 10 }}>
+    {visibleIngredients.map((item, index) => {
+      const checked = !!checkedIngredients[index];
+      const isHeader = isIngredientHeader(item) || item.trim().endsWith(":");
 
-  if (isHeader) {
-    return (
-      <div key={`${item}-${index}`} style={ingredientHeaderStyle}>
-        {item.replace(/:$/, "")}
-      </div>
-    );
-  }
+      if (isHeader) {
+        return (
+          <div key={`${item}-${index}`} style={ingredientHeaderStyle}>
+            {item.replace(/:$/, "")}
+          </div>
+        );
+      }
 
-  return (
-    <button
-      key={`${item}-${index}`}
-      type="button"
-      onClick={() => toggleIngredient(index)}
-      style={{
-        display: "flex",
-        alignItems: "flex-start",
-        gap: 10,
-        textAlign: "left",
-        background: checked
-          ? "rgba(34,197,94,0.06)"
-          : "rgba(255,255,255,0.02)",
-        border: checked
-          ? "1px solid rgba(34,197,94,0.18)"
-          : "1px solid rgba(255,255,255,0.045)",
-        padding: "10px 11px",
-        borderRadius: 14,
-        cursor: "pointer",
-        color: "white",
-        opacity: checked ? 0.72 : 1,
-      }}
-    >
-      <CheckCircle2
-        size={16}
+      return (
+        <button
+          key={`${item}-${index}`}
+          type="button"
+          onClick={() => toggleIngredient(index)}
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            gap: 10,
+            textAlign: "left",
+            background: checked
+              ? "rgba(34,197,94,0.06)"
+              : "rgba(255,255,255,0.02)",
+            border: checked
+              ? "1px solid rgba(34,197,94,0.18)"
+              : "1px solid rgba(255,255,255,0.045)",
+            padding: "10px 11px",
+            borderRadius: 14,
+            cursor: "pointer",
+            color: "white",
+            opacity: checked ? 0.72 : 1,
+          }}
+        >
+          <CheckCircle2
+            size={16}
+            style={{
+              marginTop: 2,
+              color: checked ? "#22c55e" : "rgba(255,255,255,0.35)",
+              flexShrink: 0,
+            }}
+          />
+
+          <span
+            style={{
+              lineHeight: 1.45,
+              textDecoration: checked ? "line-through" : "none",
+            }}
+          >
+            {item}
+          </span>
+        </button>
+      );
+    })}
+
+    {hasMoreIngredients && (
+      <button
+        type="button"
+        onClick={() => setShowAllIngredients((prev) => !prev)}
         style={{
-          marginTop: 2,
-          color: checked ? "#22c55e" : "rgba(255,255,255,0.35)",
-          flexShrink: 0,
-        }}
-      />
-
-      <span
-        style={{
-          lineHeight: 1.45,
-          textDecoration: checked ? "line-through" : "none",
+          marginTop: 12,
+          width: "100%",
+          border: "1px solid rgba(255,255,255,0.08)",
+          background: "rgba(255,255,255,0.04)",
+          color: "#86efac",
+          borderRadius: 14,
+          padding: "12px 14px",
+          fontWeight: 900,
+          cursor: "pointer",
         }}
       >
-        {item}
-      </span>
-    </button>
-  );
-
-  {hasMoreIngredients && (
-  <button
-    type="button"
-    onClick={() => setShowAllIngredients((prev) => !prev)}
-    style={{
-      marginTop: 12,
-      width: "100%",
-      border: "1px solid rgba(255,255,255,0.08)",
-      background: "rgba(255,255,255,0.04)",
-      color: "#86efac",
-      borderRadius: 14,
-      padding: "12px 14px",
-      fontWeight: 900,
-      cursor: "pointer",
-    }}
-  >
-    {showAllIngredients
-      ? "Show fewer ingredients"
-      : `Show all ${ingredients.length} ingredients`}
-  </button>
-)}
-})}
-            </div>
-          </div>
+        {showAllIngredients
+          ? "Show fewer ingredients"
+          : `Show all ${ingredients.length} ingredients`}
+      </button>
+    )}
+  </div>
+</div>
 
           <div style={sectionCardStyle}>
   <div style={sectionHeaderRow}>
