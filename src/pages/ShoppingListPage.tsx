@@ -218,18 +218,6 @@ const SMALL_TITLE_WORDS = new Set(["of", "and", "or", "the", "a", "an", "with", 
 function formatDisplayName(name: string) {
   if (!name) return "";
 
-    const specialDisplayNames: Record<string, string> = {
-    "aa batteries": "AA Batteries",
-    "aaa batteries": "AAA Batteries",
-    "ziploc bags": "Ziploc Bags",
-    "ziplock bags": "Ziplock Bags",
-  };
-
-  const normalized = name.toLowerCase().trim();
-  if (specialDisplayNames[normalized]) {
-    return specialDisplayNames[normalized];
-  }
-
   return name
     .split(" ")
     .map((word, index) => {
@@ -561,14 +549,8 @@ function normalizeProteinsAndBakery(text: string) {
 
 function normalizeDairyAndCheese(text: string) {
   return text
-    // Preserve manual grocery-style cheese items.
-    // These are specific store items, not just prep instructions.
+    .replace(/\bcheese slices?\b/g, "sliced cheese")
     .replace(/\bsliced cheese\b/g, "sliced cheese")
-    .replace(/\bcheese slices\b/g, "cheese slices")
-    .replace(/\bamerican cheese slices\b/g, "american cheese slices")
-    .replace(/\bshredded cheese\b/g, "shredded cheese")
-
-    // Recipe-style cheese cleanup
     .replace(/\bshredded mozzarella cheese\b/g, "mozzarella cheese")
     .replace(/\bgrated mozzarella cheese\b/g, "mozzarella cheese")
     .replace(/\bmozzarella, shredded\b/g, "mozzarella cheese")
@@ -594,48 +576,33 @@ function normalizeMushrooms(text: string) {
 }
 
 function removePrepWords(text: string) {
-  const cleaned = cleanupSpacing(text.toLowerCase());
-
-  // Manual grocery-style cheese items should keep these words.
-  if (
-    cleaned === "sliced cheese" ||
-    cleaned === "cheese slices" ||
-    cleaned === "american cheese slices" ||
-    cleaned === "shredded cheese"
-  ) {
-    return cleaned;
-  }
-
   let next = text;
 
+  // Keep shopper-specific cheese wording. "Sliced cheese" is a real grocery
+  // item, while "sliced onion" is just prep wording.
+  const keepSlicedCheese =
+    /\bsliced cheese\b/i.test(next) || /\bcheese slices?\b/i.test(next);
+
   PREP_WORDS.forEach((word) => {
+    if (word === "sliced" && keepSlicedCheese) return;
+
     const regex = new RegExp(`\\b${word}\\b`, "g");
     next = next.replace(regex, " ");
   });
 
-  return next;
+  return next.replace(/\bcheese slices?\b/gi, "sliced cheese");
 }
 
 function removeNonShoppingItems(text: string) {
-  const cleaned = cleanupSpacing(text.toLowerCase());
+  let next = text;
+  const cleaned = cleanupSpacing(next);
 
-  // Hide plain non-shopping items, but do NOT remove these words
-  // when they are part of a real grocery item like "bag of ice".
-  const nonShoppingExactItems = new Set([
-    "water",
-    "tap water",
-    "cold water",
-    "warm water",
-    "hot water",
-    "ice",
-    "crushed ice",
-  ]);
-
-  if (nonShoppingExactItems.has(cleaned)) {
-    return "";
+  if (cleaned === "ice" || cleaned === "crushed ice") {
+    next = "";
   }
 
-  return text
+  return next
+    .replace(/\bwater\b/g, "")
     .replace(/\s*\+\s*/g, " ")
     .replace(/\s+/g, " ")
     .trim();
@@ -686,15 +653,10 @@ function cleanIngredientName(line: string) {
   text = text.replace(/\bor\s+[a-z\s]+/g, "");
 
   // final cleanup
-text = text.split(",")[0];
-text = cleanupSpacing(text);
+  text = text.split(",")[0];
+  text = cleanupSpacing(text);
 
-// Keep common household/store items readable.
-if (text === "bag of ice" || text === "bags of ice") {
-  return "bag of ice";
-}
-
-return text;
+  return text;
 }
 
 // =====================================================
