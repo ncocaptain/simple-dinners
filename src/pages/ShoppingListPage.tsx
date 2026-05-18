@@ -218,6 +218,18 @@ const SMALL_TITLE_WORDS = new Set(["of", "and", "or", "the", "a", "an", "with", 
 function formatDisplayName(name: string) {
   if (!name) return "";
 
+    const specialDisplayNames: Record<string, string> = {
+    "aa batteries": "AA Batteries",
+    "aaa batteries": "AAA Batteries",
+    "ziploc bags": "Ziploc Bags",
+    "ziplock bags": "Ziplock Bags",
+  };
+
+  const normalized = name.toLowerCase().trim();
+  if (specialDisplayNames[normalized]) {
+    return specialDisplayNames[normalized];
+  }
+
   return name
     .split(" ")
     .map((word, index) => {
@@ -549,8 +561,14 @@ function normalizeProteinsAndBakery(text: string) {
 
 function normalizeDairyAndCheese(text: string) {
   return text
-    .replace(/\bcheese slices?\b/g, "sliced cheese")
+    // Preserve manual grocery-style cheese items.
+    // These are specific store items, not just prep instructions.
     .replace(/\bsliced cheese\b/g, "sliced cheese")
+    .replace(/\bcheese slices\b/g, "cheese slices")
+    .replace(/\bamerican cheese slices\b/g, "american cheese slices")
+    .replace(/\bshredded cheese\b/g, "shredded cheese")
+
+    // Recipe-style cheese cleanup
     .replace(/\bshredded mozzarella cheese\b/g, "mozzarella cheese")
     .replace(/\bgrated mozzarella cheese\b/g, "mozzarella cheese")
     .replace(/\bmozzarella, shredded\b/g, "mozzarella cheese")
@@ -576,21 +594,26 @@ function normalizeMushrooms(text: string) {
 }
 
 function removePrepWords(text: string) {
+  const cleaned = cleanupSpacing(text.toLowerCase());
+
+  // Manual grocery-style cheese items should keep these words.
+  if (
+    cleaned === "sliced cheese" ||
+    cleaned === "cheese slices" ||
+    cleaned === "american cheese slices" ||
+    cleaned === "shredded cheese"
+  ) {
+    return cleaned;
+  }
+
   let next = text;
 
-  // Keep shopper-specific cheese wording. "Sliced cheese" is a real grocery
-  // item, while "sliced onion" is just prep wording.
-  const keepSlicedCheese =
-    /\bsliced cheese\b/i.test(next) || /\bcheese slices?\b/i.test(next);
-
   PREP_WORDS.forEach((word) => {
-    if (word === "sliced" && keepSlicedCheese) return;
-
     const regex = new RegExp(`\\b${word}\\b`, "g");
     next = next.replace(regex, " ");
   });
 
-  return next.replace(/\bcheese slices?\b/gi, "sliced cheese");
+  return next;
 }
 
 function removeNonShoppingItems(text: string) {
