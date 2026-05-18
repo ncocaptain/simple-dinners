@@ -1479,7 +1479,25 @@ const maxQuantityToAdd =
     return Array.from(map.entries()).map(([key, value]) => {
       let displayText = formatDisplayName(value.name);
 
-      if (value.isCountable) {
+const protectedDisplayNames: Record<string, string> = {
+  "sliced cheese": "Sliced Cheese",
+  "shredded cheese": "Shredded Cheese",
+  "cheese slices": "Cheese Slices",
+  "american cheese slices": "American Cheese Slices",
+  "aa batteries": "AA Batteries",
+  "aaa batteries": "AAA Batteries",
+  "bag of ice": "Bag of Ice",
+  "ziploc bags": "Ziploc Bags",
+  "ziplock bags": "Ziplock Bags",
+};
+
+const protectedDisplayName = protectedDisplayNames[value.name.toLowerCase().trim()];
+
+if (protectedDisplayName) {
+  displayText = protectedDisplayName;
+}
+
+      if (value.isCountable && !protectedDisplayName) {
   const qty =
   value.totalQuantity > 0
     ? value.totalQuantity
@@ -1506,6 +1524,7 @@ if (baseName === "garlic") {
   displayText = `${finalQty} ${formattedName}`;
 }
       } else if (
+  !protectedDisplayName &&
         !value.mixedUnits &&
         value.unit &&
         value.totalQuantity > 0 &&
