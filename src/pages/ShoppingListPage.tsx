@@ -1014,6 +1014,179 @@ function makeManualId(text: string) {
 
 
 
+
+// =====================================================
+// Manual shopping item helpers
+// Manual entries should be respected. This path avoids recipe-style
+// cleanup so "fresh jalapenos", "#2 pencils", and specific cheeses survive.
+// =====================================================
+function normalizeManualText(text: string) {
+  return String(text || "")
+    .replace(/^[-•*]+\s*/, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/[:;,]+$/g, "");
+}
+
+function formatManualName(name: string) {
+  const cleaned = normalizeManualText(name);
+  if (!cleaned) return "";
+
+  const special: Record<string, string> = {
+    "aa": "AA",
+    "aaa": "AAA",
+    "aa batteries": "AA Batteries",
+    "aaa batteries": "AAA Batteries",
+    "ziploc": "Ziploc",
+    "ziploc bags": "Ziploc Bags",
+    "ziplock bags": "Ziplock Bags",
+  };
+
+  const fullKey = cleaned.toLowerCase();
+  if (special[fullKey]) return special[fullKey];
+
+  return cleaned
+    .split(" ")
+    .filter(Boolean)
+    .map((word, index) => {
+      const lower = word.toLowerCase();
+
+      if (/^#\d+$/i.test(word)) return word.toUpperCase();
+      if (special[lower]) return special[lower];
+
+      if (index !== 0 && SMALL_TITLE_WORDS.has(lower)) {
+        return lower;
+      }
+
+      return lower.charAt(0).toUpperCase() + lower.slice(1);
+    })
+    .join(" ");
+}
+
+function singularizeManualPhrase(name: string) {
+  const words = normalizeManualText(name).toLowerCase().split(" ").filter(Boolean);
+  if (!words.length) return "";
+
+  const last = words[words.length - 1];
+  words[words.length - 1] = singularizeWord(last);
+
+  return words.join(" ");
+}
+
+function pluralizeManualPhrase(name: string, quantity: number) {
+  const displayName = formatManualName(name);
+
+  if (Math.abs(quantity - 1) < 0.0001) {
+    return displayName;
+  }
+
+  const lower = displayName.toLowerCase();
+
+  // Mass/store-form grocery items should not get an awkward "s".
+  if (
+    lower.endsWith("cheese") ||
+    lower.endsWith("rice") ||
+    lower.endsWith("pasta") ||
+    lower.endsWith("beef") ||
+    lower.endsWith("chicken") ||
+    lower.endsWith("pork") ||
+    lower.endsWith("fish")
+  ) {
+    return displayName;
+  }
+
+  const words = displayName.split(" ").filter(Boolean);
+  if (!words.length) return displayName;
+
+  const last = words[words.length - 1];
+
+  if (last.toLowerCase().endsWith("s")) {
+    return displayName;
+  }
+
+  if (last.toLowerCase().endsWith("y")) {
+    words[words.length - 1] = `${last.slice(0, -1)}ies`;
+  } else if (
+    last.toLowerCase().endsWith("ch") ||
+    last.toLowerCase().endsWith("sh") ||
+    last.toLowerCase().endsWith("x")
+  ) {
+    words[words.length - 1] = `${last}es`;
+  } else {
+    words[words.length - 1] = `${last}s`;
+  }
+
+  return words.join(" ");
+}
+
+function parseManualShoppingItem(raw: string): {
+  rawText: string;
+  name: string;
+  mergeName: string;
+  quantity: number | null;
+  unit: string | null;
+  packageSize: string;
+  displayText: string;
+} {
+  const rawText = normalizeManualText(raw);
+  let rest = rawText;
+  let quantity: number | null = null;
+  let unit: string | null = null;
+  const packageSize = extractPackageSize(rawText);
+
+  // Preserve things like "#2 pencils"; the # is part of the item, not a quantity.
+  if (!rest.startsWith("#")) {
+    const quantityMatch = rest.match(
+      new RegExp(`^(${"\\d+\\s+\\d+\\/\\d+|\\d+\\/\\d+|\\d+(?:\\.\\d+)?|½|¼|¾|⅓|⅔|⅛"})\\s+(.+)$`, "i")
+    );
+
+    if (quantityMatch) {
+      quantity = parseFraction(quantityMatch[1]);
+      rest = quantityMatch[2].trim();
+
+      const unitMatch = rest.match(
+        /^(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags|tube|tubes|packet|packets)\s+(.+)$/i
+      );
+
+      if (unitMatch) {
+        unit = normalizeUnit(unitMatch[1]);
+        rest = unitMatch[2].trim();
+      }
+    }
+  }
+
+  const name = normalizeManualText(rest.replace(/\([^)]*\)/g, " "));
+  const mergeName =
+    quantity !== null ? singularizeManualPhrase(name) : normalizeManualText(name).toLowerCase();
+
+  let displayText = formatManualName(name);
+
+  if (quantity !== null) {
+    const qty = formatQuantity(quantity);
+
+    if (unit) {
+      displayText = `${qty} ${pluralizeUnit(unit, quantity)} ${formatManualName(name)}`.trim();
+    } else {
+      displayText = `${qty} ${pluralizeManualPhrase(singularizeManualPhrase(name), quantity)}`.trim();
+    }
+  }
+
+  return {
+    rawText,
+    name,
+    mergeName,
+    quantity,
+    unit,
+    packageSize,
+    displayText,
+  };
+}
+
+function shouldHideManualShoppingItem(name: string) {
+  return !normalizeManualText(name);
+}
+
+
 // =====================================================
 // Page component
 // =====================================================
@@ -1066,45 +1239,42 @@ export default function ShoppingListPage() {
     const raw = newItem.trim();
     if (!raw) return;
 
-    // Parse the original text first so manual quantities like
-    // "2 white onions" or "1 lb ground beef" are preserved.
-    const parsed = parseIngredient(raw);
-    const cleanedRaw = cleanIngredientName(raw);
-    const cleanedName = parsed.name || cleanedRaw;
+    const manual = parseManualShoppingItem(raw);
 
-    if (!cleanedName || shouldHideShoppingItem(cleanedName)) {
+    if (shouldHideManualShoppingItem(manual.name)) {
       setNewItem("");
       return;
     }
 
-    const id = `${makeManualId(cleanedName || raw)}-${Date.now()}`;
+    const id = `${makeManualId(manual.rawText || raw)}-${Date.now()}`;
 
     const added: ShoppingItem = {
       id,
-      text: raw,
+      text: manual.rawText,
       checked: false,
       addedAt: Date.now(),
       category: resolveShoppingCategoryForItem(
-        cleanedName,
-        parsed.unit,
-        parsed.packageSize
+        manual.name,
+        manual.unit,
+        manual.packageSize
       ),
       sourceRecipe: "",
-      normalizedName: cleanedName,
-      quantity: parsed.quantity ?? undefined,
-      unit: parsed.unit ?? undefined,
-      packageSize: parsed.packageSize || undefined,
+      normalizedName: manual.name,
+      quantity: manual.quantity ?? undefined,
+      unit: manual.unit ?? undefined,
+      packageSize: manual.packageSize || undefined,
     } as ShoppingItem & {
       sourceRecipe?: string;
       normalizedName?: string;
       quantity?: number;
       unit?: string | null;
       packageSize?: string;
+      manualEntry?: boolean;
     };
 
-    // Do not block duplicates here. The combined list below is responsible for
-    // merging matching items, so adding "1 white onion" twice becomes
-    // "2 White Onions" instead of getting ignored.
+    // Manual entries are intentionally not over-cleaned. The combined list
+    // below only merges explicit matching quantities, like:
+    // "1 white onion" + "1 white onion" -> "2 White Onions".
     persistShoppingItems([...shoppingItems, added]);
     setNewItem("");
   };
@@ -1254,6 +1424,9 @@ export default function ShoppingListPage() {
 
   // =====================================================
   // Combine / merge shopping items for cleaner display
+  // Manual entries and recipe ingredients intentionally use different paths.
+  // Manual = preserve what the user typed.
+  // Recipe = smart cleanup and merging.
   // =====================================================
   const combinedItems = useMemo(() => {
     const map = new Map<
@@ -1264,6 +1437,7 @@ export default function ShoppingListPage() {
         sourceIds: string[];
         count: number;
         name: string;
+        isManual: boolean;
         isCountable: boolean;
         totalQuantity: number;
         minQuantity: number;
@@ -1287,6 +1461,102 @@ export default function ShoppingListPage() {
     >();
 
     for (const item of shoppingItems) {
+      const recipeName = String((item as any).sourceRecipe || "").trim();
+      const isManualItem = !recipeName;
+
+      // =====================================================
+      // Manual item path
+      // =====================================================
+      if (isManualItem) {
+        const smartItem = item as ShoppingItemWithSmartMeta;
+        const manual = parseManualShoppingItem(
+          String(item.text || smartItem.normalizedName || "")
+        );
+
+        if (shouldHideManualShoppingItem(manual.name)) continue;
+
+        const unit = normalizeUnit(
+          smartItem.unit !== undefined && smartItem.unit !== null
+            ? smartItem.unit
+            : manual.unit
+        );
+
+        const quantity =
+          typeof smartItem.quantity === "number"
+            ? smartItem.quantity
+            : manual.quantity;
+
+        const packageSize =
+          normalizePackageSize(smartItem.packageSize) ||
+          normalizePackageSize(manual.packageSize);
+
+        const category = resolveShoppingCategoryForItem(
+          manual.name,
+          unit,
+          packageSize
+        );
+
+        // Only merge manual entries when the user gave a real quantity.
+        // This keeps "fresh jalapenos" separate from "jalapenos", and keeps
+        // "#2 pencils" exactly as a manually typed store item.
+        const mergeName =
+          quantity !== null
+            ? singularizeManualPhrase(manual.name)
+            : normalizeManualText(manual.name).toLowerCase();
+
+        const key =
+          quantity !== null
+            ? `manual::${category}::${mergeName}::${unit || ""}::${packageSize}`
+            : `manual::${category}::${mergeName}::${item.id}`;
+
+        const quantityToAdd = quantity !== null ? quantity : 0;
+        const existing = map.get(key);
+
+        if (existing) {
+          existing.sourceIds.push(item.id);
+          existing.count += 1;
+          existing.checked = existing.checked && item.checked;
+
+          if (quantityToAdd > 0) {
+            existing.totalQuantity += quantityToAdd;
+            existing.minQuantity =
+              existing.minQuantity > 0
+                ? Math.min(existing.minQuantity, quantityToAdd)
+                : quantityToAdd;
+            existing.maxQuantity = Math.max(existing.maxQuantity, quantityToAdd);
+          }
+
+          if (existing.unit !== unit || existing.packageSize !== packageSize) {
+            if (existing.unit !== null || unit !== null || existing.packageSize || packageSize) {
+              existing.mixedUnits = true;
+            }
+          }
+        } else {
+          map.set(key, {
+            checked: item.checked,
+            category,
+            sourceIds: [item.id],
+            count: 1,
+            name: quantity !== null ? mergeName : manual.name,
+            isManual: true,
+            isCountable: false,
+            totalQuantity: quantityToAdd,
+            minQuantity: quantityToAdd,
+            maxQuantity: quantityToAdd,
+            unit: unit ?? null,
+            packageSize,
+            mixedUnits: false,
+            recipeNames: new Set(),
+            recipeBreakdown: new Map(),
+          });
+        }
+
+        continue;
+      }
+
+      // =====================================================
+      // Recipe ingredient path
+      // =====================================================
       const smartItem = item as ShoppingItemWithSmartMeta;
       const cleanedRaw = cleanIngredientName(item.text);
       const parsed = parseIngredient(item.text);
@@ -1294,71 +1564,72 @@ export default function ShoppingListPage() {
       if (shouldHideShoppingItem(cleanedName)) continue;
 
       let parsedUnit =
-  smartItem.unit !== undefined && smartItem.unit !== null
-    ? smartItem.unit
-    : parsed.unit;
+        smartItem.unit !== undefined && smartItem.unit !== null
+          ? smartItem.unit
+          : parsed.unit;
 
-// 🚨 CRITICAL FIX
-if (parsedUnit === "__count__") {
-  parsedUnit = null;
-}
+      if (parsedUnit === "__count__") {
+        parsedUnit = null;
+      }
 
-parsedUnit = normalizeUnit(parsedUnit);
+      parsedUnit = normalizeUnit(parsedUnit);
+
       const parsedQuantity =
-  typeof smartItem.quantity === "number"
-    ? smartItem.quantity
-    : parsed.quantity ?? null;
+        typeof smartItem.quantity === "number"
+          ? smartItem.quantity
+          : parsed.quantity ?? null;
+
       const packageSize =
-        normalizePackageSize(smartItem.packageSize) || normalizePackageSize(parsed.packageSize);
+        normalizePackageSize(smartItem.packageSize) ||
+        normalizePackageSize(parsed.packageSize);
 
       const preNormalizedName = cleanIngredientName(cleanedName)
-  .toLowerCase()
-  .replace(/\bbone-in pork chops?\b/g, "pork chop");
+        .toLowerCase()
+        .replace(/\bbone-in pork chops?\b/g, "pork chop");
 
-const FORCE_COUNTABLE = new Set([
-  "chicken breast",
-  "chicken thigh",
-  "drumstick",
-  "pork chop",
-  "porkchop",
-  "garlic",
-]);
+      const FORCE_COUNTABLE = new Set([
+        "chicken breast",
+        "chicken thigh",
+        "drumstick",
+        "pork chop",
+        "porkchop",
+        "garlic",
+      ]);
 
-let safeName = preNormalizedName
-  .replace(/[^a-z0-9\s]/g, " ")
-  .replace(/\s+/g, " ")
-  .trim();
+      let safeName = preNormalizedName
+        .replace(/[^a-z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
 
-if (safeName.includes("garlic")) {
-  safeName = "garlic";
-}
+      if (safeName.includes("garlic")) {
+        safeName = "garlic";
+      }
 
-if (safeName.includes("pork") && safeName.includes("chop")) {
-  safeName = "pork chop";
-}
+      if (safeName.includes("pork") && safeName.includes("chop")) {
+        safeName = "pork chop";
+      }
 
-if (safeName.includes("chicken") && safeName.includes("breast")) {
-  safeName = "chicken breast";
-}
+      if (safeName.includes("chicken") && safeName.includes("breast")) {
+        safeName = "chicken breast";
+      }
 
-if (safeName.includes("onion")) {
-  if (safeName.includes("green")) safeName = "green onion";
-  else if (safeName.includes("red")) safeName = "red onion";
-  else if (safeName.includes("yellow")) safeName = "yellow onion";
-  else if (safeName.includes("white")) safeName = "white onion";
-  else safeName = "onion";
-}
+      if (safeName.includes("onion")) {
+        if (safeName.includes("green")) safeName = "green onion";
+        else if (safeName.includes("red")) safeName = "red onion";
+        else if (safeName.includes("yellow")) safeName = "yellow onion";
+        else if (safeName.includes("white")) safeName = "white onion";
+        else safeName = "onion";
+      }
 
-const forceCountable = FORCE_COUNTABLE.has(safeName);
+      const forceCountable = FORCE_COUNTABLE.has(safeName);
 
-const isMeasured = !forceCountable && parsedUnit !== null;
-const isCountable =
-  forceCountable || (!isMeasured && isCountableIngredient(safeName));
+      const isMeasured = !forceCountable && parsedUnit !== null;
+      const isCountable =
+        forceCountable || (!isMeasured && isCountableIngredient(safeName));
 
-let normalizedName = isCountable
-  ? normalizeCountableName(safeName)
-  : safeName;
-        
+      const normalizedName = isCountable
+        ? normalizeCountableName(safeName)
+        : safeName;
 
       const mergeUnit = isCountable ? "__count__" : parsedUnit;
       const category = resolveShoppingCategoryForItem(
@@ -1366,34 +1637,35 @@ let normalizedName = isCountable
         mergeUnit,
         packageSize
       );
+
       const packageKey =
         packageSize && isPackageSizeSensitiveUnit(mergeUnit) ? packageSize : "";
-      const key = `${category}::${normalizedName}::${mergeUnit || ""}::${packageKey}`;
+
+      const key = `recipe::${category}::${normalizedName}::${mergeUnit || ""}::${packageKey}`;
 
       const quantityToAdd =
-  parsedQuantity !== null
-    ? isCountable
-      ? Math.ceil(parsedQuantity)
-      : parsedQuantity
-    : isCountable
-    ? 1   // ✅ force countable fallback
-    : 0;
+        parsedQuantity !== null
+          ? isCountable
+            ? Math.ceil(parsedQuantity)
+            : parsedQuantity
+          : isCountable
+          ? 1
+          : 0;
 
       const minQuantityToAdd =
-  parsed.minQuantity !== null && parsed.minQuantity !== undefined
-    ? isCountable
-      ? Math.ceil(parsed.minQuantity)
-      : parsed.minQuantity
-    : quantityToAdd;
+        parsed.minQuantity !== null && parsed.minQuantity !== undefined
+          ? isCountable
+            ? Math.ceil(parsed.minQuantity)
+            : parsed.minQuantity
+          : quantityToAdd;
 
-const maxQuantityToAdd =
-  parsed.maxQuantity !== null && parsed.maxQuantity !== undefined
-    ? isCountable
-      ? Math.ceil(parsed.maxQuantity)
-      : parsed.maxQuantity
-    : quantityToAdd;
+      const maxQuantityToAdd =
+        parsed.maxQuantity !== null && parsed.maxQuantity !== undefined
+          ? isCountable
+            ? Math.ceil(parsed.maxQuantity)
+            : parsed.maxQuantity
+          : quantityToAdd;
 
-      const recipeName = String((item as any).sourceRecipe || "").trim();
       const recipeQuantityToAdd = quantityToAdd > 0 ? quantityToAdd : 0;
       const recipeUnit = mergeUnit ?? null;
 
@@ -1422,25 +1694,23 @@ const maxQuantityToAdd =
           }
         }
 
-        if (recipeName) {
-          existing.recipeNames.add(recipeName);
+        existing.recipeNames.add(recipeName);
 
-          const breakdown = existing.recipeBreakdown.get(recipeName);
-          if (breakdown) {
-            breakdown.quantity += recipeQuantityToAdd;
-            if (breakdown.unit !== recipeUnit || breakdown.packageSize !== packageSize) {
-              breakdown.mixedUnits = true;
-            }
-          } else {
-            existing.recipeBreakdown.set(recipeName, {
-              quantity: recipeQuantityToAdd,
-              unit: recipeUnit,
-              packageSize,
-              isCountable,
-              name: normalizedName,
-              mixedUnits: false,
-            });
+        const breakdown = existing.recipeBreakdown.get(recipeName);
+        if (breakdown) {
+          breakdown.quantity += recipeQuantityToAdd;
+          if (breakdown.unit !== recipeUnit || breakdown.packageSize !== packageSize) {
+            breakdown.mixedUnits = true;
           }
+        } else {
+          existing.recipeBreakdown.set(recipeName, {
+            quantity: recipeQuantityToAdd,
+            unit: recipeUnit,
+            packageSize,
+            isCountable,
+            name: normalizedName,
+            mixedUnits: false,
+          });
         }
       } else {
         map.set(key, {
@@ -1449,6 +1719,7 @@ const maxQuantityToAdd =
           sourceIds: [item.id],
           count: 1,
           name: normalizedName,
+          isManual: false,
           isCountable,
           totalQuantity: quantityToAdd,
           minQuantity: minQuantityToAdd,
@@ -1456,55 +1727,72 @@ const maxQuantityToAdd =
           unit: mergeUnit ?? null,
           packageSize,
           mixedUnits: false,
-          recipeNames: recipeName ? new Set([recipeName]) : new Set(),
-          recipeBreakdown: recipeName
-            ? new Map([
-                [
-                  recipeName,
-                  {
-                    quantity: recipeQuantityToAdd,
-                    unit: recipeUnit,
-                    packageSize,
-                    isCountable,
-                    name: normalizedName,
-                    mixedUnits: false,
-                  },
-                ],
-              ])
-            : new Map(),
+          recipeNames: new Set([recipeName]),
+          recipeBreakdown: new Map([
+            [
+              recipeName,
+              {
+                quantity: recipeQuantityToAdd,
+                unit: recipeUnit,
+                packageSize,
+                isCountable,
+                name: normalizedName,
+                mixedUnits: false,
+              },
+            ],
+          ]),
         });
       }
     }
 
     return Array.from(map.entries()).map(([key, value]) => {
-      let displayText = formatDisplayName(value.name);
+      let displayText = value.isManual
+        ? formatManualName(value.name)
+        : formatDisplayName(value.name);
 
-      if (value.isCountable) {
-  const qty =
-  value.totalQuantity > 0
-    ? value.totalQuantity
-    : value.count > 0
-    ? value.count
-    : 1;
+      if (value.isManual) {
+        if (value.totalQuantity > 0) {
+          const qty = value.totalQuantity;
 
-  const baseName = singularizeWord(value.name);
+          if (!value.mixedUnits && value.unit) {
+            displayText = `${formatQuantity(qty)} ${pluralizeUnit(
+              value.unit,
+              qty
+            )} ${formatManualName(value.name)}`.trim();
+          } else {
+            displayText = `${formatQuantity(qty)} ${pluralizeManualPhrase(
+              value.name,
+              qty
+            )}`.trim();
+          }
+        }
+      } else if (value.isCountable) {
+        const qty =
+          value.totalQuantity > 0
+            ? value.totalQuantity
+            : value.count > 0
+            ? value.count
+            : 1;
 
-  // ✅ round everything here
-  const min = Math.ceil(value.minQuantity || qty);
-  const max = Math.ceil(value.maxQuantity || qty);
-  const finalQty = Math.ceil(qty);
+        const baseName = singularizeWord(value.name);
 
-  let formattedName = formatDisplayName(
-  pluralizeCountable(baseName, finalQty)
-);
+        const min = Math.ceil(value.minQuantity || qty);
+        const max = Math.ceil(value.maxQuantity || qty);
+        const finalQty = Math.ceil(qty);
 
-if (baseName === "garlic") {
-  displayText = `${finalQty} ${finalQty === 1 ? "clove" : "cloves"} Garlic`;
-} else if (min !== max) {
-  displayText = `${min}-${max} ${formattedName}`;
-} else {
-  displayText = `${finalQty} ${formattedName}`;
-}
+        const formattedName = formatDisplayName(
+          pluralizeCountable(baseName, finalQty)
+        );
+
+        if (baseName === "garlic") {
+          displayText = `${finalQty} ${
+            finalQty === 1 ? "clove" : "cloves"
+          } Garlic`;
+        } else if (min !== max) {
+          displayText = `${min}-${max} ${formattedName}`;
+        } else {
+          displayText = `${finalQty} ${formattedName}`;
+        }
       } else if (
         !value.mixedUnits &&
         value.unit &&
@@ -1580,24 +1868,27 @@ if (baseName === "garlic") {
     const trimmed = editText.trim();
     if (!trimmed || !editingGroup) return;
 
-    const parsed = parseIngredient(trimmed);
-    const cleanedName = parsed.name || cleanIngredientName(trimmed);
-    if (shouldHideShoppingItem(cleanedName)) return;
+    // Once a user edits an item, treat the edited text as a manual shopping
+    // entry so the app does not fight their wording.
+    const manual = parseManualShoppingItem(trimmed);
+
+    if (shouldHideManualShoppingItem(manual.name)) return;
 
     const updated = shoppingItems.map((item) =>
       editingGroup.sourceIds.includes(item.id)
         ? ({
             ...item,
-            text: trimmed,
+            text: manual.rawText,
             category: resolveShoppingCategoryForItem(
-              cleanedName,
-              parsed.unit,
-              parsed.packageSize
+              manual.name,
+              manual.unit,
+              manual.packageSize
             ),
-            normalizedName: cleanedName,
-            quantity: parsed.quantity ?? undefined,
-            unit: parsed.unit ?? undefined,
-            packageSize: parsed.packageSize || undefined,
+            sourceRecipe: "",
+            normalizedName: manual.name,
+            quantity: manual.quantity ?? undefined,
+            unit: manual.unit ?? undefined,
+            packageSize: manual.packageSize || undefined,
           } as ShoppingItem & {
             normalizedName?: string;
             quantity?: number;

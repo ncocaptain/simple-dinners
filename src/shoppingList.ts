@@ -348,10 +348,10 @@ function removeLeadingAmountAndUnit(text: string) {
   return cleanupSpacing(
     normalizeAscii(text)
       .replace(
-        new RegExp(`^(?:${QUANTITY_PATTERN})\s+(?:${UNIT_PATTERN})\s+`, "i"),
+        new RegExp(`^(?:${QUANTITY_PATTERN})\\s+(?:${UNIT_PATTERN})\\s+`, "i"),
         ""
       )
-      .replace(new RegExp(`^(?:${QUANTITY_PATTERN})\s+`, "i"), "")
+      .replace(new RegExp(`^(?:${QUANTITY_PATTERN})\\s+`, "i"), "")
   );
 }
 
@@ -404,13 +404,13 @@ function parseManualShoppingParts(line: string): {
 
   // Do not treat #2 pencils as a quantity. It is the item name.
   if (!text.startsWith("#")) {
-    const quantityMatch = text.match(new RegExp(`^(${QUANTITY_PATTERN})\b`, "i"));
+    const quantityMatch = text.match(new RegExp(`^(${QUANTITY_PATTERN})\\b`, "i"));
     if (quantityMatch) {
       quantity = parseFraction(quantityMatch[1]);
       text = text.slice(quantityMatch[0].length).trim();
     }
 
-    const unitMatch = text.match(new RegExp(`^(${UNIT_PATTERN})\b`, "i"));
+    const unitMatch = text.match(new RegExp(`^(${UNIT_PATTERN})\\b`, "i"));
     if (unitMatch) {
       unit = normalizeUnit(unitMatch[1]);
       text = text.slice(unitMatch[0].length).trim();
@@ -558,7 +558,7 @@ function removePrepWords(text: string) {
 
   PREP_WORDS.forEach((word) => {
     if (shopperMeaningfulWords.has(word)) return;
-    next = next.replace(new RegExp(`\b${word}\b`, "g"), " ");
+    next = next.replace(new RegExp(`\\b${word}\\b`, "g"), " ");
   });
 
   return next;
