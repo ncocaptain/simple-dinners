@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Sparkles,
@@ -14,6 +14,12 @@ import Button from "../components/Button";
 import Card from "../components/Card";
 import type { Effort, PantryItem } from "../core/types";
 import { ALLERGENS } from "../core/planner";
+import {
+  getStoredLanguage,
+  saveStoredLanguage,
+  getLanguageLabel,
+  type LanguageCode,
+} from "../i18n";
 
 export default function PlanPage({
   daySettings,
@@ -38,6 +44,7 @@ export default function PlanPage({
   const [pantryText, setPantryText] = React.useState(
     pantry.map((p) => p.name).join(", ")
   );
+  const [language, setLanguage] = useState<LanguageCode>(() => getStoredLanguage());
 
   useEffect(() => {
     setPantryText(pantry.map((p) => p.name).join(", "));
@@ -95,6 +102,11 @@ export default function PlanPage({
       }))
     );
   };
+
+  const handleLanguageChange = (nextLanguage: LanguageCode) => {
+  setLanguage(nextLanguage);
+  saveStoredLanguage(nextLanguage);
+};
 
   const toggleAllergen = (key: string) => {
     const current = Array.isArray(prefs.allergens) ? prefs.allergens : [];
@@ -617,6 +629,48 @@ const countPill: React.CSSProperties = {
           </div>
         </Card>
       </div>
+      <div
+  style={{
+    padding: 16,
+    borderRadius: 18,
+    background: "rgba(255,255,255,0.04)",
+    border: "1px solid rgba(255,255,255,0.08)",
+    display: "grid",
+    gap: 10,
+  }}
+>
+  <div style={{ fontSize: 14, fontWeight: 900 }}>Language / Idioma</div>
+
+  <div style={{ display: "flex", gap: 10 }}>
+    {(["en", "es"] as LanguageCode[]).map((option) => {
+      const active = language === option;
+
+      return (
+        <button
+          key={option}
+          type="button"
+          onClick={() => handleLanguageChange(option)}
+          style={{
+            flex: 1,
+            padding: "11px 12px",
+            borderRadius: 14,
+            border: active
+              ? "1px solid rgba(34,197,94,0.45)"
+              : "1px solid rgba(255,255,255,0.1)",
+            background: active
+              ? "rgba(34,197,94,0.14)"
+              : "rgba(255,255,255,0.04)",
+            color: active ? "#86efac" : "white",
+            fontWeight: 900,
+          }}
+        >
+          {getLanguageLabel(option)}
+        </button>
+      );
+    })}
+  </div>
+</div>
     </div>
+    
   );
 }

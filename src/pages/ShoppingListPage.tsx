@@ -23,7 +23,7 @@ import {
   GROCERY_CATEGORY_ORDER,
 } from "../core/groceryCategories";
 import TipsModal from "../components/TipsModal";
-
+import { t } from "../i18n";
 // =====================================================
 // Page tips
 // =====================================================
@@ -1310,7 +1310,7 @@ export default function ShoppingListPage() {
   };
 
   const clearAllItems = () => {
-    const confirmed = window.confirm("Clear your entire shopping list?");
+    const confirmed = window.confirm(t("shopping.clearConfirm"));
     if (!confirmed) return;
     persistShoppingItems([]);
   };
@@ -1383,11 +1383,11 @@ export default function ShoppingListPage() {
   const itemsToShare = combinedItems.filter((item) => !item.checked);
 
   if (itemsToShare.length === 0) {
-    alert("No unchecked items to share.");
+    alert(t("shopping.noItemsToShare"));
     return;
   }
 
-  let text = "🛒 Simple Dinners Shopping List\n\n";
+  let text = `🛒 ${t("shopping.title")}\n\n`;
 
   GROCERY_CATEGORY_ORDER.forEach((section) => {
     const sectionItems = itemsToShare.filter(
@@ -1405,7 +1405,7 @@ export default function ShoppingListPage() {
     text += "\n";
   });
 
-  text += "Generated with Simple Dinners";
+  text += t("shopping.generatedWith");
 
   try {
     if (navigator.share) {
@@ -1415,7 +1415,7 @@ export default function ShoppingListPage() {
       });
     } else {
       await navigator.clipboard.writeText(text);
-      alert("Shopping list copied to clipboard!");
+      alert(t("shopping.copied"));
     }
   } catch (err) {
     console.error("Share shopping list failed:", err);
@@ -1941,7 +1941,7 @@ export default function ShoppingListPage() {
               alignItems: "center",
             }}
           >
-            <h1>Shopping List</h1>
+            <h1>{t("shopping.title")}</h1>
             <TipsModal tips={SHOPPING_TIPS} />
           </div>
         </header>
@@ -1949,7 +1949,7 @@ export default function ShoppingListPage() {
         <Card style={{ marginBottom: 8 }}>
           <form onSubmit={handleAddItem} style={{ display: "flex", gap: 10 }}>
             <input
-              placeholder="Add groceries or household items"
+              placeholder={t("shopping.inputPlaceholder")}
               value={newItem}
               onChange={(e) => setNewItem(e.target.value)}
               style={{
@@ -2011,7 +2011,7 @@ export default function ShoppingListPage() {
     }}
   >
     <Share2 size={14} />
-    SHARE LIST
+    {t("shopping.shareList").toUpperCase()}
   </button>
 )}
           <button
@@ -2031,7 +2031,9 @@ export default function ShoppingListPage() {
             }}
           >
             {hideChecked ? <Eye size={14} /> : <EyeOff size={14} />}
-            {hideChecked ? "SHOW CHECKED" : "HIDE CHECKED"}
+            {hideChecked
+  ? t("shopping.showChecked").toUpperCase()
+  : t("shopping.hideChecked").toUpperCase()}
           </button>
 
           {shoppingItems.length > 0 && (
@@ -2051,7 +2053,7 @@ export default function ShoppingListPage() {
                 letterSpacing: 0.3,
               }}
             >
-              CLEAR ALL
+              {t("common.clearAll").toUpperCase()}
             </button>
           )}
 
@@ -2072,7 +2074,7 @@ export default function ShoppingListPage() {
       letterSpacing: 0.3,
     }}
   >
-    ADD BOUGHT TO PANTRY ({checkedCount})
+    {t("shopping.addBoughtToPantry").toUpperCase()} ({checkedCount})
   </button>
 )}
 
@@ -2093,7 +2095,7 @@ export default function ShoppingListPage() {
                 letterSpacing: 0.3,
               }}
             >
-              CLEAR CHECKED ({checkedCount})
+              {t("shopping.clearChecked").toUpperCase()} ({checkedCount})
             </button>
           )}
         </div>
@@ -2330,7 +2332,7 @@ export default function ShoppingListPage() {
           <div style={{ textAlign: "center", padding: 80, opacity: 0.2 }}>
             <ShoppingCart size={48} style={{ marginBottom: 16 }} />
             <div style={{ fontWeight: 800 }}>
-              {hideChecked ? "No unchecked items" : "List is empty"}
+              {hideChecked ? t("shopping.noUnchecked") : t("shopping.empty")}
             </div>
           </div>
         )}
@@ -2475,7 +2477,7 @@ export default function ShoppingListPage() {
                   fontWeight: 900,
                 }}
               >
-                Done
+                {t("common.done")}
               </button>
             </div>
           </div>
@@ -2525,9 +2527,9 @@ export default function ShoppingListPage() {
                 }}
               >
                 <div style={{ display: "grid", gap: 3 }}>
-                  <div style={{ fontSize: 18, fontWeight: 900 }}>Edit Item</div>
+                  <div style={{ fontSize: 18, fontWeight: 900 }}>{t("shopping.editItem")}</div>
                   <div style={{ fontSize: 12, opacity: 0.55 }}>
-                    Update the item name or quantity.
+                    {t("shopping.editItemSubtitle")}
                   </div>
                 </div>
 
@@ -2603,7 +2605,7 @@ export default function ShoppingListPage() {
                     cursor: editText.trim() ? "pointer" : "not-allowed",
                   }}
                 >
-                  Save
+                  {t("common.save")}
                 </button>
 
                 <button
@@ -2620,7 +2622,7 @@ export default function ShoppingListPage() {
                     fontWeight: 800,
                   }}
                 >
-                  Cancel
+                  {t("common.cancel")}
                 </button>
               </div>
             </form>
