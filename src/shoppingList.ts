@@ -139,6 +139,25 @@ function formatPackageSize(value?: string) {
 }
 
 function formatSmartName(value: string) {
+  const cleaned = cleanupSpacing(String(value || "").toLowerCase());
+
+  const specialDisplayNames: Record<string, string> = {
+    "aa batteries": "AA Batteries",
+    "aaa batteries": "AAA Batteries",
+    "ziploc bags": "Ziploc Bags",
+    "ziplock bags": "Ziplock Bags",
+    "sliced cheese": "Sliced Cheese",
+    "shredded cheese": "Shredded Cheese",
+    "cheese slices": "Cheese Slices",
+    "american cheese slices": "American Cheese Slices",
+    "bag of ice": "Bag of Ice",
+    "bags of ice": "Bags of Ice",
+  };
+
+  if (specialDisplayNames[cleaned]) {
+    return specialDisplayNames[cleaned];
+  }
+
   const smallWords = new Set(["of", "and", "or", "the", "in", "with"]);
 
   return String(value || "")
@@ -295,6 +314,43 @@ function cleanupSpacing(text: string) {
     .replace(/[:;,]+$/g, "");
 }
 
+// =====================================================
+// Builder: protected manual shopping names
+// Manual shopping entries should keep their meaning. Recipe ingredients
+// can still be cleaned more aggressively when they are imported from recipes.
+// =====================================================
+const PROTECTED_MANUAL_NAMES: Record<string, string> = {
+  "sliced cheese": "sliced cheese",
+  "shredded cheese": "shredded cheese",
+  "cheese slices": "cheese slices",
+  "american cheese slices": "american cheese slices",
+  "bag of ice": "bag of ice",
+  "bags of ice": "bag of ice",
+  "aa batteries": "aa batteries",
+  "aaa batteries": "aaa batteries",
+  "ziploc bags": "ziploc bags",
+  "ziplock bags": "ziplock bags",
+};
+
+function removeLeadingAmountAndUnit(text: string) {
+  return cleanupSpacing(
+    normalizeAscii(text)
+      .replace(
+        new RegExp(`^(?:${QUANTITY_PATTERN})\\s+(?:${UNIT_PATTERN})\\s+`, "i"),
+        ""
+      )
+      .replace(new RegExp(`^(?:${QUANTITY_PATTERN})\\s+`, "i"), "")
+  );
+}
+
+function preserveManualShoppingName(text: string) {
+  const cleaned = cleanupSpacing(normalizeAscii(text));
+  const withoutAmount = removeLeadingAmountAndUnit(cleaned);
+
+  return PROTECTED_MANUAL_NAMES[cleaned] || PROTECTED_MANUAL_NAMES[withoutAmount] || "";
+}
+
+
 const SECTION_HEADER_PATTERNS = [
   /seasoning:?$/,
   /sauce:?$/,
@@ -388,6 +444,9 @@ function removeRecipeStylePhrases(text: string) {
 }
 
 function removePrepWords(text: string) {
+  const protectedManualName = preserveManualShoppingName(text);
+  if (protectedManualName) return protectedManualName;
+
   let next = text;
   PREP_WORDS.forEach((word) => {
     next = next.replace(new RegExp(`\\b${word}\\b`, "g"), " ");
@@ -505,6 +564,19 @@ function normalizeProteinsAndBakery(text: string) {
 }
 
 function normalizeDairyAndCheese(text: string) {
+  const cleaned = cleanupSpacing(text);
+
+  // Generic manual/store cheese items are specific grocery items.
+  // Keep these exactly instead of stripping the descriptor later.
+  if (
+    cleaned === "sliced cheese" ||
+    cleaned === "shredded cheese" ||
+    cleaned === "cheese slices" ||
+    cleaned === "american cheese slices"
+  ) {
+    return cleaned;
+  }
+
   return text
     .replace(/\bshredded mozzarella cheese\b/g, "mozzarella cheese")
     .replace(/\bgrated mozzarella cheese\b/g, "mozzarella cheese")
@@ -535,19 +607,27 @@ function normalizeMushrooms(text: string) {
 }
 
 function removeNonShoppingItems(text: string) {
-  let next = text;
-  const cleaned = cleanupSpacing(next);
+  const cleaned = cleanupSpacing(text);
 
-  // Only remove ice when it is the whole item.
-  // Keep real items like "ice cream", "iced coffee", etc.
-  if (cleaned === "ice" || cleaned === "crushed ice") {
-    next = "";
+  // Hide plain non-shopping helpers, but do not remove these words from
+  // real grocery/household items like "bag of ice".
+  const nonShoppingExactItems = new Set([
+    "water",
+    "tap water",
+    "cold water",
+    "warm water",
+    "hot water",
+    "ice",
+    "crushed ice",
+    "cooking spray",
+    "nonstick spray",
+  ]);
+
+  if (nonShoppingExactItems.has(cleaned)) {
+    return "";
   }
 
-  return next
-    .replace(/\bwater\b/g, " ")
-    .replace(/\bcooking spray\b/g, " ")
-    .replace(/\bnonstick spray\b/g, " ")
+  return text
     .replace(/\s*\+\s*/g, " ")
     .replace(/\s+/g, " ")
     .trim();
@@ -561,6 +641,9 @@ function normalizeIngredientCore(text: string) {
   next = next.replace(/^[/\\\-–—]+\s*/, "");
   next = next.replace(/\([^)]*\)/g, " ");
   next = cleanupSpacing(next);
+
+  const protectedManualName = preserveManualShoppingName(next);
+  if (protectedManualName) return protectedManualName;
 
   if (isSectionHeader(next)) return "";
 
@@ -830,6 +913,10 @@ function buildDisplayText(
   const displayName = formatSmartName(name);
   const size = formatPackageSize(packageSize);
 
+  if (PROTECTED_MANUAL_NAMES[name] && quantity === null && !unit) {
+    return displayName;
+  }
+
   // Avoid grocery-noise measurements like "1/2 cup pasta". Users buy pasta, not half a cup.
   if (
   unit &&
@@ -914,12 +1001,18 @@ const HIDDEN_ITEMS = new Set([
 ]);
 
 function shouldHideShoppingItem(name: string) {
+  const protectedManualName = preserveManualShoppingName(name);
+  if (protectedManualName) return false;
+
   const cleaned = normalizeIngredientName(name).toLowerCase();
   return HIDDEN_ITEMS.has(cleaned);
 }
 
 function resolveShoppingCategory(name: string): GroceryCategory {
-  const cleaned = normalizeIngredientName(name) || cleanIngredientForCategory(name);
+  const cleaned =
+    preserveManualShoppingName(name) ||
+    normalizeIngredientName(name) ||
+    cleanIngredientForCategory(name);
 
   if (FORCED_SPICE_ITEMS.has(cleaned.toLowerCase())) {
     return "Spices" as GroceryCategory;
@@ -936,8 +1029,16 @@ export function loadShoppingList(): ShoppingItem[] {
 
   return items
     .map((item: any) => {
+      const sourceRecipe = String(item.sourceRecipe || "");
+      const isManualItem = !sourceRecipe.trim();
+      const protectedManualName = isManualItem
+        ? preserveManualShoppingName(item.normalizedName || item.text || "") ||
+          preserveManualShoppingName(item.text || "")
+        : "";
+
       const parsed = parseIngredientParts(item.text || "");
       const normalizedName =
+        protectedManualName ||
         normalizeIngredientName(item.normalizedName || "") ||
         parsed.normalizedName ||
         normalizeIngredientName(item.text || "");
@@ -960,7 +1061,7 @@ export function loadShoppingList(): ShoppingItem[] {
         unit,
         packageSize,
         category: resolveShoppingCategory(normalizedName),
-        sourceRecipe: item.sourceRecipe || "",
+        sourceRecipe,
       } as ShoppingItem;
     })
     .filter(Boolean) as ShoppingItem[];
