@@ -219,7 +219,11 @@ const countPill: React.CSSProperties = {
   shellfish: t("plan.allergens.shellfish"),
   fish: t("plan.allergens.fish"),
   dairy: t("plan.allergens.dairy"),
+
+  // Support both possible stored keys
   eggs: t("plan.allergens.eggs"),
+  Eggs: t("plan.allergens.eggs"),
+
   peanuts: t("plan.allergens.peanuts"),
   tree_nuts: t("plan.allergens.treeNuts"),
   gluten: t("plan.allergens.gluten"),
