@@ -45,6 +45,7 @@ import {
   setCookbook as persistCookbook,
 } from "./core/cookbookStore";
 import { hasCompletedOnboarding } from "./core/onboardingStore";
+import { t, getStoredLanguage, type LanguageCode } from "./i18n";
 
 type CookbookRecipe = Meal & {
   sourceUrl?: string;
@@ -316,12 +317,12 @@ function Navigation() {
           pointerEvents: "auto",
         }}
       >
-        {navItem("/", Home, "Home")}
-        {navItem("/week", Calendar, "Week")}
-        {navItem("/cookbook", BookOpen, "Cook")}
-        {navItem("/shopping-list", ShoppingCart, "Shop")}
-        {navItem("/plan", Settings, "Plan")}
-        {navItem("/recipes", BookOpenText, "Recipes")}
+        {navItem("/", Home, t("nav.home").toUpperCase())}
+{navItem("/week", Calendar, t("nav.week").toUpperCase())}
+{navItem("/cookbook", BookOpen, t("nav.cook").toUpperCase())}
+{navItem("/shopping-list", ShoppingCart, t("nav.shop").toUpperCase())}
+{navItem("/plan", Settings, t("nav.plan").toUpperCase())}
+{navItem("/recipes", BookOpenText, t("nav.recipes").toUpperCase())}
       </div>
     </div>
   );
@@ -401,6 +402,21 @@ function AppContent() {
       return {};
     }
   });
+
+  const [language, setLanguage] = useState<LanguageCode>(() => getStoredLanguage());
+  void language;
+
+useEffect(() => {
+  const handleLanguageChange = () => {
+    setLanguage(getStoredLanguage());
+  };
+
+  window.addEventListener("simple-dinners:language-changed", handleLanguageChange);
+
+  return () => {
+    window.removeEventListener("simple-dinners:language-changed", handleLanguageChange);
+  };
+}, []);
 
   // =====================================================
   // Builder: update checks
