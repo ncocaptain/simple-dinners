@@ -15,6 +15,7 @@ import Card from "../components/Card";
 import type { Effort, PantryItem } from "../core/types";
 import { ALLERGENS } from "../core/planner";
 import {
+  t,
   getStoredLanguage,
   saveStoredLanguage,
   getLanguageLabel,
@@ -125,10 +126,10 @@ export default function PlanPage({
   };
 
   const effortOptions: { key: Effort; label: string }[] = [
-  { key: "quick", label: "Quick" },
-  { key: "normal", label: "Normal" },
-  { key: "big", label: "Big" },
-  { key: "takeout", label: "Takeout" },
+  { key: "quick", label: t("plan.effort.quick") },
+  { key: "normal", label: t("plan.effort.normal") },
+  { key: "big", label: t("plan.effort.big") },
+  { key: "takeout", label: t("plan.effort.takeout") },
 ];
 
   const inputBase: React.CSSProperties = {
@@ -215,16 +216,26 @@ const countPill: React.CSSProperties = {
     : [];
 
   const allergenLabels: Record<string, string> = {
-    shellfish: "Shellfish",
-    fish: "Fish",
-    dairy: "Dairy",
-    Eggs: "Eggs",
-    peanuts: "Peanuts",
-    tree_nuts: "Tree Nuts",
-    gluten: "Gluten",
-    soy: "Soy",
-    sesame: "Sesame",
-  };
+  shellfish: t("plan.allergens.shellfish"),
+  fish: t("plan.allergens.fish"),
+  dairy: t("plan.allergens.dairy"),
+  eggs: t("plan.allergens.eggs"),
+  peanuts: t("plan.allergens.peanuts"),
+  tree_nuts: t("plan.allergens.treeNuts"),
+  gluten: t("plan.allergens.gluten"),
+  soy: t("plan.allergens.soy"),
+  sesame: t("plan.allergens.sesame"),
+};
+
+const dayLabels: Record<string, string> = {
+  Monday: t("plan.days.monday"),
+  Tuesday: t("plan.days.tuesday"),
+  Wednesday: t("plan.days.wednesday"),
+  Thursday: t("plan.days.thursday"),
+  Friday: t("plan.days.friday"),
+  Saturday: t("plan.days.saturday"),
+  Sunday: t("plan.days.sunday"),
+};
 
   return (
     <div
@@ -250,10 +261,10 @@ const countPill: React.CSSProperties = {
       <span style={heroIconWrap}>
         <Sparkles size={19} />
       </span>
-      <span>Kitchen & Plan</span>
+      <span>{t("plan.title")}</span>
     </span>
   }
-  subtitle="Use what you already have, set your preferences, and generate smarter dinners."
+  subtitle={t("plan.subtitle")}
 >
           <div style={{ display: "grid", gap: 24 }}>
             <section
@@ -269,7 +280,7 @@ const countPill: React.CSSProperties = {
   <Refrigerator size={17} />
 </span>
                 <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
-                  What’s In Your Kitchen
+                  {t("plan.kitchenTitle")}
                 </h3>
               </div>
 
@@ -281,8 +292,7 @@ const countPill: React.CSSProperties = {
                   lineHeight: 1.4,
                 }}
               >
-                Add ingredients you already have. Your weekly plan will prefer
-                meals that use them.
+                {t("plan.kitchenSubtitle")}
               </p>
 
               {!!pantryItems.length && (
@@ -318,7 +328,7 @@ const countPill: React.CSSProperties = {
               )}
 
               <textarea
-                placeholder="Chicken, spinach, rice, pasta sauce..."
+                placeholder={t("plan.kitchenPlaceholder")}
                 value={pantryText}
                 onChange={(e) => setPantryText(e.target.value)}
                 onBlur={commitPantry}
@@ -327,12 +337,12 @@ const countPill: React.CSSProperties = {
 
               <div style={helperRow}>
   <span style={helperText}>
-    Separate items with commas or new lines.
+    {t("plan.separateItems")}
   </span>
 
   <span style={countPill}>
-    {pantryItems.length} item{pantryItems.length !== 1 ? "s" : ""}
-  </span>
+  {pantryItems.length} {t("plan.itemCount")}
+</span>
 </div>
             </section>
 
@@ -349,7 +359,7 @@ const countPill: React.CSSProperties = {
   <Leaf size={17} />
 </span>
                 <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
-                  Dietary Preferences
+                  {t("plan.dietaryPreferences")}
                 </h3>
               </div>
 
@@ -363,9 +373,9 @@ const countPill: React.CSSProperties = {
                 }}
               >
                 <div style={{ display: "grid", gap: 4 }}>
-  <div style={{ fontWeight: 900, fontSize: 15 }}>Vegetarian Mode</div>
+  <div style={{ fontWeight: 900, fontSize: 15 }}>{t("plan.vegetarianMode")}</div>
   <div style={{ fontSize: 12, opacity: 0.58 }}>
-    Prioritize plant-based meals
+    {t("plan.vegetarianSubtitle")}
   </div>
 </div>
 
@@ -416,7 +426,7 @@ const countPill: React.CSSProperties = {
   <AlertCircle size={17} />
 </span>
                 <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
-                  Allergies & Restrictions
+                  {t("plan.allergies")}
                 </h3>
               </div>
 
@@ -428,7 +438,7 @@ const countPill: React.CSSProperties = {
                   lineHeight: 1.4,
                 }}
               >
-                These are hard blockers for meal generation.
+                {t("plan.allergiesSubtitle")}
               </p>
 
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -475,7 +485,7 @@ const countPill: React.CSSProperties = {
   <Info size={17} />
 </span>
                 <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
-                  Dietary Notes
+                  {t("plan.dietaryNotes")}
                 </h3>
               </div>
 
@@ -487,11 +497,11 @@ const countPill: React.CSSProperties = {
                   lineHeight: 1.4,
                 }}
               >
-                Add dislikes, picky eater notes, or softer preferences for the planner.
+                {t("plan.dietaryNotesSubtitle")}
               </p>
 
               <textarea
-                placeholder="Kids don't like spicy food, no mushrooms, lighter meals on weekdays..."
+                placeholder={t("plan.dietaryNotesPlaceholder")}
                 value={prefs.dietaryNotes || ""}
                 onChange={(e) => updatePrefs({ dietaryNotes: e.target.value })}
                 style={{ ...inputBase, minHeight: 110 }}
@@ -511,7 +521,7 @@ const countPill: React.CSSProperties = {
   <Utensils size={17} />
 </span>
                 <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
-                  Set Your Week
+                  {t("plan.setYourWeek")}
                 </h3>
               </div>
 
@@ -523,7 +533,7 @@ const countPill: React.CSSProperties = {
                   lineHeight: 1.4,
                 }}
               >
-                Tell the planner how much effort you want each day.
+                {t("plan.setYourWeekSubtitle")}
               </p>
 
               <div style={{ display: "grid", gap: 18 }}>
@@ -544,7 +554,7 @@ const countPill: React.CSSProperties = {
                         marginBottom: 12,
                       }}
                     >
-                      {day}
+                      {(dayLabels[day] || day).toUpperCase()}
                     </div>
 
                     <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -599,7 +609,7 @@ const countPill: React.CSSProperties = {
               }}
             >
               <Button onClick={handleGenerate} style={{ padding: "16px", fontSize: 16 }}>
-                ✨ Generate Plan
+                ✨ {t("plan.generatePlan")}
               </Button>
 
               <button
@@ -622,7 +632,7 @@ const countPill: React.CSSProperties = {
                   gap: 8,
                 }}
               >
-                Back to Week
+                {t("plan.backToWeek")}
                 <ChevronRight size={16} />
               </button>
             </div>
@@ -639,7 +649,7 @@ const countPill: React.CSSProperties = {
     gap: 10,
   }}
 >
-  <div style={{ fontSize: 14, fontWeight: 900 }}>Language / Idioma</div>
+  <div style={{ fontSize: 14, fontWeight: 900 }}>{t("plan.language")}</div>
 
   <div style={{ display: "flex", gap: 10 }}>
     {(["en", "es"] as LanguageCode[]).map((option) => {

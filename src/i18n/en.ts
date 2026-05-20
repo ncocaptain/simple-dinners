@@ -42,13 +42,14 @@ export const en = {
     noItemsToShare: "No unchecked items to share.",
     generatedWith: "Generated with Simple Dinners",
     editItem: "Edit Item",
-editItemSubtitle: "Update the item name or quantity.",
-tips: {
-  addItems: "Add groceries or household items",
-  grouped: "Items are grouped by store section",
-  tapToCheck: "Tap items to check them off",
-  selectedIngredients: "Add only selected ingredients from recipes",
-},
+    editItemSubtitle: "Update the item name or quantity.",
+
+    tips: {
+      addItems: "Add groceries or household items",
+      grouped: "Items are grouped by store section",
+      tapToCheck: "Tap items to check them off",
+      selectedIngredients: "Add only selected ingredients from recipes",
+    },
   },
 
   recipe: {
@@ -84,32 +85,85 @@ tips: {
 
   plan: {
     title: "Kitchen & Plan",
-    subtitle: "Use what you already have, set your preferences, and generate smarter dinners.",
+    subtitle:
+      "Use what you already have, set your preferences, and generate smarter dinners.",
+
     kitchenTitle: "What’s In Your Kitchen",
-    kitchenSubtitle: "Add ingredients you already have. Your weekly plan will prefer meals that use them.",
+    kitchenSubtitle:
+      "Add ingredients you already have. Your weekly plan will prefer meals that use them.",
     kitchenPlaceholder: "Chicken, spinach, rice, pasta sauce...",
     separateItems: "Separate items with commas or new lines.",
+    itemCount: "items",
+
     dietaryPreferences: "Dietary Preferences",
     vegetarianMode: "Vegetarian Mode",
     vegetarianSubtitle: "Prioritize plant-based meals",
+
     allergies: "Allergies & Restrictions",
     allergiesSubtitle: "These are hard blockers for meal generation.",
+
     dietaryNotes: "Dietary Notes",
-    dietaryNotesPlaceholder: "Kids don't like spicy food, no mushrooms, lighter meals on weekdays...",
+    dietaryNotesSubtitle:
+      "Add dislikes, picky eater notes, or softer preferences for the planner.",
+    dietaryNotesPlaceholder:
+      "Kids don't like spicy food, no mushrooms, lighter meals on weekdays...",
+
     setYourWeek: "Set Your Week",
     setYourWeekSubtitle: "Tell the planner how much effort you want each day.",
+
+    generatePlan: "Generate Plan",
+    backToWeek: "Back to Week",
+
+    language: "Language / Idioma",
+
+    allergens: {
+      shellfish: "Shellfish",
+      fish: "Fish",
+      dairy: "Dairy",
+      eggs: "Eggs",
+      peanuts: "Peanuts",
+      treeNuts: "Tree Nuts",
+      gluten: "Gluten",
+      soy: "Soy",
+      sesame: "Sesame",
+    },
+
+    days: {
+      monday: "Monday",
+      tuesday: "Tuesday",
+      wednesday: "Wednesday",
+      thursday: "Thursday",
+      friday: "Friday",
+      saturday: "Saturday",
+      sunday: "Sunday",
+    },
+
+    effort: {
+      quick: "Quick",
+      normal: "Normal",
+      big: "Big",
+      takeout: "Takeout",
+    },
+
+    tips: {
+      kitchen: "Add ingredients you already have so your plan can use them.",
+      allergens: "Allergies are treated as hard blockers.",
+      effort:
+        "Choose easier meals for busy nights and bigger meals when you have more time.",
+      notes: "Use notes for picky eaters, dislikes, or softer preferences.",
+    },
   },
 
   categories: {
-  produce: "Produce",
-  meatSeafood: "Meat / Seafood",
-  dairyEggs: "Dairy / Eggs",
-  bakery: "Bakery",
-  pantry: "Pantry",
-  frozen: "Frozen",
-  spices: "Spices",
-  paperGoods: "Paper Goods",
-  household: "Household",
-  other: "Other",
-},
+    produce: "Produce",
+    meatSeafood: "Meat / Seafood",
+    dairyEggs: "Dairy / Eggs",
+    bakery: "Bakery",
+    pantry: "Pantry",
+    frozen: "Frozen",
+    spices: "Spices",
+    paperGoods: "Paper Goods",
+    household: "Household",
+    other: "Other",
+  },
 } as const;

@@ -42,13 +42,15 @@ export const es = {
     noItemsToShare: "No hay artículos sin marcar para compartir.",
     generatedWith: "Generado con Simple Dinners",
     editItem: "Editar artículo",
-editItemSubtitle: "Actualiza el nombre o la cantidad.",
-tips: {
-  addItems: "Agrega comida o artículos del hogar",
-  grouped: "Los artículos se agrupan por sección de la tienda",
-  tapToCheck: "Toca los artículos para marcarlos",
-  selectedIngredients: "Agrega solo los ingredientes seleccionados de las recetas",
-},
+    editItemSubtitle: "Actualiza el nombre o la cantidad.",
+
+    tips: {
+      addItems: "Agrega comida o artículos del hogar",
+      grouped: "Los artículos se agrupan por sección de la tienda",
+      tapToCheck: "Toca los artículos para marcarlos",
+      selectedIngredients:
+        "Agrega solo los ingredientes seleccionados de las recetas",
+    },
   },
 
   recipe: {
@@ -71,7 +73,8 @@ tips: {
     keepScreenAwake: "Mantener pantalla encendida",
     screenAwakeOn: "Pantalla encendida",
     ingredientsInStep: "Ingredientes en este paso",
-    noIngredientsDetected: "No se detectaron ingredientes específicos para este paso.",
+    noIngredientsDetected:
+      "No se detectaron ingredientes específicos para este paso.",
     myNotes: "Mis notas",
     editNote: "Editar nota",
     addPersonalNote: "Agregar una nota personal",
@@ -84,32 +87,89 @@ tips: {
 
   plan: {
     title: "Cocina y plan",
-    subtitle: "Usa lo que ya tienes, configura tus preferencias y genera cenas más inteligentes.",
+    subtitle:
+      "Usa lo que ya tienes, configura tus preferencias y genera cenas más inteligentes.",
+
     kitchenTitle: "Lo que tienes en tu cocina",
-    kitchenSubtitle: "Agrega ingredientes que ya tienes. Tu plan semanal dará prioridad a comidas que los usen.",
+    kitchenSubtitle:
+      "Agrega ingredientes que ya tienes. Tu plan semanal dará prioridad a comidas que los usen.",
     kitchenPlaceholder: "Pollo, espinaca, arroz, salsa para pasta...",
     separateItems: "Separa los artículos con comas o líneas nuevas.",
+    itemCount: "artículos",
+
     dietaryPreferences: "Preferencias alimentarias",
     vegetarianMode: "Modo vegetariano",
     vegetarianSubtitle: "Priorizar comidas a base de plantas",
+
     allergies: "Alergias y restricciones",
-    allergiesSubtitle: "Estos bloquean comidas durante la generación del plan.",
+    allergiesSubtitle:
+      "Estos bloquean comidas durante la generación del plan.",
+
     dietaryNotes: "Notas alimentarias",
-    dietaryNotesPlaceholder: "A los niños no les gusta la comida picante, sin champiñones, comidas más ligeras entre semana...",
+    dietaryNotesSubtitle:
+      "Agrega gustos, notas para niños selectivos o preferencias suaves para el planificador.",
+    dietaryNotesPlaceholder:
+      "A los niños no les gusta la comida picante, sin champiñones, comidas más ligeras entre semana...",
+
     setYourWeek: "Configura tu semana",
-    setYourWeekSubtitle: "Dile al planificador cuánto esfuerzo quieres cada día.",
+    setYourWeekSubtitle:
+      "Dile al planificador cuánto esfuerzo quieres cada día.",
+
+    generatePlan: "Generar plan",
+    backToWeek: "Volver a la semana",
+
+    language: "Language / Idioma",
+
+    allergens: {
+      shellfish: "Mariscos",
+      fish: "Pescado",
+      dairy: "Lácteos",
+      eggs: "Huevos",
+      peanuts: "Cacahuates",
+      treeNuts: "Frutos secos",
+      gluten: "Gluten",
+      soy: "Soya",
+      sesame: "Sésamo",
+    },
+
+    days: {
+      monday: "Lunes",
+      tuesday: "Martes",
+      wednesday: "Miércoles",
+      thursday: "Jueves",
+      friday: "Viernes",
+      saturday: "Sábado",
+      sunday: "Domingo",
+    },
+
+    effort: {
+      quick: "Rápido",
+      normal: "Normal",
+      big: "Grande",
+      takeout: "Para llevar",
+    },
+
+    tips: {
+      kitchen:
+        "Agrega ingredientes que ya tienes para que el plan pueda usarlos.",
+      allergens: "Las alergias se tratan como bloqueos estrictos.",
+      effort:
+        "Elige comidas más fáciles para noches ocupadas y comidas más grandes cuando tengas más tiempo.",
+      notes:
+        "Usa las notas para gustos, niños selectivos o preferencias suaves.",
+    },
   },
 
   categories: {
-  produce: "Verduras / Frutas",
-  meatSeafood: "Carne / Mariscos",
-  dairyEggs: "Lácteos / Huevos",
-  bakery: "Panadería",
-  pantry: "Despensa",
-  frozen: "Congelados",
-  spices: "Especias",
-  paperGoods: "Artículos de papel",
-  household: "Hogar",
-  other: "Otros",
-},
+    produce: "Verduras / Frutas",
+    meatSeafood: "Carne / Mariscos",
+    dairyEggs: "Lácteos / Huevos",
+    bakery: "Panadería",
+    pantry: "Despensa",
+    frozen: "Congelados",
+    spices: "Especias",
+    paperGoods: "Artículos de papel",
+    household: "Hogar",
+    other: "Otros",
+  },
 } as const;
