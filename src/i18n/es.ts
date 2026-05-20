@@ -24,6 +24,7 @@ export const es = {
     share: "Compartir",
     note: "Nota",
     print: "Imprimir",
+    quickTips: "Consejos rápidos",
   },
 
   shopping: {

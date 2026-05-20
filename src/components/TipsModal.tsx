@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { HelpCircle, X } from "lucide-react";
+import { t } from "../i18n";
 
 export default function TipsModal({ tips }: { tips: string[] }) {
   const [open, setOpen] = useState(false);
@@ -55,7 +56,7 @@ export default function TipsModal({ tips }: { tips: string[] }) {
                 marginBottom: 12,
               }}
             >
-              <div style={{ fontWeight: 900 }}>Quick Tips</div>
+              <div style={{ fontWeight: 900 }}>{t("common.quickTips")}</div>
 
               <button
                 onClick={() => setOpen(false)}

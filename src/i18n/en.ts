@@ -24,6 +24,7 @@ export const en = {
     share: "Share",
     note: "Note",
     print: "Print",
+    quickTips: "Quick Tips",
   },
 
   shopping: {
