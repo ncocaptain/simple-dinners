@@ -300,11 +300,11 @@ recipes: {
   },
 
   stats: {
-    total: "total",
-    showing: "mostrando",
-    inCookbook: "en recetario",
-    grilling: "parrilla",
-  },
+  total: "total",
+  showing: "visibles",
+  inCookbook: "en recetario",
+  grilling: "para parrilla",
+},
 
   days: {
     monday: "Lunes",
