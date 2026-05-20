@@ -28,10 +28,10 @@ import { t } from "../i18n";
 // Page tips
 // =====================================================
 const SHOPPING_TIPS = [
-  "Add groceries or household items",
-  "Items are grouped by store section",
-  "Tap items to check them off",
-  "Add only selected ingredients from recipes",
+  t("shopping.tips.addItems"),
+  t("shopping.tips.grouped"),
+  t("shopping.tips.tapToCheck"),
+  t("shopping.tips.selectedIngredients"),
 ];
 
 // =====================================================

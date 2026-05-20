@@ -42,6 +42,12 @@ export const es = {
     generatedWith: "Generado con Simple Dinners",
     editItem: "Editar artículo",
 editItemSubtitle: "Actualiza el nombre o la cantidad.",
+tips: {
+  addItems: "Agrega comida o artículos del hogar",
+  grouped: "Los artículos se agrupan por sección de la tienda",
+  tapToCheck: "Toca los artículos para marcarlos",
+  selectedIngredients: "Agrega solo los ingredientes seleccionados de las recetas",
+},
   },
 
   recipe: {
