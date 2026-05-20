@@ -77,6 +77,8 @@ editNote: "Editar nota",
 recipeDetails: "Detalles de la receta",
 ingredientCount: "ingredientes",
 stepCount: "pasos",
+times: "veces",
+time: "vez",
 
 tips: {
   cookMode: "Usa el modo cocina para cocinar paso a paso.",

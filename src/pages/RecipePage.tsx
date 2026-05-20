@@ -1735,7 +1735,8 @@ const instructionStepStyle: React.CSSProperties = {
             )}
 
             <div style={{ fontSize: 13, opacity: 0.55 }}>
-              {t("recipe.cooked")} {historyCount} {historyCount === 1 ? t("recipe.time", "time") : t("recipe.times", "times")}
+              {t("recipe.cooked")} {historyCount}{" "}
+{historyCount === 1 ? t("recipe.time") : t("recipe.times")}
             </div>
           </div>
         </div>
