@@ -23,6 +23,7 @@ import { addIngredientsToList } from "../shoppingList";
 import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
 import { isCommonPantryStaple } from "../core/pantry";
 import TipsModal from "../components/TipsModal";
+import { t } from "../i18n";
 
 
 
@@ -656,18 +657,18 @@ useEffect(() => {
   window.scrollTo({ top: 0, left: 0, behavior: "auto" });
 }, [location.pathname]);
 
-  const RECIPE_TIPS = [
-    "Select ingredients to add only what you need",
-    "Save recipes to your cookbook",
-    "Use Cook Mode for step-by-step guidance",
-    "Tap back to return to your plan",
+  const recipeTips = [
+    t("recipe.tips.ingredients", "Select ingredients to add only what you need"),
+    t("recipe.tips.notes", "Save recipes to your cookbook"),
+    t("recipe.tips.cookMode", "Use Cook Mode for step-by-step guidance"),
+    t("recipe.tips.back", "Tap back to return to your plan"),
   ];
 
-  const COOK_TIPS = [
-    "Swipe left or right to move between steps",
-    "Start timers when detected",
-    "Ingredients match the current step",
-    "Mark Cooked to track history",
+  const cookTips = [
+    t("cookMode.tips.swipe", "Swipe left or right to move between steps"),
+    t("cookMode.tips.timers", "Start timers when detected"),
+    t("cookMode.tips.ingredients", "Ingredients match the current step"),
+    t("cookMode.tips.history", "Mark Cooked to track history"),
   ];
 
   // =====================================================
@@ -856,7 +857,7 @@ const hasMoreInstructions = instructions.length > 5;
           window.clearInterval(intervalId);
           setTimerRunning(false);
           setTimerSeconds(null);
-          setSaveMessage("⏱️ Timer done!");
+          setSaveMessage(t("cookMode.timerDone", "⏱️ Timer done!"));
           playTimerDoneSound();
 
           if ("vibrate" in navigator) {
@@ -900,7 +901,7 @@ const hasMoreInstructions = instructions.length > 5;
         }
       } catch {
         if (keepAwake) {
-          setSaveMessage("Screen awake not supported on this device");
+          setSaveMessage(t("cookMode.screenAwakeUnsupported", "Screen awake not supported on this device"));
           setKeepAwake(false);
         }
       }
@@ -973,9 +974,9 @@ const hasMoreInstructions = instructions.length > 5;
             border: "1px solid rgba(255,255,255,0.08)",
           }}
         >
-          <h2 style={{ marginTop: 0 }}>Recipe not found</h2>
+          <h2 style={{ marginTop: 0 }}>{t("recipe.notFound", "Recipe not found")}</h2>
           <p style={{ opacity: 0.7, marginBottom: 20 }}>
-            This recipe could not be loaded.
+            {t("recipe.couldNotLoad", "This recipe could not be loaded.")}
           </p>
 
           <button
@@ -990,7 +991,7 @@ const hasMoreInstructions = instructions.length > 5;
               cursor: "pointer",
             }}
           >
-            Back to Recipes
+            {t("recipe.backToRecipes", "Back to Recipes")}
           </button>
         </div>
       </div>
@@ -1021,7 +1022,7 @@ const hasMoreInstructions = instructions.length > 5;
     if (navigator.share) {
       try {
         await navigator.share({
-          title: safeRecipe.name || "Recipe",
+          title: safeRecipe.name || t("recipe.fallbackTitle", "Recipe"),
           url: shareUrl,
         });
         return;
@@ -1031,7 +1032,7 @@ const hasMoreInstructions = instructions.length > 5;
     }
 
     await navigator.clipboard.writeText(shareUrl);
-    setSaveMessage("Link copied!");
+    setSaveMessage(t("recipe.linkCopied", "Link copied!"));
   };
 
   const openNoteModal = () => {
@@ -1050,7 +1051,9 @@ const hasMoreInstructions = instructions.length > 5;
   setRecipeUserNote(recipeNoteKey, trimmed);
   setShowNoteModal(false);
   setSaveMessage(
-    trimmed ? "Personal note saved ✓" : "Personal note cleared"
+    trimmed
+      ? t("recipe.personalNoteSaved", "Personal note saved ✓")
+      : t("recipe.personalNoteCleared", "Personal note cleared")
   );
 };
 
@@ -1063,12 +1066,12 @@ const handleCloseNoteModal = () => {
     setUserNote("");
     setRecipeUserNote(recipeNoteKey, "");
     setNoteModalOpen(false);
-    setSaveMessage("Personal note cleared");
+    setSaveMessage(t("recipe.personalNoteCleared", "Personal note cleared"));
   }
 
   const handleAddToCookbook = () => {
     if (!safeRecipe.slug) {
-      setSaveMessage("Missing recipe info");
+      setSaveMessage(t("recipe.missingInfo", "Missing recipe info"));
       return;
     }
 
@@ -1086,7 +1089,7 @@ const handleCloseNoteModal = () => {
     });
 
     if (!result.ok) {
-      setSaveMessage("Could not save recipe");
+      setSaveMessage(t("recipe.couldNotSave", "Could not save recipe"));
       return;
     }
 
@@ -1094,10 +1097,10 @@ const handleCloseNoteModal = () => {
 
     if (result.already) {
       setSavedState("already");
-      setSaveMessage("Already in Cookbook");
+      setSaveMessage(t("recipe.alreadyInCookbook", "Already in Cookbook"));
     } else {
       setSavedState("saved");
-      setSaveMessage("Saved to Cookbook ✓");
+      setSaveMessage(t("recipe.savedToCookbook", "Saved to Cookbook ✓"));
     }
   };
 
@@ -1121,8 +1124,8 @@ const handleCloseNoteModal = () => {
 
     setSaveMessage(
       selectedIngredients.length
-        ? "Selected ingredients added ✓"
-        : "All ingredients added ✓"
+        ? t("recipe.selectedIngredientsAdded", "Selected ingredients added ✓")
+        : t("recipe.allIngredientsAdded", "All ingredients added ✓")
     );
   };
 
@@ -1132,7 +1135,7 @@ const handleCloseNoteModal = () => {
     recordCook(safeRecipe.slug);
     const history = getCookHistoryFor(safeRecipe.slug);
     setHistoryCount(history?.timesCooked ?? 0);
-    setSaveMessage("Cook recorded ✓");
+    setSaveMessage(t("recipe.cookRecorded", "Cook recorded ✓"));
   };
 
   const handleFinishCooking = () => {
@@ -1146,14 +1149,14 @@ const handleCloseNoteModal = () => {
       FINISH_MESSAGES[Math.floor(Math.random() * FINISH_MESSAGES.length)];
 
     setFinishMessage(randomMessage);
-    setSaveMessage("Recipe finished ✓");
+    setSaveMessage(t("recipe.finished", "Recipe finished ✓"));
   };
 
   const handleStartTimer = () => {
     if (!detectedTimerSeconds) return;
     setTimerSeconds(detectedTimerSeconds);
     setTimerRunning(true);
-    setSaveMessage("Timer started");
+    setSaveMessage(t("cookMode.timerStarted", "Timer started"));
   };
 
   const handlePauseResumeTimer = () => {
@@ -1406,18 +1409,18 @@ const instructionStepStyle: React.CSSProperties = {
     {safeRecipe.name}
   </h1>
 
-  <TipsModal tips={RECIPE_TIPS} />
+  <TipsModal tips={recipeTips} />
 </div>
 
             <button onClick={() => setCookMode(true)} style={primaryCookButton}>
               <Play size={18} />
-              Start Cook Mode
+              {t("recipe.startCookMode")}
             </button>
 
             <div style={actionGrid}>
               <button onClick={handleBack} style={{ ...topBtn, justifyContent: "center" }}>
                 <ArrowLeft size={16} />
-                Back
+                {t("recipe.back")}
               </button>
 
               <button
@@ -1425,7 +1428,7 @@ const instructionStepStyle: React.CSSProperties = {
                 style={{ ...topBtn, justifyContent: "center" }}
               >
                 <ShoppingCart size={16} />
-                Add Items
+                {t("recipe.addItems")}
               </button>
 
               <button
@@ -1450,10 +1453,10 @@ const instructionStepStyle: React.CSSProperties = {
               >
                 <BookOpen size={16} />
                 {savedState === "saved"
-                  ? "Saved ✓"
+                  ? `${t("recipe.saved")} ✓`
                   : savedState === "already"
-                  ? "Saved"
-                  : "Save"}
+                  ? t("recipe.saved")
+                  : t("recipe.save")}
               </button>
             </div>
 
@@ -1471,17 +1474,17 @@ const instructionStepStyle: React.CSSProperties = {
                 style={smallActionBtn}
               >
                 <Printer size={15} />
-                Print
+                {t("recipe.print")}
               </button>
 
               <button onClick={handleShare} style={smallActionBtn}>
                 <Share2 size={15} />
-                Share
+                {t("recipe.share")}
               </button>
 
               <button onClick={openNoteModal} style={smallActionBtn}>
                 <Pin size={15} />
-                {userNote.trim() ? "Note" : "Note"}
+                {t("recipe.note")}
               </button>
             </div>
           </div>
@@ -1510,7 +1513,7 @@ const instructionStepStyle: React.CSSProperties = {
             >
               <Pin size={15} style={{ marginTop: 2, flexShrink: 0 }} />
               <span>
-                <strong>Your note:</strong>{" "}
+                <strong>{t("recipe.yourNote", "Your note")}:</strong>{" "}
                 {userNote.length > 90 ? `${userNote.slice(0, 90)}...` : userNote}
               </span>
             </button>
@@ -1548,7 +1551,7 @@ const instructionStepStyle: React.CSSProperties = {
                     alignItems: "center",
                   }}
                 >
-                  <div style={{ fontWeight: 900 }}>Personal Note</div>
+                  <div style={{ fontWeight: 900 }}>{t("recipe.personalNote", "Personal Note")}</div>
 
                   <button onClick={handleCloseNoteModal} style={{ ...topBtn }}>
                     <X size={16} />
@@ -1558,7 +1561,7 @@ const instructionStepStyle: React.CSSProperties = {
                 <textarea
                   value={draftUserNote}
                   onChange={(e) => setDraftUserNote(e.target.value)}
-                  placeholder="Add a reminder, tweak, or family preference..."
+                  placeholder={t("recipe.personalNotePlaceholder", "Add a reminder, tweak, or family preference...")}
                   style={{
                     width: "100%",
                     minHeight: 120,
@@ -1573,11 +1576,11 @@ const instructionStepStyle: React.CSSProperties = {
 
                 <div style={{ display: "flex", gap: 10 }}>
                   <button onClick={handleSaveUserNote} style={topBtn}>
-                    Save
+                    {t("recipe.save")}
                   </button>
 
                   <button onClick={handleCloseNoteModal} style={topBtn}>
-                    Cancel
+                    {t("common.cancel")}
                   </button>
                 </div>
               </div>
@@ -1600,7 +1603,7 @@ const instructionStepStyle: React.CSSProperties = {
       <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
         <button onClick={() => setCookMode(false)} style={topBtn}>
           <ArrowLeft size={16} />
-          Exit Cook Mode
+          {t("cookMode.exit")}
         </button>
 
         <button
@@ -1617,10 +1620,10 @@ const instructionStepStyle: React.CSSProperties = {
           }}
         >
           <Moon size={15} />
-          {keepAwake ? "Screen Awake On" : "Keep Screen Awake"}
+          {keepAwake ? t("cookMode.screenAwakeOn") : t("cookMode.keepScreenAwake")}
         </button>
 
-        <TipsModal tips={COOK_TIPS} />
+        <TipsModal tips={cookTips} />
       </div>
     </div>
 
@@ -1708,7 +1711,7 @@ const instructionStepStyle: React.CSSProperties = {
                     color: "#fde68a",
                   }}
                 >
-                  🔥 Grilling
+                  🔥 {t("recipe.grilling", "Grilling")}
                 </span>
               )}
 
@@ -1732,7 +1735,7 @@ const instructionStepStyle: React.CSSProperties = {
             )}
 
             <div style={{ fontSize: 13, opacity: 0.55 }}>
-              Cooked {historyCount} time{historyCount === 1 ? "" : "s"}
+              {t("recipe.cooked")} {historyCount} {historyCount === 1 ? t("recipe.time", "time") : t("recipe.times", "times")}
             </div>
           </div>
         </div>
@@ -1762,12 +1765,12 @@ const instructionStepStyle: React.CSSProperties = {
       }}
     >
       <div style={{ fontSize: 14, opacity: 0.75, fontWeight: 900 }}>
-        Step {instructions.length ? stepIndex + 1 : 0} of {instructions.length}
+        {t("cookMode.step", "Step")} {instructions.length ? stepIndex + 1 : 0} {t("cookMode.of", "of")} {instructions.length}
       </div>
 
       {detectedTimerSeconds && timerSeconds === null && (
         <div style={{ fontSize: 12, opacity: 0.5, fontWeight: 700 }}>
-          Timer detected for this step
+          {t("cookMode.timerDetected", "Timer detected for this step")}
         </div>
       )}
     </div>
@@ -1779,7 +1782,7 @@ const instructionStepStyle: React.CSSProperties = {
         fontWeight: 900,
       }}
     >
-      {currentStep || "No instructions available."}
+      {currentStep || t("cookMode.noInstructions", "No instructions available.")}
     </div>
 
     <div
@@ -1794,7 +1797,7 @@ const instructionStepStyle: React.CSSProperties = {
     >
       <div style={{ display: "grid", gap: 8 }}>
         <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 800 }}>
-          Ingredients in this step
+          {t("cookMode.ingredientsInStep")}
         </div>
 
         {stepIngredients.length ? (
@@ -1816,7 +1819,7 @@ const instructionStepStyle: React.CSSProperties = {
           ))
         ) : (
           <div style={{ fontSize: 13, opacity: 0.5 }}>
-            No specific ingredients detected for this step.
+            {t("cookMode.noIngredientsDetected")}
           </div>
         )}
       </div>
@@ -1839,11 +1842,11 @@ const instructionStepStyle: React.CSSProperties = {
           }}
         >
           <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 800 }}>
-            My Notes
+            {t("cookMode.myNotes")}
           </div>
 
           <button onClick={handleEditUserNote} style={cookChipBtn}>
-            Edit Note
+            {t("cookMode.editNote")}
           </button>
         </div>
 
@@ -1855,7 +1858,7 @@ const instructionStepStyle: React.CSSProperties = {
             whiteSpace: "pre-wrap",
           }}
         >
-          {userNote.trim() ? userNote : "Add a personal note"}
+          {userNote.trim() ? userNote : t("cookMode.addPersonalNote")}
         </div>
       </div>
     </div>
@@ -1880,7 +1883,7 @@ const instructionStepStyle: React.CSSProperties = {
           }}
         >
           <Timer size={16} />
-          Timer
+          {t("cookMode.timer")}
         </div>
 
         <div style={{ fontSize: 28, fontWeight: 1000 }}>
@@ -1895,18 +1898,18 @@ const instructionStepStyle: React.CSSProperties = {
           {timerSeconds === null && detectedTimerSeconds && (
             <button onClick={handleStartTimer} style={topBtn}>
               <Timer size={16} />
-              Start Timer
+              {t("cookMode.startTimer")}
             </button>
           )}
 
           {timerSeconds !== null && (
             <>
               <button onClick={handlePauseResumeTimer} style={topBtn}>
-                {timerRunning ? "Pause Timer" : "Resume Timer"}
+                {timerRunning ? t("cookMode.pauseTimer", "Pause Timer") : t("cookMode.resumeTimer", "Resume Timer")}
               </button>
 
               <button onClick={handleClearTimer} style={topBtn}>
-                Clear Timer
+                {t("cookMode.clearTimer", "Clear Timer")}
               </button>
             </>
           )}
@@ -1921,7 +1924,7 @@ const instructionStepStyle: React.CSSProperties = {
         disabled={stepIndex <= 0}
       >
         <ChevronLeft size={16} />
-        Previous
+        {t("cookMode.previous")}
       </button>
 
       {!isLastStep ? (
@@ -1932,7 +1935,7 @@ const instructionStepStyle: React.CSSProperties = {
           style={topBtn}
           disabled={stepIndex >= instructions.length - 1}
         >
-          Next
+          {t("cookMode.next")}
           <ChevronRight size={16} />
         </button>
       ) : (
@@ -1946,13 +1949,13 @@ const instructionStepStyle: React.CSSProperties = {
           }}
         >
           <ChefHat size={16} />
-          Finish Cooking
+          {t("cookMode.finishCooking", "Finish Cooking")}
         </button>
       )}
 
       <button onClick={handleCooked} style={topBtn}>
         <History size={16} />
-        Mark Cooked
+        {t("cookMode.markCooked")}
       </button>
     </div>
   </div>
@@ -1966,15 +1969,15 @@ const instructionStepStyle: React.CSSProperties = {
       </span>
 
       <div>
-        <h2 style={{ margin: 0, fontSize: 22 }}>Ingredients</h2>
+        <h2 style={{ margin: 0, fontSize: 22 }}>{t("recipe.ingredients")}</h2>
         <div style={{ fontSize: 12, opacity: 0.58, marginTop: 3 }}>
-          Tap ingredients to select specific items
+          {t("recipe.tapIngredients")}
         </div>
       </div>
     </div>
 
     <span style={countBadge}>
-      {ingredients.length} ingredient{ingredients.length === 1 ? "" : "s"}
+      {ingredients.length} {t("recipe.ingredientCount")}
     </span>
   </div>
 
@@ -2052,8 +2055,8 @@ const instructionStepStyle: React.CSSProperties = {
         }}
       >
         {showAllIngredients
-          ? "Show fewer ingredients"
-          : `Show all ${ingredients.length} ingredients`}
+          ? t("recipe.showFewerIngredients")
+          : `${t("recipe.showAllIngredients")} (${ingredients.length})`}
       </button>
     )}
   </div>
@@ -2067,15 +2070,15 @@ const instructionStepStyle: React.CSSProperties = {
       </span>
 
       <div>
-        <h2 style={{ margin: 0, fontSize: 22 }}>Instructions</h2>
+        <h2 style={{ margin: 0, fontSize: 22 }}>{t("recipe.instructions")}</h2>
         <div style={{ fontSize: 12, opacity: 0.58, marginTop: 3 }}>
-          Follow each step or switch to Cook Mode
+          {t("recipe.followSteps")}
         </div>
       </div>
     </div>
 
     <span style={countBadge}>
-      {instructions.length} step{instructions.length === 1 ? "" : "s"}
+      {instructions.length} {t("recipe.stepCount")}
     </span>
   </div>
 
@@ -2134,8 +2137,8 @@ const instructionStepStyle: React.CSSProperties = {
     }}
   >
     {showAllInstructions
-      ? "Show fewer steps"
-      : `Show all ${instructions.length} steps`}
+      ? t("recipe.showFewerSteps")
+      : `${t("recipe.showAllSteps")} (${instructions.length})`}
   </button>
 )}
 
@@ -2190,10 +2193,10 @@ const instructionStepStyle: React.CSSProperties = {
                   }}
                 >
                   <Pin size={18} />
-                  Personal Note
+                  {t("recipe.personalNote", "Personal Note")}
                 </div>
                 <div style={{ fontSize: 12, opacity: 0.6, marginTop: 4 }}>
-                  Save reminders, tweaks, or family preferences for this recipe.
+                  {t("recipe.personalNoteSubtitle", "Save reminders, tweaks, or family preferences for this recipe.")}
                 </div>
               </div>
 
@@ -2213,7 +2216,7 @@ const instructionStepStyle: React.CSSProperties = {
                   justifyContent: "center",
                   flexShrink: 0,
                 }}
-                aria-label="Close note editor"
+                aria-label={t("recipe.closeNoteEditor", "Close note editor")}
               >
                 <X size={18} />
               </button>
@@ -2222,7 +2225,7 @@ const instructionStepStyle: React.CSSProperties = {
             <textarea
               value={noteDraft}
               onChange={(e) => setNoteDraft(e.target.value)}
-              placeholder="Example: Add extra garlic next time, make sauce on the side, kids liked this one..."
+              placeholder={t("recipe.noteExample", "Example: Add extra garlic next time, make sauce on the side, kids liked this one...")}
               autoFocus
               rows={6}
               style={{
@@ -2258,7 +2261,7 @@ const instructionStepStyle: React.CSSProperties = {
                   opacity: !userNote.trim() && !noteDraft.trim() ? 0.45 : 1,
                 }}
               >
-                Clear Note
+                {t("recipe.clearNote", "Clear Note")}
               </button>
 
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
@@ -2270,7 +2273,7 @@ const instructionStepStyle: React.CSSProperties = {
                   }}
                   style={topBtn}
                 >
-                  Cancel
+                  {t("common.cancel")}
                 </button>
 
                 <button
@@ -2283,7 +2286,7 @@ const instructionStepStyle: React.CSSProperties = {
                     color: "#86efac",
                   }}
                 >
-                  Save Note
+                  {t("recipe.saveNote", "Save Note")}
                 </button>
               </div>
             </div>

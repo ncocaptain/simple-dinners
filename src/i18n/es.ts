@@ -66,6 +66,24 @@ export const es = {
     showFewerIngredients: "Mostrar menos ingredientes",
     showAllSteps: "Mostrar todos los pasos",
     showFewerSteps: "Mostrar menos pasos",
+    back: "Atrás",
+print: "Imprimir",
+share: "Compartir",
+note: "Nota",
+save: "Guardar",
+saved: "Guardado",
+addNote: "Agregar nota",
+editNote: "Editar nota",
+recipeDetails: "Detalles de la receta",
+ingredientCount: "ingredientes",
+stepCount: "pasos",
+
+tips: {
+  cookMode: "Usa el modo cocina para cocinar paso a paso.",
+  ingredients: "Toca ingredientes para seleccionar solo lo que quieres agregar.",
+  notes: "Agrega notas personales para cambios que haces con frecuencia.",
+  printShare: "Imprime o comparte recetas cuando las necesites fuera de la app.",
+},
   },
 
   cookMode: {

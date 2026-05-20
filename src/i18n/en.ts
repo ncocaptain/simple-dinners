@@ -65,6 +65,24 @@ export const en = {
     showFewerIngredients: "Show fewer ingredients",
     showAllSteps: "Show all steps",
     showFewerSteps: "Show fewer steps",
+    back: "Back",
+print: "Print",
+share: "Share",
+note: "Note",
+save: "Save",
+saved: "Saved",
+addNote: "Add Note",
+editNote: "Edit Note",
+recipeDetails: "Recipe Details",
+ingredientCount: "ingredients",
+stepCount: "steps",
+
+tips: {
+  cookMode: "Use Cook Mode for step-by-step cooking.",
+  ingredients: "Tap ingredients to select only what you want to add.",
+  notes: "Add personal notes for changes you make often.",
+  printShare: "Print or share recipes when you need them outside the app.",
+},
   },
 
   cookMode: {
