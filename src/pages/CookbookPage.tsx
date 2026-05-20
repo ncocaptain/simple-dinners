@@ -24,6 +24,7 @@ import {
 
 import Card from "../components/Card";
 import TipsModal from "../components/TipsModal";
+import { t } from "../i18n";
 import type { Meal } from "../core/types";
 
 // =========================================================
@@ -336,6 +337,51 @@ const EMPTY_MANUAL_RECIPE: ManualRecipeDraft = {
   notes: "",
 };
 
+
+const COOKBOOK_TIP_KEYS = [
+  "cookbook.tips.saveFavorites",
+  "cookbook.tips.tapRecipe",
+  "cookbook.tips.instantUpdates",
+];
+
+function getCookbookDayLabel(day: string) {
+  const labels: Record<string, string> = {
+    Monday: t("week.days.monday"),
+    Tuesday: t("week.days.tuesday"),
+    Wednesday: t("week.days.wednesday"),
+    Thursday: t("week.days.thursday"),
+    Friday: t("week.days.friday"),
+    Saturday: t("week.days.saturday"),
+    Sunday: t("week.days.sunday"),
+  };
+
+  return labels[day] || day;
+}
+
+function getCookbookEffortLabel(effort?: string) {
+  const value = String(effort || "normal").toLowerCase();
+
+  const labels: Record<string, string> = {
+    quick: t("recipes.effort.quick"),
+    normal: t("recipes.effort.normal"),
+    big: t("recipes.effort.big"),
+    takeout: t("recipes.effort.takeout"),
+  };
+
+  return labels[value] || value;
+}
+
+function getRecipeStatusLabel(status: string) {
+  const labels: Record<string, string> = {
+    Ready: t("cookbook.status.ready"),
+    "Needs finishing": t("cookbook.status.needsFinishing"),
+    "Needs ingredients": t("cookbook.status.needsIngredients"),
+    "Needs steps": t("cookbook.status.needsSteps"),
+  };
+
+  return labels[status] || status;
+}
+
 // =========================================================
 // MAIN COMPONENT
 // =========================================================
@@ -352,16 +398,7 @@ export default function CookbookPage({
   const navigate = useNavigate();
   const location = useLocation();
   const pickForDay = location.state?.pickForDay as string | undefined;
-
-  // =========================================================
-  // TIPS
-  // =========================================================
-
-  const COOKBOOK_TIPS = [
-    "Save your favorite recipes",
-    "Tap a recipe to cook it anytime",
-    "Your saved recipes update instantly",
-  ];
+  const cookbookTips = COOKBOOK_TIP_KEYS.map((key) => t(key));
 
   // =========================================================
   // STATE
@@ -477,11 +514,11 @@ export default function CookbookPage({
   // =========================================================
 
   const handleDeleteRecipe = (recipe: CookbookRecipe) => {
-    const ok = window.confirm(`Delete "${recipe?.name}" from your cookbook?`);
+    const ok = window.confirm(`${t("cookbook.confirmDeletePrefix")} "${recipe?.name}" ${t("cookbook.confirmDeleteSuffix")}`);
     if (!ok) return;
 
     setCookbook((prev) => prev.filter((r) => r.slug !== recipe.slug));
-    alert("Recipe deleted.");
+    alert(t("cookbook.recipeDeleted"));
   };
 
   // =========================================================
@@ -492,7 +529,7 @@ export default function CookbookPage({
     e?.preventDefault();
 
     if (!importUrl.trim()) {
-      alert("Please paste a recipe URL.");
+      alert(t("cookbook.alertPasteUrl"));
       return;
     }
 
@@ -510,7 +547,7 @@ export default function CookbookPage({
       });
 
       if (!response.ok) {
-        let errorMessage = "Recipe import failed.";
+        let errorMessage = t("cookbook.recipeImportFailed");
 
         try {
           const errorData = await response.json();
@@ -559,17 +596,17 @@ export default function CookbookPage({
           !normalizedRecipe.instructions
         ) {
           alert(
-            "Import finished, but not much was found. You can fill in the details manually."
+            t("cookbook.importSparse")
           );
         } else {
-          alert("Imported recipe details. Review and save before adding it.");
+          alert(t("cookbook.importedReviewSave"));
         }
       } else {
-        alert(data?.error || "Failed to import recipe.");
+        alert(data?.error || t("cookbook.failedToImportRecipe"));
       }
     } catch (err) {
       console.error("Import failed:", err);
-      alert("Unable to import recipe right now. Please try again.");
+      alert(t("cookbook.unableImportNow"));
     } finally {
       setIsImporting(false);
     }
@@ -581,7 +618,7 @@ export default function CookbookPage({
 
   const handleTextImport = async () => {
     if (!pasteText.trim()) {
-      alert("Please paste recipe text.");
+      alert(t("cookbook.alertPasteText"));
       return;
     }
 
@@ -601,7 +638,7 @@ export default function CookbookPage({
       const data = await response.json();
 
       if (!response.ok || !data?.recipe) {
-        alert(data?.error || "Text import failed.");
+        alert(data?.error || t("cookbook.textImportFailed"));
         return;
       }
 
@@ -626,10 +663,10 @@ export default function CookbookPage({
       setHasImportedDraft(true);
       setShowManual(true);
 
-      alert("Text recipe imported. Review and save before adding it.");
+      alert(t("cookbook.textImportedReview"));
     } catch (err) {
       console.error("Text import failed:", err);
-      alert("Unable to import text right now. Please try again.");
+      alert(t("cookbook.unableImportTextNow"));
     } finally {
       setIsTextImporting(false);
     }
@@ -643,7 +680,7 @@ export default function CookbookPage({
     e?.preventDefault();
 
     if (!manualRecipe.name.trim()) {
-      alert("Please enter a name.");
+      alert(t("cookbook.alertEnterName"));
       return;
     }
 
@@ -674,7 +711,7 @@ export default function CookbookPage({
         )
       );
 
-      alert("Recipe updated!");
+      alert(t("cookbook.recipeUpdated"));
     } else {
       const recipeToSave: CookbookRecipe = {
         ...cleanedRecipe,
@@ -684,7 +721,7 @@ export default function CookbookPage({
       };
 
       setCookbook((prev) => [...prev, recipeToSave]);
-      alert("Recipe saved to Cookbook!");
+      alert(t("cookbook.recipeSavedToCookbook"));
     }
 
     closeManualModal();
@@ -777,8 +814,8 @@ export default function CookbookPage({
                 alignItems: "center",
               }}
             >
-              <h1>Cookbook</h1>
-              <TipsModal tips={COOKBOOK_TIPS} />
+              <h1>{t("cookbook.title")}</h1>
+              <TipsModal tips={cookbookTips} />
             </div>
           </header>
 
@@ -801,7 +838,7 @@ export default function CookbookPage({
                 alignItems: "center",
               }}
             >
-              <span>Selecting recipe for {pickForDay}</span>
+              <span>{t("cookbook.selectingRecipeFor")} {getCookbookDayLabel(pickForDay)}</span>
 
               <button
                 onClick={() => navigate("/week")}
@@ -813,7 +850,7 @@ export default function CookbookPage({
                   cursor: "pointer",
                 }}
               >
-                Cancel
+                {t("common.cancel")}
               </button>
             </div>
           )}
@@ -847,7 +884,7 @@ export default function CookbookPage({
                     />
 
                     <input
-                      placeholder="Paste recipe link..."
+                      placeholder={t("cookbook.pasteRecipeLink")}
                       value={importUrl}
                       onChange={(e) => setImportUrl(e.target.value)}
                       style={{
@@ -875,7 +912,7 @@ export default function CookbookPage({
                       cursor: isImporting ? "default" : "pointer",
                     }}
                   >
-                    {isImporting ? "..." : "IMPORT"}
+                    {isImporting ? "..." : t("cookbook.import").toUpperCase()}
                   </button>
                 </div>
               </form>
@@ -902,7 +939,7 @@ export default function CookbookPage({
                   }}
                 >
                   <Plus size={18} />
-                  Add Manually
+                  {t("cookbook.addManually")}
                 </button>
 
                 <button
@@ -921,7 +958,7 @@ export default function CookbookPage({
                   }}
                 >
                   <FileText size={18} />
-                  Paste Text
+                  {t("cookbook.pasteText")}
                 </button>
               </div>
             </div>
@@ -976,10 +1013,10 @@ export default function CookbookPage({
 
                 <h2 style={{ fontSize: 24, fontWeight: 900, marginBottom: 8 }}>
                   {editingSlug
-                    ? "Edit Recipe"
+                    ? t("cookbook.editRecipe")
                     : hasImportedDraft
-                    ? "Review Imported Recipe"
-                    : "New Recipe"}
+                    ? t("cookbook.reviewImportedRecipe")
+                    : t("cookbook.newRecipe")}
                 </h2>
 
                 <p
@@ -992,10 +1029,10 @@ export default function CookbookPage({
                   }}
                 >
                   {editingSlug
-                    ? "Update your recipe details below."
+                    ? t("cookbook.updateRecipeDetails")
                     : hasImportedDraft
-                    ? "Review the imported details and make any edits before saving."
-                    : "Add a recipe manually, or paste a recipe URL below to import details."}
+                    ? t("cookbook.reviewImportedDetails")
+                    : t("cookbook.addManualOrPasteUrl")}
                 </p>
 
                 {!editingSlug && (
@@ -1015,7 +1052,7 @@ export default function CookbookPage({
                         marginBottom: 10,
                       }}
                     >
-                      Import from URL
+                      {t("cookbook.importFromUrl")}
                     </div>
 
                     <div
@@ -1038,7 +1075,7 @@ export default function CookbookPage({
                         />
 
                         <input
-                          placeholder="Paste recipe link..."
+                          placeholder={t("cookbook.pasteRecipeLink")}
                           value={importUrl}
                           onChange={(e) => setImportUrl(e.target.value)}
                           style={{
@@ -1070,8 +1107,8 @@ export default function CookbookPage({
                         {isImporting
                           ? "..."
                           : hasImportedDraft
-                          ? "Re-import"
-                          : "Import"}
+                          ? t("cookbook.reimport")
+                          : t("cookbook.import")}
                       </button>
                     </div>
 
@@ -1085,8 +1122,8 @@ export default function CookbookPage({
                       }}
                     >
                       {hasImportedDraft
-                        ? "Imported details are loaded below. Edit anything you want before saving."
-                        : "Ingredients and instructions are imported when available. You can edit everything before saving."}
+                        ? t("cookbook.importedDetailsLoaded")
+                        : t("cookbook.importAvailableDetails")}
                     </p>
                   </div>
                 )}
@@ -1105,8 +1142,7 @@ export default function CookbookPage({
                       marginBottom: 14,
                     }}
                   >
-                    Some ingredients may not appear in the instructions. Give
-                    this recipe a quick review before saving.
+                    {t("cookbook.unusedIngredientsWarning")}
                   </div>
                 )}
 
@@ -1124,8 +1160,8 @@ export default function CookbookPage({
                       marginBottom: 14,
                     }}
                   >
-                    Smart details detected: {manualRecipe.effort} effort
-                    {manualRecipe.isVegetarian ? " · Vegetarian" : ""}
+                    {t("cookbook.smartDetailsDetected")}: {getCookbookEffortLabel(manualRecipe.effort)} {t("cookbook.effort").toLowerCase()}
+                    {manualRecipe.isVegetarian ? ` · ${t("recipes.vegetarian")}` : ""}
                     {manualRecipe.tags.length > 0
                       ? ` · ${manualRecipe.tags.slice(0, 4).join(", ")}`
                       : ""}
@@ -1137,7 +1173,7 @@ export default function CookbookPage({
                   style={{ display: "grid", gap: 12 }}
                 >
                   <input
-                    placeholder="Recipe Name"
+                    placeholder={t("cookbook.recipeName")}
                     value={manualRecipe.name}
                     onChange={(e) =>
                       setManualRecipe({
@@ -1156,7 +1192,7 @@ export default function CookbookPage({
                   />
 
                   <textarea
-                    placeholder="Ingredients (one per line)"
+                    placeholder={t("cookbook.ingredientsPlaceholder")}
                     value={manualRecipe.ingredients}
                     onChange={(e) =>
                       setManualRecipe({
@@ -1177,7 +1213,7 @@ export default function CookbookPage({
                   />
 
                   <textarea
-                    placeholder="Instructions (one step per line)"
+                    placeholder={t("cookbook.instructionsPlaceholder")}
                     value={manualRecipe.instructions}
                     onChange={(e) =>
                       setManualRecipe({
@@ -1209,7 +1245,7 @@ export default function CookbookPage({
                     />
 
                     <input
-                      placeholder="Photo URL (optional)"
+                      placeholder={t("cookbook.photoUrlPlaceholder")}
                       value={manualRecipe.photoUrl}
                       onChange={(e) =>
                         setManualRecipe({
@@ -1242,7 +1278,7 @@ export default function CookbookPage({
                     />
 
                     <input
-                      placeholder="Source URL (optional)"
+                      placeholder={t("cookbook.sourceUrlPlaceholder")}
                       value={manualRecipe.sourceUrl}
                       onChange={(e) =>
                         setManualRecipe({
@@ -1273,7 +1309,7 @@ export default function CookbookPage({
                       border: "1px solid #22c55e",
                     }}
                   >
-                    {editingSlug ? "Update Recipe" : "Save to Cookbook"}
+                    {editingSlug ? t("cookbook.updateRecipe") : t("cookbook.saveToCookbook")}
                   </button>
                 </form>
               </div>
@@ -1317,7 +1353,7 @@ export default function CookbookPage({
                   }}
                 >
                   <h2 style={{ margin: 0, fontSize: 24, fontWeight: 900 }}>
-                    Paste Recipe Text
+                    {t("cookbook.pasteRecipeText")}
                   </h2>
 
                   <button
@@ -1341,14 +1377,13 @@ export default function CookbookPage({
                     fontSize: 14,
                   }}
                 >
-                  Paste recipe text from websites, Facebook posts, notes,
-                  screenshots, or anywhere else.
+                  {t("cookbook.pasteRecipeTextDescription")}
                 </p>
 
                 <textarea
                   value={pasteText}
                   onChange={(e) => setPasteText(e.target.value)}
-                  placeholder="Paste recipe text here..."
+                  placeholder={t("cookbook.pasteRecipeTextHere")}
                   disabled={isTextImporting}
                   style={{
                     width: "100%",
@@ -1382,8 +1417,8 @@ export default function CookbookPage({
                   }}
                 >
                   {isTextImporting
-                    ? "Simple Dinners is organizing your recipe..."
-                    : "Import Recipe Text"}
+                    ? t("cookbook.organizingRecipe")
+                    : t("cookbook.importRecipeText")}
                 </button>
               </div>
             </div>
@@ -1474,7 +1509,7 @@ export default function CookbookPage({
                               color: "#60a5fa",
                             }}
                           >
-                            Tap to add to {pickForDay}
+                            {t("cookbook.tapToAddTo")} {getCookbookDayLabel(pickForDay)}
                           </div>
                         )}
 
@@ -1486,10 +1521,10 @@ export default function CookbookPage({
                           }}
                         >
                           <div style={pillStyle}>
-                            {ingredientCount} ingredients
+                            {ingredientCount} {t("recipe.ingredientCount")}
                           </div>
 
-                          <div style={pillStyle}>{stepCount} steps</div>
+                          <div style={pillStyle}>{stepCount} {t("recipe.stepCount")}</div>
 
                           <div
                             style={{
@@ -1506,11 +1541,11 @@ export default function CookbookPage({
                               fontWeight: 800,
                             }}
                           >
-                            {status}
+                            {getRecipeStatusLabel(status)}
                           </div>
 
                           {recipe.effort && (
-                            <div style={pillStyle}>{recipe.effort}</div>
+                            <div style={pillStyle}>{getCookbookEffortLabel(recipe.effort)}</div>
                           )}
                         </div>
                       </div>
@@ -1534,7 +1569,7 @@ export default function CookbookPage({
                             background: "rgba(255,255,255,0.05)",
                             color: "white",
                           }}
-                          title="Edit recipe"
+                          title={t("cookbook.editRecipe")}
                         >
                           <Pencil size={16} />
                         </button>
@@ -1550,7 +1585,7 @@ export default function CookbookPage({
                             border: "1px solid rgba(239,68,68,0.35)",
                             color: "#f87171",
                           }}
-                          title="Delete recipe"
+                          title={t("cookbook.deleteRecipe")}
                         >
                           <Trash2 size={16} />
                         </button>
@@ -1611,7 +1646,7 @@ export default function CookbookPage({
                     marginBottom: 10,
                   }}
                 >
-                  Importing Recipe...
+                  {t("cookbook.importingRecipe")}
                 </div>
 
                 <div
@@ -1621,9 +1656,7 @@ export default function CookbookPage({
                     lineHeight: 1.6,
                   }}
                 >
-                  We're grabbing the ingredients, instructions, and recipe image.
-                  <br />
-                  Some websites can take up to a minute.
+                  {t("cookbook.importingRecipeDescription")}
                 </div>
               </div>
             </div>

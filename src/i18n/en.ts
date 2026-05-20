@@ -310,4 +310,80 @@ recipes: {
     sunday: "Sunday",
   },
 },
+
+cookbook: {
+  title: "Cookbook",
+  selectingRecipeFor: "Selecting recipe for",
+  pasteRecipeLink: "Paste recipe link...",
+  import: "Import",
+  reimport: "Re-import",
+  addManually: "Add Manually",
+  pasteText: "Paste Text",
+  editRecipe: "Edit Recipe",
+  deleteRecipe: "Delete Recipe",
+  reviewImportedRecipe: "Review Imported Recipe",
+  newRecipe: "New Recipe",
+  updateRecipeDetails: "Update your recipe details below.",
+  reviewImportedDetails:
+    "Review the imported details and make any edits before saving.",
+  addManualOrPasteUrl:
+    "Add a recipe manually, or paste a recipe URL below to import details.",
+  importFromUrl: "Import from URL",
+  importedDetailsLoaded:
+    "Imported details are loaded below. Edit anything you want before saving.",
+  importAvailableDetails:
+    "Ingredients and instructions are imported when available. You can edit everything before saving.",
+  unusedIngredientsWarning:
+    "Some ingredients may not appear in the instructions. Give this recipe a quick review before saving.",
+  smartDetailsDetected: "Smart details detected",
+  effort: "Effort",
+  recipeName: "Recipe Name",
+  ingredientsPlaceholder: "Ingredients (one per line)",
+  instructionsPlaceholder: "Instructions (one step per line)",
+  photoUrlPlaceholder: "Photo URL (optional)",
+  sourceUrlPlaceholder: "Source URL (optional)",
+  updateRecipe: "Update Recipe",
+  saveToCookbook: "Save to Cookbook",
+  pasteRecipeText: "Paste Recipe Text",
+  pasteRecipeTextDescription:
+    "Paste recipe text from websites, Facebook posts, notes, screenshots, or anywhere else.",
+  pasteRecipeTextHere: "Paste recipe text here...",
+  organizingRecipe: "Simple Dinners is organizing your recipe...",
+  importRecipeText: "Import Recipe Text",
+  tapToAddTo: "Tap to add to",
+  importingRecipe: "Importing Recipe...",
+  importingRecipeDescription:
+    "We're grabbing the ingredients, instructions, and recipe image. Some websites can take up to a minute.",
+  confirmDeletePrefix: "Delete",
+  confirmDeleteSuffix: "from your cookbook?",
+  recipeDeleted: "Recipe deleted.",
+  alertPasteUrl: "Please paste a recipe URL.",
+  recipeImportFailed: "Recipe import failed.",
+  importSparse:
+    "Import finished, but not much was found. You can fill in the details manually.",
+  importedReviewSave:
+    "Imported recipe details. Review and save before adding it.",
+  failedToImportRecipe: "Failed to import recipe.",
+  unableImportNow: "Unable to import recipe right now. Please try again.",
+  alertPasteText: "Please paste recipe text.",
+  textImportFailed: "Text import failed.",
+  textImportedReview: "Text recipe imported. Review and save before adding it.",
+  unableImportTextNow: "Unable to import text right now. Please try again.",
+  alertEnterName: "Please enter a name.",
+  recipeUpdated: "Recipe updated!",
+  recipeSavedToCookbook: "Recipe saved to Cookbook!",
+
+  status: {
+    ready: "Ready",
+    needsFinishing: "Needs finishing",
+    needsIngredients: "Needs ingredients",
+    needsSteps: "Needs steps",
+  },
+
+  tips: {
+    saveFavorites: "Save your favorite recipes",
+    tapRecipe: "Tap a recipe to cook it anytime",
+    instantUpdates: "Your saved recipes update instantly",
+  },
+},
 } as const;

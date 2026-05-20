@@ -316,4 +316,82 @@ recipes: {
     sunday: "Domingo",
   },
 },
+
+cookbook: {
+  title: "Recetario",
+  selectingRecipeFor: "Seleccionando receta para",
+  pasteRecipeLink: "Pega el enlace de la receta...",
+  import: "Importar",
+  reimport: "Reimportar",
+  addManually: "Agregar manualmente",
+  pasteText: "Pegar texto",
+  editRecipe: "Editar receta",
+  deleteRecipe: "Eliminar receta",
+  reviewImportedRecipe: "Revisar receta importada",
+  newRecipe: "Nueva receta",
+  updateRecipeDetails: "Actualiza los detalles de tu receta abajo.",
+  reviewImportedDetails:
+    "Revisa los detalles importados y haz cualquier cambio antes de guardar.",
+  addManualOrPasteUrl:
+    "Agrega una receta manualmente o pega una URL para importar los detalles.",
+  importFromUrl: "Importar desde URL",
+  importedDetailsLoaded:
+    "Los detalles importados están cargados abajo. Edita lo que quieras antes de guardar.",
+  importAvailableDetails:
+    "Los ingredientes e instrucciones se importan cuando están disponibles. Puedes editar todo antes de guardar.",
+  unusedIngredientsWarning:
+    "Algunos ingredientes pueden no aparecer en las instrucciones. Revisa rápidamente esta receta antes de guardar.",
+  smartDetailsDetected: "Detalles inteligentes detectados",
+  effort: "Esfuerzo",
+  recipeName: "Nombre de la receta",
+  ingredientsPlaceholder: "Ingredientes (uno por línea)",
+  instructionsPlaceholder: "Instrucciones (un paso por línea)",
+  photoUrlPlaceholder: "URL de foto (opcional)",
+  sourceUrlPlaceholder: "URL de origen (opcional)",
+  updateRecipe: "Actualizar receta",
+  saveToCookbook: "Guardar en recetario",
+  pasteRecipeText: "Pegar texto de receta",
+  pasteRecipeTextDescription:
+    "Pega texto de recetas desde sitios web, publicaciones de Facebook, notas, capturas de pantalla o cualquier otro lugar.",
+  pasteRecipeTextHere: "Pega el texto de la receta aquí...",
+  organizingRecipe: "Simple Dinners está organizando tu receta...",
+  importRecipeText: "Importar texto de receta",
+  tapToAddTo: "Toca para agregar a",
+  importingRecipe: "Importando receta...",
+  importingRecipeDescription:
+    "Estamos obteniendo los ingredientes, instrucciones e imagen de la receta. Algunos sitios pueden tardar hasta un minuto.",
+  confirmDeletePrefix: "¿Eliminar",
+  confirmDeleteSuffix: "de tu recetario?",
+  recipeDeleted: "Receta eliminada.",
+  alertPasteUrl: "Pega una URL de receta.",
+  recipeImportFailed: "La importación de la receta falló.",
+  importSparse:
+    "La importación terminó, pero no se encontró mucho. Puedes completar los detalles manualmente.",
+  importedReviewSave:
+    "Detalles de receta importados. Revisa y guarda antes de agregarla.",
+  failedToImportRecipe: "No se pudo importar la receta.",
+  unableImportNow: "No se puede importar la receta ahora. Inténtalo de nuevo.",
+  alertPasteText: "Pega el texto de la receta.",
+  textImportFailed: "La importación del texto falló.",
+  textImportedReview:
+    "Texto de receta importado. Revisa y guarda antes de agregarlo.",
+  unableImportTextNow:
+    "No se puede importar el texto ahora. Inténtalo de nuevo.",
+  alertEnterName: "Ingresa un nombre.",
+  recipeUpdated: "¡Receta actualizada!",
+  recipeSavedToCookbook: "¡Receta guardada en el recetario!",
+
+  status: {
+    ready: "Lista",
+    needsFinishing: "Necesita terminarse",
+    needsIngredients: "Faltan ingredientes",
+    needsSteps: "Faltan pasos",
+  },
+
+  tips: {
+    saveFavorites: "Guarda tus recetas favoritas",
+    tapRecipe: "Toca una receta para cocinarla cuando quieras",
+    instantUpdates: "Tus recetas guardadas se actualizan al instante",
+  },
+},
 } as const;
