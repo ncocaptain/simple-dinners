@@ -264,4 +264,56 @@ tips: {
     skip: "Omitir",
   },
 },
+
+recipes: {
+  title: "Recetario principal",
+  subtitle:
+    "Busca en tu biblioteca de recetas como si fuera un diccionario de cenas. Explora recetas incluidas, ensaladas, favoritas para asar y todo lo guardado en tu recetario.",
+  searchPlaceholder: "Buscar recetas, ingredientes, etiquetas...",
+  effortLabel: "Esfuerzo",
+  categoriesLabel: "Categorías",
+  allEfforts: "Todos",
+  inCookbook: "En recetario",
+  vegetarian: "Vegetariano",
+  salads: "Ensaladas",
+  grilling: "Parrilla",
+  clearExtras: "Borrar extras",
+  defaultNote: "Una receta deliciosa lista para tu planificador.",
+  openRecipe: "Abrir receta",
+  addToCookbook: "Agregar al recetario",
+  savedCheck: "Guardado ✓",
+  addToWeek: "Agregar a la semana",
+  noRecipesFound: "No se encontraron recetas. Prueba ajustar tu búsqueda o filtros.",
+  resetFilters: "Restablecer filtros",
+  chooseDayPrefix: "Elige un día para",
+  chooseDaySuffix: "Si ya hay una comida asignada, será reemplazada.",
+  alreadyInCookbook: "Ya está en el recetario",
+  savedToCookbook: "Guardado en el recetario ✓",
+  couldNotSaveRecipe: "No se pudo guardar la receta",
+  addedTo: "Agregado a",
+
+  effort: {
+    quick: "Rápido",
+    normal: "Normal",
+    big: "Grande",
+    takeout: "Para llevar",
+  },
+
+  stats: {
+    total: "total",
+    showing: "mostrando",
+    inCookbook: "en recetario",
+    grilling: "parrilla",
+  },
+
+  days: {
+    monday: "Lunes",
+    tuesday: "Martes",
+    wednesday: "Miércoles",
+    thursday: "Jueves",
+    friday: "Viernes",
+    saturday: "Sábado",
+    sunday: "Domingo",
+  },
+},
 } as const;

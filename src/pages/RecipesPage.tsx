@@ -14,6 +14,7 @@ import Card from "../components/Card";
 import type { Meal, Effort } from "../core/types";
 import { ALL_RECIPES, days } from "../core/data";
 import { getCookbook } from "../core/cookbookStore";
+import { t, getStoredLanguage, type LanguageCode } from "../i18n";
 
 type RecipesPageProps = {
   recipes?: Meal[];
@@ -69,9 +70,13 @@ function getVisibleRecipeTags(recipe: Meal) {
 }
 
 function effortLabel(effort?: Effort | string) {
-  if (!effort) return "Normal";
-  const value = String(effort);
-  return value.charAt(0).toUpperCase() + value.slice(1);
+  const value = String(effort || "normal").trim().toLowerCase();
+
+  if (value === "quick") return t("recipes.effort.quick");
+  if (value === "big") return t("recipes.effort.big");
+  if (value === "takeout") return t("recipes.effort.takeout");
+
+  return t("recipes.effort.normal");
 }
 
 function normalizePhotoUrl(url?: string) {
@@ -95,6 +100,20 @@ export default function RecipesPage({
   onAddToCookbook,
 }: RecipesPageProps) {
   const navigate = useNavigate();
+  const [language, setLanguage] = useState<LanguageCode>(() => getStoredLanguage());
+  void language;
+
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      setLanguage(getStoredLanguage());
+    };
+
+    window.addEventListener("simple-dinners:language-changed", handleLanguageChange);
+
+    return () => {
+      window.removeEventListener("simple-dinners:language-changed", handleLanguageChange);
+    };
+  }, []);
 
   // =====================================================
   // Builder: state
@@ -103,9 +122,9 @@ export default function RecipesPage({
   const [query, setQuery] = useState("");
   const [effort, setEffort] = useState<"all" | Effort>("all");
   const [showCookbookOnly, setShowCookbookOnly] = useState(false);
-  const [showVegetarianOnly, setShowVegetarianOnly] = useState(false);
-  const [showSaladsOnly, setShowSaladsOnly] = useState(false);
-  const [showGrillingOnly, setShowGrillingOnly] = useState(false);
+  const [showVegetarianOnly, setshowVegetarianOnly] = useState(false);
+  const [showSaladsOnly, setshowSaladsOnly] = useState(false);
+  const [showGrillingOnly, setshowGrillingOnly] = useState(false);
   const [cookbook, setCookbook] = useState<Meal[]>(() => getCookbook() as Meal[]);
   const [justAddedSlug, setJustAddedSlug] = useState<string | null>(null);
   const [saveMessage, setSaveMessage] = useState("");
@@ -152,13 +171,13 @@ export default function RecipesPage({
         setShowCookbookOnly(saved.showCookbookOnly);
       }
       if (typeof saved.showVegetarianOnly === "boolean") {
-        setShowVegetarianOnly(saved.showVegetarianOnly);
+        setshowVegetarianOnly(saved.showVegetarianOnly);
       }
       if (typeof saved.showSaladsOnly === "boolean") {
-        setShowSaladsOnly(saved.showSaladsOnly);
+        setshowSaladsOnly(saved.showSaladsOnly);
       }
       if (typeof saved.showGrillingOnly === "boolean") {
-        setShowGrillingOnly(saved.showGrillingOnly);
+        setshowGrillingOnly(saved.showGrillingOnly);
       }
 
       const scrollY = Number(saved.scrollY ?? 0);
@@ -313,6 +332,30 @@ export default function RecipesPage({
     cookbookKeys,
   ]);
 
+  function getRecipeDayLabel(day: string) {
+    const labels: Record<string, string> = {
+      Monday: t("recipes.days.monday"),
+      Tuesday: t("recipes.days.tuesday"),
+      Wednesday: t("recipes.days.wednesday"),
+      Thursday: t("recipes.days.thursday"),
+      Friday: t("recipes.days.friday"),
+      Saturday: t("recipes.days.saturday"),
+      Sunday: t("recipes.days.sunday"),
+    };
+
+    return labels[day] || day;
+  }
+
+  function getEffortFilterLabel(value: "all" | Effort) {
+    if (value === "all") return t("recipes.allEfforts");
+    if (value === "quick") return t("recipes.effort.quick");
+    if (value === "normal") return t("recipes.effort.normal");
+    if (value === "big") return t("recipes.effort.big");
+    if (value === "takeout") return t("recipes.effort.takeout");
+
+    return String(value);
+  }
+
   // =====================================================
   // Builder: actions
   // =====================================================
@@ -346,15 +389,15 @@ export default function RecipesPage({
       localStorage.setItem("scrollToCookbook", slug);
 
       if (result.already) {
-        setSaveMessage("Already in Cookbook");
+        setSaveMessage(t("recipes.alreadyInCookbook"));
       } else {
-        setSaveMessage("Saved to Cookbook ✓");
+        setSaveMessage(t("recipes.savedToCookbook"));
       }
 
       return;
     }
 
-    setSaveMessage("Could not save recipe");
+    setSaveMessage(t("recipes.couldNotSaveRecipe"));
   };
 
   const handleOpenDayPicker = (recipe: Meal) => {
@@ -376,14 +419,14 @@ export default function RecipesPage({
 
     setDayPickerOpen(false);
     setSelectedMealForWeek(null);
-    setSaveMessage(`Added to ${day} ✓`);
+    setSaveMessage(`${t("recipes.addedTo")} ${getRecipeDayLabel(day)} ✓`);
   };
 
   const clearExtraFilters = () => {
     setShowCookbookOnly(false);
-    setShowVegetarianOnly(false);
-    setShowSaladsOnly(false);
-    setShowGrillingOnly(false);
+    setshowVegetarianOnly(false);
+    setshowSaladsOnly(false);
+    setshowGrillingOnly(false);
   };
 
   // =====================================================
@@ -563,13 +606,12 @@ export default function RecipesPage({
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <BookOpen size={22} />
                 <h1 style={{ margin: 0, fontSize: 30, fontWeight: 1000 }}>
-                  Master Recipe Book
+                  {t("recipes.title")}
                 </h1>
               </div>
 
               <p style={{ margin: 0, fontSize: 14, opacity: 0.65, lineHeight: 1.5 }}>
-                Search your recipe library like a dinner dictionary. Browse built-ins,
-                salads, grilling favorites, and anything saved to your cookbook.
+                {t("recipes.subtitle")}
               </p>
             </div>
 
@@ -578,12 +620,12 @@ export default function RecipesPage({
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search recipes, ingredients, tags..."
+                placeholder={t("recipes.searchPlaceholder")}
                 style={searchInput}
               />
             </div>
 
-            <div style={sectionLabel}>EFFORT</div>
+            <div style={sectionLabel}>{t("recipes.effortLabel").toUpperCase()}</div>
 
             <div style={chipRow}>
               {(["all", "quick", "normal", "big", "takeout"] as const).map(
@@ -614,9 +656,7 @@ export default function RecipesPage({
                         }}
                       >
                         <Clock3 size={14} />
-                        {value === "all"
-                          ? "All Efforts"
-                          : value.charAt(0).toUpperCase() + value.slice(1)}
+                        {getEffortFilterLabel(value)}
                       </span>
                     </button>
                   );
@@ -624,7 +664,7 @@ export default function RecipesPage({
               )}
             </div>
 
-            <div style={sectionLabel}>CATEGORIES</div>
+            <div style={sectionLabel}>{t("recipes.categoriesLabel").toUpperCase()}</div>
 
             <div style={chipRow}>
               <button
@@ -645,13 +685,13 @@ export default function RecipesPage({
                   style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
                 >
                   <BookOpen size={14} />
-                  In Cookbook
+                  {t("recipes.inCookbook")}
                 </span>
               </button>
 
               <button
                 type="button"
-                onClick={() => setShowVegetarianOnly((v) => !v)}
+                onClick={() => setshowVegetarianOnly((v) => !v)}
                 style={{
                   ...chipBase,
                   background: showVegetarianOnly
@@ -667,13 +707,13 @@ export default function RecipesPage({
                   style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
                 >
                   <Leaf size={14} />
-                  Vegetarian
+                  {t("recipes.vegetarian")}
                 </span>
               </button>
 
               <button
                 type="button"
-                onClick={() => setShowSaladsOnly((v) => !v)}
+                onClick={() => setshowSaladsOnly((v) => !v)}
                 style={{
                   ...chipBase,
                   background: showSaladsOnly
@@ -689,13 +729,13 @@ export default function RecipesPage({
                   style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
                 >
                   <Salad size={14} />
-                  Salads
+                  {t("recipes.salads")}
                 </span>
               </button>
 
               <button
                 type="button"
-                onClick={() => setShowGrillingOnly((v) => !v)}
+                onClick={() => setshowGrillingOnly((v) => !v)}
                 style={{
                   ...chipBase,
                   background: showGrillingOnly
@@ -711,7 +751,7 @@ export default function RecipesPage({
                   style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
                 >
                   <Flame size={14} />
-                  Grilling
+                  {t("recipes.grilling")}
                 </span>
               </button>
 
@@ -725,22 +765,22 @@ export default function RecipesPage({
                   color: "rgba(255,255,255,0.6)",
                 }}
               >
-                Clear Extras
+                {t("recipes.clearExtras")}
               </button>
             </div>
 
             <div style={statsRow}>
               <span style={statStyle}>
-                <span style={statNumber}>{mergedRecipes.length}</span> total
+                <span style={statNumber}>{mergedRecipes.length}</span> {t("recipes.stats.total")}
               </span>
               <span style={statStyle}>
-                <span style={statNumber}>{filteredRecipes.length}</span> showing
+                <span style={statNumber}>{filteredRecipes.length}</span> {t("recipes.stats.showing")}
               </span>
               <span style={statStyle}>
-                <span style={statNumber}>{cookbook.length}</span> in cookbook
+                <span style={statNumber}>{cookbook.length}</span> {t("recipes.stats.inCookbook")}
               </span>
               <span style={statStyle}>
-                <span style={statNumber}>{grillingCount}</span> grilling
+                <span style={statNumber}>{grillingCount}</span> {t("recipes.stats.grilling")}
               </span>
             </div>
 
@@ -801,7 +841,7 @@ export default function RecipesPage({
                       <span style={tagStyle}>{effortLabel(recipe.effort)}</span>
 
                       {isGrilling && (
-                        <span style={grillingTagStyle}>🔥 Grilling</span>
+                        <span style={grillingTagStyle}>🔥 {t("recipes.grilling")}</span>
                       )}
 
                       {getVisibleRecipeTags(recipe)
@@ -822,7 +862,7 @@ export default function RecipesPage({
                         minHeight: 38,
                       }}
                     >
-                      {recipe.notes || "A delicious recipe ready for your planner."}
+                      {recipe.notes || t("recipes.defaultNote")}
                     </p>
                   </div>
 
@@ -832,7 +872,7 @@ export default function RecipesPage({
                       style={btnStyle}
                       onClick={() => handleOpenRecipe(recipe)}
                     >
-                      Open Recipe
+                      {t("recipes.openRecipe")}
                     </button>
 
                     <button
@@ -862,8 +902,8 @@ export default function RecipesPage({
                     >
                       <Plus size={14} />
                       {isSaved || justAddedSlug === recipeKey
-                        ? "Saved ✓"
-                        : "Add to Cookbook"}
+                        ? t("recipes.savedCheck")
+                        : t("recipes.addToCookbook")}
                     </button>
 
                     <button
@@ -872,7 +912,7 @@ export default function RecipesPage({
                       onClick={() => handleOpenDayPicker(recipe)}
                     >
                       <CalendarPlus size={14} />
-                      Add to Week
+                      {t("recipes.addToWeek")}
                     </button>
                   </div>
                 </div>
@@ -892,7 +932,7 @@ export default function RecipesPage({
                 gap: 10,
               }}
             >
-              <div>No recipes found. Try adjusting your search or filters.</div>
+              <div>{t("recipes.noRecipesFound")}</div>
 
               <div>
                 <button
@@ -904,7 +944,7 @@ export default function RecipesPage({
                   }}
                   style={btnStyle}
                 >
-                  Reset Filters
+                  {t("recipes.resetFilters")}
                 </button>
               </div>
             </div>
@@ -949,7 +989,7 @@ export default function RecipesPage({
                 color: "#f8fafc",
               }}
             >
-              Add to Week
+              {t("recipes.addToWeek")}
             </h3>
 
             <p
@@ -959,8 +999,7 @@ export default function RecipesPage({
                 lineHeight: 1.5,
               }}
             >
-              Choose a day for <strong>{selectedMealForWeek.name}</strong>. If a meal
-              is already assigned, it will be replaced.
+              {t("recipes.chooseDayPrefix")} <strong>{selectedMealForWeek.name}</strong>. {t("recipes.chooseDaySuffix")}
             </p>
 
             <div
@@ -984,7 +1023,7 @@ export default function RecipesPage({
                     cursor: "pointer",
                   }}
                 >
-                  {day}
+                  {getRecipeDayLabel(day)}
                 </button>
               ))}
             </div>
@@ -1006,7 +1045,7 @@ export default function RecipesPage({
                 cursor: "pointer",
               }}
             >
-              Cancel
+              {t("common.cancel")}
             </button>
           </div>
         </div>

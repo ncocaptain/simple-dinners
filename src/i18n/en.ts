@@ -258,4 +258,56 @@ tips: {
     skip: "Skip",
   },
 },
+
+recipes: {
+  title: "Master Recipe Book",
+  subtitle:
+    "Search your recipe library like a dinner dictionary. Browse built-ins, salads, grilling favorites, and anything saved to your cookbook.",
+  searchPlaceholder: "Search recipes, ingredients, tags...",
+  effortLabel: "Effort",
+  categoriesLabel: "Categories",
+  allEfforts: "All Efforts",
+  inCookbook: "In Cookbook",
+  vegetarian: "Vegetarian",
+  salads: "Salads",
+  grilling: "Grilling",
+  clearExtras: "Clear Extras",
+  defaultNote: "A delicious recipe ready for your planner.",
+  openRecipe: "Open Recipe",
+  addToCookbook: "Add to Cookbook",
+  savedCheck: "Saved ✓",
+  addToWeek: "Add to Week",
+  noRecipesFound: "No recipes found. Try adjusting your search or filters.",
+  resetFilters: "Reset Filters",
+  chooseDayPrefix: "Choose a day for",
+  chooseDaySuffix: "If a meal is already assigned, it will be replaced.",
+  alreadyInCookbook: "Already in Cookbook",
+  savedToCookbook: "Saved to Cookbook ✓",
+  couldNotSaveRecipe: "Could not save recipe",
+  addedTo: "Added to",
+
+  effort: {
+    quick: "Quick",
+    normal: "Normal",
+    big: "Big",
+    takeout: "Takeout",
+  },
+
+  stats: {
+    total: "total",
+    showing: "showing",
+    inCookbook: "in cookbook",
+    grilling: "grilling",
+  },
+
+  days: {
+    monday: "Monday",
+    tuesday: "Tuesday",
+    wednesday: "Wednesday",
+    thursday: "Thursday",
+    friday: "Friday",
+    saturday: "Saturday",
+    sunday: "Sunday",
+  },
+},
 } as const;
