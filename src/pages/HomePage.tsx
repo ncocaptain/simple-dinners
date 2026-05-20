@@ -6,6 +6,7 @@ import type { PlannedDay } from "../core/types";
 import { days } from "../core/data";
 import { candidateLibrary } from "../core/planner";
 import { useToast } from "../components/Toast";
+import { t } from "../i18n";
 
 type Day = (typeof days)[number];
 
@@ -31,16 +32,30 @@ function fallbackPhotoUrl(name?: string) {
 function effortLabel(effort?: string) {
   switch (effort) {
     case "quick":
-      return "⚡ Quick";
+      return `⚡ ${t("home.quick")}`;
     case "normal":
-      return "🧑‍🍳 Normal";
+      return `🧑‍🍳 ${t("home.normal")}`;
     case "big":
-      return "🍳 Big";
+      return `🍳 ${t("home.big")}`;
     case "takeout":
-      return "🥡 Takeout";
+      return `🥡 ${t("home.takeout")}`;
     default:
-      return "🧑‍🍳 Normal";
+      return `🧑‍🍳 ${t("home.normal")}`;
   }
+}
+
+function getHomeDayLabel(day: string) {
+  const labels: Record<string, string> = {
+    Monday: t("home.days.monday"),
+    Tuesday: t("home.days.tuesday"),
+    Wednesday: t("home.days.wednesday"),
+    Thursday: t("home.days.thursday"),
+    Friday: t("home.days.friday"),
+    Saturday: t("home.days.saturday"),
+    Sunday: t("home.days.sunday"),
+  };
+
+  return labels[day] || day;
 }
 
 function getIngredientPreview(ingredientsText?: string) {
@@ -97,14 +112,14 @@ export default function HomePage({
         },
       }));
 
-      toast(`Swapped to ${newMeal.name}!`);
+      toast(`${t("home.swappedTo")} ${newMeal.name}!`);
     }
   };
 
   const previewText =
     todayMeal?.notes?.trim() ||
     getIngredientPreview(todayMeal?.ingredients) ||
-    "Ready to cook!";
+    t("home.readyToCook");
 
   const tomorrow = days[(days.indexOf(today) + 1) % days.length];
   const tomorrowPlan = meals[tomorrow];
@@ -132,8 +147,8 @@ export default function HomePage({
         {todayHasMeal && todayMeal ? (
           <>
             <Card
-              title="Tonight’s Dinner"
-              subtitle={`Dinner for ${today} · ${plannedCount}/${days.length} meals planned`}
+              title={t("home.todaysDinner")}
+              subtitle={`${t("home.dinnerFor")} ${getHomeDayLabel(today)} · ${plannedCount}/${days.length} ${t("home.mealsPlanned")}`}
             >
               <div style={{ display: "grid", gap: 16, position: "relative" }}>
                 <div style={{ position: "relative" }}>
@@ -218,18 +233,18 @@ export default function HomePage({
                       )
                     }
                   >
-                    View Recipe
+                    {t("home.viewRecipe")}
                   </Button>
 
                   <Button variant="secondary" onClick={handleSwapToday}>
-                    Swap Dinner
+                    {t("home.swapDinner")}
                   </Button>
                 </div>
               </div>
             </Card>
 
             {tomorrowMeal?.name?.trim() && (
-              <Card title="Tomorrow" subtitle={tomorrow}>
+              <Card title={t("home.tomorrow")} subtitle={getHomeDayLabel(tomorrow)}>
                 <div style={{ fontSize: 20, fontWeight: 900 }}>
                   {tomorrowMeal.name}
                 </div>
@@ -237,8 +252,8 @@ export default function HomePage({
             )}
           </>
         ) : (
-          <Card title="No Plan Found" subtitle="Let's solve dinner for the week.">
-            <Button onClick={() => navigate("/plan")}>Plan My Week</Button>
+          <Card title={t("home.noPlanFound")} subtitle={t("home.noPlanSubtitle")}>
+            <Button onClick={() => navigate("/plan")}>{t("home.planMyWeek")}</Button>
           </Card>
         )}
       </div>
