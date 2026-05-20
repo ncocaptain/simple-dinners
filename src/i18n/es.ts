@@ -92,4 +92,17 @@ editItemSubtitle: "Actualiza el nombre o la cantidad.",
     setYourWeek: "Configura tu semana",
     setYourWeekSubtitle: "Dile al planificador cuánto esfuerzo quieres cada día.",
   },
+
+  categories: {
+  produce: "Verduras / Frutas",
+  meatSeafood: "Carne / Mariscos",
+  dairyEggs: "Lácteos / Huevos",
+  bakery: "Panadería",
+  pantry: "Despensa",
+  frozen: "Congelados",
+  spices: "Especias",
+  paperGoods: "Artículos de papel",
+  household: "Hogar",
+  other: "Otros",
+},
 } as const;

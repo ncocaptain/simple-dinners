@@ -1186,6 +1186,23 @@ function shouldHideManualShoppingItem(name: string) {
   return !normalizeManualText(name);
 }
 
+function getCategoryLabel(section: GroceryCategory) {
+  const labels: Record<string, string> = {
+    Produce: t("categories.produce"),
+    "Meat / Seafood": t("categories.meatSeafood"),
+    "Dairy / Eggs": t("categories.dairyEggs"),
+    Bakery: t("categories.bakery"),
+    Pantry: t("categories.pantry"),
+    Frozen: t("categories.frozen"),
+    Spices: t("categories.spices"),
+    "Paper Goods": t("categories.paperGoods"),
+    Household: t("categories.household"),
+    Other: t("categories.other"),
+  };
+
+  return labels[section] || section;
+}
+
 
 // =====================================================
 // Page component
@@ -2143,7 +2160,7 @@ export default function ShoppingListPage() {
                   opacity: 0.5,
                 }}
               >
-                {group.section.toUpperCase()}
+                {getCategoryLabel(group.section).toUpperCase()}
               </span>
               <div
                 style={{

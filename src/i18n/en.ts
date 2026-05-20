@@ -92,4 +92,17 @@ editItemSubtitle: "Update the item name or quantity.",
     setYourWeek: "Set Your Week",
     setYourWeekSubtitle: "Tell the planner how much effort you want each day.",
   },
+
+  categories: {
+  produce: "Produce",
+  meatSeafood: "Meat / Seafood",
+  dairyEggs: "Dairy / Eggs",
+  bakery: "Bakery",
+  pantry: "Pantry",
+  frozen: "Frozen",
+  spices: "Spices",
+  paperGoods: "Paper Goods",
+  household: "Household",
+  other: "Other",
+},
 } as const;
