@@ -17,6 +17,7 @@ import Card from "../components/Card";
 import { days } from "../core/data";
 import type { Meal, PlannedDay } from "../core/types";
 import TipsModal from "../components/TipsModal";
+import { t } from "../i18n";
 
 type WalkthroughStep = 1 | 2 | 3;
 
@@ -142,12 +143,14 @@ export default function WeekPage({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const WEEK_TIPS = [
-    "Tap a meal to view the recipe",
-    "Lock a day to keep it when regenerating",
-    "Use leftovers or freezer nights to mix things up",
-    "Generate a new plan anytime",
+  const WEEK_TIP_KEYS = [
+    "week.tips.tapMeal",
+    "week.tips.lockDay",
+    "week.tips.leftoversFreezer",
+    "week.tips.generateAnytime",
   ];
+
+  const weekTips = WEEK_TIP_KEYS.map((key) => t(key));
 
   const [showFirstMessage, setShowFirstMessage] = useState(false);
   const [showWalkthrough, setShowWalkthrough] = useState(false);
@@ -449,10 +452,10 @@ export default function WeekPage({
 
   function buildMealDescription(meal: Meal) {
     const parts = [
-      "Planned in Simple Dinners",
-      meal?.ingredients?.trim() ? `Ingredients:\n${meal.ingredients.trim()}` : "",
+      t("week.plannedInSimpleDinners"),
+      meal?.ingredients?.trim() ? `${t("recipe.ingredients")}:\n${meal.ingredients.trim()}` : "",
       meal?.instructions?.trim()
-        ? `Instructions:\n${meal.instructions.trim()}`
+        ? `${t("recipe.instructions")}:\n${meal.instructions.trim()}`
         : "",
     ].filter(Boolean);
 
@@ -462,8 +465,8 @@ export default function WeekPage({
   function getDayLabel(dayPlan: PlannedDay | undefined) {
     if (!dayPlan) return null;
 
-    if (dayPlan.mode === "leftovers") return "Leftovers";
-    if (dayPlan.mode === "freezer") return "Freezer Night";
+    if (dayPlan.mode === "leftovers") return t("week.leftovers");
+    if (dayPlan.mode === "freezer") return t("week.freezerNight");
 
     if (dayPlan.mode === "planned") {
       return dayPlan.meal?.name?.trim() || null;
@@ -480,12 +483,12 @@ export default function WeekPage({
 
   function buildICSEvent(day: string, dayPlan: PlannedDay, index = 0) {
     const { start, end } = buildEventTimes(day);
-    const label = getDayLabel(dayPlan) || "Meal";
-    const title = `Dinner: ${label}`;
+    const label = getDayLabel(dayPlan) || t("week.meal");
+    const title = `${t("week.dinner")}: ${label}`;
     const description =
       dayPlan.mode === "planned" && dayPlan.meal
         ? buildMealDescription(dayPlan.meal)
-        : "Planned in Simple Dinners";
+        : t("week.plannedInSimpleDinners");
 
     return [
       "BEGIN:VEVENT",
@@ -528,29 +531,29 @@ export default function WeekPage({
       .map((day) => {
         const label = getDayLabel(meals[day]);
         if (!label) return null;
-        return `${day}: ${label}`;
+        return `${getTranslatedDay(day)}: ${label}`;
       })
       .filter(Boolean) as string[];
 
     if (!lines.length) return;
 
-    const text = `My Simple Dinners Week Plan:\n\n${lines.join("\n")}`;
+    const text = `${t("week.shareTextTitle")}:\n\n${lines.join("\n")}`;
 
     if (navigator.share) {
       navigator
         .share({
-          title: "My Week Plan",
+          title: t("week.shareTitle"),
           text,
         })
         .catch(() => {});
     } else {
       navigator.clipboard.writeText(text);
-      alert("Week plan copied!");
+      alert(t("week.copied"));
     }
   }
 
   function downloadDayICS(day: string, dayPlan: PlannedDay) {
-    const label = getDayLabel(dayPlan) || "meal";
+    const label = getDayLabel(dayPlan) || t("week.meal").toLowerCase();
     const filename = `${safeFileName(day)}-${safeFileName(label)}.ics`;
     downloadICSFile(filename, [buildICSEvent(day, dayPlan)]);
   }
@@ -569,12 +572,12 @@ export default function WeekPage({
 
   function openGoogleCalendar(day: string, dayPlan: PlannedDay) {
     const { start, end } = buildEventTimes(day);
-    const label = getDayLabel(dayPlan) || "Meal";
-    const title = `Dinner: ${label}`;
+    const label = getDayLabel(dayPlan) || t("week.meal");
+    const title = `${t("week.dinner")}: ${label}`;
     const details =
       dayPlan.mode === "planned" && dayPlan.meal
         ? buildMealDescription(dayPlan.meal)
-        : "Planned in Simple Dinners";
+        : t("week.plannedInSimpleDinners");
 
     const url =
       "https://calendar.google.com/calendar/render?action=TEMPLATE" +
@@ -593,6 +596,11 @@ export default function WeekPage({
 
   const plannedMealCount = days.filter((day) => !!getDayLabel(meals[day])).length;
 
+  function getTranslatedDay(day: string) {
+    const key = String(day || "").toLowerCase();
+    return t(`week.days.${key}`, day);
+  }
+
   const btnBase: React.CSSProperties = {
     border: "none",
     borderRadius: 14,
@@ -608,27 +616,24 @@ export default function WeekPage({
   function renderWalkthroughContent() {
     if (walkthroughStep === 1) {
       return {
-        title: "Build your first week",
-        body:
-          "Tap Generate New Plan to instantly create a full week of dinners tailored for you.",
-        cta: "Next →",
+        title: t("week.walkthrough.step1Title"),
+        body: t("week.walkthrough.step1Body"),
+        cta: t("week.walkthrough.next"),
       };
     }
 
     if (walkthroughStep === 2) {
       return {
-        title: "Lock meals you like",
-        body:
-          "Lock a day to keep that meal when you generate a new plan for the rest of the week.",
-        cta: "Next →",
+        title: t("week.walkthrough.step2Title"),
+        body: t("week.walkthrough.step2Body"),
+        cta: t("week.walkthrough.next"),
       };
     }
 
     return {
-      title: "Plan ahead with your calendar",
-      body:
-        "Add meals to your calendar so dinner is already scheduled and one less thing to think about.",
-      cta: "Start Planning →",
+      title: t("week.walkthrough.step3Title"),
+      body: t("week.walkthrough.step3Body"),
+      cta: t("week.walkthrough.startPlanning"),
     };
   }
 
@@ -657,8 +662,8 @@ export default function WeekPage({
             <div
               style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
             >
-              <h1>Week Plan</h1>
-              <TipsModal tips={WEEK_TIPS} />
+              <h1>{t("week.title")}</h1>
+              <TipsModal tips={weekTips} />
             </div>
           </header>
 
@@ -674,7 +679,7 @@ export default function WeekPage({
                 textAlign: "center",
               }}
             >
-              Your first week is ready 🎉
+              {t("week.firstWeekReady")}
             </div>
           )}
 
@@ -696,7 +701,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
 
               return (
                 <Card
-                  key={day}
+                  key={getTranslatedDay(day)}
                   style={{
                     padding: 0,
                     overflow: "hidden",
@@ -712,7 +717,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                   }}
                 >
                   <div
-                    id={`day-${day}`}
+                    id={`day-${getTranslatedDay(day)}`}
                     style={{ padding: "20px", display: "grid", gap: 16 }}
                   >
                     <div
@@ -731,7 +736,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                             textTransform: "uppercase",
                           }}
                         >
-                          {day}
+                          {getTranslatedDay(day)}
                         </span>
                       </div>
 
@@ -749,7 +754,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                               whiteSpace: "nowrap",
                             }}
                           >
-                            Added ✅
+                            {t("week.added")} ✅
                           </div>
                         )}
 
@@ -773,7 +778,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                           }}
                         >
                           {isLocked ? <Lock size={14} /> : <Unlock size={14} />}
-                          {isLocked ? "LOCKED" : "LOCK"}
+                          {isLocked ? t("week.locked").toUpperCase() : t("week.lock").toUpperCase()}
                         </button>
                       </div>
                     </div>
@@ -789,7 +794,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                         >
                           <img
                             src="/images/leftovers.jpg"
-                            alt="Leftovers"
+                            alt={t("week.leftovers")}
                             style={{
                               width: 85,
                               height: 85,
@@ -810,7 +815,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                                 lineHeight: 1.2,
                               }}
                             >
-                              Leftovers Night
+                              {t("week.leftoversNight")}
                             </div>
 
                             <div
@@ -823,14 +828,14 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                               }}
                             >
                               <ChefHat size={14} />
-                              No cooking tonight 👍
+                              {t("week.noCookingTonight")} 👍
                             </div>
                           </div>
                         </div>
 
                         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                           <button
-                            title="Long press to download .ics"
+                            title={t("week.longPressICS")}
                             onClick={() => {
                               if (dayPlan) openGoogleCalendar(day, dayPlan);
                             }}
@@ -861,7 +866,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                             }}
                           >
                             <CalendarPlus size={16} />
-                            Add to Calendar
+                            {t("week.addToCalendar")}
                           </button>
                         </div>
                       </div>
@@ -876,7 +881,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                         >
                           <img
                             src="/images/freezer-night.jpg"
-                            alt="Freezer Night"
+                            alt={t("week.freezerNight")}
                             style={{
                               width: 85,
                               height: 85,
@@ -897,7 +902,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                                 lineHeight: 1.2,
                               }}
                             >
-                              Freezer Night
+                              {t("week.freezerNight")}
                             </div>
 
                             <div
@@ -910,14 +915,14 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                               }}
                             >
                               <ChefHat size={14} />
-                              No cooking tonight 👍
+                              {t("week.noCookingTonight")} 👍
                             </div>
                           </div>
                         </div>
 
                         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                           <button
-                            title="Long press to download .ics"
+                            title={t("week.longPressICS")}
                             onClick={() => {
                               if (dayPlan) openGoogleCalendar(day, dayPlan);
                             }}
@@ -948,7 +953,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                             }}
                           >
                             <CalendarPlus size={16} />
-                            Add to Calendar
+                            {t("week.addToCalendar")}
                           </button>
                         </div>
                       </div>
@@ -972,7 +977,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                           {mealPhotoUrl ? (
                             <img
                               src={mealPhotoUrl}
-                              alt={meal.name || "Meal"}
+                              alt={meal.name || t("week.meal")}
                               style={{
                                 width: 85,
                                 height: 85,
@@ -1023,7 +1028,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                               }}
                             >
                               <ChefHat size={14} />
-                              Tap for Details
+                              {t("week.tapForDetails")}
                             </div>
                           </div>
 
@@ -1055,7 +1060,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
       }}
     >
       <Sparkles size={14} />
-      Prep Ahead Tip
+      {t("week.prepAheadTip")}
     </div>
 
     <div
@@ -1065,21 +1070,22 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
         opacity: 0.86,
       }}
     >
-      You’ll use{" "}
+      {t("week.prepAheadPrefix")}{" "}
       <strong>
         {prepAheadItems
           .slice(0, 3)
           .map(formatPrepIngredient)
           .join(", ")}
       </strong>{" "}
-      again on {nextDay}. Prep a little extra tonight to save time tomorrow.
+      {t("week.prepAheadAgainOn")} {getTranslatedDay(nextDay)}.{" "}
+      {t("week.prepAheadSuffix")}
     </div>
   </div>
 )}
 
                         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                           <button
-                            title="Long press to download .ics"
+                            title={t("week.longPressICS")}
                             onClick={() => {
                               if (dayPlan) openGoogleCalendar(day, dayPlan);
                             }}
@@ -1110,7 +1116,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                             }}
                           >
                             <CalendarPlus size={16} />
-                            Add to Calendar
+                            {t("week.addToCalendar")}
                           </button>
                         </div>
                       </>
@@ -1129,7 +1135,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                           }}
                         >
                           <Plus size={24} style={{ marginBottom: 6 }} />
-                          <div>Pick a meal from Cookbook</div>
+                          <div>{t("week.pickMealFromCookbook")}</div>
                         </div>
 
                         <button
@@ -1148,7 +1154,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                             size={16}
                             style={{ marginRight: 6, marginBottom: -3 }}
                           />
-                          Set as Leftovers
+                          {t("week.setAsLeftovers")}
                         </button>
 
                         <button
@@ -1163,7 +1169,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                             cursor: "pointer",
                           }}
                         >
-                          🧊 Freezer Night
+                          🧊 {t("week.freezerNight")}
                         </button>
                       </div>
                     )}
@@ -1195,7 +1201,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                               size={16}
                               style={{ marginBottom: -3, marginRight: 4 }}
                             />
-                            Leftovers
+                            {t("week.leftovers")}
                           </button>
                         )}
 
@@ -1213,7 +1219,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                               cursor: "pointer",
                             }}
                           >
-                            🧊 Freezer
+                            🧊 {t("week.freezer")}
                           </button>
                         )}
 
@@ -1234,7 +1240,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                             size={16}
                             style={{ marginBottom: -3, marginRight: 4 }}
                           />
-                          Remove
+                          {t("week.remove")}
                         </button>
 
                         {mode === "planned" && hasMeal && (
@@ -1251,7 +1257,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                               cursor: "pointer",
                             }}
                           >
-                            Save Recipe
+                            {t("week.saveRecipe")}
                           </button>
                         )}
                       </div>
@@ -1286,7 +1292,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
               }}
             >
               <Share2 size={16} />
-              {plannedMealCount ? "Share Week Plan" : "No meals to share"}
+              {plannedMealCount ? t("week.shareWeekPlan") : t("week.noMealsToShare")}
             </button>
 
             <button
@@ -1310,7 +1316,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
               }}
             >
               <Sparkles size={18} />
-              Generate New Plan
+              {t("week.generateNewPlan")}
             </button>
 
             <button
@@ -1331,10 +1337,12 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
             >
               <CalendarPlus size={16} />
               {plannedMealCount
-                ? `Add ${plannedMealCount} Day${
-                    plannedMealCount > 1 ? "s" : ""
-                  } to Calendar`
-                : "No meals planned"}
+                ? `${t("week.add")} ${plannedMealCount} ${
+                    plannedMealCount === 1
+                      ? t("week.calendarDay")
+                      : t("week.calendarDays")
+                  } ${t("week.toCalendar")}`
+                : t("week.noMealsPlanned")}
             </button>
           </div>
         </div>
@@ -1387,7 +1395,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                     opacity: 0.7,
                   }}
                 >
-                  Quick Tour
+                  {t("week.walkthrough.quickTour")}
                 </div>
 
                 <div style={{ display: "flex", gap: 8 }}>
@@ -1450,9 +1458,9 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                 }}
               >
                 <Sparkles size={12} />
-                {walkthroughStep === 1 && "Tap the button below"}
-                {walkthroughStep === 2 && "Try locking a day"}
-                {walkthroughStep === 3 && "Add your meals to calendar"}
+                {walkthroughStep === 1 && t("week.walkthrough.tapButton")}
+                {walkthroughStep === 2 && t("week.walkthrough.tryLocking")}
+                {walkthroughStep === 3 && t("week.walkthrough.addMealsCalendar")}
               </div>
 
               <div style={{ display: "grid", gap: 10, marginTop: 18 }}>
@@ -1503,7 +1511,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                     cursor: "pointer",
                   }}
                 >
-                  Skip
+                  {t("week.walkthrough.skip")}
                 </button>
               </div>
             </div>
