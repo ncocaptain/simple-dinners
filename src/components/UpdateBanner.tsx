@@ -153,7 +153,7 @@ export default function UpdateBanner() {
               lineHeight: 1.35,
             }}
           >
-            {remote.message || t("update.message")}
+            {t("update.message")}
           </div>
         </div>
 
