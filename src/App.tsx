@@ -658,7 +658,7 @@ useEffect(() => {
             textTransform: "uppercase",
           }}
         >
-          Dinner Built Around You
+          {t("app.tagline").toUpperCase()}
         </div>
       </header>
 
