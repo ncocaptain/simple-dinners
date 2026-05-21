@@ -427,4 +427,15 @@ home: {
     sunday: "Sunday",
   },
 },
+
+finishMessages: {
+  dinnerReady: "Dinner is ready 🎉",
+  smellsAmazing: "That smells amazing 😎",
+  kitchenWin: "Another kitchen win 🔥",
+  platesUp: "Plates up! 🍽️",
+  nicelyDone: "Nicely done, chef 👨‍🍳",
+  dinnerHandled: "Dinner = handled 💪",
+  nailedIt: "Boom. Nailed it. ⭐",
+},
+
 } as const;

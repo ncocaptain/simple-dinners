@@ -435,4 +435,15 @@ home: {
     sunday: "Domingo",
   },
 },
+
+finishMessages: {
+  dinnerReady: "¡La cena está lista! 🎉",
+  smellsAmazing: "Eso huele increíble 😎",
+  kitchenWin: "Otra victoria en la cocina 🔥",
+  platesUp: "¡A servir! 🍽️",
+  nicelyDone: "Muy bien, chef 👨‍🍳",
+  dinnerHandled: "Cena resuelta 💪",
+  nailedIt: "Listo. Te quedó genial. ⭐",
+},
+
 } as const;

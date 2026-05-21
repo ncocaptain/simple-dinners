@@ -626,13 +626,13 @@ function playTimerDoneSound() {
 }
 
 const FINISH_MESSAGES = [
-  "Dinner is ready 🎉",
-  "That smells amazing 😎",
-  "Another kitchen win 🔥",
-  "Plates up! 🍽️",
-  "Nicely done, chef 👨‍🍳",
-  "Dinner = handled 💪",
-  "Boom. Nailed it. ⭐",
+  t("recipe.finishMessages.dinnerReady"),
+  t("recipe.finishMessages.smellsAmazing"),
+  t("recipe.finishMessages.kitchenWin"),
+  t("recipe.finishMessages.platesUp"),
+  t("recipe.finishMessages.nicelyDone"),
+  t("recipe.finishMessages.dinnerHandled"),
+  t("recipe.finishMessages.nailedIt"),
 ];
 
 
