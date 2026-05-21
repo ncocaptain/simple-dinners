@@ -29,6 +29,7 @@ import {
   ShoppingCart,
   Settings,
 } from "lucide-react";
+import UpdateBanner from "./components/UpdateBanner";
 
 // Core
 import type {
@@ -631,6 +632,7 @@ useEffect(() => {
     }}
   >
       <BackHandler />
+      <UpdateBanner />
 
       <header
         style={{
