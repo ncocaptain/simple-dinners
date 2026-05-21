@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { APP_VERSION } from "../appVersion";
+import { t } from "../i18n";
 
 type RemoteVersion = {
   latestVersion?: string;
@@ -141,7 +142,7 @@ export default function UpdateBanner() {
       >
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 14, fontWeight: 1000 }}>
-            Update available
+            {t("update.title")}
           </div>
 
           <div
@@ -152,7 +153,7 @@ export default function UpdateBanner() {
               lineHeight: 1.35,
             }}
           >
-            {remote.message || "A newer version of Simple Dinners is ready."}
+            {remote.message || t("update.message")}
           </div>
         </div>
 
@@ -170,13 +171,13 @@ export default function UpdateBanner() {
             whiteSpace: "nowrap",
           }}
         >
-          Update
+          {t("update.action")}
         </button>
 
         <button
           type="button"
           onClick={handleDismiss}
-          aria-label="Dismiss update banner"
+          aria-label={t("update.dismiss")}
           style={{
             width: 34,
             height: 34,

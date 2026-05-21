@@ -13,6 +13,13 @@ export const es = {
     recipes: "Recetas",
   },
 
+  update: {
+  title: "Actualización disponible",
+  message: "Hay una nueva versión de Simple Dinners lista.",
+  action: "Actualizar",
+  dismiss: "Cerrar aviso de actualización",
+},
+
   common: {
     back: "Atrás",
     save: "Guardar",
