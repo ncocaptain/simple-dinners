@@ -2146,7 +2146,7 @@ const instructionStepStyle: React.CSSProperties = {
         </>
       )}
 
-      {hasMoreInstructions && (
+      {!cookMode && hasMoreInstructions && (
   <button
     type="button"
     onClick={() => setShowAllInstructions((prev) => !prev)}
