@@ -110,6 +110,10 @@ tips: {
     markCooked: "Marcar cocinado",
     timer: "Temporizador",
     startTimer: "Iniciar temporizador",
+    step: "Paso",
+of: "de",
+timerDetected: "Temporizador detectado para este paso",
+noInstructions: "No hay instrucciones disponibles.",
   },
 
   plan: {

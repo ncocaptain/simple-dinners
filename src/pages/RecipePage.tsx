@@ -89,11 +89,24 @@ function cleanIngredientText(text: string) {
     .trim();
 }
 function formatIngredientDisplay(text: string) {
-  return String(text || "")
-    .replace(/\b\w/g, (c) => c.toUpperCase()) // capitalize words
-    .replace(/\s+/g, " ")
-    .replace(/,+$/, "") // remove trailing commas
-    .trim();
+  const cleaned = String(text || "").trim();
+
+  if (!cleaned) return "";
+
+  const language = getStoredLanguage();
+
+  if (language === "es") {
+    const lower = cleaned.toLowerCase();
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
+  }
+
+  return cleaned
+    .split(/\s+/)
+    .map((word) => {
+      const lower = word.toLowerCase();
+      return lower.charAt(0).toUpperCase() + lower.slice(1);
+    })
+    .join(" ");
 }
 
 function formatEffortLabel(effort?: string) {

@@ -108,6 +108,10 @@ tips: {
     markCooked: "Mark cooked",
     timer: "Timer",
     startTimer: "Start Timer",
+    step: "Step",
+of: "of",
+timerDetected: "Timer detected for this step",
+noInstructions: "No instructions available.",
   },
 
   plan: {
