@@ -6,7 +6,8 @@ import type { PlannedDay } from "../core/types";
 import { days } from "../core/data";
 import { candidateLibrary } from "../core/planner";
 import { useToast } from "../components/Toast";
-import { t } from "../i18n";
+import { t, getStoredLanguage } from "../i18n";
+import { getLocalizedMeal } from "../core/localizedMeal";
 
 type Day = (typeof days)[number];
 
@@ -79,9 +80,12 @@ export default function HomePage({
   const toast = toastApi.toast ?? toastApi;
 
   const today = getTodayDayName();
-  const todayPlan = meals[today];
-  const todayMeal = todayPlan?.mode === "planned" ? todayPlan.meal : null;
-  const todayHasMeal = !!todayMeal?.name?.trim();
+  const language = getStoredLanguage();
+
+const todayPlan = meals[today];
+const rawTodayMeal = todayPlan?.mode === "planned" ? todayPlan.meal : null;
+const todayMeal = getLocalizedMeal(rawTodayMeal, language);
+const todayHasMeal = !!todayMeal?.name?.trim();
 
   const plannedCount = days.filter((d) => {
     const dayPlan = meals[d];
@@ -89,17 +93,17 @@ export default function HomePage({
   }).length;
 
   const handleSwapToday = () => {
-    if (!todayMeal) return;
+    if (!rawTodayMeal) return;
 
-    const neededEffort = todayMeal.effort || "normal";
+const neededEffort = rawTodayMeal.effort || "normal";
 
     const pool = candidateLibrary.filter(
-      (m) =>
-        m.name !== todayMeal.name &&
-        (neededEffort === "normal"
-          ? m.effort === "normal" || m.effort === "quick"
-          : m.effort === neededEffort)
-    );
+  (m) =>
+    m.name !== rawTodayMeal.name &&
+    (neededEffort === "normal"
+      ? m.effort === "normal" || m.effort === "quick"
+      : m.effort === neededEffort)
+);
 
     if (pool.length > 0) {
       const newMeal = pool[Math.floor(Math.random() * pool.length)];
@@ -123,8 +127,9 @@ export default function HomePage({
 
   const tomorrow = days[(days.indexOf(today) + 1) % days.length];
   const tomorrowPlan = meals[tomorrow];
-  const tomorrowMeal =
-    tomorrowPlan?.mode === "planned" ? tomorrowPlan.meal : null;
+const rawTomorrowMeal =
+  tomorrowPlan?.mode === "planned" ? tomorrowPlan.meal : null;
+const tomorrowMeal = getLocalizedMeal(rawTomorrowMeal, language);
 
   return (
     <div
