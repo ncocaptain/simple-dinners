@@ -17,7 +17,8 @@ import Card from "../components/Card";
 import { days } from "../core/data";
 import type { Meal, PlannedDay } from "../core/types";
 import TipsModal from "../components/TipsModal";
-import { t } from "../i18n";
+import { t, getStoredLanguage } from "../i18n";
+import { getLocalizedMeal } from "../core/localizedMeal";
 
 type WalkthroughStep = 1 | 2 | 3;
 
@@ -65,6 +66,7 @@ const PREP_AHEAD_NORMALIZE: Record<string, string> = {
   "red bell pepper": "bell pepper",
   "yellow bell pepper": "bell pepper",
 };
+
 
 function cleanupPrepIngredient(line: string) {
   let text = String(line || "")
@@ -142,6 +144,7 @@ export default function WeekPage({
 }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const language = getStoredLanguage();
 
   const WEEK_TIP_KEYS = [
     "week.tips.tapMeal",
@@ -686,17 +689,23 @@ export default function WeekPage({
           <div style={{ display: "grid", gap: 16 }}>
             {days.map((day, index) => {
               const dayPlan = meals[day];
-              const mode = dayPlan?.mode ?? "planned";
-              const meal = dayPlan?.meal ?? null;
-              const isLeftovers = mode === "leftovers";
-              const isFreezer = mode === "freezer";
-              const hasMeal = !!meal?.name?.trim();
-              const isLocked = !!lockedDays[day];
-              const mealPhotoUrl = normalizePhotoUrl(meal?.photoUrl);
-              const nextDay = days[index + 1];
+const mode = dayPlan?.mode ?? "planned";
+
+const rawMeal = mode === "planned" ? dayPlan?.meal ?? null : null;
+const meal = getLocalizedMeal(rawMeal, language);
+
+const isLeftovers = mode === "leftovers";
+const isFreezer = mode === "freezer";
+const hasMeal = !!meal?.name?.trim();
+const isLocked = !!lockedDays[day];
+const mealPhotoUrl = normalizePhotoUrl(meal?.photoUrl);
+
+const nextDay = days[index + 1];
 const nextDayPlan = nextDay ? meals[nextDay] : undefined;
-const nextMeal =
+const rawNextMeal =
   nextDayPlan?.mode === "planned" ? nextDayPlan.meal ?? null : null;
+const nextMeal = getLocalizedMeal(rawNextMeal, language);
+
 const prepAheadItems = getPrepAheadItems(meal, nextMeal);
 
               return (
@@ -962,10 +971,10 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                         <div
                           onClick={() => {
                             navigate(
-                              `/recipe/${encodeURIComponent(
-                                meal.slug || meal.name || ""
-                              )}?from=/week`
-                            );
+  `/recipe/${encodeURIComponent(
+    rawMeal?.slug || rawMeal?.name || meal?.slug || meal?.name || ""
+  )}?from=/week`
+);
                           }}
                           style={{
                             display: "flex",
