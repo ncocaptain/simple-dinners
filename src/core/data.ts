@@ -117,14 +117,24 @@ export const MEAT_WORDS = [
 
 export const NEW_BUILTIN_RECIPES: Meal[] = [
   {
-    id: "quick-beef-chili",
-    slug: "quick-beef-chili",
-    name: "Chili",
-    effort: "quick",
-    photoUrl: "/images/quick-beef-chili.jpg",
-    tags: ["dinner", "beef", "one-pot", "stovetop", "spicy", "comfort", "quick", "leftovers-friendly"],
-    notes: "A hearty, no-fuss chili that is easy to throw together and even better the next day.",
-    ingredients: `1 lb ground beef
+  id: "quick-beef-chili",
+  slug: "quick-beef-chili",
+  name: "Chili",
+  effort: "quick",
+  photoUrl: "/images/quick-beef-chili.jpg",
+  tags: [
+    "dinner",
+    "beef",
+    "one-pot",
+    "stovetop",
+    "spicy",
+    "comfort",
+    "quick",
+    "leftovers-friendly",
+  ],
+  notes:
+    "A hearty, no-fuss chili that is easy to throw together and even better the next day.",
+  ingredients: `1 lb ground beef
 2 (14.5 oz) cans fire-roasted diced tomatoes
 1 (28 oz) can diced tomatoes
 1 (15.5 oz) can chili beans (do not drain)
@@ -134,13 +144,47 @@ export const NEW_BUILTIN_RECIPES: Meal[] = [
 shredded cheese
 sour cream
 fresh or pickled jalapeños`,
-    instructions: `Brown the ground beef in a large pot over medium heat until fully cooked.
+  instructions: `Brown the ground beef in a large pot over medium heat until fully cooked.
 Drain excess grease.
 Add fire-roasted tomatoes, diced tomatoes, chili beans, corn, black beans, and chili seasoning. Stir well.
 Bring to a gentle simmer.
 Reduce heat and simmer uncovered for 30 minutes, stirring occasionally.
 Serve hot and top with shredded cheese, sour cream, and jalapeños.`,
+
+  translations: {
+    es: {
+      name: "Chili casero",
+      notes:
+        "Un chili sustancioso y fácil de preparar, perfecto para una cena sin complicaciones y aún mejor al día siguiente.",
+      tags: [
+        "cena",
+        "carne de res",
+        "una olla",
+        "estufa",
+        "picante",
+        "comida reconfortante",
+        "rápido",
+        "bueno para sobras",
+      ],
+      ingredients: `1 lb de carne molida de res
+2 latas (14.5 oz) de tomates asados en cubitos
+1 lata (28 oz) de tomates en cubitos
+1 lata (15.5 oz) de frijoles para chili, sin escurrir
+1 lata (15 oz) de maíz, escurrido
+1 lata (15 oz) de frijoles negros, escurridos y enjuagados
+1 paquete de sazonador para chili
+queso rallado
+crema agria
+jalapeños frescos o en escabeche`,
+      instructions: `Dora la carne molida de res en una olla grande a fuego medio hasta que esté completamente cocida.
+Escurre el exceso de grasa.
+Agrega los tomates asados, los tomates en cubitos, los frijoles para chili, el maíz, los frijoles negros y el sazonador para chili. Mezcla bien.
+Lleva a un hervor suave.
+Reduce el fuego y cocina sin tapar durante 30 minutos, revolviendo de vez en cuando.
+Sirve caliente y agrega queso rallado, crema agria y jalapeños encima.`,
+    },
   },
+},
 
   {
     id: "normal-chicken-greenbean-mushroom-bake",

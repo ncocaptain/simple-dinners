@@ -11,6 +11,16 @@ export interface Meal {
   tags?: string[];
   isVegetarian?: boolean;
   notes?: string;
+
+  translations?: {
+  es?: {
+    name?: string;
+    notes?: string;
+    ingredients?: string;
+    instructions?: string;
+    tags?: string[];
+  };
+};
 }
 
 export type PantryItem = {

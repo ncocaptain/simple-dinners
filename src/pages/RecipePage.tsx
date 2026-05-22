@@ -23,7 +23,8 @@ import { addIngredientsToList } from "../shoppingList";
 import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
 import { isCommonPantryStaple } from "../core/pantry";
 import TipsModal from "../components/TipsModal";
-import { t } from "../i18n";
+import { t, getStoredLanguage } from "../i18n";
+import { getLocalizedMeal } from "../core/localizedMeal";
 
 
 
@@ -998,7 +999,7 @@ const hasMoreInstructions = instructions.length > 5;
     );
   }
 
-  const safeRecipe = recipe;
+  const safeRecipe = getLocalizedMeal(recipe, getStoredLanguage()) || recipe;
 
   // =====================================================
   // Builder: actions
