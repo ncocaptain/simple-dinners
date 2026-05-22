@@ -15,6 +15,7 @@ import type { Meal, Effort } from "../core/types";
 import { ALL_RECIPES, days } from "../core/data";
 import { getCookbook } from "../core/cookbookStore";
 import { t, getStoredLanguage, type LanguageCode } from "../i18n";
+import { getLocalizedMeal } from "../core/localizedMeal";
 
 type RecipesPageProps = {
   recipes?: Meal[];
@@ -27,6 +28,7 @@ type RecipesPageProps = {
 };
 
 const RECIPES_PAGE_STATE_KEY = "simple-dinners:recipes-page-state";
+
 
 // =====================================================
 // Builder: helpers
@@ -280,6 +282,16 @@ export default function RecipesPage({
     });
   }, [recipes, cookbook]);
 
+
+const localizedRecipes = useMemo(
+  () =>
+    mergedRecipes.map((recipe) => ({
+      raw: recipe,
+      display: getLocalizedMeal(recipe, language) || recipe,
+    })),
+  [mergedRecipes, language]
+);
+
   // =====================================================
   // Builder: quick grouped stats
   // =====================================================
@@ -293,44 +305,46 @@ export default function RecipesPage({
   // =====================================================
 
   const filteredRecipes = useMemo(() => {
-    const q = normalizeText(query);
+  const q = normalizeText(query);
 
-    return mergedRecipes.filter((recipe) => {
-      const searchableText = [
-        recipe.name,
-        recipe.slug,
-        recipe.ingredients,
-        recipe.instructions,
-        recipe.notes,
-        ...(recipe.tags ?? []),
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
+  return localizedRecipes.filter(({ raw, display }) => {
+    const searchableText = [
+      display.name,
+      raw.name,
+      raw.slug,
+      display.ingredients,
+      display.instructions,
+      display.notes,
+      ...(display.tags ?? []),
+      ...(raw.tags ?? []),
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
 
-      const recipeKey = String(recipe.slug || recipe.id || recipe.name || "")
-        .trim()
-        .toLowerCase();
+    const recipeKey = String(raw.slug || raw.id || raw.name || "")
+      .trim()
+      .toLowerCase();
 
-      if (q && !searchableText.includes(q)) return false;
-      if (effort !== "all" && recipe.effort !== effort) return false;
-      if (showCookbookOnly && !cookbookKeys.has(recipeKey)) return false;
-      if (showVegetarianOnly && !hasTag(recipe, "vegetarian")) return false;
-      if (showSaladsOnly && !hasTag(recipe, "salad")) return false;
-      if (showGrillingOnly && !hasTag(recipe, "grilling")) return false;
+    if (q && !searchableText.includes(q)) return false;
+    if (effort !== "all" && raw.effort !== effort) return false;
+    if (showCookbookOnly && !cookbookKeys.has(recipeKey)) return false;
+    if (showVegetarianOnly && !hasTag(raw, "vegetarian")) return false;
+    if (showSaladsOnly && !hasTag(raw, "salad")) return false;
+    if (showGrillingOnly && !hasTag(raw, "grilling")) return false;
 
-      return true;
-    });
-  }, [
-    mergedRecipes,
-    query,
-    effort,
-    showCookbookOnly,
-    showVegetarianOnly,
-    showSaladsOnly,
-    showGrillingOnly,
-    cookbookKeys,
-  ]);
+    return true;
+  });
+}, [
+  localizedRecipes,
+  query,
+  effort,
+  showCookbookOnly,
+  showVegetarianOnly,
+  showSaladsOnly,
+  showGrillingOnly,
+  cookbookKeys,
+]);
 
   function getRecipeDayLabel(day: string) {
     const labels: Record<string, string> = {
@@ -802,155 +816,122 @@ export default function RecipesPage({
             )}
           </div>
         </Card>
-
-        <div style={gridStyle}>
-          {filteredRecipes.map((recipe) => {
-            const recipeKey = String(recipe.slug || recipe.id || recipe.name || "")
-              .trim()
-              .toLowerCase();
-
-            const isSaved = cookbookKeys.has(recipeKey);
-            const recipePhotoUrl = normalizePhotoUrl(recipe.photoUrl);
-            const isGrilling = hasTag(recipe, "grilling");
-
-            return (
-              <Card key={recipeKey} style={recipeCardStyle}>
-                {recipePhotoUrl ? (
-                  <img
-                    src={recipePhotoUrl}
-                    alt={recipe.name}
-                    style={photoStyle}
-                    onClick={() => handleOpenRecipe(recipe)}
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      target.onerror = null;
-                      target.style.display = "none";
-                    }}
-                  />
-                ) : (
-                  <div style={photoStyle} onClick={() => handleOpenRecipe(recipe)} />
-                )}
-
-                <div style={bodyStyle}>
-                  <div style={{ display: "grid", gap: 8 }}>
-                    <h3 style={{ margin: 0, fontSize: 18, fontWeight: 900 }}>
-                      {recipe.name}
-                    </h3>
-
-                    <div style={tagsWrap}>
-                      <span style={tagStyle}>{effortLabel(recipe.effort)}</span>
-
-                      {isGrilling && (
-                        <span style={grillingTagStyle}>🔥 {t("recipes.grilling")}</span>
-                      )}
-
-                      {getVisibleRecipeTags(recipe)
-  .slice(0, 4)
-  .map((tag) => (
-    <span key={tag} style={tagStyle}>
-      {tag}
-    </span>
-  ))}
-                    </div>
-
-                    <p
-                      style={{
-                        margin: 0,
-                        fontSize: 13,
-                        opacity: 0.72,
-                        lineHeight: 1.45,
-                        minHeight: 38,
-                      }}
-                    >
-                      {recipe.notes || t("recipes.defaultNote")}
-                    </p>
-                  </div>
-
-                  <div style={btnRow}>
-                    <button
-                      type="button"
-                      style={btnStyle}
-                      onClick={() => handleOpenRecipe(recipe)}
-                    >
-                      {t("recipes.openRecipe")}
-                    </button>
-
-                    <button
-                      type="button"
-                      style={{
-                        ...btnStyle,
-                        opacity: isSaved ? 0.7 : 1,
-                        transform:
-                          justAddedSlug === recipeKey ? "scale(1.05)" : "scale(1)",
-                        border:
-                          isSaved || justAddedSlug === recipeKey
-                            ? "1px solid rgba(34,197,94,0.45)"
-                            : btnStyle.border,
-                        background:
-                          isSaved || justAddedSlug === recipeKey
-                            ? "rgba(34,197,94,0.12)"
-                            : btnStyle.background,
-                        color:
-                          isSaved || justAddedSlug === recipeKey
-                            ? "#86efac"
-                            : "white",
-                        transition: "all 0.18s ease",
-                        cursor: isSaved ? "default" : "pointer",
-                      }}
-                      onClick={() => handleAddToCookbook(recipe)}
-                      disabled={isSaved}
-                    >
-                      <Plus size={14} />
-                      {isSaved || justAddedSlug === recipeKey
-                        ? t("recipes.savedCheck")
-                        : t("recipes.addToCookbook")}
-                    </button>
-
-                    <button
-                      type="button"
-                      style={btnStyle}
-                      onClick={() => handleOpenDayPicker(recipe)}
-                    >
-                      <CalendarPlus size={14} />
-                      {t("recipes.addToWeek")}
-                    </button>
-                  </div>
-                </div>
-              </Card>
-            );
-          })}
         </div>
 
-        {!filteredRecipes.length && (
-          <Card>
-            <div
-              style={{
-                textAlign: "center",
-                padding: "24px 12px",
-                opacity: 0.7,
-                display: "grid",
-                gap: 10,
-              }}
-            >
-              <div>{t("recipes.noRecipesFound")}</div>
+        <div style={gridStyle}>
+          {filteredRecipes.map(({ raw, display }) => {
+  const recipeKey = String(raw.slug || raw.id || raw.name || "")
+    .trim()
+    .toLowerCase();
 
-              <div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setQuery("");
-                    setEffort("all");
-                    clearExtraFilters();
-                  }}
-                  style={btnStyle}
-                >
-                  {t("recipes.resetFilters")}
-                </button>
-              </div>
-            </div>
-          </Card>
-        )}
+  const isSaved = cookbookKeys.has(recipeKey);
+  const recipePhotoUrl = normalizePhotoUrl(display.photoUrl || raw.photoUrl);
+  const isGrilling = hasTag(raw, "grilling");
+
+  return (
+    <Card key={recipeKey} style={recipeCardStyle}>
+      {recipePhotoUrl ? (
+        <img
+          src={recipePhotoUrl}
+          alt={display.name || raw.name}
+          style={photoStyle}
+          onClick={() => handleOpenRecipe(raw)}
+          onError={(e) => {
+            const target = e.currentTarget;
+            target.onerror = null;
+            target.style.display = "none";
+          }}
+        />
+      ) : (
+        <div style={photoStyle} onClick={() => handleOpenRecipe(raw)} />
+      )}
+
+      <div style={bodyStyle}>
+        <div style={{ display: "grid", gap: 8 }}>
+          <h3 style={{ margin: 0, fontSize: 18, fontWeight: 900 }}>
+            {display.name || raw.name}
+          </h3>
+
+          <div style={tagsWrap}>
+            <span style={tagStyle}>{effortLabel(raw.effort)}</span>
+
+            {isGrilling && (
+              <span style={grillingTagStyle}>🔥 {t("recipes.grilling")}</span>
+            )}
+
+            {getVisibleRecipeTags(display)
+              .slice(0, 4)
+              .map((tag) => (
+                <span key={tag} style={tagStyle}>
+                  {tag}
+                </span>
+              ))}
+          </div>
+
+          <p
+            style={{
+              margin: 0,
+              fontSize: 13,
+              opacity: 0.72,
+              lineHeight: 1.45,
+              minHeight: 38,
+            }}
+          >
+            {display.notes || raw.notes || t("recipes.defaultNote")}
+          </p>
+        </div>
+
+        <div style={btnRow}>
+          <button
+            type="button"
+            style={btnStyle}
+            onClick={() => handleOpenRecipe(raw)}
+          >
+            {t("recipes.openRecipe")}
+          </button>
+
+          <button
+            type="button"
+            style={{
+              ...btnStyle,
+              opacity: isSaved ? 0.7 : 1,
+              transform: justAddedSlug === recipeKey ? "scale(1.05)" : "scale(1)",
+              border:
+                isSaved || justAddedSlug === recipeKey
+                  ? "1px solid rgba(34,197,94,0.45)"
+                  : btnStyle.border,
+              background:
+                isSaved || justAddedSlug === recipeKey
+                  ? "rgba(34,197,94,0.12)"
+                  : btnStyle.background,
+              color:
+                isSaved || justAddedSlug === recipeKey ? "#86efac" : "white",
+              transition: "all 0.18s ease",
+              cursor: isSaved ? "default" : "pointer",
+            }}
+            onClick={() => handleAddToCookbook(raw)}
+            disabled={isSaved}
+          >
+            <Plus size={14} />
+            {isSaved || justAddedSlug === recipeKey
+              ? t("recipes.savedCheck")
+              : t("recipes.addToCookbook")}
+          </button>
+
+          <button
+            type="button"
+            style={btnStyle}
+            onClick={() => handleOpenDayPicker(raw)}
+          >
+            <CalendarPlus size={14} />
+            {t("recipes.addToWeek")}
+          </button>
+        </div>
       </div>
+    </Card>
+  );
+})}
+</div>
 
       {dayPickerOpen && selectedMealForWeek && (
         <div
