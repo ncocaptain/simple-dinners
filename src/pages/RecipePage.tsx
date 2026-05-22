@@ -717,20 +717,33 @@ const [showAllInstructions, setShowAllInstructions] = useState(false);
 
   const wakeLockRef = useRef<any>(null);
   const recipeNoteKey = recipe?.slug || recipe?.name || "";
+  const safeRecipe =
+  getLocalizedMeal(recipe, getStoredLanguage()) ||
+  recipe || {
+    id: "",
+    slug: "",
+    name: t("recipe.fallbackTitle", "Recipe"),
+    effort: "normal",
+    photoUrl: "",
+    tags: [],
+    notes: "",
+    ingredients: "",
+    instructions: "",
+  };
 
   // =====================================================
   // Builder: derived recipe data
   // =====================================================
 
   const ingredients = useMemo(
-    () => splitLines(recipe?.ingredients),
-    [recipe?.ingredients]
-  );
+  () => splitLines(safeRecipe?.ingredients),
+  [safeRecipe?.ingredients]
+);
 
-  const instructions = useMemo(
-    () => splitLines(recipe?.instructions),
-    [recipe?.instructions]
-  );
+const instructions = useMemo(
+  () => splitLines(safeRecipe?.instructions),
+  [safeRecipe?.instructions]
+);
   const visibleIngredients = showAllIngredients
   ? ingredients
   : ingredients.slice(0, 5);
@@ -998,8 +1011,6 @@ const hasMoreInstructions = instructions.length > 5;
       </div>
     );
   }
-
-  const safeRecipe = getLocalizedMeal(recipe, getStoredLanguage()) || recipe;
 
   // =====================================================
   // Builder: actions
