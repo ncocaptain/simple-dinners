@@ -2,7 +2,7 @@
 // IMPORTS
 // =========================================================
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type {
   CSSProperties,
   Dispatch,
@@ -24,8 +24,9 @@ import {
 
 import Card from "../components/Card";
 import TipsModal from "../components/TipsModal";
-import { t } from "../i18n";
+import { t, getStoredLanguage } from "../i18n";
 import type { Meal } from "../core/types";
+import { getLocalizedMeal } from "../core/localizedMeal";
 
 // =========================================================
 // TYPES
@@ -396,9 +397,10 @@ export default function CookbookPage({
   // =========================================================
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const pickForDay = location.state?.pickForDay as string | undefined;
-  const cookbookTips = COOKBOOK_TIP_KEYS.map((key) => t(key));
+const location = useLocation();
+const pickForDay = location.state?.pickForDay as string | undefined;
+const cookbookTips = COOKBOOK_TIP_KEYS.map((key) => t(key));
+const language = getStoredLanguage();
 
   // =========================================================
   // STATE
@@ -423,6 +425,14 @@ export default function CookbookPage({
     manualRecipe.ingredients,
     manualRecipe.instructions
   );
+  const localizedCookbook = useMemo(
+  () =>
+    (cookbook || []).map((recipe) => ({
+      raw: recipe,
+      display: getLocalizedMeal(recipe, language) || recipe,
+    })),
+  [cookbook, language]
+);
 
   // =========================================================
   // EFFECTS
@@ -1429,25 +1439,25 @@ export default function CookbookPage({
           ========================================================= */}
 
           <div style={{ display: "grid", gap: 14 }}>
-            {(cookbook || []).map((recipe, index) => {
-              const status = getRecipeStatus(recipe);
-              const ingredientCount = splitLines(recipe?.ingredients).length;
-              const stepCount =
-                !recipe?.instructions ||
-                recipe.instructions === "Steps available at source link!"
-                  ? 0
-                  : splitLines(recipe?.instructions).length;
+            {localizedCookbook.map(({ raw, display }, index) => {
+  const status = getRecipeStatus(raw);
+  const ingredientCount = splitLines(display?.ingredients).length;
+  const stepCount =
+    !display?.instructions ||
+    display.instructions === "Steps available at source link!"
+      ? 0
+      : splitLines(display?.instructions).length;
 
-              const recipeSlug =
-                recipe.slug || `${slugify(recipe.name || "recipe")}-${index}`;
+  const recipeSlug =
+    raw.slug || `${slugify(raw.name || "recipe")}-${index}`;
 
-              const recipePhotoUrl = normalizePhotoUrl(recipe?.photoUrl);
+  const recipePhotoUrl = normalizePhotoUrl(display?.photoUrl || raw?.photoUrl);
 
               return (
                 <div
                   key={recipeSlug}
                   id={`cookbook-${recipeSlug}`}
-                  onClick={() => handleRecipeClick(recipe, recipeSlug)}
+                  onClick={() => handleRecipeClick(raw, recipeSlug)}
                   style={{ cursor: "pointer" }}
                 >
                   <Card
@@ -1477,7 +1487,7 @@ export default function CookbookPage({
                       {recipePhotoUrl && (
                         <img
                           src={recipePhotoUrl}
-                          alt={recipe.name}
+                          alt={display.name || raw.name}
                           style={{
                             width: 84,
                             minHeight: 104,
@@ -1497,7 +1507,7 @@ export default function CookbookPage({
                             wordBreak: "break-word",
                           }}
                         >
-                          {recipe.name}
+                          {display.name || raw.name}
                         </div>
 
                         {pickForDay && (
@@ -1544,9 +1554,9 @@ export default function CookbookPage({
                             {getRecipeStatusLabel(status)}
                           </div>
 
-                          {recipe.effort && (
-                            <div style={pillStyle}>{getCookbookEffortLabel(recipe.effort)}</div>
-                          )}
+                          {raw.effort && (
+  <div style={pillStyle}>{getCookbookEffortLabel(raw.effort)}</div>
+)}
                         </div>
                       </div>
 
@@ -1562,7 +1572,7 @@ export default function CookbookPage({
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            openEditRecipe(recipe);
+                            openEditRecipe(raw);
                           }}
                           style={{
                             ...actionBtnStyle,
@@ -1577,7 +1587,7 @@ export default function CookbookPage({
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleDeleteRecipe(recipe);
+                            handleDeleteRecipe(raw);
                           }}
                           style={{
                             ...actionBtnStyle,
