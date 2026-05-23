@@ -187,14 +187,14 @@ Sirve caliente y agrega queso rallado, crema agria y jalapeños encima.`,
 },
 
   {
-    id: "normal-chicken-greenbean-mushroom-bake",
-    slug: "normal-chicken-greenbean-mushroom-bake",
-    name: "Chicken Green Bean Mushroom Bake",
-    effort: "normal",
-    photoUrl: "/images/normal-chicken-greenbean-mushroom-bake.jpg",
-    tags: ["dinner", "chicken", "bake", "casserole", "comfort", "family-friendly", "leftovers-friendly"],
-    notes: "A creamy baked chicken dinner that works well for cozy weeknights and reheats nicely.",
-    ingredients: `4 skinless chicken breasts
+  id: "normal-chicken-greenbean-mushroom-bake",
+  slug: "normal-chicken-greenbean-mushroom-bake",
+  name: "Chicken Green Bean Mushroom Bake",
+  effort: "normal",
+  photoUrl: "/images/normal-chicken-greenbean-mushroom-bake.jpg",
+  tags: ["dinner", "chicken", "bake", "casserole", "comfort", "family-friendly", "leftovers-friendly"],
+  notes: "A creamy baked chicken dinner that works well for cozy weeknights and reheats nicely.",
+  ingredients: `4 skinless chicken breasts
 8 oz baby bella mushrooms, sliced
 2 (10.5 oz) cans cream of mushroom soup
 1 (14.5 oz) can green beans, drained
@@ -205,7 +205,7 @@ Sirve caliente y agrega queso rallado, crema agria y jalapeños encima.`,
 1/2 cup shredded mozzarella cheese
 salt
 pepper`,
-    instructions: `Preheat oven to 375°F.
+  instructions: `Preheat oven to 375°F.
 In a baking dish, mix 1 can of cream of mushroom soup, mushrooms, and green beans.
 In a skillet over medium-high heat, melt 2 Tbsp butter and brown chicken on both sides with 1 Tbsp garlic.
 Place chicken on top of the mixture in the baking dish.
@@ -214,9 +214,45 @@ Cover tightly with foil and bake for 30 minutes, or until chicken reaches 165°F
 Meanwhile, bring 2 cups water to a boil, add rice, reduce heat, cover, and simmer 15 minutes. Rest 5 minutes.
 Uncover dish, sprinkle mozzarella on top, and return to oven 5 to 10 minutes until melted.
 Serve chicken and mushroom mixture over rice; season with salt and pepper.`,
+  translations: {
+    es: {
+      name: "Pollo al horno con ejotes y champiñones",
+      notes:
+        "Una cena cremosa de pollo al horno, perfecta para noches acogedoras y muy buena para recalentar.",
+      tags: [
+        "cena",
+        "pollo",
+        "horneado",
+        "cazuela",
+        "comida reconfortante",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `4 pechugas de pollo sin piel
+8 oz de champiñones baby bella, rebanados
+2 latas (10.5 oz) de crema de champiñones
+1 lata (14.5 oz) de ejotes, escurridos
+1 Tbsp de ajo, picado
+2 Tbsp de mantequilla
+1 cup de arroz blanco
+2 cups de agua
+1/2 cup de queso mozzarella rallado
+sal
+pimienta`,
+      instructions: `Precalienta el horno a 375°F.
+En un molde para hornear, mezcla 1 lata de crema de champiñones, los champiñones y los ejotes.
+En un sartén a fuego medio-alto, derrite 2 Tbsp de mantequilla y dora el pollo por ambos lados con 1 Tbsp de ajo.
+Coloca el pollo sobre la mezcla en el molde para hornear.
+Unta la lata restante de crema de champiñones sobre el pollo.
+Cubre bien con papel aluminio y hornea durante 30 minutos, o hasta que el pollo alcance 165°F.
+Mientras tanto, hierve 2 cups de agua, agrega el arroz, reduce el fuego, tapa y cocina a fuego bajo durante 15 minutos. Deja reposar 5 minutos.
+Destapa el molde, espolvorea mozzarella encima y regresa al horno de 5 a 10 minutos, hasta que se derrita.
+Sirve el pollo y la mezcla de champiñones sobre arroz; sazona con sal y pimienta.`,
+    },
   },
+},
 
-  {
+{
   id: "seared-ahi-tuna",
   slug: "seared-ahi-tuna",
   name: "Seared Ahi Tuna",
@@ -260,18 +296,71 @@ Serve with sauce, wasabi if desired, and garnish with green onions.`,
   effort: "quick",
   tags: ["dinner", "seafood", "tuna", "quick", "healthy", "high-protein", "asian", "premium"],
   isVegetarian: false,
-  notes: "Use sushi-grade ahi tuna for best results. The key is a very hot pan and a quick sear to keep the center tender and rare."
+  notes: "Use sushi-grade ahi tuna for best results. The key is a very hot pan and a quick sear to keep the center tender and rare.",
+  translations: {
+    es: {
+      name: "Atún ahi sellado",
+      notes:
+        "Usa atún ahi de calidad para sushi para mejores resultados. La clave es un sartén muy caliente y un sellado rápido para mantener el centro tierno y poco cocido.",
+      tags: [
+        "cena",
+        "mariscos",
+        "atún",
+        "rápido",
+        "saludable",
+        "alto en proteína",
+        "asiático",
+        "especial",
+      ],
+      ingredients: `Atún:
+2 filetes de atún ahi (aprox. 6 oz cada uno)
+1 Tbsp de aceite de sésamo o aceite de oliva
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+
+Costra (opcional pero recomendada):
+2 Tbsp de semillas de sésamo blancas o mixtas
+1 tsp de salsa de soya
+
+Salsa:
+2 Tbsp de salsa de soya
+1 Tbsp de vinagre de arroz
+1 tsp de miel
+1/2 tsp de aceite de sésamo
+
+Opcional:
+1 tsp de wasabi
+1 Tbsp de cebollines, rebanados`,
+      instructions: `Seca completamente 2 filetes de atún ahi con toallas de papel.
+
+Barniza ligeramente el atún con 1 tsp de salsa de soya, luego presiona sobre 2 Tbsp de semillas de sésamo para cubrir todos los lados, si las usas.
+
+Sazona con 1/2 tsp de sal y 1/4 tsp de pimienta negra.
+
+Calienta 1 Tbsp de aceite de sésamo en un sartén, preferiblemente de hierro fundido, a fuego alto hasta que apenas empiece a humear.
+
+Coloca el atún en el sartén y sella de 60 a 90 segundos por lado, hasta formar una costra dorada mientras el centro queda poco cocido.
+
+Retira del fuego y deja reposar durante 2 minutos.
+
+En un tazón pequeño, bate 2 Tbsp de salsa de soya, 1 Tbsp de vinagre de arroz, 1 tsp de miel y 1/2 tsp de aceite de sésamo.
+
+Corta el atún contra la fibra en rebanadas delgadas.
+
+Sirve con la salsa, wasabi si deseas, y decora con cebollines.`,
+    },
+  },
 },
 
-  {
-    id: "big-beef-salisbury-steak",
-    slug: "big-beef-salisbury-steak",
-    name: "Salisbury Steak with Mushroom Gravy",
-    effort: "big",
-    photoUrl: "/images/big-beef-salisbury-steak.jpg",
-    tags: ["dinner", "beef", "stovetop", "comfort", "gravy", "family-friendly"],
-    notes: "Classic comfort food with rich mushroom gravy that is perfect over mashed potatoes.",
-    ingredients: `1 lb ground beef
+{
+  id: "big-beef-salisbury-steak",
+  slug: "big-beef-salisbury-steak",
+  name: "Salisbury Steak with Mushroom Gravy",
+  effort: "big",
+  photoUrl: "/images/big-beef-salisbury-steak.jpg",
+  tags: ["dinner", "beef", "stovetop", "comfort", "gravy", "family-friendly"],
+  notes: "Classic comfort food with rich mushroom gravy that is perfect over mashed potatoes.",
+  ingredients: `1 lb ground beef
 1/4 cup panko breadcrumbs
 1 large egg, beaten
 5 tsp ketchup
@@ -286,7 +375,7 @@ Serve with sauce, wasabi if desired, and garnish with green onions.`,
 8 oz baby bella mushrooms, sliced
 salt
 pepper`,
-    instructions: `In a bowl, mix ground beef, 1/4 cup breadcrumbs, 1 egg, 2 tsp ketchup, 1 tsp dijon, and 1/2 tsp oregano until just combined.
+  instructions: `In a bowl, mix ground beef, 1/4 cup breadcrumbs, 1 egg, 2 tsp ketchup, 1 tsp dijon, and 1/2 tsp oregano until just combined.
 Shape into 4 oval patties, about 3/4-inch thick.
 Heat 1 Tbsp olive oil in a large skillet over medium-high heat.
 Cook patties about 3 minutes per side until browned; transfer to a plate.
@@ -297,17 +386,58 @@ Stir in 1 Tbsp ketchup, 1 tsp worcestershire, and 1/2 tsp onion powder.
 Add mushrooms and simmer about 5 minutes until thickened; season with salt and pepper.
 Return patties to skillet, nestle into gravy, cover, and cook 10 minutes or until temperature reaches 160°F.
 Serve over mashed potatoes with mushroom gravy spooned on top.`,
+  translations: {
+    es: {
+      name: "Filetes Salisbury con gravy de champiñones",
+      notes:
+        "Un clásico de comida reconfortante con un gravy rico de champiñones, perfecto para servir sobre puré de papas.",
+      tags: [
+        "cena",
+        "carne de res",
+        "estufa",
+        "comida reconfortante",
+        "gravy",
+        "familiar",
+      ],
+      ingredients: `1 lb de carne molida de res
+1/4 cup de pan molido panko
+1 huevo grande, batido
+5 tsp de ketchup
+1 tsp de mostaza dijon
+1/2 tsp de orégano seco
+1 Tbsp de aceite de oliva
+2 Tbsp de mantequilla
+2 Tbsp de harina
+1 1/2 cups de caldo de res
+1 tsp de salsa worcestershire
+1/2 tsp de cebolla en polvo
+8 oz de champiñones baby bella, rebanados
+sal
+pimienta`,
+      instructions: `En un tazón, mezcla la carne molida, 1/4 cup de pan molido, 1 huevo, 2 tsp de ketchup, 1 tsp de dijon y 1/2 tsp de orégano hasta que todo esté apenas combinado.
+Forma 4 tortitas ovaladas de aproximadamente 3/4 inch de grosor.
+Calienta 1 Tbsp de aceite de oliva en un sartén grande a fuego medio-alto.
+Cocina las tortitas unos 3 minutos por lado, hasta que estén doradas; pásalas a un plato.
+Reduce el fuego a medio y derrite 2 Tbsp de mantequilla en el mismo sartén.
+Bate 2 Tbsp de harina hasta que quede suave; cocina de 1 a 2 minutos.
+Reduce el fuego a medio-bajo y agrega lentamente 1 1/2 cups de caldo de res, batiendo hasta que quede suave.
+Agrega 1 Tbsp de ketchup, 1 tsp de salsa worcestershire y 1/2 tsp de cebolla en polvo.
+Agrega los champiñones y cocina a fuego lento unos 5 minutos, hasta que espese; sazona con sal y pimienta.
+Regresa las tortitas al sartén, acomódalas dentro del gravy, tapa y cocina 10 minutos o hasta que alcancen 160°F.
+Sirve sobre puré de papas con el gravy de champiñones encima.`,
+    },
   },
+},
 
-  {
-    id: "normal-wild-west-shrimp",
-    slug: "normal-wild-west-shrimp",
-    name: "Wild West Shrimp",
-    effort: "normal",
-    photoUrl: "/images/normal-wild-west-shrimp.jpg",
-    tags: ["dinner", "seafood", "shellfish", "shrimp", "fried", "spicy", "restaurant-style"],
-    notes: "A restaurant-style shrimp dish with bold buttery heat and a crunchy coating.",
-    ingredients: `1 lb medium shrimp, peeled and deveined
+{
+  id: "normal-wild-west-shrimp",
+  slug: "normal-wild-west-shrimp",
+  name: "Wild West Shrimp",
+  effort: "normal",
+  photoUrl: "/images/normal-wild-west-shrimp.jpg",
+  tags: ["dinner", "seafood", "shellfish", "shrimp", "fried", "spicy", "restaurant-style"],
+  notes: "A restaurant-style shrimp dish with bold buttery heat and a crunchy coating.",
+  ingredients: `1 lb medium shrimp, peeled and deveined
 1 1/2 cups flour
 1 tsp pepper
 1/2 tsp salt
@@ -318,7 +448,7 @@ frying oil (enough for about 2 inches deep)
 1 Tbsp garlic, minced
 1 Tbsp lemon juice
 6 cherry peppers, chopped`,
-    instructions: `Add oil to a frying pan or pot and heat over medium-high.
+  instructions: `Add oil to a frying pan or pot and heat over medium-high.
 In a bowl, mix 1 1/2 cups flour, 1/2 tsp salt, and 1 tsp pepper.
 Place 1 cup milk in a separate bowl.
 Dredge shrimp in milk, then coat in flour mixture. Shake off excess.
@@ -332,17 +462,57 @@ Sauté over low heat for 2 to 3 minutes.
 
 Drizzle the mixture over the fried shrimp.
 Serve warm with ranch dressing.`,
-  },
+  translations: {
+    es: {
+      name: "Camarones estilo Wild West",
+      notes:
+        "Un plato de camarones estilo restaurante con mantequilla, un toque picante y una cubierta crujiente.",
+      tags: [
+        "cena",
+        "mariscos",
+        "camarones",
+        "frito",
+        "picante",
+        "estilo restaurante",
+      ],
+      ingredients: `1 lb de camarones medianos, pelados y desvenados
+1 1/2 cups de harina
+1 tsp de pimienta
+1/2 tsp de sal
+1 cup de leche
+aceite para freír, suficiente para unas 2 inches de profundidad
+1 Tbsp de sazonador Old Bay
+1/2 cup de mantequilla
+1 Tbsp de ajo, picado
+1 Tbsp de jugo de limón
+6 chiles cherry, picados`,
+      instructions: `Agrega aceite a un sartén o una olla y calienta a fuego medio-alto.
+En un tazón, mezcla 1 1/2 cups de harina, 1/2 tsp de sal y 1 tsp de pimienta.
+Coloca 1 cup de leche en otro tazón.
+Pasa los camarones por la leche y luego cúbrelos con la mezcla de harina. Sacude el exceso.
+Fríe los camarones en tandas hasta que estén dorados y bien cocidos.
+Retíralos con una cuchara ranurada y escúrrelos sobre toallas de papel.
 
-  {
-    id: "big-mushroom-swiss-sliders",
-    slug: "big-mushroom-swiss-sliders",
-    name: "Mushroom Swiss Sliders",
-    effort: "big",
-    photoUrl: "/images/big-mushroom-swiss-sliders.jpg",
-    tags: ["dinner", "beef", "sliders", "sandwich", "bake", "party", "comfort", "family-friendly"],
-    notes: "Great for feeding a crowd or using as a fun family dinner night.",
-    ingredients: `1 Tbsp seasoned salt
+En otro sartén, derrite 1/2 cup de mantequilla a fuego bajo.
+Agrega 1 Tbsp de ajo y 1 Tbsp de jugo de limón, y mezcla.
+Agrega 6 chiles cherry picados y aproximadamente 1 Tbsp de sazonador Old Bay.
+Saltea a fuego bajo de 2 a 3 minutos.
+
+Rocía la mezcla sobre los camarones fritos.
+Sirve caliente con aderezo ranch.`,
+    },
+  },
+},
+
+{
+  id: "big-mushroom-swiss-sliders",
+  slug: "big-mushroom-swiss-sliders",
+  name: "Mushroom Swiss Sliders",
+  effort: "big",
+  photoUrl: "/images/big-mushroom-swiss-sliders.jpg",
+  tags: ["dinner", "beef", "sliders", "sandwich", "bake", "party", "comfort", "family-friendly"],
+  notes: "Great for feeding a crowd or using as a fun family dinner night.",
+  ingredients: `1 Tbsp seasoned salt
 1 Tbsp hamburger seasoning
 1/4 tsp salt
 1/4 tsp pepper
@@ -360,7 +530,7 @@ Serve warm with ranch dressing.`,
 2 tsp sesame seeds
 1 package King’s Hawaiian rolls (12 count)
 12 slices Swiss cheese`,
-    instructions: `Preheat oven to 350°F. Spray a 9x13-inch baking dish with nonstick spray.
+  instructions: `Preheat oven to 350°F. Spray a 9x13-inch baking dish with nonstick spray.
 
 In a small bowl, mix 1 Tbsp seasoned salt, 1 Tbsp hamburger seasoning, 1/4 tsp salt, and 1/4 tsp pepper.
 Heat 1 Tbsp olive oil in a large skillet over medium heat.
@@ -387,24 +557,86 @@ Brush tops with seasoned butter mixture.
 Cover with foil and bake 20 minutes until cheese is melted.
 Remove foil and bake 5 more minutes until tops are golden brown.
 Serve warm.`,
+  translations: {
+    es: {
+      name: "Sliders de champiñones y queso suizo",
+      notes:
+        "Ideales para alimentar a varias personas o para una cena familiar divertida.",
+      tags: [
+        "cena",
+        "carne de res",
+        "sliders",
+        "sándwich",
+        "horneado",
+        "fiesta",
+        "comida reconfortante",
+        "familiar",
+      ],
+      ingredients: `1 Tbsp de sal sazonada
+1 Tbsp de sazonador para hamburguesa
+1/4 tsp de sal
+1/4 tsp de pimienta
+1 Tbsp de aceite de oliva
+1/2 cup de cebolla amarilla, picada en cubitos
+1 tsp de ajo, picado
+1 lb de carne molida de res
+1/2 tsp de salsa worcestershire
+3/4 cup (1 1/2 barras) de mantequilla
+8 oz de champiñones baby bella, rebanados
+1/4 cup de caldo de res
+1/4 cup de leche
+1/2 cup de queso suizo rallado
+1 tsp de sal de ajo
+2 tsp de semillas de sésamo
+1 paquete de panecillos King’s Hawaiian (12 piezas)
+12 rebanadas de queso suizo`,
+      instructions: `Precalienta el horno a 350°F. Rocía un molde para hornear de 9x13 inches con spray antiadherente.
+
+En un tazón pequeño, mezcla 1 Tbsp de sal sazonada, 1 Tbsp de sazonador para hamburguesa, 1/4 tsp de sal y 1/4 tsp de pimienta.
+Calienta 1 Tbsp de aceite de oliva en un sartén grande a fuego medio.
+Agrega 1/2 cup de cebolla picada y 1 tsp de ajo, y cocina de 1 a 2 minutos.
+Agrega la carne molida y sepárala con una cuchara.
+Incorpora 1/2 tsp de salsa worcestershire y la mezcla de sazonadores.
+Cocina de 8 a 10 minutos, hasta que no quede color rosado. Escurre y reserva.
+
+En una cacerola mediana a fuego medio, derrite 1/2 cup de mantequilla.
+Agrega los champiñones y cocina de 5 a 10 minutos, hasta que se ablanden.
+Agrega 1/4 cup de caldo de res y 1/4 cup de leche.
+Reduce el fuego y bate lentamente 1/2 cup de queso suizo rallado hasta que se derrita.
+Agrega la mezcla de carne cocida y combina bien.
+
+Derrite 1/4 cup de mantequilla y mezcla con 1 tsp de sal de ajo y 2 tsp de semillas de sésamo en un tazón pequeño.
+
+Corta los panecillos por la mitad y coloca las mitades inferiores en el molde para hornear.
+Coloca 6 rebanadas de queso suizo sobre los panes inferiores.
+Extiende la mezcla de carne de manera uniforme sobre el queso.
+Cubre con las 6 rebanadas restantes de queso suizo.
+Coloca las mitades superiores de los panes sobre los sliders.
+Barniza la parte superior con la mezcla de mantequilla sazonada.
+
+Cubre con papel aluminio y hornea durante 20 minutos, hasta que el queso se derrita.
+Retira el papel aluminio y hornea 5 minutos más, hasta que la parte superior esté dorada.
+Sirve caliente.`,
+    },
   },
+},
 
   {
-    id: "normal-school-pizza",
-    slug: "normal-school-pizza",
-    name: "School Pizza",
-    effort: "normal",
-    photoUrl: "/images/normal-school-pizza.jpg",
-    tags: ["dinner", "pizza", "bake", "comfort", "kid-friendly", "sheet-pan", "family-friendly"],
-    notes: "A nostalgic sheet-pan pizza that brings back cafeteria memories in the best way.",
-    ingredients: `4 Tbsp olive oil, divided
+  id: "normal-school-pizza",
+  slug: "normal-school-pizza",
+  name: "School Pizza",
+  effort: "normal",
+  photoUrl: "/images/normal-school-pizza.jpg",
+  tags: ["dinner", "pizza", "bake", "comfort", "kid-friendly", "sheet-pan", "family-friendly"],
+  notes: "A nostalgic sheet-pan pizza that brings back cafeteria memories in the best way.",
+  ingredients: `4 Tbsp olive oil, divided
 3 Tbsp cornmeal
 1 lb prepared pizza dough
 1 lb mild ground Italian sausage
 3 Tbsp Italian seasoning
 1 (13 oz) jar pizza sauce
 4 cups shredded mozzarella cheese`,
-    instructions: `Preheat oven to 400°F.
+  instructions: `Preheat oven to 400°F.
 Drizzle 3 Tbsp olive oil onto a half sheet pan and brush to coat evenly.
 Sprinkle 3 Tbsp cornmeal over the pan.
 
@@ -426,17 +658,62 @@ Top with 4 cups shredded mozzarella.
 Return to oven and bake 8 to 10 minutes until cheese is melted and lightly golden.
 Remove and slice into 8 rectangles.
 Serve warm.`,
-  },
+  translations: {
+    es: {
+      name: "Pizza escolar",
+      notes:
+        "Una pizza nostálgica en bandeja que trae recuerdos de cafetería de la mejor manera.",
+      tags: [
+        "cena",
+        "pizza",
+        "horneado",
+        "comida reconfortante",
+        "para niños",
+        "bandeja",
+        "familiar",
+      ],
+      ingredients: `4 Tbsp de aceite de oliva, dividido
+3 Tbsp de harina de maíz
+1 lb de masa de pizza preparada
+1 lb de salchicha italiana molida suave
+3 Tbsp de sazonador italiano
+1 frasco (13 oz) de salsa para pizza
+4 cups de queso mozzarella rallado`,
+      instructions: `Precalienta el horno a 400°F.
+Rocía 3 Tbsp de aceite de oliva sobre una bandeja grande para hornear y extiéndelo para cubrirla de manera uniforme.
+Espolvorea 3 Tbsp de harina de maíz sobre la bandeja.
 
-  {
-    id: "big-shotgun-shells",
-    slug: "big-shotgun-shells",
-    name: "Shotgun Shells",
-    effort: "big",
-    photoUrl: "/images/big-shotgun-shells.jpg",
-    tags: ["dinner", "beef", "pork", "bbq", "bake", "party", "comfort", "game-day"],
-    notes: "A big-flavor BBQ dinner that is fun for weekends, cookouts, or game day.",
-    ingredients: `2 (8 oz) boxes manicotti shells (uncooked)
+Estira la masa de pizza en forma de rectángulo para que quepa en la bandeja.
+Si la masa se resiste a estirarse, déjala reposar 5 minutos y continúa.
+
+Calienta la 1 Tbsp restante de aceite de oliva en un sartén a fuego medio-alto.
+Agrega la salchicha y 3 Tbsp de sazonador italiano.
+Cocina de 7 a 8 minutos, hasta que esté dorada y ya no esté rosada.
+Escurre el exceso de grasa.
+
+Hornea solo la base de pizza de 7 a 8 minutos, hasta que ya no se vea húmeda y empiece a dorarse ligeramente.
+Retira del horno.
+
+Extiende la salsa para pizza de manera uniforme sobre la base, llegando hasta los bordes.
+Espolvorea la salchicha cocida de manera uniforme sobre la salsa.
+Cubre con 4 cups de queso mozzarella rallado.
+
+Regresa al horno y hornea de 8 a 10 minutos, hasta que el queso se derrita y esté ligeramente dorado.
+Retira y corta en 8 rectángulos.
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "big-shotgun-shells",
+  slug: "big-shotgun-shells",
+  name: "Shotgun Shells",
+  effort: "big",
+  photoUrl: "/images/big-shotgun-shells.jpg",
+  tags: ["dinner", "beef", "pork", "bbq", "bake", "party", "comfort", "game-day"],
+  notes: "A big-flavor BBQ dinner that is fun for weekends, cookouts, or game day.",
+  ingredients: `2 (8 oz) boxes manicotti shells (uncooked)
 1 1/2 lb ground beef
 1 lb hot Italian sausage
 1 medium red onion, finely diced
@@ -449,7 +726,7 @@ Serve warm.`,
 1 tsp red pepper flakes
 3 (12 oz) packages bacon
 1/2 cup barbecue sauce (plus extra for brushing)`,
-    instructions: `Preheat oven to 300°F.
+  instructions: `Preheat oven to 300°F.
 Line a baking sheet with aluminum foil and place a wire rack on top.
 
 In a large bowl, mix together 1 1/2 lb ground beef, 1 lb hot Italian sausage, 1 medium onion, 2 cups colby jack cheese, 6 oz cream cheese, 1 jalapeno, 2 tsp Cajun seasoning, 2 tsp garlic powder, 2 tsp pepper, and 1 tsp red pepper flakes until fully combined.
@@ -465,17 +742,63 @@ Place shells on prepared rack and bake for 60 minutes.
 Flip shells over, brush with more barbecue sauce, and bake an additional 60 to 70 minutes until bacon is crispy and cooked through.
 
 Serve hot.`,
-  },
+  translations: {
+    es: {
+      name: "Conchas rellenas envueltas en tocino",
+      notes:
+        "Una cena BBQ llena de sabor, perfecta para fines de semana, parrilladas o día de partido.",
+      tags: [
+        "cena",
+        "carne de res",
+        "cerdo",
+        "bbq",
+        "horneado",
+        "fiesta",
+        "comida reconfortante",
+        "día de partido",
+      ],
+      ingredients: `2 cajas (8 oz) de conchas manicotti, sin cocinar
+1 1/2 lb de carne molida de res
+1 lb de salchicha italiana picante
+1 cebolla roja mediana, finamente picada
+2 cups de queso colby jack rallado
+6 oz de queso crema, suavizado
+1 jalapeño, finamente picado
+2 tsp de sazonador cajún
+2 tsp de ajo en polvo
+2 tsp de pimienta
+1 tsp de hojuelas de chile rojo
+3 paquetes (12 oz) de tocino
+1/2 cup de salsa barbecue, más extra para barnizar`,
+      instructions: `Precalienta el horno a 300°F.
+Cubre una bandeja para hornear con papel aluminio y coloca una rejilla encima.
 
-  {
-    id: "normal-shrimp-and-sausage-bake",
-    slug: "normal-shrimp-and-sausage-bake",
-    name: "Shrimp and Sausage Bake",
-    effort: "normal",
-    photoUrl: "/images/normal-shrimp-and-sausage-bake.jpg",
-    tags: ["dinner", "sheet-pan", "seafood", "shellfish", "shrimp", "sausage", "one-pan", "leftovers-friendly"],
-    notes: "A low-mess sheet-pan dinner with big flavor and a nice mix of protein and veggies.",
-    ingredients: `cooking spray
+En un tazón grande, mezcla 1 1/2 lb de carne molida, 1 lb de salchicha italiana picante, 1 cebolla mediana, 2 cups de queso colby jack, 6 oz de queso crema, 1 jalapeño, 2 tsp de sazonador cajún, 2 tsp de ajo en polvo, 2 tsp de pimienta y 1 tsp de hojuelas de chile rojo hasta que todo esté bien combinado.
+
+Rellena suavemente las conchas manicotti sin cocinar por ambos extremos, asegurándote de que no queden bolsas de aire.
+
+Envuelve cada concha rellena firmemente con tocino, cubriendo completamente los extremos. Puede que necesites dos piezas de tocino por concha.
+
+Barniza ambos lados de cada concha envuelta con más salsa barbecue.
+
+Coloca las conchas sobre la rejilla preparada y hornea durante 60 minutos.
+
+Voltea las conchas, barniza con más salsa barbecue y hornea de 60 a 70 minutos más, hasta que el tocino esté crujiente y bien cocido.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "normal-shrimp-and-sausage-bake",
+  slug: "normal-shrimp-and-sausage-bake",
+  name: "Shrimp and Sausage Bake",
+  effort: "normal",
+  photoUrl: "/images/normal-shrimp-and-sausage-bake.jpg",
+  tags: ["dinner", "sheet-pan", "seafood", "shellfish", "shrimp", "sausage", "one-pan", "leftovers-friendly"],
+  notes: "A low-mess sheet-pan dinner with big flavor and a nice mix of protein and veggies.",
+  ingredients: `cooking spray
 3 cups red potatoes, cut into 1-inch pieces
 4 Tbsp butter, melted
 3 Tbsp olive oil
@@ -493,7 +816,7 @@ Serve hot.`,
 1 green bell pepper, cut into 1-inch pieces
 1 can corn, drained
 fresh parsley`,
-    instructions: `Preheat oven to 400°F.
+  instructions: `Preheat oven to 400°F.
 Lightly coat a large sheet pan with cooking spray. Add cut potatoes to the sheet pan.
 
 In a small bowl, whisk together 4 Tbsp melted butter, 3 Tbsp olive oil, 2 tsp garlic, 1 Tbsp dried parsley, 1 Tbsp dried oregano, 1/2 tsp garlic powder, 1/2 tsp seasoned salt, 1 tsp paprika, and 1/4 tsp cayenne pepper.
@@ -515,18 +838,74 @@ Remove from oven and space vegetables evenly. Add shrimp to pan and bake 6 minut
 Add drained corn on top and bake 1 additional minute.
 
 Toss gently and garnish with fresh parsley before serving.`,
-  },
+  translations: {
+    es: {
+      name: "Camarones y salchicha al horno",
+      notes:
+        "Una cena en bandeja con poco desorden, mucho sabor y una buena mezcla de proteína y verduras.",
+      tags: [
+        "cena",
+        "bandeja",
+        "mariscos",
+        "camarones",
+        "salchicha",
+        "una bandeja",
+        "bueno para sobras",
+      ],
+      ingredients: `spray para cocinar
+3 cups de papas rojas, cortadas en trozos de 1 inch
+4 Tbsp de mantequilla, derretida
+3 Tbsp de aceite de oliva
+2 tsp de ajo, picado
+1 Tbsp de perejil seco
+1 Tbsp de orégano seco
+1/2 tsp de ajo en polvo
+1/2 tsp de sal sazonada
+1 tsp de paprika
+1/4 tsp de pimienta de cayena
+1 lb de camarones extra grandes, pelados y desvenados
+1 paquete de salchicha ahumada, rebanada en rodajas
+1 cebolla amarilla grande, cortada en trozos de 1/2 inch
+1 pimiento rojo, cortado en trozos de 1 inch
+1 pimiento verde, cortado en trozos de 1 inch
+1 lata de maíz, escurrido
+perejil fresco`,
+      instructions: `Precalienta el horno a 400°F.
+Cubre ligeramente una bandeja grande para hornear con spray para cocinar. Agrega las papas cortadas a la bandeja.
 
-  {
-    id: "normal-classic-meatloaf",
-    slug: "normal-classic-meatloaf",
-    name: "Classic Meatloaf",
-    effort: "normal",
-    photoUrl: "/images/normal-classic-meatloaf.jpg",
-    tags: ["dinner", "beef", "bake", "comfort", "classic", "family-friendly", "leftovers-friendly"],
-    isVegetarian: false,
-    notes: "Juicy, tender meatloaf with a sweet and tangy glaze. For extra flavor, sauté the onions and garlic before mixing. Great served with mashed potatoes and green beans.",
-    ingredients: `1 1/2 lbs ground beef
+En un tazón pequeño, bate 4 Tbsp de mantequilla derretida, 3 Tbsp de aceite de oliva, 2 tsp de ajo, 1 Tbsp de perejil seco, 1 Tbsp de orégano seco, 1/2 tsp de ajo en polvo, 1/2 tsp de sal sazonada, 1 tsp de paprika y 1/4 tsp de pimienta de cayena.
+
+Retira 2 cucharadas de esta mezcla y revuelve con las papas hasta cubrirlas de manera uniforme. Extiende las papas en una sola capa y hornea durante 15 minutos.
+
+Mientras tanto, seca los camarones y mézclalos con 2 1/2 cucharadas de la mezcla de mantequilla y hierbas. Reserva.
+
+Rebana la salchicha en rodajas, corta la cebolla en trozos de 1/2 inch, corta los pimientos en trozos de 1 inch y escurre bien el maíz.
+
+Retira las papas del horno y revuelve. Empuja las papas hacia un lado de la bandeja. Agrega la salchicha, la cebolla y los pimientos al otro lado.
+
+Vierte el resto de la mezcla de mantequilla y hierbas sobre todo y revuelve bien. Extiende en una sola capa y regresa al horno durante 15 minutos.
+
+Revuelve y hornea 8 minutos más.
+
+Retira del horno y distribuye las verduras de manera uniforme. Agrega los camarones a la bandeja y hornea 6 minutos, o hasta que los camarones estén cocidos y las verduras estén tiernas pero firmes.
+
+Agrega el maíz escurrido encima y hornea 1 minuto más.
+
+Mezcla suavemente y decora con perejil fresco antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "normal-classic-meatloaf",
+  slug: "normal-classic-meatloaf",
+  name: "Classic Meatloaf",
+  effort: "normal",
+  photoUrl: "/images/normal-classic-meatloaf.jpg",
+  tags: ["dinner", "beef", "bake", "comfort", "classic", "family-friendly", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Juicy, tender meatloaf with a sweet and tangy glaze. For extra flavor, sauté the onions and garlic before mixing. Great served with mashed potatoes and green beans.",
+  ingredients: `1 1/2 lbs ground beef
 1 cup breadcrumbs (or crushed crackers)
 1/2 cup milk
 1 small yellow onion, finely diced
@@ -546,7 +925,7 @@ FOR GLAZE
 2 Tbsp brown sugar
 1 Tbsp worcestershire sauce
 1 tsp mustard`,
-    instructions: `Preheat oven to 375°F. Line a baking sheet with parchment paper or lightly grease a loaf pan.
+  instructions: `Preheat oven to 375°F. Line a baking sheet with parchment paper or lightly grease a loaf pan.
 
 In a large bowl, combine 1 cup breadcrumbs and 1/2 cup milk. Let sit for 2 to 3 minutes until absorbed.
 
@@ -561,17 +940,68 @@ Bake for 40 minutes. Remove from the oven, spread the remaining glaze on top, an
 Bake for an additional 15 to 25 minutes, until the internal temperature reaches 160°F and the glaze is caramelized.
 
 Let rest for 10 minutes before slicing and serving.`,
-  },
+  translations: {
+    es: {
+      name: "Pastel de carne clásico",
+      notes:
+        "Un pastel de carne jugoso y tierno con un glaseado dulce y ácido. Para más sabor, sofríe la cebolla y el ajo antes de mezclar. Queda muy bien con puré de papas y ejotes.",
+      tags: [
+        "cena",
+        "carne de res",
+        "horneado",
+        "comida reconfortante",
+        "clásico",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `1 1/2 lbs de carne molida de res
+1 cup de pan molido o galletas saladas trituradas
+1/2 cup de leche
+1 cebolla amarilla pequeña, finamente picada
+2 dientes de ajo, picados
+2 huevos grandes
+2 Tbsp de ketchup
+1 Tbsp de salsa worcestershire
+1 tsp de sal
+1/2 tsp de pimienta
+1 tsp de paprika ahumada
+1/2 tsp de tomillo seco
+1/2 tsp de perejil seco
+1/2 tsp de cebolla en polvo
 
-  {
-    id: "normal-tilapia-asparagus-foil-packets",
-    slug: "normal-tilapia-asparagus-foil-packets",
-    name: "Tilapia & Asparagus Foil Packets",
-    effort: "normal",
-    photoUrl: "/images/normal-tilapia-asparagus-foil-packets.jpg",
-    tags: ["dinner", "seafood", "fish", "tilapia", "foil-packets", "bake", "healthy", "one-pan"],
-    notes: "A light and easy fish dinner with almost no cleanup.",
-    ingredients: `1 bunch asparagus
+PARA EL GLASEADO
+1/3 cup de ketchup
+2 Tbsp de azúcar morena
+1 Tbsp de salsa worcestershire
+1 tsp de mostaza`,
+      instructions: `Precalienta el horno a 375°F. Cubre una bandeja para hornear con papel pergamino o engrasa ligeramente un molde para pan.
+
+En un tazón grande, combina 1 cup de pan molido y 1/2 cup de leche. Deja reposar de 2 a 3 minutos, hasta que se absorba.
+
+Agrega la carne molida, la cebolla picada, el ajo, los huevos, 2 Tbsp de ketchup, 1 Tbsp de salsa worcestershire, 1 tsp de sal, 1/2 tsp de pimienta, 1 tsp de paprika ahumada, 1/2 tsp de tomillo, 1/2 tsp de perejil y 1/2 tsp de cebolla en polvo. Mezcla suavemente con las manos hasta que apenas se combine. No mezcles demasiado.
+
+Pasa la mezcla a la bandeja preparada o al molde para pan. Dale forma de pan de aproximadamente 8 a 9 inches de largo.
+
+En un tazón pequeño, bate 1/3 cup de ketchup, 2 Tbsp de azúcar morena, 1 Tbsp de salsa worcestershire y 1 tsp de mostaza. Unta la mitad del glaseado sobre el pastel de carne.
+
+Hornea durante 40 minutos. Retira del horno, unta el glaseado restante encima y regresa al horno.
+
+Hornea de 15 a 25 minutos más, hasta que la temperatura interna alcance 160°F y el glaseado esté caramelizado.
+
+Deja reposar 10 minutos antes de cortar y servir.`,
+    },
+  },
+},
+
+{
+  id: "normal-tilapia-asparagus-foil-packets",
+  slug: "normal-tilapia-asparagus-foil-packets",
+  name: "Tilapia & Asparagus Foil Packets",
+  effort: "normal",
+  photoUrl: "/images/normal-tilapia-asparagus-foil-packets.jpg",
+  tags: ["dinner", "seafood", "fish", "tilapia", "foil-packets", "bake", "healthy", "one-pan"],
+  notes: "A light and easy fish dinner with almost no cleanup.",
+  ingredients: `1 bunch asparagus
 2 yellow squash
 1/4 tsp garlic powder
 4 tilapia fillets, thawed
@@ -580,7 +1010,7 @@ Let rest for 10 minutes before slicing and serving.`,
 4 Tbsp butter
 4 tsp lemon juice
 1 tsp dried oregano`,
-    instructions: `Preheat oven to 375°F.
+  instructions: `Preheat oven to 375°F.
 
 Lay out four 2-foot sheets of aluminum foil.
 
@@ -601,17 +1031,64 @@ Place packets on a baking sheet or in glass baking dishes.
 Bake for 20 minutes.
 
 Carefully open packets. Steam will be hot. Remove from foil before serving.`,
+  translations: {
+    es: {
+      name: "Paquetes de tilapia y espárragos en aluminio",
+      notes:
+        "Una cena ligera y fácil de pescado, con casi nada que limpiar.",
+      tags: [
+        "cena",
+        "mariscos",
+        "pescado",
+        "tilapia",
+        "paquetes de aluminio",
+        "horneado",
+        "saludable",
+        "una bandeja",
+      ],
+      ingredients: `1 manojo de espárragos
+2 calabazas amarillas
+1/4 tsp de ajo en polvo
+4 filetes de tilapia, descongelados
+1/4 tsp de sal
+1/4 tsp de paprika
+4 Tbsp de mantequilla
+4 tsp de jugo de limón
+1 tsp de orégano seco`,
+      instructions: `Precalienta el horno a 375°F.
+
+Extiende cuatro hojas de papel aluminio de 2 pies.
+
+Corta los extremos de los espárragos y colócalos un poco fuera del centro sobre el aluminio, formando una capa base.
+Cubre con calabaza rebanada y espolvorea 1/4 tsp de ajo en polvo.
+
+Coloca un filete de tilapia encima de las verduras.
+Sazona con 1/4 tsp de sal y 1/4 tsp de paprika.
+
+Agrega 2 Tbsp de mantequilla encima de cada filete.
+Rocía con 2 tsp de jugo de limón.
+Espolvorea con 1 tsp de orégano seco.
+
+Dobla el papel aluminio y sella bien los tres bordes para formar un paquete.
+
+Coloca los paquetes en una bandeja para hornear o en moldes de vidrio.
+
+Hornea durante 20 minutos.
+
+Abre los paquetes con cuidado. El vapor estará caliente. Retira del aluminio antes de servir.`,
+    },
   },
+},
 
   {
-    id: "normal-slow-cooker-beef-enchilada-casserole",
-    slug: "normal-slow-cooker-beef-enchilada-casserole",
-    name: "Slow Cooker Beef Enchilada Casserole",
-    effort: "normal",
-    photoUrl: "/images/normal-slow-cooker-beef-enchilada-casserole.jpg",
-    tags: ["dinner", "beef", "slow-cooker", "casserole", "mexican", "comfort", "leftovers-friendly"],
-    notes: "An easy crockpot dinner that is filling, cheesy, and great for busy evenings.",
-    ingredients: `1 1/2 lbs lean ground beef
+  id: "normal-slow-cooker-beef-enchilada-casserole",
+  slug: "normal-slow-cooker-beef-enchilada-casserole",
+  name: "Slow Cooker Beef Enchilada Casserole",
+  effort: "normal",
+  photoUrl: "/images/normal-slow-cooker-beef-enchilada-casserole.jpg",
+  tags: ["dinner", "beef", "slow-cooker", "casserole", "mexican", "comfort", "leftovers-friendly"],
+  notes: "An easy crockpot dinner that is filling, cheesy, and great for busy evenings.",
+  ingredients: `1 1/2 lbs lean ground beef
 1 packet taco seasoning
 1 (15 oz) can black beans, drained and rinsed
 1 (28 oz) jar enchilada sauce
@@ -622,7 +1099,7 @@ Carefully open packets. Steam will be hot. Remove from foil before serving.`,
 cilantro, chopped
 pico de gallo
 sour cream`,
-    instructions: `In a large skillet over medium-high heat, cook 1 1/2 lbs lean ground beef until browned.
+  instructions: `In a large skillet over medium-high heat, cook 1 1/2 lbs lean ground beef until browned.
 Drain excess grease and stir in 1 packet of taco seasoning.
 
 Transfer the seasoned beef to the slow cooker.
@@ -637,17 +1114,59 @@ Layer the remaining tortilla wedges and the remaining 3/4 cup of cheese on top.
 Cover and cook on High for about 30 minutes, or until the cheese is fully melted.
 
 Garnish with chopped cilantro, pico de gallo, and sour cream before serving.`,
-  },
+  translations: {
+    es: {
+      name: "Cazuela de enchiladas de res en olla lenta",
+      notes:
+        "Una cena fácil en olla lenta, llenadora, con mucho queso y perfecta para noches ocupadas.",
+      tags: [
+        "cena",
+        "carne de res",
+        "olla lenta",
+        "cazuela",
+        "mexicana",
+        "comida reconfortante",
+        "bueno para sobras",
+      ],
+      ingredients: `1 1/2 lbs de carne molida de res magra
+1 paquete de sazonador para tacos
+1 lata (15 oz) de frijoles negros, escurridos y enjuagados
+1 frasco (28 oz) de salsa para enchiladas
+1 lata (4 oz) de chiles verdes
+1 cebolla blanca, picada en cubitos
+10 tortillas de maíz (6-inch), cortadas en triángulos
+1 1/2 cups de mezcla de quesos mexicanos rallados
+cilantro, picado
+pico de gallo
+crema agria`,
+      instructions: `En un sartén grande a fuego medio-alto, cocina 1 1/2 lbs de carne molida de res magra hasta que esté dorada.
+Escurre el exceso de grasa e incorpora 1 paquete de sazonador para tacos.
 
-  {
-    id: "normal-shepherds-pie",
-    slug: "normal-shepherds-pie",
-    name: "Shepherd’s Pie",
-    effort: "normal",
-    photoUrl: "/images/normal-shepherds-pie.jpg",
-    tags: ["dinner", "beef", "bake", "comfort", "casserole", "family-friendly", "leftovers-friendly"],
-    notes: "A warm, classic comfort meal that feels right at home on chilly nights.",
-    ingredients: `1 1/2 to 2 lbs potatoes (about 3 large), peeled and quartered
+Pasa la carne sazonada a la olla lenta.
+Agrega 28 oz de salsa para enchiladas, 15 oz de frijoles negros escurridos, 4 oz de chiles verdes y 1 cebolla blanca picada.
+Mezcla para combinar.
+
+Tapa y cocina en Low de 3 a 4 horas.
+
+Agrega la mitad de los triángulos de tortilla de maíz (5 tortillas) y 3/4 cup de queso mexicano rallado.
+Coloca encima los triángulos de tortilla restantes y el 3/4 cup restante de queso.
+
+Tapa y cocina en High durante unos 30 minutos, o hasta que el queso esté completamente derretido.
+
+Decora con cilantro picado, pico de gallo y crema agria antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "normal-shepherds-pie",
+  slug: "normal-shepherds-pie",
+  name: "Shepherd’s Pie",
+  effort: "normal",
+  photoUrl: "/images/normal-shepherds-pie.jpg",
+  tags: ["dinner", "beef", "bake", "comfort", "casserole", "family-friendly", "leftovers-friendly"],
+  notes: "A warm, classic comfort meal that feels right at home on chilly nights.",
+  ingredients: `1 1/2 to 2 lbs potatoes (about 3 large), peeled and quartered
 8 Tbsp butter (1 stick), divided
 1 medium yellow onion, chopped
 2 cups mixed vegetables (diced carrots, corn, peas)
@@ -658,7 +1177,7 @@ salt
 pepper
 8 oz baby bella mushrooms
 2 cloves garlic`,
-    instructions: `Place 1 1/2 to 2 lbs of peeled and quartered potatoes in a pot and cover with at least 1 inch of cold water. Add a teaspoon of salt. Bring to a boil, reduce to a simmer, and cook until tender, about 20 minutes.
+  instructions: `Place 1 1/2 to 2 lbs of peeled and quartered potatoes in a pot and cover with at least 1 inch of cold water. Add a teaspoon of salt. Bring to a boil, reduce to a simmer, and cook until tender, about 20 minutes.
 
 While potatoes cook, melt 4 Tbsp butter in a large sauté pan over medium heat. Add 1 chopped medium onion and the diced carrots from the mixed vegetables and cook until tender, about 6 to 10 minutes.
 
@@ -675,17 +1194,61 @@ Preheat oven to 400°F. Spread the beef mixture in an even layer in an 8x13 baki
 Spread the mashed potatoes over the top. Rough up the surface with a fork to create peaks.
 
 Bake about 30 minutes until browned and bubbling.`,
-  },
+  translations: {
+    es: {
+      name: "Pastel de carne con puré",
+      notes:
+        "Una comida clásica, cálida y reconfortante que queda perfecta para noches frías.",
+      tags: [
+        "cena",
+        "carne de res",
+        "horneado",
+        "comida reconfortante",
+        "cazuela",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `1 1/2 a 2 lbs de papas (aprox. 3 grandes), peladas y cortadas en cuartos
+8 Tbsp de mantequilla (1 barra), dividida
+1 cebolla amarilla mediana, picada
+2 cups de verduras mixtas (zanahorias en cubitos, maíz, chícharos)
+1 1/2 lbs de carne molida de res
+1/2 cup de caldo de res
+1 tsp de salsa worcestershire
+sal
+pimienta
+8 oz de champiñones baby bella
+2 dientes de ajo`,
+      instructions: `Coloca 1 1/2 a 2 lbs de papas peladas y cortadas en cuartos en una olla y cúbrelas con al menos 1 inch de agua fría. Agrega 1 tsp de sal. Lleva a hervor, reduce a fuego bajo y cocina hasta que estén tiernas, unos 20 minutos.
 
-  {
-    id: "normal-italian-sausage-stuffed-peppers",
-    slug: "normal-italian-sausage-stuffed-peppers",
-    name: "Italian Sausage Stuffed Peppers",
-    effort: "normal",
-    photoUrl: "/images/normal-italian-sausage-stuffed-peppers.jpg",
-    tags: ["dinner", "pork", "italian", "bake", "stuffed-peppers", "comfort", "family-friendly"],
-    notes: "A solid weeknight baked dinner that is filling without being too fussy.",
-    ingredients: `1 lb Italian sausage
+Mientras se cocinan las papas, derrite 4 Tbsp de mantequilla en un sartén grande a fuego medio. Agrega 1 cebolla mediana picada y las zanahorias en cubitos de las verduras mixtas, y cocina hasta que estén tiernas, de 6 a 10 minutos.
+
+Agrega 8 oz de champiñones baby bella y 2 dientes de ajo; cocina de 2 a 3 minutos, hasta que los champiñones se ablanden.
+
+Agrega 1 1/2 lbs de carne molida de res, junto con el maíz y los chícharos restantes de las verduras mixtas. Cocina hasta que la carne ya no esté rosada. Sazona con sal y pimienta.
+
+Incorpora 1 tsp de salsa worcestershire y 1/2 cup de caldo de res. Lleva a hervor suave, reduce el fuego a bajo y cocina sin tapar unos 10 minutos. Agrega un poco más de caldo si es necesario para que no se seque.
+
+Escurre las papas y colócalas en un tazón con las 4 Tbsp restantes de mantequilla. Machaca y sazona con sal y pimienta al gusto.
+
+Precalienta el horno a 400°F. Extiende la mezcla de carne en una capa uniforme en un molde para hornear de 8x13.
+
+Extiende el puré de papas encima. Raspa ligeramente la superficie con un tenedor para crear picos.
+
+Hornea unos 30 minutos, hasta que esté dorado y burbujeante.`,
+    },
+  },
+},
+
+{
+  id: "normal-italian-sausage-stuffed-peppers",
+  slug: "normal-italian-sausage-stuffed-peppers",
+  name: "Italian Sausage Stuffed Peppers",
+  effort: "normal",
+  photoUrl: "/images/normal-italian-sausage-stuffed-peppers.jpg",
+  tags: ["dinner", "pork", "italian", "bake", "stuffed-peppers", "comfort", "family-friendly"],
+  notes: "A solid weeknight baked dinner that is filling without being too fussy.",
+  ingredients: `1 lb Italian sausage
 2 tsp olive oil
 1 (14.5 oz) can fire-roasted diced tomatoes
 2 tsp garlic powder
@@ -699,7 +1262,7 @@ Bake about 30 minutes until browned and bubbling.`,
 3 large bell peppers
 red pepper flakes
 fresh basil`,
-    instructions: `Preheat oven to 375°F.
+  instructions: `Preheat oven to 375°F.
 
 Cut around the stem of 3 large bell peppers and remove it. Slice peppers in half lengthwise and remove seeds and white membrane. Place cut-side up in a baking dish.
 
@@ -716,18 +1279,65 @@ Cover with foil and bake 25 to 30 minutes, or longer if you like softer peppers,
 Remove foil and broil 2 to 3 minutes until cheese is browned.
 
 Cool 1 to 2 minutes. Top with fresh basil and red pepper flakes if desired and serve.`,
-  },
+  translations: {
+    es: {
+      name: "Pimientos rellenos de salchicha italiana",
+      notes:
+        "Una cena horneada para entre semana, llenadora y sin complicarse demasiado.",
+      tags: [
+        "cena",
+        "cerdo",
+        "italiana",
+        "horneado",
+        "pimientos rellenos",
+        "comida reconfortante",
+        "familiar",
+      ],
+      ingredients: `1 lb de salchicha italiana
+2 tsp de aceite de oliva
+1 lata (14.5 oz) de tomates asados en cubitos
+2 tsp de ajo en polvo
+2 tsp de cebolla en polvo
+2 tsp de sazonador italiano
+1 tsp de salsa worcestershire
+1 1/2 cups de arroz cocido
+1/4 cup de caldo de pollo
+1/4 cup de queso parmesano rallado
+1 cup de queso mozzarella rallado
+3 pimientos grandes
+hojuelas de chile rojo
+albahaca fresca`,
+      instructions: `Precalienta el horno a 375°F.
 
-  {
-    id: "quick-honey-garlic-chicken",
-    slug: "quick-honey-garlic-chicken",
-    name: "Honey Garlic Chicken",
-    effort: "quick",
-    photoUrl: "/images/quick-honey-garlic-chicken.jpg",
-    tags: ["dinner", "chicken", "quick", "one-pan", "sweet-savory", "weeknight", "leftovers-friendly"],
-    isVegetarian: false,
-    notes: "Fast and flavorful honey garlic chicken with a sticky, glossy sauce. Great served over rice with steamed broccoli or stir-fried vegetables.",
-    ingredients: `1 1/2 lbs boneless, skinless chicken breast
+Corta alrededor del tallo de 3 pimientos grandes y retíralo. Corta los pimientos por la mitad a lo largo y quita las semillas y la membrana blanca. Colócalos con el corte hacia arriba en un molde para hornear.
+
+Calienta 2 tsp de aceite de oliva en un sartén grande a fuego medio-alto. Dora 1 lb de salchicha italiana, separándola en trozos pequeños, unos 3 a 4 minutos. Escurre la grasa si es necesario.
+
+Agrega 1 lata (14.5 oz) de tomates asados en cubitos, 2 tsp de ajo en polvo, 2 tsp de cebolla en polvo, 2 tsp de sazonador italiano, 1 tsp de salsa worcestershire, 1/4 cup de caldo de pollo y 1 1/2 cups de arroz cocido. Mezcla para combinar y lleva a hervor suave. Cocina de 3 a 4 minutos, hasta que casi no quede líquido.
+
+Incorpora 1/4 cup de queso parmesano rallado y retira del fuego.
+
+Rellena las mitades de pimiento con la mezcla de salchicha y cubre con 1 cup de queso mozzarella rallado.
+
+Cubre con papel aluminio y hornea de 25 a 30 minutos, o más si prefieres los pimientos más suaves, hasta que estén tiernos.
+
+Retira el papel aluminio y gratina de 2 a 3 minutos, hasta que el queso esté dorado.
+
+Deja enfriar de 1 a 2 minutos. Agrega albahaca fresca y hojuelas de chile rojo si deseas, y sirve.`,
+    },
+  },
+},
+
+{
+  id: "quick-honey-garlic-chicken",
+  slug: "quick-honey-garlic-chicken",
+  name: "Honey Garlic Chicken",
+  effort: "quick",
+  photoUrl: "/images/quick-honey-garlic-chicken.jpg",
+  tags: ["dinner", "chicken", "quick", "one-pan", "sweet-savory", "weeknight", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Fast and flavorful honey garlic chicken with a sticky, glossy sauce. Great served over rice with steamed broccoli or stir-fried vegetables.",
+  ingredients: `1 1/2 lbs boneless, skinless chicken breast
 2 Tbsp cornstarch (optional)
 1 Tbsp olive oil
 1/2 tsp salt
@@ -741,7 +1351,7 @@ Cool 1 to 2 minutes. Top with fresh basil and red pepper flakes if desired and s
 1 tsp cornstarch + 2 Tbsp water (for slurry)
 2 green onions, sliced
 1 tsp sesame seeds (optional)`,
-    instructions: `Pat 1 1/2 lbs boneless, skinless chicken breast dry and cut into bite-sized pieces. Season with 1/2 tsp salt and 1/2 tsp pepper, then toss lightly with 2 Tbsp cornstarch if using.
+  instructions: `Pat 1 1/2 lbs boneless, skinless chicken breast dry and cut into bite-sized pieces. Season with 1/2 tsp salt and 1/2 tsp pepper, then toss lightly with 2 Tbsp cornstarch if using.
 
 Heat 1 Tbsp olive oil in a large skillet or cast iron pan over medium-high heat. Add chicken in a single layer and cook for 4 to 5 minutes without moving, until a deep golden-brown crust forms. Flip and cook another 3 to 4 minutes until nearly cooked through.
 
@@ -756,18 +1366,63 @@ Stir the cornstarch slurry into the pan and cook for 2 to 3 minutes, stirring fr
 Remove from heat and toss the chicken until fully coated in the sauce.
 
 Garnish with 2 sliced green onions and 1 tsp sesame seeds before serving.`,
-  },
+  translations: {
+    es: {
+      name: "Pollo con miel y ajo",
+      notes:
+        "Pollo rápido y lleno de sabor con salsa de miel y ajo, pegajosa y brillante. Queda muy bien sobre arroz con brócoli al vapor o verduras salteadas.",
+      tags: [
+        "cena",
+        "pollo",
+        "rápido",
+        "una sartén",
+        "dulce y salado",
+        "entre semana",
+        "bueno para sobras",
+      ],
+      ingredients: `1 1/2 lbs de pechuga de pollo sin hueso y sin piel
+2 Tbsp de maicena, opcional
+1 Tbsp de aceite de oliva
+1/2 tsp de sal
+1/2 tsp de pimienta
+1/3 cup de miel
+1/4 cup de salsa de soya
+4 dientes de ajo, picados
+1 Tbsp de jengibre fresco, rallado, o 1/2 tsp de jengibre molido
+1 Tbsp de vinagre de arroz o vinagre de manzana
+1 tsp de aceite de sésamo, opcional
+1 tsp de maicena + 2 Tbsp de agua para espesar
+2 cebollines, rebanados
+1 tsp de semillas de sésamo, opcional`,
+      instructions: `Seca 1 1/2 lbs de pechuga de pollo sin hueso y sin piel, y córtala en trozos pequeños. Sazona con 1/2 tsp de sal y 1/2 tsp de pimienta, luego mezcla ligeramente con 2 Tbsp de maicena si la usas.
 
-  {
-    id: "quick-lemon-butter-salmon",
-    slug: "quick-lemon-butter-salmon",
-    name: "Lemon Butter Salmon",
-    effort: "quick",
-    photoUrl: "/images/quick-lemon-butter-salmon.jpg",
-    tags: ["dinner", "seafood", "fish", "salmon", "quick", "healthy", "one-pan", "leftovers-friendly"],
-    isVegetarian: false,
-    notes: "Quick, restaurant-quality salmon with a rich lemon butter sauce. Crispy on the outside, tender inside. Excellent with rice, roasted vegetables, or a light salad.",
-    ingredients: `4 salmon fillets (about 6 oz each, skin-on preferred)
+Calienta 1 Tbsp de aceite de oliva en un sartén grande o de hierro fundido a fuego medio-alto. Agrega el pollo en una sola capa y cocina de 4 a 5 minutos sin moverlo, hasta que se forme una costra dorada. Voltea y cocina otros 3 a 4 minutos, hasta que esté casi cocido.
+
+Reduce el fuego a medio. Agrega 4 dientes de ajo picados y 1 Tbsp de jengibre fresco rallado al sartén, y cocina de 30 a 60 segundos, hasta que suelte aroma.
+
+Agrega 1/3 cup de miel, 1/4 cup de salsa de soya, 1 Tbsp de vinagre de arroz y 1 tsp de aceite de sésamo. Mezcla bien, raspando los trozos dorados del fondo del sartén.
+
+Lleva la salsa a un hervor suave. Mezcla 1 tsp de maicena con 2 Tbsp de agua para formar una mezcla espesante.
+
+Incorpora la mezcla de maicena al sartén y cocina de 2 a 3 minutos, revolviendo con frecuencia, hasta que la salsa espese y quede brillante.
+
+Retira del fuego y revuelve el pollo hasta cubrirlo completamente con la salsa.
+
+Decora con 2 cebollines rebanados y 1 tsp de semillas de sésamo antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "quick-lemon-butter-salmon",
+  slug: "quick-lemon-butter-salmon",
+  name: "Lemon Butter Salmon",
+  effort: "quick",
+  photoUrl: "/images/quick-lemon-butter-salmon.jpg",
+  tags: ["dinner", "seafood", "fish", "salmon", "quick", "healthy", "one-pan", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Quick, restaurant-quality salmon with a rich lemon butter sauce. Crispy on the outside, tender inside. Excellent with rice, roasted vegetables, or a light salad.",
+  ingredients: `4 salmon fillets (about 6 oz each, skin-on preferred)
 1/2 tsp salt
 1/2 tsp pepper
 1 Tbsp olive oil
@@ -776,7 +1431,7 @@ Garnish with 2 sliced green onions and 1 tsp sesame seeds before serving.`,
 juice of 1 lemon
 1 tsp lemon zest
 1 Tbsp fresh parsley`,
-    instructions: `Pat 4 salmon fillets (about 6 oz each) dry with paper towels. Season both sides with 1/2 tsp salt and 1/2 tsp pepper.
+  instructions: `Pat 4 salmon fillets (about 6 oz each) dry with paper towels. Season both sides with 1/2 tsp salt and 1/2 tsp pepper.
 
 Heat 1 Tbsp olive oil in a large skillet (preferably cast iron or stainless steel) over medium-high heat.
 
@@ -791,18 +1446,59 @@ Reduce heat to medium-low. Add 3 Tbsp unsalted butter to the pan and let it melt
 Squeeze in the juice of 1 lemon and add 1 tsp lemon zest if using. Spoon the lemon butter sauce over the salmon continuously for about 1 minute.
 
 Remove from heat. Garnish with 1 Tbsp chopped fresh parsley and serve immediately.`,
+  translations: {
+    es: {
+      name: "Salmón con mantequilla y limón",
+      notes:
+        "Salmón rápido con calidad de restaurante y una rica salsa de mantequilla con limón. Crujiente por fuera y tierno por dentro. Excelente con arroz, verduras asadas o una ensalada ligera.",
+      tags: [
+        "cena",
+        "mariscos",
+        "pescado",
+        "salmón",
+        "rápido",
+        "saludable",
+        "una sartén",
+        "bueno para sobras",
+      ],
+      ingredients: `4 filetes de salmón (aprox. 6 oz cada uno, con piel preferiblemente)
+1/2 tsp de sal
+1/2 tsp de pimienta
+1 Tbsp de aceite de oliva
+3 Tbsp de mantequilla sin sal
+3 dientes de ajo, picados
+jugo de 1 limón
+1 tsp de ralladura de limón
+1 Tbsp de perejil fresco`,
+      instructions: `Seca 4 filetes de salmón (aprox. 6 oz cada uno) con toallas de papel. Sazona ambos lados con 1/2 tsp de sal y 1/2 tsp de pimienta.
+
+Calienta 1 Tbsp de aceite de oliva en un sartén grande, preferiblemente de hierro fundido o acero inoxidable, a fuego medio-alto.
+
+Cuando el aceite esté caliente y brillante, coloca el salmón con la piel hacia abajo. Presiona suavemente con una espátula durante los primeros 30 segundos para evitar que se curve.
+
+Cocina sin mover de 4 a 5 minutos, hasta que la piel esté crujiente y se forme una costra dorada. El salmón debe verse opaco en unas dos terceras partes de los lados.
+
+Voltea con cuidado y cocina otros 2 a 3 minutos, hasta que esté apenas cocido y se desmenuce fácilmente.
+
+Reduce el fuego a medio-bajo. Agrega 3 Tbsp de mantequilla sin sal al sartén y deja que se derrita. Incorpora 3 dientes de ajo picados y cocina de 30 a 60 segundos, hasta que suelte aroma pero no se dore.
+
+Exprime el jugo de 1 limón y agrega 1 tsp de ralladura de limón si la usas. Baña el salmón con la salsa de mantequilla y limón continuamente durante aproximadamente 1 minuto.
+
+Retira del fuego. Decora con 1 Tbsp de perejil fresco picado y sirve de inmediato.`,
+    },
   },
+},
 
   {
-    id: "quick-chicken-fried-rice",
-    slug: "quick-chicken-fried-rice",
-    name: "Chicken Fried Rice",
-    effort: "quick",
-    photoUrl: "/images/quick-chicken-fried-rice.jpg",
-    tags: ["dinner", "chicken", "rice", "one-pan", "quick", "takeout-style", "leftovers-friendly"],
-    isVegetarian: false,
-    notes: "Quick and flavorful fried rice using leftover chicken and rice. For best texture, use cold, day-old rice so it crisps up instead of getting mushy.",
-    ingredients: `2 cups cooked and chilled rice (day-old preferred)
+  id: "quick-chicken-fried-rice",
+  slug: "quick-chicken-fried-rice",
+  name: "Chicken Fried Rice",
+  effort: "quick",
+  photoUrl: "/images/quick-chicken-fried-rice.jpg",
+  tags: ["dinner", "chicken", "rice", "one-pan", "quick", "takeout-style", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Quick and flavorful fried rice using leftover chicken and rice. For best texture, use cold, day-old rice so it crisps up instead of getting mushy.",
+  ingredients: `2 cups cooked and chilled rice (day-old preferred)
 1 lb cooked chicken, diced (or rotisserie chicken)
 2 eggs, beaten
 1 cup frozen mixed vegetables
@@ -813,7 +1509,7 @@ Remove from heat. Garnish with 1 Tbsp chopped fresh parsley and serve immediatel
 2 cloves garlic, minced
 1 tsp fresh ginger, grated
 1/2 tsp pepper`,
-    instructions: `Heat a large skillet or wok over medium-high heat. Add 1 Tbsp vegetable oil.
+  instructions: `Heat a large skillet or wok over medium-high heat. Add 1 Tbsp vegetable oil.
 
 Pour in 2 beaten eggs and scramble quickly until just set, about 1 minute. Remove from the pan and set aside.
 
@@ -830,18 +1526,62 @@ Add 2 Tbsp soy sauce, 1 Tbsp sesame oil, and 1/2 tsp pepper. Toss everything tog
 Return the scrambled eggs to the pan and gently fold them in.
 
 Remove from heat, sprinkle with 2 sliced green onions, and serve immediately.`,
-  },
+  translations: {
+    es: {
+      name: "Arroz frito con pollo",
+      notes:
+        "Arroz frito rápido y lleno de sabor usando pollo y arroz sobrantes. Para mejor textura, usa arroz frío del día anterior para que se dore en lugar de ponerse blando.",
+      tags: [
+        "cena",
+        "pollo",
+        "arroz",
+        "una sartén",
+        "rápido",
+        "estilo comida para llevar",
+        "bueno para sobras",
+      ],
+      ingredients: `2 cups de arroz cocido y frío, preferiblemente del día anterior
+1 lb de pollo cocido, cortado en cubitos, o pollo rostizado
+2 huevos, batidos
+1 cup de verduras mixtas congeladas
+2 Tbsp de salsa de soya, más al gusto
+1 Tbsp de aceite de sésamo
+1 Tbsp de aceite vegetal
+2 cebollines, rebanados
+2 dientes de ajo, picados
+1 tsp de jengibre fresco, rallado
+1/2 tsp de pimienta`,
+      instructions: `Calienta un sartén grande o wok a fuego medio-alto. Agrega 1 Tbsp de aceite vegetal.
 
-  {
-    id: "quick-bbq-chicken-flatbread",
-    slug: "quick-bbq-chicken-flatbread",
-    name: "BBQ Chicken Flatbread",
-    effort: "quick",
-    photoUrl: "/images/quick-bbq-chicken-flatbread.jpg",
-    tags: ["dinner", "chicken", "quick", "flatbread", "pizza", "kid-friendly", "one-pan", "leftovers-friendly"],
-    isVegetarian: false,
-    notes: "A quick, fun flatbread loaded with BBQ chicken and melty cheese. Great for using leftover or rotisserie chicken and easy to customize with your favorite toppings.",
-    ingredients: `2 flatbreads or naan
+Vierte 2 huevos batidos y revuelve rápidamente hasta que apenas cuajen, aproximadamente 1 minuto. Retira del sartén y reserva.
+
+En el mismo sartén, agrega 2 dientes de ajo picados y 1 tsp de jengibre rallado. Cocina 30 segundos, hasta que suelte aroma.
+
+Agrega 1 cup de verduras mixtas congeladas y cocina de 2 a 3 minutos, hasta que estén calientes y ligeramente tiernas.
+
+Agrega 2 cups de arroz cocido y frío, separando los grumos con una espátula. Cocina de 3 a 4 minutos, revolviendo de vez en cuando, hasta que el arroz esté caliente y ligeramente crujiente en algunas partes.
+
+Incorpora 1 lb de pollo cocido en cubitos y cocina otros 2 a 3 minutos, hasta que esté caliente.
+
+Agrega 2 Tbsp de salsa de soya, 1 Tbsp de aceite de sésamo y 1/2 tsp de pimienta. Mezcla todo hasta que quede cubierto de manera uniforme.
+
+Regresa los huevos revueltos al sartén e incorpóralos suavemente.
+
+Retira del fuego, espolvorea 2 cebollines rebanados y sirve de inmediato.`,
+    },
+  },
+},
+
+{
+  id: "quick-bbq-chicken-flatbread",
+  slug: "quick-bbq-chicken-flatbread",
+  name: "BBQ Chicken Flatbread",
+  effort: "quick",
+  photoUrl: "/images/quick-bbq-chicken-flatbread.jpg",
+  tags: ["dinner", "chicken", "quick", "flatbread", "pizza", "kid-friendly", "one-pan", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "A quick, fun flatbread loaded with BBQ chicken and melty cheese. Great for using leftover or rotisserie chicken and easy to customize with your favorite toppings.",
+  ingredients: `2 flatbreads or naan
 1 cup cooked chicken, shredded (rotisserie works great)
 1/2 cup BBQ sauce (plus extra for drizzling)
 1/2 small red onion, thinly sliced
@@ -850,7 +1590,7 @@ Remove from heat, sprinkle with 2 sliced green onions, and serve immediately.`,
 1 Tbsp olive oil
 1 Tbsp fresh cilantro, chopped (optional)
 1/2 tsp garlic powder`,
-    instructions: `Preheat oven to 400°F. Place 2 flatbreads on a baking sheet and lightly brush the edges with 1 Tbsp olive oil.
+  instructions: `Preheat oven to 400°F. Place 2 flatbreads on a baking sheet and lightly brush the edges with 1 Tbsp olive oil.
 
 Spread 1/2 cup BBQ sauce evenly over each flatbread, leaving a small border around the edges.
 
@@ -867,18 +1607,61 @@ For extra caramelization, broil on high for 1 to 2 minutes, watching closely so 
 Remove from the oven, drizzle with additional BBQ sauce if desired, and sprinkle with 1 Tbsp chopped fresh cilantro.
 
 Slice and serve immediately.`,
-  },
+  translations: {
+    es: {
+      name: "Pan plano con pollo BBQ",
+      notes:
+        "Un pan plano rápido y divertido con pollo BBQ y queso derretido. Ideal para usar pollo sobrante o rostizado, y fácil de personalizar con tus ingredientes favoritos.",
+      tags: [
+        "cena",
+        "pollo",
+        "rápido",
+        "pan plano",
+        "pizza",
+        "para niños",
+        "una bandeja",
+        "bueno para sobras",
+      ],
+      ingredients: `2 panes planos o naan
+1 cup de pollo cocido, deshebrado; el pollo rostizado funciona muy bien
+1/2 cup de salsa BBQ, más extra para rociar
+1/2 cebolla roja pequeña, rebanada finamente
+1 cup de queso mozzarella rallado
+1/2 cup de queso gouda ahumado o cheddar, opcional para más sabor
+1 Tbsp de aceite de oliva
+1 Tbsp de cilantro fresco, picado, opcional
+1/2 tsp de ajo en polvo`,
+      instructions: `Precalienta el horno a 400°F. Coloca 2 panes planos en una bandeja para hornear y barniza ligeramente los bordes con 1 Tbsp de aceite de oliva.
 
-  {
-    id: "normal-baked-ziti",
-    slug: "normal-baked-ziti",
-    name: "Baked Ziti",
-    effort: "normal",
-    photoUrl: "/images/normal-baked-ziti.jpg",
-    tags: ["dinner", "pasta", "beef", "bake", "comfort", "italian", "family-friendly", "leftovers-friendly"],
-    isVegetarian: false,
-    notes: "A hearty, cheesy baked pasta layered with rich meat sauce. Perfect for feeding a crowd and excellent for leftovers—flavors deepen even more the next day.",
-    ingredients: `1 lb ziti pasta
+Extiende 1/2 cup de salsa BBQ de manera uniforme sobre cada pan plano, dejando un borde pequeño alrededor.
+
+Mezcla 1 cup de pollo cocido deshebrado con una cucharada de salsa BBQ para más sabor, luego distribúyelo de manera uniforme sobre los panes.
+
+Cubre con 1/2 cebolla roja pequeña, 1 cup de mozzarella rallada y 1/2 cup de gouda ahumado o cheddar.
+
+Espolvorea ligeramente con 1/2 tsp de ajo en polvo.
+
+Hornea de 8 a 10 minutos, hasta que el queso esté completamente derretido, burbujeante y empiece a dorarse en los bordes.
+
+Para más caramelización, gratina en alto de 1 a 2 minutos, vigilando de cerca para que no se queme.
+
+Retira del horno, rocía con más salsa BBQ si deseas y espolvorea 1 Tbsp de cilantro fresco picado.
+
+Corta y sirve de inmediato.`,
+    },
+  },
+},
+
+{
+  id: "normal-baked-ziti",
+  slug: "normal-baked-ziti",
+  name: "Baked Ziti",
+  effort: "normal",
+  photoUrl: "/images/normal-baked-ziti.jpg",
+  tags: ["dinner", "pasta", "beef", "bake", "comfort", "italian", "family-friendly", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "A hearty, cheesy baked pasta layered with rich meat sauce. Perfect for feeding a crowd and excellent for leftovers—flavors deepen even more the next day.",
+  ingredients: `1 lb ziti pasta
 1 lb ground beef (or Italian sausage for more flavor)
 1 (24 oz) jar marinara sauce
 1/2 cup water (or reserved pasta water)
@@ -892,7 +1675,7 @@ Slice and serve immediately.`,
 1/2 tsp salt
 1/2 tsp pepper
 1/4 cup fresh parsley, chopped (optional)`,
-    instructions: `Preheat oven to 375°F. Lightly grease a 9x13 baking dish.
+  instructions: `Preheat oven to 375°F. Lightly grease a 9x13 baking dish.
 
 Bring a large pot of salted water to a boil. Cook 1 lb ziti pasta until just al dente, about 1 to 2 minutes less than package directions. Drain and set aside.
 
@@ -913,18 +1696,70 @@ Repeat with the remaining pasta, 1/2 cup ricotta, and 1 cup mozzarella. Top with
 Cover loosely with foil and bake for 20 minutes. Remove foil and bake another 10 to 15 minutes until the cheese is melted and bubbly with lightly golden edges.
 
 Let rest for 10 minutes before serving. Garnish with 1/4 cup fresh chopped parsley if desired.`,
-  },
+  translations: {
+    es: {
+      name: "Ziti al horno",
+      notes:
+        "Una pasta horneada sustanciosa y llena de queso, con capas de salsa de carne. Perfecta para alimentar a varias personas y excelente para sobras; los sabores se intensifican aún más al día siguiente.",
+      tags: [
+        "cena",
+        "pasta",
+        "carne de res",
+        "horneado",
+        "comida reconfortante",
+        "italiana",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `1 lb de pasta ziti
+1 lb de carne molida de res, o salchicha italiana para más sabor
+1 frasco (24 oz) de salsa marinara
+1/2 cup de agua o agua reservada de la pasta
+1 cup de queso ricotta
+2 cups de queso mozzarella rallado
+1/2 cup de queso parmesano rallado
+1 cebolla amarilla pequeña, picada en cubitos
+2 dientes de ajo, picados
+1 Tbsp de aceite de oliva
+1 tsp de sazonador italiano
+1/2 tsp de sal
+1/2 tsp de pimienta
+1/4 cup de perejil fresco, picado, opcional`,
+      instructions: `Precalienta el horno a 375°F. Engrasa ligeramente un molde para hornear de 9x13.
 
-  {
-    id: "normal-chicken-alfredo",
-    slug: "normal-chicken-alfredo",
-    name: "Chicken Alfredo",
-    effort: "normal",
-    photoUrl: "/images/normal-chicken-alfredo.jpg",
-    tags: ["dinner", "pasta", "chicken", "comfort", "italian", "stovetop", "leftovers-friendly"],
-    isVegetarian: false,
-    notes: "Rich and creamy chicken alfredo with a smooth Parmesan sauce. Use freshly grated Parmesan for best results and add pasta water to achieve a silky, restaurant-style finish.",
-    ingredients: `2 boneless, skinless chicken breasts, sliced
+Hierve una olla grande con agua salada. Cocina 1 lb de pasta ziti hasta que esté apenas al dente, aproximadamente 1 a 2 minutos menos que las instrucciones del paquete. Escurre y reserva.
+
+Calienta 1 Tbsp de aceite de oliva en un sartén grande a fuego medio. Agrega 1 cebolla amarilla pequeña picada y cocina de 4 a 5 minutos, hasta que se ablande.
+
+Agrega 2 dientes de ajo picados y cocina 30 segundos, hasta que suelte aroma.
+
+Agrega 1 lb de carne molida de res y cocina hasta que se dore, separándola mientras se cocina. Escurre el exceso de grasa si es necesario.
+
+Incorpora 1 frasco (24 oz) de salsa marinara, 1/2 cup de agua, 1 tsp de sazonador italiano, 1/2 tsp de sal y 1/2 tsp de pimienta. Cocina a fuego bajo de 5 a 10 minutos, hasta que espese un poco.
+
+En un tazón grande, mezcla la pasta cocida con la mayor parte de la salsa de carne, reservando aproximadamente 1 cup para las capas.
+
+Extiende una capa delgada de salsa en el fondo del molde. Agrega la mitad de la mezcla de pasta, luego coloca cucharadas de 1/2 cup de ricotta y espolvorea 1 cup de mozzarella.
+
+Repite con la pasta restante, 1/2 cup de ricotta y 1 cup de mozzarella. Cubre con la salsa reservada y termina con 1/2 cup de queso parmesano.
+
+Cubre sin apretar con papel aluminio y hornea durante 20 minutos. Retira el papel aluminio y hornea otros 10 a 15 minutos, hasta que el queso esté derretido y burbujeante, con bordes ligeramente dorados.
+
+Deja reposar 10 minutos antes de servir. Decora con 1/4 cup de perejil fresco picado si deseas.`,
+    },
+  },
+},
+
+{
+  id: "normal-chicken-alfredo",
+  slug: "normal-chicken-alfredo",
+  name: "Chicken Alfredo",
+  effort: "normal",
+  photoUrl: "/images/normal-chicken-alfredo.jpg",
+  tags: ["dinner", "pasta", "chicken", "comfort", "italian", "stovetop", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Rich and creamy chicken alfredo with a smooth Parmesan sauce. Use freshly grated Parmesan for best results and add pasta water to achieve a silky, restaurant-style finish.",
+  ingredients: `2 boneless, skinless chicken breasts, sliced
 12 oz fettuccine
 1 Tbsp olive oil
 1/2 tsp salt
@@ -937,7 +1772,7 @@ Let rest for 10 minutes before serving. Garnish with 1/4 cup fresh chopped parsl
 1/2 cup reserved pasta water
 1/4 tsp pepper (for sauce)
 1/4 cup fresh parsley, chopped (optional)`,
-    instructions: `Bring a large pot of salted water to a boil. Cook 12 oz fettuccine according to package directions until al dente. Reserve 1/2 cup pasta water, then drain.
+  instructions: `Bring a large pot of salted water to a boil. Cook 12 oz fettuccine according to package directions until al dente. Reserve 1/2 cup pasta water, then drain.
 
 Season 2 sliced chicken breasts with 1/2 tsp salt, 1/2 tsp pepper, and 1/2 tsp garlic powder.
 
@@ -954,18 +1789,64 @@ Add a splash of the reserved pasta water and stir until the sauce becomes silky 
 Return the chicken to the pan, then add the cooked pasta. Toss everything together until evenly coated with the sauce. Add 1/4 tsp pepper for seasoning.
 
 Taste and adjust salt and pepper as needed. Remove from heat and garnish with 1/4 cup chopped fresh parsley before serving.`,
-  },
+  translations: {
+    es: {
+      name: "Pollo Alfredo",
+      notes:
+        "Pollo Alfredo rico y cremoso con una salsa suave de parmesano. Usa parmesano recién rallado para mejores resultados y agrega agua de la pasta para lograr una textura sedosa estilo restaurante.",
+      tags: [
+        "cena",
+        "pasta",
+        "pollo",
+        "comida reconfortante",
+        "italiana",
+        "estufa",
+        "bueno para sobras",
+      ],
+      ingredients: `2 pechugas de pollo sin hueso y sin piel, rebanadas
+12 oz de fettuccine
+1 Tbsp de aceite de oliva
+1/2 tsp de sal
+1/2 tsp de pimienta
+1/2 tsp de ajo en polvo, opcional
+1/2 cup (1 barra) de mantequilla sin sal
+3 dientes de ajo, picados
+1 cup de crema espesa
+1 cup de queso parmesano recién rallado
+1/2 cup de agua reservada de la pasta
+1/4 tsp de pimienta para la salsa
+1/4 cup de perejil fresco, picado, opcional`,
+      instructions: `Hierve una olla grande con agua salada. Cocina 12 oz de fettuccine según las instrucciones del paquete hasta que esté al dente. Reserva 1/2 cup de agua de la pasta y luego escurre.
 
-  {
-    id: "normal-beef-stroganoff",
-    slug: "normal-beef-stroganoff",
-    name: "Beef Stroganoff",
-    effort: "normal",
-    photoUrl: "/images/normal-beef-stroganoff.jpg",
-    tags: ["dinner", "beef", "comfort", "stovetop", "pasta", "family-friendly", "leftovers-friendly"],
-    isVegetarian: false,
-    notes: "Creamy, savory beef stroganoff with tender beef and mushrooms in a rich sauce. For best results, sear the beef quickly over high heat and avoid boiling after adding sour cream to prevent curdling.",
-    ingredients: `1 lb beef sirloin, thinly sliced
+Sazona 2 pechugas de pollo rebanadas con 1/2 tsp de sal, 1/2 tsp de pimienta y 1/2 tsp de ajo en polvo.
+
+Calienta 1 Tbsp de aceite de oliva en un sartén grande a fuego medio-alto. Agrega el pollo y cocina de 4 a 5 minutos, revolviendo de vez en cuando, hasta que esté dorado y bien cocido. Retira y reserva.
+
+Reduce el fuego a medio. En el mismo sartén, derrite 1/2 cup de mantequilla sin sal. Agrega 3 dientes de ajo picados y cocina de 30 a 60 segundos, hasta que suelte aroma.
+
+Vierte 1 cup de crema espesa y lleva a un hervor suave. Cocina de 3 a 5 minutos, revolviendo ocasionalmente, hasta que espese un poco.
+
+Incorpora gradualmente 1 cup de queso parmesano recién rallado, batiendo hasta que se derrita y quede suave.
+
+Agrega un poco del agua reservada de la pasta y mezcla hasta que la salsa quede sedosa y cubra el dorso de una cuchara.
+
+Regresa el pollo al sartén y luego agrega la pasta cocida. Mezcla todo hasta cubrirlo de manera uniforme con la salsa. Agrega 1/4 tsp de pimienta para sazonar.
+
+Prueba y ajusta sal y pimienta si es necesario. Retira del fuego y decora con 1/4 cup de perejil fresco picado antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "normal-beef-stroganoff",
+  slug: "normal-beef-stroganoff",
+  name: "Beef Stroganoff",
+  effort: "normal",
+  photoUrl: "/images/normal-beef-stroganoff.jpg",
+  tags: ["dinner", "beef", "comfort", "stovetop", "pasta", "family-friendly", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Creamy, savory beef stroganoff with tender beef and mushrooms in a rich sauce. For best results, sear the beef quickly over high heat and avoid boiling after adding sour cream to prevent curdling.",
+  ingredients: `1 lb beef sirloin, thinly sliced
 8 oz baby bella mushrooms, sliced
 1 small yellow onion, diced
 2 cloves garlic, minced
@@ -979,7 +1860,7 @@ Taste and adjust salt and pepper as needed. Remove from heat and garnish with 1/
 1/2 tsp pepper
 8 oz egg noodles
 1/4 cup fresh parsley, chopped (optional)`,
-    instructions: `Cook 8 oz egg noodles in a large pot of salted boiling water according to package directions. Drain and set aside.
+  instructions: `Cook 8 oz egg noodles in a large pot of salted boiling water according to package directions. Drain and set aside.
 
 Heat 1 Tbsp olive oil in a large skillet over medium-high heat. Add 1 lb thinly sliced beef sirloin in a single layer and sear for 2 to 3 minutes until browned. Season with 1/2 tsp salt and 1/2 tsp pepper. Do not overcrowd the pan. Remove and set aside.
 
@@ -1000,18 +1881,69 @@ Reduce heat to low. Stir in 1/2 cup sour cream until smooth and creamy.
 Return the beef to the pan and cook for 2 to 3 minutes until heated through. Do not boil after adding sour cream.
 
 Serve over the cooked egg noodles and garnish with 1/4 cup fresh parsley if desired.`,
+  translations: {
+    es: {
+      name: "Stroganoff de res",
+      notes:
+        "Stroganoff de res cremoso y sabroso, con carne tierna y champiñones en una salsa rica. Para mejores resultados, sella la carne rápidamente a fuego alto y evita hervir después de agregar la crema agria para que no se corte.",
+      tags: [
+        "cena",
+        "carne de res",
+        "comida reconfortante",
+        "estufa",
+        "pasta",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `1 lb de sirloin de res, rebanado finamente
+8 oz de champiñones baby bella, rebanados
+1 cebolla amarilla pequeña, picada en cubitos
+2 dientes de ajo, picados
+2 Tbsp de mantequilla
+1 Tbsp de aceite de oliva
+2 Tbsp de harina
+1 cup de caldo de res
+1 tsp de salsa worcestershire
+1/2 cup de crema agria
+1/2 tsp de sal, más al gusto
+1/2 tsp de pimienta
+8 oz de fideos de huevo
+1/4 cup de perejil fresco, picado, opcional`,
+      instructions: `Cocina 8 oz de fideos de huevo en una olla grande con agua hirviendo y sal, según las instrucciones del paquete. Escurre y reserva.
+
+Calienta 1 Tbsp de aceite de oliva en un sartén grande a fuego medio-alto. Agrega 1 lb de sirloin de res rebanado finamente en una sola capa y sella de 2 a 3 minutos, hasta que se dore. Sazona con 1/2 tsp de sal y 1/2 tsp de pimienta. No llenes demasiado el sartén. Retira y reserva.
+
+En el mismo sartén, reduce el fuego a medio y agrega 2 Tbsp de mantequilla. Agrega 1 cebolla amarilla pequeña picada y cocina de 4 a 5 minutos, hasta que se ablande.
+
+Agrega 8 oz de champiñones baby bella rebanados y cocina de 5 a 7 minutos, revolviendo de vez en cuando, hasta que suelten su humedad y empiecen a dorarse.
+
+Agrega 2 dientes de ajo picados y cocina 30 segundos, hasta que suelte aroma.
+
+Espolvorea 2 Tbsp de harina sobre la mezcla y revuelve continuamente durante 1 minuto para quitar el sabor a harina cruda.
+
+Vierte lentamente 1 cup de caldo de res mientras revuelves, raspando los trozos dorados del fondo del sartén. Incorpora 1 tsp de salsa worcestershire.
+
+Lleva a un hervor suave y cocina de 3 a 5 minutos, hasta que la salsa espese y cubra el dorso de una cuchara.
+
+Reduce el fuego a bajo. Incorpora 1/2 cup de crema agria hasta que quede suave y cremosa.
+
+Regresa la carne al sartén y cocina de 2 a 3 minutos, hasta que se caliente por completo. No hiervas después de agregar la crema agria.
+
+Sirve sobre los fideos de huevo cocidos y decora con 1/4 cup de perejil fresco si deseas.`,
+    },
   },
+},
 
   {
-    id: "normal-chicken-pot-pie",
-    slug: "normal-chicken-pot-pie",
-    name: "Chicken Pot Pie",
-    effort: "normal",
-    photoUrl: "/images/normal-chicken-pot-pie.jpg",
-    tags: ["dinner", "chicken", "bake", "comfort", "casserole", "family-friendly", "leftovers-friendly"],
-    isVegetarian: false,
-    notes: "Creamy, classic chicken pot pie with a flaky golden crust. Letting it rest before serving helps the filling set and makes cleaner portions.",
-    ingredients: `2 cups cooked chicken, diced (rotisserie works great)
+  id: "normal-chicken-pot-pie",
+  slug: "normal-chicken-pot-pie",
+  name: "Chicken Pot Pie",
+  effort: "normal",
+  photoUrl: "/images/normal-chicken-pot-pie.jpg",
+  tags: ["dinner", "chicken", "bake", "comfort", "casserole", "family-friendly", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Creamy, classic chicken pot pie with a flaky golden crust. Letting it rest before serving helps the filling set and makes cleaner portions.",
+  ingredients: `2 cups cooked chicken, diced (rotisserie works great)
 1 cup frozen mixed vegetables
 1/2 cup (1 stick) unsalted butter
 1/2 cup all-purpose flour
@@ -1024,7 +1956,7 @@ Serve over the cooked egg noodles and garnish with 1/4 cup fresh parsley if desi
 1/2 tsp dried thyme (optional)
 1 refrigerated pie crust
 1 egg, beaten (optional, for egg wash)`,
-    instructions: `Preheat oven to 400°F. Lightly grease a baking dish or pie dish.
+  instructions: `Preheat oven to 400°F. Lightly grease a baking dish or pie dish.
 
 In a large skillet or saucepan, melt 1/2 cup unsalted butter over medium heat. Add 1 diced small yellow onion and cook for 4 to 5 minutes until softened.
 
@@ -1047,18 +1979,70 @@ Brush with 1 beaten egg if using for a golden finish.
 Bake for 30 to 35 minutes, until the crust is golden brown and the filling is bubbling around the edges.
 
 Let rest for 10 minutes before serving to allow the filling to set.`,
-  },
+  translations: {
+    es: {
+      name: "Pay de pollo",
+      notes:
+        "Un pay de pollo clásico, cremoso y con una corteza dorada y hojaldrada. Dejarlo reposar antes de servir ayuda a que el relleno se asiente y sea más fácil cortarlo.",
+      tags: [
+        "cena",
+        "pollo",
+        "horneado",
+        "comida reconfortante",
+        "cazuela",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `2 cups de pollo cocido, cortado en cubitos; el pollo rostizado funciona muy bien
+1 cup de verduras mixtas congeladas
+1/2 cup (1 barra) de mantequilla sin sal
+1/2 cup de harina de todo uso
+2 cups de caldo de pollo
+1 cup de leche
+1 cebolla amarilla pequeña, picada en cubitos
+2 dientes de ajo, picados
+1/2 tsp de sal, más al gusto
+1/2 tsp de pimienta
+1/2 tsp de tomillo seco, opcional
+1 masa refrigerada para pay
+1 huevo, batido, opcional para barnizar`,
+      instructions: `Precalienta el horno a 400°F. Engrasa ligeramente un molde para hornear o molde para pay.
 
-  {
-    id: "normal-taco-pasta",
-    slug: "normal-taco-pasta",
-    name: "Cheesy Taco Pasta",
-    effort: "normal",
-    photoUrl: "/images/normal-taco-pasta.jpg",
-    tags: ["dinner", "pasta", "tex-mex", "beef", "cheesy", "one-pan", "family-friendly", "leftovers-friendly"],
-    isVegetarian: false,
-    notes: "A cheesy, taco-inspired pasta with bold flavor and a creamy finish. Great for family dinners and even better as leftovers the next day.",
-    ingredients: `1 lb ground beef
+En un sartén grande o cacerola, derrite 1/2 cup de mantequilla sin sal a fuego medio. Agrega 1 cebolla amarilla pequeña picada y cocina de 4 a 5 minutos, hasta que se ablande.
+
+Agrega 2 dientes de ajo picados y cocina 30 segundos, hasta que suelte aroma.
+
+Incorpora 1/2 cup de harina de todo uso y cocina de 1 a 2 minutos, revolviendo constantemente, para formar un roux y quitar el sabor a harina cruda.
+
+Agrega lentamente 2 cups de caldo de pollo y 1 cup de leche, batiendo continuamente para evitar grumos.
+
+Lleva a un hervor suave y cocina de 5 a 7 minutos, revolviendo con frecuencia, hasta que la salsa espese y cubra el dorso de una cuchara.
+
+Incorpora 2 cups de pollo cocido en cubitos, 1 cup de verduras mixtas congeladas, 1/2 tsp de sal, 1/2 tsp de pimienta y 1/2 tsp de tomillo seco. Cocina de 2 a 3 minutos, hasta que todo esté caliente.
+
+Vierte el relleno en el molde preparado.
+
+Coloca 1 masa refrigerada para pay encima, recorta el exceso y presiona ligeramente para sellar los bordes. Haz unos pequeños cortes en la parte superior para que escape el vapor.
+
+Barniza con 1 huevo batido si lo usas para un acabado dorado.
+
+Hornea de 30 a 35 minutos, hasta que la corteza esté dorada y el relleno burbujee por los bordes.
+
+Deja reposar 10 minutos antes de servir para que el relleno se asiente.`,
+    },
+  },
+},
+
+{
+  id: "normal-taco-pasta",
+  slug: "normal-taco-pasta",
+  name: "Cheesy Taco Pasta",
+  effort: "normal",
+  photoUrl: "/images/normal-taco-pasta.jpg",
+  tags: ["dinner", "pasta", "tex-mex", "beef", "cheesy", "one-pan", "family-friendly", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "A cheesy, taco-inspired pasta with bold flavor and a creamy finish. Great for family dinners and even better as leftovers the next day.",
+  ingredients: `1 lb ground beef
 8 oz pasta (rotini or shells work best)
 1 Tbsp olive oil
 1 small yellow onion, diced
@@ -1077,7 +2061,7 @@ Taco Pasta Seasoning:
 1/2 tsp onion powder
 1/2 tsp salt
 1/4 tsp pepper`,
-    instructions: `Bring a large pot of salted water to a boil. Cook 8 oz pasta according to package directions until al dente. Drain and set aside.
+  instructions: `Bring a large pot of salted water to a boil. Cook 8 oz pasta according to package directions until al dente. Drain and set aside.
 
 Heat 1 Tbsp olive oil in a large skillet over medium heat. Add 1 diced small yellow onion and cook for 4 to 5 minutes until softened.
 
@@ -1098,18 +2082,75 @@ Add the cooked pasta and toss to coat evenly.
 Stir in 1 cup shredded cheddar cheese and 1/2 cup Monterey Jack if using until melted and creamy.
 
 Remove from heat and serve warm.`,
-  },
+  translations: {
+    es: {
+      name: "Pasta de taco con queso",
+      notes:
+        "Una pasta inspirada en tacos, con mucho queso, sabor intenso y un acabado cremoso. Ideal para cenas familiares y aún mejor como sobras al día siguiente.",
+      tags: [
+        "cena",
+        "pasta",
+        "tex-mex",
+        "carne de res",
+        "con queso",
+        "una sartén",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `1 lb de carne molida de res
+8 oz de pasta; rotini o conchas funcionan mejor
+1 Tbsp de aceite de oliva
+1 cebolla amarilla pequeña, picada en cubitos
+2 dientes de ajo, picados
+1 lata (14.5 oz) de tomates en cubitos, con sus jugos
+1 cup de caldo de res
+1 cup de queso cheddar rallado
+1/2 cup de queso Monterey Jack, opcional para que se derrita mejor
+1/4 cup de queso crema, opcional para más cremosidad
 
-  {
-    id: "pan-seared-scallops-lemon-risotto",
-    slug: "pan-seared-scallops-lemon-risotto",
-    name: "Pan-Seared Scallops with Lemon Risotto",
-    effort: "big",
-    photoUrl: "/images/pan-seared-scallops-lemon-risotto.jpg",
-    tags: ["dinner", "seafood", "shellfish", "scallops", "risotto", "date-night", "restaurant-style"],
-    isVegetarian: false,
-    notes: "Elegant, restaurant-quality scallops with creamy lemon risotto. Key to success: keep the stock warm, stir the risotto gradually, and ensure scallops are very dry before searing for a perfect golden crust.",
-    ingredients: `10 large sea scallops (side muscle removed)
+Sazonador para pasta de taco:
+1 Tbsp de chile en polvo
+1 tsp de comino
+1/2 tsp de paprika, o paprika ahumada para más profundidad
+1/2 tsp de ajo en polvo
+1/2 tsp de cebolla en polvo
+1/2 tsp de sal
+1/4 tsp de pimienta`,
+      instructions: `Hierve una olla grande con agua salada. Cocina 8 oz de pasta según las instrucciones del paquete hasta que esté al dente. Escurre y reserva.
+
+Calienta 1 Tbsp de aceite de oliva en un sartén grande a fuego medio. Agrega 1 cebolla amarilla pequeña picada y cocina de 4 a 5 minutos, hasta que se ablande.
+
+Agrega 2 dientes de ajo picados y cocina 30 segundos, hasta que suelte aroma.
+
+Agrega 1 lb de carne molida de res y cocina hasta que se dore, separándola mientras se cocina. Escurre el exceso de grasa si es necesario.
+
+Incorpora el sazonador para taco: 1 Tbsp de chile en polvo, 1 tsp de comino, 1/2 tsp de paprika, 1/2 tsp de ajo en polvo, 1/2 tsp de cebolla en polvo, 1/2 tsp de sal y 1/4 tsp de pimienta. Cocina 1 minuto para tostar las especias.
+
+Agrega 1 lata (14.5 oz) de tomates en cubitos con sus jugos y 1 cup de caldo de res. Mezcla bien y lleva a hervor suave.
+
+Deja cocinar de 5 a 7 minutos, hasta que espese un poco y los sabores se integren.
+
+Reduce el fuego a bajo. Incorpora 1/4 cup de queso crema si lo usas, hasta que se derrita y quede suave.
+
+Agrega la pasta cocida y mezcla para cubrirla de manera uniforme.
+
+Incorpora 1 cup de queso cheddar rallado y 1/2 cup de Monterey Jack si lo usas, hasta que se derritan y quede cremoso.
+
+Retira del fuego y sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "pan-seared-scallops-lemon-risotto",
+  slug: "pan-seared-scallops-lemon-risotto",
+  name: "Pan-Seared Scallops with Lemon Risotto",
+  effort: "big",
+  photoUrl: "/images/pan-seared-scallops-lemon-risotto.jpg",
+  tags: ["dinner", "seafood", "shellfish", "scallops", "risotto", "date-night", "restaurant-style"],
+  isVegetarian: false,
+  notes: "Elegant, restaurant-quality scallops with creamy lemon risotto. Key to success: keep the stock warm, stir the risotto gradually, and ensure scallops are very dry before searing for a perfect golden crust.",
+  ingredients: `10 large sea scallops (side muscle removed)
 1 cup Arborio rice
 3 cups chicken stock (kept warm)
 1/2 cup dry white wine (optional, or extra stock)
@@ -1123,7 +2164,7 @@ Remove from heat and serve warm.`,
 1/2 tsp salt (plus more to taste)
 1/2 tsp pepper
 1 Tbsp fresh parsley, chopped (optional)`,
-    instructions: `In a saucepan, keep 3 cups chicken stock warm over low heat.
+  instructions: `In a saucepan, keep 3 cups chicken stock warm over low heat.
 
 In a large skillet or sauté pan, melt 1 Tbsp butter with 1 Tbsp olive oil over medium heat. Add 1 finely diced small shallot and cook for 2 to 3 minutes until softened.
 
@@ -1148,18 +2189,72 @@ Place scallops in the pan and sear undisturbed for 1 1/2 to 2 minutes until a de
 Flip and cook another 1 to 2 minutes until just opaque in the center. Do not overcook.
 
 Spoon risotto onto plates and top with the seared scallops. Garnish with 1 Tbsp chopped fresh parsley if desired and serve immediately.`,
-  },
+  translations: {
+    es: {
+      name: "Vieiras selladas con risotto de limón",
+      notes:
+        "Vieiras elegantes, estilo restaurante, con risotto cremoso de limón. La clave es mantener el caldo caliente, agregarlo poco a poco al risotto y secar muy bien las vieiras antes de sellarlas para lograr una corteza dorada perfecta.",
+      tags: [
+        "cena",
+        "mariscos",
+        "vieiras",
+        "risotto",
+        "noche especial",
+        "estilo restaurante",
+      ],
+      ingredients: `10 vieiras grandes de mar, sin el músculo lateral
+1 cup de arroz Arborio
+3 cups de caldo de pollo, mantenido caliente
+1/2 cup de vino blanco seco, opcional, o más caldo
+1/2 cup de queso parmesano recién rallado
+2 Tbsp de mantequilla, dividida
+1 Tbsp de aceite de oliva
+1 chalota pequeña, finamente picada, o 1/4 de cebolla
+2 dientes de ajo, picados
+1 Tbsp de ralladura de limón
+1 Tbsp de jugo de limón
+1/2 tsp de sal, más al gusto
+1/2 tsp de pimienta
+1 Tbsp de perejil fresco, picado, opcional`,
+      instructions: `En una cacerola, mantén 3 cups de caldo de pollo caliente a fuego bajo.
 
-  {
-    id: "lemon-herb-roasted-salmon",
-    slug: "lemon-herb-roasted-salmon",
-    name: "Lemon Herb Roasted Salmon",
-    effort: "normal",
-    photoUrl: "/images/lemon-herb-roasted-salmon.jpg",
-    tags: ["dinner", "seafood", "fish", "salmon", "oven", "healthy", "one-pan", "leftovers-friendly"],
-    isVegetarian: false,
-    notes: "Light, fresh roasted salmon with lemon and herbs. A simple one-pan meal that pairs perfectly with rice or roasted potatoes and reheats well for leftovers.",
-    ingredients: `4 salmon fillets (about 6 oz each)
+En un sartén grande o sartén para saltear, derrite 1 Tbsp de mantequilla con 1 Tbsp de aceite de oliva a fuego medio. Agrega 1 chalota pequeña finamente picada y cocina de 2 a 3 minutos, hasta que se ablande.
+
+Agrega 2 dientes de ajo picados y cocina 30 segundos, hasta que suelte aroma.
+
+Incorpora 1 cup de arroz Arborio y cocina de 1 a 2 minutos, revolviendo constantemente, hasta que los bordes de los granos se vean ligeramente translúcidos.
+
+Vierte 1/2 cup de vino blanco seco y revuelve hasta que se absorba casi por completo.
+
+Agrega el caldo de pollo caliente, un cucharón a la vez, revolviendo con frecuencia. Deja que cada adición se absorba antes de agregar la siguiente.
+
+Continúa este proceso de 18 a 22 minutos, hasta que el arroz esté cremoso y tierno, con una ligera firmeza al morder.
+
+Incorpora la 1 Tbsp restante de mantequilla, 1/2 cup de queso parmesano recién rallado, 1 Tbsp de ralladura de limón, 1 Tbsp de jugo de limón, 1/2 tsp de sal y 1/2 tsp de pimienta. El risotto debe quedar suelto y cremoso, no rígido. Ajusta con un chorrito de caldo si es necesario. Mantén caliente.
+
+Seca muy bien 10 vieiras grandes con toallas de papel y sazona ligeramente con sal y pimienta.
+
+Calienta otro sartén a fuego alto hasta que esté muy caliente. Agrega una pequeña cantidad de aceite.
+
+Coloca las vieiras en el sartén y sella sin mover de 1 1/2 a 2 minutos, hasta que se forme una costra dorada intensa.
+
+Voltea y cocina de 1 a 2 minutos más, hasta que estén apenas opacas en el centro. No las cocines de más.
+
+Sirve el risotto en platos y coloca las vieiras selladas encima. Decora con 1 Tbsp de perejil fresco picado si deseas y sirve de inmediato.`,
+    },
+  },
+},
+
+{
+  id: "lemon-herb-roasted-salmon",
+  slug: "lemon-herb-roasted-salmon",
+  name: "Lemon Herb Roasted Salmon",
+  effort: "normal",
+  photoUrl: "/images/lemon-herb-roasted-salmon.jpg",
+  tags: ["dinner", "seafood", "fish", "salmon", "oven", "healthy", "one-pan", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Light, fresh roasted salmon with lemon and herbs. A simple one-pan meal that pairs perfectly with rice or roasted potatoes and reheats well for leftovers.",
+  ingredients: `4 salmon fillets (about 6 oz each)
 1 bunch asparagus, trimmed
 2 Tbsp olive oil
 2 cloves garlic, minced
@@ -1169,7 +2264,7 @@ Spoon risotto onto plates and top with the seared scallops. Garnish with 1 Tbsp 
 1/2 tsp salt
 1/2 tsp pepper
 1/2 tsp paprika (optional, for light color and depth)`,
-    instructions: `Preheat oven to 400°F. Line a baking sheet with parchment paper or foil for easy cleanup.
+  instructions: `Preheat oven to 400°F. Line a baking sheet with parchment paper or foil for easy cleanup.
 
 Arrange 4 salmon fillets and 1 bunch trimmed asparagus on the baking sheet in a single layer.
 
@@ -1184,18 +2279,60 @@ Roast for 12 to 15 minutes, depending on thickness, until the salmon is opaque a
 For a slightly crisp top, broil on high for 1 to 2 minutes at the end, watching closely.
 
 Remove from the oven and serve immediately.`,
-  },
+  translations: {
+    es: {
+      name: "Salmón asado con limón y hierbas",
+      notes:
+        "Salmón asado ligero y fresco con limón y hierbas. Una comida sencilla en una sola bandeja que combina perfectamente con arroz o papas asadas y se recalienta bien como sobras.",
+      tags: [
+        "cena",
+        "mariscos",
+        "pescado",
+        "salmón",
+        "horno",
+        "saludable",
+        "una bandeja",
+        "bueno para sobras",
+      ],
+      ingredients: `4 filetes de salmón (aprox. 6 oz cada uno)
+1 manojo de espárragos, recortados
+2 Tbsp de aceite de oliva
+2 dientes de ajo, picados
+1 limón, rebanado
+1 Tbsp de jugo de limón
+2 Tbsp de eneldo fresco, picado, o 1 tsp de eneldo seco
+1/2 tsp de sal
+1/2 tsp de pimienta
+1/2 tsp de paprika, opcional para color ligero y más profundidad`,
+      instructions: `Precalienta el horno a 400°F. Cubre una bandeja para hornear con papel pergamino o aluminio para facilitar la limpieza.
 
-  {
-    id: "beef-broccoli-stir-fry",
-    slug: "beef-broccoli-stir-fry",
-    name: "Beef and Broccoli Stir-Fry",
-    effort: "quick",
-    photoUrl: "/images/beef-broccoli-stir-fry.jpg",
-    tags: ["dinner", "beef", "stir-fry", "one-pan", "quick", "takeout-style", "leftovers-friendly"],
-    isVegetarian: false,
-    notes: "Quick, takeout-style beef and broccoli with a savory, glossy sauce. Slice the beef thinly against the grain for maximum tenderness and cook quickly over high heat.",
-    ingredients: `1 lb flank steak, thinly sliced against the grain
+Coloca 4 filetes de salmón y 1 manojo de espárragos recortados en la bandeja en una sola capa.
+
+Rocía 2 Tbsp de aceite de oliva de manera uniforme sobre el salmón y los espárragos.
+
+Espolvorea 2 dientes de ajo picados, 2 Tbsp de eneldo fresco picado, 1/2 tsp de sal, 1/2 tsp de pimienta y 1/2 tsp de paprika si la usas sobre todo.
+
+Coloca 1 limón rebanado encima del salmón y rocía con 1 Tbsp de jugo de limón fresco.
+
+Asa de 12 a 15 minutos, según el grosor, hasta que el salmón esté opaco y se desmenuce fácilmente con un tenedor.
+
+Para una parte superior un poco crujiente, gratina en alto de 1 a 2 minutos al final, vigilando de cerca.
+
+Retira del horno y sirve de inmediato.`,
+    },
+  },
+},
+
+{
+  id: "beef-broccoli-stir-fry",
+  slug: "beef-broccoli-stir-fry",
+  name: "Beef and Broccoli Stir-Fry",
+  effort: "quick",
+  photoUrl: "/images/beef-broccoli-stir-fry.jpg",
+  tags: ["dinner", "beef", "stir-fry", "one-pan", "quick", "takeout-style", "leftovers-friendly"],
+  isVegetarian: false,
+  notes: "Quick, takeout-style beef and broccoli with a savory, glossy sauce. Slice the beef thinly against the grain for maximum tenderness and cook quickly over high heat.",
+  ingredients: `1 lb flank steak, thinly sliced against the grain
 3 cups broccoli florets
 2 Tbsp soy sauce (plus more to taste)
 1 Tbsp oyster sauce (optional, for deeper flavor)
@@ -1208,7 +2345,7 @@ Remove from the oven and serve immediately.`,
 1 tsp cornstarch + 2 Tbsp water (for slurry)
 1/2 tsp pepper
 2 green onions, sliced (optional)`,
-    instructions: `In a small bowl, whisk together 2 Tbsp soy sauce, 1 Tbsp oyster sauce if using, 1 tsp grated ginger, 2 cloves minced garlic, 1 Tbsp brown sugar, and 1/2 cup beef broth. Set aside.
+  instructions: `In a small bowl, whisk together 2 Tbsp soy sauce, 1 Tbsp oyster sauce if using, 1 tsp grated ginger, 2 cloves minced garlic, 1 Tbsp brown sugar, and 1/2 cup beef broth. Set aside.
 
 Heat a wok or large skillet over high heat. Add 1 Tbsp vegetable oil.
 
@@ -1223,7 +2360,51 @@ Bring to a quick simmer over high heat. Mix 1 tsp cornstarch with 2 Tbsp water t
 Drizzle with 1 Tbsp sesame oil and sprinkle with 1/2 tsp pepper. Toss everything together until well coated.
 
 Remove from heat, garnish with 2 sliced green onions if desired, and serve immediately.`,
+  translations: {
+    es: {
+      name: "Salteado de res con brócoli",
+      notes:
+        "Res con brócoli rápida, estilo comida para llevar, con una salsa sabrosa y brillante. Corta la carne finamente contra la fibra para máxima suavidad y cocínala rápido a fuego alto.",
+      tags: [
+        "cena",
+        "carne de res",
+        "salteado",
+        "una sartén",
+        "rápido",
+        "estilo comida para llevar",
+        "bueno para sobras",
+      ],
+      ingredients: `1 lb de flank steak, rebanado finamente contra la fibra
+3 cups de floretes de brócoli
+2 Tbsp de salsa de soya, más al gusto
+1 Tbsp de salsa de ostión, opcional para más sabor
+1 tsp de jengibre fresco, rallado, o 1/2 tsp de jengibre molido
+2 dientes de ajo, picados
+1 Tbsp de azúcar morena
+1 Tbsp de aceite de sésamo
+1 Tbsp de aceite vegetal o aceite de canola
+1/2 cup de caldo de res o agua
+1 tsp de maicena + 2 Tbsp de agua para espesar
+1/2 tsp de pimienta
+2 cebollines, rebanados, opcional`,
+      instructions: `En un tazón pequeño, bate 2 Tbsp de salsa de soya, 1 Tbsp de salsa de ostión si la usas, 1 tsp de jengibre rallado, 2 dientes de ajo picados, 1 Tbsp de azúcar morena y 1/2 cup de caldo de res. Reserva.
+
+Calienta un wok o sartén grande a fuego alto. Agrega 1 Tbsp de aceite vegetal.
+
+Agrega 1 lb de flank steak rebanado finamente en una sola capa y sella de 2 a 3 minutos sin revolver demasiado, hasta que se dore. Retira y reserva.
+
+En el mismo sartén, agrega 3 cups de floretes de brócoli y saltea de 3 a 4 minutos, hasta que estén verdes brillantes y tiernos pero firmes. Agrega un chorrito de agua si es necesario para ayudar a vaporizar.
+
+Regresa la carne al sartén y vierte la salsa preparada.
+
+Lleva a un hervor rápido a fuego alto. Mezcla 1 tsp de maicena con 2 Tbsp de agua para formar una mezcla espesante; incorpórala al sartén y cocina de 1 a 2 minutos, revolviendo constantemente, hasta que la salsa espese y quede brillante.
+
+Rocía con 1 Tbsp de aceite de sésamo y espolvorea 1/2 tsp de pimienta. Mezcla todo hasta que quede bien cubierto.
+
+Retira del fuego, decora con 2 cebollines rebanados si deseas y sirve de inmediato.`,
+    },
   },
+},
 
  {
   id: "zuppa-toscana-soup",
@@ -1263,6 +2444,53 @@ Stir in 4 cups fresh chopped kale and 2 cups heavy cream, then add the cooked sa
 Taste and adjust salt and pepper if needed.
 
 Serve topped with grated Parmesan cheese and bacon bits if desired.`,
+  translations: {
+    es: {
+      name: "Sopa Zuppa Toscana",
+      notes:
+        "Una sopa rica y acogedora que sabe a comida reconfortante de restaurante en casa.",
+      tags: [
+        "cena",
+        "sopa",
+        "cerdo",
+        "italiana",
+        "comida reconfortante",
+        "una olla",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `1 lb de salchicha italiana molida
+4 Tbsp de mantequilla
+1 cebolla blanca, picada en cubitos
+1 Tbsp de ajo, picado
+6 cups de caldo de pollo
+2 cups de agua
+5 papas amarillas, cortadas en trozos de 1 inch
+3 tsp de sal
+1 tsp de pimienta
+2 cups de crema espesa
+4 cups de kale fresco, picado
+tocino en trocitos
+queso parmesano rallado`,
+      instructions: `En una olla grande, saltea 1 lb de salchicha italiana molida durante 5 a 6 minutos, hasta que esté dorada.
+
+Usa una cuchara ranurada para pasar la salchicha a un plato y reserva.
+
+En la misma olla, agrega 4 Tbsp de mantequilla y sofríe 1 cebolla blanca picada a fuego medio hasta que esté translúcida.
+
+Agrega 1 Tbsp de ajo picado y sofríe 1 minuto más, hasta que suelte aroma.
+
+Agrega 6 cups de caldo de pollo, 2 cups de agua, 5 papas amarillas cortadas en trozos de 1 inch, 3 tsp de sal y 1 tsp de pimienta, y lleva a hervor.
+
+Hierve hasta que las papas estén tiernas.
+
+Incorpora 4 cups de kale fresco picado y 2 cups de crema espesa, luego regresa la salchicha cocida a la olla.
+
+Prueba y ajusta sal y pimienta si es necesario.
+
+Sirve con queso parmesano rallado y tocino en trocitos encima si deseas.`,
+    },
+  },
 },
 
 {
@@ -1314,6 +2542,62 @@ Remove the meatloaf from the oven, spread the glaze evenly over the top, and ret
 Bake for an additional 15 to 20 minutes, until the internal temperature reaches 160°F and the glaze is slightly caramelized.
 
 Let rest for 10 minutes before slicing and serving.`,
+  translations: {
+    es: {
+      name: "Pastel de carne con verduras escondidas",
+      notes:
+        "Un pastel de carne jugoso y sabroso con verduras escondidas. Exprimir la humedad del zucchini es clave para evitar una textura aguada. Perfecto con puré de papas y excelente para sobras.",
+      tags: [
+        "cena",
+        "carne de res",
+        "pastel de carne",
+        "comida reconfortante",
+        "familiar",
+        "para niños",
+        "bueno para sobras",
+      ],
+      ingredients: `1 1/2 lbs de carne molida de res, preferiblemente 80/20
+1 zucchini mediano, pelado y finamente rallado
+2 zanahorias, peladas y finamente ralladas
+1/2 cebolla amarilla pequeña, finamente picada o rallada
+1/2 cup de espinaca fresca, finamente picada
+1 huevo grande
+3/4 cup de pan molido panko
+1/4 cup de leche
+1 Tbsp de salsa worcestershire
+1 Tbsp de ketchup
+1 tsp de ajo en polvo
+1/2 tsp de sazonador italiano seco, opcional
+1 tsp de sal
+1/2 tsp de pimienta
+
+Para el glaseado:
+1/2 cup de ketchup
+1 Tbsp de azúcar morena
+1 tsp de mostaza amarilla`,
+      instructions: `Precalienta el horno a 375°F. Cubre una bandeja para hornear con papel pergamino o engrasa ligeramente un molde para pan.
+
+Coloca 1 zucchini mediano pelado y finamente rallado en una toalla limpia o toallas de papel y exprime la mayor cantidad de humedad posible. Este paso evita que el pastel de carne quede aguado.
+
+En un tazón grande, combina 1 huevo grande, 1/4 cup de leche, 3/4 cup de pan molido panko, 1 Tbsp de salsa worcestershire, 1 Tbsp de ketchup, 1 tsp de ajo en polvo, 1/2 tsp de sazonador italiano seco si lo usas, 1 tsp de sal y 1/2 tsp de pimienta.
+
+Agrega el zucchini rallado y exprimido, 2 zanahorias peladas y finamente ralladas, 1/2 cebolla amarilla pequeña finamente picada y 1/2 cup de espinaca fresca finamente picada. Mezcla hasta que todo esté bien combinado.
+
+Agrega 1 1/2 lbs de carne molida de res y mezcla suavemente con las manos hasta que apenas se combine. No mezcles demasiado o el pastel de carne quedará denso.
+
+Forma un pan con la mezcla sobre la bandeja preparada o presiónala dentro de un molde para pan.
+
+Hornea durante 40 minutos.
+
+Mientras tanto, bate 1/2 cup de ketchup, 1 Tbsp de azúcar morena y 1 tsp de mostaza amarilla en un tazón pequeño.
+
+Retira el pastel de carne del horno, extiende el glaseado de manera uniforme encima y regresa al horno.
+
+Hornea de 15 a 20 minutos más, hasta que la temperatura interna alcance 160°F y el glaseado esté ligeramente caramelizado.
+
+Deja reposar 10 minutos antes de cortar y servir.`,
+    },
+  },
 },
 
 {
@@ -1349,6 +2633,47 @@ Drain the pasta and return it to the pot. Add 2 Tbsp butter, 1 Tbsp olive oil, a
 Serve pasta topped with meat sauce.
 
 Optional: Pair with Caesar salad and garlic bread.`,
+  translations: {
+    es: {
+      name: "Espagueti de Tom",
+      notes:
+        "Una cena clásica y sustanciosa de espagueti que combina perfecto con ensalada César y pan de ajo.",
+      tags: [
+        "cena",
+        "pasta",
+        "carne de res",
+        "espagueti",
+        "comida reconfortante",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `1 caja de pasta cabello de ángel
+1 lb de carne molida de res
+1 pimiento verde, picado en cubitos
+1 lata (28 oz) de tomates en cubitos
+1 lata (16 oz) de salsa de tomate
+1 lata (6 oz) de pasta de tomate
+2 tsp de tomillo seco
+4 Tbsp de sazonador italiano, dividido
+1 tsp de sal
+1/2 tsp de pimienta
+2 Tbsp de mantequilla
+1 Tbsp de aceite de oliva`,
+      instructions: `Cocina 1 lb de carne molida de res en un sartén a fuego medio hasta que esté dorada. Escurre la grasa.
+
+Agrega 1 pimiento verde picado, 1 lata de tomates en cubitos, 1 lata de salsa de tomate, 1 lata de pasta de tomate, 2 tsp de tomillo seco, 2 Tbsp de sazonador italiano, 1 tsp de sal y 1/2 tsp de pimienta. Mezcla bien.
+
+Lleva a un hervor suave, reduce el fuego a bajo y cocina durante 30 minutos.
+
+En una olla, hierve 6 cups de agua con sal. Agrega 1 caja de pasta cabello de ángel y cocina unos 5 minutos, revolviendo de vez en cuando.
+
+Escurre la pasta y regrésala a la olla. Agrega 2 Tbsp de mantequilla, 1 Tbsp de aceite de oliva y las 2 Tbsp restantes de sazonador italiano. Mezcla bien.
+
+Sirve la pasta cubierta con salsa de carne.
+
+Opcional: acompaña con ensalada César y pan de ajo.`,
+    },
+  },
 },
 
 {
@@ -1391,6 +2716,54 @@ Remove from heat and stir in 1/4 cup chopped fresh parsley.
 Serve with lemon wedges from 1 lemon.
 
 Optional: Pair with angel hair pasta.`,
+  translations: {
+    es: {
+      name: "Camarones al ajillo con mantequilla",
+      notes:
+        "Ligero, mantequilloso y lleno de sabor. Queda excelente sobre pasta cabello de ángel para una cena fácil estilo restaurante en casa.",
+      tags: [
+        "cena",
+        "mariscos",
+        "camarones",
+        "rápido",
+        "sartén",
+        "pasta",
+        "estilo restaurante",
+      ],
+      ingredients: `1 1/2 lbs de camarones grandes, pelados y desvenados
+2 Tbsp de mantequilla
+2 Tbsp de aceite de oliva
+4 dientes de ajo, picados
+1/4 tsp de hojuelas de chile rojo, opcional
+1/2 cup de vino blanco seco o caldo de pollo bajo en sodio
+1 1/2 Tbsp de jugo de limón
+1 limón, cortado en gajos
+1/4 cup de perejil fresco picado
+sal, al gusto
+pimienta, al gusto`,
+      instructions: `Seca 1 1/2 lbs de camarones grandes y sazona con 1/2 tsp de sal y 1/2 tsp de pimienta.
+
+Calienta 1 Tbsp de aceite de oliva y 1 Tbsp de mantequilla en un sartén grande no reactivo a fuego medio-alto.
+
+Agrega los camarones en una sola capa y cocina de 1 a 2 minutos por lado, hasta que apenas estén opacos. Retíralos a un plato.
+
+Baja el fuego a medio. Agrega la 1 Tbsp restante de aceite de oliva y la 1 Tbsp restante de mantequilla.
+
+Saltea 4 dientes de ajo picados y 1/4 tsp de hojuelas de chile rojo, si las usas, durante unos 30 segundos, hasta que suelten aroma.
+
+Agrega 1/2 cup de vino blanco seco o caldo de pollo bajo en sodio y cocina a fuego bajo durante 2 minutos, hasta que se reduzca a la mitad.
+
+Incorpora 1 1/2 Tbsp de jugo de limón.
+
+Regresa los camarones y sus jugos al sartén y mezcla para cubrirlos.
+
+Retira del fuego e incorpora 1/4 cup de perejil fresco picado.
+
+Sirve con gajos de 1 limón.
+
+Opcional: acompaña con pasta cabello de ángel.`,
+    },
+  },
 },
 
 {
@@ -1428,6 +2801,48 @@ Place on a parchment-lined baking sheet.
 Bake for 15 to 18 minutes, until lightly browned.
 
 Serve with lemon wedges from 1 lemon and your choice of cocktail sauce or tartar sauce.`,
+  translations: {
+    es: {
+      name: "Pastelitos de cangrejo estilo Maryland",
+      notes:
+        "Pastelitos clásicos de cangrejo con mucho sabor a cangrejo y solo lo suficiente para mantenerlos unidos.",
+      tags: [
+        "cena",
+        "mariscos",
+        "cangrejo",
+        "horneado",
+        "clásico",
+        "maryland",
+      ],
+      ingredients: `1 lb de carne de cangrejo en trozos
+1 huevo grande
+1/4 cup de mayonesa
+1 tsp de mostaza dijon
+1 tsp de salsa worcestershire
+1 tsp de jugo de limón fresco
+1 1/2 tsp de sazonador Old Bay
+1 tsp de perejil fresco, picado
+2/3 cup de migas de galleta salada
+1 limón, cortado en gajos`,
+      instructions: `En un tazón pequeño, bate 1/4 cup de mayonesa, 1 huevo grande, 1 tsp de mostaza dijon, 1 tsp de salsa worcestershire, 1 1/2 tsp de sazonador Old Bay, 1 tsp de jugo de limón fresco y 1 tsp de perejil fresco picado.
+
+Agrega 1 lb de carne de cangrejo en trozos e incorpórala suavemente a la salsa.
+
+Agrega 2/3 cup de migas de galleta salada y continúa mezclando con cuidado. Procura no deshacer demasiado la carne de cangrejo.
+
+Cubre y refrigera por al menos 30 minutos.
+
+Precalienta el horno a 400°F.
+
+Divide la mezcla en 6 porciones y forma pastelitos de cangrejo ligeramente aplanados.
+
+Colócalos en una bandeja para hornear cubierta con papel pergamino.
+
+Hornea de 15 a 18 minutos, hasta que estén ligeramente dorados.
+
+Sirve con gajos de 1 limón y la salsa cóctel o tártara que prefieras.`,
+    },
+  },
 },
 
 {
@@ -1477,6 +2892,61 @@ Remove the roast and vegetables. Shred the roast and discard excess fat.
 Optional gravy: Strain the broth into a saucepan. Heat over medium-high. Whisk the 2 1/2 Tbsp cornstarch with 3 Tbsp beef broth, then stir into the simmering broth. Simmer for 30 to 60 seconds until thickened.
 
 Serve the roast and vegetables topped with gravy and sprinkled with 2 Tbsp fresh chopped parsley.`,
+  translations: {
+    es: {
+      name: "Carne asada en olla lenta",
+      notes:
+        "Un clásico sustancioso de olla lenta con carne tierna, verduras y un gravy casero opcional.",
+      tags: [
+        "cena",
+        "carne de res",
+        "asado",
+        "olla lenta",
+        "comida reconfortante",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `1 1/2 Tbsp de aceite de oliva, dividido
+1 asado de chuck roast (3 lb)
+1 tsp de sal
+1 tsp de pimienta
+1 cebolla amarilla mediana, cortada en rebanadas gruesas
+5 dientes de ajo, picados
+2 cups de caldo de res
+2 tsp de salsa worcestershire
+1 Tbsp de tomillo fresco, picado
+1 Tbsp de romero fresco, picado
+2 1/2 lbs de papas Yukon gold pequeñas, enteras
+2 cups de zanahorias baby
+2 cups de apio, cortado en trozos de 1 inch
+1 paquete (8 oz) de champiñones baby bella
+2 1/2 Tbsp de maicena mezclada con 3 Tbsp de caldo de res, opcional
+2 Tbsp de perejil fresco, picado`,
+      instructions: `Calienta 1 Tbsp de aceite de oliva en una olla grande a fuego medio-alto.
+
+Seca el chuck roast de 3 lb y sazónalo generosamente con 1 tsp de sal y 1 tsp de pimienta.
+
+Sella el asado hasta que esté dorado por ambos lados, unos 4 a 5 minutos por lado. Pásalo a la olla lenta.
+
+Agrega la 1/2 Tbsp restante de aceite de oliva a la olla. Agrega 1 cebolla amarilla mediana cortada en rebanadas gruesas y cocina durante 2 minutos.
+
+Agrega el paquete de 8 oz de champiñones baby bella y cocina hasta que empiecen a dorarse. Agrega 5 dientes de ajo picados y cocina 30 segundos más.
+
+Vierte la mezcla de cebolla y champiñones sobre el asado en la olla lenta.
+
+Regresa la olla al fuego. Agrega 2 cups de caldo de res, 2 tsp de salsa worcestershire, 1 Tbsp de tomillo fresco picado y 1 Tbsp de romero fresco picado. Raspa los trozos dorados del fondo de la olla y luego retira del fuego.
+
+Coloca 2 1/2 lbs de papas Yukon gold pequeñas, 2 cups de zanahorias baby y 2 cups de apio cortado en trozos de 1 inch sobre y alrededor del asado. Vierte la mezcla de caldo encima y sazona ligeramente con más sal y pimienta.
+
+Tapa y cocina en low de 8 a 9 horas, hasta que el asado y las verduras estén tiernos.
+
+Retira el asado y las verduras. Deshebra el asado y desecha el exceso de grasa.
+
+Gravy opcional: cuela el caldo en una cacerola. Calienta a fuego medio-alto. Bate 2 1/2 Tbsp de maicena con 3 Tbsp de caldo de res, luego incorpora al caldo hirviendo suavemente. Cocina de 30 a 60 segundos, hasta que espese.
+
+Sirve el asado y las verduras cubiertos con gravy y espolvoreados con 2 Tbsp de perejil fresco picado.`,
+    },
+  },
 },
 
 {
@@ -1517,6 +2987,51 @@ Stir in 1/2 cup sour cream if using, and cook for an additional 20 to 30 minutes
 Taste and adjust seasoning as needed.
 
 Serve hot and top with shredded cheddar cheese, bacon bits, and sliced green onions if desired.`,
+  translations: {
+    es: {
+      name: "Sopa de papa en olla lenta",
+      notes:
+        "Una sopa de papa cremosa y sustanciosa hecha fácil en la olla lenta. Machacar parte de las papas crea una textura más espesa y reconfortante sin esfuerzo extra.",
+      tags: [
+        "cena",
+        "sopa",
+        "comida reconfortante",
+        "olla lenta",
+        "papas",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `1 bolsa (30 oz) de papas hash brown congeladas en cubitos
+1 cartón (32 oz) de caldo de pollo
+1 lata (10.75 oz) de crema de pollo
+1/2 cup de cebolla amarilla, finamente picada
+2 dientes de ajo, picados
+1/2 tsp de pimienta
+1/2 tsp de sal, más al gusto
+1 tsp de perejil seco, opcional
+1/2 tsp de paprika ahumada, opcional para más profundidad
+1 paquete (8 oz) de queso crema, suavizado y cortado en cubitos
+1/2 cup de crema agria, opcional para más cremosidad
+
+Toppings opcionales:
+cebollines, rebanados
+queso cheddar, rallado
+tocino en trocitos`,
+      instructions: `Agrega 1 bolsa de papas hash brown congeladas en cubitos, 1 cartón de caldo de pollo, 1 lata de crema de pollo, 1/2 cup de cebolla amarilla finamente picada, 2 dientes de ajo picados, 1/2 tsp de pimienta, 1/2 tsp de sal, 1 tsp de perejil seco y 1/2 tsp de paprika ahumada si la usas a una olla lenta. Mezcla para combinar.
+
+Tapa y cocina en low de 5 a 6 horas o en high de 3 a 4 horas, hasta que las papas estén tiernas y los sabores estén bien integrados.
+
+Usa un machacador de papas para machacar ligeramente algunas papas directamente en la olla lenta y espesar la sopa, dejando algunos trozos para textura.
+
+Agrega 8 oz de queso crema suavizado y cortado en cubitos, y mezcla hasta que se derrita completamente y quede suave.
+
+Incorpora 1/2 cup de crema agria si la usas, y cocina de 20 a 30 minutos adicionales en low, hasta que esté cremosa y caliente.
+
+Prueba y ajusta los condimentos según sea necesario.
+
+Sirve caliente y cubre con queso cheddar rallado, tocino en trocitos y cebollines rebanados si deseas.`,
+    },
+  },
 },
 
 {
@@ -1543,6 +3058,30 @@ Spread the cream cheese mixture on the bottom third of each triangle and top wit
 Roll from the wide end to the tip.
 
 Place on a baking sheet and bake for 10 minutes or until golden brown.`,
+  translations: {
+    es: {
+      name: "Crecientes de cheesecake con arándanos",
+      notes:
+        "Un postre sencillo que se siente elegante. También queda muy bien como antojo para el desayuno.",
+      tags: ["postre", "rápido", "dulce", "horneado", "arándanos", "fácil"],
+      ingredients: `3 oz de queso crema, suavizado
+1/2 tsp de extracto de vainilla
+2 1/2 Tbsp de azúcar glass
+1 tubo de masa para crescent rolls
+2/3 cup de arándanos frescos`,
+      instructions: `Precalienta el horno a 375°F.
+
+En un tazón, mezcla 3 oz de queso crema suavizado, 1/2 tsp de extracto de vainilla y 2 1/2 Tbsp de azúcar glass hasta que quede suave.
+
+Separa 1 tubo de masa para crescent rolls en triángulos.
+
+Unta la mezcla de queso crema en el tercio inferior de cada triángulo y coloca 2/3 cup de arándanos frescos distribuidos de manera uniforme entre los triángulos.
+
+Enrolla desde el extremo ancho hacia la punta.
+
+Coloca en una bandeja para hornear y hornea durante 10 minutos o hasta que estén dorados.`,
+    },
+  },
 },
 
 {
@@ -1588,6 +3127,57 @@ In a separate bowl, whisk together 1/2 cup Frank’s RedHot and 1/3 cup melted u
 Toss the wings in the sauce until evenly coated, or serve sauce on the side for dipping.
 
 Serve immediately with celery sticks, carrot sticks, and ranch or blue cheese dressing if desired.`,
+  translations: {
+    es: {
+      name: "Alitas de pollo crujientes",
+      notes:
+        "Alitas ultra crujientes estilo restaurante hechas en casa. Secar bien las alitas y freír a la temperatura correcta son las claves para lograr ese crujido perfecto.",
+      tags: [
+        "cena",
+        "pollo",
+        "alitas",
+        "frito",
+        "día de partido",
+        "crujiente",
+        "comida reconfortante",
+        "para compartir",
+      ],
+      ingredients: `2 a 3 lbs de alitas de pollo, flats y drums separados
+aceite vegetal para freír
+1 Tbsp de sebo de res, opcional para más sabor
+1/2 cup de maicena
+1 tsp de sal
+1/2 tsp de pimienta
+1/2 tsp de ajo en polvo
+1/2 tsp de paprika, opcional
+
+Salsa Buffalo:
+1/2 cup de Frank’s RedHot
+1/3 cup de mantequilla sin sal, derretida
+
+Opcional para servir:
+palitos de apio
+palitos de zanahoria
+aderezo ranch o blue cheese`,
+      instructions: `Si usas alitas enteras, separa 2 a 3 lbs de alitas de pollo en flats y drums, y retira las puntas.
+
+Seca completamente las alitas con toallas de papel. Para mejores resultados, coloca las alitas sobre una rejilla y refrigera destapadas durante varias horas o toda la noche para secar la piel.
+
+En un tazón grande, mezcla las alitas con 1/2 cup de maicena, 1 tsp de sal, 1/2 tsp de pimienta, 1/2 tsp de ajo en polvo y 1/2 tsp de paprika hasta cubrirlas de manera uniforme.
+
+Calienta aceite vegetal y 1 Tbsp de sebo de res si lo usas en una olla profunda o freidora a 375°F.
+
+Fríe las alitas en tandas de 10 a 12 minutos, hasta que estén doradas, crujientes y la temperatura interna alcance al menos 165°F. No llenes demasiado la olla.
+
+Retira las alitas a una rejilla, no a toallas de papel, para mantenerlas crujientes.
+
+En otro tazón, bate 1/2 cup de Frank’s RedHot y 1/3 cup de mantequilla sin sal derretida.
+
+Mezcla las alitas con la salsa hasta cubrirlas de manera uniforme, o sirve la salsa aparte para mojar.
+
+Sirve de inmediato con palitos de apio, palitos de zanahoria y aderezo ranch o blue cheese si deseas.`,
+    },
+  },
 },
 
 {
@@ -1619,6 +3209,42 @@ Brush 1 cup BBQ sauce on both sides of the chicken and return briefly to direct 
 Remove from grill when internal temperature reaches 165°F.
 
 Let rest for 5 minutes before serving.`,
+  translations: {
+    es: {
+      name: "Muslos de pollo BBQ a la parrilla",
+      notes:
+        "Muslos de pollo jugosos y ahumados a la parrilla con un glaseado BBQ pegajoso. Cocinar con calor indirecto evita que se quemen mientras quedan tiernos y llenos de sabor por dentro.",
+      tags: [
+        "cena",
+        "pollo",
+        "parrilla",
+        "bbq",
+        "verano",
+        "jugoso",
+        "bueno para sobras",
+      ],
+      ingredients: `6 muslos de pollo con hueso y piel
+1 Tbsp de aceite de oliva
+1 tsp de sal
+1/2 tsp de pimienta
+1/2 tsp de ajo en polvo
+1/2 tsp de paprika o paprika ahumada para más sabor
+1 cup de salsa BBQ, más extra para servir`,
+      instructions: `Precalienta la parrilla a fuego medio, aproximadamente 375°F a 400°F. Prepara una zona de calor indirecto si es posible.
+
+Seca 6 muslos de pollo con hueso y piel con toallas de papel. Frota con 1 Tbsp de aceite de oliva y luego sazona de manera uniforme con 1 tsp de sal, 1/2 tsp de pimienta, 1/2 tsp de ajo en polvo y 1/2 tsp de paprika.
+
+Coloca el pollo con la piel hacia abajo sobre calor directo. Asa de 5 a 7 minutos, hasta que la piel esté crujiente y tenga buenas marcas de parrilla.
+
+Voltea y mueve a calor indirecto. Cierra la tapa y cocina de 15 a 20 minutos, volteando de vez en cuando, hasta que la temperatura interna alcance aproximadamente 155°F a 160°F.
+
+Barniza 1 cup de salsa BBQ por ambos lados del pollo y regresa brevemente a calor directo. Asa de 2 a 3 minutos, volteando una vez, hasta que la salsa esté caramelizada y ligeramente tostada.
+
+Retira de la parrilla cuando la temperatura interna alcance 165°F.
+
+Deja reposar 5 minutos antes de servir.`,
+    },
+  },
 },
 
 {
@@ -1651,6 +3277,43 @@ Remove from grill when internal temperature reaches about 130°F for medium-rare
 Top with a small pat of butter if desired and let rest for 5 to 10 minutes before slicing.
 
 Slice against the grain and serve.`,
+  translations: {
+    es: {
+      name: "Bistec a la parrilla",
+      notes:
+        "Un bistec clásico y sencillo a la parrilla, con una costra sabrosa y un centro jugoso. Dejarlo reposar antes de cortarlo es clave para mantenerlo tierno y jugoso.",
+      tags: [
+        "cena",
+        "carne de res",
+        "parrilla",
+        "clásico",
+        "rápido",
+        "alto en proteína",
+        "bajo en carbohidratos",
+      ],
+      ingredients: `2 bistecs ribeye o sirloin (aprox. 1 a 1 1/2 inches de grosor)
+1 Tbsp de aceite de oliva
+1 tsp de sal
+1/2 tsp de pimienta
+1/2 tsp de ajo en polvo, opcional
+1 Tbsp de mantequilla, opcional para terminar`,
+      instructions: `Precalienta la parrilla a fuego alto, aproximadamente 450°F a 500°F.
+
+Seca completamente 2 bistecs ribeye o sirloin con toallas de papel. Frota con 1 Tbsp de aceite de oliva y sazona generosamente con 1 tsp de sal, 1/2 tsp de pimienta y 1/2 tsp de ajo en polvo si lo usas.
+
+Coloca los bistecs en la parrilla caliente y cocina sin mover de 4 a 5 minutos, hasta que se forme una costra dorada intensa.
+
+Voltea y cocina otros 3 a 5 minutos, según el grosor y el punto de cocción deseado.
+
+Para una cocción más pareja, mueve los bistecs a una zona un poco más fresca de la parrilla y cierra la tapa si es necesario.
+
+Retira de la parrilla cuando la temperatura interna alcance unos 130°F para término medio-rojo. La temperatura subirá mientras reposa.
+
+Agrega un poco de mantequilla encima si deseas y deja reposar de 5 a 10 minutos antes de cortar.
+
+Corta contra la fibra y sirve.`,
+    },
+  },
 },
 
 {
@@ -1684,6 +3347,45 @@ If needed, move to a slightly cooler part of the grill and close the lid to fini
 Remove from grill and drizzle with 1 Tbsp lemon juice if using.
 
 Let rest for 5 minutes before slicing to keep juices locked in.`,
+  translations: {
+    es: {
+      name: "Pechugas de pollo a la parrilla",
+      notes:
+        "Pechugas de pollo jugosas y versátiles que combinan con casi todo. Aplanarlas a un grosor uniforme y no cocinarlas de más es clave para mantenerlas tiernas.",
+      tags: [
+        "cena",
+        "pollo",
+        "parrilla",
+        "saludable",
+        "alto en proteína",
+        "meal prep",
+        "rápido",
+        "bueno para sobras",
+      ],
+      ingredients: `4 pechugas de pollo sin hueso y sin piel
+2 Tbsp de aceite de oliva
+1 tsp de sal
+1/2 tsp de pimienta
+1 tsp de ajo en polvo
+1/2 tsp de paprika, opcional para color y sabor
+1 Tbsp de jugo de limón, opcional para dar frescura`,
+      instructions: `Precalienta la parrilla a fuego medio-alto, aproximadamente 400°F a 425°F.
+
+Si las 4 pechugas de pollo sin hueso y sin piel están gruesas, aplánalas hasta que tengan un grosor uniforme para que se cocinen parejo.
+
+Seca el pollo con toallas de papel. Barniza con 2 Tbsp de aceite de oliva, luego sazona de manera uniforme con 1 tsp de sal, 1/2 tsp de pimienta, 1 tsp de ajo en polvo y 1/2 tsp de paprika si la usas.
+
+Coloca el pollo en la parrilla y cocina de 5 a 6 minutos sin moverlo, hasta que se formen marcas de parrilla y el pollo se despegue fácilmente.
+
+Voltea y cocina otros 5 a 7 minutos, o hasta que la temperatura interna alcance 160°F a 165°F.
+
+Si es necesario, mueve el pollo a una zona un poco más fresca de la parrilla y cierra la tapa para terminar la cocción sin quemarlo.
+
+Retira de la parrilla y rocía con 1 Tbsp de jugo de limón si lo usas.
+
+Deja reposar 5 minutos antes de cortar para mantener los jugos dentro.`,
+    },
+  },
 },
 
 {
@@ -1719,6 +3421,47 @@ Place skewers on the grill and cook for 2 to 3 minutes per side, until the shrim
 Avoid overcooking—shrimp should form a loose “C” shape, not a tight “O”.
 
 Remove from grill and sprinkle with 1 Tbsp fresh chopped parsley if desired. Serve immediately.`,
+  translations: {
+    es: {
+      name: "Brochetas de camarón a la parrilla",
+      notes:
+        "Camarones a la parrilla rápidos y llenos de sabor, con limón fresco y ajo. Vigílalos de cerca mientras se cocinan; los camarones se cocinan rápido y pueden quedar gomosos si se pasan.",
+      tags: [
+        "cena",
+        "mariscos",
+        "camarones",
+        "parrilla",
+        "rápido",
+        "saludable",
+        "alto en proteína",
+        "bueno para sobras",
+      ],
+      ingredients: `1 lb de camarones grandes, pelados y desvenados, con o sin cola
+2 Tbsp de aceite de oliva
+2 dientes de ajo, picados
+jugo de 1 limón
+1 tsp de ralladura de limón, opcional para más frescura
+1/2 tsp de sal
+1/2 tsp de pimienta
+1/2 tsp de paprika, opcional para color y sabor suave
+1 Tbsp de perejil fresco, picado, opcional`,
+      instructions: `Precalienta la parrilla a fuego medio-alto, aproximadamente 400°F a 425°F.
+
+Si usas brochetas de madera, remójalas en agua por al menos 20 minutos para evitar que se quemen.
+
+Seca 1 lb de camarones grandes con toallas de papel. Ensártalos en brochetas, manteniéndolos juntos pero sin amontonarlos.
+
+En un tazón pequeño, bate 2 Tbsp de aceite de oliva, 2 dientes de ajo picados, el jugo de 1 limón, 1 tsp de ralladura de limón si la usas, 1/2 tsp de sal, 1/2 tsp de pimienta y 1/2 tsp de paprika.
+
+Barniza la mezcla de manera uniforme sobre los camarones.
+
+Coloca las brochetas en la parrilla y cocina de 2 a 3 minutos por lado, hasta que los camarones estén rosados, opacos y ligeramente firmes.
+
+Evita cocinarlos de más; los camarones deben formar una “C” suelta, no una “O” cerrada.
+
+Retira de la parrilla y espolvorea con 1 Tbsp de perejil fresco picado si deseas. Sirve de inmediato.`,
+    },
+  },
 },
 
 {
@@ -1753,6 +3496,45 @@ For extra flavor, drizzle the vegetables with 1 Tbsp balsamic vinegar during the
 Remove everything from the grill and let rest for a few minutes.
 
 Serve the sausage with the peppers and onions, either on a plate or in toasted hoagie rolls.`,
+  translations: {
+    es: {
+      name: "Salchicha y pimientos a la parrilla",
+      notes:
+        "Un clásico rápido y sabroso a la parrilla, con salchicha ahumada y pimientos tiernos. Agregar un chorrito de balsámico al final aporta una dulzura sutil que eleva el plato.",
+      tags: [
+        "cena",
+        "salchicha",
+        "parrilla",
+        "rápido",
+        "verano",
+        "una sartén",
+        "bueno para sobras",
+      ],
+      ingredients: `1 paquete (12 a 14 oz) de salchicha ahumada o salchicha italiana
+2 pimientos, de cualquier color, rebanados
+1 cebolla amarilla grande, rebanada
+1 Tbsp de aceite de oliva
+1/2 tsp de sal
+1/2 tsp de pimienta
+1/2 tsp de sazonador italiano, opcional
+1/2 tsp de ajo en polvo
+1 Tbsp de vinagre balsámico, opcional para terminar
+panes hoagie o bollos, opcional para servir`,
+      instructions: `Precalienta la parrilla a fuego medio, aproximadamente 375°F a 400°F.
+
+Mezcla 2 pimientos rebanados y 1 cebolla amarilla grande rebanada con 1 Tbsp de aceite de oliva, 1/2 tsp de sal, 1/2 tsp de pimienta, 1/2 tsp de sazonador italiano y 1/2 tsp de ajo en polvo.
+
+Coloca la salchicha directamente en la parrilla y cocina de 10 a 12 minutos, volteando de vez en cuando, hasta que esté caliente y ligeramente tostada.
+
+Mientras tanto, coloca las verduras sazonadas en una canasta para parrilla o charola de aluminio. Asa de 8 a 10 minutos, revolviendo ocasionalmente, hasta que estén tiernas y ligeramente tostadas en los bordes.
+
+Para más sabor, rocía las verduras con 1 Tbsp de vinagre balsámico durante el último minuto de cocción.
+
+Retira todo de la parrilla y deja reposar unos minutos.
+
+Sirve la salchicha con los pimientos y cebollas, ya sea en un plato o dentro de panes hoagie tostados.`,
+    },
+  },
 },
 
 {
@@ -1785,6 +3567,43 @@ Move pork chops to indirect heat, close the lid, and cook for an additional 4 to
 Remove from grill and let rest for 5 minutes. The temperature will rise slightly as it rests.
 
 Serve warm.`,
+  translations: {
+    es: {
+      name: "Chuletas de cerdo a la parrilla",
+      notes:
+        "Chuletas de cerdo jugosas a la parrilla con una costra llena de sabor. Evita cocinarlas de más; retirarlas a 140°F a 145°F y dejarlas reposar asegura que queden tiernas, no secas.",
+      tags: [
+        "cena",
+        "cerdo",
+        "parrilla",
+        "jugoso",
+        "alto en proteína",
+        "verano",
+        "bueno para sobras",
+      ],
+      ingredients: `4 chuletas de cerdo con hueso (aprox. 1 inch de grosor)
+2 Tbsp de aceite de oliva
+1 tsp de sal
+1/2 tsp de pimienta
+1 tsp de paprika o paprika ahumada para más profundidad
+1/2 tsp de ajo en polvo
+1/2 tsp de cebolla en polvo
+1 Tbsp de azúcar morena, opcional para una caramelización ligera`,
+      instructions: `Precalienta la parrilla a fuego medio-alto, aproximadamente 400°F a 425°F. Prepara una zona de dos temperaturas si es posible.
+
+Seca 4 chuletas de cerdo con hueso con toallas de papel. Frota con 2 Tbsp de aceite de oliva y luego sazona de manera uniforme con 1 tsp de sal, 1/2 tsp de pimienta, 1 tsp de paprika, 1/2 tsp de ajo en polvo, 1/2 tsp de cebolla en polvo y 1 Tbsp de azúcar morena si la usas.
+
+Coloca las chuletas sobre calor directo y asa de 3 a 4 minutos sin moverlas, hasta que se formen marcas de parrilla.
+
+Voltea y cocina otros 3 a 4 minutos.
+
+Mueve las chuletas a calor indirecto, cierra la tapa y cocina de 4 a 6 minutos más, hasta que la temperatura interna alcance 140°F a 145°F.
+
+Retira de la parrilla y deja reposar 5 minutos. La temperatura subirá un poco mientras reposan.
+
+Sirve caliente.`,
+    },
+  },
 },
 
 {
@@ -1827,6 +3646,54 @@ Remove from grill and let rest for 2 to 3 minutes.
 While burgers rest, toast 4 to 6 hamburger buns and sliced onions on the grill for 30 to 45 seconds.
 
 Assemble burgers with lettuce, sliced tomato, and pickles, and serve with chips or potato wedges.`,
+  translations: {
+    es: {
+      name: "Hamburguesas a la parrilla",
+      notes:
+        "Una hamburguesa clásica de patio con carne jugosa, queso derretido y todos tus toppings favoritos.",
+      tags: [
+        "cena",
+        "carne de res",
+        "parrilla",
+        "parrillada",
+        "rápido",
+        "verano",
+        "familiar",
+      ],
+      ingredients: `2 lbs de carne molida de res (80/20)
+1 1/2 tsp de sal
+1 tsp de pimienta
+1/2 tsp de ajo en polvo
+1/2 Tbsp de aceite de oliva
+4 a 6 panes para hamburguesa
+queso cheddar en rebanadas
+lechuga
+tomate, rebanado
+cebolla, rebanada
+pepinillos`,
+      instructions: `Divide 2 lbs de carne molida de res en porciones iguales, de aproximadamente 1/3 a 1/2 lb cada una.
+Forma suavemente hamburguesas de aproximadamente 1 inch de grosor.
+Presiona un pequeño hueco en el centro de cada hamburguesa para evitar que se infle.
+
+Precalienta la parrilla a fuego medio-alto.
+
+Barniza ligeramente las hamburguesas con 1/2 Tbsp de aceite de oliva, luego sazona generosamente con 1 1/2 tsp de sal, 1 tsp de pimienta y 1/2 tsp de ajo en polvo justo antes de asarlas.
+
+Coloca las hamburguesas en la parrilla y cierra la tapa.
+Asa de 4 a 5 minutos por el primer lado, hasta que se forme un buen dorado.
+
+Voltea una sola vez y no presiones las hamburguesas.
+Cocina otros 4 a 5 minutos, o hasta el punto de cocción deseado.
+
+Durante el último minuto, agrega las rebanadas de queso cheddar y cierra la tapa para que se derrita.
+
+Retira de la parrilla y deja reposar de 2 a 3 minutos.
+
+Mientras reposan las hamburguesas, tuesta de 4 a 6 panes para hamburguesa y las rebanadas de cebolla en la parrilla de 30 a 45 segundos.
+
+Arma las hamburguesas con lechuga, tomate rebanado y pepinillos, y sirve con papas fritas de bolsa o gajos de papa.`,
+    },
+  },
 },
 
 {
@@ -1853,6 +3720,37 @@ Cook, flipping once, until both sides are golden brown and the cheese is melted,
 Cut in half diagonally and serve.
 
 Optional: Serve with warm tomato soup.`,
+  translations: {
+    es: {
+      name: "Sándwich de queso a la plancha",
+      notes:
+        "Simple, clásico y siempre ganador. Aún mejor con un tazón de sopa de tomate caliente.",
+      tags: [
+        "almuerzo",
+        "sándwich",
+        "rápido",
+        "comida reconfortante",
+        "queso",
+        "para niños",
+      ],
+      ingredients: `pan de masa madre
+mantequilla
+rebanadas de queso cheddar suave`,
+      instructions: `Unta 1/2 Tbsp de mantequilla en un lado de cada rebanada de pan de masa madre.
+
+Calienta un sartén antiadherente a fuego medio-bajo.
+
+Coloca 2 rebanadas de pan en el sartén, con el lado con mantequilla hacia abajo.
+
+Apila rebanadas de queso cheddar suave sobre una rebanada de pan, luego cubre con la otra rebanada de pan, con el lado con mantequilla hacia arriba.
+
+Cocina, volteando una vez, hasta que ambos lados estén dorados y el queso se derrita, aproximadamente 6 minutos en total.
+
+Corta en diagonal por la mitad y sirve.
+
+Opcional: sirve con sopa de tomate caliente.`,
+    },
+  },
 },
 
 {
@@ -1888,6 +3786,47 @@ Sprinkle lightly with 1/2 tsp garlic powder and 1/2 tsp Italian seasoning.
 Bake for 5 to 7 minutes, or broil for 2 to 3 minutes, until the cheese is melted, bubbly, and slightly golden.
 
 Remove from the oven, garnish with fresh basil or parsley if desired, and serve immediately with extra marinara for dipping.`,
+  translations: {
+    es: {
+      name: "Sándwiches de pollo parmesano gratinados",
+      notes:
+        "Sándwiches crujientes de pollo parmesano con queso derretido y marinara caliente. Tostar el pan primero evita que se humedezca y agrega muy buena textura.",
+      tags: [
+        "cena",
+        "pollo",
+        "rápido",
+        "italiana",
+        "sándwich",
+        "con queso",
+        "una bandeja",
+        "bueno para sobras",
+      ],
+      ingredients: `4 milanesas de pollo cocidas o tortitas de pollo empanizadas
+1 cup de salsa marinara, más extra para mojar
+1 cup de queso mozzarella rallado
+1/4 cup de queso parmesano rallado
+4 panes para sándwich, tipo hoagie o sub
+1 Tbsp de aceite de oliva o mantequilla
+1/2 tsp de ajo en polvo
+1/2 tsp de sazonador italiano
+albahaca fresca o perejil, opcional`,
+      instructions: `Precalienta el horno a 400°F o ajusta el gratinador en alto.
+
+Corta 4 panes para sándwich y barniza ligeramente los lados cortados con 1 Tbsp de aceite de oliva o mantequilla. Colócalos en una bandeja para hornear y tuesta de 3 a 4 minutos, hasta que estén ligeramente dorados.
+
+Calienta 4 milanesas de pollo cocidas o tortitas de pollo empanizadas según las instrucciones del paquete, o calienta milanesas sobrantes hasta que estén calientes y crujientes.
+
+Calienta 1 cup de salsa marinara en una cacerola pequeña o en el microondas.
+
+Coloca el pollo sobre los panes tostados. Pon marinara sobre cada pieza, luego cubre con 1 cup de mozzarella rallada y un poco de 1/4 cup de parmesano rallado.
+
+Espolvorea ligeramente con 1/2 tsp de ajo en polvo y 1/2 tsp de sazonador italiano.
+
+Hornea de 5 a 7 minutos, o gratina de 2 a 3 minutos, hasta que el queso esté derretido, burbujeante y ligeramente dorado.
+
+Retira del horno, decora con albahaca fresca o perejil si deseas, y sirve de inmediato con marinara extra para mojar.`,
+    },
+  },
 },
 
 {
@@ -1935,6 +3874,59 @@ Stir in 1 cup shredded cheddar and 1/2 cup Monterey Jack if using until melted a
 Season with 1/2 tsp pepper, or more to taste. Remove from heat.
 
 Serve immediately with optional toppings like sour cream, sliced green onions, or jalapeños if desired.`,
+  translations: {
+    es: {
+      name: "Macarrones con taco en sartén",
+      notes:
+        "Una pasta rápida inspirada en tacos, con queso y hecha en una sola sartén. Agregar queso crema crea una salsa más suave y rica, y ayuda a que todo se una perfectamente.",
+      tags: [
+        "cena",
+        "carne de res",
+        "pasta",
+        "rápido",
+        "tex-mex",
+        "una sartén",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `1 lb de carne molida de res
+2 cups de macarrones cocidos
+1 Tbsp de aceite de oliva
+1/2 cebolla amarilla pequeña, picada en cubitos
+2 dientes de ajo, picados
+1 paquete de sazonador para tacos o 2 Tbsp de sazonador casero para tacos
+1/2 cup de agua
+1 cup de salsa
+1 cup de queso cheddar rallado
+1/2 cup de queso Monterey Jack, opcional para que se derrita mejor
+1/4 cup de queso crema, opcional para más cremosidad
+1/2 tsp de pimienta
+
+Toppings opcionales:
+crema agria
+cebollines, rebanados
+jalapeños`,
+      instructions: `Calienta 1 Tbsp de aceite de oliva en un sartén grande a fuego medio. Agrega 1/2 cebolla amarilla pequeña picada y cocina de 3 a 4 minutos, hasta que se ablande.
+
+Agrega 2 dientes de ajo picados y cocina 30 segundos, hasta que suelte aroma.
+
+Agrega 1 lb de carne molida de res y cocina hasta que se dore, separándola mientras se cocina. Escurre el exceso de grasa si es necesario.
+
+Incorpora 1 paquete de sazonador para tacos o 2 Tbsp de sazonador casero y cocina 1 minuto para tostar las especias.
+
+Agrega 1/2 cup de agua y 1 cup de salsa, mezclando para combinar. Lleva a hervor suave y cocina de 3 a 5 minutos, hasta que espese un poco.
+
+Reduce el fuego a bajo. Incorpora 1/4 cup de queso crema si lo usas, hasta que se derrita y quede suave.
+
+Agrega 2 cups de macarrones cocidos y mezcla hasta cubrirlos de manera uniforme.
+
+Incorpora 1 cup de cheddar rallado y 1/2 cup de Monterey Jack si lo usas, hasta que se derritan y quede cremoso.
+
+Sazona con 1/2 tsp de pimienta, o más al gusto. Retira del fuego.
+
+Sirve de inmediato con toppings opcionales como crema agria, cebollines rebanados o jalapeños si deseas.`,
+    },
+  },
 },
 
 {
@@ -1969,6 +3961,47 @@ Flip carefully and cook another 2 to 3 minutes, until the fish flakes easily wit
 Add 1 Tbsp butter and squeeze 1 Tbsp fresh lemon juice into the pan. Spoon the lemon butter over the fish for about 30 seconds.
 
 Remove from heat and garnish with sliced lemon and fresh parsley if desired. Serve immediately.`,
+  translations: {
+    es: {
+      name: "Tilapia con limón y pimienta",
+      notes:
+        "Tilapia ligera y rápida con sabor fresco de limón y condimentos simples. Secar bien el pescado y no cocinarlo de más es clave para que quede tierno y se desmenuce fácilmente.",
+      tags: [
+        "cena",
+        "mariscos",
+        "pescado",
+        "tilapia",
+        "rápido",
+        "ligero",
+        "saludable",
+        "una sartén",
+        "bueno para sobras",
+      ],
+      ingredients: `4 filetes de tilapia
+1 Tbsp de aceite de oliva
+1 tsp de sazonador limón-pimienta
+1/2 tsp de ajo en polvo
+1/2 tsp de paprika, opcional para color
+1/2 tsp de sal, ajusta según el sazonador
+1 Tbsp de jugo de limón fresco
+1 limón, rebanado
+1 Tbsp de mantequilla, opcional para terminar
+1 Tbsp de perejil fresco, picado, opcional`,
+      instructions: `Seca 4 filetes de tilapia con toallas de papel para ayudar a lograr un sellado ligero.
+
+Sazona ambos lados con 1 tsp de sazonador limón-pimienta, 1/2 tsp de ajo en polvo, 1/2 tsp de paprika si la usas y 1/2 tsp de sal.
+
+Calienta 1 Tbsp de aceite de oliva en un sartén grande a fuego medio.
+
+Cuando el aceite esté caliente, agrega la tilapia y cocina de 3 a 4 minutos sin mover, hasta que los bordes se vuelvan opacos y la parte inferior tome un color dorado ligero.
+
+Voltea con cuidado y cocina otros 2 a 3 minutos, hasta que el pescado se desmenuce fácilmente con un tenedor.
+
+Agrega 1 Tbsp de mantequilla y exprime 1 Tbsp de jugo de limón fresco en el sartén. Baña el pescado con la mantequilla de limón durante unos 30 segundos.
+
+Retira del fuego y decora con limón rebanado y perejil fresco si deseas. Sirve de inmediato.`,
+    },
+  },
 },
 
 {
@@ -2004,6 +4037,46 @@ For extra caramelization, broil on high for 1 to 2 minutes, watching closely to 
 Remove from oven and let rest for 5 minutes. The temperature will rise to 165°F as it rests.
 
 Serve warm with additional BBQ sauce if desired.`,
+  translations: {
+    es: {
+      name: "Pollo BBQ al horno",
+      notes:
+        "Pollo BBQ jugoso horneado, con un acabado pegajoso y caramelizado. Agregar la salsa cerca del final evita que se queme y mantiene el pollo tierno y lleno de sabor.",
+      tags: [
+        "cena",
+        "pollo",
+        "rápido",
+        "bbq",
+        "familiar",
+        "una bandeja",
+        "bueno para sobras",
+      ],
+      ingredients: `4 pechugas de pollo sin hueso y sin piel
+1 Tbsp de aceite de oliva
+1 tsp de sal
+1/2 tsp de pimienta
+1/2 tsp de ajo en polvo
+1/2 tsp de paprika o paprika ahumada para más sabor
+1/2 cup de salsa BBQ, más extra para servir`,
+      instructions: `Precalienta el horno a 425°F. Cubre una bandeja para hornear con papel aluminio o papel pergamino.
+
+Si las 4 pechugas de pollo sin hueso y sin piel están gruesas, aplánalas hasta que tengan un grosor uniforme para una cocción más pareja.
+
+Seca el pollo con toallas de papel. Rocía con 1 Tbsp de aceite de oliva y sazona de manera uniforme con 1 tsp de sal, 1/2 tsp de pimienta, 1/2 tsp de ajo en polvo y 1/2 tsp de paprika.
+
+Coloca el pollo en la bandeja preparada y hornea durante 15 minutos.
+
+Retira del horno y barniza 1/2 cup de salsa BBQ de manera uniforme sobre la parte superior de cada pieza.
+
+Regresa al horno y hornea de 5 a 8 minutos más, hasta que la temperatura interna alcance 160°F.
+
+Para más caramelización, gratina en alto de 1 a 2 minutos, vigilando de cerca para evitar que se queme.
+
+Retira del horno y deja reposar 5 minutos. La temperatura subirá a 165°F mientras reposa.
+
+Sirve caliente con más salsa BBQ si deseas.`,
+    },
+  },
 },
 
 {
@@ -2052,6 +4125,59 @@ Warm 8 to 10 taco shells according to package directions.
 Set out the diced onion, diced roma tomatoes, shredded cheddar cheese, chopped lettuce, and any optional toppings to create a taco bar.
 
 Fill shells with seasoned beef and desired toppings. Serve immediately.`,
+  translations: {
+    es: {
+      name: "Tacos sencillos",
+      notes:
+        "Una noche clásica y fácil de tacos con carne molida sazonada y toppings frescos. Dejar que la carne hierva suavemente con el sazonador ayuda a desarrollar más sabor y evita que quede seca.",
+      tags: [
+        "cena",
+        "carne de res",
+        "tacos",
+        "tex-mex",
+        "familiar",
+        "arma a tu gusto",
+        "bueno para sobras",
+      ],
+      ingredients: `1 lb de carne molida de res
+2/3 cup de agua
+1/2 cebolla blanca pequeña, picada en cubitos
+4 tomates roma, picados en cubitos
+1 cup de queso cheddar rallado
+2 cups de lechuga, picada
+8 a 10 tortillas o shells para taco, duros o suaves
+
+Toppings opcionales:
+crema agria
+salsa picante
+
+Sazonador para tacos:
+1/2 Tbsp de chile en polvo
+1 tsp de comino
+1 tsp de sal
+1/2 tsp de ajo en polvo
+1/2 tsp de cebolla en polvo
+1/2 tsp de paprika
+1/8 tsp de orégano seco
+1/4 tsp de pimienta
+1/8 tsp de chile rojo triturado o hojuelas de jalapeño`,
+      instructions: `Precalienta el horno a 350°F si usas shells duros para taco.
+
+En un tazón pequeño, mezcla todos los ingredientes del sazonador para tacos hasta que estén bien combinados. Reserva.
+
+Calienta un sartén grande a fuego medio. Agrega 1 lb de carne molida de res y cocina de 5 a 7 minutos, separándola mientras se cocina, hasta que ya no esté rosada. Escurre el exceso de grasa si es necesario.
+
+Agrega 2/3 cup de agua y el sazonador para tacos preparado al sartén. Mezcla bien y lleva a hervor suave.
+
+Cocina de 3 a 5 minutos, revolviendo de vez en cuando, hasta que la salsa espese y cubra la carne.
+
+Calienta de 8 a 10 shells o tortillas para taco según las instrucciones del paquete.
+
+Coloca la cebolla picada, los tomates roma picados, el queso cheddar rallado, la lechuga picada y cualquier topping opcional para crear una barra de tacos.
+
+Rellena los tacos con la carne sazonada y los toppings que quieras. Sirve de inmediato.`,
+    },
+  },
 },
 
 {
@@ -2095,6 +4221,55 @@ Reduce heat to low and simmer for 10 to 15 minutes, stirring occasionally, until
 Lightly toast the hamburger buns if desired.
 
 Spoon the sloppy joe mixture onto the buns and top with sliced pickles. Serve warm.`,
+  translations: {
+    es: {
+      name: "Sándwich Sloppy Joe",
+      notes:
+        "Sloppy joes clásicos con una salsa rica, ligeramente dulce y ácida. Cocinar la salsa a fuego bajo ayuda a intensificar el sabor y le da esa textura espesa y jugosa característica.",
+      tags: [
+        "cena",
+        "carne de res",
+        "sándwich",
+        "rápido",
+        "familiar",
+        "comida reconfortante",
+        "una sartén",
+        "bueno para sobras",
+      ],
+      ingredients: `1 lb de carne molida de res
+1 Tbsp de aceite de oliva
+1/2 cebolla amarilla pequeña, finamente picada
+2 dientes de ajo, picados
+8 oz de salsa de tomate
+1/2 cup de ketchup
+2 Tbsp de azúcar morena
+2 Tbsp de salsa worcestershire
+1 tsp de mostaza amarilla
+1/2 tsp de ajo en polvo
+1/4 tsp de cebolla en polvo
+1/4 tsp de pimienta
+1/2 tsp de sal, ajusta al gusto
+
+Para servir:
+panes para hamburguesa
+pepinillos rebanados`,
+      instructions: `Calienta 1 Tbsp de aceite de oliva en un sartén grande a fuego medio. Agrega 1/2 cebolla amarilla pequeña finamente picada y cocina de 3 a 4 minutos, hasta que se ablande.
+
+Agrega 2 dientes de ajo picados y cocina 30 segundos, hasta que suelte aroma.
+
+Agrega 1 lb de carne molida de res y cocina a fuego medio a medio-alto de 5 a 7 minutos, separándola mientras se cocina, hasta que esté dorada y sin partes rosadas. Escurre el exceso de grasa si es necesario.
+
+En un tazón pequeño, bate 8 oz de salsa de tomate, 1/2 cup de ketchup, 2 Tbsp de azúcar morena, 2 Tbsp de salsa worcestershire, 1 tsp de mostaza amarilla, 1/2 tsp de ajo en polvo, 1/4 tsp de cebolla en polvo, 1/2 tsp de sal y 1/4 tsp de pimienta.
+
+Vierte la salsa en el sartén con la carne y mezcla para combinar.
+
+Reduce el fuego a bajo y cocina de 10 a 15 minutos, revolviendo de vez en cuando, hasta que la salsa espese y quede rica y ligeramente brillante.
+
+Tuesta ligeramente los panes para hamburguesa si deseas.
+
+Sirve la mezcla de sloppy joe sobre los panes y cubre con pepinillos rebanados. Sirve caliente.`,
+    },
+  },
 },
 
 {
@@ -2142,9 +4317,63 @@ Remove the foil and sprinkle the top of the lasagna with the remaining 2 1/2 cup
 Bake uncovered for an additional 15 minutes or until browned and bubbly. Broil for 2 to 3 minutes if desired.
 
 Rest for at least 15 minutes before cutting.`,
+  translations: {
+    es: {
+      name: "Lasaña clásica",
+      notes:
+        "Una pasta horneada en capas, perfecta para compartir, con carne de res, salchicha, ricotta y mucho queso.",
+      tags: [
+        "cena",
+        "pasta",
+        "carne de res",
+        "horneado",
+        "italiana",
+        "comida reconfortante",
+        "para compartir",
+        "bueno para sobras",
+      ],
+      ingredients: `12 láminas de lasaña, sin cocinar
+2 1/2 cups de queso mozzarella rallado
+1/4 cup de queso parmesano rallado
+1/2 lb de carne molida de res magra
+1/2 lb de salchicha italiana
+1 cebolla amarilla, picada en cubitos
+2 dientes de ajo, picados
+36 oz de salsa para pasta
+2 Tbsp de pasta de tomate
+1 tsp de sazonador italiano
+1/2 tsp de sal, más al gusto
+2 cups de queso ricotta o cottage cheese
+1/4 cup de perejil fresco picado
+1 huevo grande, batido
+1 1/2 cups de queso mozzarella rallado
+1/4 cup de queso parmesano rallado
+1/4 tsp de sal
+1/4 tsp de pimienta`,
+      instructions: `Precalienta el horno a 350°F.
+
+Hierve una olla grande con agua salada. Agrega 12 láminas de lasaña sin cocinar y cocina hasta que estén al dente. Escurre, enjuaga con agua fría y reserva.
+
+En un sartén grande, dora 1/2 lb de carne molida de res magra, 1/2 lb de salchicha italiana, 1 cebolla amarilla picada y 2 dientes de ajo picados a fuego medio-alto, hasta que no quede color rosado. Escurre la grasa.
+
+Incorpora 36 oz de salsa para pasta, 2 Tbsp de pasta de tomate, 1 tsp de sazonador italiano, 1/2 tsp de sal y 1/4 tsp de pimienta. Cocina sin tapar a fuego medio durante 5 minutos o hasta que espese un poco. Prueba y agrega más sal si deseas.
+
+En un tazón mediano aparte, combina 1 1/2 cups de queso mozzarella rallado, 1/4 cup de queso parmesano rallado, 2 cups de queso ricotta o cottage cheese, 1/4 cup de perejil fresco picado, 1 huevo grande batido y 1/4 tsp de sal.
+
+Extiende 1 cup de salsa de carne en un molde de 9x13 o una cazuela. Cubre con 3 láminas de lasaña. Agrega una capa de 1 cup de la mezcla de ricotta y 1 cup de salsa de carne. Repite dos veces más. Termina con 3 láminas cubiertas con la salsa restante.
+
+Cubre con papel aluminio y hornea durante 45 minutos.
+
+Retira el papel aluminio y espolvorea la parte superior de la lasaña con las 2 1/2 cups restantes de queso mozzarella rallado y 1/4 cup de queso parmesano rallado.
+
+Hornea sin cubrir 15 minutos más, o hasta que esté dorada y burbujeante. Gratina de 2 a 3 minutos si deseas.
+
+Deja reposar al menos 15 minutos antes de cortar.`,
+    },
+  },
 },
 
-  {
+{
   id: "normal-chili-cheese-dogs",
   slug: "normal-chili-cheese-dogs",
   name: "Chili Cheese Dogs",
@@ -2182,6 +4411,50 @@ Lightly toast 8 hot dog buns if desired.
 Place hot dogs in the buns and top generously with the prepared chili, 1 cup shredded cheddar cheese, and 1/2 finely diced small onion if using.
 
 Serve immediately while hot.`,
+  translations: {
+    es: {
+      name: "Hot dogs con chili y queso",
+      notes:
+        "Hot dogs cargados con chili de res rico y lleno de sabor. Dejar que el chili hierva suavemente ayuda a que espese para que se quede sobre el hot dog en lugar de escurrirse.",
+      tags: [
+        "cena",
+        "hot dogs",
+        "comida reconfortante",
+        "familiar",
+        "una sartén",
+        "para compartir",
+      ],
+      ingredients: `8 hot dogs
+8 panes para hot dog
+1 cup de queso cheddar rallado
+1/2 cebolla blanca pequeña, finamente picada, opcional
+
+Chili rápido para cubrir:
+1 lb de carne molida de res
+1 lata (8 oz) de salsa de tomate
+1/2 cup de agua
+1 Tbsp de chile en polvo
+1 tsp de comino
+1/2 tsp de ajo en polvo
+1/2 tsp de cebolla en polvo
+1/2 tsp de sal
+1/4 tsp de pimienta
+1 tsp de salsa worcestershire, opcional para más profundidad`,
+      instructions: `Calienta un sartén grande a fuego medio. Agrega 1 lb de carne molida de res y cocina de 5 a 7 minutos, separándola hasta que esté dorada. Escurre el exceso de grasa si es necesario.
+
+Agrega 8 oz de salsa de tomate, 1/2 cup de agua, 1 Tbsp de chile en polvo, 1 tsp de comino, 1/2 tsp de ajo en polvo, 1/2 tsp de cebolla en polvo, 1/2 tsp de sal, 1/4 tsp de pimienta y 1 tsp de salsa worcestershire si la usas. Mezcla bien.
+
+Lleva a un hervor suave y cocina de 10 a 15 minutos, revolviendo ocasionalmente, hasta que el chili espese y quede rico y fácil de servir con cuchara.
+
+Mientras tanto, cocina 8 hot dogs usando tu método preferido: parrilla, estufa o freidora de aire, hasta que estén calientes y ligeramente dorados.
+
+Tuesta ligeramente 8 panes para hot dog si deseas.
+
+Coloca los hot dogs en los panes y cubre generosamente con el chili preparado, 1 cup de queso cheddar rallado y 1/2 cebolla pequeña finamente picada si la usas.
+
+Sirve de inmediato mientras estén calientes.`,
+    },
+  },
 },
 
 {
@@ -2238,6 +4511,67 @@ Stir in 1/2 cup sour cream if using, and add 1 Tbsp lime juice to brighten the f
 Taste and adjust seasoning as needed.
 
 Serve hot with desired toppings like shredded cheese, cilantro, green onions, and tortilla chips.`,
+  translations: {
+    es: {
+      name: "Chili blanco de pollo",
+      notes:
+        "Un chili blanco de pollo cremoso y acogedor, con sabor intenso y textura suave. Machacar parte de los frijoles y agregar queso crema crea una consistencia rica y sustanciosa sin necesitar crema espesa.",
+      tags: [
+        "cena",
+        "chili",
+        "pollo",
+        "una olla",
+        "comida reconfortante",
+        "cremoso",
+        "bueno para sobras",
+      ],
+      ingredients: `2 cups de pollo cocido y deshebrado; el pollo rostizado funciona muy bien
+1 Tbsp de aceite de oliva
+1 cebolla amarilla pequeña, picada
+2 dientes de ajo, picados
+2 latas (15 oz) de frijoles blancos, escurridos y enjuagados
+1 lata (4 oz) de chiles verdes
+4 cups de caldo de pollo
+4 oz de queso crema, suavizado y cortado en cubitos
+1/2 cup de crema agria, opcional para más cremosidad
+1 Tbsp de jugo de lima
+
+Sazonador para chili blanco:
+1 tsp de comino
+1 tsp de chile en polvo
+1/2 tsp de orégano seco
+1/2 tsp de ajo en polvo
+1/2 tsp de cebolla en polvo
+1/2 tsp de sal
+1/4 tsp de pimienta
+1/4 tsp de pimienta de cayena, opcional
+
+Toppings opcionales:
+queso rallado
+cilantro
+cebollines
+totopos`,
+      instructions: `Calienta 1 Tbsp de aceite de oliva en una olla grande o Dutch oven a fuego medio. Agrega 1 cebolla amarilla pequeña picada y cocina de 4 a 5 minutos, hasta que se ablande.
+
+Agrega 2 dientes de ajo picados y cocina 30 segundos, hasta que suelte aroma.
+
+Incorpora 2 cups de pollo cocido y deshebrado, 2 latas de frijoles blancos escurridos y enjuagados, 1 lata de chiles verdes y 4 cups de caldo de pollo.
+
+En un tazón pequeño, mezcla todos los ingredientes del sazonador para chili blanco. Agrégalos a la olla y mezcla bien.
+
+Lleva a un hervor suave y cocina de 20 a 25 minutos para que los sabores se desarrollen.
+
+Usa una cuchara o machacador de papas para machacar ligeramente algunos frijoles y espesar el chili de forma natural, dejando algunos enteros para textura.
+
+Reduce el fuego a bajo. Incorpora 4 oz de queso crema suavizado y en cubitos hasta que se derrita por completo y quede suave.
+
+Agrega 1/2 cup de crema agria si la usas, y 1 Tbsp de jugo de lima para darle frescura.
+
+Prueba y ajusta los condimentos según sea necesario.
+
+Sirve caliente con toppings como queso rallado, cilantro, cebollines y totopos.`,
+    },
+  },
 },
 
 {
@@ -2289,6 +4623,62 @@ Bring to a simmer and cook for 20 to 25 minutes, stirring occasionally, until fl
 Taste and adjust seasoning if needed.
 
 Serve hot with desired toppings such as shredded cheese, sour cream, tortilla chips, and green onions.`,
+  translations: {
+    es: {
+      name: "Sopa de taco",
+      notes:
+        "Una sopa sustanciosa inspirada en tacos, con mucho sabor y un caldo rico. Dejarla cocinar a fuego bajo ayuda a que todo se integre, y sabe aún mejor al día siguiente.",
+      tags: [
+        "cena",
+        "sopa",
+        "tex-mex",
+        "una olla",
+        "carne de res",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `1 lb de carne molida de res
+1 Tbsp de aceite de oliva
+1 cebolla amarilla pequeña, picada
+2 dientes de ajo, picados
+1 lata (15 oz) de maíz, escurrido
+1 lata (15 oz) de frijoles negros, escurridos y enjuagados
+1 lata (14.5 oz) de tomates en cubitos, con sus jugos
+1 lata (10 oz) de Rotel
+2 cups de caldo de res
+1 Tbsp de pasta de tomate, opcional para más sabor
+
+Sazonador para tacos:
+1 Tbsp de chile en polvo
+1 tsp de comino
+1/2 tsp de paprika o paprika ahumada para más profundidad
+1/2 tsp de ajo en polvo
+1/2 tsp de cebolla en polvo
+1/2 tsp de sal
+1/4 tsp de pimienta
+
+Toppings opcionales:
+queso rallado
+crema agria
+totopos
+cebollines`,
+      instructions: `Calienta 1 Tbsp de aceite de oliva en una olla grande o Dutch oven a fuego medio. Agrega 1 cebolla amarilla pequeña picada y cocina de 4 a 5 minutos, hasta que se ablande.
+
+Agrega 2 dientes de ajo picados y cocina 30 segundos, hasta que suelte aroma.
+
+Agrega 1 lb de carne molida de res y cocina de 5 a 7 minutos, separándola mientras se cocina, hasta que esté dorada. Escurre el exceso de grasa si es necesario.
+
+Incorpora el sazonador para tacos y cocina 1 minuto para tostar las especias.
+
+Agrega 1 lata de maíz escurrido, 1 lata de frijoles negros escurridos y enjuagados, 1 lata de tomates en cubitos con sus jugos, 1 lata de Rotel, 2 cups de caldo de res y 1 Tbsp de pasta de tomate si la usas. Mezcla bien.
+
+Lleva a un hervor suave y cocina de 20 a 25 minutos, revolviendo de vez en cuando, hasta que los sabores estén bien combinados.
+
+Prueba y ajusta los condimentos si es necesario.
+
+Sirve caliente con toppings como queso rallado, crema agria, totopos y cebollines.`,
+    },
+  },
 },
 
 {
@@ -2336,6 +4726,58 @@ Bake for 20 to 25 minutes, stirring once halfway through, until the chicken is c
 For extra char, broil on high for 2 to 3 minutes at the end, watching closely.
 
 Remove from oven and serve immediately in warm tortillas with sour cream, shredded cheese, and guacamole if desired.`,
+  translations: {
+    es: {
+      name: "Fajitas en bandeja",
+      notes:
+        "Fajitas fáciles y coloridas en bandeja, con sazonador intenso y sabor asado. Extender todo en una sola capa y usar fuego alto ayuda a lograr esos bordes ligeramente tostados estilo restaurante.",
+      tags: [
+        "cena",
+        "pollo",
+        "bandeja",
+        "tex-mex",
+        "familiar",
+        "una bandeja",
+        "bueno para sobras",
+      ],
+      ingredients: `1 1/2 lbs de pechuga de pollo, rebanada en tiras
+2 pimientos, de cualquier color, rebanados
+1 cebolla amarilla grande, rebanada
+2 Tbsp de aceite de oliva
+1 Tbsp de jugo de lima
+
+Sazonador para fajitas:
+1 Tbsp de chile en polvo
+1 tsp de paprika o paprika ahumada para más profundidad
+1 tsp de comino
+1/2 tsp de ajo en polvo
+1/2 tsp de cebolla en polvo
+1/2 tsp de sal
+1/4 tsp de pimienta
+1/4 tsp de pimienta de cayena, opcional
+
+Para servir:
+tortillas
+crema agria
+queso rallado
+guacamole, opcional`,
+      instructions: `Precalienta el horno a 425°F. Cubre una bandeja grande para hornear con papel pergamino o papel aluminio.
+
+Extiende 1 1/2 lbs de pechuga de pollo en tiras, 2 pimientos rebanados y 1 cebolla amarilla grande rebanada de manera uniforme sobre la bandeja en una sola capa. Evita amontonar para que se asen bien.
+
+En un tazón pequeño, mezcla todos los ingredientes del sazonador para fajitas.
+
+Rocía 2 Tbsp de aceite de oliva y 1 Tbsp de jugo de lima sobre el pollo y las verduras. Espolvorea el sazonador preparado de manera uniforme sobre todo.
+
+Mezcla bien para cubrir, luego vuelve a extender en una sola capa.
+
+Hornea de 20 a 25 minutos, revolviendo una vez a la mitad, hasta que el pollo esté bien cocido y las verduras estén tiernas con bordes ligeramente tostados.
+
+Para más dorado, gratina en alto de 2 a 3 minutos al final, vigilando de cerca.
+
+Retira del horno y sirve de inmediato en tortillas calientes con crema agria, queso rallado y guacamole si deseas.`,
+    },
+  },
 },
 
 {
@@ -2375,6 +4817,51 @@ Cook for 10 to 12 minutes, flipping halfway through, until golden brown and the 
 For extra crispiness, spray lightly again with cooking spray after flipping.
 
 Serve hot with your favorite dipping sauces.`,
+  translations: {
+    es: {
+      name: "Tiras de pollo en freidora de aire",
+      notes:
+        "Tiras de pollo doradas y crujientes hechas en la freidora de aire. Usar pan molido panko y rociar ligeramente con aceite ayuda a lograr más crujiente sin freír en aceite profundo.",
+      tags: [
+        "cena",
+        "pollo",
+        "freidora de aire",
+        "crujiente",
+        "familiar",
+        "para niños",
+        "una tanda",
+        "bueno para sobras",
+      ],
+      ingredients: `1 1/2 lbs de tiras de pollo
+1/2 cup de harina de todo uso
+2 huevos grandes, batidos
+1 cup de pan molido, preferiblemente panko para más crujiente
+
+Sazonador para pollo:
+1 tsp de paprika o paprika ahumada para más sabor
+1/2 tsp de ajo en polvo
+1/2 tsp de cebolla en polvo
+1/2 tsp de sal
+1/4 tsp de pimienta
+
+spray para cocinar`,
+      instructions: `Precalienta la freidora de aire a 400°F.
+
+Seca 1 1/2 lbs de tiras de pollo con toallas de papel.
+
+Prepara tres tazones poco profundos para empanizar: uno con 1/2 cup de harina de todo uso, uno con 2 huevos grandes batidos y uno con 1 cup de pan molido mezclado con el sazonador para pollo.
+
+Pasa cada tira de pollo por la harina, sacudiendo el exceso. Sumérgela en el huevo y luego cúbrela bien con el pan molido sazonado, presionando ligeramente para que se adhiera.
+
+Coloca las tiras en la canasta de la freidora de aire en una sola capa, dejando espacio entre cada pieza. Rocía ligeramente con spray para cocinar.
+
+Cocina de 10 a 12 minutos, volteando a la mitad, hasta que estén doradas y la temperatura interna alcance 165°F.
+
+Para que queden más crujientes, rocía ligeramente otra vez con spray para cocinar después de voltearlas.
+
+Sirve calientes con tus salsas favoritas para mojar.`,
+    },
+  },
 },
 
 {
@@ -2412,6 +4899,49 @@ Bake for 35 to 40 minutes, until the skin is crispy and the internal temperature
 For extra crispiness, broil on high for 2 to 3 minutes at the end, watching closely.
 
 Remove from the oven and let rest for 5 minutes before serving.`,
+  translations: {
+    es: {
+      name: "Muslos de pollo al horno",
+      notes:
+        "Muslos de pollo al horno crujientes y llenos de sabor, con carne jugosa y piel dorada. Secar bien el pollo y usar alta temperatura son claves para lograr ese crujiente perfecto.",
+      tags: [
+        "cena",
+        "pollo",
+        "horneado",
+        "crujiente",
+        "comida reconfortante",
+        "familiar",
+        "una bandeja",
+        "bueno para sobras",
+      ],
+      ingredients: `6 muslos de pollo con hueso y piel
+1 Tbsp de aceite de oliva
+
+Rub para pollo:
+1 tsp de paprika ahumada
+1 tsp de ajo en polvo
+1 tsp de cebolla en polvo
+1/2 tsp de sal
+1/2 tsp de pimienta
+1/2 tsp de tomillo seco
+1/2 tsp de polvo para hornear, opcional para piel extra crujiente`,
+      instructions: `Precalienta el horno a 425°F. Cubre una bandeja para hornear con papel aluminio y coloca una rejilla encima si tienes una.
+
+Seca muy bien 6 muslos de pollo con hueso y piel con toallas de papel. Esto es clave para una piel crujiente.
+
+Frota el pollo con 1 Tbsp de aceite de oliva.
+
+En un tazón pequeño, mezcla todos los ingredientes del rub para pollo. Espolvorea de manera uniforme sobre el pollo, frotando para cubrir todos los lados y debajo de la piel cuando sea posible.
+
+Coloca los muslos con la piel hacia arriba sobre la rejilla o bandeja, dejando espacio entre cada pieza.
+
+Hornea de 35 a 40 minutos, hasta que la piel esté crujiente y la temperatura interna alcance 165°F.
+
+Para más crujiente, gratina en alto de 2 a 3 minutos al final, vigilando de cerca.
+
+Retira del horno y deja reposar 5 minutos antes de servir.`,
+    },
+  },
 },
 
 {
@@ -2454,6 +4984,54 @@ Return to the oven and bake for another 10 to 15 minutes, until the sauce is sti
 For extra caramelization, broil on high for 2 to 3 minutes at the end, watching closely.
 
 Let rest for 5 minutes before serving with extra barbecue sauce if desired.`,
+  translations: {
+    es: {
+      name: "Piernas de pollo BBQ",
+      notes:
+        "Piernas de pollo BBQ pegajosas y llenas de sabor, con una costra sazonada y salsa caramelizada. Secar el pollo y hornearlo a temperatura alta ayuda a lograr piel crujiente antes de agregar la salsa.",
+      tags: [
+        "cena",
+        "pollo",
+        "bbq",
+        "horneado",
+        "comida reconfortante",
+        "familiar",
+        "una bandeja",
+        "bueno para sobras",
+      ],
+      ingredients: `8 piernas de pollo
+1 Tbsp de aceite de oliva
+1/2 cup de salsa barbecue, más extra para servir
+
+Rub BBQ:
+1 tsp de paprika ahumada
+1 tsp de ajo en polvo
+1/2 tsp de cebolla en polvo
+1/2 tsp de sal
+1/2 tsp de pimienta
+1/2 tsp de azúcar morena
+1/2 tsp de polvo para hornear, opcional para piel más crujiente`,
+      instructions: `Precalienta el horno a 425°F. Cubre una bandeja para hornear con papel aluminio y coloca una rejilla encima si tienes una.
+
+Seca muy bien 8 piernas de pollo con toallas de papel. Esto ayuda a que la piel quede crujiente.
+
+Frota las piernas con 1 Tbsp de aceite de oliva.
+
+En un tazón pequeño, mezcla todos los ingredientes del rub BBQ. Espolvorea de manera uniforme sobre las piernas, cubriendo todos los lados.
+
+Coloca las piernas sobre la rejilla o bandeja, dejando espacio entre cada pieza.
+
+Hornea de 30 a 35 minutos, hasta que la piel esté crujiente y la temperatura interna alcance aproximadamente 155°F a 160°F.
+
+Retira del horno y barniza generosamente con 1/2 cup de salsa barbecue.
+
+Regresa al horno y hornea de 10 a 15 minutos más, hasta que la salsa esté pegajosa, caramelizada y la temperatura interna alcance 165°F.
+
+Para más caramelización, gratina en alto de 2 a 3 minutos al final, vigilando de cerca.
+
+Deja reposar 5 minutos antes de servir con más salsa barbecue si deseas.`,
+    },
+  },
 },
 
 {
@@ -2485,7 +5063,44 @@ Serve warm or use in recipes like Pork Street Tacos.`,
   effort: "big",
   tags: ["dinner", "pork", "smoker", "bbq", "meal-prep", "protein", "base-recipe"],
   isVegetarian: false,
-  notes: "Tender, smoky pulled pork that works as a base for multiple meals like tacos, sandwiches, and bowls."
+  notes: "Tender, smoky pulled pork that works as a base for multiple meals like tacos, sandwiches, and bowls.",
+  translations: {
+    es: {
+      name: "Cerdo deshebrado ahumado",
+      notes:
+        "Cerdo deshebrado tierno y ahumado que funciona como base para varias comidas, como tacos, sándwiches y bowls.",
+      tags: [
+        "cena",
+        "cerdo",
+        "ahumador",
+        "bbq",
+        "meal prep",
+        "proteína",
+        "receta base",
+      ],
+      ingredients: `8 lb de paleta de cerdo
+1/4 cup de mostaza amarilla
+1/4 cup de sazonador Kinder's Woodfire Garlic o un rub BBQ similar
+1 cup de salsa barbecue, más extra para servir`,
+      instructions: `Retira la paleta de cerdo de 8 lb del empaque y sécala completamente con toallas de papel.
+
+Frota toda la paleta de cerdo con 1/4 cup de mostaza amarilla para que el sazonador se adhiera.
+
+Sazona generosamente todos los lados con 1/4 cup de Kinder's Woodfire Garlic, presionándolo sobre la carne.
+
+Precalienta el ahumador a 250°F y agrega pellets.
+
+Coloca la paleta de cerdo directamente sobre las rejillas del ahumador y cocina unas 7 horas, o hasta que la temperatura interna alcance 200°F.
+
+Retira del ahumador, envuelve bien en papel aluminio y deja reposar 1 hora.
+
+Desenvuelve y deshebra el cerdo con las manos o con tenedores.
+
+Mezcla el cerdo deshebrado con 1 cup de salsa barbecue hasta que quede bien cubierto.
+
+Sirve caliente o úsalo en recetas como tacos callejeros de cerdo.`,
+    },
+  },
 },
 
 {
@@ -2524,7 +5139,51 @@ Remove and let rest for a few minutes before serving.`,
   effort: "big",
   tags: ["side", "bbq", "smoker", "comfort", "cheesy", "family", "cookout"],
   isVegetarian: true,
-  notes: "Ultra-creamy smoked mac and cheese made without a traditional sauce. The cheese melts directly into the noodles while smoking, creating rich flavor with minimal effort."
+  notes: "Ultra-creamy smoked mac and cheese made without a traditional sauce. The cheese melts directly into the noodles while smoking, creating rich flavor with minimal effort.",
+  translations: {
+    es: {
+      name: "Macarrones con queso ahumados",
+      notes:
+        "Macarrones con queso ultra cremosos y ahumados, hechos sin una salsa tradicional. El queso se derrite directamente en la pasta mientras se ahúma, creando mucho sabor con poco esfuerzo.",
+      tags: [
+        "acompañamiento",
+        "bbq",
+        "ahumador",
+        "comida reconfortante",
+        "con queso",
+        "familiar",
+        "parrillada",
+      ],
+      ingredients: `2 cups de macarrones sin cocinar
+1 cup de leche, dividida
+1 cup de queso cheddar rallado, dividido
+4 oz de queso crema, cortado en cubitos
+12 oz de queso Velveeta, cortado en cubitos
+1/2 tsp de sal
+1/2 tsp de pimienta negra
+1/4 tsp de ajo en polvo
+1/8 tsp de comino molido`,
+      instructions: `Hierve una olla con agua y cocina 2 cups de macarrones según las instrucciones del paquete. Escurre y coloca en un tazón grande.
+
+Agrega 1/2 tsp de sal, 1/2 tsp de pimienta negra, 1/4 tsp de ajo en polvo y 1/8 tsp de comino a los macarrones. Mezcla para combinar.
+
+Incorpora 3/4 cup de queso cheddar rallado, 4 oz de queso crema en cubitos y 12 oz de Velveeta en cubitos.
+
+Pasa todo a un molde para hornear y vierte 1/2 cup de leche encima.
+
+Precalienta el ahumador o la parrilla a 250°F.
+
+Coloca el molde en el ahumador y cocina durante 15 minutos.
+
+Revuelve los macarrones con queso y continúa cocinando otros 15 minutos. Revuelve otra vez.
+
+Vierte la 1/2 cup restante de leche y espolvorea el 1/4 cup restante de queso cheddar encima.
+
+Sube la temperatura a 400°F y cocina de 5 a 10 minutos, hasta que esté derretido, burbujeante y ligeramente dorado.
+
+Retira y deja reposar unos minutos antes de servir.`,
+    },
+  },
 },
 
 {
@@ -2567,7 +5226,56 @@ Serve warm with extra BBQ sauce if desired.`,
   effort: "big",
   tags: ["dinner", "beef", "pork", "smoker", "bbq", "comfort", "family", "leftovers-friendly"],
   isVegetarian: false,
-  notes: "Smoky, juicy meatloaf with a rich BBQ glaze. Including measurements in each step makes it easier to follow in Cook Mode without jumping back and forth."
+  notes: "Smoky, juicy meatloaf with a rich BBQ glaze. Including measurements in each step makes it easier to follow in Cook Mode without jumping back and forth.",
+  translations: {
+    es: {
+      name: "Pastel de carne ahumado",
+      notes:
+        "Pastel de carne ahumado y jugoso con un glaseado BBQ intenso. Incluir medidas en cada paso hace que sea más fácil seguirlo en Cook Mode sin tener que ir y venir.",
+      tags: [
+        "cena",
+        "carne de res",
+        "cerdo",
+        "ahumador",
+        "bbq",
+        "comida reconfortante",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `1/2 cup de pan molido
+1/3 cup de leche
+1 lb de carne molida de res
+1 lb de carne molida de cerdo
+1/2 cup de queso parmesano rallado
+1/2 cup de cebolla blanca, picada finamente
+1 Tbsp de perejil seco
+4 dientes de ajo, picados
+2 Tbsp de ketchup
+1 Tbsp de salsa Worcestershire
+2 tsp de sal
+1 tsp de pimienta
+1/2 tsp de hojuelas de chile rojo
+2 Tbsp de rub BBQ de tu preferencia
+1 cup de salsa BBQ, más extra para servir`,
+      instructions: `En un tazón grande, combina 1/2 cup de pan molido y 1/3 cup de leche. Deja remojar durante 5 minutos para formar una panade.
+
+Agrega 1 lb de carne molida de res, 1 lb de carne molida de cerdo, 1/2 cup de parmesano rallado, 1/2 cup de cebolla picada finamente, 1 Tbsp de perejil seco, 4 dientes de ajo picados, 2 Tbsp de ketchup, 1 Tbsp de salsa Worcestershire, 2 tsp de sal, 1 tsp de pimienta y 1/2 tsp de hojuelas de chile rojo. Mezcla suavemente con las manos hasta que apenas se combine. No mezcles demasiado.
+
+Forma la mezcla en un pan usando un molde para pan, luego refrigera durante 30 minutos para ayudar a que mantenga su forma.
+
+Precalienta el ahumador a 250°F.
+
+Retira el pastel de carne del molde y colócalo directamente sobre una rejilla o canasta para ahumador. Sazona todos los lados de manera uniforme con aproximadamente 2 Tbsp de rub BBQ.
+
+Ahúma durante 90 minutos.
+
+Barniza generosamente el pastel de carne con 1 cup de salsa BBQ y continúa ahumando otros 30 minutos, hasta que la temperatura interna alcance 160°F.
+
+Retira del ahumador y deja reposar 10 minutos antes de cortar.
+
+Sirve caliente con más salsa BBQ si deseas.`,
+    },
+  },
 },
 
 {
@@ -2594,7 +5302,39 @@ Serve immediately.`,
   effort: "normal",
   tags: ["dinner", "tacos", "pork", "mexican", "assembly", "family", "street-food"],
   isVegetarian: false,
-  notes: "Simple street-style tacos built around flavorful smoked pulled pork. Use the Smoked Pulled Pork recipe for the base protein."
+  notes: "Simple street-style tacos built around flavorful smoked pulled pork. Use the Smoked Pulled Pork recipe for the base protein.",
+  translations: {
+    es: {
+      name: "Tacos callejeros de cerdo",
+      notes:
+        "Tacos sencillos estilo callejero hechos con cerdo deshebrado ahumado lleno de sabor. Usa la receta de cerdo deshebrado ahumado como proteína base.",
+      tags: [
+        "cena",
+        "tacos",
+        "cerdo",
+        "mexicana",
+        "armado",
+        "familiar",
+        "comida callejera",
+      ],
+      ingredients: `cerdo deshebrado, ver receta "Cerdo deshebrado ahumado"
+8 tortillas pequeñas de maíz o harina
+1/2 cup de cebolla blanca, finamente picada
+1/2 cup de cilantro fresco, picado
+2 aguacates, rebanados
+2 jalapeños frescos, rebanados
+gajos de lima, opcional`,
+      instructions: `Calienta 8 tortillas en un sartén a fuego medio o directamente sobre la llama, hasta que estén suaves y ligeramente tostadas.
+
+Rellena cada tortilla con una porción generosa de cerdo deshebrado preparado, ver receta de Cerdo deshebrado ahumado.
+
+Cubre con cebolla blanca picada, cilantro fresco, aguacate rebanado y jalapeños.
+
+Exprime jugo de lima fresco sobre los tacos si deseas.
+
+Sirve de inmediato.`,
+    },
+  },
 },
 
 {
@@ -2639,7 +5379,56 @@ Serve warm.`,
   effort: "normal",
   tags: ["dinner", "soup", "comfort", "vegetarian", "roasted", "cozy"],
   isVegetarian: false,
-  notes: "Roasting the tomatoes and onion brings out natural sweetness and depth of flavor. Pairs perfectly with a grilled cheese sandwich."
+  notes: "Roasting the tomatoes and onion brings out natural sweetness and depth of flavor. Pairs perfectly with a grilled cheese sandwich.",
+  translations: {
+    es: {
+      name: "Sopa de tomate asado y albahaca",
+      notes:
+        "Asar los tomates y la cebolla resalta su dulzura natural y aporta más profundidad de sabor. Combina perfecto con un sándwich de queso a la plancha.",
+      tags: [
+        "cena",
+        "sopa",
+        "comida reconfortante",
+        "vegetariano",
+        "asado",
+        "acogedor",
+      ],
+      ingredients: `3 lbs de tomates, cortados por la mitad
+1 cebolla dulce, cortada en gajos gruesos
+3 Tbsp de aceite de oliva
+1 tsp de sal
+1/2 tsp de pimienta negra
+1 Tbsp de mantequilla
+1 Tbsp de ajo, picado
+2 1/2 cups de caldo de pollo
+1/2 cup de hojas de albahaca fresca, picadas
+1 ramita de tomillo fresco
+1/4 cup de crema espesa`,
+      instructions: `Precalienta el horno a 425°F. Cubre una bandeja grande para hornear con papel pergamino.
+
+Coloca 3 lbs de tomates cortados por la mitad, con el lado cortado hacia arriba, y 1 cebolla dulce rebanada en la bandeja.
+
+Rocía con 3 Tbsp de aceite de oliva y espolvorea con 1 tsp de sal y 1/2 tsp de pimienta negra.
+
+Asa de 40 a 45 minutos, hasta que los tomates estén suaves y empiecen a caramelizarse.
+
+En una olla grande, derrite 1 Tbsp de mantequilla a fuego medio. Agrega 1 Tbsp de ajo picado y cocina 30 segundos, hasta que suelte aroma.
+
+Pasa con cuidado los tomates y la cebolla asados, junto con sus jugos, a la olla.
+
+Agrega 2 1/2 cups de caldo de pollo y 1/2 cup de albahaca fresca picada. Mezcla bien.
+
+Usa una licuadora de inmersión, o pasa cuidadosamente a una licuadora, y licúa hasta que quede suave.
+
+Agrega 1 ramita de tomillo fresco y 1/4 cup de crema espesa. Mezcla para combinar.
+
+Cocina a fuego bajo por al menos 30 minutos, revolviendo de vez en cuando, hasta que los sabores se intensifiquen.
+
+Retira la ramita de tomillo. Prueba y ajusta con más sal y pimienta si es necesario.
+
+Sirve caliente.`,
+    },
+  },
 },
 
 {
@@ -2687,7 +5476,61 @@ Serve warm.`,
   effort: "big",
   tags: ["dinner", "beef", "slow-cooker", "comfort", "one-pot", "family", "hearty", "leftovers-friendly"],
   isVegetarian: false,
-  notes: "A classic, hearty beef stew with tender meat and rich broth. Searing the beef first adds deeper flavor, and the cornstarch slurry gives it a perfectly thick finish."
+  notes: "A classic, hearty beef stew with tender meat and rich broth. Searing the beef first adds deeper flavor, and the cornstarch slurry gives it a perfectly thick finish.",
+  translations: {
+    es: {
+      name: "Estofado de res en olla lenta",
+      notes:
+        "Un estofado clásico y sustancioso de res, con carne tierna y caldo rico. Sellar la carne primero agrega más sabor, y la mezcla de maicena le da un acabado perfectamente espeso.",
+      tags: [
+        "cena",
+        "carne de res",
+        "olla lenta",
+        "comida reconfortante",
+        "una olla",
+        "familiar",
+        "sustancioso",
+        "bueno para sobras",
+      ],
+      ingredients: `2 lbs de carne de res para estofado
+2 Tbsp de aceite de oliva
+1 cebolla amarilla, picada
+1 lb de papas baby, cortadas en cubitos
+1/2 lb de zanahorias, cortadas en cubitos
+4 cups de caldo de res
+3 tsp de ajo, picado
+2 Tbsp de pasta de tomate
+2 Tbsp de salsa Worcestershire
+1 tsp de tomillo seco
+1 hoja de laurel
+3 Tbsp de maicena
+3 Tbsp de agua
+1 1/2 cups de chícharos congelados
+2 Tbsp de perejil fresco, picado
+sal y pimienta negra, al gusto`,
+      instructions: `Calienta 2 Tbsp de aceite de oliva en un sartén a fuego medio.
+
+Sazona 2 lbs de carne de res para estofado con sal y pimienta negra. Agrega al sartén y sella durante unos 3 minutos, volteando para dorar todos los lados.
+
+Pasa la carne sellada a una olla lenta junto con 1 cebolla picada, 1 lb de papas baby en cubitos y 1/2 lb de zanahorias en cubitos.
+
+En un tazón, bate 4 cups de caldo de res, 3 tsp de ajo picado, 2 Tbsp de pasta de tomate, 2 Tbsp de salsa Worcestershire y 1 tsp de tomillo.
+
+Vierte la mezcla de caldo sobre la carne y las verduras. Agrega 1 hoja de laurel.
+
+Tapa y cocina en low de 6 a 7 horas o en high de 3 a 4 horas, hasta que la carne esté tierna.
+
+Unos 20 minutos antes de servir, retira la hoja de laurel.
+
+En un tazón pequeño, mezcla 3 Tbsp de maicena con 3 Tbsp de agua para formar una mezcla espesante. Incorpórala al estofado.
+
+Agrega 1 1/2 cups de chícharos congelados y tapa de nuevo. Cocina hasta que el estofado espese y los chícharos estén calientes.
+
+Incorpora 2 Tbsp de perejil fresco picado. Prueba y ajusta sal y pimienta si es necesario.
+
+Sirve caliente.`,
+    },
+  },
 },
 
 {
@@ -2732,8 +5575,60 @@ For the rice: In a bowl, combine 10 oz cooked rice with 2 Tbsp cilantro lime sea
   effort: "normal",
   tags: ["dinner", "beef", "bake", "party", "family", "tex-mex", "fun", "shareable"],
   isVegetarian: false,
-  notes: "A fun, shareable taco-inspired bake wrapped in flaky crescent dough. Great for parties or family dinners and pairs perfectly with fresh cilantro lime rice."
+  notes: "A fun, shareable taco-inspired bake wrapped in flaky crescent dough. Great for parties or family dinners and pairs perfectly with fresh cilantro lime rice.",
+  translations: {
+    es: {
+      name: "Rosca de taco cargada con arroz de cilantro y lima",
+      notes:
+        "Un horneado divertido inspirado en tacos, ideal para compartir, envuelto en masa hojaldrada de crescent rolls. Excelente para fiestas o cenas familiares y combina perfecto con arroz fresco de cilantro y lima.",
+      tags: [
+        "cena",
+        "carne de res",
+        "horneado",
+        "fiesta",
+        "familiar",
+        "tex-mex",
+        "divertido",
+        "para compartir",
+      ],
+      ingredients: `Rosca de taco:
+1 lb de carne molida de res
+1/2 lb de cebolla, picada en cubitos
+1/2 cup de agua
+3 Tbsp de sazonador para tacos
+16 oz de masa refrigerada para crescent rolls
+1 cup de queso cheddar rallado
+2 Tbsp de aceite de oliva
+1 Tbsp de hojuelas de chile rojo, opcional
+
+Arroz de cilantro y lima:
+10 oz de arroz cocido
+2 Tbsp de sazonador cilantro-lima, o jugo de lima + cilantro picado + una pizca de sal`,
+      instructions: `Precalienta el horno a 375°F.
+
+En un sartén a fuego medio, cocina 1 lb de carne molida de res y 1/2 lb de cebolla picada hasta que la carne esté dorada. Escurre el exceso de grasa.
+
+Agrega 1/2 cup de agua y 3 Tbsp de sazonador para tacos. Mezcla y cocina a fuego bajo durante 10 minutos, hasta que espese un poco.
+
+Acomoda 16 oz de masa para crescent rolls en forma de sol sobre una bandeja para hornear, con los extremos anchos superpuestos en el centro y las puntas hacia afuera.
+
+Coloca la mezcla de carne en el aro central.
+
+Espolvorea 1 cup de queso cheddar rallado de manera uniforme sobre la carne.
+
+Dobla las puntas de la masa sobre el relleno y mételas por debajo para formar una rosca.
+
+Hornea unos 18 minutos, hasta que esté dorada.
+
+Barniza la parte superior con 2 Tbsp de aceite de oliva y espolvorea con 1 Tbsp de hojuelas de chile rojo si las usas.
+
+Corta y sirve.
+
+Para el arroz: en un tazón, combina 10 oz de arroz cocido con 2 Tbsp de sazonador cilantro-lima, o mezcla con jugo de lima, cilantro picado y sal al gusto. Sirve al lado.`,
+    },
+  },
 },
+
 {
   id: "barbecue-chicken-pizza",
   slug: "barbecue-chicken-pizza",
@@ -2780,7 +5675,61 @@ Let rest for 2 to 3 minutes before slicing and serving.`,
   effort: "normal",
   tags: ["dinner", "pizza", "chicken", "bbq", "oven", "family", "comfort"],
   isVegetarian: false,
-  notes: "A bold, smoky-sweet pizza with tender barbecue chicken and melty cheese. Cooking the chicken separately ensures great texture and prevents excess moisture on the pizza."
+  notes: "A bold, smoky-sweet pizza with tender barbecue chicken and melty cheese. Cooking the chicken separately ensures great texture and prevents excess moisture on the pizza.",
+  translations: {
+    es: {
+      name: "Pizza de pollo barbecue",
+      notes:
+        "Una pizza intensa, ahumada y dulce, con pollo barbecue tierno y queso derretido. Cocinar el pollo por separado asegura buena textura y evita exceso de humedad en la pizza.",
+      tags: [
+        "cena",
+        "pizza",
+        "pollo",
+        "bbq",
+        "horno",
+        "familiar",
+        "comida reconfortante",
+      ],
+      ingredients: `Pollo:
+1 lb de pechuga o muslos de pollo sin hueso y sin piel
+1 Tbsp de aceite de oliva
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1/2 tsp de paprika ahumada, opcional para más profundidad
+
+Base de pizza:
+1 lb de masa para pizza, comprada o casera
+1/2 cup de salsa barbecue, más 2 Tbsp para el pollo
+1 1/2 cups de queso mozzarella rallado
+1/2 cup de cebolla roja, rebanada finamente
+1/4 cup de cilantro fresco, picado
+
+Opcional:
+1/4 cup de queso cheddar rallado
+1/2 jalapeño, rebanado finamente`,
+      instructions: `Precalienta el horno a 475°F. Si usas piedra o acero para pizza, colócalo en el horno mientras se precalienta.
+
+Calienta 1 Tbsp de aceite de oliva en un sartén a fuego medio-alto.
+
+Sazona 1 lb de pollo con 1/2 tsp de sal, 1/4 tsp de pimienta negra y 1/2 tsp de paprika ahumada si la usas.
+
+Cocina el pollo de 5 a 6 minutos por lado, hasta que se forme una costra dorada intensa y la temperatura interna alcance 165°F.
+
+Retira del fuego, deja reposar 5 minutos y luego rebana o deshebra. Mezcla con 2 Tbsp de salsa barbecue.
+
+Sobre una superficie ligeramente enharinada, estira 1 lb de masa para pizza en un círculo de 12 a 14 inches.
+
+Extiende 1/2 cup de salsa barbecue de manera uniforme sobre la masa, dejando un borde pequeño alrededor.
+
+Cubre con 1 1/2 cups de queso mozzarella, seguido del pollo barbecue, 1/2 cup de cebolla roja rebanada y cheddar o jalapeños opcionales.
+
+Pasa a una pala para pizza o bandeja para hornear y hornea de 10 a 14 minutos, hasta que la corteza esté dorada y el queso esté derretido y burbujeante con un dorado ligero.
+
+Retira del horno y espolvorea con 1/4 cup de cilantro fresco.
+
+Deja reposar de 2 a 3 minutos antes de cortar y servir.`,
+    },
+  },
 },
 
 {
@@ -2828,7 +5777,60 @@ Let rest for 5 minutes before serving.`,
   effort: "big",
   tags: ["dinner", "chicken", "fried", "comfort", "crispy", "family", "southern"],
   isVegetarian: false,
-  notes: "Classic crispy fried chicken with a flavorful, well-seasoned crust. Marinating in buttermilk keeps the chicken juicy while creating a tender interior."
+  notes: "Classic crispy fried chicken with a flavorful, well-seasoned crust. Marinating in buttermilk keeps the chicken juicy while creating a tender interior.",
+  translations: {
+    es: {
+      name: "Pollo frito casero",
+      notes:
+        "Pollo frito clásico y crujiente con una costra bien sazonada y llena de sabor. Marinar en buttermilk mantiene el pollo jugoso y crea un interior tierno.",
+      tags: [
+        "cena",
+        "pollo",
+        "frito",
+        "comida reconfortante",
+        "crujiente",
+        "familiar",
+        "sureño",
+      ],
+      ingredients: `Pollo:
+3 lbs de piezas de pollo con hueso, piernas, muslos, pechugas o alitas
+2 cups de buttermilk
+1 Tbsp de salsa picante, opcional
+1 tsp de sal
+1/2 tsp de pimienta negra
+
+Cobertura de harina:
+2 cups de harina de todo uso
+1 Tbsp de paprika o paprika ahumada para más profundidad
+1 tsp de ajo en polvo
+1 tsp de cebolla en polvo
+1 tsp de sal
+1/2 tsp de pimienta negra
+1/2 tsp de pimienta de cayena, opcional
+
+Para freír:
+aceite vegetal, suficiente para 2 a 3 inches en un sartén u olla`,
+      instructions: `En un tazón grande, combina 2 cups de buttermilk, 1 Tbsp de salsa picante si la usas, 1 tsp de sal y 1/2 tsp de pimienta negra.
+
+Agrega 3 lbs de piezas de pollo, asegurándote de que queden completamente cubiertas. Cubre y refrigera por al menos 2 horas, o toda la noche para mejor sabor y ternura.
+
+En otro tazón, mezcla 2 cups de harina, 1 Tbsp de paprika, 1 tsp de ajo en polvo, 1 tsp de cebolla en polvo, 1 tsp de sal, 1/2 tsp de pimienta negra y 1/2 tsp de cayena si la usas.
+
+Retira el pollo del buttermilk, dejando escurrir el exceso.
+
+Pasa cada pieza por la harina sazonada, presionando firmemente para que se adhiera una capa gruesa. Coloca el pollo empanizado sobre una rejilla y deja reposar de 10 a 15 minutos para ayudar a que la costra se adhiera.
+
+Calienta aceite vegetal en un sartén grande de hierro fundido o una olla pesada a fuego medio hasta que alcance 325°F a 350°F.
+
+Coloca cuidadosamente el pollo en el aceite caliente, con la piel hacia abajo. No llenes demasiado el sartén.
+
+Fríe de 12 a 15 minutos, volteando de vez en cuando, hasta que la costra esté dorada intensa y crujiente, y la temperatura interna alcance 165°F.
+
+Pasa el pollo a una rejilla, no a toallas de papel, para escurrirlo y mantenerlo crujiente.
+
+Deja reposar 5 minutos antes de servir.`,
+    },
+  },
 },
 
 
@@ -2840,43 +5842,70 @@ Let rest for 5 minutes before serving.`,
 
 export const SIDE_DISHES: Meal[] = [
   {
-    id: "quick-airfryer-baked-potato",
-    slug: "quick-airfryer-baked-potato",
-    name: "Air Fryer Baked Potato",
-    effort: "quick",
-    photoUrl: "/images/quick-airfryer-baked-potato.jpg",
-    tags: ["side", "air-fryer", "comfort", "quick", "vegetarian"],
-    notes: "An easy side dish that goes with almost anything and needs very little hands-on work.",
-    ingredients: `1 large russet potato
+  id: "quick-airfryer-baked-potato",
+  slug: "quick-airfryer-baked-potato",
+  name: "Air Fryer Baked Potato",
+  effort: "quick",
+  photoUrl: "/images/quick-airfryer-baked-potato.jpg",
+  tags: ["side", "air-fryer", "comfort", "quick", "vegetarian"],
+  notes: "An easy side dish that goes with almost anything and needs very little hands-on work.",
+  ingredients: `1 large russet potato
 1/2 tsp salt
 1 Tbsp olive oil (or cooking spray)
 1 to 2 Tbsp butter (depending on potato size)
 shredded cheese (optional)
 sour cream (optional)`,
-    instructions: `Rinse 1 large russet potato and dry completely.
+  instructions: `Rinse 1 large russet potato and dry completely.
 Pierce the potato with a fork in 4 to 6 spots.
 Coat the potato evenly with 1 Tbsp olive oil or cooking spray.
 Sprinkle with 1/2 tsp salt and rotate to coat all sides.
 Preheat air fryer to 400°F.
 Air fry for 60 minutes, shaking the basket once or twice.
 Slice down the middle, fluff with a fork, and add 1 to 2 Tbsp butter along with optional shredded cheese and sour cream.`,
+  translations: {
+    es: {
+      name: "Papa horneada en freidora de aire",
+      notes:
+        "Un acompañamiento fácil que va con casi cualquier comida y requiere muy poco trabajo.",
+      tags: [
+        "acompañamiento",
+        "freidora de aire",
+        "comida reconfortante",
+        "rápido",
+        "vegetariano",
+      ],
+      ingredients: `1 papa russet grande
+1/2 tsp de sal
+1 Tbsp de aceite de oliva o spray para cocinar
+1 a 2 Tbsp de mantequilla, según el tamaño de la papa
+queso rallado, opcional
+crema agria, opcional`,
+      instructions: `Enjuaga 1 papa russet grande y sécala completamente.
+Pica la papa con un tenedor en 4 a 6 lugares.
+Cubre la papa de manera uniforme con 1 Tbsp de aceite de oliva o spray para cocinar.
+Espolvorea con 1/2 tsp de sal y gírala para cubrir todos los lados.
+Precalienta la freidora de aire a 400°F.
+Cocina en la freidora de aire durante 60 minutos, sacudiendo la canasta una o dos veces.
+Corta por el centro, esponja el interior con un tenedor y agrega 1 a 2 Tbsp de mantequilla junto con queso rallado y crema agria si deseas.`,
+    },
   },
+},
 
-  {
-    id: "quick-garlic-roasted-potatoes",
-    slug: "quick-garlic-roasted-potatoes",
-    name: "Garlic Roasted Potatoes",
-    effort: "quick",
-    photoUrl: "/images/quick-garlic-roasted-potatoes.jpg",
-    tags: ["side", "roasted", "vegetarian", "comfort", "oven"],
-    notes: "Crispy, simple potatoes that work with almost any main dish.",
-    ingredients: `3 lbs small red or white potatoes
+{
+  id: "quick-garlic-roasted-potatoes",
+  slug: "quick-garlic-roasted-potatoes",
+  name: "Garlic Roasted Potatoes",
+  effort: "quick",
+  photoUrl: "/images/quick-garlic-roasted-potatoes.jpg",
+  tags: ["side", "roasted", "vegetarian", "comfort", "oven"],
+  notes: "Crispy, simple potatoes that work with almost any main dish.",
+  ingredients: `3 lbs small red or white potatoes
 1/4 cup olive oil
 1 1/2 tsp salt
 1 tsp pepper
 2 Tbsp garlic, minced
 2 Tbsp fresh parsley, minced`,
-    instructions: `Preheat oven to 400°F.
+  instructions: `Preheat oven to 400°F.
 
 Cut 3 lbs small red or white potatoes in halves or quarters and place in a bowl with 1/4 cup olive oil, 1 1/2 tsp salt, 1 tsp pepper, and 2 Tbsp minced garlic. Toss until coated.
 
@@ -2885,9 +5914,38 @@ Transfer to a sheet pan and spread into a single layer.
 Roast 45 minutes to 1 hour until browned and crisp, flipping twice during cooking for even browning.
 
 Remove from oven, toss with 2 Tbsp minced fresh parsley, season to taste, and serve hot.`,
-  },
+  translations: {
+    es: {
+      name: "Papas asadas con ajo",
+      notes:
+        "Papas simples y crujientes que combinan con casi cualquier plato principal.",
+      tags: [
+        "acompañamiento",
+        "asado",
+        "vegetariano",
+        "comida reconfortante",
+        "horno",
+      ],
+      ingredients: `3 lbs de papas rojas o blancas pequeñas
+1/4 cup de aceite de oliva
+1 1/2 tsp de sal
+1 tsp de pimienta
+2 Tbsp de ajo, picado
+2 Tbsp de perejil fresco, picado`,
+      instructions: `Precalienta el horno a 400°F.
 
-  {
+Corta 3 lbs de papas rojas o blancas pequeñas en mitades o cuartos y colócalas en un tazón con 1/4 cup de aceite de oliva, 1 1/2 tsp de sal, 1 tsp de pimienta y 2 Tbsp de ajo picado. Mezcla hasta cubrirlas.
+
+Pasa las papas a una bandeja para hornear y extiéndelas en una sola capa.
+
+Asa de 45 minutos a 1 hora, hasta que estén doradas y crujientes, volteándolas dos veces durante la cocción para que se doren de manera uniforme.
+
+Retira del horno, mezcla con 2 Tbsp de perejil fresco picado, sazona al gusto y sirve caliente.`,
+    },
+  },
+},
+
+{
   id: "buffalo-chicken-tots",
   slug: "buffalo-chicken-tots",
   name: "Buffalo Chicken Tots",
@@ -2928,7 +5986,57 @@ Garnish with sliced green onions and serve immediately.`,
   effort: "quick",
   tags: ["appetizer", "snack", "chicken", "buffalo", "game-day", "comfort", "party", "loaded"],
   isVegetarian: false,
-  notes: "Crispy tater tots loaded with buffalo chicken, melty cheese, and cool ranch. Inspired by restaurant-style totchos but simplified for easy home cooking."
+  notes: "Crispy tater tots loaded with buffalo chicken, melty cheese, and cool ranch. Inspired by restaurant-style totchos but simplified for easy home cooking.",
+  translations: {
+    es: {
+      name: "Tater tots con pollo buffalo",
+      notes:
+        "Tater tots crujientes cargados con pollo buffalo, queso derretido y ranch fresco. Inspirados en totchos estilo restaurante, pero simplificados para cocinar fácilmente en casa.",
+      tags: [
+        "aperitivo",
+        "snack",
+        "pollo",
+        "buffalo",
+        "día de partido",
+        "comida reconfortante",
+        "fiesta",
+        "cargado",
+      ],
+      ingredients: `1 bolsa (32 oz) de tater tots congelados
+1 Tbsp de aceite de oliva
+
+2 cups de pollo cocido, deshebrado
+1/2 cup de salsa buffalo, más extra para rociar
+
+1 cup de queso cheddar rallado
+1/2 cup de queso mozzarella rallado, opcional
+
+1/2 cup de queso azul desmoronado, opcional
+1/2 cup de aderezo ranch o blue cheese
+
+2 cebollines, rebanados
+1 jalapeño o chile, rebanado finamente, opcional`,
+      instructions: `Precalienta el horno a 400°F.
+
+Mezcla 1 bolsa (32 oz) de tater tots con 1 Tbsp de aceite de oliva y extiéndelos en una sola capa sobre una bandeja para hornear.
+
+Hornea según las instrucciones del paquete, aproximadamente de 20 a 25 minutos, hasta que estén crujientes y dorados.
+
+Mientras se hornean los tots, combina 2 cups de pollo deshebrado con 1/2 cup de salsa buffalo en un tazón. Mezcla hasta cubrirlo de manera uniforme.
+
+Retira los tots del horno y pásalos a un sartén apto para horno o a un molde para hornear.
+
+Cubre con el pollo buffalo, luego espolvorea 1 cup de queso cheddar y 1/2 cup de mozzarella si la usas.
+
+Agrega 1/2 cup de queso azul desmoronado y jalapeños rebanados si deseas.
+
+Regresa al horno y hornea de 5 a 10 minutos, hasta que el queso se derrita y todo esté caliente.
+
+Retira del horno y rocía con aderezo ranch o blue cheese.
+
+Decora con cebollines rebanados y sirve de inmediato.`,
+    },
+  },
 },
 
 {
@@ -2970,49 +6078,55 @@ Before serving, taste and adjust salt and pepper if needed. Sprinkle with additi
   effort: "normal",
   tags: ["side", "potatoes", "salad", "bbq", "summer", "comfort", "family", "cookout"],
   isVegetarian: true,
-  notes: "A creamy, classic potato salad with balanced tang and texture. Dressing the potatoes while slightly warm helps them absorb more flavor."
-},
+  notes: "A creamy, classic potato salad with balanced tang and texture. Dressing the potatoes while slightly warm helps them absorb more flavor.",
+  translations: {
+    es: {
+      name: "Ensalada clásica de papa",
+      notes:
+        "Una ensalada clásica de papa, cremosa, con buen equilibrio de acidez y textura. Mezclar las papas con el aderezo mientras aún están ligeramente tibias ayuda a que absorban más sabor.",
+      tags: [
+        "acompañamiento",
+        "papas",
+        "ensalada",
+        "bbq",
+        "verano",
+        "comida reconfortante",
+        "familiar",
+        "parrillada",
+      ],
+      ingredients: `2 lbs de papas Yukon Gold o rojas, cortadas en trozos de 1 inch
+1 tsp de sal para el agua de cocción
+3 huevos grandes
 
-{
-  id: "classic-potato-salad",
-  slug: "classic-potato-salad",
-  name: "Classic Potato Salad",
-  ingredients: `2 lbs Yukon Gold or red potatoes, cut into 1-inch chunks
-1 tsp salt (for boiling water)
-3 large eggs
+1/2 cup de apio, finamente picado
+1/3 cup de cebolla roja, finamente picada
+1/4 cup de pepinillos dill o relish, picados
+2 Tbsp de perejil fresco, picado
 
-1/2 cup celery, finely diced
-1/3 cup red onion, finely diced
-1/4 cup dill pickles or relish, chopped
-2 Tbsp fresh parsley, chopped
+3/4 cup de mayonesa
+1 Tbsp de mostaza Dijon
+1 Tbsp de vinagre de manzana
+1 tsp de azúcar
+1/2 tsp de sal, más al gusto
+1/4 tsp de pimienta negra
+1/2 tsp de paprika`,
+      instructions: `Coloca 2 lbs de papas picadas en una olla grande y cúbrelas con agua fría. Agrega 1 tsp de sal y lleva a hervor a fuego alto.
 
-3/4 cup mayonnaise
-1 Tbsp Dijon mustard
-1 Tbsp apple cider vinegar
-1 tsp sugar
-1/2 tsp salt (plus more to taste)
-1/4 tsp black pepper
-1/2 tsp paprika`,
-  instructions: `Place 2 lbs chopped potatoes in a large pot and cover with cold water. Add 1 tsp salt and bring to a boil over high heat.
+Reduce a un hervor suave y cocina de 10 a 12 minutos, hasta que las papas estén tiernas al pincharlas con un tenedor pero aún mantengan su forma. Escurre y deja enfriar ligeramente.
 
-Reduce to a gentle boil and cook for 10 to 12 minutes, until potatoes are fork-tender but still hold their shape. Drain and let cool slightly.
+Mientras se cocinan las papas, coloca 3 huevos en una cacerola y cúbrelos con agua. Lleva a hervor, luego apaga el fuego, tapa y deja reposar de 10 a 12 minutos. Pásalos a agua con hielo, pela y pica.
 
-While potatoes cook, place 3 eggs in a saucepan and cover with water. Bring to a boil, then turn off heat, cover, and let sit for 10 to 12 minutes. Transfer to ice water, peel, and chop.
+En un tazón grande, bate 3/4 cup de mayonesa, 1 Tbsp de mostaza Dijon, 1 Tbsp de vinagre de manzana, 1 tsp de azúcar, 1/2 tsp de sal, 1/4 tsp de pimienta negra y 1/2 tsp de paprika hasta que quede suave.
 
-In a large bowl, whisk together 3/4 cup mayonnaise, 1 Tbsp Dijon mustard, 1 Tbsp apple cider vinegar, 1 tsp sugar, 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp paprika until smooth.
+Agrega las papas ligeramente tibias al aderezo y mezcla suavemente para cubrirlas.
 
-Add the slightly warm potatoes to the dressing and gently toss to coat.
+Agrega los huevos picados, 1/2 cup de apio, 1/3 cup de cebolla roja, 1/4 cup de pepinillos y 2 Tbsp de perejil. Incorpora todo con cuidado hasta combinar de manera uniforme.
 
-Add chopped eggs, 1/2 cup celery, 1/3 cup red onion, 1/4 cup pickles, and 2 Tbsp parsley. Fold everything together until evenly combined.
+Cubre y refrigera por al menos 1 a 2 horas para que los sabores se desarrollen.
 
-Cover and refrigerate for at least 1 to 2 hours to allow flavors to develop.
-
-Before serving, taste and adjust salt and pepper if needed. Sprinkle with additional paprika if desired.`,
-  photoUrl: "/images/classic-potato-salad.jpg",
-  effort: "normal",
-  tags: ["side", "potatoes", "salad", "bbq", "summer", "comfort", "family", "cookout"],
-  isVegetarian: true,
-  notes: "A creamy, classic potato salad with balanced tang and texture. Dressing the potatoes while slightly warm helps them absorb more flavor."
+Antes de servir, prueba y ajusta sal y pimienta si es necesario. Espolvorea con más paprika si deseas.`,
+    },
+  },
 },
 
 
@@ -3021,17 +6135,17 @@ Before serving, taste and adjust salt and pepper if needed. Sprinkle with additi
 
 export const DESSERTS: Meal[] = [
   {
-    id: "quick-dark-chocolate-dipped-strawberries",
-    slug: "quick-dark-chocolate-dipped-strawberries",
-    name: "Dark Chocolate Dipped Strawberries",
-    effort: "quick",
-    photoUrl: "/images/quick-dark-chocolate-dipped-strawberries.jpg",
-    tags: ["dessert", "snack", "no-bake", "quick", "vegetarian"],
-    notes: "A simple dessert that feels special without a lot of work.",
-    ingredients: `12 large ripe strawberries
+  id: "quick-dark-chocolate-dipped-strawberries",
+  slug: "quick-dark-chocolate-dipped-strawberries",
+  name: "Dark Chocolate Dipped Strawberries",
+  effort: "quick",
+  photoUrl: "/images/quick-dark-chocolate-dipped-strawberries.jpg",
+  tags: ["dessert", "snack", "no-bake", "quick", "vegetarian"],
+  notes: "A simple dessert that feels special without a lot of work.",
+  ingredients: `12 large ripe strawberries
 1/2 cup dark chocolate baking chips
 1 tsp coconut oil`,
-    instructions: `Wash 12 large ripe strawberries and dry completely. Chocolate will not stick if wet.
+  instructions: `Wash 12 large ripe strawberries and dry completely. Chocolate will not stick if wet.
 Bring a small pot with a few inches of water to a gentle simmer.
 Add 1/2 cup dark chocolate baking chips and 1 tsp coconut oil to a heat-safe glass bowl.
 Set the bowl over the pot like a double boiler, making sure the bowl does not touch the water.
@@ -3040,9 +6154,35 @@ Line a sheet pan with parchment paper.
 Dip the strawberries one at a time and place on the parchment.
 Refrigerate for 20 to 30 minutes until the chocolate sets.
 Store leftovers in an airtight container in the refrigerator.`,
+  translations: {
+    es: {
+      name: "Fresas cubiertas con chocolate oscuro",
+      notes:
+        "Un postre sencillo que se siente especial sin mucho trabajo.",
+      tags: [
+        "postre",
+        "snack",
+        "sin hornear",
+        "rápido",
+        "vegetariano",
+      ],
+      ingredients: `12 fresas grandes y maduras
+1/2 cup de chispas de chocolate oscuro para hornear
+1 tsp de aceite de coco`,
+      instructions: `Lava 12 fresas grandes y maduras, y sécalas completamente. El chocolate no se pegará si están mojadas.
+Lleva una olla pequeña con unas pocas pulgadas de agua a un hervor suave.
+Agrega 1/2 cup de chispas de chocolate oscuro y 1 tsp de aceite de coco a un tazón de vidrio resistente al calor.
+Coloca el tazón sobre la olla como baño maría, asegurándote de que el tazón no toque el agua.
+Revuelve hasta que el chocolate esté completamente derretido y suave.
+Cubre una bandeja para hornear con papel pergamino.
+Sumerge las fresas una por una y colócalas sobre el papel pergamino.
+Refrigera de 20 a 30 minutos, hasta que el chocolate se endurezca.
+Guarda las sobras en un recipiente hermético en el refrigerador.`,
+    },
   },
+},
 
-  {
+{
   id: "chocolate-peanut-butter-no-bake-bars",
   slug: "chocolate-peanut-butter-no-bake-bars",
   name: "Chocolate Peanut Butter No-Bake Bars",
@@ -3069,21 +6209,56 @@ Slice into bars and serve.`,
   effort: "quick",
   tags: ["dessert", "snack", "no-bake", "gluten-free", "dairy-free", "sweet", "meal-prep"],
   isVegetarian: true,
-  notes: "An easy no-bake treat with peanut butter and chocolate. Perfect for meal prep, snacks, or a quick dessert without turning on the oven."
-}
+  notes: "An easy no-bake treat with peanut butter and chocolate. Perfect for meal prep, snacks, or a quick dessert without turning on the oven.",
+  translations: {
+    es: {
+      name: "Barras sin hornear de chocolate y crema de cacahuate",
+      notes:
+        "Un antojo fácil sin hornear con crema de cacahuate y chocolate. Perfecto para meal prep, snacks o un postre rápido sin encender el horno.",
+      tags: [
+        "postre",
+        "snack",
+        "sin hornear",
+        "sin gluten",
+        "sin lácteos",
+        "dulce",
+        "meal prep",
+      ],
+      ingredients: `1 cup de crema de cacahuate natural
+1/2 cup de jarabe de maple
+1 tsp de extracto de vainilla
+2 cups de avena sin gluten, rápida o tradicional
+1 cup de chispas de chocolate sin lácteos
+1 Tbsp de aceite de coco`,
+      instructions: `En un tazón grande, mezcla 1 cup de crema de cacahuate, 1/2 cup de jarabe de maple y 1 tsp de extracto de vainilla hasta que quede suave y bien combinado.
+
+Incorpora 2 cups de avena hasta que todo quede cubierto de manera uniforme y se forme una mezcla espesa.
+
+Cubre un molde de 8x8 con papel pergamino y presiona la mezcla firmemente en una capa uniforme.
+
+En un tazón apto para microondas, combina 1 cup de chispas de chocolate y 1 Tbsp de aceite de coco. Calienta en intervalos de 30 segundos, revolviendo entre cada uno, hasta que quede suave y derretido.
+
+Vierte el chocolate derretido sobre la mezcla de avena y extiéndelo de manera uniforme por encima.
+
+Refrigera de 1 a 2 horas, o hasta que esté firme.
+
+Corta en barras y sirve.`,
+    },
+  },
+},
 
 ];
 
 export const EXTRA_RECIPES: Meal[] = [
   {
-    id: "quick-classic-guacamole",
-    slug: "quick-classic-guacamole",
-    name: "Guacamole",
-    effort: "quick",
-    photoUrl: "/images/quick-classic-guacamole.jpg",
-    tags: ["dip", "side", "mexican", "no-cook", "quick", "vegetarian"],
-    notes: "Fresh and simple guacamole that works as a snack, side, or taco-night add-on.",
-    ingredients: `3 ripe avocados, peeled and pitted
+  id: "quick-classic-guacamole",
+  slug: "quick-classic-guacamole",
+  name: "Guacamole",
+  effort: "quick",
+  photoUrl: "/images/quick-classic-guacamole.jpg",
+  tags: ["dip", "side", "mexican", "no-cook", "quick", "vegetarian"],
+  notes: "Fresh and simple guacamole that works as a snack, side, or taco-night add-on.",
+  ingredients: `3 ripe avocados, peeled and pitted
 1 lime, juiced
 1 tsp salt
 1/2 cup diced white onion
@@ -3091,22 +6266,50 @@ export const EXTRA_RECIPES: Meal[] = [
 2 Roma tomatoes, diced
 1 tsp garlic, minced
 pinch of cayenne pepper (optional)`,
-    instructions: `In a medium bowl, mash 3 peeled and pitted ripe avocados with the juice of 1 lime and 1 tsp salt until your desired consistency, slightly chunky is usually best.
+  instructions: `In a medium bowl, mash 3 peeled and pitted ripe avocados with the juice of 1 lime and 1 tsp salt until your desired consistency, slightly chunky is usually best.
 Stir in 1/2 cup diced white onion, 3 Tbsp chopped fresh cilantro, 2 diced Roma tomatoes, and 1 tsp minced garlic.
 Add a pinch of cayenne pepper if desired and mix well.
 Taste and adjust salt or lime as needed.
 Refrigerate for 1 hour for the best flavor, or serve immediately with tortilla chips.`,
+  translations: {
+    es: {
+      name: "Guacamole",
+      notes:
+        "Guacamole fresco y sencillo que funciona como snack, acompañamiento o extra para noche de tacos.",
+      tags: [
+        "dip",
+        "acompañamiento",
+        "mexicano",
+        "sin cocinar",
+        "rápido",
+        "vegetariano",
+      ],
+      ingredients: `3 aguacates maduros, pelados y sin hueso
+1 lima, exprimida
+1 tsp de sal
+1/2 cup de cebolla blanca, picada en cubitos
+3 Tbsp de cilantro fresco, picado
+2 tomates Roma, picados en cubitos
+1 tsp de ajo, picado
+una pizca de pimienta de cayena, opcional`,
+      instructions: `En un tazón mediano, machaca 3 aguacates maduros pelados y sin hueso con el jugo de 1 lima y 1 tsp de sal hasta lograr la consistencia que prefieras; ligeramente con trozos suele quedar mejor.
+Incorpora 1/2 cup de cebolla blanca picada, 3 Tbsp de cilantro fresco picado, 2 tomates Roma picados y 1 tsp de ajo picado.
+Agrega una pizca de pimienta de cayena si deseas y mezcla bien.
+Prueba y ajusta la sal o la lima según sea necesario.
+Refrigera durante 1 hora para mejor sabor, o sirve de inmediato con totopos.`,
+    },
   },
+},
 
-  {
-    id: "quick-homemade-chili-seasoning",
-    slug: "quick-homemade-chili-seasoning",
-    name: "Homemade Chili Seasoning",
-    effort: "quick",
-    photoUrl: "/images/quick-homemade-chili-seasoning.jpg",
-    tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian"],
-    notes: "A pantry staple that is great to keep on hand for chili nights.",
-    ingredients: `1 Tbsp chili powder
+{
+  id: "quick-homemade-chili-seasoning",
+  slug: "quick-homemade-chili-seasoning",
+  name: "Homemade Chili Seasoning",
+  effort: "quick",
+  photoUrl: "/images/quick-homemade-chili-seasoning.jpg",
+  tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian"],
+  notes: "A pantry staple that is great to keep on hand for chili nights.",
+  ingredients: `1 Tbsp chili powder
 1 tsp ground cumin
 1/4 tsp cayenne pepper
 1/4 tsp garlic powder
@@ -3114,22 +6317,49 @@ Refrigerate for 1 hour for the best flavor, or serve immediately with tortilla c
 1 tsp salt
 1/4 tsp pepper
 small pinch ground cinnamon`,
-    instructions: `Add all ingredients to a small bowl.
+  instructions: `Add all ingredients to a small bowl.
 Stir very well until evenly combined.
 Transfer to an airtight container or spice shaker.
 Store in a cool, dry place.
 Use in place of one store-bought chili seasoning packet.`,
+  translations: {
+    es: {
+      name: "Sazonador casero para chili",
+      notes:
+        "Un básico de despensa ideal para tener listo en noches de chili.",
+      tags: [
+        "sazonador",
+        "despensa",
+        "mezcla de especias",
+        "rápido",
+        "vegetariano",
+      ],
+      ingredients: `1 Tbsp de chile en polvo
+1 tsp de comino molido
+1/4 tsp de pimienta de cayena
+1/4 tsp de ajo en polvo
+1/2 tsp de cebolla en polvo
+1 tsp de sal
+1/4 tsp de pimienta
+una pizca pequeña de canela molida`,
+      instructions: `Agrega todos los ingredientes a un tazón pequeño.
+Mezcla muy bien hasta que todo esté combinado de manera uniforme.
+Pasa a un recipiente hermético o frasco para especias.
+Guarda en un lugar fresco y seco.
+Usa en lugar de un paquete de sazonador para chili comprado en tienda.`,
+    },
   },
+},
 
-  {
-    id: "quick-captains-wing-rub",
-    slug: "quick-captains-wing-rub",
-    name: "Captain's Wing Rub",
-    photoUrl: "/images/quick-captains-wing-rub.jpg",
-    effort: "quick",
-    tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian"],
-    notes: "Bold, spicy, and tangy. Great for wings or grilled meats.",
-    ingredients: `2 Tbsp smoked paprika
+{
+  id: "quick-captains-wing-rub",
+  slug: "quick-captains-wing-rub",
+  name: "Captain's Wing Rub",
+  photoUrl: "/images/quick-captains-wing-rub.jpg",
+  effort: "quick",
+  tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian"],
+  notes: "Bold, spicy, and tangy. Great for wings or grilled meats.",
+  ingredients: `2 Tbsp smoked paprika
 1 1/2 Tbsp cayenne pepper
 1 tsp ancho chili powder
 1 tsp garlic powder
@@ -3139,14 +6369,43 @@ Use in place of one store-bought chili seasoning packet.`,
 1/2 tsp cumin
 1/4 tsp chipotle powder
 1/2 tsp jalapeno pepper flakes`,
-    instructions: `Combine all ingredients in a bowl.
+  instructions: `Combine all ingredients in a bowl.
 
 Mix thoroughly and store in an airtight container.
 
 Use as a dry rub or seasoning for wings and meats.`,
-  },
+  translations: {
+    es: {
+      name: "Rub del Capitán para alitas",
+      notes:
+        "Intenso, picante y con un toque ácido. Excelente para alitas o carnes a la parrilla.",
+      tags: [
+        "sazonador",
+        "despensa",
+        "mezcla de especias",
+        "rápido",
+        "vegetariano",
+      ],
+      ingredients: `2 Tbsp de paprika ahumada
+1 1/2 Tbsp de pimienta de cayena
+1 tsp de chile ancho en polvo
+1 tsp de ajo en polvo
+1 tsp de cebolla en polvo
+1 tsp de sal marina fina
+1/2 tsp de ácido cítrico
+1/2 tsp de comino
+1/4 tsp de chipotle en polvo
+1/2 tsp de hojuelas de jalapeño`,
+      instructions: `Combina todos los ingredientes en un tazón.
 
-  {
+Mezcla muy bien y guarda en un recipiente hermético.
+
+Usa como rub seco o sazonador para alitas y carnes.`,
+    },
+  },
+},
+
+{
   id: "chicken-salad-croissant",
   slug: "chicken-salad-croissant",
   name: "Chicken Salad Croissant",
@@ -3195,23 +6454,79 @@ Serve immediately.`,
   effort: "normal",
   tags: ["lunch", "chicken", "sandwich", "quick", "meal-prep", "family", "fresh"],
   isVegetarian: false,
-  notes: "A creamy, balanced chicken salad served on flaky croissants. Letting the chicken rest before chopping keeps it juicy, and a splash of lemon brightens the entire dish."
+  notes: "A creamy, balanced chicken salad served on flaky croissants. Letting the chicken rest before chopping keeps it juicy, and a splash of lemon brightens the entire dish.",
+  translations: {
+    es: {
+      name: "Croissant de ensalada de pollo",
+      notes:
+        "Una ensalada de pollo cremosa y equilibrada servida en croissants hojaldrados. Dejar reposar el pollo antes de picarlo lo mantiene jugoso, y un toque de limón ilumina todo el plato.",
+      tags: [
+        "almuerzo",
+        "pollo",
+        "sándwich",
+        "rápido",
+        "meal prep",
+        "familiar",
+        "fresco",
+      ],
+      ingredients: `Pollo:
+1 lb de pechugas de pollo sin hueso y sin piel
+1 Tbsp de aceite de oliva
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+
+Ensalada de pollo:
+1/2 cup de mayonesa
+1 Tbsp de mostaza Dijon
+1 Tbsp de jugo de limón
+1/2 tsp de ajo en polvo
+1/4 tsp de sal, más al gusto
+1/4 tsp de pimienta negra
+1/2 cup de apio, finamente picado
+1/3 cup de uvas rojas, cortadas por la mitad, opcional
+1/4 cup de almendras rebanadas o nueces pecanas, opcional
+2 Tbsp de perejil fresco, picado
+
+Armado:
+4 croissants, rebanados
+hojas de lechuga, opcional
+rebanadas de tomate, opcional`,
+      instructions: `Precalienta un sartén a fuego medio. Agrega 1 Tbsp de aceite de oliva.
+
+Sazona 1 lb de pechugas de pollo con 1/2 tsp de sal y 1/4 tsp de pimienta negra.
+
+Cocina el pollo de 5 a 6 minutos por lado, hasta que se forme una costra dorada y la temperatura interna alcance 165°F.
+
+Retira del fuego y deja reposar de 5 a 10 minutos, luego corta en cubitos o deshebra en piezas pequeñas.
+
+En un tazón grande, bate 1/2 cup de mayonesa, 1 Tbsp de mostaza Dijon, 1 Tbsp de jugo de limón, 1/2 tsp de ajo en polvo, 1/4 tsp de sal y 1/4 tsp de pimienta negra hasta que quede suave.
+
+Agrega el pollo picado, 1/2 cup de apio, 1/3 cup de uvas si las usas, 1/4 cup de nueces si las usas y 2 Tbsp de perejil. Incorpora suavemente hasta que todo quede cubierto de manera uniforme.
+
+Prueba y ajusta los condimentos con más sal, pimienta o jugo de limón según sea necesario.
+
+Rebana 4 croissants y agrega una capa de lechuga si deseas.
+
+Coloca una porción generosa de ensalada de pollo sobre cada croissant y cubre con rebanadas de tomate si las usas.
+
+Sirve de inmediato.`,
+    },
+  },
 },
 
-
-  {
-    id: "quick-sausage-muffins",
-    slug: "quick-sausage-muffins",
-    name: "Sausage Muffins",
-    effort: "quick",
-    photoUrl: "/images/quick-sausage-muffins.jpg",
-    tags: ["breakfast", "quick", "kid-friendly", "meal-prep", "pork"],
-    notes: "Easy grab-and-go breakfast muffins that also work for busy mornings or snacks.",
-    ingredients: `1 cup Bisquick
+{
+  id: "quick-sausage-muffins",
+  slug: "quick-sausage-muffins",
+  name: "Sausage Muffins",
+  effort: "quick",
+  photoUrl: "/images/quick-sausage-muffins.jpg",
+  tags: ["breakfast", "quick", "kid-friendly", "meal-prep", "pork"],
+  notes: "Easy grab-and-go breakfast muffins that also work for busy mornings or snacks.",
+  ingredients: `1 cup Bisquick
 1 lb breakfast sausage, cooked
 4 eggs, beaten
 1 cup cheddar cheese, shredded`,
-    instructions: `Preheat oven to 350°F.
+  instructions: `Preheat oven to 350°F.
 
 Cook 1 lb breakfast sausage in a skillet until browned and set aside to cool slightly.
 
@@ -3222,17 +6537,46 @@ Spray muffin tins with cooking spray.
 Fill each muffin cup 1/2 to 3/4 full with the mixture.
 
 Bake for 20 minutes or until the muffins are set and lightly browned on top.`,
+  translations: {
+    es: {
+      name: "Muffins de salchicha",
+      notes:
+        "Muffins fáciles de desayuno para llevar, perfectos también para mañanas ocupadas o snacks.",
+      tags: [
+        "desayuno",
+        "rápido",
+        "para niños",
+        "meal prep",
+        "cerdo",
+      ],
+      ingredients: `1 cup de Bisquick
+1 lb de salchicha de desayuno, cocida
+4 huevos, batidos
+1 cup de queso cheddar rallado`,
+      instructions: `Precalienta el horno a 350°F.
+
+Cocina 1 lb de salchicha de desayuno en un sartén hasta que esté dorada y reserva para que se enfríe un poco.
+
+En un tazón mediano, combina 4 huevos batidos, 1 cup de Bisquick, la salchicha cocida y 1 cup de queso cheddar rallado. Mezcla bien hasta que todo esté completamente combinado.
+
+Rocía moldes para muffins con spray para cocinar.
+
+Llena cada molde de muffin de 1/2 a 3/4 con la mezcla.
+
+Hornea durante 20 minutos o hasta que los muffins estén firmes y ligeramente dorados por encima.`,
+    },
   },
+},
 
   {
-    id: "big-french-toast-casserole",
-    slug: "big-french-toast-casserole",
-    name: "French Toast Casserole",
-    photoUrl: "/images/big-french-toast-casserole.jpg",
-    effort: "big",
-    tags: ["breakfast", "brunch", "bake", "sweet", "family-friendly", "make-ahead"],
-    notes: "Perfect make-ahead breakfast for holidays or weekends.",
-    ingredients: `1 loaf sourdough bread
+  id: "big-french-toast-casserole",
+  slug: "big-french-toast-casserole",
+  name: "French Toast Casserole",
+  photoUrl: "/images/big-french-toast-casserole.jpg",
+  effort: "big",
+  tags: ["breakfast", "brunch", "bake", "sweet", "family-friendly", "make-ahead"],
+  notes: "Perfect make-ahead breakfast for holidays or weekends.",
+  ingredients: `1 loaf sourdough bread
 8 large eggs
 2 cups milk
 1/2 cup heavy cream
@@ -3245,7 +6589,7 @@ Bake for 20 minutes or until the muffins are set and lightly browned on top.`,
 1 stick unsalted butter, cut into pieces
 fresh blueberries (optional)
 fresh strawberries (optional)`,
-    instructions: `Preheat oven to 350°F.
+  instructions: `Preheat oven to 350°F.
 
 Cut 1 loaf sourdough bread into cubes and place in a greased 9x13 baking dish.
 
@@ -3260,58 +6604,49 @@ Remove the dish from the fridge and sprinkle the chilled crumble topping evenly 
 Bake uncovered for 50 minutes until the top is golden and the center is set.
 
 Top with fresh blueberries and strawberries if desired before serving.`,
+  translations: {
+    es: {
+      name: "Cazuela de pan francés",
+      notes:
+        "Desayuno perfecto para preparar con anticipación en días festivos o fines de semana.",
+      tags: [
+        "desayuno",
+        "brunch",
+        "horneado",
+        "dulce",
+        "familiar",
+        "preparar con anticipación",
+      ],
+      ingredients: `1 pan de masa madre
+8 huevos grandes
+2 cups de leche
+1/2 cup de crema espesa
+1 Tbsp de extracto de vainilla
+3/4 cup de azúcar
+1/2 cup de harina de todo uso
+1/2 cup de azúcar morena clara
+1 tsp de canela molida
+1/4 tsp de sal
+1 barra de mantequilla sin sal, cortada en trozos
+arándanos frescos, opcional
+fresas frescas, opcional`,
+      instructions: `Precalienta el horno a 350°F.
+
+Corta 1 pan de masa madre en cubos y colócalo en un molde para hornear de 9x13 engrasado.
+
+En un tazón grande, bate 8 huevos grandes, 2 cups de leche, 1/2 cup de crema espesa, 1 Tbsp de extracto de vainilla y 3/4 cup de azúcar. Vierte la mezcla de manera uniforme sobre los cubos de pan.
+
+Cubre y refrigera por al menos 4 horas, o durante toda la noche.
+
+En otro tazón, mezcla 1/2 cup de harina de todo uso, 1/2 cup de azúcar morena clara, 1 tsp de canela molida y 1/4 tsp de sal. Incorpora 1 barra de mantequilla sin sal usando un cortador de masa o un tenedor hasta que la mezcla quede arenosa. Refrigera la cobertura hasta que sea momento de hornear.
+
+Retira el molde del refrigerador y espolvorea la cobertura fría de manera uniforme sobre el pan remojado.
+
+Hornea sin cubrir durante 50 minutos, hasta que la parte superior esté dorada y el centro esté firme.
+
+Cubre con arándanos frescos y fresas si deseas antes de servir.`,
+    },
   },
-
-  {
-  id: "chicken-salad-croissant",
-  slug: "chicken-salad-croissant",
-  name: "Chicken Salad Croissant",
-  ingredients: `Chicken:
-1 lb boneless skinless chicken breasts
-1 Tbsp olive oil
-1/2 tsp salt
-1/4 tsp black pepper
-
-Chicken Salad:
-1/2 cup mayonnaise
-1 Tbsp Dijon mustard
-1 Tbsp lemon juice
-1/2 tsp garlic powder
-1/4 tsp salt (plus more to taste)
-1/4 tsp black pepper
-1/2 cup celery, finely diced
-1/3 cup red grapes, halved (optional)
-1/4 cup sliced almonds or pecans (optional)
-2 Tbsp fresh parsley, chopped
-
-Assembly:
-4 croissants, sliced
-lettuce leaves (optional)
-tomato slices (optional)`,
-  instructions: `Preheat a skillet over medium heat. Add 1 Tbsp olive oil.
-
-Season 1 lb chicken breasts with 1/2 tsp salt and 1/4 tsp black pepper.
-
-Cook chicken for 5 to 6 minutes per side, until a golden-brown crust forms and the internal temperature reaches 165°F.
-
-Remove from heat and let rest for 5 to 10 minutes, then dice or shred into bite-sized pieces.
-
-In a large bowl, whisk together 1/2 cup mayonnaise, 1 Tbsp Dijon mustard, 1 Tbsp lemon juice, 1/2 tsp garlic powder, 1/4 tsp salt, and 1/4 tsp black pepper until smooth.
-
-Add the chopped chicken, 1/2 cup celery, 1/3 cup grapes if using, 1/4 cup nuts if using, and 2 Tbsp parsley. Fold gently until everything is evenly coated.
-
-Taste and adjust seasoning with additional salt, pepper, or lemon juice as needed.
-
-Slice 4 croissants and layer with lettuce if desired.
-
-Spoon chicken salad generously onto each croissant and top with tomato slices if using.
-
-Serve immediately.`,
-  photoUrl: "/images/chicken-salad-croissant.jpg",
-  effort: "normal",
-  tags: ["lunch", "chicken", "sandwich", "quick", "meal-prep", "family", "fresh"],
-  isVegetarian: false,
-  notes: "A creamy, balanced chicken salad served on flaky croissants. Letting the chicken rest before chopping keeps it juicy, and a splash of lemon brightens the entire dish."
 },
 
 {
@@ -3338,11 +6673,41 @@ Serve over ice and garnish with fresh pineapple spears.`,
   effort: "quick",
   tags: ["drink", "beverage", "tea", "summer", "batch", "refreshing", "non-alcoholic"],
   isVegetarian: true,
-  notes: "A refreshing iced tea with a tropical pineapple twist. Letting it chill overnight helps the flavors fully blend and mellow."
+  notes: "A refreshing iced tea with a tropical pineapple twist. Letting it chill overnight helps the flavors fully blend and mellow.",
+  translations: {
+    es: {
+      name: "Té tropical de piña",
+      notes:
+        "Un té helado refrescante con un toque tropical de piña. Dejarlo enfriar toda la noche ayuda a que los sabores se mezclen y se suavicen.",
+      tags: [
+        "bebida",
+        "té",
+        "verano",
+        "para preparar en cantidad",
+        "refrescante",
+        "sin alcohol",
+      ],
+      ingredients: `1 quart de agua caliente
+6 bolsitas de té negro
+1 quart de agua fría
+16 oz de jugo de piña
+1 piña fresca, pelada, sin corazón y cortada en lanzas`,
+      instructions: `Calienta 1 quart de agua hasta justo antes de hervir y viértela en una jarra grande.
+
+Agrega 6 bolsitas de té negro y deja reposar durante 5 minutos.
+
+Retira las bolsitas de té y vierte 1 quart de agua fría.
+
+Agrega 16 oz de jugo de piña y mezcla bien para combinar.
+
+Refrigera durante toda la noche para mejor sabor.
+
+Sirve sobre hielo y decora con lanzas de piña fresca.`,
+    },
+  },
 },
 
-
-  {
+{
   id: "blueberry-lemonade",
   slug: "blueberry-lemonade",
   name: "Blueberry Lemonade",
@@ -3368,7 +6733,39 @@ Serve over ice.`,
   effort: "quick",
   tags: ["drink", "beverage", "summer", "refreshing", "batch", "non-alcoholic"],
   isVegetarian: true,
-  notes: "Bright and refreshing homemade lemonade with a natural blueberry twist. Straining the puree gives it a smooth texture while keeping all the fresh flavor."
+  notes: "Bright and refreshing homemade lemonade with a natural blueberry twist. Straining the puree gives it a smooth texture while keeping all the fresh flavor.",
+  translations: {
+    es: {
+      name: "Limonada de arándanos",
+      notes:
+        "Limonada casera brillante y refrescante con un toque natural de arándanos. Colar el puré le da una textura suave mientras conserva todo el sabor fresco.",
+      tags: [
+        "bebida",
+        "verano",
+        "refrescante",
+        "para preparar en cantidad",
+        "sin alcohol",
+      ],
+      ingredients: `2 1/8 cups de arándanos frescos, divididos
+3/4 cup de azúcar granulada
+2/3 cup de jugo de limón recién exprimido
+4 cups de agua fría, dividida
+1 limón, rebanado`,
+      instructions: `Agrega 2 cups de arándanos, 3/4 cup de azúcar y 1 cup de agua a una licuadora. Licúa a velocidad media-alta durante aproximadamente 1 minuto, hasta que quede completamente suave.
+
+Cuela el puré de arándanos a través de un colador de malla fina hacia una jarra para retirar las pieles.
+
+Agrega 2/3 cup de jugo de limón recién exprimido y las 3 cups restantes de agua fría a la jarra. Mezcla bien para combinar.
+
+Prueba y agrega más agua si deseas un sabor más ligero.
+
+Refrigera hasta que esté bien fría.
+
+Antes de servir, agrega limón rebanado y el 1/8 cup restante de arándanos como decoración.
+
+Sirve sobre hielo.`,
+    },
+  },
 },
 
 {
@@ -3398,7 +6795,40 @@ Garnish with a fresh mint sprig and serve immediately.`,
   effort: "quick",
   tags: ["drink", "beverage", "mocktail", "refreshing", "summer", "non-alcoholic"],
   isVegetarian: true,
-  notes: "A refreshing non-alcoholic mojito-style drink with bright lime and fresh mint. Gently muddling the mint keeps the flavor clean without bitterness."
+  notes: "A refreshing non-alcoholic mojito-style drink with bright lime and fresh mint. Gently muddling the mint keeps the flavor clean without bitterness.",
+  translations: {
+    es: {
+      name: "Nojito de menta y lima",
+      notes:
+        "Una bebida refrescante sin alcohol estilo mojito, con lima brillante y menta fresca. Machacar suavemente la menta mantiene el sabor limpio sin amargor.",
+      tags: [
+        "bebida",
+        "mocktail",
+        "refrescante",
+        "verano",
+        "sin alcohol",
+      ],
+      ingredients: `hielo triturado
+8 hojas de menta
+3 oz de jugo de lima
+1 1/2 oz de jarabe simple
+2 oz de agua mineral con gas
+ramita de menta para decorar`,
+      instructions: `Llena un vaso tipo pint aproximadamente 1/3 con hielo triturado.
+
+Agrega 8 hojas de menta al vaso.
+
+Vierte 3 oz de jugo de lima y 1 1/2 oz de jarabe simple.
+
+Machaca suavemente las hojas de menta en el líquido usando un muddler o una cuchara de madera, presionando ligeramente para liberar el sabor sin romper demasiado las hojas.
+
+Llena el vaso con más hielo triturado.
+
+Cubre con 2 oz de agua mineral con gas.
+
+Decora con una ramita de menta fresca y sirve de inmediato.`,
+    },
+  },
 },
 
 
@@ -3410,14 +6840,14 @@ Garnish with a fresh mint sprig and serve immediately.`,
 
 export const NEW_VEGETARIAN_RECIPES: Meal[] = [
   {
-    id: "quick-vegetable-stir-fry",
-    slug: "quick-vegetable-stir-fry",
-    name: "Vegetable Stir Fry",
-    effort: "quick",
-    photoUrl: "/images/quick-vegetable-stir-fry.jpg",
-    tags: ["vegetarian", "dinner", "quick", "healthy", "skillet", "one-pan", "asian"],
-    notes: "A flexible, colorful dinner that is easy to adjust with whatever vegetables you have on hand.",
-    ingredients: `2 Tbsp olive oil
+  id: "quick-vegetable-stir-fry",
+  slug: "quick-vegetable-stir-fry",
+  name: "Vegetable Stir Fry",
+  effort: "quick",
+  photoUrl: "/images/quick-vegetable-stir-fry.jpg",
+  tags: ["vegetarian", "dinner", "quick", "healthy", "skillet", "one-pan", "asian"],
+  notes: "A flexible, colorful dinner that is easy to adjust with whatever vegetables you have on hand.",
+  ingredients: `2 Tbsp olive oil
 1 red bell pepper, sliced
 1 yellow bell pepper, sliced
 8 oz baby bella mushrooms, sliced
@@ -3438,25 +6868,69 @@ STIR FRY SAUCE
 1 Tbsp cornstarch
 1/2 tsp red pepper flakes, optional
 salt and pepper, to taste`,
-    instructions: `In a medium bowl, whisk together the STIR FRY SAUCE: 1/2 cup water, 1/3 cup low-sodium soy sauce, 1 Tbsp honey or brown sugar, 1 Tbsp rice vinegar, 2 tsp toasted sesame oil, 2 grated garlic cloves, 2 tsp grated fresh ginger, 1 Tbsp cornstarch, and 1/2 tsp red pepper flakes if using. Set aside.
+  instructions: `In a medium bowl, whisk together the STIR FRY SAUCE: 1/2 cup water, 1/3 cup low-sodium soy sauce, 1 Tbsp honey or brown sugar, 1 Tbsp rice vinegar, 2 tsp toasted sesame oil, 2 grated garlic cloves, 2 tsp grated fresh ginger, 1 Tbsp cornstarch, and 1/2 tsp red pepper flakes if using. Set aside.
 
 Heat 2 Tbsp olive oil in a large skillet or wok over high heat. Add the sliced red and yellow bell peppers, 8 oz sliced baby bella mushrooms, 3 cups small broccoli florets, 1 cup sugar snap peas, 1 cup thinly sliced carrots, and most of the 3 thinly sliced green onions. Toss and cook, stirring occasionally, for 3 to 4 minutes, or until vegetables soften slightly.
 
 Reduce heat to medium and pour in the whisked sauce. Stir and cook for 1 to 2 minutes, or until the sauce thickens and vegetables are crisp-tender. Season with salt and pepper to taste.
 
 Top with the remaining green onions and sesame seeds and serve immediately.`,
-  },
+  translations: {
+    es: {
+      name: "Salteado de verduras",
+      notes:
+        "Una cena flexible, colorida y fácil de ajustar con las verduras que tengas a mano.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "rápido",
+        "saludable",
+        "sartén",
+        "una sartén",
+        "asiático",
+      ],
+      ingredients: `2 Tbsp de aceite de oliva
+1 pimiento rojo, rebanado
+1 pimiento amarillo, rebanado
+8 oz de champiñones baby bella, rebanados
+3 cups de floretes pequeños de brócoli
+1 cup de chícharos sugar snap
+1 cup de zanahorias, rebanadas finamente
+3 cebollines, rebanados finamente
+semillas de sésamo, para decorar
 
-  {
-    id: "normal-vegan-jambalaya",
-    slug: "normal-vegan-jambalaya",
-    name: "Vegan Jambalaya",
-    effort: "normal",
-    photoUrl: "/images/normal-vegan-jambalaya.jpg",
-    tags: ["vegetarian", "vegan", "dinner", "one-pot", "healthy", "spicy", "leftovers-friendly"],
-    isVegetarian: true,
-    notes: "Hearty, plant-based jambalaya with bold spices and a rich tomato base. Letting it rest before serving helps the rice finish absorbing flavor and improves texture.",
-    ingredients: `2 Tbsp olive oil
+SALSA PARA SALTEADO
+1/2 cup de agua
+1/3 cup de salsa de soya baja en sodio
+1 Tbsp de miel o azúcar morena
+1 Tbsp de vinagre de arroz
+2 tsp de aceite de sésamo tostado
+2 dientes de ajo, rallados
+2 tsp de jengibre fresco rallado
+1 Tbsp de maicena
+1/2 tsp de hojuelas de chile rojo, opcional
+sal y pimienta, al gusto`,
+      instructions: `En un tazón mediano, bate la SALSA PARA SALTEADO: 1/2 cup de agua, 1/3 cup de salsa de soya baja en sodio, 1 Tbsp de miel o azúcar morena, 1 Tbsp de vinagre de arroz, 2 tsp de aceite de sésamo tostado, 2 dientes de ajo rallados, 2 tsp de jengibre fresco rallado, 1 Tbsp de maicena y 1/2 tsp de hojuelas de chile rojo si las usas. Reserva.
+
+Calienta 2 Tbsp de aceite de oliva en un sartén grande o wok a fuego alto. Agrega los pimientos rojo y amarillo rebanados, 8 oz de champiñones baby bella rebanados, 3 cups de floretes pequeños de brócoli, 1 cup de chícharos sugar snap, 1 cup de zanahorias rebanadas finamente y la mayor parte de los 3 cebollines rebanados. Mezcla y cocina, revolviendo de vez en cuando, de 3 a 4 minutos, o hasta que las verduras se ablanden ligeramente.
+
+Reduce el fuego a medio y vierte la salsa batida. Revuelve y cocina de 1 a 2 minutos, o hasta que la salsa espese y las verduras estén tiernas pero crujientes. Sazona con sal y pimienta al gusto.
+
+Cubre con los cebollines restantes y semillas de sésamo, y sirve de inmediato.`,
+    },
+  },
+},
+
+{
+  id: "normal-vegan-jambalaya",
+  slug: "normal-vegan-jambalaya",
+  name: "Vegan Jambalaya",
+  effort: "normal",
+  photoUrl: "/images/normal-vegan-jambalaya.jpg",
+  tags: ["vegetarian", "vegan", "dinner", "one-pot", "healthy", "spicy", "leftovers-friendly"],
+  isVegetarian: true,
+  notes: "Hearty, plant-based jambalaya with bold spices and a rich tomato base. Letting it rest before serving helps the rice finish absorbing flavor and improves texture.",
+  ingredients: `2 Tbsp olive oil
 1/2 large yellow onion, chopped
 2 cloves garlic, minced
 1/2 red bell pepper, chopped
@@ -3482,7 +6956,7 @@ Top with the remaining green onions and sesame seeds and serve immediately.`,
 
 Optional garnish:
 fresh parsley, chopped`,
-    instructions: `Heat 2 Tbsp olive oil in a large pot or Dutch oven over medium heat. Add 1/2 chopped large yellow onion, 1/2 chopped red bell pepper, 1/2 chopped green bell pepper, and 1 chopped carrot. Cook for 5 to 6 minutes until softened.
+  instructions: `Heat 2 Tbsp olive oil in a large pot or Dutch oven over medium heat. Add 1/2 chopped large yellow onion, 1/2 chopped red bell pepper, 1/2 chopped green bell pepper, and 1 chopped carrot. Cook for 5 to 6 minutes until softened.
 
 Add 2 minced cloves garlic and cook for 30 seconds until fragrant.
 
@@ -3501,18 +6975,79 @@ Stir in 1 can drained and rinsed chickpeas and 1 can drained and rinsed kidney b
 Remove from heat and stir in 1 Tbsp lemon juice if using. Let sit for 5 minutes before serving.
 
 Garnish with fresh chopped parsley if desired and serve warm.`,
-  },
+  translations: {
+    es: {
+      name: "Jambalaya vegana",
+      notes:
+        "Jambalaya sustanciosa a base de plantas, con especias intensas y una base rica de tomate. Dejarla reposar antes de servir ayuda a que el arroz termine de absorber sabor y mejora la textura.",
+      tags: [
+        "vegetariano",
+        "vegano",
+        "cena",
+        "una olla",
+        "saludable",
+        "picante",
+        "bueno para sobras",
+      ],
+      ingredients: `2 Tbsp de aceite de oliva
+1/2 cebolla amarilla grande, picada
+2 dientes de ajo, picados
+1/2 pimiento rojo, picado
+1/2 pimiento verde, picado
+1 zanahoria, pelada y picada
+1 lata (14 oz) de tomates triturados
+2 Tbsp de salsa de soya o tamari
+1 tsp de paprika ahumada o paprika regular
+1 tsp de comino molido
+1 tsp de orégano seco
+1 tsp de tomillo seco
+1 tsp de ajo en polvo
+1 tsp de cebolla en polvo
+1/2 tsp de sal
+1/4 tsp de pimienta
+1/8 tsp de pimienta de cayena, opcional
+1 cup de arroz blanco sin cocinar
+3 cups de caldo de verduras
+1 lata (15 oz) de garbanzos, escurridos y enjuagados
+1 lata (15 oz) de frijoles rojos, escurridos y enjuagados
+1 Tbsp de pasta de tomate, opcional para más sabor
+1 Tbsp de jugo de limón, opcional para frescura
 
-  {
-    id: "quick-black-bean-quesadillas",
-    slug: "quick-black-bean-quesadillas",
-    name: "Black Bean Quesadillas",
-    effort: "quick",
-    photoUrl: "/images/quick-black-bean-quesadillas.jpg",
-    tags: ["vegetarian", "dinner", "quick", "mexican", "kid-friendly", "skillet", "one-pan", "leftovers-friendly"],
-    isVegetarian: true,
-    notes: "Quick and satisfying quesadillas with creamy black beans and melted cheese. Mashing some of the beans helps everything hold together and creates a better texture.",
-    ingredients: `4 small flour tortillas
+Decoración opcional:
+perejil fresco, picado`,
+      instructions: `Calienta 2 Tbsp de aceite de oliva en una olla grande o Dutch oven a fuego medio. Agrega 1/2 cebolla amarilla grande picada, 1/2 pimiento rojo picado, 1/2 pimiento verde picado y 1 zanahoria picada. Cocina de 5 a 6 minutos, hasta que se ablanden.
+
+Agrega 2 dientes de ajo picados y cocina 30 segundos, hasta que suelte aroma.
+
+Incorpora 1 Tbsp de pasta de tomate si la usas y cocina 1 minuto para intensificar el sabor.
+
+Agrega 1 lata de tomates triturados y cocina de 4 a 5 minutos, revolviendo de vez en cuando, hasta que espese un poco.
+
+Incorpora 2 Tbsp de salsa de soya, 1 tsp de paprika ahumada, 1 tsp de comino molido, 1 tsp de orégano seco, 1 tsp de tomillo seco, 1 tsp de ajo en polvo, 1 tsp de cebolla en polvo, 1/2 tsp de sal, 1/4 tsp de pimienta y 1/8 tsp de cayena si la usas. Cocina 1 minuto para activar las especias.
+
+Agrega 1 cup de arroz blanco sin cocinar y 3 cups de caldo de verduras. Mezcla bien y lleva a hervor.
+
+Reduce el fuego a bajo, tapa y cocina de 15 a 18 minutos, revolviendo una o dos veces, hasta que el arroz esté tierno y la mayor parte del líquido se haya absorbido.
+
+Incorpora 1 lata de garbanzos escurridos y enjuagados, y 1 lata de frijoles rojos escurridos y enjuagados. Cocina de 2 a 3 minutos, hasta que estén calientes.
+
+Retira del fuego e incorpora 1 Tbsp de jugo de limón si lo usas. Deja reposar 5 minutos antes de servir.
+
+Decora con perejil fresco picado si deseas y sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-black-bean-quesadillas",
+  slug: "quick-black-bean-quesadillas",
+  name: "Black Bean Quesadillas",
+  effort: "quick",
+  photoUrl: "/images/quick-black-bean-quesadillas.jpg",
+  tags: ["vegetarian", "dinner", "quick", "mexican", "kid-friendly", "skillet", "one-pan", "leftovers-friendly"],
+  isVegetarian: true,
+  notes: "Quick and satisfying quesadillas with creamy black beans and melted cheese. Mashing some of the beans helps everything hold together and creates a better texture.",
+  ingredients: `4 small flour tortillas
 1 cup cheddar cheese, shredded
 1 (15 oz) can black beans, drained and rinsed
 1/2 cup salsa (plus extra for serving)
@@ -3521,7 +7056,7 @@ Garnish with fresh chopped parsley if desired and serve warm.`,
 1/2 tsp garlic powder
 1/4 tsp salt
 1/4 tsp pepper`,
-    instructions: `Heat a large skillet over medium heat.
+  instructions: `Heat a large skillet over medium heat.
 
 In a small bowl, lightly mash about half of 1 can of drained and rinsed black beans with a fork to help them hold together. Stir in 1/2 tsp cumin if using, 1/2 tsp garlic powder, 1/4 tsp salt, and 1/4 tsp pepper.
 
@@ -3536,18 +7071,59 @@ Flip and cook another 2 to 3 minutes, until the cheese is fully melted and the t
 Repeat with the remaining tortillas, adding 1 Tbsp olive oil or butter to the pan as needed.
 
 Slice and serve warm with extra salsa.`,
-  },
+  translations: {
+    es: {
+      name: "Quesadillas de frijoles negros",
+      notes:
+        "Quesadillas rápidas y satisfactorias con frijoles negros cremosos y queso derretido. Machacar parte de los frijoles ayuda a que todo se mantenga unido y mejora la textura.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "rápido",
+        "mexicano",
+        "para niños",
+        "sartén",
+        "una sartén",
+        "bueno para sobras",
+      ],
+      ingredients: `4 tortillas de harina pequeñas
+1 cup de queso cheddar rallado
+1 lata (15 oz) de frijoles negros, escurridos y enjuagados
+1/2 cup de salsa, más extra para servir
+1 Tbsp de aceite de oliva o mantequilla
+1/2 tsp de comino, opcional para más sabor
+1/2 tsp de ajo en polvo
+1/4 tsp de sal
+1/4 tsp de pimienta`,
+      instructions: `Calienta un sartén grande a fuego medio.
 
-  {
-    id: "quick-pesto-naan-pizzas",
-    slug: "quick-pesto-naan-pizzas",
-    name: "Pesto Naan Pizzas",
-    effort: "quick",
-    photoUrl: "/images/quick-pesto-naan-pizzas.jpg",
-    tags: ["vegetarian", "dinner", "quick", "pizza", "kid-friendly", "one-pan", "leftovers-friendly"],
-    isVegetarian: true,
-    notes: "Quick and flavorful naan pizzas with bright pesto and melty cheese. Brushing the edges with olive oil helps create a crisp, golden crust.",
-    ingredients: `2 naan breads
+En un tazón pequeño, machaca ligeramente aproximadamente la mitad de 1 lata de frijoles negros escurridos y enjuagados con un tenedor para ayudar a que se mantengan unidos. Incorpora 1/2 tsp de comino si lo usas, 1/2 tsp de ajo en polvo, 1/4 tsp de sal y 1/4 tsp de pimienta.
+
+Coloca una de las 4 tortillas de harina pequeñas en el sartén y espolvorea una capa de queso cheddar rallado sobre la mitad.
+
+Agrega una capa de frijoles negros sazonados, luego una cucharada de salsa y un poco más de queso.
+
+Dobla la tortilla y cocina de 2 a 3 minutos, hasta que la parte inferior esté dorada y crujiente.
+
+Voltea y cocina otros 2 a 3 minutos, hasta que el queso esté completamente derretido y la tortilla esté crujiente.
+
+Repite con las tortillas restantes, agregando 1 Tbsp de aceite de oliva o mantequilla al sartén según sea necesario.
+
+Corta y sirve caliente con más salsa.`,
+    },
+  },
+},
+
+{
+  id: "quick-pesto-naan-pizzas",
+  slug: "quick-pesto-naan-pizzas",
+  name: "Pesto Naan Pizzas",
+  effort: "quick",
+  photoUrl: "/images/quick-pesto-naan-pizzas.jpg",
+  tags: ["vegetarian", "dinner", "quick", "pizza", "kid-friendly", "one-pan", "leftovers-friendly"],
+  isVegetarian: true,
+  notes: "Quick and flavorful naan pizzas with bright pesto and melty cheese. Brushing the edges with olive oil helps create a crisp, golden crust.",
+  ingredients: `2 naan breads
 1/4 cup basil pesto
 1 cup mozzarella cheese, shredded
 1/2 cup cherry tomatoes, halved
@@ -3555,7 +7131,7 @@ Slice and serve warm with extra salsa.`,
 1/4 cup Parmesan cheese, grated (optional)
 1/2 tsp garlic powder
 1 Tbsp fresh basil, chopped (optional)`,
-    instructions: `Preheat oven to 400°F. Place 2 naan breads on a baking sheet.
+  instructions: `Preheat oven to 400°F. Place 2 naan breads on a baking sheet.
 
 Lightly brush the edges of the naan with 1 Tbsp olive oil for a crispier crust.
 
@@ -3570,18 +7146,57 @@ Bake for 8 to 10 minutes, until the cheese is melted, bubbly, and the edges are 
 For extra browning, broil on high for 1 to 2 minutes, watching closely.
 
 Remove from oven and top with 1 Tbsp fresh chopped basil if desired. Slice and serve immediately.`,
-  },
+  translations: {
+    es: {
+      name: "Pizzas de naan con pesto",
+      notes:
+        "Pizzas rápidas de naan con pesto fresco y queso derretido. Barnizar los bordes con aceite de oliva ayuda a crear una corteza dorada y crujiente.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "rápido",
+        "pizza",
+        "para niños",
+        "una bandeja",
+        "bueno para sobras",
+      ],
+      ingredients: `2 panes naan
+1/4 cup de pesto de albahaca
+1 cup de queso mozzarella rallado
+1/2 cup de tomates cherry, cortados por la mitad
+1 Tbsp de aceite de oliva
+1/4 cup de queso parmesano rallado, opcional
+1/2 tsp de ajo en polvo
+1 Tbsp de albahaca fresca, picada, opcional`,
+      instructions: `Precalienta el horno a 400°F. Coloca 2 panes naan en una bandeja para hornear.
 
-  {
-    id: "quick-jamaican-jerk-tofu",
-    slug: "quick-jamaican-jerk-tofu",
-    name: "Jamaican Jerk Tofu",
-    effort: "quick",
-    photoUrl: "/images/quick-jamaican-jerk-tofu.jpg",
-    tags: ["vegetarian", "vegan", "dinner", "quick", "spicy", "skillet", "healthy", "one-pan", "leftovers-friendly"],
-    isVegetarian: true,
-    notes: "Bold, spicy jerk tofu with crisp edges and tender vegetables. Pressing the tofu and letting it sear undisturbed are key to getting a great texture.",
-    ingredients: `1 (14 oz) block extra-firm tofu, pressed
+Barniza ligeramente los bordes del naan con 1 Tbsp de aceite de oliva para una corteza más crujiente.
+
+Extiende 1/4 cup de pesto de albahaca de manera uniforme sobre cada naan, dejando un borde pequeño alrededor.
+
+Espolvorea 1 cup de mozzarella rallada de manera uniforme encima, seguido de 1/2 cup de tomates cherry partidos por la mitad y 1/4 cup de parmesano rallado si lo usas.
+
+Espolvorea ligeramente con 1/2 tsp de ajo en polvo.
+
+Hornea de 8 a 10 minutos, hasta que el queso esté derretido, burbujeante y los bordes estén ligeramente crujientes.
+
+Para dorar más, gratina en alto de 1 a 2 minutos, vigilando de cerca.
+
+Retira del horno y cubre con 1 Tbsp de albahaca fresca picada si deseas. Corta y sirve de inmediato.`,
+    },
+  },
+},
+
+{
+  id: "quick-jamaican-jerk-tofu",
+  slug: "quick-jamaican-jerk-tofu",
+  name: "Jamaican Jerk Tofu",
+  effort: "quick",
+  photoUrl: "/images/quick-jamaican-jerk-tofu.jpg",
+  tags: ["vegetarian", "vegan", "dinner", "quick", "spicy", "skillet", "healthy", "one-pan", "leftovers-friendly"],
+  isVegetarian: true,
+  notes: "Bold, spicy jerk tofu with crisp edges and tender vegetables. Pressing the tofu and letting it sear undisturbed are key to getting a great texture.",
+  ingredients: `1 (14 oz) block extra-firm tofu, pressed
 2 Tbsp Jamaican jerk seasoning
 1 Tbsp olive oil
 1 Tbsp soy sauce (or tamari)
@@ -3590,7 +7205,7 @@ Remove from oven and top with 1 Tbsp fresh chopped basil if desired. Slice and s
 1/2 small red onion, sliced
 1 Tbsp lime juice (optional, for brightness)
 1 Tbsp cornstarch (optional, for extra crispiness)`,
-    instructions: `Press 1 block extra-firm tofu for at least 10 to 15 minutes to remove excess moisture, then cut into bite-sized cubes.
+  instructions: `Press 1 block extra-firm tofu for at least 10 to 15 minutes to remove excess moisture, then cut into bite-sized cubes.
 
 In a bowl, toss the tofu with 2 Tbsp Jamaican jerk seasoning, 1 Tbsp soy sauce or tamari, and 1 tsp brown sugar if using. For extra crispiness, lightly coat with 1 Tbsp cornstarch.
 
@@ -3605,18 +7220,60 @@ Add 1 cup sliced bell peppers and 1/2 sliced small red onion to the skillet. Coo
 Drizzle with 1 Tbsp lime juice if using and toss everything together.
 
 Serve hot.`,
+  translations: {
+    es: {
+      name: "Tofu jerk jamaicano",
+      notes:
+        "Tofu jerk intenso y picante, con bordes crujientes y verduras tiernas. Prensar el tofu y dejarlo sellar sin moverlo es clave para lograr buena textura.",
+      tags: [
+        "vegetariano",
+        "vegano",
+        "cena",
+        "rápido",
+        "picante",
+        "sartén",
+        "saludable",
+        "una sartén",
+        "bueno para sobras",
+      ],
+      ingredients: `1 bloque (14 oz) de tofu extra firme, prensado
+2 Tbsp de sazonador jerk jamaicano
+1 Tbsp de aceite de oliva
+1 Tbsp de salsa de soya o tamari
+1 tsp de azúcar morena, opcional para balancear el picante
+1 cup de pimientos, rebanados
+1/2 cebolla roja pequeña, rebanada
+1 Tbsp de jugo de lima, opcional para frescura
+1 Tbsp de maicena, opcional para más crujiente`,
+      instructions: `Prensa 1 bloque de tofu extra firme durante al menos 10 a 15 minutos para retirar el exceso de humedad, luego córtalo en cubos pequeños.
+
+En un tazón, mezcla el tofu con 2 Tbsp de sazonador jerk jamaicano, 1 Tbsp de salsa de soya o tamari y 1 tsp de azúcar morena si la usas. Para más crujiente, cubre ligeramente con 1 Tbsp de maicena.
+
+Calienta 1 Tbsp de aceite de oliva en un sartén grande a fuego medio-alto.
+
+Agrega el tofu en una sola capa y cocina de 4 a 5 minutos sin moverlo, hasta que esté dorado y crujiente por un lado.
+
+Voltea y cocina otros 3 a 4 minutos, hasta que esté crujiente por varios lados.
+
+Agrega 1 cup de pimientos rebanados y 1/2 cebolla roja pequeña rebanada al sartén. Cocina de 4 a 5 minutos, revolviendo de vez en cuando, hasta que estén tiernos pero aún ligeramente crujientes.
+
+Rocía con 1 Tbsp de jugo de lima si lo usas y mezcla todo.
+
+Sirve caliente.`,
+    },
   },
+},
 
   {
-    id: "big-vegetarian-shepherds-pie",
-    slug: "big-vegetarian-shepherds-pie",
-    name: "Vegetarian Shepherd’s Pie",
-    effort: "big",
-    photoUrl: "/images/big-vegetarian-shepherds-pie.jpg",
-    tags: ["vegetarian", "dinner", "bake", "comfort", "casserole", "family-friendly", "leftovers-friendly"],
-    isVegetarian: true,
-    notes: "Hearty vegetarian shepherd’s pie with a rich lentil filling and creamy mashed potato topping. Letting it rest before serving helps the layers hold together and improves texture.",
-    ingredients: `1 1/2 cups cooked lentils
+  id: "big-vegetarian-shepherds-pie",
+  slug: "big-vegetarian-shepherds-pie",
+  name: "Vegetarian Shepherd’s Pie",
+  effort: "big",
+  photoUrl: "/images/big-vegetarian-shepherds-pie.jpg",
+  tags: ["vegetarian", "dinner", "bake", "comfort", "casserole", "family-friendly", "leftovers-friendly"],
+  isVegetarian: true,
+  notes: "Hearty vegetarian shepherd’s pie with a rich lentil filling and creamy mashed potato topping. Letting it rest before serving helps the layers hold together and improves texture.",
+  ingredients: `1 1/2 cups cooked lentils
 4 large potatoes, peeled and chopped
 2 cups mixed vegetables (carrots, peas, corn)
 1 cup vegetable broth
@@ -3630,7 +7287,7 @@ Serve hot.`,
 1/2 tsp salt (plus more to taste)
 1/2 tsp pepper
 1/2 cup shredded cheddar cheese (optional, for topping)`,
-    instructions: `Preheat oven to 400°F. Lightly grease a baking dish.
+  instructions: `Preheat oven to 400°F. Lightly grease a baking dish.
 
 Bring a large pot of salted water to a boil. Add 4 large peeled and chopped potatoes and cook for 12 to 15 minutes until fork-tender. Drain and mash with 2 Tbsp butter and 1/4 cup milk until smooth. Season with salt and 1/2 tsp pepper and set aside.
 
@@ -3655,18 +7312,73 @@ Bake for 20 to 25 minutes, until heated through and the top is lightly golden.
 For extra browning, broil on high for 2 to 3 minutes at the end, watching closely.
 
 Let rest for 5 to 10 minutes before serving.`,
-  },
+  translations: {
+    es: {
+      name: "Pastel vegetariano con puré",
+      notes:
+        "Un pastel vegetariano sustancioso con relleno rico de lentejas y una cubierta cremosa de puré de papas. Dejarlo reposar antes de servir ayuda a que las capas se mantengan juntas y mejora la textura.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "horneado",
+        "comida reconfortante",
+        "cazuela",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `1 1/2 cups de lentejas cocidas
+4 papas grandes, peladas y picadas
+2 cups de verduras mixtas (zanahorias, chícharos, maíz)
+1 cup de caldo de verduras
+1/4 cup de leche
+2 Tbsp de mantequilla
+1 Tbsp de aceite de oliva
+1 cebolla amarilla pequeña, picada en cubitos
+2 dientes de ajo, picados
+1 Tbsp de pasta de tomate, opcional para más profundidad
+1 tsp de tomillo seco, opcional
+1/2 tsp de sal, más al gusto
+1/2 tsp de pimienta
+1/2 cup de queso cheddar rallado, opcional para cubrir`,
+      instructions: `Precalienta el horno a 400°F. Engrasa ligeramente un molde para hornear.
 
-  {
-    id: "quick-creamy-tortellini",
-    slug: "quick-creamy-tortellini",
-    name: "Creamy Spinach Tortellini",
-    effort: "quick",
-    photoUrl: "/images/quick-creamy-tortellini.jpg",
-    tags: ["vegetarian", "dinner", "pasta", "quick", "comfort", "one-pan", "leftovers-friendly"],
-    isVegetarian: true,
-    notes: "Creamy, comforting tortellini with a smooth Parmesan sauce. Adding pasta water helps create a silky texture that clings perfectly to the pasta.",
-    ingredients: `1 (20 oz) package cheese tortellini
+Hierve una olla grande con agua salada. Agrega 4 papas grandes peladas y picadas, y cocina de 12 a 15 minutos hasta que estén tiernas al pincharlas con un tenedor. Escurre y machaca con 2 Tbsp de mantequilla y 1/4 cup de leche hasta que quede suave. Sazona con sal y 1/2 tsp de pimienta, y reserva.
+
+Calienta 1 Tbsp de aceite de oliva en un sartén grande a fuego medio. Agrega 1 cebolla amarilla pequeña picada y cocina de 4 a 5 minutos, hasta que se ablande.
+
+Agrega 2 dientes de ajo picados y cocina 30 segundos, hasta que suelte aroma.
+
+Incorpora 2 cups de verduras mixtas y cocina de 5 a 7 minutos, hasta que estén tiernas.
+
+Agrega 1 1/2 cups de lentejas cocidas, 1 cup de caldo de verduras, 1 Tbsp de pasta de tomate y 1 tsp de tomillo seco si lo usas. Mezcla bien y cocina a fuego bajo de 5 a 7 minutos, hasta que la mezcla espese un poco.
+
+Sazona al gusto con más sal y pimienta.
+
+Pasa la mezcla de lentejas al molde preparado y extiéndela de manera uniforme.
+
+Cubre con el puré de papas, extendiéndolo hasta los bordes. Usa un tenedor para crear textura encima y lograr mejor dorado.
+
+Espolvorea con 1/2 cup de queso cheddar rallado si lo usas.
+
+Hornea de 20 a 25 minutos, hasta que esté caliente y la parte superior esté ligeramente dorada.
+
+Para más dorado, gratina en alto de 2 a 3 minutos al final, vigilando de cerca.
+
+Deja reposar de 5 a 10 minutos antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "quick-creamy-tortellini",
+  slug: "quick-creamy-tortellini",
+  name: "Creamy Spinach Tortellini",
+  effort: "quick",
+  photoUrl: "/images/quick-creamy-tortellini.jpg",
+  tags: ["vegetarian", "dinner", "pasta", "quick", "comfort", "one-pan", "leftovers-friendly"],
+  isVegetarian: true,
+  notes: "Creamy, comforting tortellini with a smooth Parmesan sauce. Adding pasta water helps create a silky texture that clings perfectly to the pasta.",
+  ingredients: `1 (20 oz) package cheese tortellini
 1 Tbsp olive oil or butter
 2 cloves garlic, minced
 1 cup heavy cream
@@ -3677,7 +7389,7 @@ Let rest for 5 to 10 minutes before serving.`,
 1/4 tsp pepper
 1/4 tsp red pepper flakes (optional)
 1 Tbsp lemon juice (optional, for brightness)`,
-    instructions: `Bring a large pot of salted water to a boil. Cook 1 package cheese tortellini according to package directions. Reserve 1/2 cup pasta water, then drain.
+  instructions: `Bring a large pot of salted water to a boil. Cook 1 package cheese tortellini according to package directions. Reserve 1/2 cup pasta water, then drain.
 
 Heat 1 Tbsp olive oil or butter in a large skillet over medium heat. Add 2 minced cloves garlic and cook for 30 seconds until fragrant.
 
@@ -3692,18 +7404,60 @@ Add the cooked tortellini to the skillet and toss to coat. Add a splash of the r
 Season with 1/2 tsp salt, 1/4 tsp pepper, and 1/4 tsp red pepper flakes if using.
 
 Remove from heat and stir in 1 Tbsp lemon juice if desired. Serve immediately.`,
-  },
+  translations: {
+    es: {
+      name: "Tortellini cremoso con espinaca",
+      notes:
+        "Tortellini cremoso y reconfortante con una salsa suave de parmesano. Agregar agua de la pasta ayuda a crear una textura sedosa que se adhiere perfectamente a la pasta.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "pasta",
+        "rápido",
+        "comida reconfortante",
+        "una sartén",
+        "bueno para sobras",
+      ],
+      ingredients: `1 paquete (20 oz) de tortellini de queso
+1 Tbsp de aceite de oliva o mantequilla
+2 dientes de ajo, picados
+1 cup de crema espesa
+1/2 cup de queso parmesano recién rallado
+2 cups de espinaca fresca
+1/2 cup de agua reservada de la pasta
+1/2 tsp de sal, más al gusto
+1/4 tsp de pimienta
+1/4 tsp de hojuelas de chile rojo, opcional
+1 Tbsp de jugo de limón, opcional para frescura`,
+      instructions: `Hierve una olla grande con agua salada. Cocina 1 paquete de tortellini de queso según las instrucciones del paquete. Reserva 1/2 cup de agua de la pasta y luego escurre.
 
-  {
-    id: "big-spinach-ricotta-stuffed-shells",
-    slug: "big-spinach-ricotta-stuffed-shells",
-    name: "Spinach and Ricotta Stuffed Shells",
-    effort: "big",
-    photoUrl: "/images/big-spinach-ricotta-stuffed-shells.jpg",
-    tags: ["vegetarian", "dinner", "pasta", "bake", "comfort", "italian", "family-friendly", "leftovers-friendly"],
-    isVegetarian: true,
-    notes: "Classic stuffed shells with a creamy ricotta and spinach filling. Adding an egg helps bind the filling, and baking covered first keeps everything moist before finishing uncovered for a golden top.",
-    ingredients: `1 box jumbo pasta shells
+Calienta 1 Tbsp de aceite de oliva o mantequilla en un sartén grande a fuego medio. Agrega 2 dientes de ajo picados y cocina 30 segundos, hasta que suelte aroma.
+
+Vierte 1 cup de crema espesa y lleva a un hervor suave. Cocina de 3 a 4 minutos, revolviendo de vez en cuando, hasta que espese un poco.
+
+Incorpora gradualmente 1/2 cup de queso parmesano recién rallado, batiendo hasta que quede suave.
+
+Agrega 2 cups de espinaca fresca y cocina de 1 a 2 minutos, hasta que se marchite.
+
+Agrega el tortellini cocido al sartén y mezcla para cubrirlo. Agrega un chorrito del agua reservada de la pasta según sea necesario para aflojar la salsa y hacerla sedosa.
+
+Sazona con 1/2 tsp de sal, 1/4 tsp de pimienta y 1/4 tsp de hojuelas de chile rojo si las usas.
+
+Retira del fuego e incorpora 1 Tbsp de jugo de limón si deseas. Sirve de inmediato.`,
+    },
+  },
+},
+
+{
+  id: "big-spinach-ricotta-stuffed-shells",
+  slug: "big-spinach-ricotta-stuffed-shells",
+  name: "Spinach and Ricotta Stuffed Shells",
+  effort: "big",
+  photoUrl: "/images/big-spinach-ricotta-stuffed-shells.jpg",
+  tags: ["vegetarian", "dinner", "pasta", "bake", "comfort", "italian", "family-friendly", "leftovers-friendly"],
+  isVegetarian: true,
+  notes: "Classic stuffed shells with a creamy ricotta and spinach filling. Adding an egg helps bind the filling, and baking covered first keeps everything moist before finishing uncovered for a golden top.",
+  ingredients: `1 box jumbo pasta shells
 1 (15 oz) ricotta cheese
 2 cups fresh spinach, chopped
 1 (24 oz) marinara sauce
@@ -3714,7 +7468,7 @@ Remove from heat and stir in 1 Tbsp lemon juice if desired. Serve immediately.`,
 1/2 tsp salt
 1/2 tsp pepper
 1/2 tsp dried Italian seasoning (optional)`,
-    instructions: `Preheat oven to 375°F. Lightly grease a 9x13 baking dish.
+  instructions: `Preheat oven to 375°F. Lightly grease a 9x13 baking dish.
 
 Bring a large pot of salted water to a boil. Cook 1 box jumbo pasta shells until al dente, about 1 to 2 minutes less than package directions. Drain and set aside to cool slightly.
 
@@ -3731,18 +7485,63 @@ Cover loosely with foil and bake for 20 minutes.
 Remove foil and bake an additional 10 to 15 minutes, until the cheese is melted and bubbly with lightly golden edges.
 
 Let rest for 5 to 10 minutes before serving.`,
-  },
+  translations: {
+    es: {
+      name: "Conchas rellenas de espinaca y ricotta",
+      notes:
+        "Conchas rellenas clásicas con un relleno cremoso de ricotta y espinaca. Agregar huevo ayuda a unir el relleno, y hornear cubierto primero mantiene todo húmedo antes de terminar sin cubrir para dorar la parte superior.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "pasta",
+        "horneado",
+        "comida reconfortante",
+        "italiana",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `1 caja de conchas jumbo de pasta
+1 envase (15 oz) de queso ricotta
+2 cups de espinaca fresca, picada
+1 frasco (24 oz) de salsa marinara
+1 cup de queso mozzarella rallado
+1/2 cup de queso parmesano rallado
+1 huevo grande
+2 dientes de ajo, picados
+1/2 tsp de sal
+1/2 tsp de pimienta
+1/2 tsp de sazonador italiano seco, opcional`,
+      instructions: `Precalienta el horno a 375°F. Engrasa ligeramente un molde para hornear de 9x13.
 
-  {
-    id: "normal-chickpea-curry",
-    slug: "normal-chickpea-curry",
-    name: "Chickpea Curry",
-    effort: "normal",
-    photoUrl: "/images/normal-chickpea-curry.jpg",
-    tags: ["vegetarian", "vegan", "dinner", "curry", "chickpeas", "one-pot", "comfort", "leftovers-friendly"],
-    isVegetarian: true,
-    notes: "Creamy, warmly spiced chickpea curry with a tomato-coconut sauce. Great with basmati rice, naan, or a simple cucumber yogurt salad.",
-    ingredients: `2 (15 oz) cans chickpeas, drained and rinsed
+Hierve una olla grande con agua salada. Cocina 1 caja de conchas jumbo de pasta hasta que estén al dente, aproximadamente 1 a 2 minutos menos que las instrucciones del paquete. Escurre y reserva para que se enfríen un poco.
+
+En un tazón grande, combina 15 oz de queso ricotta, 2 cups de espinaca fresca picada, 1/2 cup de mozzarella rallada, 1/2 cup de parmesano rallado, 1 huevo grande, 2 dientes de ajo picados, 1/2 tsp de sal, 1/2 tsp de pimienta y 1/2 tsp de sazonador italiano seco si lo usas. Mezcla hasta que quede suave y bien combinado.
+
+Extiende una capa delgada de 1 frasco de salsa marinara en el fondo del molde.
+
+Rellena cada concha cocida con la mezcla de ricotta y acomódalas en el molde.
+
+Vierte la salsa marinara restante de manera uniforme sobre las conchas, luego espolvorea con la 1/2 cup restante de mozzarella.
+
+Cubre sin apretar con papel aluminio y hornea durante 20 minutos.
+
+Retira el papel aluminio y hornea otros 10 a 15 minutos, hasta que el queso esté derretido y burbujeante, con bordes ligeramente dorados.
+
+Deja reposar de 5 a 10 minutos antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "normal-chickpea-curry",
+  slug: "normal-chickpea-curry",
+  name: "Chickpea Curry",
+  effort: "normal",
+  photoUrl: "/images/normal-chickpea-curry.jpg",
+  tags: ["vegetarian", "vegan", "dinner", "curry", "chickpeas", "one-pot", "comfort", "leftovers-friendly"],
+  isVegetarian: true,
+  notes: "Creamy, warmly spiced chickpea curry with a tomato-coconut sauce. Great with basmati rice, naan, or a simple cucumber yogurt salad.",
+  ingredients: `2 (15 oz) cans chickpeas, drained and rinsed
 1 Tbsp olive oil
 1 small yellow onion, finely diced
 3 cloves garlic, minced
@@ -3761,7 +7560,7 @@ Let rest for 5 to 10 minutes before serving.`,
 juice of 1/2 lemon
 1/4 cup fresh cilantro, chopped
 cooked basmati rice`,
-    instructions: `Heat 1 Tbsp olive oil in a large skillet or Dutch oven over medium heat. Add 1 finely diced small yellow onion and 1 diced medium red bell pepper and cook for 5 to 7 minutes, stirring occasionally, until softened and lightly golden.
+  instructions: `Heat 1 Tbsp olive oil in a large skillet or Dutch oven over medium heat. Add 1 finely diced small yellow onion and 1 diced medium red bell pepper and cook for 5 to 7 minutes, stirring occasionally, until softened and lightly golden.
 
 Add 3 minced cloves garlic and 1 Tbsp grated fresh ginger. Cook for 1 to 2 minutes, stirring often, until fragrant.
 
@@ -3776,18 +7575,69 @@ Reduce the heat to low and simmer uncovered for 15 to 20 minutes, stirring occas
 Stir in the juice of 1/2 lemon and 1/4 cup chopped fresh cilantro. Taste and adjust salt if needed.
 
 Serve hot over cooked basmati rice or with warm naan.`,
-  },
+  translations: {
+    es: {
+      name: "Curry de garbanzos",
+      notes:
+        "Curry de garbanzos cremoso y cálidamente especiado, con salsa de tomate y coco. Queda muy bien con arroz basmati, naan o una ensalada sencilla de pepino con yogur.",
+      tags: [
+        "vegetariano",
+        "vegano",
+        "cena",
+        "curry",
+        "garbanzos",
+        "una olla",
+        "comida reconfortante",
+        "bueno para sobras",
+      ],
+      ingredients: `2 latas (15 oz) de garbanzos, escurridos y enjuagados
+1 Tbsp de aceite de oliva
+1 cebolla amarilla pequeña, finamente picada
+3 dientes de ajo, picados
+1 pimiento rojo mediano, picado en cubitos
+1 Tbsp de jengibre fresco, rallado
+1 tsp de comino molido
+1 tsp de cilantro molido
+1 tsp de cúrcuma
+1/2 tsp de paprika ahumada
+1/2 tsp de chile en polvo
+1 tsp de sal, al gusto
+1 lata (14 oz) de tomates triturados
+1 lata (13.5 oz) de leche de coco entera
+1/2 cup de caldo de verduras
+1 tsp de azúcar, opcional
+jugo de 1/2 limón
+1/4 cup de cilantro fresco, picado
+arroz basmati cocido`,
+      instructions: `Calienta 1 Tbsp de aceite de oliva en un sartén grande o Dutch oven a fuego medio. Agrega 1 cebolla amarilla pequeña finamente picada y 1 pimiento rojo mediano picado, y cocina de 5 a 7 minutos, revolviendo de vez en cuando, hasta que se ablanden y se doren ligeramente.
 
-  {
-    id: "normal-spicy-tofu-mushroom-hash",
-    slug: "normal-spicy-tofu-mushroom-hash",
-    name: "Vegetarian Spicy Skillet Hash",
-    effort: "normal",
-    photoUrl: "/images/normal-spicy-tofu-mushroom-hash.jpg",
-    tags: ["vegetarian", "vegan", "dinner", "skillet", "spicy", "healthy", "one-pan", "leftovers-friendly"],
-    isVegetarian: true,
-    notes: "Crispy, hearty skillet hash with bold Cajun flavor. Letting the tofu and potatoes cook undisturbed helps develop a golden crust and great texture.",
-    ingredients: `1 (14 oz) block firm tofu, pressed and cubed
+Agrega 3 dientes de ajo picados y 1 Tbsp de jengibre fresco rallado. Cocina de 1 a 2 minutos, revolviendo con frecuencia, hasta que suelte aroma.
+
+Agrega 1 tsp de comino molido, 1 tsp de cilantro molido, 1 tsp de cúrcuma, 1/2 tsp de paprika ahumada, 1/2 tsp de chile en polvo y 1 tsp de sal. Revuelve constantemente de 30 a 60 segundos a fuego medio-bajo para activar las especias.
+
+Vierte 1 lata de tomates triturados y mezcla bien. Cocina 5 minutos, revolviendo de vez en cuando, hasta que la mezcla espese ligeramente y el color se intensifique.
+
+Agrega 2 latas de garbanzos escurridos y enjuagados, 1 lata de leche de coco entera, 1/2 cup de caldo de verduras y 1 tsp de azúcar si la usas. Mezcla para combinar y lleva a un hervor suave a fuego medio.
+
+Reduce el fuego a bajo y cocina sin tapar de 15 a 20 minutos, revolviendo de vez en cuando, hasta que la salsa espese y cubra el dorso de una cuchara.
+
+Incorpora el jugo de 1/2 limón y 1/4 cup de cilantro fresco picado. Prueba y ajusta la sal si es necesario.
+
+Sirve caliente sobre arroz basmati cocido o con naan caliente.`,
+    },
+  },
+},
+
+{
+  id: "normal-spicy-tofu-mushroom-hash",
+  slug: "normal-spicy-tofu-mushroom-hash",
+  name: "Vegetarian Spicy Skillet Hash",
+  effort: "normal",
+  photoUrl: "/images/normal-spicy-tofu-mushroom-hash.jpg",
+  tags: ["vegetarian", "vegan", "dinner", "skillet", "spicy", "healthy", "one-pan", "leftovers-friendly"],
+  isVegetarian: true,
+  notes: "Crispy, hearty skillet hash with bold Cajun flavor. Letting the tofu and potatoes cook undisturbed helps develop a golden crust and great texture.",
+  ingredients: `1 (14 oz) block firm tofu, pressed and cubed
 2 cups king oyster mushrooms, sliced
 2 cups potatoes, diced (small cubes for even cooking)
 1 cup bell peppers, diced
@@ -3798,7 +7648,7 @@ Serve hot over cooked basmati rice or with warm naan.`,
 1 Tbsp soy sauce (optional, for depth)
 1/2 tsp smoked paprika (optional)
 1 Tbsp fresh parsley, chopped (optional)`,
-    instructions: `Heat 1 Tbsp olive oil in a large skillet over medium-high heat.
+  instructions: `Heat 1 Tbsp olive oil in a large skillet over medium-high heat.
 
 Add 2 cups diced potatoes in a single layer and cook for 10 to 12 minutes, stirring occasionally, until golden, crispy on the edges, and tender inside. Season lightly with 1/2 tsp salt and 1/2 tsp pepper.
 
@@ -3815,7 +7665,52 @@ Cook for 5 to 7 minutes, stirring occasionally, until peppers are tender and eve
 Drizzle with 1 Tbsp soy sauce if using and toss to combine. Taste and adjust seasoning as needed.
 
 Remove from heat, garnish with 1 Tbsp fresh chopped parsley if desired, and serve hot.`,
+  translations: {
+    es: {
+      name: "Hash vegetariano picante en sartén",
+      notes:
+        "Un hash sustancioso y crujiente en sartén con sabor cajún intenso. Dejar que el tofu y las papas se cocinen sin moverlos ayuda a desarrollar una costra dorada y una gran textura.",
+      tags: [
+        "vegetariano",
+        "vegano",
+        "cena",
+        "sartén",
+        "picante",
+        "saludable",
+        "una sartén",
+        "bueno para sobras",
+      ],
+      ingredients: `1 bloque (14 oz) de tofu firme, prensado y cortado en cubos
+2 cups de hongos king oyster, rebanados
+2 cups de papas, cortadas en cubitos pequeños para cocción uniforme
+1 cup de pimientos, picados en cubitos
+2 Tbsp de mezcla de especias cajún
+2 Tbsp de aceite de oliva
+1/2 tsp de sal, más al gusto
+1/2 tsp de pimienta
+1 Tbsp de salsa de soya, opcional para más profundidad
+1/2 tsp de paprika ahumada, opcional
+1 Tbsp de perejil fresco, picado, opcional`,
+      instructions: `Calienta 1 Tbsp de aceite de oliva en un sartén grande a fuego medio-alto.
+
+Agrega 2 cups de papas en cubitos en una sola capa y cocina de 10 a 12 minutos, revolviendo de vez en cuando, hasta que estén doradas, crujientes en los bordes y tiernas por dentro. Sazona ligeramente con 1/2 tsp de sal y 1/2 tsp de pimienta.
+
+Mientras se cocinan las papas, seca 1 bloque de tofu firme en cubos con toallas de papel para que se dore mejor.
+
+Empuja las papas a un lado del sartén. Agrega la 1 Tbsp restante de aceite de oliva al lado vacío, luego agrega el tofu y 2 cups de hongos king oyster rebanados.
+
+Cocina sin mover de 3 a 4 minutos para desarrollar una costra dorada, luego revuelve y continúa cocinando otros 3 a 4 minutos, hasta que se dore.
+
+Agrega 1 cup de pimientos en cubitos y espolvorea 2 Tbsp de sazonador cajún y 1/2 tsp de paprika ahumada si la usas sobre todo. Mezcla para combinar.
+
+Cocina de 5 a 7 minutos, revolviendo de vez en cuando, hasta que los pimientos estén tiernos y todo esté bien cubierto con el sazonador.
+
+Rocía con 1 Tbsp de salsa de soya si la usas y mezcla para combinar. Prueba y ajusta los condimentos según sea necesario.
+
+Retira del fuego, decora con 1 Tbsp de perejil fresco picado si deseas y sirve caliente.`,
+    },
   },
+},
 
   {
   id: "quick-caprese-pasta",
@@ -3851,6 +7746,48 @@ Remove from heat and fold in 1/4 cup torn fresh basil.
 Season with 1/2 tsp salt and 1/4 tsp pepper to taste. Drizzle with 1 Tbsp balsamic glaze if desired.
 
 Serve immediately.`,
+  translations: {
+    es: {
+      name: "Pasta caprese",
+      notes:
+        "Pasta fresca y ligera con tomates jugosos y mozzarella cremosa. Agregar agua de la pasta ayuda a crear una salsa ligera que une todo sin hacerlo pesado.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "pasta",
+        "rápido",
+        "italiana",
+        "saludable",
+        "una sartén",
+        "ligero",
+      ],
+      ingredients: `1/2 lb de pasta penne
+1 cup de tomates cherry, cortados por la mitad
+1/2 cup de perlas de mozzarella
+1/4 cup de albahaca fresca, troceada
+2 Tbsp de aceite de oliva
+1 diente de ajo, picado, opcional
+1 Tbsp de glaseado balsámico, opcional para terminar
+1/4 cup de agua reservada de la pasta
+1/2 tsp de sal, más al gusto
+1/4 tsp de pimienta`,
+      instructions: `Hierve una olla grande con agua salada. Cocina 1/2 lb de pasta penne según las instrucciones del paquete hasta que esté al dente. Reserva 1/4 cup de agua de la pasta y luego escurre.
+
+Calienta 2 Tbsp de aceite de oliva en la misma olla o en un sartén grande a fuego medio. Agrega 1 diente de ajo picado si lo usas y cocina 30 segundos, hasta que suelte aroma.
+
+Agrega 1 cup de tomates cherry cortados por la mitad y cocina de 2 a 3 minutos, solo hasta que empiecen a suavizarse y soltar jugo.
+
+Regresa la pasta cocida a la olla y mezcla con los tomates.
+
+Agrega 1/2 cup de perlas de mozzarella y un chorrito del agua reservada de la pasta. Mezcla suavemente hasta que todo quede combinado y ligeramente brillante.
+
+Retira del fuego e incorpora 1/4 cup de albahaca fresca troceada.
+
+Sazona con 1/2 tsp de sal y 1/4 tsp de pimienta al gusto. Rocía con 1 Tbsp de glaseado balsámico si deseas.
+
+Sirve de inmediato.`,
+    },
+  },
 },
 
 {
@@ -3894,6 +7831,54 @@ Cover the dish with foil and bake for 30 minutes, until the peppers are tender.
 Remove foil and bake an additional 5 to 10 minutes for slight browning on top.
 
 Garnish with 1/4 cup fresh chopped parsley if desired and serve warm.`,
+  translations: {
+    es: {
+      name: "Pimientos rellenos mediterráneos",
+      notes:
+        "Pimientos rellenos brillantes y llenos de sabor con un toque mediterráneo. Agregar jugo de limón y hierbas frescas ayuda a equilibrar la riqueza del feta y une todos los sabores.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "horneado",
+        "saludable",
+        "mediterráneo",
+        "una bandeja",
+        "bueno para sobras",
+      ],
+      ingredients: `4 pimientos grandes, sin la parte superior y sin semillas
+2 cups de quinoa cocida
+1/2 cup de queso feta, desmoronado
+1/4 cup de aceitunas Kalamata, picadas
+1/2 cup de tomates cherry, picados
+2 Tbsp de aceite de oliva
+2 dientes de ajo, picados
+1/2 cebolla roja pequeña, finamente picada
+1 tsp de orégano seco
+1/2 tsp de sal, más al gusto
+1/4 tsp de pimienta
+1 Tbsp de jugo de limón
+1/4 cup de perejil fresco, picado, opcional`,
+      instructions: `Precalienta el horno a 375°F. Engrasa ligeramente un molde para hornear.
+
+Coloca 4 pimientos preparados de pie en el molde. Agrega una pequeña cantidad de agua al fondo del molde para ayudar a vaporizar los pimientos.
+
+Calienta 2 Tbsp de aceite de oliva en un sartén a fuego medio. Agrega 1/2 cebolla roja pequeña finamente picada y cocina de 3 a 4 minutos, hasta que se ablande.
+
+Agrega 2 dientes de ajo picados y cocina 30 segundos, hasta que suelte aroma.
+
+En un tazón grande, combina 2 cups de quinoa cocida, la cebolla y el ajo salteados, 1/2 cup de feta desmoronado, 1/4 cup de aceitunas Kalamata picadas, 1/2 cup de tomates cherry picados, 1 tsp de orégano seco, 1/2 tsp de sal y 1/4 tsp de pimienta. Mezcla bien.
+
+Agrega 1 Tbsp de jugo de limón y mezcla para combinar.
+
+Rellena los pimientos de manera uniforme, compactando ligeramente.
+
+Cubre el molde con papel aluminio y hornea durante 30 minutos, hasta que los pimientos estén tiernos.
+
+Retira el papel aluminio y hornea de 5 a 10 minutos más para dorar ligeramente la parte superior.
+
+Decora con 1/4 cup de perejil fresco picado si deseas y sirve caliente.`,
+    },
+  },
 },
 
 {
@@ -3941,6 +7926,58 @@ Toss everything together for 1 to 2 minutes until heated through and evenly coat
 Remove from heat and top with 2 tsp crushed peanuts.
 
 Serve immediately with lime wedges and optional extra peanuts or cilantro.`,
+  translations: {
+    es: {
+      name: "Pad Thai de verduras",
+      notes:
+        "Pad Thai rápido estilo comida para llevar, con sabores dulces, salados y ácidos bien equilibrados. Cocinar el tofu sin moverlo ayuda a crear una textura crujiente, y agregar lima al final le da frescura al plato.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "rápido",
+        "asiático",
+        "sartén",
+        "una sartén",
+        "bueno para sobras",
+      ],
+      ingredients: `8 oz de fideos de arroz
+8 oz de tofu firme, prensado y cortado en cubos
+1 cup de brotes de frijol
+1/3 cup de salsa pad Thai
+1 Tbsp de aceite de oliva o aceite neutro
+1 huevo, opcional para estilo tradicional
+2 cebollines, rebanados
+2 dientes de ajo, picados
+2 tsp de cacahuates triturados, más extra para servir
+1 Tbsp de salsa de soya, opcional para más profundidad
+1 Tbsp de jugo de lima
+1 tsp de azúcar morena, opcional para equilibrar sabores
+
+Toppings opcionales:
+más cacahuates
+gajos de lima
+cilantro`,
+      instructions: `Remoja 8 oz de fideos de arroz en agua tibia según las instrucciones del paquete hasta que estén apenas tiernos, luego escurre bien.
+
+Calienta 1 Tbsp de aceite de oliva en un wok o sartén grande a fuego medio-alto.
+
+Agrega 8 oz de tofu firme prensado y en cubos en una sola capa, y cocina de 4 a 5 minutos sin moverlo, hasta que esté dorado y crujiente por un lado. Voltea y cocina otros 3 a 4 minutos. Retira y reserva.
+
+En el mismo sartén, agrega 2 dientes de ajo picados y cocina 30 segundos, hasta que suelte aroma.
+
+Si usas 1 huevo, empuja los ingredientes a un lado y revuelve el huevo hasta que apenas cuaje.
+
+Agrega los fideos escurridos y 1/3 cup de salsa pad Thai. Mezcla rápidamente para cubrir y calentar.
+
+Regresa el tofu al sartén. Agrega 1 cup de brotes de frijol, 2 cebollines rebanados, 1 Tbsp de salsa de soya si la usas, 1 Tbsp de jugo de lima y 1 tsp de azúcar morena si la usas.
+
+Mezcla todo de 1 a 2 minutos, hasta que esté caliente y bien cubierto.
+
+Retira del fuego y cubre con 2 tsp de cacahuates triturados.
+
+Sirve de inmediato con gajos de lima y, si deseas, más cacahuates o cilantro.`,
+    },
+  },
 },
 
 {
@@ -3989,6 +8026,59 @@ Brush the pastry with 1 beaten egg and score the top lightly with a knife for de
 Bake for 25 to 30 minutes, until the pastry is golden brown and puffed.
 
 Let rest for 5 to 10 minutes before slicing and serving.`,
+  translations: {
+    es: {
+      name: "Wellington de verduras asadas",
+      notes:
+        "Un plato principal vegetariano elegante con capas de verduras asadas y masa hojaldrada. Retirar el exceso de humedad del relleno y usar pan molido ayuda a mantener la masa crujiente.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "horneado",
+        "comida reconfortante",
+        "festivo",
+        "plato especial",
+        "bueno para sobras",
+      ],
+      ingredients: `1 hoja de masa de hojaldre, descongelada
+1 camote grande, pelado y rebanado en rodajas
+4 cups de espinaca fresca
+2 hongos portobello grandes, sin tallos
+4 oz de queso de cabra
+1 huevo, batido, para barnizar
+1 Tbsp de aceite de oliva
+1/2 cebolla amarilla pequeña, finamente picada
+2 dientes de ajo, picados
+1/2 tsp de sal, más al gusto
+1/2 tsp de pimienta
+1/2 tsp de tomillo seco, opcional
+1 Tbsp de vinagre balsámico, opcional para más profundidad
+1 Tbsp de pan molido, opcional para evitar que se humedezca`,
+      instructions: `Precalienta el horno a 400°F. Cubre una bandeja para hornear con papel pergamino.
+
+Mezcla 1 camote grande con un poco de aceite de oliva, 1/2 tsp de sal y 1/2 tsp de pimienta. Asa en una bandeja durante 15 a 20 minutos, hasta que esté tierno. Reserva.
+
+Calienta 1 Tbsp de aceite de oliva en un sartén a fuego medio. Agrega 1/2 cebolla amarilla pequeña finamente picada y cocina de 3 a 4 minutos, hasta que se ablande.
+
+Agrega 2 dientes de ajo picados y cocina 30 segundos, hasta que suelte aroma.
+
+Agrega 4 cups de espinaca fresca y cocina hasta que se marchite. Retira del fuego y deja enfriar un poco, luego exprime muy bien el exceso de humedad.
+
+En el mismo sartén, cocina 2 hongos portobello grandes durante 5 a 7 minutos, hasta que estén tiernos y hayan soltado la mayor parte de su humedad. Rocía con 1 Tbsp de vinagre balsámico si lo usas y cocina 1 minuto más. Deja enfriar.
+
+Extiende ligeramente 1 hoja de masa de hojaldre descongelada si es necesario. Espolvorea 1 Tbsp de pan molido en el centro para absorber humedad y evitar una base aguada.
+
+Coloca en capas el camote asado, la mezcla de espinaca y los hongos, luego desmorona 4 oz de queso de cabra encima. Espolvorea con 1/2 tsp de tomillo seco si lo usas.
+
+Dobla la masa sobre el relleno y sella bien los bordes. Coloca con la unión hacia abajo sobre la bandeja preparada.
+
+Barniza la masa con 1 huevo batido y marca ligeramente la parte superior con un cuchillo para decorar y dejar salir vapor.
+
+Hornea de 25 a 30 minutos, hasta que la masa esté dorada e inflada.
+
+Deja reposar de 5 a 10 minutos antes de cortar y servir.`,
+    },
+  },
 },
 
 {
@@ -4037,6 +8127,60 @@ Cook the 4 patties for 4 to 5 minutes per side, until deeply browned and crisp o
 Toast 4 burger buns if desired.
 
 Serve patties on buns with your favorite toppings like lettuce, tomato, sliced avocado, or burger sauce, alongside the hot sweet potato fries.`,
+  translations: {
+    es: {
+      name: "Hamburguesas de frijol negro con papas de camote",
+      notes:
+        "Una cena sustanciosa de hamburguesas caseras de frijol negro con papas de camote crujientes. Dejar reposar las tortitas antes de cocinarlas ayuda a que se mantengan juntas, mientras que el fuego alto les da una costra bien dorada.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "comida reconfortante",
+        "para niños",
+        "americana",
+        "crujiente",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `2 latas (15 oz) de frijoles negros, escurridos y enjuagados
+2 camotes grandes, cortados en gajos
+1/2 cup de pan molido
+1/2 cebolla roja pequeña, finamente picada
+3 dientes de ajo, picados
+1 Tbsp de comino molido
+1/2 tsp de paprika ahumada, opcional para más profundidad
+3 Tbsp de aceite de oliva, dividido
+1 huevo grande
+1/2 tsp de sal, más al gusto
+1/2 tsp de pimienta
+4 panes para hamburguesa
+
+Opcional para servir:
+lechuga
+tomate
+aguacate rebanado
+salsa para hamburguesa`,
+      instructions: `Precalienta el horno a 425°F. Cubre una bandeja grande para hornear con papel pergamino.
+
+Mezcla 2 camotes grandes con 1 1/2 Tbsp de aceite de oliva, una pizca de sal y una pizca de pimienta. Extiende en una sola capa sobre la bandeja.
+
+Asa de 25 a 30 minutos, volteando a la mitad, hasta que estén tiernos por dentro y dorados en los bordes.
+
+Mientras se asan las papas, coloca 2 latas de frijoles negros escurridos y enjuagados en un tazón grande y machaca hasta que estén mayormente deshechos, pero todavía un poco con textura.
+
+Agrega 1/2 cebolla roja pequeña finamente picada, 3 dientes de ajo picados, 1/2 cup de pan molido, 1 Tbsp de comino molido, 1/2 tsp de paprika ahumada si la usas, 1 huevo grande, 1/2 tsp de sal y 1/2 tsp de pimienta. Mezcla hasta combinar bien.
+
+Forma 4 tortitas firmes con la mezcla. Si la mezcla se siente demasiado suave, déjala reposar de 5 a 10 minutos para que el pan molido absorba humedad.
+
+Calienta la 1 1/2 Tbsp restante de aceite de oliva en un sartén grande a fuego medio.
+
+Cocina las 4 tortitas de 4 a 5 minutos por lado, hasta que estén bien doradas y crujientes por fuera. Voltea con cuidado.
+
+Tuesta 4 panes para hamburguesa si deseas.
+
+Sirve las tortitas en los panes con tus toppings favoritos, como lechuga, tomate, aguacate rebanado o salsa para hamburguesa, junto con las papas de camote calientes.`,
+    },
+  },
 },
 
 {
@@ -4081,6 +8225,55 @@ Pour the remaining enchilada sauce over the top and sprinkle evenly with 1 1/2 c
 Bake for 20 to 25 minutes, until the cheese is melted and bubbly.
 
 Garnish with 1/4 cup chopped fresh cilantro before serving.`,
+  translations: {
+    es: {
+      name: "Enchiladas de camote y frijoles negros",
+      notes:
+        "Enchiladas vegetarianas sustanciosas con un equilibrio perfecto entre sabores dulces y salados. Asar los camotes en lugar de hervirlos agrega profundidad y evita que el relleno quede aguado.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "horneado",
+        "mexicano",
+        "comida reconfortante",
+        "familiar",
+        "bueno para sobras",
+      ],
+      ingredients: `2 camotes grandes, pelados y cortados en cubos
+1 lata (15 oz) de frijoles negros, escurridos y enjuagados
+8 tortillas de maíz
+2 cups de salsa para enchiladas
+1 1/2 cups de queso Monterey Jack rallado
+1/4 cup de cilantro fresco, picado
+1 Tbsp de aceite de oliva
+1/2 cebolla roja pequeña, finamente picada
+2 dientes de ajo, picados
+1 tsp de comino
+1/2 tsp de chile en polvo
+1/2 tsp de sal
+1/4 tsp de pimienta
+1 Tbsp de jugo de lima`,
+      instructions: `Precalienta el horno a 400°F. Cubre una bandeja para hornear con papel pergamino.
+
+Mezcla 2 camotes grandes pelados y cortados en cubos con 1 Tbsp de aceite de oliva, 1/2 tsp de sal y 1/4 tsp de pimienta. Asa de 20 a 25 minutos, hasta que estén tiernos y ligeramente caramelizados.
+
+En un sartén a fuego medio, cocina 1/2 cebolla roja pequeña finamente picada de 3 a 4 minutos, hasta que se ablande. Agrega 2 dientes de ajo picados y cocina 30 segundos.
+
+En un tazón grande, machaca ligeramente los camotes asados, dejando algo de textura. Incorpora 1 lata de frijoles negros escurridos y enjuagados, la cebolla y el ajo salteados, 1 tsp de comino, 1/2 tsp de chile en polvo y 1 Tbsp de jugo de lima. Mezcla bien.
+
+Reduce la temperatura del horno a 375°F.
+
+Extiende una capa delgada de 2 cups de salsa para enchiladas en un molde para hornear.
+
+Calienta ligeramente 8 tortillas de maíz para que sean flexibles. Coloca relleno en cada tortilla, enrolla firmemente y acomoda con la unión hacia abajo en el molde.
+
+Vierte el resto de la salsa para enchiladas encima y espolvorea de manera uniforme con 1 1/2 cups de queso Monterey Jack rallado.
+
+Hornea de 20 a 25 minutos, hasta que el queso esté derretido y burbujeante.
+
+Decora con 1/4 cup de cilantro fresco picado antes de servir.`,
+    },
+  },
 },
 
 {
@@ -4123,6 +8316,53 @@ In a large bowl, combine the cooked noodles, 2 beaten eggs, 1 cup milk, the cook
 Transfer the mixture to a baking dish and cover tightly with foil. Bake for 1 hour.
 
 Remove the foil, top with the remaining shredded cheese, and bake uncovered for 5 to 10 minutes until the cheese is fully melted and bubbly.`,
+  translations: {
+    es: {
+      name: "Cazuela vegetariana de fideos con Fri-Chik",
+      notes:
+        "Una cazuela sustanciosa y reconfortante que incluso los no vegetarianos van a disfrutar. Perfecta para preparar con anticipación, ya que sabe aún mejor al día siguiente.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "cazuela",
+        "pasta",
+        "comida reconfortante",
+        "horneado",
+        "bueno para sobras",
+      ],
+      ingredients: `12 oz de fideos de huevo
+1 cebolla amarilla mediana, picada
+1 cebolla blanca mediana, picada
+1 lata de Loma Linda Fri-Chik & Gravy
+2 huevos, batidos
+2 1/2 Tbsp de sazonador McKay's Chicken
+1 lata (10.5 oz) de crema de champiñones
+1 cup de leche
+1 bloque (8 oz) de queso cheddar fuerte, rallado
+1 paquete (8 oz) de champiñones baby bella, rebanados
+2 Tbsp de mantequilla
+1 Tbsp de aceite de oliva
+1 Tbsp de ajo, picado
+1 lata (4 a 7 oz) de chiles verdes, opcional
+sal
+pimienta`,
+      instructions: `Precalienta el horno a 350°F.
+
+Cocina 12 oz de fideos de huevo según las instrucciones del paquete, sin agregar sal. Escurre y reserva.
+
+En un sartén, calienta 2 Tbsp de mantequilla y 1 Tbsp de aceite de oliva a fuego medio. Cocina 1 cebolla amarilla mediana picada y 1 cebolla blanca mediana picada hasta que estén translúcidas.
+
+Agrega 8 oz de champiñones baby bella rebanados y cocina hasta que empiecen a dorarse. Incorpora 1 Tbsp de ajo picado y cocina 2 minutos más.
+
+Pica el contenido de 1 lata de Loma Linda Fri-Chik en trozos pequeños.
+
+En un tazón grande, combina los fideos cocidos, 2 huevos batidos, 1 cup de leche, las cebollas y champiñones cocidos, 1 lata de crema de champiñones, la mayor parte del queso cheddar fuerte rallado reservando un poco para cubrir, el Fri-Chik picado con su gravy, 2 1/2 Tbsp de sazonador McKay's Chicken, sal, pimienta y 1 lata de chiles verdes si los usas. Mezcla bien.
+
+Pasa la mezcla a un molde para hornear y cubre bien con papel aluminio. Hornea durante 1 hora.
+
+Retira el papel aluminio, cubre con el queso rallado restante y hornea sin cubrir de 5 a 10 minutos, hasta que el queso esté completamente derretido y burbujeante.`,
+    },
+  },
 },
 
 {
@@ -4165,6 +8405,54 @@ For extra browning, broil on high for 1 to 2 minutes, watching closely.
 In a small saucepan, combine 1/4 cup balsamic vinegar and 2 tsp brown sugar. Bring to a simmer and cook for 5 to 8 minutes until reduced and syrupy.
 
 Drizzle the balsamic glaze over the mushrooms, top with shredded fresh basil, and serve immediately.`,
+  translations: {
+    es: {
+      name: "Portobellos rellenos estilo caprese",
+      notes:
+        "Una cena ligera inspirada en caprese, con tomates jugosos y mozzarella derretida. Asar los champiñones primero ayuda a retirar el exceso de humedad y evita que el plato final quede aguado.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "horneado",
+        "italiana",
+        "saludable",
+        "bajo en carbohidratos",
+        "una bandeja",
+        "ligero",
+      ],
+      ingredients: `5 a 6 champiñones portobello grandes, sin tallos y con las agallas raspadas
+2 Tbsp de mantequilla
+2 dientes de ajo, picados
+1 Tbsp de perejil fresco, picado
+5 a 6 bolitas de mozzarella fresca, rebanadas
+1 cup de tomates cherry, cortados por la mitad
+1 Tbsp de aceite de oliva
+1/2 tsp de sal
+1/4 tsp de pimienta
+1/4 cup de vinagre balsámico
+2 tsp de azúcar morena
+albahaca fresca, cortada en tiras`,
+      instructions: `Precalienta el horno a 400°F. Cubre una bandeja para hornear con papel pergamino.
+
+Barniza ligeramente 5 a 6 champiñones portobello grandes con 1 Tbsp de aceite de oliva y sazona con 1/2 tsp de sal y 1/4 tsp de pimienta. Colócalos con las agallas hacia abajo y asa de 8 a 10 minutos para que suelten el exceso de humedad.
+
+Mientras tanto, derrite 2 Tbsp de mantequilla en una sartén pequeña a fuego medio. Agrega 2 dientes de ajo picados y 1 Tbsp de perejil fresco picado; cocina 30 segundos, hasta que suelte aroma. Retira del fuego.
+
+Retira los champiñones del horno y escurre cuidadosamente cualquier líquido. Voltéalos para que queden con las agallas hacia arriba.
+
+Barniza el interior con la mezcla de mantequilla y ajo.
+
+Rellena cada champiñón con mozzarella fresca rebanada y 1 cup de tomates cherry partidos por la mitad.
+
+Regresa al horno y hornea de 8 a 10 minutos, hasta que el queso esté derretido y burbujeante.
+
+Para más dorado, gratina en alto de 1 a 2 minutos, vigilando de cerca.
+
+En una cacerola pequeña, combina 1/4 cup de vinagre balsámico y 2 tsp de azúcar morena. Lleva a hervor suave y cocina de 5 a 8 minutos, hasta que se reduzca y quede como jarabe.
+
+Rocía el glaseado balsámico sobre los champiñones, cubre con albahaca fresca en tiras y sirve de inmediato.`,
+    },
+  },
 },
 
 {
@@ -4204,6 +8492,50 @@ Pour the egg mixture evenly over the vegetables and cheese. Top with 1/2 cup shr
 Bake for about 50 minutes, or until the quiche is golden on top and the internal temperature reaches 160°F.
 
 Let the quiche rest slightly to set before slicing and serving.`,
+  translations: {
+    es: {
+      name: "Quiche sin corteza de espinaca, champiñones y feta",
+      notes:
+        "Una buena opción de desayuno para la cena o meal prep, con mucho sabor salado.",
+      tags: [
+        "vegetariano",
+        "desayuno",
+        "brunch",
+        "cena",
+        "horneado",
+        "meal prep",
+        "saludable",
+      ],
+      ingredients: `1 bolsa (10 oz) de espinaca
+8 oz de champiñones baby bella, rebanados
+1 diente de ajo, picado
+1/8 tsp de sal
+1 Tbsp de aceite para cocinar, dividido
+2 oz de queso feta, desmoronado
+4 huevos grandes
+1/4 cup de queso parmesano rallado
+1/4 tsp de pimienta
+1 cup de leche
+1/2 cup de queso mozzarella rallado`,
+      instructions: `Precalienta el horno a 350°F.
+
+Enjuaga 8 oz de champiñones baby bella y rebánalos finamente. Pica 1 diente de ajo.
+
+En un sartén a fuego medio, agrega los champiñones rebanados, el ajo picado, 1/8 tsp de sal y 1/2 Tbsp de aceite para cocinar. Saltea hasta que los champiñones suelten su humedad y esta se evapore por completo. No debe quedar líquido en el sartén.
+
+Barniza el interior de un molde para pay de 9 inches con la 1/2 Tbsp restante de aceite.
+
+Coloca capas de champiñones cocidos, 1 bolsa de espinaca fresca y 2 oz de queso feta desmoronado en el molde.
+
+En un tazón grande, bate 4 huevos grandes, 1/4 cup de queso parmesano rallado, 1/4 tsp de pimienta y 1 cup de leche hasta que esté bien combinado.
+
+Vierte la mezcla de huevo de manera uniforme sobre las verduras y el queso. Cubre con 1/2 cup de mozzarella rallada.
+
+Hornea unos 50 minutos, o hasta que el quiche esté dorado por encima y la temperatura interna alcance 160°F.
+
+Deja reposar un poco para que se asiente antes de cortar y servir.`,
+    },
+  },
 },
 
 {
@@ -4243,6 +8575,51 @@ Add the cooked pasta and toss well to coat evenly.
 Season with 1/2 tsp salt, 1/4 tsp pepper, and 1/4 tsp red pepper flakes if using.
 
 Remove from heat and stir in 1 tsp lemon juice if desired for brightness. Serve immediately.`,
+  translations: {
+    es: {
+      name: "Pasta con espinaca y queso crema",
+      notes:
+        "Pasta cremosa y reconfortante hecha con ingredientes simples. Agregar agua de la pasta poco a poco ayuda a crear una salsa suave y sedosa que se adhiere perfectamente a los fideos.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "pasta",
+        "rápido",
+        "comida reconfortante",
+        "cremoso",
+        "una sartén",
+        "bueno para sobras",
+      ],
+      ingredients: `12 oz de pasta, penne o rotini
+4 oz de queso crema, suavizado y cortado en cubitos
+1/2 cup de queso parmesano recién rallado
+2 cups de espinaca fresca
+2 dientes de ajo, picados
+1 Tbsp de mantequilla
+1/2 cup de agua reservada de la pasta
+1/2 tsp de sal, más al gusto
+1/4 tsp de pimienta
+1/4 tsp de hojuelas de chile rojo, opcional
+1 tsp de jugo de limón, opcional para frescura`,
+      instructions: `Hierve una olla grande con agua salada. Cocina 12 oz de pasta según las instrucciones del paquete hasta que esté al dente. Reserva 1/2 cup de agua de la pasta y luego escurre.
+
+En la misma olla o en un sartén grande, derrite 1 Tbsp de mantequilla a fuego medio. Agrega 2 dientes de ajo picados y cocina 30 segundos, hasta que suelte aroma.
+
+Agrega 4 oz de queso crema suavizado y cortado en cubitos, junto con un chorrito del agua reservada de la pasta. Revuelve hasta que el queso crema empiece a derretirse y forme una salsa suave.
+
+Agrega gradualmente 1/2 cup de queso parmesano recién rallado, revolviendo continuamente hasta que se derrita por completo y se combine.
+
+Agrega más agua reservada de la pasta según sea necesario para crear una consistencia suave y cremosa.
+
+Incorpora 2 cups de espinaca fresca y cocina de 1 a 2 minutos, hasta que se marchite.
+
+Agrega la pasta cocida y mezcla bien para cubrirla de manera uniforme.
+
+Sazona con 1/2 tsp de sal, 1/4 tsp de pimienta y 1/4 tsp de hojuelas de chile rojo si las usas.
+
+Retira del fuego e incorpora 1 tsp de jugo de limón si deseas más frescura. Sirve de inmediato.`,
+    },
+  },
 },
 
 {
@@ -4278,6 +8655,47 @@ Flip and cook another 3 to 4 minutes, until the cheese is fully melted.
 Remove from skillet and let rest for 1 to 2 minutes before slicing.
 
 Drizzle with 1 Tbsp balsamic glaze if desired and serve warm.`,
+  translations: {
+    es: {
+      name: "Sándwich caprese de queso a la plancha",
+      notes:
+        "Una versión fresca del grilled cheese, con mozzarella derretida, tomate jugoso y albahaca. Dejar reposar el sándwich brevemente ayuda a que el queso se asiente un poco para cortarlo más limpio.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "sándwich",
+        "rápido",
+        "sartén",
+        "comida reconfortante",
+        "italiana",
+        "una sartén",
+      ],
+      ingredients: `4 rebanadas de pan de masa madre
+4 oz de mozzarella fresca, rebanada
+1 tomate, rebanado finamente
+1/4 cup de hojas de albahaca fresca
+1 Tbsp de mantequilla
+1 Tbsp de aceite de oliva, opcional para más crujiente
+1/4 tsp de sal
+1/4 tsp de pimienta
+1 Tbsp de glaseado balsámico, opcional para terminar`,
+      instructions: `Calienta un sartén a fuego medio.
+
+Sazona ligeramente 1 tomate rebanado finamente con 1/4 tsp de sal y 1/4 tsp de pimienta para realzar el sabor.
+
+Coloca en capas 4 oz de mozzarella fresca rebanada, las rebanadas de tomate sazonadas y 1/4 cup de hojas de albahaca fresca entre 4 rebanadas de pan de masa madre para hacer dos sándwiches.
+
+Unta 1 Tbsp de mantequilla de manera uniforme por fuera de cada sándwich. Para que quede más crujiente, también puedes agregar un chorrito ligero de 1 Tbsp de aceite de oliva al sartén.
+
+Coloca los sándwiches en el sartén y cocina de 3 a 4 minutos, presionando suavemente, hasta que el pan esté dorado y crujiente.
+
+Voltea y cocina otros 3 a 4 minutos, hasta que el queso esté completamente derretido.
+
+Retira del sartén y deja reposar de 1 a 2 minutos antes de cortar.
+
+Rocía con 1 Tbsp de glaseado balsámico si deseas y sirve caliente.`,
+    },
+  },
 },
 
 {
@@ -4315,7 +8733,49 @@ Add noodles and toss to coat. Serve warm.`,
   effort: "normal",
   tags: ["vegetarian", "dinner", "comfort", "pasta", "creamy", "one-pan"],
   isVegetarian: true,
-  notes: "A rich, creamy vegetarian twist on a comfort classic with deep mushroom flavor."
+  notes: "A rich, creamy vegetarian twist on a comfort classic with deep mushroom flavor.",
+  translations: {
+    es: {
+      name: "Stroganoff cremoso de champiñones",
+      notes:
+        "Una versión vegetariana rica y cremosa de un clásico reconfortante, con profundo sabor a champiñones.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "comida reconfortante",
+        "pasta",
+        "cremoso",
+        "una sartén",
+      ],
+      ingredients: `8 oz de fideos de huevo
+2 Tbsp de mantequilla
+1 Tbsp de aceite de oliva
+16 oz de champiñones, rebanados
+1/2 cebolla, picada en cubitos
+2 dientes de ajo, picados
+1 Tbsp de harina
+1 1/2 cups de caldo de verduras
+1/2 cup de crema agria
+1 tsp de paprika
+1/2 tsp de sal
+1/4 tsp de pimienta negra`,
+      instructions: `Cocina 8 oz de fideos de huevo según las instrucciones del paquete y reserva.
+
+Calienta 2 Tbsp de mantequilla y 1 Tbsp de aceite de oliva en un sartén a fuego medio-alto.
+
+Agrega 16 oz de champiñones y cocina de 6 a 8 minutos, hasta que estén bien dorados.
+
+Agrega 1/2 cebolla picada y cocina de 3 a 4 minutos, hasta que se ablande. Agrega 2 dientes de ajo y cocina 30 segundos.
+
+Incorpora 1 Tbsp de harina y cocina 1 minuto.
+
+Agrega 1 1/2 cups de caldo de verduras y cocina a fuego bajo hasta que espese un poco.
+
+Reduce el fuego a bajo e incorpora 1/2 cup de crema agria, 1 tsp de paprika, 1/2 tsp de sal y 1/4 tsp de pimienta.
+
+Agrega los fideos y mezcla para cubrirlos. Sirve caliente.`,
+    },
+  },
 },
 
 {
@@ -4360,7 +8820,58 @@ Serve immediately.`,
   effort: "quick",
   tags: ["vegetarian", "dinner", "tacos", "bbq", "vegan", "plant-based", "comfort", "tex-mex"],
   isVegetarian: true,
-  notes: "Oyster mushrooms roast into a tender, slightly crispy texture that mimics pulled meat. Don’t overcrowd the pan to get the best caramelization."
+  notes: "Oyster mushrooms roast into a tender, slightly crispy texture that mimics pulled meat. Don’t overcrowd the pan to get the best caramelization.",
+  translations: {
+    es: {
+      name: "Tacos BBQ de hongos ostra",
+      notes:
+        "Los hongos ostra se asan hasta quedar tiernos y ligeramente crujientes, con una textura que recuerda a carne deshebrada. No llenes demasiado la bandeja para lograr la mejor caramelización.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "tacos",
+        "bbq",
+        "vegano",
+        "a base de plantas",
+        "comida reconfortante",
+        "tex-mex",
+      ],
+      ingredients: `Hongos:
+12 oz de hongos ostra, deshebrados en tiras
+1 Tbsp de aceite de oliva
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1/2 tsp de paprika ahumada o paprika regular
+
+Salsa BBQ:
+1/2 cup de salsa barbecue
+1 Tbsp de vinagre de manzana
+1 tsp de miel o jarabe de maple, opcional
+
+Armado:
+8 tortillas pequeñas
+1 cup de mezcla para coleslaw
+1/4 cup de cebolla roja, rebanada finamente
+2 Tbsp de cilantro fresco, picado`,
+      instructions: `Precalienta el horno a 425°F.
+
+Mezcla 12 oz de hongos ostra con 1 Tbsp de aceite de oliva, 1/2 tsp de sal, 1/4 tsp de pimienta negra y 1/2 tsp de paprika ahumada.
+
+Extiende los hongos en una sola capa sobre una bandeja para hornear.
+
+Asa de 20 a 25 minutos, revolviendo a la mitad, hasta que los bordes estén crujientes y ligeramente tostados.
+
+En un tazón, mezcla 1/2 cup de salsa barbecue con 1 Tbsp de vinagre de manzana y 1 tsp de miel si la usas.
+
+Mezcla los hongos asados con la salsa BBQ hasta cubrirlos de manera uniforme.
+
+Calienta 8 tortillas en un sartén a fuego medio o directamente sobre la llama.
+
+Rellena las tortillas con los hongos BBQ, luego cubre con mezcla para coleslaw, cebolla roja rebanada y cilantro.
+
+Sirve de inmediato.`,
+    },
+  },
 },
 
 {
@@ -4413,7 +8924,66 @@ Serve over rice and garnish with sesame seeds and green onions if desired.`,
   effort: "quick",
   tags: ["vegetarian", "dinner", "stir-fry", "spicy", "healthy", "one-pan", "vegan", "asian"],
   isVegetarian: true,
-  notes: "A bold, spicy-sweet stir-fry with crispy tofu and tender broccoli. Letting the tofu cook undisturbed helps create the best texture."
+  notes: "A bold, spicy-sweet stir-fry with crispy tofu and tender broccoli. Letting the tofu cook undisturbed helps create the best texture.",
+  translations: {
+    es: {
+      name: "Salteado de tofu con brócoli y gochujang",
+      notes:
+        "Un salteado intenso, picante y dulce, con tofu crujiente y brócoli tierno. Dejar que el tofu se cocine sin moverlo ayuda a lograr la mejor textura.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "salteado",
+        "picante",
+        "saludable",
+        "una sartén",
+        "vegano",
+        "asiático",
+      ],
+      ingredients: `Tofu:
+1 bloque (14 oz) de tofu extra firme, prensado y cortado en cubos
+1 Tbsp de maicena
+1 Tbsp de aceite de oliva
+
+Salsa:
+2 Tbsp de gochujang, pasta coreana de chile
+1 Tbsp de salsa de soya
+1 Tbsp de miel o jarabe de maple
+1 tsp de aceite de sésamo
+1 Tbsp de vinagre de arroz
+1/4 cup de agua
+
+Salteado:
+2 cups de floretes de brócoli
+2 dientes de ajo, picados
+1 tsp de jengibre fresco, rallado
+1 Tbsp de aceite de oliva
+
+Opcional:
+2 cups de arroz cocido, para servir
+1 Tbsp de semillas de sésamo
+2 cebollines, rebanados`,
+      instructions: `Prensa 1 bloque (14 oz) de tofu durante al menos 10 minutos para retirar el exceso de humedad, luego córtalo en cubos.
+
+Mezcla el tofu con 1 Tbsp de maicena hasta cubrirlo ligeramente.
+
+Calienta 1 Tbsp de aceite de oliva en un sartén grande o wok a fuego medio-alto.
+
+Agrega el tofu en una sola capa y cocina de 4 a 5 minutos sin moverlo, hasta que esté dorado y crujiente. Voltea y cocina otros 3 a 4 minutos. Retira y reserva.
+
+En un tazón pequeño, bate 2 Tbsp de gochujang, 1 Tbsp de salsa de soya, 1 Tbsp de miel o jarabe de maple, 1 tsp de aceite de sésamo, 1 Tbsp de vinagre de arroz y 1/4 cup de agua.
+
+En el mismo sartén, calienta 1 Tbsp de aceite de oliva a fuego medio-alto. Agrega 2 cups de brócoli y cocina de 4 a 5 minutos, hasta que esté tierno pero crujiente.
+
+Agrega 2 dientes de ajo y 1 tsp de jengibre. Cocina 30 segundos, hasta que suelte aroma.
+
+Regresa el tofu al sartén y vierte la salsa.
+
+Cocina de 2 a 3 minutos, revolviendo, hasta que la salsa espese ligeramente y cubra el tofu y el brócoli.
+
+Sirve sobre arroz y decora con semillas de sésamo y cebollines si deseas.`,
+    },
+  },
 },
 
 {
@@ -4464,7 +9034,64 @@ Ladle into bowls and top with soft-boiled eggs, green onions, chili oil, and cil
   effort: "normal",
   tags: ["vegetarian", "dinner", "soup", "ramen", "comfort", "spicy", "one-pot", "asian"],
   isVegetarian: true,
-  notes: "A rich, creamy ramen with bold curry flavor and a silky coconut broth. Adjust spice by adding more or less curry paste or chili oil."
+  notes: "A rich, creamy ramen with bold curry flavor and a silky coconut broth. Adjust spice by adding more or less curry paste or chili oil.",
+  translations: {
+    es: {
+      name: "Ramen de curry con coco",
+      notes:
+        "Un ramen rico y cremoso con sabor intenso a curry y un caldo sedoso de coco. Ajusta el picante agregando más o menos pasta de curry o aceite de chile.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "sopa",
+        "ramen",
+        "comida reconfortante",
+        "picante",
+        "una olla",
+        "asiático",
+      ],
+      ingredients: `Caldo:
+1 Tbsp de aceite de oliva
+2 dientes de ajo, picados
+1 tsp de jengibre fresco, rallado
+2 Tbsp de pasta de curry rojo
+1 lata (13.5 oz) de leche de coco
+3 cups de caldo de verduras
+1 Tbsp de salsa de soya
+1 tsp de azúcar morena
+1 Tbsp de jugo de lima
+
+Fideos y agregados:
+8 oz de fideos ramen, desecha los paquetes de sazonador
+1 cup de champiñones, rebanados
+1 cup de espinaca baby
+1/2 cup de zanahorias, ralladas
+1/2 cup de pimientos, rebanados
+
+Toppings opcionales:
+2 huevos pasados por agua
+2 cebollines, rebanados
+1 Tbsp de aceite de chile
+cilantro fresco`,
+      instructions: `Calienta 1 Tbsp de aceite de oliva en una olla grande a fuego medio.
+
+Agrega 2 dientes de ajo y 1 tsp de jengibre. Cocina 30 segundos, hasta que suelte aroma.
+
+Incorpora 2 Tbsp de pasta de curry rojo y cocina 1 minuto para intensificar el sabor.
+
+Vierte 1 lata de leche de coco y 3 cups de caldo de verduras. Mezcla para combinar.
+
+Agrega 1 Tbsp de salsa de soya y 1 tsp de azúcar morena. Lleva a un hervor suave.
+
+Agrega los champiñones, las zanahorias y los pimientos. Cocina a fuego bajo de 5 a 7 minutos, hasta que estén tiernos.
+
+Agrega 8 oz de fideos ramen y cocina según las instrucciones del paquete, aproximadamente 3 a 4 minutos.
+
+Incorpora 1 cup de espinaca y 1 Tbsp de jugo de lima. Cocina hasta que la espinaca se marchite.
+
+Sirve en tazones y cubre con huevos pasados por agua, cebollines, aceite de chile y cilantro si deseas. Sirve caliente.`,
+    },
+  },
 },
 
 {
@@ -4512,7 +9139,60 @@ Serve fritters warm with tzatziki on the side.`,
   effort: "normal",
   tags: ["vegetarian", "dinner", "appetizer", "mediterranean", "crispy", "skillet", "healthy"],
   isVegetarian: true,
-  notes: "Crispy on the outside and tender inside, these fritters depend on removing excess moisture from the zucchini. The tzatziki adds a cool, tangy balance."
+  notes: "Crispy on the outside and tender inside, these fritters depend on removing excess moisture from the zucchini. The tzatziki adds a cool, tangy balance.",
+  translations: {
+    es: {
+      name: "Tortitas mediterráneas de zucchini con tzatziki",
+      notes:
+        "Crujientes por fuera y tiernas por dentro, estas tortitas dependen de retirar el exceso de humedad del zucchini. El tzatziki agrega un equilibrio fresco y ácido.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "aperitivo",
+        "mediterráneo",
+        "crujiente",
+        "sartén",
+        "saludable",
+      ],
+      ingredients: `Tortitas:
+2 zucchini medianos, rallados
+1/2 tsp de sal
+1/3 cup de harina de todo uso o harina de garbanzo para sin gluten
+1/4 cup de queso feta, desmoronado
+2 Tbsp de eneldo fresco, picado, o perejil
+2 Tbsp de cebollín, rebanado
+1 diente de ajo, picado
+1 huevo grande
+1/4 tsp de pimienta negra
+2 Tbsp de aceite de oliva para freír
+
+Tzatziki:
+1 cup de yogur griego
+1/2 cup de pepino, rallado y exprimido
+1 Tbsp de jugo de limón
+1 Tbsp de aceite de oliva
+1 diente de ajo, picado
+1 Tbsp de eneldo fresco, picado
+1/4 tsp de sal`,
+      instructions: `Ralla 2 zucchini y colócalos en un tazón con 1/2 tsp de sal. Deja reposar 10 minutos para sacar la humedad.
+
+Pasa el zucchini a una toalla limpia y exprime la mayor cantidad de líquido posible. Este paso es clave para tortitas crujientes.
+
+En un tazón, combina el zucchini escurrido con 1/3 cup de harina, 1/4 cup de feta, 2 Tbsp de eneldo, 2 Tbsp de cebollín, 1 diente de ajo, 1 huevo y 1/4 tsp de pimienta negra. Mezcla hasta formar una masa espesa.
+
+Calienta 2 Tbsp de aceite de oliva en un sartén a fuego medio.
+
+Coloca aproximadamente 2 Tbsp de la mezcla por cada tortita en el sartén y aplana ligeramente.
+
+Cocina de 3 a 4 minutos por lado, hasta que estén bien doradas y crujientes por fuera.
+
+Pasa a un plato con toallas de papel o a una rejilla.
+
+En otro tazón, combina 1 cup de yogur griego, 1/2 cup de pepino exprimido, 1 Tbsp de jugo de limón, 1 Tbsp de aceite de oliva, 1 diente de ajo, 1 Tbsp de eneldo y 1/4 tsp de sal. Mezcla hasta que quede suave.
+
+Sirve las tortitas calientes con tzatziki al lado.`,
+    },
+  },
 },
 
 {
@@ -4566,7 +9246,66 @@ Add eggs, sesame seeds, and green onions if desired. Serve immediately.`,
   effort: "quick",
   tags: ["vegetarian", "dinner", "bowl", "healthy", "fermented", "asian", "meal-prep"],
   isVegetarian: true,
-  notes: "A bold, tangy bowl with probiotic-rich kimchi and crispy tofu. Adjust spice by increasing or reducing gochujang."
+  notes: "A bold, tangy bowl with probiotic-rich kimchi and crispy tofu. Adjust spice by increasing or reducing gochujang.",
+  translations: {
+    es: {
+      name: "Bowls de arroz integral con kimchi",
+      notes:
+        "Un bowl intenso y ácido con kimchi rico en probióticos y tofu crujiente. Ajusta el picante aumentando o reduciendo el gochujang.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "bowl",
+        "saludable",
+        "fermentado",
+        "asiático",
+        "meal prep",
+      ],
+      ingredients: `Base de arroz:
+2 cups de arroz integral cocido
+
+Proteína:
+1 bloque (14 oz) de tofu firme, cortado en cubos
+1 Tbsp de salsa de soya
+1 tsp de aceite de sésamo
+1 Tbsp de aceite de oliva
+
+Verduras:
+1 cup de kimchi, picado
+1/2 cup de zanahorias, ralladas
+1/2 cup de pepino, rebanado
+1 cup de espinaca baby
+
+Salsa:
+1 Tbsp de gochujang
+1 Tbsp de salsa de soya
+1 tsp de miel o jarabe de maple
+1 tsp de aceite de sésamo
+1 Tbsp de agua
+
+Toppings opcionales:
+2 huevos fritos o pasados por agua
+1 Tbsp de semillas de sésamo
+2 cebollines, rebanados`,
+      instructions: `Calienta 1 Tbsp de aceite de oliva en un sartén a fuego medio-alto.
+
+Agrega 1 bloque (14 oz) de tofu en cubos y cocina de 4 a 5 minutos hasta que esté ligeramente dorado. Voltea y cocina otros 3 a 4 minutos, hasta que esté crujiente.
+
+Agrega 1 Tbsp de salsa de soya y 1 tsp de aceite de sésamo al tofu. Mezcla para cubrir y cocina 1 minuto más. Retira del fuego.
+
+En un tazón pequeño, bate 1 Tbsp de gochujang, 1 Tbsp de salsa de soya, 1 tsp de miel o jarabe de maple, 1 tsp de aceite de sésamo y 1 Tbsp de agua.
+
+Calienta 2 cups de arroz integral cocido si es necesario.
+
+Arma los bowls usando el arroz como base.
+
+Cubre con tofu, 1 cup de kimchi, 1/2 cup de zanahorias ralladas, 1/2 cup de pepino y 1 cup de espinaca.
+
+Rocía la salsa por encima.
+
+Agrega huevos, semillas de sésamo y cebollines si deseas. Sirve de inmediato.`,
+    },
+  },
 },
 
 {
@@ -4619,7 +9358,65 @@ Serve hot.`,
   effort: "normal",
   tags: ["vegetarian", "dinner", "chili", "one-pot", "comfort", "healthy", "meal-prep"],
   isVegetarian: true,
-  notes: "A hearty, nutrient-packed chili with natural sweetness from the potatoes and a slight kick from the spices. Great for leftovers and freezer-friendly."
+  notes: "A hearty, nutrient-packed chili with natural sweetness from the potatoes and a slight kick from the spices. Great for leftovers and freezer-friendly.",
+  translations: {
+    es: {
+      name: "Chili de camote y kale",
+      notes:
+        "Un chili sustancioso y lleno de nutrientes, con dulzura natural de los camotes y un ligero toque picante de las especias. Excelente para sobras y apto para congelar.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "chili",
+        "una olla",
+        "comida reconfortante",
+        "saludable",
+        "meal prep",
+      ],
+      ingredients: `Base:
+1 Tbsp de aceite de oliva
+1 cebolla pequeña, picada en cubitos
+2 dientes de ajo, picados
+
+Chili:
+2 cups de camotes, pelados y cortados en cubos
+1 lata (15 oz) de frijoles negros, escurridos
+1 lata (15 oz) de frijoles rojos, escurridos
+1 lata (14 oz) de tomates en cubitos
+2 cups de caldo de verduras
+2 cups de kale, picado
+
+Sazonador:
+1 Tbsp de chile en polvo
+1 tsp de comino
+1/2 tsp de paprika ahumada o paprika regular
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+
+Opcional:
+1/2 tsp de pimienta de cayena para picante
+1 Tbsp de jugo de lima`,
+      instructions: `Calienta 1 Tbsp de aceite de oliva en una olla grande a fuego medio.
+
+Agrega 1 cebolla picada y cocina de 4 a 5 minutos, hasta que se ablande.
+
+Agrega 2 dientes de ajo y cocina 30 segundos, hasta que suelte aroma.
+
+Incorpora 2 cups de camotes en cubos, 1 lata de frijoles negros, 1 lata de frijoles rojos, 1 lata de tomates en cubitos y 2 cups de caldo de verduras.
+
+Agrega 1 Tbsp de chile en polvo, 1 tsp de comino, 1/2 tsp de paprika ahumada, 1/2 tsp de sal, 1/4 tsp de pimienta negra y cayena si la usas. Mezcla bien.
+
+Lleva a hervor, luego reduce el fuego a un hervor bajo.
+
+Tapa y cocina de 20 a 25 minutos, hasta que los camotes estén tiernos al pincharlos con un tenedor.
+
+Incorpora 2 cups de kale picado y cocina de 3 a 5 minutos, hasta que se marchite.
+
+Termina con 1 Tbsp de jugo de lima si deseas. Prueba y ajusta los condimentos.
+
+Sirve caliente.`,
+    },
+  },
 },
 
 {
@@ -4669,7 +9466,62 @@ Let rest for 5 minutes before serving.`,
   effort: "normal",
   tags: ["vegetarian", "dinner", "pasta", "bake", "mediterranean", "one-pan", "comfort"],
   isVegetarian: true,
-  notes: "A bright, savory baked orzo dish with Mediterranean flavors. Toasting the orzo first adds depth, and the lemon at the end keeps it fresh and balanced."
+  notes: "A bright, savory baked orzo dish with Mediterranean flavors. Toasting the orzo first adds depth, and the lemon at the end keeps it fresh and balanced.",
+  translations: {
+    es: {
+      name: "Orzo al horno estilo griego",
+      notes:
+        "Un plato de orzo al horno brillante y sabroso, con sabores mediterráneos. Tostar el orzo primero agrega profundidad, y el limón al final lo mantiene fresco y equilibrado.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "pasta",
+        "horneado",
+        "mediterráneo",
+        "una sartén",
+        "comida reconfortante",
+      ],
+      ingredients: `Base:
+1 Tbsp de aceite de oliva
+1/2 cebolla, picada en cubitos
+2 dientes de ajo, picados
+
+Orzo al horno:
+1 cup de orzo sin cocinar
+1 lata (14 oz) de tomates en cubitos
+2 cups de caldo de verduras
+1/2 cup de aceitunas kalamata, rebanadas
+1 tsp de orégano seco
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+
+Para terminar:
+1/2 cup de queso feta, desmoronado
+1/4 cup de perejil fresco, picado
+1 Tbsp de jugo de limón`,
+      instructions: `Precalienta el horno a 375°F.
+
+Calienta 1 Tbsp de aceite de oliva en un sartén u olla apta para horno a fuego medio.
+
+Agrega 1/2 cebolla picada y cocina de 4 a 5 minutos, hasta que se ablande.
+
+Agrega 2 dientes de ajo y cocina 30 segundos, hasta que suelte aroma.
+
+Incorpora 1 cup de orzo sin cocinar y tuesta de 1 a 2 minutos, revolviendo, hasta que esté ligeramente dorado y con aroma a nuez.
+
+Agrega 1 lata de tomates en cubitos, 2 cups de caldo de verduras, 1/2 cup de aceitunas, 1 tsp de orégano, 1/2 tsp de sal y 1/4 tsp de pimienta negra. Mezcla bien.
+
+Lleva a un hervor suave, luego pasa al horno.
+
+Hornea sin cubrir de 18 a 22 minutos, hasta que el orzo esté tierno y la mayor parte del líquido se haya absorbido.
+
+Retira del horno y revuelve suavemente.
+
+Cubre con 1/2 cup de feta, 1/4 cup de perejil y 1 Tbsp de jugo de limón.
+
+Deja reposar 5 minutos antes de servir.`,
+    },
+  },
 },
 
 {
@@ -4719,7 +9571,62 @@ Garnish with parsley if using and serve immediately.`,
   effort: "normal",
   tags: ["vegetarian", "dinner", "pasta", "comfort", "italian", "creamy", "date-night"],
   isVegetarian: true,
-  notes: "Deeply browned mushrooms create rich, savory flavor while sage adds warmth. Avoid overcrowding the pan so the mushrooms caramelize instead of steaming."
+  notes: "Deeply browned mushrooms create rich, savory flavor while sage adds warmth. Avoid overcrowding the pan so the mushrooms caramelize instead of steaming.",
+  translations: {
+    es: {
+      name: "Tagliatelle con champiñones y salvia",
+      notes:
+        "Los champiñones bien dorados crean un sabor rico y sabroso, mientras que la salvia aporta calidez. Evita llenar demasiado el sartén para que los champiñones se caramelicen en lugar de cocinarse al vapor.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "pasta",
+        "comida reconfortante",
+        "italiana",
+        "cremoso",
+        "noche especial",
+      ],
+      ingredients: `Pasta:
+12 oz de tagliatelle o fettuccine
+
+Champiñones:
+2 Tbsp de aceite de oliva
+1 Tbsp de mantequilla
+16 oz de champiñones, rebanados, cremini o mezcla de champiñones
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+
+Salsa:
+2 dientes de ajo, picados
+1 tsp de salvia fresca, finamente picada, o 1/2 tsp de salvia seca
+1/2 cup de crema espesa o half-and-half para más ligero
+1/2 cup de queso parmesano, rallado
+1/2 cup de agua reservada de la pasta
+
+Para terminar:
+1 Tbsp de mantequilla
+1 Tbsp de perejil fresco, picado, opcional`,
+      instructions: `Hierve una olla grande con agua salada y cocina 12 oz de tagliatelle según las instrucciones del paquete. Reserva 1/2 cup de agua de la pasta antes de escurrir.
+
+Calienta 2 Tbsp de aceite de oliva y 1 Tbsp de mantequilla en un sartén grande a fuego medio-alto.
+
+Agrega 16 oz de champiñones en una sola capa y cocina de 6 a 8 minutos sin revolver demasiado, hasta que estén bien dorados y ligeramente crujientes en los bordes.
+
+Sazona con 1/2 tsp de sal y 1/4 tsp de pimienta negra.
+
+Agrega 2 dientes de ajo y 1 tsp de salvia. Cocina 30 segundos, hasta que suelte aroma.
+
+Reduce el fuego a medio y vierte 1/2 cup de crema espesa. Cocina a fuego suave de 2 a 3 minutos.
+
+Incorpora 1/2 cup de parmesano rallado y un chorrito del agua reservada de la pasta, revolviendo hasta que la salsa quede suave y cubra ligeramente el dorso de una cuchara.
+
+Agrega la pasta cocida y mezcla para cubrir, agregando más agua de pasta según sea necesario para aflojar la salsa.
+
+Termina con 1 Tbsp de mantequilla para más riqueza y brillo.
+
+Decora con perejil si lo usas y sirve de inmediato.`,
+    },
+  },
 },
 
 {
@@ -4773,7 +9680,67 @@ Serve warm.`,
   effort: "normal",
   tags: ["vegetarian", "vegan", "dinner", "wraps", "tex-mex", "comfort", "handheld", "fun"],
   isVegetarian: true,
-  notes: "A plant-based take on a fast-food favorite with a crispy exterior and layered textures. Pressing seam-side down first helps seal the wrap."
+  notes: "A plant-based take on a fast-food favorite with a crispy exterior and layered textures. Pressing seam-side down first helps seal the wrap.",
+  translations: {
+    es: {
+      name: "Crunchwrap Supreme vegano",
+      notes:
+        "Una versión a base de plantas de un favorito estilo comida rápida, con exterior crujiente y capas de textura. Presionarlo primero con la unión hacia abajo ayuda a sellar el wrap.",
+      tags: [
+        "vegetariano",
+        "vegano",
+        "cena",
+        "wraps",
+        "tex-mex",
+        "comida reconfortante",
+        "para comer con la mano",
+        "divertido",
+      ],
+      ingredients: `Relleno:
+1 Tbsp de aceite de oliva
+1/2 cebolla, picada en cubitos
+1 lata (15 oz) de frijoles negros, escurridos y enjuagados
+1 tsp de chile en polvo
+1/2 tsp de comino
+1/2 tsp de paprika
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+
+Salsa cremosa:
+1/2 cup de crema agria vegana o yogur sin lácteos
+1 Tbsp de jugo de lima
+1/2 tsp de ajo en polvo
+1/4 tsp de sal
+
+Armado:
+4 tortillas de harina grandes
+4 tostadas pequeñas o chips de tortilla
+1 cup de lechuga rallada
+1/2 cup de tomates, picados en cubitos
+1/2 cup de queso vegano rallado`,
+      instructions: `Calienta 1 Tbsp de aceite de oliva en un sartén a fuego medio.
+
+Agrega 1/2 cebolla picada y cocina de 4 a 5 minutos, hasta que se ablande.
+
+Agrega 1 lata de frijoles negros, 1 tsp de chile en polvo, 1/2 tsp de comino, 1/2 tsp de paprika, 1/2 tsp de sal y 1/4 tsp de pimienta negra. Cocina de 5 a 7 minutos, machacando ligeramente algunos frijoles hasta que la mezcla quede espesa y un poco cremosa.
+
+En un tazón pequeño, mezcla 1/2 cup de crema agria vegana, 1 Tbsp de jugo de lima, 1/2 tsp de ajo en polvo y 1/4 tsp de sal hasta que quede suave.
+
+Calienta 4 tortillas grandes hasta que estén suaves y flexibles.
+
+En el centro de cada tortilla, extiende una capa del relleno de frijoles.
+
+Cubre con una tostada, luego agrega una cucharada de salsa, 1/4 cup de lechuga, tomates y queso vegano.
+
+Dobla los bordes de la tortilla hacia arriba y sobre el centro, trabajando alrededor para formar un wrap sellado.
+
+Calienta un sartén limpio a fuego medio y coloca el crunchwrap con la unión hacia abajo.
+
+Cocina de 3 a 4 minutos, hasta que esté dorado y sellado, luego voltea y cocina otros 2 a 3 minutos, hasta que esté crujiente.
+
+Sirve caliente.`,
+    },
+  },
 },
 
 {
@@ -4828,7 +9795,67 @@ Garnish with parsley if using and serve immediately.`,
   effort: "normal",
   tags: ["vegetarian", "dinner", "pasta", "comfort", "creamy", "skillet", "modern"],
   isVegetarian: true,
-  notes: "Crisping the gnocchi first gives it a better texture than boiling. Let the mushrooms brown properly to build deep flavor before adding the sauce."
+  notes: "Crisping the gnocchi first gives it a better texture than boiling. Let the mushrooms brown properly to build deep flavor before adding the sauce.",
+  translations: {
+    es: {
+      name: "Gnocchi de coliflor con Alfredo de champiñones",
+      notes:
+        "Dorar primero los gnocchi les da mejor textura que hervirlos. Deja que los champiñones se doren bien para crear sabor profundo antes de agregar la salsa.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "pasta",
+        "comida reconfortante",
+        "cremoso",
+        "sartén",
+        "moderno",
+      ],
+      ingredients: `Gnocchi:
+1 paquete (12 oz) de gnocchi de coliflor
+1 Tbsp de aceite de oliva
+
+Champiñones:
+1 Tbsp de aceite de oliva
+1 Tbsp de mantequilla
+12 oz de champiñones, rebanados
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+
+Salsa Alfredo:
+2 dientes de ajo, picados
+1 cup de crema espesa o half-and-half para más ligero
+3/4 cup de queso parmesano, rallado
+1/2 tsp de ajo en polvo
+1/4 tsp de sal
+1/4 tsp de pimienta negra
+1/4 cup de agua reservada de la pasta, opcional para aligerar
+
+Para terminar:
+1 Tbsp de mantequilla
+2 Tbsp de perejil fresco, picado, opcional`,
+      instructions: `Calienta 1 Tbsp de aceite de oliva en un sartén grande a fuego medio-alto.
+
+Agrega 1 paquete (12 oz) de gnocchi de coliflor en una sola capa y cocina de 4 a 5 minutos sin revolver, hasta que estén dorados y crujientes. Voltea y cocina otros 3 a 4 minutos. Retira y reserva.
+
+En el mismo sartén, calienta 1 Tbsp de aceite de oliva y 1 Tbsp de mantequilla a fuego medio-alto.
+
+Agrega 12 oz de champiñones y cocina de 6 a 8 minutos, hasta que estén bien dorados y ligeramente crujientes en los bordes.
+
+Sazona con 1/2 tsp de sal y 1/4 tsp de pimienta negra.
+
+Agrega 2 dientes de ajo y cocina 30 segundos, hasta que suelte aroma.
+
+Reduce el fuego a medio y vierte 1 cup de crema espesa. Cocina a fuego bajo de 2 a 3 minutos.
+
+Incorpora 3/4 cup de queso parmesano, 1/2 tsp de ajo en polvo, 1/4 tsp de sal y 1/4 tsp de pimienta negra. Revuelve hasta que quede suave y cremoso.
+
+Regresa los gnocchi cocidos al sartén y mezcla para cubrirlos. Agrega un chorrito de agua de pasta si necesitas aflojar la salsa.
+
+Termina con 1 Tbsp de mantequilla para más riqueza y brillo.
+
+Decora con perejil si lo usas y sirve de inmediato.`,
+    },
+  },
 },
 
 {
@@ -4864,7 +9891,48 @@ Serve immediately.`,
   effort: "quick",
   tags: ["vegetarian", "breakfast", "lunch", "quick", "healthy", "toast", "simple"],
   isVegetarian: true,
-  notes: "Use ripe avocados for the best texture and flavor. A squeeze of lemon helps brighten the taste and prevent browning."
+  notes: "Use ripe avocados for the best texture and flavor. A squeeze of lemon helps brighten the taste and prevent browning.",
+  translations: {
+    es: {
+      name: "Tostada de aguacate",
+      notes:
+        "Usa aguacates maduros para lograr la mejor textura y sabor. Un chorrito de limón ayuda a realzar el sabor y evitar que se oxide.",
+      tags: [
+        "vegetariano",
+        "desayuno",
+        "almuerzo",
+        "rápido",
+        "saludable",
+        "tostada",
+        "simple",
+      ],
+      ingredients: `Base:
+2 rebanadas de pan, se recomienda masa madre o integral
+1 Tbsp de aceite de oliva, opcional para tostar
+
+Aguacate:
+1 aguacate maduro
+1 Tbsp de jugo de limón
+1/4 tsp de sal
+1/4 tsp de pimienta negra
+
+Toppings opcionales:
+2 huevos, fritos o pochados
+1/4 tsp de hojuelas de chile rojo
+1 Tbsp de queso feta, desmoronado
+1 Tbsp de tomates cherry, cortados por la mitad
+1 tsp de sazonador everything bagel`,
+      instructions: `Tuesta 2 rebanadas de pan hasta que estén doradas y crujientes. Para más sabor, barniza ligeramente con 1 Tbsp de aceite de oliva antes de tostar en un sartén a fuego medio.
+
+En un tazón, machaca 1 aguacate maduro con 1 Tbsp de jugo de limón, 1/4 tsp de sal y 1/4 tsp de pimienta negra hasta que quede suave pero con un poco de textura.
+
+Extiende la mezcla de aguacate de manera uniforme sobre el pan tostado.
+
+Agrega los toppings que quieras, como huevos, feta, tomates, hojuelas de chile rojo o sazonador everything bagel.
+
+Sirve de inmediato.`,
+    },
+  },
 },
 
 {
@@ -4896,7 +9964,42 @@ Top with avocado and cilantro. Serve warm.`,
   effort: "normal",
   tags: ["vegetarian", "dinner", "tacos", "tex-mex", "healthy"],
   isVegetarian: true,
-  notes: "Sweet, smoky, and filling tacos perfect for a meatless night."
+  notes: "Sweet, smoky, and filling tacos perfect for a meatless night.",
+  translations: {
+    es: {
+      name: "Tacos de frijol negro y camote",
+      notes:
+        "Tacos dulces, ahumados y llenadores, perfectos para una noche sin carne.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "tacos",
+        "tex-mex",
+        "saludable",
+      ],
+      ingredients: `2 cups de camotes, cortados en cubitos
+1 Tbsp de aceite de oliva
+1/2 tsp de sal
+1/4 tsp de pimienta
+1 tsp de chile en polvo
+1/2 tsp de comino
+1 lata (15 oz) de frijoles negros, escurridos
+8 tortillas
+1/2 cup de aguacate, rebanado
+1/4 cup de cilantro, picado`,
+      instructions: `Precalienta el horno a 425°F.
+
+Mezcla 2 cups de camotes en cubitos con 1 Tbsp de aceite de oliva, 1/2 tsp de sal, 1/4 tsp de pimienta, 1 tsp de chile en polvo y 1/2 tsp de comino.
+
+Asa de 20 a 25 minutos, hasta que estén tiernos y ligeramente caramelizados.
+
+Calienta 8 tortillas.
+
+Rellena las tortillas con camotes asados y frijoles negros.
+
+Cubre con aguacate y cilantro. Sirve caliente.`,
+    },
+  },
 },
 
 {
@@ -4921,7 +10024,35 @@ Spread onto 4 slices of bread and assemble sandwiches. Serve immediately.`,
   effort: "quick",
   tags: ["vegetarian", "lunch", "sandwich", "quick", "meal-prep"],
   isVegetarian: true,
-  notes: "A simple, protein-packed vegetarian alternative to chicken or tuna salad."
+  notes: "A simple, protein-packed vegetarian alternative to chicken or tuna salad.",
+  translations: {
+    es: {
+      name: "Sándwich de ensalada de garbanzos",
+      notes:
+        "Una alternativa vegetariana sencilla y llena de proteína a la ensalada de pollo o atún.",
+      tags: [
+        "vegetariano",
+        "almuerzo",
+        "sándwich",
+        "rápido",
+        "meal prep",
+      ],
+      ingredients: `1 lata (15 oz) de garbanzos, escurridos
+1/3 cup de mayonesa
+1 Tbsp de mostaza Dijon
+1 Tbsp de jugo de limón
+1/4 cup de apio, picado en cubitos
+2 Tbsp de cebolla roja, picada en cubitos
+4 rebanadas de pan`,
+      instructions: `En un tazón, machaca 1 lata de garbanzos hasta que queden ligeramente con textura.
+
+Agrega 1/3 cup de mayonesa, 1 Tbsp de mostaza Dijon y 1 Tbsp de jugo de limón. Mezcla para combinar.
+
+Incorpora 1/4 cup de apio y 2 Tbsp de cebolla roja.
+
+Extiende sobre 4 rebanadas de pan y arma los sándwiches. Sirve de inmediato.`,
+    },
+  },
 },
 
 {
@@ -4947,7 +10078,36 @@ Season with 1/2 tsp salt and toss. Serve.`,
   effort: "quick",
   tags: ["vegetarian", "dinner", "bowl", "healthy", "meal-prep"],
   isVegetarian: true,
-  notes: "Fresh, filling, and perfect for quick healthy meals."
+  notes: "Fresh, filling, and perfect for quick healthy meals.",
+  translations: {
+    es: {
+      name: "Bowl mediterráneo de garbanzos",
+      notes:
+        "Fresco, llenador y perfecto para comidas saludables rápidas.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "bowl",
+        "saludable",
+        "meal prep",
+      ],
+      ingredients: `2 cups de arroz o quinoa cocidos
+1 lata (15 oz) de garbanzos, escurridos
+1 cup de pepino, picado en cubitos
+1 cup de tomates cherry, cortados por la mitad
+1/2 cup de queso feta
+2 Tbsp de aceite de oliva
+1 Tbsp de jugo de limón
+1/2 tsp de sal`,
+      instructions: `En un tazón, combina 2 cups de arroz o quinoa cocidos con 1 lata de garbanzos.
+
+Agrega 1 cup de pepino, 1 cup de tomates y 1/2 cup de feta.
+
+Rocía con 2 Tbsp de aceite de oliva y 1 Tbsp de jugo de limón.
+
+Sazona con 1/2 tsp de sal, mezcla y sirve.`,
+    },
+  },
 },
 
 {
@@ -4970,7 +10130,33 @@ Bake for 20 minutes until bubbly. Serve warm.`,
   effort: "normal",
   tags: ["vegetarian", "dinner", "comfort", "mexican", "bake"],
   isVegetarian: true,
-  notes: "Simple, cheesy comfort food perfect for busy nights."
+  notes: "Simple, cheesy comfort food perfect for busy nights.",
+  translations: {
+    es: {
+      name: "Enchiladas de queso",
+      notes:
+        "Comida reconfortante simple y llena de queso, perfecta para noches ocupadas.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "comida reconfortante",
+        "mexicano",
+        "horneado",
+      ],
+      ingredients: `8 tortillas
+2 cups de salsa para enchiladas
+2 cups de queso cheddar rallado`,
+      instructions: `Precalienta el horno a 375°F.
+
+Extiende 1/2 cup de salsa para enchiladas en un molde para hornear.
+
+Rellena cada tortilla con queso, enrolla y coloca con la unión hacia abajo.
+
+Vierte el resto de la salsa encima y espolvorea con el queso restante.
+
+Hornea durante 20 minutos, hasta que esté burbujeante. Sirve caliente.`,
+    },
+  },
 },
 
 {
@@ -5003,6 +10189,42 @@ Remove from the grill and brush generously with 2 Tbsp melted butter.
 Sprinkle with 1/2 tsp salt, 1/4 tsp pepper, and 1/2 tsp garlic powder if using.
 
 Garnish with 1 Tbsp fresh chopped parsley or cilantro and serve with lime wedges if desired.`,
+  translations: {
+    es: {
+      name: "Elote a la parrilla",
+      notes:
+        "Elote dulce y jugoso a la parrilla, con un ligero dorado y acabado con mantequilla. Barnizar con aceite antes de asar ayuda a lograr color uniforme y evita que se pegue.",
+      tags: [
+        "acompañamiento",
+        "parrilla",
+        "verano",
+        "vegetariano",
+        "bbq",
+        "fácil",
+      ],
+      ingredients: `4 elotes, sin hojas
+2 Tbsp de mantequilla, derretida
+1 Tbsp de aceite de oliva
+1/2 tsp de sal, más al gusto
+1/4 tsp de pimienta, opcional
+1/2 tsp de ajo en polvo, opcional
+1 Tbsp de perejil fresco o cilantro, picado, opcional
+gajos de lima, opcional`,
+      instructions: `Precalienta la parrilla a fuego medio, aproximadamente 375°F a 400°F.
+
+Barniza ligeramente 4 elotes sin hojas con 1 Tbsp de aceite de oliva para evitar que se peguen y ayudar a que se doren de manera uniforme.
+
+Coloca los elotes directamente sobre las rejillas de la parrilla.
+
+Asa de 8 a 10 minutos, girando cada 2 a 3 minutos, hasta que los granos estén tiernos y ligeramente dorados por todos lados.
+
+Retira de la parrilla y barniza generosamente con 2 Tbsp de mantequilla derretida.
+
+Espolvorea con 1/2 tsp de sal, 1/4 tsp de pimienta y 1/2 tsp de ajo en polvo si lo usas.
+
+Decora con 1 Tbsp de perejil fresco o cilantro picado, y sirve con gajos de lima si deseas.`,
+    },
+  },
 },
 
 {
@@ -5037,6 +10259,45 @@ Place kabobs on the grill and cook for 8 to 10 minutes, turning every few minute
 Remove from grill and drizzle with 1 Tbsp balsamic vinegar or lemon juice if using for a bright finish.
 
 Serve warm.`,
+  translations: {
+    es: {
+      name: "Brochetas de verduras a la parrilla",
+      notes:
+        "Verduras simples y coloridas a la parrilla con un ligero dorado. Cortarlas en tamaños similares ayuda a que se cocinen parejo, y terminar con un toque ácido realza el sabor.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "parrilla",
+        "saludable",
+        "acompañamiento",
+        "verano",
+        "una tanda",
+      ],
+      ingredients: `1 zucchini, rebanado en rodajas gruesas
+1 pimiento, de cualquier color, cortado en trozos
+1/2 cebolla roja, cortada en trozos
+8 oz de champiñones, enteros o partidos por la mitad
+2 Tbsp de aceite de oliva
+1/2 tsp de sal, más al gusto
+1/4 tsp de pimienta
+1/2 tsp de ajo en polvo
+1/2 tsp de sazonador italiano seco, opcional
+1 Tbsp de vinagre balsámico o jugo de limón, opcional para terminar`,
+      instructions: `Precalienta la parrilla a fuego medio, aproximadamente 375°F a 400°F.
+
+Si usas brochetas de madera, remójalas en agua por al menos 20 minutos para evitar que se quemen.
+
+En un tazón grande, mezcla 1 zucchini, 1 pimiento picado, 1/2 cebolla roja y 8 oz de champiñones con 2 Tbsp de aceite de oliva, 1/2 tsp de sal, 1/4 tsp de pimienta, 1/2 tsp de ajo en polvo y 1/2 tsp de sazonador italiano seco si lo usas.
+
+Ensarta las verduras sazonadas en brochetas, alternando las piezas para una cocción uniforme y una presentación colorida.
+
+Coloca las brochetas en la parrilla y cocina de 8 a 10 minutos, girando cada pocos minutos, hasta que las verduras estén tiernas y ligeramente doradas.
+
+Retira de la parrilla y rocía con 1 Tbsp de vinagre balsámico o jugo de limón si lo usas para un acabado fresco.
+
+Sirve caliente.`,
+    },
+  },
 },
 
 ];
@@ -5044,15 +10305,15 @@ Serve warm.`,
 // Optional non-dinner vegetarian meals
 export const VEGETARIAN_EXTRAS: Meal[] = [
   {
-    id: "quick-avocado-white-bean-wraps",
-    slug: "quick-avocado-white-bean-wraps",
-    name: "Avocado and White Bean Wraps",
-    effort: "quick",
-    photoUrl: "/images/quick-avocado-white-bean-wraps.jpg",
-    tags: ["vegetarian", "vegan", "lunch", "quick", "no-cook", "healthy", "meal-prep"],
-    isVegetarian: true,
-    notes: "A quick, fresh wrap with creamy avocado and protein-packed beans. Lightly mashing the beans helps everything hold together while keeping a good texture.",
-    ingredients: `1 cup cannellini beans, drained and rinsed
+  id: "quick-avocado-white-bean-wraps",
+  slug: "quick-avocado-white-bean-wraps",
+  name: "Avocado and White Bean Wraps",
+  effort: "quick",
+  photoUrl: "/images/quick-avocado-white-bean-wraps.jpg",
+  tags: ["vegetarian", "vegan", "lunch", "quick", "no-cook", "healthy", "meal-prep"],
+  isVegetarian: true,
+  notes: "A quick, fresh wrap with creamy avocado and protein-packed beans. Lightly mashing the beans helps everything hold together while keeping a good texture.",
+  ingredients: `1 cup cannellini beans, drained and rinsed
 1 ripe avocado
 1 Tbsp lime juice
 2 Tbsp fresh cilantro, chopped
@@ -5063,7 +10324,7 @@ export const VEGETARIAN_EXTRAS: Meal[] = [
 1/4 cup shredded carrots
 1/2 cup fresh spinach leaves
 1 Tbsp olive oil (optional, for richness)`,
-    instructions: `In a medium bowl, mash 1 ripe avocado with 1 Tbsp lime juice, 1/4 tsp salt, 1/4 tsp pepper, and 1/4 tsp garlic powder if using until mostly smooth.
+  instructions: `In a medium bowl, mash 1 ripe avocado with 1 Tbsp lime juice, 1/4 tsp salt, 1/4 tsp pepper, and 1/4 tsp garlic powder if using until mostly smooth.
 
 Add 1 cup drained and rinsed cannellini beans and lightly mash about half of them into the avocado mixture, leaving some whole for texture.
 
@@ -5076,18 +10337,58 @@ Top the mixture with 1/4 cup shredded carrots and 1/2 cup fresh spinach leaves.
 Roll the tortillas tightly, folding in the sides as you go to secure the filling.
 
 Slice in half and serve immediately.`,
-  },
+  translations: {
+    es: {
+      name: "Wraps de aguacate y frijoles blancos",
+      notes:
+        "Un wrap rápido y fresco con aguacate cremoso y frijoles llenos de proteína. Machacar ligeramente los frijoles ayuda a que todo se mantenga unido sin perder buena textura.",
+      tags: [
+        "vegetariano",
+        "vegano",
+        "almuerzo",
+        "rápido",
+        "sin cocinar",
+        "saludable",
+        "meal prep",
+      ],
+      ingredients: `1 cup de frijoles cannellini, escurridos y enjuagados
+1 aguacate maduro
+1 Tbsp de jugo de lima
+2 Tbsp de cilantro fresco, picado
+1/4 tsp de sal, más al gusto
+1/4 tsp de pimienta
+1/4 tsp de ajo en polvo, opcional
+2 tortillas grandes de trigo integral
+1/4 cup de zanahorias ralladas
+1/2 cup de hojas de espinaca fresca
+1 Tbsp de aceite de oliva, opcional para más riqueza`,
+      instructions: `En un tazón mediano, machaca 1 aguacate maduro con 1 Tbsp de jugo de lima, 1/4 tsp de sal, 1/4 tsp de pimienta y 1/4 tsp de ajo en polvo si lo usas, hasta que quede casi suave.
 
-  {
-    id: "normal-spicy-mushroom-potato-hash",
-    slug: "normal-spicy-mushroom-potato-hash",
-    name: "Spicy Skillet Mushroom and Potato Hash",
-    effort: "normal",
-    photoUrl: "/images/normal-spicy-mushroom-potato-hash.jpg",
-    tags: ["vegetarian", "breakfast", "brunch", "skillet", "spicy", "comfort", "one-pan", "leftovers-friendly"],
-    isVegetarian: true,
-    notes: "Crispy, hearty skillet hash with bold flavor and tender vegetables. Letting the potatoes cook undisturbed at first helps build a golden crust for the best texture.",
-    ingredients: `2 large russet potatoes, diced (small cubes)
+Agrega 1 cup de frijoles cannellini escurridos y enjuagados, y machaca ligeramente aproximadamente la mitad dentro de la mezcla de aguacate, dejando algunos enteros para textura.
+
+Incorpora 2 Tbsp de cilantro fresco picado y 1 Tbsp de aceite de oliva si lo usas. Prueba y ajusta los condimentos según sea necesario.
+
+Coloca 2 tortillas grandes de trigo integral extendidas y reparte la mezcla de frijoles y aguacate de manera uniforme por el centro de cada una.
+
+Cubre la mezcla con 1/4 cup de zanahorias ralladas y 1/2 cup de hojas de espinaca fresca.
+
+Enrolla las tortillas firmemente, doblando los lados mientras enrollas para asegurar el relleno.
+
+Corta por la mitad y sirve de inmediato.`,
+    },
+  },
+},
+
+{
+  id: "normal-spicy-mushroom-potato-hash",
+  slug: "normal-spicy-mushroom-potato-hash",
+  name: "Spicy Skillet Mushroom and Potato Hash",
+  effort: "normal",
+  photoUrl: "/images/normal-spicy-mushroom-potato-hash.jpg",
+  tags: ["vegetarian", "breakfast", "brunch", "skillet", "spicy", "comfort", "one-pan", "leftovers-friendly"],
+  isVegetarian: true,
+  notes: "Crispy, hearty skillet hash with bold flavor and tender vegetables. Letting the potatoes cook undisturbed at first helps build a golden crust for the best texture.",
+  ingredients: `2 large russet potatoes, diced (small cubes)
 8 oz baby bella mushrooms, sliced
 1 jalapeño, minced
 1/2 red onion, diced
@@ -5098,7 +10399,7 @@ Slice in half and serve immediately.`,
 1/4 tsp pepper
 2 eggs
 1 Tbsp fresh parsley or green onions, chopped (optional)`,
-    instructions: `Bring a pot of salted water to a boil. Add 2 large diced russet potatoes and parboil for 5 minutes, then drain and let them dry slightly.
+  instructions: `Bring a pot of salted water to a boil. Add 2 large diced russet potatoes and parboil for 5 minutes, then drain and let them dry slightly.
 
 Heat 2 Tbsp olive oil in a large, heavy skillet over medium-high heat.
 
@@ -5113,7 +10414,51 @@ Reduce heat to medium. Create two small wells in the hash and crack 2 eggs, one 
 Cover the skillet and cook until the eggs are set to your preference, about 3 to 5 minutes.
 
 Garnish with 1 Tbsp fresh chopped parsley or green onions if desired and serve hot.`,
+  translations: {
+    es: {
+      name: "Hash picante de champiñones y papas en sartén",
+      notes:
+        "Un hash crujiente y sustancioso en sartén, con sabor intenso y verduras tiernas. Dejar que las papas se cocinen sin moverlas al principio ayuda a formar una costra dorada para la mejor textura.",
+      tags: [
+        "vegetariano",
+        "desayuno",
+        "brunch",
+        "sartén",
+        "picante",
+        "comida reconfortante",
+        "una sartén",
+        "bueno para sobras",
+      ],
+      ingredients: `2 papas russet grandes, cortadas en cubitos pequeños
+8 oz de champiñones baby bella, rebanados
+1 jalapeño, picado finamente
+1/2 cebolla roja, picada en cubitos
+2 Tbsp de aceite de oliva
+1 tsp de paprika ahumada
+1/2 tsp de ajo en polvo
+1/2 tsp de sal, más al gusto
+1/4 tsp de pimienta
+2 huevos
+1 Tbsp de perejil fresco o cebollines, picados, opcional`,
+      instructions: `Hierve una olla con agua salada. Agrega 2 papas russet grandes cortadas en cubitos y hiérvelas parcialmente durante 5 minutos, luego escurre y deja que se sequen un poco.
+
+Calienta 2 Tbsp de aceite de oliva en un sartén grande y pesado a fuego medio-alto.
+
+Agrega las papas en una sola capa y cocina de 8 a 10 minutos, revolviendo de vez en cuando, hasta que estén doradas y crujientes por fuera.
+
+Agrega 8 oz de champiñones baby bella rebanados, 1/2 cebolla roja picada y 1 jalapeño picado. Deja cocinar sin mover de 2 a 3 minutos, luego revuelve y continúa cocinando otros 4 a 5 minutos, hasta que las verduras estén tiernas y ligeramente doradas.
+
+Espolvorea 1 tsp de paprika ahumada, 1/2 tsp de ajo en polvo, 1/2 tsp de sal y 1/4 tsp de pimienta sobre el hash, y mezcla para combinar.
+
+Reduce el fuego a medio. Haz dos pequeños huecos en el hash y rompe 2 huevos, uno en cada hueco.
+
+Cubre el sartén y cocina hasta que los huevos estén al punto que prefieras, aproximadamente de 3 a 5 minutos.
+
+Decora con 1 Tbsp de perejil fresco picado o cebollines si deseas, y sirve caliente.`,
+    },
   },
+},
+
 ];
 
 export const NEW_SALAD_RECIPES: Meal[] = [
@@ -5121,37 +10466,66 @@ export const NEW_SALAD_RECIPES: Meal[] = [
   // QUICK
   // =====================================================
   {
-    id: "quick-classic-garden-salad",
-    slug: "quick-classic-garden-salad",
-    name: "Classic Garden Salad",
-    photoUrl: "/images/quick-classic-garden-salad.jpg",
-    effort: "quick",
-    tags: ["salad", "quick", "vegetarian", "side", "fresh", "healthy"],
-    ingredients: `1 head romaine lettuce, chopped
+  id: "quick-classic-garden-salad",
+  slug: "quick-classic-garden-salad",
+  name: "Classic Garden Salad",
+  photoUrl: "/images/quick-classic-garden-salad.jpg",
+  effort: "quick",
+  tags: ["salad", "quick", "vegetarian", "side", "fresh", "healthy"],
+  ingredients: `1 head romaine lettuce, chopped
 1 cup cherry tomatoes, halved
 1 cucumber, sliced
 1/2 red onion, thinly sliced
 1/2 cup shredded carrots
 1/2 cup croutons
 1/4 cup ranch or Italian dressing`,
-    instructions: `Wash and chop 1 head of romaine lettuce.
+  instructions: `Wash and chop 1 head of romaine lettuce.
 
 In a large bowl, combine the chopped lettuce, 1 cup halved cherry tomatoes, 1 sliced cucumber, 1/2 thinly sliced red onion, and 1/2 cup shredded carrots.
 
 Top the vegetable mixture with 1/2 cup croutons.
 
 Drizzle with 1/4 cup ranch or Italian dressing just before serving and toss well to coat.`,
-    notes: "A crisp everyday salad that works as a side or a light lunch.",
-  },
+  notes: "A crisp everyday salad that works as a side or a light lunch.",
+  translations: {
+    es: {
+      name: "Ensalada clásica de jardín",
+      notes:
+        "Una ensalada crujiente para todos los días que funciona como acompañamiento o almuerzo ligero.",
+      tags: [
+        "ensalada",
+        "rápido",
+        "vegetariano",
+        "acompañamiento",
+        "fresco",
+        "saludable",
+      ],
+      ingredients: `1 cabeza de lechuga romana, picada
+1 cup de tomates cherry, cortados por la mitad
+1 pepino, rebanado
+1/2 cebolla roja, rebanada finamente
+1/2 cup de zanahorias ralladas
+1/2 cup de crutones
+1/4 cup de aderezo ranch o italiano`,
+      instructions: `Lava y pica 1 cabeza de lechuga romana.
 
-  {
-    id: "quick-greek-salad",
-    slug: "quick-greek-salad",
-    name: "Greek Salad",
-    photoUrl: "/images/quick-greek-salad.jpg",
-    effort: "quick",
-    tags: ["salad", "quick", "vegetarian", "mediterranean", "fresh", "healthy"],
-    ingredients: `1 cucumber, chopped
+En un tazón grande, combina la lechuga picada, 1 cup de tomates cherry partidos por la mitad, 1 pepino rebanado, 1/2 cebolla roja rebanada finamente y 1/2 cup de zanahorias ralladas.
+
+Cubre la mezcla de verduras con 1/2 cup de crutones.
+
+Rocía con 1/4 cup de aderezo ranch o italiano justo antes de servir y mezcla bien para cubrir.`,
+    },
+  },
+},
+
+{
+  id: "quick-greek-salad",
+  slug: "quick-greek-salad",
+  name: "Greek Salad",
+  photoUrl: "/images/quick-greek-salad.jpg",
+  effort: "quick",
+  tags: ["salad", "quick", "vegetarian", "mediterranean", "fresh", "healthy"],
+  ingredients: `1 cucumber, chopped
 1 pint cherry tomatoes, halved
 1/2 red onion, sliced
 1 green bell pepper, chopped
@@ -5161,47 +10535,107 @@ Drizzle with 1/4 cup ranch or Italian dressing just before serving and toss well
 1 Tbsp red wine vinegar
 1 tsp dried oregano
 salt and pepper to taste`,
-    instructions: `In a large bowl, combine 1 chopped cucumber, 1 pint halved cherry tomatoes, 1/2 sliced red onion, 1 chopped green bell pepper, 1/2 cup Kalamata olives, and 1/2 cup crumbled feta cheese.
+  instructions: `In a large bowl, combine 1 chopped cucumber, 1 pint halved cherry tomatoes, 1/2 sliced red onion, 1 chopped green bell pepper, 1/2 cup Kalamata olives, and 1/2 cup crumbled feta cheese.
 
 In a small bowl, whisk together 2 Tbsp olive oil, 1 Tbsp red wine vinegar, 1 tsp dried oregano, and salt and pepper to taste.
 
 Pour the dressing over the salad and toss gently to ensure everything is evenly coated.
 
 Serve immediately or chill in the refrigerator until ready to serve.`,
-    notes: "Bright, salty, and refreshing with a classic Mediterranean flavor.",
-  },
+  notes: "Bright, salty, and refreshing with a classic Mediterranean flavor.",
+  translations: {
+    es: {
+      name: "Ensalada griega",
+      notes:
+        "Brillante, salada y refrescante, con un sabor mediterráneo clásico.",
+      tags: [
+        "ensalada",
+        "rápido",
+        "vegetariano",
+        "mediterráneo",
+        "fresco",
+        "saludable",
+      ],
+      ingredients: `1 pepino, picado
+1 pinta de tomates cherry, cortados por la mitad
+1/2 cebolla roja, rebanada
+1 pimiento verde, picado
+1/2 cup de aceitunas Kalamata
+1/2 cup de queso feta, desmoronado
+2 Tbsp de aceite de oliva
+1 Tbsp de vinagre de vino tinto
+1 tsp de orégano seco
+sal y pimienta al gusto`,
+      instructions: `En un tazón grande, combina 1 pepino picado, 1 pinta de tomates cherry partidos por la mitad, 1/2 cebolla roja rebanada, 1 pimiento verde picado, 1/2 cup de aceitunas Kalamata y 1/2 cup de queso feta desmoronado.
 
-  {
-    id: "quick-caprese-salad",
-    slug: "quick-caprese-salad",
-    name: "Caprese Salad",
-    photoUrl: "/images/quick-caprese-salad.jpg",
-    effort: "quick",
-    tags: ["salad", "quick", "vegetarian", "italian", "fresh", "no-cook"],
-    ingredients: `3 large tomatoes, sliced
+En un tazón pequeño, bate 2 Tbsp de aceite de oliva, 1 Tbsp de vinagre de vino tinto, 1 tsp de orégano seco, y sal y pimienta al gusto.
+
+Vierte el aderezo sobre la ensalada y mezcla suavemente para que todo quede cubierto de manera uniforme.
+
+Sirve de inmediato o refrigera hasta que esté lista para servir.`,
+    },
+  },
+},
+
+{
+  id: "quick-caprese-salad",
+  slug: "quick-caprese-salad",
+  name: "Caprese Salad",
+  photoUrl: "/images/quick-caprese-salad.jpg",
+  effort: "quick",
+  tags: ["salad", "quick", "vegetarian", "italian", "fresh", "no-cook"],
+  ingredients: `3 large tomatoes, sliced
 8 oz fresh mozzarella, sliced
 1/4 cup fresh basil leaves
 2 Tbsp olive oil
 1 Tbsp balsamic glaze
 salt and pepper to taste`,
-    instructions: `Arrange 3 large sliced tomatoes and 8 oz sliced fresh mozzarella on a platter, alternating the slices.
+  instructions: `Arrange 3 large sliced tomatoes and 8 oz sliced fresh mozzarella on a platter, alternating the slices.
 
 Tuck 1/4 cup fresh basil leaves between the tomato and mozzarella layers.
 
 Drizzle the entire platter with 2 Tbsp olive oil and 1 Tbsp balsamic glaze.
 
 Season lightly with salt and pepper to taste just before serving.`,
-    notes: "Simple, fresh, and perfect for warm-weather meals.",
-  },
+  notes: "Simple, fresh, and perfect for warm-weather meals.",
+  translations: {
+    es: {
+      name: "Ensalada caprese",
+      notes:
+        "Simple, fresca y perfecta para comidas de clima cálido.",
+      tags: [
+        "ensalada",
+        "rápido",
+        "vegetariano",
+        "italiana",
+        "fresco",
+        "sin cocinar",
+      ],
+      ingredients: `3 tomates grandes, rebanados
+8 oz de mozzarella fresca, rebanada
+1/4 cup de hojas de albahaca fresca
+2 Tbsp de aceite de oliva
+1 Tbsp de glaseado balsámico
+sal y pimienta al gusto`,
+      instructions: `Acomoda 3 tomates grandes rebanados y 8 oz de mozzarella fresca rebanada en un plato, alternando las rebanadas.
 
-  {
-    id: "quick-southwest-chicken-salad",
-    slug: "quick-southwest-chicken-salad",
-    name: "Southwest Chicken Salad",
-    photoUrl: "/images/quick-southwest-chicken-salad.jpg",
-    effort: "quick",
-    tags: ["salad", "quick", "chicken", "dinner", "protein", "tex-mex"],
-    ingredients: `2 cups cooked chicken, chopped
+Coloca 1/4 cup de hojas de albahaca fresca entre las capas de tomate y mozzarella.
+
+Rocía todo el plato con 2 Tbsp de aceite de oliva y 1 Tbsp de glaseado balsámico.
+
+Sazona ligeramente con sal y pimienta al gusto justo antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "quick-southwest-chicken-salad",
+  slug: "quick-southwest-chicken-salad",
+  name: "Southwest Chicken Salad",
+  photoUrl: "/images/quick-southwest-chicken-salad.jpg",
+  effort: "quick",
+  tags: ["salad", "quick", "chicken", "dinner", "protein", "tex-mex"],
+  ingredients: `2 cups cooked chicken, chopped
 1 head romaine lettuce, chopped
 1 cup corn
 1 cup black beans, drained and rinsed
@@ -5210,49 +10644,107 @@ Season lightly with salt and pepper to taste just before serving.`,
 1 avocado, diced
 1/4 cup tortilla strips
 1/3 cup southwest ranch dressing`,
-    instructions: `In a large bowl, combine 1 head chopped romaine lettuce, 2 cups chopped cooked chicken, 1 cup corn, 1 cup drained and rinsed black beans, 1 cup halved cherry tomatoes, 1/2 cup shredded cheddar cheese, and 1 diced avocado.
+  instructions: `In a large bowl, combine 1 head chopped romaine lettuce, 2 cups chopped cooked chicken, 1 cup corn, 1 cup drained and rinsed black beans, 1 cup halved cherry tomatoes, 1/2 cup shredded cheddar cheese, and 1 diced avocado.
 
 Top the mixture with 1/4 cup tortilla strips for crunch.
 
 Drizzle with 1/3 cup southwest ranch dressing and toss well just before serving to keep the lettuce and strips crisp.`,
-    notes: "A hearty salad that feels like a full dinner, not just a side.",
-  },
+  notes: "A hearty salad that feels like a full dinner, not just a side.",
+  translations: {
+    es: {
+      name: "Ensalada southwest de pollo",
+      notes:
+        "Una ensalada sustanciosa que se siente como una cena completa, no solo un acompañamiento.",
+      tags: [
+        "ensalada",
+        "rápido",
+        "pollo",
+        "cena",
+        "proteína",
+        "tex-mex",
+      ],
+      ingredients: `2 cups de pollo cocido, picado
+1 cabeza de lechuga romana, picada
+1 cup de maíz
+1 cup de frijoles negros, escurridos y enjuagados
+1 cup de tomates cherry, cortados por la mitad
+1/2 cup de queso cheddar rallado
+1 aguacate, picado en cubitos
+1/4 cup de tiras de tortilla
+1/3 cup de aderezo ranch southwest`,
+      instructions: `En un tazón grande, combina 1 cabeza de lechuga romana picada, 2 cups de pollo cocido picado, 1 cup de maíz, 1 cup de frijoles negros escurridos y enjuagados, 1 cup de tomates cherry partidos por la mitad, 1/2 cup de queso cheddar rallado y 1 aguacate picado en cubitos.
 
-  {
-    id: "quick-cucumber-tomato-salad",
-    slug: "quick-cucumber-tomato-salad",
-    name: "Cucumber Tomato Salad",
-    photoUrl: "/images/quick-cucumber-tomato-salad.jpg",
-    effort: "quick",
-    tags: ["salad", "quick", "vegetarian", "side", "fresh", "summer"],
-    ingredients: `2 cucumbers, sliced
+Cubre la mezcla con 1/4 cup de tiras de tortilla para darle textura crujiente.
+
+Rocía con 1/3 cup de aderezo ranch southwest y mezcla bien justo antes de servir para mantener la lechuga y las tiras crujientes.`,
+    },
+  },
+},
+
+{
+  id: "quick-cucumber-tomato-salad",
+  slug: "quick-cucumber-tomato-salad",
+  name: "Cucumber Tomato Salad",
+  photoUrl: "/images/quick-cucumber-tomato-salad.jpg",
+  effort: "quick",
+  tags: ["salad", "quick", "vegetarian", "side", "fresh", "summer"],
+  ingredients: `2 cucumbers, sliced
 3 tomatoes, chopped
 1/4 red onion, thinly sliced
 2 Tbsp olive oil
 1 Tbsp red wine vinegar
 1 tsp sugar
 salt and pepper to taste`,
-    instructions: `Add 2 sliced cucumbers, 3 chopped tomatoes, and 1/4 thinly sliced red onion to a large bowl.
+  instructions: `Add 2 sliced cucumbers, 3 chopped tomatoes, and 1/4 thinly sliced red onion to a large bowl.
 
 In a small separate bowl, whisk together 2 Tbsp olive oil, 1 Tbsp red wine vinegar, 1 tsp sugar, and salt and pepper to taste until the sugar is mostly dissolved.
 
 Pour the dressing over the vegetables and toss well to ensure everything is evenly coated.
 
 For the best flavor, chill in the refrigerator for 15 minutes before serving to let the juices meld.`,
-    notes: "Cool, crisp, and great with grilled dinners.",
+  notes: "Cool, crisp, and great with grilled dinners.",
+  translations: {
+    es: {
+      name: "Ensalada de pepino y tomate",
+      notes:
+        "Fresca, crujiente y excelente con cenas a la parrilla.",
+      tags: [
+        "ensalada",
+        "rápido",
+        "vegetariano",
+        "acompañamiento",
+        "fresco",
+        "verano",
+      ],
+      ingredients: `2 pepinos, rebanados
+3 tomates, picados
+1/4 cebolla roja, rebanada finamente
+2 Tbsp de aceite de oliva
+1 Tbsp de vinagre de vino tinto
+1 tsp de azúcar
+sal y pimienta al gusto`,
+      instructions: `Agrega 2 pepinos rebanados, 3 tomates picados y 1/4 de cebolla roja rebanada finamente a un tazón grande.
+
+En un tazón pequeño aparte, bate 2 Tbsp de aceite de oliva, 1 Tbsp de vinagre de vino tinto, 1 tsp de azúcar, y sal y pimienta al gusto hasta que el azúcar esté casi disuelta.
+
+Vierte el aderezo sobre las verduras y mezcla bien para que todo quede cubierto de manera uniforme.
+
+Para mejor sabor, refrigera durante 15 minutos antes de servir para que los jugos se integren.`,
+    },
   },
+},
 
   // =====================================================
   // NORMAL
   // =====================================================
   {
-    id: "normal-grilled-chicken-caesar-salad",
-    slug: "normal-grilled-chicken-caesar-salad",
-    name: "Grilled Chicken Caesar Salad",
-    photoUrl: "/images/normal-grilled-chicken-caesar-salad.jpg",
-    effort: "normal",
-    tags: ["salad", "normal", "chicken", "dinner", "protein", "classic"],
-    ingredients: `2 chicken breasts
+  id: "normal-grilled-chicken-caesar-salad",
+  slug: "normal-grilled-chicken-caesar-salad",
+  name: "Grilled Chicken Caesar Salad",
+  photoUrl: "/images/normal-grilled-chicken-caesar-salad.jpg",
+  effort: "normal",
+  tags: ["salad", "normal", "chicken", "dinner", "protein", "classic"],
+  ingredients: `2 chicken breasts
 1 Tbsp olive oil
 1 tsp garlic powder
 1/2 tsp salt
@@ -5261,24 +10753,55 @@ For the best flavor, chill in the refrigerator for 15 minutes before serving to 
 1/2 cup Caesar dressing
 1/3 cup Parmesan cheese
 1 cup croutons`,
-    instructions: `Season 2 chicken breasts with 1 Tbsp olive oil, 1 tsp garlic powder, 1/2 tsp salt, and 1/4 tsp pepper.
+  instructions: `Season 2 chicken breasts with 1 Tbsp olive oil, 1 tsp garlic powder, 1/2 tsp salt, and 1/4 tsp pepper.
 
 Cook the chicken in a skillet or grill pan over medium-high heat until fully cooked, reaching an internal temperature of 165°F, then slice into strips.
 
 In a large bowl, add 1 head chopped romaine lettuce, 1/2 cup Caesar dressing, 1/3 cup Parmesan cheese, and 1 cup croutons. Toss well to coat the leaves evenly.
 
 Top the salad with the warm sliced chicken and serve immediately.`,
-    notes: "A restaurant-style classic that works perfectly as a dinner salad.",
-  },
+  notes: "A restaurant-style classic that works perfectly as a dinner salad.",
+  translations: {
+    es: {
+      name: "Ensalada César con pollo a la parrilla",
+      notes:
+        "Un clásico estilo restaurante que funciona perfectamente como ensalada para la cena.",
+      tags: [
+        "ensalada",
+        "normal",
+        "pollo",
+        "cena",
+        "proteína",
+        "clásico",
+      ],
+      ingredients: `2 pechugas de pollo
+1 Tbsp de aceite de oliva
+1 tsp de ajo en polvo
+1/2 tsp de sal
+1/4 tsp de pimienta
+1 cabeza de lechuga romana, picada
+1/2 cup de aderezo César
+1/3 cup de queso parmesano
+1 cup de crutones`,
+      instructions: `Sazona 2 pechugas de pollo con 1 Tbsp de aceite de oliva, 1 tsp de ajo en polvo, 1/2 tsp de sal y 1/4 tsp de pimienta.
 
-  {
-    id: "normal-cobb-salad",
-    slug: "normal-cobb-salad",
-    name: "Cobb Salad",
-    photoUrl: "/images/normal-cobb-salad.jpg",
-    effort: "normal",
-    tags: ["salad", "normal", "chicken", "bacon", "dinner", "protein"],
-    ingredients: `1 head romaine lettuce, chopped
+Cocina el pollo en un sartén o sartén parrilla a fuego medio-alto hasta que esté completamente cocido y alcance una temperatura interna de 165°F, luego córtalo en tiras.
+
+En un tazón grande, agrega 1 cabeza de lechuga romana picada, 1/2 cup de aderezo César, 1/3 cup de queso parmesano y 1 cup de crutones. Mezcla bien para cubrir las hojas de manera uniforme.
+
+Cubre la ensalada con el pollo tibio en tiras y sirve de inmediato.`,
+    },
+  },
+},
+
+{
+  id: "normal-cobb-salad",
+  slug: "normal-cobb-salad",
+  name: "Cobb Salad",
+  photoUrl: "/images/normal-cobb-salad.jpg",
+  effort: "normal",
+  tags: ["salad", "normal", "chicken", "bacon", "dinner", "protein"],
+  ingredients: `1 head romaine lettuce, chopped
 2 cups cooked chicken, chopped
 4 strips bacon, cooked and crumbled
 2 hard-boiled eggs, chopped
@@ -5286,22 +10809,50 @@ Top the salad with the warm sliced chicken and serve immediately.`,
 1 cup cherry tomatoes, halved
 1/2 cup blue cheese crumbles
 1/3 cup ranch dressing`,
-    instructions: `Arrange 1 head chopped romaine lettuce in a large serving bowl or on a wide platter as the base.
+  instructions: `Arrange 1 head chopped romaine lettuce in a large serving bowl or on a wide platter as the base.
 
 Top the lettuce in neat, parallel rows with 2 cups chopped cooked chicken, 4 strips cooked and crumbled bacon, 2 chopped hard-boiled eggs, 1 diced avocado, 1 cup halved cherry tomatoes, and 1/2 cup blue cheese crumbles.
 
 Drizzle 1/3 cup ranch dressing over the top just before serving, or serve the dressing on the side to keep the ingredients fresh.`,
-    notes: "Loaded with protein and toppings, this one eats like a full meal.",
-  },
+  notes: "Loaded with protein and toppings, this one eats like a full meal.",
+  translations: {
+    es: {
+      name: "Ensalada Cobb",
+      notes:
+        "Cargada de proteína y toppings, esta ensalada se siente como una comida completa.",
+      tags: [
+        "ensalada",
+        "normal",
+        "pollo",
+        "tocino",
+        "cena",
+        "proteína",
+      ],
+      ingredients: `1 cabeza de lechuga romana, picada
+2 cups de pollo cocido, picado
+4 tiras de tocino, cocidas y desmoronadas
+2 huevos duros, picados
+1 aguacate, picado en cubitos
+1 cup de tomates cherry, cortados por la mitad
+1/2 cup de queso azul desmoronado
+1/3 cup de aderezo ranch`,
+      instructions: `Acomoda 1 cabeza de lechuga romana picada en un tazón grande para servir o sobre un plato amplio como base.
 
-  {
-    id: "normal-steakhouse-salad",
-    slug: "normal-steakhouse-salad",
-    name: "Steakhouse Salad",
-    photoUrl: "/images/normal-steakhouse-salad.jpg",
-    effort: "normal",
-    tags: ["salad", "normal", "beef", "dinner", "protein", "hearty"],
-    ingredients: `1 lb sirloin steak
+Cubre la lechuga en filas ordenadas y paralelas con 2 cups de pollo cocido picado, 4 tiras de tocino cocidas y desmoronadas, 2 huevos duros picados, 1 aguacate en cubitos, 1 cup de tomates cherry partidos por la mitad y 1/2 cup de queso azul desmoronado.
+
+Rocía 1/3 cup de aderezo ranch por encima justo antes de servir, o sirve el aderezo aparte para mantener los ingredientes frescos.`,
+    },
+  },
+},
+
+{
+  id: "normal-steakhouse-salad",
+  slug: "normal-steakhouse-salad",
+  name: "Steakhouse Salad",
+  photoUrl: "/images/normal-steakhouse-salad.jpg",
+  effort: "normal",
+  tags: ["salad", "normal", "beef", "dinner", "protein", "hearty"],
+  ingredients: `1 lb sirloin steak
 1 Tbsp olive oil
 1 tsp salt
 1/2 tsp pepper
@@ -5311,24 +10862,56 @@ Drizzle 1/3 cup ranch dressing over the top just before serving, or serve the dr
 1/2 cup crumbled blue cheese
 1/4 cup French's fried onions
 1/3 cup balsamic vinaigrette`,
-    instructions: `Season 1 lb sirloin steak with 1 Tbsp olive oil, 1 tsp salt, and 1/2 tsp pepper.
+  instructions: `Season 1 lb sirloin steak with 1 Tbsp olive oil, 1 tsp salt, and 1/2 tsp pepper.
 
 Cook the steak in a skillet over medium-high heat until it reaches your desired doneness. Let the steak rest for at least 5 minutes, then slice it thinly against the grain.
 
 In a large bowl, combine 1 head chopped romaine lettuce, 1 cup halved cherry tomatoes, 1/2 sliced red onion, 1/2 cup crumbled blue cheese, and 1/4 cup crispy fried onions.
 
 Top the vegetable mixture with the sliced steak and drizzle with 1/3 cup balsamic vinaigrette just before serving.`,
-    notes: "Bold steakhouse flavor in a lighter, salad-style dinner.",
-  },
+  notes: "Bold steakhouse flavor in a lighter, salad-style dinner.",
+  translations: {
+    es: {
+      name: "Ensalada estilo steakhouse",
+      notes:
+        "Sabor intenso de steakhouse en una cena más ligera estilo ensalada.",
+      tags: [
+        "ensalada",
+        "normal",
+        "carne de res",
+        "cena",
+        "proteína",
+        "sustancioso",
+      ],
+      ingredients: `1 lb de bistec sirloin
+1 Tbsp de aceite de oliva
+1 tsp de sal
+1/2 tsp de pimienta
+1 cabeza de lechuga romana, picada
+1 cup de tomates cherry, cortados por la mitad
+1/2 cebolla roja, rebanada
+1/2 cup de queso azul desmoronado
+1/4 cup de cebollas fritas French's
+1/3 cup de vinagreta balsámica`,
+      instructions: `Sazona 1 lb de bistec sirloin con 1 Tbsp de aceite de oliva, 1 tsp de sal y 1/2 tsp de pimienta.
 
-  {
-    id: "normal-broccoli-bacon-salad",
-    slug: "normal-broccoli-bacon-salad",
-    name: "Broccoli Bacon Salad",
-    photoUrl: "/images/normal-broccoli-bacon-salad.jpg",
-    effort: "normal",
-    tags: ["salad", "normal", "side", "broccoli", "bacon", "potluck"],
-    ingredients: `4 cups broccoli florets
+Cocina el bistec en un sartén a fuego medio-alto hasta que alcance el punto de cocción deseado. Deja reposar el bistec por al menos 5 minutos, luego rebánalo finamente contra la fibra.
+
+En un tazón grande, combina 1 cabeza de lechuga romana picada, 1 cup de tomates cherry partidos por la mitad, 1/2 cebolla roja rebanada, 1/2 cup de queso azul desmoronado y 1/4 cup de cebollas fritas crujientes.
+
+Cubre la mezcla de verduras con el bistec rebanado y rocía con 1/3 cup de vinagreta balsámica justo antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "normal-broccoli-bacon-salad",
+  slug: "normal-broccoli-bacon-salad",
+  name: "Broccoli Bacon Salad",
+  photoUrl: "/images/normal-broccoli-bacon-salad.jpg",
+  effort: "normal",
+  tags: ["salad", "normal", "side", "broccoli", "bacon", "potluck"],
+  ingredients: `4 cups broccoli florets
 6 strips bacon, cooked and crumbled
 1/2 red onion, diced
 1/2 cup cheddar cheese, shredded
@@ -5336,24 +10919,54 @@ Top the vegetable mixture with the sliced steak and drizzle with 1/3 cup balsami
 1/3 cup mayonnaise
 1 Tbsp apple cider vinegar
 1 Tbsp sugar`,
-    instructions: `In a large bowl, combine 4 cups broccoli florets, 6 strips cooked and crumbled bacon, 1/2 diced red onion, 1/2 cup shredded cheddar cheese, and 1/4 cup sunflower seeds.
+  instructions: `In a large bowl, combine 4 cups broccoli florets, 6 strips cooked and crumbled bacon, 1/2 diced red onion, 1/2 cup shredded cheddar cheese, and 1/4 cup sunflower seeds.
 
 In a separate small bowl, whisk together 1/3 cup mayonnaise, 1 Tbsp apple cider vinegar, and 1 Tbsp sugar until the dressing is smooth and the sugar has dissolved.
 
 Pour the dressing over the broccoli mixture and mix well to ensure everything is thoroughly coated.
 
 Chill in the refrigerator for at least 30 minutes before serving for the best flavor and texture.`,
-    notes: "Crunchy, creamy, and one of those salads people always go back for.",
-  },
+  notes: "Crunchy, creamy, and one of those salads people always go back for.",
+  translations: {
+    es: {
+      name: "Ensalada de brócoli con tocino",
+      notes:
+        "Crujiente, cremosa y de esas ensaladas por las que todos vuelven por más.",
+      tags: [
+        "ensalada",
+        "normal",
+        "acompañamiento",
+        "brócoli",
+        "tocino",
+        "comida para compartir",
+      ],
+      ingredients: `4 cups de floretes de brócoli
+6 tiras de tocino, cocidas y desmoronadas
+1/2 cebolla roja, picada en cubitos
+1/2 cup de queso cheddar rallado
+1/4 cup de semillas de girasol
+1/3 cup de mayonesa
+1 Tbsp de vinagre de manzana
+1 Tbsp de azúcar`,
+      instructions: `En un tazón grande, combina 4 cups de floretes de brócoli, 6 tiras de tocino cocidas y desmoronadas, 1/2 cebolla roja picada, 1/2 cup de queso cheddar rallado y 1/4 cup de semillas de girasol.
 
-  {
-    id: "normal-avocado-ranch-chicken-salad",
-    slug: "normal-avocado-ranch-chicken-salad",
-    name: "Avocado Ranch Chicken Salad",
-    photoUrl: "/images/normal-avocado-ranch-chicken-salad.jpg",
-    effort: "normal",
-    tags: ["salad", "normal", "chicken", "avocado", "dinner", "protein"],
-    ingredients: `2 cups cooked chicken, chopped
+En otro tazón pequeño, bate 1/3 cup de mayonesa, 1 Tbsp de vinagre de manzana y 1 Tbsp de azúcar hasta que el aderezo quede suave y el azúcar se disuelva.
+
+Vierte el aderezo sobre la mezcla de brócoli y mezcla bien para que todo quede completamente cubierto.
+
+Refrigera por al menos 30 minutos antes de servir para lograr el mejor sabor y textura.`,
+    },
+  },
+},
+
+{
+  id: "normal-avocado-ranch-chicken-salad",
+  slug: "normal-avocado-ranch-chicken-salad",
+  name: "Avocado Ranch Chicken Salad",
+  photoUrl: "/images/normal-avocado-ranch-chicken-salad.jpg",
+  effort: "normal",
+  tags: ["salad", "normal", "chicken", "avocado", "dinner", "protein"],
+  ingredients: `2 cups cooked chicken, chopped
 1 head romaine lettuce, chopped
 1 avocado, diced
 1 cup cherry tomatoes, halved
@@ -5361,25 +10974,52 @@ Chill in the refrigerator for at least 30 minutes before serving for the best fl
 1/4 red onion, sliced
 1/2 cup cheddar cheese, shredded
 1/3 cup ranch dressing`,
-    instructions: `In a large bowl, combine 1 head chopped romaine lettuce, 2 cups chopped cooked chicken, 1 diced avocado, 1 cup halved cherry tomatoes, 1/2 sliced cucumber, 1/4 sliced red onion, and 1/2 cup shredded cheddar cheese.
+  instructions: `In a large bowl, combine 1 head chopped romaine lettuce, 2 cups chopped cooked chicken, 1 diced avocado, 1 cup halved cherry tomatoes, 1/2 sliced cucumber, 1/4 sliced red onion, and 1/2 cup shredded cheddar cheese.
 
 Drizzle 1/3 cup ranch dressing over the ingredients.
 
 Toss gently to coat everything in the dressing without mashing the avocado, and serve right away.`,
-    notes: "Creamy, filling, and easy enough for a weeknight dinner.",
-  },
+  notes: "Creamy, filling, and easy enough for a weeknight dinner.",
+  translations: {
+    es: {
+      name: "Ensalada de pollo con aguacate y ranch",
+      notes:
+        "Cremosa, llenadora y lo bastante fácil para una cena entre semana.",
+      tags: [
+        "ensalada",
+        "normal",
+        "pollo",
+        "aguacate",
+        "cena",
+        "proteína",
+      ],
+      ingredients: `2 cups de pollo cocido, picado
+1 cabeza de lechuga romana, picada
+1 aguacate, picado en cubitos
+1 cup de tomates cherry, cortados por la mitad
+1/2 pepino, rebanado
+1/4 cebolla roja, rebanada
+1/2 cup de queso cheddar rallado
+1/3 cup de aderezo ranch`,
+      instructions: `En un tazón grande, combina 1 cabeza de lechuga romana picada, 2 cups de pollo cocido picado, 1 aguacate en cubitos, 1 cup de tomates cherry partidos por la mitad, 1/2 pepino rebanado, 1/4 cebolla roja rebanada y 1/2 cup de queso cheddar rallado.
 
+Rocía 1/3 cup de aderezo ranch sobre los ingredientes.
+
+Mezcla suavemente para cubrir todo con el aderezo sin machacar el aguacate, y sirve de inmediato.`,
+    },
+  },
+},
   // =====================================================
   // BIG
   // =====================================================
   {
-    id: "big-buffalo-chicken-salad",
-    slug: "big-buffalo-chicken-salad",
-    name: "Buffalo Chicken Salad",
-    photoUrl: "/images/big-buffalo-chicken-salad.jpg",
-    effort: "big",
-    tags: ["salad", "big", "chicken", "buffalo", "dinner", "spicy"],
-    ingredients: `2 chicken breasts, breaded or grilled
+  id: "big-buffalo-chicken-salad",
+  slug: "big-buffalo-chicken-salad",
+  name: "Buffalo Chicken Salad",
+  photoUrl: "/images/big-buffalo-chicken-salad.jpg",
+  effort: "big",
+  tags: ["salad", "big", "chicken", "buffalo", "dinner", "spicy"],
+  ingredients: `2 chicken breasts, breaded or grilled
 1/3 cup buffalo sauce
 1 head romaine lettuce, chopped
 1 cup cherry tomatoes, halved
@@ -5388,24 +11028,55 @@ Toss gently to coat everything in the dressing without mashing the avocado, and 
 1/2 cup cheddar cheese, shredded
 1/4 cup blue cheese crumbles
 1/3 cup ranch or blue cheese dressing`,
-    instructions: `Cook 2 chicken breasts, breaded or grilled, until fully done and they reach an internal temperature of 165°F, then slice into strips or bite-sized pieces.
+  instructions: `Cook 2 chicken breasts, breaded or grilled, until fully done and they reach an internal temperature of 165°F, then slice into strips or bite-sized pieces.
 
 In a small bowl, toss the cooked chicken with 1/3 cup buffalo sauce until every piece is well coated.
 
 In a large serving bowl, combine 1 head chopped romaine lettuce, 1 cup halved cherry tomatoes, 1/2 sliced cucumber, 1/4 sliced red onion, 1/2 cup shredded cheddar cheese, and 1/4 cup blue cheese crumbles.
 
 Top the vegetable mixture with the buffalo chicken and drizzle with 1/3 cup ranch or blue cheese dressing before serving.`,
-    notes: "Big flavor and just enough heat to make salad night exciting.",
-  },
+  notes: "Big flavor and just enough heat to make salad night exciting.",
+  translations: {
+    es: {
+      name: "Ensalada de pollo buffalo",
+      notes:
+        "Mucho sabor y el picante justo para hacer que la noche de ensalada sea emocionante.",
+      tags: [
+        "ensalada",
+        "grande",
+        "pollo",
+        "buffalo",
+        "cena",
+        "picante",
+      ],
+      ingredients: `2 pechugas de pollo, empanizadas o a la parrilla
+1/3 cup de salsa buffalo
+1 cabeza de lechuga romana, picada
+1 cup de tomates cherry, cortados por la mitad
+1/2 pepino, rebanado
+1/4 cebolla roja, rebanada
+1/2 cup de queso cheddar rallado
+1/4 cup de queso azul desmoronado
+1/3 cup de aderezo ranch o blue cheese`,
+      instructions: `Cocina 2 pechugas de pollo, empanizadas o a la parrilla, hasta que estén completamente cocidas y alcancen una temperatura interna de 165°F, luego córtalas en tiras o trozos pequeños.
 
-  {
-    id: "big-asian-chicken-salad",
-    slug: "big-asian-chicken-salad",
-    name: "Asian Chicken Salad",
-    photoUrl: "/images/big-asian-chicken-salad.jpg",
-    effort: "big",
-    tags: ["salad", "big", "chicken", "dinner", "crunchy", "asian-inspired"],
-    ingredients: `2 cups cooked chicken, shredded
+En un tazón pequeño, mezcla el pollo cocido con 1/3 cup de salsa buffalo hasta que cada pieza quede bien cubierta.
+
+En un tazón grande para servir, combina 1 cabeza de lechuga romana picada, 1 cup de tomates cherry partidos por la mitad, 1/2 pepino rebanado, 1/4 cebolla roja rebanada, 1/2 cup de queso cheddar rallado y 1/4 cup de queso azul desmoronado.
+
+Cubre la mezcla de verduras con el pollo buffalo y rocía con 1/3 cup de aderezo ranch o blue cheese antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "big-asian-chicken-salad",
+  slug: "big-asian-chicken-salad",
+  name: "Asian Chicken Salad",
+  photoUrl: "/images/big-asian-chicken-salad.jpg",
+  effort: "big",
+  tags: ["salad", "big", "chicken", "dinner", "crunchy", "asian-inspired"],
+  ingredients: `2 cups cooked chicken, shredded
 1 bag coleslaw mix
 1 cup romaine lettuce, chopped
 1/2 cup shredded carrots
@@ -5413,44 +11084,99 @@ Top the vegetable mixture with the buffalo chicken and drizzle with 1/3 cup ranc
 1/4 cup crispy chow mein noodles
 2 green onions, sliced
 1/4 cup sesame ginger dressing`,
-    instructions: `In a large bowl, combine 1 bag coleslaw mix, 1 cup chopped romaine lettuce, 1/2 cup shredded carrots, 1/2 cup sliced almonds, 1/4 cup crispy chow mein noodles, and 2 sliced green onions.
+  instructions: `In a large bowl, combine 1 bag coleslaw mix, 1 cup chopped romaine lettuce, 1/2 cup shredded carrots, 1/2 cup sliced almonds, 1/4 cup crispy chow mein noodles, and 2 sliced green onions.
 
 Top the vegetable and nut mixture with 2 cups shredded cooked chicken.
 
 Drizzle with 1/4 cup sesame ginger dressing and toss thoroughly just before serving to ensure the noodles and almonds stay perfectly crunchy.`,
-    notes: "Crunchy, colorful, and a great break from the usual salad routine.",
-  },
+  notes: "Crunchy, colorful, and a great break from the usual salad routine.",
+  translations: {
+    es: {
+      name: "Ensalada asiática de pollo",
+      notes:
+        "Crujiente, colorida y una gran forma de salir de la rutina de ensaladas de siempre.",
+      tags: [
+        "ensalada",
+        "grande",
+        "pollo",
+        "cena",
+        "crujiente",
+        "inspirado en Asia",
+      ],
+      ingredients: `2 cups de pollo cocido, deshebrado
+1 bolsa de mezcla para coleslaw
+1 cup de lechuga romana, picada
+1/2 cup de zanahorias ralladas
+1/2 cup de almendras rebanadas
+1/4 cup de fideos chow mein crujientes
+2 cebollines, rebanados
+1/4 cup de aderezo de sésamo y jengibre`,
+      instructions: `En un tazón grande, combina 1 bolsa de mezcla para coleslaw, 1 cup de lechuga romana picada, 1/2 cup de zanahorias ralladas, 1/2 cup de almendras rebanadas, 1/4 cup de fideos chow mein crujientes y 2 cebollines rebanados.
 
-  {
-    id: "big-strawberry-spinach-salad",
-    slug: "big-strawberry-spinach-salad",
-    name: "Strawberry Spinach Salad",
-    photoUrl: "/images/big-strawberry-spinach-salad.jpg",
-    effort: "big",
-    tags: ["salad", "big", "vegetarian", "spinach", "fruit", "fresh"],
-    ingredients: `1 bag baby spinach
+Cubre la mezcla de verduras y almendras con 2 cups de pollo cocido deshebrado.
+
+Rocía con 1/4 cup de aderezo de sésamo y jengibre, y mezcla bien justo antes de servir para que los fideos y las almendras se mantengan perfectamente crujientes.`,
+    },
+  },
+},
+
+{
+  id: "big-strawberry-spinach-salad",
+  slug: "big-strawberry-spinach-salad",
+  name: "Strawberry Spinach Salad",
+  photoUrl: "/images/big-strawberry-spinach-salad.jpg",
+  effort: "big",
+  tags: ["salad", "big", "vegetarian", "spinach", "fruit", "fresh"],
+  ingredients: `1 bag baby spinach
 1 cup strawberries, sliced
 1/2 cup blueberries
 1/4 red onion, thinly sliced
 1/2 cup feta cheese
 1/4 cup candied pecans
 1/3 cup poppy seed dressing`,
-    instructions: `In a large serving bowl, combine 1 bag baby spinach, 1 cup sliced strawberries, 1/2 cup blueberries, 1/4 thinly sliced red onion, 1/2 cup feta cheese, and 1/4 cup candied pecans.
+  instructions: `In a large serving bowl, combine 1 bag baby spinach, 1 cup sliced strawberries, 1/2 cup blueberries, 1/4 thinly sliced red onion, 1/2 cup feta cheese, and 1/4 cup candied pecans.
 
 Drizzle 1/3 cup poppy seed dressing over the salad.
 
 Toss gently to ensure the delicate spinach and berries are evenly coated, and serve immediately to keep the pecans crunchy.`,
-    notes: "Sweet, tangy, and pretty enough to steal the show on the table.",
-  },
+  notes: "Sweet, tangy, and pretty enough to steal the show on the table.",
+  translations: {
+    es: {
+      name: "Ensalada de espinaca con fresas",
+      notes:
+        "Dulce, ácida y lo suficientemente bonita como para robarse la atención en la mesa.",
+      tags: [
+        "ensalada",
+        "grande",
+        "vegetariano",
+        "espinaca",
+        "fruta",
+        "fresco",
+      ],
+      ingredients: `1 bolsa de espinaca baby
+1 cup de fresas, rebanadas
+1/2 cup de arándanos
+1/4 cebolla roja, rebanada finamente
+1/2 cup de queso feta
+1/4 cup de nueces pecanas caramelizadas
+1/3 cup de aderezo de semillas de amapola`,
+      instructions: `En un tazón grande para servir, combina 1 bolsa de espinaca baby, 1 cup de fresas rebanadas, 1/2 cup de arándanos, 1/4 cebolla roja rebanada finamente, 1/2 cup de queso feta y 1/4 cup de nueces pecanas caramelizadas.
 
-  {
-    id: "big-taco-salad",
-    slug: "big-taco-salad",
-    name: "Taco Salad",
-    photoUrl: "/images/big-taco-salad.jpg",
-    effort: "big",
-    tags: ["salad", "big", "beef", "tex-mex", "dinner", "family-friendly"],
-    ingredients: `1 lb ground beef
+Rocía 1/3 cup de aderezo de semillas de amapola sobre la ensalada.
+
+Mezcla suavemente para que la espinaca delicada y las frutas queden cubiertas de manera uniforme, y sirve de inmediato para mantener las nueces crujientes.`,
+    },
+  },
+},
+
+{
+  id: "big-taco-salad",
+  slug: "big-taco-salad",
+  name: "Taco Salad",
+  photoUrl: "/images/big-taco-salad.jpg",
+  effort: "big",
+  tags: ["salad", "big", "beef", "tex-mex", "dinner", "family-friendly"],
+  ingredients: `1 lb ground beef
 1 packet taco seasoning
 1 head romaine lettuce, chopped
 1 cup cherry tomatoes, halved
@@ -5460,24 +11186,56 @@ Toss gently to ensure the delicate spinach and berries are evenly coated, and se
 1/2 cup salsa
 1/2 cup sour cream
 1 cup tortilla chips, crushed`,
-    instructions: `In a skillet over medium-high heat, cook 1 lb ground beef until fully browned. Drain any excess fat, then stir in 1 packet taco seasoning, following packet directions for water if needed.
+  instructions: `In a skillet over medium-high heat, cook 1 lb ground beef until fully browned. Drain any excess fat, then stir in 1 packet taco seasoning, following packet directions for water if needed.
 
 In a large serving bowl, combine 1 head chopped romaine lettuce, 1 cup halved cherry tomatoes, 1 cup corn, 1 cup drained and rinsed black beans, and 1 cup shredded cheddar cheese.
 
 Top the vegetable mixture with the warm seasoned taco meat.
 
 Finish by adding 1/2 cup salsa, 1/2 cup sour cream, and 1 cup crushed tortilla chips. Toss gently or serve as-is for a layered look.`,
-    notes: "A fun dinner salad that still feels hearty and family-friendly.",
-  },
+  notes: "A fun dinner salad that still feels hearty and family-friendly.",
+  translations: {
+    es: {
+      name: "Ensalada de taco",
+      notes:
+        "Una ensalada divertida para la cena que todavía se siente sustanciosa y familiar.",
+      tags: [
+        "ensalada",
+        "grande",
+        "carne de res",
+        "tex-mex",
+        "cena",
+        "familiar",
+      ],
+      ingredients: `1 lb de carne molida de res
+1 paquete de sazonador para tacos
+1 cabeza de lechuga romana, picada
+1 cup de tomates cherry, cortados por la mitad
+1 cup de maíz
+1 cup de frijoles negros, escurridos y enjuagados
+1 cup de queso cheddar rallado
+1/2 cup de salsa
+1/2 cup de crema agria
+1 cup de chips de tortilla, triturados`,
+      instructions: `En un sartén a fuego medio-alto, cocina 1 lb de carne molida de res hasta que esté completamente dorada. Escurre el exceso de grasa y luego incorpora 1 paquete de sazonador para tacos, siguiendo las instrucciones del paquete para agregar agua si es necesario.
 
-  {
-    id: "big-mediterranean-chickpea-salad",
-    slug: "big-mediterranean-chickpea-salad",
-    name: "Mediterranean Chickpea Salad",
-    photoUrl: "/images/big-mediterranean-chickpea-salad.jpg",
-    effort: "big",
-    tags: ["salad", "big", "vegetarian", "chickpeas", "healthy", "meal-prep"],
-    ingredients: `2 cans chickpeas, drained and rinsed
+En un tazón grande para servir, combina 1 cabeza de lechuga romana picada, 1 cup de tomates cherry partidos por la mitad, 1 cup de maíz, 1 cup de frijoles negros escurridos y enjuagados, y 1 cup de queso cheddar rallado.
+
+Cubre la mezcla de verduras con la carne de taco sazonada y caliente.
+
+Termina agregando 1/2 cup de salsa, 1/2 cup de crema agria y 1 cup de chips de tortilla triturados. Mezcla suavemente o sirve así para una presentación en capas.`,
+    },
+  },
+},
+
+{
+  id: "big-mediterranean-chickpea-salad",
+  slug: "big-mediterranean-chickpea-salad",
+  name: "Mediterranean Chickpea Salad",
+  photoUrl: "/images/big-mediterranean-chickpea-salad.jpg",
+  effort: "big",
+  tags: ["salad", "big", "vegetarian", "chickpeas", "healthy", "meal-prep"],
+  ingredients: `2 cans chickpeas, drained and rinsed
 1 cucumber, chopped
 1 pint cherry tomatoes, halved
 1/2 red onion, diced
@@ -5487,15 +11245,47 @@ Finish by adding 1/2 cup salsa, 1/2 cup sour cream, and 1 cup crushed tortilla c
 1 Tbsp lemon juice
 1 tsp dried oregano
 salt and pepper to taste`,
-    instructions: `In a large bowl, combine 2 cans drained and rinsed chickpeas, 1 chopped cucumber, 1 pint halved cherry tomatoes, 1/2 diced red onion, 1/2 cup feta cheese, and 1/4 cup chopped parsley.
+  instructions: `In a large bowl, combine 2 cans drained and rinsed chickpeas, 1 chopped cucumber, 1 pint halved cherry tomatoes, 1/2 diced red onion, 1/2 cup feta cheese, and 1/4 cup chopped parsley.
 
 In a small bowl, whisk together 2 Tbsp olive oil, 1 Tbsp lemon juice, 1 tsp dried oregano, and salt and pepper to taste.
 
 Pour the dressing over the chickpea mixture and toss well to ensure everything is evenly coated.
 
 Serve immediately or chill in the refrigerator to allow the flavors to meld.`,
-    notes: "Protein-packed, fresh, and great for lunches the next day too.",
+  notes: "Protein-packed, fresh, and great for lunches the next day too.",
+  translations: {
+    es: {
+      name: "Ensalada mediterránea de garbanzos",
+      notes:
+        "Llena de proteína, fresca y excelente también para almuerzos del día siguiente.",
+      tags: [
+        "ensalada",
+        "grande",
+        "vegetariano",
+        "garbanzos",
+        "saludable",
+        "meal prep",
+      ],
+      ingredients: `2 latas de garbanzos, escurridos y enjuagados
+1 pepino, picado
+1 pinta de tomates cherry, cortados por la mitad
+1/2 cebolla roja, picada en cubitos
+1/2 cup de queso feta
+1/4 cup de perejil, picado
+2 Tbsp de aceite de oliva
+1 Tbsp de jugo de limón
+1 tsp de orégano seco
+sal y pimienta al gusto`,
+      instructions: `En un tazón grande, combina 2 latas de garbanzos escurridos y enjuagados, 1 pepino picado, 1 pinta de tomates cherry partidos por la mitad, 1/2 cebolla roja picada en cubitos, 1/2 cup de queso feta y 1/4 cup de perejil picado.
+
+En un tazón pequeño, bate 2 Tbsp de aceite de oliva, 1 Tbsp de jugo de limón, 1 tsp de orégano seco, y sal y pimienta al gusto.
+
+Vierte el aderezo sobre la mezcla de garbanzos y mezcla bien para que todo quede cubierto de manera uniforme.
+
+Sirve de inmediato o refrigera para dejar que los sabores se integren.`,
+    },
   },
+},
 ];
 
 
