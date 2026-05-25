@@ -1194,7 +1194,7 @@ function getCategoryLabel(section: GroceryCategory) {
     Bakery: t("categories.bakery"),
     Pantry: t("categories.pantry"),
     Frozen: t("categories.frozen"),
-    Spices: t("categories.spices"),
+    "Spices / Seasonings": t("categories.spices"),
     "Paper Goods": t("categories.paperGoods"),
     Household: t("categories.household"),
     Other: t("categories.other"),
@@ -1659,6 +1659,24 @@ export default function ShoppingListPage() {
         packageSize && isPackageSizeSensitiveUnit(mergeUnit) ? packageSize : "";
 
       const key = `recipe::${category}::${normalizedName}::${mergeUnit || ""}::${packageKey}`;
+
+      if (normalizedName.includes("lemon")) {
+  console.log("LEMON SHOPPING DEBUG", {
+    rawText: item.text,
+    sourceRecipe: recipeName,
+    cleanedName,
+    preNormalizedName,
+    safeName,
+    normalizedName,
+    parsedQuantity,
+    parsedUnit,
+    mergeUnit,
+    packageSize,
+    packageKey,
+    category,
+    key,
+  });
+}
 
       const quantityToAdd =
         parsedQuantity !== null
