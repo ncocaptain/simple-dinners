@@ -865,7 +865,7 @@ function resolveShoppingCategory(name: string): GroceryCategory {
   ]);
 
   if (forcedSpices.has(cleaned)) {
-    return "Spices" as GroceryCategory;
+    return "Spices / Seasonings";
   }
 
   return categorizeGroceryItem(cleaned);

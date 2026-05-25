@@ -1113,8 +1113,8 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     cleanIngredientForCategory(name);
 
   if (FORCED_SPICE_ITEMS.has(cleaned.toLowerCase())) {
-    return "Spices" as GroceryCategory;
-  }
+  return "Spices / Seasonings";
+}
 
   return categorizeGroceryItem(cleaned);
 }
