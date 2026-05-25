@@ -876,6 +876,46 @@ function resolveShoppingCategoryForItem(
   unit: string | null,
   packageSize?: string
 ): GroceryCategory {
+
+    const cleaned = cleanIngredientName(name).toLowerCase();
+
+  // Direct shopping-category overrides for common tricky grocery items.
+  // These prevent broad words like "cup", "tortilla", or "bread" from
+  // sending items to the wrong aisle.
+  if (
+    cleaned.includes("mixed stir fry vegetables") ||
+    cleaned.includes("stir fry vegetables")
+  ) {
+    return "Frozen";
+  }
+
+  if (
+    cleaned.includes("tortilla chips") ||
+    cleaned.includes("breadcrumbs") ||
+    cleaned.includes("bread crumbs") ||
+    cleaned.includes("cracker crumbs") ||
+    cleaned.includes("lasagna noodles") ||
+    cleaned.includes("egg noodles") ||
+    cleaned.includes("noodles") ||
+    cleaned.includes("pasta")
+  ) {
+    return "Pantry";
+  }
+
+  if (
+    cleaned.includes("dijon mustard") ||
+    cleaned.includes("mustard") ||
+    cleaned.includes("honey") ||
+    cleaned.includes("sesame oil") ||
+    cleaned.includes("toasted sesame oil") ||
+    cleaned.includes("olive oil") ||
+    cleaned.includes("oil") ||
+    cleaned.includes("vinegar") ||
+    cleaned.includes("rice vinegar") ||
+    cleaned.includes("balsamic vinegar")
+  ) {
+    return "Pantry";
+  }
   // Canned/boxed/jarred items belong in pantry even if the ingredient name
   // contains produce words like tomatoes or corn.
   if (
@@ -886,7 +926,7 @@ function resolveShoppingCategoryForItem(
   }
 
   if (packageSize) {
-    const cleaned = cleanIngredientName(name).toLowerCase();
+    
     if (
       cleaned.includes("tomato") ||
       cleaned.includes("beans") ||
