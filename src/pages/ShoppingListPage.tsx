@@ -889,6 +889,11 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     return "Pantry";
   }
 
+  // Cornstarch contains "corn", but it belongs in Pantry.
+  if (cleaned.includes("cornstarch") || cleaned.includes("corn starch")) {
+    return "Pantry";
+  }
+
   const forcedSpices = new Set([
     "salt",
     "black pepper",
@@ -934,8 +939,8 @@ function resolveShoppingCategoryForItem(
   }
 
   if (cleaned.includes("cornstarch") || cleaned.includes("corn starch")) {
-  return "Pantry";
-}
+    return "Pantry";
+  }
 
   // Direct shopping-category overrides for common tricky grocery items.
   // These prevent broad words like "cup", "tortilla", or "bread" from
@@ -2119,7 +2124,8 @@ if (MERGE_AS_SINGLE_SPICES.has(safeName)) {
               value={newItem}
               onChange={(e) => setNewItem(e.target.value)}
               style={{
-                flex: 1,
+                flex: "1 1 auto",
+                minWidth: 0,
                 padding: "14px 16px",
                 borderRadius: "14px",
                 background: "rgba(255,255,255,0.06)",
@@ -2134,6 +2140,7 @@ if (MERGE_AS_SINGLE_SPICES.has(safeName)) {
               type="submit"
               style={{
                 width: 50,
+                flexShrink: 0,
                 borderRadius: "14px",
                 background: "#22c55e",
                 border: "none",
@@ -2320,7 +2327,16 @@ if (MERGE_AS_SINGLE_SPICES.has(safeName)) {
               />
             </div>
 
-            <div style={{ display: "grid", gap: 8 }}>
+            <div
+              style={{
+                display: "grid",
+                gap: 8,
+                width: "100%",
+                maxWidth: "100%",
+                boxSizing: "border-box",
+                overflow: "hidden",
+              }}
+            >
               {group.items.map((item) => (
                 <div
                   key={item.id}
@@ -2353,8 +2369,12 @@ if (MERGE_AS_SINGLE_SPICES.has(safeName)) {
                     alignItems: "center",
                     justifyContent: "space-between",
                     gap: 12,
-                    padding: "14px 16px",
+                    padding: "14px 12px",
                     borderRadius: "14px",
+                    width: "100%",
+                    maxWidth: "100%",
+                    boxSizing: "border-box",
+                    overflow: "hidden",
                     background: item.checked
                       ? "transparent"
                       : "rgba(255,255,255,0.05)",
@@ -2371,7 +2391,8 @@ if (MERGE_AS_SINGLE_SPICES.has(safeName)) {
                       alignItems: "center",
                       gap: 12,
                       minWidth: 0,
-                      flex: 1,
+                      flex: "1 1 auto",
+                      overflow: "hidden",
                     }}
                   >
                     {item.checked ? (
@@ -2419,6 +2440,8 @@ if (MERGE_AS_SINGLE_SPICES.has(safeName)) {
                           textOverflow: "ellipsis",
                           display: "block",
                           whiteSpace: "nowrap",
+                          minWidth: 0,
+                          maxWidth: "100%",
                         }}
                       >
                         {item.displayText}
