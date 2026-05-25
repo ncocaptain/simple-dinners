@@ -1656,6 +1656,28 @@ if (safeName === "parsley" || safeName === "cilantro") {
   }
 }
 
+// Treat common spices/seasonings as pantry-check items, not measured totals.
+// Example: "1 tsp salt" and "salt" should merge as "Salt".
+const MERGE_AS_SINGLE_SPICES = new Set([
+  "salt",
+  "black pepper",
+  "paprika",
+  "cumin",
+  "chili powder",
+  "oregano",
+  "garlic powder",
+  "onion powder",
+  "italian seasoning",
+  "red pepper flakes",
+  "cayenne pepper",
+  "seasoning",
+]);
+
+if (MERGE_AS_SINGLE_SPICES.has(safeName)) {
+  parsedUnit = null;
+  parsedQuantity = null;
+}
+
       const forceCountable = FORCE_COUNTABLE.has(safeName);
 
       const isMeasured = !forceCountable && parsedUnit !== null;
