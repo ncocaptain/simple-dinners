@@ -933,6 +933,10 @@ function resolveShoppingCategoryForItem(
     return "Pantry";
   }
 
+  if (cleaned.includes("cornstarch") || cleaned.includes("corn starch")) {
+  return "Pantry";
+}
+
   // Direct shopping-category overrides for common tricky grocery items.
   // These prevent broad words like "cup", "tortilla", or "bread" from
   // sending items to the wrong aisle.
@@ -944,17 +948,17 @@ function resolveShoppingCategoryForItem(
   }
 
   if (
-    cleaned.includes("tortilla chips") ||
-    cleaned.includes("breadcrumbs") ||
-    cleaned.includes("bread crumbs") ||
-    cleaned.includes("cracker crumbs") ||
-    cleaned.includes("lasagna noodles") ||
-    cleaned.includes("egg noodles") ||
-    cleaned.includes("noodles") ||
-    cleaned.includes("pasta")
-  ) {
-    return "Pantry";
-  }
+  cleaned.includes("tortilla chips") ||
+  cleaned.includes("breadcrumbs") ||
+  cleaned.includes("bread crumbs") ||
+  cleaned.includes("cracker crumbs") ||
+  cleaned.includes("lasagna noodles") ||
+  cleaned.includes("egg noodles") ||
+  cleaned.includes("noodles") ||
+  cleaned.includes("pasta")
+) {
+  return "Pantry";
+}
 
   if (
     cleaned.includes("dijon mustard") ||
@@ -1795,23 +1799,6 @@ if (MERGE_AS_SINGLE_SPICES.has(safeName)) {
 
       const key = `recipe::${category}::${normalizedName}::${mergeUnit || ""}::${packageKey}`;
 
-      if (normalizedName.includes("lemon")) {
-  console.log("LEMON SHOPPING DEBUG", {
-    rawText: item.text,
-    sourceRecipe: recipeName,
-    cleanedName,
-    preNormalizedName,
-    safeName,
-    normalizedName,
-    parsedQuantity,
-    parsedUnit,
-    mergeUnit,
-    packageSize,
-    packageKey,
-    category,
-    key,
-  });
-}
 
       const quantityToAdd =
         parsedQuantity !== null
@@ -2094,15 +2081,24 @@ if (MERGE_AS_SINGLE_SPICES.has(safeName)) {
   // =====================================================
   return (
     <div
-      style={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "0 20px 120px 20px",
-      }}
-    >
-      <div style={{ maxWidth: "550px", width: "100%" }}>
+  style={{
+    width: "100%",
+    boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "0 20px 120px 20px",
+    overflowX: "hidden",
+  }}
+>
+      <div
+  style={{
+    maxWidth: "550px",
+    width: "100%",
+    boxSizing: "border-box",
+    overflowX: "hidden",
+  }}
+>
         <header>
           <div
             style={{
@@ -2392,16 +2388,18 @@ if (MERGE_AS_SINGLE_SPICES.has(safeName)) {
                         openSourceModal(item);
                       }}
                       style={{
-                        flex: 1,
-                        minWidth: 0,
-                        background: "none",
-                        border: "none",
-                        padding: 0,
-                        color: "inherit",
-                        font: "inherit",
-                        textAlign: "left",
-                        cursor: item.recipeNames.length > 0 ? "pointer" : "default",
-                      }}
+  flex: "1 1 auto",
+  minWidth: 0,
+  maxWidth: "100%",
+  background: "none",
+  border: "none",
+  padding: 0,
+  color: "inherit",
+  font: "inherit",
+  textAlign: "left",
+  cursor: item.recipeNames.length > 0 ? "pointer" : "default",
+  overflow: "hidden",
+}}
                       aria-label={
                         item.recipeNames.length > 0
                           ? `Show recipes using ${item.displayText}`
@@ -2441,7 +2439,14 @@ if (MERGE_AS_SINGLE_SPICES.has(safeName)) {
                     </button>
                   </div>
 
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+    flexShrink: 0,
+  }}
+>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
