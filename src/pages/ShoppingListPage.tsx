@@ -1591,10 +1591,10 @@ export default function ShoppingListPage() {
 
       parsedUnit = normalizeUnit(parsedUnit);
 
-      const parsedQuantity =
-        typeof smartItem.quantity === "number"
-          ? smartItem.quantity
-          : parsed.quantity ?? null;
+      let parsedQuantity =
+  typeof smartItem.quantity === "number"
+    ? smartItem.quantity
+    : parsed.quantity ?? null;
 
       const packageSize =
         normalizePackageSize(smartItem.packageSize) ||
@@ -1637,6 +1637,15 @@ export default function ShoppingListPage() {
         else if (safeName.includes("white")) safeName = "white onion";
         else safeName = "onion";
       }
+
+      // Treat measured lemon/lime juice or zest as whole fruit for shopping.
+// Example: "1 Tbsp lemon juice" should shop as "1 Lemon", not "1 Tbsp Lemon".
+if (safeName === "lemon" || safeName === "lime") {
+  if (parsedUnit === "tsp" || parsedUnit === "Tbsp" || parsedUnit === "cup") {
+    parsedUnit = null;
+    parsedQuantity = 1;
+  }
+}
 
       const forceCountable = FORCE_COUNTABLE.has(safeName);
 
