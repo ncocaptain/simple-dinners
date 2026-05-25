@@ -398,88 +398,314 @@ const CATEGORY_KEYWORDS: Array<{
 // =====================================================
 // Builder: normalization helper
 // =====================================================
+// =====================================================
+// Builder: normalization helper
+// =====================================================
 function normalize(text: string) {
-  return text.toLowerCase().replace(/[^\w\s]/g, " ").replace(/\s+/g, " ").trim();
+  return String(text || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[’']/g, "")
+    .replace(/[^\w\s/-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function includesAny(normalized: string, keywords: string[]) {
+  return keywords.some((keyword) => normalized.includes(normalize(keyword)));
 }
 
 // =====================================================
 // Builder: category matcher
-// Uses a few direct rules first for items that are
-// especially common or ambiguous, then falls back to
-// the keyword map above.
+// Smarter priority rules first, then keyword fallback.
 // =====================================================
 export function categorizeGroceryItem(name: string): GroceryCategory {
   const normalized = normalize(name);
 
-  // ===== FORCE SPICES FIRST =====
-if (
-  normalized.includes("pepper flakes") ||
-  normalized.includes("red pepper flakes") ||
-  normalized.includes("cayenne") ||
-  normalized.includes("cayenne pepper") ||
-  normalized.includes("black pepper") ||
-  normalized.includes("ground pepper") ||
-  normalized.includes("paprika") ||
-  normalized.includes("cumin") ||
-  normalized.includes("oregano") ||
-  normalized.includes("basil") ||
-  normalized.includes("seasoning") ||
-  normalized.includes("spice")
-) {
-  return "Spices / Seasonings";
-}
+  if (!normalized) return "Other";
 
-// ===== GINGER RULE (important) =====
-if (normalized.includes("ginger")) {
-  if (normalized.includes("tsp") || normalized.includes("tbsp")) {
-    return "Spices / Seasonings"; // ground ginger
-  }
-  return "Produce"; // fresh ginger
-}
-
-  // pantry shortcuts
-  if (normalized.includes("stock") || normalized.includes("broth")) {
-    return "Pantry";
-  }
-
-  // bakery shortcuts
+  // ===== FROZEN FIRST =====
+  // Frozen should beat Produce/Pantry.
   if (
-    normalized.includes("pizza dough") ||
-    normalized.includes("prepared pizza dough")
-  ) {
-    return "Bakery";
-  }
-
-  // frozen shortcuts
-  if (
-    normalized.includes("mixed vegetables") ||
-    normalized.includes("frozen vegetables")
+    includesAny(normalized, [
+      "frozen",
+      "freezer",
+      "hash browns",
+      "tater tots",
+      "ice cream",
+      "frozen vegetables",
+      "frozen vegetable",
+      "mixed vegetables",
+      "frozen fruit",
+      "congelado",
+      "congelada",
+      "congelados",
+      "congeladas",
+    ])
   ) {
     return "Frozen";
   }
 
-  // produce shortcuts
+  // ===== HOUSEHOLD / NON-FOOD FIRST =====
   if (
-    normalized.includes("asparagus") ||
-    normalized.includes("sugar snap peas") ||
-    normalized.includes("snap peas") ||
-    normalized.includes("yellow squash") ||
-    normalized.includes("spinach leaves") ||
-    normalized.includes("broccoli florets")
+    includesAny(normalized, [
+      "batteries",
+      "battery",
+      "light bulbs",
+      "foil",
+      "aluminum foil",
+      "parchment paper",
+      "wax paper",
+      "plastic wrap",
+      "zip bags",
+      "ziploc",
+      "storage bags",
+      "trash bags",
+      "garbage bags",
+      "charcoal",
+      "matches",
+      "lighter",
+      "skewers",
+      "toothpicks",
+      "papel aluminio",
+      "papel pergamino",
+      "bolsas de basura",
+      "baterias",
+      "pilas",
+      "carbon",
+      "brochetas",
+      "palillos",
+    ])
+  ) {
+    return "Household";
+  }
+
+  if (
+    includesAny(normalized, [
+      "paper towels",
+      "toilet paper",
+      "napkins",
+      "tissues",
+      "paper plates",
+      "plastic cups",
+      "toallas de papel",
+      "papel higienico",
+      "servilletas",
+      "platos de papel",
+      "vasos plasticos",
+    ])
+  ) {
+    return "Paper Goods";
+  }
+
+  if (
+    includesAny(normalized, [
+      "dish soap",
+      "dishwasher pods",
+      "dishwasher detergent",
+      "laundry detergent",
+      "bleach",
+      "cleaner",
+      "spray cleaner",
+      "sponges",
+      "scrub brush",
+      "disinfecting wipes",
+      "jabon para platos",
+      "detergente",
+      "cloro",
+      "limpiador",
+      "esponjas",
+    ])
+  ) {
+    return "Cleaning";
+  }
+
+  // ===== FRESH HERBS / FRESH PRODUCE EXCEPTIONS =====
+  // This keeps "fresh basil" in Produce, not Spices.
+  if (
+    includesAny(normalized, [
+      "fresh basil",
+      "fresh parsley",
+      "fresh cilantro",
+      "fresh dill",
+      "fresh thyme",
+      "fresh rosemary",
+      "basil leaves",
+      "cilantro fresco",
+      "perejil fresco",
+      "albahaca fresca",
+      "eneldo fresco",
+      "tomillo fresco",
+      "romero fresco",
+    ])
   ) {
     return "Produce";
   }
 
-  // spice shortcuts
+  // ===== SPICES / SEASONINGS =====
+  // Spices should beat Pantry and Produce for things like pepper, cumin, taco seasoning.
   if (
-    normalized.includes("garlic powder") ||
-    normalized.includes("onion powder") ||
-    normalized.includes("italian seasoning") ||
-    normalized.includes("black pepper")
+    includesAny(normalized, [
+      "salt",
+      "pepper",
+      "black pepper",
+      "ground pepper",
+      "red pepper flakes",
+      "pepper flakes",
+      "cayenne",
+      "cayenne pepper",
+      "paprika",
+      "smoked paprika",
+      "cumin",
+      "oregano",
+      "dried basil",
+      "dried parsley",
+      "dried dill",
+      "dried thyme",
+      "thyme",
+      "rosemary",
+      "garlic powder",
+      "onion powder",
+      "chili powder",
+      "italian seasoning",
+      "cajun seasoning",
+      "taco seasoning",
+      "chili seasoning",
+      "seasoning packet",
+      "seasoning",
+      "spice",
+      "rub",
+      "cinnamon",
+      "nutmeg",
+      "sal",
+      "pimienta",
+      "pimenton",
+      "comino",
+      "oregano",
+      "ajo en polvo",
+      "cebolla en polvo",
+      "chile en polvo",
+      "sazonador",
+      "condimento",
+      "canela",
+    ])
   ) {
     return "Spices / Seasonings";
   }
 
+  // ===== GINGER RULE =====
+  // tsp/tbsp ginger usually means ground ginger; fresh ginger is produce.
+  if (normalized.includes("ginger") || normalized.includes("jengibre")) {
+    if (
+      normalized.includes("tsp") ||
+      normalized.includes("tbsp") ||
+      normalized.includes("ground") ||
+      normalized.includes("molido")
+    ) {
+      return "Spices / Seasonings";
+    }
+
+    return "Produce";
+  }
+
+  // ===== PANTRY CONTAINER RULE =====
+  // This is the big Mr. Smarty Pants rule:
+  // "can corn" should go Pantry, not Produce.
+  const hasPantryContainer = includesAny(normalized, [
+    "can",
+    "cans",
+    "canned",
+    "jar",
+    "jars",
+    "bottle",
+    "bottles",
+    "box",
+    "boxes",
+    "packet",
+    "packets",
+    "lata",
+    "latas",
+    "frasco",
+    "frascos",
+    "botella",
+    "botellas",
+    "caja",
+    "cajas",
+    "paquete",
+    "paquetes",
+  ]);
+
+  if (hasPantryContainer) {
+    // Keep obvious dairy refrigerated even if it says package/block/container.
+    if (
+      includesAny(normalized, [
+        "cheese",
+        "cream cheese",
+        "sour cream",
+        "heavy cream",
+        "milk",
+        "yogurt",
+        "butter",
+        "queso",
+        "queso crema",
+        "crema agria",
+        "crema espesa",
+        "leche",
+        "yogur",
+        "mantequilla",
+      ]) &&
+      !normalized.includes("coconut milk") &&
+      !normalized.includes("leche de coco")
+    ) {
+      return "Dairy / Eggs";
+    }
+
+    // Keep obvious fresh/refrigerated meat as meat.
+    if (
+      includesAny(normalized, [
+        "chicken",
+        "beef",
+        "ground beef",
+        "pork",
+        "bacon",
+        "sausage",
+        "steak",
+        "shrimp",
+        "salmon",
+        "tilapia",
+        "pollo",
+        "carne",
+        "res",
+        "cerdo",
+        "tocino",
+        "salchicha",
+        "bistec",
+        "camarones",
+      ]) &&
+      !normalized.includes("tuna") &&
+      !normalized.includes("atun")
+    ) {
+      return "Meat / Seafood";
+    }
+
+    return "Pantry";
+  }
+
+  // ===== COMMON DIRECT RULES =====
+  if (normalized.includes("stock") || normalized.includes("broth") || normalized.includes("caldo")) {
+    return "Pantry";
+  }
+
+  if (
+    normalized.includes("pizza dough") ||
+    normalized.includes("prepared pizza dough") ||
+    normalized.includes("masa para pizza")
+  ) {
+    return "Bakery";
+  }
+
+  // ===== FALLBACK TO EXISTING KEYWORD MAP =====
   for (const group of CATEGORY_KEYWORDS) {
     if (group.keywords.some((keyword) => normalized.includes(normalize(keyword)))) {
       return group.category;
