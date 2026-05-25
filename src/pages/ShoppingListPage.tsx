@@ -832,7 +832,20 @@ function shouldShowMeasuredTotal(
   if (HIDE_MEASURED_TOTALS.has(cleaned)) return false;
   if (ALWAYS_SHOW_MEASURED_TOTALS.has(cleaned)) return true;
 
-  if (["lb", "oz", "can", "package", "box", "jar", "carton", "bag", "tube", "packet"].includes(unit)) {
+  if (
+    [
+      "lb",
+      "oz",
+      "can",
+      "package",
+      "box",
+      "jar",
+      "carton",
+      "bag",
+      "tube",
+      "packet",
+    ].includes(unit)
+  ) {
     return true;
   }
 
@@ -843,9 +856,38 @@ function shouldShowMeasuredTotal(
   return false;
 }
 
+function isRealPepperProduce(cleaned: string) {
+  return (
+    cleaned.includes("bell pepper") ||
+    cleaned.includes("red pepper") ||
+    cleaned.includes("yellow pepper") ||
+    cleaned.includes("green pepper") ||
+    cleaned.includes("poblano") ||
+    cleaned.includes("jalapeno") ||
+    cleaned.includes("jalapeño")
+  );
+}
+
+function isSalsaPantryItem(cleaned: string) {
+  return (
+    cleaned === "salsa" ||
+    cleaned.includes("jar salsa") ||
+    cleaned.includes("salsa verde")
+  );
+}
 
 function resolveShoppingCategory(name: string): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
+
+  // Real peppers are produce, not spices.
+  if (isRealPepperProduce(cleaned)) {
+    return "Produce";
+  }
+
+  // Salsa is pantry, not spices.
+  if (isSalsaPantryItem(cleaned)) {
+    return "Pantry";
+  }
 
   const forcedSpices = new Set([
     "salt",
@@ -862,6 +904,9 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     "old bay seasoning",
     "seasoned salt",
     "red pepper flakes",
+    "cayenne pepper",
+    "dried thyme",
+    "chinese five spice",
   ]);
 
   if (forcedSpices.has(cleaned)) {
@@ -876,8 +921,17 @@ function resolveShoppingCategoryForItem(
   unit: string | null,
   packageSize?: string
 ): GroceryCategory {
+  const cleaned = cleanIngredientName(name).toLowerCase();
 
-    const cleaned = cleanIngredientName(name).toLowerCase();
+  // Real peppers are produce, not spices.
+  if (isRealPepperProduce(cleaned)) {
+    return "Produce";
+  }
+
+  // Salsa is a jarred/pantry item, not a spice.
+  if (isSalsaPantryItem(cleaned)) {
+    return "Pantry";
+  }
 
   // Direct shopping-category overrides for common tricky grocery items.
   // These prevent broad words like "cup", "tortilla", or "bread" from
@@ -916,25 +970,26 @@ function resolveShoppingCategoryForItem(
   ) {
     return "Pantry";
   }
+
   // Canned/boxed/jarred items belong in pantry even if the ingredient name
   // contains produce words like tomatoes or corn.
   if (
     unit &&
-    ["can", "package", "box", "jar", "carton", "bag", "tube", "packet"].includes(unit)
+    ["can", "package", "box", "jar", "carton", "bag", "tube", "packet"].includes(
+      unit
+    )
   ) {
-    return "Pantry" as GroceryCategory;
+    return "Pantry";
   }
 
-  if (packageSize) {
-    
-    if (
-      cleaned.includes("tomato") ||
+  if (
+    packageSize &&
+    (cleaned.includes("tomato") ||
       cleaned.includes("beans") ||
       cleaned.includes("corn") ||
-      cleaned.includes("soup")
-    ) {
-      return "Pantry" as GroceryCategory;
-    }
+      cleaned.includes("soup"))
+  ) {
+    return "Pantry";
   }
 
   return resolveShoppingCategory(name);
