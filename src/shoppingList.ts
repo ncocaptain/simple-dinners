@@ -1120,12 +1120,139 @@ function resolveShoppingCategory(name: string): GroceryCategory {
 }
 
 // =====================================================
+// Builder: safe duplicate merging
+// First pass: only merge obvious recipe-generated countable items.
+// Manual items are preserved exactly as entered.
+// =====================================================
+const SAFE_COUNTABLE_MERGE_NAMES = new Set([
+  "lemon",
+  "lime",
+  "onion",
+  "yellow onion",
+  "white onion",
+  "red onion",
+  "green onion",
+  "carrot",
+  "potato",
+  "sweet potato",
+  "tomato",
+  "avocado",
+  "banana",
+  "apple",
+  "orange",
+  "egg",
+  "tortilla",
+  "hamburger bun",
+  "hot dog bun",
+  "bun",
+  "roll",
+  "bagel",
+  "cucumber",
+  "zucchini",
+  "jalapeno",
+  "green bell pepper",
+  "red bell pepper",
+  "yellow bell pepper",
+  "bell pepper",
+]);
+
+function getSafeMergeQuantity(item: ShoppingItem): number | null {
+  const name = String(item.normalizedName || "").toLowerCase().trim();
+
+  if (!SAFE_COUNTABLE_MERGE_NAMES.has(name)) return null;
+
+  const unit = normalizeUnit(item.unit || "");
+  const packageSize = normalizePackageSize(item.packageSize || "");
+
+  // Do not merge packaged/container items in this first pass.
+  if (packageSize) return null;
+
+  // Only merge loose/countable items for now.
+  if (unit && unit !== "__count__") return null;
+
+  if (typeof item.quantity === "number" && Number.isFinite(item.quantity)) {
+    return item.quantity;
+  }
+
+  // If a recipe produced "Lemon" with no quantity, treat it as 1 lemon.
+  return 1;
+}
+
+function shouldSafelyMergeItem(item: ShoppingItem) {
+  // Manual entries stay exactly as typed.
+  if (!String(item.sourceRecipe || "").trim()) return false;
+
+  const qty = getSafeMergeQuantity(item);
+  return qty !== null;
+}
+
+function safeMergeKey(item: ShoppingItem) {
+  const name = String(item.normalizedName || "").toLowerCase().trim();
+  const unit = normalizeUnit(item.unit || "");
+  const packageSize = normalizePackageSize(item.packageSize || "");
+
+  return [name, unit || "__count__", packageSize].join("|");
+}
+
+function mergeSafeShoppingItems(items: ShoppingItem[]): ShoppingItem[] {
+  const merged = new Map<string, ShoppingItem>();
+  const output: ShoppingItem[] = [];
+
+  for (const item of items) {
+    if (!shouldSafelyMergeItem(item)) {
+      output.push(item);
+      continue;
+    }
+
+    const key = safeMergeKey(item);
+    const existing = merged.get(key);
+    const qty = getSafeMergeQuantity(item) ?? 0;
+
+    if (!existing) {
+      const nextItem: ShoppingItem = {
+        ...item,
+        quantity: qty,
+        unit: "",
+        packageSize: "",
+        text: buildDisplayText(item.normalizedName || item.text, qty, "", ""),
+        category: resolveShoppingCategory(item.normalizedName || item.text),
+      };
+
+      merged.set(key, nextItem);
+      output.push(nextItem);
+      continue;
+    }
+
+    const existingQty = getSafeMergeQuantity(existing) ?? 0;
+    const newQty = existingQty + qty;
+
+    existing.quantity = newQty;
+    existing.text = buildDisplayText(existing.normalizedName || existing.text, newQty, "", "");
+    existing.checked = existing.checked && item.checked;
+    existing.addedAt = Math.min(existing.addedAt || Date.now(), item.addedAt || Date.now());
+
+    const existingSources = String(existing.sourceRecipe || "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const nextSource = String(item.sourceRecipe || "").trim();
+
+    if (nextSource && !existingSources.includes(nextSource)) {
+      existing.sourceRecipe = [...existingSources, nextSource].join(", ");
+    }
+  }
+
+  return output;
+}
+
+// =====================================================
 // Builder: load list with backward compatibility
 // =====================================================
 export function loadShoppingList(): ShoppingItem[] {
   const items = safeParse(localStorage.getItem(KEY));
 
-  return items
+  const normalizedItems = items
     .map((item: any) => {
       const sourceRecipe = String(item.sourceRecipe || "");
       const isManualItem = !sourceRecipe.trim();
@@ -1186,8 +1313,10 @@ export function loadShoppingList(): ShoppingItem[] {
         category: resolveShoppingCategory(normalizedName),
         sourceRecipe,
       } as ShoppingItem;
-    })
+        })
     .filter(Boolean) as ShoppingItem[];
+
+  return mergeSafeShoppingItems(normalizedItems);
 }
 
 // =====================================================
