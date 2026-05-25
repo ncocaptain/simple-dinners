@@ -549,6 +549,10 @@ function normalizeProteinsAndBakery(text: string) {
 
 function normalizeDairyAndCheese(text: string) {
   return text
+    // If a recipe only says "shredded cheese", treat it as shredded cheddar.
+    // It is much more useful on a shopping list than plain "Cheese".
+    .replace(/\bshredded cheese\b/g, "shredded cheddar cheese")
+    .replace(/\bgrated cheese\b/g, "shredded cheddar cheese")
     .replace(/\bcheese slices?\b/g, "sliced cheese")
     .replace(/\bsliced cheese\b/g, "sliced cheese")
     .replace(/\bshredded mozzarella cheese\b/g, "mozzarella cheese")
@@ -654,6 +658,11 @@ function cleanIngredientName(line: string) {
 
   // final cleanup
   text = text.split(",")[0];
+  text = cleanupSpacing(text);
+
+  // Remove dangling connector words from messy recipe lines.
+  // Example: "4 oz cream cheese and" -> "cream cheese".
+  text = text.replace(/\b(and|or|with)$/g, "").trim();
   text = cleanupSpacing(text);
 
   return text;
@@ -1681,7 +1690,17 @@ export default function ShoppingListPage() {
       const smartItem = item as ShoppingItemWithSmartMeta;
       const cleanedRaw = cleanIngredientName(item.text);
       const parsed = parseIngredient(item.text);
-      const cleanedName = smartItem.normalizedName || parsed.name || cleanedRaw;
+      const savedName = String(smartItem.normalizedName || "").trim().toLowerCase();
+      const parsedName = parsed.name || cleanedRaw;
+
+      // Prefer the freshly parsed name when an older saved item only kept a
+      // vague name like "cheese". This lets updated cleanup rules fix existing
+      // list items such as "shredded cheese" -> "cheddar cheese".
+      const cleanedName =
+        savedName && savedName !== "cheese"
+          ? savedName
+          : parsedName || savedName;
+
       if (shouldHideShoppingItem(cleanedName)) continue;
 
       let parsedUnit =

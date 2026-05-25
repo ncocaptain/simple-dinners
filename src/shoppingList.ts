@@ -179,7 +179,7 @@ const DEFAULT_BUY_DISPLAY: Record<string, string> = {
   garlic: "1 clove Garlic",
   cilantro: "1 bunch Cilantro",
   parsley: "1 bunch Parsley",
-  cheese: "Cheese",
+  cheese: "Shredded Cheddar Cheese",
   "brown sugar": "Brown Sugar",
 };
 
@@ -679,6 +679,8 @@ function normalizeDairyAndCheese(text: string) {
   // of collapsing everything into generic "cheese".
   if (cleaned.includes("cheese")) {
     return cleaned
+      .replace(/\bshredded cheese\b/g, "shredded cheddar cheese")
+      .replace(/\bgrated cheese\b/g, "shredded cheddar cheese")
       .replace(/\bcheese slices?\b/g, "cheese slices")
       .replace(/\bmozzarella, shredded\b/g, "shredded mozzarella cheese")
       .replace(/\bmozzarella cheese, shredded\b/g, "shredded mozzarella cheese")
@@ -776,6 +778,11 @@ function normalizeIngredientCore(text: string) {
 
   next = protectRealPeppers(next);
   next = next.split(",")[0];
+  next = cleanupSpacing(next);
+
+  // Remove dangling connector words from lines like
+  // "4 oz cream cheese and ..." after cleanup has stripped the second item.
+  next = next.replace(/\b(and|or|with)$/g, "").trim();
   next = cleanupSpacing(next);
 
   if (!next || next.length < 2) return "";
@@ -1073,6 +1080,8 @@ const FORCED_SPICE_ITEMS = new Set([
   "seasoned salt",
   "red pepper flakes",
   "cayenne pepper",
+  "dried thyme",
+  "chinese five spice",
 ]);
 
 const HIDDEN_ITEMS = new Set([
@@ -1106,15 +1115,86 @@ function shouldHideShoppingItem(name: string) {
   return HIDDEN_ITEMS.has(cleaned);
 }
 
+function isRealPepperProduce(cleaned: string) {
+  return (
+    cleaned.includes("bell pepper") ||
+    cleaned.includes("red pepper") ||
+    cleaned.includes("yellow pepper") ||
+    cleaned.includes("green pepper") ||
+    cleaned.includes("poblano") ||
+    cleaned.includes("jalapeno") ||
+    cleaned.includes("jalapeño")
+  );
+}
+
+function isSalsaPantryItem(cleaned: string) {
+  return (
+    cleaned === "salsa" ||
+    cleaned.includes("jar salsa") ||
+    cleaned.includes("salsa verde")
+  );
+}
+
+function isCornstarchPantryItem(cleaned: string) {
+  return cleaned.includes("cornstarch") || cleaned.includes("corn starch");
+}
+
 function resolveShoppingCategory(name: string): GroceryCategory {
   const cleaned =
     preserveManualShoppingName(name) ||
     normalizeIngredientName(name) ||
     cleanIngredientForCategory(name);
 
-  if (FORCED_SPICE_ITEMS.has(cleaned.toLowerCase())) {
-  return "Spices / Seasonings";
-}
+  const lower = cleaned.toLowerCase();
+
+  // Important overrides before broad category matching:
+  // real peppers are produce, salsa/cornstarch are pantry.
+  if (isRealPepperProduce(lower)) {
+    return "Produce";
+  }
+
+  if (isSalsaPantryItem(lower) || isCornstarchPantryItem(lower)) {
+    return "Pantry";
+  }
+
+  if (
+    lower.includes("mixed stir fry vegetables") ||
+    lower.includes("stir fry vegetables")
+  ) {
+    return "Frozen";
+  }
+
+  if (
+    lower.includes("tortilla chips") ||
+    lower.includes("breadcrumbs") ||
+    lower.includes("bread crumbs") ||
+    lower.includes("cracker crumbs") ||
+    lower.includes("lasagna noodles") ||
+    lower.includes("egg noodles") ||
+    lower.includes("noodles") ||
+    lower.includes("pasta")
+  ) {
+    return "Pantry";
+  }
+
+  if (
+    lower.includes("dijon mustard") ||
+    lower.includes("mustard") ||
+    lower.includes("honey") ||
+    lower.includes("sesame oil") ||
+    lower.includes("toasted sesame oil") ||
+    lower.includes("olive oil") ||
+    lower.includes("oil") ||
+    lower.includes("vinegar") ||
+    lower.includes("rice vinegar") ||
+    lower.includes("balsamic vinegar")
+  ) {
+    return "Pantry";
+  }
+
+  if (FORCED_SPICE_ITEMS.has(lower)) {
+    return "Spices / Seasonings";
+  }
 
   return categorizeGroceryItem(cleaned);
 }
@@ -1288,10 +1368,17 @@ export function loadShoppingList(): ShoppingItem[] {
       }
 
       const parsed = parseIngredientParts(item.text || "");
+      const savedNormalizedName = normalizeIngredientName(item.normalizedName || "");
+
+      // Older saved entries may have collapsed "shredded cheese" into generic
+      // "cheese". Prefer the original line parse when it gives us a more
+      // shopper-useful cheese name like "shredded cheddar cheese".
       const normalizedName =
-        normalizeIngredientName(item.normalizedName || "") ||
-        parsed.normalizedName ||
-        normalizeIngredientName(item.text || "");
+        savedNormalizedName === "cheese" && parsed.normalizedName && parsed.normalizedName !== "cheese"
+          ? parsed.normalizedName
+          : savedNormalizedName ||
+            parsed.normalizedName ||
+            normalizeIngredientName(item.text || "");
 
       if (!normalizedName || shouldHideShoppingItem(normalizedName)) return null;
 
@@ -1333,7 +1420,10 @@ export function addIngredientsToList(
   recipeName: string,
   ingredients: string
 ): { items: ShoppingItem[]; addedCount: number } {
-  const existing = loadShoppingList();
+  // Use raw saved storage here, not loadShoppingList().
+  // loadShoppingList() returns a merged display version; saving that back can
+  // make recipe refresh/removal lose individual recipe ingredient detail.
+  const existing = safeParse(localStorage.getItem(KEY));
   const lines = normalizeIngredientLines(ingredients);
 
   const now = Date.now();
