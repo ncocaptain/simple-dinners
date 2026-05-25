@@ -1647,6 +1647,15 @@ if (safeName === "lemon" || safeName === "lime") {
   }
 }
 
+// Treat fresh herbs as bunches for shopping.
+// Example: "1 Tbsp fresh parsley" should shop as "1 bunch Parsley".
+if (safeName === "parsley" || safeName === "cilantro") {
+  if (!parsedUnit || parsedUnit === "tsp" || parsedUnit === "Tbsp" || parsedUnit === "cup") {
+    parsedUnit = "bunch";
+    parsedQuantity = 1;
+  }
+}
+
       const forceCountable = FORCE_COUNTABLE.has(safeName);
 
       const isMeasured = !forceCountable && parsedUnit !== null;
