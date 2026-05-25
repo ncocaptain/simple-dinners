@@ -1371,14 +1371,23 @@ export function addIngredientsToList(
     });
   }
 
-  // Idempotent recipe adds: adding the same recipe again refreshes its ingredients instead of duplicating them.
+    // Idempotent recipe adds: adding the same recipe again refreshes its ingredients instead of duplicating them.
   const recipeKey = String(recipeName || "").trim().toLowerCase();
+
   const existingWithoutSameRecipe = recipeKey
-    ? existing.filter((item) => String(item.sourceRecipe || "").trim().toLowerCase() !== recipeKey)
+    ? existing.filter(
+        (item) =>
+          String(item.sourceRecipe || "").trim().toLowerCase() !== recipeKey
+      )
     : existing;
 
   const merged = [...existingWithoutSameRecipe, ...newItems];
+
+  // Save the real raw/individual recipe items so recipe refresh/removal stays safe.
   saveShoppingList(merged);
 
-  return { items: merged, addedCount: newItems.length };
+  // Return the smarter display version immediately for the UI.
+  const displayItems = mergeSafeShoppingItems(merged);
+
+  return { items: displayItems, addedCount: newItems.length };
 }
