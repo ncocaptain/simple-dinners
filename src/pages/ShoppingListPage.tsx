@@ -903,6 +903,13 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     return "Pantry";
   }
 
+  if (
+  cleaned.includes("french fried onion") ||
+  cleaned.includes("fried onion")
+) {
+  return "Pantry";
+}
+
   const forcedSpices = new Set([
     "salt",
     "black pepper",
@@ -950,6 +957,13 @@ function resolveShoppingCategoryForItem(
   if (cleaned.includes("cornstarch") || cleaned.includes("corn starch")) {
     return "Pantry";
   }
+
+  if (
+  cleaned.includes("french fried onion") ||
+  cleaned.includes("fried onion")
+) {
+  return "Pantry";
+}
 
   // Direct shopping-category overrides for common tricky grocery items.
   // These prevent broad words like "cup", "tortilla", or "bread" from
@@ -1741,9 +1755,19 @@ export default function ShoppingListPage() {
         .replace(/\s+/g, " ")
         .trim();
 
-      if (safeName.includes("garlic")) {
-        safeName = "garlic";
-      }
+      // Protect seasoning and pantry onion/garlic items before broad produce cleanup.
+if (safeName.includes("onion powder")) {
+  safeName = "onion powder";
+} else if (
+  safeName.includes("french fried onion") ||
+  safeName.includes("fried onion")
+) {
+  safeName = "french fried onions";
+} else if (safeName.includes("garlic powder")) {
+  safeName = "garlic powder";
+} else if (safeName.includes("garlic")) {
+  safeName = "garlic";
+}
 
       if (safeName.includes("pork") && safeName.includes("chop")) {
         safeName = "pork chop";
@@ -1753,13 +1777,17 @@ export default function ShoppingListPage() {
         safeName = "chicken breast";
       }
 
-      if (safeName.includes("onion")) {
-        if (safeName.includes("green")) safeName = "green onion";
-        else if (safeName.includes("red")) safeName = "red onion";
-        else if (safeName.includes("yellow")) safeName = "yellow onion";
-        else if (safeName.includes("white")) safeName = "white onion";
-        else safeName = "onion";
-      }
+      if (
+  safeName.includes("onion") &&
+  safeName !== "onion powder" &&
+  safeName !== "french fried onions"
+) {
+  if (safeName.includes("green")) safeName = "green onion";
+  else if (safeName.includes("red")) safeName = "red onion";
+  else if (safeName.includes("yellow")) safeName = "yellow onion";
+  else if (safeName.includes("white")) safeName = "white onion";
+  else safeName = "onion";
+}
 
       // Treat measured lemon/lime juice or zest as whole fruit for shopping.
 // Example: "1 Tbsp lemon juice" should shop as "1 Lemon", not "1 Tbsp Lemon".
