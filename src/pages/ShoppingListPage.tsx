@@ -205,8 +205,30 @@ function parseFraction(value: string): number | null {
 }
 
 function formatQuantity(n: number): string {
-  if (Number.isInteger(n)) return String(n);
-  return n.toFixed(2).replace(/\.?0+$/, "");
+  const rounded = Math.round(n * 1000) / 1000;
+
+  if (Number.isInteger(rounded)) return String(rounded);
+
+  const whole = Math.floor(rounded);
+  const fraction = rounded - whole;
+
+  const fractions: Array<[number, string]> = [
+    [0.125, "1/8"],
+    [0.25, "1/4"],
+    [0.333, "1/3"],
+    [0.5, "1/2"],
+    [0.667, "2/3"],
+    [0.75, "3/4"],
+  ];
+
+  const match = fractions.find(([value]) => Math.abs(fraction - value) < 0.02);
+
+  if (match) {
+    const [, label] = match;
+    return whole > 0 ? `${whole} ${label}` : label;
+  }
+
+  return rounded.toFixed(2).replace(/\.?0+$/, "");
 }
 
 // =====================================================
@@ -257,7 +279,7 @@ function normalizeUnit(unit: string | null): string | null {
 }
 
 function pluralizeUnit(unit: string, quantity: number): string {
-  if (quantity === 1) {
+  if (quantity === 1 || quantity < 1) {
     if (unit === "lb") return "lb";
     if (unit === "oz") return "oz";
     if (unit === "cup") return "cup";
