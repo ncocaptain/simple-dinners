@@ -1801,6 +1801,15 @@ if (MERGE_AS_SINGLE_SPICES.has(safeName)) {
   parsedQuantity = null;
 }
 
+const MERGE_AS_SINGLE_DAIRY_ITEMS = new Set([
+  "sour cream",
+  "cream cheese",
+]);
+
+if (MERGE_AS_SINGLE_DAIRY_ITEMS.has(safeName)) {
+  parsedUnit = null;
+  parsedQuantity = null;
+}
       const forceCountable = FORCE_COUNTABLE.has(safeName);
 
       const isMeasured = !forceCountable && parsedUnit !== null;
