@@ -244,7 +244,7 @@ function normalizeUnit(unit?: string) {
 function pluralizeUnit(unit: string, quantity: number | null | undefined) {
   if (!unit) return "";
   if (quantity === null || quantity === undefined) return unit;
-  if (Math.abs(quantity - 1) < 0.0001) return unit;
+  if (Math.abs(quantity - 1) < 0.0001 || quantity < 1) return unit;
 
   const pluralMap: Record<string, string> = {
     cup: "cups",
