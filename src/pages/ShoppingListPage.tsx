@@ -830,6 +830,58 @@ function isCountableIngredient(name: string): boolean {
 // =====================================================
 // Measured total display rules
 // =====================================================
+function shouldHideMainRowAmount(name: string, unit: string | null) {
+  const cleaned = cleanIngredientName(name).toLowerCase();
+
+  // Keep important purchase quantities visible.
+  // These are things shoppers usually buy by weight, count, or container.
+  if (
+    unit &&
+    [
+      "lb",
+      "oz",
+      "can",
+      "package",
+      "box",
+      "jar",
+      "carton",
+      "bag",
+      "tube",
+      "packet",
+    ].includes(unit)
+  ) {
+    return false;
+  }
+
+  const hideAmountFor = new Set([
+    "butter",
+    "cheddar cheese",
+    "mozzarella cheese",
+    "parmesan cheese",
+    "monterey jack cheese",
+    "blue cheese crumbles",
+    "sour cream",
+    "cream cheese",
+    "mayonnaise",
+    "ketchup",
+    "mustard",
+    "dijon mustard",
+    "honey",
+    "olive oil",
+    "vegetable oil",
+    "canola oil",
+    "sesame oil",
+    "toasted sesame oil",
+    "rice vinegar",
+    "balsamic vinegar",
+    "vinegar",
+    "tomato paste",
+    "tomato sauce",
+    "sesame seeds",
+  ]);
+
+  return hideAmountFor.has(cleaned);
+}
 function shouldShowMeasuredTotal(
   name: string,
   unit: string | null,
@@ -910,6 +962,13 @@ function resolveShoppingCategory(name: string): GroceryCategory {
   return "Pantry";
 }
 
+if (
+  cleaned.includes("tomato paste") ||
+  cleaned.includes("tomato sauce")
+) {
+  return "Pantry";
+}
+
   const forcedSpices = new Set([
     "salt",
     "black pepper",
@@ -961,6 +1020,13 @@ function resolveShoppingCategoryForItem(
   if (
   cleaned.includes("french fried onion") ||
   cleaned.includes("fried onion")
+) {
+  return "Pantry";
+}
+
+if (
+  cleaned.includes("tomato paste") ||
+  cleaned.includes("tomato sauce")
 ) {
   return "Pantry";
 }
@@ -1838,6 +1904,15 @@ if (MERGE_AS_SINGLE_DAIRY_ITEMS.has(safeName)) {
   parsedUnit = null;
   parsedQuantity = null;
 }
+
+// Treat generic cheddar cheese as one grocery item when one recipe gives
+// an amount and another only says "shredded cheese".
+if (safeName === "cheddar cheese") {
+  if (parsedUnit === "cup" || parsedUnit === "Tbsp" || parsedUnit === "tsp") {
+    parsedUnit = null;
+    parsedQuantity = null;
+  }
+}
       const forceCountable = FORCE_COUNTABLE.has(safeName);
 
       const isMeasured = !forceCountable && parsedUnit !== null;
@@ -2012,11 +2087,12 @@ if (MERGE_AS_SINGLE_DAIRY_ITEMS.has(safeName)) {
           displayText = `${finalQty} ${formattedName}`;
         }
       } else if (
-        !value.mixedUnits &&
-        value.unit &&
-        value.totalQuantity > 0 &&
-        shouldShowMeasuredTotal(value.name, value.unit, value.totalQuantity)
-      ) {
+  !value.mixedUnits &&
+  value.unit &&
+  value.totalQuantity > 0 &&
+  shouldShowMeasuredTotal(value.name, value.unit, value.totalQuantity) &&
+  !shouldHideMainRowAmount(value.name, value.unit)
+) {
         const formattedName = formatDisplayName(value.name);
         const packageText =
           value.packageSize && isPackageSizeSensitiveUnit(value.unit)
