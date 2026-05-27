@@ -84,38 +84,32 @@ function parseFraction(value: string): number | null {
 function formatQuantity(value: number | null | undefined) {
   if (value === null || value === undefined) return "";
 
-  const rounded = Math.round(value * 100) / 100;
-
-  const commonFractions: Record<number, string> = {
-    0.125: "1/8",
-    0.25: "1/4",
-    0.333: "1/3",
-    0.5: "1/2",
-    0.667: "2/3",
-    0.75: "3/4",
-  };
-
-  const whole = Math.floor(rounded);
-  const fraction = Math.round((rounded - whole) * 1000) / 1000;
-
-  const fractionKey = Math.round(fraction * 1000) / 1000;
-  const matchedFraction =
-    commonFractions[Number(fractionKey.toFixed(3))] ??
-    commonFractions[Number(fraction.toFixed(3))];
-
-  if (whole > 0 && matchedFraction) {
-    return `${whole} ${matchedFraction}`;
-  }
-
-  if (whole === 0 && matchedFraction) {
-    return matchedFraction;
-  }
+  const rounded = Math.round(value * 1000) / 1000;
 
   if (Number.isInteger(rounded)) {
     return String(rounded);
   }
 
-  return String(rounded);
+  const whole = Math.floor(rounded);
+  const fraction = rounded - whole;
+
+  const fractions: Array<[number, string]> = [
+    [0.125, "1/8"],
+    [0.25, "1/4"],
+    [0.333, "1/3"],
+    [0.5, "1/2"],
+    [0.667, "2/3"],
+    [0.75, "3/4"],
+  ];
+
+  const match = fractions.find(([amount]) => Math.abs(fraction - amount) < 0.02);
+
+  if (match) {
+    const [, label] = match;
+    return whole > 0 ? `${whole} ${label}` : label;
+  }
+
+  return rounded.toFixed(2).replace(/\.?0+$/, "");
 }
 
 function normalizePackageSize(value?: string) {
@@ -173,6 +167,29 @@ const CUP_MEASURE_NOISE = new Set([
   "canola oil",
   "sesame oil",
   "toasted sesame oil",
+  "butter",
+  "cheddar cheese",
+  "mozzarella cheese",
+  "parmesan cheese",
+  "monterey jack cheese",
+  "blue cheese crumbles",
+  "sour cream",
+  "cream cheese",
+  "mayonnaise",
+  "ketchup",
+  "mustard",
+  "dijon mustard",
+  "honey",
+  "vinegar",
+  "rice vinegar",
+  "balsamic vinegar",
+  "tomato paste",
+  "tomato sauce",
+  "sesame seeds",
+  "champagne",
+  "white wine",
+  "red wine",
+  "cooking wine",
 ]);
 
 const DEFAULT_BUY_DISPLAY: Record<string, string> = {
@@ -435,6 +452,14 @@ function preserveManualShoppingName(text: string) {
   if (SPECIAL_DISPLAY_NAMES[withoutAmount]) return withoutAmount;
 
   // Preserve any manual/store cheese wording. Cheese form/type matters.
+  // If the source only says "shredded cheese", default it to cheddar so it
+  // merges with normal cheddar/shredded cheddar shopping items.
+  if (cleaned === "shredded cheese" || cleaned === "grated cheese") {
+    return "shredded cheddar cheese";
+  }
+  if (withoutAmount === "shredded cheese" || withoutAmount === "grated cheese") {
+    return "shredded cheddar cheese";
+  }
   if (cleaned.includes("cheese")) return cleaned;
   if (withoutAmount.includes("cheese")) return withoutAmount;
 
@@ -608,7 +633,9 @@ function normalizePantryAndSeasonings(text: string) {
     .replace(/\bgarlic powders?\b/g, "garlic powder")
     .replace(/\bsmoked paprika\b/g, "paprika")
     .replace(/\bpaprikas\b/g, "paprika")
-    .replace(/\bchile powder\b/g, "chili powder");
+    .replace(/\bchile powder\b/g, "chili powder")
+    .replace(/\bground cumin\b/g, "cumin");
+    
 }
 
 function normalizeProduce(text: string) {
@@ -658,7 +685,10 @@ function normalizeCannedAndJarredGoods(text: string) {
 function normalizeProteinsAndBakery(text: string) {
   return text
     .replace(/\bextra lean ground beef\b/g, "ground beef")
+    .replace(/\bextra-lean ground beef\b/g, "ground beef")
+    .replace(/\bextra ground beef\b/g, "ground beef")
     .replace(/\blean ground beef\b/g, "ground beef")
+    .replace(/\bcrumbled bacon\b/g, "bacon")
     .replace(/\bground italian sausage\b/g, "italian sausage")
     .replace(/\bitalian ground sausage\b/g, "italian sausage")
     .replace(/\bhot dog buns?\b/g, "hot dog bun")
@@ -742,6 +772,8 @@ function normalizeIngredientCore(text: string) {
   next = next.replace(/^[/\\\-–—]+\s*/, "");
   next = next.replace(/\([^)]*\)/g, " ");
   next = cleanupSpacing(next);
+  next = next.replace(/^(and|or|with)\s+/g, "").trim();
+  next = cleanupSpacing(next);
 
   const protectedManualName = preserveManualShoppingName(next);
   if (protectedManualName) return protectedManualName;
@@ -752,7 +784,10 @@ function normalizeIngredientCore(text: string) {
   next = next.replace(/^\s*up to\s+/i, "");
   next = next.replace(/^\s*to\s+/i, "");
   next = normalizePantryAndSeasonings(next);
+  next = next.replace(/\bfrench's fried onions?\b/g, "french fried onions");
+  next = next.replace(/\bfrench fried onions?\b/g, "french fried onions");
   next = normalizeProduce(next);
+  next = next.replace(/\bfrench fried onion\b/g, "french fried onions");
   next = normalizeCannedAndJarredGoods(next);
   next = normalizeProteinsAndBakery(next);
   next = normalizeDairyAndCheese(next);
@@ -781,7 +816,8 @@ function normalizeIngredientCore(text: string) {
   next = cleanupSpacing(next);
 
   // Remove dangling connector words from lines like
-  // "4 oz cream cheese and ..." after cleanup has stripped the second item.
+  // "4 oz cream cheese and ..." or "and crumbled bacon" after cleanup.
+  next = next.replace(/^(and|or|with)\s+/g, "").trim();
   next = next.replace(/\b(and|or|with)$/g, "").trim();
   next = cleanupSpacing(next);
 
@@ -897,6 +933,10 @@ function parseIngredientParts(line: string): {
   if (normalizedName === "cilantro" || normalizedName === "parsley") {
     unit = "bunch";
     if (quantity === null) quantity = 1;
+  }
+
+  if (normalizedName === "ground beef" && !unit && quantity !== null) {
+    unit = "lb";
   }
 
   return {
@@ -1073,6 +1113,7 @@ const FORCED_SPICE_ITEMS = new Set([
   "paprika",
   "italian seasoning",
   "cumin",
+  "ground cumin",
   "chili powder",
   "oregano",
   "old bay seasoning",
@@ -1116,11 +1157,19 @@ function shouldHideShoppingItem(name: string) {
 }
 
 function isRealPepperProduce(cleaned: string) {
+  if (
+    cleaned.includes("red pepper flakes") ||
+    cleaned.includes("cayenne pepper") ||
+    cleaned.includes("black pepper")
+  ) {
+    return false;
+  }
+
   return (
     cleaned.includes("bell pepper") ||
-    cleaned.includes("red pepper") ||
-    cleaned.includes("yellow pepper") ||
-    cleaned.includes("green pepper") ||
+    cleaned.includes("red bell pepper") ||
+    cleaned.includes("yellow bell pepper") ||
+    cleaned.includes("green bell pepper") ||
     cleaned.includes("poblano") ||
     cleaned.includes("jalapeno") ||
     cleaned.includes("jalapeño")
@@ -1153,7 +1202,18 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     return "Produce";
   }
 
-  if (isSalsaPantryItem(lower) || isCornstarchPantryItem(lower)) {
+  if (
+    isSalsaPantryItem(lower) ||
+    isCornstarchPantryItem(lower) ||
+    lower.includes("tomato paste") ||
+    lower.includes("tomato sauce") ||
+    lower.includes("french fried onion") ||
+    lower.includes("fried onion") ||
+    lower.includes("champagne") ||
+    lower.includes("white wine") ||
+    lower.includes("red wine") ||
+    lower.includes("cooking wine")
+  ) {
     return "Pantry";
   }
 
@@ -1190,6 +1250,10 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     lower.includes("balsamic vinegar")
   ) {
     return "Pantry";
+  }
+
+  if (lower.includes("red pepper flakes")) {
+    return "Spices / Seasonings";
   }
 
   if (FORCED_SPICE_ITEMS.has(lower)) {

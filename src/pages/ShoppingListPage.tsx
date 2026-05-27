@@ -353,6 +353,7 @@ function pluralizeCountable(name: string, quantity: number): string {
     egg: "eggs",
     onion: "onions",
     potato: "potatoes",
+    "sweet potato": "sweet potatoes",
     tomato: "tomatoes",
     avocado: "avocados",
     banana: "bananas",
@@ -501,6 +502,7 @@ function normalizePantryAndSeasonings(text: string) {
     .replace(/\bground pepper\b/g, "black pepper")
     .replace(/\bblack black pepper\b/g, "black pepper")
 
+
     // safe fallback: plain "pepper" becomes black pepper, but real peppers stay real peppers
     .replace(/\bpepper\b/g, (match, offset, full) => {
       const before = full.slice(0, offset).trimEnd();
@@ -526,7 +528,8 @@ function normalizePantryAndSeasonings(text: string) {
     .replace(/\bgarlic powders?\b/g, "garlic powder")
     .replace(/\bsmoked paprika\b/g, "paprika")
     .replace(/\bpaprikas\b/g, "paprika")
-    .replace(/\bchile powder\b/g, "chili powder");
+    .replace(/\bchile powder\b/g, "chili powder")
+    .replace(/\bground cumin\b/g, "cumin");
 }
 
 function normalizeProduce(text: string) {
@@ -942,11 +945,19 @@ function shouldShowMeasuredTotal(
 }
 
 function isRealPepperProduce(cleaned: string) {
+  if (
+    cleaned.includes("red pepper flakes") ||
+    cleaned.includes("cayenne pepper") ||
+    cleaned.includes("black pepper")
+  ) {
+    return false;
+  }
+
   return (
     cleaned.includes("bell pepper") ||
-    cleaned.includes("red pepper") ||
-    cleaned.includes("yellow pepper") ||
-    cleaned.includes("green pepper") ||
+    cleaned.includes("red bell pepper") ||
+    cleaned.includes("yellow bell pepper") ||
+    cleaned.includes("green bell pepper") ||
     cleaned.includes("poblano") ||
     cleaned.includes("jalapeno") ||
     cleaned.includes("jalapeño")
@@ -989,6 +1000,15 @@ function resolveShoppingCategory(name: string): GroceryCategory {
 if (
   cleaned.includes("tomato paste") ||
   cleaned.includes("tomato sauce")
+) {
+  return "Pantry";
+}
+
+if (
+  cleaned.includes("champagne") ||
+  cleaned.includes("white wine") ||
+  cleaned.includes("red wine") ||
+  cleaned.includes("cooking wine")
 ) {
   return "Pantry";
 }
@@ -1866,6 +1886,10 @@ if (safeName.includes("onion powder")) {
       if (safeName.includes("chicken") && safeName.includes("breast")) {
         safeName = "chicken breast";
       }
+
+      if (safeName === "eggs") {
+  safeName = "egg";
+}
 
       if (
   safeName.includes("onion") &&
