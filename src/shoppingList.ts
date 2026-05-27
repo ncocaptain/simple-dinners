@@ -935,6 +935,17 @@ function parseIngredientParts(line: string): {
     if (quantity === null) quantity = 1;
   }
 
+  if (
+  normalizedName === "onion" ||
+  normalizedName === "yellow onion" ||
+  normalizedName === "white onion" ||
+  normalizedName === "red onion" ||
+  normalizedName === "green onion"
+) {
+  unit = "";
+  if (quantity === null) quantity = 1;
+}
+
   if (normalizedName === "ground beef" && !unit && quantity !== null) {
     unit = "lb";
   }

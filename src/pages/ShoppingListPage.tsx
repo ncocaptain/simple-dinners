@@ -1903,6 +1903,20 @@ if (safeName.includes("onion powder")) {
   else safeName = "onion";
 }
 
+// Treat loose recipe onions as countable items.
+// Example: "medium white onion, diced" and "white onion, sliced"
+// should merge as "2 White Onions".
+if (
+  safeName === "onion" ||
+  safeName === "yellow onion" ||
+  safeName === "white onion" ||
+  safeName === "red onion" ||
+  safeName === "green onion"
+) {
+  parsedUnit = null;
+  if (parsedQuantity === null) parsedQuantity = 1;
+}
+
       // Treat measured lemon/lime juice or zest as whole fruit for shopping.
 // Example: "1 Tbsp lemon juice" should shop as "1 Lemon", not "1 Tbsp Lemon".
 if (safeName === "lemon" || safeName === "lime") {
