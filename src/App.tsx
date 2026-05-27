@@ -47,6 +47,7 @@ import {
 } from "./core/cookbookStore";
 import { hasCompletedOnboarding } from "./core/onboardingStore";
 import { t, getStoredLanguage, type LanguageCode } from "./i18n";
+import { Capacitor } from "@capacitor/core";
 
 type CookbookRecipe = Meal & {
   sourceUrl?: string;
@@ -66,11 +67,11 @@ const mealImageUrl = (name?: string) => {
 function normalizePhotoUrl(url?: string) {
   if (!url) return "";
 
-  const trimmed = String(url).trim();
-  if (!trimmed) return "";
+  const trimmed = url.trim();
 
   if (trimmed.startsWith("/images/")) {
-    return trimmed.replace(/\.(png|jpe?g)$/i, ".jpg");
+    const extension = Capacitor.getPlatform() === "android" ? ".webp" : ".jpg";
+    return trimmed.replace(/\.(png|jpg|jpeg|webp)$/i, extension);
   }
 
   return trimmed;

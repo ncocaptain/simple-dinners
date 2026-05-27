@@ -5833,6 +5833,2402 @@ Deja reposar 5 minutos antes de servir.`,
   },
 },
 
+{
+  id: "chimichurri-skirt-steak-bowls",
+  slug: "chimichurri-skirt-steak-bowls",
+  name: "Chimichurri Skirt Steak Bowls",
+  effort: "normal",
+  photoUrl: "/images/chimichurri-skirt-steak-bowls.webp",
+  tags: [
+    "dinner",
+    "beef",
+    "bowls",
+    "grilling",
+    "healthy",
+    "high-protein",
+    "meal-prep",
+  ],
+  isVegetarian: false,
+  notes:
+    "Skirt steak cooks quickly and develops incredible flavor over high heat. Always slice against the grain to keep the steak tender, and let the chimichurri sit a few minutes before serving so the flavors meld together.",
+  ingredients: `Steak:
+1 1/2 lbs skirt steak
+1 tbsp olive oil
+1 tsp salt
+1/2 tsp black pepper
+1/2 tsp smoked paprika
+
+Chimichurri Sauce:
+1 cup fresh parsley, finely chopped
+2 tbsp fresh cilantro, chopped
+3 cloves garlic, minced
+2 tbsp red wine vinegar
+1/2 cup olive oil
+1/2 tsp red pepper flakes
+1/2 tsp salt
+1/4 tsp black pepper
+
+Bowls:
+3 cups cooked rice
+1 cup cherry tomatoes, halved
+1 avocado, sliced
+1 cup corn
+1/2 cup red onion, thinly sliced
+
+Optional:
+lime wedges
+crumbled cotija cheese`,
+  instructions: `Pat 1 1/2 lbs skirt steak dry with paper towels and rub with 1 tbsp olive oil.
+
+Season with 1 tsp salt, 1/2 tsp black pepper, and 1/2 tsp smoked paprika.
+
+In a bowl, combine 1 cup parsley, 2 tbsp cilantro, 3 cloves garlic, 2 tbsp red wine vinegar, 1/2 cup olive oil, 1/2 tsp red pepper flakes, 1/2 tsp salt, and 1/4 tsp black pepper. Stir well and set aside.
+
+Heat a cast iron skillet or grill pan over high heat until very hot.
+
+Cook the skirt steak for 3 to 4 minutes per side, until a deep char forms and the internal temperature reaches about 130°F for medium-rare.
+
+Remove from heat and let rest for 5 to 10 minutes before slicing thinly against the grain.
+
+Assemble bowls with 3 cups cooked rice as the base.
+
+Top with sliced steak, cherry tomatoes, avocado, corn, and red onion.
+
+Spoon chimichurri generously over the steak and bowls.
+
+Serve with lime wedges and cotija cheese if desired.`,
+  translations: {
+    es: {
+      name: "Bowls de Arrachera con Chimichurri",
+      notes:
+        "La arrachera se cocina rápidamente y desarrolla un sabor increíble a fuego alto. Siempre corta la carne en contra de la fibra para mantenerla tierna y deja reposar el chimichurri unos minutos para que los sabores se integren.",
+      tags: [
+        "cena",
+        "carne",
+        "bowls",
+        "parrilla",
+        "saludable",
+        "alto en proteína",
+        "meal-prep",
+      ],
+      ingredients: `Carne:
+1 1/2 lbs de arrachera
+1 cucharada de aceite de oliva
+1 cucharadita de sal
+1/2 cucharadita de pimienta negra
+1/2 cucharadita de paprika ahumada
+
+Salsa Chimichurri:
+1 taza de perejil fresco, finamente picado
+2 cucharadas de cilantro fresco, picado
+3 dientes de ajo, picados
+2 cucharadas de vinagre de vino tinto
+1/2 taza de aceite de oliva
+1/2 cucharadita de hojuelas de chile rojo
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+
+Bowls:
+3 tazas de arroz cocido
+1 taza de tomates cherry, partidos a la mitad
+1 aguacate, en rebanadas
+1 taza de maíz
+1/2 taza de cebolla morada, en rodajas finas
+
+Opcional:
+gajos de limón
+queso cotija desmoronado`,
+      instructions: `Seca 1 1/2 lbs de arrachera con toallas de papel y úntala con 1 cucharada de aceite de oliva.
+
+Sazona con 1 cucharadita de sal, 1/2 cucharadita de pimienta negra y 1/2 cucharadita de paprika ahumada.
+
+En un tazón, mezcla 1 taza de perejil, 2 cucharadas de cilantro, 3 dientes de ajo, 2 cucharadas de vinagre de vino tinto, 1/2 taza de aceite de oliva, 1/2 cucharadita de hojuelas de chile rojo, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra. Mezcla bien y reserva.
+
+Calienta una sartén de hierro fundido o parrilla a fuego alto hasta que esté muy caliente.
+
+Cocina la arrachera de 3 a 4 minutos por lado hasta que se forme un dorado intenso y la temperatura interna alcance aproximadamente 130°F para término medio rojo.
+
+Retira del fuego y deja reposar de 5 a 10 minutos antes de cortar en tiras delgadas en contra de la fibra.
+
+Arma los bowls usando 3 tazas de arroz cocido como base.
+
+Agrega la carne, tomates cherry, aguacate, maíz y cebolla morada.
+
+Sirve abundante chimichurri encima de la carne y los bowls.
+
+Sirve con limón y queso cotija si lo deseas.`,
+    },
+  },
+},
+
+{
+  id: "lamb-and-beef-gateway-burgers",
+  slug: "lamb-and-beef-gateway-burgers",
+  name: "Lamb and Beef Gateway Burgers",
+  effort: "normal",
+  photoUrl: "/images/lamb-and-beef-gateway-burgers.webp",
+  tags: [
+    "dinner",
+    "burgers",
+    "beef",
+    "lamb",
+    "grilling",
+    "comfort",
+    "premium",
+    "family",
+  ],
+  isVegetarian: false,
+  notes:
+    "Blending lamb with beef creates a rich, flavorful burger without being overpowering. The creamy herb sauce balances the richness and makes these burgers approachable even for people new to lamb.",
+  ingredients: `Burger Patties:
+1 lb ground beef (80/20 recommended)
+1 lb ground lamb
+1 tsp salt
+1/2 tsp black pepper
+1 tsp garlic powder
+1 tsp dried oregano
+1 tbsp Worcestershire sauce
+
+Herb Sauce:
+1/2 cup Greek yogurt
+1 tbsp lemon juice
+1 tbsp fresh parsley, chopped
+1 clove garlic, minced
+1/4 tsp salt
+
+Assembly:
+4 brioche burger buns
+1/2 cup red onion, thinly sliced
+1 cup arugula or lettuce
+4 slices feta cheese (optional)
+1 tbsp butter, softened`,
+  instructions: `In a large bowl, combine 1 lb ground beef, 1 lb ground lamb, 1 tsp salt, 1/2 tsp black pepper, 1 tsp garlic powder, 1 tsp oregano, and 1 tbsp Worcestershire sauce.
+
+Mix gently until just combined, being careful not to overwork the meat.
+
+Form into 4 burger patties slightly wider than the buns.
+
+In a small bowl, whisk together 1/2 cup Greek yogurt, 1 tbsp lemon juice, 1 tbsp parsley, 1 clove garlic, and 1/4 tsp salt. Refrigerate until ready to serve.
+
+Heat a cast iron skillet or grill over medium-high heat.
+
+Butter the inside of 4 brioche buns with 1 tbsp softened butter and toast until golden brown. Set aside.
+
+Cook burger patties for 4 to 5 minutes per side, until a deep crust forms and the internal temperature reaches 160°F.
+
+If using feta cheese, place on the burgers during the final minute of cooking.
+
+Spread herb sauce onto the toasted buns.
+
+Top with burgers, red onion, and arugula.
+
+Serve immediately while hot and juicy.`,
+  translations: {
+    es: {
+      name: "Hamburguesas Mixtas de Cordero y Res",
+      notes:
+        "Mezclar cordero con carne de res crea una hamburguesa rica y llena de sabor sin ser demasiado intensa. La salsa cremosa de hierbas equilibra perfectamente la carne y hace que estas hamburguesas sean ideales incluso para quienes nunca han probado el cordero.",
+      tags: [
+        "cena",
+        "hamburguesas",
+        "carne",
+        "cordero",
+        "parrilla",
+        "comfort",
+        "premium",
+        "familiar",
+      ],
+      ingredients: `Hamburguesas:
+1 lb de carne molida de res (80/20 recomendado)
+1 lb de carne molida de cordero
+1 cucharadita de sal
+1/2 cucharadita de pimienta negra
+1 cucharadita de ajo en polvo
+1 cucharadita de orégano seco
+1 cucharada de salsa Worcestershire
+
+Salsa de Hierbas:
+1/2 taza de yogur griego
+1 cucharada de jugo de limón
+1 cucharada de perejil fresco, picado
+1 diente de ajo, picado
+1/4 cucharadita de sal
+
+Montaje:
+4 panes brioche para hamburguesa
+1/2 taza de cebolla morada, en rodajas finas
+1 taza de arúgula o lechuga
+4 rebanadas de queso feta (opcional)
+1 cucharada de mantequilla, suave`,
+      instructions: `En un tazón grande, mezcla 1 lb de carne molida de res, 1 lb de carne molida de cordero, 1 cucharadita de sal, 1/2 cucharadita de pimienta negra, 1 cucharadita de ajo en polvo, 1 cucharadita de orégano y 1 cucharada de salsa Worcestershire.
+
+Mezcla suavemente hasta integrar, evitando trabajar demasiado la carne.
+
+Forma 4 hamburguesas ligeramente más grandes que los panes.
+
+En un tazón pequeño, mezcla 1/2 taza de yogur griego, 1 cucharada de jugo de limón, 1 cucharada de perejil, 1 diente de ajo y 1/4 cucharadita de sal. Refrigera hasta servir.
+
+Calienta una sartén de hierro fundido o parrilla a fuego medio-alto.
+
+Unta mantequilla en el interior de los panes brioche y tuéstalos hasta que estén dorados. Reserva.
+
+Cocina las hamburguesas de 4 a 5 minutos por lado hasta que se forme una costra dorada intensa y la temperatura interna alcance 160°F.
+
+Si usas queso feta, colócalo sobre las hamburguesas durante el último minuto de cocción.
+
+Unta la salsa de hierbas en los panes tostados.
+
+Agrega las hamburguesas, cebolla morada y arúgula.
+
+Sirve inmediatamente mientras estén calientes y jugosas.`,
+    },
+  },
+},
+
+{
+  id: "air-fryer-brisket-taquitos",
+  slug: "air-fryer-brisket-taquitos",
+  name: "Air Fryer Brisket Taquitos",
+  effort: "normal",
+  photoUrl: "/images/air-fryer-brisket-taquitos.webp",
+  tags: [
+    "dinner",
+    "beef",
+    "air-fryer",
+    "tex-mex",
+    "crispy",
+    "comfort",
+    "leftovers",
+    "family",
+  ],
+  isVegetarian: false,
+  notes:
+    "Using leftover brisket makes these taquitos incredibly flavorful and easy. Warming the tortillas first is the key to preventing them from cracking while rolling.",
+  ingredients: `Filling:
+2 cups cooked brisket, shredded
+1/2 cup Monterey Jack cheese, shredded
+1/4 cup cream cheese, softened
+1/4 cup salsa
+1 tsp chili powder
+1/2 tsp cumin
+1/4 tsp garlic powder
+
+Taquitos:
+10 corn tortillas
+olive oil spray
+
+Optional Toppings:
+sour cream
+guacamole
+pico de gallo
+fresh cilantro
+lime wedges`,
+  instructions: `In a large bowl, combine 2 cups shredded brisket, 1/2 cup Monterey Jack cheese, 1/4 cup cream cheese, 1/4 cup salsa, 1 tsp chili powder, 1/2 tsp cumin, and 1/4 tsp garlic powder.
+
+Mix until evenly combined.
+
+Warm 10 corn tortillas for 20 to 30 seconds in the microwave wrapped in a damp paper towel to make them flexible and prevent cracking.
+
+Spoon about 2 to 3 tbsp of brisket filling onto each tortilla and roll tightly.
+
+Preheat air fryer to 400°F.
+
+Lightly spray the taquitos with olive oil spray on all sides.
+
+Place taquitos seam-side down in the air fryer basket in a single layer, working in batches if needed.
+
+Cook for 7 to 9 minutes, flipping halfway through, until deeply golden and crispy.
+
+Serve hot with sour cream, guacamole, pico de gallo, cilantro, and lime wedges if desired.`,
+  translations: {
+    es: {
+      name: "Taquitos de Brisket en Freidora de Aire",
+      notes:
+        "Usar brisket sobrante hace que estos taquitos sean increíblemente sabrosos y fáciles de preparar. Calentar las tortillas primero ayuda a evitar que se rompan al enrollarlas.",
+      tags: [
+        "cena",
+        "carne",
+        "freidora de aire",
+        "tex-mex",
+        "crujiente",
+        "comfort",
+        "sobras",
+        "familiar",
+      ],
+      ingredients: `Relleno:
+2 tazas de brisket cocido y deshebrado
+1/2 taza de queso Monterey Jack rallado
+1/4 taza de queso crema, suave
+1/4 taza de salsa
+1 cucharadita de chile en polvo
+1/2 cucharadita de comino
+1/4 cucharadita de ajo en polvo
+
+Taquitos:
+10 tortillas de maíz
+spray de aceite de oliva
+
+Toppings Opcionales:
+crema agria
+guacamole
+pico de gallo
+cilantro fresco
+gajos de limón`,
+      instructions: `En un tazón grande, mezcla 2 tazas de brisket deshebrado, 1/2 taza de queso Monterey Jack, 1/4 taza de queso crema, 1/4 taza de salsa, 1 cucharadita de chile en polvo, 1/2 cucharadita de comino y 1/4 cucharadita de ajo en polvo.
+
+Mezcla hasta integrar bien.
+
+Calienta 10 tortillas de maíz durante 20 a 30 segundos en el microondas envueltas en una toalla húmeda para hacerlas más flexibles y evitar que se rompan.
+
+Coloca aproximadamente 2 a 3 cucharadas del relleno en cada tortilla y enrolla firmemente.
+
+Precalienta la freidora de aire a 400°F.
+
+Rocía ligeramente los taquitos con spray de aceite de oliva por todos lados.
+
+Coloca los taquitos con la unión hacia abajo en la canasta de la freidora en una sola capa, cocinando en tandas si es necesario.
+
+Cocina de 7 a 9 minutos, volteando a la mitad del tiempo, hasta que estén dorados y crujientes.
+
+Sirve calientes con crema agria, guacamole, pico de gallo, cilantro y limón si lo deseas.`,
+    },
+  },
+},
+
+{
+  id: "homemade-pizza-pockets",
+  slug: "homemade-pizza-pockets",
+  name: "Homemade Pizza Pockets",
+  effort: "normal",
+  photoUrl: "/images/homemade-pizza-pockets.webp",
+  tags: [
+    "dinner",
+    "pizza",
+    "comfort",
+    "family",
+    "kid-friendly",
+    "handheld",
+    "oven",
+  ],
+  isVegetarian: false,
+  notes:
+    "Keeping the sauce light helps prevent soggy pizza pockets. Sealing the edges tightly is the key to keeping the cheese and fillings from leaking while baking.",
+  ingredients: `Dough:
+1 lb pizza dough (store-bought or homemade)
+1 tbsp flour (for rolling)
+
+Filling:
+1 cup marinara sauce
+1 1/2 cups mozzarella cheese, shredded
+1/2 cup pepperoni slices
+1/2 tsp Italian seasoning
+1/4 tsp garlic powder
+
+Finish:
+1 tbsp olive oil
+1 tbsp parmesan cheese, grated
+
+Optional:
+pizza toppings of choice (sausage, mushrooms, peppers, olives)`,
+  instructions: `Preheat oven to 425°F.
+
+Lightly flour a work surface with 1 tbsp flour.
+
+Roll 1 lb pizza dough into a large rectangle and cut into 4 equal portions.
+
+Spread about 2 tbsp marinara sauce onto one half of each dough piece, leaving a small border around the edges.
+
+Top with mozzarella cheese, pepperoni, 1/2 tsp Italian seasoning, and 1/4 tsp garlic powder divided evenly between the pockets.
+
+Fold the dough over the filling and press the edges firmly to seal. Crimp edges with a fork if desired.
+
+Place pizza pockets onto a parchment-lined baking sheet.
+
+Brush the tops with 1 tbsp olive oil.
+
+Cut a small slit in the top of each pocket to allow steam to escape.
+
+Bake for 15 to 18 minutes, until deeply golden-brown and crisp.
+
+Remove from oven and sprinkle with 1 tbsp parmesan cheese.
+
+Let cool for 5 minutes before serving because the filling will be very hot.`,
+  translations: {
+    es: {
+      name: "Pizza Pockets Caseros",
+      notes:
+        "Usar poca salsa ayuda a evitar que las pizza pockets queden aguadas. Sellar bien los bordes evita que el queso y los rellenos se salgan durante el horneado.",
+      tags: [
+        "cena",
+        "pizza",
+        "comfort",
+        "familiar",
+        "niños",
+        "portátil",
+        "horno",
+      ],
+      ingredients: `Masa:
+1 lb de masa para pizza (casera o comprada)
+1 cucharada de harina (para extender)
+
+Relleno:
+1 taza de salsa marinara
+1 1/2 tazas de queso mozzarella rallado
+1/2 taza de pepperoni
+1/2 cucharadita de sazón italiana
+1/4 cucharadita de ajo en polvo
+
+Final:
+1 cucharada de aceite de oliva
+1 cucharada de queso parmesano rallado
+
+Opcional:
+ingredientes para pizza al gusto (salchicha, champiñones, pimientos, aceitunas)`,
+      instructions: `Precalienta el horno a 425°F.
+
+Espolvorea ligeramente una superficie de trabajo con 1 cucharada de harina.
+
+Extiende 1 lb de masa para pizza formando un rectángulo grande y córtalo en 4 partes iguales.
+
+Coloca aproximadamente 2 cucharadas de salsa marinara en una mitad de cada pieza de masa, dejando un pequeño borde alrededor.
+
+Agrega mozzarella, pepperoni, 1/2 cucharadita de sazón italiana y 1/4 cucharadita de ajo en polvo divididos entre las piezas.
+
+Dobla la masa sobre el relleno y presiona bien los bordes para sellar. Puedes marcar los bordes con un tenedor si deseas.
+
+Coloca las pizza pockets sobre una bandeja con papel para hornear.
+
+Barniza la parte superior con 1 cucharada de aceite de oliva.
+
+Haz un pequeño corte en la parte superior de cada pieza para permitir que salga el vapor.
+
+Hornea de 15 a 18 minutos hasta que estén doradas y crujientes.
+
+Retira del horno y espolvorea 1 cucharada de queso parmesano.
+
+Deja enfriar 5 minutos antes de servir porque el relleno estará muy caliente.`,
+    },
+  },
+},
+
+{
+  id: "baked-potato-bar",
+  slug: "baked-potato-bar",
+  name: "Baked Potato Bar",
+  effort: "normal",
+  photoUrl: "/images/baked-potato-bar.webp",
+  tags: [
+    "dinner",
+    "potatoes",
+    "family",
+    "comfort",
+    "customizable",
+    "oven",
+    "party-food",
+  ],
+  isVegetarian: false,
+  notes:
+    "Baking potatoes directly on the oven rack helps create crisp skins while keeping the inside fluffy. Setting up a topping bar makes this perfect for family dinners or casual gatherings.",
+  ingredients: `Potatoes:
+6 large russet potatoes
+2 tbsp olive oil
+1 tsp salt
+1/2 tsp black pepper
+
+Classic Toppings:
+1 cup cheddar cheese, shredded
+1/2 cup sour cream
+1/2 cup bacon bits
+1/4 cup green onions, sliced
+2 tbsp butter
+
+Optional Toppings:
+broccoli florets, steamed
+chili
+jalapeños
+pulled pork
+buffalo chicken
+ranch dressing`,
+  instructions: `Preheat oven to 425°F.
+
+Scrub 6 russet potatoes clean and dry thoroughly with paper towels.
+
+Rub potatoes with 2 tbsp olive oil and season evenly with 1 tsp salt and 1/2 tsp black pepper.
+
+Place potatoes directly on the oven rack or on a baking sheet.
+
+Bake for 50 to 65 minutes, until the skins are crisp and the centers are fork-tender.
+
+While the potatoes bake, prepare desired toppings such as shredded cheese, sour cream, bacon bits, steamed broccoli, or warmed chili.
+
+Remove potatoes from the oven and let cool for 5 minutes.
+
+Slice each potato open lengthwise and gently fluff the inside with a fork.
+
+Add 2 tbsp butter divided between the potatoes, then set out toppings buffet-style so everyone can build their own potato.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Barra de Papas Horneadas",
+      notes:
+        "Hornear las papas directamente sobre la rejilla del horno ayuda a crear una piel crujiente mientras el interior queda suave y esponjoso. Preparar una barra de toppings hace que esta comida sea perfecta para cenas familiares o reuniones casuales.",
+      tags: [
+        "cena",
+        "papas",
+        "familiar",
+        "comfort",
+        "personalizable",
+        "horno",
+        "comida para fiestas",
+      ],
+      ingredients: `Papas:
+6 papas russet grandes
+2 cucharadas de aceite de oliva
+1 cucharadita de sal
+1/2 cucharadita de pimienta negra
+
+Toppings Clásicos:
+1 taza de queso cheddar rallado
+1/2 taza de crema agria
+1/2 taza de trocitos de tocino
+1/4 taza de cebollines en rodajas
+2 cucharadas de mantequilla
+
+Toppings Opcionales:
+brócoli al vapor
+chili
+jalapeños
+pulled pork
+pollo buffalo
+aderezo ranch`,
+      instructions: `Precalienta el horno a 425°F.
+
+Lava bien 6 papas russet y sécalas completamente con toallas de papel.
+
+Unta las papas con 2 cucharadas de aceite de oliva y sazona uniformemente con 1 cucharadita de sal y 1/2 cucharadita de pimienta negra.
+
+Coloca las papas directamente sobre la rejilla del horno o en una bandeja para hornear.
+
+Hornea de 50 a 65 minutos hasta que la piel esté crujiente y el interior suave al pinchar con un tenedor.
+
+Mientras las papas se hornean, prepara los toppings deseados como queso rallado, crema agria, tocino, brócoli o chili caliente.
+
+Retira las papas del horno y deja enfriar durante 5 minutos.
+
+Haz un corte a lo largo de cada papa y esponja el interior suavemente con un tenedor.
+
+Agrega las 2 cucharadas de mantequilla divididas entre las papas y coloca los toppings estilo buffet para que cada persona arme la suya.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "alphabet-star-pasta-soup",
+  slug: "alphabet-star-pasta-soup",
+  name: "Alphabet or Star-Shaped Pasta Soup",
+  effort: "quick",
+  photoUrl: "/images/alphabet-star-pasta-soup.webp",
+  tags: [
+    "dinner",
+    "soup",
+    "comfort",
+    "family",
+    "kid-friendly",
+    "one-pot",
+    "meal-prep",
+  ],
+  isVegetarian: false,
+  notes:
+    "Small pasta shapes cook quickly and make this soup especially family-friendly. Stir occasionally while simmering so the pasta cooks evenly and doesn’t stick to the bottom of the pot.",
+  ingredients: `Soup Base:
+1 tbsp olive oil
+1 small onion, diced
+2 carrots, diced
+2 celery stalks, diced
+2 cloves garlic, minced
+
+Soup:
+6 cups chicken broth (or vegetable broth for vegetarian)
+1 (14 oz) can diced tomatoes
+1 tsp Italian seasoning
+1/2 tsp salt
+1/4 tsp black pepper
+
+Pasta:
+1 cup alphabet pasta or stelline pasta
+
+Optional:
+1 cup cooked shredded chicken
+2 tbsp fresh parsley, chopped
+parmesan cheese for serving`,
+  instructions: `Heat 1 tbsp olive oil in a large pot over medium heat.
+
+Add 1 diced onion, 2 diced carrots, and 2 diced celery stalks. Cook 5 to 6 minutes until softened.
+
+Add 2 cloves garlic and cook 30 seconds until fragrant.
+
+Pour in 6 cups broth and 1 can diced tomatoes.
+
+Add 1 tsp Italian seasoning, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Bring the soup to a gentle boil.
+
+Stir in 1 cup alphabet pasta or stelline pasta.
+
+Reduce heat to a simmer and cook 8 to 10 minutes, stirring occasionally, until the pasta is tender.
+
+Add 1 cup shredded chicken if using and heat through for 2 minutes.
+
+Taste and adjust seasoning if needed.
+
+Serve warm with fresh parsley and parmesan cheese if desired.`,
+  translations: {
+    es: {
+      name: "Sopa de Pasta de Letras o Estrellitas",
+      notes:
+        "Las pastas pequeñas se cocinan rápidamente y hacen que esta sopa sea perfecta para toda la familia. Revuelve ocasionalmente mientras hierve a fuego lento para evitar que la pasta se pegue al fondo de la olla.",
+      tags: [
+        "cena",
+        "sopa",
+        "comfort",
+        "familiar",
+        "niños",
+        "una olla",
+        "meal-prep",
+      ],
+      ingredients: `Base de la Sopa:
+1 cucharada de aceite de oliva
+1 cebolla pequeña, picada
+2 zanahorias, picadas
+2 tallos de apio, picados
+2 dientes de ajo, picados
+
+Sopa:
+6 tazas de caldo de pollo (o caldo de verduras para versión vegetariana)
+1 lata (14 oz) de tomates picados
+1 cucharadita de sazón italiana
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+
+Pasta:
+1 taza de pasta de letras o estrellitas
+
+Opcional:
+1 taza de pollo cocido y desmenuzado
+2 cucharadas de perejil fresco, picado
+queso parmesano para servir`,
+      instructions: `Calienta 1 cucharada de aceite de oliva en una olla grande a fuego medio.
+
+Agrega 1 cebolla picada, 2 zanahorias picadas y 2 tallos de apio picados. Cocina de 5 a 6 minutos hasta que estén suaves.
+
+Agrega 2 dientes de ajo y cocina 30 segundos hasta que estén fragantes.
+
+Vierte 6 tazas de caldo y 1 lata de tomates picados.
+
+Agrega 1 cucharadita de sazón italiana, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Lleva la sopa a un hervor suave.
+
+Agrega 1 taza de pasta de letras o estrellitas.
+
+Reduce el fuego y cocina a fuego lento de 8 a 10 minutos, revolviendo ocasionalmente, hasta que la pasta esté tierna.
+
+Agrega 1 taza de pollo desmenuzado si lo deseas y cocina 2 minutos más hasta que esté caliente.
+
+Prueba y ajusta la sazón si es necesario.
+
+Sirve caliente con perejil fresco y queso parmesano si deseas.`,
+    },
+  },
+},
+
+{
+  id: "mississippi-chicken",
+  slug: "mississippi-chicken",
+  name: "Mississippi Chicken",
+  effort: "big",
+  photoUrl: "/images/mississippi-chicken.webp",
+  tags: [
+    "dinner",
+    "chicken",
+    "slow-cooker",
+    "comfort",
+    "easy",
+    "family",
+    "meal-prep",
+  ],
+  isVegetarian: false,
+  notes:
+    "A super simple slow cooker classic with rich, tangy flavor. The butter and seasoning create a savory sauce while the pepperoncini adds a mild kick without being too spicy.",
+  ingredients: `Chicken:
+2 to 3 lbs boneless skinless chicken breasts (or thighs)
+
+Seasoning:
+1 packet ranch seasoning mix
+1 packet au jus gravy mix (or brown gravy mix)
+
+Flavor:
+1/2 cup butter (1 stick), sliced
+6 to 8 pepperoncini peppers
+1/4 cup pepperoncini juice (optional, for extra tang)`,
+  instructions: `Place 2 to 3 lbs chicken in the bottom of a slow cooker.
+
+Sprinkle 1 packet ranch seasoning and 1 packet au jus mix evenly over the chicken.
+
+Top with 1/2 cup sliced butter and 6 to 8 pepperoncini peppers. Add 1/4 cup pepperoncini juice if using.
+
+Cover and cook on low for 6 to 7 hours or on high for 3 to 4 hours, until the chicken is very tender and easily shreds.
+
+Use two forks to shred the chicken directly in the slow cooker, mixing it with the juices and melted butter.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Pollo Mississippi",
+      notes:
+        "Un clásico súper fácil de olla lenta con sabor rico y ligeramente ácido. La mantequilla y los sazonadores crean una salsa sabrosa mientras los pepperoncini aportan un toque suave sin ser demasiado picante.",
+      tags: [
+        "cena",
+        "pollo",
+        "olla lenta",
+        "comfort",
+        "fácil",
+        "familiar",
+        "meal-prep",
+      ],
+      ingredients: `Pollo:
+2 a 3 lbs de pechugas de pollo sin hueso y sin piel (o muslos)
+
+Sazonadores:
+1 paquete de mezcla ranch
+1 paquete de mezcla au jus (o gravy marrón)
+
+Sabor:
+1/2 taza de mantequilla (1 barra), en rebanadas
+6 a 8 chiles pepperoncini
+1/4 taza de jugo de pepperoncini (opcional, para más sabor ácido)`,
+      instructions: `Coloca 2 a 3 lbs de pollo en el fondo de una olla lenta.
+
+Espolvorea 1 paquete de mezcla ranch y 1 paquete de mezcla au jus uniformemente sobre el pollo.
+
+Agrega 1/2 taza de mantequilla en rebanadas y 6 a 8 pepperoncini. Añade 1/4 taza de jugo de pepperoncini si lo deseas.
+
+Cubre y cocina a temperatura baja de 6 a 7 horas o alta de 3 a 4 horas, hasta que el pollo esté muy tierno y se desmenuce fácilmente.
+
+Usa dos tenedores para desmenuzar el pollo directamente en la olla lenta, mezclándolo con los jugos y la mantequilla derretida.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "garlic-herb-pork-loin",
+  slug: "garlic-herb-pork-loin",
+  name: "Garlic Herb Pork Loin",
+  effort: "normal",
+  photoUrl: "/images/garlic-herb-pork-loin.webp",
+  tags: [
+    "dinner",
+    "pork",
+    "oven",
+    "comfort",
+    "family",
+    "roasted",
+    "high-protein",
+  ],
+  isVegetarian: false,
+  notes:
+    "Searing the pork before roasting builds a flavorful crust while keeping the inside juicy. Letting the pork rest before slicing helps retain moisture and keeps the meat tender.",
+  ingredients: `Pork:
+3 to 4 lb pork loin
+1 tbsp olive oil
+
+Seasoning Rub:
+1 tsp salt
+1/2 tsp black pepper
+1 tsp garlic powder
+1 tsp onion powder
+1 tsp dried thyme
+1 tsp smoked paprika (or regular paprika for a milder flavor)
+
+Pan Sauce:
+2 tbsp butter
+3 cloves garlic, minced
+1 cup chicken broth
+1 tbsp Dijon mustard
+1 tsp Worcestershire sauce
+1 tbsp fresh parsley, chopped`,
+  instructions: `Preheat oven to 375°F.
+
+Pat 3 to 4 lb pork loin completely dry with paper towels. Rub all sides with 1 tbsp olive oil.
+
+In a small bowl, combine 1 tsp salt, 1/2 tsp black pepper, 1 tsp garlic powder, 1 tsp onion powder, 1 tsp thyme, and 1 tsp smoked paprika.
+
+Season the pork loin evenly on all sides, pressing the seasoning into the meat.
+
+Heat a large oven-safe skillet or cast iron pan over medium-high heat.
+
+Sear the pork loin for 2 to 3 minutes per side, until a deep golden-brown crust forms.
+
+Transfer the skillet to the oven and roast for 45 to 60 minutes, or until the thickest part reaches an internal temperature of 145°F.
+
+Remove the pork loin from the pan and let rest for 10 minutes before slicing.
+
+While the pork rests, place the skillet back over medium heat.
+
+Add 2 tbsp butter and 3 cloves garlic. Cook for 30 seconds until fragrant.
+
+Pour in 1 cup chicken broth, 1 tbsp Dijon mustard, and 1 tsp Worcestershire sauce.
+
+Simmer for 3 to 5 minutes, scraping up browned bits from the pan, until the sauce slightly thickens and coats the back of a spoon.
+
+Slice the pork loin and spoon the sauce over the top.
+
+Garnish with 1 tbsp fresh parsley and serve warm.`,
+  translations: {
+    es: {
+      name: "Lomo de Cerdo con Ajo y Hierbas",
+      notes:
+        "Sellar el cerdo antes de hornearlo crea una costra llena de sabor y ayuda a mantener el interior jugoso. Dejar reposar el lomo antes de cortarlo conserva los jugos y mantiene la carne tierna.",
+      tags: [
+        "cena",
+        "cerdo",
+        "horno",
+        "comfort",
+        "familiar",
+        "asado",
+        "alto en proteína",
+      ],
+      ingredients: `Cerdo:
+3 a 4 lb de lomo de cerdo
+1 cucharada de aceite de oliva
+
+Mezcla de Sazonadores:
+1 cucharadita de sal
+1/2 cucharadita de pimienta negra
+1 cucharadita de ajo en polvo
+1 cucharadita de cebolla en polvo
+1 cucharadita de tomillo seco
+1 cucharadita de paprika ahumada (o paprika regular para un sabor más suave)
+
+Salsa:
+2 cucharadas de mantequilla
+3 dientes de ajo, picados
+1 taza de caldo de pollo
+1 cucharada de mostaza Dijon
+1 cucharadita de salsa Worcestershire
+1 cucharada de perejil fresco, picado`,
+      instructions: `Precalienta el horno a 375°F.
+
+Seca completamente 3 a 4 lb de lomo de cerdo con toallas de papel. Unta todos los lados con 1 cucharada de aceite de oliva.
+
+En un tazón pequeño, mezcla 1 cucharadita de sal, 1/2 cucharadita de pimienta negra, 1 cucharadita de ajo en polvo, 1 cucharadita de cebolla en polvo, 1 cucharadita de tomillo y 1 cucharadita de paprika ahumada.
+
+Sazona el lomo de cerdo uniformemente por todos lados, presionando la mezcla sobre la carne.
+
+Calienta una sartén grande apta para horno o una sartén de hierro fundido a fuego medio-alto.
+
+Sella el lomo de cerdo de 2 a 3 minutos por lado, hasta que se forme una costra dorada intensa.
+
+Transfiere la sartén al horno y asa de 45 a 60 minutos, o hasta que la parte más gruesa alcance una temperatura interna de 145°F.
+
+Retira el lomo de cerdo de la sartén y deja reposar 10 minutos antes de cortarlo.
+
+Mientras el cerdo reposa, coloca la sartén nuevamente a fuego medio.
+
+Agrega 2 cucharadas de mantequilla y 3 dientes de ajo. Cocina 30 segundos hasta que esté fragante.
+
+Vierte 1 taza de caldo de pollo, 1 cucharada de mostaza Dijon y 1 cucharadita de salsa Worcestershire.
+
+Cocina a fuego lento de 3 a 5 minutos, raspando los trozos dorados del fondo de la sartén, hasta que la salsa espese ligeramente y cubra el dorso de una cuchara.
+
+Corta el lomo de cerdo en rebanadas y sirve la salsa por encima.
+
+Decora con 1 cucharada de perejil fresco y sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "smashburgers-with-tallow-crisped-edges",
+  slug: "smashburgers-with-tallow-crisped-edges",
+  name: "Smashburgers with Tallow-Crisped Edges",
+  effort: "normal",
+  photoUrl: "/images/smashburgers-with-tallow-crisped-edges.webp",
+  tags: [
+    "dinner",
+    "beef",
+    "burgers",
+    "comfort",
+    "cast-iron",
+    "crispy",
+    "family",
+    "griddle",
+  ],
+  isVegetarian: false,
+  notes:
+    "High heat and pressing the burgers immediately are the keys to classic smashburger texture. Beef tallow helps create deeply crisped, flavorful edges similar to diner-style burgers.",
+  ingredients: `Burgers:
+2 lbs ground beef (80/20 recommended)
+1 tbsp beef tallow
+1 tsp salt
+1/2 tsp black pepper
+
+Burger Sauce:
+1/2 cup mayonnaise
+2 tbsp ketchup
+1 tbsp mustard
+1 tbsp pickle relish
+1/2 tsp garlic powder
+1/4 tsp black pepper
+
+Assembly:
+4 burger buns
+4 slices American cheese
+1/2 cup onion, thinly sliced
+pickle slices
+lettuce (optional)
+2 tbsp butter, softened`,
+  instructions: `Divide 2 lbs ground beef into 8 loosely packed balls, about 4 oz each. Do not overwork the meat.
+
+In a small bowl, whisk together 1/2 cup mayonnaise, 2 tbsp ketchup, 1 tbsp mustard, 1 tbsp pickle relish, 1/2 tsp garlic powder, and 1/4 tsp black pepper. Refrigerate until ready to use.
+
+Heat a large cast iron skillet or flat-top griddle over high heat until very hot.
+
+Add 1 tbsp beef tallow and spread evenly across the surface.
+
+Butter the inside of 4 burger buns with 2 tbsp softened butter and toast cut-side down until golden brown. Set aside.
+
+Place 2 beef balls onto the hot surface. Immediately smash very thin using a sturdy spatula or burger press.
+
+Season with salt and pepper.
+
+Cook for 2 to 3 minutes without moving, until the edges become deeply browned, crisp, and lacy.
+
+Flip the burgers and immediately top 4 patties with American cheese.
+
+Cook another 1 to 2 minutes until the cheese melts and the burgers are cooked through.
+
+Stack two patties together for each burger.
+
+Spread burger sauce onto the toasted buns.
+
+Top with burgers, onions, pickles, and lettuce if desired.
+
+Serve immediately while hot and crispy.`,
+  translations: {
+    es: {
+      name: "Smashburgers con Bordes Crujientes de Sebo",
+      notes:
+        "El calor alto y aplastar las hamburguesas inmediatamente son la clave para lograr la textura clásica de un smashburger. El sebo de res ayuda a crear bordes extremadamente crujientes y llenos de sabor al estilo diner.",
+      tags: [
+        "cena",
+        "carne",
+        "hamburguesas",
+        "comfort",
+        "hierro fundido",
+        "crujiente",
+        "familiar",
+        "plancha",
+      ],
+      ingredients: `Hamburguesas:
+2 lbs de carne molida de res (80/20 recomendado)
+1 cucharada de sebo de res
+1 cucharadita de sal
+1/2 cucharadita de pimienta negra
+
+Salsa para Hamburguesa:
+1/2 taza de mayonesa
+2 cucharadas de ketchup
+1 cucharada de mostaza
+1 cucharada de relish de pepinillo
+1/2 cucharadita de ajo en polvo
+1/4 cucharadita de pimienta negra
+
+Montaje:
+4 panes para hamburguesa
+4 rebanadas de queso americano
+1/2 taza de cebolla, en rodajas finas
+rodajas de pepinillo
+lechuga (opcional)
+2 cucharadas de mantequilla, suave`,
+      instructions: `Divide 2 lbs de carne molida en 8 bolas sueltas de aproximadamente 4 oz cada una. No trabajes demasiado la carne.
+
+En un tazón pequeño, mezcla 1/2 taza de mayonesa, 2 cucharadas de ketchup, 1 cucharada de mostaza, 1 cucharada de relish de pepinillo, 1/2 cucharadita de ajo en polvo y 1/4 cucharadita de pimienta negra. Refrigera hasta usar.
+
+Calienta una sartén de hierro fundido o plancha a fuego alto hasta que esté muy caliente.
+
+Agrega 1 cucharada de sebo de res y distribúyelo uniformemente sobre la superficie.
+
+Unta mantequilla en el interior de 4 panes para hamburguesa y tuéstalos con el lado cortado hacia abajo hasta que estén dorados. Reserva.
+
+Coloca 2 bolas de carne sobre la superficie caliente y aplástalas inmediatamente usando una espátula resistente o prensa para hamburguesas.
+
+Sazona con sal y pimienta.
+
+Cocina de 2 a 3 minutos sin moverlas hasta que los bordes estén profundamente dorados, crujientes y delgados.
+
+Voltea las hamburguesas y coloca inmediatamente queso americano sobre 4 de las piezas.
+
+Cocina 1 a 2 minutos más hasta que el queso se derrita y las hamburguesas estén completamente cocidas.
+
+Coloca dos hamburguesas juntas para cada pan.
+
+Unta salsa sobre los panes tostados.
+
+Agrega las hamburguesas, cebolla, pepinillos y lechuga si deseas.
+
+Sirve inmediatamente mientras estén calientes y crujientes.`,
+    },
+  },
+},
+
+{
+  id: "slow-cooked-birria-tacos",
+  slug: "slow-cooked-birria-tacos",
+  name: "Slow-Cooked Birria Tacos",
+  effort: "big",
+  photoUrl: "/images/slow-cooked-birria-tacos.webp",
+  tags: [
+    "dinner",
+    "beef",
+    "tacos",
+    "slow-cooker",
+    "mexican",
+    "comfort",
+    "crispy",
+    "family",
+  ],
+  isVegetarian: false,
+  notes:
+    "Slow cooking creates deeply flavorful, fall-apart beef while dipping the tortillas into the broth gives the tacos their signature crispy red exterior. Skim excess grease from the broth if desired before serving.",
+  ingredients: `Beef:
+3 lbs beef chuck roast, cut into large chunks
+1 tbsp olive oil
+1 tsp salt
+1/2 tsp black pepper
+
+Chile Sauce:
+4 dried guajillo chiles, seeds removed
+2 dried ancho chiles, seeds removed
+1 chipotle pepper in adobo
+1 small onion, roughly chopped
+4 cloves garlic
+1 (14 oz) can fire-roasted tomatoes
+2 cups beef broth
+2 tbsp apple cider vinegar
+
+Seasoning:
+1 tbsp chili powder
+1 tsp cumin
+1 tsp oregano
+1/2 tsp smoked paprika
+1/2 tsp cinnamon
+1 bay leaf
+
+Tacos:
+12 corn tortillas
+2 cups Oaxaca or mozzarella cheese, shredded
+1/2 cup white onion, diced
+1/4 cup cilantro, chopped
+
+Optional:
+lime wedges, for serving`,
+  instructions: `Heat a dry skillet over medium heat.
+
+Toast 4 guajillo chiles and 2 ancho chiles for 30 to 60 seconds per side until fragrant, being careful not to burn them.
+
+Place toasted chiles in a bowl and cover with hot water. Let soak for 10 minutes until softened.
+
+Heat 1 tbsp olive oil in a large skillet or Dutch oven over medium-high heat.
+
+Season 3 lbs beef chuck roast with 1 tsp salt and 1/2 tsp black pepper.
+
+Sear the beef in batches for 2 to 3 minutes per side until a deep golden-brown crust forms.
+
+Transfer beef to a slow cooker.
+
+Drain the softened chiles and add them to a blender along with 1 chipotle pepper, 1 chopped onion, 4 cloves garlic, 1 can fire-roasted tomatoes, 2 cups beef broth, 2 tbsp apple cider vinegar, 1 tbsp chili powder, 1 tsp cumin, 1 tsp oregano, 1/2 tsp smoked paprika, and 1/2 tsp cinnamon.
+
+Blend until completely smooth.
+
+Pour the sauce over the beef and add 1 bay leaf.
+
+Cover and cook on low for 8 to 9 hours or high for 5 to 6 hours, until the beef shreds easily.
+
+Remove the beef and shred with two forks. Return shredded beef to the cooking liquid.
+
+Heat a skillet or griddle over medium heat.
+
+Dip 1 tortilla lightly into the top layer of birria broth, then place onto the hot skillet.
+
+Sprinkle with cheese and add shredded beef to one side.
+
+Cook 2 to 3 minutes until crispy and lightly charred, then fold in half.
+
+Continue cooking another 1 to 2 minutes until the cheese melts and the tortilla crisps.
+
+Serve topped with diced onion and cilantro alongside small bowls of warm birria broth for dipping.`,
+  translations: {
+    es: {
+      name: "Tacos de Birria Cocidos Lentamente",
+      notes:
+        "La cocción lenta crea una carne extremadamente jugosa y llena de sabor. Mojar las tortillas en el caldo le da a los tacos su clásico exterior rojo y crujiente. Puedes retirar el exceso de grasa del caldo antes de servir si lo deseas.",
+      tags: [
+        "cena",
+        "carne",
+        "tacos",
+        "olla lenta",
+        "mexicana",
+        "comfort",
+        "crujiente",
+        "familiar",
+      ],
+      ingredients: `Carne:
+3 lbs de chuck roast de res, cortado en trozos grandes
+1 cucharada de aceite de oliva
+1 cucharadita de sal
+1/2 cucharadita de pimienta negra
+
+Salsa de Chiles:
+4 chiles guajillo secos, sin semillas
+2 chiles ancho secos, sin semillas
+1 chile chipotle en adobo
+1 cebolla pequeña, en trozos
+4 dientes de ajo
+1 lata (14 oz) de tomates rostizados
+2 tazas de caldo de res
+2 cucharadas de vinagre de manzana
+
+Sazonadores:
+1 cucharada de chile en polvo
+1 cucharadita de comino
+1 cucharadita de orégano
+1/2 cucharadita de paprika ahumada
+1/2 cucharadita de canela
+1 hoja de laurel
+
+Tacos:
+12 tortillas de maíz
+2 tazas de queso Oaxaca o mozzarella rallado
+1/2 taza de cebolla blanca, picada
+1/4 taza de cilantro, picado
+
+Opcional:
+gajos de limón para servir`,
+      instructions: `Calienta una sartén seca a fuego medio.
+
+Tuesta 4 chiles guajillo y 2 chiles ancho durante 30 a 60 segundos por lado hasta que estén fragantes, cuidando no quemarlos.
+
+Coloca los chiles tostados en un tazón y cúbrelos con agua caliente. Déjalos reposar 10 minutos hasta que estén suaves.
+
+Calienta 1 cucharada de aceite de oliva en una sartén grande u horno holandés a fuego medio-alto.
+
+Sazona 3 lbs de carne con 1 cucharadita de sal y 1/2 cucharadita de pimienta negra.
+
+Sella la carne en tandas de 2 a 3 minutos por lado hasta formar una costra dorada intensa.
+
+Transfiere la carne a una olla lenta.
+
+Escurre los chiles suaves y colócalos en una licuadora junto con 1 chile chipotle, 1 cebolla, 4 dientes de ajo, 1 lata de tomates rostizados, 2 tazas de caldo de res, 2 cucharadas de vinagre de manzana, 1 cucharada de chile en polvo, 1 cucharadita de comino, 1 cucharadita de orégano, 1/2 cucharadita de paprika ahumada y 1/2 cucharadita de canela.
+
+Licúa hasta obtener una salsa completamente suave.
+
+Vierte la salsa sobre la carne y agrega 1 hoja de laurel.
+
+Cubre y cocina a temperatura baja de 8 a 9 horas o alta de 5 a 6 horas hasta que la carne se desmenuce fácilmente.
+
+Retira la carne y desmenúzala con dos tenedores. Regresa la carne al caldo.
+
+Calienta una sartén o plancha a fuego medio.
+
+Moja ligeramente 1 tortilla en la capa superior del caldo de birria y colócala sobre la sartén caliente.
+
+Agrega queso y carne desmenuzada a un lado de la tortilla.
+
+Cocina de 2 a 3 minutos hasta que esté crujiente y ligeramente dorada, luego dóblala por la mitad.
+
+Continúa cocinando 1 a 2 minutos más hasta que el queso se derrita y la tortilla quede crujiente.
+
+Sirve con cebolla picada y cilantro, acompañado de pequeños tazones de caldo caliente para mojar.`,
+    },
+  },
+},
+
+{
+  id: "hot-honey-applewood-smoked-ribs",
+  slug: "hot-honey-applewood-smoked-ribs",
+  name: "Hot Honey Applewood Smoked Ribs",
+  effort: "big",
+  photoUrl: "/images/hot-honey-applewood-smoked-ribs.webp",
+  tags: [
+    "dinner",
+    "pork",
+    "bbq",
+    "smoker",
+    "ribs",
+    "comfort",
+    "cookout",
+    "spicy",
+  ],
+  isVegetarian: false,
+  notes:
+    "Low-and-slow smoking creates tender ribs while the hot honey glaze adds a sweet heat finish with beautiful caramelization. Avoid over-smoking early on so the glaze flavor still shines through.",
+  ingredients: `Ribs:
+2 racks baby back ribs
+2 tbsp yellow mustard
+
+Dry Rub:
+2 tbsp brown sugar
+1 tbsp smoked paprika
+1 tsp garlic powder
+1 tsp onion powder
+1 tsp salt
+1/2 tsp black pepper
+1/2 tsp cayenne pepper
+
+Hot Honey Glaze:
+1/2 cup honey
+2 tbsp hot sauce
+1 tbsp butter
+1 tsp apple cider vinegar
+
+Optional:
+applewood pellets or wood chips
+extra hot sauce for serving`,
+  instructions: `Remove the membrane from the back of 2 racks of ribs and pat completely dry with paper towels.
+
+Rub both racks lightly with 2 tbsp yellow mustard to help the seasoning stick.
+
+In a small bowl, combine 2 tbsp brown sugar, 1 tbsp smoked paprika, 1 tsp garlic powder, 1 tsp onion powder, 1 tsp salt, 1/2 tsp black pepper, and 1/2 tsp cayenne pepper.
+
+Season the ribs generously on all sides, pressing the rub into the meat.
+
+Preheat smoker to 250°F using applewood pellets or wood chips.
+
+Place ribs bone-side down in the smoker and cook for 2 hours undisturbed.
+
+After 2 hours, lightly spritz the ribs with water or apple juice if desired to keep the surface moist.
+
+Continue smoking another 1 1/2 to 2 hours, until the ribs develop a deep mahogany color and the meat begins pulling back from the bones.
+
+In a small saucepan over low heat, combine 1/2 cup honey, 2 tbsp hot sauce, 1 tbsp butter, and 1 tsp apple cider vinegar. Stir until smooth and glossy.
+
+Brush the hot honey glaze generously over the ribs during the final 20 to 30 minutes of cooking.
+
+Cook until the glaze becomes sticky and caramelized.
+
+Remove ribs from the smoker and let rest for 10 minutes before slicing between the bones.
+
+Serve warm with extra hot sauce if desired.`,
+  translations: {
+    es: {
+      name: "Costillas Ahumadas con Miel Picante y Madera de Manzano",
+      notes:
+        "El ahumado lento crea costillas tiernas mientras el glaseado de miel picante aporta un equilibrio perfecto entre dulce y picante con una caramelización increíble. Evita ahumar demasiado al inicio para que el sabor del glaseado siga destacando.",
+      tags: [
+        "cena",
+        "cerdo",
+        "bbq",
+        "ahumador",
+        "costillas",
+        "comfort",
+        "parrillada",
+        "picante",
+      ],
+      ingredients: `Costillas:
+2 racks de costillas baby back
+2 cucharadas de mostaza amarilla
+
+Rub Seco:
+2 cucharadas de azúcar morena
+1 cucharada de paprika ahumada
+1 cucharadita de ajo en polvo
+1 cucharadita de cebolla en polvo
+1 cucharadita de sal
+1/2 cucharadita de pimienta negra
+1/2 cucharadita de pimienta cayena
+
+Glaseado de Miel Picante:
+1/2 taza de miel
+2 cucharadas de salsa picante
+1 cucharada de mantequilla
+1 cucharadita de vinagre de manzana
+
+Opcional:
+pellets o astillas de madera de manzano
+más salsa picante para servir`,
+      instructions: `Retira la membrana de la parte trasera de 2 racks de costillas y sécalas completamente con toallas de papel.
+
+Unta ligeramente ambas costillas con 2 cucharadas de mostaza amarilla para ayudar a que el sazonador se adhiera.
+
+En un tazón pequeño, mezcla 2 cucharadas de azúcar morena, 1 cucharada de paprika ahumada, 1 cucharadita de ajo en polvo, 1 cucharadita de cebolla en polvo, 1 cucharadita de sal, 1/2 cucharadita de pimienta negra y 1/2 cucharadita de pimienta cayena.
+
+Sazona generosamente las costillas por todos lados, presionando el rub sobre la carne.
+
+Precalienta el ahumador a 250°F usando pellets o astillas de madera de manzano.
+
+Coloca las costillas con el hueso hacia abajo y cocina durante 2 horas sin moverlas.
+
+Después de 2 horas, rocía ligeramente las costillas con agua o jugo de manzana si deseas mantener la superficie húmeda.
+
+Continúa ahumando de 1 1/2 a 2 horas más hasta que las costillas desarrollen un color caoba profundo y la carne comience a separarse de los huesos.
+
+En una cacerola pequeña a fuego bajo, mezcla 1/2 taza de miel, 2 cucharadas de salsa picante, 1 cucharada de mantequilla y 1 cucharadita de vinagre de manzana. Revuelve hasta que quede suave y brillante.
+
+Barniza generosamente las costillas con el glaseado durante los últimos 20 a 30 minutos de cocción.
+
+Cocina hasta que el glaseado esté pegajoso y caramelizado.
+
+Retira las costillas del ahumador y deja reposar 10 minutos antes de cortar entre los huesos.
+
+Sirve calientes con más salsa picante si lo deseas.`,
+    },
+  },
+},
+
+{
+  id: "spatchcock-butter-bath-chicken",
+  slug: "spatchcock-butter-bath-chicken",
+  name: "Spatchcocked Butter-Bath Chicken",
+  effort: "big",
+  photoUrl: "/images/spatchcock-butter-bath-chicken.webp",
+  tags: [
+    "dinner",
+    "chicken",
+    "roasted",
+    "comfort",
+    "cast-iron",
+    "crispy",
+    "family",
+  ],
+  isVegetarian: false,
+  notes:
+    "Spatchcocking helps the chicken cook more evenly and quickly while the butter bath keeps the meat juicy and flavorful. Drying the skin thoroughly before roasting is the key to maximum crispiness.",
+  ingredients: `Chicken:
+1 whole chicken (4 to 5 lbs)
+2 tbsp olive oil
+
+Seasoning:
+1 tsp salt
+1/2 tsp black pepper
+1 tsp garlic powder
+1 tsp onion powder
+1 tsp smoked paprika
+1/2 tsp dried thyme
+
+Butter Bath:
+1/2 cup butter
+4 cloves garlic, smashed
+2 sprigs fresh rosemary
+2 sprigs fresh thyme
+1 lemon, halved`,
+  instructions: `Preheat oven to 425°F.
+
+Using kitchen shears, remove the backbone from 1 whole chicken. Flip the chicken over and press firmly on the breastbone until flattened.
+
+Pat the chicken completely dry with paper towels.
+
+Rub the chicken with 2 tbsp olive oil.
+
+In a small bowl, combine 1 tsp salt, 1/2 tsp black pepper, 1 tsp garlic powder, 1 tsp onion powder, 1 tsp smoked paprika, and 1/2 tsp thyme.
+
+Season the chicken generously on all sides and under the skin where possible.
+
+In a large cast iron skillet or roasting pan, melt 1/2 cup butter over medium heat.
+
+Add 4 smashed garlic cloves, rosemary, thyme, and the halved lemon. Cook for 1 to 2 minutes until fragrant.
+
+Place the chicken skin-side up into the butter bath.
+
+Roast for 45 to 55 minutes, basting every 15 minutes with the melted butter, until the skin becomes deeply golden and crisp and the thickest part of the thigh reaches 165°F.
+
+If needed, broil for 1 to 2 minutes at the end for extra crispy skin.
+
+Remove from oven and let rest for 10 minutes before carving.
+
+Spoon some of the buttery pan juices over the chicken before serving.`,
+  translations: {
+    es: {
+      name: "Pollo Spatchcock en Baño de Mantequilla",
+      notes:
+        "Abrir el pollo estilo spatchcock ayuda a que se cocine de manera más uniforme y rápida, mientras el baño de mantequilla mantiene la carne jugosa y llena de sabor. Secar bien la piel antes de hornear es la clave para lograr máxima textura crujiente.",
+      tags: [
+        "cena",
+        "pollo",
+        "horneado",
+        "comfort",
+        "hierro fundido",
+        "crujiente",
+        "familiar",
+      ],
+      ingredients: `Pollo:
+1 pollo entero (4 a 5 lbs)
+2 cucharadas de aceite de oliva
+
+Sazonadores:
+1 cucharadita de sal
+1/2 cucharadita de pimienta negra
+1 cucharadita de ajo en polvo
+1 cucharadita de cebolla en polvo
+1 cucharadita de paprika ahumada
+1/2 cucharadita de tomillo seco
+
+Baño de Mantequilla:
+1/2 taza de mantequilla
+4 dientes de ajo, aplastados
+2 ramas de romero fresco
+2 ramas de tomillo fresco
+1 limón, cortado a la mitad`,
+      instructions: `Precalienta el horno a 425°F.
+
+Usando tijeras de cocina, retira la columna vertebral de 1 pollo entero. Voltea el pollo y presiona firmemente sobre el hueso del pecho hasta aplanarlo.
+
+Seca completamente el pollo con toallas de papel.
+
+Unta el pollo con 2 cucharadas de aceite de oliva.
+
+En un tazón pequeño, mezcla 1 cucharadita de sal, 1/2 cucharadita de pimienta negra, 1 cucharadita de ajo en polvo, 1 cucharadita de cebolla en polvo, 1 cucharadita de paprika ahumada y 1/2 cucharadita de tomillo.
+
+Sazona el pollo generosamente por todos lados y debajo de la piel cuando sea posible.
+
+En una sartén grande de hierro fundido o bandeja para hornear, derrite 1/2 taza de mantequilla a fuego medio.
+
+Agrega 4 dientes de ajo aplastados, romero, tomillo y el limón partido. Cocina de 1 a 2 minutos hasta que desprenda aroma.
+
+Coloca el pollo con la piel hacia arriba dentro del baño de mantequilla.
+
+Hornea de 45 a 55 minutos, bañando el pollo con mantequilla cada 15 minutos, hasta que la piel esté profundamente dorada y crujiente y la parte más gruesa del muslo alcance 165°F.
+
+Si es necesario, usa el broiler durante 1 a 2 minutos al final para una piel aún más crujiente.
+
+Retira del horno y deja reposar 10 minutos antes de cortar.
+
+Sirve el pollo con un poco de los jugos de mantequilla por encima.`,
+    },
+  },
+},
+
+{
+  id: "korean-inspired-mini-beef-patties",
+  slug: "korean-inspired-mini-beef-patties",
+  name: "Korean-Inspired Mini Beef Patties (Wanja Jeon)",
+  effort: "normal",
+  photoUrl: "/images/korean-inspired-mini-beef-patties.webp",
+  tags: [
+    "dinner",
+    "beef",
+    "korean",
+    "pan-fried",
+    "family",
+    "comfort",
+    "asian",
+    "meal-prep",
+  ],
+  isVegetarian: false,
+  notes:
+    "These savory Korean-style beef patties are tender inside with a lightly crisp exterior. Grated onion helps keep the patties juicy while the egg coating creates their signature golden finish.",
+  ingredients: `Beef Patties:
+1 lb ground beef
+1/4 cup yellow onion, finely grated
+2 cloves garlic, minced
+1 green onion, finely sliced
+1 tbsp soy sauce
+1 tsp sesame oil
+1/2 tsp salt
+1/4 tsp black pepper
+1/4 tsp ginger, grated
+1/3 cup panko breadcrumbs
+1 large egg
+
+Coating:
+1/4 cup flour
+1 large egg, beaten
+
+For Cooking:
+2 tbsp neutral oil (vegetable or avocado oil)
+
+Optional Garnish:
+sesame seeds
+green onions, sliced
+
+Dipping Sauce:
+2 tbsp soy sauce
+1 tbsp rice vinegar
+1 tsp sesame oil
+1 tsp honey or brown sugar`,
+  instructions: `In a large bowl, combine 1 lb ground beef, 1/4 cup grated onion, 2 cloves garlic, 1 sliced green onion, 1 tbsp soy sauce, 1 tsp sesame oil, 1/2 tsp salt, 1/4 tsp black pepper, 1/4 tsp ginger, 1/3 cup panko breadcrumbs, and 1 egg.
+
+Mix gently until just combined, being careful not to overwork the meat.
+
+Form the mixture into small patties about 2 inches wide and 1/2 inch thick.
+
+Lightly coat each patty in 1/4 cup flour, then dip into 1 beaten egg.
+
+Heat 2 tbsp oil in a large skillet over medium heat.
+
+Cook patties in batches for 3 to 4 minutes per side, until deeply golden-brown and cooked through to an internal temperature of 160°F.
+
+Transfer to a wire rack or paper towel-lined plate.
+
+In a small bowl, whisk together 2 tbsp soy sauce, 1 tbsp rice vinegar, 1 tsp sesame oil, and 1 tsp honey.
+
+Serve patties warm with dipping sauce and garnish with sesame seeds and green onions if desired.`,
+  translations: {
+    es: {
+      name: "Mini Tortitas de Res al Estilo Coreano (Wanja Jeon)",
+      notes:
+        "Estas sabrosas tortitas coreanas de res quedan tiernas por dentro y ligeramente crujientes por fuera. La cebolla rallada ayuda a mantener la carne jugosa mientras el recubrimiento de huevo crea su clásico acabado dorado.",
+      tags: [
+        "cena",
+        "carne",
+        "coreana",
+        "frito en sartén",
+        "familiar",
+        "comfort",
+        "asiática",
+        "meal-prep",
+      ],
+      ingredients: `Tortitas de Res:
+1 lb de carne molida de res
+1/4 taza de cebolla amarilla, finamente rallada
+2 dientes de ajo, picados
+1 cebollín, en rodajas finas
+1 cucharada de salsa de soya
+1 cucharadita de aceite de ajonjolí
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+1/4 cucharadita de jengibre rallado
+1/3 taza de pan molido panko
+1 huevo grande
+
+Cobertura:
+1/4 taza de harina
+1 huevo grande, batido
+
+Para Cocinar:
+2 cucharadas de aceite neutro (vegetal o de aguacate)
+
+Decoración Opcional:
+semillas de ajonjolí
+cebollines en rodajas
+
+Salsa para Mojar:
+2 cucharadas de salsa de soya
+1 cucharada de vinagre de arroz
+1 cucharadita de aceite de ajonjolí
+1 cucharadita de miel o azúcar morena`,
+      instructions: `En un tazón grande, mezcla 1 lb de carne molida, 1/4 taza de cebolla rallada, 2 dientes de ajo, 1 cebollín, 1 cucharada de salsa de soya, 1 cucharadita de aceite de ajonjolí, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra, 1/4 cucharadita de jengibre, 1/3 taza de pan molido panko y 1 huevo.
+
+Mezcla suavemente hasta integrar, evitando trabajar demasiado la carne.
+
+Forma pequeñas tortitas de aproximadamente 2 pulgadas de ancho y 1/2 pulgada de grosor.
+
+Cubre ligeramente cada tortita con 1/4 taza de harina y luego pásala por 1 huevo batido.
+
+Calienta 2 cucharadas de aceite en una sartén grande a fuego medio.
+
+Cocina las tortitas en tandas durante 3 a 4 minutos por lado hasta que estén doradas y cocidas completamente a una temperatura interna de 160°F.
+
+Transfiérelas a una rejilla o plato con papel absorbente.
+
+En un tazón pequeño, mezcla 2 cucharadas de salsa de soya, 1 cucharada de vinagre de arroz, 1 cucharadita de aceite de ajonjolí y 1 cucharadita de miel.
+
+Sirve las tortitas calientes con la salsa y decora con semillas de ajonjolí y cebollines si deseas.`,
+    },
+  },
+},
+
+{
+  id: "duck-carnitas-tacos",
+  slug: "duck-carnitas-tacos",
+  name: "Duck Carnitas Tacos",
+  effort: "big",
+  photoUrl: "/images/duck-carnitas-tacos.webp",
+  tags: [
+    "dinner",
+    "duck",
+    "tacos",
+    "mexican",
+    "crispy",
+    "comfort",
+    "premium",
+    "slow-cooked",
+  ],
+  isVegetarian: false,
+  notes:
+    "Slow braising renders duck legs incredibly tender while crisping the shredded meat afterward creates classic carnitas texture. Rendering the duck skin first builds deep flavor into the entire dish.",
+  ingredients: `Duck:
+4 duck legs
+1 tbsp salt
+1/2 tsp black pepper
+1 tsp cumin
+1 tsp smoked paprika
+1 tsp oregano
+
+Braising Liquid:
+1 orange, juiced
+1 lime, juiced
+1/2 onion, sliced
+4 cloves garlic, smashed
+1 cup chicken broth
+2 bay leaves
+
+Tacos:
+12 small corn tortillas
+1/2 cup white onion, diced
+1/4 cup cilantro, chopped
+
+Optional Toppings:
+pickled red onions
+avocado slices
+lime wedges
+hot sauce`,
+  instructions: `Preheat oven to 325°F.
+
+Pat 4 duck legs dry with paper towels.
+
+Season all sides with 1 tbsp salt, 1/2 tsp black pepper, 1 tsp cumin, 1 tsp smoked paprika, and 1 tsp oregano.
+
+Heat a large Dutch oven or heavy oven-safe pot over medium heat.
+
+Place duck legs skin-side down and cook for 6 to 8 minutes until a deep golden-brown crust forms and fat renders out.
+
+Flip and cook another 2 minutes. Remove excess rendered fat if needed, leaving about 2 tbsp in the pot.
+
+Add 1 sliced onion and 4 smashed garlic cloves. Cook 2 to 3 minutes until lightly softened.
+
+Pour in the juice of 1 orange, the juice of 1 lime, and 1 cup chicken broth. Add 2 bay leaves.
+
+Return duck legs to the pot skin-side up.
+
+Cover and transfer to the oven.
+
+Cook for 2 1/2 to 3 hours, until the duck is extremely tender and easily pulls apart.
+
+Remove duck from the braising liquid and shred the meat, discarding bones and excess fat.
+
+Heat a skillet over medium-high heat.
+
+Add shredded duck in a single layer and cook 3 to 5 minutes until the edges become crispy and caramelized.
+
+Warm 12 tortillas.
+
+Fill tortillas with crispy duck carnitas and top with diced onion, cilantro, and desired toppings.
+
+Serve immediately with lime wedges.`,
+  translations: {
+    es: {
+      name: "Tacos de Carnitas de Pato",
+      notes:
+        "El braseado lento deja las piernas de pato increíblemente tiernas mientras dorar la carne desmenuzada al final crea la clásica textura crujiente de las carnitas. Dorar primero la piel del pato aporta muchísimo sabor a todo el platillo.",
+      tags: [
+        "cena",
+        "pato",
+        "tacos",
+        "mexicana",
+        "crujiente",
+        "comfort",
+        "premium",
+        "cocción lenta",
+      ],
+      ingredients: `Pato:
+4 piernas de pato
+1 cucharada de sal
+1/2 cucharadita de pimienta negra
+1 cucharadita de comino
+1 cucharadita de paprika ahumada
+1 cucharadita de orégano
+
+Líquido para Brasear:
+1 naranja, exprimida
+1 limón, exprimido
+1/2 cebolla, en rodajas
+4 dientes de ajo, aplastados
+1 taza de caldo de pollo
+2 hojas de laurel
+
+Tacos:
+12 tortillas pequeñas de maíz
+1/2 taza de cebolla blanca, picada
+1/4 taza de cilantro, picado
+
+Toppings Opcionales:
+cebollas moradas encurtidas
+rebanadas de aguacate
+gajos de limón
+salsa picante`,
+      instructions: `Precalienta el horno a 325°F.
+
+Seca 4 piernas de pato con toallas de papel.
+
+Sazona todos los lados con 1 cucharada de sal, 1/2 cucharadita de pimienta negra, 1 cucharadita de comino, 1 cucharadita de paprika ahumada y 1 cucharadita de orégano.
+
+Calienta un horno holandés grande o una olla resistente para horno a fuego medio.
+
+Coloca las piernas de pato con la piel hacia abajo y cocina de 6 a 8 minutos hasta que se forme una costra dorada intensa y la grasa comience a derretirse.
+
+Voltea y cocina 2 minutos más. Retira el exceso de grasa dejando aproximadamente 2 cucharadas en la olla.
+
+Agrega 1/2 cebolla en rodajas y 4 dientes de ajo aplastados. Cocina de 2 a 3 minutos hasta que se suavicen ligeramente.
+
+Vierte el jugo de 1 naranja, el jugo de 1 limón y 1 taza de caldo de pollo. Agrega 2 hojas de laurel.
+
+Regresa las piernas de pato a la olla con la piel hacia arriba.
+
+Cubre y transfiere al horno.
+
+Cocina de 2 1/2 a 3 horas hasta que el pato esté extremadamente tierno y se desmenuce fácilmente.
+
+Retira el pato del líquido de cocción y desmenuza la carne, descartando huesos y exceso de grasa.
+
+Calienta una sartén a fuego medio-alto.
+
+Agrega el pato desmenuzado en una sola capa y cocina de 3 a 5 minutos hasta que los bordes estén crujientes y caramelizados.
+
+Calienta 12 tortillas.
+
+Rellena las tortillas con el pato crujiente y agrega cebolla, cilantro y los toppings deseados.
+
+Sirve inmediatamente con gajos de limón.`,
+    },
+  },
+},
+
+{
+  id: "wagyu-blend-meatloaf",
+  slug: "wagyu-blend-meatloaf",
+  name: "Wagyu-Blend Meatloaf",
+  effort: "big",
+  photoUrl: "/images/wagyu-blend-meatloaf.webp",
+  tags: [
+    "dinner",
+    "beef",
+    "meatloaf",
+    "comfort",
+    "family",
+    "oven",
+    "premium",
+  ],
+  isVegetarian: false,
+  notes:
+    "Using a wagyu blend adds extra richness and tenderness to classic meatloaf. Mixing gently and allowing the loaf to rest before slicing helps keep it juicy and tender.",
+  ingredients: `Meatloaf:
+1 lb wagyu ground beef
+1 lb ground chuck
+1 cup breadcrumbs
+1/2 cup whole milk
+2 large eggs
+1/2 cup yellow onion, finely diced
+4 cloves garlic, minced
+1/2 cup parmesan cheese, grated
+2 tbsp Worcestershire sauce
+2 tbsp ketchup
+1 tbsp fresh parsley, chopped
+1 tsp salt
+1/2 tsp black pepper
+1/2 tsp smoked paprika
+
+Glaze:
+1/2 cup ketchup
+2 tbsp brown sugar
+1 tbsp Dijon mustard
+1 tsp Worcestershire sauce`,
+  instructions: `Preheat oven to 350°F.
+
+In a large bowl, combine 1 cup breadcrumbs and 1/2 cup whole milk. Let soak for 5 minutes until softened.
+
+Add 1 lb wagyu ground beef, 1 lb ground chuck, 2 eggs, 1/2 cup diced onion, 4 cloves garlic, 1/2 cup parmesan, 2 tbsp Worcestershire sauce, 2 tbsp ketchup, 1 tbsp parsley, 1 tsp salt, 1/2 tsp black pepper, and 1/2 tsp smoked paprika.
+
+Mix gently with your hands until just combined. Do not overmix or the meatloaf can become dense.
+
+Form the mixture into a loaf shape on a parchment-lined baking sheet or place into a lightly greased loaf pan.
+
+Bake for 40 minutes.
+
+In a small bowl, whisk together 1/2 cup ketchup, 2 tbsp brown sugar, 1 tbsp Dijon mustard, and 1 tsp Worcestershire sauce.
+
+Brush the glaze generously over the meatloaf.
+
+Return to the oven and bake another 20 to 25 minutes, until the internal temperature reaches 160°F and the glaze becomes glossy and caramelized.
+
+Let rest for 10 minutes before slicing.
+
+Serve warm with extra glaze spooned over the top if desired.`,
+  translations: {
+    es: {
+      name: "Pastel de Carne con Mezcla Wagyu",
+      notes:
+        "Usar una mezcla con wagyu aporta más jugosidad y una textura increíblemente tierna al clásico pastel de carne. Mezclar suavemente y dejar reposar antes de cortar ayuda a conservar todos los jugos.",
+      tags: [
+        "cena",
+        "carne",
+        "pastel de carne",
+        "comfort",
+        "familiar",
+        "horno",
+        "premium",
+      ],
+      ingredients: `Pastel de Carne:
+1 lb de carne molida wagyu
+1 lb de carne molida chuck
+1 taza de pan molido
+1/2 taza de leche entera
+2 huevos grandes
+1/2 taza de cebolla amarilla, finamente picada
+4 dientes de ajo, picados
+1/2 taza de queso parmesano rallado
+2 cucharadas de salsa Worcestershire
+2 cucharadas de ketchup
+1 cucharada de perejil fresco, picado
+1 cucharadita de sal
+1/2 cucharadita de pimienta negra
+1/2 cucharadita de paprika ahumada
+
+Glaseado:
+1/2 taza de ketchup
+2 cucharadas de azúcar morena
+1 cucharada de mostaza Dijon
+1 cucharadita de salsa Worcestershire`,
+      instructions: `Precalienta el horno a 350°F.
+
+En un tazón grande, mezcla 1 taza de pan molido y 1/2 taza de leche entera. Deja reposar durante 5 minutos hasta que se suavice.
+
+Agrega 1 lb de carne wagyu, 1 lb de carne chuck, 2 huevos, 1/2 taza de cebolla, 4 dientes de ajo, 1/2 taza de parmesano, 2 cucharadas de salsa Worcestershire, 2 cucharadas de ketchup, 1 cucharada de perejil, 1 cucharadita de sal, 1/2 cucharadita de pimienta negra y 1/2 cucharadita de paprika ahumada.
+
+Mezcla suavemente con las manos hasta integrar. No mezcles demasiado o el pastel de carne puede quedar denso.
+
+Forma una pieza tipo loaf sobre una bandeja con papel para hornear o colócala en un molde ligeramente engrasado.
+
+Hornea durante 40 minutos.
+
+En un tazón pequeño, mezcla 1/2 taza de ketchup, 2 cucharadas de azúcar morena, 1 cucharada de mostaza Dijon y 1 cucharadita de salsa Worcestershire.
+
+Barniza generosamente el pastel de carne con el glaseado.
+
+Regresa al horno y hornea de 20 a 25 minutos más hasta que la temperatura interna alcance 160°F y el glaseado esté brillante y caramelizado.
+
+Deja reposar 10 minutos antes de cortar.
+
+Sirve caliente con más glaseado encima si lo deseas.`,
+    },
+  },
+},
+
+
+];
+
+export const CAMPFIRE_RECIPES: Meal[] = [
+  
+  {
+  id: "quick-classic-hobo-foil-packet",
+  slug: "quick-classic-hobo-foil-packet",
+  name: "The Classic Hobo Foil Packet",
+  effort: "quick",
+  photoUrl: "/images/quick-classic-hobo-foil-packet.jpg",
+  tags: [
+    "dinner",
+    "campfire",
+    "beef",
+    "foil-packet",
+    "one-pan",
+    "family-friendly",
+    "outdoors",
+  ],
+  isVegetarian: false,
+  notes:
+    "A classic campfire meal with juicy beef, tender potatoes, and smoky flavor all cooked in one easy foil packet. Great for camping trips or backyard fire pits.",
+  ingredients: `1 lb ground beef
+2 cups baby potatoes, thinly sliced
+1 cup carrots, sliced
+1/2 onion, sliced
+2 tbsp butter
+1 tsp garlic powder
+1 tsp salt
+1/2 tsp black pepper
+heavy-duty aluminum foil`,
+  instructions: `Preheat a campfire grate or grill to medium heat.
+
+Lay out 4 large sheets of heavy-duty foil.
+
+Divide 1 lb ground beef into 4 portions and place each portion in the center of the foil sheets.
+
+Top each packet with sliced potatoes, carrots, and onion.
+
+Season each packet with garlic powder, salt, and black pepper. Add 1/2 tbsp butter to each packet.
+
+Fold the foil tightly into sealed packets so steam stays trapped inside.
+
+Cook over the campfire or grill for 25 to 35 minutes, flipping halfway through, until the potatoes are fork-tender and the beef is fully cooked.
+
+Carefully open the packets because hot steam will escape. Serve directly from the foil for easy cleanup.`,
+  translations: {
+    es: {
+      name: "Paquete Clásico Hobo en Papel Aluminio",
+      notes:
+        "Una clásica comida de fogata con carne jugosa, papas tiernas y sabor ahumado, todo cocinado en un práctico paquete de aluminio. Perfecto para campamentos o fogatas en casa.",
+      tags: [
+        "cena",
+        "fogata",
+        "carne",
+        "papel aluminio",
+        "una sartén",
+        "familiar",
+        "aire libre",
+      ],
+      ingredients: `1 lb de carne molida
+2 tazas de papas pequeñas, en rodajas finas
+1 taza de zanahorias, en rodajas
+1/2 cebolla, en rodajas
+2 cucharadas de mantequilla
+1 cucharadita de ajo en polvo
+1 cucharadita de sal
+1/2 cucharadita de pimienta negra
+papel aluminio resistente`,
+      instructions: `Precalienta una parrilla de fogata o asador a fuego medio.
+
+Coloca 4 hojas grandes de papel aluminio resistente.
+
+Divide 1 lb de carne molida en 4 porciones y coloca cada porción en el centro de cada hoja.
+
+Agrega papas, zanahorias y cebolla sobre cada paquete.
+
+Sazona cada paquete con ajo en polvo, sal y pimienta negra. Añade 1/2 cucharada de mantequilla a cada uno.
+
+Cierra bien los paquetes de aluminio para mantener el vapor atrapado dentro.
+
+Cocina sobre la fogata o parrilla durante 25 a 35 minutos, volteando a la mitad del tiempo, hasta que las papas estén tiernas y la carne completamente cocida.
+
+Abre cuidadosamente los paquetes porque saldrá vapor caliente. Sirve directamente en el aluminio para facilitar la limpieza.`,
+    },
+  },
+},
+
+{
+  id: "big-dutch-oven-taco-mountain",
+  slug: "big-dutch-oven-taco-mountain",
+  name: "Dutch Oven Taco Mountain",
+  effort: "big",
+  photoUrl: "/images/big-dutch-oven-taco-mountain.jpg",
+  tags: [
+    "dinner",
+    "campfire",
+    "tacos",
+    "beef",
+    "dutch-oven",
+    "family-friendly",
+    "comfort",
+  ],
+  isVegetarian: false,
+  notes:
+    "Layers of seasoned beef, cheese, tortillas, and toppings cooked together in a Dutch oven for the ultimate campfire taco casserole.",
+  ingredients: `1 lb ground beef
+1 small onion, diced
+1 packet taco seasoning
+2/3 cup water
+1 (10 oz) can Rotel
+6 small flour tortillas
+2 cups cheddar cheese, shredded
+1 cup tortilla chips, lightly crushed
+1/2 cup sour cream
+1/4 cup green onions, sliced
+1 tbsp olive oil`,
+  instructions: `Preheat a Dutch oven over a campfire grate or hot coals using medium heat.
+
+Add 1 tbsp olive oil and 1 diced onion. Cook 3 to 4 minutes until softened.
+
+Add 1 lb ground beef and cook until browned with no pink remaining. Drain excess grease if needed.
+
+Stir in 1 packet taco seasoning, 2/3 cup water, and 1 can Rotel. Simmer 3 to 5 minutes until slightly thickened.
+
+Layer 2 tortillas into the bottom of the Dutch oven, tearing them if needed to fit.
+
+Add a layer of taco meat, cheddar cheese, and crushed tortilla chips.
+
+Repeat the layers until all ingredients are used, finishing with cheese on top.
+
+Cover the Dutch oven and cook for 15 to 20 minutes, until the cheese is melted and bubbly.
+
+Remove from heat and let rest for 5 minutes before serving.
+
+Top with sour cream and sliced green onions before serving.`,
+  translations: {
+    es: {
+      name: "Montaña de Tacos en Horno Holandés",
+      notes:
+        "Capas de carne sazonada, queso, tortillas y toppings cocinadas juntas en un horno holandés para una comida perfecta de fogata.",
+      tags: [
+        "cena",
+        "fogata",
+        "tacos",
+        "carne",
+        "horno holandés",
+        "familiar",
+        "comfort",
+      ],
+      ingredients: `1 lb de carne molida
+1 cebolla pequeña, picada
+1 paquete de sazonador para tacos
+2/3 taza de agua
+1 lata (10 oz) de Rotel
+6 tortillas pequeñas de harina
+2 tazas de queso cheddar rallado
+1 taza de totopos triturados ligeramente
+1/2 taza de crema agria
+1/4 taza de cebollines en rodajas
+1 cucharada de aceite de oliva`,
+      instructions: `Precalienta un horno holandés sobre una parrilla de fogata o brasas a fuego medio.
+
+Agrega 1 cucharada de aceite de oliva y 1 cebolla picada. Cocina de 3 a 4 minutos hasta que esté suave.
+
+Agrega 1 lb de carne molida y cocina hasta que ya no esté rosada. Escurre el exceso de grasa si es necesario.
+
+Incorpora 1 paquete de sazonador para tacos, 2/3 taza de agua y 1 lata de Rotel. Cocina de 3 a 5 minutos hasta que espese ligeramente.
+
+Coloca 2 tortillas en el fondo del horno holandés, rompiéndolas si es necesario.
+
+Agrega una capa de carne, queso cheddar y totopos triturados.
+
+Repite las capas hasta usar todos los ingredientes, terminando con queso encima.
+
+Cubre el horno holandés y cocina de 15 a 20 minutos hasta que el queso esté derretido y burbujeante.
+
+Retira del fuego y deja reposar 5 minutos antes de servir.
+
+Agrega crema agria y cebollines antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "big-campfire-chili-mac",
+  slug: "big-campfire-chili-mac",
+  name: "Campfire Chili Mac",
+  effort: "big",
+  photoUrl: "/images/big-campfire-chili-mac.jpg",
+  tags: [
+    "dinner",
+    "campfire",
+    "pasta",
+    "beef",
+    "one-pot",
+    "comfort",
+    "family-friendly",
+  ],
+  isVegetarian: false,
+  notes:
+    "A hearty one-pot campfire meal packed with beef, pasta, chili flavor, and melty cheese. Perfect for cooler nights around the fire.",
+  ingredients: `1 lb ground beef
+1 small onion, diced
+2 cloves garlic, minced
+1 tbsp olive oil
+1 packet chili seasoning
+1 (14 oz) can diced tomatoes
+1 (15 oz) can kidney beans, drained
+3 cups beef broth
+2 cups elbow macaroni
+2 cups cheddar cheese, shredded
+1/2 tsp salt
+1/4 tsp black pepper`,
+  instructions: `Preheat a large Dutch oven or heavy camp pot over medium heat on a campfire grate.
+
+Add 1 tbsp olive oil, 1 diced onion, and 2 cloves garlic. Cook 3 to 4 minutes until softened and fragrant.
+
+Add 1 lb ground beef and cook until browned with no pink remaining. Drain excess grease if needed.
+
+Stir in 1 packet chili seasoning, 1 can diced tomatoes, 1 can kidney beans, 3 cups beef broth, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Bring the mixture to a gentle simmer.
+
+Stir in 2 cups elbow macaroni and cook uncovered for 10 to 12 minutes, stirring occasionally, until the pasta is tender and most of the liquid is absorbed.
+
+Reduce heat to low and stir in 2 cups cheddar cheese until melted and creamy.
+
+Remove from heat and let rest for 5 minutes before serving.`,
+  translations: {
+    es: {
+      name: "Chili Mac de Fogata",
+      notes:
+        "Una abundante comida de una sola olla con carne, pasta, sabor a chili y mucho queso derretido. Perfecta para noches frescas alrededor de la fogata.",
+      tags: [
+        "cena",
+        "fogata",
+        "pasta",
+        "carne",
+        "una olla",
+        "comfort",
+        "familiar",
+      ],
+      ingredients: `1 lb de carne molida
+1 cebolla pequeña, picada
+2 dientes de ajo, picados
+1 cucharada de aceite de oliva
+1 paquete de sazonador para chili
+1 lata (14 oz) de tomates picados
+1 lata (15 oz) de frijoles rojos, escurridos
+3 tazas de caldo de res
+2 tazas de coditos
+2 tazas de queso cheddar rallado
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra`,
+      instructions: `Precalienta un horno holandés grande o una olla resistente sobre una parrilla de fogata a fuego medio.
+
+Agrega 1 cucharada de aceite de oliva, 1 cebolla picada y 2 dientes de ajo. Cocina de 3 a 4 minutos hasta que estén suaves y fragantes.
+
+Agrega 1 lb de carne molida y cocina hasta que ya no esté rosada. Escurre el exceso de grasa si es necesario.
+
+Incorpora 1 paquete de sazonador para chili, 1 lata de tomates picados, 1 lata de frijoles rojos, 3 tazas de caldo de res, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Lleva la mezcla a fuego lento.
+
+Agrega 2 tazas de coditos y cocina sin tapar de 10 a 12 minutos, revolviendo ocasionalmente, hasta que la pasta esté tierna y la mayor parte del líquido se absorba.
+
+Reduce el fuego y agrega 2 tazas de queso cheddar hasta que se derrita y quede cremoso.
+
+Retira del fuego y deja reposar 5 minutos antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "quick-hot-dog-octopus-veggie-kebabs",
+  slug: "quick-hot-dog-octopus-veggie-kebabs",
+  name: "Skewer Hot Dog Octopus and Veggie Kebabs",
+  effort: "quick",
+  photoUrl: "/images/quick-hot-dog-octopus-veggie-kebabs.jpg",
+  tags: [
+    "dinner",
+    "campfire",
+    "hot-dogs",
+    "kid-friendly",
+    "skewers",
+    "grilling",
+    "family-friendly",
+  ],
+  isVegetarian: false,
+  notes:
+    "A fun campfire meal where hot dogs split into octopus-style legs while roasting over the fire. Great for kids and easy camping dinners.",
+  ingredients: `8 hot dogs
+1 bell pepper, chopped into large pieces
+1 small red onion, cut into chunks
+1 zucchini, sliced into thick rounds
+1 tbsp olive oil
+1/2 tsp garlic powder
+1/2 tsp salt
+1/4 tsp black pepper
+wooden or metal skewers`,
+  instructions: `Preheat a campfire grate or grill to medium heat.
+
+Using a knife, cut one end of each hot dog into 4 to 6 strips about halfway down to create "octopus legs."
+
+In a bowl, toss bell pepper, red onion, and zucchini with 1 tbsp olive oil, 1/2 tsp garlic powder, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Thread vegetables and hot dogs onto skewers, alternating ingredients for even cooking.
+
+Place skewers over the campfire or grill.
+
+Cook for 8 to 12 minutes, rotating occasionally, until the vegetables are tender and lightly charred and the hot dog legs curl outward like octopus tentacles.
+
+Serve warm directly from the skewers.`,
+  translations: {
+    es: {
+      name: "Brochetas de Pulpo de Hot Dog y Verduras",
+      notes:
+        "Una divertida comida de fogata donde los hot dogs se abren como patas de pulpo mientras se asan. Perfecta para niños y cenas fáciles de campamento.",
+      tags: [
+        "cena",
+        "fogata",
+        "hot dogs",
+        "niños",
+        "brochetas",
+        "parrilla",
+        "familiar",
+      ],
+      ingredients: `8 hot dogs
+1 pimiento morrón, cortado en trozos grandes
+1 cebolla roja pequeña, en trozos
+1 calabacín, en rodajas gruesas
+1 cucharada de aceite de oliva
+1/2 cucharadita de ajo en polvo
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+brochetas de madera o metal`,
+      instructions: `Precalienta una parrilla de fogata o asador a fuego medio.
+
+Con un cuchillo, corta un extremo de cada hot dog en 4 a 6 tiras hasta la mitad para crear "patas de pulpo."
+
+En un tazón, mezcla el pimiento, la cebolla roja y el calabacín con 1 cucharada de aceite de oliva, 1/2 cucharadita de ajo en polvo, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Inserta verduras y hot dogs en las brochetas alternando ingredientes.
+
+Coloca las brochetas sobre la fogata o parrilla.
+
+Cocina de 8 a 12 minutos, girando ocasionalmente, hasta que las verduras estén tiernas y ligeramente asadas y las patas de los hot dogs se curven hacia afuera como tentáculos.
+
+Sirve caliente directamente en las brochetas.`,
+    },
+  },
+},
+
+{
+  id: "quick-pie-iron-pudgie-pies",
+  slug: "quick-pie-iron-pudgie-pies",
+  name: "Pie Iron Pudgie Pies",
+  effort: "quick",
+  photoUrl: "/images/quick-pie-iron-pudgie-pies.jpg",
+  tags: [
+    "dinner",
+    "campfire",
+    "sandwiches",
+    "pie-iron",
+    "kid-friendly",
+    "comfort",
+    "family-friendly",
+  ],
+  isVegetarian: false,
+  notes:
+    "A nostalgic campfire favorite with crispy toasted bread and melty fillings cooked inside a pie iron over the fire.",
+  ingredients: `8 slices sandwich bread
+2 tbsp butter, softened
+1 cup pizza sauce
+1 cup mozzarella cheese, shredded
+1/2 cup pepperoni slices
+1/2 tsp Italian seasoning
+pie iron cooker`,
+  instructions: `Preheat a pie iron over a campfire grate or hot coals for 2 to 3 minutes.
+
+Butter one side of each bread slice with 2 tbsp softened butter divided evenly.
+
+Place one slice of bread butter-side down into the pie iron.
+
+Spread about 2 tbsp pizza sauce onto the bread, then top with mozzarella cheese, pepperoni, and a sprinkle of Italian seasoning.
+
+Place another slice of bread on top with the buttered side facing outward.
+
+Close the pie iron firmly and trim any excess bread if needed.
+
+Cook over the campfire for 3 to 5 minutes per side, flipping carefully halfway through, until the bread is crispy and golden brown and the cheese is melted.
+
+Carefully remove the pudgie pie from the pie iron and let cool for 1 to 2 minutes before serving because the filling will be very hot.`,
+  translations: {
+    es: {
+      name: "Pudgie Pies en Pie Iron",
+      notes:
+        "Un clásico nostálgico de fogata con pan crujiente y rellenos derretidos cocinados dentro de un pie iron sobre el fuego.",
+      tags: [
+        "cena",
+        "fogata",
+        "sándwiches",
+        "pie iron",
+        "niños",
+        "comfort",
+        "familiar",
+      ],
+      ingredients: `8 rebanadas de pan de molde
+2 cucharadas de mantequilla, suave
+1 taza de salsa para pizza
+1 taza de queso mozzarella rallado
+1/2 taza de pepperoni
+1/2 cucharadita de sazón italiana
+pie iron para fogata`,
+      instructions: `Precalienta un pie iron sobre una parrilla de fogata o brasas calientes durante 2 a 3 minutos.
+
+Unta mantequilla en un lado de cada rebanada de pan usando las 2 cucharadas divididas.
+
+Coloca una rebanada de pan con el lado con mantequilla hacia abajo dentro del pie iron.
+
+Agrega aproximadamente 2 cucharadas de salsa para pizza, luego mozzarella, pepperoni y un poco de sazón italiana.
+
+Coloca otra rebanada encima con la mantequilla hacia afuera.
+
+Cierra bien el pie iron y corta el exceso de pan si es necesario.
+
+Cocina sobre la fogata de 3 a 5 minutos por lado, volteando cuidadosamente a la mitad, hasta que el pan esté dorado y crujiente y el queso derretido.
+
+Retira cuidadosamente el pudgie pie y deja enfriar de 1 a 2 minutos antes de servir porque el relleno estará muy caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-campfire-banana-boats",
+  slug: "quick-campfire-banana-boats",
+  name: "Campfire Banana Boats",
+  effort: "quick",
+  photoUrl: "/images/quick-campfire-banana-boats.jpg",
+  tags: [
+    "dessert",
+    "campfire",
+    "banana",
+    "foil-packet",
+    "kid-friendly",
+    "sweet",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "A fun and easy campfire dessert with warm melted chocolate, gooey marshmallows, and soft bananas wrapped in foil.",
+  ingredients: `4 bananas
+1/2 cup chocolate chips
+1 cup mini marshmallows
+1/4 cup graham cracker crumbs
+heavy-duty aluminum foil`,
+  instructions: `Preheat a campfire grate or grill to medium-low heat.
+
+Using a knife, slice each banana lengthwise through the peel without cutting all the way through.
+
+Gently open the bananas and stuff each one with chocolate chips and mini marshmallows.
+
+Sprinkle graham cracker crumbs over the filling.
+
+Wrap each banana tightly in heavy-duty aluminum foil.
+
+Place the foil packets over the campfire or grill and cook for 8 to 10 minutes, until the chocolate is melted and the marshmallows are gooey.
+
+Carefully unwrap because hot steam will escape.
+
+Serve warm directly from the foil with spoons if desired.`,
+  translations: {
+    es: {
+      name: "Bananas Boat de Fogata",
+      notes:
+        "Un postre divertido y fácil de fogata con chocolate derretido, malvaviscos suaves y bananas calientes envueltas en aluminio.",
+      tags: [
+        "postre",
+        "fogata",
+        "banana",
+        "papel aluminio",
+        "niños",
+        "dulce",
+        "familiar",
+      ],
+      ingredients: `4 bananas
+1/2 taza de chispas de chocolate
+1 taza de mini malvaviscos
+1/4 taza de migas de galleta graham
+papel aluminio resistente`,
+      instructions: `Precalienta una parrilla de fogata o asador a fuego medio-bajo.
+
+Con un cuchillo, corta cada banana a lo largo sobre la cáscara sin atravesarla completamente.
+
+Abre ligeramente las bananas y rellena con chispas de chocolate y mini malvaviscos.
+
+Espolvorea migas de galleta graham sobre el relleno.
+
+Envuelve cada banana firmemente en papel aluminio resistente.
+
+Coloca los paquetes sobre la fogata o parrilla y cocina de 8 a 10 minutos hasta que el chocolate esté derretido y los malvaviscos suaves.
+
+Abre cuidadosamente porque saldrá vapor caliente.
+
+Sirve caliente directamente en el aluminio con cucharas si deseas.`,
+    },
+  },
+},
 
 ];
 
@@ -6917,6 +9313,576 @@ Calienta 2 Tbsp de aceite de oliva en un sartén grande o wok a fuego alto. Agre
 Reduce el fuego a medio y vierte la salsa batida. Revuelve y cocina de 1 a 2 minutos, o hasta que la salsa espese y las verduras estén tiernas pero crujientes. Sazona con sal y pimienta al gusto.
 
 Cubre con los cebollines restantes y semillas de sésamo, y sirve de inmediato.`,
+    },
+  },
+},
+
+{
+  id: "vegetable-lo-mein-noodles",
+  slug: "vegetable-lo-mein-noodles",
+  name: "Vegetable Lo Mein Noodles",
+  effort: "quick",
+  photoUrl: "/images/vegetable-lo-mein-noodles.webp",
+  tags: [
+    "vegetarian",
+    "dinner",
+    "noodles",
+    "asian",
+    "quick",
+    "one-pan",
+    "takeout-style",
+  ],
+  isVegetarian: true,
+  notes:
+    "Cooking the vegetables over high heat helps them stay crisp and flavorful instead of soft and soggy. Tossing the noodles directly in the sauce at the end gives them that classic glossy lo mein texture.",
+  ingredients: `Noodles:
+8 oz lo mein noodles (or spaghetti as a substitute)
+
+Vegetables:
+1 tbsp sesame oil
+1 tbsp olive oil
+1 cup mushrooms, sliced
+1 cup carrots, shredded
+1 bell pepper, sliced
+1 cup broccoli florets
+3 green onions, sliced
+2 cloves garlic, minced
+1 tsp fresh ginger, grated
+
+Sauce:
+1/4 cup soy sauce
+2 tbsp hoisin sauce
+1 tbsp brown sugar
+1 tsp sesame oil
+1 tbsp rice vinegar
+1/4 tsp red pepper flakes (optional)
+
+Optional:
+sesame seeds for garnish`,
+  instructions: `Cook 8 oz lo mein noodles according to package directions. Drain and set aside.
+
+In a small bowl, whisk together 1/4 cup soy sauce, 2 tbsp hoisin sauce, 1 tbsp brown sugar, 1 tsp sesame oil, 1 tbsp rice vinegar, and red pepper flakes if using.
+
+Heat 1 tbsp sesame oil and 1 tbsp olive oil in a large skillet or wok over medium-high heat.
+
+Add 1 cup mushrooms, 1 cup carrots, 1 bell pepper, and 1 cup broccoli.
+
+Cook 5 to 7 minutes, stirring frequently, until the vegetables are tender-crisp with light caramelization.
+
+Add 3 green onions, 2 cloves garlic, and 1 tsp ginger. Cook 30 seconds until fragrant.
+
+Add the cooked noodles and pour in the sauce.
+
+Toss continuously for 2 to 3 minutes until the noodles are fully coated and glossy.
+
+Serve hot and garnish with sesame seeds if desired.`,
+  translations: {
+    es: {
+      name: "Fideos Lo Mein con Verduras",
+      notes:
+        "Cocinar las verduras a fuego alto ayuda a que queden crujientes y llenas de sabor en lugar de blandas. Mezclar los fideos directamente con la salsa al final les da esa textura brillante clásica del lo mein.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "fideos",
+        "asiática",
+        "rápido",
+        "una sartén",
+        "estilo comida para llevar",
+      ],
+      ingredients: `Fideos:
+8 oz de fideos lo mein (o espagueti como sustituto)
+
+Verduras:
+1 cucharada de aceite de ajonjolí
+1 cucharada de aceite de oliva
+1 taza de champiñones, en rodajas
+1 taza de zanahorias ralladas
+1 pimiento morrón, en rodajas
+1 taza de floretes de brócoli
+3 cebollines, en rodajas
+2 dientes de ajo, picados
+1 cucharadita de jengibre fresco, rallado
+
+Salsa:
+1/4 taza de salsa de soya
+2 cucharadas de salsa hoisin
+1 cucharada de azúcar morena
+1 cucharadita de aceite de ajonjolí
+1 cucharada de vinagre de arroz
+1/4 cucharadita de hojuelas de chile rojo (opcional)
+
+Opcional:
+semillas de ajonjolí para decorar`,
+      instructions: `Cocina 8 oz de fideos lo mein según las instrucciones del paquete. Escurre y reserva.
+
+En un tazón pequeño, mezcla 1/4 taza de salsa de soya, 2 cucharadas de salsa hoisin, 1 cucharada de azúcar morena, 1 cucharadita de aceite de ajonjolí, 1 cucharada de vinagre de arroz y hojuelas de chile rojo si las usas.
+
+Calienta 1 cucharada de aceite de ajonjolí y 1 cucharada de aceite de oliva en una sartén grande o wok a fuego medio-alto.
+
+Agrega 1 taza de champiñones, 1 taza de zanahorias, 1 pimiento morrón y 1 taza de brócoli.
+
+Cocina de 5 a 7 minutos, revolviendo con frecuencia, hasta que las verduras estén tiernas pero crujientes y ligeramente caramelizadas.
+
+Agrega 3 cebollines, 2 dientes de ajo y 1 cucharadita de jengibre. Cocina 30 segundos hasta que desprenda aroma.
+
+Agrega los fideos cocidos y vierte la salsa.
+
+Mezcla constantemente de 2 a 3 minutos hasta que los fideos estén completamente cubiertos y brillantes.
+
+Sirve caliente y decora con semillas de ajonjolí si deseas.`,
+    },
+  },
+},
+
+{
+  id: "crispy-sheet-pan-gnocchi-roasted-veggies",
+  slug: "crispy-sheet-pan-gnocchi-roasted-veggies",
+  name: "Crispy Sheet-Pan Gnocchi with Roasted Veggies",
+  effort: "quick",
+  photoUrl: "/images/crispy-sheet-pan-gnocchi-roasted-veggies.webp",
+  tags: [
+    "vegetarian",
+    "dinner",
+    "sheet-pan",
+    "gnocchi",
+    "roasted",
+    "one-pan",
+    "healthy",
+    "comfort",
+  ],
+  isVegetarian: true,
+  notes:
+    "Roasting shelf-stable gnocchi directly on the sheet pan gives it crispy edges and a soft center without boiling. Spread everything into a single layer so the vegetables roast instead of steam.",
+  ingredients: `Sheet Pan:
+1 (16 oz) package shelf-stable potato gnocchi
+1 zucchini, sliced
+1 bell pepper, chopped
+1 small red onion, sliced
+1 cup cherry tomatoes
+3 tbsp olive oil
+
+Seasoning:
+1 tsp garlic powder
+1 tsp Italian seasoning
+1/2 tsp salt
+1/4 tsp black pepper
+1/4 tsp red pepper flakes (optional)
+
+Finish:
+1/4 cup parmesan cheese, grated
+2 tbsp fresh basil, chopped
+1 tbsp balsamic glaze (optional)`,
+  instructions: `Preheat oven to 425°F.
+
+Line a large sheet pan with parchment paper.
+
+Add 1 package gnocchi, zucchini, bell pepper, red onion, and cherry tomatoes to the sheet pan.
+
+Drizzle with 3 tbsp olive oil.
+
+Sprinkle with 1 tsp garlic powder, 1 tsp Italian seasoning, 1/2 tsp salt, 1/4 tsp black pepper, and red pepper flakes if using.
+
+Toss everything well until evenly coated and spread into a single layer.
+
+Roast for 25 to 30 minutes, stirring halfway through, until the gnocchi is crispy on the outside and the vegetables are caramelized and tender.
+
+Remove from the oven and immediately sprinkle with 1/4 cup parmesan cheese and 2 tbsp fresh basil.
+
+Drizzle with balsamic glaze if desired and serve warm.`,
+  translations: {
+    es: {
+      name: "Gnocchi Crujiente en Charola con Verduras Rostizadas",
+      notes:
+        "Rostizar el gnocchi directamente en la charola crea bordes crujientes y un centro suave sin necesidad de hervirlo. Extender todo en una sola capa ayuda a que las verduras se rosticen en lugar de cocinarse al vapor.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "sheet-pan",
+        "gnocchi",
+        "rostizado",
+        "una sartén",
+        "saludable",
+        "comfort",
+      ],
+      ingredients: `Charola:
+1 paquete (16 oz) de gnocchi de papa estable en estante
+1 calabacín, en rodajas
+1 pimiento morrón, picado
+1 cebolla morada pequeña, en rodajas
+1 taza de tomates cherry
+3 cucharadas de aceite de oliva
+
+Sazonadores:
+1 cucharadita de ajo en polvo
+1 cucharadita de sazón italiana
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+1/4 cucharadita de hojuelas de chile rojo (opcional)
+
+Final:
+1/4 taza de queso parmesano rallado
+2 cucharadas de albahaca fresca, picada
+1 cucharada de glaseado balsámico (opcional)`,
+      instructions: `Precalienta el horno a 425°F.
+
+Cubre una charola grande con papel para hornear.
+
+Agrega 1 paquete de gnocchi, calabacín, pimiento morrón, cebolla morada y tomates cherry a la charola.
+
+Rocía con 3 cucharadas de aceite de oliva.
+
+Espolvorea 1 cucharadita de ajo en polvo, 1 cucharadita de sazón italiana, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y hojuelas de chile rojo si las usas.
+
+Mezcla bien hasta cubrir todo uniformemente y acomoda en una sola capa.
+
+Hornea de 25 a 30 minutos, revolviendo a la mitad del tiempo, hasta que el gnocchi esté crujiente por fuera y las verduras caramelizadas y tiernas.
+
+Retira del horno y agrega inmediatamente 1/4 taza de queso parmesano y 2 cucharadas de albahaca fresca.
+
+Rocía con glaseado balsámico si deseas y sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "creamy-shells-peas-parmesan",
+  slug: "creamy-shells-peas-parmesan",
+  name: "Creamy Shells with Peas and Parmesan",
+  effort: "quick",
+  photoUrl: "/images/creamy-shells-peas-parmesan.webp",
+  tags: [
+    "vegetarian",
+    "dinner",
+    "pasta",
+    "comfort",
+    "creamy",
+    "quick",
+    "family",
+  ],
+  isVegetarian: true,
+  notes:
+    "The reserved pasta water helps create a silky sauce that clings perfectly to the shells. Adding the peas at the end keeps them bright green and tender instead of overcooked.",
+  ingredients: `Pasta:
+12 oz medium pasta shells
+1 cup frozen peas
+
+Sauce:
+2 tbsp butter
+3 cloves garlic, minced
+1 cup heavy cream (or half-and-half for lighter)
+3/4 cup parmesan cheese, grated
+1/2 tsp garlic powder
+1/2 tsp salt
+1/4 tsp black pepper
+
+Finish:
+1/4 cup reserved pasta water
+2 tbsp fresh parsley, chopped (optional)`,
+  instructions: `Bring a large pot of salted water to a boil.
+
+Cook 12 oz pasta shells according to package directions.
+
+During the final 2 minutes of cooking, add 1 cup frozen peas to the pasta water.
+
+Reserve 1/4 cup pasta water, then drain the pasta and peas.
+
+In a large skillet over medium heat, melt 2 tbsp butter.
+
+Add 3 cloves garlic and cook for 30 seconds until fragrant.
+
+Pour in 1 cup heavy cream and bring to a gentle simmer.
+
+Stir in 3/4 cup parmesan cheese, 1/2 tsp garlic powder, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Cook 2 to 3 minutes, stirring frequently, until the sauce becomes smooth and lightly coats the back of a spoon.
+
+Add the cooked shells and peas to the skillet and toss to coat evenly.
+
+Add reserved pasta water a little at a time if needed to loosen the sauce.
+
+Garnish with parsley if using and serve immediately.`,
+  translations: {
+    es: {
+      name: "Conchas Cremosas con Chícharos y Parmesano",
+      notes:
+        "El agua reservada de la pasta ayuda a crear una salsa sedosa que se adhiere perfectamente a las conchas. Agregar los chícharos al final ayuda a mantenerlos verdes y tiernos en lugar de sobrecocinados.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "pasta",
+        "comfort",
+        "cremoso",
+        "rápido",
+        "familiar",
+      ],
+      ingredients: `Pasta:
+12 oz de pasta tipo conchas medianas
+1 taza de chícharos congelados
+
+Salsa:
+2 cucharadas de mantequilla
+3 dientes de ajo, picados
+1 taza de crema espesa (o half-and-half para una versión más ligera)
+3/4 taza de queso parmesano rallado
+1/2 cucharadita de ajo en polvo
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+
+Final:
+1/4 taza de agua reservada de la pasta
+2 cucharadas de perejil fresco, picado (opcional)`,
+      instructions: `Hierve una olla grande con agua y sal.
+
+Cocina 12 oz de pasta tipo conchas según las instrucciones del paquete.
+
+Durante los últimos 2 minutos de cocción, agrega 1 taza de chícharos congelados al agua de la pasta.
+
+Reserva 1/4 taza del agua de cocción y luego escurre la pasta y los chícharos.
+
+En una sartén grande a fuego medio, derrite 2 cucharadas de mantequilla.
+
+Agrega 3 dientes de ajo y cocina 30 segundos hasta que estén fragantes.
+
+Vierte 1 taza de crema espesa y lleva a fuego lento suave.
+
+Agrega 3/4 taza de parmesano, 1/2 cucharadita de ajo en polvo, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Cocina de 2 a 3 minutos, revolviendo frecuentemente, hasta que la salsa quede suave y cubra ligeramente el dorso de una cuchara.
+
+Agrega las conchas y los chícharos cocidos a la sartén y mezcla bien para cubrirlos con la salsa.
+
+Agrega poco a poco el agua reservada de la pasta si necesitas adelgazar la salsa.
+
+Decora con perejil si deseas y sirve inmediatamente.`,
+    },
+  },
+},
+
+{
+  id: "black-bean-corn-quesadillas",
+  slug: "black-bean-corn-quesadillas",
+  name: "Black Bean and Corn Quesadillas",
+  effort: "quick",
+  photoUrl: "/images/black-bean-corn-quesadillas.webp",
+  tags: [
+    "vegetarian",
+    "dinner",
+    "quesadillas",
+    "tex-mex",
+    "quick",
+    "family",
+    "comfort",
+  ],
+  isVegetarian: true,
+  notes:
+    "Cooking quesadillas over medium heat allows the tortillas to crisp properly while giving the cheese time to melt completely. A light layer of butter or oil helps create a golden, restaurant-style finish.",
+  ingredients: `Filling:
+1 (15 oz) can black beans, drained and rinsed
+1 cup corn kernels
+1 cup cheddar cheese, shredded
+1/2 tsp chili powder
+1/2 tsp cumin
+1/4 tsp garlic powder
+1/4 tsp salt
+
+Quesadillas:
+4 large flour tortillas
+1 tbsp butter or olive oil
+
+Optional Toppings:
+sour cream
+salsa
+guacamole
+fresh cilantro
+lime wedges`,
+  instructions: `In a medium bowl, combine 1 can black beans, 1 cup corn, 1 cup cheddar cheese, 1/2 tsp chili powder, 1/2 tsp cumin, 1/4 tsp garlic powder, and 1/4 tsp salt.
+
+Heat a large skillet over medium heat.
+
+Lightly brush one side of each tortilla with butter or olive oil.
+
+Place 1 tortilla into the skillet and spread about 1/4 of the filling over half of the tortilla.
+
+Fold the tortilla over the filling and cook for 2 to 3 minutes until golden brown and crisp on the bottom.
+
+Flip carefully and cook another 2 to 3 minutes until the cheese is melted and both sides are crispy.
+
+Repeat with remaining tortillas and filling.
+
+Slice into wedges and serve warm with desired toppings.`,
+  translations: {
+    es: {
+      name: "Quesadillas de Frijoles Negros y Elote",
+      notes:
+        "Cocinar las quesadillas a fuego medio permite que las tortillas queden crujientes mientras el queso se derrite completamente. Una ligera capa de mantequilla o aceite ayuda a lograr un acabado dorado estilo restaurante.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "quesadillas",
+        "tex-mex",
+        "rápido",
+        "familiar",
+        "comfort",
+      ],
+      ingredients: `Relleno:
+1 lata (15 oz) de frijoles negros, escurridos y enjuagados
+1 taza de granos de elote
+1 taza de queso cheddar rallado
+1/2 cucharadita de chile en polvo
+1/2 cucharadita de comino
+1/4 cucharadita de ajo en polvo
+1/4 cucharadita de sal
+
+Quesadillas:
+4 tortillas grandes de harina
+1 cucharada de mantequilla o aceite de oliva
+
+Toppings Opcionales:
+crema agria
+salsa
+guacamole
+cilantro fresco
+gajos de limón`,
+      instructions: `En un tazón mediano, mezcla 1 lata de frijoles negros, 1 taza de elote, 1 taza de queso cheddar, 1/2 cucharadita de chile en polvo, 1/2 cucharadita de comino, 1/4 cucharadita de ajo en polvo y 1/4 cucharadita de sal.
+
+Calienta una sartén grande a fuego medio.
+
+Unta ligeramente un lado de cada tortilla con mantequilla o aceite de oliva.
+
+Coloca 1 tortilla en la sartén y distribuye aproximadamente 1/4 del relleno sobre la mitad de la tortilla.
+
+Dobla la tortilla sobre el relleno y cocina de 2 a 3 minutos hasta que esté dorada y crujiente por debajo.
+
+Voltea cuidadosamente y cocina otros 2 a 3 minutos hasta que el queso se derrita y ambos lados estén crujientes.
+
+Repite con las tortillas y relleno restantes.
+
+Corta en triángulos y sirve caliente con los toppings deseados.`,
+    },
+  },
+},
+
+{
+  id: "taco-style-lentil-sloppy-joes",
+  slug: "taco-style-lentil-sloppy-joes",
+  name: "Taco-Style Lentil Sloppy Joes",
+  effort: "quick",
+  photoUrl: "/images/taco-style-lentil-sloppy-joes.webp",
+  tags: [
+    "vegetarian",
+    "dinner",
+    "sandwiches",
+    "tex-mex",
+    "comfort",
+    "quick",
+    "family",
+  ],
+  isVegetarian: true,
+  notes:
+    "Lentils create a hearty texture that works perfectly in sloppy joes while soaking up bold taco-style flavors. Letting the mixture simmer helps it thicken into a rich, scoopable filling.",
+  ingredients: `Lentil Filling:
+1 tbsp olive oil
+1/2 onion, diced
+1 bell pepper, diced
+2 cloves garlic, minced
+1 cup cooked lentils
+1/2 cup tomato sauce
+1/4 cup salsa
+1 tbsp tomato paste
+
+Seasoning:
+1 tsp chili powder
+1/2 tsp cumin
+1/2 tsp smoked paprika
+1/2 tsp garlic powder
+1/2 tsp salt
+1/4 tsp black pepper
+
+Assembly:
+4 hamburger buns
+1/2 cup cheddar cheese, shredded
+
+Optional Toppings:
+avocado slices
+jalapeños
+cilantro
+sour cream`,
+  instructions: `Heat 1 tbsp olive oil in a large skillet over medium heat.
+
+Add 1/2 diced onion and 1 diced bell pepper. Cook 5 to 6 minutes until softened.
+
+Add 2 cloves garlic and cook 30 seconds until fragrant.
+
+Stir in 1 cup cooked lentils, 1/2 cup tomato sauce, 1/4 cup salsa, and 1 tbsp tomato paste.
+
+Add 1 tsp chili powder, 1/2 tsp cumin, 1/2 tsp smoked paprika, 1/2 tsp garlic powder, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Simmer for 8 to 10 minutes, stirring occasionally, until the mixture thickens and becomes saucy.
+
+Toast 4 hamburger buns if desired.
+
+Spoon the lentil mixture onto the buns and top with 1/2 cup shredded cheddar cheese divided evenly.
+
+Add desired toppings and serve warm.`,
+  translations: {
+    es: {
+      name: "Sloppy Joes de Lentejas Estilo Taco",
+      notes:
+        "Las lentejas crean una textura abundante perfecta para sloppy joes mientras absorben los sabores intensos estilo taco. Cocinar la mezcla a fuego lento ayuda a espesarla y crear un relleno rico y fácil de servir.",
+      tags: [
+        "vegetariano",
+        "cena",
+        "sándwiches",
+        "tex-mex",
+        "comfort",
+        "rápido",
+        "familiar",
+      ],
+      ingredients: `Relleno de Lentejas:
+1 cucharada de aceite de oliva
+1/2 cebolla, picada
+1 pimiento morrón, picado
+2 dientes de ajo, picados
+1 taza de lentejas cocidas
+1/2 taza de salsa de tomate
+1/4 taza de salsa
+1 cucharada de pasta de tomate
+
+Sazonadores:
+1 cucharadita de chile en polvo
+1/2 cucharadita de comino
+1/2 cucharadita de paprika ahumada
+1/2 cucharadita de ajo en polvo
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+
+Montaje:
+4 panes para hamburguesa
+1/2 taza de queso cheddar rallado
+
+Toppings Opcionales:
+rebanadas de aguacate
+jalapeños
+cilantro
+crema agria`,
+      instructions: `Calienta 1 cucharada de aceite de oliva en una sartén grande a fuego medio.
+
+Agrega 1/2 cebolla picada y 1 pimiento morrón picado. Cocina de 5 a 6 minutos hasta que estén suaves.
+
+Agrega 2 dientes de ajo y cocina 30 segundos hasta que estén fragantes.
+
+Incorpora 1 taza de lentejas cocidas, 1/2 taza de salsa de tomate, 1/4 taza de salsa y 1 cucharada de pasta de tomate.
+
+Agrega 1 cucharadita de chile en polvo, 1/2 cucharadita de comino, 1/2 cucharadita de paprika ahumada, 1/2 cucharadita de ajo en polvo, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Cocina a fuego lento de 8 a 10 minutos, revolviendo ocasionalmente, hasta que la mezcla espese y quede jugosa.
+
+Tuesta 4 panes para hamburguesa si lo deseas.
+
+Coloca la mezcla de lentejas sobre los panes y agrega 1/2 taza de queso cheddar dividida uniformemente.
+
+Añade los toppings deseados y sirve caliente.`,
     },
   },
 },
@@ -11319,6 +14285,7 @@ export const VEGGIE_POOL = NEW_VEGETARIAN_RECIPES.map((meal) => ({
 
 export const ALL_RECIPES: Meal[] = [
   ...NEW_BUILTIN_RECIPES,
+  ...CAMPFIRE_RECIPES,
   ...NEW_VEGETARIAN_RECIPES,
   ...SIDE_DISHES,
   ...DESSERTS,

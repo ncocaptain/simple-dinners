@@ -16,6 +16,7 @@ import { ALL_RECIPES, days } from "../core/data";
 import { getCookbook } from "../core/cookbookStore";
 import { t, getStoredLanguage, type LanguageCode } from "../i18n";
 import { getLocalizedMeal } from "../core/localizedMeal";
+import { Capacitor } from "@capacitor/core";
 
 type RecipesPageProps = {
   recipes?: Meal[];
@@ -83,10 +84,12 @@ function effortLabel(effort?: Effort | string) {
 
 function normalizePhotoUrl(url?: string) {
   if (!url) return "";
+
   const trimmed = url.trim();
 
   if (trimmed.startsWith("/images/")) {
-    return trimmed.replace(/\.(png|jpg|jpeg)$/i, ".jpg");
+    const extension = Capacitor.getPlatform() === "android" ? ".webp" : ".jpg";
+    return trimmed.replace(/\.(png|jpg|jpeg|webp)$/i, extension);
   }
 
   return trimmed;

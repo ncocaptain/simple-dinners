@@ -27,6 +27,7 @@ import TipsModal from "../components/TipsModal";
 import { t, getStoredLanguage } from "../i18n";
 import type { Meal } from "../core/types";
 import { getLocalizedMeal } from "../core/localizedMeal";
+import { Capacitor } from "@capacitor/core";
 
 // =========================================================
 // TYPES
@@ -110,7 +111,8 @@ function normalizePhotoUrl(url?: string) {
   const trimmed = url.trim();
 
   if (trimmed.startsWith("/images/")) {
-    return trimmed.replace(/\.(png|jpg|jpeg)$/i, ".jpg");
+    const extension = Capacitor.getPlatform() === "android" ? ".webp" : ".jpg";
+    return trimmed.replace(/\.(png|jpg|jpeg|webp)$/i, extension);
   }
 
   return trimmed;

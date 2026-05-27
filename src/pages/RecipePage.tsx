@@ -25,6 +25,7 @@ import { isCommonPantryStaple } from "../core/pantry";
 import TipsModal from "../components/TipsModal";
 import { t, getStoredLanguage } from "../i18n";
 import { getLocalizedMeal } from "../core/localizedMeal";
+import { Capacitor } from "@capacitor/core";
 
 
 
@@ -215,10 +216,12 @@ function getCookModeIngredientLabel(text: string) {
 
 function normalizePhotoUrl(url?: string) {
   if (!url) return "";
+
   const trimmed = url.trim();
 
   if (trimmed.startsWith("/images/")) {
-    return trimmed.replace(/\.(png|jpg|jpeg)$/i, ".jpg");
+    const extension = Capacitor.getPlatform() === "android" ? ".webp" : ".jpg";
+    return trimmed.replace(/\.(png|jpg|jpeg|webp)$/i, extension);
   }
 
   return trimmed;

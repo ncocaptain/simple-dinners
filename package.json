@@ -4,16 +4,22 @@
   "version": "43.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "npm run optimize-images && tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "android:push": "npm run build && npx cap sync android && npx cap open android",
-    "convert-images": "node scripts/convert-images.js",
-    "update-photo-urls": "node scripts/update-photo-urls.js",
-    "optimize-images": "node scripts/optimize-images.js",
-    "convert-webp-to-jpg": "node scripts/convert-webp-to-jpg-and-update-refs.cjs"
-  },
+  "dev": "vite",
+  "build": "npm run images:ios && tsc -b && vite build",
+  "build:android": "npm run images:android && tsc -b && vite build",
+  "build:ios": "npm run images:ios && tsc -b && vite build",
+  "lint": "eslint .",
+  "preview": "vite preview",
+  "android:push": "npm run build:android && npx cap sync android && npx cap open android",
+  "ios:sync": "npm run build:ios && npx cap sync ios",
+  "convert-images": "node scripts/convert-images.js",
+  "update-photo-urls": "node scripts/update-photo-urls.js",
+  "optimize-images": "node scripts/optimize-images.js",
+  "images:android": "node scripts/images-android-webp.js",
+  "images:ios": "node scripts/images-ios-jpg.js",
+  "convert-webp-to-jpg": "node scripts/convert-webp-to-jpg-and-update-refs.cjs"
+},
+
   "overrides": {
     "ajv": "8.18.0",
     "minimatch": "10.2.3",

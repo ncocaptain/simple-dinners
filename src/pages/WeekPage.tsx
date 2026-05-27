@@ -19,6 +19,7 @@ import type { Meal, PlannedDay } from "../core/types";
 import TipsModal from "../components/TipsModal";
 import { t, getStoredLanguage } from "../i18n";
 import { getLocalizedMeal } from "../core/localizedMeal";
+import { Capacitor } from "@capacitor/core";
 
 type WalkthroughStep = 1 | 2 | 3;
 
@@ -341,16 +342,17 @@ export default function WeekPage({
   }, [location.state, navigate]);
 
   function normalizePhotoUrl(url?: string) {
-    if (!url) return "";
+  if (!url) return "";
 
-    const trimmed = url.trim();
+  const trimmed = url.trim();
 
-    if (trimmed.startsWith("/images/")) {
-      return trimmed.replace(/\.(png|jpg|jpeg)$/i, ".jpg");
-    }
-
-    return trimmed;
+  if (trimmed.startsWith("/images/")) {
+    const extension = Capacitor.getPlatform() === "android" ? ".webp" : ".jpg";
+    return trimmed.replace(/\.(png|jpg|jpeg|webp)$/i, extension);
   }
+
+  return trimmed;
+}
 
   const toggleLock = (day: string) => {
     setLockedDays((prev) => ({ ...prev, [day]: !prev[day] }));

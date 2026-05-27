@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 const inputDir = path.join(__dirname, "../public/images");
 
 // set to true if you want originals removed after successful conversion
-const DELETE_ORIGINALS = true;
+const DELETE_ORIGINALS = false;
 
 // output sizing / quality
 const MAX_WIDTH = 800;
