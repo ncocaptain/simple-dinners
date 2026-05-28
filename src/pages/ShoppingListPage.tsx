@@ -24,6 +24,16 @@ import {
 } from "../core/groceryCategories";
 import TipsModal from "../components/TipsModal";
 import { t } from "../i18n";
+
+// =====================================================
+// ShoppingListPage map
+// 1) Types and constants
+// 2) Formatting / parsing helpers
+// 3) Ingredient cleanup and category rules
+// 4) Manual item helpers
+// 5) Page component and render
+// =====================================================
+
 // =====================================================
 // Page tips
 // =====================================================
@@ -101,9 +111,9 @@ const COUNTABLE_BASE_WORDS = new Set([
   "jalapeño",
   "clove",
   "green bell pepper",
-"red bell pepper",
-"yellow bell pepper",
-"bell pepper",
+  "red bell pepper",
+  "yellow bell pepper",
+  "bell pepper",
 ]);
 
 const COUNTABLE_PHRASES: Record<string, string> = {
@@ -126,7 +136,7 @@ const COUNTABLE_PHRASES: Record<string, string> = {
   zucchinis: "zucchini",
   jalapenos: "jalapeno",
   jalapeños: "jalapeno",
-"jalapeño": "jalapeno",
+  "jalapeño": "jalapeno",
   cloves: "clove",
   "chicken breasts": "chicken breast",
   "chicken thighs": "chicken thigh",
@@ -136,9 +146,9 @@ const COUNTABLE_PHRASES: Record<string, string> = {
   "hamburger buns": "hamburger bun",
   "hot dog buns": "hot dog bun",
   "green bell peppers": "green bell pepper",
-"red bell peppers": "red bell pepper",
-"yellow bell peppers": "yellow bell pepper",
-"bell peppers": "bell pepper",
+  "red bell peppers": "red bell pepper",
+  "yellow bell peppers": "yellow bell pepper",
+  "bell peppers": "bell pepper",
 };
 
 // =====================================================
@@ -165,7 +175,7 @@ const ALWAYS_SHOW_MEASURED_TOTALS = new Set([
   "rice",
   "pasta",
   "manicotti shells",
-  "baby bella mushrooms"
+  "baby bella mushrooms",
 ]);
 
 const HIDE_MEASURED_TOTALS = new Set([
@@ -180,6 +190,43 @@ const HIDE_MEASURED_TOTALS = new Set([
   "oregano",
   "simple syrup",
 ]);
+
+// =====================================================
+// Recipe merge rules
+// Keep these top-level so the shopping "brain" is easy to scan.
+// =====================================================
+const FORCE_COUNTABLE_RECIPE_ITEMS = new Set([
+  "chicken breast",
+  "chicken thigh",
+  "drumstick",
+  "pork chop",
+  "porkchop",
+  "garlic",
+]);
+
+const MERGE_AS_SINGLE_SPICES = new Set([
+  "salt",
+  "black pepper",
+  "paprika",
+  "cumin",
+  "chili powder",
+  "oregano",
+  "garlic powder",
+  "onion powder",
+  "italian seasoning",
+  "red pepper flakes",
+  "cayenne pepper",
+  "seasoning",
+]);
+
+const MERGE_AS_SINGLE_DAIRY_ITEMS = new Set([
+  "sour cream",
+  "cream cheese",
+]);
+
+const DEFAULT_CAN_PACKAGE_SIZE_BY_NAME: Record<string, string> = {
+  "black beans": "15 oz",
+};
 
 // =====================================================
 // Fraction / quantity helpers
@@ -666,6 +713,7 @@ function cleanIngredientName(line: string) {
   text = text.replace(/^[/\\\-–—]+\s*/, "");
   text = text.replace(/\([^)]*\)/g, " ");
   text = cleanupSpacing(text);
+  text = text.replace(/^(and|or|with)\s+/g, "").trim();
 
   if (isSectionHeader(text)) return "";
 
@@ -905,6 +953,10 @@ function shouldHideMainRowAmount(name: string, unit: string | null) {
     "tomato paste",
     "tomato sauce",
     "sesame seeds",
+    "champagne",
+    "white wine",
+    "red wine",
+    "cooking wine",
   ]);
 
   return hideAmountFor.has(cleaned);
@@ -964,6 +1016,25 @@ function isRealPepperProduce(cleaned: string) {
   );
 }
 
+function isFreshChileProduce(cleaned: string) {
+  if (
+    cleaned.includes("chili powder") ||
+    cleaned.includes("chile powder") ||
+    cleaned.includes("red pepper flakes") ||
+    cleaned.includes("cayenne pepper")
+  ) {
+    return false;
+  }
+
+  return (
+    cleaned.includes("mild red chili") ||
+    cleaned.includes("red chili") ||
+    cleaned.includes("red chile") ||
+    cleaned.includes("chili pepper") ||
+    cleaned.includes("chile pepper")
+  );
+}
+
 function isSalsaPantryItem(cleaned: string) {
   return (
     cleaned === "salsa" ||
@@ -972,46 +1043,107 @@ function isSalsaPantryItem(cleaned: string) {
   );
 }
 
+function isBakeryBreadItem(cleaned: string) {
+  return (
+    cleaned.includes("hamburger bun") ||
+    cleaned.includes("burger bun") ||
+    cleaned.includes("hot dog bun") ||
+    cleaned.includes("hoagie roll") ||
+    cleaned.includes("sandwich roll") ||
+    cleaned.includes("slider bun") ||
+    cleaned.includes("hawaiian roll") ||
+    cleaned.includes("king's hawaiian roll") ||
+    cleaned.includes("kings hawaiian roll")
+  );
+}
+
+function isFrozenVegetableItem(cleaned: string) {
+  return (
+    cleaned.includes("mixed stir fry vegetables") ||
+    cleaned.includes("stir fry vegetables")
+  );
+}
+
+function isPastaOrCrumbPantryItem(cleaned: string) {
+  return (
+    cleaned.includes("tortilla chips") ||
+    cleaned.includes("breadcrumbs") ||
+    cleaned.includes("bread crumbs") ||
+    cleaned.includes("cracker crumbs") ||
+    cleaned.includes("lasagna noodles") ||
+    cleaned.includes("egg noodles") ||
+    cleaned.includes("noodles") ||
+    cleaned.includes("pasta")
+  );
+}
+
+function isCondimentOilOrVinegarPantryItem(cleaned: string) {
+  return (
+    cleaned.includes("dijon mustard") ||
+    cleaned.includes("mustard") ||
+    cleaned.includes("honey") ||
+    cleaned.includes("sesame oil") ||
+    cleaned.includes("toasted sesame oil") ||
+    cleaned.includes("olive oil") ||
+    cleaned.includes("oil") ||
+    cleaned.includes("vinegar") ||
+    cleaned.includes("rice vinegar") ||
+    cleaned.includes("balsamic vinegar")
+  );
+}
+
+function isTomatoPantryItem(cleaned: string) {
+  return cleaned.includes("tomato paste") || cleaned.includes("tomato sauce");
+}
+
+function isWinePantryItem(cleaned: string) {
+  return (
+    cleaned.includes("champagne") ||
+    cleaned.includes("white wine") ||
+    cleaned.includes("red wine") ||
+    cleaned.includes("cooking wine")
+  );
+}
+
+function isFrenchFriedOnionPantryItem(cleaned: string) {
+  return cleaned.includes("french fried onion") || cleaned.includes("fried onion");
+}
+
+function isCornstarchPantryItem(cleaned: string) {
+  return cleaned.includes("cornstarch") || cleaned.includes("corn starch");
+}
+
+function isBeanPantryItem(cleaned: string) {
+  return cleaned.includes("black beans");
+}
+
 function resolveShoppingCategory(name: string): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
 
-  // Real peppers are produce, not spices.
-  if (isRealPepperProduce(cleaned)) {
+  if (isRealPepperProduce(cleaned) || isFreshChileProduce(cleaned)) {
     return "Produce";
   }
 
-  // Salsa is pantry, not spices.
-  if (isSalsaPantryItem(cleaned)) {
-    return "Pantry";
+  if (isBakeryBreadItem(cleaned)) {
+    return "Bakery";
   }
 
-  // Cornstarch contains "corn", but it belongs in Pantry.
-  if (cleaned.includes("cornstarch") || cleaned.includes("corn starch")) {
-    return "Pantry";
+  if (isFrozenVegetableItem(cleaned)) {
+    return "Frozen";
   }
 
   if (
-  cleaned.includes("french fried onion") ||
-  cleaned.includes("fried onion")
-) {
-  return "Pantry";
-}
-
-if (
-  cleaned.includes("tomato paste") ||
-  cleaned.includes("tomato sauce")
-) {
-  return "Pantry";
-}
-
-if (
-  cleaned.includes("champagne") ||
-  cleaned.includes("white wine") ||
-  cleaned.includes("red wine") ||
-  cleaned.includes("cooking wine")
-) {
-  return "Pantry";
-}
+    isSalsaPantryItem(cleaned) ||
+    isCornstarchPantryItem(cleaned) ||
+    isFrenchFriedOnionPantryItem(cleaned) ||
+    isTomatoPantryItem(cleaned) ||
+    isWinePantryItem(cleaned) ||
+    isBeanPantryItem(cleaned) ||
+    isPastaOrCrumbPantryItem(cleaned) ||
+    isCondimentOilOrVinegarPantryItem(cleaned)
+  ) {
+    return "Pantry";
+  }
 
   const forcedSpices = new Set([
     "salt",
@@ -1047,68 +1179,27 @@ function resolveShoppingCategoryForItem(
 ): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
 
-  // Real peppers are produce, not spices.
-  if (isRealPepperProduce(cleaned)) {
+  if (isRealPepperProduce(cleaned) || isFreshChileProduce(cleaned)) {
     return "Produce";
   }
 
-  // Salsa is a jarred/pantry item, not a spice.
-  if (isSalsaPantryItem(cleaned)) {
-    return "Pantry";
+  if (isBakeryBreadItem(cleaned)) {
+    return "Bakery";
   }
 
-  if (cleaned.includes("cornstarch") || cleaned.includes("corn starch")) {
-    return "Pantry";
-  }
-
-  if (
-  cleaned.includes("french fried onion") ||
-  cleaned.includes("fried onion")
-) {
-  return "Pantry";
-}
-
-if (
-  cleaned.includes("tomato paste") ||
-  cleaned.includes("tomato sauce")
-) {
-  return "Pantry";
-}
-
-  // Direct shopping-category overrides for common tricky grocery items.
-  // These prevent broad words like "cup", "tortilla", or "bread" from
-  // sending items to the wrong aisle.
-  if (
-    cleaned.includes("mixed stir fry vegetables") ||
-    cleaned.includes("stir fry vegetables")
-  ) {
+  if (isFrozenVegetableItem(cleaned)) {
     return "Frozen";
   }
 
   if (
-  cleaned.includes("tortilla chips") ||
-  cleaned.includes("breadcrumbs") ||
-  cleaned.includes("bread crumbs") ||
-  cleaned.includes("cracker crumbs") ||
-  cleaned.includes("lasagna noodles") ||
-  cleaned.includes("egg noodles") ||
-  cleaned.includes("noodles") ||
-  cleaned.includes("pasta")
-) {
-  return "Pantry";
-}
-
-  if (
-    cleaned.includes("dijon mustard") ||
-    cleaned.includes("mustard") ||
-    cleaned.includes("honey") ||
-    cleaned.includes("sesame oil") ||
-    cleaned.includes("toasted sesame oil") ||
-    cleaned.includes("olive oil") ||
-    cleaned.includes("oil") ||
-    cleaned.includes("vinegar") ||
-    cleaned.includes("rice vinegar") ||
-    cleaned.includes("balsamic vinegar")
+    isSalsaPantryItem(cleaned) ||
+    isCornstarchPantryItem(cleaned) ||
+    isFrenchFriedOnionPantryItem(cleaned) ||
+    isTomatoPantryItem(cleaned) ||
+    isWinePantryItem(cleaned) ||
+    isBeanPantryItem(cleaned) ||
+    isPastaOrCrumbPantryItem(cleaned) ||
+    isCondimentOilOrVinegarPantryItem(cleaned)
   ) {
     return "Pantry";
   }
@@ -1144,6 +1235,10 @@ function shouldHideShoppingItem(name: string) {
     "salt / pepper",
     "salt and pepper",
     "salt and black pepper",
+    "salt black pepper",
+    "salt & pepper",
+    "salt pepper",
+    "black pepper salt",
     "water",
     "ice",
     "cup",
@@ -1843,7 +1938,7 @@ export default function ShoppingListPage() {
     ? smartItem.quantity
     : parsed.quantity ?? null;
 
-      const packageSize =
+      let packageSize =
         normalizePackageSize(smartItem.packageSize) ||
         normalizePackageSize(parsed.packageSize);
 
@@ -1851,33 +1946,25 @@ export default function ShoppingListPage() {
         .toLowerCase()
         .replace(/\bbone-in pork chops?\b/g, "pork chop");
 
-      const FORCE_COUNTABLE = new Set([
-        "chicken breast",
-        "chicken thigh",
-        "drumstick",
-        "pork chop",
-        "porkchop",
-        "garlic",
-      ]);
-
       let safeName = preNormalizedName
         .replace(/[^a-z0-9\s]/g, " ")
         .replace(/\s+/g, " ")
         .trim();
 
+      // --- Recipe name fixes before category/merge decisions ---
       // Protect seasoning and pantry onion/garlic items before broad produce cleanup.
-if (safeName.includes("onion powder")) {
-  safeName = "onion powder";
-} else if (
-  safeName.includes("french fried onion") ||
-  safeName.includes("fried onion")
-) {
-  safeName = "french fried onions";
-} else if (safeName.includes("garlic powder")) {
-  safeName = "garlic powder";
-} else if (safeName.includes("garlic")) {
-  safeName = "garlic";
-}
+      if (safeName.includes("onion powder")) {
+        safeName = "onion powder";
+      } else if (
+        safeName.includes("french fried onion") ||
+        safeName.includes("fried onion")
+      ) {
+        safeName = "french fried onions";
+      } else if (safeName.includes("garlic powder")) {
+        safeName = "garlic powder";
+      } else if (safeName.includes("garlic")) {
+        safeName = "garlic";
+      }
 
       if (safeName.includes("pork") && safeName.includes("chop")) {
         safeName = "pork chop";
@@ -1888,94 +1975,87 @@ if (safeName.includes("onion powder")) {
       }
 
       if (safeName === "eggs") {
-  safeName = "egg";
-}
+        safeName = "egg";
+      }
 
       if (
-  safeName.includes("onion") &&
-  safeName !== "onion powder" &&
-  safeName !== "french fried onions"
-) {
-  if (safeName.includes("green")) safeName = "green onion";
-  else if (safeName.includes("red")) safeName = "red onion";
-  else if (safeName.includes("yellow")) safeName = "yellow onion";
-  else if (safeName.includes("white")) safeName = "white onion";
-  else safeName = "onion";
-}
+        safeName.includes("onion") &&
+        safeName !== "onion powder" &&
+        safeName !== "french fried onions"
+      ) {
+        if (safeName.includes("green")) safeName = "green onion";
+        else if (safeName.includes("red")) safeName = "red onion";
+        else if (safeName.includes("yellow")) safeName = "yellow onion";
+        else if (safeName.includes("white")) safeName = "white onion";
+        else safeName = "onion";
+      }
 
-// Treat loose recipe onions as countable items.
-// Example: "medium white onion, diced" and "white onion, sliced"
-// should merge as "2 White Onions".
-if (
-  safeName === "onion" ||
-  safeName === "yellow onion" ||
-  safeName === "white onion" ||
-  safeName === "red onion" ||
-  safeName === "green onion"
-) {
-  parsedUnit = null;
-  if (parsedQuantity === null) parsedQuantity = 1;
-}
+      // --- Recipe merge behavior ---
+      // Loose recipe onions should merge as countable items.
+      if (
+        safeName === "onion" ||
+        safeName === "yellow onion" ||
+        safeName === "white onion" ||
+        safeName === "red onion" ||
+        safeName === "green onion"
+      ) {
+        parsedUnit = null;
+        if (parsedQuantity === null) parsedQuantity = 1;
+      }
 
-      // Treat measured lemon/lime juice or zest as whole fruit for shopping.
-// Example: "1 Tbsp lemon juice" should shop as "1 Lemon", not "1 Tbsp Lemon".
-if (safeName === "lemon" || safeName === "lime") {
-  if (parsedUnit === "tsp" || parsedUnit === "Tbsp" || parsedUnit === "cup") {
-    parsedUnit = null;
-    parsedQuantity = 1;
-  }
-}
+      // Lemon/lime juice or zest should shop as whole fruit.
+      if (safeName === "lemon" || safeName === "lime") {
+        if (parsedUnit === "tsp" || parsedUnit === "Tbsp" || parsedUnit === "cup") {
+          parsedUnit = null;
+          parsedQuantity = 1;
+        }
+      }
 
-// Treat fresh herbs as bunches for shopping.
-// Example: "1 Tbsp fresh parsley" should shop as "1 bunch Parsley".
-if (safeName === "parsley" || safeName === "cilantro") {
-  if (!parsedUnit || parsedUnit === "tsp" || parsedUnit === "Tbsp" || parsedUnit === "cup") {
-    parsedUnit = "bunch";
-    parsedQuantity = 1;
-  }
-}
+      // Fresh herbs shop better as bunches than tsp/Tbsp/cup amounts.
+      if (safeName === "parsley" || safeName === "cilantro") {
+        if (
+          !parsedUnit ||
+          parsedUnit === "tsp" ||
+          parsedUnit === "Tbsp" ||
+          parsedUnit === "cup"
+        ) {
+          parsedUnit = "bunch";
+          parsedQuantity = 1;
+        }
+      }
 
-// Treat common spices/seasonings as pantry-check items, not measured totals.
-// Example: "1 tsp salt" and "salt" should merge as "Salt".
-const MERGE_AS_SINGLE_SPICES = new Set([
-  "salt",
-  "black pepper",
-  "paprika",
-  "cumin",
-  "chili powder",
-  "oregano",
-  "garlic powder",
-  "onion powder",
-  "italian seasoning",
-  "red pepper flakes",
-  "cayenne pepper",
-  "seasoning",
-]);
+      // Plain black beans should merge with canned black beans.
+      if (safeName === "black bean") {
+        safeName = "black beans";
+      }
 
-if (MERGE_AS_SINGLE_SPICES.has(safeName)) {
-  parsedUnit = null;
-  parsedQuantity = null;
-}
+      if (safeName === "black beans") {
+        if (!parsedUnit) parsedUnit = "can";
+        if (parsedQuantity === null) parsedQuantity = 1;
+        if (!packageSize) packageSize = DEFAULT_CAN_PACKAGE_SIZE_BY_NAME["black beans"];
+      }
 
-const MERGE_AS_SINGLE_DAIRY_ITEMS = new Set([
-  "sour cream",
-  "cream cheese",
-]);
+      // Spices and small dairy check-items should merge by name, not teaspoon amounts.
+      if (MERGE_AS_SINGLE_SPICES.has(safeName)) {
+        parsedUnit = null;
+        parsedQuantity = null;
+      }
 
-if (MERGE_AS_SINGLE_DAIRY_ITEMS.has(safeName)) {
-  parsedUnit = null;
-  parsedQuantity = null;
-}
+      if (MERGE_AS_SINGLE_DAIRY_ITEMS.has(safeName)) {
+        parsedUnit = null;
+        parsedQuantity = null;
+      }
 
-// Treat generic cheddar cheese as one grocery item when one recipe gives
-// an amount and another only says "shredded cheese".
-if (safeName === "cheddar cheese") {
-  if (parsedUnit === "cup" || parsedUnit === "Tbsp" || parsedUnit === "tsp") {
-    parsedUnit = null;
-    parsedQuantity = null;
-  }
-}
-      const forceCountable = FORCE_COUNTABLE.has(safeName);
+      // Treat generic cheddar cheese as one grocery item when one recipe gives
+      // an amount and another only says "shredded cheese".
+      if (safeName === "cheddar cheese") {
+        if (parsedUnit === "cup" || parsedUnit === "Tbsp" || parsedUnit === "tsp") {
+          parsedUnit = null;
+          parsedQuantity = null;
+        }
+      }
+
+      const forceCountable = FORCE_COUNTABLE_RECIPE_ITEMS.has(safeName);
 
       const isMeasured = !forceCountable && parsedUnit !== null;
       const isCountable =
@@ -2166,9 +2246,15 @@ if (safeName === "cheddar cheese") {
         )} ${formattedName}`;
       }
 
-      const recipeNames = Array.from(value.recipeNames).sort((a, b) =>
-        a.localeCompare(b)
-      );
+      const recipeNames = Array.from(value.recipeNames)
+        .flatMap((name) =>
+          String(name || "")
+            .split(",")
+            .map((part) => part.trim())
+            .filter(Boolean)
+        )
+        .filter((name, index, arr) => arr.indexOf(name) === index)
+        .sort((a, b) => a.localeCompare(b));
       const recipeCount = recipeNames.length;
       const recipeBreakdown = recipeNames.map((recipeName) => {
         const breakdown = value.recipeBreakdown.get(recipeName);

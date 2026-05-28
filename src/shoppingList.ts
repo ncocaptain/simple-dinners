@@ -663,7 +663,13 @@ function normalizeProduce(text: string) {
     .replace(/\bcilantro leaves?\b/g, "cilantro")
     .replace(/\bparsley leaves?\b/g, "parsley")
     .replace(/\bor pickled jalapeno\b/g, "jalapeno")
-    .replace(/\bjalapeno peppers?\b/g, "jalapenos");
+    .replace(/\bjalapeno peppers?\b/g, "jalapenos")
+    .replace(/\bmild red chilis?\b/g, "mild red chili")
+    .replace(/\bmild red chiles?\b/g, "mild red chili")
+    .replace(/\bred chilis?\b/g, "red chili")
+    .replace(/\bred chiles?\b/g, "red chili")
+    .replace(/\bchili peppers?\b/g, "chili pepper")
+    .replace(/\bchile peppers?\b/g, "chili pepper");
 }
 
 function normalizeCannedAndJarredGoods(text: string) {
@@ -676,6 +682,10 @@ function normalizeCannedAndJarredGoods(text: string) {
     .replace(/\btomato sauce\b/g, "tomato sauce")
     .replace(/\btomato paste\b/g, "tomato paste")
     .replace(/\bchili beans?\b/g, "chili beans")
+    .replace(/\bcanned black beans?\b/g, "black beans")
+    .replace(/\bblack beans?, drained and rinsed\b/g, "black beans")
+    .replace(/\bblack beans?, drained\b/g, "black beans")
+    .replace(/\bblack beans?, rinsed\b/g, "black beans")
     .replace(/\bblack beans?\b/g, "black beans")
     .replace(/\bkidney beans?\b/g, "kidney beans")
     .replace(/\bpinto beans?\b/g, "pinto beans")
@@ -950,6 +960,13 @@ function parseIngredientParts(line: string): {
     unit = "lb";
   }
 
+  // If a recipe says plain "black beans" with no container, treat it as one can
+  // so it merges with explicit canned black bean rows.
+  if (normalizedName === "black beans" && !unit) {
+    unit = "can";
+    if (quantity === null) quantity = 1;
+  }
+
   return {
     normalizedName,
     quantity,
@@ -1114,7 +1131,7 @@ if (quantity === null && DEFAULT_COUNTABLE_FALLBACK.has(name)) {
 
 // =====================================================
 // Builder: category resolver
-// Keeps normalized seasonings in the right store section
+// Keeps normalized ingredients in the right store section
 // =====================================================
 const FORCED_SPICE_ITEMS = new Set([
   "salt",
@@ -1141,6 +1158,10 @@ const HIDDEN_ITEMS = new Set([
   "salt / pepper",
   "salt and pepper",
   "salt and black pepper",
+  "salt black pepper",
+  "salt pepper",
+  "salt & pepper",
+  "black pepper salt",
   "water",
   "ice",
   "crushed ice",
@@ -1158,6 +1179,65 @@ const HIDDEN_ITEMS = new Set([
   "l",
   "__count__",
 ]);
+
+const BAKERY_CATEGORY_KEYWORDS = [
+  "hamburger bun",
+  "burger bun",
+  "hot dog bun",
+  "hoagie roll",
+  "sandwich roll",
+  "slider bun",
+  "hawaiian roll",
+  "dinner roll",
+];
+
+const FROZEN_CATEGORY_KEYWORDS = [
+  "mixed stir fry vegetables",
+  "stir fry vegetables",
+];
+
+const PRODUCE_CHILI_KEYWORDS = [
+  "mild red chili",
+  "mild red chile",
+  "red chili",
+  "red chile",
+  "chili pepper",
+  "chile pepper",
+];
+
+const PANTRY_CATEGORY_KEYWORDS = [
+  "black beans",
+  "tomato paste",
+  "tomato sauce",
+  "french fried onion",
+  "fried onion",
+  "tortilla chips",
+  "breadcrumbs",
+  "bread crumbs",
+  "cracker crumbs",
+  "lasagna noodles",
+  "egg noodles",
+  "noodles",
+  "pasta",
+  "dijon mustard",
+  "mustard",
+  "honey",
+  "sesame oil",
+  "toasted sesame oil",
+  "olive oil",
+  "oil",
+  "vinegar",
+  "rice vinegar",
+  "balsamic vinegar",
+  "champagne",
+  "white wine",
+  "red wine",
+  "cooking wine",
+];
+
+function includesAny(text: string, keywords: string[]) {
+  return keywords.some((keyword) => text.includes(keyword));
+}
 
 function shouldHideShoppingItem(name: string) {
   const protectedManualName = preserveManualShoppingName(name);
@@ -1207,67 +1287,30 @@ function resolveShoppingCategory(name: string): GroceryCategory {
 
   const lower = cleaned.toLowerCase();
 
-  // Important overrides before broad category matching:
-  // real peppers are produce, salsa/cornstarch are pantry.
-  if (isRealPepperProduce(lower)) {
+  // Produce protections must happen before broad spice/pantry matching.
+  if (isRealPepperProduce(lower) || includesAny(lower, PRODUCE_CHILI_KEYWORDS)) {
     return "Produce";
+  }
+
+  // Bakery protections must happen before "hamburger" can be mistaken for meat.
+  if (includesAny(lower, BAKERY_CATEGORY_KEYWORDS)) {
+    return "Bakery";
+  }
+
+  // Frozen and pantry overrides catch common tricky words before fallback matching.
+  if (includesAny(lower, FROZEN_CATEGORY_KEYWORDS)) {
+    return "Frozen";
   }
 
   if (
     isSalsaPantryItem(lower) ||
     isCornstarchPantryItem(lower) ||
-    lower.includes("tomato paste") ||
-    lower.includes("tomato sauce") ||
-    lower.includes("french fried onion") ||
-    lower.includes("fried onion") ||
-    lower.includes("champagne") ||
-    lower.includes("white wine") ||
-    lower.includes("red wine") ||
-    lower.includes("cooking wine")
+    includesAny(lower, PANTRY_CATEGORY_KEYWORDS)
   ) {
     return "Pantry";
   }
 
-  if (
-    lower.includes("mixed stir fry vegetables") ||
-    lower.includes("stir fry vegetables")
-  ) {
-    return "Frozen";
-  }
-
-  if (
-    lower.includes("tortilla chips") ||
-    lower.includes("breadcrumbs") ||
-    lower.includes("bread crumbs") ||
-    lower.includes("cracker crumbs") ||
-    lower.includes("lasagna noodles") ||
-    lower.includes("egg noodles") ||
-    lower.includes("noodles") ||
-    lower.includes("pasta")
-  ) {
-    return "Pantry";
-  }
-
-  if (
-    lower.includes("dijon mustard") ||
-    lower.includes("mustard") ||
-    lower.includes("honey") ||
-    lower.includes("sesame oil") ||
-    lower.includes("toasted sesame oil") ||
-    lower.includes("olive oil") ||
-    lower.includes("oil") ||
-    lower.includes("vinegar") ||
-    lower.includes("rice vinegar") ||
-    lower.includes("balsamic vinegar")
-  ) {
-    return "Pantry";
-  }
-
-  if (lower.includes("red pepper flakes")) {
-    return "Spices / Seasonings";
-  }
-
-  if (FORCED_SPICE_ITEMS.has(lower)) {
+  if (lower.includes("red pepper flakes") || FORCED_SPICE_ITEMS.has(lower)) {
     return "Spices / Seasonings";
   }
 
