@@ -751,7 +751,22 @@ function normalizePackageSize(value: string | null | undefined) {
   return String(value || "")
     .toLowerCase()
     .replace(/\s+/g, " ")
+    .trim()
+    .replace(/(\d)(oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|l)\b/g, "$1 $2")
+    .replace(/ounces?\b/g, "oz")
+    .replace(/pounds?\b/g, "lb")
+    .replace(/\blbs?\b/g, "lb")
+    .replace(/\s+/g, " ")
     .trim();
+}
+
+function getOzFromPackageSize(value?: string) {
+  const cleaned = normalizePackageSize(value || "");
+  const match = cleaned.match(/^(\d+(?:\.\d+)?)\s*oz$/i);
+  if (!match) return null;
+
+  const amount = Number(match[1]);
+  return Number.isFinite(amount) ? amount : null;
 }
 
 function extractPackageSize(text: string) {
@@ -2073,7 +2088,17 @@ if (
 // Treat loose or cup-measured baby bella mushrooms as the common 8 oz package.
 // Preserve real package/weight amounts if the recipe already gives oz/lb/package.
 if (safeName === "baby bella mushrooms") {
-  if (!parsedUnit || parsedUnit === "cup" || parsedUnit === "Tbsp" || parsedUnit === "tsp") {
+  const packageOz = getOzFromPackageSize(packageSize);
+
+  if (packageOz && (!parsedUnit || parsedUnit === "oz")) {
+    parsedUnit = "oz";
+    parsedQuantity = packageOz;
+  } else if (
+    !parsedUnit ||
+    parsedUnit === "cup" ||
+    parsedUnit === "Tbsp" ||
+    parsedUnit === "tsp"
+  ) {
     parsedUnit = "oz";
     parsedQuantity = 8;
   }

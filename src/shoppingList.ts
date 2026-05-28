@@ -121,11 +121,21 @@ function normalizePackageSize(value?: string) {
   if (!cleaned) return "";
 
   return cleaned
+    .replace(/(\d)(oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|l)\b/g, "$1 $2")
     .replace(/ounces?\b/g, "oz")
     .replace(/pounds?\b/g, "lb")
     .replace(/\blbs?\b/g, "lb")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function getOzFromPackageSize(value?: string): number | null {
+  const cleaned = normalizePackageSize(value);
+  const match = cleaned.match(/^(\d+(?:\.\d+)?)\s*oz$/i);
+  if (!match) return null;
+
+  const amount = Number(match[1]);
+  return Number.isFinite(amount) ? amount : null;
 }
 
 function formatPackageSize(value?: string) {
@@ -971,7 +981,12 @@ if (
 }
 
 if (normalizedName === "baby bella mushrooms") {
-  if (!unit || unit === "cup" || unit === "Tbsp" || unit === "tsp") {
+  const packageOz = getOzFromPackageSize(packageSize);
+
+  if (packageOz && (!unit || unit === "oz")) {
+    unit = "oz";
+    quantity = packageOz;
+  } else if (!unit || unit === "cup" || unit === "Tbsp" || unit === "tsp") {
     unit = "oz";
     quantity = 8;
   }
