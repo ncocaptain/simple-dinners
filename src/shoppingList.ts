@@ -956,6 +956,20 @@ function parseIngredientParts(line: string): {
   if (quantity === null) quantity = 1;
 }
 
+if (
+  normalizedName === "black beans" ||
+  normalizedName === "pinto beans" ||
+  normalizedName === "kidney beans" ||
+  normalizedName === "white beans" ||
+  normalizedName === "chili beans"
+) {
+  if (!unit || unit === "cup" || unit === "Tbsp" || unit === "tsp") {
+    unit = "can";
+    if (quantity === null) quantity = 1;
+    if (!packageSize) packageSize = "15 oz";
+  }
+}
+
   if (normalizedName === "ground beef" && !unit && quantity !== null) {
     unit = "lb";
   }

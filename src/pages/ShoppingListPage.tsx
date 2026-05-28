@@ -2055,6 +2055,21 @@ export default function ShoppingListPage() {
         }
       }
 
+      // Treat loose/measured beans as canned pantry items for shopping.
+// Example: "1 cup black beans, rinsed" should shop as "1 (15 oz) can Black Beans".
+if (
+  safeName === "black beans" ||
+  safeName === "pinto beans" ||
+  safeName === "kidney beans" ||
+  safeName === "white beans" ||
+  safeName === "chili beans"
+) {
+  if (!parsedUnit || parsedUnit === "cup" || parsedUnit === "Tbsp" || parsedUnit === "tsp") {
+    parsedUnit = "can";
+    parsedQuantity = parsedQuantity ?? 1;
+  }
+}
+
       const forceCountable = FORCE_COUNTABLE_RECIPE_ITEMS.has(safeName);
 
       const isMeasured = !forceCountable && parsedUnit !== null;
