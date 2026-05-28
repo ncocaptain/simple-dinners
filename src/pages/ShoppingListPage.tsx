@@ -2070,6 +2070,15 @@ if (
   }
 }
 
+// Treat loose or cup-measured baby bella mushrooms as the common 8 oz package.
+// Preserve real package/weight amounts if the recipe already gives oz/lb/package.
+if (safeName === "baby bella mushrooms") {
+  if (!parsedUnit || parsedUnit === "cup" || parsedUnit === "Tbsp" || parsedUnit === "tsp") {
+    parsedUnit = "oz";
+    parsedQuantity = 8;
+  }
+}
+
       const forceCountable = FORCE_COUNTABLE_RECIPE_ITEMS.has(safeName);
 
       const isMeasured = !forceCountable && parsedUnit !== null;

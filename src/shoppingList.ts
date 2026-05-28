@@ -970,6 +970,13 @@ if (
   }
 }
 
+if (normalizedName === "baby bella mushrooms") {
+  if (!unit || unit === "cup" || unit === "Tbsp" || unit === "tsp") {
+    unit = "oz";
+    quantity = 8;
+  }
+}
+
   if (normalizedName === "ground beef" && !unit && quantity !== null) {
     unit = "lb";
   }
