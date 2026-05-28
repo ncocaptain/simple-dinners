@@ -9263,7 +9263,8 @@ STIR FRY SAUCE
 2 tsp grated fresh ginger
 1 Tbsp cornstarch
 1/2 tsp red pepper flakes, optional
-salt and pepper, to taste`,
+salt, to taste
+pepper, to taste`,
   instructions: `In a medium bowl, whisk together the STIR FRY SAUCE: 1/2 cup water, 1/3 cup low-sodium soy sauce, 1 Tbsp honey or brown sugar, 1 Tbsp rice vinegar, 2 tsp toasted sesame oil, 2 grated garlic cloves, 2 tsp grated fresh ginger, 1 Tbsp cornstarch, and 1/2 tsp red pepper flakes if using. Set aside.
 
 Heat 2 Tbsp olive oil in a large skillet or wok over high heat. Add the sliced red and yellow bell peppers, 8 oz sliced baby bella mushrooms, 3 cups small broccoli florets, 1 cup sugar snap peas, 1 cup thinly sliced carrots, and most of the 3 thinly sliced green onions. Toss and cook, stirring occasionally, for 3 to 4 minutes, or until vegetables soften slightly.
@@ -13500,7 +13501,8 @@ Rocía con 1/4 cup de aderezo ranch o italiano justo antes de servir y mezcla bi
 2 Tbsp olive oil
 1 Tbsp red wine vinegar
 1 tsp dried oregano
-salt and pepper to taste`,
+salt, to taste
+pepper, to taste`,
   instructions: `In a large bowl, combine 1 chopped cucumber, 1 pint halved cherry tomatoes, 1/2 sliced red onion, 1 chopped green bell pepper, 1/2 cup Kalamata olives, and 1/2 cup crumbled feta cheese.
 
 In a small bowl, whisk together 2 Tbsp olive oil, 1 Tbsp red wine vinegar, 1 tsp dried oregano, and salt and pepper to taste.
@@ -13555,7 +13557,8 @@ Sirve de inmediato o refrigera hasta que esté lista para servir.`,
 1/4 cup fresh basil leaves
 2 Tbsp olive oil
 1 Tbsp balsamic glaze
-salt and pepper to taste`,
+salt, to taste
+pepper, to taste`,
   instructions: `Arrange 3 large sliced tomatoes and 8 oz sliced fresh mozzarella on a platter, alternating the slices.
 
 Tuck 1/4 cup fresh basil leaves between the tomato and mozzarella layers.
@@ -13660,7 +13663,8 @@ Rocía con 1/3 cup de aderezo ranch southwest y mezcla bien justo antes de servi
 2 Tbsp olive oil
 1 Tbsp red wine vinegar
 1 tsp sugar
-salt and pepper to taste`,
+salt, to taste
+pepper, to taste`,
   instructions: `Add 2 sliced cucumbers, 3 chopped tomatoes, and 1/4 thinly sliced red onion to a large bowl.
 
 In a small separate bowl, whisk together 2 Tbsp olive oil, 1 Tbsp red wine vinegar, 1 tsp sugar, and salt and pepper to taste until the sugar is mostly dissolved.
@@ -14210,7 +14214,8 @@ Termina agregando 1/2 cup de salsa, 1/2 cup de crema agria y 1 cup de chips de t
 2 Tbsp olive oil
 1 Tbsp lemon juice
 1 tsp dried oregano
-salt and pepper to taste`,
+salt, to taste
+pepper, to taste`,
   instructions: `In a large bowl, combine 2 cans drained and rinsed chickpeas, 1 chopped cucumber, 1 pint halved cherry tomatoes, 1/2 diced red onion, 1/2 cup feta cheese, and 1/4 cup chopped parsley.
 
 In a small bowl, whisk together 2 Tbsp olive oil, 1 Tbsp lemon juice, 1 tsp dried oregano, and salt and pepper to taste.
