@@ -604,7 +604,8 @@ function normalizeProduce(text: string) {
     .replace(/\bparsley leaves?\b/g, "parsley")
     .replace(/\bjalapeños?\b/g, "jalapeno")
     .replace(/\bjalapenos?\b/g, "jalapeno")
-    .replace(/\bjalapeno peppers?\b/g, "jalapeno");
+    .replace(/\bjalapeno peppers?\b/g, "jalapeno")
+    .replace(/\bcoleslaw mix\b/g, "coleslaw mix");
 }
 
 function normalizeProteinsAndBakery(text: string) {
@@ -612,13 +613,16 @@ function normalizeProteinsAndBakery(text: string) {
     .replace(/\bextra lean ground beef\b/g, "ground beef")
     .replace(/\blean ground beef\b/g, "ground beef")
     .replace(/\bhot dog buns?\b/g, "hot dog bun")
-    .replace(/\bhot dogs?\b/g, "hot dog")
+    .replace(/\bhot dogs?\b/g, "hot dogs")
     .replace(/\bhamburger buns?\b/g, "hamburger bun")
     .replace(/\bchicken breasts?\b/g, "chicken breast")
     .replace(/\bchicken thighs?\b/g, "chicken thigh")
     .replace(/\bdrumsticks?\b/g, "drumstick")
     .replace(/\bpork chops?\b/g, "pork chop")
-    .replace(/\bbone-in pork chops?\b/g, "pork chop");
+    .replace(/\bbone-in pork chops?\b/g, "pork chop")
+    .replace(/\bsalmon fillets?\b/g, "salmon")
+.replace(/\bsalmon filet\b/g, "salmon")
+.replace(/\bsalmon filets\b/g, "salmon");
 }
 
 function normalizeDairyAndCheese(text: string) {
@@ -643,8 +647,12 @@ function normalizeDairyAndCheese(text: string) {
     .replace(/\bparmesan cheese, grated\b/g, "parmesan cheese")
     .replace(/\bshredded swiss cheese\b/g, "swiss cheese")
     .replace(/\bswiss cheese, shredded\b/g, "swiss cheese")
+    .replace(/\bsmoked gouda\b/g, "smoked gouda cheese")
+.replace(/\bgouda\b/g, "gouda cheese")
     .replace(/\bcream cheese, softened\b/g, "cream cheese")
-    .replace(/\bcream cheese, cubed\b/g, "cream cheese");
+    .replace(/\bcream cheese, cubed\b/g, "cream cheese")
+    .replace(/\bunsalted butter\b/g, "butter")
+.replace(/\bsalted butter\b/g, "butter");
 }
 
 function normalizeMushrooms(text: string) {
@@ -1193,6 +1201,52 @@ function resolveShoppingCategoryForItem(
   packageSize?: string
 ): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
+
+  if (
+  cleaned.includes("salmon") ||
+  cleaned.includes("hot dog") ||
+  cleaned.includes("sausage") ||
+  cleaned.includes("bacon") ||
+  cleaned.includes("ground beef") ||
+  cleaned.includes("ground pork") ||
+  cleaned.includes("chicken") ||
+  cleaned.includes("beef") ||
+  cleaned.includes("pork") ||
+  cleaned.includes("shrimp")
+) {
+  return "Meat / Seafood";
+}
+
+if (
+  cleaned.includes("butter") ||
+  cleaned.includes("gouda cheese") ||
+  cleaned.includes("smoked gouda") ||
+  cleaned.includes("cheese") ||
+  cleaned.includes("milk") ||
+  cleaned.includes("cream") ||
+  cleaned.includes("egg")
+) {
+  return "Dairy / Eggs";
+}
+
+if (
+  cleaned.includes("coleslaw mix") ||
+  cleaned.includes("mild red chili") ||
+  cleaned.includes("red chili") ||
+  cleaned.includes("red chile") ||
+  cleaned.includes("chili pepper") ||
+  cleaned.includes("chile pepper")
+) {
+  return "Produce";
+}
+
+if (
+  cleaned.includes("wooden skewer") ||
+  cleaned.includes("bamboo skewer") ||
+  cleaned.includes("skewers")
+) {
+  return "Household";
+}
 
   if (isRealPepperProduce(cleaned) || isFreshChileProduce(cleaned)) {
     return "Produce";

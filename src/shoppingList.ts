@@ -679,7 +679,8 @@ function normalizeProduce(text: string) {
     .replace(/\bred chilis?\b/g, "red chili")
     .replace(/\bred chiles?\b/g, "red chili")
     .replace(/\bchili peppers?\b/g, "chili pepper")
-    .replace(/\bchile peppers?\b/g, "chili pepper");
+    .replace(/\bchile peppers?\b/g, "chili pepper")
+    .replace(/\bcoleslaw mix\b/g, "coleslaw mix");
 }
 
 function normalizeCannedAndJarredGoods(text: string) {
@@ -712,13 +713,16 @@ function normalizeProteinsAndBakery(text: string) {
     .replace(/\bground italian sausage\b/g, "italian sausage")
     .replace(/\bitalian ground sausage\b/g, "italian sausage")
     .replace(/\bhot dog buns?\b/g, "hot dog bun")
-    .replace(/\bhot dogs?\b/g, "hot dog")
+    .replace(/\bhot dogs?\b/g, "hot dogs")
     .replace(/\bhamburger buns?\b/g, "hamburger bun")
     .replace(/\bchicken breasts?\b/g, "chicken breast")
     .replace(/\bchicken thighs?\b/g, "chicken thigh")
     .replace(/\bdrumsticks?\b/g, "drumstick")
     .replace(/\bbone[- ]in pork chops?\b/g, "bone-in pork chop")
     .replace(/\bpork chops?\b/g, "pork chop")
+    .replace(/\bsalmon fillets?\b/g, "salmon")
+.replace(/\bsalmon filet\b/g, "salmon")
+.replace(/\bsalmon filets\b/g, "salmon")
     .replace(/\bmanicotti shells?\b/g, "manicotti shells");
 }
 
@@ -740,8 +744,12 @@ function normalizeDairyAndCheese(text: string) {
       .replace(/\bswiss cheese, shredded\b/g, "shredded swiss cheese")
       .replace(/\bblock of ([a-z\s]+ cheese)\b/g, "block $1")
       .replace(/\b([a-z\s]+ cheese) block\b/g, "block $1")
+      .replace(/\bsmoked gouda\b/g, "smoked gouda cheese")
+.replace(/\bgouda\b/g, "gouda cheese")
       .replace(/\bcream cheese, softened\b/g, "cream cheese")
-      .replace(/\bcream cheese, cubed\b/g, "cream cheese");
+      .replace(/\bcream cheese, cubed\b/g, "cream cheese")
+      .replace(/\bunsalted butter\b/g, "butter")
+.replace(/\bsalted butter\b/g, "butter");
   }
 
   return text
@@ -1322,6 +1330,52 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     cleanIngredientForCategory(name);
 
   const lower = cleaned.toLowerCase();
+
+  if (
+  lower.includes("salmon") ||
+  lower.includes("hot dog") ||
+  lower.includes("sausage") ||
+  lower.includes("bacon") ||
+  lower.includes("ground beef") ||
+  lower.includes("ground pork") ||
+  lower.includes("chicken") ||
+  lower.includes("beef") ||
+  lower.includes("pork") ||
+  lower.includes("shrimp")
+) {
+  return "Meat / Seafood";
+}
+
+if (
+  lower.includes("butter") ||
+  lower.includes("gouda cheese") ||
+  lower.includes("smoked gouda") ||
+  lower.includes("cheese") ||
+  lower.includes("milk") ||
+  lower.includes("cream") ||
+  lower.includes("eggs")
+) {
+  return "Dairy / Eggs";
+}
+
+if (
+  lower.includes("coleslaw mix") ||
+  lower.includes("mild red chili") ||
+  lower.includes("red chili") ||
+  lower.includes("red chile") ||
+  lower.includes("chili pepper") ||
+  lower.includes("chile pepper")
+) {
+  return "Produce";
+}
+
+if (
+  lower.includes("wooden skewer") ||
+  lower.includes("bamboo skewer") ||
+  lower.includes("skewers")
+) {
+  return "Household";
+}
 
   // Produce protections must happen before broad spice/pantry matching.
   if (isRealPepperProduce(lower) || includesAny(lower, PRODUCE_CHILI_KEYWORDS)) {
