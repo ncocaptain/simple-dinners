@@ -359,6 +359,11 @@ Sirve con la salsa, wasabi si deseas, y decora con cebollines.`,
   effort: "big",
   photoUrl: "/images/big-beef-salisbury-steak.jpg",
   tags: ["dinner", "beef", "stovetop", "comfort", "gravy", "family-friendly"],
+  suggestedSides: [
+  "Simple green salad",
+  "Garlic bread",
+  "Fruit salad",
+],
   notes: "Classic comfort food with rich mushroom gravy that is perfect over mashed potatoes.",
   ingredients: `1 lb ground beef
 1/4 cup panko breadcrumbs
