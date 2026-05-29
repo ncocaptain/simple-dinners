@@ -800,6 +800,11 @@ function normalizeIngredientCore(text: string) {
   next = next.replace(/^[/\\\-–—]+\s*/, "");
   next = next.replace(/\([^)]*\)/g, " ");
   next = cleanupSpacing(next);
+  next = next
+  .replace(/\bwooden or metal skewers?\b/g, "skewers")
+  .replace(/\bmetal or wooden skewers?\b/g, "skewers")
+  .replace(/\bwooden skewers?\b/g, "wooden skewers")
+  .replace(/\bmetal skewers?\b/g, "metal skewers");
   next = next.replace(/^(and|or|with)\s+/g, "").trim();
   next = cleanupSpacing(next);
 

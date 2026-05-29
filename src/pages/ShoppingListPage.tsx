@@ -721,6 +721,11 @@ function cleanIngredientName(line: string) {
   text = text.replace(/^[/\\\-–—]+\s*/, "");
   text = text.replace(/\([^)]*\)/g, " ");
   text = cleanupSpacing(text);
+  text = text
+  .replace(/\bwooden or metal skewers?\b/g, "skewers")
+  .replace(/\bmetal or wooden skewers?\b/g, "skewers")
+  .replace(/\bwooden skewers?\b/g, "wooden skewers")
+  .replace(/\bmetal skewers?\b/g, "metal skewers");
   text = text.replace(/^(and|or|with)\s+/g, "").trim();
 
   if (isSectionHeader(text)) return "";
@@ -737,7 +742,7 @@ function cleanIngredientName(line: string) {
   );
 
   // remove loose alternate phrasing like "or pickled"
-  text = text.replace(/\bor\s+[a-z\s]+/g, "");
+  text = text.replace(/\bor\s+(pickled|jarred|canned)\s+[a-z\s]+/g, "");
 
   // final cleanup
   text = text.split(",")[0];
