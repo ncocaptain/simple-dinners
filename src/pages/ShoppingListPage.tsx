@@ -1143,6 +1143,35 @@ function isBeanPantryItem(cleaned: string) {
 function resolveShoppingCategory(name: string): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
 
+  // Produce / salad overrides.
+// These must run before broad pantry/spice/beverage matching.
+if (
+  cleaned.includes("caesar salad") ||
+  cleaned.includes("spring mix") ||
+  cleaned.includes("salad mix") ||
+  cleaned.includes("coleslaw mix") ||
+  cleaned.includes("watermelon") ||
+  cleaned.includes("mild red chili") ||
+  cleaned.includes("red chili") ||
+  cleaned.includes("red chile") ||
+  cleaned.includes("chili pepper") ||
+  cleaned.includes("chile pepper")
+) {
+  return "Produce";
+}
+
+// Skewers / grill supplies.
+// If cleanup accidentally reduced "wooden skewers" to "wooden",
+// keep it out of food categories.
+if (
+  cleaned.includes("wooden skewer") ||
+  cleaned.includes("bamboo skewer") ||
+  cleaned === "wooden" ||
+  cleaned === "bamboo"
+) {
+  return "Household";
+}
+
   if (isRealPepperProduce(cleaned) || isFreshChileProduce(cleaned)) {
     return "Produce";
   }
@@ -1201,6 +1230,35 @@ function resolveShoppingCategoryForItem(
   packageSize?: string
 ): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
+
+    // Produce / salad overrides.
+  // These must run before broad pantry/spice/beverage matching.
+  if (
+    cleaned.includes("caesar salad") ||
+    cleaned.includes("spring mix") ||
+    cleaned.includes("salad mix") ||
+    cleaned.includes("coleslaw mix") ||
+    cleaned.includes("watermelon") ||
+    cleaned.includes("mild red chili") ||
+    cleaned.includes("red chili") ||
+    cleaned.includes("red chile") ||
+    cleaned.includes("chili pepper") ||
+    cleaned.includes("chile pepper")
+  ) {
+    return "Produce";
+  }
+
+  // Skewers / grill supplies.
+  // If cleanup accidentally reduced "wooden skewers" to "wooden",
+  // keep it out of food categories.
+  if (
+    cleaned.includes("wooden skewer") ||
+    cleaned.includes("bamboo skewer") ||
+    cleaned === "wooden" ||
+    cleaned === "bamboo"
+  ) {
+    return "Household";
+  }
 
   if (
   cleaned.includes("salmon") ||

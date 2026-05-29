@@ -1331,6 +1331,35 @@ function resolveShoppingCategory(name: string): GroceryCategory {
 
   const lower = cleaned.toLowerCase();
 
+  // Produce / salad overrides.
+// These must run before broad pantry/spice/beverage matching.
+if (
+  lower.includes("caesar salad") ||
+  lower.includes("spring mix") ||
+  lower.includes("salad mix") ||
+  lower.includes("coleslaw mix") ||
+  lower.includes("watermelon") ||
+  lower.includes("mild red chili") ||
+  lower.includes("red chili") ||
+  lower.includes("red chile") ||
+  lower.includes("chili pepper") ||
+  lower.includes("chile pepper")
+) {
+  return "Produce";
+}
+
+// Skewers / grill supplies.
+// If cleanup accidentally reduced "wooden skewers" to "wooden",
+// keep it out of food categories.
+if (
+  lower.includes("wooden skewer") ||
+  lower.includes("bamboo skewer") ||
+  lower === "wooden" ||
+  lower === "bamboo"
+) {
+  return "Household";
+}
+
   if (
   lower.includes("salmon") ||
   lower.includes("hot dog") ||
