@@ -9,6 +9,10 @@ import {
   Plus,
   CalendarPlus,
   Flame,
+  Utensils,
+  CakeSlice,
+  Coffee,
+  Sandwich,
 } from "lucide-react";
 import Card from "../components/Card";
 import type { Meal, Effort } from "../core/types";
@@ -27,6 +31,17 @@ type RecipesPageProps = {
     reason?: string;
   };
 };
+
+type CategoryFilter =
+  | "cookbook"
+  | "vegetarian"
+  | "dinner"
+  | "side"
+  | "breakfast"
+  | "lunch"
+  | "dessert"
+  | "salads"
+  | "grilling";
 
 const RECIPES_PAGE_STATE_KEY = "simple-dinners:recipes-page-state";
 
@@ -126,10 +141,7 @@ export default function RecipesPage({
 
   const [query, setQuery] = useState("");
   const [effort, setEffort] = useState<"all" | Effort>("all");
-  const [showCookbookOnly, setShowCookbookOnly] = useState(false);
-  const [showVegetarianOnly, setshowVegetarianOnly] = useState(false);
-  const [showSaladsOnly, setshowSaladsOnly] = useState(false);
-  const [showGrillingOnly, setshowGrillingOnly] = useState(false);
+  const [activeCategories, setActiveCategories] = useState<CategoryFilter[]>([]);
   const [cookbook, setCookbook] = useState<Meal[]>(() => getCookbook() as Meal[]);
   const [justAddedSlug, setJustAddedSlug] = useState<string | null>(null);
   const [saveMessage, setSaveMessage] = useState("");
@@ -138,6 +150,43 @@ export default function RecipesPage({
     null
   );
   const [hasRestoredState, setHasRestoredState] = useState(false);
+
+  function toggleCategory(category: CategoryFilter) {
+  setActiveCategories((prev) =>
+    prev.includes(category)
+      ? prev.filter((item) => item !== category)
+      : [...prev, category]
+  );
+}
+
+function recipeMatchesCategory(
+  raw: Meal,
+  recipeKey: string,
+  category: CategoryFilter,
+  cookbookKeys: Set<string>
+) {
+  const tags = normalizeTags(raw.tags);
+
+  if (category === "cookbook") return cookbookKeys.has(recipeKey);
+  if (category === "vegetarian") {
+    return raw.isVegetarian === true || tags.includes("vegetarian");
+  }
+  if (category === "dinner") return tags.includes("dinner");
+  if (category === "side") return tags.includes("side");
+  if (category === "breakfast") {
+    return tags.includes("breakfast") || tags.includes("brunch");
+  }
+  if (category === "lunch") return tags.includes("lunch");
+  if (category === "dessert") return tags.includes("dessert");
+  if (category === "salads") {
+    return tags.includes("salad") || tags.includes("salads");
+  }
+  if (category === "grilling") {
+    return tags.includes("grilling") || tags.includes("grill");
+  }
+
+  return true;
+}
 
   // =====================================================
   // Builder: recipes page state persistence
@@ -149,10 +198,7 @@ export default function RecipesPage({
       JSON.stringify({
         query,
         effort,
-        showCookbookOnly,
-        showVegetarianOnly,
-        showSaladsOnly,
-        showGrillingOnly,
+        activeCategories,
         scrollY:
           typeof customScrollY === "number" ? customScrollY : window.scrollY,
       })
@@ -172,18 +218,23 @@ export default function RecipesPage({
       if (typeof saved.query === "string") setQuery(saved.query);
       if (saved.effort) setEffort(saved.effort);
 
-      if (typeof saved.showCookbookOnly === "boolean") {
-        setShowCookbookOnly(saved.showCookbookOnly);
-      }
-      if (typeof saved.showVegetarianOnly === "boolean") {
-        setshowVegetarianOnly(saved.showVegetarianOnly);
-      }
-      if (typeof saved.showSaladsOnly === "boolean") {
-        setshowSaladsOnly(saved.showSaladsOnly);
-      }
-      if (typeof saved.showGrillingOnly === "boolean") {
-        setshowGrillingOnly(saved.showGrillingOnly);
-      }
+      if (Array.isArray(saved.activeCategories)) {
+  setActiveCategories(
+    saved.activeCategories.filter((item: string) =>
+      [
+        "cookbook",
+        "vegetarian",
+        "dinner",
+        "side",
+        "breakfast",
+        "lunch",
+        "dessert",
+        "salads",
+        "grilling",
+      ].includes(item)
+    ) as CategoryFilter[]
+  );
+}
 
       const scrollY = Number(saved.scrollY ?? 0);
 
@@ -225,10 +276,7 @@ export default function RecipesPage({
     hasRestoredState,
     query,
     effort,
-    showCookbookOnly,
-    showVegetarianOnly,
-    showSaladsOnly,
-    showGrillingOnly,
+    activeCategories,
   ]);
 
   useEffect(() => {
@@ -244,10 +292,7 @@ export default function RecipesPage({
     hasRestoredState,
     query,
     effort,
-    showCookbookOnly,
-    showVegetarianOnly,
-    showSaladsOnly,
-    showGrillingOnly,
+    activeCategories,
   ]);
 
   // =====================================================
@@ -331,10 +376,14 @@ const localizedRecipes = useMemo(
 
     if (q && !searchableText.includes(q)) return false;
     if (effort !== "all" && raw.effort !== effort) return false;
-    if (showCookbookOnly && !cookbookKeys.has(recipeKey)) return false;
-    if (showVegetarianOnly && !hasTag(raw, "vegetarian")) return false;
-    if (showSaladsOnly && !hasTag(raw, "salad")) return false;
-    if (showGrillingOnly && !hasTag(raw, "grilling")) return false;
+    if (
+  activeCategories.length > 0 &&
+  !activeCategories.every((category) =>
+    recipeMatchesCategory(raw, recipeKey, category, cookbookKeys)
+  )
+) {
+  return false;
+}
 
     return true;
   });
@@ -342,10 +391,7 @@ const localizedRecipes = useMemo(
   localizedRecipes,
   query,
   effort,
-  showCookbookOnly,
-  showVegetarianOnly,
-  showSaladsOnly,
-  showGrillingOnly,
+  activeCategories,
   cookbookKeys,
 ]);
 
@@ -440,11 +486,8 @@ const localizedRecipes = useMemo(
   };
 
   const clearExtraFilters = () => {
-    setShowCookbookOnly(false);
-    setshowVegetarianOnly(false);
-    setshowSaladsOnly(false);
-    setshowGrillingOnly(false);
-  };
+  setActiveCategories([]);
+};
 
   // =====================================================
   // Builder: shared styles
@@ -615,425 +658,451 @@ const localizedRecipes = useMemo(
   // =====================================================
 
   return (
-    <div style={pageWrap}>
-      <div style={innerWrap}>
-        <Card style={heroCard}>
-          <div style={{ display: "grid", gap: 18 }}>
-            <div style={{ display: "grid", gap: 8 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <BookOpen size={22} />
-                <h1 style={{ margin: 0, fontSize: 30, fontWeight: 1000 }}>
-                  {t("recipes.title")}
-                </h1>
-              </div>
-
-              <p style={{ margin: 0, fontSize: 14, opacity: 0.65, lineHeight: 1.5 }}>
-                {t("recipes.subtitle")}
-              </p>
+  <div style={pageWrap}>
+    <div style={innerWrap}>
+      <Card style={heroCard}>
+        <div style={{ display: "grid", gap: 18 }}>
+          <div style={{ display: "grid", gap: 8 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <BookOpen size={22} />
+              <h1 style={{ margin: 0, fontSize: 30, fontWeight: 1000 }}>
+                {t("recipes.title")}
+              </h1>
             </div>
-
-            <div style={searchWrap}>
-              <Search size={18} />
-              <input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={t("recipes.searchPlaceholder")}
-                style={searchInput}
-              />
-            </div>
-
-            <div style={sectionLabel}>{t("recipes.effortLabel").toUpperCase()}</div>
-
-            <div style={chipRow}>
-              {(["all", "quick", "normal", "big", "takeout"] as const).map(
-                (value) => {
-                  const active = effort === value;
-
-                  return (
-                    <button
-                      key={value}
-                      type="button"
-                      onClick={() => setEffort(value as "all" | Effort)}
-                      style={{
-                        ...chipBase,
-                        background: active
-                          ? "rgba(34,197,94,0.12)"
-                          : chipBase.background,
-                        border: active
-                          ? "1px solid rgba(34,197,94,0.45)"
-                          : chipBase.border,
-                        color: active ? "#86efac" : chipBase.color,
-                      }}
-                    >
-                      <span
-                        style={{
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 8,
-                        }}
-                      >
-                        <Clock3 size={14} />
-                        {getEffortFilterLabel(value)}
-                      </span>
-                    </button>
-                  );
-                }
-              )}
-            </div>
-
-            <div style={sectionLabel}>{t("recipes.categoriesLabel").toUpperCase()}</div>
-
-            <div style={chipRow}>
-              <button
-                type="button"
-                onClick={() => setShowCookbookOnly((v) => !v)}
-                style={{
-                  ...chipBase,
-                  background: showCookbookOnly
-                    ? "rgba(34,197,94,0.12)"
-                    : chipBase.background,
-                  border: showCookbookOnly
-                    ? "1px solid rgba(34,197,94,0.45)"
-                    : chipBase.border,
-                  color: showCookbookOnly ? "#86efac" : chipBase.color,
-                }}
-              >
-                <span
-                  style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
-                >
-                  <BookOpen size={14} />
-                  {t("recipes.inCookbook")}
-                </span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setshowVegetarianOnly((v) => !v)}
-                style={{
-                  ...chipBase,
-                  background: showVegetarianOnly
-                    ? "rgba(34,197,94,0.12)"
-                    : chipBase.background,
-                  border: showVegetarianOnly
-                    ? "1px solid rgba(34,197,94,0.45)"
-                    : chipBase.border,
-                  color: showVegetarianOnly ? "#86efac" : chipBase.color,
-                }}
-              >
-                <span
-                  style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
-                >
-                  <Leaf size={14} />
-                  {t("recipes.vegetarian")}
-                </span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setshowSaladsOnly((v) => !v)}
-                style={{
-                  ...chipBase,
-                  background: showSaladsOnly
-                    ? "rgba(34,197,94,0.12)"
-                    : chipBase.background,
-                  border: showSaladsOnly
-                    ? "1px solid rgba(34,197,94,0.45)"
-                    : chipBase.border,
-                  color: showSaladsOnly ? "#86efac" : chipBase.color,
-                }}
-              >
-                <span
-                  style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
-                >
-                  <Salad size={14} />
-                  {t("recipes.salads")}
-                </span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setshowGrillingOnly((v) => !v)}
-                style={{
-                  ...chipBase,
-                  background: showGrillingOnly
-                    ? "rgba(250,204,21,0.15)"
-                    : chipBase.background,
-                  border: showGrillingOnly
-                    ? "1px solid rgba(250,204,21,0.35)"
-                    : chipBase.border,
-                  color: showGrillingOnly ? "#fde68a" : chipBase.color,
-                }}
-              >
-                <span
-                  style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
-                >
-                  <Flame size={14} />
-                  {t("recipes.grilling")}
-                </span>
-              </button>
-
-              <button
-                type="button"
-                onClick={clearExtraFilters}
-                style={{
-                  ...chipBase,
-                  background: "transparent",
-                  border: "1px dashed rgba(255,255,255,0.25)",
-                  color: "rgba(255,255,255,0.6)",
-                }}
-              >
-                {t("recipes.clearExtras")}
-              </button>
-            </div>
-
-            <div style={statsRow}>
-              <span style={statStyle}>
-                <span style={statNumber}>{mergedRecipes.length}</span> {t("recipes.stats.total")}
-              </span>
-              <span style={statStyle}>
-                <span style={statNumber}>{filteredRecipes.length}</span> {t("recipes.stats.showing")}
-              </span>
-              <span style={statStyle}>
-                <span style={statNumber}>{cookbook.length}</span> {t("recipes.stats.inCookbook")}
-              </span>
-              <span style={statStyle}>
-                <span style={statNumber}>{grillingCount}</span> {t("recipes.stats.grilling")}
-              </span>
-            </div>
-
-            {saveMessage && (
-              <div
-                style={{
-                  padding: "10px 14px",
-                  borderRadius: 14,
-                  background: "rgba(34,197,94,0.12)",
-                  border: "1px solid rgba(34,197,94,0.35)",
-                  color: "#86efac",
-                  fontSize: 13,
-                  fontWeight: 800,
-                  width: "fit-content",
-                }}
-              >
-                {saveMessage}
-              </div>
-            )}
-          </div>
-        </Card>
-        </div>
-
-        <div style={gridStyle}>
-          {filteredRecipes.map(({ raw, display }) => {
-  const recipeKey = String(raw.slug || raw.id || raw.name || "")
-    .trim()
-    .toLowerCase();
-
-  const isSaved = cookbookKeys.has(recipeKey);
-  const recipePhotoUrl = normalizePhotoUrl(display.photoUrl || raw.photoUrl);
-  const isGrilling = hasTag(raw, "grilling");
-
-  return (
-    <Card key={recipeKey} style={recipeCardStyle}>
-      {recipePhotoUrl ? (
-        <img
-          src={recipePhotoUrl}
-          alt={display.name || raw.name}
-          style={photoStyle}
-          onClick={() => handleOpenRecipe(raw)}
-          onError={(e) => {
-            const target = e.currentTarget;
-            target.onerror = null;
-            target.style.display = "none";
-          }}
-        />
-      ) : (
-        <div style={photoStyle} onClick={() => handleOpenRecipe(raw)} />
-      )}
-
-      <div style={bodyStyle}>
-        <div style={{ display: "grid", gap: 8 }}>
-          <h3 style={{ margin: 0, fontSize: 18, fontWeight: 900 }}>
-            {display.name || raw.name}
-          </h3>
-
-          <div style={tagsWrap}>
-            <span style={tagStyle}>{effortLabel(raw.effort)}</span>
-
-            {isGrilling && (
-              <span style={grillingTagStyle}>🔥 {t("recipes.grilling")}</span>
-            )}
-
-            {getVisibleRecipeTags(display)
-              .slice(0, 4)
-              .map((tag) => (
-                <span key={tag} style={tagStyle}>
-                  {tag}
-                </span>
-              ))}
-          </div>
-
-          <p
-            style={{
-              margin: 0,
-              fontSize: 13,
-              opacity: 0.72,
-              lineHeight: 1.45,
-              minHeight: 38,
-            }}
-          >
-            {display.notes || raw.notes || t("recipes.defaultNote")}
-          </p>
-        </div>
-
-        <div style={btnRow}>
-          <button
-            type="button"
-            style={btnStyle}
-            onClick={() => handleOpenRecipe(raw)}
-          >
-            {t("recipes.openRecipe")}
-          </button>
-
-          <button
-            type="button"
-            style={{
-              ...btnStyle,
-              opacity: isSaved ? 0.7 : 1,
-              transform: justAddedSlug === recipeKey ? "scale(1.05)" : "scale(1)",
-              border:
-                isSaved || justAddedSlug === recipeKey
-                  ? "1px solid rgba(34,197,94,0.45)"
-                  : btnStyle.border,
-              background:
-                isSaved || justAddedSlug === recipeKey
-                  ? "rgba(34,197,94,0.12)"
-                  : btnStyle.background,
-              color:
-                isSaved || justAddedSlug === recipeKey ? "#86efac" : "white",
-              transition: "all 0.18s ease",
-              cursor: isSaved ? "default" : "pointer",
-            }}
-            onClick={() => handleAddToCookbook(raw)}
-            disabled={isSaved}
-          >
-            <Plus size={14} />
-            {isSaved || justAddedSlug === recipeKey
-              ? t("recipes.savedCheck")
-              : t("recipes.addToCookbook")}
-          </button>
-
-          <button
-            type="button"
-            style={btnStyle}
-            onClick={() => handleOpenDayPicker(raw)}
-          >
-            <CalendarPlus size={14} />
-            {t("recipes.addToWeek")}
-          </button>
-        </div>
-      </div>
-    </Card>
-  );
-})}
-</div>
-
-      {dayPickerOpen && selectedMealForWeek && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.65)",
-            zIndex: 3000,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 20,
-          }}
-          onClick={() => {
-            setDayPickerOpen(false);
-            setSelectedMealForWeek(null);
-          }}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              width: "100%",
-              maxWidth: 420,
-              background: "#1e293b",
-              borderRadius: 20,
-              padding: 20,
-              border: "1px solid rgba(255,255,255,0.08)",
-              boxShadow: "0 20px 50px rgba(0,0,0,0.35)",
-            }}
-          >
-            <h3
-              style={{
-                margin: "0 0 8px 0",
-                fontSize: 22,
-                fontWeight: 900,
-                color: "#f8fafc",
-              }}
-            >
-              {t("recipes.addToWeek")}
-            </h3>
 
             <p
               style={{
-                margin: "0 0 18px 0",
-                color: "rgba(255,255,255,0.7)",
+                margin: 0,
+                fontSize: 14,
+                opacity: 0.65,
                 lineHeight: 1.5,
               }}
             >
-              {t("recipes.chooseDayPrefix")} <strong>{selectedMealForWeek.name}</strong>. {t("recipes.chooseDaySuffix")}
+              {t("recipes.subtitle")}
             </p>
+          </div>
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 10,
-              }}
-            >
-              {days.map((day) => (
+          <div style={searchWrap}>
+            <Search size={18} />
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={t("recipes.searchPlaceholder")}
+              style={searchInput}
+            />
+          </div>
+
+          <div style={sectionLabel}>
+            {t("recipes.effortLabel").toUpperCase()}
+          </div>
+
+          <div style={chipRow}>
+            {(["all", "quick", "normal", "big"] as const).map((value) => {
+              const active = effort === value;
+
+              return (
                 <button
-                  key={day}
-                  onClick={() => handleSelectDay(day)}
+                  key={value}
+                  type="button"
+                  onClick={() => setEffort(value as "all" | Effort)}
                   style={{
-                    padding: "12px 14px",
-                    borderRadius: 14,
-                    border: "1px solid rgba(255,255,255,0.08)",
-                    background: "rgba(255,255,255,0.06)",
-                    color: "#fff",
-                    fontWeight: 800,
-                    cursor: "pointer",
+                    ...chipBase,
+                    background: active
+                      ? "rgba(34,197,94,0.12)"
+                      : chipBase.background,
+                    border: active
+                      ? "1px solid rgba(34,197,94,0.45)"
+                      : chipBase.border,
+                    color: active ? "#86efac" : chipBase.color,
                   }}
                 >
-                  {getRecipeDayLabel(day)}
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                    }}
+                  >
+                    <Clock3 size={14} />
+                    {getEffortFilterLabel(value)}
+                  </span>
                 </button>
-              ))}
-            </div>
+              );
+            })}
+          </div>
+
+          <div style={sectionLabel}>
+            {t("recipes.categoriesLabel").toUpperCase()}
+          </div>
+
+          <div style={chipRow}>
+            {[
+              {
+                key: "cookbook",
+                label: t("recipes.inCookbook"),
+                icon: <BookOpen size={14} />,
+              },
+              {
+                key: "vegetarian",
+                label: t("recipes.vegetarian"),
+                icon: <Leaf size={14} />,
+              },
+              {
+                key: "dinner",
+                label: t("recipes.dinner", "Dinner"),
+                icon: <Utensils size={14} />,
+              },
+              {
+                key: "side",
+                label: t("recipes.sides", "Sides"),
+                icon: <Plus size={14} />,
+              },
+              {
+                key: "breakfast",
+                label: t("recipes.breakfast", "Breakfast"),
+                icon: <Coffee size={14} />,
+              },
+              {
+                key: "lunch",
+                label: t("recipes.lunch", "Lunch"),
+                icon: <Sandwich size={14} />,
+              },
+              {
+                key: "dessert",
+                label: t("recipes.desserts", "Desserts"),
+                icon: <CakeSlice size={14} />,
+              },
+              {
+                key: "salads",
+                label: t("recipes.salads"),
+                icon: <Salad size={14} />,
+              },
+              {
+                key: "grilling",
+                label: t("recipes.grilling"),
+                icon: <Flame size={14} />,
+                grilling: true,
+              },
+            ].map((category) => {
+              const key = category.key as CategoryFilter;
+              const active = activeCategories.includes(key);
+
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => toggleCategory(key)}
+                  style={{
+                    ...chipBase,
+                    background: active
+                      ? category.grilling
+                        ? "rgba(250,204,21,0.15)"
+                        : "rgba(34,197,94,0.12)"
+                      : chipBase.background,
+                    border: active
+                      ? category.grilling
+                        ? "1px solid rgba(250,204,21,0.35)"
+                        : "1px solid rgba(34,197,94,0.45)"
+                      : chipBase.border,
+                    color: active
+                      ? category.grilling
+                        ? "#fde68a"
+                        : "#86efac"
+                      : chipBase.color,
+                  }}
+                >
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                    }}
+                  >
+                    {category.icon}
+                    {category.label}
+                  </span>
+                </button>
+              );
+            })}
 
             <button
-              onClick={() => {
-                setDayPickerOpen(false);
-                setSelectedMealForWeek(null);
-              }}
+              type="button"
+              onClick={clearExtraFilters}
               style={{
-                marginTop: 14,
-                width: "100%",
-                padding: "12px 14px",
-                borderRadius: 14,
-                border: "none",
-                background: "rgba(255,255,255,0.08)",
-                color: "#fff",
-                fontWeight: 800,
-                cursor: "pointer",
+                ...chipBase,
+                background: "transparent",
+                border: "1px dashed rgba(255,255,255,0.25)",
+                color: "rgba(255,255,255,0.6)",
               }}
             >
-              {t("common.cancel")}
+              {t("recipes.clearExtras")}
             </button>
           </div>
+
+          <div style={statsRow}>
+            <span style={statStyle}>
+              <span style={statNumber}>{mergedRecipes.length}</span>{" "}
+              {t("recipes.stats.total")}
+            </span>
+
+            <span style={statStyle}>
+              <span style={statNumber}>{filteredRecipes.length}</span>{" "}
+              {t("recipes.stats.showing")}
+            </span>
+
+            <span style={statStyle}>
+              <span style={statNumber}>{cookbook.length}</span>{" "}
+              {t("recipes.stats.inCookbook")}
+            </span>
+
+            <span style={statStyle}>
+              <span style={statNumber}>{grillingCount}</span>{" "}
+              {t("recipes.stats.grilling")}
+            </span>
+          </div>
+
+          {saveMessage && (
+            <div
+              style={{
+                padding: "10px 14px",
+                borderRadius: 14,
+                background: "rgba(34,197,94,0.12)",
+                border: "1px solid rgba(34,197,94,0.35)",
+                color: "#86efac",
+                fontSize: 13,
+                fontWeight: 800,
+                width: "fit-content",
+              }}
+            >
+              {saveMessage}
+            </div>
+          )}
         </div>
-      )}
+      </Card>
+
+      <div style={gridStyle}>
+        {filteredRecipes.map(({ raw, display }) => {
+          const recipeKey = String(raw.slug || raw.id || raw.name || "")
+            .trim()
+            .toLowerCase();
+
+          const isSaved = cookbookKeys.has(recipeKey);
+          const recipePhotoUrl = normalizePhotoUrl(
+            display.photoUrl || raw.photoUrl
+          );
+          const isGrilling = hasTag(raw, "grilling");
+
+          return (
+            <Card key={recipeKey} style={recipeCardStyle}>
+              {recipePhotoUrl ? (
+                <img
+                  src={recipePhotoUrl}
+                  alt={display.name || raw.name}
+                  style={photoStyle}
+                  onClick={() => handleOpenRecipe(raw)}
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.onerror = null;
+                    target.style.display = "none";
+                  }}
+                />
+              ) : (
+                <div style={photoStyle} onClick={() => handleOpenRecipe(raw)} />
+              )}
+
+              <div style={bodyStyle}>
+                <div style={{ display: "grid", gap: 8 }}>
+                  <h3 style={{ margin: 0, fontSize: 18, fontWeight: 900 }}>
+                    {display.name || raw.name}
+                  </h3>
+
+                  <div style={tagsWrap}>
+                    <span style={tagStyle}>{effortLabel(raw.effort)}</span>
+
+                    {isGrilling && (
+                      <span style={grillingTagStyle}>
+                        🔥 {t("recipes.grilling")}
+                      </span>
+                    )}
+
+                    {getVisibleRecipeTags(display)
+                      .slice(0, 4)
+                      .map((tag) => (
+                        <span key={tag} style={tagStyle}>
+                          {tag}
+                        </span>
+                      ))}
+                  </div>
+
+                  <p
+                    style={{
+                      margin: 0,
+                      fontSize: 13,
+                      opacity: 0.72,
+                      lineHeight: 1.45,
+                      minHeight: 38,
+                    }}
+                  >
+                    {display.notes || raw.notes || t("recipes.defaultNote")}
+                  </p>
+                </div>
+
+                <div style={btnRow}>
+                  <button
+                    type="button"
+                    style={btnStyle}
+                    onClick={() => handleOpenRecipe(raw)}
+                  >
+                    {t("recipes.openRecipe")}
+                  </button>
+
+                  <button
+                    type="button"
+                    style={{
+                      ...btnStyle,
+                      opacity: isSaved ? 0.7 : 1,
+                      transform:
+                        justAddedSlug === recipeKey ? "scale(1.05)" : "scale(1)",
+                      border:
+                        isSaved || justAddedSlug === recipeKey
+                          ? "1px solid rgba(34,197,94,0.45)"
+                          : btnStyle.border,
+                      background:
+                        isSaved || justAddedSlug === recipeKey
+                          ? "rgba(34,197,94,0.12)"
+                          : btnStyle.background,
+                      color:
+                        isSaved || justAddedSlug === recipeKey
+                          ? "#86efac"
+                          : "white",
+                      transition: "all 0.18s ease",
+                      cursor: isSaved ? "default" : "pointer",
+                    }}
+                    onClick={() => handleAddToCookbook(raw)}
+                    disabled={isSaved}
+                  >
+                    <Plus size={14} />
+                    {isSaved || justAddedSlug === recipeKey
+                      ? t("recipes.savedCheck")
+                      : t("recipes.addToCookbook")}
+                  </button>
+
+                  <button
+                    type="button"
+                    style={btnStyle}
+                    onClick={() => handleOpenDayPicker(raw)}
+                  >
+                    <CalendarPlus size={14} />
+                    {t("recipes.addToWeek")}
+                  </button>
+                </div>
+              </div>
+            </Card>
+          );
+        })}
+      </div>
     </div>
-  );
+
+    {dayPickerOpen && selectedMealForWeek && (
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(0,0,0,0.65)",
+          zIndex: 3000,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 20,
+        }}
+        onClick={() => {
+          setDayPickerOpen(false);
+          setSelectedMealForWeek(null);
+        }}
+      >
+        <div
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            width: "100%",
+            maxWidth: 420,
+            background: "#1e293b",
+            borderRadius: 20,
+            padding: 20,
+            border: "1px solid rgba(255,255,255,0.08)",
+            boxShadow: "0 20px 50px rgba(0,0,0,0.35)",
+          }}
+        >
+          <h3
+            style={{
+              margin: "0 0 8px 0",
+              fontSize: 22,
+              fontWeight: 900,
+              color: "#f8fafc",
+            }}
+          >
+            {t("recipes.addToWeek")}
+          </h3>
+
+          <p
+            style={{
+              margin: "0 0 18px 0",
+              color: "rgba(255,255,255,0.7)",
+              lineHeight: 1.5,
+            }}
+          >
+            {t("recipes.chooseDayPrefix")}{" "}
+            <strong>{selectedMealForWeek.name}</strong>.{" "}
+            {t("recipes.chooseDaySuffix")}
+          </p>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 10,
+            }}
+          >
+            {days.map((day) => (
+              <button
+                key={day}
+                onClick={() => handleSelectDay(day)}
+                style={{
+                  padding: "12px 14px",
+                  borderRadius: 14,
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  background: "rgba(255,255,255,0.06)",
+                  color: "#fff",
+                  fontWeight: 800,
+                  cursor: "pointer",
+                }}
+              >
+                {getRecipeDayLabel(day)}
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() => {
+              setDayPickerOpen(false);
+              setSelectedMealForWeek(null);
+            }}
+            style={{
+              marginTop: 14,
+              width: "100%",
+              padding: "12px 14px",
+              borderRadius: 14,
+              border: "none",
+              background: "rgba(255,255,255,0.08)",
+              color: "#fff",
+              fontWeight: 800,
+              cursor: "pointer",
+            }}
+          >
+            {t("common.cancel")}
+          </button>
+        </div>
+      </div>
+    )}
+  </div>
+); 
 }
