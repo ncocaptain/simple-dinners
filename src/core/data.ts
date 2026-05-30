@@ -1966,6 +1966,12 @@ Prueba y ajusta sal y pimienta si es necesario. Retira del fuego y decora con 1/
   photoUrl: "/images/normal-beef-stroganoff.jpg",
   tags: ["dinner", "beef", "comfort", "stovetop", "pasta", "family-friendly", "leftovers-friendly"],
   isVegetarian: false,
+  // Beef Stroganoff
+suggestedSides: [
+  "Simple green salad",
+  "Roasted carrots",
+  "Dinner rolls",
+],
   notes: "Creamy, savory beef stroganoff with tender beef and mushrooms in a rich sauce. For best results, sear the beef quickly over high heat and avoid boiling after adding sour cream to prevent curdling.",
   ingredients: `1 lb beef sirloin, thinly sliced
 8 oz baby bella mushrooms, sliced
@@ -2063,6 +2069,12 @@ Sirve sobre los fideos de huevo cocidos y decora con 1/4 cup de perejil fresco s
   photoUrl: "/images/normal-chicken-pot-pie.jpg",
   tags: ["dinner", "chicken", "bake", "comfort", "casserole", "family-friendly", "leftovers-friendly"],
   isVegetarian: false,
+  // Chicken Pot Pie
+suggestedSides: [
+  "Side salad",
+  "Roasted green beans",
+  "Cranberry sauce",
+],
   notes: "Creamy, classic chicken pot pie with a flaky golden crust. Letting it rest before serving helps the filling set and makes cleaner portions.",
   ingredients: `2 cups cooked chicken, diced (rotisserie works great)
 1 cup frozen mixed vegetables
@@ -2162,6 +2174,12 @@ Deja reposar 10 minutos antes de servir para que el relleno se asiente.`,
   photoUrl: "/images/normal-taco-pasta.jpg",
   tags: ["dinner", "pasta", "tex-mex", "beef", "cheesy", "one-pan", "family-friendly", "leftovers-friendly"],
   isVegetarian: false,
+  // Cheesy Taco Pasta
+suggestedSides: [
+  "Chips and salsa",
+  "Mexican street corn",
+  "Simple green salad",
+],
   notes: "A cheesy, taco-inspired pasta with bold flavor and a creamy finish. Great for family dinners and even better as leftovers the next day.",
   ingredients: `1 lb ground beef
 8 oz pasta (rotini or shells work best)
@@ -2270,6 +2288,12 @@ Retira del fuego y sirve caliente.`,
   photoUrl: "/images/pan-seared-scallops-lemon-risotto.jpg",
   tags: ["dinner", "seafood", "shellfish", "scallops", "risotto", "date-night", "restaurant-style"],
   isVegetarian: false,
+  // Pan-Seared Scallops with Lemon Risotto
+suggestedSides: [
+  "Roasted asparagus",
+  "Simple green salad",
+  "Garlic bread",
+],
   notes: "Elegant, restaurant-quality scallops with creamy lemon risotto. Key to success: keep the stock warm, stir the risotto gradually, and ensure scallops are very dry before searing for a perfect golden crust.",
   ingredients: `10 large sea scallops (side muscle removed)
 1 cup Arborio rice
@@ -2374,6 +2398,12 @@ Sirve el risotto en platos y coloca las vieiras selladas encima. Decora con 1 Tb
   photoUrl: "/images/lemon-herb-roasted-salmon.jpg",
   tags: ["dinner", "seafood", "fish", "salmon", "oven", "healthy", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
+  // Lemon Herb Roasted Salmon
+suggestedSides: [
+  "Rice pilaf",
+  "Roasted potatoes",
+  "Simple green salad",
+],
   notes: "Light, fresh roasted salmon with lemon and herbs. A simple one-pan meal that pairs perfectly with rice or roasted potatoes and reheats well for leftovers.",
   ingredients: `4 salmon fillets (about 6 oz each)
 1 bunch asparagus, trimmed
@@ -2452,6 +2482,12 @@ Retira del horno y sirve de inmediato.`,
   photoUrl: "/images/beef-broccoli-stir-fry.jpg",
   tags: ["dinner", "beef", "stir-fry", "one-pan", "quick", "takeout-style", "leftovers-friendly"],
   isVegetarian: false,
+  // Beef and Broccoli Stir-Fry
+suggestedSides: [
+  "Steamed rice",
+  "Egg rolls",
+  "Cucumber salad",
+],
   notes: "Quick, takeout-style beef and broccoli with a savory, glossy sauce. Slice the beef thinly against the grain for maximum tenderness and cook quickly over high heat.",
   ingredients: `1 lb flank steak, thinly sliced against the grain
 3 cups broccoli florets
@@ -2534,6 +2570,12 @@ Retira del fuego, decora con 2 cebollines rebanados si deseas y sirve de inmedia
   effort: "normal",
   photoUrl: "/images/zuppa-toscana-soup.jpg",
   tags: ["dinner", "soup", "pork", "italian", "comfort", "one-pot", "family-friendly", "leftovers-friendly"],
+  // Zuppa Toscana Soup
+suggestedSides: [
+  "Garlic bread",
+  "Caesar salad",
+  "Breadsticks",
+],
   notes: "A rich and cozy soup that feels like restaurant comfort food at home.",
   ingredients: `1 lb Italian ground sausage
 4 Tbsp butter
@@ -2622,6 +2664,12 @@ Sirve con queso parmesano rallado y tocino en trocitos encima si deseas.`,
   photoUrl: "/images/hidden-veggie-meatloaf.jpg",
   tags: ["dinner", "beef", "meatloaf", "comfort", "family-friendly", "kid-friendly", "leftovers-friendly"],
   isVegetarian: false,
+  // Hidden Veggie Meatloaf
+suggestedSides: [
+  "Mashed potatoes",
+  "Green beans",
+  "Dinner rolls",
+],
   notes: "A moist, flavorful meatloaf packed with hidden vegetables. Squeezing moisture from the zucchini is key to preventing a soggy texture. Perfect with mashed potatoes and great for leftovers.",
   ingredients: `1 1/2 lbs ground beef (80/20 preferred)
 1 medium zucchini, peeled and finely grated
@@ -2728,6 +2776,12 @@ Deja reposar 10 minutos antes de cortar y servir.`,
   effort: "normal",
   photoUrl: "/images/toms-spaghetti.jpg",
   tags: ["dinner", "pasta", "beef", "spaghetti", "comfort", "family-friendly", "leftovers-friendly"],
+  // Tom's Spaghetti
+suggestedSides: [
+  "Caesar salad",
+  "Garlic bread",
+  "Roasted broccoli",
+],
   notes: "A classic, hearty spaghetti dinner that pairs perfectly with Caesar salad and garlic bread.",
   ingredients: `1 box angel hair pasta
 1 lb ground beef
@@ -2804,6 +2858,12 @@ Opcional: acompaña con ensalada César y pan de ajo.`,
   effort: "quick",
   photoUrl: "/images/shrimp-scampi.jpg",
   tags: ["dinner", "seafood", "shellfish", "shrimp", "quick", "skillet", "pasta", "restaurant-style"],
+  // Shrimp Scampi
+suggestedSides: [
+  "Angel hair pasta",
+  "Garlic bread",
+  "Caesar salad",
+],
   notes: "Light, buttery, and full of flavor. Great over angel hair pasta for an easy restaurant-style dinner at home.",
   ingredients: `1 1/2 lbs large shrimp, peeled and deveined
 2 Tbsp butter
