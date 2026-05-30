@@ -45,7 +45,7 @@ export const ALLERGENS = [
       "sour cream",
     ],
   },
-  { key: "eggs", label: "eggs", keywords: ["egg", "eggs", "mayonnaise", "mayo"] },
+  { key: "eggs", label: "Eggs", keywords: ["egg", "eggs", "mayonnaise", "mayo"] },
   {
     key: "soy",
     label: "Soy",
@@ -173,6 +173,11 @@ Serve hot and top with shredded cheese, sour cream, and jalapeños.`,
         "rápido",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Pan de maíz",
+        "Totopos",
+        "Ensalada verde sencilla",
+      ],
       ingredients: `1 lb de carne molida de res
 2 latas (14.5 oz) de tomates asados en cubitos
 1 lata (28 oz) de tomates en cubitos
@@ -240,6 +245,11 @@ Serve chicken and mushroom mixture over rice; season with salt and pepper.`,
         "comida reconfortante",
         "familiar",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Panecillos",
+        "Ensalada de acompañamiento",
+        "Zanahorias asadas",
       ],
       ingredients: `4 pechugas de pollo sin piel
 8 oz de champiñones baby bella, rebanados
@@ -330,6 +340,11 @@ suggestedSides: [
         "alto en proteína",
         "asiático",
         "especial",
+      ],
+      suggestedSides: [
+        "Arroz al vapor",
+        "Ensalada de pepino",
+        "Espárragos asados",
       ],
       ingredients: `Atún:
 2 filetes de atún ahi (aprox. 6 oz cada uno)
@@ -424,6 +439,11 @@ Serve over mashed potatoes with mushroom gravy spooned on top.`,
         "gravy",
         "familiar",
       ],
+      suggestedSides: [
+        "Puré de papas",
+        "Ejotes",
+        "Panecillos",
+      ],
       ingredients: `1 lb de carne molida de res
 1/4 cup de pan molido panko
 1 huevo grande, batido
@@ -505,6 +525,11 @@ Serve warm with ranch dressing.`,
         "frito",
         "picante",
         "estilo restaurante",
+      ],
+      suggestedSides: [
+        "Papas fritas",
+        "Ensalada de col",
+        "Elote entero",
       ],
       ingredients: `1 lb de camarones medianos, pelados y desvenados
 1 1/2 cups de harina
@@ -608,6 +633,11 @@ Serve warm.`,
         "fiesta",
         "comida reconfortante",
         "familiar",
+      ],
+      suggestedSides: [
+        "Papas fritas",
+        "Pepinillos",
+        "Ensalada de col",
       ],
       ingredients: `1 Tbsp de sal sazonada
 1 Tbsp de sazonador para hamburguesa
@@ -715,6 +745,11 @@ Serve warm.`,
         "bandeja",
         "familiar",
       ],
+      suggestedSides: [
+        "Ensalada verde sencilla",
+        "Ensalada de frutas",
+        "Bastones de zanahoria con ranch",
+      ],
       ingredients: `4 Tbsp de aceite de oliva, dividido
 3 Tbsp de harina de maíz
 1 lb de masa de pizza preparada
@@ -805,6 +840,11 @@ Serve hot.`,
         "fiesta",
         "comida reconfortante",
         "día de partido",
+      ],
+      suggestedSides: [
+        "Frijoles horneados",
+        "Ensalada de col",
+        "Ensalada de macarrones",
       ],
       ingredients: `2 cajas (8 oz) de conchas manicotti, sin cocinar
 1 1/2 lb de carne molida de res
@@ -906,6 +946,11 @@ Toss gently and garnish with fresh parsley before serving.`,
         "salchicha",
         "una bandeja",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Arroz pilaf",
+        "Pan de ajo",
+        "Ensalada verde sencilla",
       ],
       ingredients: `spray para cocinar
 3 cups de papas rojas, cortadas en trozos de 1 inch
@@ -1015,6 +1060,11 @@ Let rest for 10 minutes before slicing and serving.`,
         "familiar",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Puré de papas",
+        "Ejotes",
+        "Panecillos",
+      ],
       ingredients: `1 1/2 lbs de carne molida de res
 1 cup de pan molido o galletas saladas trituradas
 1/2 cup de leche
@@ -1113,6 +1163,11 @@ Carefully open packets. Steam will be hot. Remove from foil before serving.`,
         "saludable",
         "una bandeja",
       ],
+      suggestedSides: [
+        "Arroz pilaf",
+        "Papas al limón",
+        "Ensalada de acompañamiento",
+      ],
       ingredients: `1 manojo de espárragos
 2 calabazas amarillas
 1/4 tsp de ajo en polvo
@@ -1201,6 +1256,11 @@ Garnish with chopped cilantro, pico de gallo, and sour cream before serving.`,
         "comida reconfortante",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Arroz con cilantro y limón",
+        "Totopos con salsa",
+        "Elote estilo callejero mexicano",
+      ],
       ingredients: `1 1/2 lbs de carne molida de res magra
 1 paquete de sazonador para tacos
 1 lata (15 oz) de frijoles negros, escurridos y enjuagados
@@ -1286,6 +1346,11 @@ Bake about 30 minutes until browned and bubbling.`,
         "cazuela",
         "familiar",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Panecillos",
+        "Ensalada verde sencilla",
+        "Zanahorias asadas",
       ],
       ingredients: `1 1/2 a 2 lbs de papas (aprox. 3 grandes), peladas y cortadas en cuartos
 8 Tbsp de mantequilla (1 barra), dividida
@@ -1377,6 +1442,11 @@ Cool 1 to 2 minutes. Top with fresh basil and red pepper flakes if desired and s
         "pimientos rellenos",
         "comida reconfortante",
         "familiar",
+      ],
+      suggestedSides: [
+        "Pan de ajo",
+        "Ensalada César",
+        "Calabacita asada",
       ],
       ingredients: `1 lb de salchicha italiana
 2 tsp de aceite de oliva
@@ -1471,6 +1541,11 @@ Garnish with 2 sliced green onions and 1 tsp sesame seeds before serving.`,
         "entre semana",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Arroz al vapor",
+        "Brócoli",
+        "Ensalada de pepino",
+      ],
       ingredients: `1 1/2 lbs de pechuga de pollo sin hueso y sin piel
 2 Tbsp de maicena, opcional
 1 Tbsp de aceite de oliva
@@ -1558,6 +1633,11 @@ Remove from heat. Garnish with 1 Tbsp chopped fresh parsley and serve immediatel
         "una sartén",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Arroz pilaf",
+        "Espárragos asados",
+        "Ensalada verde sencilla",
+      ],
       ingredients: `4 filetes de salmón (aprox. 6 oz cada uno, con piel preferiblemente)
 1/2 tsp de sal
 1/2 tsp de pimienta
@@ -1642,6 +1722,11 @@ Remove from heat, sprinkle with 2 sliced green onions, and serve immediately.`,
         "rápido",
         "estilo comida para llevar",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Rollitos primavera",
+        "Ensalada de pepino",
+        "Edamame al vapor",
       ],
       ingredients: `2 cups de arroz cocido y frío, preferiblemente del día anterior
 1 lb de pollo cocido, cortado en cubitos, o pollo rostizado
@@ -1730,6 +1815,11 @@ Slice and serve immediately.`,
         "para niños",
         "una bandeja",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Ensalada de col",
+        "Elote entero",
+        "Ensalada de frutas",
       ],
       ingredients: `2 panes planos o naan
 1 cup de pollo cocido, deshebrado; el pollo rostizado funciona muy bien
@@ -1825,6 +1915,11 @@ Let rest for 10 minutes before serving. Garnish with 1/4 cup fresh chopped parsl
         "italiana",
         "familiar",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Pan de ajo",
+        "Ensalada César",
+        "Brócoli asado",
       ],
       ingredients: `1 lb de pasta ziti
 1 lb de carne molida de res, o salchicha italiana para más sabor
@@ -1924,6 +2019,11 @@ Taste and adjust salt and pepper as needed. Remove from heat and garnish with 1/
         "estufa",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Pan de ajo",
+        "Ensalada César",
+        "Brócoli al vapor",
+      ],
       ingredients: `2 pechugas de pollo sin hueso y sin piel, rebanadas
 12 oz de fettuccine
 1 Tbsp de aceite de oliva
@@ -2021,6 +2121,11 @@ Serve over the cooked egg noodles and garnish with 1/4 cup fresh parsley if desi
         "pasta",
         "familiar",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Ensalada verde sencilla",
+        "Zanahorias asadas",
+        "Panecillos",
       ],
       ingredients: `1 lb de sirloin de res, rebanado finamente
 8 oz de champiñones baby bella, rebanados
@@ -2125,6 +2230,11 @@ Let rest for 10 minutes before serving to allow the filling to set.`,
         "cazuela",
         "familiar",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Ensalada de acompañamiento",
+        "Ejotes asados",
+        "Salsa de arándanos",
       ],
       ingredients: `2 cups de pollo cocido, cortado en cubitos; el pollo rostizado funciona muy bien
 1 cup de verduras mixtas congeladas
@@ -2235,6 +2345,11 @@ Remove from heat and serve warm.`,
         "una sartén",
         "familiar",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Totopos con salsa",
+        "Elote estilo callejero mexicano",
+        "Ensalada verde sencilla",
       ],
       ingredients: `1 lb de carne molida de res
 8 oz de pasta; rotini o conchas funcionan mejor
@@ -2347,6 +2462,11 @@ Spoon risotto onto plates and top with the seared scallops. Garnish with 1 Tbsp 
         "noche especial",
         "estilo restaurante",
       ],
+      suggestedSides: [
+        "Espárragos asados",
+        "Ensalada verde sencilla",
+        "Pan de ajo",
+      ],
       ingredients: `10 vieiras grandes de mar, sin el músculo lateral
 1 cup de arroz Arborio
 3 cups de caldo de pollo, mantenido caliente
@@ -2445,6 +2565,11 @@ Remove from the oven and serve immediately.`,
         "una bandeja",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Arroz pilaf",
+        "Papas asadas",
+        "Ensalada verde sencilla",
+      ],
       ingredients: `4 filetes de salmón (aprox. 6 oz cada uno)
 1 manojo de espárragos, recortados
 2 Tbsp de aceite de oliva
@@ -2530,6 +2655,11 @@ Remove from heat, garnish with 2 sliced green onions if desired, and serve immed
         "rápido",
         "estilo comida para llevar",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Arroz al vapor",
+        "Rollitos primavera",
+        "Ensalada de pepino",
       ],
       ingredients: `1 lb de flank steak, rebanado finamente contra la fibra
 3 cups de floretes de brócoli
@@ -2621,6 +2751,11 @@ Serve topped with grated Parmesan cheese and bacon bits if desired.`,
         "una olla",
         "familiar",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Pan de ajo",
+        "Ensalada César",
+        "Palitos de pan",
       ],
       ingredients: `1 lb de salchicha italiana molida
 4 Tbsp de mantequilla
@@ -2725,6 +2860,11 @@ Let rest for 10 minutes before slicing and serving.`,
         "para niños",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Puré de papas",
+        "Ejotes",
+        "Panecillos",
+      ],
       ingredients: `1 1/2 lbs de carne molida de res, preferiblemente 80/20
 1 zucchini mediano, pelado y finamente rallado
 2 zanahorias, peladas y finamente ralladas
@@ -2822,6 +2962,11 @@ Optional: Pair with Caesar salad and garlic bread.`,
         "familiar",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Ensalada César",
+        "Pan de ajo",
+        "Brócoli asado",
+      ],
       ingredients: `1 caja de pasta cabello de ángel
 1 lb de carne molida de res
 1 pimiento verde, picado en cubitos
@@ -2910,6 +3055,11 @@ Optional: Pair with angel hair pasta.`,
         "sartén",
         "pasta",
         "estilo restaurante",
+      ],
+      suggestedSides: [
+        "Pasta cabello de ángel",
+        "Pan de ajo",
+        "Ensalada César",
       ],
       ingredients: `1 1/2 lbs de camarones grandes, pelados y desvenados
 2 Tbsp de mantequilla
@@ -3000,6 +3150,11 @@ Serve with lemon wedges from 1 lemon and your choice of cocktail sauce or tartar
         "horneado",
         "clásico",
         "maryland",
+      ],
+      suggestedSides: [
+        "Ensalada de col",
+        "Elote entero",
+        "Papas asadas",
       ],
       ingredients: `1 lb de carne de cangrejo en trozos
 1 huevo grande
@@ -3098,6 +3253,11 @@ Serve the roast and vegetables topped with gravy and sprinkled with 2 Tbsp fresh
         "comida reconfortante",
         "familiar",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Panecillos",
+        "Ensalada de acompañamiento",
+        "Ejotes",
       ],
       ingredients: `1 1/2 Tbsp de aceite de oliva, dividido
 1 asado de chuck roast (3 lb)
@@ -3200,6 +3360,11 @@ Serve hot and top with shredded cheddar cheese, bacon bits, and sliced green oni
         "familiar",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Sándwich de queso a la plancha",
+        "Ensalada de acompañamiento",
+        "Panecillos",
+      ],
       ingredients: `1 bolsa (30 oz) de papas hash brown congeladas en cubitos
 1 cartón (32 oz) de caldo de pollo
 1 lata (10.75 oz) de crema de pollo
@@ -3297,6 +3462,11 @@ Serve immediately with celery sticks, carrot sticks, and ranch or blue cheese dr
         "comida reconfortante",
         "para compartir",
       ],
+      suggestedSides: [
+        "Bastones de apio",
+        "Bastones de zanahoria",
+        "Papas fritas",
+      ],
       ingredients: `2 a 3 lbs de alitas de pollo, flats y drums separados
 aceite vegetal para freír
 1 Tbsp de sebo de res, opcional para más sabor
@@ -3384,6 +3554,11 @@ Let rest for 5 minutes before serving.`,
         "jugoso",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Frijoles horneados",
+        "Ensalada de col",
+        "Elote entero",
+      ],
       ingredients: `6 muslos de pollo con hueso y piel
 1 Tbsp de aceite de oliva
 1 tsp de sal
@@ -3457,6 +3632,11 @@ Slice against the grain and serve.`,
         "rápido",
         "alto en proteína",
         "bajo en carbohidratos",
+      ],
+      suggestedSides: [
+        "Papa al horno",
+        "Espárragos a la parrilla",
+        "Ensalada de acompañamiento",
       ],
       ingredients: `2 bistecs ribeye o sirloin (aprox. 1 a 1 1/2 inches de grosor)
 1 Tbsp de aceite de oliva
@@ -3534,6 +3714,11 @@ Let rest for 5 minutes before slicing to keep juices locked in.`,
         "meal prep",
         "rápido",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Arroz pilaf",
+        "Verduras a la parrilla",
+        "Ensalada verde sencilla",
       ],
       ingredients: `4 pechugas de pollo sin hueso y sin piel
 2 Tbsp de aceite de oliva
@@ -3615,6 +3800,11 @@ Remove from grill and sprinkle with 1 Tbsp fresh chopped parsley if desired. Ser
         "alto en proteína",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Arroz con cilantro y limón",
+        "Verduras a la parrilla",
+        "Ensalada de pepino",
+      ],
       ingredients: `1 lb de camarones grandes, pelados y desvenados, con o sin cola
 2 Tbsp de aceite de oliva
 2 dientes de ajo, picados
@@ -3695,6 +3885,11 @@ Serve the sausage with the peppers and onions, either on a plate or in toasted h
         "una sartén",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Panecillos para hoagie",
+        "Ensalada de papa",
+        "Ensalada de col",
+      ],
       ingredients: `1 paquete (12 a 14 oz) de salchicha ahumada o salchicha italiana
 2 pimientos, de cualquier color, rebanados
 1 cebolla amarilla grande, rebanada
@@ -3771,6 +3966,11 @@ Serve warm.`,
         "alto en proteína",
         "verano",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Puré de manzana",
+        "Papas asadas",
+        "Ejotes",
       ],
       ingredients: `4 chuletas de cerdo con hueso (aprox. 1 inch de grosor)
 2 Tbsp de aceite de oliva
@@ -3857,6 +4057,11 @@ Assemble burgers with lettuce, sliced tomato, and pickles, and serve with chips 
         "verano",
         "familiar",
       ],
+      suggestedSides: [
+        "Papas fritas",
+        "Ensalada de col",
+        "Rebanadas de sandía",
+      ],
       ingredients: `2 lbs de carne molida de res (80/20)
 1 1/2 tsp de sal
 1 tsp de pimienta
@@ -3936,6 +4141,11 @@ Optional: Serve with warm tomato soup.`,
         "queso",
         "para niños",
       ],
+      suggestedSides: [
+        "Sopa de tomate",
+        "Pepinillos en tiras",
+        "Rebanadas de manzana",
+      ],
       ingredients: `pan de masa madre
 mantequilla
 rebanadas de queso cheddar suave`,
@@ -4009,6 +4219,11 @@ Remove from the oven, garnish with fresh basil or parsley if desired, and serve 
         "con queso",
         "una bandeja",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Ensalada César",
+        "Pan de ajo",
+        "Brócoli asado",
       ],
       ingredients: `4 milanesas de pollo cocidas o tortitas de pollo empanizadas
 1 cup de salsa marinara, más extra para mojar
@@ -4104,6 +4319,11 @@ Serve immediately with optional toppings like sour cream, sliced green onions, o
         "familiar",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Totopos con salsa",
+        "Ensalada verde sencilla",
+        "Elote estilo callejero mexicano",
+      ],
       ingredients: `1 lb de carne molida de res
 2 cups de macarrones cocidos
 1 Tbsp de aceite de oliva
@@ -4198,6 +4418,11 @@ Remove from heat and garnish with sliced lemon and fresh parsley if desired. Ser
         "una sartén",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Arroz pilaf",
+        "Brócoli al vapor",
+        "Ensalada de acompañamiento",
+      ],
       ingredients: `4 filetes de tilapia
 1 Tbsp de aceite de oliva
 1 tsp de sazonador limón-pimienta
@@ -4277,6 +4502,11 @@ Serve warm with additional BBQ sauce if desired.`,
         "familiar",
         "una bandeja",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Frijoles horneados",
+        "Ensalada de col",
+        "Elote entero",
       ],
       ingredients: `4 pechugas de pollo sin hueso y sin piel
 1 Tbsp de aceite de oliva
@@ -4371,6 +4601,11 @@ Fill shells with seasoned beef and desired toppings. Serve immediately.`,
         "familiar",
         "arma a tu gusto",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Arroz con cilantro y limón",
+        "Totopos con salsa",
+        "Elote estilo callejero mexicano",
       ],
       ingredients: `1 lb de carne molida de res
 2/3 cup de agua
@@ -4475,6 +4710,11 @@ Spoon the sloppy joe mixture onto the buns and top with sliced pickles. Serve wa
         "una sartén",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Papas fritas",
+        "Pepinillos",
+        "Ensalada de col",
+      ],
       ingredients: `1 lb de carne molida de res
 1 Tbsp de aceite de oliva
 1/2 cebolla amarilla pequeña, finamente picada
@@ -4577,6 +4817,11 @@ Rest for at least 15 minutes before cutting.`,
         "para compartir",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Pan de ajo",
+        "Ensalada César",
+        "Brócoli asado",
+      ],
       ingredients: `12 láminas de lasaña, sin cocinar
 2 1/2 cups de queso mozzarella rallado
 1/4 cup de queso parmesano rallado
@@ -4674,6 +4919,11 @@ Serve immediately while hot.`,
         "familiar",
         "una sartén",
         "para compartir",
+      ],
+      suggestedSides: [
+        "Papas fritas",
+        "Ensalada de col",
+        "Rebanadas de sandía",
       ],
       ingredients: `8 hot dogs
 8 panes para hot dog
@@ -4781,6 +5031,11 @@ Serve hot with desired toppings like shredded cheese, cilantro, green onions, an
         "comida reconfortante",
         "cremoso",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Pan de maíz",
+        "Totopos",
+        "Ensalada verde sencilla",
       ],
       ingredients: `2 cups de pollo cocido y deshebrado; el pollo rostizado funciona muy bien
 1 Tbsp de aceite de oliva
@@ -4900,6 +5155,11 @@ Serve hot with desired toppings such as shredded cheese, sour cream, tortilla ch
         "familiar",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Totopos",
+        "Arroz con cilantro y limón",
+        "Pan de maíz",
+      ],
       ingredients: `1 lb de carne molida de res
 1 Tbsp de aceite de oliva
 1 cebolla amarilla pequeña, picada
@@ -5009,6 +5269,11 @@ Remove from oven and serve immediately in warm tortillas with sour cream, shredd
         "una bandeja",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Arroz con cilantro y limón",
+        "Totopos con salsa",
+        "Frijoles refritos",
+      ],
       ingredients: `1 1/2 lbs de pechuga de pollo, rebanada en tiras
 2 pimientos, de cualquier color, rebanados
 1 cebolla amarilla grande, rebanada
@@ -5107,6 +5372,11 @@ Serve hot with your favorite dipping sauces.`,
         "una tanda",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Papas fritas",
+        "Bastones de zanahoria con ranch",
+        "Ensalada de frutas",
+      ],
       ingredients: `1 1/2 lbs de tiras de pollo
 1/2 cup de harina de todo uso
 2 huevos grandes, batidos
@@ -5194,6 +5464,11 @@ Remove from the oven and let rest for 5 minutes before serving.`,
         "familiar",
         "una bandeja",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Puré de papas",
+        "Ejotes",
+        "Panecillos",
       ],
       ingredients: `6 muslos de pollo con hueso y piel
 1 Tbsp de aceite de oliva
@@ -5286,6 +5561,11 @@ Let rest for 5 minutes before serving with extra barbecue sauce if desired.`,
         "una bandeja",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Frijoles horneados",
+        "Ensalada de col",
+        "Elote entero",
+      ],
       ingredients: `8 piernas de pollo
 1 Tbsp de aceite de oliva
 1/2 cup de salsa barbecue, más extra para servir
@@ -5370,6 +5650,11 @@ suggestedSides: [
         "meal prep",
         "proteína",
         "receta base",
+      ],
+      suggestedSides: [
+        "Ensalada de col",
+        "Frijoles horneados",
+        "Macarrones con queso ahumados",
       ],
       ingredients: `8 lb de paleta de cerdo
 1/4 cup de mostaza amarilla
@@ -5458,6 +5743,11 @@ suggestedSides: [
         "familiar",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Puré de papas",
+        "Ejotes",
+        "Panecillos",
+      ],
       ingredients: `1/2 cup de pan molido
 1/3 cup de leche
 1 lb de carne molida de res
@@ -5538,6 +5828,11 @@ suggestedSides: [
         "armado",
         "familiar",
         "comida callejera",
+      ],
+      suggestedSides: [
+        "Arroz con cilantro y limón",
+        "Totopos con salsa",
+        "Elote estilo callejero mexicano",
       ],
       ingredients: `cerdo deshebrado, ver receta "Cerdo deshebrado ahumado"
 8 tortillas pequeñas de maíz o harina
@@ -5620,6 +5915,11 @@ suggestedSides: [
         "vegetariano",
         "asado",
         "acogedor",
+      ],
+      suggestedSides: [
+        "Sándwich de queso a la plancha",
+        "Pan de ajo",
+        "Ensalada de acompañamiento",
       ],
       ingredients: `3 lbs de tomates, cortados por la mitad
 1 cebolla dulce, cortada en gajos gruesos
@@ -5726,6 +6026,11 @@ suggestedSides: [
         "sustancioso",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Panecillos",
+        "Ensalada de acompañamiento",
+        "Pan de maíz",
+      ],
       ingredients: `2 lbs de carne de res para estofado
 2 Tbsp de aceite de oliva
 1 cebolla amarilla, picada
@@ -5831,6 +6136,11 @@ suggestedSides: [
         "divertido",
         "para compartir",
       ],
+      suggestedSides: [
+        "Totopos con salsa",
+        "Guacamole",
+        "Elote estilo callejero",
+      ],
       ingredients: `Rosca de taco:
 1 lb de carne molida de res
 1/2 lb de cebolla, picada en cubitos
@@ -5935,6 +6245,11 @@ suggestedSides: [
         "horno",
         "familiar",
         "comida reconfortante",
+      ],
+      suggestedSides: [
+        "Ensalada de col",
+        "Ensalada verde sencilla",
+        "Ensalada de frutas",
       ],
       ingredients: `Pollo:
 1 lb de pechuga o muslos de pollo sin hueso y sin piel
@@ -6043,6 +6358,11 @@ suggestedSides: [
         "crujiente",
         "familiar",
         "sureño",
+      ],
+      suggestedSides: [
+        "Puré de papas",
+        "Ensalada de col",
+        "Biscuits",
       ],
       ingredients: `Pollo:
 3 lbs de piezas de pollo con hueso, piernas, muslos, pechugas o alitas
@@ -6168,6 +6488,11 @@ Serve with lime wedges and cotija cheese if desired.`,
         "saludable",
         "alto en proteína",
         "meal-prep",
+      ],
+      suggestedSides: [
+        "Totopos",
+        "Verduras a la parrilla",
+        "Ensalada de acompañamiento",
       ],
       ingredients: `Carne:
 1 1/2 lbs de arrachera
@@ -6302,6 +6627,11 @@ Serve immediately while hot and juicy.`,
         "premium",
         "familiar",
       ],
+      suggestedSides: [
+        "Papas fritas de camote",
+        "Ensalada griega",
+        "Pepinillos",
+      ],
       ingredients: `Hamburguesas:
 1 lb de carne molida de res (80/20 recomendado)
 1 lb de carne molida de cordero
@@ -6425,6 +6755,11 @@ Serve hot with sour cream, guacamole, pico de gallo, cilantro, and lime wedges i
         "sobras",
         "familiar",
       ],
+      suggestedSides: [
+        "Totopos con salsa",
+        "Elote estilo callejero mexicano",
+        "Arroz con cilantro y limón",
+      ],
       ingredients: `Relleno:
 2 tazas de brisket cocido y deshebrado
 1/2 taza de queso Monterey Jack rallado
@@ -6542,6 +6877,11 @@ Let cool for 5 minutes before serving because the filling will be very hot.`,
         "niños",
         "portátil",
         "horno",
+      ],
+      suggestedSides: [
+        "Salsa marinara para acompañar",
+        "Ensalada verde sencilla",
+        "Bastones de zanahoria con ranch",
       ],
       ingredients: `Masa:
 1 lb de masa para pizza (casera o comprada)
@@ -6663,6 +7003,11 @@ Serve warm.`,
         "personalizable",
         "horno",
         "comida para fiestas",
+      ],
+      suggestedSides: [
+        "Ensalada de acompañamiento",
+        "Brócoli al vapor",
+        "Chili",
       ],
       ingredients: `Papas:
 6 papas russet grandes
@@ -6787,6 +7132,11 @@ Serve warm with fresh parsley and parmesan cheese if desired.`,
         "una olla",
         "meal-prep",
       ],
+      suggestedSides: [
+        "Sándwich de queso a la plancha",
+        "Rebanadas de manzana",
+        "Galletas saladas",
+      ],
       ingredients: `Base de la Sopa:
 1 cucharada de aceite de oliva
 1 cebolla pequeña, picada
@@ -6892,6 +7242,11 @@ Serve warm.`,
         "fácil",
         "familiar",
         "meal-prep",
+      ],
+      suggestedSides: [
+        "Puré de papas",
+        "Ejotes",
+        "Panecillos",
       ],
       ingredients: `Pollo:
 2 a 3 lbs de pechugas de pollo sin hueso y sin piel (o muslos)
@@ -7002,6 +7357,11 @@ Garnish with 1 tbsp fresh parsley and serve warm.`,
         "familiar",
         "asado",
         "alto en proteína",
+      ],
+      suggestedSides: [
+        "Papas asadas",
+        "Ejotes",
+        "Ensalada de acompañamiento",
       ],
       ingredients: `Cerdo:
 3 a 4 lb de lomo de cerdo
@@ -7140,6 +7500,11 @@ Serve immediately while hot and crispy.`,
         "crujiente",
         "familiar",
         "plancha",
+      ],
+      suggestedSides: [
+        "Papas fritas",
+        "Pepinillos",
+        "Ensalada de col",
       ],
       ingredients: `Hamburguesas:
 2 lbs de carne molida de res (80/20 recomendado)
@@ -7300,6 +7665,11 @@ Serve topped with diced onion and cilantro alongside small bowls of warm birria 
         "crujiente",
         "familiar",
       ],
+      suggestedSides: [
+        "Elote estilo callejero mexicano",
+        "Totopos con salsa",
+        "Arroz con cilantro y limón",
+      ],
       ingredients: `Carne:
 3 lbs de chuck roast de res, cortado en trozos grandes
 1 cucharada de aceite de oliva
@@ -7458,6 +7828,11 @@ Serve warm with extra hot sauce if desired.`,
         "parrillada",
         "picante",
       ],
+      suggestedSides: [
+        "Frijoles horneados",
+        "Ensalada de col",
+        "Macarrones con queso ahumados",
+      ],
       ingredients: `Costillas:
 2 racks de costillas baby back
 2 cucharadas de mostaza amarilla
@@ -7589,6 +7964,11 @@ Spoon some of the buttery pan juices over the chicken before serving.`,
         "hierro fundido",
         "crujiente",
         "familiar",
+      ],
+      suggestedSides: [
+        "Papas asadas",
+        "Ejotes",
+        "Ensalada verde sencilla",
       ],
       ingredients: `Pollo:
 1 pollo entero (4 a 5 lbs)
@@ -7722,6 +8102,11 @@ Serve patties warm with dipping sauce and garnish with sesame seeds and green on
         "comfort",
         "asiática",
         "meal-prep",
+      ],
+      suggestedSides: [
+        "Arroz al vapor",
+        "Ensalada de pepino",
+        "Kimchi",
       ],
       ingredients: `Tortitas de Res:
 1 lb de carne molida de res
@@ -7872,6 +8257,11 @@ Serve immediately with lime wedges.`,
         "premium",
         "cocción lenta",
       ],
+      suggestedSides: [
+        "Arroz con cilantro y limón",
+        "Cebollas rojas encurtidas",
+        "Totopos con guacamole",
+      ],
       ingredients: `Pato:
 4 piernas de pato
 1 cucharada de sal
@@ -8015,6 +8405,11 @@ Serve warm with extra glaze spooned over the top if desired.`,
         "horno",
         "premium",
       ],
+      suggestedSides: [
+        "Puré de papas",
+        "Zanahorias asadas",
+        "Panecillos",
+      ],
       ingredients: `Pastel de Carne:
 1 lb de carne molida wagyu
 1 lb de carne molida chuck
@@ -8128,6 +8523,11 @@ Carefully open the packets because hot steam will escape. Serve directly from th
         "familiar",
         "aire libre",
       ],
+      suggestedSides: [
+        "Frijoles horneados",
+        "Elote entero",
+        "Rebanadas de sandía",
+      ],
       ingredients: `1 lb de carne molida
 2 tazas de papas pequeñas, en rodajas finas
 1 taza de zanahorias, en rodajas
@@ -8223,6 +8623,11 @@ Top with sour cream and sliced green onions before serving.`,
         "horno holandés",
         "familiar",
         "comfort",
+      ],
+      suggestedSides: [
+        "Totopos con salsa",
+        "Guacamole",
+        "Elote estilo mexicano",
       ],
       ingredients: `1 lb de carne molida
 1 cebolla pequeña, picada
@@ -8323,6 +8728,11 @@ Remove from heat and let rest for 5 minutes before serving.`,
         "comfort",
         "familiar",
       ],
+      suggestedSides: [
+        "Pan de maíz",
+        "Ensalada verde sencilla",
+        "Totopos",
+      ],
       ingredients: `1 lb de carne molida
 1 cebolla pequeña, picada
 2 dientes de ajo, picados
@@ -8414,6 +8824,11 @@ Serve warm directly from the skewers.`,
         "parrilla",
         "familiar",
       ],
+      suggestedSides: [
+        "Papas fritas de bolsa",
+        "Ensalada de frutas",
+        "Frijoles horneados",
+      ],
       ingredients: `8 hot dogs
 1 pimiento morrón, cortado en trozos grandes
 1 cebolla roja pequeña, en trozos
@@ -8500,6 +8915,11 @@ Carefully remove the pudgie pie from the pie iron and let cool for 1 to 2 minute
         "comfort",
         "familiar",
       ],
+      suggestedSides: [
+        "Papas fritas de bolsa",
+        "Palitos de zanahoria con aderezo ranch",
+        "Rebanadas de manzana",
+      ],
       ingredients: `8 rebanadas de pan de molde
 2 cucharadas de mantequilla, suave
 1 taza de salsa para pizza
@@ -8571,12 +8991,6 @@ Remove and let rest for a few minutes before serving.`,
   effort: "big",
   tags: ["side", "bbq", "smoker", "comfort", "cheesy", "family", "cookout"],
   isVegetarian: true,
-  // Smoked Mac and Cheese
-suggestedSides: [
-  "Pulled pork",
-  "BBQ chicken",
-  "Simple green salad",
-],
   notes: "Ultra-creamy smoked mac and cheese made without a traditional sauce. The cheese melts directly into the noodles while smoking, creating rich flavor with minimal effort.",
   translations: {
     es: {
@@ -9385,6 +9799,12 @@ suggestedSides: [
         "familiar",
         "fresco",
       ],
+      suggestedSides: [
+        "Papitas",
+        "Ensalada de frutas",
+        "Pepinillos",
+      ],
+
       ingredients: `Pollo:
 1 lb de pechugas de pollo sin hueso y sin piel
 1 Tbsp de aceite de oliva
@@ -9471,6 +9891,12 @@ Bake for 20 minutes or until the muffins are set and lightly browned on top.`,
         "meal prep",
         "cerdo",
       ],
+      suggestedSides: [
+        "Fruta fresca",
+        "Papas hash brown",
+        "Yogur",
+      ],
+
       ingredients: `1 cup de Bisquick
 1 lb de salchicha de desayuno, cocida
 4 huevos, batidos
@@ -9545,6 +9971,12 @@ Top with fresh blueberries and strawberries if desired before serving.`,
         "familiar",
         "preparar con anticipación",
       ],
+      suggestedSides: [
+        "Frutos rojos frescos",
+        "Tocino",
+        "Huevos revueltos",
+      ],
+
       ingredients: `1 pan de masa madre
 8 huevos grandes
 2 cups de leche
@@ -9826,6 +10258,11 @@ Top with the remaining green onions and sesame seeds and serve immediately.`,
         "una sartén",
         "asiático",
       ],
+      suggestedSides: [
+        "Arroz al vapor",
+        "Rollitos primavera",
+        "Ensalada de pepino",
+      ],
       ingredients: `2 Tbsp de aceite de oliva
 1 pimiento rojo, rebanado
 1 pimiento amarillo, rebanado
@@ -9936,6 +10373,11 @@ Serve hot and garnish with sesame seeds if desired.`,
         "rápido",
         "una sartén",
         "estilo comida para llevar",
+      ],
+      suggestedSides: [
+        "Rollitos primavera",
+        "Ensalada de pepino",
+        "Edamame al vapor",
       ],
       ingredients: `Fideos:
 8 oz de fideos lo mein (o espagueti como sustituto)
@@ -10058,6 +10500,11 @@ Drizzle with balsamic glaze if desired and serve warm.`,
         "saludable",
         "comfort",
       ],
+      suggestedSides: [
+        "Ensalada verde sencilla",
+        "Pan de ajo",
+        "Brócoli asado",
+      ],
       ingredients: `Charola:
 1 paquete (16 oz) de gnocchi de papa estable en estante
 1 calabacín, en rodajas
@@ -10175,6 +10622,11 @@ Garnish with parsley if using and serve immediately.`,
         "rápido",
         "familiar",
       ],
+      suggestedSides: [
+        "Pan de ajo",
+        "Ensalada César",
+        "Zanahorias asadas",
+      ],
       ingredients: `Pasta:
 12 oz de pasta tipo conchas medianas
 1 taza de chícharos congelados
@@ -10289,6 +10741,11 @@ Slice into wedges and serve warm with desired toppings.`,
         "rápido",
         "familiar",
         "comfort",
+      ],
+      suggestedSides: [
+        "Arroz con cilantro y lima",
+        "Totopos con salsa",
+        "Guacamole",
       ],
       ingredients: `Relleno:
 1 lata (15 oz) de frijoles negros, escurridos y enjuagados
@@ -10409,6 +10866,11 @@ Add desired toppings and serve warm.`,
         "comfort",
         "rápido",
         "familiar",
+      ],
+      suggestedSides: [
+        "Papas fritas de camote",
+        "Ensalada de col",
+        "Pepinillos en tiras",
       ],
       ingredients: `Relleno de Lentejas:
 1 cucharada de aceite de oliva
@@ -10532,6 +10994,11 @@ Garnish with fresh chopped parsley if desired and serve warm.`,
         "picante",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Pan de maíz",
+        "Ensalada sencilla",
+        "Okra asada",
+      ],
       ingredients: `2 Tbsp de aceite de oliva
 1/2 cebolla amarilla grande, picada
 2 dientes de ajo, picados
@@ -10635,6 +11102,11 @@ Slice and serve warm with extra salsa.`,
         "una sartén",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Totopos con salsa",
+        "Elote estilo mexicano",
+        "Arroz con cilantro y lima",
+      ],
       ingredients: `4 tortillas de harina pequeñas
 1 cup de queso cheddar rallado
 1 lata (15 oz) de frijoles negros, escurridos y enjuagados
@@ -10714,6 +11186,11 @@ Remove from oven and top with 1 Tbsp fresh chopped basil if desired. Slice and s
         "para niños",
         "una bandeja",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Ensalada verde sencilla",
+        "Ensalada de frutas",
+        "Brócoli asado",
       ],
       ingredients: `2 panes naan
 1/4 cup de pesto de albahaca
@@ -10796,6 +11273,11 @@ Serve hot.`,
         "saludable",
         "una sartén",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Arroz con coco",
+        "Piña a la parrilla",
+        "Ensalada de pepino",
       ],
       ingredients: `1 bloque (14 oz) de tofu extra firme, prensado
 2 Tbsp de sazonador jerk jamaicano
@@ -10892,6 +11374,11 @@ Let rest for 5 to 10 minutes before serving.`,
         "cazuela",
         "familiar",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Panecillos",
+        "Ensalada sencilla",
+        "Zanahorias asadas",
       ],
       ingredients: `1 1/2 cups de lentejas cocidas
 4 papas grandes, peladas y picadas
@@ -10991,6 +11478,11 @@ Remove from heat and stir in 1 Tbsp lemon juice if desired. Serve immediately.`,
         "una sartén",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Pan de ajo",
+        "Ensalada César",
+        "Brócoli asado",
+      ],
       ingredients: `1 paquete (20 oz) de tortellini de queso
 1 Tbsp de aceite de oliva o mantequilla
 2 dientes de ajo, picados
@@ -11078,6 +11570,11 @@ Let rest for 5 to 10 minutes before serving.`,
         "italiana",
         "familiar",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Pan de ajo",
+        "Ensalada César",
+        "Calabacín asado",
       ],
       ingredients: `1 caja de conchas jumbo de pasta
 1 envase (15 oz) de queso ricotta
@@ -11175,6 +11672,11 @@ Serve hot over cooked basmati rice or with warm naan.`,
         "comida reconfortante",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Arroz basmati",
+        "Naan",
+        "Ensalada de pepino con yogur",
+      ],
       ingredients: `2 latas (15 oz) de garbanzos, escurridos y enjuagados
 1 Tbsp de aceite de oliva
 1 cebolla amarilla pequeña, finamente picada
@@ -11271,6 +11773,11 @@ Remove from heat, garnish with 1 Tbsp fresh chopped parsley if desired, and serv
         "una sartén",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Ensalada verde sencilla",
+        "Rebanadas de aguacate",
+        "Pan tostado",
+      ],
       ingredients: `1 bloque (14 oz) de tofu firme, prensado y cortado en cubos
 2 cups de hongos king oyster, rebanados
 2 cups de papas, cortadas en cubitos pequeños para cocción uniforme
@@ -11357,6 +11864,11 @@ Serve immediately.`,
         "saludable",
         "una sartén",
         "ligero",
+      ],
+      suggestedSides: [
+        "Pan de ajo",
+        "Ensalada verde sencilla",
+        "Espárragos asados",
       ],
       ingredients: `1/2 lb de pasta penne
 1 cup de tomates cherry, cortados por la mitad
@@ -11447,6 +11959,11 @@ Garnish with 1/4 cup fresh chopped parsley if desired and serve warm.`,
         "mediterráneo",
         "una bandeja",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Ensalada griega",
+        "Pan pita",
+        "Ensalada de pepino",
       ],
       ingredients: `4 pimientos grandes, sin la parte superior y sin semillas
 2 cups de quinoa cocida
@@ -11548,6 +12065,11 @@ Serve immediately with lime wedges and optional extra peanuts or cilantro.`,
         "sartén",
         "una sartén",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Rollitos primavera",
+        "Ensalada de pepino",
+        "Edamame al vapor",
       ],
       ingredients: `8 oz de fideos de arroz
 8 oz de tofu firme, prensado y cortado en cubos
@@ -11654,6 +12176,11 @@ Let rest for 5 to 10 minutes before slicing and serving.`,
         "festivo",
         "plato especial",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Puré de papas",
+        "Ejotes",
+        "Ensalada sencilla",
       ],
       ingredients: `1 hoja de masa de hojaldre, descongelada
 1 camote grande, pelado y rebanado en rodajas
@@ -11763,6 +12290,11 @@ Serve patties on buns with your favorite toppings like lettuce, tomato, sliced a
         "familiar",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Ensalada de col",
+        "Pepinillos en tiras",
+        "Ensalada sencilla",
+      ],
       ingredients: `2 latas (15 oz) de frijoles negros, escurridos y enjuagados
 2 camotes grandes, cortados en gajos
 1/2 cup de pan molido
@@ -11866,6 +12398,11 @@ Garnish with 1/4 cup chopped fresh cilantro before serving.`,
         "familiar",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Arroz con cilantro y lima",
+        "Totopos con salsa",
+        "Guacamole",
+      ],
       ingredients: `2 camotes grandes, pelados y cortados en cubos
 1 lata (15 oz) de frijoles negros, escurridos y enjuagados
 8 tortillas de maíz
@@ -11963,6 +12500,11 @@ Remove the foil, top with the remaining shredded cheese, and bake uncovered for 
         "horneado",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Ensalada sencilla",
+        "Ejotes",
+        "Panecillos",
+      ],
       ingredients: `12 oz de fideos de huevo
 1 cebolla amarilla mediana, picada
 1 cebolla blanca mediana, picada
@@ -12059,6 +12601,11 @@ Drizzle the balsamic glaze over the mushrooms, top with shredded fresh basil, an
         "una bandeja",
         "ligero",
       ],
+      suggestedSides: [
+        "Pan de ajo",
+        "Ensalada verde sencilla",
+        "Espárragos asados",
+      ],
       ingredients: `5 a 6 champiñones portobello grandes, sin tallos y con las agallas raspadas
 2 Tbsp de mantequilla
 2 dientes de ajo, picados
@@ -12151,6 +12698,11 @@ Let the quiche rest slightly to set before slicing and serving.`,
         "meal prep",
         "saludable",
       ],
+      suggestedSides: [
+        "Ensalada de frutas",
+        "Papas asadas",
+        "Ensalada sencilla",
+      ],
       ingredients: `1 bolsa (10 oz) de espinaca
 8 oz de champiñones baby bella, rebanados
 1 diente de ajo, picado
@@ -12241,6 +12793,11 @@ Remove from heat and stir in 1 tsp lemon juice if desired for brightness. Serve 
         "una sartén",
         "bueno para sobras",
       ],
+      suggestedSides: [
+        "Pan de ajo",
+        "Ensalada César",
+        "Brócoli asado",
+      ],
       ingredients: `12 oz de pasta, penne o rotini
 4 oz de queso crema, suavizado y cortado en cubitos
 1/2 cup de queso parmesano recién rallado
@@ -12327,6 +12884,11 @@ Drizzle with 1 Tbsp balsamic glaze if desired and serve warm.`,
         "italiana",
         "una sartén",
       ],
+      suggestedSides: [
+        "Sopa de tomate",
+        "Rebanadas de manzana",
+        "Ensalada sencilla",
+      ],
       ingredients: `4 rebanadas de pan de masa madre
 4 oz de mozzarella fresca, rebanada
 1 tomate, rebanado finamente
@@ -12409,6 +12971,11 @@ suggestedSides: [
         "pasta",
         "cremoso",
         "una sartén",
+      ],
+      suggestedSides: [
+        "Zanahorias asadas",
+        "Ensalada sencilla",
+        "Panecillos",
       ],
       ingredients: `8 oz de fideos de huevo
 2 Tbsp de mantequilla
@@ -12504,6 +13071,11 @@ suggestedSides: [
         "a base de plantas",
         "comida reconfortante",
         "tex-mex",
+      ],
+      suggestedSides: [
+        "Arroz con cilantro y lima",
+        "Totopos con salsa",
+        "Elote estilo callejero",
       ],
       ingredients: `Hongos:
 12 oz de hongos ostra, deshebrados en tiras
@@ -12614,6 +13186,11 @@ suggestedSides: [
         "una sartén",
         "vegano",
         "asiático",
+      ],
+      suggestedSides: [
+        "Arroz al vapor",
+        "Ensalada de pepino",
+        "Kimchi",
       ],
       ingredients: `Tofu:
 1 bloque (14 oz) de tofu extra firme, prensado y cortado en cubos
@@ -12730,6 +13307,11 @@ suggestedSides: [
         "picante",
         "una olla",
         "asiático",
+      ],
+      suggestedSides: [
+        "Rollitos primavera",
+        "Ensalada de pepino",
+        "Edamame al vapor",
       ],
       ingredients: `Caldo:
 1 Tbsp de aceite de oliva
@@ -12956,6 +13538,11 @@ suggestedSides: [
         "asiático",
         "meal prep",
       ],
+      suggestedSides: [
+        "Ensalada de pepino",
+        "Edamame al vapor",
+        "Sopa de miso",
+      ],
       ingredients: `Base de arroz:
 2 cups de arroz integral cocido
 
@@ -13074,6 +13661,11 @@ suggestedSides: [
         "saludable",
         "meal prep",
       ],
+      suggestedSides: [
+        "Pan de maíz",
+        "Ensalada sencilla",
+        "Totopos",
+      ],
       ingredients: `Base:
 1 Tbsp de aceite de oliva
 1 cebolla pequeña, picada en cubitos
@@ -13188,6 +13780,11 @@ suggestedSides: [
         "una sartén",
         "comida reconfortante",
       ],
+      suggestedSides: [
+        "Ensalada griega",
+        "Pan pita",
+        "Ensalada de pepino",
+      ],
       ingredients: `Base:
 1 Tbsp de aceite de oliva
 1/2 cebolla, picada en cubitos
@@ -13298,6 +13895,11 @@ suggestedSides: [
         "italiana",
         "cremoso",
         "noche especial",
+      ],
+      suggestedSides: [
+        "Pan de ajo",
+        "Ensalada verde sencilla",
+        "Espárragos asados",
       ],
       ingredients: `Pasta:
 12 oz de tagliatelle o fettuccine
@@ -13414,6 +14016,11 @@ suggestedSides: [
         "comida reconfortante",
         "para comer con la mano",
         "divertido",
+      ],
+      suggestedSides: [
+        "Totopos con salsa",
+        "Guacamole",
+        "Arroz con cilantro y lima",
       ],
       ingredients: `Relleno:
 1 Tbsp de aceite de oliva
@@ -13535,6 +14142,11 @@ suggestedSides: [
         "sartén",
         "moderno",
       ],
+      suggestedSides: [
+        "Pan de ajo",
+        "Ensalada César",
+        "Brócoli asado",
+      ],
       ingredients: `Gnocchi:
 1 paquete (12 oz) de gnocchi de coliflor
 1 Tbsp de aceite de oliva
@@ -13637,6 +14249,11 @@ suggestedSides: [
         "tostada",
         "simple",
       ],
+      suggestedSides: [
+        "Fruta fresca",
+        "Yogur",
+        "Papas hash brown",
+      ],
       ingredients: `Base:
 2 rebanadas de pan, se recomienda masa madre o integral
 1 Tbsp de aceite de oliva, opcional para tostar
@@ -13714,6 +14331,11 @@ suggestedSides: [
         "tex-mex",
         "saludable",
       ],
+      suggestedSides: [
+        "Arroz con cilantro y lima",
+        "Totopos con salsa",
+        "Elote estilo mexicano",
+      ],
       ingredients: `2 cups de camotes, cortados en cubitos
 1 Tbsp de aceite de oliva
 1/2 tsp de sal
@@ -13780,6 +14402,11 @@ suggestedSides: [
         "rápido",
         "meal prep",
       ],
+      suggestedSides: [
+        "Papas fritas de bolsa",
+        "Ensalada de frutas",
+        "Pepinillos en tiras",
+      ],
       ingredients: `1 lata (15 oz) de garbanzos, escurridos
 1/3 cup de mayonesa
 1 Tbsp de mostaza Dijon
@@ -13840,6 +14467,11 @@ suggestedSides: [
         "saludable",
         "meal prep",
       ],
+      suggestedSides: [
+        "Pan pita",
+        "Ensalada de pepino",
+        "Hummus",
+      ],
       ingredients: `2 cups de arroz o quinoa cocidos
 1 lata (15 oz) de garbanzos, escurridos
 1 cup de pepino, picado en cubitos
@@ -13896,6 +14528,11 @@ Bake for 20 minutes until bubbly. Serve warm.`,
         "comida reconfortante",
         "mexicano",
         "horneado",
+      ],
+      suggestedSides: [
+        "Arroz con cilantro y lima",
+        "Totopos con salsa",
+        "Guacamole",
       ],
       ingredients: `8 tortillas
 2 cups de salsa para enchiladas
@@ -14111,6 +14748,11 @@ Slice in half and serve immediately.`,
         "saludable",
         "meal prep",
       ],
+      suggestedSides: [
+        "Ensalada de frutas",
+        "Papas fritas",
+        "Ensalada de pepino",
+      ],
       ingredients: `1 cup de frijoles cannellini, escurridos y enjuagados
 1 aguacate maduro
 1 Tbsp de jugo de lima
@@ -14193,6 +14835,11 @@ Garnish with 1 Tbsp fresh chopped parsley or green onions if desired and serve h
         "comida reconfortante",
         "una sartén",
         "bueno para sobras",
+      ],
+      suggestedSides: [
+        "Pan tostado",
+        "Fruta fresca",
+        "Rebanadas de aguacate",
       ],
       ingredients: `2 papas russet grandes, cortadas en cubitos pequeños
 8 oz de champiñones baby bella, rebanados

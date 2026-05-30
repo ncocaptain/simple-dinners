@@ -17,5 +17,6 @@ export function getLocalizedMeal(meal: Meal | null | undefined, language: Langua
     ingredients: translated.ingredients || meal.ingredients,
     instructions: translated.instructions || meal.instructions,
     tags: translated.tags || meal.tags,
+    suggestedSides: translated.suggestedSides || meal.suggestedSides,
   };
 }
