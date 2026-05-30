@@ -530,15 +530,27 @@ if (pantry.length > 0 && score > 0) {
 // =====================================================
 
 function isDinnerCandidate(meal: Meal) {
-  const tags = meal.tags || [];
+  const tags = normalizeTags(meal.tags);
 
-  return (
-    !tags.includes("drink") &&
-    !tags.includes("dessert") &&
-    !tags.includes("side") &&
-    !tags.includes("appetizer")
-  );
+  if (!meal?.name?.trim()) return false;
+
+  // Weekly planner should only choose true dinner recipes.
+  if (!tags.includes("dinner")) return false;
+
+  // Keep non-dinner recipe groups out of generated dinner plans.
+  if (tags.includes("drink")) return false;
+  if (tags.includes("dessert")) return false;
+  if (tags.includes("side")) return false;
+  if (tags.includes("appetizer")) return false;
+  if (tags.includes("base-recipe")) return false;
+  if (tags.includes("breakfast")) return false;
+  if (tags.includes("brunch")) return false;
+  if (tags.includes("lunch")) return false;
+  if (tags.includes("snack")) return false;
+
+  return true;
 }
+
 function mealMatchesDayEffort(meal: Meal, effort?: Effort) {
   if (!effort) return true;
   if (effort === "takeout") return normalizeEffort(meal.effort) === "takeout";
@@ -583,7 +595,7 @@ function getAllergenSelections(preferences: {
   if (notes.includes("shellfish")) selected.add("shellfish");
   if (notes.includes("fish")) selected.add("fish");
   if (notes.includes("dairy")) selected.add("dairy");
-  if (notes.includes("egg")) selected.add("Eggs");
+  if (notes.includes("egg")) selected.add("eggs");
   if (notes.includes("peanut")) selected.add("peanuts");
   if (notes.includes("tree nut")) selected.add("tree_nuts");
   if (notes.includes("nuts")) selected.add("tree_nuts");
