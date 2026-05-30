@@ -341,14 +341,6 @@ const localizedRecipes = useMemo(
 );
 
   // =====================================================
-  // Builder: quick grouped stats
-  // =====================================================
-
-  const grillingCount = useMemo(() => {
-    return mergedRecipes.filter((recipe) => hasTag(recipe, "grilling")).length;
-  }, [mergedRecipes]);
-
-  // =====================================================
   // Builder: filtering
   // =====================================================
 
@@ -835,7 +827,7 @@ const localizedRecipes = useMemo(
                 color: "rgba(255,255,255,0.6)",
               }}
             >
-              {t("recipes.clearExtras")}
+              {t("recipes.resetFilters", "Reset Filters")}
             </button>
           </div>
 
@@ -850,15 +842,6 @@ const localizedRecipes = useMemo(
               {t("recipes.stats.showing")}
             </span>
 
-            <span style={statStyle}>
-              <span style={statNumber}>{cookbook.length}</span>{" "}
-              {t("recipes.stats.inCookbook")}
-            </span>
-
-            <span style={statStyle}>
-              <span style={statNumber}>{grillingCount}</span>{" "}
-              {t("recipes.stats.grilling")}
-            </span>
           </div>
 
           {saveMessage && (
