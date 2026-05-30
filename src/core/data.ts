@@ -3804,6 +3804,12 @@ Sirve caliente.`,
   effort: "quick",
   photoUrl: "/images/quick-grilled-burgers.jpg",
   tags: ["dinner", "beef", "grilling", "cookout", "quick", "summer", "family-friendly"],
+  // Grilled Burgers
+suggestedSides: [
+  "French fries",
+  "Coleslaw",
+  "Watermelon slices",
+],
   notes: "A classic backyard burger with juicy patties, melted cheese, and all your favorite toppings.",
   ingredients: `2 lbs ground beef (80/20)
 1 1/2 tsp salt
@@ -3894,6 +3900,12 @@ Arma las hamburguesas con lechuga, tomate rebanado y pepinillos, y sirve con pap
   effort: "quick",
   photoUrl: "/images/grilled-cheese-sandwich.jpg",
   tags: ["lunch", "sandwich", "quick", "comfort", "cheese", "kid-friendly"],
+  // Grilled Cheese Sandwich
+suggestedSides: [
+  "Tomato soup",
+  "Pickle spears",
+  "Apple slices",
+],
   notes: "Simple, classic, and always a winner. Even better with a bowl of warm tomato soup.",
   ingredients: `sourdough bread
 butter
@@ -3952,6 +3964,12 @@ Opcional: sirve con sopa de tomate caliente.`,
   photoUrl: "/images/quick-chicken-parmesan-melts.jpg",
   tags: ["dinner", "chicken", "quick", "italian", "sandwich", "cheesy", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
+  // Chicken Parmesan Melts
+suggestedSides: [
+  "Caesar salad",
+  "Garlic bread",
+  "Roasted broccoli",
+],
   notes: "Crispy chicken parmesan sandwiches with melty cheese and warm marinara. Toasting the bread first keeps the rolls from getting soggy and adds great texture.",
   ingredients: `4 cooked chicken cutlets or breaded chicken patties
 1 cup marinara sauce (plus extra for dipping)
@@ -4028,6 +4046,12 @@ Retira del horno, decora con albahaca fresca o perejil si deseas, y sirve de inm
   photoUrl: "/images/quick-taco-mac-skillet.jpg",
   tags: ["dinner", "beef", "pasta", "quick", "tex-mex", "one-pan", "family-friendly", "leftovers-friendly"],
   isVegetarian: false,
+  // Taco Mac Skillet
+suggestedSides: [
+  "Chips and salsa",
+  "Simple green salad",
+  "Mexican street corn",
+],
   notes: "A quick, cheesy taco-inspired pasta made in one pan. Adding cream cheese creates a smoother, richer sauce and helps everything come together perfectly.",
   ingredients: `1 lb ground beef
 2 cups cooked macaroni (elbow pasta)
@@ -4128,6 +4152,12 @@ Sirve de inmediato con toppings opcionales como crema agria, cebollines rebanado
   photoUrl: "/images/quick-lemon-pepper-tilapia.jpg",
   tags: ["dinner", "seafood", "fish", "tilapia", "quick", "light", "healthy", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
+  // Lemon Pepper Tilapia
+suggestedSides: [
+  "Rice pilaf",
+  "Steamed broccoli",
+  "Side salad",
+],
   notes: "Light, quick tilapia with bright lemon flavor and simple seasoning. Patting the fish dry and not overcooking are key to a tender, flaky result.",
   ingredients: `4 tilapia fillets
 1 Tbsp olive oil
@@ -4203,6 +4233,12 @@ Retira del fuego y decora con limón rebanado y perejil fresco si deseas. Sirve 
   photoUrl: "/images/quick-bbq-chicken.jpg",
   tags: ["dinner", "chicken", "quick", "bbq", "family-friendly", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
+  // Oven BBQ Chicken
+suggestedSides: [
+  "Baked beans",
+  "Coleslaw",
+  "Corn on the cob",
+],
   notes: "Juicy oven-baked BBQ chicken with a sticky, caramelized finish. Adding the sauce near the end prevents burning while keeping the chicken tender and flavorful.",
   ingredients: `4 boneless, skinless chicken breasts
 1 Tbsp olive oil
@@ -4278,6 +4314,12 @@ Sirve caliente con más salsa BBQ si deseas.`,
   photoUrl: "/images/normal-simple-tacos.jpg",
   tags: ["dinner", "beef", "tacos", "tex-mex", "family-friendly", "build-your-own", "leftovers-friendly"],
   isVegetarian: false,
+  // Simple Tacos
+suggestedSides: [
+  "Cilantro lime rice",
+  "Chips and salsa",
+  "Mexican street corn",
+],
   notes: "Classic, easy taco night with seasoned ground beef and fresh toppings. Letting the meat simmer with seasoning helps build deeper flavor and prevents it from being dry.",
   ingredients: `1 lb ground beef
 2/3 cup water
@@ -4379,6 +4421,12 @@ Rellena los tacos con la carne sazonada y los toppings que quieras. Sirve de inm
   photoUrl: "/images/quick-sloppy-joes-sandwich.jpg",
   tags: ["dinner", "beef", "sandwich", "quick", "family-friendly", "comfort", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
+  // Sloppy Joes Sandwich
+suggestedSides: [
+  "French fries",
+  "Pickles",
+  "Coleslaw",
+],
   notes: "Classic sloppy joes with a rich, slightly sweet and tangy sauce. Simmering the sauce helps deepen the flavor and gives it that signature thick, saucy texture.",
   ingredients: `1 lb ground beef
 1 Tbsp olive oil
@@ -4470,6 +4518,12 @@ Sirve la mezcla de sloppy joe sobre los panes y cubre con pepinillos rebanados. 
   photoUrl: "/images/big-beef-lasagna.jpg",
   effort: "big",
   tags: ["dinner", "pasta", "beef", "bake", "italian", "comfort", "crowd-pleaser", "leftovers-friendly"],
+  // Classic Lasagna
+suggestedSides: [
+  "Garlic bread",
+  "Caesar salad",
+  "Roasted broccoli",
+],
   notes: "A crowd-pleasing layered pasta bake with beef, sausage, ricotta, and plenty of cheese.",
   ingredients: `12 lasagna noodles, uncooked
 2 1/2 cups shredded mozzarella cheese
@@ -4572,6 +4626,12 @@ Deja reposar al menos 15 minutos antes de cortar.`,
   photoUrl: "/images/normal-chili-cheese-dogs.jpg",
   tags: ["dinner", "hot-dogs", "comfort", "family-friendly", "one-pan", "crowd-pleaser"],
   isVegetarian: false,
+  // Chili Cheese Dogs
+suggestedSides: [
+  "French fries",
+  "Coleslaw",
+  "Watermelon slices",
+],
   notes: "Loaded chili cheese dogs with a rich, flavorful beef chili. Letting the chili simmer helps it thicken so it stays on the dog instead of running off.",
   ingredients: `8 hot dogs
 8 hot dog buns
