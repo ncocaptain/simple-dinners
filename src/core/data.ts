@@ -4716,6 +4716,12 @@ Sirve de inmediato mientras estén calientes.`,
   photoUrl: "/images/big-white-chicken-chili.jpg",
   tags: ["dinner", "chili", "chicken", "one-pot", "comfort", "creamy", "leftovers-friendly"],
   isVegetarian: false,
+  // White Chicken Chili
+suggestedSides: [
+  "Cornbread",
+  "Tortilla chips",
+  "Simple green salad",
+],
   notes: "Creamy, cozy white chicken chili with bold flavor and a smooth texture. Mashing some of the beans and adding cream cheese creates a rich, hearty consistency without needing heavy cream.",
   ingredients: `2 cups cooked shredded chicken (rotisserie works great)
 1 Tbsp olive oil
@@ -4833,6 +4839,12 @@ Sirve caliente con toppings como queso rallado, cilantro, cebollines y totopos.`
   photoUrl: "/images/normal-taco-soup.jpg",
   tags: ["dinner", "soup", "tex-mex", "one-pot", "beef", "family-friendly", "leftovers-friendly"],
   isVegetarian: false,
+  // Taco Soup
+suggestedSides: [
+  "Tortilla chips",
+  "Cilantro lime rice",
+  "Cornbread",
+],
   notes: "Hearty taco-inspired soup with bold flavor and a rich broth. Letting it simmer helps everything come together, and it tastes even better the next day.",
   ingredients: `1 lb ground beef
 1 Tbsp olive oil
@@ -4940,6 +4952,12 @@ Sirve caliente con toppings como queso rallado, crema agria, totopos y cebolline
   photoUrl: "/images/big-sheet-pan-fajitas.jpg",
   tags: ["dinner", "chicken", "sheet-pan", "tex-mex", "family-friendly", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
+  // Sheet Pan Fajitas
+suggestedSides: [
+  "Cilantro lime rice",
+  "Chips and salsa",
+  "Refried beans",
+],
   notes: "Easy, colorful sheet pan fajitas with bold seasoning and roasted flavor. Spreading everything in a single layer and using high heat helps achieve those slightly charred, restaurant-style edges.",
   ingredients: `1 1/2 lbs chicken breast, sliced into strips
 2 bell peppers (any color), sliced
@@ -5039,6 +5057,12 @@ Retira del horno y sirve de inmediato en tortillas calientes con crema agria, qu
   photoUrl: "/images/normal-air-fryer-chicken-tenders.jpg",
   tags: ["dinner", "chicken", "air-fryer", "crispy", "family-friendly", "kid-friendly", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
+  // Air Fryer Chicken Tenders
+suggestedSides: [
+  "French fries",
+  "Carrot sticks with ranch",
+  "Fruit salad",
+],
   notes: "Crispy, golden chicken tenders made in the air fryer. Using panko breadcrumbs and spraying lightly with oil helps achieve that extra crunch without deep frying.",
   ingredients: `1 1/2 lbs chicken tenders
 1/2 cup all-purpose flour
@@ -5123,6 +5147,12 @@ Sirve calientes con tus salsas favoritas para mojar.`,
   photoUrl: "/images/big-baked-chicken-thighs.jpg",
   tags: ["dinner", "chicken", "bake", "crispy", "comfort", "family-friendly", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
+  // Baked Chicken Thighs
+suggestedSides: [
+  "Mashed potatoes",
+  "Green beans",
+  "Dinner rolls",
+],
   notes: "Crispy, flavorful baked chicken thighs with juicy meat and golden skin. Patting the chicken dry and using high heat are key to achieving that perfect crisp.",
   ingredients: `6 bone-in, skin-on chicken thighs
 1 Tbsp olive oil
@@ -5203,6 +5233,12 @@ Retira del horno y deja reposar 5 minutos antes de servir.`,
   photoUrl: "/images/big-bbq-chicken-drumsticks.jpg",
   tags: ["dinner", "chicken", "bbq", "bake", "comfort", "family-friendly", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
+  // BBQ Chicken Drumsticks
+suggestedSides: [
+  "Baked beans",
+  "Coleslaw",
+  "Corn on the cob",
+],
   notes: "Sticky, flavorful BBQ drumsticks with a seasoned crust and caramelized sauce. Drying the chicken and baking at higher heat helps achieve crispy skin before adding the sauce.",
   ingredients: `8 chicken drumsticks
 1 Tbsp olive oil
@@ -5314,6 +5350,12 @@ Serve warm or use in recipes like Pork Street Tacos.`,
   effort: "big",
   tags: ["dinner", "pork", "smoker", "bbq", "meal-prep", "protein", "base-recipe"],
   isVegetarian: false,
+  // Smoked Pulled Pork
+suggestedSides: [
+  "Coleslaw",
+  "Baked beans",
+  "Smoked mac and cheese",
+],
   notes: "Tender, smoky pulled pork that works as a base for multiple meals like tacos, sandwiches, and bowls.",
   translations: {
     es: {
@@ -5350,89 +5392,6 @@ Desenvuelve y deshebra el cerdo con las manos o con tenedores.
 Mezcla el cerdo deshebrado con 1 cup de salsa barbecue hasta que quede bien cubierto.
 
 Sirve caliente o úsalo en recetas como tacos callejeros de cerdo.`,
-    },
-  },
-},
-
-{
-  id: "big-smoked-mac-and-cheese",
-  slug: "big-smoked-mac-and-cheese",
-  name: "Smoked Mac and Cheese",
-  ingredients: `2 cups uncooked macaroni noodles
-1 cup milk, divided
-1 cup shredded cheddar cheese, divided
-4 oz cream cheese, cubed
-12 oz Velveeta cheese, cubed
-1/2 tsp salt
-1/2 tsp black pepper
-1/4 tsp garlic powder
-1/8 tsp ground cumin`,
-  instructions: `Bring a pot of water to a boil and cook 2 cups macaroni noodles according to package directions. Drain and place in a large bowl.
-
-Add 1/2 tsp salt, 1/2 tsp black pepper, 1/4 tsp garlic powder, and 1/8 tsp cumin to the noodles. Stir to combine.
-
-Mix in 3/4 cup shredded cheddar cheese, 4 oz cubed cream cheese, and 12 oz cubed Velveeta.
-
-Transfer everything to a baking dish and pour 1/2 cup milk over the top.
-
-Preheat smoker or grill to 250°F.
-
-Place the dish in the smoker and cook for 15 minutes.
-
-Stir the mac and cheese, then continue cooking another 15 minutes. Stir again.
-
-Pour in the remaining 1/2 cup milk and sprinkle the remaining 1/4 cup cheddar cheese over the top.
-
-Increase temperature to 400°F and cook for 5 to 10 minutes until melted, bubbly, and lightly browned.
-
-Remove and let rest for a few minutes before serving.`,
-  photoUrl: "/images/big-smoked-mac-and-cheese.jpg",
-  effort: "big",
-  tags: ["side", "bbq", "smoker", "comfort", "cheesy", "family", "cookout"],
-  isVegetarian: true,
-  notes: "Ultra-creamy smoked mac and cheese made without a traditional sauce. The cheese melts directly into the noodles while smoking, creating rich flavor with minimal effort.",
-  translations: {
-    es: {
-      name: "Macarrones con queso ahumados",
-      notes:
-        "Macarrones con queso ultra cremosos y ahumados, hechos sin una salsa tradicional. El queso se derrite directamente en la pasta mientras se ahúma, creando mucho sabor con poco esfuerzo.",
-      tags: [
-        "acompañamiento",
-        "bbq",
-        "ahumador",
-        "comida reconfortante",
-        "con queso",
-        "familiar",
-        "parrillada",
-      ],
-      ingredients: `2 cups de macarrones sin cocinar
-1 cup de leche, dividida
-1 cup de queso cheddar rallado, dividido
-4 oz de queso crema, cortado en cubitos
-12 oz de queso Velveeta, cortado en cubitos
-1/2 tsp de sal
-1/2 tsp de pimienta negra
-1/4 tsp de ajo en polvo
-1/8 tsp de comino molido`,
-      instructions: `Hierve una olla con agua y cocina 2 cups de macarrones según las instrucciones del paquete. Escurre y coloca en un tazón grande.
-
-Agrega 1/2 tsp de sal, 1/2 tsp de pimienta negra, 1/4 tsp de ajo en polvo y 1/8 tsp de comino a los macarrones. Mezcla para combinar.
-
-Incorpora 3/4 cup de queso cheddar rallado, 4 oz de queso crema en cubitos y 12 oz de Velveeta en cubitos.
-
-Pasa todo a un molde para hornear y vierte 1/2 cup de leche encima.
-
-Precalienta el ahumador o la parrilla a 250°F.
-
-Coloca el molde en el ahumador y cocina durante 15 minutos.
-
-Revuelve los macarrones con queso y continúa cocinando otros 15 minutos. Revuelve otra vez.
-
-Vierte la 1/2 cup restante de leche y espolvorea el 1/4 cup restante de queso cheddar encima.
-
-Sube la temperatura a 400°F y cocina de 5 a 10 minutos, hasta que esté derretido, burbujeante y ligeramente dorado.
-
-Retira y deja reposar unos minutos antes de servir.`,
     },
   },
 },
@@ -5477,6 +5436,12 @@ Serve warm with extra BBQ sauce if desired.`,
   effort: "big",
   tags: ["dinner", "beef", "pork", "smoker", "bbq", "comfort", "family", "leftovers-friendly"],
   isVegetarian: false,
+  // Smoked Meatloaf
+suggestedSides: [
+  "Mashed potatoes",
+  "Green beans",
+  "Dinner rolls",
+],
   notes: "Smoky, juicy meatloaf with a rich BBQ glaze. Including measurements in each step makes it easier to follow in Cook Mode without jumping back and forth.",
   translations: {
     es: {
@@ -5553,6 +5518,12 @@ Serve immediately.`,
   effort: "normal",
   tags: ["dinner", "tacos", "pork", "mexican", "assembly", "family", "street-food"],
   isVegetarian: false,
+  // Pork Street Tacos
+suggestedSides: [
+  "Cilantro lime rice",
+  "Chips and salsa",
+  "Mexican street corn",
+],
   notes: "Simple street-style tacos built around flavorful smoked pulled pork. Use the Smoked Pulled Pork recipe for the base protein.",
   translations: {
     es: {
@@ -5599,7 +5570,7 @@ Sirve de inmediato.`,
 1/2 tsp black pepper
 1 Tbsp butter
 1 Tbsp garlic, minced
-2 1/2 cups chicken broth
+2 1/2 cups vegetable broth
 1/2 cup fresh basil leaves, chopped
 1 sprig fresh thyme
 1/4 cup heavy cream`,
@@ -5615,7 +5586,7 @@ In a large pot, melt 1 Tbsp butter over medium heat. Add 1 Tbsp minced garlic an
 
 Carefully transfer the roasted tomatoes and onion, along with their juices, into the pot.
 
-Add 2 1/2 cups chicken broth and 1/2 cup chopped fresh basil. Stir well.
+Add 2 1/2 cups vegetable broth and 1/2 cup chopped fresh basil. Stir well.
 
 Use an immersion blender (or carefully transfer to a blender) and blend until smooth.
 
@@ -5629,7 +5600,13 @@ Serve warm.`,
   photoUrl: "/images/roasted-tomato-basil-soup.jpg",
   effort: "normal",
   tags: ["dinner", "soup", "comfort", "vegetarian", "roasted", "cozy"],
-  isVegetarian: false,
+  isVegetarian: true,
+  // Roasted Tomato Basil Soup
+suggestedSides: [
+  "Grilled cheese sandwich",
+  "Garlic bread",
+  "Side salad",
+],
   notes: "Roasting the tomatoes and onion brings out natural sweetness and depth of flavor. Pairs perfectly with a grilled cheese sandwich.",
   translations: {
     es: {
@@ -5727,6 +5704,12 @@ Serve warm.`,
   effort: "big",
   tags: ["dinner", "beef", "slow-cooker", "comfort", "one-pot", "family", "hearty", "leftovers-friendly"],
   isVegetarian: false,
+  // Slow Cooker Beef Stew
+suggestedSides: [
+  "Dinner rolls",
+  "Side salad",
+  "Cornbread",
+],
   notes: "A classic, hearty beef stew with tender meat and rich broth. Searing the beef first adds deeper flavor, and the cornstarch slurry gives it a perfectly thick finish.",
   translations: {
     es: {
@@ -5826,6 +5809,12 @@ For the rice: In a bowl, combine 10 oz cooked rice with 2 Tbsp cilantro lime sea
   effort: "normal",
   tags: ["dinner", "beef", "bake", "party", "family", "tex-mex", "fun", "shareable"],
   isVegetarian: false,
+  // Loaded Taco Party Ring with Cilantro Lime Rice
+suggestedSides: [
+  "Chips and salsa",
+  "Guacamole",
+  "Street corn",
+],
   notes: "A fun, shareable taco-inspired bake wrapped in flaky crescent dough. Great for parties or family dinners and pairs perfectly with fresh cilantro lime rice.",
   translations: {
     es: {
@@ -5926,6 +5915,12 @@ Let rest for 2 to 3 minutes before slicing and serving.`,
   effort: "normal",
   tags: ["dinner", "pizza", "chicken", "bbq", "oven", "family", "comfort"],
   isVegetarian: false,
+  // Barbecue Chicken Pizza
+suggestedSides: [
+  "Coleslaw",
+  "Simple green salad",
+  "Fruit salad",
+],
   notes: "A bold, smoky-sweet pizza with tender barbecue chicken and melty cheese. Cooking the chicken separately ensures great texture and prevents excess moisture on the pizza.",
   translations: {
     es: {
@@ -6028,6 +6023,12 @@ Let rest for 5 minutes before serving.`,
   effort: "big",
   tags: ["dinner", "chicken", "fried", "comfort", "crispy", "family", "southern"],
   isVegetarian: false,
+  // Homemade Fried Chicken
+suggestedSides: [
+  "Mashed potatoes",
+  "Coleslaw",
+  "Biscuits",
+],
   notes: "Classic crispy fried chicken with a flavorful, well-seasoned crust. Marinating in buttermilk keeps the chicken juicy while creating a tender interior.",
   translations: {
     es: {
@@ -6100,6 +6101,12 @@ Deja reposar 5 minutos antes de servir.`,
     "meal-prep",
   ],
   isVegetarian: false,
+  // Chimichurri Skirt Steak Bowls
+suggestedSides: [
+  "Tortilla chips",
+  "Grilled vegetables",
+  "Side salad",
+],
   notes:
     "Skirt steak cooks quickly and develops incredible flavor over high heat. Always slice against the grain to keep the steak tender, and let the chimichurri sit a few minutes before serving so the flavors meld together.",
   ingredients: `Steak:
@@ -6229,6 +6236,12 @@ Sirve con limón y queso cotija si lo deseas.`,
     "family",
   ],
   isVegetarian: false,
+  // Lamb and Beef Gateway Burgers
+suggestedSides: [
+  "Sweet potato fries",
+  "Greek salad",
+  "Pickles",
+],
   notes:
     "Blending lamb with beef creates a rich, flavorful burger without being overpowering. The creamy herb sauce balances the richness and makes these burgers approachable even for people new to lamb.",
   ingredients: `Burger Patties:
@@ -6353,6 +6366,12 @@ Sirve inmediatamente mientras estén calientes y jugosas.`,
     "family",
   ],
   isVegetarian: false,
+  // Air Fryer Brisket Taquitos
+suggestedSides: [
+  "Chips and salsa",
+  "Mexican street corn",
+  "Cilantro lime rice",
+],
   notes:
     "Using leftover brisket makes these taquitos incredibly flavorful and easy. Warming the tortillas first is the key to preventing them from cracking while rolling.",
   ingredients: `Filling:
@@ -6462,6 +6481,12 @@ Sirve calientes con crema agria, guacamole, pico de gallo, cilantro y limón si 
     "oven",
   ],
   isVegetarian: false,
+  // Homemade Pizza Pockets
+suggestedSides: [
+  "Marinara dipping sauce",
+  "Simple green salad",
+  "Carrot sticks with ranch",
+],
   notes:
     "Keeping the sauce light helps prevent soggy pizza pockets. Sealing the edges tightly is the key to keeping the cheese and fillings from leaking while baking.",
   ingredients: `Dough:
@@ -6578,6 +6603,12 @@ Deja enfriar 5 minutos antes de servir porque el relleno estará muy caliente.`,
     "party-food",
   ],
   isVegetarian: false,
+  // Baked Potato Bar
+suggestedSides: [
+  "Side salad",
+  "Steamed broccoli",
+  "Chili",
+],
   notes:
     "Baking potatoes directly on the oven rack helps create crisp skins while keeping the inside fluffy. Setting up a topping bar makes this perfect for family dinners or casual gatherings.",
   ingredients: `Potatoes:
@@ -6692,6 +6723,12 @@ Sirve caliente.`,
     "meal-prep",
   ],
   isVegetarian: false,
+  // Alphabet or Star-Shaped Pasta Soup
+suggestedSides: [
+  "Grilled cheese sandwich",
+  "Apple slices",
+  "Crackers",
+],
   notes:
     "Small pasta shapes cook quickly and make this soup especially family-friendly. Stir occasionally while simmering so the pasta cooks evenly and doesn’t stick to the bottom of the pot.",
   ingredients: `Soup Base:
@@ -8488,7 +8525,97 @@ Sirve caliente directamente en el aluminio con cucharas si deseas.`,
 // =====================================================
 
 export const SIDE_DISHES: Meal[] = [
+  
   {
+  id: "big-smoked-mac-and-cheese",
+  slug: "big-smoked-mac-and-cheese",
+  name: "Smoked Mac and Cheese",
+  ingredients: `2 cups uncooked macaroni noodles
+1 cup milk, divided
+1 cup shredded cheddar cheese, divided
+4 oz cream cheese, cubed
+12 oz Velveeta cheese, cubed
+1/2 tsp salt
+1/2 tsp black pepper
+1/4 tsp garlic powder
+1/8 tsp ground cumin`,
+  instructions: `Bring a pot of water to a boil and cook 2 cups macaroni noodles according to package directions. Drain and place in a large bowl.
+
+Add 1/2 tsp salt, 1/2 tsp black pepper, 1/4 tsp garlic powder, and 1/8 tsp cumin to the noodles. Stir to combine.
+
+Mix in 3/4 cup shredded cheddar cheese, 4 oz cubed cream cheese, and 12 oz cubed Velveeta.
+
+Transfer everything to a baking dish and pour 1/2 cup milk over the top.
+
+Preheat smoker or grill to 250°F.
+
+Place the dish in the smoker and cook for 15 minutes.
+
+Stir the mac and cheese, then continue cooking another 15 minutes. Stir again.
+
+Pour in the remaining 1/2 cup milk and sprinkle the remaining 1/4 cup cheddar cheese over the top.
+
+Increase temperature to 400°F and cook for 5 to 10 minutes until melted, bubbly, and lightly browned.
+
+Remove and let rest for a few minutes before serving.`,
+  photoUrl: "/images/big-smoked-mac-and-cheese.jpg",
+  effort: "big",
+  tags: ["side", "bbq", "smoker", "comfort", "cheesy", "family", "cookout"],
+  isVegetarian: true,
+  // Smoked Mac and Cheese
+suggestedSides: [
+  "Pulled pork",
+  "BBQ chicken",
+  "Simple green salad",
+],
+  notes: "Ultra-creamy smoked mac and cheese made without a traditional sauce. The cheese melts directly into the noodles while smoking, creating rich flavor with minimal effort.",
+  translations: {
+    es: {
+      name: "Macarrones con queso ahumados",
+      notes:
+        "Macarrones con queso ultra cremosos y ahumados, hechos sin una salsa tradicional. El queso se derrite directamente en la pasta mientras se ahúma, creando mucho sabor con poco esfuerzo.",
+      tags: [
+        "acompañamiento",
+        "bbq",
+        "ahumador",
+        "comida reconfortante",
+        "con queso",
+        "familiar",
+        "parrillada",
+      ],
+      ingredients: `2 cups de macarrones sin cocinar
+1 cup de leche, dividida
+1 cup de queso cheddar rallado, dividido
+4 oz de queso crema, cortado en cubitos
+12 oz de queso Velveeta, cortado en cubitos
+1/2 tsp de sal
+1/2 tsp de pimienta negra
+1/4 tsp de ajo en polvo
+1/8 tsp de comino molido`,
+      instructions: `Hierve una olla con agua y cocina 2 cups de macarrones según las instrucciones del paquete. Escurre y coloca en un tazón grande.
+
+Agrega 1/2 tsp de sal, 1/2 tsp de pimienta negra, 1/4 tsp de ajo en polvo y 1/8 tsp de comino a los macarrones. Mezcla para combinar.
+
+Incorpora 3/4 cup de queso cheddar rallado, 4 oz de queso crema en cubitos y 12 oz de Velveeta en cubitos.
+
+Pasa todo a un molde para hornear y vierte 1/2 cup de leche encima.
+
+Precalienta el ahumador o la parrilla a 250°F.
+
+Coloca el molde en el ahumador y cocina durante 15 minutos.
+
+Revuelve los macarrones con queso y continúa cocinando otros 15 minutos. Revuelve otra vez.
+
+Vierte la 1/2 cup restante de leche y espolvorea el 1/4 cup restante de queso cheddar encima.
+
+Sube la temperatura a 400°F y cocina de 5 a 10 minutos, hasta que esté derretido, burbujeante y ligeramente dorado.
+
+Retira y deja reposar unos minutos antes de servir.`,
+    },
+  },
+},
+
+{
   id: "quick-airfryer-baked-potato",
   slug: "quick-airfryer-baked-potato",
   name: "Air Fryer Baked Potato",
