@@ -248,8 +248,8 @@ Serve chicken and mushroom mixture over rice; season with salt and pepper.`,
       ],
       suggestedSides: [
         "Panecillos",
-        "Ensalada de acompañamiento",
-        "Zanahorias asadas",
+        "Ensalada sencilla",
+        "Zanahorias rostizadas",
       ],
       ingredients: `4 pechugas de pollo sin piel
 8 oz de champiñones baby bella, rebanados
@@ -344,7 +344,7 @@ suggestedSides: [
       suggestedSides: [
         "Arroz al vapor",
         "Ensalada de pepino",
-        "Espárragos asados",
+        "Espárragos rostizados",
       ],
       ingredients: `Atún:
 2 filetes de atún ahi (aprox. 6 oz cada uno)
@@ -529,7 +529,7 @@ Serve warm with ranch dressing.`,
       suggestedSides: [
         "Papas fritas",
         "Ensalada de col",
-        "Elote entero",
+        "Elote",
       ],
       ingredients: `1 lb de camarones medianos, pelados y desvenados
 1 1/2 cups de harina
@@ -748,7 +748,7 @@ Serve warm.`,
       suggestedSides: [
         "Ensalada verde sencilla",
         "Ensalada de frutas",
-        "Bastones de zanahoria con ranch",
+        "Palitos de zanahoria con ranch",
       ],
       ingredients: `4 Tbsp de aceite de oliva, dividido
 3 Tbsp de harina de maíz
@@ -1166,7 +1166,7 @@ Carefully open packets. Steam will be hot. Remove from foil before serving.`,
       suggestedSides: [
         "Arroz pilaf",
         "Papas al limón",
-        "Ensalada de acompañamiento",
+        "Ensalada sencilla",
       ],
       ingredients: `1 manojo de espárragos
 2 calabazas amarillas
@@ -1257,9 +1257,9 @@ Garnish with chopped cilantro, pico de gallo, and sour cream before serving.`,
         "bueno para sobras",
       ],
       suggestedSides: [
-        "Arroz con cilantro y limón",
+        "Arroz con cilantro y lima",
         "Totopos con salsa",
-        "Elote estilo callejero mexicano",
+        "Elote estilo mexicano",
       ],
       ingredients: `1 1/2 lbs de carne molida de res magra
 1 paquete de sazonador para tacos
@@ -1350,7 +1350,7 @@ Bake about 30 minutes until browned and bubbling.`,
       suggestedSides: [
         "Panecillos",
         "Ensalada verde sencilla",
-        "Zanahorias asadas",
+        "Zanahorias rostizadas",
       ],
       ingredients: `1 1/2 a 2 lbs de papas (aprox. 3 grandes), peladas y cortadas en cuartos
 8 Tbsp de mantequilla (1 barra), dividida
@@ -1446,7 +1446,7 @@ Cool 1 to 2 minutes. Top with fresh basil and red pepper flakes if desired and s
       suggestedSides: [
         "Pan de ajo",
         "Ensalada César",
-        "Calabacita asada",
+        "Calabacita rostizada",
       ],
       ingredients: `1 lb de salchicha italiana
 2 tsp de aceite de oliva
@@ -1635,7 +1635,7 @@ Remove from heat. Garnish with 1 Tbsp chopped fresh parsley and serve immediatel
       ],
       suggestedSides: [
         "Arroz pilaf",
-        "Espárragos asados",
+        "Espárragos rostizados",
         "Ensalada verde sencilla",
       ],
       ingredients: `4 filetes de salmón (aprox. 6 oz cada uno, con piel preferiblemente)
@@ -1818,7 +1818,7 @@ Slice and serve immediately.`,
       ],
       suggestedSides: [
         "Ensalada de col",
-        "Elote entero",
+        "Elote",
         "Ensalada de frutas",
       ],
       ingredients: `2 panes planos o naan
@@ -2124,7 +2124,7 @@ Serve over the cooked egg noodles and garnish with 1/4 cup fresh parsley if desi
       ],
       suggestedSides: [
         "Ensalada verde sencilla",
-        "Zanahorias asadas",
+        "Zanahorias rostizadas",
         "Panecillos",
       ],
       ingredients: `1 lb de sirloin de res, rebanado finamente
@@ -2232,7 +2232,7 @@ Let rest for 10 minutes before serving to allow the filling to set.`,
         "bueno para sobras",
       ],
       suggestedSides: [
-        "Ensalada de acompañamiento",
+        "Ensalada sencilla",
         "Ejotes asados",
         "Salsa de arándanos",
       ],
@@ -2348,7 +2348,7 @@ Remove from heat and serve warm.`,
       ],
       suggestedSides: [
         "Totopos con salsa",
-        "Elote estilo callejero mexicano",
+        "Elote estilo mexicano",
         "Ensalada verde sencilla",
       ],
       ingredients: `1 lb de carne molida de res
@@ -2463,7 +2463,7 @@ Spoon risotto onto plates and top with the seared scallops. Garnish with 1 Tbsp 
         "estilo restaurante",
       ],
       suggestedSides: [
-        "Espárragos asados",
+        "Espárragos rostizados",
         "Ensalada verde sencilla",
         "Pan de ajo",
       ],
@@ -3153,7 +3153,7 @@ Serve with lemon wedges from 1 lemon and your choice of cocktail sauce or tartar
       ],
       suggestedSides: [
         "Ensalada de col",
-        "Elote entero",
+        "Elote",
         "Papas asadas",
       ],
       ingredients: `1 lb de carne de cangrejo en trozos
@@ -3256,7 +3256,7 @@ Serve the roast and vegetables topped with gravy and sprinkled with 2 Tbsp fresh
       ],
       suggestedSides: [
         "Panecillos",
-        "Ensalada de acompañamiento",
+        "Ensalada sencilla",
         "Ejotes",
       ],
       ingredients: `1 1/2 Tbsp de aceite de oliva, dividido
@@ -3362,7 +3362,7 @@ Serve hot and top with shredded cheddar cheese, bacon bits, and sliced green oni
       ],
       suggestedSides: [
         "Sándwich de queso a la plancha",
-        "Ensalada de acompañamiento",
+        "Ensalada sencilla",
         "Panecillos",
       ],
       ingredients: `1 bolsa (30 oz) de papas hash brown congeladas en cubitos
@@ -3464,7 +3464,7 @@ Serve immediately with celery sticks, carrot sticks, and ranch or blue cheese dr
       ],
       suggestedSides: [
         "Bastones de apio",
-        "Bastones de zanahoria",
+        "Palitos de zanahoria",
         "Papas fritas",
       ],
       ingredients: `2 a 3 lbs de alitas de pollo, flats y drums separados
@@ -3557,7 +3557,7 @@ Let rest for 5 minutes before serving.`,
       suggestedSides: [
         "Frijoles horneados",
         "Ensalada de col",
-        "Elote entero",
+        "Elote",
       ],
       ingredients: `6 muslos de pollo con hueso y piel
 1 Tbsp de aceite de oliva
@@ -3636,7 +3636,7 @@ Slice against the grain and serve.`,
       suggestedSides: [
         "Papa al horno",
         "Espárragos a la parrilla",
-        "Ensalada de acompañamiento",
+        "Ensalada sencilla",
       ],
       ingredients: `2 bistecs ribeye o sirloin (aprox. 1 a 1 1/2 inches de grosor)
 1 Tbsp de aceite de oliva
@@ -3801,7 +3801,7 @@ Remove from grill and sprinkle with 1 Tbsp fresh chopped parsley if desired. Ser
         "bueno para sobras",
       ],
       suggestedSides: [
-        "Arroz con cilantro y limón",
+        "Arroz con cilantro y lima",
         "Verduras a la parrilla",
         "Ensalada de pepino",
       ],
@@ -4322,7 +4322,7 @@ Serve immediately with optional toppings like sour cream, sliced green onions, o
       suggestedSides: [
         "Totopos con salsa",
         "Ensalada verde sencilla",
-        "Elote estilo callejero mexicano",
+        "Elote estilo mexicano",
       ],
       ingredients: `1 lb de carne molida de res
 2 cups de macarrones cocidos
@@ -4421,7 +4421,7 @@ Remove from heat and garnish with sliced lemon and fresh parsley if desired. Ser
       suggestedSides: [
         "Arroz pilaf",
         "Brócoli al vapor",
-        "Ensalada de acompañamiento",
+        "Ensalada sencilla",
       ],
       ingredients: `4 filetes de tilapia
 1 Tbsp de aceite de oliva
@@ -4506,7 +4506,7 @@ Serve warm with additional BBQ sauce if desired.`,
       suggestedSides: [
         "Frijoles horneados",
         "Ensalada de col",
-        "Elote entero",
+        "Elote",
       ],
       ingredients: `4 pechugas de pollo sin hueso y sin piel
 1 Tbsp de aceite de oliva
@@ -4603,9 +4603,9 @@ Fill shells with seasoned beef and desired toppings. Serve immediately.`,
         "bueno para sobras",
       ],
       suggestedSides: [
-        "Arroz con cilantro y limón",
+        "Arroz con cilantro y lima",
         "Totopos con salsa",
-        "Elote estilo callejero mexicano",
+        "Elote estilo mexicano",
       ],
       ingredients: `1 lb de carne molida de res
 2/3 cup de agua
@@ -5157,7 +5157,7 @@ Serve hot with desired toppings such as shredded cheese, sour cream, tortilla ch
       ],
       suggestedSides: [
         "Totopos",
-        "Arroz con cilantro y limón",
+        "Arroz con cilantro y lima",
         "Pan de maíz",
       ],
       ingredients: `1 lb de carne molida de res
@@ -5270,7 +5270,7 @@ Remove from oven and serve immediately in warm tortillas with sour cream, shredd
         "bueno para sobras",
       ],
       suggestedSides: [
-        "Arroz con cilantro y limón",
+        "Arroz con cilantro y lima",
         "Totopos con salsa",
         "Frijoles refritos",
       ],
@@ -5374,7 +5374,7 @@ Serve hot with your favorite dipping sauces.`,
       ],
       suggestedSides: [
         "Papas fritas",
-        "Bastones de zanahoria con ranch",
+        "Palitos de zanahoria con ranch",
         "Ensalada de frutas",
       ],
       ingredients: `1 1/2 lbs de tiras de pollo
@@ -5564,7 +5564,7 @@ Let rest for 5 minutes before serving with extra barbecue sauce if desired.`,
       suggestedSides: [
         "Frijoles horneados",
         "Ensalada de col",
-        "Elote entero",
+        "Elote",
       ],
       ingredients: `8 piernas de pollo
 1 Tbsp de aceite de oliva
@@ -5830,9 +5830,9 @@ suggestedSides: [
         "comida callejera",
       ],
       suggestedSides: [
-        "Arroz con cilantro y limón",
+        "Arroz con cilantro y lima",
         "Totopos con salsa",
-        "Elote estilo callejero mexicano",
+        "Elote estilo mexicano",
       ],
       ingredients: `cerdo deshebrado, ver receta "Cerdo deshebrado ahumado"
 8 tortillas pequeñas de maíz o harina
@@ -5919,7 +5919,7 @@ suggestedSides: [
       suggestedSides: [
         "Sándwich de queso a la plancha",
         "Pan de ajo",
-        "Ensalada de acompañamiento",
+        "Ensalada sencilla",
       ],
       ingredients: `3 lbs de tomates, cortados por la mitad
 1 cebolla dulce, cortada en gajos gruesos
@@ -6028,7 +6028,7 @@ suggestedSides: [
       ],
       suggestedSides: [
         "Panecillos",
-        "Ensalada de acompañamiento",
+        "Ensalada sencilla",
         "Pan de maíz",
       ],
       ingredients: `2 lbs de carne de res para estofado
@@ -6492,7 +6492,7 @@ Serve with lime wedges and cotija cheese if desired.`,
       suggestedSides: [
         "Totopos",
         "Verduras a la parrilla",
-        "Ensalada de acompañamiento",
+        "Ensalada sencilla",
       ],
       ingredients: `Carne:
 1 1/2 lbs de arrachera
@@ -6757,8 +6757,8 @@ Serve hot with sour cream, guacamole, pico de gallo, cilantro, and lime wedges i
       ],
       suggestedSides: [
         "Totopos con salsa",
-        "Elote estilo callejero mexicano",
-        "Arroz con cilantro y limón",
+        "Elote estilo mexicano",
+        "Arroz con cilantro y lima",
       ],
       ingredients: `Relleno:
 2 tazas de brisket cocido y deshebrado
@@ -6881,7 +6881,7 @@ Let cool for 5 minutes before serving because the filling will be very hot.`,
       suggestedSides: [
         "Salsa marinara para acompañar",
         "Ensalada verde sencilla",
-        "Bastones de zanahoria con ranch",
+        "Palitos de zanahoria con ranch",
       ],
       ingredients: `Masa:
 1 lb de masa para pizza (casera o comprada)
@@ -7005,7 +7005,7 @@ Serve warm.`,
         "comida para fiestas",
       ],
       suggestedSides: [
-        "Ensalada de acompañamiento",
+        "Ensalada sencilla",
         "Brócoli al vapor",
         "Chili",
       ],
@@ -7361,7 +7361,7 @@ Garnish with 1 tbsp fresh parsley and serve warm.`,
       suggestedSides: [
         "Papas asadas",
         "Ejotes",
-        "Ensalada de acompañamiento",
+        "Ensalada sencilla",
       ],
       ingredients: `Cerdo:
 3 a 4 lb de lomo de cerdo
@@ -7666,9 +7666,9 @@ Serve topped with diced onion and cilantro alongside small bowls of warm birria 
         "familiar",
       ],
       suggestedSides: [
-        "Elote estilo callejero mexicano",
+        "Elote estilo mexicano",
         "Totopos con salsa",
-        "Arroz con cilantro y limón",
+        "Arroz con cilantro y lima",
       ],
       ingredients: `Carne:
 3 lbs de chuck roast de res, cortado en trozos grandes
@@ -8258,7 +8258,7 @@ Serve immediately with lime wedges.`,
         "cocción lenta",
       ],
       suggestedSides: [
-        "Arroz con cilantro y limón",
+        "Arroz con cilantro y lima",
         "Cebollas rojas encurtidas",
         "Totopos con guacamole",
       ],
@@ -8407,7 +8407,7 @@ Serve warm with extra glaze spooned over the top if desired.`,
       ],
       suggestedSides: [
         "Puré de papas",
-        "Zanahorias asadas",
+        "Zanahorias rostizadas",
         "Panecillos",
       ],
       ingredients: `Pastel de Carne:
@@ -8525,7 +8525,7 @@ Carefully open the packets because hot steam will escape. Serve directly from th
       ],
       suggestedSides: [
         "Frijoles horneados",
-        "Elote entero",
+        "Elote",
         "Rebanadas de sandía",
       ],
       ingredients: `1 lb de carne molida
@@ -9045,6 +9045,7 @@ Retira y deja reposar unos minutos antes de servir.`,
   effort: "quick",
   photoUrl: "/images/quick-airfryer-baked-potato.jpg",
   tags: ["side", "air-fryer", "comfort", "quick", "vegetarian"],
+  isVegetarian: true,
   notes: "An easy side dish that goes with almost anything and needs very little hands-on work.",
   ingredients: `1 large russet potato
 1/2 tsp salt
@@ -9095,6 +9096,7 @@ Corta por el centro, esponja el interior con un tenedor y agrega 1 a 2 Tbsp de m
   effort: "quick",
   photoUrl: "/images/quick-garlic-roasted-potatoes.jpg",
   tags: ["side", "roasted", "vegetarian", "comfort", "oven"],
+  isVegetarian: true,
   notes: "Crispy, simple potatoes that work with almost any main dish.",
   ingredients: `3 lbs small red or white potatoes
 1/4 cup olive oil
@@ -9181,8 +9183,18 @@ Remove from oven and drizzle with ranch or blue cheese dressing.
 Garnish with sliced green onions and serve immediately.`,
   photoUrl: "/images/buffalo-chicken-tots.jpg",
   effort: "quick",
-  tags: ["appetizer", "snack", "chicken", "buffalo", "game-day", "comfort", "party", "loaded"],
-  isVegetarian: false,
+  tags: [
+  "side",
+  "appetizer",
+  "snack",
+  "chicken",
+  "buffalo",
+  "game-day",
+  "comfort",
+  "party",
+  "loaded",
+],
+isVegetarian: false,
   notes: "Crispy tater tots loaded with buffalo chicken, melty cheese, and cool ranch. Inspired by restaurant-style totchos but simplified for easy home cooking.",
   translations: {
     es: {
@@ -9326,7 +9338,2842 @@ Antes de servir, prueba y ajusta sal y pimienta si es necesario. Espolvorea con 
   },
 },
 
+// Popular Sides Pack
 
+{
+  id: "quick-garlic-green-beans",
+  slug: "quick-garlic-green-beans",
+  name: "Garlic Green Beans",
+  effort: "quick",
+  photoUrl: "/images/quick-garlic-green-beans.jpg",
+  tags: ["side", "vegetarian", "vegetable", "green-beans", "quick", "healthy"],
+  isVegetarian: true,
+  notes: "A simple, flexible side that can be steamed, sautéed, or roasted with garlic.",
+  ingredients: `1 lb fresh green beans, trimmed
+1 tbsp olive oil or butter
+2 cloves garlic, minced
+1/2 tsp salt
+1/4 tsp black pepper
+1 tbsp lemon juice (optional)`,
+  instructions: `Heat 1 tbsp olive oil or butter in a large skillet over medium heat.
+
+Add 1 lb green beans and cook for 5 to 7 minutes, stirring occasionally, until bright green and tender-crisp.
+
+Add 2 cloves minced garlic, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Cook for 1 to 2 minutes until the garlic is fragrant.
+
+Finish with 1 tbsp lemon juice if desired and serve warm.`,
+  translations: {
+    es: {
+      name: "Ejotes con Ajo",
+      notes: "Una guarnición sencilla y flexible que se puede cocinar al vapor, saltear o rostizar con ajo.",
+      tags: ["acompañamiento", "vegetariano", "verdura", "ejotes", "rápido", "saludable"],
+      ingredients: `1 lb de ejotes frescos, limpios
+1 cucharada de aceite de oliva o mantequilla
+2 dientes de ajo, picados
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+1 cucharada de jugo de limón (opcional)`,
+      instructions: `Calienta 1 cucharada de aceite de oliva o mantequilla en una sartén grande a fuego medio.
+
+Agrega 1 lb de ejotes y cocina de 5 a 7 minutos, revolviendo ocasionalmente, hasta que estén verdes brillantes y tiernos pero crujientes.
+
+Agrega 2 dientes de ajo picados, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Cocina de 1 a 2 minutos hasta que el ajo esté fragante.
+
+Termina con 1 cucharada de jugo de limón si deseas y sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-lemon-roasted-broccoli",
+  slug: "quick-lemon-roasted-broccoli",
+  name: "Lemon Roasted Broccoli",
+  effort: "quick",
+  photoUrl: "/images/quick-lemon-roasted-broccoli.jpg",
+  tags: ["side", "vegetarian", "vegetable", "broccoli", "roasted", "healthy"],
+  isVegetarian: true,
+  notes: "High heat gives broccoli crispy edges while lemon keeps it bright and fresh.",
+  ingredients: `1 large head broccoli, cut into florets
+2 tbsp olive oil
+1/2 tsp salt
+1/4 tsp black pepper
+1 tbsp lemon juice
+1/4 cup parmesan cheese, grated (optional)`,
+  instructions: `Preheat oven to 425°F.
+
+Toss broccoli with 2 tbsp olive oil, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Spread in a single layer on a baking sheet.
+
+Roast for 18 to 22 minutes, until edges are browned and crispy.
+
+Finish with 1 tbsp lemon juice and parmesan if desired.`,
+  translations: {
+    es: {
+      name: "Brócoli Rostizado con Limón",
+      notes: "El calor alto deja el brócoli crujiente en los bordes mientras el limón aporta frescura.",
+      tags: ["acompañamiento", "vegetariano", "verdura", "brócoli", "rostizado", "saludable"],
+      ingredients: `1 cabeza grande de brócoli, cortada en floretes
+2 cucharadas de aceite de oliva
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+1 cucharada de jugo de limón
+1/4 taza de queso parmesano rallado (opcional)`,
+      instructions: `Precalienta el horno a 425°F.
+
+Mezcla el brócoli con 2 cucharadas de aceite de oliva, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Extiende en una sola capa sobre una bandeja.
+
+Rostiza de 18 a 22 minutos hasta que los bordes estén dorados y crujientes.
+
+Termina con 1 cucharada de jugo de limón y parmesano si deseas.`,
+    },
+  },
+},
+
+{
+  id: "quick-glazed-carrots",
+  slug: "quick-glazed-carrots",
+  name: "Glazed Carrots",
+  effort: "quick",
+  photoUrl: "/images/quick-glazed-carrots.jpg",
+  tags: ["side", "vegetarian", "vegetable", "carrots", "sweet", "family-friendly"],
+  isVegetarian: true,
+  notes: "Tender carrots simmered with butter and honey for a simple sweet-savory side.",
+  ingredients: `1 lb carrots, sliced
+2 tbsp butter
+1 tbsp honey or brown sugar
+1/2 tsp salt
+1/4 tsp black pepper
+1 tbsp fresh parsley, chopped (optional)`,
+  instructions: `Place 1 lb sliced carrots in a skillet with enough water to barely cover the bottom.
+
+Cover and simmer over medium heat for 6 to 8 minutes until tender.
+
+Drain excess water if needed.
+
+Add 2 tbsp butter, 1 tbsp honey or brown sugar, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Cook 2 to 3 minutes, stirring, until the carrots are glossy and lightly glazed.
+
+Garnish with parsley if desired and serve warm.`,
+  translations: {
+    es: {
+      name: "Zanahorias Glaseadas",
+      notes: "Zanahorias tiernas cocinadas con mantequilla y miel para una guarnición simple, dulce y salada.",
+      tags: ["acompañamiento", "vegetariano", "verdura", "zanahorias", "dulce", "familiar"],
+      ingredients: `1 lb de zanahorias, en rodajas
+2 cucharadas de mantequilla
+1 cucharada de miel o azúcar morena
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+1 cucharada de perejil fresco, picado (opcional)`,
+      instructions: `Coloca 1 lb de zanahorias en una sartén con suficiente agua para cubrir apenas el fondo.
+
+Cubre y cocina a fuego medio de 6 a 8 minutos hasta que estén tiernas.
+
+Escurre el exceso de agua si es necesario.
+
+Agrega 2 cucharadas de mantequilla, 1 cucharada de miel o azúcar morena, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Cocina de 2 a 3 minutos, revolviendo, hasta que las zanahorias estén brillantes y glaseadas.
+
+Decora con perejil si deseas y sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-garlic-butter-asparagus",
+  slug: "quick-garlic-butter-asparagus",
+  name: "Garlic Butter Asparagus",
+  effort: "quick",
+  photoUrl: "/images/quick-garlic-butter-asparagus.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "vegetable",
+    "asparagus",
+    "quick",
+    "healthy",
+  ],
+  isVegetarian: true,
+  notes:
+    "A quick and elegant side dish that pairs well with chicken, steak, pork, or seafood. Cooking over medium-high heat keeps the asparagus tender-crisp.",
+  ingredients: `1 lb asparagus, trimmed
+1 tbsp butter
+1 tbsp olive oil
+2 cloves garlic, minced
+1/2 tsp salt
+1/4 tsp black pepper
+1 tbsp lemon juice (optional)`,
+  instructions: `Heat 1 tbsp butter and 1 tbsp olive oil in a large skillet over medium-high heat.
+
+Add 1 lb asparagus and cook for 4 to 6 minutes, stirring occasionally, until bright green and tender-crisp.
+
+Add 2 cloves minced garlic, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Cook for 30 to 60 seconds until fragrant.
+
+Finish with 1 tbsp lemon juice if desired.
+
+Serve immediately while warm.`,
+  translations: {
+    es: {
+      name: "Espárragos Salteados con Ajo y Mantequilla",
+      notes:
+        "Una guarnición rápida y elegante que combina perfectamente con pollo, carne de res, cerdo o mariscos. Cocinar a fuego medio-alto ayuda a mantener los espárragos tiernos pero crujientes.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "verdura",
+        "espárragos",
+        "rápido",
+        "saludable",
+      ],
+      ingredients: `1 lb de espárragos, recortados
+1 cucharada de mantequilla
+1 cucharada de aceite de oliva
+2 dientes de ajo, picados
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+1 cucharada de jugo de limón (opcional)`,
+      instructions: `Calienta 1 cucharada de mantequilla y 1 cucharada de aceite de oliva en una sartén grande a fuego medio-alto.
+
+Agrega 1 lb de espárragos y cocina de 4 a 6 minutos, revolviendo ocasionalmente, hasta que estén verdes brillantes y tiernos pero crujientes.
+
+Agrega 2 dientes de ajo picados, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Cocina de 30 a 60 segundos hasta que el ajo esté fragante.
+
+Termina con 1 cucharada de jugo de limón si lo deseas.
+
+Sirve inmediatamente.`,
+    },
+  },
+},
+
+{
+  id: "quick-crispy-brussels-sprouts",
+  slug: "quick-crispy-brussels-sprouts",
+  name: "Crispy Brussels Sprouts",
+  effort: "quick",
+  photoUrl: "/images/quick-crispy-brussels-sprouts.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "vegetable",
+    "brussels-sprouts",
+    "roasted",
+    "healthy",
+  ],
+  isVegetarian: true,
+  notes:
+    "Roasting Brussels sprouts at high heat creates crispy caramelized edges and a tender center. A drizzle of balsamic glaze adds the perfect finishing touch.",
+  ingredients: `1 1/2 lbs Brussels sprouts, halved
+2 tbsp olive oil
+1/2 tsp salt
+1/4 tsp black pepper
+1 tbsp balsamic glaze (optional)
+2 tbsp parmesan cheese, grated (optional)`,
+  instructions: `Preheat oven to 425°F.
+
+Toss 1 1/2 lbs Brussels sprouts with 2 tbsp olive oil, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Spread onto a baking sheet in a single layer.
+
+Roast for 22 to 28 minutes, stirring once halfway through, until deeply browned and crispy around the edges.
+
+Transfer to a serving dish.
+
+Drizzle with 1 tbsp balsamic glaze and sprinkle with parmesan cheese if desired.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Coles de Bruselas Crujientes",
+      notes:
+        "Rostizar las coles de Bruselas a temperatura alta crea bordes caramelizados y crujientes con un centro tierno. Un poco de glaseado balsámico les da un toque espectacular.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "verdura",
+        "coles de bruselas",
+        "rostizado",
+        "saludable",
+      ],
+      ingredients: `1 1/2 lbs de coles de Bruselas, partidas a la mitad
+2 cucharadas de aceite de oliva
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+1 cucharada de glaseado balsámico (opcional)
+2 cucharadas de queso parmesano rallado (opcional)`,
+      instructions: `Precalienta el horno a 425°F.
+
+Mezcla 1 1/2 lbs de coles de Bruselas con 2 cucharadas de aceite de oliva, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Extiéndelas en una bandeja para hornear en una sola capa.
+
+Hornea de 22 a 28 minutos, revolviendo una vez a mitad de cocción, hasta que estén bien doradas y crujientes en los bordes.
+
+Transfiérelas a un plato para servir.
+
+Rocía con 1 cucharada de glaseado balsámico y espolvorea parmesano si lo deseas.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-buttered-corn-on-the-cob",
+  slug: "quick-buttered-corn-on-the-cob",
+  name: "Buttered Corn on the Cob",
+  effort: "quick",
+  photoUrl: "/images/quick-buttered-corn-on-the-cob.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "corn",
+    "summer",
+    "cookout",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "A classic cookout favorite. Sweet corn and melted butter are hard to beat, and this side works with almost any grilled meal.",
+  ingredients: `6 ears corn, husked
+4 tbsp butter
+1/2 tsp salt
+1/4 tsp black pepper
+
+Optional:
+parmesan cheese
+chili powder
+lime wedges`,
+  instructions: `Bring a large pot of water to a boil.
+
+Add 6 ears of corn and cook for 5 to 7 minutes until tender.
+
+Remove the corn and allow excess water to drain.
+
+Spread 4 tbsp butter evenly over the hot corn.
+
+Season with 1/2 tsp salt and 1/4 tsp black pepper.
+
+Add parmesan cheese, chili powder, or lime juice if desired.
+
+Serve immediately.`,
+  translations: {
+    es: {
+      name: "Elote con Mantequilla",
+      notes:
+        "Un clásico de parrilladas y reuniones familiares. El maíz dulce con mantequilla combina perfectamente con casi cualquier comida.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "elote",
+        "verano",
+        "parrillada",
+        "familiar",
+      ],
+      ingredients: `6 elotes, sin hojas
+4 cucharadas de mantequilla
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+
+Opcional:
+queso parmesano
+chile en polvo
+gajos de limón`,
+      instructions: `Hierve una olla grande con agua.
+
+Agrega 6 elotes y cocina de 5 a 7 minutos hasta que estén tiernos.
+
+Retira los elotes y deja escurrir el exceso de agua.
+
+Unta 4 cucharadas de mantequilla sobre los elotes calientes.
+
+Sazona con 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Agrega parmesano, chile en polvo o jugo de limón si lo deseas.
+
+Sirve inmediatamente.`,
+    },
+  },
+},
+
+{
+  id: "quick-creamed-corn",
+  slug: "quick-creamed-corn",
+  name: "Creamed Corn",
+  effort: "quick",
+  photoUrl: "/images/quick-creamed-corn.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "corn",
+    "creamy",
+    "comfort",
+    "holiday",
+  ],
+  isVegetarian: true,
+  notes:
+    "A rich and creamy classic side dish that pairs beautifully with barbecue, roasted meats, and holiday meals.",
+  ingredients: `2 tbsp butter
+3 cups corn kernels (fresh, frozen, or canned)
+1 cup heavy cream
+2 oz cream cheese, softened
+1/2 tsp salt
+1/4 tsp black pepper
+1 tsp sugar (optional)`,
+  instructions: `Melt 2 tbsp butter in a medium saucepan over medium heat.
+
+Add 3 cups corn kernels and cook for 3 to 4 minutes until heated through.
+
+Pour in 1 cup heavy cream and add 2 oz cream cheese.
+
+Stir frequently until the cream cheese melts completely.
+
+Add 1/2 tsp salt, 1/4 tsp black pepper, and 1 tsp sugar if desired.
+
+Simmer for 5 to 7 minutes until the sauce thickens slightly.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Maíz Cremoso",
+      notes:
+        "Una guarnición clásica, rica y cremosa que combina perfectamente con parrilladas, carnes asadas y comidas festivas.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "maíz",
+        "cremoso",
+        "comfort",
+        "festivo",
+      ],
+      ingredients: `2 cucharadas de mantequilla
+3 tazas de granos de maíz
+1 taza de crema espesa
+2 oz de queso crema, suavizado
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+1 cucharadita de azúcar (opcional)`,
+      instructions: `Derrite 2 cucharadas de mantequilla en una cacerola a fuego medio.
+
+Agrega 3 tazas de maíz y cocina de 3 a 4 minutos hasta que esté caliente.
+
+Vierte 1 taza de crema espesa y agrega 2 oz de queso crema.
+
+Revuelve frecuentemente hasta que el queso crema se derrita por completo.
+
+Agrega 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y 1 cucharadita de azúcar si lo deseas.
+
+Cocina a fuego lento de 5 a 7 minutos hasta que la salsa espese ligeramente.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-roasted-cauliflower",
+  slug: "quick-roasted-cauliflower",
+  name: "Roasted Cauliflower",
+  effort: "quick",
+  photoUrl: "/images/quick-roasted-cauliflower.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "cauliflower",
+    "roasted",
+    "healthy",
+    "low-carb",
+  ],
+  isVegetarian: true,
+  notes:
+    "Roasting transforms cauliflower into a sweet, nutty side dish with crispy golden edges and incredible flavor.",
+  ingredients: `1 large head cauliflower, cut into florets
+2 tbsp olive oil
+1/2 tsp salt
+1/4 tsp black pepper
+1/2 tsp garlic powder
+
+Optional:
+2 tbsp parmesan cheese
+1 tbsp lemon juice`,
+  instructions: `Preheat oven to 425°F.
+
+Toss cauliflower florets with 2 tbsp olive oil, 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp garlic powder.
+
+Spread onto a baking sheet in a single layer.
+
+Roast for 22 to 28 minutes, stirring halfway through, until deeply golden and tender.
+
+Finish with parmesan cheese or lemon juice if desired.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Coliflor Rostizada",
+      notes:
+        "Rostizar la coliflor resalta su dulzura natural y crea bordes dorados y crujientes llenos de sabor.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "coliflor",
+        "rostizado",
+        "saludable",
+        "bajo en carbohidratos",
+      ],
+      ingredients: `1 cabeza grande de coliflor, cortada en floretes
+2 cucharadas de aceite de oliva
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+1/2 cucharadita de ajo en polvo
+
+Opcional:
+2 cucharadas de queso parmesano
+1 cucharada de jugo de limón`,
+      instructions: `Precalienta el horno a 425°F.
+
+Mezcla la coliflor con 2 cucharadas de aceite de oliva, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y 1/2 cucharadita de ajo en polvo.
+
+Extiende en una bandeja para hornear en una sola capa.
+
+Hornea de 22 a 28 minutos, revolviendo a mitad de cocción, hasta que esté dorada y tierna.
+
+Agrega parmesano o jugo de limón si lo deseas.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-sauteed-zucchini-squash",
+  slug: "quick-sauteed-zucchini-squash",
+  name: "Sautéed Zucchini and Squash",
+  effort: "quick",
+  photoUrl: "/images/quick-sauteed-zucchini-squash.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "zucchini",
+    "squash",
+    "summer",
+    "healthy",
+  ],
+  isVegetarian: true,
+  notes:
+    "A simple summer favorite featuring tender zucchini, yellow squash, and sweet onions cooked until lightly caramelized.",
+  ingredients: `1 zucchini, sliced
+1 yellow squash, sliced
+1/2 onion, sliced
+1 tbsp olive oil
+1 tbsp butter
+1/2 tsp salt
+1/4 tsp black pepper
+1/2 tsp garlic powder`,
+  instructions: `Heat 1 tbsp olive oil and 1 tbsp butter in a large skillet over medium heat.
+
+Add 1 zucchini, 1 yellow squash, and 1/2 sliced onion.
+
+Cook for 8 to 10 minutes, stirring occasionally, until tender and lightly browned.
+
+Season with 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp garlic powder.
+
+Cook 1 minute longer and serve warm.`,
+  translations: {
+    es: {
+      name: "Calabacín y Calabaza Salteados",
+      notes:
+        "Un favorito del verano con calabacín, calabaza amarilla y cebolla cocinados hasta quedar tiernos y ligeramente caramelizados.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "calabacín",
+        "calabaza",
+        "verano",
+        "saludable",
+      ],
+      ingredients: `1 calabacín, en rodajas
+1 calabaza amarilla, en rodajas
+1/2 cebolla, en rodajas
+1 cucharada de aceite de oliva
+1 cucharada de mantequilla
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+1/2 cucharadita de ajo en polvo`,
+      instructions: `Calienta 1 cucharada de aceite de oliva y 1 cucharada de mantequilla en una sartén grande a fuego medio.
+
+Agrega 1 calabacín, 1 calabaza amarilla y 1/2 cebolla.
+
+Cocina de 8 a 10 minutos, revolviendo ocasionalmente, hasta que estén tiernos y ligeramente dorados.
+
+Sazona con 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y 1/2 cucharadita de ajo en polvo.
+
+Cocina 1 minuto más y sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-creamed-spinach",
+  slug: "quick-creamed-spinach",
+  name: "Creamed Spinach",
+  effort: "quick",
+  photoUrl: "/images/quick-creamed-spinach.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "spinach",
+    "creamy",
+    "comfort",
+    "holiday",
+  ],
+  isVegetarian: true,
+  notes:
+    "A steakhouse favorite featuring tender spinach in a rich, cheesy cream sauce. Perfect alongside beef, chicken, pork, or holiday meals.",
+  ingredients: `Spinach:
+1 lb fresh spinach
+
+Sauce:
+2 tbsp butter
+2 cloves garlic, minced
+2 tbsp flour
+1 cup whole milk
+1/2 cup parmesan cheese, grated
+2 oz cream cheese, softened
+1/2 tsp salt
+1/4 tsp black pepper
+1/8 tsp nutmeg (optional)`,
+  instructions: `Bring a large pot of water to a boil.
+
+Add 1 lb spinach and cook for 30 seconds until wilted.
+
+Drain and squeeze out excess moisture. Roughly chop and set aside.
+
+Melt 2 tbsp butter in a skillet over medium heat.
+
+Add 2 cloves garlic and cook for 30 seconds.
+
+Whisk in 2 tbsp flour and cook for 1 minute.
+
+Slowly pour in 1 cup milk while whisking constantly.
+
+Add parmesan cheese, cream cheese, 1/2 tsp salt, 1/4 tsp black pepper, and nutmeg if using.
+
+Cook 3 to 5 minutes until thick and creamy.
+
+Stir in the spinach and cook 1 to 2 minutes until heated through.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Espinacas a la Crema",
+      notes:
+        "Un clásico de restaurante con espinacas tiernas en una salsa cremosa y quesosa. Perfecto para acompañar carnes, pollo, cerdo o comidas festivas.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "espinacas",
+        "cremoso",
+        "comfort",
+        "festivo",
+      ],
+      ingredients: `Espinacas:
+1 lb de espinacas frescas
+
+Salsa:
+2 cucharadas de mantequilla
+2 dientes de ajo, picados
+2 cucharadas de harina
+1 taza de leche entera
+1/2 taza de queso parmesano rallado
+2 oz de queso crema, suavizado
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+1/8 cucharadita de nuez moscada (opcional)`,
+      instructions: `Hierve una olla grande con agua.
+
+Agrega 1 lb de espinacas y cocina durante 30 segundos hasta que se marchiten.
+
+Escurre y exprime el exceso de líquido. Pica ligeramente y reserva.
+
+Derrite 2 cucharadas de mantequilla en una sartén a fuego medio.
+
+Agrega 2 dientes de ajo y cocina 30 segundos.
+
+Incorpora 2 cucharadas de harina y cocina 1 minuto.
+
+Vierte lentamente 1 taza de leche mientras bates constantemente.
+
+Agrega parmesano, queso crema, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y nuez moscada si la usas.
+
+Cocina de 3 a 5 minutos hasta obtener una salsa espesa y cremosa.
+
+Incorpora las espinacas y cocina 1 a 2 minutos hasta que estén calientes.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-peas-and-carrots",
+  slug: "quick-peas-and-carrots",
+  name: "Peas and Carrots",
+  effort: "quick",
+  photoUrl: "/images/quick-peas-and-carrots.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "peas",
+    "carrots",
+    "family-friendly",
+    "quick",
+  ],
+  isVegetarian: true,
+  notes:
+    "A colorful and simple side dish that's quick to prepare and pairs well with almost any dinner.",
+  ingredients: `2 cups frozen peas
+2 cups carrots, diced
+2 tbsp butter
+1/2 tsp salt
+1/4 tsp black pepper
+1 tsp honey (optional)`,
+  instructions: `Bring a medium saucepan of water to a boil.
+
+Add 2 cups carrots and cook for 5 minutes.
+
+Add 2 cups peas and cook for 2 additional minutes.
+
+Drain well.
+
+Return vegetables to the saucepan.
+
+Add 2 tbsp butter, 1/2 tsp salt, 1/4 tsp black pepper, and 1 tsp honey if desired.
+
+Stir until butter melts and vegetables are coated.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Chícharos y Zanahorias",
+      notes:
+        "Una guarnición sencilla, colorida y rápida de preparar que combina con prácticamente cualquier comida.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "chícharos",
+        "zanahorias",
+        "familiar",
+        "rápido",
+      ],
+      ingredients: `2 tazas de chícharos congelados
+2 tazas de zanahorias en cubos
+2 cucharadas de mantequilla
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+1 cucharadita de miel (opcional)`,
+      instructions: `Hierve una cacerola mediana con agua.
+
+Agrega 2 tazas de zanahorias y cocina durante 5 minutos.
+
+Agrega 2 tazas de chícharos y cocina 2 minutos más.
+
+Escurre bien.
+
+Regresa las verduras a la cacerola.
+
+Agrega 2 cucharadas de mantequilla, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y 1 cucharadita de miel si lo deseas.
+
+Revuelve hasta que la mantequilla se derrita y cubra las verduras.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-roasted-root-vegetables",
+  slug: "quick-roasted-root-vegetables",
+  name: "Roasted Root Vegetables",
+  effort: "quick",
+  photoUrl: "/images/quick-roasted-root-vegetables.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "roasted",
+    "vegetables",
+    "healthy",
+    "fall",
+  ],
+  isVegetarian: true,
+  notes:
+    "Roasting brings out the natural sweetness of root vegetables while creating delicious caramelized edges.",
+  ingredients: `2 carrots, peeled and chopped
+2 parsnips, peeled and chopped
+2 medium beets, peeled and chopped
+2 tbsp olive oil
+1 tsp salt
+1/2 tsp black pepper
+1 tsp dried thyme
+
+Optional:
+1 tbsp balsamic glaze
+fresh parsley for garnish`,
+  instructions: `Preheat oven to 425°F.
+
+Place carrots, parsnips, and beets onto a large baking sheet.
+
+Drizzle with 2 tbsp olive oil.
+
+Season with 1 tsp salt, 1/2 tsp black pepper, and 1 tsp dried thyme.
+
+Toss well and spread into a single layer.
+
+Roast for 30 to 35 minutes, stirring halfway through, until tender and caramelized.
+
+Drizzle with balsamic glaze and garnish with parsley if desired.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Verduras de Raíz Rostizadas",
+      notes:
+        "Rostizar verduras de raíz resalta su dulzura natural y crea deliciosos bordes caramelizados.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "rostizado",
+        "verduras",
+        "saludable",
+        "otoño",
+      ],
+      ingredients: `2 zanahorias, peladas y picadas
+2 chirivías, peladas y picadas
+2 remolachas medianas, peladas y picadas
+2 cucharadas de aceite de oliva
+1 cucharadita de sal
+1/2 cucharadita de pimienta negra
+1 cucharadita de tomillo seco
+
+Opcional:
+1 cucharada de glaseado balsámico
+perejil fresco para decorar`,
+      instructions: `Precalienta el horno a 425°F.
+
+Coloca las zanahorias, chirivías y remolachas en una bandeja grande para hornear.
+
+Rocía con 2 cucharadas de aceite de oliva.
+
+Sazona con 1 cucharadita de sal, 1/2 cucharadita de pimienta negra y 1 cucharadita de tomillo seco.
+
+Mezcla bien y acomoda en una sola capa.
+
+Hornea de 30 a 35 minutos, revolviendo a mitad del tiempo, hasta que estén tiernas y caramelizadas.
+
+Rocía con glaseado balsámico y decora con perejil si lo deseas.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+
+{
+  id: "quick-creamy-mashed-potatoes",
+  slug: "quick-creamy-mashed-potatoes",
+  name: "Creamy Mashed Potatoes",
+  effort: "quick",
+  photoUrl: "/images/quick-creamy-mashed-potatoes.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "potatoes",
+    "comfort",
+    "holiday",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "Rich, buttery mashed potatoes that pair perfectly with gravy, roasted meats, or holiday dinners.",
+  ingredients: `2 lbs russet potatoes, peeled and cubed
+4 tbsp butter
+1/2 cup whole milk
+1/2 cup sour cream
+1 tsp salt
+1/4 tsp black pepper
+
+Optional:
+gravy
+fresh chives`,
+  instructions: `Place 2 lbs potatoes into a large pot and cover with cold water.
+
+Bring to a boil and cook for 15 to 18 minutes until fork tender.
+
+Drain well and return to the pot.
+
+Add 4 tbsp butter, 1/2 cup milk, 1/2 cup sour cream, 1 tsp salt, and 1/4 tsp black pepper.
+
+Mash until smooth and creamy.
+
+Adjust seasoning if needed.
+
+Serve warm with gravy or fresh chives if desired.`,
+  translations: {
+    es: {
+      name: "Puré de Papas Cremoso",
+      notes:
+        "Un puré de papas rico y mantequilloso que combina perfectamente con gravy, carnes asadas y comidas festivas.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "papas",
+        "comfort",
+        "festivo",
+        "familiar",
+      ],
+      ingredients: `2 lbs de papas russet, peladas y en cubos
+4 cucharadas de mantequilla
+1/2 taza de leche entera
+1/2 taza de crema agria
+1 cucharadita de sal
+1/4 cucharadita de pimienta negra
+
+Opcional:
+gravy
+cebollín fresco`,
+      instructions: `Coloca 2 lbs de papas en una olla grande y cúbrelas con agua fría.
+
+Lleva a ebullición y cocina de 15 a 18 minutos hasta que estén tiernas.
+
+Escurre bien y regresa las papas a la olla.
+
+Agrega 4 cucharadas de mantequilla, 1/2 taza de leche, 1/2 taza de crema agria, 1 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Tritura hasta obtener una textura suave y cremosa.
+
+Ajusta la sazón si es necesario.
+
+Sirve caliente con gravy o cebollín fresco si lo deseas.`,
+    },
+  },
+},
+
+{
+  id: "quick-seasoned-fries",
+  slug: "quick-seasoned-fries",
+  name: "Seasoned Fries",
+  effort: "quick",
+  photoUrl: "/images/quick-seasoned-fries.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "potatoes",
+    "fries",
+    "air-fryer",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "Crispy fries with simple seasoning. Works great with shoestring, waffle, curly, or steak fries.",
+  ingredients: `1 lb frozen fries
+1 tbsp olive oil
+1 tsp seasoned salt
+1/2 tsp garlic powder
+1/4 tsp black pepper
+
+Optional:
+ketchup
+ranch dressing
+fry sauce`,
+  instructions: `Preheat oven to 425°F or air fryer to 400°F.
+
+Toss 1 lb fries with 1 tbsp olive oil, 1 tsp seasoned salt, 1/2 tsp garlic powder, and 1/4 tsp black pepper.
+
+Arrange in a single layer.
+
+Bake for 20 to 25 minutes or air fry for 12 to 15 minutes until golden and crispy.
+
+Serve immediately with your favorite dipping sauce.`,
+  translations: {
+    es: {
+      name: "Papas Fritas Sazonadas",
+      notes:
+        "Papas crujientes con un sazonado sencillo. Funciona perfectamente con papas waffle, curly, shoestring o estilo steak fries.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "papas",
+        "papas fritas",
+        "freidora de aire",
+        "familiar",
+      ],
+      ingredients: `1 lb de papas fritas congeladas
+1 cucharada de aceite de oliva
+1 cucharadita de sal sazonada
+1/2 cucharadita de ajo en polvo
+1/4 cucharadita de pimienta negra
+
+Opcional:
+ketchup
+aderezo ranch
+salsa para papas`,
+      instructions: `Precalienta el horno a 425°F o la freidora de aire a 400°F.
+
+Mezcla 1 lb de papas fritas con 1 cucharada de aceite de oliva, 1 cucharadita de sal sazonada, 1/2 cucharadita de ajo en polvo y 1/4 cucharadita de pimienta negra.
+
+Colócalas en una sola capa.
+
+Hornea de 20 a 25 minutos o cocina en freidora de aire de 12 a 15 minutos hasta que estén doradas y crujientes.
+
+Sirve inmediatamente con tu salsa favorita.`,
+    },
+  },
+},
+
+{
+  id: "quick-roasted-red-potatoes",
+  slug: "quick-roasted-red-potatoes",
+  name: "Roasted Red Potatoes",
+  effort: "quick",
+  photoUrl: "/images/quick-roasted-red-potatoes.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "potatoes",
+    "roasted",
+    "healthy",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "Crispy on the outside and fluffy inside, these roasted red potatoes pair well with almost any main dish.",
+  ingredients: `2 lbs red potatoes, cut into bite-size pieces
+2 tbsp olive oil
+3 cloves garlic, minced
+1 tsp dried rosemary
+1 tsp salt
+1/2 tsp black pepper
+
+Optional:
+2 tbsp parmesan cheese
+fresh parsley`,
+  instructions: `Preheat oven to 425°F.
+
+Place potatoes onto a large baking sheet.
+
+Add 2 tbsp olive oil, 3 cloves garlic, 1 tsp rosemary, 1 tsp salt, and 1/2 tsp black pepper.
+
+Toss until evenly coated.
+
+Spread into a single layer.
+
+Roast for 30 to 35 minutes, stirring halfway through, until golden brown and crisp.
+
+Top with parmesan cheese or parsley if desired.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Papas Rojas Rostizadas",
+      notes:
+        "Crujientes por fuera y suaves por dentro, estas papas combinan perfectamente con casi cualquier plato principal.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "papas",
+        "rostizado",
+        "saludable",
+        "familiar",
+      ],
+      ingredients: `2 lbs de papas rojas, cortadas en trozos
+2 cucharadas de aceite de oliva
+3 dientes de ajo, picados
+1 cucharadita de romero seco
+1 cucharadita de sal
+1/2 cucharadita de pimienta negra
+
+Opcional:
+2 cucharadas de queso parmesano
+perejil fresco`,
+      instructions: `Precalienta el horno a 425°F.
+
+Coloca las papas en una bandeja grande para hornear.
+
+Agrega 2 cucharadas de aceite de oliva, 3 dientes de ajo, 1 cucharadita de romero, 1 cucharadita de sal y 1/2 cucharadita de pimienta negra.
+
+Mezcla hasta cubrir uniformemente.
+
+Extiende en una sola capa.
+
+Hornea de 30 a 35 minutos, revolviendo a mitad del tiempo, hasta que estén doradas y crujientes.
+
+Agrega parmesano o perejil si lo deseas.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-crispy-smashed-potatoes",
+  slug: "quick-crispy-smashed-potatoes",
+  name: "Crispy Smashed Potatoes",
+  effort: "quick",
+  photoUrl: "/images/quick-crispy-smashed-potatoes.jpg",
+  tags: ["side", "vegetarian", "potatoes", "crispy", "roasted", "comfort", "family-friendly"],
+  isVegetarian: true,
+  notes: "Boiling the potatoes first creates a fluffy inside while roasting them after smashing gives them ultra-crispy edges.",
+  ingredients: `2 lbs baby potatoes
+2 tbsp olive oil
+1 tsp garlic powder
+1 tsp salt
+1/2 tsp black pepper
+
+Optional:
+2 tbsp parmesan cheese
+1 tbsp fresh parsley, chopped
+sour cream for serving`,
+  instructions: `Preheat oven to 425°F.
+
+Bring a large pot of salted water to a boil.
+
+Add 2 lbs baby potatoes and cook for 15 to 18 minutes, until fork-tender.
+
+Drain potatoes and let them cool for 5 minutes.
+
+Place potatoes on a parchment-lined baking sheet.
+
+Use the bottom of a glass or measuring cup to gently flatten each potato.
+
+Drizzle with 2 tbsp olive oil.
+
+Sprinkle with 1 tsp garlic powder, 1 tsp salt, and 1/2 tsp black pepper.
+
+Roast for 25 to 30 minutes, until deeply golden brown and crispy around the edges.
+
+Top with parmesan cheese and parsley if desired.
+
+Serve warm with sour cream if desired.`,
+  translations: {
+    es: {
+      name: "Papas Aplastadas Crujientes",
+      notes: "Hervir las papas primero crea un interior suave, mientras que rostizarlas después de aplastarlas les da bordes ultra crujientes.",
+      tags: ["acompañamiento", "vegetariano", "papas", "crujiente", "rostizado", "comfort", "familiar"],
+      ingredients: `2 lbs de papas pequeñas
+2 cucharadas de aceite de oliva
+1 cucharadita de ajo en polvo
+1 cucharadita de sal
+1/2 cucharadita de pimienta negra
+
+Opcional:
+2 cucharadas de queso parmesano
+1 cucharada de perejil fresco, picado
+crema agria para servir`,
+      instructions: `Precalienta el horno a 425°F.
+
+Hierve una olla grande con agua y sal.
+
+Agrega 2 lbs de papas pequeñas y cocina de 15 a 18 minutos, hasta que estén tiernas al pincharlas con un tenedor.
+
+Escurre las papas y deja enfriar durante 5 minutos.
+
+Coloca las papas en una bandeja con papel para hornear.
+
+Usa el fondo de un vaso o taza medidora para aplastar suavemente cada papa.
+
+Rocía con 2 cucharadas de aceite de oliva.
+
+Espolvorea 1 cucharadita de ajo en polvo, 1 cucharadita de sal y 1/2 cucharadita de pimienta negra.
+
+Rostiza de 25 a 30 minutos, hasta que estén doradas y crujientes en los bordes.
+
+Agrega parmesano y perejil si deseas.
+
+Sirve caliente con crema agria si deseas.`,
+    },
+  },
+},
+
+{
+  id: "normal-scalloped-potatoes",
+  slug: "normal-scalloped-potatoes",
+  name: "Scalloped Potatoes",
+  effort: "normal",
+  photoUrl: "/images/normal-scalloped-potatoes.jpg",
+  tags: ["side", "vegetarian", "potatoes", "comfort", "holiday", "casserole", "creamy"],
+  isVegetarian: true,
+  notes: "Classic scalloped potatoes are baked in a rich cream sauce until tender, bubbly, and lightly golden on top.",
+  ingredients: `Potatoes:
+2 lbs Yukon Gold potatoes, thinly sliced
+
+Cream Sauce:
+3 tbsp butter
+3 tbsp flour
+2 cups whole milk
+1 cup heavy cream
+1 tsp salt
+1/2 tsp black pepper
+1/2 tsp garlic powder
+1/4 tsp nutmeg (optional)
+
+Optional:
+fresh parsley for garnish`,
+  instructions: `Preheat oven to 375°F.
+
+Grease a 9x13 baking dish.
+
+Melt 3 tbsp butter in a saucepan over medium heat.
+
+Whisk in 3 tbsp flour and cook for 1 minute.
+
+Slowly whisk in 2 cups milk and 1 cup heavy cream until smooth.
+
+Add 1 tsp salt, 1/2 tsp black pepper, 1/2 tsp garlic powder, and 1/4 tsp nutmeg if using.
+
+Cook for 3 to 5 minutes, stirring often, until the sauce slightly thickens.
+
+Arrange half of the sliced potatoes in the baking dish.
+
+Pour half of the cream sauce over the potatoes.
+
+Repeat with remaining potatoes and sauce.
+
+Cover with foil and bake for 50 minutes.
+
+Remove foil and bake another 20 minutes, until the potatoes are tender and the top is lightly golden.
+
+Let rest for 10 minutes before serving.
+
+Garnish with parsley if desired.`,
+  translations: {
+    es: {
+      name: "Papas en Salsa Cremosa",
+      notes: "Las papas scalloped clásicas se hornean en una salsa cremosa hasta quedar tiernas, burbujeantes y ligeramente doradas por encima.",
+      tags: ["acompañamiento", "vegetariano", "papas", "comfort", "festivo", "cacerola", "cremoso"],
+      ingredients: `Papas:
+2 lbs de papas Yukon Gold, en rodajas finas
+
+Salsa Cremosa:
+3 cucharadas de mantequilla
+3 cucharadas de harina
+2 tazas de leche entera
+1 taza de crema espesa
+1 cucharadita de sal
+1/2 cucharadita de pimienta negra
+1/2 cucharadita de ajo en polvo
+1/4 cucharadita de nuez moscada (opcional)
+
+Opcional:
+perejil fresco para decorar`,
+      instructions: `Precalienta el horno a 375°F.
+
+Engrasa un molde para hornear de 9x13.
+
+Derrite 3 cucharadas de mantequilla en una cacerola a fuego medio.
+
+Agrega 3 cucharadas de harina y bate durante 1 minuto.
+
+Incorpora lentamente 2 tazas de leche y 1 taza de crema espesa, batiendo hasta que quede suave.
+
+Agrega 1 cucharadita de sal, 1/2 cucharadita de pimienta negra, 1/2 cucharadita de ajo en polvo y 1/4 cucharadita de nuez moscada si la usas.
+
+Cocina de 3 a 5 minutos, revolviendo con frecuencia, hasta que la salsa espese ligeramente.
+
+Coloca la mitad de las papas en el molde.
+
+Vierte la mitad de la salsa cremosa sobre las papas.
+
+Repite con las papas y salsa restantes.
+
+Cubre con papel aluminio y hornea durante 50 minutos.
+
+Retira el aluminio y hornea 20 minutos más, hasta que las papas estén tiernas y la parte superior ligeramente dorada.
+
+Deja reposar 10 minutos antes de servir.
+
+Decora con perejil si deseas.`,
+    },
+  },
+},
+
+{
+  id: "quick-baked-sweet-potatoes",
+  slug: "quick-baked-sweet-potatoes",
+  name: "Baked Sweet Potatoes",
+  effort: "quick",
+  photoUrl: "/images/quick-baked-sweet-potatoes.jpg",
+  tags: ["side", "vegetarian", "sweet-potatoes", "healthy", "oven", "family-friendly"],
+  isVegetarian: true,
+  notes: "Simple baked sweet potatoes with a fluffy center and naturally sweet flavor. Perfect with butter, cinnamon, or a drizzle of honey.",
+  ingredients: `4 medium sweet potatoes
+1 tbsp olive oil
+1/2 tsp salt
+
+Optional:
+2 tbsp butter
+1/2 tsp cinnamon
+1 tbsp honey or maple syrup`,
+  instructions: `Preheat oven to 425°F.
+
+Scrub 4 sweet potatoes clean and dry thoroughly.
+
+Rub sweet potatoes with 1 tbsp olive oil and sprinkle with 1/2 tsp salt.
+
+Place directly on the oven rack or on a parchment-lined baking sheet.
+
+Bake for 45 to 55 minutes, until the skins are slightly wrinkled and the centers are fork-tender.
+
+Slice open and fluff the inside with a fork.
+
+Top with butter, cinnamon, honey, or maple syrup if desired.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Batatas Horneadas",
+      notes: "Batatas simples al horno con un centro suave y esponjoso y sabor naturalmente dulce. Perfectas con mantequilla, canela o un poco de miel.",
+      tags: ["acompañamiento", "vegetariano", "batatas", "saludable", "horno", "familiar"],
+      ingredients: `4 batatas medianas
+1 cucharada de aceite de oliva
+1/2 cucharadita de sal
+
+Opcional:
+2 cucharadas de mantequilla
+1/2 cucharadita de canela
+1 cucharada de miel o maple syrup`,
+      instructions: `Precalienta el horno a 425°F.
+
+Lava bien 4 batatas y sécalas completamente.
+
+Unta las batatas con 1 cucharada de aceite de oliva y espolvorea 1/2 cucharadita de sal.
+
+Colócalas directamente sobre la rejilla del horno o en una bandeja con papel para hornear.
+
+Hornea de 45 a 55 minutos, hasta que la piel esté ligeramente arrugada y el centro esté suave al pinchar con un tenedor.
+
+Ábrelas y esponja el interior con un tenedor.
+
+Agrega mantequilla, canela, miel o maple syrup si deseas.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-roasted-sweet-potato-cubes",
+  slug: "quick-roasted-sweet-potato-cubes",
+  name: "Roasted Sweet Potato Cubes",
+  effort: "quick",
+  photoUrl: "/images/quick-roasted-sweet-potato-cubes.jpg",
+  tags: ["side", "vegetarian", "sweet-potatoes", "roasted", "healthy", "meal-prep"],
+  isVegetarian: true,
+  notes: "Roasting sweet potato cubes at high heat brings out their natural sweetness and creates caramelized edges.",
+  ingredients: `2 lbs sweet potatoes, peeled and cubed
+2 tbsp olive oil
+1 tsp salt
+1/2 tsp black pepper
+1/2 tsp garlic powder
+1/2 tsp smoked paprika
+1/4 tsp cinnamon (optional)`,
+  instructions: `Preheat oven to 425°F.
+
+Place 2 lbs cubed sweet potatoes on a large baking sheet.
+
+Drizzle with 2 tbsp olive oil.
+
+Season with 1 tsp salt, 1/2 tsp black pepper, 1/2 tsp garlic powder, 1/2 tsp smoked paprika, and cinnamon if using.
+
+Toss until evenly coated and spread into a single layer.
+
+Roast for 25 to 30 minutes, stirring halfway through, until tender inside and caramelized on the edges.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Cubos de Batata Rostizados",
+      notes: "Rostizar cubos de batata a temperatura alta resalta su dulzura natural y crea bordes caramelizados.",
+      tags: ["acompañamiento", "vegetariano", "batatas", "rostizado", "saludable", "meal-prep"],
+      ingredients: `2 lbs de batatas, peladas y en cubos
+2 cucharadas de aceite de oliva
+1 cucharadita de sal
+1/2 cucharadita de pimienta negra
+1/2 cucharadita de ajo en polvo
+1/2 cucharadita de paprika ahumada
+1/4 cucharadita de canela (opcional)`,
+      instructions: `Precalienta el horno a 425°F.
+
+Coloca 2 lbs de batatas en cubos sobre una bandeja grande.
+
+Rocía con 2 cucharadas de aceite de oliva.
+
+Sazona con 1 cucharadita de sal, 1/2 cucharadita de pimienta negra, 1/2 cucharadita de ajo en polvo, 1/2 cucharadita de paprika ahumada y canela si la usas.
+
+Mezcla hasta cubrir uniformemente y extiende en una sola capa.
+
+Rostiza de 25 a 30 minutos, revolviendo a mitad del tiempo, hasta que estén tiernas por dentro y caramelizadas en los bordes.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-sweet-potato-fries",
+  slug: "quick-sweet-potato-fries",
+  name: "Sweet Potato Fries",
+  effort: "quick",
+  photoUrl: "/images/quick-sweet-potato-fries.jpg",
+  tags: ["side", "vegetarian", "sweet-potatoes", "fries", "oven", "family-friendly"],
+  isVegetarian: true,
+  notes: "A sweet and savory alternative to regular fries with crispy edges and tender centers.",
+  ingredients: `2 large sweet potatoes, cut into fries
+2 tbsp olive oil
+1 tbsp cornstarch
+1 tsp salt
+1/2 tsp garlic powder
+1/2 tsp smoked paprika
+1/4 tsp black pepper
+
+Optional:
+ranch dressing
+chipotle mayo
+ketchup`,
+  instructions: `Preheat oven to 425°F.
+
+Place sweet potato fries in a large bowl.
+
+Toss with 1 tbsp cornstarch until lightly coated.
+
+Add 2 tbsp olive oil, 1 tsp salt, 1/2 tsp garlic powder, 1/2 tsp smoked paprika, and 1/4 tsp black pepper.
+
+Spread fries in a single layer on a parchment-lined baking sheet.
+
+Bake for 25 to 30 minutes, flipping halfway through, until browned on the edges and tender inside.
+
+Let rest for 3 to 5 minutes before serving so the fries firm up slightly.
+
+Serve with your favorite dipping sauce.`,
+  translations: {
+    es: {
+      name: "Papas Fritas de Batata",
+      notes: "Una alternativa dulce y salada a las papas fritas tradicionales, con bordes crujientes y centro suave.",
+      tags: ["acompañamiento", "vegetariano", "batatas", "papas fritas", "horno", "familiar"],
+      ingredients: `2 batatas grandes, cortadas en tiras
+2 cucharadas de aceite de oliva
+1 cucharada de maicena
+1 cucharadita de sal
+1/2 cucharadita de ajo en polvo
+1/2 cucharadita de paprika ahumada
+1/4 cucharadita de pimienta negra
+
+Opcional:
+aderezo ranch
+mayonesa chipotle
+ketchup`,
+      instructions: `Precalienta el horno a 425°F.
+
+Coloca las tiras de batata en un tazón grande.
+
+Mezcla con 1 cucharada de maicena hasta cubrir ligeramente.
+
+Agrega 2 cucharadas de aceite de oliva, 1 cucharadita de sal, 1/2 cucharadita de ajo en polvo, 1/2 cucharadita de paprika ahumada y 1/4 cucharadita de pimienta negra.
+
+Extiende en una sola capa sobre una bandeja con papel para hornear.
+
+Hornea de 25 a 30 minutos, volteando a mitad del tiempo, hasta que estén doradas en los bordes y suaves por dentro.
+
+Deja reposar de 3 a 5 minutos antes de servir para que se afirmen un poco.
+
+Sirve con tu salsa favorita.`,
+    },
+  },
+},
+
+{
+  id: "normal-sweet-potato-casserole",
+  slug: "normal-sweet-potato-casserole",
+  name: "Sweet Potato Casserole",
+  effort: "normal",
+  photoUrl: "/images/normal-sweet-potato-casserole.jpg",
+  tags: ["side", "vegetarian", "sweet-potatoes", "casserole", "holiday", "comfort"],
+  isVegetarian: true,
+  notes: "A classic holiday-style casserole with creamy mashed sweet potatoes and a sweet, crunchy topping.",
+  ingredients: `Sweet Potatoes:
+3 lbs sweet potatoes, peeled and cubed
+4 tbsp butter
+1/2 cup brown sugar
+1/2 cup milk
+2 large eggs
+1 tsp vanilla extract
+1/2 tsp cinnamon
+1/2 tsp salt
+
+Topping:
+1 cup chopped pecans
+1/2 cup brown sugar
+1/4 cup flour
+3 tbsp butter, melted
+
+Optional:
+2 cups mini marshmallows`,
+  instructions: `Preheat oven to 350°F.
+
+Place 3 lbs cubed sweet potatoes in a large pot and cover with water.
+
+Boil for 15 to 18 minutes, until fork-tender.
+
+Drain well and mash until smooth.
+
+Stir in 4 tbsp butter, 1/2 cup brown sugar, 1/2 cup milk, 2 eggs, 1 tsp vanilla, 1/2 tsp cinnamon, and 1/2 tsp salt.
+
+Spread the mixture into a greased 9x13 baking dish.
+
+In a bowl, combine 1 cup pecans, 1/2 cup brown sugar, 1/4 cup flour, and 3 tbsp melted butter.
+
+Sprinkle the topping evenly over the sweet potatoes.
+
+Bake for 25 to 30 minutes, until the topping is golden and the casserole is set.
+
+If using marshmallows, add 2 cups mini marshmallows during the final 5 minutes and bake until toasted.
+
+Let rest for 5 minutes before serving.`,
+  translations: {
+    es: {
+      name: "Cacerola de Batata",
+      notes: "Una cacerola clásica de estilo festivo con batatas cremosas y una cobertura dulce y crujiente.",
+      tags: ["acompañamiento", "vegetariano", "batatas", "cacerola", "festivo", "comfort"],
+      ingredients: `Batatas:
+3 lbs de batatas, peladas y en cubos
+4 cucharadas de mantequilla
+1/2 taza de azúcar morena
+1/2 taza de leche
+2 huevos grandes
+1 cucharadita de vainilla
+1/2 cucharadita de canela
+1/2 cucharadita de sal
+
+Cobertura:
+1 taza de nueces pecanas picadas
+1/2 taza de azúcar morena
+1/4 taza de harina
+3 cucharadas de mantequilla derretida
+
+Opcional:
+2 tazas de mini malvaviscos`,
+      instructions: `Precalienta el horno a 350°F.
+
+Coloca 3 lbs de batatas en cubos en una olla grande y cúbrelas con agua.
+
+Hierve de 15 a 18 minutos, hasta que estén tiernas al pincharlas con un tenedor.
+
+Escurre bien y tritura hasta obtener una mezcla suave.
+
+Agrega 4 cucharadas de mantequilla, 1/2 taza de azúcar morena, 1/2 taza de leche, 2 huevos, 1 cucharadita de vainilla, 1/2 cucharadita de canela y 1/2 cucharadita de sal.
+
+Extiende la mezcla en un molde engrasado de 9x13.
+
+En un tazón, mezcla 1 taza de pecanas, 1/2 taza de azúcar morena, 1/4 taza de harina y 3 cucharadas de mantequilla derretida.
+
+Espolvorea la cobertura uniformemente sobre las batatas.
+
+Hornea de 25 a 30 minutos, hasta que la cobertura esté dorada y la cacerola esté firme.
+
+Si usas malvaviscos, agrega 2 tazas de mini malvaviscos durante los últimos 5 minutos y hornea hasta que estén tostados.
+
+Deja reposar 5 minutos antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "quick-fluffy-white-rice",
+  slug: "quick-fluffy-white-rice",
+  name: "Fluffy White Rice",
+  effort: "quick",
+  photoUrl: "/images/quick-fluffy-white-rice.jpg",
+  tags: ["side", "vegetarian", "rice", "simple", "meal-prep", "family-friendly"],
+  isVegetarian: true,
+  notes: "Perfectly fluffy white rice is one of the most versatile side dishes and pairs with nearly any main course.",
+  ingredients: `1 cup long-grain white rice or jasmine rice
+2 cups water
+1 tbsp butter
+1/2 tsp salt`,
+  instructions: `Rinse 1 cup rice under cold water until the water runs mostly clear.
+
+Combine rice, 2 cups water, 1 tbsp butter, and 1/2 tsp salt in a medium saucepan.
+
+Bring to a boil over medium-high heat.
+
+Reduce heat to low, cover, and simmer for 15 to 18 minutes.
+
+Remove from heat and let stand covered for 5 minutes.
+
+Fluff gently with a fork before serving.`,
+  translations: {
+    es: {
+      name: "Arroz Blanco Esponjoso",
+      notes: "Un arroz blanco perfectamente esponjoso es una de las guarniciones más versátiles y combina con casi cualquier plato principal.",
+      tags: ["acompañamiento", "vegetariano", "arroz", "simple", "meal-prep", "familiar"],
+      ingredients: `1 taza de arroz blanco de grano largo o arroz jazmín
+2 tazas de agua
+1 cucharada de mantequilla
+1/2 cucharadita de sal`,
+      instructions: `Enjuaga 1 taza de arroz bajo agua fría hasta que el agua salga casi clara.
+
+Combina el arroz, 2 tazas de agua, 1 cucharada de mantequilla y 1/2 cucharadita de sal en una cacerola mediana.
+
+Lleva a ebullición a fuego medio-alto.
+
+Reduce el fuego a bajo, tapa y cocina de 15 a 18 minutos.
+
+Retira del fuego y deja reposar tapado durante 5 minutos.
+
+Esponja suavemente con un tenedor antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "quick-brown-rice",
+  slug: "quick-brown-rice",
+  name: "Brown Rice",
+  effort: "quick",
+  photoUrl: "/images/quick-brown-rice.jpg",
+  tags: ["side", "vegetarian", "rice", "healthy", "whole-grain", "meal-prep"],
+  isVegetarian: true,
+  notes: "Brown rice offers a nutty flavor and heartier texture while providing more fiber than traditional white rice.",
+  ingredients: `1 cup brown rice
+2 1/2 cups water
+1 tbsp butter or olive oil
+1/2 tsp salt`,
+  instructions: `Rinse 1 cup brown rice under cold water.
+
+Combine rice, 2 1/2 cups water, 1 tbsp butter, and 1/2 tsp salt in a saucepan.
+
+Bring to a boil.
+
+Reduce heat to low, cover, and simmer for 40 to 45 minutes.
+
+Remove from heat and let stand covered for 10 minutes.
+
+Fluff with a fork and serve warm.`,
+  translations: {
+    es: {
+      name: "Arroz Integral",
+      notes: "El arroz integral ofrece un sabor más intenso y una textura más firme, además de contener más fibra que el arroz blanco.",
+      tags: ["acompañamiento", "vegetariano", "arroz", "saludable", "grano integral", "meal-prep"],
+      ingredients: `1 taza de arroz integral
+2 1/2 tazas de agua
+1 cucharada de mantequilla o aceite de oliva
+1/2 cucharadita de sal`,
+      instructions: `Enjuaga 1 taza de arroz integral bajo agua fría.
+
+Combina el arroz, 2 1/2 tazas de agua, 1 cucharada de mantequilla y 1/2 cucharadita de sal en una cacerola.
+
+Lleva a ebullición.
+
+Reduce el fuego a bajo, tapa y cocina de 40 a 45 minutos.
+
+Retira del fuego y deja reposar tapado durante 10 minutos.
+
+Esponja con un tenedor y sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-rice-pilaf",
+  slug: "quick-rice-pilaf",
+  name: "Rice Pilaf",
+  effort: "quick",
+  photoUrl: "/images/quick-rice-pilaf.jpg",
+  tags: ["side", "vegetarian", "rice", "pilaf", "comfort", "family-friendly"],
+  isVegetarian: true,
+  notes: "Toasting the rice before cooking adds depth of flavor while broth and herbs make this side dish extra flavorful.",
+  ingredients: `1 cup long-grain white rice
+1/4 cup broken spaghetti or orzo
+2 tbsp butter
+2 cups vegetable broth
+1/2 tsp salt
+1/4 tsp black pepper
+1 tbsp fresh parsley, chopped`,
+  instructions: `Melt 2 tbsp butter in a saucepan over medium heat.
+
+Add 1 cup rice and 1/4 cup broken spaghetti or orzo.
+
+Cook for 3 to 4 minutes, stirring frequently, until lightly toasted.
+
+Pour in 2 cups vegetable broth.
+
+Add 1/2 tsp salt and 1/4 tsp black pepper.
+
+Bring to a boil.
+
+Reduce heat to low, cover, and simmer for 18 minutes.
+
+Remove from heat and let rest for 5 minutes.
+
+Fluff with a fork and stir in parsley before serving.`,
+  translations: {
+    es: {
+      name: "Arroz Pilaf",
+      notes: "Tostar el arroz antes de cocinarlo agrega profundidad de sabor mientras que el caldo y las hierbas lo hacen especialmente delicioso.",
+      tags: ["acompañamiento", "vegetariano", "arroz", "pilaf", "comfort", "familiar"],
+      ingredients: `1 taza de arroz blanco de grano largo
+1/4 taza de espagueti troceado u orzo
+2 cucharadas de mantequilla
+2 tazas de caldo de verduras
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+1 cucharada de perejil fresco picado`,
+      instructions: `Derrite 2 cucharadas de mantequilla en una cacerola a fuego medio.
+
+Agrega 1 taza de arroz y 1/4 taza de espagueti troceado u orzo.
+
+Cocina de 3 a 4 minutos, revolviendo frecuentemente, hasta que estén ligeramente tostados.
+
+Vierte 2 tazas de caldo de verduras.
+
+Agrega 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Lleva a ebullición.
+
+Reduce el fuego a bajo, tapa y cocina durante 18 minutos.
+
+Retira del fuego y deja reposar 5 minutos.
+
+Esponja con un tenedor y agrega el perejil antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "quick-vegetable-fried-rice",
+  slug: "quick-vegetable-fried-rice",
+  name: "Vegetable Fried Rice",
+  effort: "quick",
+  photoUrl: "/images/quick-vegetable-fried-rice.jpg",
+  tags: ["side", "vegetarian", "rice", "asian", "one-pan", "meal-prep"],
+  isVegetarian: true,
+  notes: "Day-old rice works best because it stays firm and creates the classic fried rice texture.",
+  ingredients: `3 cups cooked cold rice
+1 tbsp sesame oil
+1 tbsp vegetable oil
+2 eggs, beaten
+1 cup frozen peas and carrots
+3 green onions, sliced
+2 cloves garlic, minced
+3 tbsp soy sauce
+1 tsp sesame oil
+
+Optional:
+sesame seeds`,
+  instructions: `Heat 1 tbsp vegetable oil and 1 tbsp sesame oil in a large skillet or wok over medium-high heat.
+
+Add 2 beaten eggs and scramble until cooked. Remove and set aside.
+
+Add peas and carrots and cook for 2 to 3 minutes.
+
+Add 3 cups cold rice and stir-fry for 3 to 4 minutes.
+
+Add garlic and green onions and cook for 1 minute.
+
+Return the eggs to the pan.
+
+Add 3 tbsp soy sauce and 1 tsp sesame oil.
+
+Stir until everything is evenly coated and heated through.
+
+Garnish with sesame seeds if desired and serve warm.`,
+  translations: {
+    es: {
+      name: "Arroz Frito con Verduras",
+      notes: "El arroz del día anterior funciona mejor porque mantiene su textura y crea el clásico resultado del arroz frito.",
+      tags: ["acompañamiento", "vegetariano", "arroz", "asiático", "una sartén", "meal-prep"],
+      ingredients: `3 tazas de arroz cocido frío
+1 cucharada de aceite de ajonjolí
+1 cucharada de aceite vegetal
+2 huevos, batidos
+1 taza de chícharos y zanahorias congelados
+3 cebollines, en rodajas
+2 dientes de ajo, picados
+3 cucharadas de salsa de soya
+1 cucharadita de aceite de ajonjolí
+
+Opcional:
+semillas de ajonjolí`,
+      instructions: `Calienta 1 cucharada de aceite vegetal y 1 cucharada de aceite de ajonjolí en una sartén grande o wok a fuego medio-alto.
+
+Agrega los huevos batidos y cocínalos revolviendo hasta que estén listos. Retira y reserva.
+
+Agrega los chícharos y zanahorias y cocina de 2 a 3 minutos.
+
+Agrega las 3 tazas de arroz frío y saltea de 3 a 4 minutos.
+
+Agrega el ajo y los cebollines y cocina 1 minuto más.
+
+Regresa los huevos a la sartén.
+
+Agrega 3 cucharadas de salsa de soya y 1 cucharadita de aceite de ajonjolí.
+
+Revuelve hasta que todo esté bien cubierto y caliente.
+
+Decora con semillas de ajonjolí si lo deseas y sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-herb-quinoa",
+  slug: "quick-herb-quinoa",
+  name: "Herb Quinoa",
+  effort: "quick",
+  photoUrl: "/images/quick-herb-quinoa.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "quinoa",
+    "healthy",
+    "high-protein",
+    "meal-prep",
+  ],
+  isVegetarian: true,
+  notes:
+    "Cooking quinoa in broth instead of water adds extra flavor while fresh herbs keep it bright and versatile.",
+  ingredients: `1 cup quinoa, rinsed
+2 cups vegetable broth
+1 tbsp olive oil
+2 tbsp fresh parsley, chopped
+1 tbsp fresh cilantro, chopped
+1 tbsp lemon juice
+1/2 tsp salt
+1/4 tsp black pepper`,
+  instructions: `Rinse 1 cup quinoa thoroughly under cold water.
+
+Combine quinoa and 2 cups vegetable broth in a medium saucepan.
+
+Bring to a boil over medium-high heat.
+
+Reduce heat to low, cover, and simmer for 15 minutes until the liquid is absorbed.
+
+Remove from heat and let stand covered for 5 minutes.
+
+Fluff with a fork.
+
+Stir in 1 tbsp olive oil, parsley, cilantro, lemon juice, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Serve warm or chilled.`,
+  translations: {
+    es: {
+      name: "Quinoa con Hierbas",
+      notes:
+        "Cocinar la quinoa en caldo en lugar de agua aporta más sabor, mientras que las hierbas frescas le dan un toque ligero y versátil.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "quinoa",
+        "saludable",
+        "alto en proteína",
+        "meal-prep",
+      ],
+      ingredients: `1 taza de quinoa, enjuagada
+2 tazas de caldo de verduras
+1 cucharada de aceite de oliva
+2 cucharadas de perejil fresco picado
+1 cucharada de cilantro fresco picado
+1 cucharada de jugo de limón
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra`,
+      instructions: `Enjuaga bien 1 taza de quinoa bajo agua fría.
+
+Combina la quinoa y 2 tazas de caldo de verduras en una cacerola mediana.
+
+Lleva a ebullición a fuego medio-alto.
+
+Reduce el fuego a bajo, tapa y cocina durante 15 minutos hasta que se absorba el líquido.
+
+Retira del fuego y deja reposar tapada durante 5 minutos.
+
+Esponja con un tenedor.
+
+Agrega 1 cucharada de aceite de oliva, perejil, cilantro, jugo de limón, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Sirve caliente o fría.`,
+    },
+  },
+},
+
+{
+  id: "quick-lemon-herb-couscous",
+  slug: "quick-lemon-herb-couscous",
+  name: "Lemon Herb Couscous",
+  effort: "quick",
+  photoUrl: "/images/quick-lemon-herb-couscous.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "couscous",
+    "quick",
+    "healthy",
+    "meal-prep",
+  ],
+  isVegetarian: true,
+  notes:
+    "Couscous cooks in minutes, making it one of the fastest side dishes for busy weeknights.",
+  ingredients: `1 cup couscous
+1 cup vegetable broth
+1 tbsp olive oil
+1 tbsp lemon juice
+2 tbsp fresh parsley, chopped
+1/2 tsp salt
+1/4 tsp black pepper`,
+  instructions: `Bring 1 cup vegetable broth to a boil in a small saucepan.
+
+Remove from heat and stir in 1 cup couscous.
+
+Cover and let stand for 5 minutes.
+
+Fluff with a fork.
+
+Stir in 1 tbsp olive oil, 1 tbsp lemon juice, 2 tbsp parsley, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Cuscús con Limón y Hierbas",
+      notes:
+        "El cuscús se cocina en minutos, lo que lo convierte en una de las guarniciones más rápidas para noches ocupadas.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "cuscús",
+        "rápido",
+        "saludable",
+        "meal-prep",
+      ],
+      ingredients: `1 taza de cuscús
+1 taza de caldo de verduras
+1 cucharada de aceite de oliva
+1 cucharada de jugo de limón
+2 cucharadas de perejil fresco picado
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra`,
+      instructions: `Lleva 1 taza de caldo de verduras a ebullición en una cacerola pequeña.
+
+Retira del fuego y agrega 1 taza de cuscús.
+
+Tapa y deja reposar durante 5 minutos.
+
+Esponja con un tenedor.
+
+Agrega 1 cucharada de aceite de oliva, 1 cucharada de jugo de limón, 2 cucharadas de perejil, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-cilantro-lime-rice",
+  slug: "quick-cilantro-lime-rice",
+  name: "Cilantro Lime Rice",
+  effort: "quick",
+  photoUrl: "/images/quick-cilantro-lime-rice.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "rice",
+    "mexican",
+    "tex-mex",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "Bright, fresh, and citrusy, this rice pairs perfectly with tacos, burritos, fajitas, and grilled meats.",
+  ingredients: `1 cup long-grain white rice
+2 cups water
+1 tbsp butter
+1/2 tsp salt
+
+Finish:
+1 lime, juiced
+1/4 cup fresh cilantro, chopped
+1/2 tsp lime zest (optional)`,
+  instructions: `Rinse 1 cup rice under cold water.
+
+Combine rice, 2 cups water, 1 tbsp butter, and 1/2 tsp salt in a saucepan.
+
+Bring to a boil over medium-high heat.
+
+Reduce heat to low, cover, and simmer for 15 to 18 minutes.
+
+Remove from heat and let stand covered for 5 minutes.
+
+Fluff with a fork.
+
+Stir in the juice of 1 lime, 1/4 cup cilantro, and lime zest if using.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Arroz con cilantro y lima",
+      notes:
+        "Fresco, brillante y lleno de sabor cítrico, este arroz combina perfectamente con tacos, burritos, fajitas y carnes a la parrilla.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "arroz",
+        "mexicano",
+        "tex-mex",
+        "familiar",
+      ],
+      ingredients: `1 taza de arroz blanco de grano largo
+2 tazas de agua
+1 cucharada de mantequilla
+1/2 cucharadita de sal
+
+Final:
+1 limón verde, exprimido
+1/4 taza de cilantro fresco picado
+1/2 cucharadita de ralladura de limón (opcional)`,
+      instructions: `Enjuaga 1 taza de arroz bajo agua fría.
+
+Combina el arroz, 2 tazas de agua, 1 cucharada de mantequilla y 1/2 cucharadita de sal en una cacerola.
+
+Lleva a ebullición a fuego medio-alto.
+
+Reduce el fuego a bajo, tapa y cocina de 15 a 18 minutos.
+
+Retira del fuego y deja reposar tapado durante 5 minutos.
+
+Esponja con un tenedor.
+
+Agrega el jugo de 1 limón verde, 1/4 taza de cilantro y la ralladura si la usas.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-creamy-macaroni-cheese",
+  slug: "quick-creamy-macaroni-cheese",
+  name: "Creamy Macaroni and Cheese",
+  effort: "quick",
+  photoUrl: "/images/quick-creamy-macaroni-cheese.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "pasta",
+    "mac-and-cheese",
+    "comfort",
+    "family-friendly",
+    "kid-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "The ultimate comfort food. Creamy, cheesy, and always a crowd favorite for weeknight dinners and holiday meals.",
+  ingredients: `Pasta:
+12 oz elbow macaroni
+
+Cheese Sauce:
+2 tbsp butter
+2 tbsp flour
+2 cups whole milk
+2 cups cheddar cheese, shredded
+1/2 tsp salt
+1/4 tsp black pepper
+1/4 tsp paprika`,
+  instructions: `Bring a large pot of salted water to a boil.
+
+Cook 12 oz elbow macaroni according to package directions.
+
+Drain and set aside.
+
+Melt 2 tbsp butter in a saucepan over medium heat.
+
+Whisk in 2 tbsp flour and cook for 1 minute.
+
+Slowly whisk in 2 cups milk until smooth.
+
+Cook for 3 to 4 minutes until slightly thickened.
+
+Add 2 cups cheddar cheese, 1/2 tsp salt, 1/4 tsp black pepper, and 1/4 tsp paprika.
+
+Stir until smooth and creamy.
+
+Add the cooked macaroni and stir until evenly coated.
+
+Serve immediately.`,
+  translations: {
+    es: {
+      name: "Macarrones con Queso Cremosos",
+      notes:
+        "La comida reconfortante por excelencia. Cremosa, llena de queso y siempre favorita en cenas familiares y comidas festivas.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "pasta",
+        "macarrones con queso",
+        "comfort",
+        "familiar",
+        "niños",
+      ],
+      ingredients: `Pasta:
+12 oz de macarrones tipo elbow
+
+Salsa de Queso:
+2 cucharadas de mantequilla
+2 cucharadas de harina
+2 tazas de leche entera
+2 tazas de queso cheddar rallado
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+1/4 cucharadita de paprika`,
+      instructions: `Hierve una olla grande con agua y sal.
+
+Cocina 12 oz de macarrones según las instrucciones del paquete.
+
+Escurre y reserva.
+
+Derrite 2 cucharadas de mantequilla en una cacerola a fuego medio.
+
+Agrega 2 cucharadas de harina y cocina durante 1 minuto.
+
+Incorpora lentamente 2 tazas de leche batiendo constantemente.
+
+Cocina de 3 a 4 minutos hasta que espese ligeramente.
+
+Agrega 2 tazas de queso cheddar, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y 1/4 cucharadita de paprika.
+
+Revuelve hasta que quede suave y cremosa.
+
+Agrega la pasta cocida y mezcla hasta cubrir completamente.
+
+Sirve inmediatamente.`,
+    },
+  },
+},
+
+{
+  id: "quick-classic-pasta-salad",
+  slug: "quick-classic-pasta-salad",
+  name: "Classic Pasta Salad",
+  effort: "quick",
+  photoUrl: "/images/quick-classic-pasta-salad.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "pasta",
+    "cold-side",
+    "cookout",
+    "summer",
+    "meal-prep",
+  ],
+  isVegetarian: true,
+  notes:
+    "A refreshing cold pasta salad loaded with vegetables, cheese, and Italian dressing. Perfect for cookouts, picnics, and meal prep.",
+  ingredients: `12 oz rotini pasta
+1 cup cherry tomatoes, halved
+1 cup cucumber, diced
+1/2 cup red bell pepper, diced
+1/2 cup black olives, sliced
+1/2 cup mozzarella cheese cubes
+3/4 cup Italian dressing
+1/2 tsp salt
+1/4 tsp black pepper`,
+  instructions: `Cook 12 oz rotini according to package directions.
+
+Drain and rinse under cold water until completely cooled.
+
+Transfer pasta to a large bowl.
+
+Add cherry tomatoes, cucumber, bell pepper, olives, and mozzarella cheese.
+
+Pour in 3/4 cup Italian dressing.
+
+Season with 1/2 tsp salt and 1/4 tsp black pepper.
+
+Toss until evenly coated.
+
+Refrigerate for at least 30 minutes before serving for best flavor.`,
+  translations: {
+    es: {
+      name: "Ensalada de Pasta Clásica",
+      notes:
+        "Una ensalada de pasta fría y refrescante con verduras, queso y aderezo italiano. Perfecta para parrilladas, picnics y preparación de comidas.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "pasta",
+        "frío",
+        "parrillada",
+        "verano",
+        "meal-prep",
+      ],
+      ingredients: `12 oz de pasta rotini
+1 taza de tomates cherry partidos por la mitad
+1 taza de pepino en cubos
+1/2 taza de pimiento rojo en cubos
+1/2 taza de aceitunas negras en rodajas
+1/2 taza de cubos de queso mozzarella
+3/4 taza de aderezo italiano
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra`,
+      instructions: `Cocina 12 oz de pasta rotini según las instrucciones del paquete.
+
+Escurre y enjuaga con agua fría hasta que esté completamente fría.
+
+Transfiere la pasta a un tazón grande.
+
+Agrega tomates cherry, pepino, pimiento, aceitunas y mozzarella.
+
+Vierte 3/4 taza de aderezo italiano.
+
+Sazona con 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Mezcla hasta cubrir uniformemente.
+
+Refrigera durante al menos 30 minutos antes de servir para obtener mejor sabor.`,
+    },
+  },
+},
+
+{
+  id: "quick-buttered-noodles",
+  slug: "quick-buttered-noodles",
+  name: "Buttered Noodles",
+  effort: "quick",
+  photoUrl: "/images/quick-buttered-noodles.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "pasta",
+    "comfort",
+    "kid-friendly",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "Simple buttered noodles are a timeless comfort side dish that pairs well with chicken, beef, pork, and countless family meals.",
+  ingredients: `12 oz egg noodles
+4 tbsp butter
+1/2 tsp salt
+1/4 tsp black pepper
+2 tbsp fresh parsley, chopped
+
+Optional:
+1/4 cup parmesan cheese`,
+  instructions: `Bring a large pot of salted water to a boil.
+
+Cook 12 oz egg noodles according to package directions.
+
+Reserve 2 tbsp pasta water and drain the noodles.
+
+Return noodles to the pot.
+
+Add 4 tbsp butter and toss until melted.
+
+Add reserved pasta water, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Stir until glossy and evenly coated.
+
+Sprinkle with parsley and parmesan cheese if desired.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Fideos con Mantequilla",
+      notes:
+        "Los fideos con mantequilla son una guarnición clásica y reconfortante que combina perfectamente con pollo, res, cerdo y muchas comidas familiares.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "pasta",
+        "comfort",
+        "niños",
+        "familiar",
+      ],
+      ingredients: `12 oz de fideos de huevo
+4 cucharadas de mantequilla
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+2 cucharadas de perejil fresco picado
+
+Opcional:
+1/4 taza de queso parmesano`,
+      instructions: `Hierve una olla grande con agua y sal.
+
+Cocina 12 oz de fideos de huevo según las instrucciones del paquete.
+
+Reserva 2 cucharadas del agua de cocción y escurre los fideos.
+
+Regresa los fideos a la olla.
+
+Agrega 4 cucharadas de mantequilla y mezcla hasta que se derrita.
+
+Agrega el agua reservada, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Revuelve hasta que queden brillantes y bien cubiertos.
+
+Espolvorea con perejil y queso parmesano si lo deseas.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-soft-dinner-rolls",
+  slug: "quick-soft-dinner-rolls",
+  name: "Soft Dinner Rolls",
+  effort: "quick",
+  photoUrl: "/images/quick-soft-dinner-rolls.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "bread",
+    "rolls",
+    "comfort",
+    "holiday",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "Warm, fluffy dinner rolls are the perfect addition to holiday meals, soups, and comfort food dinners.",
+  ingredients: `1 package refrigerated dinner rolls (12 count)
+2 tbsp butter, melted
+
+Optional:
+1 tsp honey
+1 tbsp fresh parsley, chopped`,
+  instructions: `Preheat oven according to package directions.
+
+Arrange dinner rolls on a baking sheet or in a baking dish.
+
+Bake until golden brown and cooked through.
+
+Brush immediately with 2 tbsp melted butter.
+
+Add honey or parsley if desired.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Panecillos Suaves para la Cena",
+      notes:
+        "Los panecillos calientes y esponjosos son el complemento perfecto para comidas festivas, sopas y cenas reconfortantes.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "pan",
+        "panecillos",
+        "comfort",
+        "festivo",
+        "familiar",
+      ],
+      ingredients: `1 paquete de panecillos refrigerados (12 piezas)
+2 cucharadas de mantequilla derretida
+
+Opcional:
+1 cucharadita de miel
+1 cucharada de perejil fresco picado`,
+      instructions: `Precalienta el horno según las instrucciones del paquete.
+
+Coloca los panecillos en una bandeja para hornear o molde.
+
+Hornea hasta que estén dorados y completamente cocidos.
+
+Barniza inmediatamente con 2 cucharadas de mantequilla derretida.
+
+Agrega miel o perejil si lo deseas.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-garlic-bread",
+  slug: "quick-garlic-bread",
+  name: "Garlic Bread",
+  effort: "quick",
+  photoUrl: "/images/quick-garlic-bread.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "bread",
+    "garlic",
+    "comfort",
+    "italian",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "Crispy on the outside and buttery inside, garlic bread is the perfect partner for pasta, soup, and salad.",
+  ingredients: `1 loaf French bread or Italian bread
+1/2 cup butter, softened
+3 cloves garlic, minced
+1 tbsp fresh parsley, chopped
+1/4 tsp salt
+
+Optional:
+1/4 cup parmesan cheese`,
+  instructions: `Preheat oven to 400°F.
+
+Slice the loaf in half lengthwise.
+
+In a bowl, combine 1/2 cup butter, 3 cloves garlic, 1 tbsp parsley, and 1/4 tsp salt.
+
+Spread evenly over the cut sides of the bread.
+
+Sprinkle with parmesan cheese if desired.
+
+Bake for 10 to 12 minutes until hot and lightly golden.
+
+For extra crispiness, broil for 1 to 2 minutes.
+
+Slice and serve warm.`,
+  translations: {
+    es: {
+      name: "Pan de Ajo",
+      notes:
+        "Crujiente por fuera y mantequilloso por dentro, el pan de ajo es el acompañamiento perfecto para pasta, sopa y ensaladas.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "pan",
+        "ajo",
+        "comfort",
+        "italiano",
+        "familiar",
+      ],
+      ingredients: `1 barra de pan francés o italiano
+1/2 taza de mantequilla suavizada
+3 dientes de ajo picados
+1 cucharada de perejil fresco picado
+1/4 cucharadita de sal
+
+Opcional:
+1/4 taza de queso parmesano`,
+      instructions: `Precalienta el horno a 400°F.
+
+Corta el pan a lo largo por la mitad.
+
+En un tazón mezcla 1/2 taza de mantequilla, 3 dientes de ajo, 1 cucharada de perejil y 1/4 cucharadita de sal.
+
+Unta la mezcla sobre las caras cortadas del pan.
+
+Espolvorea parmesano si lo deseas.
+
+Hornea de 10 a 12 minutos hasta que esté caliente y ligeramente dorado.
+
+Para un acabado más crujiente, usa el asador durante 1 a 2 minutos.
+
+Corta en rebanadas y sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-classic-cornbread",
+  slug: "quick-classic-cornbread",
+  name: "Classic Cornbread",
+  effort: "quick",
+  photoUrl: "/images/quick-classic-cornbread.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "bread",
+    "cornbread",
+    "southern",
+    "comfort",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "A Southern favorite with a lightly sweet flavor and tender crumb. Perfect with chili, barbecue, and hearty stews.",
+  ingredients: `1 cup cornmeal
+1 cup all-purpose flour
+1/4 cup sugar
+1 tbsp baking powder
+1/2 tsp salt
+1 cup milk
+1/3 cup vegetable oil
+1 large egg`,
+  instructions: `Preheat oven to 400°F.
+
+Grease an 8-inch baking dish or cast iron skillet.
+
+In a large bowl, whisk together cornmeal, flour, sugar, baking powder, and salt.
+
+In another bowl, whisk milk, oil, and egg.
+
+Add wet ingredients to dry ingredients and stir until just combined.
+
+Pour batter into the prepared pan.
+
+Bake for 18 to 22 minutes until golden brown and a toothpick comes out clean.
+
+Allow to cool slightly before serving.`,
+  translations: {
+    es: {
+      name: "Pan de Maíz Clásico",
+      notes:
+        "Un favorito sureño con un sabor ligeramente dulce y una textura tierna. Perfecto con chili, barbacoa y guisos abundantes.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "pan",
+        "pan de maíz",
+        "sureño",
+        "comfort",
+        "familiar",
+      ],
+      ingredients: `1 taza de harina de maíz
+1 taza de harina de trigo
+1/4 taza de azúcar
+1 cucharada de polvo para hornear
+1/2 cucharadita de sal
+1 taza de leche
+1/3 taza de aceite vegetal
+1 huevo grande`,
+      instructions: `Precalienta el horno a 400°F.
+
+Engrasa un molde de 8 pulgadas o una sartén de hierro fundido.
+
+En un tazón grande mezcla harina de maíz, harina, azúcar, polvo para hornear y sal.
+
+En otro tazón mezcla leche, aceite y huevo.
+
+Agrega los ingredientes húmedos a los secos y mezcla solo hasta integrar.
+
+Vierte la masa en el molde preparado.
+
+Hornea de 18 a 22 minutos hasta que esté dorado y un palillo salga limpio.
+
+Deja enfriar ligeramente antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "quick-buttery-biscuits",
+  slug: "quick-buttery-biscuits",
+  name: "Buttery Biscuits",
+  effort: "quick",
+  photoUrl: "/images/quick-buttery-biscuits.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "bread",
+    "biscuits",
+    "southern",
+    "comfort",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "Flaky, buttery biscuits with tender layers. Perfect for breakfast, dinner, or alongside soups and stews.",
+  ingredients: `2 cups all-purpose flour
+1 tbsp baking powder
+1/2 tsp salt
+6 tbsp cold butter, cubed
+3/4 cup milk
+
+Optional:
+2 tbsp melted butter for brushing`,
+  instructions: `Preheat oven to 425°F.
+
+In a large bowl, whisk together flour, baking powder, and salt.
+
+Cut in 6 tbsp cold butter until the mixture resembles coarse crumbs.
+
+Pour in 3/4 cup milk and stir until a dough forms.
+
+Turn onto a lightly floured surface and gently pat into a 1-inch thick rectangle.
+
+Fold the dough over itself 3 to 4 times to create layers.
+
+Cut into biscuits using a biscuit cutter or glass.
+
+Place on a baking sheet and bake for 12 to 15 minutes until golden brown.
+
+Brush with melted butter and serve warm.`,
+  translations: {
+    es: {
+      name: "Biscuits de Mantequilla",
+      notes:
+        "Biscuits hojaldrados y mantequillosos con capas tiernas. Perfectos para desayunos, cenas o para acompañar sopas y guisos.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "pan",
+        "biscuits",
+        "sureño",
+        "comfort",
+        "familiar",
+      ],
+      ingredients: `2 tazas de harina de trigo
+1 cucharada de polvo para hornear
+1/2 cucharadita de sal
+6 cucharadas de mantequilla fría en cubos
+3/4 taza de leche
+
+Opcional:
+2 cucharadas de mantequilla derretida para barnizar`,
+      instructions: `Precalienta el horno a 425°F.
+
+En un tazón grande mezcla harina, polvo para hornear y sal.
+
+Incorpora 6 cucharadas de mantequilla fría hasta obtener migas gruesas.
+
+Agrega 3/4 taza de leche y mezcla hasta formar una masa.
+
+Coloca la masa sobre una superficie ligeramente enharinada y aplánala hasta formar un rectángulo de aproximadamente 1 pulgada de grosor.
+
+Dobla la masa sobre sí misma 3 o 4 veces para crear capas.
+
+Corta los biscuits con un cortador o vaso.
+
+Colócalos en una bandeja para hornear y hornea de 12 a 15 minutos hasta que estén dorados.
+
+Barniza con mantequilla derretida y sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "normal-baked-beans",
+  slug: "normal-baked-beans",
+  name: "Baked Beans",
+  effort: "normal",
+  photoUrl: "/images/normal-baked-beans.jpg",
+  tags: ["side", "beans", "bbq", "comfort", "sweet", "cookout", "family-friendly"],
+  isVegetarian: false,
+  notes: "Sweet, savory, and smoky baked beans with brown sugar, bacon, and molasses. Perfect for barbecue, cookouts, and potlucks.",
+  ingredients: `Beans:
+2 (28 oz) cans baked beans
+6 slices bacon, chopped
+1/2 onion, diced
+
+Sauce:
+1/2 cup brown sugar
+1/4 cup molasses
+1/4 cup ketchup
+1 tbsp yellow mustard
+1 tbsp Worcestershire sauce
+1/2 tsp black pepper`,
+  instructions: `Preheat oven to 350°F.
+
+Cook 6 slices chopped bacon in a skillet over medium heat until browned and slightly crisp.
+
+Add 1/2 diced onion and cook for 3 to 4 minutes until softened.
+
+In a baking dish, combine 2 cans baked beans, cooked bacon, onion, 1/2 cup brown sugar, 1/4 cup molasses, 1/4 cup ketchup, 1 tbsp mustard, 1 tbsp Worcestershire sauce, and 1/2 tsp black pepper.
+
+Stir until well combined.
+
+Bake uncovered for 45 to 55 minutes, until thick, glossy, and bubbling around the edges.
+
+Let rest for 5 minutes before serving.`,
+  translations: {
+    es: {
+      name: "Frijoles Horneados",
+      notes: "Frijoles dulces, salados y ahumados con azúcar morena, tocino y melaza. Perfectos para barbacoa, parrilladas y reuniones familiares.",
+      tags: ["acompañamiento", "frijoles", "bbq", "comfort", "dulce", "parrillada", "familiar"],
+      ingredients: `Frijoles:
+2 latas (28 oz) de frijoles horneados
+6 rebanadas de tocino, picado
+1/2 cebolla, picada
+
+Salsa:
+1/2 taza de azúcar morena
+1/4 taza de melaza
+1/4 taza de ketchup
+1 cucharada de mostaza amarilla
+1 cucharada de salsa Worcestershire
+1/2 cucharadita de pimienta negra`,
+      instructions: `Precalienta el horno a 350°F.
+
+Cocina 6 rebanadas de tocino picado en una sartén a fuego medio hasta que esté dorado y ligeramente crujiente.
+
+Agrega 1/2 cebolla picada y cocina de 3 a 4 minutos hasta que esté suave.
+
+En un molde para hornear, mezcla 2 latas de frijoles horneados, tocino, cebolla, 1/2 taza de azúcar morena, 1/4 taza de melaza, 1/4 taza de ketchup, 1 cucharada de mostaza, 1 cucharada de salsa Worcestershire y 1/2 cucharadita de pimienta negra.
+
+Revuelve hasta combinar bien.
+
+Hornea sin tapar de 45 a 55 minutos, hasta que estén espesos, brillantes y burbujeando en los bordes.
+
+Deja reposar 5 minutos antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "quick-seasoned-black-beans",
+  slug: "quick-seasoned-black-beans",
+  name: "Seasoned Black Beans",
+  effort: "quick",
+  photoUrl: "/images/quick-seasoned-black-beans.jpg",
+  tags: ["side", "vegetarian", "beans", "black-beans", "mexican", "tex-mex", "quick"],
+  isVegetarian: true,
+  notes: "Simple black beans seasoned with garlic, onion, and cumin. Great next to tacos, rice bowls, enchiladas, or grilled meats.",
+  ingredients: `Beans:
+2 (15 oz) cans black beans, drained and rinsed
+1 tbsp olive oil
+1/2 onion, diced
+2 cloves garlic, minced
+
+Seasoning:
+1 tsp cumin
+1/2 tsp salt
+1/4 tsp black pepper
+1/2 cup vegetable broth or water
+
+Optional:
+1 tbsp lime juice
+2 tbsp fresh cilantro, chopped`,
+  instructions: `Heat 1 tbsp olive oil in a saucepan over medium heat.
+
+Add 1/2 diced onion and cook for 3 to 4 minutes until softened.
+
+Add 2 cloves minced garlic and cook for 30 seconds until fragrant.
+
+Stir in 2 cans black beans, 1 tsp cumin, 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 cup broth or water.
+
+Simmer for 8 to 10 minutes, stirring occasionally, until the beans are warm and slightly thickened.
+
+Finish with 1 tbsp lime juice and 2 tbsp cilantro if desired.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Frijoles Negros Sazonados",
+      notes: "Frijoles negros sencillos sazonados con ajo, cebolla y comino. Perfectos con tacos, bowls de arroz, enchiladas o carnes a la parrilla.",
+      tags: ["acompañamiento", "vegetariano", "frijoles", "frijoles negros", "mexicano", "tex-mex", "rápido"],
+      ingredients: `Frijoles:
+2 latas (15 oz) de frijoles negros, escurridos y enjuagados
+1 cucharada de aceite de oliva
+1/2 cebolla, picada
+2 dientes de ajo, picados
+
+Sazonadores:
+1 cucharadita de comino
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+1/2 taza de caldo de verduras o agua
+
+Opcional:
+1 cucharada de jugo de limón
+2 cucharadas de cilantro fresco, picado`,
+      instructions: `Calienta 1 cucharada de aceite de oliva en una cacerola a fuego medio.
+
+Agrega 1/2 cebolla picada y cocina de 3 a 4 minutos hasta que esté suave.
+
+Agrega 2 dientes de ajo picados y cocina 30 segundos hasta que estén fragantes.
+
+Incorpora 2 latas de frijoles negros, 1 cucharadita de comino, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y 1/2 taza de caldo o agua.
+
+Cocina a fuego lento de 8 a 10 minutos, revolviendo ocasionalmente, hasta que los frijoles estén calientes y ligeramente espesos.
+
+Termina con 1 cucharada de jugo de limón y 2 cucharadas de cilantro si deseas.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-refried-beans",
+  slug: "quick-refried-beans",
+  name: "Refried Beans",
+  effort: "quick",
+  photoUrl: "/images/quick-refried-beans.jpg",
+  tags: ["side", "vegetarian", "beans", "pinto-beans", "mexican", "tex-mex", "comfort"],
+  isVegetarian: true,
+  notes: "Creamy mashed pinto beans with simple seasoning. A classic side for tacos, burritos, enchiladas, and rice plates.",
+  ingredients: `Beans:
+2 (15 oz) cans pinto beans, drained and rinsed
+1 tbsp olive oil or butter
+1/2 onion, diced
+2 cloves garlic, minced
+
+Seasoning:
+1 tsp cumin
+1/2 tsp salt
+1/4 tsp black pepper
+1/2 cup vegetable broth or water
+
+Optional:
+1/2 cup cheddar cheese, shredded
+2 tbsp cilantro, chopped`,
+  instructions: `Heat 1 tbsp olive oil or butter in a skillet over medium heat.
+
+Add 1/2 diced onion and cook for 3 to 4 minutes until softened.
+
+Add 2 cloves minced garlic and cook for 30 seconds until fragrant.
+
+Add 2 cans pinto beans, 1 tsp cumin, 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 cup broth or water.
+
+Simmer for 5 to 7 minutes until hot and slightly softened.
+
+Mash the beans with a potato masher until mostly smooth, adding more broth if needed.
+
+Stir in cheddar cheese if desired.
+
+Garnish with cilantro and serve warm.`,
+  translations: {
+    es: {
+      name: "Frijoles Refritos",
+      notes: "Frijoles pintos machacados y cremosos con sazón sencilla. Un acompañamiento clásico para tacos, burritos, enchiladas y platos con arroz.",
+      tags: ["acompañamiento", "vegetariano", "frijoles", "frijoles pintos", "mexicano", "tex-mex", "comfort"],
+      ingredients: `Frijoles:
+2 latas (15 oz) de frijoles pintos, escurridos y enjuagados
+1 cucharada de aceite de oliva o mantequilla
+1/2 cebolla, picada
+2 dientes de ajo, picados
+
+Sazonadores:
+1 cucharadita de comino
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+1/2 taza de caldo de verduras o agua
+
+Opcional:
+1/2 taza de queso cheddar rallado
+2 cucharadas de cilantro picado`,
+      instructions: `Calienta 1 cucharada de aceite de oliva o mantequilla en una sartén a fuego medio.
+
+Agrega 1/2 cebolla picada y cocina de 3 a 4 minutos hasta que esté suave.
+
+Agrega 2 dientes de ajo picados y cocina 30 segundos hasta que estén fragantes.
+
+Agrega 2 latas de frijoles pintos, 1 cucharadita de comino, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y 1/2 taza de caldo o agua.
+
+Cocina a fuego lento de 5 a 7 minutos hasta que estén calientes y ligeramente suaves.
+
+Machaca los frijoles con un machacador de papas hasta que estén casi suaves, agregando más caldo si es necesario.
+
+Agrega queso cheddar si deseas.
+
+Decora con cilantro y sirve caliente.`,
+    },
+  },
+},
 
 ];
 
@@ -9465,6 +12312,7 @@ Sirve caliente directamente en el aluminio con cucharas si deseas.`,
   effort: "quick",
   photoUrl: "/images/quick-dark-chocolate-dipped-strawberries.jpg",
   tags: ["dessert", "snack", "no-bake", "quick", "vegetarian"],
+  isVegetarian: true,
   notes: "A simple dessert that feels special without a lot of work.",
   ingredients: `12 large ripe strawberries
 1/2 cup dark chocolate baking chips
@@ -9581,6 +12429,7 @@ export const EXTRA_RECIPES: Meal[] = [
   effort: "quick",
   photoUrl: "/images/quick-classic-guacamole.jpg",
   tags: ["dip", "side", "mexican", "no-cook", "quick", "vegetarian"],
+  isVegetarian: true,
   notes: "Fresh and simple guacamole that works as a snack, side, or taco-night add-on.",
   ingredients: `3 ripe avocados, peeled and pitted
 1 lime, juiced
@@ -9632,6 +12481,7 @@ Refrigera durante 1 hora para mejor sabor, o sirve de inmediato con totopos.`,
   effort: "quick",
   photoUrl: "/images/quick-homemade-chili-seasoning.jpg",
   tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian"],
+  isVegetarian: true,
   notes: "A pantry staple that is great to keep on hand for chili nights.",
   ingredients: `1 Tbsp chili powder
 1 tsp ground cumin
@@ -9682,6 +12532,7 @@ Usa en lugar de un paquete de sazonador para chili comprado en tienda.`,
   photoUrl: "/images/quick-captains-wing-rub.jpg",
   effort: "quick",
   tags: ["seasoning", "pantry", "spice-mix", "quick", "vegetarian"],
+  isVegetarian: true,
   notes: "Bold, spicy, and tangy. Great for wings or grilled meats.",
   ingredients: `2 Tbsp smoked paprika
 1 1/2 Tbsp cayenne pepper
@@ -10625,7 +13476,7 @@ Garnish with parsley if using and serve immediately.`,
       suggestedSides: [
         "Pan de ajo",
         "Ensalada César",
-        "Zanahorias asadas",
+        "Zanahorias rostizadas",
       ],
       ingredients: `Pasta:
 12 oz de pasta tipo conchas medianas
@@ -11378,7 +14229,7 @@ Let rest for 5 to 10 minutes before serving.`,
       suggestedSides: [
         "Panecillos",
         "Ensalada sencilla",
-        "Zanahorias asadas",
+        "Zanahorias rostizadas",
       ],
       ingredients: `1 1/2 cups de lentejas cocidas
 4 papas grandes, peladas y picadas
@@ -11868,7 +14719,7 @@ Serve immediately.`,
       suggestedSides: [
         "Pan de ajo",
         "Ensalada verde sencilla",
-        "Espárragos asados",
+        "Espárragos rostizados",
       ],
       ingredients: `1/2 lb de pasta penne
 1 cup de tomates cherry, cortados por la mitad
@@ -12604,7 +15455,7 @@ Drizzle the balsamic glaze over the mushrooms, top with shredded fresh basil, an
       suggestedSides: [
         "Pan de ajo",
         "Ensalada verde sencilla",
-        "Espárragos asados",
+        "Espárragos rostizados",
       ],
       ingredients: `5 a 6 champiñones portobello grandes, sin tallos y con las agallas raspadas
 2 Tbsp de mantequilla
@@ -12973,7 +15824,7 @@ suggestedSides: [
         "una sartén",
       ],
       suggestedSides: [
-        "Zanahorias asadas",
+        "Zanahorias rostizadas",
         "Ensalada sencilla",
         "Panecillos",
       ],
@@ -13899,7 +16750,7 @@ suggestedSides: [
       suggestedSides: [
         "Pan de ajo",
         "Ensalada verde sencilla",
-        "Espárragos asados",
+        "Espárragos rostizados",
       ],
       ingredients: `Pasta:
 12 oz de tagliatelle o fettuccine
@@ -14884,6 +17735,7 @@ export const NEW_SALAD_RECIPES: Meal[] = [
   photoUrl: "/images/quick-classic-garden-salad.jpg",
   effort: "quick",
   tags: ["salad", "quick", "vegetarian", "side", "fresh", "healthy"],
+  isVegetarian: true,
   ingredients: `1 head romaine lettuce, chopped
 1 cup cherry tomatoes, halved
 1 cucumber, sliced
@@ -14937,6 +17789,7 @@ Rocía con 1/4 cup de aderezo ranch o italiano justo antes de servir y mezcla bi
   photoUrl: "/images/quick-greek-salad.jpg",
   effort: "quick",
   tags: ["salad", "quick", "vegetarian", "mediterranean", "fresh", "healthy"],
+  isVegetarian: true,
   ingredients: `1 cucumber, chopped
 1 pint cherry tomatoes, halved
 1/2 red onion, sliced
@@ -14997,6 +17850,7 @@ Sirve de inmediato o refrigera hasta que esté lista para servir.`,
   photoUrl: "/images/quick-caprese-salad.jpg",
   effort: "quick",
   tags: ["salad", "quick", "vegetarian", "italian", "fresh", "no-cook"],
+  isVegetarian: true,
   ingredients: `3 large tomatoes, sliced
 8 oz fresh mozzarella, sliced
 1/4 cup fresh basil leaves
@@ -15102,6 +17956,7 @@ Rocía con 1/3 cup de aderezo ranch southwest y mezcla bien justo antes de servi
   photoUrl: "/images/quick-cucumber-tomato-salad.jpg",
   effort: "quick",
   tags: ["salad", "quick", "vegetarian", "side", "fresh", "summer"],
+  isVegetarian: true,
   ingredients: `2 cucumbers, sliced
 3 tomatoes, chopped
 1/4 red onion, thinly sliced
@@ -15542,6 +18397,7 @@ Rocía con 1/4 cup de aderezo de sésamo y jengibre, y mezcla bien justo antes d
   photoUrl: "/images/big-strawberry-spinach-salad.jpg",
   effort: "big",
   tags: ["salad", "big", "vegetarian", "spinach", "fruit", "fresh"],
+  isVegetarian: true,
   ingredients: `1 bag baby spinach
 1 cup strawberries, sliced
 1/2 cup blueberries
@@ -15650,6 +18506,7 @@ Termina agregando 1/2 cup de salsa, 1/2 cup de crema agria y 1 cup de chips de t
   photoUrl: "/images/big-mediterranean-chickpea-salad.jpg",
   effort: "big",
   tags: ["salad", "big", "vegetarian", "chickpeas", "healthy", "meal-prep"],
+  isVegetarian: true,
   ingredients: `2 cans chickpeas, drained and rinsed
 1 cucumber, chopped
 1 pint cherry tomatoes, halved
