@@ -116,6 +116,7 @@ export const MEAT_WORDS = [
 // =====================================================
 
 export const NEW_BUILTIN_RECIPES: Meal[] = [
+  
   {
   id: "quick-beef-chili",
   slug: "quick-beef-chili",
@@ -132,6 +133,12 @@ export const NEW_BUILTIN_RECIPES: Meal[] = [
     "quick",
     "leftovers-friendly",
   ],
+  // Chili
+suggestedSides: [
+  "Cornbread",
+  "Tortilla chips",
+  "Simple green salad",
+],
   notes:
     "A hearty, no-fuss chili that is easy to throw together and even better the next day.",
   ingredients: `1 lb ground beef
@@ -193,6 +200,12 @@ Sirve caliente y agrega queso rallado, crema agria y jalapeños encima.`,
   effort: "normal",
   photoUrl: "/images/normal-chicken-greenbean-mushroom-bake.jpg",
   tags: ["dinner", "chicken", "bake", "casserole", "comfort", "family-friendly", "leftovers-friendly"],
+  // Chicken Green Bean Mushroom Bake
+suggestedSides: [
+  "Dinner rolls",
+  "Side salad",
+  "Roasted carrots",
+],
   notes: "A creamy baked chicken dinner that works well for cozy weeknights and reheats nicely.",
   ingredients: `4 skinless chicken breasts
 8 oz baby bella mushrooms, sliced
@@ -296,6 +309,12 @@ Serve with sauce, wasabi if desired, and garnish with green onions.`,
   effort: "quick",
   tags: ["dinner", "seafood", "tuna", "quick", "healthy", "high-protein", "asian", "premium"],
   isVegetarian: false,
+  // Seared Ahi Tuna
+suggestedSides: [
+  "Steamed rice",
+  "Cucumber salad",
+  "Roasted asparagus",
+],
   notes: "Use sushi-grade ahi tuna for best results. The key is a very hot pan and a quick sear to keep the center tender and rare.",
   translations: {
     es: {
@@ -359,10 +378,11 @@ Sirve con la salsa, wasabi si deseas, y decora con cebollines.`,
   effort: "big",
   photoUrl: "/images/big-beef-salisbury-steak.jpg",
   tags: ["dinner", "beef", "stovetop", "comfort", "gravy", "family-friendly"],
-  suggestedSides: [
-  "Simple green salad",
-  "Garlic bread",
-  "Fruit salad",
+  // Salisbury Steak with Mushroom Gravy
+suggestedSides: [
+  "Mashed potatoes",
+  "Green beans",
+  "Dinner rolls",
 ],
   notes: "Classic comfort food with rich mushroom gravy that is perfect over mashed potatoes.",
   ingredients: `1 lb ground beef
@@ -441,6 +461,12 @@ Sirve sobre puré de papas con el gravy de champiñones encima.`,
   effort: "normal",
   photoUrl: "/images/normal-wild-west-shrimp.jpg",
   tags: ["dinner", "seafood", "shellfish", "shrimp", "fried", "spicy", "restaurant-style"],
+  // Wild West Shrimp
+suggestedSides: [
+  "French fries",
+  "Coleslaw",
+  "Corn on the cob",
+],
   notes: "A restaurant-style shrimp dish with bold buttery heat and a crunchy coating.",
   ingredients: `1 lb medium shrimp, peeled and deveined
 1 1/2 cups flour
@@ -516,6 +542,12 @@ Sirve caliente con aderezo ranch.`,
   effort: "big",
   photoUrl: "/images/big-mushroom-swiss-sliders.jpg",
   tags: ["dinner", "beef", "sliders", "sandwich", "bake", "party", "comfort", "family-friendly"],
+  // Mushroom Swiss Sliders
+suggestedSides: [
+  "French fries",
+  "Pickles",
+  "Coleslaw",
+],
   notes: "Great for feeding a crowd or using as a fun family dinner night.",
   ingredients: `1 Tbsp seasoned salt
 1 Tbsp hamburger seasoning
@@ -633,6 +665,12 @@ Sirve caliente.`,
   effort: "normal",
   photoUrl: "/images/normal-school-pizza.jpg",
   tags: ["dinner", "pizza", "bake", "comfort", "kid-friendly", "sheet-pan", "family-friendly"],
+  // School Pizza
+suggestedSides: [
+  "Simple green salad",
+  "Fruit salad",
+  "Carrot sticks with ranch",
+],
   notes: "A nostalgic sheet-pan pizza that brings back cafeteria memories in the best way.",
   ingredients: `4 Tbsp olive oil, divided
 3 Tbsp cornmeal
@@ -717,6 +755,12 @@ Sirve caliente.`,
   effort: "big",
   photoUrl: "/images/big-shotgun-shells.jpg",
   tags: ["dinner", "beef", "pork", "bbq", "bake", "party", "comfort", "game-day"],
+  // Shotgun Shells
+suggestedSides: [
+  "Baked beans",
+  "Coleslaw",
+  "Macaroni salad",
+],
   notes: "A big-flavor BBQ dinner that is fun for weekends, cookouts, or game day.",
   ingredients: `2 (8 oz) boxes manicotti shells (uncooked)
 1 1/2 lb ground beef
@@ -802,6 +846,12 @@ Sirve caliente.`,
   effort: "normal",
   photoUrl: "/images/normal-shrimp-and-sausage-bake.jpg",
   tags: ["dinner", "sheet-pan", "seafood", "shellfish", "shrimp", "sausage", "one-pan", "leftovers-friendly"],
+  // Shrimp and Sausage Bake
+suggestedSides: [
+  "Rice pilaf",
+  "Garlic bread",
+  "Simple green salad",
+],
   notes: "A low-mess sheet-pan dinner with big flavor and a nice mix of protein and veggies.",
   ingredients: `cooking spray
 3 cups red potatoes, cut into 1-inch pieces
@@ -908,6 +958,12 @@ Mezcla suavemente y decora con perejil fresco antes de servir.`,
   effort: "normal",
   photoUrl: "/images/normal-classic-meatloaf.jpg",
   tags: ["dinner", "beef", "bake", "comfort", "classic", "family-friendly", "leftovers-friendly"],
+  // Classic Meatloaf
+suggestedSides: [
+  "Mashed potatoes",
+  "Green beans",
+  "Dinner rolls",
+],
   isVegetarian: false,
   notes: "Juicy, tender meatloaf with a sweet and tangy glaze. For extra flavor, sauté the onions and garlic before mixing. Great served with mashed potatoes and green beans.",
   ingredients: `1 1/2 lbs ground beef
