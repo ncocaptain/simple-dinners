@@ -1043,11 +1043,62 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                             </div>
                           </div>
 
-                          <ChevronRight
+                                                    <ChevronRight
                             size={20}
                             style={{ opacity: 0.2, flexShrink: 0 }}
                           />
                         </div>
+
+                        {Array.isArray(meal.suggestedSides) &&
+                          meal.suggestedSides.length > 0 && (
+                            <div
+                              style={{
+                                display: "grid",
+                                gap: 8,
+                                padding: "12px 14px",
+                                borderRadius: 16,
+                                background: "rgba(34,197,94,0.08)",
+                                border: "1px solid rgba(34,197,94,0.16)",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  fontSize: 11,
+                                  fontWeight: 900,
+                                  letterSpacing: 0.35,
+                                  textTransform: "uppercase",
+                                  color: "#86efac",
+                                }}
+                              >
+                                {t("recipe.goesWellWith", "Goes well with")}
+                              </div>
+
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexWrap: "wrap",
+                                  gap: 6,
+                                }}
+                              >
+                                {meal.suggestedSides.slice(0, 3).map((side) => (
+                                  <span
+                                    key={side}
+                                    style={{
+                                      padding: "6px 8px",
+                                      borderRadius: 999,
+                                      background: "rgba(255,255,255,0.06)",
+                                      border: "1px solid rgba(255,255,255,0.10)",
+                                      color: "rgba(255,255,255,0.86)",
+                                      fontSize: 12,
+                                      fontWeight: 800,
+                                    }}
+                                  >
+                                    {side}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
 
                         {prepAheadItems.length >= 2 && nextDay && (
   <div

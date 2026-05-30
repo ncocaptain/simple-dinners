@@ -8082,6 +8082,12 @@ export const CAMPFIRE_RECIPES: Meal[] = [
     "outdoors",
   ],
   isVegetarian: false,
+  // The Classic Hobo Foil Packet
+suggestedSides: [
+  "Baked beans",
+  "Corn on the cob",
+  "Watermelon slices",
+],
   notes:
     "A classic campfire meal with juicy beef, tender potatoes, and smoky flavor all cooked in one easy foil packet. Great for camping trips or backyard fire pits.",
   ingredients: `1 lb ground beef
@@ -8166,6 +8172,12 @@ Abre cuidadosamente los paquetes porque saldrá vapor caliente. Sirve directamen
     "comfort",
   ],
   isVegetarian: false,
+  // Dutch Oven Taco Mountain
+suggestedSides: [
+  "Chips and salsa",
+  "Guacamole",
+  "Mexican street corn",
+],
   notes:
     "Layers of seasoned beef, cheese, tortillas, and toppings cooked together in a Dutch oven for the ultimate campfire taco casserole.",
   ingredients: `1 lb ground beef
@@ -8262,6 +8274,12 @@ Agrega crema agria y cebollines antes de servir.`,
     "family-friendly",
   ],
   isVegetarian: false,
+  // Campfire Chili Mac
+suggestedSides: [
+  "Cornbread",
+  "Simple green salad",
+  "Tortilla chips",
+],
   notes:
     "A hearty one-pot campfire meal packed with beef, pasta, chili flavor, and melty cheese. Perfect for cooler nights around the fire.",
   ingredients: `1 lb ground beef
@@ -8352,6 +8370,12 @@ Retira del fuego y deja reposar 5 minutos antes de servir.`,
     "family-friendly",
   ],
   isVegetarian: false,
+  // Skewer Hot Dog Octopus and Veggie Kebabs
+suggestedSides: [
+  "Potato chips",
+  "Fruit salad",
+  "Baked beans",
+],
   notes:
     "A fun campfire meal where hot dogs split into octopus-style legs while roasting over the fire. Great for kids and easy camping dinners.",
   ingredients: `8 hot dogs
@@ -8432,6 +8456,12 @@ Sirve caliente directamente en las brochetas.`,
     "family-friendly",
   ],
   isVegetarian: false,
+  // Pie Iron Pudgie Pies
+suggestedSides: [
+  "Chips",
+  "Carrot sticks with ranch",
+  "Apple slices",
+],
   notes:
     "A nostalgic campfire favorite with crispy toasted bread and melty fillings cooked inside a pie iron over the fire.",
   ingredients: `8 slices sandwich bread
@@ -8496,81 +8526,6 @@ Retira cuidadosamente el pudgie pie y deja enfriar de 1 a 2 minutos antes de ser
   },
 },
 
-{
-  id: "quick-campfire-banana-boats",
-  slug: "quick-campfire-banana-boats",
-  name: "Campfire Banana Boats",
-  effort: "quick",
-  photoUrl: "/images/quick-campfire-banana-boats.jpg",
-  tags: [
-    "dessert",
-    "campfire",
-    "banana",
-    "foil-packet",
-    "kid-friendly",
-    "sweet",
-    "family-friendly",
-  ],
-  isVegetarian: true,
-  notes:
-    "A fun and easy campfire dessert with warm melted chocolate, gooey marshmallows, and soft bananas wrapped in foil.",
-  ingredients: `4 bananas
-1/2 cup chocolate chips
-1 cup mini marshmallows
-1/4 cup graham cracker crumbs
-heavy-duty aluminum foil`,
-  instructions: `Preheat a campfire grate or grill to medium-low heat.
-
-Using a knife, slice each banana lengthwise through the peel without cutting all the way through.
-
-Gently open the bananas and stuff each one with chocolate chips and mini marshmallows.
-
-Sprinkle graham cracker crumbs over the filling.
-
-Wrap each banana tightly in heavy-duty aluminum foil.
-
-Place the foil packets over the campfire or grill and cook for 8 to 10 minutes, until the chocolate is melted and the marshmallows are gooey.
-
-Carefully unwrap because hot steam will escape.
-
-Serve warm directly from the foil with spoons if desired.`,
-  translations: {
-    es: {
-      name: "Bananas Boat de Fogata",
-      notes:
-        "Un postre divertido y fácil de fogata con chocolate derretido, malvaviscos suaves y bananas calientes envueltas en aluminio.",
-      tags: [
-        "postre",
-        "fogata",
-        "banana",
-        "papel aluminio",
-        "niños",
-        "dulce",
-        "familiar",
-      ],
-      ingredients: `4 bananas
-1/2 taza de chispas de chocolate
-1 taza de mini malvaviscos
-1/4 taza de migas de galleta graham
-papel aluminio resistente`,
-      instructions: `Precalienta una parrilla de fogata o asador a fuego medio-bajo.
-
-Con un cuchillo, corta cada banana a lo largo sobre la cáscara sin atravesarla completamente.
-
-Abre ligeramente las bananas y rellena con chispas de chocolate y mini malvaviscos.
-
-Espolvorea migas de galleta graham sobre el relleno.
-
-Envuelve cada banana firmemente en papel aluminio resistente.
-
-Coloca los paquetes sobre la fogata o parrilla y cocina de 8 a 10 minutos hasta que el chocolate esté derretido y los malvaviscos suaves.
-
-Abre cuidadosamente porque saldrá vapor caliente.
-
-Sirve caliente directamente en el aluminio con cucharas si deseas.`,
-    },
-  },
-},
 
 ];
 
@@ -9014,6 +8969,82 @@ Coloca en una bandeja para hornear y hornea durante 10 minutos o hasta que esté
 },
 
 {
+  id: "quick-campfire-banana-boats",
+  slug: "quick-campfire-banana-boats",
+  name: "Campfire Banana Boats",
+  effort: "quick",
+  photoUrl: "/images/quick-campfire-banana-boats.jpg",
+  tags: [
+    "dessert",
+    "campfire",
+    "banana",
+    "foil-packet",
+    "kid-friendly",
+    "sweet",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "A fun and easy campfire dessert with warm melted chocolate, gooey marshmallows, and soft bananas wrapped in foil.",
+  ingredients: `4 bananas
+1/2 cup chocolate chips
+1 cup mini marshmallows
+1/4 cup graham cracker crumbs
+heavy-duty aluminum foil`,
+  instructions: `Preheat a campfire grate or grill to medium-low heat.
+
+Using a knife, slice each banana lengthwise through the peel without cutting all the way through.
+
+Gently open the bananas and stuff each one with chocolate chips and mini marshmallows.
+
+Sprinkle graham cracker crumbs over the filling.
+
+Wrap each banana tightly in heavy-duty aluminum foil.
+
+Place the foil packets over the campfire or grill and cook for 8 to 10 minutes, until the chocolate is melted and the marshmallows are gooey.
+
+Carefully unwrap because hot steam will escape.
+
+Serve warm directly from the foil with spoons if desired.`,
+  translations: {
+    es: {
+      name: "Bananas Boat de Fogata",
+      notes:
+        "Un postre divertido y fácil de fogata con chocolate derretido, malvaviscos suaves y bananas calientes envueltas en aluminio.",
+      tags: [
+        "postre",
+        "fogata",
+        "banana",
+        "papel aluminio",
+        "niños",
+        "dulce",
+        "familiar",
+      ],
+      ingredients: `4 bananas
+1/2 taza de chispas de chocolate
+1 taza de mini malvaviscos
+1/4 taza de migas de galleta graham
+papel aluminio resistente`,
+      instructions: `Precalienta una parrilla de fogata o asador a fuego medio-bajo.
+
+Con un cuchillo, corta cada banana a lo largo sobre la cáscara sin atravesarla completamente.
+
+Abre ligeramente las bananas y rellena con chispas de chocolate y mini malvaviscos.
+
+Espolvorea migas de galleta graham sobre el relleno.
+
+Envuelve cada banana firmemente en papel aluminio resistente.
+
+Coloca los paquetes sobre la fogata o parrilla y cocina de 8 a 10 minutos hasta que el chocolate esté derretido y los malvaviscos suaves.
+
+Abre cuidadosamente porque saldrá vapor caliente.
+
+Sirve caliente directamente en el aluminio con cucharas si deseas.`,
+    },
+  },
+},
+
+{
   id: "quick-dark-chocolate-dipped-strawberries",
   slug: "quick-dark-chocolate-dipped-strawberries",
   name: "Dark Chocolate Dipped Strawberries",
@@ -9333,6 +9364,12 @@ Serve immediately.`,
   effort: "normal",
   tags: ["lunch", "chicken", "sandwich", "quick", "meal-prep", "family", "fresh"],
   isVegetarian: false,
+  // Chicken Salad Croissant
+suggestedSides: [
+  "Potato chips",
+  "Fruit salad",
+  "Pickle spears",
+],
   notes: "A creamy, balanced chicken salad served on flaky croissants. Letting the chicken rest before chopping keeps it juicy, and a splash of lemon brightens the entire dish.",
   translations: {
     es: {
@@ -9400,6 +9437,12 @@ Sirve de inmediato.`,
   effort: "quick",
   photoUrl: "/images/quick-sausage-muffins.jpg",
   tags: ["breakfast", "quick", "kid-friendly", "meal-prep", "pork"],
+  // Sausage Muffins
+suggestedSides: [
+  "Fresh fruit",
+  "Hash browns",
+  "Yogurt",
+],
   notes: "Easy grab-and-go breakfast muffins that also work for busy mornings or snacks.",
   ingredients: `1 cup Bisquick
 1 lb breakfast sausage, cooked
@@ -9454,6 +9497,12 @@ Hornea durante 20 minutos o hasta que los muffins estén firmes y ligeramente do
   photoUrl: "/images/big-french-toast-casserole.jpg",
   effort: "big",
   tags: ["breakfast", "brunch", "bake", "sweet", "family-friendly", "make-ahead"],
+  // French Toast Casserole
+suggestedSides: [
+  "Fresh berries",
+  "Bacon",
+  "Scrambled eggs",
+],
   notes: "Perfect make-ahead breakfast for holidays or weekends.",
   ingredients: `1 loaf sourdough bread
 8 large eggs
@@ -9718,6 +9767,7 @@ Decora con una ramita de menta fresca y sirve de inmediato.`,
 // =====================================================
 
 export const NEW_VEGETARIAN_RECIPES: Meal[] = [
+  
   {
   id: "quick-vegetable-stir-fry",
   slug: "quick-vegetable-stir-fry",
@@ -9725,6 +9775,13 @@ export const NEW_VEGETARIAN_RECIPES: Meal[] = [
   effort: "quick",
   photoUrl: "/images/quick-vegetable-stir-fry.jpg",
   tags: ["vegetarian", "dinner", "quick", "healthy", "skillet", "one-pan", "asian"],
+  isVegetarian: true,
+  // Vegetable Stir Fry
+suggestedSides: [
+  "Steamed rice",
+  "Spring rolls",
+  "Cucumber salad",
+],
   notes: "A flexible, colorful dinner that is easy to adjust with whatever vegetables you have on hand.",
   ingredients: `2 Tbsp olive oil
 1 red bell pepper, sliced
@@ -9817,6 +9874,12 @@ Cubre con los cebollines restantes y semillas de sésamo, y sirve de inmediato.`
     "takeout-style",
   ],
   isVegetarian: true,
+  // Vegetable Lo Mein Noodles
+suggestedSides: [
+  "Spring rolls",
+  "Cucumber salad",
+  "Steamed edamame",
+],
   notes:
     "Cooking the vegetables over high heat helps them stay crisp and flavorful instead of soft and soggy. Tossing the noodles directly in the sauce at the end gives them that classic glossy lo mein texture.",
   ingredients: `Noodles:
@@ -9936,6 +9999,12 @@ Sirve caliente y decora con semillas de ajonjolí si deseas.`,
     "comfort",
   ],
   isVegetarian: true,
+  // Crispy Sheet-Pan Gnocchi with Roasted Veggies
+suggestedSides: [
+  "Simple green salad",
+  "Garlic bread",
+  "Roasted broccoli",
+],
   notes:
     "Roasting shelf-stable gnocchi directly on the sheet pan gives it crispy edges and a soft center without boiling. Spread everything into a single layer so the vegetables roast instead of steam.",
   ingredients: `Sheet Pan:
@@ -10045,6 +10114,12 @@ Rocía con glaseado balsámico si deseas y sirve caliente.`,
     "family",
   ],
   isVegetarian: true,
+  // Creamy Shells with Peas and Parmesan
+suggestedSides: [
+  "Garlic bread",
+  "Caesar salad",
+  "Roasted carrots",
+],
   notes:
     "The reserved pasta water helps create a silky sauce that clings perfectly to the shells. Adding the peas at the end keeps them bright green and tender instead of overcooked.",
   ingredients: `Pasta:
@@ -10159,6 +10234,12 @@ Decora con perejil si deseas y sirve inmediatamente.`,
     "comfort",
   ],
   isVegetarian: true,
+  // Black Bean and Corn Quesadillas
+suggestedSides: [
+  "Cilantro lime rice",
+  "Chips and salsa",
+  "Guacamole",
+],
   notes:
     "Cooking quesadillas over medium heat allows the tortillas to crisp properly while giving the cheese time to melt completely. A light layer of butter or oil helps create a golden, restaurant-style finish.",
   ingredients: `Filling:
@@ -10263,6 +10344,12 @@ Corta en triángulos y sirve caliente con los toppings deseados.`,
     "family",
   ],
   isVegetarian: true,
+  // Taco-Style Lentil Sloppy Joes
+suggestedSides: [
+  "Sweet potato fries",
+  "Coleslaw",
+  "Pickle spears",
+],
   notes:
     "Lentils create a hearty texture that works perfectly in sloppy joes while soaking up bold taco-style flavors. Letting the mixture simmer helps it thicken into a rich, scoopable filling.",
   ingredients: `Lentil Filling:
@@ -10379,6 +10466,12 @@ Añade los toppings deseados y sirve caliente.`,
   photoUrl: "/images/normal-vegan-jambalaya.jpg",
   tags: ["vegetarian", "vegan", "dinner", "one-pot", "healthy", "spicy", "leftovers-friendly"],
   isVegetarian: true,
+  // Vegan Jambalaya
+suggestedSides: [
+  "Cornbread",
+  "Side salad",
+  "Roasted okra",
+],
   notes: "Hearty, plant-based jambalaya with bold spices and a rich tomato base. Letting it rest before serving helps the rice finish absorbing flavor and improves texture.",
   ingredients: `2 Tbsp olive oil
 1/2 large yellow onion, chopped
@@ -10496,6 +10589,12 @@ Decora con perejil fresco picado si deseas y sirve caliente.`,
   photoUrl: "/images/quick-black-bean-quesadillas.jpg",
   tags: ["vegetarian", "dinner", "quick", "mexican", "kid-friendly", "skillet", "one-pan", "leftovers-friendly"],
   isVegetarian: true,
+  // Black Bean Quesadillas
+suggestedSides: [
+  "Chips and salsa",
+  "Mexican street corn",
+  "Cilantro lime rice",
+],
   notes: "Quick and satisfying quesadillas with creamy black beans and melted cheese. Mashing some of the beans helps everything hold together and creates a better texture.",
   ingredients: `4 small flour tortillas
 1 cup cheddar cheese, shredded
@@ -10572,6 +10671,12 @@ Corta y sirve caliente con más salsa.`,
   photoUrl: "/images/quick-pesto-naan-pizzas.jpg",
   tags: ["vegetarian", "dinner", "quick", "pizza", "kid-friendly", "one-pan", "leftovers-friendly"],
   isVegetarian: true,
+  // Pesto Naan Pizzas
+suggestedSides: [
+  "Simple green salad",
+  "Fruit salad",
+  "Roasted broccoli",
+],
   notes: "Quick and flavorful naan pizzas with bright pesto and melty cheese. Brushing the edges with olive oil helps create a crisp, golden crust.",
   ingredients: `2 naan breads
 1/4 cup basil pesto
@@ -10645,6 +10750,12 @@ Retira del horno y cubre con 1 Tbsp de albahaca fresca picada si deseas. Corta y
   photoUrl: "/images/quick-jamaican-jerk-tofu.jpg",
   tags: ["vegetarian", "vegan", "dinner", "quick", "spicy", "skillet", "healthy", "one-pan", "leftovers-friendly"],
   isVegetarian: true,
+  // Jamaican Jerk Tofu
+suggestedSides: [
+  "Coconut rice",
+  "Grilled pineapple",
+  "Cucumber salad",
+],
   notes: "Bold, spicy jerk tofu with crisp edges and tender vegetables. Pressing the tofu and letting it sear undisturbed are key to getting a great texture.",
   ingredients: `1 (14 oz) block extra-firm tofu, pressed
 2 Tbsp Jamaican jerk seasoning
@@ -10722,6 +10833,12 @@ Sirve caliente.`,
   photoUrl: "/images/big-vegetarian-shepherds-pie.jpg",
   tags: ["vegetarian", "dinner", "bake", "comfort", "casserole", "family-friendly", "leftovers-friendly"],
   isVegetarian: true,
+  // Vegetarian Shepherd’s Pie
+suggestedSides: [
+  "Dinner rolls",
+  "Side salad",
+  "Roasted carrots",
+],
   notes: "Hearty vegetarian shepherd’s pie with a rich lentil filling and creamy mashed potato topping. Letting it rest before serving helps the layers hold together and improves texture.",
   ingredients: `1 1/2 cups cooked lentils
 4 large potatoes, peeled and chopped
@@ -10827,6 +10944,12 @@ Deja reposar de 5 a 10 minutos antes de servir.`,
   photoUrl: "/images/quick-creamy-tortellini.jpg",
   tags: ["vegetarian", "dinner", "pasta", "quick", "comfort", "one-pan", "leftovers-friendly"],
   isVegetarian: true,
+  // Creamy Spinach Tortellini
+suggestedSides: [
+  "Garlic bread",
+  "Caesar salad",
+  "Roasted broccoli",
+],
   notes: "Creamy, comforting tortellini with a smooth Parmesan sauce. Adding pasta water helps create a silky texture that clings perfectly to the pasta.",
   ingredients: `1 (20 oz) package cheese tortellini
 1 Tbsp olive oil or butter
@@ -10906,6 +11029,12 @@ Retira del fuego e incorpora 1 Tbsp de jugo de limón si deseas. Sirve de inmedi
   photoUrl: "/images/big-spinach-ricotta-stuffed-shells.jpg",
   tags: ["vegetarian", "dinner", "pasta", "bake", "comfort", "italian", "family-friendly", "leftovers-friendly"],
   isVegetarian: true,
+  // Spinach and Ricotta Stuffed Shells
+suggestedSides: [
+  "Garlic bread",
+  "Caesar salad",
+  "Roasted zucchini",
+],
   notes: "Classic stuffed shells with a creamy ricotta and spinach filling. Adding an egg helps bind the filling, and baking covered first keeps everything moist before finishing uncovered for a golden top.",
   ingredients: `1 box jumbo pasta shells
 1 (15 oz) ricotta cheese
@@ -10990,6 +11119,12 @@ Deja reposar de 5 a 10 minutos antes de servir.`,
   photoUrl: "/images/normal-chickpea-curry.jpg",
   tags: ["vegetarian", "vegan", "dinner", "curry", "chickpeas", "one-pot", "comfort", "leftovers-friendly"],
   isVegetarian: true,
+  // Chickpea Curry
+suggestedSides: [
+  "Basmati rice",
+  "Naan",
+  "Cucumber yogurt salad",
+],
   notes: "Creamy, warmly spiced chickpea curry with a tomato-coconut sauce. Great with basmati rice, naan, or a simple cucumber yogurt salad.",
   ingredients: `2 (15 oz) cans chickpeas, drained and rinsed
 1 Tbsp olive oil
@@ -11086,6 +11221,12 @@ Sirve caliente sobre arroz basmati cocido o con naan caliente.`,
   photoUrl: "/images/normal-spicy-tofu-mushroom-hash.jpg",
   tags: ["vegetarian", "vegan", "dinner", "skillet", "spicy", "healthy", "one-pan", "leftovers-friendly"],
   isVegetarian: true,
+  // Vegetarian Spicy Skillet Hash
+suggestedSides: [
+  "Simple green salad",
+  "Avocado slices",
+  "Toast",
+],
   notes: "Crispy, hearty skillet hash with bold Cajun flavor. Letting the tofu and potatoes cook undisturbed helps develop a golden crust and great texture.",
   ingredients: `1 (14 oz) block firm tofu, pressed and cubed
 2 cups king oyster mushrooms, sliced
@@ -11170,6 +11311,12 @@ Retira del fuego, decora con 1 Tbsp de perejil fresco picado si deseas y sirve c
   photoUrl: "/images/quick-caprese-pasta.jpg",
   tags: ["vegetarian", "dinner", "pasta", "quick", "italian", "healthy", "one-pan", "light"],
   isVegetarian: true,
+  // Caprese Pasta
+suggestedSides: [
+  "Garlic bread",
+  "Simple green salad",
+  "Roasted asparagus",
+],
   notes: "Fresh and light pasta with juicy tomatoes and creamy mozzarella. Adding pasta water helps create a light sauce that brings everything together without heaviness.",
   ingredients: `1/2 lb penne pasta
 1 cup cherry tomatoes, halved
@@ -11248,6 +11395,12 @@ Sirve de inmediato.`,
   photoUrl: "/images/big-mediterranean-stuffed-peppers.jpg",
   tags: ["vegetarian", "dinner", "bake", "healthy", "mediterranean", "one-pan", "leftovers-friendly"],
   isVegetarian: true,
+  // Mediterranean Stuffed Bell Peppers
+suggestedSides: [
+  "Greek salad",
+  "Pita bread",
+  "Cucumber salad",
+],
   notes: "Bright and flavorful stuffed peppers with a Mediterranean twist. Adding lemon juice and fresh herbs helps balance the richness of the feta and brings everything together.",
   ingredients: `4 large bell peppers, tops removed and seeds discarded
 2 cups cooked quinoa
@@ -11339,6 +11492,12 @@ Decora con 1/4 cup de perejil fresco picado si deseas y sirve caliente.`,
   photoUrl: "/images/quick-vegetable-pad-thai.jpg",
   tags: ["vegetarian", "dinner", "quick", "asian", "skillet", "one-pan", "leftovers-friendly"],
   isVegetarian: true,
+  // Vegetable Pad Thai
+suggestedSides: [
+  "Spring rolls",
+  "Cucumber salad",
+  "Steamed edamame",
+],
   notes: "Quick, takeout-style pad Thai with balanced sweet, savory, and tangy flavors. Cooking tofu undisturbed helps create a crispy texture, and adding lime at the end brightens the dish.",
   ingredients: `8 oz rice noodles
 8 oz firm tofu, pressed and cubed
@@ -11438,6 +11597,12 @@ Sirve de inmediato con gajos de lima y, si deseas, más cacahuates o cilantro.`,
   photoUrl: "/images/big-roasted-vegetable-wellington.jpg",
   tags: ["vegetarian", "dinner", "bake", "comfort", "holiday", "showstopper", "leftovers-friendly"],
   isVegetarian: true,
+  // Roasted Vegetable Wellington
+suggestedSides: [
+  "Mashed potatoes",
+  "Green beans",
+  "Side salad",
+],
   notes: "An elegant vegetarian main with layers of roasted vegetables and flaky pastry. Removing excess moisture from the filling and using breadcrumbs helps keep the pastry crisp.",
   ingredients: `1 sheet puff pastry, thawed
 1 large sweet potato, peeled and sliced into rounds
@@ -11539,6 +11704,12 @@ Deja reposar de 5 a 10 minutos antes de cortar y servir.`,
   photoUrl: "/images/big-black-bean-burgers-sweet-potato-fries.jpg",
   tags: ["vegetarian", "dinner", "comfort", "kid-friendly", "american", "crispy", "family-friendly", "leftovers-friendly"],
   isVegetarian: true,
+  // Black Bean Burgers with Sweet Potato Fries
+suggestedSides: [
+  "Coleslaw",
+  "Pickle spears",
+  "Side salad",
+],
   notes: "A hearty homemade black bean burger dinner with crispy sweet potato fries. Letting the patties rest before cooking helps them hold together better, while high heat gives them a nicely browned crust.",
   ingredients: `2 (15 oz) cans black beans, drained and rinsed
 2 large sweet potatoes, cut into wedges
@@ -11641,6 +11812,12 @@ Sirve las tortitas en los panes con tus toppings favoritos, como lechuga, tomate
   photoUrl: "/images/big-sweet-potato-black-bean-enchiladas.jpg",
   tags: ["vegetarian", "dinner", "bake", "mexican", "comfort", "family-friendly", "leftovers-friendly"],
   isVegetarian: true,
+  // Sweet Potato and Black Bean Enchiladas
+suggestedSides: [
+  "Cilantro lime rice",
+  "Chips and salsa",
+  "Guacamole",
+],
   notes: "Hearty vegetarian enchiladas with a perfect balance of sweet and savory flavors. Roasting the sweet potatoes instead of boiling adds depth and prevents the filling from becoming watery.",
   ingredients: `2 large sweet potatoes, peeled and cubed
 1 (15 oz) can black beans, drained and rinsed
@@ -11734,6 +11911,12 @@ Decora con 1/4 cup de cilantro fresco picado antes de servir.`,
   photoUrl: "/images/vegetarian-fri-chik-noodle-casserole.jpg",
   tags: ["vegetarian", "dinner", "casserole", "pasta", "comfort", "bake", "leftovers-friendly"],
   isVegetarian: true,
+  // Vegetarian Fri-Chik Noodle Casserole
+suggestedSides: [
+  "Side salad",
+  "Green beans",
+  "Dinner rolls",
+],
   notes: "A hearty, comforting casserole that even non-vegetarians will love. Perfect for make-ahead dinners since it tastes even better the next day.",
   ingredients: `12 oz egg noodles
 1 medium yellow onion, chopped
@@ -11823,6 +12006,12 @@ Retira el papel aluminio, cubre con el queso rallado restante y hornea sin cubri
   photoUrl: "/images/normal-caprese-stuffed-portobello-mushrooms.jpg",
   tags: ["vegetarian", "dinner", "bake", "italian", "healthy", "low-carb", "one-pan", "light"],
   isVegetarian: true,
+  // Caprese Stuffed Portobello Mushrooms
+suggestedSides: [
+  "Garlic bread",
+  "Simple green salad",
+  "Roasted asparagus",
+],
   notes: "A lighter caprese-inspired dinner with juicy tomatoes and melted mozzarella. Roasting the mushrooms first helps remove excess moisture and prevents a soggy final dish.",
   ingredients: `5 to 6 large portobello mushrooms, stems removed and gills scraped
 2 Tbsp butter
@@ -11913,6 +12102,12 @@ Rocía el glaseado balsámico sobre los champiñones, cubre con albahaca fresca 
   photoUrl: "/images/normal-spinach-mushroom-feta-crustless-quiche.jpg",
   tags: ["vegetarian", "breakfast", "brunch", "dinner", "bake", "meal-prep", "healthy"],
   isVegetarian: true,
+  // Spinach Mushroom Feta Crustless Quiche
+suggestedSides: [
+  "Fruit salad",
+  "Roasted potatoes",
+  "Side salad",
+],
   notes: "A good breakfast-for-dinner or meal-prep option with lots of savory flavor.",
   ingredients: `1 (10 oz) bag spinach
 8 oz baby bella mushrooms, sliced
@@ -11996,6 +12191,12 @@ Deja reposar un poco para que se asiente antes de cortar y servir.`,
   photoUrl: "/images/quick-cream-cheese-spinach-pasta.jpg",
   tags: ["vegetarian", "dinner", "pasta", "quick", "comfort", "creamy", "one-pan", "leftovers-friendly"],
   isVegetarian: true,
+  // Cream Cheese Spinach Pasta
+suggestedSides: [
+  "Garlic bread",
+  "Caesar salad",
+  "Roasted broccoli",
+],
   notes: "Creamy, comforting pasta made with simple ingredients. Adding pasta water gradually helps create a smooth, silky sauce that clings perfectly to the noodles.",
   ingredients: `12 oz pasta (penne or rotini)
 4 oz cream cheese, softened and cubed
@@ -12080,6 +12281,12 @@ Retira del fuego e incorpora 1 tsp de jugo de limón si deseas más frescura. Si
   photoUrl: "/images/quick-caprese-sandwich.jpg",
   tags: ["vegetarian", "dinner", "sandwich", "quick", "skillet", "comfort", "italian", "one-pan"],
   isVegetarian: true,
+  // Caprese Grilled Cheese
+suggestedSides: [
+  "Tomato soup",
+  "Apple slices",
+  "Side salad",
+],
   notes: "A fresh twist on grilled cheese with melty mozzarella, juicy tomato, and basil. Letting the sandwich rest briefly helps the cheese set slightly for cleaner slices.",
   ingredients: `4 slices sourdough bread
 4 oz fresh mozzarella, sliced
@@ -12183,6 +12390,12 @@ Add noodles and toss to coat. Serve warm.`,
   effort: "normal",
   tags: ["vegetarian", "dinner", "comfort", "pasta", "creamy", "one-pan"],
   isVegetarian: true,
+  // Creamy Mushroom Stroganoff
+suggestedSides: [
+  "Roasted carrots",
+  "Side salad",
+  "Dinner rolls",
+],
   notes: "A rich, creamy vegetarian twist on a comfort classic with deep mushroom flavor.",
   translations: {
     es: {
@@ -12270,6 +12483,12 @@ Serve immediately.`,
   effort: "quick",
   tags: ["vegetarian", "dinner", "tacos", "bbq", "vegan", "plant-based", "comfort", "tex-mex"],
   isVegetarian: true,
+  // Oyster Mushroom BBQ Tacos
+suggestedSides: [
+  "Cilantro lime rice",
+  "Chips and salsa",
+  "Street corn",
+],
   notes: "Oyster mushrooms roast into a tender, slightly crispy texture that mimics pulled meat. Don’t overcrowd the pan to get the best caramelization.",
   translations: {
     es: {
@@ -12374,6 +12593,12 @@ Serve over rice and garnish with sesame seeds and green onions if desired.`,
   effort: "quick",
   tags: ["vegetarian", "dinner", "stir-fry", "spicy", "healthy", "one-pan", "vegan", "asian"],
   isVegetarian: true,
+  // Gochujang Tofu Broccoli Stir-Fry
+suggestedSides: [
+  "Steamed rice",
+  "Cucumber salad",
+  "Kimchi",
+],
   notes: "A bold, spicy-sweet stir-fry with crispy tofu and tender broccoli. Letting the tofu cook undisturbed helps create the best texture.",
   translations: {
     es: {
@@ -12484,6 +12709,12 @@ Ladle into bowls and top with soft-boiled eggs, green onions, chili oil, and cil
   effort: "normal",
   tags: ["vegetarian", "dinner", "soup", "ramen", "comfort", "spicy", "one-pot", "asian"],
   isVegetarian: true,
+  // Coconut Curry Ramen
+suggestedSides: [
+  "Spring rolls",
+  "Cucumber salad",
+  "Steamed edamame",
+],
   notes: "A rich, creamy ramen with bold curry flavor and a silky coconut broth. Adjust spice by adding more or less curry paste or chili oil.",
   translations: {
     es: {
@@ -12587,7 +12818,15 @@ In a separate bowl, combine 1 cup Greek yogurt, 1/2 cup squeezed cucumber, 1 Tbs
 Serve fritters warm with tzatziki on the side.`,
   photoUrl: "/images/mediterranean-zucchini-fritters-tzatziki.jpg",
   effort: "normal",
-  tags: ["vegetarian", "dinner", "appetizer", "mediterranean", "crispy", "skillet", "healthy"],
+  tags: [
+  "vegetarian",
+  "side",
+  "appetizer",
+  "mediterranean",
+  "crispy",
+  "skillet",
+  "healthy",
+],
   isVegetarian: true,
   notes: "Crispy on the outside and tender inside, these fritters depend on removing excess moisture from the zucchini. The tzatziki adds a cool, tangy balance.",
   translations: {
@@ -12696,6 +12935,12 @@ Add eggs, sesame seeds, and green onions if desired. Serve immediately.`,
   effort: "quick",
   tags: ["vegetarian", "dinner", "bowl", "healthy", "fermented", "asian", "meal-prep"],
   isVegetarian: true,
+  // Kimchi Brown Rice Bliss Bowls
+suggestedSides: [
+  "Cucumber salad",
+  "Steamed edamame",
+  "Miso soup",
+],
   notes: "A bold, tangy bowl with probiotic-rich kimchi and crispy tofu. Adjust spice by increasing or reducing gochujang.",
   translations: {
     es: {
@@ -12808,6 +13053,12 @@ Serve hot.`,
   effort: "normal",
   tags: ["vegetarian", "dinner", "chili", "one-pot", "comfort", "healthy", "meal-prep"],
   isVegetarian: true,
+  // Sweet Potato and Kale Chili
+suggestedSides: [
+  "Cornbread",
+  "Side salad",
+  "Tortilla chips",
+],
   notes: "A hearty, nutrient-packed chili with natural sweetness from the potatoes and a slight kick from the spices. Great for leftovers and freezer-friendly.",
   translations: {
     es: {
@@ -12916,6 +13167,12 @@ Let rest for 5 minutes before serving.`,
   effort: "normal",
   tags: ["vegetarian", "dinner", "pasta", "bake", "mediterranean", "one-pan", "comfort"],
   isVegetarian: true,
+  // Greek-Style Baked Orzo
+suggestedSides: [
+  "Greek salad",
+  "Pita bread",
+  "Cucumber salad",
+],
   notes: "A bright, savory baked orzo dish with Mediterranean flavors. Toasting the orzo first adds depth, and the lemon at the end keeps it fresh and balanced.",
   translations: {
     es: {
@@ -13021,6 +13278,12 @@ Garnish with parsley if using and serve immediately.`,
   effort: "normal",
   tags: ["vegetarian", "dinner", "pasta", "comfort", "italian", "creamy", "date-night"],
   isVegetarian: true,
+  // Mushroom and Sage Tagliatelle
+suggestedSides: [
+  "Garlic bread",
+  "Simple green salad",
+  "Roasted asparagus",
+],
   notes: "Deeply browned mushrooms create rich, savory flavor while sage adds warmth. Avoid overcrowding the pan so the mushrooms caramelize instead of steaming.",
   translations: {
     es: {
@@ -13130,6 +13393,12 @@ Serve warm.`,
   effort: "normal",
   tags: ["vegetarian", "vegan", "dinner", "wraps", "tex-mex", "comfort", "handheld", "fun"],
   isVegetarian: true,
+  // Vegan Crunchwrap Supreme
+suggestedSides: [
+  "Chips and salsa",
+  "Guacamole",
+  "Cilantro lime rice",
+],
   notes: "A plant-based take on a fast-food favorite with a crispy exterior and layered textures. Pressing seam-side down first helps seal the wrap.",
   translations: {
     es: {
@@ -13245,6 +13514,12 @@ Garnish with parsley if using and serve immediately.`,
   effort: "normal",
   tags: ["vegetarian", "dinner", "pasta", "comfort", "creamy", "skillet", "modern"],
   isVegetarian: true,
+  // Cauliflower Gnocchi with Mushroom Alfredo
+suggestedSides: [
+  "Garlic bread",
+  "Caesar salad",
+  "Roasted broccoli",
+],
   notes: "Crisping the gnocchi first gives it a better texture than boiling. Let the mushrooms brown properly to build deep flavor before adding the sauce.",
   translations: {
     es: {
@@ -13341,6 +13616,12 @@ Serve immediately.`,
   effort: "quick",
   tags: ["vegetarian", "breakfast", "lunch", "quick", "healthy", "toast", "simple"],
   isVegetarian: true,
+  // Avocado Toast
+suggestedSides: [
+  "Fresh fruit",
+  "Yogurt",
+  "Hash browns",
+],
   notes: "Use ripe avocados for the best texture and flavor. A squeeze of lemon helps brighten the taste and prevent browning.",
   translations: {
     es: {
@@ -13414,6 +13695,12 @@ Top with avocado and cilantro. Serve warm.`,
   effort: "normal",
   tags: ["vegetarian", "dinner", "tacos", "tex-mex", "healthy"],
   isVegetarian: true,
+  // Black Bean and Sweet Potato Tacos
+suggestedSides: [
+  "Cilantro lime rice",
+  "Chips and salsa",
+  "Mexican street corn",
+],
   notes: "Sweet, smoky, and filling tacos perfect for a meatless night.",
   translations: {
     es: {
@@ -13474,6 +13761,12 @@ Spread onto 4 slices of bread and assemble sandwiches. Serve immediately.`,
   effort: "quick",
   tags: ["vegetarian", "lunch", "sandwich", "quick", "meal-prep"],
   isVegetarian: true,
+  // Chickpea Salad Sandwich
+suggestedSides: [
+  "Potato chips",
+  "Fruit salad",
+  "Pickle spears",
+],
   notes: "A simple, protein-packed vegetarian alternative to chicken or tuna salad.",
   translations: {
     es: {
@@ -13528,6 +13821,12 @@ Season with 1/2 tsp salt and toss. Serve.`,
   effort: "quick",
   tags: ["vegetarian", "dinner", "bowl", "healthy", "meal-prep"],
   isVegetarian: true,
+  // Mediterranean Chickpea Bowl
+suggestedSides: [
+  "Pita bread",
+  "Cucumber salad",
+  "Hummus",
+],
   notes: "Fresh, filling, and perfect for quick healthy meals.",
   translations: {
     es: {
@@ -13580,6 +13879,11 @@ Bake for 20 minutes until bubbly. Serve warm.`,
   effort: "normal",
   tags: ["vegetarian", "dinner", "comfort", "mexican", "bake"],
   isVegetarian: true,
+  suggestedSides: [
+  "Cilantro lime rice",
+  "Chips and salsa",
+  "Guacamole",
+],
   notes: "Simple, cheesy comfort food perfect for busy nights.",
   translations: {
     es: {
@@ -13683,7 +13987,7 @@ Decora con 1 Tbsp de perejil fresco o cilantro picado, y sirve con gajos de lima
   name: "Grilled Veggie Kabobs",
   effort: "quick",
   photoUrl: "/images/quick-grilled-veggie-kabobs.jpg",
-  tags: ["vegetarian", "dinner", "grilling", "healthy", "side", "summer", "one-pan"],
+  tags: ["vegetarian", "grilling", "healthy", "side", "summer", "one-pan"],
   isVegetarian: true,
   notes: "Simple, colorful grilled vegetables with a light char. Cutting vegetables to similar sizes helps them cook evenly, and a quick finish with acid brightens the flavor.",
   ingredients: `1 zucchini, sliced into thick rounds
@@ -13754,6 +14058,7 @@ Sirve caliente.`,
 
 // Optional non-dinner vegetarian meals
 export const VEGETARIAN_EXTRAS: Meal[] = [
+  
   {
   id: "quick-avocado-white-bean-wraps",
   slug: "quick-avocado-white-bean-wraps",
@@ -13762,6 +14067,11 @@ export const VEGETARIAN_EXTRAS: Meal[] = [
   photoUrl: "/images/quick-avocado-white-bean-wraps.jpg",
   tags: ["vegetarian", "vegan", "lunch", "quick", "no-cook", "healthy", "meal-prep"],
   isVegetarian: true,
+  suggestedSides: [
+  "Fruit salad",
+  "Potato chips",
+  "Cucumber salad",
+],
   notes: "A quick, fresh wrap with creamy avocado and protein-packed beans. Lightly mashing the beans helps everything hold together while keeping a good texture.",
   ingredients: `1 cup cannellini beans, drained and rinsed
 1 ripe avocado
@@ -13837,6 +14147,11 @@ Corta por la mitad y sirve de inmediato.`,
   photoUrl: "/images/normal-spicy-mushroom-potato-hash.jpg",
   tags: ["vegetarian", "breakfast", "brunch", "skillet", "spicy", "comfort", "one-pan", "leftovers-friendly"],
   isVegetarian: true,
+  suggestedSides: [
+  "Toast",
+  "Fresh fruit",
+  "Avocado slices",
+],
   notes: "Crispy, hearty skillet hash with bold flavor and tender vegetables. Letting the potatoes cook undisturbed at first helps build a golden crust for the best texture.",
   ingredients: `2 large russet potatoes, diced (small cubes)
 8 oz baby bella mushrooms, sliced
