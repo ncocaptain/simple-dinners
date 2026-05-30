@@ -63,6 +63,7 @@ export const es = {
   recipe: {
     ingredients: "Ingredientes",
     instructions: "Instrucciones",
+    goesWellWith: "Va bien con",
     startCookMode: "Iniciar modo cocina",
     addItems: "Agregar artículos",
     saveRecipe: "Guardar",
