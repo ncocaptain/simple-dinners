@@ -1399,7 +1399,11 @@ const instructionStepStyle: React.CSSProperties = {
     color: "rgba(255,255,255,0.82)",
     letterSpacing: 0.35,
   };
-
+  
+  const suggestedSides = Array.isArray(safeRecipe.suggestedSides)
+  ? safeRecipe.suggestedSides
+  : [];
+  
   const visibleRecipeTags = getVisibleRecipeTags(safeRecipe);
 
   // =====================================================
@@ -1761,6 +1765,53 @@ const instructionStepStyle: React.CSSProperties = {
                 {safeRecipe.notes}
               </p>
             )}
+
+            {suggestedSides.length > 0 && (
+  <div
+    style={{
+      display: "grid",
+      gap: 8,
+      marginTop: 4,
+    }}
+  >
+    <div
+      style={{
+        fontSize: 12,
+        fontWeight: 900,
+        letterSpacing: 0.4,
+        textTransform: "uppercase",
+        color: "#86efac",
+      }}
+    >
+      {t("recipe.goesWellWith", "Goes well with")}
+    </div>
+
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 8,
+      }}
+    >
+      {suggestedSides.map((side: string) => (
+        <span
+          key={side}
+          style={{
+            padding: "8px 10px",
+            borderRadius: 999,
+            background: "rgba(255,255,255,0.06)",
+            border: "1px solid rgba(255,255,255,0.10)",
+            color: "rgba(255,255,255,0.88)",
+            fontSize: 13,
+            fontWeight: 800,
+          }}
+        >
+          {side}
+        </span>
+      ))}
+    </div>
+  </div>
+)}
 
             <div style={{ fontSize: 13, opacity: 0.55 }}>
               {t("recipe.cooked")} {historyCount}{" "}
