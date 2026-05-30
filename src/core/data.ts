@@ -2954,6 +2954,12 @@ Opcional: acompaña con pasta cabello de ángel.`,
   effort: "normal",
   photoUrl: "/images/maryland-crab-cake.jpg",
   tags: ["dinner", "seafood", "shellfish", "crab", "baked", "classic", "maryland"],
+  // Maryland Crab Cake
+suggestedSides: [
+  "Coleslaw",
+  "Corn on the cob",
+  "Roasted potatoes",
+],
   notes: "Classic crab cakes with plenty of crab flavor and just enough binder to hold them together.",
   ingredients: `1 lb lump crab meat
 1 large egg
@@ -3033,6 +3039,12 @@ Sirve con gajos de 1 limón y la salsa cóctel o tártara que prefieras.`,
   effort: "big",
   photoUrl: "/images/crock-pot-roast-beef.jpg",
   tags: ["dinner", "beef", "roast", "slow-cooker", "comfort", "family-friendly", "leftovers-friendly"],
+  // Crock Pot Roast Beef
+suggestedSides: [
+  "Dinner rolls",
+  "Side salad",
+  "Green beans",
+],
   notes: "A hearty slow-cooker classic with tender beef, vegetables, and an optional homemade gravy.",
   ingredients: `1 1/2 Tbsp olive oil, divided
 1 (3 lb) chuck roast
@@ -3138,6 +3150,12 @@ Sirve el asado y las verduras cubiertos con gravy y espolvoreados con 2 Tbsp de 
   photoUrl: "/images/big-crockpot-potato-soup.jpg",
   tags: ["dinner", "soup", "comfort", "slow-cooker", "potatoes", "family-friendly", "leftovers-friendly"],
   isVegetarian: false,
+  // Crock Pot Potato Soup
+suggestedSides: [
+  "Grilled cheese",
+  "Side salad",
+  "Dinner rolls",
+],
   notes: "Creamy, hearty potato soup made easy in the slow cooker. Mashing some of the potatoes creates a thicker, more comforting texture without extra effort.",
   ingredients: `1 (30 oz) bag frozen diced hash brown potatoes
 1 (32 oz) chicken broth
@@ -3216,56 +3234,6 @@ Sirve caliente y cubre con queso cheddar rallado, tocino en trocitos y cebolline
 },
 
 {
-  id: "quick-blueberry-cheesecake-crescent-rolls",
-  slug: "quick-blueberry-cheesecake-crescent-rolls",
-  name: "Blueberry Cheesecake Crescent Rolls",
-  photoUrl: "/images/quick-blueberry-cheesecake-crescent-rolls.jpg",
-  effort: "quick",
-  tags: ["dessert", "quick", "sweet", "bake", "blueberry", "easy"],
-  notes: "Simple dessert that feels fancy. Great for breakfast treats too.",
-  ingredients: `3 oz cream cheese, softened
-1/2 tsp vanilla extract
-2 1/2 Tbsp powdered sugar
-1 tube crescent roll dough
-2/3 cup fresh blueberries`,
-  instructions: `Preheat oven to 375°F.
-
-In a bowl, mix 3 oz softened cream cheese, 1/2 tsp vanilla extract, and 2 1/2 Tbsp powdered sugar until smooth.
-
-Separate 1 tube of crescent dough into triangles.
-
-Spread the cream cheese mixture on the bottom third of each triangle and top with 2/3 cup fresh blueberries distributed evenly among triangles.
-
-Roll from the wide end to the tip.
-
-Place on a baking sheet and bake for 10 minutes or until golden brown.`,
-  translations: {
-    es: {
-      name: "Crecientes de cheesecake con arándanos",
-      notes:
-        "Un postre sencillo que se siente elegante. También queda muy bien como antojo para el desayuno.",
-      tags: ["postre", "rápido", "dulce", "horneado", "arándanos", "fácil"],
-      ingredients: `3 oz de queso crema, suavizado
-1/2 tsp de extracto de vainilla
-2 1/2 Tbsp de azúcar glass
-1 tubo de masa para crescent rolls
-2/3 cup de arándanos frescos`,
-      instructions: `Precalienta el horno a 375°F.
-
-En un tazón, mezcla 3 oz de queso crema suavizado, 1/2 tsp de extracto de vainilla y 2 1/2 Tbsp de azúcar glass hasta que quede suave.
-
-Separa 1 tubo de masa para crescent rolls en triángulos.
-
-Unta la mezcla de queso crema en el tercio inferior de cada triángulo y coloca 2/3 cup de arándanos frescos distribuidos de manera uniforme entre los triángulos.
-
-Enrolla desde el extremo ancho hacia la punta.
-
-Coloca en una bandeja para hornear y hornea durante 10 minutos o hasta que estén dorados.`,
-    },
-  },
-},
-
-{
   id: "big-crispy-chicken-wings",
   slug: "big-crispy-chicken-wings",
   name: "Crispy Chicken Wings",
@@ -3273,6 +3241,12 @@ Coloca en una bandeja para hornear y hornea durante 10 minutos o hasta que esté
   photoUrl: "/images/big-crispy-chicken-wings.jpg",
   tags: ["dinner", "chicken", "wings", "fried", "game-day", "crispy", "comfort", "crowd-pleaser"],
   isVegetarian: false,
+  // Crispy Chicken Wings
+suggestedSides: [
+  "Celery sticks",
+  "Carrot sticks",
+  "French fries",
+],
   notes: "Ultra crispy, restaurant-style wings made at home. Drying the wings thoroughly and frying at the correct temperature are the keys to achieving that perfect crunch.",
   ingredients: `2 to 3 lbs chicken wings (flats and drums, separated)
 vegetable oil (for frying)
@@ -3369,6 +3343,12 @@ Sirve de inmediato con palitos de apio, palitos de zanahoria y aderezo ranch o b
   photoUrl: "/images/normal-grilled-bbq-chicken-thighs.jpg",
   tags: ["dinner", "chicken", "grilling", "bbq", "summer", "juicy", "leftovers-friendly"],
   isVegetarian: false,
+  // Grilled BBQ Chicken Thighs
+suggestedSides: [
+  "Baked beans",
+  "Coleslaw",
+  "Corn on the cob",
+],
   notes: "Juicy, smoky grilled chicken thighs with a sticky BBQ glaze. Cooking over indirect heat prevents burning while keeping the inside tender and flavorful.",
   ingredients: `6 bone-in, skin-on chicken thighs
 1 Tbsp olive oil
@@ -3436,6 +3416,12 @@ Deja reposar 5 minutos antes de servir.`,
   photoUrl: "/images/quick-grilled-steak.jpg",
   tags: ["dinner", "beef", "grilling", "classic", "quick", "high-protein", "low-carb"],
   isVegetarian: false,
+  // Grilled Steak
+suggestedSides: [
+  "Baked potato",
+  "Grilled asparagus",
+  "Side salad",
+],
   notes: "Simple, classic grilled steak with a flavorful crust and juicy center. Letting the steak rest before slicing is key to keeping it tender and juicy.",
   ingredients: `2 ribeye or sirloin steaks (about 1 to 1 1/2 inches thick)
 1 Tbsp olive oil
@@ -3505,6 +3491,12 @@ Corta contra la fibra y sirve.`,
   photoUrl: "/images/quick-grilled-chicken-breasts.jpg",
   tags: ["dinner", "chicken", "grilling", "healthy", "high-protein", "meal-prep", "quick", "leftovers-friendly"],
   isVegetarian: false,
+  // Grilled Chicken Breasts
+suggestedSides: [
+  "Rice pilaf",
+  "Grilled vegetables",
+  "Simple green salad",
+],
   notes: "Juicy, versatile grilled chicken breasts that pair with almost anything. Pounding to even thickness and not overcooking are key to keeping them tender.",
   ingredients: `4 boneless, skinless chicken breasts
 2 Tbsp olive oil
@@ -3577,6 +3569,12 @@ Deja reposar 5 minutos antes de cortar para mantener los jugos dentro.`,
   photoUrl: "/images/quick-grilled-shrimp-skewers.jpg",
   tags: ["dinner", "seafood", "shellfish", "shrimp", "grilling", "quick", "healthy", "high-protein", "leftovers-friendly"],
   isVegetarian: false,
+  // Grilled Shrimp Skewers
+suggestedSides: [
+  "Cilantro lime rice",
+  "Grilled vegetables",
+  "Cucumber salad",
+],
   notes: "Quick and flavorful grilled shrimp with bright lemon and garlic. Watch closely while cooking—shrimp cook fast and can become rubbery if overdone.",
   ingredients: `1 lb large shrimp, peeled and deveined (tails on or off)
 2 Tbsp olive oil
@@ -3653,6 +3651,12 @@ Retira de la parrilla y espolvorea con 1 Tbsp de perejil fresco picado si deseas
   photoUrl: "/images/quick-grilled-sausage-peppers.jpg",
   tags: ["dinner", "sausage", "grilling", "quick", "summer", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
+  // Grilled Sausage and Peppers
+suggestedSides: [
+  "Hoagie rolls",
+  "Potato salad",
+  "Coleslaw",
+],
   notes: "A quick, flavorful grilling classic with smoky sausage and tender peppers. Adding a splash of balsamic at the end brings a subtle sweetness that elevates the dish.",
   ingredients: `1 (12 to 14 oz) package smoked sausage or Italian sausage
 2 bell peppers (any color), sliced
@@ -3726,6 +3730,12 @@ Sirve la salchicha con los pimientos y cebollas, ya sea en un plato o dentro de 
   photoUrl: "/images/normal-grilled-pork-chops.jpg",
   tags: ["dinner", "pork", "grilling", "juicy", "high-protein", "summer", "leftovers-friendly"],
   isVegetarian: false,
+  // Grilled Pork Chops
+suggestedSides: [
+  "Applesauce",
+  "Roasted potatoes",
+  "Green beans",
+],
   notes: "Juicy grilled pork chops with a flavorful crust. Avoid overcooking—pulling at 140°F to 145°F and resting ensures tender, not dry, pork.",
   ingredients: `4 bone-in pork chops (about 1 inch thick)
 2 Tbsp olive oil
@@ -8711,7 +8721,58 @@ Antes de servir, prueba y ajusta sal y pimienta si es necesario. Espolvorea con 
 ];
 
 export const DESSERTS: Meal[] = [
+  
   {
+  id: "quick-blueberry-cheesecake-crescent-rolls",
+  slug: "quick-blueberry-cheesecake-crescent-rolls",
+  name: "Blueberry Cheesecake Crescent Rolls",
+  photoUrl: "/images/quick-blueberry-cheesecake-crescent-rolls.jpg",
+  effort: "quick",
+  tags: ["dessert", "quick", "sweet", "bake", "blueberry", "easy"],
+  notes: "Simple dessert that feels fancy. Great for breakfast treats too.",
+  ingredients: `3 oz cream cheese, softened
+1/2 tsp vanilla extract
+2 1/2 Tbsp powdered sugar
+1 tube crescent roll dough
+2/3 cup fresh blueberries`,
+  instructions: `Preheat oven to 375°F.
+
+In a bowl, mix 3 oz softened cream cheese, 1/2 tsp vanilla extract, and 2 1/2 Tbsp powdered sugar until smooth.
+
+Separate 1 tube of crescent dough into triangles.
+
+Spread the cream cheese mixture on the bottom third of each triangle and top with 2/3 cup fresh blueberries distributed evenly among triangles.
+
+Roll from the wide end to the tip.
+
+Place on a baking sheet and bake for 10 minutes or until golden brown.`,
+  translations: {
+    es: {
+      name: "Crecientes de cheesecake con arándanos",
+      notes:
+        "Un postre sencillo que se siente elegante. También queda muy bien como antojo para el desayuno.",
+      tags: ["postre", "rápido", "dulce", "horneado", "arándanos", "fácil"],
+      ingredients: `3 oz de queso crema, suavizado
+1/2 tsp de extracto de vainilla
+2 1/2 Tbsp de azúcar glass
+1 tubo de masa para crescent rolls
+2/3 cup de arándanos frescos`,
+      instructions: `Precalienta el horno a 375°F.
+
+En un tazón, mezcla 3 oz de queso crema suavizado, 1/2 tsp de extracto de vainilla y 2 1/2 Tbsp de azúcar glass hasta que quede suave.
+
+Separa 1 tubo de masa para crescent rolls en triángulos.
+
+Unta la mezcla de queso crema en el tercio inferior de cada triángulo y coloca 2/3 cup de arándanos frescos distribuidos de manera uniforme entre los triángulos.
+
+Enrolla desde el extremo ancho hacia la punta.
+
+Coloca en una bandeja para hornear y hornea durante 10 minutos o hasta que estén dorados.`,
+    },
+  },
+},
+
+{
   id: "quick-dark-chocolate-dipped-strawberries",
   slug: "quick-dark-chocolate-dipped-strawberries",
   name: "Dark Chocolate Dipped Strawberries",
