@@ -1054,8 +1054,8 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                             <div
                               style={{
                                 display: "grid",
-                                gap: 8,
-                                padding: "12px 14px",
+                                gap: 7,
+                                padding: "10px 12px",
                                 borderRadius: 16,
                                 background: "rgba(34,197,94,0.08)",
                                 border: "1px solid rgba(34,197,94,0.16)",
@@ -1084,7 +1084,7 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                                   <span
                                     key={side}
                                     style={{
-                                      padding: "6px 8px",
+                                      padding: "5px 7px",
                                       borderRadius: 999,
                                       background: "rgba(255,255,255,0.06)",
                                       border: "1px solid rgba(255,255,255,0.10)",
