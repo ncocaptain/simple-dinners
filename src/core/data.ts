@@ -1061,6 +1061,12 @@ Deja reposar 10 minutos antes de cortar y servir.`,
   effort: "normal",
   photoUrl: "/images/normal-tilapia-asparagus-foil-packets.jpg",
   tags: ["dinner", "seafood", "fish", "tilapia", "foil-packets", "bake", "healthy", "one-pan"],
+  // Tilapia & Asparagus Foil Packets
+suggestedSides: [
+  "Rice pilaf",
+  "Lemon potatoes",
+  "Side salad",
+],
   notes: "A light and easy fish dinner with almost no cleanup.",
   ingredients: `1 bunch asparagus
 2 yellow squash
@@ -1148,6 +1154,12 @@ Abre los paquetes con cuidado. El vapor estará caliente. Retira del aluminio an
   effort: "normal",
   photoUrl: "/images/normal-slow-cooker-beef-enchilada-casserole.jpg",
   tags: ["dinner", "beef", "slow-cooker", "casserole", "mexican", "comfort", "leftovers-friendly"],
+  // Slow Cooker Beef Enchilada Casserole
+suggestedSides: [
+  "Cilantro lime rice",
+  "Chips and salsa",
+  "Mexican street corn",
+],
   notes: "An easy crockpot dinner that is filling, cheesy, and great for busy evenings.",
   ingredients: `1 1/2 lbs lean ground beef
 1 packet taco seasoning
@@ -1226,6 +1238,12 @@ Decora con cilantro picado, pico de gallo y crema agria antes de servir.`,
   effort: "normal",
   photoUrl: "/images/normal-shepherds-pie.jpg",
   tags: ["dinner", "beef", "bake", "comfort", "casserole", "family-friendly", "leftovers-friendly"],
+  // Shepherd’s Pie
+suggestedSides: [
+  "Dinner rolls",
+  "Simple green salad",
+  "Roasted carrots",
+],
   notes: "A warm, classic comfort meal that feels right at home on chilly nights.",
   ingredients: `1 1/2 to 2 lbs potatoes (about 3 large), peeled and quartered
 8 Tbsp butter (1 stick), divided
@@ -1308,6 +1326,12 @@ Hornea unos 30 minutos, hasta que esté dorado y burbujeante.`,
   effort: "normal",
   photoUrl: "/images/normal-italian-sausage-stuffed-peppers.jpg",
   tags: ["dinner", "pork", "italian", "bake", "stuffed-peppers", "comfort", "family-friendly"],
+  // Italian Sausage Stuffed Peppers
+suggestedSides: [
+  "Garlic bread",
+  "Caesar salad",
+  "Roasted zucchini",
+],
   notes: "A solid weeknight baked dinner that is filling without being too fussy.",
   ingredients: `1 lb Italian sausage
 2 tsp olive oil
@@ -1397,6 +1421,12 @@ Deja enfriar de 1 a 2 minutos. Agrega albahaca fresca y hojuelas de chile rojo s
   photoUrl: "/images/quick-honey-garlic-chicken.jpg",
   tags: ["dinner", "chicken", "quick", "one-pan", "sweet-savory", "weeknight", "leftovers-friendly"],
   isVegetarian: false,
+  // Honey Garlic Chicken
+suggestedSides: [
+  "Steamed rice",
+  "Broccoli",
+  "Cucumber salad",
+],
   notes: "Fast and flavorful honey garlic chicken with a sticky, glossy sauce. Great served over rice with steamed broccoli or stir-fried vegetables.",
   ingredients: `1 1/2 lbs boneless, skinless chicken breast
 2 Tbsp cornstarch (optional)
@@ -1482,6 +1512,12 @@ Decora con 2 cebollines rebanados y 1 tsp de semillas de sésamo antes de servir
   photoUrl: "/images/quick-lemon-butter-salmon.jpg",
   tags: ["dinner", "seafood", "fish", "salmon", "quick", "healthy", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
+  // Lemon Butter Salmon
+suggestedSides: [
+  "Rice pilaf",
+  "Roasted asparagus",
+  "Simple green salad",
+],
   notes: "Quick, restaurant-quality salmon with a rich lemon butter sauce. Crispy on the outside, tender inside. Excellent with rice, roasted vegetables, or a light salad.",
   ingredients: `4 salmon fillets (about 6 oz each, skin-on preferred)
 1/2 tsp salt
@@ -1558,6 +1594,12 @@ Retira del fuego. Decora con 1 Tbsp de perejil fresco picado y sirve de inmediat
   photoUrl: "/images/quick-chicken-fried-rice.jpg",
   tags: ["dinner", "chicken", "rice", "one-pan", "quick", "takeout-style", "leftovers-friendly"],
   isVegetarian: false,
+  // Chicken Fried Rice
+suggestedSides: [
+  "Egg rolls",
+  "Cucumber salad",
+  "Steamed edamame",
+],
   notes: "Quick and flavorful fried rice using leftover chicken and rice. For best texture, use cold, day-old rice so it crisps up instead of getting mushy.",
   ingredients: `2 cups cooked and chilled rice (day-old preferred)
 1 lb cooked chicken, diced (or rotisserie chicken)
@@ -1641,6 +1683,12 @@ Retira del fuego, espolvorea 2 cebollines rebanados y sirve de inmediato.`,
   photoUrl: "/images/quick-bbq-chicken-flatbread.jpg",
   tags: ["dinner", "chicken", "quick", "flatbread", "pizza", "kid-friendly", "one-pan", "leftovers-friendly"],
   isVegetarian: false,
+  // BBQ Chicken Flatbread
+suggestedSides: [
+  "Coleslaw",
+  "Corn on the cob",
+  "Fruit salad",
+],
   notes: "A quick, fun flatbread loaded with BBQ chicken and melty cheese. Great for using leftover or rotisserie chicken and easy to customize with your favorite toppings.",
   ingredients: `2 flatbreads or naan
 1 cup cooked chicken, shredded (rotisserie works great)
@@ -1721,6 +1769,12 @@ Corta y sirve de inmediato.`,
   photoUrl: "/images/normal-baked-ziti.jpg",
   tags: ["dinner", "pasta", "beef", "bake", "comfort", "italian", "family-friendly", "leftovers-friendly"],
   isVegetarian: false,
+  // Baked Ziti
+suggestedSides: [
+  "Garlic bread",
+  "Caesar salad",
+  "Roasted broccoli",
+],
   notes: "A hearty, cheesy baked pasta layered with rich meat sauce. Perfect for feeding a crowd and excellent for leftovers—flavors deepen even more the next day.",
   ingredients: `1 lb ziti pasta
 1 lb ground beef (or Italian sausage for more flavor)
@@ -1819,6 +1873,12 @@ Deja reposar 10 minutos antes de servir. Decora con 1/4 cup de perejil fresco pi
   photoUrl: "/images/normal-chicken-alfredo.jpg",
   tags: ["dinner", "pasta", "chicken", "comfort", "italian", "stovetop", "leftovers-friendly"],
   isVegetarian: false,
+  // Chicken Alfredo
+suggestedSides: [
+  "Garlic bread",
+  "Caesar salad",
+  "Steamed broccoli",
+],
   notes: "Rich and creamy chicken alfredo with a smooth Parmesan sauce. Use freshly grated Parmesan for best results and add pasta water to achieve a silky, restaurant-style finish.",
   ingredients: `2 boneless, skinless chicken breasts, sliced
 12 oz fettuccine
