@@ -6090,7 +6090,7 @@ Deja reposar 5 minutos antes de servir.`,
   slug: "chimichurri-skirt-steak-bowls",
   name: "Chimichurri Skirt Steak Bowls",
   effort: "normal",
-  photoUrl: "/images/chimichurri-skirt-steak-bowls.webp",
+  photoUrl: "/images/chimichurri-skirt-steak-bowls.jpg",
   tags: [
     "dinner",
     "beef",
@@ -6224,7 +6224,7 @@ Sirve con limón y queso cotija si lo deseas.`,
   slug: "lamb-and-beef-gateway-burgers",
   name: "Lamb and Beef Gateway Burgers",
   effort: "normal",
-  photoUrl: "/images/lamb-and-beef-gateway-burgers.webp",
+  photoUrl: "/images/lamb-and-beef-gateway-burgers.jpg",
   tags: [
     "dinner",
     "burgers",
@@ -6354,7 +6354,7 @@ Sirve inmediatamente mientras estén calientes y jugosas.`,
   slug: "air-fryer-brisket-taquitos",
   name: "Air Fryer Brisket Taquitos",
   effort: "normal",
-  photoUrl: "/images/air-fryer-brisket-taquitos.webp",
+  photoUrl: "/images/air-fryer-brisket-taquitos.jpg",
   tags: [
     "dinner",
     "beef",
@@ -6470,7 +6470,7 @@ Sirve calientes con crema agria, guacamole, pico de gallo, cilantro y limón si 
   slug: "homemade-pizza-pockets",
   name: "Homemade Pizza Pockets",
   effort: "normal",
-  photoUrl: "/images/homemade-pizza-pockets.webp",
+  photoUrl: "/images/homemade-pizza-pockets.jpg",
   tags: [
     "dinner",
     "pizza",
@@ -6592,7 +6592,7 @@ Deja enfriar 5 minutos antes de servir porque el relleno estará muy caliente.`,
   slug: "baked-potato-bar",
   name: "Baked Potato Bar",
   effort: "normal",
-  photoUrl: "/images/baked-potato-bar.webp",
+  photoUrl: "/images/baked-potato-bar.jpg",
   tags: [
     "dinner",
     "potatoes",
@@ -6712,7 +6712,7 @@ Sirve caliente.`,
   slug: "alphabet-star-pasta-soup",
   name: "Alphabet or Star-Shaped Pasta Soup",
   effort: "quick",
-  photoUrl: "/images/alphabet-star-pasta-soup.webp",
+  photoUrl: "/images/alphabet-star-pasta-soup.jpg",
   tags: [
     "dinner",
     "soup",
@@ -6838,7 +6838,7 @@ Sirve caliente con perejil fresco y queso parmesano si deseas.`,
   slug: "mississippi-chicken",
   name: "Mississippi Chicken",
   effort: "big",
-  photoUrl: "/images/mississippi-chicken.webp",
+  photoUrl: "/images/mississippi-chicken.jpg",
   tags: [
     "dinner",
     "chicken",
@@ -6849,6 +6849,12 @@ Sirve caliente con perejil fresco y queso parmesano si deseas.`,
     "meal-prep",
   ],
   isVegetarian: false,
+  // Mississippi Chicken
+suggestedSides: [
+  "Mashed potatoes",
+  "Green beans",
+  "Dinner rolls",
+],
   notes:
     "A super simple slow cooker classic with rich, tangy flavor. The butter and seasoning create a savory sauce while the pepperoncini adds a mild kick without being too spicy.",
   ingredients: `Chicken:
@@ -6918,7 +6924,7 @@ Sirve caliente.`,
   slug: "garlic-herb-pork-loin",
   name: "Garlic Herb Pork Loin",
   effort: "normal",
-  photoUrl: "/images/garlic-herb-pork-loin.webp",
+  photoUrl: "/images/garlic-herb-pork-loin.jpg",
   tags: [
     "dinner",
     "pork",
@@ -6929,6 +6935,12 @@ Sirve caliente.`,
     "high-protein",
   ],
   isVegetarian: false,
+  // Garlic Herb Pork Loin
+suggestedSides: [
+  "Roasted potatoes",
+  "Green beans",
+  "Side salad",
+],
   notes:
     "Searing the pork before roasting builds a flavorful crust while keeping the inside juicy. Letting the pork rest before slicing helps retain moisture and keeps the meat tender.",
   ingredients: `Pork:
@@ -7046,7 +7058,7 @@ Decora con 1 cucharada de perejil fresco y sirve caliente.`,
   slug: "smashburgers-with-tallow-crisped-edges",
   name: "Smashburgers with Tallow-Crisped Edges",
   effort: "normal",
-  photoUrl: "/images/smashburgers-with-tallow-crisped-edges.webp",
+  photoUrl: "/images/smashburgers-with-tallow-crisped-edges.jpg",
   tags: [
     "dinner",
     "beef",
@@ -7058,6 +7070,12 @@ Decora con 1 cucharada de perejil fresco y sirve caliente.`,
     "griddle",
   ],
   isVegetarian: false,
+  // Smashburgers with Tallow-Crisped Edges
+suggestedSides: [
+  "French fries",
+  "Pickles",
+  "Coleslaw",
+],
   notes:
     "High heat and pressing the burgers immediately are the keys to classic smashburger texture. Beef tallow helps create deeply crisped, flavorful edges similar to diner-style burgers.",
   ingredients: `Burgers:
@@ -7180,7 +7198,7 @@ Sirve inmediatamente mientras estén calientes y crujientes.`,
   slug: "slow-cooked-birria-tacos",
   name: "Slow-Cooked Birria Tacos",
   effort: "big",
-  photoUrl: "/images/slow-cooked-birria-tacos.webp",
+  photoUrl: "/images/slow-cooked-birria-tacos.jpg",
   tags: [
     "dinner",
     "beef",
@@ -7192,6 +7210,12 @@ Sirve inmediatamente mientras estén calientes y crujientes.`,
     "family",
   ],
   isVegetarian: false,
+  // Slow-Cooked Birria Tacos
+suggestedSides: [
+  "Mexican street corn",
+  "Chips and salsa",
+  "Cilantro lime rice",
+],
   notes:
     "Slow cooking creates deeply flavorful, fall-apart beef while dipping the tortillas into the broth gives the tacos their signature crispy red exterior. Skim excess grease from the broth if desired before serving.",
   ingredients: `Beef:
@@ -7352,7 +7376,7 @@ Sirve con cebolla picada y cilantro, acompañado de pequeños tazones de caldo c
   slug: "hot-honey-applewood-smoked-ribs",
   name: "Hot Honey Applewood Smoked Ribs",
   effort: "big",
-  photoUrl: "/images/hot-honey-applewood-smoked-ribs.webp",
+  photoUrl: "/images/hot-honey-applewood-smoked-ribs.jpg",
   tags: [
     "dinner",
     "pork",
@@ -7364,6 +7388,12 @@ Sirve con cebolla picada y cilantro, acompañado de pequeños tazones de caldo c
     "spicy",
   ],
   isVegetarian: false,
+  // Hot Honey Applewood Smoked Ribs
+suggestedSides: [
+  "Baked beans",
+  "Coleslaw",
+  "Smoked mac and cheese",
+],
   notes:
     "Low-and-slow smoking creates tender ribs while the hot honey glaze adds a sweet heat finish with beautiful caramelization. Avoid over-smoking early on so the glaze flavor still shines through.",
   ingredients: `Ribs:
@@ -7484,7 +7514,7 @@ Sirve calientes con más salsa picante si lo deseas.`,
   slug: "spatchcock-butter-bath-chicken",
   name: "Spatchcocked Butter-Bath Chicken",
   effort: "big",
-  photoUrl: "/images/spatchcock-butter-bath-chicken.webp",
+  photoUrl: "/images/spatchcock-butter-bath-chicken.jpg",
   tags: [
     "dinner",
     "chicken",
@@ -7495,6 +7525,12 @@ Sirve calientes con más salsa picante si lo deseas.`,
     "family",
   ],
   isVegetarian: false,
+  // Spatchcocked Butter-Bath Chicken
+suggestedSides: [
+  "Roasted potatoes",
+  "Green beans",
+  "Simple green salad",
+],
   notes:
     "Spatchcocking helps the chicken cook more evenly and quickly while the butter bath keeps the meat juicy and flavorful. Drying the skin thoroughly before roasting is the key to maximum crispiness.",
   ingredients: `Chicken:
@@ -7606,7 +7642,7 @@ Sirve el pollo con un poco de los jugos de mantequilla por encima.`,
   slug: "korean-inspired-mini-beef-patties",
   name: "Korean-Inspired Mini Beef Patties (Wanja Jeon)",
   effort: "normal",
-  photoUrl: "/images/korean-inspired-mini-beef-patties.webp",
+  photoUrl: "/images/korean-inspired-mini-beef-patties.jpg",
   tags: [
     "dinner",
     "beef",
@@ -7618,6 +7654,12 @@ Sirve el pollo con un poco de los jugos de mantequilla por encima.`,
     "meal-prep",
   ],
   isVegetarian: false,
+  // Korean-Inspired Mini Beef Patties
+suggestedSides: [
+  "Steamed rice",
+  "Cucumber salad",
+  "Kimchi",
+],
   notes:
     "These savory Korean-style beef patties are tender inside with a lightly crisp exterior. Grated onion helps keep the patties juicy while the egg coating creates their signature golden finish.",
   ingredients: `Beef Patties:
@@ -7736,7 +7778,7 @@ Sirve las tortitas calientes con la salsa y decora con semillas de ajonjolí y c
   slug: "duck-carnitas-tacos",
   name: "Duck Carnitas Tacos",
   effort: "big",
-  photoUrl: "/images/duck-carnitas-tacos.webp",
+  photoUrl: "/images/duck-carnitas-tacos.jpg",
   tags: [
     "dinner",
     "duck",
@@ -7748,6 +7790,12 @@ Sirve las tortitas calientes con la salsa y decora con semillas de ajonjolí y c
     "slow-cooked",
   ],
   isVegetarian: false,
+  // Duck Carnitas Tacos
+suggestedSides: [
+  "Cilantro lime rice",
+  "Pickled red onions",
+  "Chips and guacamole",
+],
   notes:
     "Slow braising renders duck legs incredibly tender while crisping the shredded meat afterward creates classic carnitas texture. Rendering the duck skin first builds deep flavor into the entire dish.",
   ingredients: `Duck:
@@ -7892,7 +7940,7 @@ Sirve inmediatamente con gajos de limón.`,
   slug: "wagyu-blend-meatloaf",
   name: "Wagyu-Blend Meatloaf",
   effort: "big",
-  photoUrl: "/images/wagyu-blend-meatloaf.webp",
+  photoUrl: "/images/wagyu-blend-meatloaf.jpg",
   tags: [
     "dinner",
     "beef",
@@ -7903,6 +7951,12 @@ Sirve inmediatamente con gajos de limón.`,
     "premium",
   ],
   isVegetarian: false,
+  // Wagyu-Blend Meatloaf
+suggestedSides: [
+  "Mashed potatoes",
+  "Roasted carrots",
+  "Dinner rolls",
+],
   notes:
     "Using a wagyu blend adds extra richness and tenderness to classic meatloaf. Mixing gently and allowing the loaf to rest before slicing helps keep it juicy and tender.",
   ingredients: `Meatloaf:
@@ -9752,7 +9806,7 @@ Cubre con los cebollines restantes y semillas de sésamo, y sirve de inmediato.`
   slug: "vegetable-lo-mein-noodles",
   name: "Vegetable Lo Mein Noodles",
   effort: "quick",
-  photoUrl: "/images/vegetable-lo-mein-noodles.webp",
+  photoUrl: "/images/vegetable-lo-mein-noodles.jpg",
   tags: [
     "vegetarian",
     "dinner",
@@ -9870,7 +9924,7 @@ Sirve caliente y decora con semillas de ajonjolí si deseas.`,
   slug: "crispy-sheet-pan-gnocchi-roasted-veggies",
   name: "Crispy Sheet-Pan Gnocchi with Roasted Veggies",
   effort: "quick",
-  photoUrl: "/images/crispy-sheet-pan-gnocchi-roasted-veggies.webp",
+  photoUrl: "/images/crispy-sheet-pan-gnocchi-roasted-veggies.jpg",
   tags: [
     "vegetarian",
     "dinner",
@@ -9980,7 +10034,7 @@ Rocía con glaseado balsámico si deseas y sirve caliente.`,
   slug: "creamy-shells-peas-parmesan",
   name: "Creamy Shells with Peas and Parmesan",
   effort: "quick",
-  photoUrl: "/images/creamy-shells-peas-parmesan.webp",
+  photoUrl: "/images/creamy-shells-peas-parmesan.jpg",
   tags: [
     "vegetarian",
     "dinner",
@@ -10094,7 +10148,7 @@ Decora con perejil si deseas y sirve inmediatamente.`,
   slug: "black-bean-corn-quesadillas",
   name: "Black Bean and Corn Quesadillas",
   effort: "quick",
-  photoUrl: "/images/black-bean-corn-quesadillas.webp",
+  photoUrl: "/images/black-bean-corn-quesadillas.jpg",
   tags: [
     "vegetarian",
     "dinner",
@@ -10198,7 +10252,7 @@ Corta en triángulos y sirve caliente con los toppings deseados.`,
   slug: "taco-style-lentil-sloppy-joes",
   name: "Taco-Style Lentil Sloppy Joes",
   effort: "quick",
-  photoUrl: "/images/taco-style-lentil-sloppy-joes.webp",
+  photoUrl: "/images/taco-style-lentil-sloppy-joes.jpg",
   tags: [
     "vegetarian",
     "dinner",
