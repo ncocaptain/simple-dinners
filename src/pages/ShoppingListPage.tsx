@@ -1148,6 +1148,74 @@ function isBeanPantryItem(cleaned: string) {
 function resolveShoppingCategory(name: string): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
 
+  // Prepared sides / side suggestions
+if (
+  cleaned.includes("simple green salad") ||
+  cleaned.includes("side salad") ||
+  cleaned.includes("cucumber salad") ||
+  cleaned.includes("fruit salad") ||
+  cleaned.includes("coleslaw")
+) {
+  return "Produce";
+}
+
+if (
+  cleaned.includes("steamed broccoli") ||
+  cleaned.includes("steamed edamame") ||
+  cleaned.includes("edamame")
+) {
+  return "Produce";
+}
+
+if (
+  cleaned.includes("french fries") ||
+  cleaned.includes("egg roll") ||
+  cleaned.includes("spring roll")
+) {
+  return "Other";
+}
+
+// Pantry items that can be misread as produce/spices
+if (
+  cleaned.includes("cornmeal") ||
+  cleaned.includes("baking powder") ||
+  cleaned.includes("baking soda") ||
+  cleaned.includes("all purpose flour") ||
+  cleaned.includes("all-purpose flour") ||
+  cleaned.includes("flour") ||
+  cleaned.includes("sugar") ||
+  cleaned.includes("tortilla chips") ||
+  cleaned.includes("olive oil") ||
+  cleaned.includes("vegetable oil") ||
+  cleaned.includes("vegetable broth") ||
+  cleaned.includes("white rice") ||
+  cleaned.includes("long grain white rice") ||
+  cleaned.includes("orzo") ||
+  cleaned.includes("spaghetti")
+) {
+  return "Pantry";
+}
+
+// Egg rule, but avoid egg rolls
+if (
+  cleaned === "egg" ||
+  cleaned === "eggs" ||
+  cleaned.includes(" eggs") ||
+  cleaned.includes(" egg")
+) {
+  return "Dairy / Eggs";
+}
+
+// Corn rule, but cornmeal already handled above
+if (
+  cleaned.includes("corn on the cob") ||
+  cleaned.includes("ears corn") ||
+  cleaned.includes("ear corn") ||
+  cleaned === "corn"
+) {
+  return "Produce";
+}
+
   // Produce / salad overrides.
 // These must run before broad pantry/spice/beverage matching.
 if (
