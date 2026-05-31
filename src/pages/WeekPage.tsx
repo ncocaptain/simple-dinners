@@ -14,112 +14,20 @@ import {
   Share2,
 } from "lucide-react";
 import Card from "../components/Card";
-import { days, ALL_RECIPES } from "../core/data";
+import { days } from "../core/data";
 import type { Meal, PlannedDay } from "../core/types";
 import TipsModal from "../components/TipsModal";
 import { t, getStoredLanguage } from "../i18n";
 import { getLocalizedMeal } from "../core/localizedMeal";
 import { Capacitor } from "@capacitor/core";
-import { addIngredientsToList } from "../shoppingList";
+import { getDisplaySides } from "../core/customSides";
 
 type WalkthroughStep = 1 | 2 | 3;
-
-type SelectedSidesByDay = Record<string, string[]>;
-
 type TooltipPosition = {
   top: number;
   left: number;
   width: number;
 };
-
-// =====================================================
-// Selected sides / Complete Dinner helpers
-// =====================================================
-const SELECTED_SIDES_STORAGE_KEY = "simple-dinners:selected-sides:v1";
-
-const SIDE_FALLBACK_INGREDIENTS: Record<string, string> = {
-  "Simple green salad": `Spring mix
-Salad dressing`,
-
-  "Side salad": `Spring mix
-Salad dressing`,
-
-  "Caesar salad": `Romaine lettuce
-Caesar dressing
-Croutons
-Parmesan cheese`,
-
-  "Fruit salad": `Fresh fruit`,
-
-  "Cucumber salad": `1 cucumber
-Rice vinegar`,
-
-  "Garlic bread": `Garlic bread`,
-
-  "Dinner rolls": `Dinner rolls`,
-
-  "Green beans": `Green beans`,
-
-  "Roasted broccoli": `Broccoli`,
-
-  "Steamed broccoli": `Broccoli`,
-
-  "Rice pilaf": `Long grain white rice
-Vegetable broth`,
-
-  "Cilantro lime rice": `Long grain white rice
-Cilantro
-Lime`,
-
-  "Chips and salsa": `Tortilla chips
-Salsa`,
-
-  Guacamole: `Avocados
-Lime
-Cilantro`,
-
-  "Mexican street corn": `Corn on the cob
-Cotija cheese
-Lime`,
-
-  Cornbread: `Cornbread mix`,
-
-  "French fries": `Frozen french fries`,
-
-  Coleslaw: `Coleslaw mix
-Coleslaw dressing`,
-
-  "Steamed edamame": `Frozen edamame`,
-
-  "Egg rolls": `Frozen egg rolls`,
-
-  "Spring rolls": `Frozen spring rolls`,
-};
-
-function normalizeSideName(value: string) {
-  return String(value || "")
-    .toLowerCase()
-    .trim()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function getFallbackSideIngredients(sideName: string) {
-  const exactMatch = SIDE_FALLBACK_INGREDIENTS[sideName];
-
-  if (exactMatch) {
-    return exactMatch;
-  }
-
-  const normalizedSide = normalizeSideName(sideName);
-  const matchedKey = Object.keys(SIDE_FALLBACK_INGREDIENTS).find(
-    (key) => normalizeSideName(key) === normalizedSide,
-  );
-
-  return matchedKey ? SIDE_FALLBACK_INGREDIENTS[matchedKey] : sideName;
-}
 
 // =====================================================
 // Prep Ahead helpers
@@ -263,26 +171,9 @@ export default function WeekPage({
     useState<TooltipPosition | null>(null);
   const [highlightDay, setHighlightDay] = useState<string | null>(null);
   const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
-  const [selectedSidesByDay, setSelectedSidesByDay] =
-    useState<SelectedSidesByDay>(() => {
-      try {
-        const saved = localStorage.getItem(SELECTED_SIDES_STORAGE_KEY);
-        return saved ? JSON.parse(saved) : {};
-      } catch {
-        return {};
-      }
-    });
-
   const generatePlanRef = useRef<HTMLButtonElement | null>(null);
   const firstLockRef = useRef<HTMLButtonElement | null>(null);
   const wholeWeekCalendarRef = useRef<HTMLButtonElement | null>(null);
-
-  useEffect(() => {
-    localStorage.setItem(
-      SELECTED_SIDES_STORAGE_KEY,
-      JSON.stringify(selectedSidesByDay),
-    );
-  }, [selectedSidesByDay]);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -496,78 +387,8 @@ export default function WeekPage({
   };
 
   // =====================================================
-  // Complete Dinner side selection / shopping list helpers
+  // Calendar helpers
   // =====================================================
-  function toggleSelectedSide(day: string, side: string) {
-    setSelectedSidesByDay((prev) => {
-      const current = prev[day] || [];
-      const exists = current.includes(side);
-
-      const nextForDay = exists
-        ? current.filter((item) => item !== side)
-        : [...current, side];
-
-      return {
-        ...prev,
-        [day]: nextForDay,
-      };
-    });
-  }
-
-  function findSideRecipe(sideName: string) {
-    const normalizedSide = normalizeSideName(sideName);
-
-    return ALL_RECIPES.find((recipe) => {
-      const recipeName = normalizeSideName(recipe.name || "");
-      const recipeSlug = normalizeSideName(recipe.slug || "");
-      const recipeTags = recipe.tags || [];
-
-      const isSideRecipe =
-        recipeTags.includes("side") ||
-        recipeTags.includes("appetizer") ||
-        recipeTags.includes("salad");
-
-      if (!isSideRecipe) return false;
-
-      return (
-        recipeName === normalizedSide ||
-        recipeSlug === normalizedSide ||
-        recipeName.includes(normalizedSide) ||
-        normalizedSide.includes(recipeName)
-      );
-    });
-  }
-
-  function addSelectedSidesToShoppingList(sides: string[]) {
-    if (!sides.length) return;
-
-    let addedCount = 0;
-
-    sides.forEach((side) => {
-      const sideRecipe = findSideRecipe(side);
-
-      if (sideRecipe?.ingredients?.trim()) {
-        const result = addIngredientsToList(
-          sideRecipe.name,
-          sideRecipe.ingredients,
-        );
-        addedCount += result.addedCount;
-        return;
-      }
-
-      const fallbackIngredients = getFallbackSideIngredients(side);
-      const result = addIngredientsToList(`Side: ${side}`, fallbackIngredients);
-      addedCount += result.addedCount;
-    });
-
-    alert(
-      addedCount > 0
-        ? `${sides.length} selected side${
-            sides.length === 1 ? "" : "s"
-          } added to your shopping list.`
-        : "No side items were added.",
-    );
-  }
 
   function pad2(n: number) {
     return String(n).padStart(2, "0");
@@ -633,7 +454,7 @@ export default function WeekPage({
     const result = new Date(today);
 
     if (targetDay === undefined) {
-      result.setHours(14, 0, 0, 0);
+      result.setHours(16, 0, 0, 0);
       return result;
     }
 
@@ -891,11 +712,22 @@ export default function WeekPage({
               const dayPlan = meals[day];
               const mode = dayPlan?.mode ?? "planned";
 
-              const rawMeal =
-                mode === "planned" ? (dayPlan?.meal ?? null) : null;
-              const meal = getLocalizedMeal(rawMeal, language);
+              const rawMeal = mode === "planned" ? dayPlan?.meal ?? null : null;
+const meal = getLocalizedMeal(rawMeal, language);
 
-              const isLeftovers = mode === "leftovers";
+const recipeSideKey =
+  rawMeal?.slug ||
+  rawMeal?.name ||
+  meal?.slug ||
+  meal?.name ||
+  "";
+
+const suggestedSides = getDisplaySides(
+  recipeSideKey,
+  meal?.suggestedSides
+);
+
+const isLeftovers = mode === "leftovers";
               const isFreezer = mode === "freezer";
               const hasMeal = !!meal?.name?.trim();
               const isLocked = !!lockedDays[day];
@@ -910,8 +742,6 @@ export default function WeekPage({
               const nextMeal = getLocalizedMeal(rawNextMeal, language);
 
               const prepAheadItems = getPrepAheadItems(meal, nextMeal);
-              const selectedSides = selectedSidesByDay[day] || [];
-
               return (
                 <Card
                   key={getTranslatedDay(day)}
@@ -1294,106 +1124,55 @@ export default function WeekPage({
                           />
                         </div>
 
-                        {Array.isArray(meal.suggestedSides) &&
-                          meal.suggestedSides.length > 0 && (
-                            <div
-                              style={{
-                                display: "grid",
-                                gap: 8,
-                                padding: "10px 12px",
-                                borderRadius: 16,
-                                background: "rgba(34,197,94,0.08)",
-                                border: "1px solid rgba(34,197,94,0.16)",
-                              }}
-                            >
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "space-between",
-                                  gap: 10,
-                                  flexWrap: "wrap",
-                                }}
-                              >
-                                <div
-                                  style={{
-                                    fontSize: 11,
-                                    fontWeight: 900,
-                                    letterSpacing: 0.35,
-                                    textTransform: "uppercase",
-                                    color: "#86efac",
-                                  }}
-                                >
-                                  {t("recipe.goesWellWith", "Goes well with")}
-                                </div>
+                        {suggestedSides.length > 0 && (
+  <div
+    style={{
+      display: "grid",
+      gap: 7,
+      padding: "10px 12px",
+      borderRadius: 16,
+      background: "rgba(34,197,94,0.08)",
+      border: "1px solid rgba(34,197,94,0.16)",
+    }}
+  >
+    <div
+      style={{
+        fontSize: 11,
+        fontWeight: 900,
+        letterSpacing: 0.35,
+        textTransform: "uppercase",
+        color: "#86efac",
+      }}
+    >
+      {t("recipe.goesWellWith", "Goes well with")}
+    </div>
 
-                                {selectedSides.length > 0 && (
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      addSelectedSidesToShoppingList(
-                                        selectedSides,
-                                      )
-                                    }
-                                    style={{
-                                      padding: "7px 9px",
-                                      borderRadius: 12,
-                                      border: "1px solid rgba(34,197,94,0.24)",
-                                      background: "rgba(34,197,94,0.12)",
-                                      color: "#bbf7d0",
-                                      fontSize: 11,
-                                      fontWeight: 900,
-                                      cursor: "pointer",
-                                    }}
-                                  >
-                                    Add selected to shopping list
-                                  </button>
-                                )}
-                              </div>
-
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexWrap: "wrap",
-                                  gap: 6,
-                                }}
-                              >
-                                {meal.suggestedSides.slice(0, 3).map((side) => {
-                                  const isSelected =
-                                    selectedSides.includes(side);
-
-                                  return (
-                                    <button
-                                      key={side}
-                                      type="button"
-                                      onClick={() =>
-                                        toggleSelectedSide(day, side)
-                                      }
-                                      style={{
-                                        padding: "5px 8px",
-                                        borderRadius: 999,
-                                        background: isSelected
-                                          ? "rgba(34,197,94,0.22)"
-                                          : "rgba(255,255,255,0.06)",
-                                        border: isSelected
-                                          ? "1px solid rgba(34,197,94,0.45)"
-                                          : "1px solid rgba(255,255,255,0.10)",
-                                        color: isSelected
-                                          ? "#bbf7d0"
-                                          : "rgba(255,255,255,0.86)",
-                                        fontSize: 12,
-                                        fontWeight: 800,
-                                        cursor: "pointer",
-                                      }}
-                                    >
-                                      {isSelected ? "✓ " : ""}
-                                      {side}
-                                    </button>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                          )}
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 6,
+      }}
+    >
+      {suggestedSides.slice(0, 3).map((side: string) => (
+        <span
+          key={side}
+          style={{
+            padding: "5px 7px",
+            borderRadius: 999,
+            background: "rgba(255,255,255,0.06)",
+            border: "1px solid rgba(255,255,255,0.10)",
+            color: "rgba(255,255,255,0.86)",
+            fontSize: 12,
+            fontWeight: 800,
+          }}
+        >
+          {side}
+        </span>
+      ))}
+    </div>
+  </div>
+)}
 
                         {prepAheadItems.length >= 2 && nextDay && (
                           <div
