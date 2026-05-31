@@ -23,11 +23,14 @@ import { Capacitor } from "@capacitor/core";
 
 type WalkthroughStep = 1 | 2 | 3;
 
+type SelectedSidesByDay = Record<string, string[]>;
+
 type TooltipPosition = {
   top: number;
   left: number;
   width: number;
 };
+
 
 // =====================================================
 // Prep Ahead helpers
@@ -164,10 +167,26 @@ export default function WeekPage({
   );
   const [highlightDay, setHighlightDay] = useState<string | null>(null);
   const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
+  const [selectedSidesByDay, setSelectedSidesByDay] =
+  useState<SelectedSidesByDay>(() => {
+    try {
+      const saved = localStorage.getItem("simple-dinners:selected-sides:v1");
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
 
   const generatePlanRef = useRef<HTMLButtonElement | null>(null);
   const firstLockRef = useRef<HTMLButtonElement | null>(null);
   const wholeWeekCalendarRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+  localStorage.setItem(
+    "simple-dinners:selected-sides:v1",
+    JSON.stringify(selectedSidesByDay)
+  );
+}, [selectedSidesByDay]);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -378,6 +397,22 @@ export default function WeekPage({
       [day]: { mode: "freezer", meal: null },
     }));
   };
+
+  function toggleSelectedSide(day: string, side: string) {
+  setSelectedSidesByDay((prev) => {
+    const current = prev[day] || [];
+    const exists = current.includes(side);
+
+    const nextForDay = exists
+      ? current.filter((item) => item !== side)
+      : [...current, side];
+
+    return {
+      ...prev,
+      [day]: nextForDay,
+    };
+  });
+}
 
   function pad2(n: number) {
     return String(n).padStart(2, "0");
@@ -709,6 +744,7 @@ const rawNextMeal =
 const nextMeal = getLocalizedMeal(rawNextMeal, language);
 
 const prepAheadItems = getPrepAheadItems(meal, nextMeal);
+const selectedSides = selectedSidesByDay[day] || [];
 
               return (
                 <Card
@@ -1050,55 +1086,67 @@ const prepAheadItems = getPrepAheadItems(meal, nextMeal);
                         </div>
 
                         {Array.isArray(meal.suggestedSides) &&
-                          meal.suggestedSides.length > 0 && (
-                            <div
-                              style={{
-                                display: "grid",
-                                gap: 7,
-                                padding: "10px 12px",
-                                borderRadius: 16,
-                                background: "rgba(34,197,94,0.08)",
-                                border: "1px solid rgba(34,197,94,0.16)",
-                              }}
-                            >
-                              <div
-                                style={{
-                                  fontSize: 11,
-                                  fontWeight: 900,
-                                  letterSpacing: 0.35,
-                                  textTransform: "uppercase",
-                                  color: "#86efac",
-                                }}
-                              >
-                                {t("recipe.goesWellWith", "Goes well with")}
-                              </div>
+  meal.suggestedSides.length > 0 && (
+    <div
+      style={{
+        display: "grid",
+        gap: 7,
+        padding: "10px 12px",
+        borderRadius: 16,
+        background: "rgba(34,197,94,0.08)",
+        border: "1px solid rgba(34,197,94,0.16)",
+      }}
+    >
+      <div
+        style={{
+          fontSize: 11,
+          fontWeight: 900,
+          letterSpacing: 0.35,
+          textTransform: "uppercase",
+          color: "#86efac",
+        }}
+      >
+        {t("recipe.goesWellWith", "Goes well with")}
+      </div>
 
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexWrap: "wrap",
-                                  gap: 6,
-                                }}
-                              >
-                                {meal.suggestedSides.slice(0, 3).map((side) => (
-                                  <span
-                                    key={side}
-                                    style={{
-                                      padding: "5px 7px",
-                                      borderRadius: 999,
-                                      background: "rgba(255,255,255,0.06)",
-                                      border: "1px solid rgba(255,255,255,0.10)",
-                                      color: "rgba(255,255,255,0.86)",
-                                      fontSize: 12,
-                                      fontWeight: 800,
-                                    }}
-                                  >
-                                    {side}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                          )}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 6,
+        }}
+      >
+        {meal.suggestedSides.slice(0, 3).map((side) => {
+          const isSelected = selectedSides.includes(side);
+
+          return (
+            <button
+              key={side}
+              type="button"
+              onClick={() => toggleSelectedSide(day, side)}
+              style={{
+                padding: "5px 8px",
+                borderRadius: 999,
+                background: isSelected
+                  ? "rgba(34,197,94,0.22)"
+                  : "rgba(255,255,255,0.06)",
+                border: isSelected
+                  ? "1px solid rgba(34,197,94,0.45)"
+                  : "1px solid rgba(255,255,255,0.10)",
+                color: isSelected ? "#bbf7d0" : "rgba(255,255,255,0.86)",
+                fontSize: 12,
+                fontWeight: 800,
+                cursor: "pointer",
+              }}
+            >
+              {isSelected ? "✓ " : ""}
+              {side}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  )}
 
                         {prepAheadItems.length >= 2 && nextDay && (
   <div
