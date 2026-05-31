@@ -1165,6 +1165,21 @@ const handleCloseNoteModal = () => {
     );
   };
 
+  const handleAddSidesToShoppingList = () => {
+  if (!suggestedSides.length) return;
+
+  addIngredientsToList(
+    `${safeRecipe.name || "Recipe"} sides`,
+    suggestedSides.join("\n")
+  );
+
+  setSaveMessage(
+    suggestedSides.length === 1
+      ? t("recipe.sideAdded", "Side added to shopping list ✓")
+      : t("recipe.sidesAdded", "Sides added to shopping list ✓")
+  );
+};
+
   const handleCooked = () => {
     if (!safeRecipe.slug) return;
 
@@ -1881,6 +1896,27 @@ function resetSideDrafts() {
                     </span>
                   ))}
                 </div>
+                <button
+  type="button"
+  onClick={handleAddSidesToShoppingList}
+  style={{
+    width: "fit-content",
+    border: "1px solid rgba(34,197,94,0.22)",
+    borderRadius: 999,
+    padding: "8px 12px",
+    background: "rgba(34,197,94,0.08)",
+    color: "#86efac",
+    fontSize: 13,
+    fontWeight: 900,
+    cursor: "pointer",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 7,
+  }}
+>
+  <ShoppingCart size={14} />
+  {t("recipe.addSidesToShoppingList", "Add sides to shopping list")}
+</button>
               </div>
             )}
 
