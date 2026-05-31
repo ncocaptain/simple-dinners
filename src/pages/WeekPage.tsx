@@ -14,12 +14,13 @@ import {
   Share2,
 } from "lucide-react";
 import Card from "../components/Card";
-import { days } from "../core/data";
+import { days, ALL_RECIPES } from "../core/data";
 import type { Meal, PlannedDay } from "../core/types";
 import TipsModal from "../components/TipsModal";
 import { t, getStoredLanguage } from "../i18n";
 import { getLocalizedMeal } from "../core/localizedMeal";
 import { Capacitor } from "@capacitor/core";
+import { addIngredientsToList } from "../shoppingList";
 
 type WalkthroughStep = 1 | 2 | 3;
 
@@ -412,6 +413,63 @@ export default function WeekPage({
       [day]: nextForDay,
     };
   });
+}
+function normalizeSideName(value: string) {
+  return String(value || "")
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function findSideRecipe(sideName: string) {
+  const normalizedSide = normalizeSideName(sideName);
+
+  return ALL_RECIPES.find((recipe) => {
+    const recipeName = normalizeSideName(recipe.name || "");
+    const recipeSlug = normalizeSideName(recipe.slug || "");
+    const recipeTags = recipe.tags || [];
+
+    const isSideRecipe =
+      recipeTags.includes("side") ||
+      recipeTags.includes("appetizer") ||
+      recipeTags.includes("salad");
+
+    if (!isSideRecipe) return false;
+
+    return (
+      recipeName === normalizedSide ||
+      recipeSlug === normalizedSide ||
+      recipeName.includes(normalizedSide) ||
+      normalizedSide.includes(recipeName)
+    );
+  });
+}
+
+function addSelectedSidesToShoppingList(sides: string[]) {
+  if (!sides.length) return;
+
+  let addedCount = 0;
+
+  sides.forEach((side) => {
+    const sideRecipe = findSideRecipe(side);
+
+    if (sideRecipe?.ingredients?.trim()) {
+      const result = addIngredientsToList(sideRecipe.name, sideRecipe.ingredients);
+      addedCount += result.addedCount;
+    } else {
+      const result = addIngredientsToList(`Side: ${side}`, side);
+      addedCount += result.addedCount;
+    }
+  });
+
+  alert(
+    addedCount > 0
+      ? `${sides.length} selected side${sides.length === 1 ? "" : "s"} added to your shopping list.`
+      : "No side items were added."
+  );
 }
 
   function pad2(n: number) {
@@ -1107,6 +1165,25 @@ const selectedSides = selectedSidesByDay[day] || [];
         }}
       >
         {t("recipe.goesWellWith", "Goes well with")}
+        {selectedSides.length > 0 && (
+  <button
+    type="button"
+    onClick={() => addSelectedSidesToShoppingList(selectedSides)}
+    style={{
+      marginTop: 2,
+      padding: "9px 10px",
+      borderRadius: 12,
+      border: "1px solid rgba(34,197,94,0.24)",
+      background: "rgba(34,197,94,0.12)",
+      color: "#bbf7d0",
+      fontSize: 12,
+      fontWeight: 900,
+      cursor: "pointer",
+    }}
+  >
+    Add selected sides to shopping list
+  </button>
+)}
       </div>
 
       <div
