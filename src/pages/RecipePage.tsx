@@ -26,6 +26,11 @@ import TipsModal from "../components/TipsModal";
 import { t, getStoredLanguage } from "../i18n";
 import { getLocalizedMeal } from "../core/localizedMeal";
 import { Capacitor } from "@capacitor/core";
+import {
+  getDisplaySides,
+  getCustomSides,
+  setCustomSides,
+} from "../core/customSides";
 
 
 
@@ -730,6 +735,9 @@ const [draftUserNote, setDraftUserNote] = useState("");
   const [noteModalOpen, setNoteModalOpen] = useState(false);
   const [showAllIngredients, setShowAllIngredients] = useState(false);
 const [showAllInstructions, setShowAllInstructions] = useState(false);
+const [editSidesOpen, setEditSidesOpen] = useState(false);
+const [sideDraft, setSideDraft] = useState("");
+const [sideDraftList, setSideDraftList] = useState<string[]>([]);
 
   const wakeLockRef = useRef<any>(null);
   const recipeNoteKey = recipe?.slug || recipe?.name || "";
@@ -1400,9 +1408,45 @@ const instructionStepStyle: React.CSSProperties = {
     letterSpacing: 0.35,
   };
   
-  const suggestedSides = Array.isArray(safeRecipe.suggestedSides)
-  ? safeRecipe.suggestedSides
-  : [];
+  const recipeSideKey = safeRecipe.slug || safeRecipe.name;
+
+const suggestedSides = getDisplaySides(
+  recipeSideKey,
+  safeRecipe.suggestedSides
+);
+
+const hasCustomSides = !!getCustomSides(recipeSideKey);
+
+function openEditSides() {
+  setSideDraftList(suggestedSides);
+  setSideDraft("");
+  setEditSidesOpen(true);
+}
+
+function addSideDraft() {
+  const cleaned = sideDraft.replace(/\s+/g, " ").trim();
+  if (!cleaned) return;
+
+  setSideDraftList((prev) =>
+    Array.from(new Set([...prev, cleaned]))
+  );
+  setSideDraft("");
+}
+
+function removeSideDraft(side: string) {
+  setSideDraftList((prev) => prev.filter((item) => item !== side));
+}
+
+function saveSideDrafts() {
+  setCustomSides(recipeSideKey, sideDraftList);
+  setEditSidesOpen(false);
+}
+
+function resetSideDrafts() {
+  setCustomSides(recipeSideKey, []);
+  setSideDraftList([]);
+  setEditSidesOpen(false);
+}
   
   const visibleRecipeTags = getVisibleRecipeTags(safeRecipe);
 
@@ -1767,51 +1811,98 @@ const instructionStepStyle: React.CSSProperties = {
             )}
 
             {suggestedSides.length > 0 && (
-  <div
-    style={{
-      display: "grid",
-      gap: 8,
-      marginTop: 4,
-    }}
-  >
-    <div
-      style={{
-        fontSize: 12,
-        fontWeight: 900,
-        letterSpacing: 0.4,
-        textTransform: "uppercase",
-        color: "#86efac",
-      }}
-    >
-      {t("recipe.goesWellWith", "Goes well with")}
-    </div>
+              <div
+                style={{
+                  display: "grid",
+                  gap: 8,
+                  marginTop: 4,
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 10,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 900,
+                      letterSpacing: 0.4,
+                      textTransform: "uppercase",
+                      color: "#86efac",
+                    }}
+                  >
+                    {t("recipe.goesWellWith", "Goes well with")}
+                    {hasCustomSides ? " · Custom" : ""}
+                  </div>
 
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: 8,
-      }}
-    >
-      {suggestedSides.map((side: string) => (
-        <span
-          key={side}
-          style={{
-            padding: "8px 10px",
-            borderRadius: 999,
-            background: "rgba(255,255,255,0.06)",
-            border: "1px solid rgba(255,255,255,0.10)",
-            color: "rgba(255,255,255,0.88)",
-            fontSize: 13,
-            fontWeight: 800,
-          }}
-        >
-          {side}
-        </span>
-      ))}
-    </div>
-  </div>
-)}
+                  <button
+                    type="button"
+                    onClick={openEditSides}
+                    style={{
+                      border: "none",
+                      borderRadius: 999,
+                      padding: "6px 10px",
+                      background: "rgba(255,255,255,0.07)",
+                      color: "rgba(255,255,255,0.82)",
+                      fontSize: 12,
+                      fontWeight: 800,
+                      cursor: "pointer",
+                    }}
+                  >
+                    {t("recipe.editSides", "Edit")}
+                  </button>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: 8,
+                  }}
+                >
+                  {suggestedSides.map((side: string) => (
+                    <span
+                      key={side}
+                      style={{
+                        padding: "8px 10px",
+                        borderRadius: 999,
+                        background: "rgba(255,255,255,0.06)",
+                        border: "1px solid rgba(255,255,255,0.10)",
+                        color: "rgba(255,255,255,0.88)",
+                        fontSize: 13,
+                        fontWeight: 800,
+                      }}
+                    >
+                      {side}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {suggestedSides.length === 0 && (
+              <button
+                type="button"
+                onClick={openEditSides}
+                style={{
+                  border: "1px solid rgba(34,197,94,0.22)",
+                  borderRadius: 999,
+                  padding: "8px 12px",
+                  background: "rgba(34,197,94,0.08)",
+                  color: "#86efac",
+                  fontSize: 13,
+                  fontWeight: 900,
+                  cursor: "pointer",
+                  width: "fit-content",
+                }}
+              >
+                {t("recipe.addSides", "Add sides")}
+              </button>
+            )}
 
             <div style={{ fontSize: 13, opacity: 0.55 }}>
               {t("recipe.cooked")} {historyCount}{" "}
@@ -2223,6 +2314,231 @@ const instructionStepStyle: React.CSSProperties = {
 )}
 
 
+
+
+      {editSidesOpen && !printMode && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 1000,
+            background: "rgba(2,6,23,0.72)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 20,
+          }}
+          onClick={() => setEditSidesOpen(false)}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: "100%",
+              maxWidth: 420,
+              borderRadius: 24,
+              background:
+                "linear-gradient(180deg, rgba(15,23,42,0.98), rgba(2,6,23,0.98))",
+              border: "1px solid rgba(255,255,255,0.12)",
+              boxShadow: "0 24px 80px rgba(0,0,0,0.45)",
+              padding: 20,
+              color: "#fff",
+              display: "grid",
+              gap: 14,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                gap: 12,
+              }}
+            >
+              <div>
+                <h3 style={{ margin: 0, fontSize: 22 }}>
+                  {t("recipe.editSidesTitle", "Edit sides")}
+                </h3>
+                <p
+                  style={{
+                    margin: "6px 0 0",
+                    opacity: 0.65,
+                    fontSize: 14,
+                    lineHeight: 1.45,
+                  }}
+                >
+                  {t(
+                    "recipe.editSidesSubtitle",
+                    "Customize what goes well with this recipe."
+                  )}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setEditSidesOpen(false)}
+                style={{
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  background: "rgba(255,255,255,0.04)",
+                  color: "white",
+                  width: 38,
+                  height: 38,
+                  borderRadius: 999,
+                  cursor: "pointer",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                }}
+                aria-label={t("recipe.closeSidesEditor", "Close sides editor")}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div style={{ display: "grid", gap: 8 }}>
+              {sideDraftList.length > 0 ? (
+                sideDraftList.map((side) => (
+                  <div
+                    key={side}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      gap: 10,
+                      padding: "10px 12px",
+                      borderRadius: 14,
+                      background: "rgba(255,255,255,0.06)",
+                      border: "1px solid rgba(255,255,255,0.10)",
+                    }}
+                  >
+                    <span style={{ fontWeight: 800 }}>{side}</span>
+
+                    <button
+                      type="button"
+                      onClick={() => removeSideDraft(side)}
+                      style={{
+                        border: "none",
+                        background: "rgba(239,68,68,0.12)",
+                        color: "#f87171",
+                        borderRadius: 999,
+                        padding: "6px 10px",
+                        fontWeight: 900,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {t("recipe.removeSide", "Remove")}
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <div
+                  style={{
+                    padding: 12,
+                    borderRadius: 14,
+                    background: "rgba(255,255,255,0.04)",
+                    color: "rgba(255,255,255,0.55)",
+                    fontWeight: 700,
+                  }}
+                >
+                  {t("recipe.noCustomSides", "No custom sides yet.")}
+                </div>
+              )}
+            </div>
+
+            <div style={{ display: "flex", gap: 8 }}>
+              <input
+                value={sideDraft}
+                onChange={(e) => setSideDraft(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    addSideDraft();
+                  }
+                }}
+                placeholder={t("recipe.addSidePlaceholder", "Add a side...")}
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  background: "rgba(255,255,255,0.06)",
+                  color: "#fff",
+                  borderRadius: 14,
+                  padding: "12px 14px",
+                  fontWeight: 700,
+                }}
+              />
+
+              <button
+                type="button"
+                onClick={addSideDraft}
+                style={{
+                  border: "none",
+                  borderRadius: 14,
+                  padding: "12px 14px",
+                  background: "rgba(34,197,94,0.16)",
+                  color: "#86efac",
+                  fontWeight: 900,
+                  cursor: "pointer",
+                }}
+              >
+                {t("recipe.addSide", "Add")}
+              </button>
+            </div>
+
+            <div style={{ display: "grid", gap: 8 }}>
+              <button
+                type="button"
+                onClick={saveSideDrafts}
+                style={{
+                  border: "none",
+                  borderRadius: 16,
+                  padding: "13px 14px",
+                  background: "rgba(34,197,94,0.18)",
+                  color: "#86efac",
+                  fontWeight: 900,
+                  cursor: "pointer",
+                }}
+              >
+                {t("recipe.saveSides", "Save sides")}
+              </button>
+
+              <button
+                type="button"
+                onClick={resetSideDrafts}
+                style={{
+                  border: "1px solid rgba(239,68,68,0.24)",
+                  borderRadius: 16,
+                  padding: "12px 14px",
+                  background: "rgba(239,68,68,0.08)",
+                  color: "#f87171",
+                  fontWeight: 900,
+                  cursor: "pointer",
+                }}
+              >
+                {t("recipe.resetDefaultSides", "Reset to default sides")}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setEditSidesOpen(false)}
+                style={{
+                  border: "1px solid rgba(255,255,255,0.10)",
+                  borderRadius: 16,
+                  padding: "12px 14px",
+                  background: "rgba(255,255,255,0.04)",
+                  color: "rgba(255,255,255,0.78)",
+                  fontWeight: 900,
+                  cursor: "pointer",
+                }}
+              >
+                {t("common.cancel", "Cancel")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {noteModalOpen && !printMode && (
         <div
           role="dialog"

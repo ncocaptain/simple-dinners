@@ -633,7 +633,7 @@ export default function WeekPage({
     const result = new Date(today);
 
     if (targetDay === undefined) {
-      result.setHours(18, 0, 0, 0);
+      result.setHours(14, 0, 0, 0);
       return result;
     }
 
@@ -641,7 +641,7 @@ export default function WeekPage({
     if (diff < 0) diff += 7;
 
     result.setDate(today.getDate() + diff);
-    result.setHours(18, 0, 0, 0);
+    result.setHours(16, 0, 0, 0);
     return result;
   }
 

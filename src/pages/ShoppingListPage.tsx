@@ -1172,7 +1172,7 @@ if (
   cleaned.includes("egg roll") ||
   cleaned.includes("spring roll")
 ) {
-  return "Other";
+  return "Frozen";
 }
 
 // Pantry items that can be misread as produce/spices
@@ -1333,7 +1333,7 @@ function resolveShoppingCategoryForItem(
     cleaned.includes("egg roll") ||
     cleaned.includes("spring roll")
   ) {
-    return "Other";
+    return "Frozen";
   }
 
   // Pantry items that can be misread as produce/spices.
