@@ -12,6 +12,8 @@ import {
   CalendarPlus,
   Utensils,
   Share2,
+  ShoppingCart,
+  CheckCircle2,
 } from "lucide-react";
 import Card from "../components/Card";
 import { days } from "../core/data";
@@ -21,6 +23,7 @@ import { t, getStoredLanguage } from "../i18n";
 import { getLocalizedMeal } from "../core/localizedMeal";
 import { Capacitor } from "@capacitor/core";
 import { getDisplaySides } from "../core/customSides";
+import { addIngredientsToList } from "../shoppingList";
 
 type WalkthroughStep = 1 | 2 | 3;
 type TooltipPosition = {
@@ -171,6 +174,9 @@ export default function WeekPage({
     useState<TooltipPosition | null>(null);
   const [highlightDay, setHighlightDay] = useState<string | null>(null);
   const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
+  const [checkedSidesByDay, setCheckedSidesByDay] = useState<
+  Record<string, Record<string, boolean>>
+>({});
   const generatePlanRef = useRef<HTMLButtonElement | null>(null);
   const firstLockRef = useRef<HTMLButtonElement | null>(null);
   const wholeWeekCalendarRef = useRef<HTMLButtonElement | null>(null);
@@ -385,6 +391,43 @@ export default function WeekPage({
       [day]: { mode: "freezer", meal: null },
     }));
   };
+
+  const toggleSideForDay = (day: string, side: string) => {
+  setCheckedSidesByDay((prev) => ({
+    ...prev,
+    [day]: {
+      ...(prev[day] || {}),
+      [side]: !prev[day]?.[side],
+    },
+  }));
+};
+
+const handleAddSidesToShoppingList = (
+  day: string,
+  mealName: string,
+  sides: string[],
+) => {
+  if (!sides.length) return;
+
+  const selectedSides = sides.filter((side) => checkedSidesByDay[day]?.[side]);
+  const sidesToSend = selectedSides.length ? selectedSides : sides;
+
+  addIngredientsToList(
+    `${mealName || getTranslatedDay(day)} sides`,
+    sidesToSend.join("\n"),
+  );
+
+  setCheckedSidesByDay((prev) => ({
+    ...prev,
+    [day]: {},
+  }));
+
+  setShowAddedMessage(day);
+
+  window.setTimeout(() => {
+    setShowAddedMessage((current) => (current === day ? null : current));
+  }, 1800);
+};
 
   // =====================================================
   // Calendar helpers
@@ -1128,7 +1171,7 @@ const isLeftovers = mode === "leftovers";
   <div
     style={{
       display: "grid",
-      gap: 7,
+      gap: 8,
       padding: "10px 12px",
       borderRadius: 16,
       background: "rgba(34,197,94,0.08)",
@@ -1154,23 +1197,71 @@ const isLeftovers = mode === "leftovers";
         gap: 6,
       }}
     >
-      {suggestedSides.slice(0, 3).map((side: string) => (
-        <span
-          key={side}
-          style={{
-            padding: "5px 7px",
-            borderRadius: 999,
-            background: "rgba(255,255,255,0.06)",
-            border: "1px solid rgba(255,255,255,0.10)",
-            color: "rgba(255,255,255,0.86)",
-            fontSize: 12,
-            fontWeight: 800,
-          }}
-        >
-          {side}
-        </span>
-      ))}
+      {suggestedSides.slice(0, 3).map((side: string) => {
+        const checked = !!checkedSidesByDay[day]?.[side];
+
+        return (
+          <button
+            key={side}
+            type="button"
+            onClick={() => toggleSideForDay(day, side)}
+            style={{
+              padding: "5px 7px",
+              borderRadius: 999,
+              background: checked
+                ? "rgba(34,197,94,0.14)"
+                : "rgba(255,255,255,0.06)",
+              border: checked
+                ? "1px solid rgba(34,197,94,0.32)"
+                : "1px solid rgba(255,255,255,0.10)",
+              color: checked ? "#86efac" : "rgba(255,255,255,0.86)",
+              fontSize: 12,
+              fontWeight: 800,
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 5,
+            }}
+          >
+            <CheckCircle2
+              size={13}
+              style={{
+                color: checked ? "#22c55e" : "rgba(255,255,255,0.35)",
+              }}
+            />
+            {side}
+          </button>
+        );
+      })}
     </div>
+
+    <button
+      type="button"
+      onClick={() =>
+        handleAddSidesToShoppingList(
+          day,
+          meal.name || t("week.meal"),
+          suggestedSides.slice(0, 3),
+        )
+      }
+      style={{
+        width: "fit-content",
+        border: "1px solid rgba(34,197,94,0.22)",
+        borderRadius: 999,
+        padding: "7px 10px",
+        background: "rgba(34,197,94,0.08)",
+        color: "#86efac",
+        fontSize: 12,
+        fontWeight: 900,
+        cursor: "pointer",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 6,
+      }}
+    >
+      <ShoppingCart size={13} />
+      {t("recipe.addSidesToShoppingList", "Add sides to shopping list")}
+    </button>
   </div>
 )}
 
