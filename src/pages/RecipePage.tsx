@@ -738,6 +738,7 @@ const [showAllInstructions, setShowAllInstructions] = useState(false);
 const [editSidesOpen, setEditSidesOpen] = useState(false);
 const [sideDraft, setSideDraft] = useState("");
 const [sideDraftList, setSideDraftList] = useState<string[]>([]);
+const [checkedSides, setCheckedSides] = useState<Record<string, boolean>>({});
 
   const wakeLockRef = useRef<any>(null);
   const recipeNoteKey = recipe?.slug || recipe?.name || "";
@@ -851,13 +852,14 @@ const hasMoreInstructions = instructions.length > 5;
   }, [printMode]);
 
   useEffect(() => {
-    setStepIndex(0);
-    setCheckedIngredients({});
-    setTimerSeconds(null);
-    setTimerRunning(false);
-    setSaveMessage("");
-    setFinishMessage("");
-  }, [slug]);
+  setStepIndex(0);
+  setCheckedIngredients({});
+  setCheckedSides({});
+  setTimerSeconds(null);
+  setTimerRunning(false);
+  setSaveMessage("");
+  setFinishMessage("");
+}, [slug]);
 
   useEffect(() => {
     if (!cookMode) return;
@@ -1147,6 +1149,13 @@ const handleCloseNoteModal = () => {
     }));
   };
 
+  const toggleSide = (side: string) => {
+  setCheckedSides((prev) => ({
+    ...prev,
+    [side]: !prev[side],
+  }));
+};
+
   const handleAddIngredients = () => {
     const selectedIngredients = ingredients.filter(
       (_, index) => checkedIngredients[index]
@@ -1168,15 +1177,19 @@ const handleCloseNoteModal = () => {
   const handleAddSidesToShoppingList = () => {
   if (!suggestedSides.length) return;
 
+  const selectedSides = suggestedSides.filter((side) => checkedSides[side]);
+
+  const sidesToSend = selectedSides.length ? selectedSides : suggestedSides;
+
   addIngredientsToList(
     `${safeRecipe.name || "Recipe"} sides`,
-    suggestedSides.join("\n")
+    sidesToSend.join("\n")
   );
 
   setSaveMessage(
-    suggestedSides.length === 1
-      ? t("recipe.sideAdded", "Side added to shopping list ✓")
-      : t("recipe.sidesAdded", "Sides added to shopping list ✓")
+    selectedSides.length
+      ? t("recipe.selectedSidesAdded", "Selected sides added ✓")
+      : t("recipe.allSidesAdded", "All sides added ✓")
   );
 };
 
@@ -1879,22 +1892,42 @@ function resetSideDrafts() {
                     gap: 8,
                   }}
                 >
-                  {suggestedSides.map((side: string) => (
-                    <span
-                      key={side}
-                      style={{
-                        padding: "8px 10px",
-                        borderRadius: 999,
-                        background: "rgba(255,255,255,0.06)",
-                        border: "1px solid rgba(255,255,255,0.10)",
-                        color: "rgba(255,255,255,0.88)",
-                        fontSize: 13,
-                        fontWeight: 800,
-                      }}
-                    >
-                      {side}
-                    </span>
-                  ))}
+                  {suggestedSides.map((side: string) => {
+  const checked = !!checkedSides[side];
+
+  return (
+    <button
+      key={side}
+      type="button"
+      onClick={() => toggleSide(side)}
+      style={{
+        padding: "8px 10px",
+        borderRadius: 999,
+        background: checked
+          ? "rgba(34,197,94,0.14)"
+          : "rgba(255,255,255,0.06)",
+        border: checked
+          ? "1px solid rgba(34,197,94,0.32)"
+          : "1px solid rgba(255,255,255,0.10)",
+        color: checked ? "#86efac" : "rgba(255,255,255,0.88)",
+        fontSize: 13,
+        fontWeight: 800,
+        cursor: "pointer",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 6,
+      }}
+    >
+      <CheckCircle2
+        size={14}
+        style={{
+          color: checked ? "#22c55e" : "rgba(255,255,255,0.35)",
+        }}
+      />
+      {side}
+    </button>
+  );
+})}
                 </div>
                 <button
   type="button"
