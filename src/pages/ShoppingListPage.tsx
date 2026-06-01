@@ -1599,6 +1599,15 @@ function resolveShoppingCategoryForItem(
     return "Meat / Seafood";
   }
 
+  // Put BEFORE generic cheese / dairy checks
+if (
+  cleaned.includes("smoked mac and cheese") ||
+  cleaned.includes("mac and cheese") ||
+  cleaned.includes("macaroni and cheese")
+) {
+  return "Pantry";
+}
+
   if (
     cleaned.includes("butter") ||
     cleaned.includes("gouda cheese") ||
@@ -1650,6 +1659,23 @@ function resolveShoppingCategoryForItem(
   ) {
     return "Pantry";
   }
+
+  if (
+  cleaned.includes("greek salad") ||
+  cleaned.includes("macaroni salad") ||
+  cleaned.includes("potato salad") ||
+  cleaned.includes("pasta salad") ||
+  cleaned.includes("caesar salad") ||
+  cleaned.includes("simple green salad") ||
+  cleaned.includes("fruit salad") ||
+  cleaned.includes("coleslaw")
+) {
+  return "Produce";
+}
+
+if (cleaned.includes("kimchi")) {
+  return "Produce";
+}
 
   return resolveShoppingCategory(name);
 }
