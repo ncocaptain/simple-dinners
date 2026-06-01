@@ -765,6 +765,107 @@ function normalizeMushrooms(text: string) {
     .replace(/\bbaby bella mushrooms?\b/g, "baby bella mushrooms");
 }
 
+function normalizeSideSuggestionText(text: string) {
+  const cleaned = cleanupSpacing(normalizeAscii(text));
+
+  if (!cleaned) return "";
+
+  if (cleaned.includes("simple green salad") || cleaned === "side salad") {
+    return "simple green salad";
+  }
+  if (cleaned.includes("caesar salad")) return "caesar salad";
+  if (cleaned.includes("fruit salad")) return "fruit salad";
+  if (cleaned.includes("cucumber salad")) return "cucumber salad";
+  if (cleaned.includes("coleslaw mix")) return "coleslaw mix";
+  if (cleaned.includes("coleslaw")) return "coleslaw";
+  if (cleaned.includes("spring mix") || cleaned.includes("salad mix")) {
+    return "spring mix";
+  }
+
+  if (
+    cleaned.includes("roasted asparagus") ||
+    cleaned.includes("grilled asparagus") ||
+    cleaned === "asparagus"
+  ) {
+    return "asparagus";
+  }
+
+  if (
+    cleaned.includes("roasted broccoli") ||
+    cleaned.includes("steamed broccoli") ||
+    cleaned.includes("head broccoli") ||
+    cleaned === "broccoli"
+  ) {
+    return "broccoli";
+  }
+
+  if (
+    cleaned.includes("grilled vegetables") ||
+    cleaned.includes("grilled veggies")
+  ) {
+    return "grilled vegetables";
+  }
+
+  if (
+    cleaned.includes("mexican street corn") ||
+    cleaned.includes("street corn")
+  ) {
+    return "mexican street corn";
+  }
+
+  if (
+    cleaned.includes("corn on the cob") ||
+    cleaned.includes("ears corn") ||
+    cleaned.includes("ear corn")
+  ) {
+    return "corn on the cob";
+  }
+
+  if (
+    cleaned.includes("lime wedge") ||
+    cleaned.includes("lime wedges") ||
+    cleaned.includes("lime zest") ||
+    cleaned.includes("lime juice")
+  ) {
+    return "lime";
+  }
+
+  if (
+    cleaned.includes("lemon wedge") ||
+    cleaned.includes("lemon wedges") ||
+    cleaned.includes("lemon zest") ||
+    cleaned.includes("lemon juice")
+  ) {
+    return "lemon";
+  }
+
+  if (cleaned === "chips" || cleaned.includes("potato chips")) {
+    return "potato chips";
+  }
+
+  if (cleaned.includes("chips and salsa")) return "chips and salsa";
+  if (cleaned.includes("tortilla chips")) return "tortilla chips";
+  if (cleaned.includes("crouton")) return "croutons";
+  if (cleaned.includes("baked beans")) return "baked beans";
+  if (cleaned.includes("garlic bread")) return "garlic bread";
+  if (cleaned.includes("dinner rolls") || cleaned === "rolls") {
+    return "dinner rolls";
+  }
+  if (cleaned.includes("breadsticks")) return "breadsticks";
+  if (cleaned.includes("naan")) return "naan";
+  if (cleaned.includes("pita")) return "pita bread";
+  if (cleaned.includes("french fries")) return "french fries";
+  if (cleaned.includes("sweet potato fries")) return "sweet potato fries";
+  if (cleaned.includes("spring roll")) return "spring rolls";
+  if (cleaned.includes("egg roll")) return "egg rolls";
+  if (cleaned.includes("edamame")) return "edamame";
+  if (cleaned.includes("rice pilaf")) return "rice pilaf";
+  if (cleaned.includes("cilantro lime rice")) return "cilantro lime rice";
+  if (cleaned === "steamed rice" || cleaned === "white rice") return "rice";
+
+  return cleaned;
+}
+
 function removeNonShoppingItems(text: string) {
   const cleaned = cleanupSpacing(text);
 
@@ -794,6 +895,7 @@ function removeNonShoppingItems(text: string) {
 
 function normalizeIngredientCore(text: string) {
   let next = normalizeAscii(text);
+  
 
   next = next.replace(/<[^>]+>/g, " ");
   next = next.replace(/^[-•*]+\s*/, "");
@@ -807,6 +909,7 @@ function normalizeIngredientCore(text: string) {
   .replace(/\bmetal skewers?\b/g, "metal skewers");
   next = next.replace(/^(and|or|with)\s+/g, "").trim();
   next = cleanupSpacing(next);
+  next = normalizeSideSuggestionText(next);
 
   const protectedManualName = preserveManualShoppingName(next);
   if (protectedManualName) return protectedManualName;
@@ -843,7 +946,7 @@ function normalizeIngredientCore(text: string) {
     /^\d*\.?\d+\s+(carrot|onion|red onion|yellow onion|white onion|green onion|egg|garlic|jalapeno|mint|lemon|lime|sweet potato|green bell pepper|red bell pepper|yellow bell pepper|bell pepper)\b/g,
     "$1"
   );
-
+  next = normalizeSideSuggestionText(next);
   next = protectRealPeppers(next);
   next = next.split(",")[0];
   next = cleanupSpacing(next);
@@ -1284,6 +1387,49 @@ const PANTRY_CATEGORY_KEYWORDS = [
   "cooking wine",
 ];
 
+const PREPARED_PRODUCE_SIDE_KEYWORDS = [
+  "simple green salad",
+  "side salad",
+  "caesar salad",
+  "cucumber salad",
+  "fruit salad",
+  "coleslaw",
+  "spring mix",
+  "salad mix",
+  "asparagus",
+  "broccoli",
+  "grilled vegetables",
+  "watermelon",
+  "corn on the cob",
+  "mexican street corn",
+];
+
+const PREPARED_PANTRY_SIDE_KEYWORDS = [
+  "potato chips",
+  "chips and salsa",
+  "tortilla chips",
+  "croutons",
+  "baked beans",
+  "rice pilaf",
+  "cilantro lime rice",
+];
+
+const PREPARED_BAKERY_SIDE_KEYWORDS = [
+  "garlic bread",
+  "dinner rolls",
+  "breadsticks",
+  "naan",
+  "pita bread",
+];
+
+const PREPARED_FROZEN_SIDE_KEYWORDS = [
+  "french fries",
+  "sweet potato fries",
+  "spring rolls",
+  "egg rolls",
+  "edamame",
+];
+
 function includesAny(text: string, keywords: string[]) {
   return keywords.some((keyword) => text.includes(keyword));
 }
@@ -1335,6 +1481,11 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     cleanIngredientForCategory(name);
 
   const lower = cleaned.toLowerCase();
+
+  if (includesAny(lower, PREPARED_FROZEN_SIDE_KEYWORDS)) return "Frozen";
+if (includesAny(lower, PREPARED_BAKERY_SIDE_KEYWORDS)) return "Bakery";
+if (includesAny(lower, PREPARED_PANTRY_SIDE_KEYWORDS)) return "Pantry";
+if (includesAny(lower, PREPARED_PRODUCE_SIDE_KEYWORDS)) return "Produce";
 
   // Produce / salad overrides.
 // These must run before broad pantry/spice/beverage matching.
@@ -1438,8 +1589,11 @@ if (
     return "Spices / Seasonings";
   }
 
+  
+
   return categorizeGroceryItem(cleaned);
 }
+
 
 // =====================================================
 // Builder: safe duplicate merging
