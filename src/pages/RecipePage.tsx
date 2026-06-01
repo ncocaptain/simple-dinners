@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 
 import { getRecipeBySlug } from "../core/recipes";
-import { addIngredientsToList } from "../shoppingList";
+import { addIngredientsToList, addSidesToList } from "../shoppingList";
 import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
 import { isCommonPantryStaple } from "../core/pantry";
 import TipsModal from "../components/TipsModal";
@@ -1181,10 +1181,10 @@ const handleCloseNoteModal = () => {
 
   const sidesToSend = selectedSides.length ? selectedSides : suggestedSides;
 
-  addIngredientsToList(
-    `${safeRecipe.name || "Recipe"} sides`,
-    sidesToSend.join("\n")
-  );
+  addSidesToList(
+  `${safeRecipe.name || "Recipe"} sides`,
+  sidesToSend.join("\n")
+);
 
   setSaveMessage(
     selectedSides.length

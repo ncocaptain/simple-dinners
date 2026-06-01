@@ -1839,6 +1839,51 @@ export function saveShoppingList(items: ShoppingItem[]) {
   localStorage.setItem(KEY, JSON.stringify(items));
 }
 
+export function addSidesToList(
+  recipeName: string,
+  sides: string
+): { items: ShoppingItem[]; addedCount: number } {
+  const existing = safeParse(localStorage.getItem(KEY));
+  const lines = normalizeIngredientLines(sides);
+
+  const now = Date.now();
+  const newItems: ShoppingItem[] = [];
+
+  for (const line of lines) {
+    const sideName = normalizeSideSuggestionText(line);
+
+    if (!sideName || shouldHideShoppingItem(sideName)) {
+      continue;
+    }
+
+    const id = `${makeId(sideName)}-${makeId(recipeName || "sides")}-${makeId(
+      line
+    )}-${now}-${newItems.length}`;
+
+    newItems.push({
+      id,
+      text: formatSmartName(sideName),
+      checked: false,
+      addedAt: now,
+      category: resolveShoppingCategory(sideName),
+      sourceRecipe: recipeName || "",
+      normalizedName: sideName,
+      quantity: null,
+      unit: "",
+      packageSize: "",
+    });
+  }
+
+  const merged = [...existing, ...newItems];
+
+  saveShoppingList(merged);
+
+  return {
+    items: mergeSafeShoppingItems(merged),
+    addedCount: newItems.length,
+  };
+}
+
 // =====================================================
 // Builder: add recipe ingredients to shopping list
 // =====================================================
