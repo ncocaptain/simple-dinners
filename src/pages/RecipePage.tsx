@@ -352,6 +352,7 @@ function ingredientMatchesStep(ingredient: string, step: string) {
 
   if (!stepText || !keywords.length) return false;
 
+
   // =====================================================
   // Glaze logic
   // =====================================================
@@ -656,6 +657,39 @@ const FINISH_MESSAGES = [
   t("recipe.finishMessages.dinnerHandled"),
   t("recipe.finishMessages.nailedIt"),
 ];
+const BUILT_IN_SIDE_ALIASES: Record<string, string> = {
+  "corn on the cob": "quick-grilled-corn",
+  "grilled corn": "quick-grilled-corn",
+  "grilled corn on the cob": "quick-grilled-corn",
+};
+
+function normalizeSideLookupName(side: string) {
+  return String(side || "")
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function findBuiltInSideRecipe(side: string) {
+  const key = normalizeSideLookupName(side);
+  const slug = BUILT_IN_SIDE_ALIASES[key];
+
+  if (!slug) return null;
+
+  const recipe = getRecipeBySlug(slug);
+
+  if (!recipe) return null;
+
+  const tags = Array.isArray(recipe.tags)
+    ? recipe.tags.map((tag: string) => String(tag).toLowerCase())
+    : [];
+
+  if (!tags.includes("side")) return null;
+
+  return recipe;
+}
 
 
 // =====================================================
@@ -1178,13 +1212,50 @@ const handleCloseNoteModal = () => {
   if (!suggestedSides.length) return;
 
   const selectedSides = suggestedSides.filter((side) => checkedSides[side]);
-
   const sidesToSend = selectedSides.length ? selectedSides : suggestedSides;
 
-  addSidesToList(
-  `${safeRecipe.name || "Recipe"} sides`,
-  sidesToSend.join("\n")
-);
+  const fallbackSides: string[] = [];
+  let builtInSideCount = 0;
+
+  sidesToSend.forEach((side) => {
+    const builtInSide = findBuiltInSideRecipe(side);
+
+    if (builtInSide?.ingredients?.trim()) {
+      addIngredientsToList(
+        builtInSide.name || side,
+        builtInSide.ingredients.trim()
+      );
+      builtInSideCount++;
+      return;
+    }
+
+    fallbackSides.push(side);
+  });
+
+  if (fallbackSides.length) {
+    addSidesToList(
+      `${safeRecipe.name || "Recipe"} sides`,
+      fallbackSides.join("\n")
+    );
+  }
+
+  setCheckedSides({});
+
+  if (builtInSideCount > 0 && fallbackSides.length > 0) {
+    setSaveMessage(
+      t("recipe.sidesAndIngredientsAdded", "Sides and side ingredients added ✓")
+    );
+    return;
+  }
+
+  if (builtInSideCount > 0) {
+    setSaveMessage(
+      builtInSideCount === 1
+        ? t("recipe.sideIngredientsAdded", "Side ingredients added ✓")
+        : t("recipe.sideIngredientsAdded", "Side ingredients added ✓")
+    );
+    return;
+  }
 
   setSaveMessage(
     selectedSides.length
