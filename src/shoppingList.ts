@@ -1856,36 +1856,89 @@ export function addIngredientsToList(
   const newItems: ShoppingItem[] = [];
 
   for (const line of lines) {
-    const parsed = parseIngredientParts(line);
-    if (!parsed.normalizedName || shouldHideShoppingItem(parsed.normalizedName)) {
-      continue;
-    }
+  const sideName = normalizeSideSuggestionText(line);
 
-    // keep items separate per recipe/line so UI can merge/count later
-    const id = `${makeId(parsed.normalizedName)}-${makeId(recipeName || "recipe")}-${makeId(
+  const preparedSideNames = new Set([
+    "garlic bread",
+    "dinner rolls",
+    "breadsticks",
+    "naan",
+    "pita bread",
+    "french fries",
+    "sweet potato fries",
+    "chips and salsa",
+    "potato chips",
+    "tortilla chips",
+    "croutons",
+    "baked beans",
+    "rice pilaf",
+    "cilantro lime rice",
+    "mexican street corn",
+    "corn on the cob",
+    "simple green salad",
+    "side salad",
+    "caesar salad",
+    "fruit salad",
+    "cucumber salad",
+    "coleslaw",
+    "grilled vegetables",
+    "spring rolls",
+    "egg rolls",
+    "edamame",
+  ]);
+
+  if (preparedSideNames.has(sideName)) {
+    const id = `${makeId(sideName)}-${makeId(recipeName || "recipe")}-${makeId(
       line
     )}-${now}-${newItems.length}`;
 
-    const text = buildDisplayText(
-      parsed.normalizedName,
-      parsed.quantity,
-      parsed.unit,
-      parsed.packageSize
-    );
-
     newItems.push({
       id,
-      text,
+      text: formatSmartName(sideName),
       checked: false,
       addedAt: now,
-      category: resolveShoppingCategory(parsed.normalizedName),
+      category: resolveShoppingCategory(sideName),
       sourceRecipe: recipeName || "",
-      normalizedName: parsed.normalizedName,
-      quantity: parsed.quantity,
-      unit: parsed.unit,
-      packageSize: parsed.packageSize,
+      normalizedName: sideName,
+      quantity: null,
+      unit: "",
+      packageSize: "",
     });
+
+    continue;
   }
+
+  const parsed = parseIngredientParts(line);
+
+  if (!parsed.normalizedName || shouldHideShoppingItem(parsed.normalizedName)) {
+    continue;
+  }
+
+  // keep items separate per recipe/line so UI can merge/count later
+  const id = `${makeId(parsed.normalizedName)}-${makeId(recipeName || "recipe")}-${makeId(
+    line
+  )}-${now}-${newItems.length}`;
+
+  const text = buildDisplayText(
+    parsed.normalizedName,
+    parsed.quantity,
+    parsed.unit,
+    parsed.packageSize
+  );
+
+  newItems.push({
+    id,
+    text,
+    checked: false,
+    addedAt: now,
+    category: resolveShoppingCategory(parsed.normalizedName),
+    sourceRecipe: recipeName || "",
+    normalizedName: parsed.normalizedName,
+    quantity: parsed.quantity,
+    unit: parsed.unit,
+    packageSize: parsed.packageSize,
+  });
+}
 
     // Idempotent recipe adds: adding the same recipe again refreshes its ingredients instead of duplicating them.
   const recipeKey = String(recipeName || "").trim().toLowerCase();
