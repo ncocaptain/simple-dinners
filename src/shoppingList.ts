@@ -912,6 +912,34 @@ function normalizeIngredientCore(text: string) {
   next = next.replace(/^(and|or|with)\s+/g, "").trim();
   next = cleanupSpacing(next);
   next = normalizeSideSuggestionText(next);
+  const preparedSide = normalizeSideSuggestionText(next);
+
+if (
+  preparedSide === "garlic bread" ||
+  preparedSide === "dinner rolls" ||
+  preparedSide === "breadsticks" ||
+  preparedSide === "naan" ||
+  preparedSide === "pita bread" ||
+  preparedSide === "french fries" ||
+  preparedSide === "sweet potato fries" ||
+  preparedSide === "chips and salsa" ||
+  preparedSide === "potato chips" ||
+  preparedSide === "tortilla chips" ||
+  preparedSide === "croutons" ||
+  preparedSide === "baked beans" ||
+  preparedSide === "rice pilaf" ||
+  preparedSide === "cilantro lime rice" ||
+  preparedSide === "mexican street corn" ||
+  preparedSide === "corn on the cob" ||
+  preparedSide === "simple green salad" ||
+  preparedSide === "caesar salad" ||
+  preparedSide === "fruit salad" ||
+  preparedSide === "grilled vegetables"
+) {
+  return preparedSide;
+}
+
+next = preparedSide;
 
   const protectedManualName = preserveManualShoppingName(next);
   if (protectedManualName) return protectedManualName;
