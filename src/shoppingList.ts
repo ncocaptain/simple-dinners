@@ -868,6 +868,40 @@ if (
   return cleaned;
 }
 
+
+const PREPARED_SIDE_NAMES = new Set([
+  "garlic bread",
+  "dinner rolls",
+  "breadsticks",
+  "naan",
+  "pita bread",
+  "french fries",
+  "sweet potato fries",
+  "chips and salsa",
+  "potato chips",
+  "tortilla chips",
+  "croutons",
+  "baked beans",
+  "rice pilaf",
+  "cilantro lime rice",
+  "mexican street corn",
+  "corn on the cob",
+  "simple green salad",
+  "side salad",
+  "caesar salad",
+  "fruit salad",
+  "cucumber salad",
+  "coleslaw",
+  "grilled vegetables",
+  "spring rolls",
+  "egg rolls",
+  "edamame",
+]);
+
+function isPreparedSideName(name: string) {
+  return PREPARED_SIDE_NAMES.has(cleanupSpacing(normalizeAscii(name)));
+}
+
 function removeNonShoppingItems(text: string) {
   const cleaned = cleanupSpacing(text);
 
@@ -914,28 +948,7 @@ function normalizeIngredientCore(text: string) {
   next = normalizeSideSuggestionText(next);
   const preparedSide = normalizeSideSuggestionText(next);
 
-if (
-  preparedSide === "garlic bread" ||
-  preparedSide === "dinner rolls" ||
-  preparedSide === "breadsticks" ||
-  preparedSide === "naan" ||
-  preparedSide === "pita bread" ||
-  preparedSide === "french fries" ||
-  preparedSide === "sweet potato fries" ||
-  preparedSide === "chips and salsa" ||
-  preparedSide === "potato chips" ||
-  preparedSide === "tortilla chips" ||
-  preparedSide === "croutons" ||
-  preparedSide === "baked beans" ||
-  preparedSide === "rice pilaf" ||
-  preparedSide === "cilantro lime rice" ||
-  preparedSide === "mexican street corn" ||
-  preparedSide === "corn on the cob" ||
-  preparedSide === "simple green salad" ||
-  preparedSide === "caesar salad" ||
-  preparedSide === "fruit salad" ||
-  preparedSide === "grilled vegetables"
-) {
+if (isPreparedSideName(preparedSide)) {
   return preparedSide;
 }
 
@@ -1046,6 +1059,16 @@ function parseIngredientParts(line: string): {
 
   if (isSectionHeader(text)) {
     return { normalizedName: "", quantity: null, unit: "", packageSize: "" };
+  }
+
+  const preparedSideName = normalizeSideSuggestionText(text);
+  if (isPreparedSideName(preparedSideName)) {
+    return {
+      normalizedName: preparedSideName,
+      quantity: null,
+      unit: "",
+      packageSize: "",
+    };
   }
 
   let quantity: number | null = null;
@@ -1268,6 +1291,10 @@ function buildDisplayText(
   const displayName = formatSmartName(name);
   const size = formatPackageSize(packageSize);
 
+  if (isPreparedSideName(name)) {
+    return displayName;
+  }
+
   if (preserveManualShoppingName(name) && quantity === null && !unit) {
     return displayName;
   }
@@ -1467,6 +1494,9 @@ function includesAny(text: string, keywords: string[]) {
 function shouldHideShoppingItem(name: string) {
   const protectedManualName = preserveManualShoppingName(name);
   if (protectedManualName) return false;
+
+  const preparedSideName = normalizeSideSuggestionText(name);
+  if (isPreparedSideName(preparedSideName)) return false;
 
   const cleaned = normalizeIngredientName(name).toLowerCase();
   return HIDDEN_ITEMS.has(cleaned);
@@ -1866,7 +1896,7 @@ export function addSidesToList(
       checked: false,
       addedAt: now,
       category: resolveShoppingCategory(sideName),
-      sourceRecipe: recipeName || "",
+      sourceRecipe: "",
       normalizedName: sideName,
       quantity: null,
       unit: "",
@@ -1874,7 +1904,17 @@ export function addSidesToList(
     });
   }
 
-  const merged = [...existing, ...newItems];
+  const addedSideNames = new Set(
+    newItems.map((item) => String(item.normalizedName || "").toLowerCase())
+  );
+
+  const existingWithoutSameSides = existing.filter((item) => {
+    const existingName = String(item.normalizedName || item.text || "").toLowerCase();
+    const isManualSide = !String(item.sourceRecipe || "").trim();
+    return !(isManualSide && addedSideNames.has(existingName));
+  });
+
+  const merged = [...existingWithoutSameSides, ...newItems];
 
   saveShoppingList(merged);
 
@@ -1903,36 +1943,7 @@ export function addIngredientsToList(
   for (const line of lines) {
   const sideName = normalizeSideSuggestionText(line);
 
-  const preparedSideNames = new Set([
-    "garlic bread",
-    "dinner rolls",
-    "breadsticks",
-    "naan",
-    "pita bread",
-    "french fries",
-    "sweet potato fries",
-    "chips and salsa",
-    "potato chips",
-    "tortilla chips",
-    "croutons",
-    "baked beans",
-    "rice pilaf",
-    "cilantro lime rice",
-    "mexican street corn",
-    "corn on the cob",
-    "simple green salad",
-    "side salad",
-    "caesar salad",
-    "fruit salad",
-    "cucumber salad",
-    "coleslaw",
-    "grilled vegetables",
-    "spring rolls",
-    "egg rolls",
-    "edamame",
-  ]);
-
-  if (preparedSideNames.has(sideName)) {
+  if (isPreparedSideName(sideName)) {
     const id = `${makeId(sideName)}-${makeId(recipeName || "recipe")}-${makeId(
       line
     )}-${now}-${newItems.length}`;
@@ -1943,7 +1954,7 @@ export function addIngredientsToList(
       checked: false,
       addedAt: now,
       category: resolveShoppingCategory(sideName),
-      sourceRecipe: recipeName || "",
+      sourceRecipe: "",
       normalizedName: sideName,
       quantity: null,
       unit: "",
