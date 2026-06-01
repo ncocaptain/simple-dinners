@@ -806,20 +806,22 @@ function normalizeSideSuggestionText(text: string) {
     return "grilled vegetables";
   }
 
-  if (
-    cleaned.includes("mexican street corn") ||
-    cleaned.includes("street corn")
-  ) {
-    return "mexican street corn";
-  }
+  // Corn sides
+if (
+  cleaned.includes("mexican street corn") ||
+  cleaned.includes("street corn")
+) {
+  return "mexican street corn";
+}
 
-  if (
-    cleaned.includes("corn on the cob") ||
-    cleaned.includes("ears corn") ||
-    cleaned.includes("ear corn")
-  ) {
-    return "corn on the cob";
-  }
+if (
+  cleaned.includes("corn on the cob") ||
+  cleaned.includes("ears corn") ||
+  cleaned.includes("ear corn") ||
+  cleaned === "corn"
+) {
+  return "corn on the cob";
+}
 
   if (
     cleaned.includes("lime wedge") ||

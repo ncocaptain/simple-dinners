@@ -845,16 +845,22 @@ function normalizeSideSuggestionText(text: string) {
 
   // Collapse street-corn/corn-on-cob wording to one shopping item so the list
   // does not show both "Mexican Street Corn" and "Corn On the Cob" separately.
-  if (
-    cleaned.includes("mexican street corn") ||
-    cleaned.includes("street corn") ||
-    cleaned.includes("corn on the cob") ||
-    cleaned.includes("ears corn") ||
-    cleaned.includes("ear corn") ||
-    cleaned === "corn"
-  ) {
-    return "corn on the cob";
-  }
+  // Corn sides
+if (
+  cleaned.includes("mexican street corn") ||
+  cleaned.includes("street corn")
+) {
+  return "mexican street corn";
+}
+
+if (
+  cleaned.includes("corn on the cob") ||
+  cleaned.includes("ears corn") ||
+  cleaned.includes("ear corn") ||
+  cleaned === "corn"
+) {
+  return "corn on the cob";
+}
 
   if (
     cleaned.includes("roasted potatoes") ||
