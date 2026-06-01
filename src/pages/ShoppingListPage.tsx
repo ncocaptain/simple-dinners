@@ -704,24 +704,59 @@ function removeNonShoppingItems(text: string) {
 // ingredients. These helpers keep them shopper-friendly and categorized.
 // =====================================================
 const PREPARED_SIDE_NAMES = new Set([
-  "potato chips",
-  "chips and salsa",
-  "croutons",
+  // Produce-style sides
+  "asparagus",
+  "broccoli",
+  "carrot",
+  "corn on the cob",
+  "cucumber salad",
+  "green beans",
   "grilled vegetables",
+  "mexican street corn",
+  "pickle spears",
+  "pickles",
+  "potato",
+  "roasted potatoes",
+  "romaine lettuce",
   "simple green salad",
   "side salad",
   "caesar salad",
   "fruit salad",
   "coleslaw",
-  "corn on the cob",
-  "garlic bread",
-  "dinner rolls",
-  "breadsticks",
-  "french fries",
+  "spring mix",
+  "watermelon slices",
+
+  // Pantry / snack sides
   "baked beans",
+  "brown sugar",
+  "chips and salsa",
+  "cornbread",
+  "crackers",
+  "croutons",
+  "guacamole",
+  "hummus",
+  "ketchup",
+  "molasses",
+  "potato chips",
+  "rice",
   "rice pilaf",
-  "cilantro lime rice",
-  "mexican street corn",
+  "salsa",
+  "tortilla chips",
+  "yellow mustard",
+
+  // Bakery sides
+  "breadsticks",
+  "dinner rolls",
+  "garlic bread",
+  "naan",
+  "pita bread",
+
+  // Frozen sides
+  "egg rolls",
+  "french fries",
+  "spring rolls",
+  "steamed edamame",
+  "sweet potato fries",
 ]);
 
 function normalizeSideSuggestionText(text: string) {
@@ -729,22 +764,52 @@ function normalizeSideSuggestionText(text: string) {
 
   if (!cleaned) return "";
 
+  // =====================================================
+  // Repair awkward "choice" wording from recipe lines
+  // =====================================================
+  if (
+    cleaned.includes("parsley or cilantro") ||
+    cleaned.includes("cilantro or parsley") ||
+    cleaned.includes("parsley/cilantro") ||
+    cleaned.includes("cilantro/parsley")
+  ) {
+    return "parsley";
+  }
+
+  // =====================================================
   // Salad / prepared produce sides
-  if (cleaned.includes("simple green salad") || cleaned === "side salad") {
+  // =====================================================
+  if (
+    cleaned.includes("simple green salad") ||
+    cleaned === "side salad" ||
+    cleaned === "green salad"
+  ) {
     return "simple green salad";
   }
+
   if (cleaned.includes("caesar salad")) return "caesar salad";
+  if (cleaned.includes("cucumber salad")) return "cucumber salad";
   if (cleaned.includes("fruit salad")) return "fruit salad";
   if (cleaned.includes("coleslaw mix")) return "coleslaw mix";
   if (cleaned.includes("coleslaw")) return "coleslaw";
   if (cleaned.includes("spring mix") || cleaned.includes("salad mix")) {
     return "spring mix";
   }
+  if (cleaned.includes("romaine") || cleaned.includes("head romaine lettuce")) {
+    return "romaine lettuce";
+  }
 
+  // =====================================================
   // Vegetables from suggested sides
-  if (cleaned.includes("roasted asparagus") || cleaned.includes("grilled asparagus") || cleaned === "asparagus") {
+  // =====================================================
+  if (
+    cleaned.includes("roasted asparagus") ||
+    cleaned.includes("grilled asparagus") ||
+    cleaned === "asparagus"
+  ) {
     return "asparagus";
   }
+
   if (
     cleaned.includes("roasted broccoli") ||
     cleaned.includes("steamed broccoli") ||
@@ -753,9 +818,33 @@ function normalizeSideSuggestionText(text: string) {
   ) {
     return "broccoli";
   }
-  if (cleaned.includes("grilled vegetables") || cleaned.includes("grilled veggies")) {
+
+  if (
+    cleaned.includes("green beans") ||
+    cleaned.includes("roasted green beans")
+  ) {
+    return "green beans";
+  }
+
+  if (
+    cleaned.includes("roasted carrots") ||
+    cleaned.includes("carrot sticks") ||
+    cleaned === "carrots"
+  ) {
+    return "carrot";
+  }
+
+  if (
+    cleaned.includes("grilled vegetables") ||
+    cleaned.includes("grilled veggies") ||
+    cleaned.includes("roasted vegetables") ||
+    cleaned.includes("roasted veggies")
+  ) {
     return "grilled vegetables";
   }
+
+  // Collapse street-corn/corn-on-cob wording to one shopping item so the list
+  // does not show both "Mexican Street Corn" and "Corn On the Cob" separately.
   if (
     cleaned.includes("mexican street corn") ||
     cleaned.includes("street corn") ||
@@ -764,20 +853,47 @@ function normalizeSideSuggestionText(text: string) {
     cleaned.includes("ear corn") ||
     cleaned === "corn"
   ) {
-    return cleaned.includes("street corn") ? "mexican street corn" : "corn on the cob";
+    return "corn on the cob";
   }
 
+  if (
+    cleaned.includes("roasted potatoes") ||
+    cleaned.includes("mashed potatoes") ||
+    cleaned.includes("baked potato") ||
+    cleaned === "potatoes"
+  ) {
+    return "potato";
+  }
+
+  if (cleaned.includes("watermelon")) return "watermelon slices";
+  if (cleaned.includes("pickle spear")) return "pickle spears";
+  if (cleaned === "pickles" || cleaned === "pickle") return "pickles";
+
+  // =====================================================
   // Citrus / herbs
-  if (cleaned.includes("lime wedge") || cleaned.includes("lime zest") || cleaned.includes("lime juice")) {
+  // =====================================================
+  if (
+    cleaned.includes("lime wedge") ||
+    cleaned.includes("lime zest") ||
+    cleaned.includes("lime juice")
+  ) {
     return "lime";
   }
-  if (cleaned.includes("lemon wedge") || cleaned.includes("lemon zest") || cleaned.includes("lemon juice")) {
+
+  if (
+    cleaned.includes("lemon wedge") ||
+    cleaned.includes("lemon zest") ||
+    cleaned.includes("lemon juice")
+  ) {
     return "lemon";
   }
 
+  // =====================================================
   // Pantry / snack sides
+  // =====================================================
   if (cleaned === "chips" || cleaned.includes("potato chips")) return "potato chips";
   if (cleaned.includes("chips and salsa")) return "chips and salsa";
+  if (cleaned === "salsa") return "salsa";
   if (cleaned.includes("tortilla chips")) return "tortilla chips";
   if (cleaned.includes("crouton")) return "croutons";
   if (cleaned.includes("baked beans")) return "baked beans";
@@ -785,16 +901,25 @@ function normalizeSideSuggestionText(text: string) {
   if (cleaned.includes("molasses")) return "molasses";
   if (cleaned.includes("ketchup")) return "ketchup";
   if (cleaned.includes("yellow mustard")) return "yellow mustard";
+  if (cleaned.includes("mustard")) return "yellow mustard";
+  if (cleaned.includes("guacamole")) return "guacamole";
+  if (cleaned.includes("hummus")) return "hummus";
+  if (cleaned.includes("cornbread")) return "cornbread";
+  if (cleaned.includes("crackers")) return "crackers";
 
+  // =====================================================
   // Bakery / frozen / starchy sides
+  // =====================================================
   if (cleaned.includes("garlic bread")) return "garlic bread";
   if (cleaned.includes("dinner rolls") || cleaned === "rolls") return "dinner rolls";
   if (cleaned.includes("breadsticks")) return "breadsticks";
   if (cleaned.includes("naan")) return "naan";
   if (cleaned.includes("pita")) return "pita bread";
   if (cleaned.includes("french fries")) return "french fries";
+  if (cleaned.includes("sweet potato fries")) return "sweet potato fries";
   if (cleaned.includes("spring roll")) return "spring rolls";
   if (cleaned.includes("egg roll")) return "egg rolls";
+  if (cleaned.includes("edamame")) return "steamed edamame";
   if (cleaned.includes("rice pilaf")) return "rice pilaf";
   if (cleaned.includes("cilantro lime rice")) return "cilantro lime rice";
   if (cleaned === "steamed rice" || cleaned === "white rice") return "rice";
@@ -1193,15 +1318,23 @@ function isPreparedProduceSide(cleaned: string) {
     cleaned.includes("coleslaw") ||
     cleaned.includes("spring mix") ||
     cleaned.includes("salad mix") ||
+    cleaned.includes("romaine lettuce") ||
     cleaned.includes("asparagus") ||
     cleaned.includes("broccoli") ||
+    cleaned.includes("green beans") ||
+    cleaned.includes("carrot") ||
     cleaned.includes("grilled vegetables") ||
     cleaned.includes("watermelon") ||
+    cleaned.includes("pickle") ||
     cleaned.includes("corn on the cob") ||
     cleaned.includes("mexican street corn") ||
     cleaned.includes("ears corn") ||
     cleaned.includes("ear corn") ||
-    cleaned === "corn"
+    cleaned === "corn" ||
+    cleaned === "potato" ||
+    cleaned.includes("roasted potatoes") ||
+    cleaned.includes("mashed potatoes") ||
+    cleaned.includes("baked potato")
   );
 }
 
@@ -1216,6 +1349,9 @@ function isPreparedPantrySide(cleaned: string) {
     cleaned.includes("molasses") ||
     cleaned.includes("ketchup") ||
     cleaned.includes("mustard") ||
+    cleaned.includes("guacamole") ||
+    cleaned.includes("hummus") ||
+    cleaned.includes("salsa") ||
     cleaned.includes("rice pilaf") ||
     cleaned.includes("cilantro lime rice") ||
     cleaned === "rice" ||
@@ -1223,7 +1359,9 @@ function isPreparedPantrySide(cleaned: string) {
     cleaned.includes("white rice") ||
     cleaned.includes("long grain white rice") ||
     cleaned.includes("orzo") ||
-    cleaned.includes("spaghetti")
+    cleaned.includes("spaghetti") ||
+    cleaned.includes("cornbread") ||
+    cleaned.includes("crackers")
   );
 }
 
@@ -1240,6 +1378,7 @@ function isPreparedBakerySide(cleaned: string) {
 function isPreparedFrozenSide(cleaned: string) {
   return (
     cleaned.includes("french fries") ||
+    cleaned.includes("sweet potato fries") ||
     cleaned.includes("egg rolls") ||
     cleaned.includes("egg roll") ||
     cleaned.includes("spring rolls") ||
