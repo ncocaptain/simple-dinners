@@ -86,6 +86,11 @@ ingredientCount: "ingredients",
 stepCount: "steps",
 times: "times",
 time: "time",
+addSidesToShoppingList: "Add sides to shopping list",
+sideAdded: "Side added to shopping list ✓",
+sidesAdded: "Sides added to shopping list ✓",
+selectedSidesAdded: "Selected sides added ✓",
+allSidesAdded: "All sides added ✓",
 
 tips: {
   cookMode: "Use Cook Mode for step-by-step cooking.",

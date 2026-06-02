@@ -87,6 +87,11 @@ ingredientCount: "ingredientes",
 stepCount: "pasos",
 times: "veces",
 time: "vez",
+addSidesToShoppingList: "Agregar acompañamientos a la lista",
+sideAdded: "Acompañamiento agregado a la lista ✓",
+sidesAdded: "Acompañamientos agregados a la lista ✓",
+selectedSidesAdded: "Acompañamientos seleccionados agregados ✓",
+allSidesAdded: "Todos los acompañamientos agregados ✓",
 
 tips: {
   cookMode: "Usa el modo cocina para cocinar paso a paso.",

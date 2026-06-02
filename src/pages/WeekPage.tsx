@@ -23,7 +23,8 @@ import { t, getStoredLanguage } from "../i18n";
 import { getLocalizedMeal } from "../core/localizedMeal";
 import { Capacitor } from "@capacitor/core";
 import { getDisplaySides } from "../core/customSides";
-import { addSidesToList } from "../shoppingList";
+import { addIngredientsToList } from "../shoppingList";
+import { getSideShoppingLines } from "../core/sideRecipeMatcher";
 
 type WalkthroughStep = 1 | 2 | 3;
 type TooltipPosition = {
@@ -412,9 +413,14 @@ const handleAddSidesToShoppingList = (
   const selectedSides = sides.filter((side) => checkedSidesByDay[day]?.[side]);
   const sidesToSend = selectedSides.length ? selectedSides : sides;
 
-  addSidesToList(
+  const shoppingLines = sidesToSend.flatMap((side) => {
+  const result = getSideShoppingLines(side);
+  return result.lines;
+});
+
+addIngredientsToList(
   `${mealName || getTranslatedDay(day)} sides`,
-  sidesToSend.join("\n"),
+  shoppingLines.join("\n"),
 );
 
   setCheckedSidesByDay((prev) => ({

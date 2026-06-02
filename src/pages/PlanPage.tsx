@@ -172,9 +172,17 @@ export default function PlanPage({
   };
 
   const handleLanguageChange = (nextLanguage: LanguageCode) => {
-    setLanguage(nextLanguage);
-    saveStoredLanguage(nextLanguage);
-  };
+  if (nextLanguage === language) return;
+
+  saveStoredLanguage(nextLanguage);
+  setLanguage(nextLanguage);
+
+  window.dispatchEvent(
+    new CustomEvent("simple-dinners-language-change", {
+      detail: nextLanguage,
+    })
+  );
+};
 
   const toggleAllergen = (key: string) => {
     const current = Array.isArray(prefs.allergens) ? prefs.allergens : [];
@@ -302,7 +310,9 @@ export default function PlanPage({
         gap: 10,
       }}
     >
-      <div style={{ fontSize: 14, fontWeight: 900 }}>{t("plan.language")}</div>
+      <div style={{ fontSize: 14, fontWeight: 900 }}>
+  🌐 {t("plan.language", "Language")}
+</div>
 
       <div style={{ display: "flex", gap: 10 }}>
         {(["en", "es"] as LanguageCode[]).map((option) => {
