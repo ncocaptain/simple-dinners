@@ -73,31 +73,77 @@ const SIDE_ALIASES: Record<string, string> = {
 
   "sweet potato casserole": "normal-sweet-potato-casserole",
 
-  // Vegetables
+  // =====================================================
+  // Batch 2: Vegetable sides
+  // =====================================================
+
+  // Green beans
   "green beans": "quick-garlic-green-beans",
   "garlic green beans": "quick-garlic-green-beans",
+  "roasted green beans": "quick-garlic-green-beans",
+  "steamed green beans": "quick-garlic-green-beans",
+
+  // Broccoli
   "broccoli": "quick-lemon-roasted-broccoli",
   "roasted broccoli": "quick-lemon-roasted-broccoli",
-  "asparagus": "quick-garlic-butter-asparagus",
-  "roasted asparagus": "quick-garlic-butter-asparagus",
+  "lemon roasted broccoli": "quick-lemon-roasted-broccoli",
+  "steamed broccoli": "quick-lemon-roasted-broccoli",
+
+  // Carrots
   "carrots": "quick-glazed-carrots",
-  "roasted carrots": "quick-glazed-carrots",
   "glazed carrots": "quick-glazed-carrots",
+  "roasted carrots": "quick-glazed-carrots",
+  "steamed carrots": "quick-glazed-carrots",
+
+  // Asparagus
+  "asparagus": "quick-garlic-butter-asparagus",
+  "garlic butter asparagus": "quick-garlic-butter-asparagus",
+  "roasted asparagus": "quick-garlic-butter-asparagus",
+  "grilled asparagus": "quick-garlic-butter-asparagus",
+  "steamed asparagus": "quick-garlic-butter-asparagus",
+
+  // Brussels sprouts
   "brussels sprouts": "quick-crispy-brussels-sprouts",
+  "crispy brussels sprouts": "quick-crispy-brussels-sprouts",
+  "roasted brussels sprouts": "quick-crispy-brussels-sprouts",
+
+  // Cauliflower
   "cauliflower": "quick-roasted-cauliflower",
   "roasted cauliflower": "quick-roasted-cauliflower",
-  "peas and carrots": "quick-peas-and-carrots",
+  "parmesan cauliflower": "quick-roasted-cauliflower",
+
+  // Zucchini / squash
+  "zucchini": "quick-sauteed-zucchini-squash",
   "zucchini and squash": "quick-sauteed-zucchini-squash",
+  "sautéed zucchini and squash": "quick-sauteed-zucchini-squash",
+  "sauteed zucchini and squash": "quick-sauteed-zucchini-squash",
+  "summer squash": "quick-sauteed-zucchini-squash",
+
+  // Spinach
+  "creamed spinach": "quick-creamed-spinach",
+  "spinach": "quick-creamed-spinach",
+
+  // Peas / carrots
+  "peas and carrots": "quick-peas-and-carrots",
+  "peas": "quick-peas-and-carrots",
+
+  // Root vegetables
+  "roasted root vegetables": "quick-roasted-root-vegetables",
+  "root vegetables": "quick-roasted-root-vegetables",
+  "roasted vegetables": "quick-roasted-root-vegetables",
+
+  // Grilled vegetables
   "grilled vegetables": "quick-grilled-veggie-kabobs",
   "grilled veggies": "quick-grilled-veggie-kabobs",
+  "veggie kabobs": "quick-grilled-veggie-kabobs",
+  "grilled veggie kabobs": "quick-grilled-veggie-kabobs",
 
   // Corn
   "corn on the cob": "quick-buttered-corn-on-the-cob",
   "buttered corn on the cob": "quick-buttered-corn-on-the-cob",
+  "corn": "quick-buttered-corn-on-the-cob",
   "grilled corn": "quick-grilled-corn",
   "grilled corn on the cob": "quick-grilled-corn",
-  "street corn": "quick-buttered-corn-on-the-cob",
-  "mexican street corn": "quick-buttered-corn-on-the-cob",
   "creamed corn": "quick-creamed-corn",
 
   // BBQ / cookout
