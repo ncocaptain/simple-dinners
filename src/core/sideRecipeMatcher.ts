@@ -13,24 +13,65 @@ function normalizeSideName(text: string) {
 }
 
 const SIDE_ALIASES: Record<string, string> = {
-  // Bread
+  // =====================================================
+  // Bread / bakery sides
+  // =====================================================
   "garlic bread": "quick-garlic-bread",
-  "dinner rolls": "quick-dinner-rolls",
-  "rolls": "quick-dinner-rolls",
-  "biscuits": "quick-biscuits",
-  "cornbread": "quick-cornbread",
+  "cheesy garlic bread": "quick-garlic-bread",
+  "toast garlic bread": "quick-garlic-bread",
 
-  // Potatoes / fries
+  "dinner rolls": "quick-soft-dinner-rolls",
+  "rolls": "quick-soft-dinner-rolls",
+  "soft dinner rolls": "quick-soft-dinner-rolls",
+
+  // =====================================================
+  // Potato sides
+  // =====================================================
   "baked potato": "quick-airfryer-baked-potato",
   "baked potatoes": "quick-airfryer-baked-potato",
+  "air fryer baked potato": "quick-airfryer-baked-potato",
+  "loaded baked potato": "quick-airfryer-baked-potato",
+  "loaded baked potatoes": "quick-airfryer-baked-potato",
+
   "mashed potatoes": "quick-creamy-mashed-potatoes",
+  "creamy mashed potatoes": "quick-creamy-mashed-potatoes",
+  "potatoes mashed": "quick-creamy-mashed-potatoes",
+
   "roasted potatoes": "quick-garlic-roasted-potatoes",
   "garlic roasted potatoes": "quick-garlic-roasted-potatoes",
+  "roasted garlic potatoes": "quick-garlic-roasted-potatoes",
+
   "red potatoes": "quick-roasted-red-potatoes",
   "roasted red potatoes": "quick-roasted-red-potatoes",
+
+  "crispy smashed potatoes": "quick-crispy-smashed-potatoes",
+  "smashed potatoes": "quick-crispy-smashed-potatoes",
+
+  "scalloped potatoes": "normal-scalloped-potatoes",
+  "creamy scalloped potatoes": "normal-scalloped-potatoes",
+
+  "potato salad": "classic-potato-salad",
+  "classic potato salad": "classic-potato-salad",
+
   "french fries": "quick-seasoned-fries",
   "fries": "quick-seasoned-fries",
+  "seasoned fries": "quick-seasoned-fries",
+  "potato fries": "quick-seasoned-fries",
+
+  // =====================================================
+  // Sweet potato sides
+  // =====================================================
+  "baked sweet potato": "quick-baked-sweet-potatoes",
+  "baked sweet potatoes": "quick-baked-sweet-potatoes",
+
+  "roasted sweet potatoes": "quick-roasted-sweet-potato-cubes",
+  "roasted sweet potato cubes": "quick-roasted-sweet-potato-cubes",
+  "sweet potato cubes": "quick-roasted-sweet-potato-cubes",
+
   "sweet potato fries": "quick-sweet-potato-fries",
+  "sweet potato wedges": "quick-sweet-potato-fries",
+
+  "sweet potato casserole": "normal-sweet-potato-casserole",
 
   // Vegetables
   "green beans": "quick-garlic-green-beans",
@@ -63,8 +104,6 @@ const SIDE_ALIASES: Record<string, string> = {
   "smoked mac and cheese": "big-smoked-mac-and-cheese",
   "mac and cheese": "big-smoked-mac-and-cheese",
   "macaroni and cheese": "big-smoked-mac-and-cheese",
-  "potato salad": "classic-potato-salad",
-  "classic potato salad": "classic-potato-salad",
 
   // Appetizer-ish / special
   "buffalo chicken tots": "buffalo-chicken-tots",
