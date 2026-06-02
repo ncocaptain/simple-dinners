@@ -146,6 +146,32 @@ const SIDE_ALIASES: Record<string, string> = {
   "grilled corn on the cob": "quick-grilled-corn",
   "creamed corn": "quick-creamed-corn",
 
+    // =====================================================
+  // Batch 3: Rice, grains, beans, and Tex-Mex sides
+  // =====================================================
+
+  // Rice / grains
+
+  "brown rice": "quick-brown-rice",
+
+  "rice pilaf": "quick-rice-pilaf",
+
+  "cilantro lime rice": "quick-cilantro-lime-rice",
+  "lime rice": "quick-cilantro-lime-rice",
+
+
+  // Beans
+
+  "refried beans": "quick-refried-beans",
+
+  "baked beans": "normal-baked-beans",
+
+
+  // Tex-Mex simple sides
+
+  "guacamole": "quick-classic-guacamole",
+  "chips and guacamole": "quick-classic-guacamole",
+
   // BBQ / cookout
   "smoked mac and cheese": "big-smoked-mac-and-cheese",
   "mac and cheese": "big-smoked-mac-and-cheese",
