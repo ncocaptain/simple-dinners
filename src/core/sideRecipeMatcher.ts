@@ -170,12 +170,19 @@ const SIDE_ALIASES: Record<string, string> = {
   // Tex-Mex simple sides
 
   "guacamole": "quick-classic-guacamole",
-  "chips and guacamole": "quick-classic-guacamole",
 
-  // BBQ / cookout
-  "smoked mac and cheese": "big-smoked-mac-and-cheese",
-  "mac and cheese": "big-smoked-mac-and-cheese",
-  "macaroni and cheese": "big-smoked-mac-and-cheese",
+  // =====================================================
+// Batch 4: BBQ, cookout, and comfort sides
+// =====================================================
+
+// Mac and cheese
+"smoked mac and cheese": "big-smoked-mac-and-cheese",
+"mac and cheese": "big-smoked-mac-and-cheese",
+"macaroni and cheese": "big-smoked-mac-and-cheese",
+
+// Potato / pasta salads
+"pasta salad": "quick-classic-pasta-salad",
+
 
   // Appetizer-ish / special
   "buffalo chicken tots": "buffalo-chicken-tots",
