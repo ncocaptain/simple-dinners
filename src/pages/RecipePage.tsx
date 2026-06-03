@@ -31,7 +31,10 @@ import {
   getCustomSides,
   setCustomSides,
 } from "../core/customSides";
-import { getSideShoppingLines } from "../core/sideRecipeMatcher";
+import {
+  getSideShoppingLines,
+  findSideRecipeByName,
+} from "../core/sideRecipeMatcher";
 
 
 
@@ -674,32 +677,6 @@ type RecipePageProps = {
   };
 };
 
-function slugifySideName(text: string) {
-  return String(text || "")
-    .toLowerCase()
-    .trim()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
-
-function getCookableSideRecipe(sideName: string) {
-  const baseSlug = slugifySideName(sideName);
-
-  const candidates = [
-    baseSlug,
-    `quick-${baseSlug}`,
-    `normal-${baseSlug}`,
-    `big-${baseSlug}`,
-  ];
-
-  for (const candidate of candidates) {
-    const match = getRecipeBySlug(candidate);
-    if (match) return match;
-  }
-
-  return null;
-}
 
 export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   const navigate = useNavigate();
@@ -1929,7 +1906,7 @@ function resetSideDrafts() {
                 >
                   {suggestedSides.map((side: string) => {
   const checked = !!checkedSides[side];
-  const sideRecipe = getCookableSideRecipe(side);
+  const sideRecipe = findSideRecipeByName(side);
 
   return (
     <div
@@ -1971,36 +1948,38 @@ function resetSideDrafts() {
         {side}
       </button>
 
-      {sideRecipe?.slug && (
-        <button
-          type="button"
-          onClick={() =>
-            navigate(
-              `/recipe/${encodeURIComponent(
-                sideRecipe.slug
-              )}?from=${encodeURIComponent(
-                `/recipe/${safeRecipe.slug || safeRecipe.name || ""}`
-              )}&cook=true`
-            )
-          }
-          style={{
-            padding: "8px 10px",
-            borderRadius: 999,
-            background: "rgba(34,197,94,0.10)",
-            border: "1px solid rgba(34,197,94,0.24)",
-            color: "#86efac",
-            fontSize: 12,
-            fontWeight: 900,
-            cursor: "pointer",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 6,
-          }}
-        >
-          <Play size={13} />
-          {t("recipe.cookSide", "Cook")}
-        </button>
-      )}
+      {sideRecipe && (sideRecipe.slug || sideRecipe.name) && (
+  <button
+    type="button"
+    onClick={() => {
+      const sideRecipeKey = sideRecipe.slug || sideRecipe.name || "";
+
+      navigate(
+        `/recipe/${encodeURIComponent(
+          sideRecipeKey
+        )}?from=${encodeURIComponent(
+          `/recipe/${safeRecipe.slug || safeRecipe.name || ""}`
+        )}&cook=true`
+      );
+    }}
+    style={{
+      padding: "8px 10px",
+      borderRadius: 999,
+      background: "rgba(34,197,94,0.10)",
+      border: "1px solid rgba(34,197,94,0.24)",
+      color: "#86efac",
+      fontSize: 12,
+      fontWeight: 900,
+      cursor: "pointer",
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 6,
+    }}
+  >
+    <Play size={13} />
+    {t("recipe.cookSide", "Cook")}
+  </button>
+)}
     </div>
   );
 })}
