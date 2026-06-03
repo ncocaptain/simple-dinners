@@ -674,6 +674,33 @@ type RecipePageProps = {
   };
 };
 
+function slugifySideName(text: string) {
+  return String(text || "")
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+function getCookableSideRecipe(sideName: string) {
+  const baseSlug = slugifySideName(sideName);
+
+  const candidates = [
+    baseSlug,
+    `quick-${baseSlug}`,
+    `normal-${baseSlug}`,
+    `big-${baseSlug}`,
+  ];
+
+  for (const candidate of candidates) {
+    const match = getRecipeBySlug(candidate);
+    if (match) return match;
+  }
+
+  return null;
+}
+
 export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   const navigate = useNavigate();
   const { slug = "" } = useParams();
@@ -1902,38 +1929,79 @@ function resetSideDrafts() {
                 >
                   {suggestedSides.map((side: string) => {
   const checked = !!checkedSides[side];
+  const sideRecipe = getCookableSideRecipe(side);
 
   return (
-    <button
+    <div
       key={side}
-      type="button"
-      onClick={() => toggleSide(side)}
       style={{
-        padding: "8px 10px",
-        borderRadius: 999,
-        background: checked
-          ? "rgba(34,197,94,0.14)"
-          : "rgba(255,255,255,0.06)",
-        border: checked
-          ? "1px solid rgba(34,197,94,0.32)"
-          : "1px solid rgba(255,255,255,0.10)",
-        color: checked ? "#86efac" : "rgba(255,255,255,0.88)",
-        fontSize: 13,
-        fontWeight: 800,
-        cursor: "pointer",
         display: "inline-flex",
         alignItems: "center",
         gap: 6,
+        flexWrap: "wrap",
       }}
     >
-      <CheckCircle2
-        size={14}
+      <button
+        type="button"
+        onClick={() => toggleSide(side)}
         style={{
-          color: checked ? "#22c55e" : "rgba(255,255,255,0.35)",
+          padding: "8px 10px",
+          borderRadius: 999,
+          background: checked
+            ? "rgba(34,197,94,0.14)"
+            : "rgba(255,255,255,0.06)",
+          border: checked
+            ? "1px solid rgba(34,197,94,0.32)"
+            : "1px solid rgba(255,255,255,0.10)",
+          color: checked ? "#86efac" : "rgba(255,255,255,0.88)",
+          fontSize: 13,
+          fontWeight: 800,
+          cursor: "pointer",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 6,
         }}
-      />
-      {side}
-    </button>
+      >
+        <CheckCircle2
+          size={14}
+          style={{
+            color: checked ? "#22c55e" : "rgba(255,255,255,0.35)",
+          }}
+        />
+        {side}
+      </button>
+
+      {sideRecipe?.slug && (
+        <button
+          type="button"
+          onClick={() =>
+            navigate(
+              `/recipe/${encodeURIComponent(
+                sideRecipe.slug
+              )}?from=${encodeURIComponent(
+                `/recipe/${safeRecipe.slug || safeRecipe.name || ""}`
+              )}&cook=true`
+            )
+          }
+          style={{
+            padding: "8px 10px",
+            borderRadius: 999,
+            background: "rgba(34,197,94,0.10)",
+            border: "1px solid rgba(34,197,94,0.24)",
+            color: "#86efac",
+            fontSize: 12,
+            fontWeight: 900,
+            cursor: "pointer",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          <Play size={13} />
+          {t("recipe.cookSide", "Cook")}
+        </button>
+      )}
+    </div>
   );
 })}
                 </div>
