@@ -223,6 +223,7 @@ const MERGE_AS_SINGLE_DAIRY_ITEMS = new Set([
   "butter",
   "sour cream",
   "cream cheese",
+  "parmesan cheese",
 ]);
 
 const DEFAULT_CAN_PACKAGE_SIZE_BY_NAME: Record<string, string> = {
