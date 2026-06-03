@@ -12175,6 +12175,2017 @@ Decora con cilantro y sirve caliente.`,
   },
 },
 
+{
+  id: "quick-greek-lemon-potatoes",
+  slug: "quick-greek-lemon-potatoes",
+  name: "Greek Lemon Potatoes",
+  effort: "quick",
+  photoUrl: "/images/quick-greek-lemon-potatoes.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "potatoes",
+    "greek",
+    "roasted",
+    "lemon",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "These Greek-style lemon potatoes are roasted until tender with bright citrus flavor, garlic, and herbs. They're especially delicious alongside chicken, lamb, or grilled seafood.",
+  ingredients: `Potatoes:
+2 lbs Yukon Gold potatoes, cut into wedges
+
+Seasoning:
+1/4 cup olive oil
+1/4 cup fresh lemon juice
+1 cup vegetable broth
+3 cloves garlic, minced
+1 tsp dried oregano
+1 tsp salt
+1/2 tsp black pepper
+
+Optional:
+1 tbsp fresh parsley, chopped
+lemon wedges for serving`,
+  instructions: `Preheat oven to 425°F.
+
+Place 2 lbs potato wedges into a 9x13 baking dish or rimmed baking sheet.
+
+In a bowl, whisk together 1/4 cup olive oil, 1/4 cup lemon juice, 1 cup broth, 3 cloves garlic, 1 tsp oregano, 1 tsp salt, and 1/2 tsp black pepper.
+
+Pour the mixture over the potatoes and toss to coat evenly.
+
+Arrange the potatoes in a single layer.
+
+Roast for 40 to 50 minutes, turning once halfway through, until the potatoes are tender and the liquid has mostly absorbed.
+
+For extra browning, broil for 2 to 3 minutes at the end if desired.
+
+Garnish with parsley and serve with lemon wedges if desired.`,
+  translations: {
+    es: {
+      name: "Papas Griegas al Limón",
+      notes:
+        "Estas papas estilo griego se rostizan hasta quedar tiernas con un brillante sabor a limón, ajo y hierbas. Son perfectas junto a pollo, cordero o mariscos a la parrilla.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "papas",
+        "griego",
+        "rostizado",
+        "limón",
+        "familiar",
+      ],
+      ingredients: `Papas:
+2 lbs de papas Yukon Gold, cortadas en gajos
+
+Sazonadores:
+1/4 taza de aceite de oliva
+1/4 taza de jugo de limón fresco
+1 taza de caldo de pollo (o caldo de verduras)
+3 dientes de ajo, picados
+1 cucharadita de orégano seco
+1 cucharadita de sal
+1/2 cucharadita de pimienta negra
+
+Opcional:
+1 cucharada de perejil fresco picado
+gajos de limón para servir`,
+      instructions: `Precalienta el horno a 425°F.
+
+Coloca 2 lbs de papas en gajos en un molde de 9x13 o en una bandeja para hornear.
+
+En un tazón, mezcla 1/4 taza de aceite de oliva, 1/4 taza de jugo de limón, 1 taza de caldo, 3 dientes de ajo, 1 cucharadita de orégano, 1 cucharadita de sal y 1/2 cucharadita de pimienta negra.
+
+Vierte la mezcla sobre las papas y revuelve para cubrirlas uniformemente.
+
+Acomoda las papas en una sola capa.
+
+Hornea de 40 a 50 minutos, volteándolas una vez a mitad de cocción, hasta que estén tiernas y el líquido se haya absorbido casi por completo.
+
+Para un acabado más dorado, usa el asador durante 2 a 3 minutos al final si lo deseas.
+
+Decora con perejil y sirve con gajos de limón si lo deseas.`,
+    },
+  },
+},
+
+{
+  id: "quick-classic-side-salad",
+  slug: "quick-classic-side-salad",
+  name: "Classic Side Salad",
+  effort: "quick",
+  photoUrl: "/images/quick-classic-side-salad.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "salad",
+    "healthy",
+    "fresh",
+    "quick",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "A simple, fresh side salad that pairs well with almost any meal. Easily customize with your favorite vegetables, cheese, or dressing.",
+  ingredients: `Salad:
+1 head romaine lettuce, chopped
+1 cup cherry tomatoes, halved
+1 cucumber, sliced
+1/4 cup red onion, thinly sliced
+1/2 cup croutons
+
+Dressing:
+1/4 cup Italian dressing
+
+Optional:
+1/4 cup shredded cheddar cheese
+1/4 cup parmesan cheese
+sliced olives`,
+  instructions: `Wash and dry the romaine lettuce thoroughly.
+
+Place lettuce, cherry tomatoes, cucumber, and red onion into a large bowl.
+
+Add 1/2 cup croutons.
+
+Drizzle with 1/4 cup Italian dressing.
+
+Toss gently until evenly coated.
+
+Top with cheese or olives if desired.
+
+Serve immediately while fresh and crisp.`,
+  translations: {
+    es: {
+      name: "Ensalada de Acompañamiento Clásica",
+      notes:
+        "Una ensalada fresca y sencilla que combina con casi cualquier comida. Fácil de personalizar con tus verduras, quesos o aderezos favoritos.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "ensalada",
+        "saludable",
+        "fresco",
+        "rápido",
+        "familiar",
+      ],
+      ingredients: `Ensalada:
+1 cabeza de lechuga romana, picada
+1 taza de tomates cherry, partidos por la mitad
+1 pepino, en rodajas
+1/4 taza de cebolla morada, en rodajas finas
+1/2 taza de crutones
+
+Aderezo:
+1/4 taza de aderezo italiano
+
+Opcional:
+1/4 taza de queso cheddar rallado
+1/4 taza de queso parmesano
+aceitunas en rodajas`,
+      instructions: `Lava y seca bien la lechuga romana.
+
+Coloca la lechuga, los tomates cherry, el pepino y la cebolla morada en un tazón grande.
+
+Agrega 1/2 taza de crutones.
+
+Rocía con 1/4 taza de aderezo italiano.
+
+Mezcla suavemente hasta cubrir uniformemente.
+
+Agrega queso o aceitunas si lo deseas.
+
+Sirve inmediatamente mientras esté fresca y crujiente.`,
+    },
+  },
+},
+
+{
+  id: "quick-classic-coleslaw",
+  slug: "quick-classic-coleslaw",
+  name: "Classic Coleslaw",
+  effort: "quick",
+  photoUrl: "/images/quick-classic-coleslaw.jpg",
+  tags: ["side", "vegetarian", "slaw", "bbq", "cookout", "fresh", "family-friendly"],
+  isVegetarian: true,
+  notes: "A cool, creamy, crunchy side that pairs perfectly with barbecue, fried chicken, burgers, and sandwiches.",
+  ingredients: `Slaw:
+1 (14 oz) bag coleslaw mix
+1/4 cup red onion, thinly sliced
+
+Dressing:
+1/2 cup mayonnaise
+2 tbsp apple cider vinegar
+1 tbsp sugar
+1 tsp Dijon mustard
+1/2 tsp salt
+1/4 tsp black pepper`,
+  instructions: `In a large bowl, combine 1 bag coleslaw mix and 1/4 cup sliced red onion.
+
+In a separate bowl, whisk together 1/2 cup mayonnaise, 2 tbsp apple cider vinegar, 1 tbsp sugar, 1 tsp Dijon mustard, 1/2 tsp salt, and 1/4 tsp black pepper until smooth.
+
+Pour the dressing over the coleslaw mix.
+
+Toss until the cabbage is evenly coated.
+
+Refrigerate for at least 20 minutes before serving for best flavor.
+
+Stir again before serving.`,
+  translations: {
+    es: {
+      name: "Ensalada de Col Clásica",
+      notes: "Una guarnición fresca, cremosa y crujiente que combina perfectamente con barbacoa, pollo frito, hamburguesas y sándwiches.",
+      tags: ["acompañamiento", "vegetariano", "ensalada de col", "bbq", "parrillada", "fresco", "familiar"],
+      ingredients: `Ensalada:
+1 bolsa (14 oz) de mezcla para coleslaw
+1/4 taza de cebolla morada, en rodajas finas
+
+Aderezo:
+1/2 taza de mayonesa
+2 cucharadas de vinagre de manzana
+1 cucharada de azúcar
+1 cucharadita de mostaza Dijon
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra`,
+      instructions: `En un tazón grande, mezcla 1 bolsa de coleslaw y 1/4 taza de cebolla morada.
+
+En otro tazón, bate 1/2 taza de mayonesa, 2 cucharadas de vinagre de manzana, 1 cucharada de azúcar, 1 cucharadita de mostaza Dijon, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra hasta que quede suave.
+
+Vierte el aderezo sobre la mezcla de col.
+
+Revuelve hasta que la col esté cubierta uniformemente.
+
+Refrigera por lo menos 20 minutos antes de servir para mejor sabor.
+
+Revuelve nuevamente antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "quick-buttery-biscuits",
+  slug: "quick-buttery-biscuits",
+  name: "Buttery Biscuits",
+  effort: "quick",
+  photoUrl: "/images/quick-buttery-biscuits.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "bread",
+    "biscuits",
+    "southern",
+    "comfort",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "Flaky, buttery biscuits with tender layers. Perfect for breakfast, dinner, soups, stews, or slathered with butter and honey.",
+  ingredients: `Dry Ingredients:
+2 cups all-purpose flour
+1 tbsp baking powder
+1/2 tsp salt
+
+Wet Ingredients:
+6 tbsp cold butter, cubed
+3/4 cup whole milk
+
+Optional:
+2 tbsp melted butter
+1 tbsp honey`,
+  instructions: `Preheat oven to 425°F.
+
+Line a baking sheet with parchment paper.
+
+In a large bowl, whisk together 2 cups flour, 1 tbsp baking powder, and 1/2 tsp salt.
+
+Cut 6 tbsp cold butter into the flour mixture until it resembles coarse crumbs.
+
+Pour in 3/4 cup milk and stir gently until a shaggy dough forms.
+
+Turn the dough onto a lightly floured surface.
+
+Pat into a rectangle about 1 inch thick.
+
+Fold the dough over itself 3 to 4 times to create flaky layers.
+
+Pat out again and cut into 8 biscuits.
+
+Place biscuits onto the prepared baking sheet.
+
+Bake for 12 to 15 minutes until golden brown.
+
+Brush with 2 tbsp melted butter and drizzle with honey if desired.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Biscuits de Mantequilla",
+      notes:
+        "Biscuits hojaldrados y mantequillosos con capas tiernas. Perfectos para desayunos, cenas, sopas o acompañados de mantequilla y miel.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "pan",
+        "biscuits",
+        "sureño",
+        "comfort",
+        "familiar",
+      ],
+      ingredients: `Ingredientes Secos:
+2 tazas de harina de trigo
+1 cucharada de polvo para hornear
+1/2 cucharadita de sal
+
+Ingredientes Húmedos:
+6 cucharadas de mantequilla fría en cubos
+3/4 taza de leche entera
+
+Opcional:
+2 cucharadas de mantequilla derretida
+1 cucharada de miel`,
+      instructions: `Precalienta el horno a 425°F.
+
+Cubre una bandeja para hornear con papel para hornear.
+
+En un tazón grande mezcla 2 tazas de harina, 1 cucharada de polvo para hornear y 1/2 cucharadita de sal.
+
+Incorpora 6 cucharadas de mantequilla fría hasta obtener una textura similar a migas gruesas.
+
+Agrega 3/4 taza de leche y mezcla suavemente hasta formar una masa.
+
+Coloca la masa sobre una superficie ligeramente enharinada.
+
+Forma un rectángulo de aproximadamente 1 pulgada de grosor.
+
+Dobla la masa sobre sí misma de 3 a 4 veces para crear capas hojaldradas.
+
+Extiende nuevamente y corta 8 biscuits.
+
+Colócalos sobre la bandeja preparada.
+
+Hornea de 12 a 15 minutos hasta que estén dorados.
+
+Barniza con 2 cucharadas de mantequilla derretida y agrega miel si lo deseas.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+
+{
+  id: "quick-classic-cornbread",
+  slug: "quick-classic-cornbread",
+  name: "Classic Cornbread",
+  effort: "quick",
+  photoUrl: "/images/quick-classic-cornbread.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "bread",
+    "cornbread",
+    "southern",
+    "comfort",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "A Southern favorite with a lightly sweet flavor and tender crumb. Perfect alongside chili, barbecue, soups, and hearty comfort-food dinners.",
+  ingredients: `Dry Ingredients:
+1 cup cornmeal
+1 cup all-purpose flour
+1/4 cup sugar
+1 tbsp baking powder
+1/2 tsp salt
+
+Wet Ingredients:
+1 cup milk
+1/3 cup vegetable oil
+1 large egg
+
+Optional:
+2 tbsp honey
+2 tbsp melted butter for serving`,
+  instructions: `Preheat oven to 400°F.
+
+Grease an 8-inch baking dish or cast iron skillet.
+
+In a large bowl, whisk together 1 cup cornmeal, 1 cup flour, 1/4 cup sugar, 1 tbsp baking powder, and 1/2 tsp salt.
+
+In a separate bowl, whisk together 1 cup milk, 1/3 cup vegetable oil, and 1 egg.
+
+Pour the wet ingredients into the dry ingredients and stir just until combined. Do not overmix.
+
+Pour the batter into the prepared baking dish.
+
+Bake for 18 to 22 minutes, until golden brown and a toothpick inserted in the center comes out clean.
+
+Allow to cool for 5 minutes before slicing.
+
+Serve warm with butter or honey if desired.`,
+  translations: {
+    es: {
+      name: "Pan de Maíz Clásico",
+      notes:
+        "Un clásico sureño con un sabor ligeramente dulce y una textura tierna. Perfecto junto a chili, barbacoa, sopas y comidas reconfortantes.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "pan",
+        "pan de maíz",
+        "sureño",
+        "comfort",
+        "familiar",
+      ],
+      ingredients: `Ingredientes Secos:
+1 taza de harina de maíz
+1 taza de harina de trigo
+1/4 taza de azúcar
+1 cucharada de polvo para hornear
+1/2 cucharadita de sal
+
+Ingredientes Húmedos:
+1 taza de leche
+1/3 taza de aceite vegetal
+1 huevo grande
+
+Opcional:
+2 cucharadas de miel
+2 cucharadas de mantequilla derretida para servir`,
+      instructions: `Precalienta el horno a 400°F.
+
+Engrasa un molde para hornear de 8 pulgadas o una sartén de hierro fundido.
+
+En un tazón grande mezcla 1 taza de harina de maíz, 1 taza de harina de trigo, 1/4 taza de azúcar, 1 cucharada de polvo para hornear y 1/2 cucharadita de sal.
+
+En otro tazón bate 1 taza de leche, 1/3 taza de aceite vegetal y 1 huevo.
+
+Vierte los ingredientes húmedos sobre los secos y mezcla solo hasta integrar. No mezcles demasiado.
+
+Vierte la masa en el molde preparado.
+
+Hornea de 18 a 22 minutos, hasta que esté dorado y un palillo insertado en el centro salga limpio.
+
+Deja enfriar durante 5 minutos antes de cortar.
+
+Sirve caliente con mantequilla o miel si lo deseas.`,
+    },
+  },
+},
+
+{
+  id: "quick-classic-dill-pickles",
+  slug: "quick-classic-dill-pickles",
+  name: "Classic Dill Pickles",
+  effort: "quick",
+  photoUrl: "/images/quick-classic-dill-pickles.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "pickles",
+    "condiment",
+    "snack",
+    "make-ahead",
+    "low-calorie",
+  ],
+  isVegetarian: true,
+  notes:
+    "These crisp, tangy refrigerator pickles are easy to make and pair perfectly with burgers, sandwiches, barbecue, and charcuterie boards.",
+  ingredients: `Pickles:
+4 small cucumbers, sliced into spears or rounds
+
+Brine:
+1 cup water
+1 cup white vinegar
+1 tbsp kosher salt
+1 tbsp sugar
+
+Flavorings:
+2 cloves garlic, smashed
+1 tsp dill seed
+2 tbsp fresh dill
+1/2 tsp black peppercorns
+
+Optional:
+1/4 tsp red pepper flakes`,
+  instructions: `Place 4 sliced cucumbers into a clean quart-sized jar or airtight container.
+
+Add 2 smashed garlic cloves, 1 tsp dill seed, 2 tbsp fresh dill, and 1/2 tsp peppercorns.
+
+In a small saucepan, combine 1 cup water, 1 cup vinegar, 1 tbsp kosher salt, and 1 tbsp sugar.
+
+Heat over medium heat, stirring until the salt and sugar dissolve.
+
+Remove from heat and allow the brine to cool for 10 minutes.
+
+Pour the brine over the cucumbers until fully submerged.
+
+Add red pepper flakes if desired.
+
+Cover and refrigerate for at least 24 hours before serving.
+
+For best flavor, allow the pickles to sit for 2 to 3 days before enjoying.`,
+  translations: {
+    es: {
+      name: "Pepinillos Clásicos con Eneldo",
+      notes:
+        "Estos pepinillos crujientes y ácidos son fáciles de preparar y combinan perfectamente con hamburguesas, sándwiches, barbacoa y tablas de aperitivos.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "pepinillos",
+        "condimento",
+        "botana",
+        "preparar con anticipación",
+        "bajo en calorías",
+      ],
+      ingredients: `Pepinillos:
+4 pepinos pequeños, cortados en tiras o rodajas
+
+Salmuera:
+1 taza de agua
+1 taza de vinagre blanco
+1 cucharada de sal kosher
+1 cucharada de azúcar
+
+Saborizantes:
+2 dientes de ajo aplastados
+1 cucharadita de semillas de eneldo
+2 cucharadas de eneldo fresco
+1/2 cucharadita de granos de pimienta negra
+
+Opcional:
+1/4 cucharadita de hojuelas de chile rojo`,
+      instructions: `Coloca 4 pepinos cortados en un frasco limpio o recipiente hermético.
+
+Agrega 2 dientes de ajo, 1 cucharadita de semillas de eneldo, 2 cucharadas de eneldo fresco y 1/2 cucharadita de granos de pimienta.
+
+En una cacerola pequeña, combina 1 taza de agua, 1 taza de vinagre, 1 cucharada de sal kosher y 1 cucharada de azúcar.
+
+Calienta a fuego medio, revolviendo hasta disolver la sal y el azúcar.
+
+Retira del fuego y deja enfriar durante 10 minutos.
+
+Vierte la salmuera sobre los pepinos hasta cubrirlos completamente.
+
+Agrega hojuelas de chile rojo si lo deseas.
+
+Tapa y refrigera durante al menos 24 horas antes de servir.
+
+Para obtener el mejor sabor, deja reposar los pepinillos de 2 a 3 días antes de disfrutarlos.`,
+    },
+  },
+},
+
+{
+  id: "quick-simple-green-salad",
+  slug: "quick-simple-green-salad",
+  name: "Simple Green Salad",
+  effort: "quick",
+  photoUrl: "/images/quick-simple-green-salad.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "salad",
+    "healthy",
+    "fresh",
+    "quick",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "A light, fresh green salad that pairs with almost any meal. Simple ingredients and a quick vinaigrette keep it crisp and refreshing.",
+  ingredients: `Salad:
+5 oz mixed greens or spring mix
+1 cucumber, sliced
+1 cup cherry tomatoes, halved
+
+Vinaigrette:
+2 tbsp olive oil
+1 tbsp red wine vinegar
+1/2 tsp Dijon mustard
+1/4 tsp salt
+1/4 tsp black pepper
+
+Optional:
+1/4 cup croutons
+1/4 cup shredded parmesan cheese`,
+  instructions: `Wash and dry the greens thoroughly.
+
+Place mixed greens, cucumber, and cherry tomatoes into a large salad bowl.
+
+In a small bowl, whisk together 2 tbsp olive oil, 1 tbsp red wine vinegar, 1/2 tsp Dijon mustard, 1/4 tsp salt, and 1/4 tsp black pepper.
+
+Drizzle the vinaigrette over the salad.
+
+Toss gently until evenly coated.
+
+Top with croutons or parmesan cheese if desired.
+
+Serve immediately while fresh and crisp.`,
+  translations: {
+    es: {
+      name: "Ensalada Verde Sencilla",
+      notes:
+        "Una ensalada verde ligera y fresca que combina con casi cualquier comida. Ingredientes simples y una vinagreta rápida la mantienen crujiente y refrescante.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "ensalada",
+        "saludable",
+        "fresco",
+        "rápido",
+        "familiar",
+      ],
+      ingredients: `Ensalada:
+5 oz de mezcla de hojas verdes o spring mix
+1 pepino, en rodajas
+1 taza de tomates cherry, partidos por la mitad
+
+Vinagreta:
+2 cucharadas de aceite de oliva
+1 cucharada de vinagre de vino tinto
+1/2 cucharadita de mostaza Dijon
+1/4 cucharadita de sal
+1/4 cucharadita de pimienta negra
+
+Opcional:
+1/4 taza de crutones
+1/4 taza de queso parmesano rallado`,
+      instructions: `Lava y seca bien las hojas verdes.
+
+Coloca las hojas verdes, el pepino y los tomates cherry en un tazón grande.
+
+En un recipiente pequeño, bate 2 cucharadas de aceite de oliva, 1 cucharada de vinagre de vino tinto, 1/2 cucharadita de mostaza Dijon, 1/4 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Rocía la vinagreta sobre la ensalada.
+
+Mezcla suavemente hasta cubrir uniformemente.
+
+Agrega crutones o queso parmesano si lo deseas.
+
+Sirve inmediatamente mientras esté fresca y crujiente.`,
+    },
+  },
+},
+
+{
+  id: "quick-avocado-slices",
+  slug: "quick-avocado-slices",
+  name: "Avocado Slices",
+  effort: "quick",
+  photoUrl: "/images/quick-avocado-slices.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "avocado",
+    "healthy",
+    "fresh",
+    "quick",
+    "low-carb",
+  ],
+  isVegetarian: true,
+  notes:
+    "Simple avocado slices add creamy texture and fresh flavor to tacos, grilled meats, sandwiches, rice bowls, and salads.",
+  ingredients: `2 ripe avocados
+1 tbsp lime juice
+1/4 tsp salt
+1/8 tsp black pepper
+
+Optional:
+1 tbsp cilantro, chopped
+pinch of chili powder`,
+  instructions: `Cut 2 ripe avocados in half and remove the pits.
+
+Carefully slice each avocado into thin slices.
+
+Transfer to a serving plate.
+
+Drizzle with 1 tbsp lime juice.
+
+Sprinkle with 1/4 tsp salt and 1/8 tsp black pepper.
+
+Top with cilantro or chili powder if desired.
+
+Serve immediately.`,
+  translations: {
+    es: {
+      name: "Rebanadas de Aguacate",
+      notes:
+        "Las rebanadas de aguacate aportan una textura cremosa y un sabor fresco que combina perfectamente con tacos, carnes a la parrilla, sándwiches, bowls de arroz y ensaladas.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "aguacate",
+        "saludable",
+        "fresco",
+        "rápido",
+        "bajo en carbohidratos",
+      ],
+      ingredients: `2 aguacates maduros
+1 cucharada de jugo de limón verde
+1/4 cucharadita de sal
+1/8 cucharadita de pimienta negra
+
+Opcional:
+1 cucharada de cilantro picado
+pizca de chile en polvo`,
+      instructions: `Corta 2 aguacates maduros por la mitad y retira los huesos.
+
+Corta cuidadosamente cada mitad en rebanadas finas.
+
+Colócalas en un plato para servir.
+
+Rocía con 1 cucharada de jugo de limón verde.
+
+Espolvorea con 1/4 cucharadita de sal y 1/8 cucharadita de pimienta negra.
+
+Agrega cilantro o chile en polvo si lo deseas.
+
+Sirve inmediatamente.`,
+    },
+  },
+},
+
+{
+  id: "quick-buttered-toast",
+  slug: "quick-buttered-toast",
+  name: "Buttered Toast",
+  effort: "quick",
+  photoUrl: "/images/quick-buttered-toast.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "bread",
+    "toast",
+    "quick",
+    "breakfast",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "Simple golden toast with melted butter. A classic side for breakfast, soups, eggs, and comfort-food meals.",
+  ingredients: `4 slices sandwich bread
+2 tbsp butter, softened
+
+Optional:
+jam
+honey
+cinnamon sugar
+peanut butter`,
+  instructions: `Preheat a toaster or toaster oven.
+
+Toast 4 slices of bread until golden brown and crisp.
+
+Spread 2 tbsp softened butter evenly over the warm toast.
+
+Top with jam, honey, cinnamon sugar, or peanut butter if desired.
+
+Serve immediately while warm.`,
+  translations: {
+    es: {
+      name: "Pan Tostado con Mantequilla",
+      notes:
+        "Pan tostado dorado con mantequilla derretida. Un acompañamiento clásico para desayunos, sopas, huevos y comidas reconfortantes.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "pan",
+        "tostada",
+        "rápido",
+        "desayuno",
+        "familiar",
+      ],
+      ingredients: `4 rebanadas de pan de molde
+2 cucharadas de mantequilla suave
+
+Opcional:
+mermelada
+miel
+azúcar con canela
+mantequilla de cacahuate`,
+      instructions: `Precalienta una tostadora o un horno tostador.
+
+Tuesta 4 rebanadas de pan hasta que estén doradas y crujientes.
+
+Unta 2 cucharadas de mantequilla sobre el pan caliente.
+
+Agrega mermelada, miel, azúcar con canela o mantequilla de cacahuate si lo deseas.
+
+Sirve inmediatamente mientras esté caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-classic-tomato-soup",
+  slug: "quick-classic-tomato-soup",
+  name: "Classic Tomato Soup",
+  effort: "quick",
+  photoUrl: "/images/quick-classic-tomato-soup.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "soup",
+    "comfort",
+    "family-friendly",
+    "one-pot",
+    "quick",
+  ],
+  isVegetarian: true,
+  notes:
+    "Smooth, comforting tomato soup that's perfect with grilled cheese sandwiches, crackers, or crusty bread. A timeless family favorite.",
+  ingredients: `Soup:
+2 tbsp butter
+1 small onion, diced
+2 cloves garlic, minced
+1 (28 oz) can crushed tomatoes
+2 cups vegetable broth
+
+Seasoning:
+1 tsp sugar
+1/2 tsp salt
+1/4 tsp black pepper
+1/2 tsp dried basil
+
+Finish:
+1/2 cup heavy cream or half-and-half
+
+Optional:
+fresh basil
+croutons
+shredded parmesan cheese`,
+  instructions: `Melt 2 tbsp butter in a large pot over medium heat.
+
+Add 1 diced onion and cook for 4 to 5 minutes until softened.
+
+Add 2 cloves minced garlic and cook for 30 seconds until fragrant.
+
+Stir in 1 can crushed tomatoes and 2 cups vegetable broth.
+
+Add 1 tsp sugar, 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp dried basil.
+
+Bring to a gentle simmer and cook for 15 minutes.
+
+Use an immersion blender to blend until smooth, or carefully blend in batches using a blender.
+
+Stir in 1/2 cup heavy cream.
+
+Cook for 2 more minutes until heated through.
+
+Serve warm with basil, croutons, or parmesan cheese if desired.`,
+  translations: {
+    es: {
+      name: "Sopa Clásica de Tomate",
+      notes:
+        "Una sopa de tomate suave y reconfortante, perfecta con sándwiches de queso a la parrilla, galletas saladas o pan crujiente. Un clásico favorito de toda la familia.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "sopa",
+        "comfort",
+        "familiar",
+        "una olla",
+        "rápido",
+      ],
+      ingredients: `Sopa:
+2 cucharadas de mantequilla
+1 cebolla pequeña, picada
+2 dientes de ajo, picados
+1 lata (28 oz) de tomates triturados
+2 tazas de caldo de verduras
+
+Sazonadores:
+1 cucharadita de azúcar
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+1/2 cucharadita de albahaca seca
+
+Final:
+1/2 taza de crema espesa o half-and-half
+
+Opcional:
+albahaca fresca
+crutones
+queso parmesano rallado`,
+      instructions: `Derrite 2 cucharadas de mantequilla en una olla grande a fuego medio.
+
+Agrega 1 cebolla picada y cocina de 4 a 5 minutos hasta que esté suave.
+
+Agrega 2 dientes de ajo picados y cocina durante 30 segundos hasta que estén fragantes.
+
+Incorpora 1 lata de tomates triturados y 2 tazas de caldo de verduras.
+
+Agrega 1 cucharadita de azúcar, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y 1/2 cucharadita de albahaca seca.
+
+Lleva a fuego lento y cocina durante 15 minutos.
+
+Usa una licuadora de inmersión para triturar hasta obtener una textura suave, o licúa cuidadosamente en tandas.
+
+Agrega 1/2 taza de crema espesa.
+
+Cocina 2 minutos más hasta que esté caliente.
+
+Sirve caliente con albahaca, crutones o queso parmesano si lo deseas.`,
+    },
+  },
+},
+
+{
+  id: "quick-apple-slices",
+  slug: "quick-apple-slices",
+  name: "Apple Slices",
+  effort: "quick",
+  photoUrl: "/images/quick-apple-slices.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "fruit",
+    "healthy",
+    "fresh",
+    "quick",
+    "kid-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "Fresh apple slices are a simple, naturally sweet side that pairs well with sandwiches, pork dishes, lunch boxes, and snacks.",
+  ingredients: `2 apples (Honeycrisp, Gala, Fuji, or Granny Smith)
+1 tbsp lemon juice
+
+Optional:
+1 tbsp peanut butter
+1 tbsp caramel dip
+1/4 tsp cinnamon`,
+  instructions: `Wash and dry 2 apples thoroughly.
+
+Cut each apple into thin slices or wedges.
+
+Remove and discard the core.
+
+Toss the apple slices with 1 tbsp lemon juice to help prevent browning.
+
+Arrange on a serving plate.
+
+Serve plain or with peanut butter, caramel dip, or a sprinkle of cinnamon if desired.`,
+  translations: {
+    es: {
+      name: "Rodajas de Manzana",
+      notes:
+        "Las rodajas de manzana frescas son una guarnición simple y naturalmente dulce que combina perfectamente con sándwiches, platos de cerdo, almuerzos y refrigerios.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "fruta",
+        "saludable",
+        "fresco",
+        "rápido",
+        "niños",
+      ],
+      ingredients: `2 manzanas (Honeycrisp, Gala, Fuji o Granny Smith)
+1 cucharada de jugo de limón
+
+Opcional:
+1 cucharada de mantequilla de cacahuate
+1 cucharada de salsa de caramelo
+1/4 cucharadita de canela`,
+      instructions: `Lava y seca bien 2 manzanas.
+
+Corta cada manzana en rodajas finas o gajos.
+
+Retira y desecha el corazón.
+
+Mezcla las rodajas con 1 cucharada de jugo de limón para ayudar a evitar que se oscurezcan.
+
+Colócalas en un plato para servir.
+
+Sirve solas o con mantequilla de cacahuate, salsa de caramelo o una pizca de canela si lo deseas.`,
+    },
+  },
+},
+
+{
+  id: "quick-celery-sticks",
+  slug: "quick-celery-sticks",
+  name: "Celery Sticks",
+  effort: "quick",
+  photoUrl: "/images/quick-celery-sticks.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "vegetables",
+    "healthy",
+    "fresh",
+    "quick",
+    "low-calorie",
+  ],
+  isVegetarian: true,
+  notes:
+    "Crunchy, refreshing celery sticks are a simple healthy side dish that pairs well with wings, sandwiches, soups, and snack platters.",
+  ingredients: `1 bunch celery
+1 cup cold water
+
+Optional:
+1/4 cup ranch dressing
+1/4 cup peanut butter
+1/4 cup hummus
+1/4 cup cream cheese`,
+  instructions: `Wash the celery thoroughly under cold running water.
+
+Trim the ends and remove any damaged stalks.
+
+Cut the celery into sticks about 3 to 4 inches long.
+
+Place the celery sticks in a bowl of cold water for 10 minutes for extra crispness.
+
+Drain and pat dry.
+
+Arrange on a serving plate.
+
+Serve plain or with ranch dressing, peanut butter, hummus, or cream cheese if desired.`,
+  translations: {
+    es: {
+      name: "Palitos de Apio",
+      notes:
+        "Los palitos de apio son crujientes, refrescantes y una opción saludable que combina perfectamente con alitas, sándwiches, sopas y bandejas de aperitivos.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "verduras",
+        "saludable",
+        "fresco",
+        "rápido",
+        "bajo en calorías",
+      ],
+      ingredients: `1 manojo de apio
+1 taza de agua fría
+
+Opcional:
+1/4 taza de aderezo ranch
+1/4 taza de mantequilla de cacahuate
+1/4 taza de hummus
+1/4 taza de queso crema`,
+      instructions: `Lava bien el apio bajo agua fría.
+
+Recorta los extremos y retira los tallos dañados.
+
+Corta el apio en palitos de aproximadamente 3 a 4 pulgadas de largo.
+
+Coloca los palitos en un recipiente con agua fría durante 10 minutos para que queden más crujientes.
+
+Escurre y seca ligeramente.
+
+Acomoda en un plato para servir.
+
+Sirve solo o con aderezo ranch, mantequilla de cacahuate, hummus o queso crema si lo deseas.`,
+    },
+  },
+},
+
+{
+  id: "quick-carrot-sticks",
+  slug: "quick-carrot-sticks",
+  name: "Carrot Sticks",
+  effort: "quick",
+  photoUrl: "/images/quick-carrot-sticks.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "vegetables",
+    "healthy",
+    "fresh",
+    "quick",
+    "kid-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "Crunchy, naturally sweet carrot sticks are a simple and healthy side dish that pairs well with sandwiches, wraps, lunch boxes, and snack platters.",
+  ingredients: `4 large carrots, peeled
+
+Optional:
+1/4 cup ranch dressing
+1/4 cup hummus
+1/4 cup peanut butter
+1/4 tsp ranch seasoning`,
+  instructions: `Wash and peel 4 large carrots.
+
+Trim the ends.
+
+Cut the carrots into sticks about 3 to 4 inches long and 1/2 inch thick.
+
+Place the carrot sticks in a bowl of ice water for 10 minutes for extra crispness if desired.
+
+Drain and pat dry.
+
+Arrange on a serving plate.
+
+Serve plain or with ranch dressing, hummus, or peanut butter for dipping.`,
+  translations: {
+    es: {
+      name: "Palitos de Zanahoria",
+      notes:
+        "Los palitos de zanahoria son crujientes, naturalmente dulces y una opción saludable que combina perfectamente con sándwiches, wraps, almuerzos y bandejas de aperitivos.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "verduras",
+        "saludable",
+        "fresco",
+        "rápido",
+        "niños",
+      ],
+      ingredients: `4 zanahorias grandes, peladas
+
+Opcional:
+1/4 taza de aderezo ranch
+1/4 taza de hummus
+1/4 taza de mantequilla de cacahuate
+1/4 cucharadita de sazonador ranch`,
+      instructions: `Lava y pela 4 zanahorias grandes.
+
+Recorta los extremos.
+
+Corta las zanahorias en palitos de aproximadamente 3 a 4 pulgadas de largo y 1/2 pulgada de grosor.
+
+Coloca los palitos en un recipiente con agua helada durante 10 minutos para obtener una textura más crujiente si lo deseas.
+
+Escurre y seca ligeramente.
+
+Acomoda en un plato para servir.
+
+Sirve solos o con aderezo ranch, hummus o mantequilla de cacahuate para acompañar.`,
+    },
+  },
+},
+
+{
+  id: "quick-classic-fruit-salad",
+  slug: "quick-classic-fruit-salad",
+  name: "Classic Fruit Salad",
+  effort: "quick",
+  photoUrl: "/images/quick-classic-fruit-salad.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "fruit",
+    "healthy",
+    "fresh",
+    "quick",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "A colorful mix of fresh fruit that's naturally sweet, refreshing, and perfect for breakfast, brunch, cookouts, or as a light side dish.",
+  ingredients: `Fruit:
+2 cups strawberries, sliced
+1 cup blueberries
+1 cup grapes, halved
+2 apples, diced
+2 oranges, peeled and segmented
+
+Dressing:
+1 tbsp honey
+1 tbsp lime juice
+
+Optional:
+1 tbsp fresh mint, chopped`,
+  instructions: `Wash all fruit thoroughly.
+
+Slice 2 cups strawberries, halve 1 cup grapes, dice 2 apples, and segment 2 oranges.
+
+Place all fruit into a large mixing bowl.
+
+In a small bowl, whisk together 1 tbsp honey and 1 tbsp lime juice.
+
+Pour the dressing over the fruit.
+
+Gently toss until evenly coated.
+
+Sprinkle with fresh mint if desired.
+
+Serve immediately or refrigerate until ready to serve.`,
+  translations: {
+    es: {
+      name: "Ensalada de Frutas Clásica",
+      notes:
+        "Una colorida mezcla de frutas frescas, naturalmente dulce y refrescante. Perfecta para desayunos, brunch, parrilladas o como acompañamiento ligero.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "fruta",
+        "saludable",
+        "fresco",
+        "rápido",
+        "familiar",
+      ],
+      ingredients: `Fruta:
+2 tazas de fresas, en rodajas
+1 taza de arándanos
+1 taza de uvas, cortadas por la mitad
+2 manzanas, en cubos
+2 naranjas, peladas y en gajos
+
+Aderezo:
+1 cucharada de miel
+1 cucharada de jugo de limón verde
+
+Opcional:
+1 cucharada de menta fresca picada`,
+      instructions: `Lava bien toda la fruta.
+
+Corta 2 tazas de fresas, parte 1 taza de uvas por la mitad, corta 2 manzanas en cubos y separa 2 naranjas en gajos.
+
+Coloca toda la fruta en un tazón grande.
+
+En un recipiente pequeño, mezcla 1 cucharada de miel y 1 cucharada de jugo de limón verde.
+
+Vierte el aderezo sobre la fruta.
+
+Revuelve suavemente hasta cubrir uniformemente.
+
+Espolvorea con menta fresca si lo deseas.
+
+Sirve inmediatamente o refrigera hasta el momento de servir.`,
+    },
+  },
+},
+
+{
+  id: "quick-steamed-rice",
+  slug: "quick-steamed-rice",
+  name: "Steamed Rice",
+  effort: "quick",
+  photoUrl: "/images/quick-steamed-rice.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "rice",
+    "simple",
+    "healthy",
+    "family-friendly",
+    "meal-prep",
+  ],
+  isVegetarian: true,
+  notes:
+    "Light, fluffy steamed rice is a versatile side dish that pairs perfectly with stir-fries, curries, grilled meats, and countless family meals.",
+  ingredients: `1 cup long-grain white rice
+2 cups water
+1/2 tsp salt
+
+Optional:
+1 tbsp butter
+1 tbsp fresh parsley, chopped`,
+  instructions: `Rinse 1 cup rice under cold water until the water runs mostly clear.
+
+Combine rice, 2 cups water, and 1/2 tsp salt in a medium saucepan.
+
+Bring to a boil over medium-high heat.
+
+Reduce heat to low, cover tightly, and simmer for 15 to 18 minutes until the water is absorbed.
+
+Remove from heat and let stand covered for 5 minutes.
+
+Fluff gently with a fork.
+
+Stir in 1 tbsp butter if desired.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Arroz al Vapor",
+      notes:
+        "El arroz al vapor es ligero, esponjoso y muy versátil. Combina perfectamente con salteados, curries, carnes a la parrilla y muchas comidas familiares.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "arroz",
+        "simple",
+        "saludable",
+        "familiar",
+        "meal-prep",
+      ],
+      ingredients: `1 taza de arroz blanco de grano largo
+2 tazas de agua
+1/2 cucharadita de sal
+
+Opcional:
+1 cucharada de mantequilla
+1 cucharada de perejil fresco picado`,
+      instructions: `Enjuaga 1 taza de arroz bajo agua fría hasta que el agua salga casi transparente.
+
+Combina el arroz, 2 tazas de agua y 1/2 cucharadita de sal en una cacerola mediana.
+
+Lleva a ebullición a fuego medio-alto.
+
+Reduce el fuego a bajo, tapa bien y cocina de 15 a 18 minutos hasta que el agua se absorba.
+
+Retira del fuego y deja reposar tapado durante 5 minutos.
+
+Esponja suavemente con un tenedor.
+
+Agrega 1 cucharada de mantequilla si lo deseas.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-classic-cucumber-salad",
+  slug: "quick-classic-cucumber-salad",
+  name: "Classic Cucumber Salad",
+  effort: "quick",
+  photoUrl: "/images/quick-classic-cucumber-salad.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "salad",
+    "cucumber",
+    "healthy",
+    "fresh",
+    "quick",
+  ],
+  isVegetarian: true,
+  notes:
+    "A cool and refreshing cucumber salad with a light tangy dressing. Perfect alongside grilled meats, sandwiches, barbecue, or summer dinners.",
+  ingredients: `Salad:
+2 large cucumbers, thinly sliced
+1/4 red onion, thinly sliced
+
+Dressing:
+3 tbsp apple cider vinegar
+1 tbsp olive oil
+1 tsp sugar
+1/2 tsp salt
+1/4 tsp black pepper
+
+Optional:
+1 tbsp fresh dill, chopped
+1 tbsp fresh parsley, chopped`,
+  instructions: `Wash and thinly slice 2 cucumbers.
+
+Thinly slice 1/4 red onion.
+
+Place cucumbers and onion in a large bowl.
+
+In a small bowl, whisk together 3 tbsp apple cider vinegar, 1 tbsp olive oil, 1 tsp sugar, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Pour the dressing over the vegetables.
+
+Toss until evenly coated.
+
+Refrigerate for 15 to 30 minutes before serving for the best flavor.
+
+Garnish with fresh dill or parsley if desired.
+
+Serve chilled.`,
+  translations: {
+    es: {
+      name: "Ensalada Clásica de Pepino",
+      notes:
+        "Una ensalada de pepino fresca y refrescante con un aderezo ligero y ácido. Perfecta para acompañar carnes a la parrilla, sándwiches, barbacoa o cenas de verano.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "ensalada",
+        "pepino",
+        "saludable",
+        "fresco",
+        "rápido",
+      ],
+      ingredients: `Ensalada:
+2 pepinos grandes, en rodajas finas
+1/4 cebolla morada, en rodajas finas
+
+Aderezo:
+3 cucharadas de vinagre de manzana
+1 cucharada de aceite de oliva
+1 cucharadita de azúcar
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+
+Opcional:
+1 cucharada de eneldo fresco picado
+1 cucharada de perejil fresco picado`,
+      instructions: `Lava y corta en rodajas finas 2 pepinos.
+
+Corta en rodajas finas 1/4 de cebolla morada.
+
+Coloca los pepinos y la cebolla en un tazón grande.
+
+En un recipiente pequeño, mezcla 3 cucharadas de vinagre de manzana, 1 cucharada de aceite de oliva, 1 cucharadita de azúcar, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Vierte el aderezo sobre las verduras.
+
+Mezcla hasta cubrir uniformemente.
+
+Refrigera de 15 a 30 minutos antes de servir para obtener mejor sabor.
+
+Decora con eneldo o perejil fresco si lo deseas.
+
+Sirve fría.`,
+    },
+  },
+},
+
+{
+  id: "quick-fresh-spring-rolls",
+  slug: "quick-fresh-spring-rolls",
+  name: "Fresh Spring Rolls",
+  effort: "quick",
+  photoUrl: "/images/quick-fresh-spring-rolls.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "asian",
+    "fresh",
+    "healthy",
+    "light",
+    "no-cook",
+  ],
+  isVegetarian: true,
+  notes:
+    "Fresh spring rolls are light, colorful, and packed with crisp vegetables. They're perfect as a side dish, appetizer, or healthy snack.",
+  ingredients: `Spring Rolls:
+8 rice paper wrappers
+1 cup lettuce, shredded
+1 cup carrots, julienned
+1 cucumber, julienned
+1 bell pepper, thinly sliced
+1/4 cup fresh cilantro leaves
+1/4 cup fresh mint leaves
+
+Dipping Sauce:
+1/4 cup sweet chili sauce
+
+Optional:
+1 avocado, sliced
+1 cup cooked rice noodles`,
+  instructions: `Fill a shallow dish or pie plate with warm water.
+
+Dip 1 rice paper wrapper into the water for 10 to 15 seconds until softened.
+
+Lay the wrapper flat on a clean work surface.
+
+Place a small amount of lettuce, carrots, cucumber, bell pepper, cilantro, and mint near the bottom third of the wrapper.
+
+Add avocado or rice noodles if desired.
+
+Fold the bottom edge over the filling.
+
+Fold in both sides and roll tightly to form a spring roll.
+
+Repeat with the remaining wrappers and filling.
+
+Serve immediately with sweet chili sauce for dipping.`,
+  translations: {
+    es: {
+      name: "Rollitos Primavera Frescos",
+      notes:
+        "Los rollitos primavera frescos son ligeros, coloridos y están llenos de verduras crujientes. Son perfectos como acompañamiento, aperitivo o refrigerio saludable.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "asiático",
+        "fresco",
+        "saludable",
+        "ligero",
+        "sin cocción",
+      ],
+      ingredients: `Rollitos:
+8 hojas de papel de arroz
+1 taza de lechuga, picada
+1 taza de zanahorias en tiras finas
+1 pepino en tiras finas
+1 pimiento morrón en tiras finas
+1/4 taza de hojas de cilantro fresco
+1/4 taza de hojas de menta fresca
+
+Salsa para Mojar:
+1/4 taza de salsa dulce de chile
+
+Opcional:
+1 aguacate en rebanadas
+1 taza de fideos de arroz cocidos`,
+      instructions: `Llena un plato hondo o molde poco profundo con agua tibia.
+
+Sumerge 1 hoja de papel de arroz durante 10 a 15 segundos hasta que se suavice.
+
+Coloca la hoja sobre una superficie limpia.
+
+Agrega una pequeña cantidad de lechuga, zanahoria, pepino, pimiento, cilantro y menta cerca de la parte inferior.
+
+Agrega aguacate o fideos de arroz si lo deseas.
+
+Dobla la parte inferior sobre el relleno.
+
+Dobla ambos lados hacia adentro y enrolla firmemente para formar el rollito.
+
+Repite con las hojas y el relleno restantes.
+
+Sirve inmediatamente con salsa dulce de chile para acompañar.`,
+    },
+  },
+},
+
+{
+  id: "quick-dill-pickle-spears",
+  slug: "quick-dill-pickle-spears",
+  name: "Dill Pickle Spears",
+  effort: "quick",
+  photoUrl: "/images/quick-dill-pickle-spears.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "pickles",
+    "condiment",
+    "low-calorie",
+    "fresh",
+    "quick",
+  ],
+  isVegetarian: true,
+  notes:
+    "Crunchy dill pickle spears add a tangy, refreshing bite that pairs perfectly with burgers, sandwiches, barbecue, and deli-style meals.",
+  ingredients: `4 large dill pickle spears
+
+Optional:
+1/4 tsp dill weed
+1/8 tsp black pepper
+1/8 tsp red pepper flakes`,
+  instructions: `Drain 4 dill pickle spears from the jar.
+
+Pat lightly with paper towels if desired.
+
+Arrange the pickle spears on a serving plate.
+
+Sprinkle with dill weed, black pepper, or red pepper flakes if desired.
+
+Serve chilled.`,
+  translations: {
+    es: {
+      name: "Pepinillos en Gajos",
+      notes:
+        "Los pepinillos en gajos son crujientes, ácidos y refrescantes. Combinan perfectamente con hamburguesas, sándwiches, barbacoa y comidas estilo deli.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "pepinillos",
+        "condimento",
+        "bajo en calorías",
+        "fresco",
+        "rápido",
+      ],
+      ingredients: `4 gajos grandes de pepinillo eneldo
+
+Opcional:
+1/4 cucharadita de eneldo seco
+1/8 cucharadita de pimienta negra
+1/8 cucharadita de hojuelas de chile rojo`,
+      instructions: `Escurre 4 gajos de pepinillo del frasco.
+
+Sécalos ligeramente con papel absorbente si lo deseas.
+
+Colócalos en un plato para servir.
+
+Espolvorea con eneldo, pimienta negra o hojuelas de chile si lo deseas.
+
+Sirve fríos.`,
+    },
+  },
+},
+
+{
+  id: "quick-roasted-zucchini",
+  slug: "quick-roasted-zucchini",
+  name: "Roasted Zucchini",
+  effort: "quick",
+  photoUrl: "/images/quick-roasted-zucchini.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "vegetables",
+    "zucchini",
+    "roasted",
+    "healthy",
+    "quick",
+  ],
+  isVegetarian: true,
+  notes:
+    "Simple roasted zucchini becomes tender and lightly caramelized in the oven. A quick and healthy side dish that pairs well with chicken, fish, pasta, and grilled meats.",
+  ingredients: `2 medium zucchini, sliced into half-moons
+2 tbsp olive oil
+1 tsp garlic powder
+1/2 tsp salt
+1/4 tsp black pepper
+
+Optional:
+2 tbsp parmesan cheese
+1 tbsp fresh parsley, chopped
+1 tsp lemon juice`,
+  instructions: `Preheat oven to 425°F.
+
+Line a baking sheet with parchment paper.
+
+Place 2 sliced zucchini on the baking sheet.
+
+Drizzle with 2 tbsp olive oil.
+
+Sprinkle with 1 tsp garlic powder, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Toss until evenly coated and spread into a single layer.
+
+Roast for 15 to 20 minutes, stirring once halfway through, until tender and lightly browned.
+
+Sprinkle with parmesan cheese, parsley, or lemon juice if desired.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Calabacín Rostizado",
+      notes:
+        "El calabacín rostizado queda tierno y ligeramente caramelizado. Es un acompañamiento rápido y saludable que combina perfectamente con pollo, pescado, pasta y carnes a la parrilla.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "verduras",
+        "calabacín",
+        "rostizado",
+        "saludable",
+        "rápido",
+      ],
+      ingredients: `2 calabacines medianos, cortados en medias lunas
+2 cucharadas de aceite de oliva
+1 cucharadita de ajo en polvo
+1/2 cucharadita de sal
+1/4 cucharadita de pimienta negra
+
+Opcional:
+2 cucharadas de queso parmesano
+1 cucharada de perejil fresco picado
+1 cucharadita de jugo de limón`,
+      instructions: `Precalienta el horno a 425°F.
+
+Cubre una bandeja para hornear con papel para hornear.
+
+Coloca los 2 calabacines cortados sobre la bandeja.
+
+Rocía con 2 cucharadas de aceite de oliva.
+
+Espolvorea 1 cucharadita de ajo en polvo, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Mezcla hasta cubrir uniformemente y acomoda en una sola capa.
+
+Hornea de 15 a 20 minutos, revolviendo una vez a mitad de cocción, hasta que estén tiernos y ligeramente dorados.
+
+Agrega parmesano, perejil o jugo de limón si lo deseas.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-side-caesar-salad",
+  slug: "quick-side-caesar-salad",
+  name: "Side Caesar Salad",
+  effort: "quick",
+  photoUrl: "/images/quick-side-caesar-salad.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "salad",
+    "caesar",
+    "fresh",
+    "quick",
+    "restaurant-style",
+  ],
+  isVegetarian: true,
+  notes:
+    "A crisp and refreshing Caesar salad with crunchy romaine, parmesan cheese, and creamy Caesar dressing. Perfect alongside pasta, chicken, steak, or seafood.",
+  ingredients: `Salad:
+1 head romaine lettuce, chopped
+1/2 cup croutons
+1/4 cup parmesan cheese, grated
+
+Dressing:
+1/4 cup Caesar dressing
+
+Optional:
+fresh cracked black pepper
+lemon wedges`,
+  instructions: `Wash and dry the romaine lettuce thoroughly.
+
+Chop the lettuce into bite-sized pieces and place in a large bowl.
+
+Add 1/2 cup croutons and 1/4 cup parmesan cheese.
+
+Drizzle with 1/4 cup Caesar dressing.
+
+Toss gently until evenly coated.
+
+Top with fresh cracked black pepper if desired.
+
+Serve immediately with lemon wedges if desired.`,
+  translations: {
+    es: {
+      name: "Ensalada César de Acompañamiento",
+      notes:
+        "Una ensalada César fresca y crujiente con lechuga romana, queso parmesano y aderezo César cremoso. Perfecta junto a pasta, pollo, bistec o mariscos.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "ensalada",
+        "césar",
+        "fresco",
+        "rápido",
+        "estilo restaurante",
+      ],
+      ingredients: `Ensalada:
+1 cabeza de lechuga romana, picada
+1/2 taza de crutones
+1/4 taza de queso parmesano rallado
+
+Aderezo:
+1/4 taza de aderezo César
+
+Opcional:
+pimienta negra recién molida
+gajos de limón`,
+      instructions: `Lava y seca bien la lechuga romana.
+
+Corta la lechuga en trozos del tamaño de un bocado y colócala en un tazón grande.
+
+Agrega 1/2 taza de crutones y 1/4 taza de queso parmesano.
+
+Rocía con 1/4 taza de aderezo César.
+
+Mezcla suavemente hasta cubrir uniformemente.
+
+Agrega pimienta negra recién molida si lo deseas.
+
+Sirve inmediatamente con gajos de limón si lo deseas.`,
+    },
+  },
+},
+
+{
+  id: "quick-watermelon-slices",
+  slug: "quick-watermelon-slices",
+  name: "Watermelon Slices",
+  effort: "quick",
+  photoUrl: "/images/quick-watermelon-slices.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "fruit",
+    "healthy",
+    "fresh",
+    "summer",
+    "hydrating",
+  ],
+  isVegetarian: true,
+  notes:
+    "Sweet, juicy watermelon slices are refreshing, hydrating, and perfect for cookouts, picnics, and warm-weather meals.",
+  ingredients: `1 small seedless watermelon
+
+Optional:
+1 tbsp lime juice
+1 tbsp fresh mint, chopped
+pinch of sea salt`,
+  instructions: `Wash the outside of the watermelon thoroughly.
+
+Place the watermelon on a cutting board.
+
+Cut in half, then cut into wedges or triangular slices.
+
+Remove any visible seeds if necessary.
+
+Arrange the slices on a serving platter.
+
+Drizzle with lime juice, sprinkle with mint, or add a small pinch of sea salt if desired.
+
+Serve chilled.`,
+  translations: {
+    es: {
+      name: "Rebanadas de Sandía",
+      notes:
+        "Las rebanadas de sandía son dulces, jugosas, refrescantes e hidratantes. Perfectas para parrilladas, picnics y comidas de verano.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "fruta",
+        "saludable",
+        "fresco",
+        "verano",
+        "hidratante",
+      ],
+      ingredients: `1 sandía pequeña sin semillas
+
+Opcional:
+1 cucharada de jugo de limón verde
+1 cucharada de menta fresca picada
+pizca de sal marina`,
+      instructions: `Lava bien el exterior de la sandía.
+
+Coloca la sandía sobre una tabla para cortar.
+
+Córtala por la mitad y luego en gajos o rebanadas triangulares.
+
+Retira las semillas visibles si es necesario.
+
+Acomoda las rebanadas en una fuente para servir.
+
+Rocía con jugo de limón, espolvorea menta o agrega una pizca de sal marina si lo deseas.
+
+Sirve bien fría.`,
+    },
+  },
+},
+
+{
+  id: "quick-side-greek-salad",
+  slug: "quick-side-greek-salad",
+  name: "Side Greek Salad",
+  effort: "quick",
+  photoUrl: "/images/quick-side-greek-salad.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "salad",
+    "greek",
+    "healthy",
+    "fresh",
+    "mediterranean",
+  ],
+  isVegetarian: true,
+  notes:
+    "A fresh Mediterranean-inspired salad with crisp vegetables, feta cheese, and a simple olive oil dressing. Perfect alongside grilled chicken, lamb, seafood, or pita dishes.",
+  ingredients: `Salad:
+2 cups romaine lettuce, chopped
+1 cup cucumber, diced
+1 cup cherry tomatoes, halved
+1/4 cup red onion, thinly sliced
+1/4 cup Kalamata olives
+1/4 cup feta cheese, crumbled
+
+Dressing:
+2 tbsp olive oil
+1 tbsp red wine vinegar
+1/2 tsp dried oregano
+1/4 tsp salt
+1/4 tsp black pepper
+
+Optional:
+lemon wedges`,
+  instructions: `Wash and dry the lettuce thoroughly.
+
+Place lettuce, cucumber, tomatoes, red onion, olives, and feta cheese into a large bowl.
+
+In a small bowl, whisk together 2 tbsp olive oil, 1 tbsp red wine vinegar, 1/2 tsp oregano, 1/4 tsp salt, and 1/4 tsp black pepper.
+
+Drizzle the dressing over the salad.
+
+Toss gently until evenly coated.
+
+Serve immediately with lemon wedges if desired.`,
+  translations: {
+    es: {
+      name: "Ensalada Griega de Acompañamiento",
+      notes:
+        "Una ensalada fresca de inspiración mediterránea con verduras crujientes, queso feta y un sencillo aderezo de aceite de oliva. Perfecta junto a pollo, cordero, mariscos o pan pita.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "ensalada",
+        "griega",
+        "saludable",
+        "fresco",
+        "mediterráneo",
+      ],
+      ingredients: `Ensalada:
+2 tazas de lechuga romana, picada
+1 taza de pepino, en cubos
+1 taza de tomates cherry, partidos por la mitad
+1/4 taza de cebolla morada, en rodajas finas
+1/4 taza de aceitunas Kalamata
+1/4 taza de queso feta desmoronado
+
+Aderezo:
+2 cucharadas de aceite de oliva
+1 cucharada de vinagre de vino tinto
+1/2 cucharadita de orégano seco
+1/4 cucharadita de sal
+1/4 cucharadita de pimienta negra
+
+Opcional:
+gajos de limón`,
+      instructions: `Lava y seca bien la lechuga.
+
+Coloca la lechuga, el pepino, los tomates, la cebolla morada, las aceitunas y el queso feta en un tazón grande.
+
+En un recipiente pequeño, mezcla 2 cucharadas de aceite de oliva, 1 cucharada de vinagre de vino tinto, 1/2 cucharadita de orégano, 1/4 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+
+Vierte el aderezo sobre la ensalada.
+
+Mezcla suavemente hasta cubrir uniformemente.
+
+Sirve inmediatamente con gajos de limón si lo deseas.`,
+    },
+  },
+},
+
+{
+  id: "quick-mexican-street-corn",
+  slug: "quick-mexican-street-corn",
+  name: "Mexican Street Corn",
+  effort: "quick",
+  photoUrl: "/images/quick-mexican-street-corn.jpg",
+  tags: [
+    "side",
+    "vegetarian",
+    "corn",
+    "mexican",
+    "tex-mex",
+    "cookout",
+    "family-friendly",
+  ],
+  isVegetarian: true,
+  notes:
+    "Inspired by traditional elote, this Mexican street corn is creamy, tangy, and packed with bold flavor from lime, cotija cheese, and chili powder.",
+  ingredients: `Corn:
+4 ears corn, husked
+
+Topping:
+1/4 cup mayonnaise
+1/4 cup sour cream
+1/2 cup cotija cheese, crumbled
+1 tbsp lime juice
+1 tsp chili powder
+1/2 tsp garlic powder
+
+Finish:
+2 tbsp fresh cilantro, chopped
+lime wedges for serving`,
+  instructions: `Preheat a grill to medium-high heat or heat a grill pan.
+
+Cook 4 ears of corn for 8 to 10 minutes, turning occasionally, until lightly charred on all sides.
+
+In a small bowl, combine 1/4 cup mayonnaise, 1/4 cup sour cream, 1 tbsp lime juice, 1 tsp chili powder, and 1/2 tsp garlic powder.
+
+Brush the grilled corn generously with the creamy mixture.
+
+Sprinkle evenly with 1/2 cup cotija cheese.
+
+Top with 2 tbsp chopped cilantro.
+
+Serve immediately with lime wedges for squeezing over the corn.`,
+  translations: {
+    es: {
+      name: "Elote Estilo Callejero",
+      notes:
+        "Inspirado en el tradicional elote mexicano, este acompañamiento es cremoso, ácido y lleno de sabor gracias al limón, queso cotija y chile en polvo.",
+      tags: [
+        "acompañamiento",
+        "vegetariano",
+        "maíz",
+        "mexicano",
+        "tex-mex",
+        "parrillada",
+        "familiar",
+      ],
+      ingredients: `Maíz:
+4 elotes, sin hojas
+
+Cobertura:
+1/4 taza de mayonesa
+1/4 taza de crema agria
+1/2 taza de queso cotija desmoronado
+1 cucharada de jugo de limón verde
+1 cucharadita de chile en polvo
+1/2 cucharadita de ajo en polvo
+
+Final:
+2 cucharadas de cilantro fresco picado
+gajos de limón para servir`,
+      instructions: `Precalienta una parrilla a fuego medio-alto o calienta una sartén para asar.
+
+Cocina 4 elotes durante 8 a 10 minutos, girándolos ocasionalmente, hasta que estén ligeramente dorados por todos lados.
+
+En un recipiente pequeño, mezcla 1/4 taza de mayonesa, 1/4 taza de crema agria, 1 cucharada de jugo de limón, 1 cucharadita de chile en polvo y 1/2 cucharadita de ajo en polvo.
+
+Unta generosamente la mezcla cremosa sobre los elotes calientes.
+
+Espolvorea uniformemente con 1/2 taza de queso cotija.
+
+Agrega 2 cucharadas de cilantro picado.
+
+Sirve inmediatamente con gajos de limón para exprimir encima.`,
+    },
+  },
+},
+
+
+
 ];
 
 export const DESSERTS: Meal[] = [

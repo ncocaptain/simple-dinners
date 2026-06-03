@@ -23,6 +23,7 @@ const SIDE_ALIASES: Record<string, string> = {
   "dinner rolls": "quick-soft-dinner-rolls",
   "rolls": "quick-soft-dinner-rolls",
   "soft dinner rolls": "quick-soft-dinner-rolls",
+  
 
   // =====================================================
   // Potato sides
@@ -186,6 +187,73 @@ const SIDE_ALIASES: Record<string, string> = {
 
   // Appetizer-ish / special
   "buffalo chicken tots": "buffalo-chicken-tots",
+
+  // =====================================================
+// New side recipe aliases
+// =====================================================
+
+"lemon potatoes": "quick-greek-lemon-potatoes",
+"greek lemon potatoes": "quick-greek-lemon-potatoes",
+
+"side salad": "quick-classic-side-salad",
+"classic side salad": "quick-classic-side-salad",
+
+"coleslaw": "quick-classic-coleslaw",
+"classic coleslaw": "quick-classic-coleslaw",
+
+"biscuits": "quick-buttery-biscuits",
+"buttery biscuits": "quick-buttery-biscuits",
+
+"cornbread": "quick-classic-cornbread",
+"classic cornbread": "quick-classic-cornbread",
+
+"pickles": "quick-classic-dill-pickles",
+"classic dill pickles": "quick-classic-dill-pickles",
+
+"simple green salad": "quick-simple-green-salad",
+
+"avocado slices": "quick-avocado-slices",
+
+"toast": "quick-buttered-toast",
+"buttered toast": "quick-buttered-toast",
+
+"tomato soup": "quick-classic-tomato-soup",
+"classic tomato soup": "quick-classic-tomato-soup",
+
+"apple slices": "quick-apple-slices",
+
+"celery sticks": "quick-celery-sticks",
+
+"carrot sticks": "quick-carrot-sticks",
+"carrot sticks with ranch": "quick-carrot-sticks",
+
+"fruit salad": "quick-classic-fruit-salad",
+"classic fruit salad": "quick-classic-fruit-salad",
+
+"steamed rice": "quick-steamed-rice",
+
+"cucumber salad": "quick-classic-cucumber-salad",
+"classic cucumber salad": "quick-classic-cucumber-salad",
+
+"spring rolls": "quick-fresh-spring-rolls",
+"fresh spring rolls": "quick-fresh-spring-rolls",
+
+"pickle spears": "quick-dill-pickle-spears",
+"dill pickle spears": "quick-dill-pickle-spears",
+
+"roasted zucchini": "quick-roasted-zucchini",
+
+"caesar salad": "quick-side-caesar-salad",
+"side caesar salad": "quick-side-caesar-salad",
+
+"watermelon slices": "quick-watermelon-slices",
+
+"greek salad": "quick-side-greek-salad",
+"side greek salad": "quick-side-greek-salad",
+
+"mexican street corn": "quick-mexican-street-corn",
+"street corn": "quick-mexican-street-corn",
+
 };
 
 function getSideRecipes(): Meal[] {
