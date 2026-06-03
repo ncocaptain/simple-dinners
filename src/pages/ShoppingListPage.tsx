@@ -417,7 +417,7 @@ function pluralizeCountable(name: string, quantity: number): string {
     bagel: "bagels",
     carrot: "carrots",
     cucumber: "cucumbers",
-    zucchini: "zucchinis",
+    zucchini: "zucchini",
     jalapeno: "jalapenos",
     clove: "cloves",
     "chicken breast": "chicken breasts",
@@ -551,6 +551,9 @@ function normalizePantryAndSeasonings(text: string) {
     .replace(/\bfreshly ground pepper\b/g, "black pepper")
     .replace(/\bground pepper\b/g, "black pepper")
     .replace(/\bblack black pepper\b/g, "black pepper")
+    .replace(/\bcracked black pepper\b/g, "black pepper")
+.replace(/\bfresh cracked black pepper\b/g, "black pepper")
+.replace(/\bfreshly cracked black pepper\b/g, "black pepper")
 
 
     // safe fallback: plain "pepper" becomes black pepper, but real peppers stay real peppers
@@ -648,6 +651,9 @@ function normalizeDairyAndCheese(text: string) {
     .replace(/\bgrated parmesan cheese\b/g, "parmesan cheese")
     .replace(/\bfreshly grated parmesan cheese\b/g, "parmesan cheese")
     .replace(/\bparmesan cheese, grated\b/g, "parmesan cheese")
+    .replace(/\bshredded parmesan cheese\b/g, "parmesan cheese")
+.replace(/\bparmesan, grated\b/g, "parmesan cheese")
+.replace(/\bparmesan\b/g, "parmesan cheese")
     .replace(/\bshredded swiss cheese\b/g, "swiss cheese")
     .replace(/\bswiss cheese, shredded\b/g, "swiss cheese")
     .replace(/\bsmoked gouda\b/g, "smoked gouda cheese")
