@@ -1951,6 +1951,8 @@ function resetSideDrafts() {
       {sideRecipe && (sideRecipe.slug || sideRecipe.name) && (
   <button
     type="button"
+    title={t("recipe.cookSide", "Cook side")}
+aria-label={t("recipe.cookSide", "Cook side")}
     onClick={() => {
       const sideRecipeKey = sideRecipe.slug || sideRecipe.name || "";
 
@@ -1976,8 +1978,7 @@ function resetSideDrafts() {
       gap: 6,
     }}
   >
-    <Play size={13} />
-    {t("recipe.cookSide", "Cook")}
+    <Play size={14} />
   </button>
 )}
     </div>
