@@ -8473,6 +8473,11 @@ Sirve caliente con más glaseado encima si lo deseas.`,
     "cookout"
   ],
   isVegetarian: false,
+  suggestedSides: [
+  "Cilantro Lime Rice",
+  "Black Beans",
+  "Watermelon Slices",
+],
   notes:
     "This bold Jamaican-style jerk chicken is packed with citrus, warm spices, fresh herbs, and fiery habanero peppers. Marinating overnight creates the deepest flavor and juiciest grilled chicken.",
   ingredients: `Chicken:
@@ -8532,6 +8537,11 @@ Serve warm with rice, grilled vegetables, or a fresh salad.`,
         "familiar",
         "parrillada"
       ],
+      suggestedSides: [
+  "Arroz con Cilantro y Limón",
+  "Frijoles Negros Sazonados",
+  "Rebanadas de Sandía",
+],
       ingredients: `Pollo:
 4 pechugas de pollo sin hueso y sin piel
 
