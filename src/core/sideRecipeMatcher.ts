@@ -167,6 +167,9 @@ const SIDE_ALIASES: Record<string, string> = {
 
   "baked beans": "normal-baked-beans",
 
+  "seasoned black beans": "quick-seasoned-black-beans",
+  "black beans": "quick-seasoned-black-beans",
+
 
   // Tex-Mex simple sides
 
