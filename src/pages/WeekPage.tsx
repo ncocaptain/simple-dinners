@@ -904,18 +904,21 @@ const isLeftovers = mode === "leftovers";
                           }}
                         >
                           <img
-                            src="/images/leftovers.jpg"
-                            alt={t("week.leftovers")}
-                            style={{
-                              width: 85,
-                              height: 85,
-                              borderRadius: 18,
-                              objectFit: "cover",
-                              border: "1px solid rgba(255,255,255,0.1)",
-                              background: "rgba(255,255,255,0.04)",
-                              flexShrink: 0,
-                            }}
-                          />
+  src={normalizePhotoUrl("/images/leftovers.jpg")}
+  alt={t("week.leftovers")}
+  onError={(e) => {
+    e.currentTarget.src = normalizePhotoUrl("/images/takeout-night.jpg");
+  }}
+  style={{
+    width: 85,
+    height: 85,
+    borderRadius: 18,
+    objectFit: "cover",
+    border: "1px solid rgba(255,255,255,0.1)",
+    background: "rgba(255,255,255,0.04)",
+    flexShrink: 0,
+  }}
+/>
 
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div
@@ -1001,18 +1004,21 @@ const isLeftovers = mode === "leftovers";
                           }}
                         >
                           <img
-                            src="/images/freezer-night.jpg"
-                            alt={t("week.freezerNight")}
-                            style={{
-                              width: 85,
-                              height: 85,
-                              borderRadius: 18,
-                              objectFit: "cover",
-                              border: "1px solid rgba(255,255,255,0.1)",
-                              background: "rgba(255,255,255,0.04)",
-                              flexShrink: 0,
-                            }}
-                          />
+  src={normalizePhotoUrl("/images/freezer-night.jpg")}
+  alt={t("week.freezerNight")}
+  onError={(e) => {
+    e.currentTarget.src = normalizePhotoUrl("/images/takeout-night.jpg");
+  }}
+  style={{
+    width: 85,
+    height: 85,
+    borderRadius: 18,
+    objectFit: "cover",
+    border: "1px solid rgba(255,255,255,0.1)",
+    background: "rgba(255,255,255,0.04)",
+    flexShrink: 0,
+  }}
+/>
 
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div
