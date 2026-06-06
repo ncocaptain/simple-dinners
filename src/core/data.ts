@@ -8456,6 +8456,128 @@ Sirve caliente con más glaseado encima si lo deseas.`,
   },
 },
 
+{
+  id: "big-jamaican-jerk-chicken",
+  slug: "big-jamaican-jerk-chicken",
+  name: "Jamaican Jerk Chicken",
+  effort: "big",
+  photoUrl: "/images/big-jamaican-jerk-chicken.jpg",
+  tags: [
+    "dinner",
+    "chicken",
+    "jamaican",
+    "grilling",
+    "spicy",
+    "high-protein",
+    "family",
+    "cookout"
+  ],
+  isVegetarian: false,
+  notes:
+    "This bold Jamaican-style jerk chicken is packed with citrus, warm spices, fresh herbs, and fiery habanero peppers. Marinating overnight creates the deepest flavor and juiciest grilled chicken.",
+  ingredients: `Chicken:
+4 boneless skinless chicken breasts
+
+Jerk Marinade:
+4 habanero peppers, chopped
+1 red onion, chopped
+4 garlic cloves, chopped
+4 scallions, trimmed
+1/4 cup soy sauce
+1/4 cup apple cider vinegar
+2 tbsp olive oil
+3/4 cup orange juice
+juice from 1/2 lime
+1 tbsp fresh ginger, grated
+2 tbsp brown sugar
+1 tsp nutmeg
+1 tsp allspice
+1 tsp cinnamon
+1 tsp dried thyme
+1 tsp salt
+1 tbsp black pepper`,
+  instructions: `Add 4 chopped habanero peppers, 1 chopped red onion, 4 chopped garlic cloves, 4 scallions, 1/4 cup soy sauce, 1/4 cup apple cider vinegar, 2 tbsp olive oil, 3/4 cup orange juice, juice from 1/2 lime, 1 tbsp grated ginger, 2 tbsp brown sugar, 1 tsp nutmeg, 1 tsp allspice, 1 tsp cinnamon, 1 tsp dried thyme, 1 tsp salt, and 1 tbsp black pepper to a food processor or blender.
+
+Blend until the marinade is completely smooth.
+
+Using a knife, poke several small holes in 4 boneless skinless chicken breasts to help the marinade penetrate the meat.
+
+Place the chicken into a large bowl or resealable bag.
+
+Pour the jerk marinade over the chicken and coat all sides thoroughly.
+
+Cover and refrigerate for at least 2 hours, or overnight for the best flavor.
+
+Remove the chicken from the marinade and discard the used marinade.
+
+Preheat a grill to medium-high heat and lightly oil the grill grates.
+
+Grill the chicken for 6 to 8 minutes per side, or about 15 minutes total, until the internal temperature reaches 165°F.
+
+Remove from the grill and let rest for 5 minutes before serving.
+
+Serve warm with rice, grilled vegetables, or a fresh salad.`,
+  translations: {
+    es: {
+      name: "Pollo Jerk Jamaicano",
+      notes:
+        "Este pollo jerk estilo jamaicano está lleno de cítricos, especias aromáticas, hierbas frescas y el picante característico del habanero. Marinar durante toda la noche aporta el mejor sabor y una textura jugosa.",
+      tags: [
+        "cena",
+        "pollo",
+        "jamaicano",
+        "parrilla",
+        "picante",
+        "alto en proteína",
+        "familiar",
+        "parrillada"
+      ],
+      ingredients: `Pollo:
+4 pechugas de pollo sin hueso y sin piel
+
+Marinada Jerk:
+4 chiles habaneros, picados
+1 cebolla morada, picada
+4 dientes de ajo, picados
+4 cebollines, cortados
+1/4 taza de salsa de soya
+1/4 taza de vinagre de manzana
+2 cucharadas de aceite de oliva
+3/4 taza de jugo de naranja
+jugo de 1/2 limón verde
+1 cucharada de jengibre fresco rallado
+2 cucharadas de azúcar morena
+1 cucharadita de nuez moscada
+1 cucharadita de pimienta de Jamaica (allspice)
+1 cucharadita de canela
+1 cucharadita de tomillo seco
+1 cucharadita de sal
+1 cucharada de pimienta negra`,
+      instructions: `Agrega 4 chiles habaneros picados, 1 cebolla morada picada, 4 dientes de ajo picados, 4 cebollines, 1/4 taza de salsa de soya, 1/4 taza de vinagre de manzana, 2 cucharadas de aceite de oliva, 3/4 taza de jugo de naranja, el jugo de 1/2 limón verde, 1 cucharada de jengibre rallado, 2 cucharadas de azúcar morena, 1 cucharadita de nuez moscada, 1 cucharadita de pimienta de Jamaica, 1 cucharadita de canela, 1 cucharadita de tomillo seco, 1 cucharadita de sal y 1 cucharada de pimienta negra en un procesador de alimentos o licuadora.
+
+Licúa hasta obtener una marinada completamente suave.
+
+Con un cuchillo, haz varios pequeños cortes en 4 pechugas de pollo para ayudar a que la marinada penetre mejor.
+
+Coloca el pollo en un recipiente grande o bolsa con cierre hermético.
+
+Vierte la marinada jerk sobre el pollo y cubre bien todos los lados.
+
+Tapa y refrigera durante al menos 2 horas, o toda la noche para obtener el mejor sabor.
+
+Retira el pollo de la marinada y desecha la marinada usada.
+
+Precalienta una parrilla a fuego medio-alto y engrasa ligeramente las rejillas.
+
+Asa el pollo durante 6 a 8 minutos por lado, aproximadamente 15 minutos en total, hasta que alcance una temperatura interna de 165°F.
+
+Retira de la parrilla y deja reposar durante 5 minutos antes de servir.
+
+Sirve caliente con arroz, verduras a la parrilla o una ensalada fresca.`,
+    },
+  },
+},
+
 
 ];
 
@@ -12419,217 +12541,6 @@ Revuelve hasta que la col esté cubierta uniformemente.
 Refrigera por lo menos 20 minutos antes de servir para mejor sabor.
 
 Revuelve nuevamente antes de servir.`,
-    },
-  },
-},
-
-{
-  id: "quick-buttery-biscuits",
-  slug: "quick-buttery-biscuits",
-  name: "Buttery Biscuits",
-  effort: "quick",
-  photoUrl: "/images/quick-buttery-biscuits.jpg",
-  tags: [
-    "side",
-    "vegetarian",
-    "bread",
-    "biscuits",
-    "southern",
-    "comfort",
-    "family-friendly",
-  ],
-  isVegetarian: true,
-  notes:
-    "Flaky, buttery biscuits with tender layers. Perfect for breakfast, dinner, soups, stews, or slathered with butter and honey.",
-  ingredients: `Dry Ingredients:
-2 cups all-purpose flour
-1 tbsp baking powder
-1/2 tsp salt
-
-Wet Ingredients:
-6 tbsp cold butter, cubed
-3/4 cup whole milk
-
-Optional:
-2 tbsp melted butter
-1 tbsp honey`,
-  instructions: `Preheat oven to 425°F.
-
-Line a baking sheet with parchment paper.
-
-In a large bowl, whisk together 2 cups flour, 1 tbsp baking powder, and 1/2 tsp salt.
-
-Cut 6 tbsp cold butter into the flour mixture until it resembles coarse crumbs.
-
-Pour in 3/4 cup milk and stir gently until a shaggy dough forms.
-
-Turn the dough onto a lightly floured surface.
-
-Pat into a rectangle about 1 inch thick.
-
-Fold the dough over itself 3 to 4 times to create flaky layers.
-
-Pat out again and cut into 8 biscuits.
-
-Place biscuits onto the prepared baking sheet.
-
-Bake for 12 to 15 minutes until golden brown.
-
-Brush with 2 tbsp melted butter and drizzle with honey if desired.
-
-Serve warm.`,
-  translations: {
-    es: {
-      name: "Biscuits de Mantequilla",
-      notes:
-        "Biscuits hojaldrados y mantequillosos con capas tiernas. Perfectos para desayunos, cenas, sopas o acompañados de mantequilla y miel.",
-      tags: [
-        "acompañamiento",
-        "vegetariano",
-        "pan",
-        "biscuits",
-        "sureño",
-        "comfort",
-        "familiar",
-      ],
-      ingredients: `Ingredientes Secos:
-2 tazas de harina de trigo
-1 cucharada de polvo para hornear
-1/2 cucharadita de sal
-
-Ingredientes Húmedos:
-6 cucharadas de mantequilla fría en cubos
-3/4 taza de leche entera
-
-Opcional:
-2 cucharadas de mantequilla derretida
-1 cucharada de miel`,
-      instructions: `Precalienta el horno a 425°F.
-
-Cubre una bandeja para hornear con papel para hornear.
-
-En un tazón grande mezcla 2 tazas de harina, 1 cucharada de polvo para hornear y 1/2 cucharadita de sal.
-
-Incorpora 6 cucharadas de mantequilla fría hasta obtener una textura similar a migas gruesas.
-
-Agrega 3/4 taza de leche y mezcla suavemente hasta formar una masa.
-
-Coloca la masa sobre una superficie ligeramente enharinada.
-
-Forma un rectángulo de aproximadamente 1 pulgada de grosor.
-
-Dobla la masa sobre sí misma de 3 a 4 veces para crear capas hojaldradas.
-
-Extiende nuevamente y corta 8 biscuits.
-
-Colócalos sobre la bandeja preparada.
-
-Hornea de 12 a 15 minutos hasta que estén dorados.
-
-Barniza con 2 cucharadas de mantequilla derretida y agrega miel si lo deseas.
-
-Sirve caliente.`,
-    },
-  },
-},
-
-
-{
-  id: "quick-classic-cornbread",
-  slug: "quick-classic-cornbread",
-  name: "Classic Cornbread",
-  effort: "quick",
-  photoUrl: "/images/quick-classic-cornbread.jpg",
-  tags: [
-    "side",
-    "vegetarian",
-    "bread",
-    "cornbread",
-    "southern",
-    "comfort",
-    "family-friendly",
-  ],
-  isVegetarian: true,
-  notes:
-    "A Southern favorite with a lightly sweet flavor and tender crumb. Perfect alongside chili, barbecue, soups, and hearty comfort-food dinners.",
-  ingredients: `Dry Ingredients:
-1 cup cornmeal
-1 cup all-purpose flour
-1/4 cup sugar
-1 tbsp baking powder
-1/2 tsp salt
-
-Wet Ingredients:
-1 cup milk
-1/3 cup vegetable oil
-1 large egg
-
-Optional:
-2 tbsp honey
-2 tbsp melted butter for serving`,
-  instructions: `Preheat oven to 400°F.
-
-Grease an 8-inch baking dish or cast iron skillet.
-
-In a large bowl, whisk together 1 cup cornmeal, 1 cup flour, 1/4 cup sugar, 1 tbsp baking powder, and 1/2 tsp salt.
-
-In a separate bowl, whisk together 1 cup milk, 1/3 cup vegetable oil, and 1 egg.
-
-Pour the wet ingredients into the dry ingredients and stir just until combined. Do not overmix.
-
-Pour the batter into the prepared baking dish.
-
-Bake for 18 to 22 minutes, until golden brown and a toothpick inserted in the center comes out clean.
-
-Allow to cool for 5 minutes before slicing.
-
-Serve warm with butter or honey if desired.`,
-  translations: {
-    es: {
-      name: "Pan de Maíz Clásico",
-      notes:
-        "Un clásico sureño con un sabor ligeramente dulce y una textura tierna. Perfecto junto a chili, barbacoa, sopas y comidas reconfortantes.",
-      tags: [
-        "acompañamiento",
-        "vegetariano",
-        "pan",
-        "pan de maíz",
-        "sureño",
-        "comfort",
-        "familiar",
-      ],
-      ingredients: `Ingredientes Secos:
-1 taza de harina de maíz
-1 taza de harina de trigo
-1/4 taza de azúcar
-1 cucharada de polvo para hornear
-1/2 cucharadita de sal
-
-Ingredientes Húmedos:
-1 taza de leche
-1/3 taza de aceite vegetal
-1 huevo grande
-
-Opcional:
-2 cucharadas de miel
-2 cucharadas de mantequilla derretida para servir`,
-      instructions: `Precalienta el horno a 400°F.
-
-Engrasa un molde para hornear de 8 pulgadas o una sartén de hierro fundido.
-
-En un tazón grande mezcla 1 taza de harina de maíz, 1 taza de harina de trigo, 1/4 taza de azúcar, 1 cucharada de polvo para hornear y 1/2 cucharadita de sal.
-
-En otro tazón bate 1 taza de leche, 1/3 taza de aceite vegetal y 1 huevo.
-
-Vierte los ingredientes húmedos sobre los secos y mezcla solo hasta integrar. No mezcles demasiado.
-
-Vierte la masa en el molde preparado.
-
-Hornea de 18 a 22 minutos, hasta que esté dorado y un palillo insertado en el centro salga limpio.
-
-Deja enfriar durante 5 minutos antes de cortar.
-
-Sirve caliente con mantequilla o miel si lo deseas.`,
     },
   },
 },
