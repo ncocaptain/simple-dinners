@@ -11,12 +11,13 @@ export function getLocalizedMeal(meal: Meal | null | undefined, language: Langua
   if (!translated) return meal;
 
   return {
-    ...meal,
-    name: translated.name || meal.name,
-    notes: translated.notes || meal.notes,
-    ingredients: translated.ingredients || meal.ingredients,
-    instructions: translated.instructions || meal.instructions,
-    tags: translated.tags || meal.tags,
-    suggestedSides: translated.suggestedSides || meal.suggestedSides,
-  };
+  ...meal,
+  name: translated.name || meal.name,
+  notes: translated.notes || meal.notes,
+  ingredients: translated.ingredients || meal.ingredients,
+  instructions: translated.instructions || meal.instructions,
+  tags: translated.tags || meal.tags,
+  suggestedSides: translated.suggestedSides || meal.suggestedSides,
+  suggestedDesserts: translated.suggestedDesserts || meal.suggestedDesserts,
+};
 }

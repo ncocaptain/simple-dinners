@@ -259,12 +259,20 @@ const SIDE_ALIASES: Record<string, string> = {
 
 };
 
-function getSideRecipes(): Meal[] {
+function getRecipesByTag(tagName: string): Meal[] {
+  const normalizedTag = String(tagName || "").toLowerCase().trim();
+
   return ALL_RECIPES.filter((meal: Meal) =>
     Array.isArray(meal.tags)
-      ? meal.tags.some((tag) => String(tag).toLowerCase() === "side")
+      ? meal.tags.some(
+          (tag) => String(tag).toLowerCase().trim() === normalizedTag
+        )
       : false
   );
+}
+
+function getSideRecipes(): Meal[] {
+  return getRecipesByTag("side");
 }
 
 export function findSideRecipeByName(sideName: string): Meal | null {
@@ -313,6 +321,51 @@ export function getSideShoppingLines(sideName: string) {
     sideName,
     sideRecipe,
     lines: sideRecipe.ingredients
+      .split(/\n+/)
+      .map((line) => line.trim())
+      .filter(Boolean),
+  };
+}
+
+function getDessertRecipes(): Meal[] {
+  return getRecipesByTag("dessert");
+}
+
+export function findDessertRecipeByName(dessertName: string): Meal | null {
+  const original = String(dessertName || "").trim();
+  if (!original) return null;
+
+  const lower = original.toLowerCase().trim();
+  const normalized = normalizeSideName(original);
+
+  const dessertRecipes = getDessertRecipes();
+
+  return (
+    dessertRecipes.find((meal) => {
+      const recipeName = String(meal.name || "");
+      return (
+        recipeName.toLowerCase().trim() === lower ||
+        normalizeSideName(recipeName) === normalized
+      );
+    }) || null
+  );
+}
+
+export function getDessertShoppingLines(dessertName: string) {
+  const dessertRecipe = findDessertRecipeByName(dessertName);
+
+  if (!dessertRecipe?.ingredients?.trim()) {
+    return {
+      dessertName,
+      dessertRecipe: null,
+      lines: [dessertName],
+    };
+  }
+
+  return {
+    dessertName,
+    dessertRecipe,
+    lines: dessertRecipe.ingredients
       .split(/\n+/)
       .map((line) => line.trim())
       .filter(Boolean),

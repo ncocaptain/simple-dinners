@@ -14351,6 +14351,2332 @@ Corta en barras y sirve.`,
   },
 },
 
+{
+  id: "quick-chocolate-chip-cookies",
+  slug: "quick-chocolate-chip-cookies",
+  name: "Chocolate Chip Cookies",
+  effort: "quick",
+  photoUrl: "/images/quick-chocolate-chip-cookies.jpg",
+  tags: [
+    "dessert",
+    "cookies",
+    "chocolate",
+    "sweet",
+    "family",
+    "kid-friendly"
+  ],
+  isVegetarian: true,
+  notes:
+    "Classic soft and chewy chocolate chip cookies with crisp edges and gooey centers. A timeless dessert that everyone loves.",
+  ingredients: `Dry Ingredients:
+2 1/4 cups all-purpose flour
+1 tsp baking soda
+1/2 tsp salt
+
+Wet Ingredients:
+1 cup butter, softened
+3/4 cup brown sugar
+3/4 cup granulated sugar
+2 large eggs
+2 tsp vanilla extract
+
+Mix-Ins:
+2 cups chocolate chips`,
+  instructions: `Preheat oven to 375°F.
+
+In a medium bowl, whisk together 2 1/4 cups flour, 1 tsp baking soda, and 1/2 tsp salt.
+
+In a large bowl, beat 1 cup softened butter, 3/4 cup brown sugar, and 3/4 cup granulated sugar until light and fluffy.
+
+Add 2 eggs and 2 tsp vanilla extract and mix until combined.
+
+Gradually add the dry ingredients and mix until a dough forms.
+
+Fold in 2 cups chocolate chips.
+
+Drop rounded tablespoons of dough onto parchment-lined baking sheets.
+
+Bake for 9 to 11 minutes until the edges are lightly golden.
+
+Cool on the baking sheet for 5 minutes before transferring to a wire rack.`,
+  translations: {
+    es: {
+      name: "Galletas con Chispas de Chocolate",
+      notes:
+        "Clásicas galletas suaves y masticables con bordes dorados y centros llenos de chocolate derretido. Un postre favorito para toda la familia.",
+      tags: [
+        "postre",
+        "galletas",
+        "chocolate",
+        "dulce",
+        "familiar",
+        "niños"
+      ],
+      ingredients: `Ingredientes Secos:
+2 1/4 tazas de harina
+1 cucharadita de bicarbonato de sodio
+1/2 cucharadita de sal
+
+Ingredientes Húmedos:
+1 taza de mantequilla suave
+3/4 taza de azúcar morena
+3/4 taza de azúcar
+2 huevos grandes
+2 cucharaditas de extracto de vainilla
+
+Complementos:
+2 tazas de chispas de chocolate`,
+      instructions: `Precalienta el horno a 375°F.
+
+En un recipiente mediano mezcla 2 1/4 tazas de harina, 1 cucharadita de bicarbonato y 1/2 cucharadita de sal.
+
+En un recipiente grande bate 1 taza de mantequilla, 3/4 taza de azúcar morena y 3/4 taza de azúcar hasta obtener una mezcla esponjosa.
+
+Agrega 2 huevos y 2 cucharaditas de vainilla y mezcla bien.
+
+Añade gradualmente los ingredientes secos hasta formar una masa.
+
+Incorpora 2 tazas de chispas de chocolate.
+
+Coloca cucharadas de masa sobre bandejas para hornear cubiertas con papel para hornear.
+
+Hornea de 9 a 11 minutos hasta que los bordes estén ligeramente dorados.
+
+Deja enfriar durante 5 minutos antes de transferir a una rejilla.`,
+    },
+  },
+},
+
+{
+  id: "quick-classic-brownies",
+  slug: "quick-classic-brownies",
+  name: "Classic Brownies",
+  effort: "quick",
+  photoUrl: "/images/quick-classic-brownies.jpg",
+  tags: [
+    "dessert",
+    "chocolate",
+    "brownies",
+    "sweet",
+    "family",
+    "kid-friendly"
+  ],
+  isVegetarian: true,
+  notes:
+    "Rich, fudgy brownies with deep chocolate flavor and chewy edges. Perfect for family dinners, potlucks, and special occasions.",
+  ingredients: `Dry Ingredients:
+1 cup all-purpose flour
+1/2 cup unsweetened cocoa powder
+1/2 tsp salt
+
+Wet Ingredients:
+1/2 cup butter, melted
+1 cup granulated sugar
+2 large eggs
+1 tsp vanilla extract
+
+Optional:
+1/2 cup chocolate chips
+1/2 cup chopped walnuts`,
+  instructions: `Preheat oven to 350°F.
+
+Grease or line an 8x8-inch baking pan with parchment paper.
+
+In a medium bowl, whisk together 1 cup flour, 1/2 cup cocoa powder, and 1/2 tsp salt.
+
+In a large bowl, whisk together 1/2 cup melted butter and 1 cup sugar until combined.
+
+Add 2 eggs and 1 tsp vanilla extract and whisk until smooth.
+
+Stir the dry ingredients into the wet ingredients until just combined.
+
+Fold in 1/2 cup chocolate chips or walnuts if using.
+
+Spread the batter evenly into the prepared pan.
+
+Bake for 25 to 30 minutes, until a toothpick inserted near the center comes out with a few moist crumbs.
+
+Allow the brownies to cool completely before slicing into squares.
+
+Serve and enjoy.`,
+  translations: {
+    es: {
+      name: "Brownies Clásicos",
+      notes:
+        "Brownies ricos y húmedos con intenso sabor a chocolate y bordes ligeramente masticables. Perfectos para cenas familiares, reuniones y ocasiones especiales.",
+      tags: [
+        "postre",
+        "chocolate",
+        "brownies",
+        "dulce",
+        "familiar",
+        "niños"
+      ],
+      ingredients: `Ingredientes Secos:
+1 taza de harina
+1/2 taza de cacao en polvo sin azúcar
+1/2 cucharadita de sal
+
+Ingredientes Húmedos:
+1/2 taza de mantequilla derretida
+1 taza de azúcar
+2 huevos grandes
+1 cucharadita de extracto de vainilla
+
+Opcional:
+1/2 taza de chispas de chocolate
+1/2 taza de nueces picadas`,
+      instructions: `Precalienta el horno a 350°F.
+
+Engrasa o cubre un molde de 8x8 pulgadas con papel para hornear.
+
+En un recipiente mediano mezcla 1 taza de harina, 1/2 taza de cacao en polvo y 1/2 cucharadita de sal.
+
+En un recipiente grande mezcla 1/2 taza de mantequilla derretida y 1 taza de azúcar.
+
+Agrega 2 huevos y 1 cucharadita de vainilla y bate hasta obtener una mezcla suave.
+
+Incorpora los ingredientes secos hasta que estén combinados.
+
+Agrega las chispas de chocolate o nueces si las usas.
+
+Extiende la masa uniformemente en el molde preparado.
+
+Hornea de 25 a 30 minutos, hasta que un palillo insertado en el centro salga con algunas migas húmedas.
+
+Deja enfriar completamente antes de cortar en cuadrados.
+
+Sirve y disfruta.`,
+    },
+  },
+},
+
+{
+  id: "normal-apple-crisp",
+  slug: "normal-apple-crisp",
+  name: "Apple Crisp",
+  effort: "normal",
+  photoUrl: "/images/normal-apple-crisp.jpg",
+  tags: [
+    "dessert",
+    "apple",
+    "fruit",
+    "baked",
+    "comfort",
+    "family",
+    "fall"
+  ],
+  isVegetarian: true,
+  notes:
+    "Tender cinnamon-spiced apples topped with a buttery oat crumble. Serve warm on its own or with a scoop of vanilla ice cream.",
+  ingredients: `Apple Filling:
+6 apples, peeled and sliced
+1/4 cup brown sugar
+1 tbsp lemon juice
+1 tsp cinnamon
+1/4 tsp nutmeg
+
+Crisp Topping:
+1 cup old-fashioned oats
+3/4 cup all-purpose flour
+1/2 cup brown sugar
+1/2 tsp cinnamon
+1/2 cup butter, melted`,
+  instructions: `Preheat oven to 350°F.
+
+Lightly grease a 9x13-inch baking dish.
+
+In a large bowl, combine 6 sliced apples, 1/4 cup brown sugar, 1 tbsp lemon juice, 1 tsp cinnamon, and 1/4 tsp nutmeg.
+
+Spread the apple mixture evenly into the baking dish.
+
+In a separate bowl, combine 1 cup oats, 3/4 cup flour, 1/2 cup brown sugar, and 1/2 tsp cinnamon.
+
+Pour in 1/2 cup melted butter and stir until crumbly.
+
+Sprinkle the topping evenly over the apples.
+
+Bake for 35 to 40 minutes, until the apples are tender and the topping is golden brown.
+
+Allow to cool for 10 minutes before serving.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Crumble de Manzana",
+      notes:
+        "Manzanas tiernas con canela cubiertas con una crujiente mezcla de avena y mantequilla. Delicioso solo o acompañado con helado de vainilla.",
+      tags: [
+        "postre",
+        "manzana",
+        "fruta",
+        "horneado",
+        "comfort",
+        "familiar",
+        "otoño"
+      ],
+      ingredients: `Relleno de Manzana:
+6 manzanas, peladas y en rodajas
+1/4 taza de azúcar morena
+1 cucharada de jugo de limón
+1 cucharadita de canela
+1/4 cucharadita de nuez moscada
+
+Cobertura:
+1 taza de avena tradicional
+3/4 taza de harina
+1/2 taza de azúcar morena
+1/2 cucharadita de canela
+1/2 taza de mantequilla derretida`,
+      instructions: `Precalienta el horno a 350°F.
+
+Engrasa ligeramente un molde para hornear de 9x13 pulgadas.
+
+En un recipiente grande mezcla 6 manzanas en rodajas, 1/4 taza de azúcar morena, 1 cucharada de jugo de limón, 1 cucharadita de canela y 1/4 cucharadita de nuez moscada.
+
+Distribuye la mezcla de manzana en el molde.
+
+En otro recipiente mezcla 1 taza de avena, 3/4 taza de harina, 1/2 taza de azúcar morena y 1/2 cucharadita de canela.
+
+Agrega 1/2 taza de mantequilla derretida y mezcla hasta obtener migas gruesas.
+
+Espolvorea la cobertura sobre las manzanas.
+
+Hornea de 35 a 40 minutos, hasta que las manzanas estén tiernas y la cobertura dorada.
+
+Deja enfriar durante 10 minutos antes de servir.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-banana-pudding",
+  slug: "quick-banana-pudding",
+  name: "Banana Pudding",
+  effort: "quick",
+  photoUrl: "/images/quick-banana-pudding.jpg",
+  tags: [
+    "dessert",
+    "banana",
+    "no-bake",
+    "comfort",
+    "family",
+    "southern"
+  ],
+  isVegetarian: true,
+  notes:
+    "A creamy Southern classic layered with bananas, vanilla pudding, and vanilla wafers. Easy to make ahead and always a crowd favorite.",
+  ingredients: `Pudding:
+2 (3.4 oz) boxes instant vanilla pudding
+3 cups cold milk
+
+Layers:
+4 bananas, sliced
+1 (11 oz) box vanilla wafers
+
+Finish:
+1 cup whipped topping`,
+  instructions: `In a large bowl, whisk 2 boxes vanilla pudding mix with 3 cups cold milk for 2 minutes.
+
+Let the pudding sit for 5 minutes to thicken.
+
+In a serving dish, spread a thin layer of pudding on the bottom.
+
+Add a layer of vanilla wafers and a layer of sliced bananas.
+
+Top with more pudding.
+
+Repeat the layers until all ingredients are used.
+
+Spread 1 cup whipped topping over the top.
+
+Refrigerate for at least 2 hours before serving.
+
+Serve chilled.`,
+  translations: {
+    es: {
+      name: "Pudín de Plátano",
+      notes:
+        "Un clásico sureño cremoso con capas de plátano, pudín de vainilla y galletas de vainilla. Fácil de preparar con anticipación y siempre un favorito.",
+      tags: [
+        "postre",
+        "plátano",
+        "sin hornear",
+        "comfort",
+        "familiar",
+        "sureño"
+      ],
+      ingredients: `Pudín:
+2 cajas (3.4 oz) de pudín instantáneo de vainilla
+3 tazas de leche fría
+
+Capas:
+4 plátanos en rodajas
+1 caja (11 oz) de galletas de vainilla
+
+Final:
+1 taza de cobertura batida`,
+      instructions: `En un recipiente grande mezcla 2 cajas de pudín de vainilla con 3 tazas de leche fría durante 2 minutos.
+
+Deja reposar durante 5 minutos para que espese.
+
+Extiende una capa fina de pudín en el fondo de una fuente.
+
+Agrega una capa de galletas y una capa de plátanos.
+
+Cubre con más pudín.
+
+Repite las capas hasta usar todos los ingredientes.
+
+Cubre con 1 taza de cobertura batida.
+
+Refrigera durante al menos 2 horas antes de servir.
+
+Sirve frío.`,
+    },
+  },
+},
+
+{
+  id: "quick-rice-krispie-treats",
+  slug: "quick-rice-krispie-treats",
+  name: "Rice Krispie Treats",
+  effort: "quick",
+  photoUrl: "/images/quick-rice-krispie-treats.jpg",
+  tags: [
+    "dessert",
+    "no-bake",
+    "sweet",
+    "family",
+    "kid-friendly",
+    "party"
+  ],
+  isVegetarian: true,
+  notes:
+    "A classic no-bake dessert made with crispy rice cereal and gooey marshmallows. Fast, easy, and loved by kids and adults alike.",
+  ingredients: `Treats:
+6 cups crispy rice cereal
+10 oz mini marshmallows
+3 tbsp butter
+
+Optional:
+1/2 cup chocolate chips
+sprinkles`,
+  instructions: `Grease a 9x13-inch baking dish.
+
+Melt 3 tbsp butter in a large pot over low heat.
+
+Add 10 oz mini marshmallows and stir continuously until completely melted and smooth.
+
+Remove from heat.
+
+Add 6 cups crispy rice cereal and stir until evenly coated.
+
+Fold in chocolate chips or sprinkles if desired.
+
+Press the mixture gently into the prepared baking dish.
+
+Allow to cool for 30 minutes.
+
+Cut into squares and serve.`,
+  translations: {
+    es: {
+      name: "Cuadritos de Arroz Inflado",
+      notes:
+        "Un clásico postre sin horno preparado con cereal de arroz inflado y malvaviscos derretidos. Fácil, rápido y perfecto para toda la familia.",
+      tags: [
+        "postre",
+        "sin hornear",
+        "dulce",
+        "familiar",
+        "niños",
+        "fiesta"
+      ],
+      ingredients: `Postre:
+6 tazas de cereal de arroz inflado
+10 oz de mini malvaviscos
+3 cucharadas de mantequilla
+
+Opcional:
+1/2 taza de chispas de chocolate
+grageas`,
+      instructions: `Engrasa un molde de 9x13 pulgadas.
+
+Derrite 3 cucharadas de mantequilla en una olla grande a fuego bajo.
+
+Agrega 10 oz de mini malvaviscos y revuelve hasta que se derritan por completo.
+
+Retira del fuego.
+
+Agrega 6 tazas de cereal de arroz inflado y mezcla hasta cubrir uniformemente.
+
+Incorpora chispas de chocolate o grageas si lo deseas.
+
+Presiona suavemente la mezcla en el molde preparado.
+
+Deja enfriar durante 30 minutos.
+
+Corta en cuadros y sirve.`,
+    },
+  },
+},
+
+{
+  id: "quick-strawberry-shortcake",
+  slug: "quick-strawberry-shortcake",
+  name: "Strawberry Shortcake",
+  effort: "quick",
+  photoUrl: "/images/quick-strawberry-shortcake.jpg",
+  tags: [
+    "dessert",
+    "strawberry",
+    "fruit",
+    "sweet",
+    "family",
+    "summer"
+  ],
+  isVegetarian: true,
+  notes:
+    "Fresh strawberries, fluffy whipped cream, and tender shortcake come together in this classic dessert that's light, sweet, and always a crowd-pleaser.",
+  ingredients: `Strawberries:
+1 lb strawberries, sliced
+1/4 cup sugar
+
+Shortcakes:
+4 shortcake biscuits or dessert biscuits
+
+Topping:
+1 cup whipped cream`,
+  instructions: `Place 1 lb sliced strawberries into a bowl.
+
+Sprinkle with 1/4 cup sugar and stir gently.
+
+Let the strawberries sit for 20 to 30 minutes until juicy.
+
+Split 4 shortcake biscuits in half.
+
+Place the bottom half of each biscuit onto a serving plate.
+
+Spoon strawberries and juices over the biscuits.
+
+Top with 1 cup whipped cream divided evenly.
+
+Place the top half of each biscuit over the whipped cream if desired.
+
+Serve immediately.`,
+  translations: {
+    es: {
+      name: "Pastelito de Fresas",
+      notes:
+        "Fresas frescas, crema batida y suaves bizcochos se combinan en este postre clásico, ligero y delicioso que encanta a toda la familia.",
+      tags: [
+        "postre",
+        "fresa",
+        "fruta",
+        "dulce",
+        "familiar",
+        "verano"
+      ],
+      ingredients: `Fresas:
+1 lb de fresas, en rodajas
+1/4 taza de azúcar
+
+Bizcochos:
+4 bizcochos para shortcake
+
+Cobertura:
+1 taza de crema batida`,
+      instructions: `Coloca 1 lb de fresas en rodajas en un recipiente.
+
+Espolvorea con 1/4 taza de azúcar y mezcla suavemente.
+
+Deja reposar de 20 a 30 minutos hasta que las fresas suelten sus jugos.
+
+Corta 4 bizcochos por la mitad.
+
+Coloca la mitad inferior de cada uno en platos para servir.
+
+Agrega las fresas y sus jugos sobre los bizcochos.
+
+Añade 1 taza de crema batida repartida entre las porciones.
+
+Coloca la parte superior del bizcocho encima si lo deseas.
+
+Sirve inmediatamente.`,
+    },
+  },
+},
+
+{
+  id: "normal-peach-cobbler",
+  slug: "normal-peach-cobbler",
+  name: "Peach Cobbler",
+  effort: "normal",
+  photoUrl: "/images/normal-peach-cobbler.jpg",
+  tags: [
+    "dessert",
+    "peach",
+    "fruit",
+    "baked",
+    "comfort",
+    "family",
+    "southern"
+  ],
+  isVegetarian: true,
+  notes:
+    "Sweet peaches baked beneath a golden buttery topping. A comforting classic that's even better served warm with vanilla ice cream.",
+  ingredients: `Peach Filling:
+6 cups peaches, sliced
+1/2 cup sugar
+1 tbsp lemon juice
+1 tsp cinnamon
+
+Cobbler Topping:
+1 cup all-purpose flour
+1 cup sugar
+2 tsp baking powder
+1/4 tsp salt
+1 cup milk
+1/2 cup butter, melted`,
+  instructions: `Preheat oven to 350°F.
+
+Pour 1/2 cup melted butter into a 9x13-inch baking dish.
+
+In a bowl, combine 6 cups sliced peaches, 1/2 cup sugar, 1 tbsp lemon juice, and 1 tsp cinnamon.
+
+Spread the peaches evenly over the melted butter.
+
+In another bowl, whisk together 1 cup flour, 1 cup sugar, 2 tsp baking powder, and 1/4 tsp salt.
+
+Stir in 1 cup milk until smooth.
+
+Pour the batter evenly over the peaches. Do not stir.
+
+Bake for 40 to 45 minutes until golden brown and bubbling around the edges.
+
+Allow to cool for 10 minutes before serving.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Cobbler de Durazno",
+      notes:
+        "Duraznos dulces horneados bajo una cubierta dorada y mantecosa. Un clásico reconfortante que queda aún mejor acompañado con helado de vainilla.",
+      tags: [
+        "postre",
+        "durazno",
+        "fruta",
+        "horneado",
+        "comfort",
+        "familiar",
+        "sureño"
+      ],
+      ingredients: `Relleno:
+6 tazas de duraznos en rodajas
+1/2 taza de azúcar
+1 cucharada de jugo de limón
+1 cucharadita de canela
+
+Cobertura:
+1 taza de harina
+1 taza de azúcar
+2 cucharaditas de polvo para hornear
+1/4 cucharadita de sal
+1 taza de leche
+1/2 taza de mantequilla derretida`,
+      instructions: `Precalienta el horno a 350°F.
+
+Vierte 1/2 taza de mantequilla derretida en un molde para hornear de 9x13 pulgadas.
+
+En un recipiente mezcla 6 tazas de duraznos, 1/2 taza de azúcar, 1 cucharada de jugo de limón y 1 cucharadita de canela.
+
+Distribuye los duraznos sobre la mantequilla.
+
+En otro recipiente mezcla 1 taza de harina, 1 taza de azúcar, 2 cucharaditas de polvo para hornear y 1/4 cucharadita de sal.
+
+Agrega 1 taza de leche y mezcla hasta obtener una masa suave.
+
+Vierte la masa sobre los duraznos. No mezcles.
+
+Hornea de 40 a 45 minutos hasta que esté dorado y burbujeante.
+
+Deja enfriar durante 10 minutos antes de servir.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "normal-lemon-bars",
+  slug: "normal-lemon-bars",
+  name: "Lemon Bars",
+  effort: "normal",
+  photoUrl: "/images/normal-lemon-bars.jpg",
+  tags: [
+    "dessert",
+    "lemon",
+    "citrus",
+    "sweet",
+    "baked",
+    "family",
+    "spring"
+  ],
+  isVegetarian: true,
+  notes:
+    "Bright, tangy lemon filling layered over a buttery shortbread crust. A refreshing dessert that's sweet, tart, and perfect for sharing.",
+  ingredients: `Crust:
+1 cup butter, softened
+1/2 cup powdered sugar
+2 cups all-purpose flour
+
+Lemon Filling:
+4 large eggs
+1 1/2 cups granulated sugar
+1/4 cup all-purpose flour
+2/3 cup fresh lemon juice
+
+Finish:
+powdered sugar for dusting`,
+  instructions: `Preheat oven to 350°F.
+
+Lightly grease a 9x13-inch baking dish.
+
+In a bowl, combine 1 cup softened butter, 1/2 cup powdered sugar, and 2 cups flour until a dough forms.
+
+Press the dough evenly into the baking dish.
+
+Bake for 18 to 20 minutes until lightly golden.
+
+While the crust bakes, whisk together 4 eggs, 1 1/2 cups sugar, 1/4 cup flour, and 2/3 cup lemon juice until smooth.
+
+Pour the lemon mixture over the hot crust.
+
+Return to the oven and bake for 20 to 25 minutes until the center is set.
+
+Allow to cool completely.
+
+Dust with powdered sugar before slicing into bars.
+
+Serve chilled or at room temperature.`,
+  translations: {
+    es: {
+      name: "Barritas de Limón",
+      notes:
+        "Un relleno brillante y ácido de limón sobre una base mantecosa tipo shortbread. Un postre refrescante, dulce y perfecto para compartir.",
+      tags: [
+        "postre",
+        "limón",
+        "cítrico",
+        "dulce",
+        "horneado",
+        "familiar",
+        "primavera"
+      ],
+      ingredients: `Base:
+1 taza de mantequilla suave
+1/2 taza de azúcar glas
+2 tazas de harina
+
+Relleno de Limón:
+4 huevos grandes
+1 1/2 tazas de azúcar
+1/4 taza de harina
+2/3 taza de jugo de limón fresco
+
+Final:
+azúcar glas para espolvorear`,
+      instructions: `Precalienta el horno a 350°F.
+
+Engrasa ligeramente un molde para hornear de 9x13 pulgadas.
+
+En un recipiente mezcla 1 taza de mantequilla, 1/2 taza de azúcar glas y 2 tazas de harina hasta formar una masa.
+
+Presiona la masa uniformemente en el molde.
+
+Hornea de 18 a 20 minutos hasta que esté ligeramente dorada.
+
+Mientras tanto, bate 4 huevos, 1 1/2 tazas de azúcar, 1/4 taza de harina y 2/3 taza de jugo de limón hasta obtener una mezcla suave.
+
+Vierte la mezcla de limón sobre la base caliente.
+
+Hornea nuevamente de 20 a 25 minutos hasta que el centro esté firme.
+
+Deja enfriar completamente.
+
+Espolvorea con azúcar glas antes de cortar en barras.
+
+Sirve frío o a temperatura ambiente.`,
+    },
+  },
+},
+
+{
+  id: "quick-no-bake-cheesecake-cups",
+  slug: "quick-no-bake-cheesecake-cups",
+  name: "No-Bake Cheesecake Cups",
+  effort: "quick",
+  photoUrl: "/images/quick-no-bake-cheesecake-cups.jpg",
+  tags: [
+    "dessert",
+    "cheesecake",
+    "no-bake",
+    "sweet",
+    "family",
+    "party"
+  ],
+  isVegetarian: true,
+  notes:
+    "Creamy cheesecake filling layered with graham cracker crumbs and topped with fresh fruit. An easy make-ahead dessert that's always a hit.",
+  ingredients: `Crust:
+1 cup graham cracker crumbs
+3 tbsp butter, melted
+
+Cheesecake Filling:
+8 oz cream cheese, softened
+1/2 cup powdered sugar
+1 tsp vanilla extract
+1 cup whipped topping
+
+Optional Toppings:
+strawberries
+blueberries
+cherry pie filling
+caramel sauce`,
+  instructions: `In a small bowl, combine 1 cup graham cracker crumbs and 3 tbsp melted butter.
+
+Divide the crumb mixture evenly among 4 serving cups.
+
+In a large bowl, beat 8 oz softened cream cheese until smooth.
+
+Add 1/2 cup powdered sugar and 1 tsp vanilla extract and mix until combined.
+
+Fold in 1 cup whipped topping until smooth and fluffy.
+
+Spoon or pipe the cheesecake filling over the graham cracker layer.
+
+Top with strawberries, blueberries, cherry pie filling, or caramel sauce if desired.
+
+Refrigerate for at least 1 hour before serving.
+
+Serve chilled.`,
+  translations: {
+    es: {
+      name: "Vasitos de Cheesecake Sin Horno",
+      notes:
+        "Un cremoso relleno de cheesecake con capas de galleta triturada y fruta fresca. Un postre fácil de preparar con anticipación y perfecto para compartir.",
+      tags: [
+        "postre",
+        "cheesecake",
+        "sin hornear",
+        "dulce",
+        "familiar",
+        "fiesta"
+      ],
+      ingredients: `Base:
+1 taza de migas de galleta tipo graham
+3 cucharadas de mantequilla derretida
+
+Relleno:
+8 oz de queso crema suave
+1/2 taza de azúcar glas
+1 cucharadita de extracto de vainilla
+1 taza de cobertura batida
+
+Coberturas Opcionales:
+fresas
+arándanos
+relleno de cereza
+salsa de caramelo`,
+      instructions: `En un recipiente pequeño mezcla 1 taza de migas de galleta y 3 cucharadas de mantequilla derretida.
+
+Divide la mezcla entre 4 vasos para servir.
+
+En un recipiente grande bate 8 oz de queso crema hasta que quede suave.
+
+Agrega 1/2 taza de azúcar glas y 1 cucharadita de vainilla.
+
+Incorpora 1 taza de cobertura batida hasta obtener una mezcla ligera y cremosa.
+
+Coloca el relleno sobre la capa de galleta.
+
+Agrega fresas, arándanos, relleno de cereza o caramelo si lo deseas.
+
+Refrigera durante al menos 1 hora antes de servir.
+
+Sirve frío.`,
+    },
+  },
+},
+
+{
+  id: "quick-chocolate-mug-cake",
+  slug: "quick-chocolate-mug-cake",
+  name: "Chocolate Mug Cake",
+  effort: "quick",
+  photoUrl: "/images/quick-chocolate-mug-cake.jpg",
+  tags: [
+    "dessert",
+    "chocolate",
+    "quick",
+    "microwave",
+    "single-serving",
+    "family",
+    "kid-friendly"
+  ],
+  isVegetarian: true,
+  notes:
+    "A rich chocolate cake made in a mug in just minutes. Perfect when you want dessert fast without baking an entire cake.",
+  ingredients: `Dry Ingredients:
+4 tbsp all-purpose flour
+2 tbsp sugar
+1 tbsp cocoa powder
+1/4 tsp baking powder
+
+Wet Ingredients:
+3 tbsp milk
+2 tbsp vegetable oil
+1/4 tsp vanilla extract
+
+Optional:
+1 tbsp chocolate chips
+whipped cream
+vanilla ice cream`,
+  instructions: `In a large microwave-safe mug, combine 4 tbsp flour, 2 tbsp sugar, 1 tbsp cocoa powder, and 1/4 tsp baking powder.
+
+Add 3 tbsp milk, 2 tbsp vegetable oil, and 1/4 tsp vanilla extract.
+
+Stir until smooth and no dry pockets remain.
+
+Fold in 1 tbsp chocolate chips if desired.
+
+Microwave on high for 60 to 90 seconds until the cake is set but still moist.
+
+Allow to cool for 1 to 2 minutes.
+
+Top with whipped cream or ice cream if desired.
+
+Serve warm directly from the mug.`,
+  translations: {
+    es: {
+      name: "Pastel de Chocolate en Taza",
+      notes:
+        "Un pastel de chocolate rico y esponjoso preparado en minutos en el microondas. Perfecto cuando quieres un postre rápido sin hornear un pastel completo.",
+      tags: [
+        "postre",
+        "chocolate",
+        "rápido",
+        "microondas",
+        "porción individual",
+        "familiar",
+        "niños"
+      ],
+      ingredients: `Ingredientes Secos:
+4 cucharadas de harina
+2 cucharadas de azúcar
+1 cucharada de cacao en polvo
+1/4 cucharadita de polvo para hornear
+
+Ingredientes Húmedos:
+3 cucharadas de leche
+2 cucharadas de aceite vegetal
+1/4 cucharadita de extracto de vainilla
+
+Opcional:
+1 cucharada de chispas de chocolate
+crema batida
+helado de vainilla`,
+      instructions: `En una taza grande apta para microondas mezcla 4 cucharadas de harina, 2 cucharadas de azúcar, 1 cucharada de cacao y 1/4 cucharadita de polvo para hornear.
+
+Agrega 3 cucharadas de leche, 2 cucharadas de aceite vegetal y 1/4 cucharadita de vainilla.
+
+Mezcla hasta que quede suave y sin grumos.
+
+Incorpora 1 cucharada de chispas de chocolate si lo deseas.
+
+Cocina en el microondas de 60 a 90 segundos hasta que el pastel esté cocido pero aún húmedo.
+
+Deja reposar durante 1 a 2 minutos.
+
+Agrega crema batida o helado si lo deseas.
+
+Sirve caliente directamente en la taza.`,
+    },
+  },
+},
+
+{
+  id: "quick-ice-cream-sundaes",
+  slug: "quick-ice-cream-sundaes",
+  name: "Ice Cream Sundaes",
+  effort: "quick",
+  photoUrl: "/images/quick-ice-cream-sundaes.jpg",
+  tags: [
+    "dessert",
+    "ice-cream",
+    "sweet",
+    "family",
+    "kid-friendly",
+    "party",
+    "customizable"
+  ],
+  isVegetarian: true,
+  notes:
+    "A classic ice cream sundae with endless topping possibilities. Fun, customizable, and perfect for family dessert night.",
+  ingredients: `Ice Cream:
+4 cups vanilla ice cream
+
+Toppings:
+1/4 cup chocolate syrup
+1/4 cup caramel sauce
+1/4 cup whipped cream
+
+Optional:
+maraschino cherries
+sprinkles
+crushed cookies
+chopped peanuts
+mini chocolate chips`,
+  instructions: `Scoop 4 cups vanilla ice cream into 4 serving bowls.
+
+Drizzle each bowl with chocolate syrup and caramel sauce.
+
+Top with whipped cream.
+
+Add sprinkles, crushed cookies, peanuts, or chocolate chips if desired.
+
+Finish with a maraschino cherry if desired.
+
+Serve immediately before the ice cream melts.`,
+  translations: {
+    es: {
+      name: "Helados Sundae",
+      notes:
+        "Un clásico sundae de helado con infinitas posibilidades de toppings. Divertido, personalizable y perfecto para una noche de postre en familia.",
+      tags: [
+        "postre",
+        "helado",
+        "dulce",
+        "familiar",
+        "niños",
+        "fiesta",
+        "personalizable"
+      ],
+      ingredients: `Helado:
+4 tazas de helado de vainilla
+
+Coberturas:
+1/4 taza de jarabe de chocolate
+1/4 taza de salsa de caramelo
+1/4 taza de crema batida
+
+Opcional:
+cerezas marrasquino
+grageas
+galletas trituradas
+cacahuates picados
+mini chispas de chocolate`,
+      instructions: `Sirve 4 tazas de helado de vainilla en 4 recipientes.
+
+Agrega jarabe de chocolate y salsa de caramelo sobre cada porción.
+
+Cubre con crema batida.
+
+Agrega grageas, galletas trituradas, cacahuates o chispas de chocolate si lo deseas.
+
+Termina con una cereza marrasquino si lo deseas.
+
+Sirve inmediatamente antes de que el helado se derrita.`,
+    },
+  },
+},
+
+{
+  id: "quick-smores",
+  slug: "quick-smores",
+  name: "S'mores",
+  effort: "quick",
+  photoUrl: "/images/quick-smores.jpg",
+  tags: [
+    "dessert",
+    "campfire",
+    "chocolate",
+    "family",
+    "kid-friendly",
+    "summer",
+    "sweet"
+  ],
+  isVegetarian: true,
+  notes:
+    "A campfire classic featuring toasted marshmallows, melted chocolate, and graham crackers. Simple, nostalgic, and always a favorite.",
+  ingredients: `8 graham cracker squares
+4 large marshmallows
+4 squares milk chocolate
+
+Optional:
+dark chocolate
+peanut butter cups
+cookies and cream chocolate`,
+  instructions: `Break 8 graham cracker squares in half and arrange them on a plate.
+
+Place 4 squares of chocolate onto 4 graham cracker halves.
+
+Toast 4 marshmallows over a campfire, fire pit, grill, or under a broiler until golden brown and gooey.
+
+Place a toasted marshmallow on top of each chocolate square.
+
+Top with the remaining graham cracker halves.
+
+Press gently to melt the chocolate.
+
+Serve immediately while warm and gooey.`,
+  translations: {
+    es: {
+      name: "S'mores",
+      notes:
+        "Un clásico de fogata con malvaviscos tostados, chocolate derretido y galletas graham. Sencillo, nostálgico y siempre un favorito.",
+      tags: [
+        "postre",
+        "fogata",
+        "chocolate",
+        "familiar",
+        "niños",
+        "verano",
+        "dulce"
+      ],
+      ingredients: `8 cuadros de galleta graham
+4 malvaviscos grandes
+4 cuadros de chocolate con leche
+
+Opcional:
+chocolate oscuro
+vasitos de mantequilla de cacahuate
+chocolate de galletas y crema`,
+      instructions: `Parte 8 cuadros de galleta graham por la mitad y colócalos en un plato.
+
+Pon 4 cuadros de chocolate sobre 4 mitades de galleta.
+
+Tuesta 4 malvaviscos sobre una fogata, parrilla o bajo el asador del horno hasta que estén dorados y suaves.
+
+Coloca un malvavisco tostado sobre cada trozo de chocolate.
+
+Cubre con las mitades restantes de galleta.
+
+Presiona suavemente para ayudar a derretir el chocolate.
+
+Sirve inmediatamente mientras estén calientes y suaves.`,
+    },
+  },
+},
+
+{
+  id: "quick-oreo-dirt-cups",
+  slug: "quick-oreo-dirt-cups",
+  name: "Oreo Dirt Cups",
+  effort: "quick",
+  photoUrl: "/images/quick-oreo-dirt-cups.jpg",
+  tags: [
+    "dessert",
+    "oreo",
+    "no-bake",
+    "chocolate",
+    "family",
+    "kid-friendly",
+    "party"
+  ],
+  isVegetarian: true,
+  notes:
+    "Creamy chocolate pudding layered with crushed Oreo cookies. A fun, nostalgic dessert that's always a hit with kids and adults.",
+  ingredients: `Pudding:
+2 (3.9 oz) boxes instant chocolate pudding
+3 cups cold milk
+
+Layers:
+20 Oreo cookies, crushed
+
+Finish:
+1 cup whipped topping
+
+Optional:
+gummy worms
+extra crushed Oreos`,
+  instructions: `In a large bowl, whisk together 2 boxes chocolate pudding mix and 3 cups cold milk for 2 minutes.
+
+Allow the pudding to thicken for 5 minutes.
+
+Place a layer of crushed Oreo cookies into the bottom of 4 serving cups.
+
+Add a layer of chocolate pudding.
+
+Repeat the layers until the cups are filled.
+
+Top with 1 cup whipped topping divided evenly between the cups.
+
+Sprinkle with additional crushed Oreos.
+
+Add gummy worms if desired.
+
+Refrigerate for 30 minutes before serving.
+
+Serve chilled.`,
+  translations: {
+    es: {
+      name: "Vasitos de Tierra con Oreo",
+      notes:
+        "Capas de pudín de chocolate cremoso y galletas Oreo trituradas. Un postre divertido y nostálgico que encanta a niños y adultos.",
+      tags: [
+        "postre",
+        "oreo",
+        "sin hornear",
+        "chocolate",
+        "familiar",
+        "niños",
+        "fiesta"
+      ],
+      ingredients: `Pudín:
+2 cajas (3.9 oz) de pudín instantáneo de chocolate
+3 tazas de leche fría
+
+Capas:
+20 galletas Oreo trituradas
+
+Final:
+1 taza de crema batida
+
+Opcional:
+gomitas en forma de gusano
+más Oreo trituradas`,
+      instructions: `En un recipiente grande mezcla 2 cajas de pudín de chocolate con 3 tazas de leche fría durante 2 minutos.
+
+Deja reposar durante 5 minutos para que espese.
+
+Coloca una capa de Oreo trituradas en el fondo de 4 vasos.
+
+Agrega una capa de pudín de chocolate.
+
+Repite las capas hasta llenar los vasos.
+
+Cubre con 1 taza de crema batida repartida entre los vasos.
+
+Espolvorea más Oreo trituradas por encima.
+
+Agrega gomitas si lo deseas.
+
+Refrigera durante 30 minutos antes de servir.
+
+Sirve frío.`,
+    },
+  },
+},
+
+{
+  id: "quick-snickerdoodles",
+  slug: "quick-snickerdoodles",
+  name: "Snickerdoodles",
+  effort: "quick",
+  photoUrl: "/images/quick-snickerdoodles.jpg",
+  tags: [
+    "dessert",
+    "cookies",
+    "cinnamon",
+    "sweet",
+    "family",
+    "kid-friendly",
+    "baked"
+  ],
+  isVegetarian: true,
+  notes:
+    "Soft, chewy cookies rolled in cinnamon sugar. A timeless favorite with a lightly crisp exterior and tender center.",
+  ingredients: `Cookie Dough:
+1/2 cup butter, softened
+3/4 cup sugar
+1 large egg
+1 tsp vanilla extract
+1 1/2 cups all-purpose flour
+1/2 tsp baking soda
+1/4 tsp salt
+
+Cinnamon Sugar:
+2 tbsp sugar
+1 tsp cinnamon`,
+  instructions: `Preheat oven to 375°F.
+
+Line a baking sheet with parchment paper.
+
+In a large bowl, cream together 1/2 cup softened butter and 3/4 cup sugar until light and fluffy.
+
+Add 1 egg and 1 tsp vanilla extract and mix until combined.
+
+Stir in 1 1/2 cups flour, 1/2 tsp baking soda, and 1/4 tsp salt until a soft dough forms.
+
+In a small bowl, combine 2 tbsp sugar and 1 tsp cinnamon.
+
+Roll the dough into 1-inch balls.
+
+Coat each dough ball in the cinnamon sugar mixture.
+
+Place on the baking sheet about 2 inches apart.
+
+Bake for 8 to 10 minutes until the edges are set.
+
+Allow to cool for 5 minutes before serving.`,
+  translations: {
+    es: {
+      name: "Galletas Snickerdoodle",
+      notes:
+        "Galletas suaves y masticables cubiertas de azúcar con canela. Un clásico casero con exterior ligeramente crujiente y centro tierno.",
+      tags: [
+        "postre",
+        "galletas",
+        "canela",
+        "dulce",
+        "familiar",
+        "niños",
+        "horneado"
+      ],
+      ingredients: `Masa:
+1/2 taza de mantequilla suave
+3/4 taza de azúcar
+1 huevo grande
+1 cucharadita de extracto de vainilla
+1 1/2 tazas de harina
+1/2 cucharadita de bicarbonato de sodio
+1/4 cucharadita de sal
+
+Azúcar con Canela:
+2 cucharadas de azúcar
+1 cucharadita de canela`,
+      instructions: `Precalienta el horno a 375°F.
+
+Cubre una bandeja para hornear con papel para hornear.
+
+En un recipiente grande bate 1/2 taza de mantequilla y 3/4 taza de azúcar hasta que quede esponjosa.
+
+Agrega 1 huevo y 1 cucharadita de vainilla y mezcla bien.
+
+Incorpora 1 1/2 tazas de harina, 1/2 cucharadita de bicarbonato y 1/4 cucharadita de sal hasta formar una masa suave.
+
+En un recipiente pequeño mezcla 2 cucharadas de azúcar y 1 cucharadita de canela.
+
+Forma bolitas de aproximadamente 1 pulgada.
+
+Pasa cada bolita por la mezcla de azúcar con canela.
+
+Colócalas en la bandeja dejando espacio entre ellas.
+
+Hornea de 8 a 10 minutos hasta que los bordes estén firmes.
+
+Deja enfriar durante 5 minutos antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "quick-peanut-butter-cookies",
+  slug: "quick-peanut-butter-cookies",
+  name: "Peanut Butter Cookies",
+  effort: "quick",
+  photoUrl: "/images/quick-peanut-butter-cookies.jpg",
+  tags: [
+    "dessert",
+    "cookies",
+    "peanut-butter",
+    "sweet",
+    "family",
+    "kid-friendly",
+    "baked"
+  ],
+  isVegetarian: true,
+  notes:
+    "Classic peanut butter cookies with a soft center, lightly crisp edges, and the signature fork-pressed pattern. A timeless favorite for peanut butter lovers.",
+  ingredients: `Cookie Dough:
+1/2 cup butter, softened
+1/2 cup creamy peanut butter
+1/2 cup brown sugar
+1/2 cup granulated sugar
+1 large egg
+1 tsp vanilla extract
+1 1/4 cups all-purpose flour
+1/2 tsp baking soda
+1/4 tsp salt`,
+  instructions: `Preheat oven to 350°F.
+
+Line a baking sheet with parchment paper.
+
+In a large bowl, cream together 1/2 cup softened butter, 1/2 cup peanut butter, 1/2 cup brown sugar, and 1/2 cup granulated sugar until smooth.
+
+Add 1 egg and 1 tsp vanilla extract and mix until combined.
+
+Stir in 1 1/4 cups flour, 1/2 tsp baking soda, and 1/4 tsp salt until a dough forms.
+
+Roll the dough into 1-inch balls and place on the baking sheet.
+
+Use a fork to gently press a crisscross pattern onto each cookie.
+
+Bake for 9 to 11 minutes until the edges are lightly golden.
+
+Allow the cookies to cool on the baking sheet for 5 minutes before transferring to a wire rack.
+
+Serve and enjoy.`,
+  translations: {
+    es: {
+      name: "Galletas de Mantequilla de Cacahuate",
+      notes:
+        "Clásicas galletas de mantequilla de cacahuate con centro suave, bordes ligeramente crujientes y el tradicional diseño marcado con tenedor.",
+      tags: [
+        "postre",
+        "galletas",
+        "mantequilla de cacahuate",
+        "dulce",
+        "familiar",
+        "niños",
+        "horneado"
+      ],
+      ingredients: `Masa:
+1/2 taza de mantequilla suave
+1/2 taza de mantequilla de cacahuate cremosa
+1/2 taza de azúcar morena
+1/2 taza de azúcar
+1 huevo grande
+1 cucharadita de extracto de vainilla
+1 1/4 tazas de harina
+1/2 cucharadita de bicarbonato de sodio
+1/4 cucharadita de sal`,
+      instructions: `Precalienta el horno a 350°F.
+
+Cubre una bandeja para hornear con papel para hornear.
+
+En un recipiente grande bate 1/2 taza de mantequilla, 1/2 taza de mantequilla de cacahuate, 1/2 taza de azúcar morena y 1/2 taza de azúcar hasta que quede suave.
+
+Agrega 1 huevo y 1 cucharadita de vainilla y mezcla bien.
+
+Incorpora 1 1/4 tazas de harina, 1/2 cucharadita de bicarbonato y 1/4 cucharadita de sal hasta formar una masa.
+
+Forma bolitas de aproximadamente 1 pulgada y colócalas sobre la bandeja.
+
+Usa un tenedor para marcar el clásico patrón cruzado sobre cada galleta.
+
+Hornea de 9 a 11 minutos hasta que los bordes estén ligeramente dorados.
+
+Deja enfriar durante 5 minutos en la bandeja antes de transferir a una rejilla.
+
+Sirve y disfruta.`,
+    },
+  },
+},
+
+{
+  id: "quick-oatmeal-raisin-cookies",
+  slug: "quick-oatmeal-raisin-cookies",
+  name: "Oatmeal Raisin Cookies",
+  effort: "quick",
+  photoUrl: "/images/quick-oatmeal-raisin-cookies.jpg",
+  tags: [
+    "dessert",
+    "cookies",
+    "oatmeal",
+    "raisin",
+    "sweet",
+    "family",
+    "baked"
+  ],
+  isVegetarian: true,
+  notes:
+    "Soft and chewy oatmeal raisin cookies packed with cinnamon flavor and hearty oats. A classic homemade favorite.",
+  ingredients: `Cookie Dough:
+1/2 cup butter, softened
+1/2 cup brown sugar
+1/4 cup granulated sugar
+1 large egg
+1 tsp vanilla extract
+3/4 cup all-purpose flour
+1/2 tsp baking soda
+1/2 tsp cinnamon
+1/4 tsp salt
+1 1/2 cups old-fashioned oats
+3/4 cup raisins`,
+  instructions: `Preheat oven to 350°F.
+
+Line a baking sheet with parchment paper.
+
+In a large bowl, cream together 1/2 cup butter, 1/2 cup brown sugar, and 1/4 cup sugar until fluffy.
+
+Add 1 egg and 1 tsp vanilla extract and mix until combined.
+
+Stir in 3/4 cup flour, 1/2 tsp baking soda, 1/2 tsp cinnamon, and 1/4 tsp salt.
+
+Mix in 1 1/2 cups oats and 3/4 cup raisins.
+
+Drop rounded tablespoons of dough onto the baking sheet.
+
+Bake for 10 to 12 minutes until lightly golden.
+
+Allow to cool for 5 minutes before serving.`,
+  translations: {
+    es: {
+      name: "Galletas de Avena con Pasas",
+      notes:
+        "Galletas suaves y masticables con avena, pasas y un toque de canela. Un clásico casero que nunca pasa de moda.",
+      tags: [
+        "postre",
+        "galletas",
+        "avena",
+        "pasas",
+        "dulce",
+        "familiar",
+        "horneado"
+      ],
+      ingredients: `Masa:
+1/2 taza de mantequilla suave
+1/2 taza de azúcar morena
+1/4 taza de azúcar
+1 huevo grande
+1 cucharadita de extracto de vainilla
+3/4 taza de harina
+1/2 cucharadita de bicarbonato de sodio
+1/2 cucharadita de canela
+1/4 cucharadita de sal
+1 1/2 tazas de avena tradicional
+3/4 taza de pasas`,
+      instructions: `Precalienta el horno a 350°F.
+
+Cubre una bandeja para hornear con papel para hornear.
+
+Bate 1/2 taza de mantequilla, 1/2 taza de azúcar morena y 1/4 taza de azúcar hasta que quede esponjosa.
+
+Agrega 1 huevo y 1 cucharadita de vainilla.
+
+Incorpora 3/4 taza de harina, 1/2 cucharadita de bicarbonato, 1/2 cucharadita de canela y 1/4 cucharadita de sal.
+
+Agrega 1 1/2 tazas de avena y 3/4 taza de pasas.
+
+Coloca cucharadas de masa sobre la bandeja.
+
+Hornea de 10 a 12 minutos hasta que estén ligeramente doradas.
+
+Deja enfriar durante 5 minutos antes de servir.`,
+    },
+  },
+},
+
+{
+  id: "normal-blueberry-crisp",
+  slug: "normal-blueberry-crisp",
+  name: "Blueberry Crisp",
+  effort: "normal",
+  photoUrl: "/images/normal-blueberry-crisp.jpg",
+  tags: [
+    "dessert",
+    "blueberry",
+    "fruit",
+    "baked",
+    "comfort",
+    "family",
+    "summer"
+  ],
+  isVegetarian: true,
+  notes:
+    "Sweet blueberries baked beneath a buttery oat topping. This simple fruit dessert is bursting with berry flavor and delicious served warm.",
+  ingredients: `Blueberry Filling:
+6 cups blueberries
+1/2 cup sugar
+1 tbsp lemon juice
+2 tbsp cornstarch
+
+Crisp Topping:
+1 cup old-fashioned oats
+3/4 cup all-purpose flour
+1/2 cup brown sugar
+1/2 tsp cinnamon
+1/2 cup butter, melted`,
+  instructions: `Preheat oven to 350°F.
+
+Lightly grease an 8x8-inch baking dish.
+
+In a large bowl, combine 6 cups blueberries, 1/2 cup sugar, 1 tbsp lemon juice, and 2 tbsp cornstarch.
+
+Stir until evenly coated.
+
+Spread the blueberry mixture into the prepared baking dish.
+
+In a separate bowl, combine 1 cup oats, 3/4 cup flour, 1/2 cup brown sugar, and 1/2 tsp cinnamon.
+
+Pour in 1/2 cup melted butter and stir until crumbly.
+
+Sprinkle the topping evenly over the blueberries.
+
+Bake for 35 to 40 minutes until the filling is bubbling and the topping is golden brown.
+
+Allow to cool for 10 minutes before serving.
+
+Serve warm.`,
+  translations: {
+    es: {
+      name: "Crumble de Arándanos",
+      notes:
+        "Arándanos dulces horneados bajo una cubierta crujiente de avena y mantequilla. Un postre sencillo lleno de sabor a fruta fresca.",
+      tags: [
+        "postre",
+        "arándanos",
+        "fruta",
+        "horneado",
+        "comfort",
+        "familiar",
+        "verano"
+      ],
+      ingredients: `Relleno:
+6 tazas de arándanos
+1/2 taza de azúcar
+1 cucharada de jugo de limón
+2 cucharadas de maicena
+
+Cobertura:
+1 taza de avena tradicional
+3/4 taza de harina
+1/2 taza de azúcar morena
+1/2 cucharadita de canela
+1/2 taza de mantequilla derretida`,
+      instructions: `Precalienta el horno a 350°F.
+
+Engrasa ligeramente un molde para hornear de 8x8 pulgadas.
+
+En un recipiente grande mezcla 6 tazas de arándanos, 1/2 taza de azúcar, 1 cucharada de jugo de limón y 2 cucharadas de maicena.
+
+Revuelve hasta cubrir uniformemente.
+
+Coloca la mezcla en el molde preparado.
+
+En otro recipiente mezcla 1 taza de avena, 3/4 taza de harina, 1/2 taza de azúcar morena y 1/2 cucharadita de canela.
+
+Agrega 1/2 taza de mantequilla derretida y mezcla hasta formar migas.
+
+Espolvorea la cobertura sobre los arándanos.
+
+Hornea de 35 a 40 minutos hasta que el relleno esté burbujeante y la cobertura dorada.
+
+Deja enfriar durante 10 minutos antes de servir.
+
+Sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "quick-cherry-dump-cake",
+  slug: "quick-cherry-dump-cake",
+  name: "Cherry Dump Cake",
+  effort: "quick",
+  photoUrl: "/images/quick-cherry-dump-cake.jpg",
+  tags: [
+    "dessert",
+    "cherry",
+    "fruit",
+    "cake",
+    "easy",
+    "family",
+    "potluck"
+  ],
+  isVegetarian: true,
+  notes:
+    "One of the easiest desserts you'll ever make. Cherry pie filling, cake mix, and butter bake into a warm, sweet dessert with almost no prep work.",
+  ingredients: `Fruit Layer:
+2 (21 oz) cans cherry pie filling
+
+Cake Layer:
+1 box yellow cake mix
+
+Topping:
+1/2 cup butter, melted
+
+Optional:
+vanilla ice cream
+whipped cream`,
+  instructions: `Preheat oven to 350°F.
+
+Spread 2 cans cherry pie filling evenly into a 9x13-inch baking dish.
+
+Sprinkle 1 box yellow cake mix evenly over the pie filling.
+
+Pour 1/2 cup melted butter evenly over the cake mix.
+
+Do not stir.
+
+Bake for 40 to 45 minutes until the top is golden brown and the filling is bubbling around the edges.
+
+Allow to cool for 10 minutes before serving.
+
+Serve warm with vanilla ice cream or whipped cream if desired.`,
+  translations: {
+    es: {
+      name: "Pastel Fácil de Cereza",
+      notes:
+        "Uno de los postres más fáciles que existen. El relleno de cereza, la mezcla para pastel y la mantequilla se hornean juntos para crear un postre cálido y delicioso con muy poco esfuerzo.",
+      tags: [
+        "postre",
+        "cereza",
+        "fruta",
+        "pastel",
+        "fácil",
+        "familiar",
+        "reuniones"
+      ],
+      ingredients: `Capa de Fruta:
+2 latas (21 oz) de relleno para pay de cereza
+
+Capa de Pastel:
+1 caja de mezcla para pastel amarillo
+
+Cobertura:
+1/2 taza de mantequilla derretida
+
+Opcional:
+helado de vainilla
+crema batida`,
+      instructions: `Precalienta el horno a 350°F.
+
+Extiende uniformemente 2 latas de relleno para pay de cereza en un molde para hornear de 9x13 pulgadas.
+
+Espolvorea 1 caja de mezcla para pastel amarillo sobre el relleno.
+
+Vierte 1/2 taza de mantequilla derretida sobre la mezcla para pastel.
+
+No mezcles.
+
+Hornea de 40 a 45 minutos hasta que la superficie esté dorada y el relleno burbujee en los bordes.
+
+Deja enfriar durante 10 minutos antes de servir.
+
+Sirve caliente con helado de vainilla o crema batida si lo deseas.`,
+    },
+  },
+},
+
+{
+  id: "quick-sopapilla-bars",
+  slug: "quick-sopapilla-bars",
+  name: "Sopapilla Bars",
+  effort: "quick",
+  photoUrl: "/images/quick-sopapilla-bars.jpg",
+  tags: [
+    "dessert",
+    "cinnamon",
+    "cream-cheese",
+    "sweet",
+    "family",
+    "party",
+    "tex-mex"
+  ],
+  isVegetarian: true,
+  notes:
+    "Flaky pastry layered with sweet cream cheese and topped with cinnamon sugar. These bars are simple to make and always disappear quickly.",
+  ingredients: `Bars:
+2 (8 oz) cans crescent roll dough
+2 (8 oz) packages cream cheese, softened
+1 cup granulated sugar
+1 tsp vanilla extract
+
+Topping:
+1/4 cup butter, melted
+1/4 cup sugar
+1 tsp cinnamon`,
+  instructions: `Preheat oven to 350°F.
+
+Lightly grease a 9x13-inch baking dish.
+
+Unroll 1 can crescent roll dough and press it into the bottom of the baking dish.
+
+In a large bowl, beat 2 packages softened cream cheese, 1 cup sugar, and 1 tsp vanilla extract until smooth.
+
+Spread the cream cheese mixture evenly over the dough.
+
+Unroll the second can of crescent roll dough and place it over the cream cheese layer.
+
+Brush the top with 1/4 cup melted butter.
+
+In a small bowl, combine 1/4 cup sugar and 1 tsp cinnamon.
+
+Sprinkle the cinnamon sugar evenly over the top.
+
+Bake for 30 to 35 minutes until golden brown.
+
+Allow to cool completely before slicing into bars.
+
+Serve at room temperature or chilled.`,
+  translations: {
+    es: {
+      name: "Barritas de Sopapilla",
+      notes:
+        "Capas de masa hojaldrada rellenas de queso crema dulce y cubiertas con azúcar y canela. Un postre fácil y siempre popular en reuniones familiares.",
+      tags: [
+        "postre",
+        "canela",
+        "queso crema",
+        "dulce",
+        "familiar",
+        "fiesta",
+        "tex-mex"
+      ],
+      ingredients: `Barritas:
+2 latas (8 oz) de masa para medialunas
+2 paquetes (8 oz) de queso crema, suave
+1 taza de azúcar
+1 cucharadita de extracto de vainilla
+
+Cobertura:
+1/4 taza de mantequilla derretida
+1/4 taza de azúcar
+1 cucharadita de canela`,
+      instructions: `Precalienta el horno a 350°F.
+
+Engrasa ligeramente un molde para hornear de 9x13 pulgadas.
+
+Extiende 1 lata de masa para medialunas en el fondo del molde.
+
+En un recipiente grande bate 2 paquetes de queso crema, 1 taza de azúcar y 1 cucharadita de vainilla hasta que quede suave.
+
+Distribuye la mezcla uniformemente sobre la masa.
+
+Coloca la segunda lámina de masa sobre el relleno.
+
+Pincela la superficie con 1/4 taza de mantequilla derretida.
+
+En un recipiente pequeño mezcla 1/4 taza de azúcar y 1 cucharadita de canela.
+
+Espolvorea la mezcla sobre la superficie.
+
+Hornea de 30 a 35 minutos hasta que esté dorado.
+
+Deja enfriar completamente antes de cortar en barras.
+
+Sirve a temperatura ambiente o frío.`,
+    },
+  },
+},
+
+{
+  id: "quick-chocolate-pudding",
+  slug: "quick-chocolate-pudding",
+  name: "Chocolate Pudding",
+  effort: "quick",
+  photoUrl: "/images/quick-chocolate-pudding.jpg",
+  tags: [
+    "dessert",
+    "chocolate",
+    "no-bake",
+    "sweet",
+    "family",
+    "kid-friendly",
+    "classic"
+  ],
+  isVegetarian: true,
+  notes:
+    "Smooth, rich chocolate pudding that's creamy, comforting, and easy to make. A timeless dessert that's loved by kids and adults alike.",
+  ingredients: `Pudding:
+1/2 cup sugar
+1/4 cup cocoa powder
+3 tbsp cornstarch
+1/4 tsp salt
+2 3/4 cups whole milk
+1 tsp vanilla extract
+2 tbsp butter
+
+Optional:
+whipped cream
+chocolate shavings`,
+  instructions: `In a medium saucepan, whisk together 1/2 cup sugar, 1/4 cup cocoa powder, 3 tbsp cornstarch, and 1/4 tsp salt.
+
+Gradually whisk in 2 3/4 cups milk until smooth.
+
+Place the saucepan over medium heat.
+
+Cook for 8 to 10 minutes, whisking constantly, until the mixture thickens and begins to bubble.
+
+Remove from heat.
+
+Stir in 1 tsp vanilla extract and 2 tbsp butter until smooth.
+
+Pour the pudding into serving dishes.
+
+Cover and refrigerate for at least 2 hours until chilled.
+
+Top with whipped cream or chocolate shavings if desired.
+
+Serve cold.`,
+  translations: {
+    es: {
+      name: "Pudín de Chocolate",
+      notes:
+        "Un pudín de chocolate suave, cremoso y lleno de sabor. Un postre clásico y reconfortante que encanta a niños y adultos.",
+      tags: [
+        "postre",
+        "chocolate",
+        "sin hornear",
+        "dulce",
+        "familiar",
+        "niños",
+        "clásico"
+      ],
+      ingredients: `Pudín:
+1/2 taza de azúcar
+1/4 taza de cacao en polvo
+3 cucharadas de maicena
+1/4 cucharadita de sal
+2 3/4 tazas de leche entera
+1 cucharadita de extracto de vainilla
+2 cucharadas de mantequilla
+
+Opcional:
+crema batida
+virutas de chocolate`,
+      instructions: `En una cacerola mediana mezcla 1/2 taza de azúcar, 1/4 taza de cacao en polvo, 3 cucharadas de maicena y 1/4 cucharadita de sal.
+
+Agrega poco a poco 2 3/4 tazas de leche mientras bates hasta que quede suave.
+
+Coloca la cacerola a fuego medio.
+
+Cocina de 8 a 10 minutos, batiendo constantemente, hasta que la mezcla espese y comience a burbujear.
+
+Retira del fuego.
+
+Agrega 1 cucharadita de vainilla y 2 cucharadas de mantequilla y mezcla hasta que quede suave.
+
+Vierte el pudín en recipientes para servir.
+
+Cubre y refrigera durante al menos 2 horas.
+
+Agrega crema batida o virutas de chocolate si lo deseas.
+
+Sirve frío.`,
+    },
+  },
+},
+
+{
+  id: "normal-mini-cheesecakes",
+  slug: "normal-mini-cheesecakes",
+  name: "Mini Cheesecakes",
+  effort: "normal",
+  photoUrl: "/images/normal-mini-cheesecakes.jpg",
+  tags: [
+    "dessert",
+    "cheesecake",
+    "baked",
+    "sweet",
+    "family",
+    "party",
+    "holiday"
+  ],
+  isVegetarian: true,
+  notes:
+    "Creamy individual cheesecakes with a buttery graham cracker crust. Perfect for parties, holidays, or whenever you want an easy make-ahead dessert.",
+  ingredients: `Crust:
+1 cup graham cracker crumbs
+3 tbsp butter, melted
+
+Cheesecake Filling:
+16 oz cream cheese, softened
+1/2 cup granulated sugar
+2 large eggs
+1 tsp vanilla extract
+
+Optional Toppings:
+strawberries
+blueberries
+cherry pie filling
+caramel sauce
+chocolate sauce`,
+  instructions: `Preheat oven to 325°F.
+
+Line a 12-cup muffin tin with paper liners.
+
+In a small bowl, combine 1 cup graham cracker crumbs and 3 tbsp melted butter.
+
+Divide the mixture evenly among the muffin cups and press firmly into the bottom.
+
+In a large bowl, beat 16 oz softened cream cheese and 1/2 cup sugar until smooth.
+
+Add 2 eggs, one at a time, mixing after each addition.
+
+Mix in 1 tsp vanilla extract.
+
+Divide the cheesecake filling evenly among the muffin cups.
+
+Bake for 18 to 22 minutes until the centers are just set.
+
+Remove from the oven and cool for 30 minutes.
+
+Refrigerate for at least 2 hours before serving.
+
+Top with fruit, caramel, or chocolate sauce if desired.`,
+  translations: {
+    es: {
+      name: "Mini Cheesecakes",
+      notes:
+        "Cheesecakes individuales y cremosos con una base de galleta graham. Perfectos para fiestas, celebraciones o como un postre preparado con anticipación.",
+      tags: [
+        "postre",
+        "cheesecake",
+        "horneado",
+        "dulce",
+        "familiar",
+        "fiesta",
+        "festivo"
+      ],
+      ingredients: `Base:
+1 taza de migas de galleta tipo graham
+3 cucharadas de mantequilla derretida
+
+Relleno:
+16 oz de queso crema suave
+1/2 taza de azúcar
+2 huevos grandes
+1 cucharadita de extracto de vainilla
+
+Coberturas Opcionales:
+fresas
+arándanos
+relleno de cereza
+salsa de caramelo
+salsa de chocolate`,
+      instructions: `Precalienta el horno a 325°F.
+
+Coloca capacillos en un molde para 12 muffins.
+
+En un recipiente pequeño mezcla 1 taza de migas de galleta y 3 cucharadas de mantequilla derretida.
+
+Divide la mezcla entre los moldes y presiónala en el fondo.
+
+En un recipiente grande bate 16 oz de queso crema y 1/2 taza de azúcar hasta que quede suave.
+
+Agrega 2 huevos, uno a la vez, mezclando después de cada adición.
+
+Incorpora 1 cucharadita de vainilla.
+
+Divide el relleno entre los moldes.
+
+Hornea de 18 a 22 minutos hasta que los centros estén apenas firmes.
+
+Retira del horno y deja enfriar durante 30 minutos.
+
+Refrigera durante al menos 2 horas antes de servir.
+
+Agrega fruta, caramelo o salsa de chocolate si lo deseas.`,
+    },
+  },
+},
+
+{
+  id: "quick-puppy-chow-muddy-buddies",
+  slug: "quick-puppy-chow-muddy-buddies",
+  name: "Puppy Chow (Muddy Buddies)",
+  effort: "quick",
+  photoUrl: "/images/quick-puppy-chow-muddy-buddies.jpg",
+  tags: [
+    "dessert",
+    "no-bake",
+    "chocolate",
+    "peanut-butter",
+    "party",
+    "family",
+    "sweet"
+  ],
+  isVegetarian: true,
+  notes:
+    "A crunchy cereal snack coated in chocolate, peanut butter, and powdered sugar. Perfect for parties, movie nights, and holiday gatherings.",
+  ingredients: `Snack Mix:
+9 cups rice cereal squares
+
+Chocolate Coating:
+1 cup semi-sweet chocolate chips
+1/2 cup creamy peanut butter
+1/4 cup butter
+
+Finish:
+1 tsp vanilla extract
+1 1/2 cups powdered sugar`,
+  instructions: `Place 9 cups rice cereal squares into a very large mixing bowl.
+
+In a microwave-safe bowl, combine 1 cup chocolate chips, 1/2 cup peanut butter, and 1/4 cup butter.
+
+Microwave in 30-second intervals, stirring after each interval, until smooth.
+
+Stir in 1 tsp vanilla extract.
+
+Pour the chocolate mixture over the cereal.
+
+Gently stir until all of the cereal is evenly coated.
+
+Transfer the coated cereal to a large zip-top bag or container.
+
+Add 1 1/2 cups powdered sugar.
+
+Seal and shake until completely coated.
+
+Spread onto a baking sheet or parchment paper to cool for 10 minutes.
+
+Serve immediately or store in an airtight container.`,
+  translations: {
+    es: {
+      name: "Muddy Buddies (Puppy Chow)",
+      notes:
+        "Un popular bocadillo dulce cubierto con chocolate, mantequilla de cacahuate y azúcar glas. Perfecto para fiestas, noches de películas y celebraciones.",
+      tags: [
+        "postre",
+        "sin hornear",
+        "chocolate",
+        "mantequilla de cacahuate",
+        "fiesta",
+        "familiar",
+        "dulce"
+      ],
+      ingredients: `Mezcla:
+9 tazas de cereal de arroz en cuadros
+
+Cobertura de Chocolate:
+1 taza de chispas de chocolate semidulce
+1/2 taza de mantequilla de cacahuate cremosa
+1/4 taza de mantequilla
+
+Final:
+1 cucharadita de extracto de vainilla
+1 1/2 tazas de azúcar glas`,
+      instructions: `Coloca 9 tazas de cereal en cuadros en un recipiente grande.
+
+En un recipiente apto para microondas combina 1 taza de chispas de chocolate, 1/2 taza de mantequilla de cacahuate y 1/4 taza de mantequilla.
+
+Calienta en intervalos de 30 segundos, mezclando después de cada uno, hasta que quede suave.
+
+Agrega 1 cucharadita de vainilla.
+
+Vierte la mezcla de chocolate sobre el cereal.
+
+Revuelve suavemente hasta cubrir todo el cereal.
+
+Transfiere el cereal a una bolsa grande con cierre o recipiente con tapa.
+
+Agrega 1 1/2 tazas de azúcar glas.
+
+Cierra y agita hasta cubrir completamente.
+
+Extiende sobre papel para hornear y deja enfriar durante 10 minutos.
+
+Sirve o guarda en un recipiente hermético.`,
+    },
+  },
+},
+
+{
+  id: "normal-pecan-pie-bars",
+  slug: "normal-pecan-pie-bars",
+  name: "Pecan Pie Bars",
+  effort: "normal",
+  photoUrl: "/images/normal-pecan-pie-bars.jpg",
+  tags: [
+    "dessert",
+    "pecan",
+    "bars",
+    "holiday",
+    "sweet",
+    "family",
+    "baked"
+  ],
+  isVegetarian: true,
+  notes:
+    "Everything you love about pecan pie in an easy-to-serve bar. Perfect for holidays, potlucks, and family gatherings.",
+  ingredients: `Shortbread Crust:
+1 cup butter, softened
+1/2 cup brown sugar
+2 cups all-purpose flour
+
+Pecan Filling:
+3 large eggs
+1 cup light corn syrup
+3/4 cup brown sugar
+2 tbsp butter, melted
+1 tsp vanilla extract
+1/4 tsp salt
+2 cups pecans, chopped`,
+  instructions: `Preheat oven to 350°F.
+
+Lightly grease a 9x13-inch baking dish.
+
+In a large bowl, combine 1 cup softened butter, 1/2 cup brown sugar, and 2 cups flour.
+
+Mix until crumbly dough forms.
+
+Press the dough evenly into the bottom of the baking dish.
+
+Bake for 18 to 20 minutes until lightly golden.
+
+While the crust bakes, whisk together 3 eggs, 1 cup corn syrup, 3/4 cup brown sugar, 2 tbsp melted butter, 1 tsp vanilla extract, and 1/4 tsp salt.
+
+Stir in 2 cups chopped pecans.
+
+Pour the pecan mixture over the warm crust.
+
+Bake for 25 to 30 minutes until the filling is set.
+
+Allow to cool completely before cutting into bars.
+
+Serve at room temperature.`,
+  translations: {
+    es: {
+      name: "Barritas de Pay de Nuez",
+      notes:
+        "Todo el sabor del clásico pay de nuez en una práctica barrita. Perfectas para días festivos, reuniones y comidas familiares.",
+      tags: [
+        "postre",
+        "nuez",
+        "barritas",
+        "festivo",
+        "dulce",
+        "familiar",
+        "horneado"
+      ],
+      ingredients: `Base de Mantequilla:
+1 taza de mantequilla suave
+1/2 taza de azúcar morena
+2 tazas de harina
+
+Relleno de Nuez:
+3 huevos grandes
+1 taza de jarabe de maíz claro
+3/4 taza de azúcar morena
+2 cucharadas de mantequilla derretida
+1 cucharadita de extracto de vainilla
+1/4 cucharadita de sal
+2 tazas de nueces picadas`,
+      instructions: `Precalienta el horno a 350°F.
+
+Engrasa ligeramente un molde para hornear de 9x13 pulgadas.
+
+En un recipiente grande mezcla 1 taza de mantequilla, 1/2 taza de azúcar morena y 2 tazas de harina.
+
+Mezcla hasta formar una masa desmoronada.
+
+Presiona la masa uniformemente en el fondo del molde.
+
+Hornea de 18 a 20 minutos hasta que esté ligeramente dorada.
+
+Mientras tanto, bate 3 huevos, 1 taza de jarabe de maíz, 3/4 taza de azúcar morena, 2 cucharadas de mantequilla derretida, 1 cucharadita de vainilla y 1/4 cucharadita de sal.
+
+Agrega 2 tazas de nueces picadas.
+
+Vierte la mezcla sobre la base caliente.
+
+Hornea de 25 a 30 minutos hasta que el relleno esté firme.
+
+Deja enfriar completamente antes de cortar en barras.
+
+Sirve a temperatura ambiente.`,
+    },
+  },
+},
+
+{
+  id: "quick-chocolate-chip-cookie-bars",
+  slug: "quick-chocolate-chip-cookie-bars",
+  name: "Chocolate Chip Cookie Bars",
+  effort: "quick",
+  photoUrl: "/images/quick-chocolate-chip-cookie-bars.jpg",
+  tags: [
+    "dessert",
+    "cookies",
+    "chocolate",
+    "bars",
+    "sweet",
+    "family",
+    "kid-friendly"
+  ],
+  isVegetarian: true,
+  notes:
+    "Everything you love about chocolate chip cookies in an easy-to-make bar. Soft, chewy, and packed with chocolate in every bite.",
+  ingredients: `Cookie Bar Dough:
+1/2 cup butter, softened
+1/2 cup brown sugar
+1/4 cup granulated sugar
+1 large egg
+1 tsp vanilla extract
+1 1/4 cups all-purpose flour
+1/2 tsp baking soda
+1/4 tsp salt
+1 cup semi-sweet chocolate chips
+
+Optional:
+1/2 cup chopped walnuts
+1/2 cup milk chocolate chips`,
+  instructions: `Preheat oven to 350°F.
+
+Lightly grease or line an 8x8-inch baking dish with parchment paper.
+
+In a large bowl, cream together 1/2 cup softened butter, 1/2 cup brown sugar, and 1/4 cup granulated sugar until light and fluffy.
+
+Add 1 egg and 1 tsp vanilla extract and mix until combined.
+
+Stir in 1 1/4 cups flour, 1/2 tsp baking soda, and 1/4 tsp salt until a soft dough forms.
+
+Fold in 1 cup chocolate chips and walnuts if using.
+
+Spread the dough evenly into the prepared baking dish.
+
+Bake for 20 to 24 minutes until the edges are golden brown and the center is set.
+
+Allow to cool for at least 15 minutes before slicing into bars.
+
+Serve warm or at room temperature.`,
+  translations: {
+    es: {
+      name: "Barritas de Galleta con Chispas de Chocolate",
+      notes:
+        "Todo el sabor de las clásicas galletas con chispas de chocolate en una práctica barrita. Suaves, masticables y llenas de chocolate.",
+      tags: [
+        "postre",
+        "galletas",
+        "chocolate",
+        "barritas",
+        "dulce",
+        "familiar",
+        "niños"
+      ],
+      ingredients: `Masa:
+1/2 taza de mantequilla suave
+1/2 taza de azúcar morena
+1/4 taza de azúcar
+1 huevo grande
+1 cucharadita de extracto de vainilla
+1 1/4 tazas de harina
+1/2 cucharadita de bicarbonato de sodio
+1/4 cucharadita de sal
+1 taza de chispas de chocolate semidulce
+
+Opcional:
+1/2 taza de nueces picadas
+1/2 taza de chispas de chocolate con leche`,
+      instructions: `Precalienta el horno a 350°F.
+
+Engrasa ligeramente o cubre un molde de 8x8 pulgadas con papel para hornear.
+
+En un recipiente grande bate 1/2 taza de mantequilla, 1/2 taza de azúcar morena y 1/4 taza de azúcar hasta que quede esponjosa.
+
+Agrega 1 huevo y 1 cucharadita de vainilla y mezcla bien.
+
+Incorpora 1 1/4 tazas de harina, 1/2 cucharadita de bicarbonato y 1/4 cucharadita de sal hasta formar una masa suave.
+
+Agrega 1 taza de chispas de chocolate y nueces si las usas.
+
+Extiende la masa uniformemente en el molde preparado.
+
+Hornea de 20 a 24 minutos hasta que los bordes estén dorados y el centro firme.
+
+Deja enfriar durante al menos 15 minutos antes de cortar en barras.
+
+Sirve tibias o a temperatura ambiente.`,
+    },
+  },
+},
+
 ];
 
 export const EXTRA_RECIPES: Meal[] = [

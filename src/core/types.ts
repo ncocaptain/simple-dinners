@@ -11,7 +11,8 @@ export interface Meal {
   tags?: string[];
   isVegetarian?: boolean;
   notes?: string;
-  suggestedSides?: string[];
+suggestedSides?: string[];
+suggestedDesserts?: string[];
 
   translations?: {
     es?: {
@@ -20,7 +21,8 @@ export interface Meal {
       ingredients?: string;
       instructions?: string;
       tags?: string[];
-      suggestedSides?: string[];
+suggestedSides?: string[];
+suggestedDesserts?: string[];
     };
   };
 }
