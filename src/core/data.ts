@@ -139,6 +139,11 @@ suggestedSides: [
   "Tortilla chips",
   "Simple green salad",
 ],
+suggestedDesserts: [
+  "Blueberry Cheesecake Crescent Rolls",
+  "Chocolate Peanut Butter No-Bake Bars",
+  "Campfire Banana Boats",
+],
   notes:
     "A hearty, no-fuss chili that is easy to throw together and even better the next day.",
   ingredients: `1 lb ground beef
@@ -178,6 +183,11 @@ Serve hot and top with shredded cheese, sour cream, and jalapeños.`,
         "Totopos",
         "Ensalada verde sencilla",
       ],
+      suggestedDesserts: [
+  "Crecientes de cheesecake con arándanos",
+  "Barras sin hornear de chocolate y crema de cacahuate",
+  "Bananas Boat de Fogata",
+],
       ingredients: `1 lb de carne molida de res
 2 latas (14.5 oz) de tomates asados en cubitos
 1 lata (28 oz) de tomates en cubitos
@@ -701,6 +711,11 @@ suggestedSides: [
   "Fruit salad",
   "Carrot sticks with ranch",
 ],
+suggestedDesserts: [
+  "Chocolate Chip Cookies",
+  "Classic Brownies",
+  "Rice Krispie Treats",
+],
   notes: "A nostalgic sheet-pan pizza that brings back cafeteria memories in the best way.",
   ingredients: `4 Tbsp olive oil, divided
 3 Tbsp cornmeal
@@ -750,6 +765,11 @@ Serve warm.`,
         "Ensalada de frutas",
         "Palitos de zanahoria con ranch",
       ],
+      suggestedDesserts: [
+  "Galletas con Chispas de Chocolate",
+  "Brownies Clásicos",
+  "Cuadritos de Arroz Inflado",
+],
       ingredients: `4 Tbsp de aceite de oliva, dividido
 3 Tbsp de harina de maíz
 1 lb de masa de pizza preparada
@@ -975,9 +995,9 @@ Cubre ligeramente una bandeja grande para hornear con spray para cocinar. Agrega
 
 En un tazón pequeño, bate 4 Tbsp de mantequilla derretida, 3 Tbsp de aceite de oliva, 2 tsp de ajo, 1 Tbsp de perejil seco, 1 Tbsp de orégano seco, 1/2 tsp de ajo en polvo, 1/2 tsp de sal sazonada, 1 tsp de paprika y 1/4 tsp de pimienta de cayena.
 
-Retira 2 cucharadas de esta mezcla y revuelve con las papas hasta cubrirlas de manera uniforme. Extiende las papas en una sola capa y hornea durante 15 minutos.
+Retira 2 Tbsp de esta mezcla y revuelve con las papas hasta cubrirlas de manera uniforme. Extiende las papas en una sola capa y hornea durante 15 minutos.
 
-Mientras tanto, seca los camarones y mézclalos con 2 1/2 cucharadas de la mezcla de mantequilla y hierbas. Reserva.
+Mientras tanto, seca los camarones y mézclalos con 2 1/2 Tbsp de la mezcla de mantequilla y hierbas. Reserva.
 
 Rebana la salchicha en rodajas, corta la cebolla en trozos de 1/2 inch, corta los pimientos en trozos de 1 inch y escurre bien el maíz.
 
@@ -1497,6 +1517,11 @@ suggestedSides: [
   "Broccoli",
   "Cucumber salad",
 ],
+suggestedDesserts: [
+  "Dark Chocolate Dipped Strawberries",
+  "No-Bake Cheesecake Cups",
+  "Chocolate Mug Cake",
+],
   notes: "Fast and flavorful honey garlic chicken with a sticky, glossy sauce. Great served over rice with steamed broccoli or stir-fried vegetables.",
   ingredients: `1 1/2 lbs boneless, skinless chicken breast
 2 Tbsp cornstarch (optional)
@@ -1546,6 +1571,11 @@ Garnish with 2 sliced green onions and 1 tsp sesame seeds before serving.`,
         "Brócoli",
         "Ensalada de pepino",
       ],
+      suggestedDesserts: [
+  "Fresas cubiertas con chocolate oscuro",
+  "Vasitos de Cheesecake Sin Horno",
+  "Pastel de Chocolate en Taza",
+],
       ingredients: `1 1/2 lbs de pechuga de pollo sin hueso y sin piel
 2 Tbsp de maicena, opcional
 1 Tbsp de aceite de oliva
@@ -1834,7 +1864,7 @@ Slice and serve immediately.`,
 
 Extiende 1/2 cup de salsa BBQ de manera uniforme sobre cada pan plano, dejando un borde pequeño alrededor.
 
-Mezcla 1 cup de pollo cocido deshebrado con una cucharada de salsa BBQ para más sabor, luego distribúyelo de manera uniforme sobre los panes.
+Mezcla 1 cup de pollo cocido deshebrado con una Tbsp de salsa BBQ para más sabor, luego distribúyelo de manera uniforme sobre los panes.
 
 Cubre con 1/2 cebolla roja pequeña, 1 cup de mozzarella rallada y 1/2 cup de gouda ahumado o cheddar.
 
@@ -1949,7 +1979,7 @@ Incorpora 1 frasco (24 oz) de salsa marinara, 1/2 cup de agua, 1 tsp de sazonado
 
 En un tazón grande, mezcla la pasta cocida con la mayor parte de la salsa de carne, reservando aproximadamente 1 cup para las capas.
 
-Extiende una capa delgada de salsa en el fondo del molde. Agrega la mitad de la mezcla de pasta, luego coloca cucharadas de 1/2 cup de ricotta y espolvorea 1 cup de mozzarella.
+Extiende una capa delgada de salsa en el fondo del molde. Agrega la mitad de la mezcla de pasta, luego coloca Tbsp de 1/2 cup de ricotta y espolvorea 1 cup de mozzarella.
 
 Repite con la pasta restante, 1/2 cup de ricotta y 1 cup de mozzarella. Cubre con la salsa reservada y termina con 1/2 cup de queso parmesano.
 
@@ -6496,36 +6526,36 @@ Serve with lime wedges and cotija cheese if desired.`,
       ],
       ingredients: `Carne:
 1 1/2 lbs de arrachera
-1 cucharada de aceite de oliva
-1 cucharadita de sal
-1/2 cucharadita de pimienta negra
-1/2 cucharadita de paprika ahumada
+1 Tbsp de aceite de oliva
+1 tsp de sal
+1/2 tsp de pimienta negra
+1/2 tsp de paprika ahumada
 
 Salsa Chimichurri:
-1 taza de perejil fresco, finamente picado
-2 cucharadas de cilantro fresco, picado
+1 cup de perejil fresco, finamente picado
+2 Tbsp de cilantro fresco, picado
 3 dientes de ajo, picados
-2 cucharadas de vinagre de vino tinto
-1/2 taza de aceite de oliva
-1/2 cucharadita de hojuelas de chile rojo
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
+2 Tbsp de vinagre de vino tinto
+1/2 cup de aceite de oliva
+1/2 tsp de hojuelas de chile rojo
+1/2 tsp de sal
+1/4 tsp de pimienta negra
 
 Bowls:
-3 tazas de arroz cocido
-1 taza de tomates cherry, partidos a la mitad
+3 cups de arroz cocido
+1 cup de tomates cherry, partidos a la mitad
 1 aguacate, en rebanadas
-1 taza de maíz
-1/2 taza de cebolla morada, en rodajas finas
+1 cup de maíz
+1/2 cup de cebolla morada, en rodajas finas
 
 Opcional:
 gajos de limón
 queso cotija desmoronado`,
-      instructions: `Seca 1 1/2 lbs de arrachera con toallas de papel y úntala con 1 cucharada de aceite de oliva.
+      instructions: `Seca 1 1/2 lbs de arrachera con toallas de papel y úntala con 1 Tbsp de aceite de oliva.
 
-Sazona con 1 cucharadita de sal, 1/2 cucharadita de pimienta negra y 1/2 cucharadita de paprika ahumada.
+Sazona con 1 tsp de sal, 1/2 tsp de pimienta negra y 1/2 tsp de paprika ahumada.
 
-En un tazón, mezcla 1 taza de perejil, 2 cucharadas de cilantro, 3 dientes de ajo, 2 cucharadas de vinagre de vino tinto, 1/2 taza de aceite de oliva, 1/2 cucharadita de hojuelas de chile rojo, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra. Mezcla bien y reserva.
+En un tazón, mezcla 1 cup de perejil, 2 Tbsp de cilantro, 3 dientes de ajo, 2 Tbsp de vinagre de vino tinto, 1/2 cup de aceite de oliva, 1/2 tsp de hojuelas de chile rojo, 1/2 tsp de sal y 1/4 tsp de pimienta negra. Mezcla bien y reserva.
 
 Calienta una sartén de hierro fundido o parrilla a fuego alto hasta que esté muy caliente.
 
@@ -6533,7 +6563,7 @@ Cocina la arrachera de 3 a 4 minutos por lado hasta que se forme un dorado inten
 
 Retira del fuego y deja reposar de 5 a 10 minutos antes de cortar en tiras delgadas en contra de la fibra.
 
-Arma los bowls usando 3 tazas de arroz cocido como base.
+Arma los bowls usando 3 cups de arroz cocido como base.
 
 Agrega la carne, tomates cherry, aguacate, maíz y cebolla morada.
 
@@ -6635,32 +6665,32 @@ Serve immediately while hot and juicy.`,
       ingredients: `Hamburguesas:
 1 lb de carne molida de res (80/20 recomendado)
 1 lb de carne molida de cordero
-1 cucharadita de sal
-1/2 cucharadita de pimienta negra
-1 cucharadita de ajo en polvo
-1 cucharadita de orégano seco
-1 cucharada de salsa Worcestershire
+1 tsp de sal
+1/2 tsp de pimienta negra
+1 tsp de ajo en polvo
+1 tsp de orégano seco
+1 Tbsp de salsa Worcestershire
 
 Salsa de Hierbas:
-1/2 taza de yogur griego
-1 cucharada de jugo de limón
-1 cucharada de perejil fresco, picado
+1/2 cup de yogur griego
+1 Tbsp de jugo de limón
+1 Tbsp de perejil fresco, picado
 1 diente de ajo, picado
-1/4 cucharadita de sal
+1/4 tsp de sal
 
 Montaje:
 4 panes brioche para hamburguesa
-1/2 taza de cebolla morada, en rodajas finas
-1 taza de arúgula o lechuga
+1/2 cup de cebolla morada, en rodajas finas
+1 cup de arúgula o lechuga
 4 rebanadas de queso feta (opcional)
-1 cucharada de mantequilla, suave`,
-      instructions: `En un tazón grande, mezcla 1 lb de carne molida de res, 1 lb de carne molida de cordero, 1 cucharadita de sal, 1/2 cucharadita de pimienta negra, 1 cucharadita de ajo en polvo, 1 cucharadita de orégano y 1 cucharada de salsa Worcestershire.
+1 Tbsp de mantequilla, suave`,
+      instructions: `En un tazón grande, mezcla 1 lb de carne molida de res, 1 lb de carne molida de cordero, 1 tsp de sal, 1/2 tsp de pimienta negra, 1 tsp de ajo en polvo, 1 tsp de orégano y 1 Tbsp de salsa Worcestershire.
 
 Mezcla suavemente hasta integrar, evitando trabajar demasiado la carne.
 
 Forma 4 hamburguesas ligeramente más grandes que los panes.
 
-En un tazón pequeño, mezcla 1/2 taza de yogur griego, 1 cucharada de jugo de limón, 1 cucharada de perejil, 1 diente de ajo y 1/4 cucharadita de sal. Refrigera hasta servir.
+En un tazón pequeño, mezcla 1/2 cup de yogur griego, 1 Tbsp de jugo de limón, 1 Tbsp de perejil, 1 diente de ajo y 1/4 tsp de sal. Refrigera hasta servir.
 
 Calienta una sartén de hierro fundido o parrilla a fuego medio-alto.
 
@@ -6761,13 +6791,13 @@ Serve hot with sour cream, guacamole, pico de gallo, cilantro, and lime wedges i
         "Arroz con cilantro y lima",
       ],
       ingredients: `Relleno:
-2 tazas de brisket cocido y deshebrado
-1/2 taza de queso Monterey Jack rallado
-1/4 taza de queso crema, suave
-1/4 taza de salsa
-1 cucharadita de chile en polvo
-1/2 cucharadita de comino
-1/4 cucharadita de ajo en polvo
+2 cups de brisket cocido y deshebrado
+1/2 cup de queso Monterey Jack rallado
+1/4 cup de queso crema, suave
+1/4 cup de salsa
+1 tsp de chile en polvo
+1/2 tsp de comino
+1/4 tsp de ajo en polvo
 
 Taquitos:
 10 tortillas de maíz
@@ -6779,13 +6809,13 @@ guacamole
 pico de gallo
 cilantro fresco
 gajos de limón`,
-      instructions: `En un tazón grande, mezcla 2 tazas de brisket deshebrado, 1/2 taza de queso Monterey Jack, 1/4 taza de queso crema, 1/4 taza de salsa, 1 cucharadita de chile en polvo, 1/2 cucharadita de comino y 1/4 cucharadita de ajo en polvo.
+      instructions: `En un tazón grande, mezcla 2 cups de brisket deshebrado, 1/2 cup de queso Monterey Jack, 1/4 cup de queso crema, 1/4 cup de salsa, 1 tsp de chile en polvo, 1/2 tsp de comino y 1/4 tsp de ajo en polvo.
 
 Mezcla hasta integrar bien.
 
 Calienta 10 tortillas de maíz durante 20 a 30 segundos en el microondas envueltas en una toalla húmeda para hacerlas más flexibles y evitar que se rompan.
 
-Coloca aproximadamente 2 a 3 cucharadas del relleno en cada tortilla y enrolla firmemente.
+Coloca aproximadamente 2 a 3 Tbsp del relleno en cada tortilla y enrolla firmemente.
 
 Precalienta la freidora de aire a 400°F.
 
@@ -6885,42 +6915,42 @@ Let cool for 5 minutes before serving because the filling will be very hot.`,
       ],
       ingredients: `Masa:
 1 lb de masa para pizza (casera o comprada)
-1 cucharada de harina (para extender)
+1 Tbsp de harina (para extender)
 
 Relleno:
-1 taza de salsa marinara
-1 1/2 tazas de queso mozzarella rallado
-1/2 taza de pepperoni
-1/2 cucharadita de sazón italiana
-1/4 cucharadita de ajo en polvo
+1 cup de salsa marinara
+1 1/2 cups de queso mozzarella rallado
+1/2 cup de pepperoni
+1/2 tsp de sazón italiana
+1/4 tsp de ajo en polvo
 
 Final:
-1 cucharada de aceite de oliva
-1 cucharada de queso parmesano rallado
+1 Tbsp de aceite de oliva
+1 Tbsp de queso parmesano rallado
 
 Opcional:
 ingredientes para pizza al gusto (salchicha, champiñones, pimientos, aceitunas)`,
       instructions: `Precalienta el horno a 425°F.
 
-Espolvorea ligeramente una superficie de trabajo con 1 cucharada de harina.
+Espolvorea ligeramente una superficie de trabajo con 1 Tbsp de harina.
 
 Extiende 1 lb de masa para pizza formando un rectángulo grande y córtalo en 4 partes iguales.
 
-Coloca aproximadamente 2 cucharadas de salsa marinara en una mitad de cada pieza de masa, dejando un pequeño borde alrededor.
+Coloca aproximadamente 2 Tbsp de salsa marinara en una mitad de cada pieza de masa, dejando un pequeño borde alrededor.
 
-Agrega mozzarella, pepperoni, 1/2 cucharadita de sazón italiana y 1/4 cucharadita de ajo en polvo divididos entre las piezas.
+Agrega mozzarella, pepperoni, 1/2 tsp de sazón italiana y 1/4 tsp de ajo en polvo divididos entre las piezas.
 
 Dobla la masa sobre el relleno y presiona bien los bordes para sellar. Puedes marcar los bordes con un tenedor si deseas.
 
 Coloca las pizza pockets sobre una bandeja con papel para hornear.
 
-Barniza la parte superior con 1 cucharada de aceite de oliva.
+Barniza la parte superior con 1 Tbsp de aceite de oliva.
 
 Haz un pequeño corte en la parte superior de cada pieza para permitir que salga el vapor.
 
 Hornea de 15 a 18 minutos hasta que estén doradas y crujientes.
 
-Retira del horno y espolvorea 1 cucharada de queso parmesano.
+Retira del horno y espolvorea 1 Tbsp de queso parmesano.
 
 Deja enfriar 5 minutos antes de servir porque el relleno estará muy caliente.`,
     },
@@ -7011,16 +7041,16 @@ Serve warm.`,
       ],
       ingredients: `Papas:
 6 papas russet grandes
-2 cucharadas de aceite de oliva
-1 cucharadita de sal
-1/2 cucharadita de pimienta negra
+2 Tbsp de aceite de oliva
+1 tsp de sal
+1/2 tsp de pimienta negra
 
 Toppings Clásicos:
-1 taza de queso cheddar rallado
-1/2 taza de crema agria
-1/2 taza de trocitos de tocino
-1/4 taza de cebollines en rodajas
-2 cucharadas de mantequilla
+1 cup de queso cheddar rallado
+1/2 cup de crema agria
+1/2 cup de trocitos de tocino
+1/4 cup de cebollines en rodajas
+2 Tbsp de mantequilla
 
 Toppings Opcionales:
 brócoli al vapor
@@ -7033,7 +7063,7 @@ aderezo ranch`,
 
 Lava bien 6 papas russet y sécalas completamente con toallas de papel.
 
-Unta las papas con 2 cucharadas de aceite de oliva y sazona uniformemente con 1 cucharadita de sal y 1/2 cucharadita de pimienta negra.
+Unta las papas con 2 Tbsp de aceite de oliva y sazona uniformemente con 1 tsp de sal y 1/2 tsp de pimienta negra.
 
 Coloca las papas directamente sobre la rejilla del horno o en una bandeja para hornear.
 
@@ -7045,7 +7075,7 @@ Retira las papas del horno y deja enfriar durante 5 minutos.
 
 Haz un corte a lo largo de cada papa y esponja el interior suavemente con un tenedor.
 
-Agrega las 2 cucharadas de mantequilla divididas entre las papas y coloca los toppings estilo buffet para que cada persona arme la suya.
+Agrega las 2 Tbsp de mantequilla divididas entre las papas y coloca los toppings estilo buffet para que cada persona arme la suya.
 
 Sirve caliente.`,
     },
@@ -7138,43 +7168,43 @@ Serve warm with fresh parsley and parmesan cheese if desired.`,
         "Galletas saladas",
       ],
       ingredients: `Base de la Sopa:
-1 cucharada de aceite de oliva
+1 Tbsp de aceite de oliva
 1 cebolla pequeña, picada
 2 zanahorias, picadas
 2 tallos de apio, picados
 2 dientes de ajo, picados
 
 Sopa:
-6 tazas de caldo de pollo (o caldo de verduras para versión vegetariana)
+6 cups de caldo de pollo (o caldo de verduras para versión vegetariana)
 1 lata (14 oz) de tomates picados
-1 cucharadita de sazón italiana
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
+1 tsp de sazón italiana
+1/2 tsp de sal
+1/4 tsp de pimienta negra
 
 Pasta:
-1 taza de pasta de letras o estrellitas
+1 cup de pasta de letras o estrellitas
 
 Opcional:
-1 taza de pollo cocido y desmenuzado
-2 cucharadas de perejil fresco, picado
+1 cup de pollo cocido y desmenuzado
+2 Tbsp de perejil fresco, picado
 queso parmesano para servir`,
-      instructions: `Calienta 1 cucharada de aceite de oliva en una olla grande a fuego medio.
+      instructions: `Calienta 1 Tbsp de aceite de oliva en una olla grande a fuego medio.
 
 Agrega 1 cebolla picada, 2 zanahorias picadas y 2 tallos de apio picados. Cocina de 5 a 6 minutos hasta que estén suaves.
 
 Agrega 2 dientes de ajo y cocina 30 segundos hasta que estén fragantes.
 
-Vierte 6 tazas de caldo y 1 lata de tomates picados.
+Vierte 6 cups de caldo y 1 lata de tomates picados.
 
-Agrega 1 cucharadita de sazón italiana, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+Agrega 1 tsp de sazón italiana, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Lleva la sopa a un hervor suave.
 
-Agrega 1 taza de pasta de letras o estrellitas.
+Agrega 1 cup de pasta de letras o estrellitas.
 
 Reduce el fuego y cocina a fuego lento de 8 a 10 minutos, revolviendo ocasionalmente, hasta que la pasta esté tierna.
 
-Agrega 1 taza de pollo desmenuzado si lo deseas y cocina 2 minutos más hasta que esté caliente.
+Agrega 1 cup de pollo desmenuzado si lo deseas y cocina 2 minutos más hasta que esté caliente.
 
 Prueba y ajusta la sazón si es necesario.
 
@@ -7256,14 +7286,14 @@ Sazonadores:
 1 paquete de mezcla au jus (o gravy marrón)
 
 Sabor:
-1/2 taza de mantequilla (1 barra), en rebanadas
+1/2 cup de mantequilla (1 barra), en rebanadas
 6 a 8 chiles pepperoncini
-1/4 taza de jugo de pepperoncini (opcional, para más sabor ácido)`,
+1/4 cup de jugo de pepperoncini (opcional, para más sabor ácido)`,
       instructions: `Coloca 2 a 3 lbs de pollo en el fondo de una olla lenta.
 
 Espolvorea 1 paquete de mezcla ranch y 1 paquete de mezcla au jus uniformemente sobre el pollo.
 
-Agrega 1/2 taza de mantequilla en rebanadas y 6 a 8 pepperoncini. Añade 1/4 taza de jugo de pepperoncini si lo deseas.
+Agrega 1/2 cup de mantequilla en rebanadas y 6 a 8 pepperoncini. Añade 1/4 cup de jugo de pepperoncini si lo deseas.
 
 Cubre y cocina a temperatura baja de 6 a 7 horas o alta de 3 a 4 horas, hasta que el pollo esté muy tierno y se desmenuce fácilmente.
 
@@ -7365,28 +7395,28 @@ Garnish with 1 tbsp fresh parsley and serve warm.`,
       ],
       ingredients: `Cerdo:
 3 a 4 lb de lomo de cerdo
-1 cucharada de aceite de oliva
+1 Tbsp de aceite de oliva
 
 Mezcla de Sazonadores:
-1 cucharadita de sal
-1/2 cucharadita de pimienta negra
-1 cucharadita de ajo en polvo
-1 cucharadita de cebolla en polvo
-1 cucharadita de tomillo seco
-1 cucharadita de paprika ahumada (o paprika regular para un sabor más suave)
+1 tsp de sal
+1/2 tsp de pimienta negra
+1 tsp de ajo en polvo
+1 tsp de cebolla en polvo
+1 tsp de tomillo seco
+1 tsp de paprika ahumada (o paprika regular para un sabor más suave)
 
 Salsa:
-2 cucharadas de mantequilla
+2 Tbsp de mantequilla
 3 dientes de ajo, picados
-1 taza de caldo de pollo
-1 cucharada de mostaza Dijon
-1 cucharadita de salsa Worcestershire
-1 cucharada de perejil fresco, picado`,
+1 cup de caldo de pollo
+1 Tbsp de mostaza Dijon
+1 tsp de salsa Worcestershire
+1 Tbsp de perejil fresco, picado`,
       instructions: `Precalienta el horno a 375°F.
 
-Seca completamente 3 a 4 lb de lomo de cerdo con toallas de papel. Unta todos los lados con 1 cucharada de aceite de oliva.
+Seca completamente 3 a 4 lb de lomo de cerdo con toallas de papel. Unta todos los lados con 1 Tbsp de aceite de oliva.
 
-En un tazón pequeño, mezcla 1 cucharadita de sal, 1/2 cucharadita de pimienta negra, 1 cucharadita de ajo en polvo, 1 cucharadita de cebolla en polvo, 1 cucharadita de tomillo y 1 cucharadita de paprika ahumada.
+En un tazón pequeño, mezcla 1 tsp de sal, 1/2 tsp de pimienta negra, 1 tsp de ajo en polvo, 1 tsp de cebolla en polvo, 1 tsp de tomillo y 1 tsp de paprika ahumada.
 
 Sazona el lomo de cerdo uniformemente por todos lados, presionando la mezcla sobre la carne.
 
@@ -7400,15 +7430,15 @@ Retira el lomo de cerdo de la sartén y deja reposar 10 minutos antes de cortarl
 
 Mientras el cerdo reposa, coloca la sartén nuevamente a fuego medio.
 
-Agrega 2 cucharadas de mantequilla y 3 dientes de ajo. Cocina 30 segundos hasta que esté fragante.
+Agrega 2 Tbsp de mantequilla y 3 dientes de ajo. Cocina 30 segundos hasta que esté fragante.
 
-Vierte 1 taza de caldo de pollo, 1 cucharada de mostaza Dijon y 1 cucharadita de salsa Worcestershire.
+Vierte 1 cup de caldo de pollo, 1 Tbsp de mostaza Dijon y 1 tsp de salsa Worcestershire.
 
 Cocina a fuego lento de 3 a 5 minutos, raspando los trozos dorados del fondo de la sartén, hasta que la salsa espese ligeramente y cubra el dorso de una cuchara.
 
 Corta el lomo de cerdo en rebanadas y sirve la salsa por encima.
 
-Decora con 1 cucharada de perejil fresco y sirve caliente.`,
+Decora con 1 Tbsp de perejil fresco y sirve caliente.`,
     },
   },
 },
@@ -7508,32 +7538,32 @@ Serve immediately while hot and crispy.`,
       ],
       ingredients: `Hamburguesas:
 2 lbs de carne molida de res (80/20 recomendado)
-1 cucharada de sebo de res
-1 cucharadita de sal
-1/2 cucharadita de pimienta negra
+1 Tbsp de sebo de res
+1 tsp de sal
+1/2 tsp de pimienta negra
 
 Salsa para Hamburguesa:
-1/2 taza de mayonesa
-2 cucharadas de ketchup
-1 cucharada de mostaza
-1 cucharada de relish de pepinillo
-1/2 cucharadita de ajo en polvo
-1/4 cucharadita de pimienta negra
+1/2 cup de mayonesa
+2 Tbsp de ketchup
+1 Tbsp de mostaza
+1 Tbsp de relish de pepinillo
+1/2 tsp de ajo en polvo
+1/4 tsp de pimienta negra
 
 Montaje:
 4 panes para hamburguesa
 4 rebanadas de queso americano
-1/2 taza de cebolla, en rodajas finas
+1/2 cup de cebolla, en rodajas finas
 rodajas de pepinillo
 lechuga (opcional)
-2 cucharadas de mantequilla, suave`,
+2 Tbsp de mantequilla, suave`,
       instructions: `Divide 2 lbs de carne molida en 8 bolas sueltas de aproximadamente 4 oz cada una. No trabajes demasiado la carne.
 
-En un tazón pequeño, mezcla 1/2 taza de mayonesa, 2 cucharadas de ketchup, 1 cucharada de mostaza, 1 cucharada de relish de pepinillo, 1/2 cucharadita de ajo en polvo y 1/4 cucharadita de pimienta negra. Refrigera hasta usar.
+En un tazón pequeño, mezcla 1/2 cup de mayonesa, 2 Tbsp de ketchup, 1 Tbsp de mostaza, 1 Tbsp de relish de pepinillo, 1/2 tsp de ajo en polvo y 1/4 tsp de pimienta negra. Refrigera hasta usar.
 
 Calienta una sartén de hierro fundido o plancha a fuego alto hasta que esté muy caliente.
 
-Agrega 1 cucharada de sebo de res y distribúyelo uniformemente sobre la superficie.
+Agrega 1 Tbsp de sebo de res y distribúyelo uniformemente sobre la superficie.
 
 Unta mantequilla en el interior de 4 panes para hamburguesa y tuéstalos con el lado cortado hacia abajo hasta que estén dorados. Reserva.
 
@@ -7672,9 +7702,9 @@ Serve topped with diced onion and cilantro alongside small bowls of warm birria 
       ],
       ingredients: `Carne:
 3 lbs de chuck roast de res, cortado en trozos grandes
-1 cucharada de aceite de oliva
-1 cucharadita de sal
-1/2 cucharadita de pimienta negra
+1 Tbsp de aceite de oliva
+1 tsp de sal
+1/2 tsp de pimienta negra
 
 Salsa de Chiles:
 4 chiles guajillo secos, sin semillas
@@ -7683,22 +7713,22 @@ Salsa de Chiles:
 1 cebolla pequeña, en trozos
 4 dientes de ajo
 1 lata (14 oz) de tomates rostizados
-2 tazas de caldo de res
-2 cucharadas de vinagre de manzana
+2 cups de caldo de res
+2 Tbsp de vinagre de manzana
 
 Sazonadores:
-1 cucharada de chile en polvo
-1 cucharadita de comino
-1 cucharadita de orégano
-1/2 cucharadita de paprika ahumada
-1/2 cucharadita de canela
+1 Tbsp de chile en polvo
+1 tsp de comino
+1 tsp de orégano
+1/2 tsp de paprika ahumada
+1/2 tsp de canela
 1 hoja de laurel
 
 Tacos:
 12 tortillas de maíz
-2 tazas de queso Oaxaca o mozzarella rallado
-1/2 taza de cebolla blanca, picada
-1/4 taza de cilantro, picado
+2 cups de queso Oaxaca o mozzarella rallado
+1/2 cup de cebolla blanca, picada
+1/4 cup de cilantro, picado
 
 Opcional:
 gajos de limón para servir`,
@@ -7708,15 +7738,15 @@ Tuesta 4 chiles guajillo y 2 chiles ancho durante 30 a 60 segundos por lado hast
 
 Coloca los chiles tostados en un tazón y cúbrelos con agua caliente. Déjalos reposar 10 minutos hasta que estén suaves.
 
-Calienta 1 cucharada de aceite de oliva en una sartén grande u horno holandés a fuego medio-alto.
+Calienta 1 Tbsp de aceite de oliva en una sartén grande u horno holandés a fuego medio-alto.
 
-Sazona 3 lbs de carne con 1 cucharadita de sal y 1/2 cucharadita de pimienta negra.
+Sazona 3 lbs de carne con 1 tsp de sal y 1/2 tsp de pimienta negra.
 
 Sella la carne en tandas de 2 a 3 minutos por lado hasta formar una costra dorada intensa.
 
 Transfiere la carne a una olla lenta.
 
-Escurre los chiles suaves y colócalos en una licuadora junto con 1 chile chipotle, 1 cebolla, 4 dientes de ajo, 1 lata de tomates rostizados, 2 tazas de caldo de res, 2 cucharadas de vinagre de manzana, 1 cucharada de chile en polvo, 1 cucharadita de comino, 1 cucharadita de orégano, 1/2 cucharadita de paprika ahumada y 1/2 cucharadita de canela.
+Escurre los chiles suaves y colócalos en una licuadora junto con 1 chile chipotle, 1 cebolla, 4 dientes de ajo, 1 lata de tomates rostizados, 2 cups de caldo de res, 2 Tbsp de vinagre de manzana, 1 Tbsp de chile en polvo, 1 tsp de comino, 1 tsp de orégano, 1/2 tsp de paprika ahumada y 1/2 tsp de canela.
 
 Licúa hasta obtener una salsa completamente suave.
 
@@ -7835,31 +7865,31 @@ Serve warm with extra hot sauce if desired.`,
       ],
       ingredients: `Costillas:
 2 racks de costillas baby back
-2 cucharadas de mostaza amarilla
+2 Tbsp de mostaza amarilla
 
 Rub Seco:
-2 cucharadas de azúcar morena
-1 cucharada de paprika ahumada
-1 cucharadita de ajo en polvo
-1 cucharadita de cebolla en polvo
-1 cucharadita de sal
-1/2 cucharadita de pimienta negra
-1/2 cucharadita de pimienta cayena
+2 Tbsp de azúcar morena
+1 Tbsp de paprika ahumada
+1 tsp de ajo en polvo
+1 tsp de cebolla en polvo
+1 tsp de sal
+1/2 tsp de pimienta negra
+1/2 tsp de pimienta cayena
 
 Glaseado de Miel Picante:
-1/2 taza de miel
-2 cucharadas de salsa picante
-1 cucharada de mantequilla
-1 cucharadita de vinagre de manzana
+1/2 cup de miel
+2 Tbsp de salsa picante
+1 Tbsp de mantequilla
+1 tsp de vinagre de manzana
 
 Opcional:
 pellets o astillas de madera de manzano
 más salsa picante para servir`,
       instructions: `Retira la membrana de la parte trasera de 2 racks de costillas y sécalas completamente con toallas de papel.
 
-Unta ligeramente ambas costillas con 2 cucharadas de mostaza amarilla para ayudar a que el sazonador se adhiera.
+Unta ligeramente ambas costillas con 2 Tbsp de mostaza amarilla para ayudar a que el sazonador se adhiera.
 
-En un tazón pequeño, mezcla 2 cucharadas de azúcar morena, 1 cucharada de paprika ahumada, 1 cucharadita de ajo en polvo, 1 cucharadita de cebolla en polvo, 1 cucharadita de sal, 1/2 cucharadita de pimienta negra y 1/2 cucharadita de pimienta cayena.
+En un tazón pequeño, mezcla 2 Tbsp de azúcar morena, 1 Tbsp de paprika ahumada, 1 tsp de ajo en polvo, 1 tsp de cebolla en polvo, 1 tsp de sal, 1/2 tsp de pimienta negra y 1/2 tsp de pimienta cayena.
 
 Sazona generosamente las costillas por todos lados, presionando el rub sobre la carne.
 
@@ -7871,7 +7901,7 @@ Después de 2 horas, rocía ligeramente las costillas con agua o jugo de manzana
 
 Continúa ahumando de 1 1/2 a 2 horas más hasta que las costillas desarrollen un color caoba profundo y la carne comience a separarse de los huesos.
 
-En una cacerola pequeña a fuego bajo, mezcla 1/2 taza de miel, 2 cucharadas de salsa picante, 1 cucharada de mantequilla y 1 cucharadita de vinagre de manzana. Revuelve hasta que quede suave y brillante.
+En una cacerola pequeña a fuego bajo, mezcla 1/2 cup de miel, 2 Tbsp de salsa picante, 1 Tbsp de mantequilla y 1 tsp de vinagre de manzana. Revuelve hasta que quede suave y brillante.
 
 Barniza generosamente las costillas con el glaseado durante los últimos 20 a 30 minutos de cocción.
 
@@ -7972,18 +8002,18 @@ Spoon some of the buttery pan juices over the chicken before serving.`,
       ],
       ingredients: `Pollo:
 1 pollo entero (4 a 5 lbs)
-2 cucharadas de aceite de oliva
+2 Tbsp de aceite de oliva
 
 Sazonadores:
-1 cucharadita de sal
-1/2 cucharadita de pimienta negra
-1 cucharadita de ajo en polvo
-1 cucharadita de cebolla en polvo
-1 cucharadita de paprika ahumada
-1/2 cucharadita de tomillo seco
+1 tsp de sal
+1/2 tsp de pimienta negra
+1 tsp de ajo en polvo
+1 tsp de cebolla en polvo
+1 tsp de paprika ahumada
+1/2 tsp de tomillo seco
 
 Baño de Mantequilla:
-1/2 taza de mantequilla
+1/2 cup de mantequilla
 4 dientes de ajo, aplastados
 2 ramas de romero fresco
 2 ramas de tomillo fresco
@@ -7994,13 +8024,13 @@ Usando tijeras de cocina, retira la columna vertebral de 1 pollo entero. Voltea 
 
 Seca completamente el pollo con toallas de papel.
 
-Unta el pollo con 2 cucharadas de aceite de oliva.
+Unta el pollo con 2 Tbsp de aceite de oliva.
 
-En un tazón pequeño, mezcla 1 cucharadita de sal, 1/2 cucharadita de pimienta negra, 1 cucharadita de ajo en polvo, 1 cucharadita de cebolla en polvo, 1 cucharadita de paprika ahumada y 1/2 cucharadita de tomillo.
+En un tazón pequeño, mezcla 1 tsp de sal, 1/2 tsp de pimienta negra, 1 tsp de ajo en polvo, 1 tsp de cebolla en polvo, 1 tsp de paprika ahumada y 1/2 tsp de tomillo.
 
 Sazona el pollo generosamente por todos lados y debajo de la piel cuando sea posible.
 
-En una sartén grande de hierro fundido o bandeja para hornear, derrite 1/2 taza de mantequilla a fuego medio.
+En una sartén grande de hierro fundido o bandeja para hornear, derrite 1/2 cup de mantequilla a fuego medio.
 
 Agrega 4 dientes de ajo aplastados, romero, tomillo y el limón partido. Cocina de 1 a 2 minutos hasta que desprenda aroma.
 
@@ -8110,48 +8140,48 @@ Serve patties warm with dipping sauce and garnish with sesame seeds and green on
       ],
       ingredients: `Tortitas de Res:
 1 lb de carne molida de res
-1/4 taza de cebolla amarilla, finamente rallada
+1/4 cup de cebolla amarilla, finamente rallada
 2 dientes de ajo, picados
 1 cebollín, en rodajas finas
-1 cucharada de salsa de soya
-1 cucharadita de aceite de ajonjolí
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-1/4 cucharadita de jengibre rallado
-1/3 taza de pan molido panko
+1 Tbsp de salsa de soya
+1 tsp de aceite de ajonjolí
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1/4 tsp de jengibre rallado
+1/3 cup de pan molido panko
 1 huevo grande
 
 Cobertura:
-1/4 taza de harina
+1/4 cup de harina
 1 huevo grande, batido
 
 Para Cocinar:
-2 cucharadas de aceite neutro (vegetal o de aguacate)
+2 Tbsp de aceite neutro (vegetal o de aguacate)
 
 Decoración Opcional:
 semillas de ajonjolí
 cebollines en rodajas
 
 Salsa para Mojar:
-2 cucharadas de salsa de soya
-1 cucharada de vinagre de arroz
-1 cucharadita de aceite de ajonjolí
-1 cucharadita de miel o azúcar morena`,
-      instructions: `En un tazón grande, mezcla 1 lb de carne molida, 1/4 taza de cebolla rallada, 2 dientes de ajo, 1 cebollín, 1 cucharada de salsa de soya, 1 cucharadita de aceite de ajonjolí, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra, 1/4 cucharadita de jengibre, 1/3 taza de pan molido panko y 1 huevo.
+2 Tbsp de salsa de soya
+1 Tbsp de vinagre de arroz
+1 tsp de aceite de ajonjolí
+1 tsp de miel o azúcar morena`,
+      instructions: `En un tazón grande, mezcla 1 lb de carne molida, 1/4 cup de cebolla rallada, 2 dientes de ajo, 1 cebollín, 1 Tbsp de salsa de soya, 1 tsp de aceite de ajonjolí, 1/2 tsp de sal, 1/4 tsp de pimienta negra, 1/4 tsp de jengibre, 1/3 cup de pan molido panko y 1 huevo.
 
 Mezcla suavemente hasta integrar, evitando trabajar demasiado la carne.
 
-Forma pequeñas tortitas de aproximadamente 2 pulgadas de ancho y 1/2 pulgada de grosor.
+Forma pequeñas tortitas de aproximadamente 2 inches de ancho y 1/2 inch de grosor.
 
-Cubre ligeramente cada tortita con 1/4 taza de harina y luego pásala por 1 huevo batido.
+Cubre ligeramente cada tortita con 1/4 cup de harina y luego pásala por 1 huevo batido.
 
-Calienta 2 cucharadas de aceite en una sartén grande a fuego medio.
+Calienta 2 Tbsp de aceite en una sartén grande a fuego medio.
 
 Cocina las tortitas en tandas durante 3 a 4 minutos por lado hasta que estén doradas y cocidas completamente a una temperatura interna de 160°F.
 
 Transfiérelas a una rejilla o plato con papel absorbente.
 
-En un tazón pequeño, mezcla 2 cucharadas de salsa de soya, 1 cucharada de vinagre de arroz, 1 cucharadita de aceite de ajonjolí y 1 cucharadita de miel.
+En un tazón pequeño, mezcla 2 Tbsp de salsa de soya, 1 Tbsp de vinagre de arroz, 1 tsp de aceite de ajonjolí y 1 tsp de miel.
 
 Sirve las tortitas calientes con la salsa y decora con semillas de ajonjolí y cebollines si deseas.`,
     },
@@ -8264,24 +8294,24 @@ Serve immediately with lime wedges.`,
       ],
       ingredients: `Pato:
 4 piernas de pato
-1 cucharada de sal
-1/2 cucharadita de pimienta negra
-1 cucharadita de comino
-1 cucharadita de paprika ahumada
-1 cucharadita de orégano
+1 Tbsp de sal
+1/2 tsp de pimienta negra
+1 tsp de comino
+1 tsp de paprika ahumada
+1 tsp de orégano
 
 Líquido para Brasear:
 1 naranja, exprimida
 1 limón, exprimido
 1/2 cebolla, en rodajas
 4 dientes de ajo, aplastados
-1 taza de caldo de pollo
+1 cup de caldo de pollo
 2 hojas de laurel
 
 Tacos:
 12 tortillas pequeñas de maíz
-1/2 taza de cebolla blanca, picada
-1/4 taza de cilantro, picado
+1/2 cup de cebolla blanca, picada
+1/4 cup de cilantro, picado
 
 Toppings Opcionales:
 cebollas moradas encurtidas
@@ -8292,17 +8322,17 @@ salsa picante`,
 
 Seca 4 piernas de pato con toallas de papel.
 
-Sazona todos los lados con 1 cucharada de sal, 1/2 cucharadita de pimienta negra, 1 cucharadita de comino, 1 cucharadita de paprika ahumada y 1 cucharadita de orégano.
+Sazona todos los lados con 1 Tbsp de sal, 1/2 tsp de pimienta negra, 1 tsp de comino, 1 tsp de paprika ahumada y 1 tsp de orégano.
 
 Calienta un horno holandés grande o una olla resistente para horno a fuego medio.
 
 Coloca las piernas de pato con la piel hacia abajo y cocina de 6 a 8 minutos hasta que se forme una costra dorada intensa y la grasa comience a derretirse.
 
-Voltea y cocina 2 minutos más. Retira el exceso de grasa dejando aproximadamente 2 cucharadas en la olla.
+Voltea y cocina 2 minutos más. Retira el exceso de grasa dejando aproximadamente 2 Tbsp en la olla.
 
 Agrega 1/2 cebolla en rodajas y 4 dientes de ajo aplastados. Cocina de 2 a 3 minutos hasta que se suavicen ligeramente.
 
-Vierte el jugo de 1 naranja, el jugo de 1 limón y 1 taza de caldo de pollo. Agrega 2 hojas de laurel.
+Vierte el jugo de 1 naranja, el jugo de 1 limón y 1 cup de caldo de pollo. Agrega 2 hojas de laurel.
 
 Regresa las piernas de pato a la olla con la piel hacia arriba.
 
@@ -8413,29 +8443,29 @@ Serve warm with extra glaze spooned over the top if desired.`,
       ingredients: `Pastel de Carne:
 1 lb de carne molida wagyu
 1 lb de carne molida chuck
-1 taza de pan molido
-1/2 taza de leche entera
+1 cup de pan molido
+1/2 cup de leche entera
 2 huevos grandes
-1/2 taza de cebolla amarilla, finamente picada
+1/2 cup de cebolla amarilla, finamente picada
 4 dientes de ajo, picados
-1/2 taza de queso parmesano rallado
-2 cucharadas de salsa Worcestershire
-2 cucharadas de ketchup
-1 cucharada de perejil fresco, picado
-1 cucharadita de sal
-1/2 cucharadita de pimienta negra
-1/2 cucharadita de paprika ahumada
+1/2 cup de queso parmesano rallado
+2 Tbsp de salsa Worcestershire
+2 Tbsp de ketchup
+1 Tbsp de perejil fresco, picado
+1 tsp de sal
+1/2 tsp de pimienta negra
+1/2 tsp de paprika ahumada
 
 Glaseado:
-1/2 taza de ketchup
-2 cucharadas de azúcar morena
-1 cucharada de mostaza Dijon
-1 cucharadita de salsa Worcestershire`,
+1/2 cup de ketchup
+2 Tbsp de azúcar morena
+1 Tbsp de mostaza Dijon
+1 tsp de salsa Worcestershire`,
       instructions: `Precalienta el horno a 350°F.
 
-En un tazón grande, mezcla 1 taza de pan molido y 1/2 taza de leche entera. Deja reposar durante 5 minutos hasta que se suavice.
+En un tazón grande, mezcla 1 cup de pan molido y 1/2 cup de leche entera. Deja reposar durante 5 minutos hasta que se suavice.
 
-Agrega 1 lb de carne wagyu, 1 lb de carne chuck, 2 huevos, 1/2 taza de cebolla, 4 dientes de ajo, 1/2 taza de parmesano, 2 cucharadas de salsa Worcestershire, 2 cucharadas de ketchup, 1 cucharada de perejil, 1 cucharadita de sal, 1/2 cucharadita de pimienta negra y 1/2 cucharadita de paprika ahumada.
+Agrega 1 lb de carne wagyu, 1 lb de carne chuck, 2 huevos, 1/2 cup de cebolla, 4 dientes de ajo, 1/2 cup de parmesano, 2 Tbsp de salsa Worcestershire, 2 Tbsp de ketchup, 1 Tbsp de perejil, 1 tsp de sal, 1/2 tsp de pimienta negra y 1/2 tsp de paprika ahumada.
 
 Mezcla suavemente con las manos hasta integrar. No mezcles demasiado o el pastel de carne puede quedar denso.
 
@@ -8443,7 +8473,7 @@ Forma una pieza tipo loaf sobre una bandeja con papel para hornear o colócala e
 
 Hornea durante 40 minutos.
 
-En un tazón pequeño, mezcla 1/2 taza de ketchup, 2 cucharadas de azúcar morena, 1 cucharada de mostaza Dijon y 1 cucharadita de salsa Worcestershire.
+En un tazón pequeño, mezcla 1/2 cup de ketchup, 2 Tbsp de azúcar morena, 1 Tbsp de mostaza Dijon y 1 tsp de salsa Worcestershire.
 
 Barniza generosamente el pastel de carne con el glaseado.
 
@@ -8550,20 +8580,20 @@ Marinada Jerk:
 1 cebolla morada, picada
 4 dientes de ajo, picados
 4 cebollines, cortados
-1/4 taza de salsa de soya
-1/4 taza de vinagre de manzana
-2 cucharadas de aceite de oliva
-3/4 taza de jugo de naranja
+1/4 cup de salsa de soya
+1/4 cup de vinagre de manzana
+2 Tbsp de aceite de oliva
+3/4 cup de jugo de naranja
 jugo de 1/2 limón verde
-1 cucharada de jengibre fresco rallado
-2 cucharadas de azúcar morena
-1 cucharadita de nuez moscada
-1 cucharadita de pimienta de Jamaica (allspice)
-1 cucharadita de canela
-1 cucharadita de tomillo seco
-1 cucharadita de sal
-1 cucharada de pimienta negra`,
-      instructions: `Agrega 4 chiles habaneros picados, 1 cebolla morada picada, 4 dientes de ajo picados, 4 cebollines, 1/4 taza de salsa de soya, 1/4 taza de vinagre de manzana, 2 cucharadas de aceite de oliva, 3/4 taza de jugo de naranja, el jugo de 1/2 limón verde, 1 cucharada de jengibre rallado, 2 cucharadas de azúcar morena, 1 cucharadita de nuez moscada, 1 cucharadita de pimienta de Jamaica, 1 cucharadita de canela, 1 cucharadita de tomillo seco, 1 cucharadita de sal y 1 cucharada de pimienta negra en un procesador de alimentos o licuadora.
+1 Tbsp de jengibre fresco rallado
+2 Tbsp de azúcar morena
+1 tsp de nuez moscada
+1 tsp de pimienta de Jamaica (allspice)
+1 tsp de canela
+1 tsp de tomillo seco
+1 tsp de sal
+1 Tbsp de pimienta negra`,
+      instructions: `Agrega 4 chiles habaneros picados, 1 cebolla morada picada, 4 dientes de ajo picados, 4 cebollines, 1/4 cup de salsa de soya, 1/4 cup de vinagre de manzana, 2 Tbsp de aceite de oliva, 3/4 cup de jugo de naranja, el jugo de 1/2 limón verde, 1 Tbsp de jengibre rallado, 2 Tbsp de azúcar morena, 1 tsp de nuez moscada, 1 tsp de pimienta de Jamaica, 1 tsp de canela, 1 tsp de tomillo seco, 1 tsp de sal y 1 Tbsp de pimienta negra en un procesador de alimentos o licuadora.
 
 Licúa hasta obtener una marinada completamente suave.
 
@@ -8661,13 +8691,13 @@ Carefully open the packets because hot steam will escape. Serve directly from th
         "Rebanadas de sandía",
       ],
       ingredients: `1 lb de carne molida
-2 tazas de papas pequeñas, en rodajas finas
-1 taza de zanahorias, en rodajas
+2 cups de papas pequeñas, en rodajas finas
+1 cup de zanahorias, en rodajas
 1/2 cebolla, en rodajas
-2 cucharadas de mantequilla
-1 cucharadita de ajo en polvo
-1 cucharadita de sal
-1/2 cucharadita de pimienta negra
+2 Tbsp de mantequilla
+1 tsp de ajo en polvo
+1 tsp de sal
+1/2 tsp de pimienta negra
 papel aluminio resistente`,
       instructions: `Precalienta una parrilla de fogata o asador a fuego medio.
 
@@ -8677,7 +8707,7 @@ Divide 1 lb de carne molida en 4 porciones y coloca cada porción en el centro d
 
 Agrega papas, zanahorias y cebolla sobre cada paquete.
 
-Sazona cada paquete con ajo en polvo, sal y pimienta negra. Añade 1/2 cucharada de mantequilla a cada uno.
+Sazona cada paquete con ajo en polvo, sal y pimienta negra. Añade 1/2 Tbsp de mantequilla a cada uno.
 
 Cierra bien los paquetes de aluminio para mantener el vapor atrapado dentro.
 
@@ -8764,21 +8794,21 @@ Top with sour cream and sliced green onions before serving.`,
       ingredients: `1 lb de carne molida
 1 cebolla pequeña, picada
 1 paquete de sazonador para tacos
-2/3 taza de agua
+2/3 cup de agua
 1 lata (10 oz) de Rotel
 6 tortillas pequeñas de harina
-2 tazas de queso cheddar rallado
-1 taza de totopos triturados ligeramente
-1/2 taza de crema agria
-1/4 taza de cebollines en rodajas
-1 cucharada de aceite de oliva`,
+2 cups de queso cheddar rallado
+1 cup de totopos triturados ligeramente
+1/2 cup de crema agria
+1/4 cup de cebollines en rodajas
+1 Tbsp de aceite de oliva`,
       instructions: `Precalienta un horno holandés sobre una parrilla de fogata o brasas a fuego medio.
 
-Agrega 1 cucharada de aceite de oliva y 1 cebolla picada. Cocina de 3 a 4 minutos hasta que esté suave.
+Agrega 1 Tbsp de aceite de oliva y 1 cebolla picada. Cocina de 3 a 4 minutos hasta que esté suave.
 
 Agrega 1 lb de carne molida y cocina hasta que ya no esté rosada. Escurre el exceso de grasa si es necesario.
 
-Incorpora 1 paquete de sazonador para tacos, 2/3 taza de agua y 1 lata de Rotel. Cocina de 3 a 5 minutos hasta que espese ligeramente.
+Incorpora 1 paquete de sazonador para tacos, 2/3 cup de agua y 1 lata de Rotel. Cocina de 3 a 5 minutos hasta que espese ligeramente.
 
 Coloca 2 tortillas en el fondo del horno holandés, rompiéndolas si es necesario.
 
@@ -8868,28 +8898,28 @@ Remove from heat and let rest for 5 minutes before serving.`,
       ingredients: `1 lb de carne molida
 1 cebolla pequeña, picada
 2 dientes de ajo, picados
-1 cucharada de aceite de oliva
+1 Tbsp de aceite de oliva
 1 paquete de sazonador para chili
 1 lata (14 oz) de tomates picados
 1 lata (15 oz) de frijoles rojos, escurridos
-3 tazas de caldo de res
-2 tazas de coditos
-2 tazas de queso cheddar rallado
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra`,
+3 cups de caldo de res
+2 cups de coditos
+2 cups de queso cheddar rallado
+1/2 tsp de sal
+1/4 tsp de pimienta negra`,
       instructions: `Precalienta un horno holandés grande o una olla resistente sobre una parrilla de fogata a fuego medio.
 
-Agrega 1 cucharada de aceite de oliva, 1 cebolla picada y 2 dientes de ajo. Cocina de 3 a 4 minutos hasta que estén suaves y fragantes.
+Agrega 1 Tbsp de aceite de oliva, 1 cebolla picada y 2 dientes de ajo. Cocina de 3 a 4 minutos hasta que estén suaves y fragantes.
 
 Agrega 1 lb de carne molida y cocina hasta que ya no esté rosada. Escurre el exceso de grasa si es necesario.
 
-Incorpora 1 paquete de sazonador para chili, 1 lata de tomates picados, 1 lata de frijoles rojos, 3 tazas de caldo de res, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+Incorpora 1 paquete de sazonador para chili, 1 lata de tomates picados, 1 lata de frijoles rojos, 3 cups de caldo de res, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Lleva la mezcla a fuego lento.
 
-Agrega 2 tazas de coditos y cocina sin tapar de 10 a 12 minutos, revolviendo ocasionalmente, hasta que la pasta esté tierna y la mayor parte del líquido se absorba.
+Agrega 2 cups de coditos y cocina sin tapar de 10 a 12 minutos, revolviendo ocasionalmente, hasta que la pasta esté tierna y la mayor parte del líquido se absorba.
 
-Reduce el fuego y agrega 2 tazas de queso cheddar hasta que se derrita y quede cremoso.
+Reduce el fuego y agrega 2 cups de queso cheddar hasta que se derrita y quede cremoso.
 
 Retira del fuego y deja reposar 5 minutos antes de servir.`,
     },
@@ -8965,16 +8995,16 @@ Serve warm directly from the skewers.`,
 1 pimiento morrón, cortado en trozos grandes
 1 cebolla roja pequeña, en trozos
 1 calabacín, en rodajas gruesas
-1 cucharada de aceite de oliva
-1/2 cucharadita de ajo en polvo
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
+1 Tbsp de aceite de oliva
+1/2 tsp de ajo en polvo
+1/2 tsp de sal
+1/4 tsp de pimienta negra
 brochetas de madera o metal`,
       instructions: `Precalienta una parrilla de fogata o asador a fuego medio.
 
 Con un cuchillo, corta un extremo de cada hot dog en 4 a 6 tiras hasta la mitad para crear "patas de pulpo."
 
-En un tazón, mezcla el pimiento, la cebolla roja y el calabacín con 1 cucharada de aceite de oliva, 1/2 cucharadita de ajo en polvo, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+En un tazón, mezcla el pimiento, la cebolla roja y el calabacín con 1 Tbsp de aceite de oliva, 1/2 tsp de ajo en polvo, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Inserta verduras y hot dogs en las brochetas alternando ingredientes.
 
@@ -9053,19 +9083,19 @@ Carefully remove the pudgie pie from the pie iron and let cool for 1 to 2 minute
         "Rebanadas de manzana",
       ],
       ingredients: `8 rebanadas de pan de molde
-2 cucharadas de mantequilla, suave
-1 taza de salsa para pizza
-1 taza de queso mozzarella rallado
-1/2 taza de pepperoni
-1/2 cucharadita de sazón italiana
+2 Tbsp de mantequilla, suave
+1 cup de salsa para pizza
+1 cup de queso mozzarella rallado
+1/2 cup de pepperoni
+1/2 tsp de sazón italiana
 pie iron para fogata`,
       instructions: `Precalienta un pie iron sobre una parrilla de fogata o brasas calientes durante 2 a 3 minutos.
 
-Unta mantequilla en un lado de cada rebanada de pan usando las 2 cucharadas divididas.
+Unta mantequilla en un lado de cada rebanada de pan usando las 2 Tbsp divididas.
 
 Coloca una rebanada de pan con el lado con mantequilla hacia abajo dentro del pie iron.
 
-Agrega aproximadamente 2 cucharadas de salsa para pizza, luego mozzarella, pepperoni y un poco de sazón italiana.
+Agrega aproximadamente 2 Tbsp de salsa para pizza, luego mozzarella, pepperoni y un poco de sazón italiana.
 
 Coloca otra rebanada encima con la mantequilla hacia afuera.
 
@@ -9502,20 +9532,20 @@ Finish with 1 tbsp lemon juice if desired and serve warm.`,
       notes: "Una guarnición sencilla y flexible que se puede cocinar al vapor, saltear o rostizar con ajo.",
       tags: ["acompañamiento", "vegetariano", "verdura", "ejotes", "rápido", "saludable"],
       ingredients: `1 lb de ejotes frescos, limpios
-1 cucharada de aceite de oliva o mantequilla
+1 Tbsp de aceite de oliva o mantequilla
 2 dientes de ajo, picados
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-1 cucharada de jugo de limón (opcional)`,
-      instructions: `Calienta 1 cucharada de aceite de oliva o mantequilla en una sartén grande a fuego medio.
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1 Tbsp de jugo de limón (opcional)`,
+      instructions: `Calienta 1 Tbsp de aceite de oliva o mantequilla en una sartén grande a fuego medio.
 
 Agrega 1 lb de ejotes y cocina de 5 a 7 minutos, revolviendo ocasionalmente, hasta que estén verdes brillantes y tiernos pero crujientes.
 
-Agrega 2 dientes de ajo picados, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+Agrega 2 dientes de ajo picados, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Cocina de 1 a 2 minutos hasta que el ajo esté fragante.
 
-Termina con 1 cucharada de jugo de limón si deseas y sirve caliente.`,
+Termina con 1 Tbsp de jugo de limón si deseas y sirve caliente.`,
     },
   },
 },
@@ -9550,20 +9580,20 @@ Finish with 1 tbsp lemon juice and parmesan if desired.`,
       notes: "El calor alto deja el brócoli crujiente en los bordes mientras el limón aporta frescura.",
       tags: ["acompañamiento", "vegetariano", "verdura", "brócoli", "rostizado", "saludable"],
       ingredients: `1 cabeza grande de brócoli, cortada en floretes
-2 cucharadas de aceite de oliva
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-1 cucharada de jugo de limón
-1/4 taza de queso parmesano rallado (opcional)`,
+2 Tbsp de aceite de oliva
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1 Tbsp de jugo de limón
+1/4 cup de queso parmesano rallado (opcional)`,
       instructions: `Precalienta el horno a 425°F.
 
-Mezcla el brócoli con 2 cucharadas de aceite de oliva, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+Mezcla el brócoli con 2 Tbsp de aceite de oliva, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Extiende en una sola capa sobre una bandeja.
 
 Rostiza de 18 a 22 minutos hasta que los bordes estén dorados y crujientes.
 
-Termina con 1 cucharada de jugo de limón y parmesano si deseas.`,
+Termina con 1 Tbsp de jugo de limón y parmesano si deseas.`,
     },
   },
 },
@@ -9600,18 +9630,18 @@ Garnish with parsley if desired and serve warm.`,
       notes: "Zanahorias tiernas cocinadas con mantequilla y miel para una guarnición simple, dulce y salada.",
       tags: ["acompañamiento", "vegetariano", "verdura", "zanahorias", "dulce", "familiar"],
       ingredients: `1 lb de zanahorias, en rodajas
-2 cucharadas de mantequilla
-1 cucharada de miel o azúcar morena
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-1 cucharada de perejil fresco, picado (opcional)`,
+2 Tbsp de mantequilla
+1 Tbsp de miel o azúcar morena
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1 Tbsp de perejil fresco, picado (opcional)`,
       instructions: `Coloca 1 lb de zanahorias en una sartén con suficiente agua para cubrir apenas el fondo.
 
 Cubre y cocina a fuego medio de 6 a 8 minutos hasta que estén tiernas.
 
 Escurre el exceso de agua si es necesario.
 
-Agrega 2 cucharadas de mantequilla, 1 cucharada de miel o azúcar morena, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+Agrega 2 Tbsp de mantequilla, 1 Tbsp de miel o azúcar morena, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Cocina de 2 a 3 minutos, revolviendo, hasta que las zanahorias estén brillantes y glaseadas.
 
@@ -9669,21 +9699,21 @@ Serve immediately while warm.`,
         "saludable",
       ],
       ingredients: `1 lb de espárragos, recortados
-1 cucharada de mantequilla
-1 cucharada de aceite de oliva
+1 Tbsp de mantequilla
+1 Tbsp de aceite de oliva
 2 dientes de ajo, picados
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-1 cucharada de jugo de limón (opcional)`,
-      instructions: `Calienta 1 cucharada de mantequilla y 1 cucharada de aceite de oliva en una sartén grande a fuego medio-alto.
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1 Tbsp de jugo de limón (opcional)`,
+      instructions: `Calienta 1 Tbsp de mantequilla y 1 Tbsp de aceite de oliva en una sartén grande a fuego medio-alto.
 
 Agrega 1 lb de espárragos y cocina de 4 a 6 minutos, revolviendo ocasionalmente, hasta que estén verdes brillantes y tiernos pero crujientes.
 
-Agrega 2 dientes de ajo picados, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+Agrega 2 dientes de ajo picados, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Cocina de 30 a 60 segundos hasta que el ajo esté fragante.
 
-Termina con 1 cucharada de jugo de limón si lo deseas.
+Termina con 1 Tbsp de jugo de limón si lo deseas.
 
 Sirve inmediatamente.`,
     },
@@ -9740,14 +9770,14 @@ Serve warm.`,
         "saludable",
       ],
       ingredients: `1 1/2 lbs de coles de Bruselas, partidas a la mitad
-2 cucharadas de aceite de oliva
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-1 cucharada de glaseado balsámico (opcional)
-2 cucharadas de queso parmesano rallado (opcional)`,
+2 Tbsp de aceite de oliva
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1 Tbsp de glaseado balsámico (opcional)
+2 Tbsp de queso parmesano rallado (opcional)`,
       instructions: `Precalienta el horno a 425°F.
 
-Mezcla 1 1/2 lbs de coles de Bruselas con 2 cucharadas de aceite de oliva, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+Mezcla 1 1/2 lbs de coles de Bruselas con 2 Tbsp de aceite de oliva, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Extiéndelas en una bandeja para hornear en una sola capa.
 
@@ -9755,7 +9785,7 @@ Hornea de 22 a 28 minutos, revolviendo una vez a mitad de cocción, hasta que es
 
 Transfiérelas a un plato para servir.
 
-Rocía con 1 cucharada de glaseado balsámico y espolvorea parmesano si lo deseas.
+Rocía con 1 Tbsp de glaseado balsámico y espolvorea parmesano si lo deseas.
 
 Sirve caliente.`,
     },
@@ -9815,9 +9845,9 @@ Serve immediately.`,
         "familiar",
       ],
       ingredients: `6 elotes, sin hojas
-4 cucharadas de mantequilla
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
+4 Tbsp de mantequilla
+1/2 tsp de sal
+1/4 tsp de pimienta negra
 
 Opcional:
 queso parmesano
@@ -9829,9 +9859,9 @@ Agrega 6 elotes y cocina de 5 a 7 minutos hasta que estén tiernos.
 
 Retira los elotes y deja escurrir el exceso de agua.
 
-Unta 4 cucharadas de mantequilla sobre los elotes calientes.
+Unta 4 Tbsp de mantequilla sobre los elotes calientes.
 
-Sazona con 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+Sazona con 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Agrega parmesano, chile en polvo o jugo de limón si lo deseas.
 
@@ -9890,22 +9920,22 @@ Serve warm.`,
         "comfort",
         "festivo",
       ],
-      ingredients: `2 cucharadas de mantequilla
-3 tazas de granos de maíz
-1 taza de crema espesa
+      ingredients: `2 Tbsp de mantequilla
+3 cups de granos de maíz
+1 cup de crema espesa
 2 oz de queso crema, suavizado
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-1 cucharadita de azúcar (opcional)`,
-      instructions: `Derrite 2 cucharadas de mantequilla en una cacerola a fuego medio.
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1 tsp de azúcar (opcional)`,
+      instructions: `Derrite 2 Tbsp de mantequilla en una cacerola a fuego medio.
 
-Agrega 3 tazas de maíz y cocina de 3 a 4 minutos hasta que esté caliente.
+Agrega 3 cups de maíz y cocina de 3 a 4 minutos hasta que esté caliente.
 
-Vierte 1 taza de crema espesa y agrega 2 oz de queso crema.
+Vierte 1 cup de crema espesa y agrega 2 oz de queso crema.
 
 Revuelve frecuentemente hasta que el queso crema se derrita por completo.
 
-Agrega 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y 1 cucharadita de azúcar si lo deseas.
+Agrega 1/2 tsp de sal, 1/4 tsp de pimienta negra y 1 tsp de azúcar si lo deseas.
 
 Cocina a fuego lento de 5 a 7 minutos hasta que la salsa espese ligeramente.
 
@@ -9965,17 +9995,17 @@ Serve warm.`,
         "bajo en carbohidratos",
       ],
       ingredients: `1 cabeza grande de coliflor, cortada en floretes
-2 cucharadas de aceite de oliva
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-1/2 cucharadita de ajo en polvo
+2 Tbsp de aceite de oliva
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1/2 tsp de ajo en polvo
 
 Opcional:
-2 cucharadas de queso parmesano
-1 cucharada de jugo de limón`,
+2 Tbsp de queso parmesano
+1 Tbsp de jugo de limón`,
       instructions: `Precalienta el horno a 425°F.
 
-Mezcla la coliflor con 2 cucharadas de aceite de oliva, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y 1/2 cucharadita de ajo en polvo.
+Mezcla la coliflor con 2 Tbsp de aceite de oliva, 1/2 tsp de sal, 1/4 tsp de pimienta negra y 1/2 tsp de ajo en polvo.
 
 Extiende en una bandeja para hornear en una sola capa.
 
@@ -10038,18 +10068,18 @@ Cook 1 minute longer and serve warm.`,
       ingredients: `1 calabacín, en rodajas
 1 calabaza amarilla, en rodajas
 1/2 cebolla, en rodajas
-1 cucharada de aceite de oliva
-1 cucharada de mantequilla
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-1/2 cucharadita de ajo en polvo`,
-      instructions: `Calienta 1 cucharada de aceite de oliva y 1 cucharada de mantequilla en una sartén grande a fuego medio.
+1 Tbsp de aceite de oliva
+1 Tbsp de mantequilla
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1/2 tsp de ajo en polvo`,
+      instructions: `Calienta 1 Tbsp de aceite de oliva y 1 Tbsp de mantequilla en una sartén grande a fuego medio.
 
 Agrega 1 calabacín, 1 calabaza amarilla y 1/2 cebolla.
 
 Cocina de 8 a 10 minutos, revolviendo ocasionalmente, hasta que estén tiernos y ligeramente dorados.
 
-Sazona con 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y 1/2 cucharadita de ajo en polvo.
+Sazona con 1/2 tsp de sal, 1/4 tsp de pimienta negra y 1/2 tsp de ajo en polvo.
 
 Cocina 1 minuto más y sirve caliente.`,
     },
@@ -10124,30 +10154,30 @@ Serve warm.`,
 1 lb de espinacas frescas
 
 Salsa:
-2 cucharadas de mantequilla
+2 Tbsp de mantequilla
 2 dientes de ajo, picados
-2 cucharadas de harina
-1 taza de leche entera
-1/2 taza de queso parmesano rallado
+2 Tbsp de harina
+1 cup de leche entera
+1/2 cup de queso parmesano rallado
 2 oz de queso crema, suavizado
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-1/8 cucharadita de nuez moscada (opcional)`,
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1/8 tsp de nuez moscada (opcional)`,
       instructions: `Hierve una olla grande con agua.
 
 Agrega 1 lb de espinacas y cocina durante 30 segundos hasta que se marchiten.
 
 Escurre y exprime el exceso de líquido. Pica ligeramente y reserva.
 
-Derrite 2 cucharadas de mantequilla en una sartén a fuego medio.
+Derrite 2 Tbsp de mantequilla en una sartén a fuego medio.
 
 Agrega 2 dientes de ajo y cocina 30 segundos.
 
-Incorpora 2 cucharadas de harina y cocina 1 minuto.
+Incorpora 2 Tbsp de harina y cocina 1 minuto.
 
-Vierte lentamente 1 taza de leche mientras bates constantemente.
+Vierte lentamente 1 cup de leche mientras bates constantemente.
 
-Agrega parmesano, queso crema, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y nuez moscada si la usas.
+Agrega parmesano, queso crema, 1/2 tsp de sal, 1/4 tsp de pimienta negra y nuez moscada si la usas.
 
 Cocina de 3 a 5 minutos hasta obtener una salsa espesa y cremosa.
 
@@ -10209,23 +10239,23 @@ Serve warm.`,
         "familiar",
         "rápido",
       ],
-      ingredients: `2 tazas de chícharos congelados
-2 tazas de zanahorias en cubos
-2 cucharadas de mantequilla
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-1 cucharadita de miel (opcional)`,
+      ingredients: `2 cups de chícharos congelados
+2 cups de zanahorias en cubos
+2 Tbsp de mantequilla
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1 tsp de miel (opcional)`,
       instructions: `Hierve una cacerola mediana con agua.
 
-Agrega 2 tazas de zanahorias y cocina durante 5 minutos.
+Agrega 2 cups de zanahorias y cocina durante 5 minutos.
 
-Agrega 2 tazas de chícharos y cocina 2 minutos más.
+Agrega 2 cups de chícharos y cocina 2 minutos más.
 
 Escurre bien.
 
 Regresa las verduras a la cacerola.
 
-Agrega 2 cucharadas de mantequilla, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y 1 cucharadita de miel si lo deseas.
+Agrega 2 Tbsp de mantequilla, 1/2 tsp de sal, 1/4 tsp de pimienta negra y 1 tsp de miel si lo deseas.
 
 Revuelve hasta que la mantequilla se derrita y cubra las verduras.
 
@@ -10293,21 +10323,21 @@ Serve warm.`,
       ingredients: `2 zanahorias, peladas y picadas
 2 chirivías, peladas y picadas
 2 remolachas medianas, peladas y picadas
-2 cucharadas de aceite de oliva
-1 cucharadita de sal
-1/2 cucharadita de pimienta negra
-1 cucharadita de tomillo seco
+2 Tbsp de aceite de oliva
+1 tsp de sal
+1/2 tsp de pimienta negra
+1 tsp de tomillo seco
 
 Opcional:
-1 cucharada de glaseado balsámico
+1 Tbsp de glaseado balsámico
 perejil fresco para decorar`,
       instructions: `Precalienta el horno a 425°F.
 
 Coloca las zanahorias, chirivías y remolachas en una bandeja grande para hornear.
 
-Rocía con 2 cucharadas de aceite de oliva.
+Rocía con 2 Tbsp de aceite de oliva.
 
-Sazona con 1 cucharadita de sal, 1/2 cucharadita de pimienta negra y 1 cucharadita de tomillo seco.
+Sazona con 1 tsp de sal, 1/2 tsp de pimienta negra y 1 tsp de tomillo seco.
 
 Mezcla bien y acomoda en una sola capa.
 
@@ -10375,11 +10405,11 @@ Serve warm with gravy or fresh chives if desired.`,
         "familiar",
       ],
       ingredients: `2 lbs de papas russet, peladas y en cubos
-4 cucharadas de mantequilla
-1/2 taza de leche entera
-1/2 taza de crema agria
-1 cucharadita de sal
-1/4 cucharadita de pimienta negra
+4 Tbsp de mantequilla
+1/2 cup de leche entera
+1/2 cup de crema agria
+1 tsp de sal
+1/4 tsp de pimienta negra
 
 Opcional:
 gravy
@@ -10390,7 +10420,7 @@ Lleva a ebullición y cocina de 15 a 18 minutos hasta que estén tiernas.
 
 Escurre bien y regresa las papas a la olla.
 
-Agrega 4 cucharadas de mantequilla, 1/2 taza de leche, 1/2 taza de crema agria, 1 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+Agrega 4 Tbsp de mantequilla, 1/2 cup de leche, 1/2 cup de crema agria, 1 tsp de sal y 1/4 tsp de pimienta negra.
 
 Tritura hasta obtener una textura suave y cremosa.
 
@@ -10451,10 +10481,10 @@ Serve immediately with your favorite dipping sauce.`,
         "familiar",
       ],
       ingredients: `1 lb de papas fritas congeladas
-1 cucharada de aceite de oliva
-1 cucharadita de sal sazonada
-1/2 cucharadita de ajo en polvo
-1/4 cucharadita de pimienta negra
+1 Tbsp de aceite de oliva
+1 tsp de sal sazonada
+1/2 tsp de ajo en polvo
+1/4 tsp de pimienta negra
 
 Opcional:
 ketchup
@@ -10462,7 +10492,7 @@ aderezo ranch
 salsa para papas`,
       instructions: `Precalienta el horno a 425°F o la freidora de aire a 400°F.
 
-Mezcla 1 lb de papas fritas con 1 cucharada de aceite de oliva, 1 cucharadita de sal sazonada, 1/2 cucharadita de ajo en polvo y 1/4 cucharadita de pimienta negra.
+Mezcla 1 lb de papas fritas con 1 Tbsp de aceite de oliva, 1 tsp de sal sazonada, 1/2 tsp de ajo en polvo y 1/4 tsp de pimienta negra.
 
 Colócalas en una sola capa.
 
@@ -10529,20 +10559,20 @@ Serve warm.`,
         "familiar",
       ],
       ingredients: `2 lbs de papas rojas, cortadas en trozos
-2 cucharadas de aceite de oliva
+2 Tbsp de aceite de oliva
 3 dientes de ajo, picados
-1 cucharadita de romero seco
-1 cucharadita de sal
-1/2 cucharadita de pimienta negra
+1 tsp de romero seco
+1 tsp de sal
+1/2 tsp de pimienta negra
 
 Opcional:
-2 cucharadas de queso parmesano
+2 Tbsp de queso parmesano
 perejil fresco`,
       instructions: `Precalienta el horno a 425°F.
 
 Coloca las papas en una bandeja grande para hornear.
 
-Agrega 2 cucharadas de aceite de oliva, 3 dientes de ajo, 1 cucharadita de romero, 1 cucharadita de sal y 1/2 cucharadita de pimienta negra.
+Agrega 2 Tbsp de aceite de oliva, 3 dientes de ajo, 1 tsp de romero, 1 tsp de sal y 1/2 tsp de pimienta negra.
 
 Mezcla hasta cubrir uniformemente.
 
@@ -10603,14 +10633,14 @@ Serve warm with sour cream if desired.`,
       notes: "Hervir las papas primero crea un interior suave, mientras que rostizarlas después de aplastarlas les da bordes ultra crujientes.",
       tags: ["acompañamiento", "vegetariano", "papas", "crujiente", "rostizado", "comfort", "familiar"],
       ingredients: `2 lbs de papas pequeñas
-2 cucharadas de aceite de oliva
-1 cucharadita de ajo en polvo
-1 cucharadita de sal
-1/2 cucharadita de pimienta negra
+2 Tbsp de aceite de oliva
+1 tsp de ajo en polvo
+1 tsp de sal
+1/2 tsp de pimienta negra
 
 Opcional:
-2 cucharadas de queso parmesano
-1 cucharada de perejil fresco, picado
+2 Tbsp de queso parmesano
+1 Tbsp de perejil fresco, picado
 crema agria para servir`,
       instructions: `Precalienta el horno a 425°F.
 
@@ -10622,11 +10652,11 @@ Escurre las papas y deja enfriar durante 5 minutos.
 
 Coloca las papas en una bandeja con papel para hornear.
 
-Usa el fondo de un vaso o taza medidora para aplastar suavemente cada papa.
+Usa el fondo de un vaso o cup medidora para aplastar suavemente cada papa.
 
-Rocía con 2 cucharadas de aceite de oliva.
+Rocía con 2 Tbsp de aceite de oliva.
 
-Espolvorea 1 cucharadita de ajo en polvo, 1 cucharadita de sal y 1/2 cucharadita de pimienta negra.
+Espolvorea 1 tsp de ajo en polvo, 1 tsp de sal y 1/2 tsp de pimienta negra.
 
 Rostiza de 25 a 30 minutos, hasta que estén doradas y crujientes en los bordes.
 
@@ -10697,14 +10727,14 @@ Garnish with parsley if desired.`,
 2 lbs de papas Yukon Gold, en rodajas finas
 
 Salsa Cremosa:
-3 cucharadas de mantequilla
-3 cucharadas de harina
-2 tazas de leche entera
-1 taza de crema espesa
-1 cucharadita de sal
-1/2 cucharadita de pimienta negra
-1/2 cucharadita de ajo en polvo
-1/4 cucharadita de nuez moscada (opcional)
+3 Tbsp de mantequilla
+3 Tbsp de harina
+2 cups de leche entera
+1 cup de crema espesa
+1 tsp de sal
+1/2 tsp de pimienta negra
+1/2 tsp de ajo en polvo
+1/4 tsp de nuez moscada (opcional)
 
 Opcional:
 perejil fresco para decorar`,
@@ -10712,13 +10742,13 @@ perejil fresco para decorar`,
 
 Engrasa un molde para hornear de 9x13.
 
-Derrite 3 cucharadas de mantequilla en una cacerola a fuego medio.
+Derrite 3 Tbsp de mantequilla en una cacerola a fuego medio.
 
-Agrega 3 cucharadas de harina y bate durante 1 minuto.
+Agrega 3 Tbsp de harina y bate durante 1 minuto.
 
-Incorpora lentamente 2 tazas de leche y 1 taza de crema espesa, batiendo hasta que quede suave.
+Incorpora lentamente 2 cups de leche y 1 cup de crema espesa, batiendo hasta que quede suave.
 
-Agrega 1 cucharadita de sal, 1/2 cucharadita de pimienta negra, 1/2 cucharadita de ajo en polvo y 1/4 cucharadita de nuez moscada si la usas.
+Agrega 1 tsp de sal, 1/2 tsp de pimienta negra, 1/2 tsp de ajo en polvo y 1/4 tsp de nuez moscada si la usas.
 
 Cocina de 3 a 5 minutos, revolviendo con frecuencia, hasta que la salsa espese ligeramente.
 
@@ -10777,18 +10807,18 @@ Serve warm.`,
       notes: "Batatas simples al horno con un centro suave y esponjoso y sabor naturalmente dulce. Perfectas con mantequilla, canela o un poco de miel.",
       tags: ["acompañamiento", "vegetariano", "batatas", "saludable", "horno", "familiar"],
       ingredients: `4 batatas medianas
-1 cucharada de aceite de oliva
-1/2 cucharadita de sal
+1 Tbsp de aceite de oliva
+1/2 tsp de sal
 
 Opcional:
-2 cucharadas de mantequilla
-1/2 cucharadita de canela
-1 cucharada de miel o maple syrup`,
+2 Tbsp de mantequilla
+1/2 tsp de canela
+1 Tbsp de miel o maple syrup`,
       instructions: `Precalienta el horno a 425°F.
 
 Lava bien 4 batatas y sécalas completamente.
 
-Unta las batatas con 1 cucharada de aceite de oliva y espolvorea 1/2 cucharadita de sal.
+Unta las batatas con 1 Tbsp de aceite de oliva y espolvorea 1/2 tsp de sal.
 
 Colócalas directamente sobre la rejilla del horno o en una bandeja con papel para hornear.
 
@@ -10838,19 +10868,19 @@ Serve warm.`,
       notes: "Rostizar cubos de batata a temperatura alta resalta su dulzura natural y crea bordes caramelizados.",
       tags: ["acompañamiento", "vegetariano", "batatas", "rostizado", "saludable", "meal-prep"],
       ingredients: `2 lbs de batatas, peladas y en cubos
-2 cucharadas de aceite de oliva
-1 cucharadita de sal
-1/2 cucharadita de pimienta negra
-1/2 cucharadita de ajo en polvo
-1/2 cucharadita de paprika ahumada
-1/4 cucharadita de canela (opcional)`,
+2 Tbsp de aceite de oliva
+1 tsp de sal
+1/2 tsp de pimienta negra
+1/2 tsp de ajo en polvo
+1/2 tsp de paprika ahumada
+1/4 tsp de canela (opcional)`,
       instructions: `Precalienta el horno a 425°F.
 
 Coloca 2 lbs de batatas en cubos sobre una bandeja grande.
 
-Rocía con 2 cucharadas de aceite de oliva.
+Rocía con 2 Tbsp de aceite de oliva.
 
-Sazona con 1 cucharadita de sal, 1/2 cucharadita de pimienta negra, 1/2 cucharadita de ajo en polvo, 1/2 cucharadita de paprika ahumada y canela si la usas.
+Sazona con 1 tsp de sal, 1/2 tsp de pimienta negra, 1/2 tsp de ajo en polvo, 1/2 tsp de paprika ahumada y canela si la usas.
 
 Mezcla hasta cubrir uniformemente y extiende en una sola capa.
 
@@ -10903,12 +10933,12 @@ Serve with your favorite dipping sauce.`,
       notes: "Una alternativa dulce y salada a las papas fritas tradicionales, con bordes crujientes y centro suave.",
       tags: ["acompañamiento", "vegetariano", "batatas", "papas fritas", "horno", "familiar"],
       ingredients: `2 batatas grandes, cortadas en tiras
-2 cucharadas de aceite de oliva
-1 cucharada de maicena
-1 cucharadita de sal
-1/2 cucharadita de ajo en polvo
-1/2 cucharadita de paprika ahumada
-1/4 cucharadita de pimienta negra
+2 Tbsp de aceite de oliva
+1 Tbsp de maicena
+1 tsp de sal
+1/2 tsp de ajo en polvo
+1/2 tsp de paprika ahumada
+1/4 tsp de pimienta negra
 
 Opcional:
 aderezo ranch
@@ -10918,9 +10948,9 @@ ketchup`,
 
 Coloca las tiras de batata en un tazón grande.
 
-Mezcla con 1 cucharada de maicena hasta cubrir ligeramente.
+Mezcla con 1 Tbsp de maicena hasta cubrir ligeramente.
 
-Agrega 2 cucharadas de aceite de oliva, 1 cucharadita de sal, 1/2 cucharadita de ajo en polvo, 1/2 cucharadita de paprika ahumada y 1/4 cucharadita de pimienta negra.
+Agrega 2 Tbsp de aceite de oliva, 1 tsp de sal, 1/2 tsp de ajo en polvo, 1/2 tsp de paprika ahumada y 1/4 tsp de pimienta negra.
 
 Extiende en una sola capa sobre una bandeja con papel para hornear.
 
@@ -10988,22 +11018,22 @@ Let rest for 5 minutes before serving.`,
       tags: ["acompañamiento", "vegetariano", "batatas", "cacerola", "festivo", "comfort"],
       ingredients: `Batatas:
 3 lbs de batatas, peladas y en cubos
-4 cucharadas de mantequilla
-1/2 taza de azúcar morena
-1/2 taza de leche
+4 Tbsp de mantequilla
+1/2 cup de azúcar morena
+1/2 cup de leche
 2 huevos grandes
-1 cucharadita de vainilla
-1/2 cucharadita de canela
-1/2 cucharadita de sal
+1 tsp de vainilla
+1/2 tsp de canela
+1/2 tsp de sal
 
 Cobertura:
-1 taza de nueces pecanas picadas
-1/2 taza de azúcar morena
-1/4 taza de harina
-3 cucharadas de mantequilla derretida
+1 cup de nueces pecanas picadas
+1/2 cup de azúcar morena
+1/4 cup de harina
+3 Tbsp de mantequilla derretida
 
 Opcional:
-2 tazas de mini malvaviscos`,
+2 cups de mini malvaviscos`,
       instructions: `Precalienta el horno a 350°F.
 
 Coloca 3 lbs de batatas en cubos en una olla grande y cúbrelas con agua.
@@ -11012,17 +11042,17 @@ Hierve de 15 a 18 minutos, hasta que estén tiernas al pincharlas con un tenedor
 
 Escurre bien y tritura hasta obtener una mezcla suave.
 
-Agrega 4 cucharadas de mantequilla, 1/2 taza de azúcar morena, 1/2 taza de leche, 2 huevos, 1 cucharadita de vainilla, 1/2 cucharadita de canela y 1/2 cucharadita de sal.
+Agrega 4 Tbsp de mantequilla, 1/2 cup de azúcar morena, 1/2 cup de leche, 2 huevos, 1 tsp de vainilla, 1/2 tsp de canela y 1/2 tsp de sal.
 
 Extiende la mezcla en un molde engrasado de 9x13.
 
-En un tazón, mezcla 1 taza de pecanas, 1/2 taza de azúcar morena, 1/4 taza de harina y 3 cucharadas de mantequilla derretida.
+En un tazón, mezcla 1 cup de pecanas, 1/2 cup de azúcar morena, 1/4 cup de harina y 3 Tbsp de mantequilla derretida.
 
 Espolvorea la cobertura uniformemente sobre las batatas.
 
 Hornea de 25 a 30 minutos, hasta que la cobertura esté dorada y la cacerola esté firme.
 
-Si usas malvaviscos, agrega 2 tazas de mini malvaviscos durante los últimos 5 minutos y hornea hasta que estén tostados.
+Si usas malvaviscos, agrega 2 cups de mini malvaviscos durante los últimos 5 minutos y hornea hasta que estén tostados.
 
 Deja reposar 5 minutos antes de servir.`,
     },
@@ -11058,13 +11088,13 @@ Fluff gently with a fork before serving.`,
       name: "Arroz Blanco Esponjoso",
       notes: "Un arroz blanco perfectamente esponjoso es una de las guarniciones más versátiles y combina con casi cualquier plato principal.",
       tags: ["acompañamiento", "vegetariano", "arroz", "simple", "meal-prep", "familiar"],
-      ingredients: `1 taza de arroz blanco de grano largo o arroz jazmín
-2 tazas de agua
-1 cucharada de mantequilla
-1/2 cucharadita de sal`,
-      instructions: `Enjuaga 1 taza de arroz bajo agua fría hasta que el agua salga casi clara.
+      ingredients: `1 cup de arroz blanco de grano largo o arroz jazmín
+2 cups de agua
+1 Tbsp de mantequilla
+1/2 tsp de sal`,
+      instructions: `Enjuaga 1 cup de arroz bajo agua fría hasta que el agua salga casi clara.
 
-Combina el arroz, 2 tazas de agua, 1 cucharada de mantequilla y 1/2 cucharadita de sal en una cacerola mediana.
+Combina el arroz, 2 cups de agua, 1 Tbsp de mantequilla y 1/2 tsp de sal en una cacerola mediana.
 
 Lleva a ebullición a fuego medio-alto.
 
@@ -11106,13 +11136,13 @@ Fluff with a fork and serve warm.`,
       name: "Arroz Integral",
       notes: "El arroz integral ofrece un sabor más intenso y una textura más firme, además de contener más fibra que el arroz blanco.",
       tags: ["acompañamiento", "vegetariano", "arroz", "saludable", "grano integral", "meal-prep"],
-      ingredients: `1 taza de arroz integral
-2 1/2 tazas de agua
-1 cucharada de mantequilla o aceite de oliva
-1/2 cucharadita de sal`,
-      instructions: `Enjuaga 1 taza de arroz integral bajo agua fría.
+      ingredients: `1 cup de arroz integral
+2 1/2 cups de agua
+1 Tbsp de mantequilla o aceite de oliva
+1/2 tsp de sal`,
+      instructions: `Enjuaga 1 cup de arroz integral bajo agua fría.
 
-Combina el arroz, 2 1/2 tazas de agua, 1 cucharada de mantequilla y 1/2 cucharadita de sal en una cacerola.
+Combina el arroz, 2 1/2 cups de agua, 1 Tbsp de mantequilla y 1/2 tsp de sal en una cacerola.
 
 Lleva a ebullición.
 
@@ -11163,22 +11193,22 @@ Fluff with a fork and stir in parsley before serving.`,
       name: "Arroz Pilaf",
       notes: "Tostar el arroz antes de cocinarlo agrega profundidad de sabor mientras que el caldo y las hierbas lo hacen especialmente delicioso.",
       tags: ["acompañamiento", "vegetariano", "arroz", "pilaf", "comfort", "familiar"],
-      ingredients: `1 taza de arroz blanco de grano largo
-1/4 taza de espagueti troceado u orzo
-2 cucharadas de mantequilla
-2 tazas de caldo de verduras
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-1 cucharada de perejil fresco picado`,
-      instructions: `Derrite 2 cucharadas de mantequilla en una cacerola a fuego medio.
+      ingredients: `1 cup de arroz blanco de grano largo
+1/4 cup de espagueti troceado u orzo
+2 Tbsp de mantequilla
+2 cups de caldo de verduras
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1 Tbsp de perejil fresco picado`,
+      instructions: `Derrite 2 Tbsp de mantequilla en una cacerola a fuego medio.
 
-Agrega 1 taza de arroz y 1/4 taza de espagueti troceado u orzo.
+Agrega 1 cup de arroz y 1/4 cup de espagueti troceado u orzo.
 
 Cocina de 3 a 4 minutos, revolviendo frecuentemente, hasta que estén ligeramente tostados.
 
-Vierte 2 tazas de caldo de verduras.
+Vierte 2 cups de caldo de verduras.
 
-Agrega 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+Agrega 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Lleva a ebullición.
 
@@ -11234,31 +11264,31 @@ Garnish with sesame seeds if desired and serve warm.`,
       name: "Arroz Frito con Verduras",
       notes: "El arroz del día anterior funciona mejor porque mantiene su textura y crea el clásico resultado del arroz frito.",
       tags: ["acompañamiento", "vegetariano", "arroz", "asiático", "una sartén", "meal-prep"],
-      ingredients: `3 tazas de arroz cocido frío
-1 cucharada de aceite de ajonjolí
-1 cucharada de aceite vegetal
+      ingredients: `3 cups de arroz cocido frío
+1 Tbsp de aceite de ajonjolí
+1 Tbsp de aceite vegetal
 2 huevos, batidos
-1 taza de chícharos y zanahorias congelados
+1 cup de chícharos y zanahorias congelados
 3 cebollines, en rodajas
 2 dientes de ajo, picados
-3 cucharadas de salsa de soya
-1 cucharadita de aceite de ajonjolí
+3 Tbsp de salsa de soya
+1 tsp de aceite de ajonjolí
 
 Opcional:
 semillas de ajonjolí`,
-      instructions: `Calienta 1 cucharada de aceite vegetal y 1 cucharada de aceite de ajonjolí en una sartén grande o wok a fuego medio-alto.
+      instructions: `Calienta 1 Tbsp de aceite vegetal y 1 Tbsp de aceite de ajonjolí en una sartén grande o wok a fuego medio-alto.
 
 Agrega los huevos batidos y cocínalos revolviendo hasta que estén listos. Retira y reserva.
 
 Agrega los chícharos y zanahorias y cocina de 2 a 3 minutos.
 
-Agrega las 3 tazas de arroz frío y saltea de 3 a 4 minutos.
+Agrega las 3 cups de arroz frío y saltea de 3 a 4 minutos.
 
 Agrega el ajo y los cebollines y cocina 1 minuto más.
 
 Regresa los huevos a la sartén.
 
-Agrega 3 cucharadas de salsa de soya y 1 cucharadita de aceite de ajonjolí.
+Agrega 3 Tbsp de salsa de soya y 1 tsp de aceite de ajonjolí.
 
 Revuelve hasta que todo esté bien cubierto y caliente.
 
@@ -11320,17 +11350,17 @@ Serve warm or chilled.`,
         "alto en proteína",
         "meal-prep",
       ],
-      ingredients: `1 taza de quinoa, enjuagada
-2 tazas de caldo de verduras
-1 cucharada de aceite de oliva
-2 cucharadas de perejil fresco picado
-1 cucharada de cilantro fresco picado
-1 cucharada de jugo de limón
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra`,
-      instructions: `Enjuaga bien 1 taza de quinoa bajo agua fría.
+      ingredients: `1 cup de quinoa, enjuagada
+2 cups de caldo de verduras
+1 Tbsp de aceite de oliva
+2 Tbsp de perejil fresco picado
+1 Tbsp de cilantro fresco picado
+1 Tbsp de jugo de limón
+1/2 tsp de sal
+1/4 tsp de pimienta negra`,
+      instructions: `Enjuaga bien 1 cup de quinoa bajo agua fría.
 
-Combina la quinoa y 2 tazas de caldo de verduras en una cacerola mediana.
+Combina la quinoa y 2 cups de caldo de verduras en una cacerola mediana.
 
 Lleva a ebullición a fuego medio-alto.
 
@@ -11340,7 +11370,7 @@ Retira del fuego y deja reposar tapada durante 5 minutos.
 
 Esponja con un tenedor.
 
-Agrega 1 cucharada de aceite de oliva, perejil, cilantro, jugo de limón, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+Agrega 1 Tbsp de aceite de oliva, perejil, cilantro, jugo de limón, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Sirve caliente o fría.`,
     },
@@ -11395,22 +11425,22 @@ Serve warm.`,
         "saludable",
         "meal-prep",
       ],
-      ingredients: `1 taza de cuscús
-1 taza de caldo de verduras
-1 cucharada de aceite de oliva
-1 cucharada de jugo de limón
-2 cucharadas de perejil fresco picado
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra`,
-      instructions: `Lleva 1 taza de caldo de verduras a ebullición en una cacerola pequeña.
+      ingredients: `1 cup de cuscús
+1 cup de caldo de verduras
+1 Tbsp de aceite de oliva
+1 Tbsp de jugo de limón
+2 Tbsp de perejil fresco picado
+1/2 tsp de sal
+1/4 tsp de pimienta negra`,
+      instructions: `Lleva 1 cup de caldo de verduras a ebullición en una cacerola pequeña.
 
-Retira del fuego y agrega 1 taza de cuscús.
+Retira del fuego y agrega 1 cup de cuscús.
 
 Tapa y deja reposar durante 5 minutos.
 
 Esponja con un tenedor.
 
-Agrega 1 cucharada de aceite de oliva, 1 cucharada de jugo de limón, 2 cucharadas de perejil, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+Agrega 1 Tbsp de aceite de oliva, 1 Tbsp de jugo de limón, 2 Tbsp de perejil, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Sirve caliente.`,
     },
@@ -11471,18 +11501,18 @@ Serve warm.`,
         "tex-mex",
         "familiar",
       ],
-      ingredients: `1 taza de arroz blanco de grano largo
-2 tazas de agua
-1 cucharada de mantequilla
-1/2 cucharadita de sal
+      ingredients: `1 cup de arroz blanco de grano largo
+2 cups de agua
+1 Tbsp de mantequilla
+1/2 tsp de sal
 
 Final:
 1 limón verde, exprimido
-1/4 taza de cilantro fresco picado
-1/2 cucharadita de ralladura de limón (opcional)`,
-      instructions: `Enjuaga 1 taza de arroz bajo agua fría.
+1/4 cup de cilantro fresco picado
+1/2 tsp de ralladura de limón (opcional)`,
+      instructions: `Enjuaga 1 cup de arroz bajo agua fría.
 
-Combina el arroz, 2 tazas de agua, 1 cucharada de mantequilla y 1/2 cucharadita de sal en una cacerola.
+Combina el arroz, 2 cups de agua, 1 Tbsp de mantequilla y 1/2 tsp de sal en una cacerola.
 
 Lleva a ebullición a fuego medio-alto.
 
@@ -11492,7 +11522,7 @@ Retira del fuego y deja reposar tapado durante 5 minutos.
 
 Esponja con un tenedor.
 
-Agrega el jugo de 1 limón verde, 1/4 taza de cilantro y la ralladura si la usas.
+Agrega el jugo de 1 limón verde, 1/4 cup de cilantro y la ralladura si la usas.
 
 Sirve caliente.`,
     },
@@ -11567,28 +11597,28 @@ Serve immediately.`,
 12 oz de macarrones tipo elbow
 
 Salsa de Queso:
-2 cucharadas de mantequilla
-2 cucharadas de harina
-2 tazas de leche entera
-2 tazas de queso cheddar rallado
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-1/4 cucharadita de paprika`,
+2 Tbsp de mantequilla
+2 Tbsp de harina
+2 cups de leche entera
+2 cups de queso cheddar rallado
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1/4 tsp de paprika`,
       instructions: `Hierve una olla grande con agua y sal.
 
 Cocina 12 oz de macarrones según las instrucciones del paquete.
 
 Escurre y reserva.
 
-Derrite 2 cucharadas de mantequilla en una cacerola a fuego medio.
+Derrite 2 Tbsp de mantequilla en una cacerola a fuego medio.
 
-Agrega 2 cucharadas de harina y cocina durante 1 minuto.
+Agrega 2 Tbsp de harina y cocina durante 1 minuto.
 
-Incorpora lentamente 2 tazas de leche batiendo constantemente.
+Incorpora lentamente 2 cups de leche batiendo constantemente.
 
 Cocina de 3 a 4 minutos hasta que espese ligeramente.
 
-Agrega 2 tazas de queso cheddar, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y 1/4 cucharadita de paprika.
+Agrega 2 cups de queso cheddar, 1/2 tsp de sal, 1/4 tsp de pimienta negra y 1/4 tsp de paprika.
 
 Revuelve hasta que quede suave y cremosa.
 
@@ -11656,14 +11686,14 @@ Refrigerate for at least 30 minutes before serving for best flavor.`,
         "meal-prep",
       ],
       ingredients: `12 oz de pasta rotini
-1 taza de tomates cherry partidos por la mitad
-1 taza de pepino en cubos
-1/2 taza de pimiento rojo en cubos
-1/2 taza de aceitunas negras en rodajas
-1/2 taza de cubos de queso mozzarella
-3/4 taza de aderezo italiano
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra`,
+1 cup de tomates cherry partidos por la mitad
+1 cup de pepino en cubos
+1/2 cup de pimiento rojo en cubos
+1/2 cup de aceitunas negras en rodajas
+1/2 cup de cubos de queso mozzarella
+3/4 cup de aderezo italiano
+1/2 tsp de sal
+1/4 tsp de pimienta negra`,
       instructions: `Cocina 12 oz de pasta rotini según las instrucciones del paquete.
 
 Escurre y enjuaga con agua fría hasta que esté completamente fría.
@@ -11672,9 +11702,9 @@ Transfiere la pasta a un tazón grande.
 
 Agrega tomates cherry, pepino, pimiento, aceitunas y mozzarella.
 
-Vierte 3/4 taza de aderezo italiano.
+Vierte 3/4 cup de aderezo italiano.
 
-Sazona con 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+Sazona con 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Mezcla hasta cubrir uniformemente.
 
@@ -11739,24 +11769,24 @@ Serve warm.`,
         "familiar",
       ],
       ingredients: `12 oz de fideos de huevo
-4 cucharadas de mantequilla
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-2 cucharadas de perejil fresco picado
+4 Tbsp de mantequilla
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+2 Tbsp de perejil fresco picado
 
 Opcional:
-1/4 taza de queso parmesano`,
+1/4 cup de queso parmesano`,
       instructions: `Hierve una olla grande con agua y sal.
 
 Cocina 12 oz de fideos de huevo según las instrucciones del paquete.
 
-Reserva 2 cucharadas del agua de cocción y escurre los fideos.
+Reserva 2 Tbsp del agua de cocción y escurre los fideos.
 
 Regresa los fideos a la olla.
 
-Agrega 4 cucharadas de mantequilla y mezcla hasta que se derrita.
+Agrega 4 Tbsp de mantequilla y mezcla hasta que se derrita.
 
-Agrega el agua reservada, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+Agrega el agua reservada, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Revuelve hasta que queden brillantes y bien cubiertos.
 
@@ -11817,18 +11847,18 @@ Serve warm.`,
         "familiar",
       ],
       ingredients: `1 paquete de panecillos refrigerados (12 piezas)
-2 cucharadas de mantequilla derretida
+2 Tbsp de mantequilla derretida
 
 Opcional:
-1 cucharadita de miel
-1 cucharada de perejil fresco picado`,
+1 tsp de miel
+1 Tbsp de perejil fresco picado`,
       instructions: `Precalienta el horno según las instrucciones del paquete.
 
 Coloca los panecillos en una bandeja para hornear o molde.
 
 Hornea hasta que estén dorados y completamente cocidos.
 
-Barniza inmediatamente con 2 cucharadas de mantequilla derretida.
+Barniza inmediatamente con 2 Tbsp de mantequilla derretida.
 
 Agrega miel o perejil si lo deseas.
 
@@ -11893,18 +11923,18 @@ Slice and serve warm.`,
         "familiar",
       ],
       ingredients: `1 barra de pan francés o italiano
-1/2 taza de mantequilla suavizada
+1/2 cup de mantequilla suavizada
 3 dientes de ajo picados
-1 cucharada de perejil fresco picado
-1/4 cucharadita de sal
+1 Tbsp de perejil fresco picado
+1/4 tsp de sal
 
 Opcional:
-1/4 taza de queso parmesano`,
+1/4 cup de queso parmesano`,
       instructions: `Precalienta el horno a 400°F.
 
 Corta el pan a lo largo por la mitad.
 
-En un tazón mezcla 1/2 taza de mantequilla, 3 dientes de ajo, 1 cucharada de perejil y 1/4 cucharadita de sal.
+En un tazón mezcla 1/2 cup de mantequilla, 3 dientes de ajo, 1 Tbsp de perejil y 1/4 tsp de sal.
 
 Unta la mezcla sobre las caras cortadas del pan.
 
@@ -11974,17 +12004,17 @@ Allow to cool slightly before serving.`,
         "comfort",
         "familiar",
       ],
-      ingredients: `1 taza de harina de maíz
-1 taza de harina de trigo
-1/4 taza de azúcar
-1 cucharada de polvo para hornear
-1/2 cucharadita de sal
-1 taza de leche
-1/3 taza de aceite vegetal
+      ingredients: `1 cup de harina de maíz
+1 cup de harina de trigo
+1/4 cup de azúcar
+1 Tbsp de polvo para hornear
+1/2 tsp de sal
+1 cup de leche
+1/3 cup de aceite vegetal
 1 huevo grande`,
       instructions: `Precalienta el horno a 400°F.
 
-Engrasa un molde de 8 pulgadas o una sartén de hierro fundido.
+Engrasa un molde de 8 inches o una sartén de hierro fundido.
 
 En un tazón grande mezcla harina de maíz, harina, azúcar, polvo para hornear y sal.
 
@@ -12058,23 +12088,23 @@ Brush with melted butter and serve warm.`,
         "comfort",
         "familiar",
       ],
-      ingredients: `2 tazas de harina de trigo
-1 cucharada de polvo para hornear
-1/2 cucharadita de sal
-6 cucharadas de mantequilla fría en cubos
-3/4 taza de leche
+      ingredients: `2 cups de harina de trigo
+1 Tbsp de polvo para hornear
+1/2 tsp de sal
+6 Tbsp de mantequilla fría en cubos
+3/4 cup de leche
 
 Opcional:
-2 cucharadas de mantequilla derretida para barnizar`,
+2 Tbsp de mantequilla derretida para barnizar`,
       instructions: `Precalienta el horno a 425°F.
 
 En un tazón grande mezcla harina, polvo para hornear y sal.
 
-Incorpora 6 cucharadas de mantequilla fría hasta obtener migas gruesas.
+Incorpora 6 Tbsp de mantequilla fría hasta obtener migas gruesas.
 
-Agrega 3/4 taza de leche y mezcla hasta formar una masa.
+Agrega 3/4 cup de leche y mezcla hasta formar una masa.
 
-Coloca la masa sobre una superficie ligeramente enharinada y aplánala hasta formar un rectángulo de aproximadamente 1 pulgada de grosor.
+Coloca la masa sobre una superficie ligeramente enharinada y aplánala hasta formar un rectángulo de aproximadamente 1 inch de grosor.
 
 Dobla la masa sobre sí misma 3 o 4 veces para crear capas.
 
@@ -12132,19 +12162,19 @@ Let rest for 5 minutes before serving.`,
 1/2 cebolla, picada
 
 Salsa:
-1/2 taza de azúcar morena
-1/4 taza de melaza
-1/4 taza de ketchup
-1 cucharada de mostaza amarilla
-1 cucharada de salsa Worcestershire
-1/2 cucharadita de pimienta negra`,
+1/2 cup de azúcar morena
+1/4 cup de melaza
+1/4 cup de ketchup
+1 Tbsp de mostaza amarilla
+1 Tbsp de salsa Worcestershire
+1/2 tsp de pimienta negra`,
       instructions: `Precalienta el horno a 350°F.
 
 Cocina 6 rebanadas de tocino picado en una sartén a fuego medio hasta que esté dorado y ligeramente crujiente.
 
 Agrega 1/2 cebolla picada y cocina de 3 a 4 minutos hasta que esté suave.
 
-En un molde para hornear, mezcla 2 latas de frijoles horneados, tocino, cebolla, 1/2 taza de azúcar morena, 1/4 taza de melaza, 1/4 taza de ketchup, 1 cucharada de mostaza, 1 cucharada de salsa Worcestershire y 1/2 cucharadita de pimienta negra.
+En un molde para hornear, mezcla 2 latas de frijoles horneados, tocino, cebolla, 1/2 cup de azúcar morena, 1/4 cup de melaza, 1/4 cup de ketchup, 1 Tbsp de mostaza, 1 Tbsp de salsa Worcestershire y 1/2 tsp de pimienta negra.
 
 Revuelve hasta combinar bien.
 
@@ -12199,30 +12229,30 @@ Serve warm.`,
       tags: ["acompañamiento", "vegetariano", "frijoles", "frijoles negros", "mexicano", "tex-mex", "rápido"],
       ingredients: `Frijoles:
 2 latas (15 oz) de frijoles negros, escurridos y enjuagados
-1 cucharada de aceite de oliva
+1 Tbsp de aceite de oliva
 1/2 cebolla, picada
 2 dientes de ajo, picados
 
 Sazonadores:
-1 cucharadita de comino
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-1/2 taza de caldo de verduras o agua
+1 tsp de comino
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1/2 cup de caldo de verduras o agua
 
 Opcional:
-1 cucharada de jugo de limón
-2 cucharadas de cilantro fresco, picado`,
-      instructions: `Calienta 1 cucharada de aceite de oliva en una cacerola a fuego medio.
+1 Tbsp de jugo de limón
+2 Tbsp de cilantro fresco, picado`,
+      instructions: `Calienta 1 Tbsp de aceite de oliva en una cacerola a fuego medio.
 
 Agrega 1/2 cebolla picada y cocina de 3 a 4 minutos hasta que esté suave.
 
 Agrega 2 dientes de ajo picados y cocina 30 segundos hasta que estén fragantes.
 
-Incorpora 2 latas de frijoles negros, 1 cucharadita de comino, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y 1/2 taza de caldo o agua.
+Incorpora 2 latas de frijoles negros, 1 tsp de comino, 1/2 tsp de sal, 1/4 tsp de pimienta negra y 1/2 cup de caldo o agua.
 
 Cocina a fuego lento de 8 a 10 minutos, revolviendo ocasionalmente, hasta que los frijoles estén calientes y ligeramente espesos.
 
-Termina con 1 cucharada de jugo de limón y 2 cucharadas de cilantro si deseas.
+Termina con 1 Tbsp de jugo de limón y 2 Tbsp de cilantro si deseas.
 
 Sirve caliente.`,
     },
@@ -12275,26 +12305,26 @@ Garnish with cilantro and serve warm.`,
       tags: ["acompañamiento", "vegetariano", "frijoles", "frijoles pintos", "mexicano", "tex-mex", "comfort"],
       ingredients: `Frijoles:
 2 latas (15 oz) de frijoles pintos, escurridos y enjuagados
-1 cucharada de aceite de oliva o mantequilla
+1 Tbsp de aceite de oliva o mantequilla
 1/2 cebolla, picada
 2 dientes de ajo, picados
 
 Sazonadores:
-1 cucharadita de comino
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-1/2 taza de caldo de verduras o agua
+1 tsp de comino
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1/2 cup de caldo de verduras o agua
 
 Opcional:
-1/2 taza de queso cheddar rallado
-2 cucharadas de cilantro picado`,
-      instructions: `Calienta 1 cucharada de aceite de oliva o mantequilla en una sartén a fuego medio.
+1/2 cup de queso cheddar rallado
+2 Tbsp de cilantro picado`,
+      instructions: `Calienta 1 Tbsp de aceite de oliva o mantequilla en una sartén a fuego medio.
 
 Agrega 1/2 cebolla picada y cocina de 3 a 4 minutos hasta que esté suave.
 
 Agrega 2 dientes de ajo picados y cocina 30 segundos hasta que estén fragantes.
 
-Agrega 2 latas de frijoles pintos, 1 cucharadita de comino, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y 1/2 taza de caldo o agua.
+Agrega 2 latas de frijoles pintos, 1 tsp de comino, 1/2 tsp de sal, 1/4 tsp de pimienta negra y 1/2 cup de caldo o agua.
 
 Cocina a fuego lento de 5 a 7 minutos hasta que estén calientes y ligeramente suaves.
 
@@ -12373,22 +12403,22 @@ Garnish with parsley and serve with lemon wedges if desired.`,
 2 lbs de papas Yukon Gold, cortadas en gajos
 
 Sazonadores:
-1/4 taza de aceite de oliva
-1/4 taza de jugo de limón fresco
-1 taza de caldo de pollo (o caldo de verduras)
+1/4 cup de aceite de oliva
+1/4 cup de jugo de limón fresco
+1 cup de caldo de pollo (o caldo de verduras)
 3 dientes de ajo, picados
-1 cucharadita de orégano seco
-1 cucharadita de sal
-1/2 cucharadita de pimienta negra
+1 tsp de orégano seco
+1 tsp de sal
+1/2 tsp de pimienta negra
 
 Opcional:
-1 cucharada de perejil fresco picado
+1 Tbsp de perejil fresco picado
 gajos de limón para servir`,
       instructions: `Precalienta el horno a 425°F.
 
 Coloca 2 lbs de papas en gajos en un molde de 9x13 o en una bandeja para hornear.
 
-En un tazón, mezcla 1/4 taza de aceite de oliva, 1/4 taza de jugo de limón, 1 taza de caldo, 3 dientes de ajo, 1 cucharadita de orégano, 1 cucharadita de sal y 1/2 cucharadita de pimienta negra.
+En un tazón, mezcla 1/4 cup de aceite de oliva, 1/4 cup de jugo de limón, 1 cup de caldo, 3 dientes de ajo, 1 tsp de orégano, 1 tsp de sal y 1/2 tsp de pimienta negra.
 
 Vierte la mezcla sobre las papas y revuelve para cubrirlas uniformemente.
 
@@ -12464,25 +12494,25 @@ Serve immediately while fresh and crisp.`,
       ],
       ingredients: `Ensalada:
 1 cabeza de lechuga romana, picada
-1 taza de tomates cherry, partidos por la mitad
+1 cup de tomates cherry, partidos por la mitad
 1 pepino, en rodajas
-1/4 taza de cebolla morada, en rodajas finas
-1/2 taza de crutones
+1/4 cup de cebolla morada, en rodajas finas
+1/2 cup de crutones
 
 Aderezo:
-1/4 taza de aderezo italiano
+1/4 cup de aderezo italiano
 
 Opcional:
-1/4 taza de queso cheddar rallado
-1/4 taza de queso parmesano
+1/4 cup de queso cheddar rallado
+1/4 cup de queso parmesano
 aceitunas en rodajas`,
       instructions: `Lava y seca bien la lechuga romana.
 
 Coloca la lechuga, los tomates cherry, el pepino y la cebolla morada en un tazón grande.
 
-Agrega 1/2 taza de crutones.
+Agrega 1/2 cup de crutones.
 
-Rocía con 1/4 taza de aderezo italiano.
+Rocía con 1/4 cup de aderezo italiano.
 
 Mezcla suavemente hasta cubrir uniformemente.
 
@@ -12531,18 +12561,18 @@ Stir again before serving.`,
       tags: ["acompañamiento", "vegetariano", "ensalada de col", "bbq", "parrillada", "fresco", "familiar"],
       ingredients: `Ensalada:
 1 bolsa (14 oz) de mezcla para coleslaw
-1/4 taza de cebolla morada, en rodajas finas
+1/4 cup de cebolla morada, en rodajas finas
 
 Aderezo:
-1/2 taza de mayonesa
-2 cucharadas de vinagre de manzana
-1 cucharada de azúcar
-1 cucharadita de mostaza Dijon
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra`,
-      instructions: `En un tazón grande, mezcla 1 bolsa de coleslaw y 1/4 taza de cebolla morada.
+1/2 cup de mayonesa
+2 Tbsp de vinagre de manzana
+1 Tbsp de azúcar
+1 tsp de mostaza Dijon
+1/2 tsp de sal
+1/4 tsp de pimienta negra`,
+      instructions: `En un tazón grande, mezcla 1 bolsa de coleslaw y 1/4 cup de cebolla morada.
 
-En otro tazón, bate 1/2 taza de mayonesa, 2 cucharadas de vinagre de manzana, 1 cucharada de azúcar, 1 cucharadita de mostaza Dijon, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra hasta que quede suave.
+En otro tazón, bate 1/2 cup de mayonesa, 2 Tbsp de vinagre de manzana, 1 Tbsp de azúcar, 1 tsp de mostaza Dijon, 1/2 tsp de sal y 1/4 tsp de pimienta negra hasta que quede suave.
 
 Vierte el aderezo sobre la mezcla de col.
 
@@ -12625,24 +12655,24 @@ For best flavor, allow the pickles to sit for 2 to 3 days before enjoying.`,
 4 pepinos pequeños, cortados en tiras o rodajas
 
 Salmuera:
-1 taza de agua
-1 taza de vinagre blanco
-1 cucharada de sal kosher
-1 cucharada de azúcar
+1 cup de agua
+1 cup de vinagre blanco
+1 Tbsp de sal kosher
+1 Tbsp de azúcar
 
 Saborizantes:
 2 dientes de ajo aplastados
-1 cucharadita de semillas de eneldo
-2 cucharadas de eneldo fresco
-1/2 cucharadita de granos de pimienta negra
+1 tsp de semillas de eneldo
+2 Tbsp de eneldo fresco
+1/2 tsp de granos de pimienta negra
 
 Opcional:
-1/4 cucharadita de hojuelas de chile rojo`,
+1/4 tsp de hojuelas de chile rojo`,
       instructions: `Coloca 4 pepinos cortados en un frasco limpio o recipiente hermético.
 
-Agrega 2 dientes de ajo, 1 cucharadita de semillas de eneldo, 2 cucharadas de eneldo fresco y 1/2 cucharadita de granos de pimienta.
+Agrega 2 dientes de ajo, 1 tsp de semillas de eneldo, 2 Tbsp de eneldo fresco y 1/2 tsp de granos de pimienta.
 
-En una cacerola pequeña, combina 1 taza de agua, 1 taza de vinagre, 1 cucharada de sal kosher y 1 cucharada de azúcar.
+En una cacerola pequeña, combina 1 cup de agua, 1 cup de vinagre, 1 Tbsp de sal kosher y 1 Tbsp de azúcar.
 
 Calienta a fuego medio, revolviendo hasta disolver la sal y el azúcar.
 
@@ -12722,23 +12752,23 @@ Serve immediately while fresh and crisp.`,
       ingredients: `Ensalada:
 5 oz de mezcla de hojas verdes o spring mix
 1 pepino, en rodajas
-1 taza de tomates cherry, partidos por la mitad
+1 cup de tomates cherry, partidos por la mitad
 
 Vinagreta:
-2 cucharadas de aceite de oliva
-1 cucharada de vinagre de vino tinto
-1/2 cucharadita de mostaza Dijon
-1/4 cucharadita de sal
-1/4 cucharadita de pimienta negra
+2 Tbsp de aceite de oliva
+1 Tbsp de vinagre de vino tinto
+1/2 tsp de mostaza Dijon
+1/4 tsp de sal
+1/4 tsp de pimienta negra
 
 Opcional:
-1/4 taza de crutones
-1/4 taza de queso parmesano rallado`,
+1/4 cup de crutones
+1/4 cup de queso parmesano rallado`,
       instructions: `Lava y seca bien las hojas verdes.
 
 Coloca las hojas verdes, el pepino y los tomates cherry en un tazón grande.
 
-En un recipiente pequeño, bate 2 cucharadas de aceite de oliva, 1 cucharada de vinagre de vino tinto, 1/2 cucharadita de mostaza Dijon, 1/4 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+En un recipiente pequeño, bate 2 Tbsp de aceite de oliva, 1 Tbsp de vinagre de vino tinto, 1/2 tsp de mostaza Dijon, 1/4 tsp de sal y 1/4 tsp de pimienta negra.
 
 Rocía la vinagreta sobre la ensalada.
 
@@ -12805,12 +12835,12 @@ Serve immediately.`,
         "bajo en carbohidratos",
       ],
       ingredients: `2 aguacates maduros
-1 cucharada de jugo de limón verde
-1/4 cucharadita de sal
-1/8 cucharadita de pimienta negra
+1 Tbsp de jugo de limón verde
+1/4 tsp de sal
+1/8 tsp de pimienta negra
 
 Opcional:
-1 cucharada de cilantro picado
+1 Tbsp de cilantro picado
 pizca de chile en polvo`,
       instructions: `Corta 2 aguacates maduros por la mitad y retira los huesos.
 
@@ -12818,9 +12848,9 @@ Corta cuidadosamente cada mitad en rebanadas finas.
 
 Colócalas en un plato para servir.
 
-Rocía con 1 cucharada de jugo de limón verde.
+Rocía con 1 Tbsp de jugo de limón verde.
 
-Espolvorea con 1/4 cucharadita de sal y 1/8 cucharadita de pimienta negra.
+Espolvorea con 1/4 tsp de sal y 1/8 tsp de pimienta negra.
 
 Agrega cilantro o chile en polvo si lo deseas.
 
@@ -12879,7 +12909,7 @@ Serve immediately while warm.`,
         "familiar",
       ],
       ingredients: `4 rebanadas de pan de molde
-2 cucharadas de mantequilla suave
+2 Tbsp de mantequilla suave
 
 Opcional:
 mermelada
@@ -12890,7 +12920,7 @@ mantequilla de cacahuate`,
 
 Tuesta 4 rebanadas de pan hasta que estén doradas y crujientes.
 
-Unta 2 cucharadas de mantequilla sobre el pan caliente.
+Unta 2 Tbsp de mantequilla sobre el pan caliente.
 
 Agrega mermelada, miel, azúcar con canela o mantequilla de cacahuate si lo deseas.
 
@@ -12971,40 +13001,40 @@ Serve warm with basil, croutons, or parmesan cheese if desired.`,
         "rápido",
       ],
       ingredients: `Sopa:
-2 cucharadas de mantequilla
+2 Tbsp de mantequilla
 1 cebolla pequeña, picada
 2 dientes de ajo, picados
 1 lata (28 oz) de tomates triturados
-2 tazas de caldo de verduras
+2 cups de caldo de verduras
 
 Sazonadores:
-1 cucharadita de azúcar
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-1/2 cucharadita de albahaca seca
+1 tsp de azúcar
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1/2 tsp de albahaca seca
 
 Final:
-1/2 taza de crema espesa o half-and-half
+1/2 cup de crema espesa o half-and-half
 
 Opcional:
 albahaca fresca
 crutones
 queso parmesano rallado`,
-      instructions: `Derrite 2 cucharadas de mantequilla en una olla grande a fuego medio.
+      instructions: `Derrite 2 Tbsp de mantequilla en una olla grande a fuego medio.
 
 Agrega 1 cebolla picada y cocina de 4 a 5 minutos hasta que esté suave.
 
 Agrega 2 dientes de ajo picados y cocina durante 30 segundos hasta que estén fragantes.
 
-Incorpora 1 lata de tomates triturados y 2 tazas de caldo de verduras.
+Incorpora 1 lata de tomates triturados y 2 cups de caldo de verduras.
 
-Agrega 1 cucharadita de azúcar, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y 1/2 cucharadita de albahaca seca.
+Agrega 1 tsp de azúcar, 1/2 tsp de sal, 1/4 tsp de pimienta negra y 1/2 tsp de albahaca seca.
 
 Lleva a fuego lento y cocina durante 15 minutos.
 
 Usa una licuadora de inmersión para triturar hasta obtener una textura suave, o licúa cuidadosamente en tandas.
 
-Agrega 1/2 taza de crema espesa.
+Agrega 1/2 cup de crema espesa.
 
 Cocina 2 minutos más hasta que esté caliente.
 
@@ -13064,19 +13094,19 @@ Serve plain or with peanut butter, caramel dip, or a sprinkle of cinnamon if des
         "niños",
       ],
       ingredients: `2 manzanas (Honeycrisp, Gala, Fuji o Granny Smith)
-1 cucharada de jugo de limón
+1 Tbsp de jugo de limón
 
 Opcional:
-1 cucharada de mantequilla de cacahuate
-1 cucharada de salsa de caramelo
-1/4 cucharadita de canela`,
+1 Tbsp de mantequilla de cacahuate
+1 Tbsp de salsa de caramelo
+1/4 tsp de canela`,
       instructions: `Lava y seca bien 2 manzanas.
 
 Corta cada manzana en rodajas finas o gajos.
 
 Retira y desecha el corazón.
 
-Mezcla las rodajas con 1 cucharada de jugo de limón para ayudar a evitar que se oscurezcan.
+Mezcla las rodajas con 1 Tbsp de jugo de limón para ayudar a evitar que se oscurezcan.
 
 Colócalas en un plato para servir.
 
@@ -13139,18 +13169,18 @@ Serve plain or with ranch dressing, peanut butter, hummus, or cream cheese if de
         "bajo en calorías",
       ],
       ingredients: `1 manojo de apio
-1 taza de agua fría
+1 cup de agua fría
 
 Opcional:
-1/4 taza de aderezo ranch
-1/4 taza de mantequilla de cacahuate
-1/4 taza de hummus
-1/4 taza de queso crema`,
+1/4 cup de aderezo ranch
+1/4 cup de mantequilla de cacahuate
+1/4 cup de hummus
+1/4 cup de queso crema`,
       instructions: `Lava bien el apio bajo agua fría.
 
 Recorta los extremos y retira los tallos dañados.
 
-Corta el apio en palitos de aproximadamente 3 a 4 pulgadas de largo.
+Corta el apio en palitos de aproximadamente 3 a 4 inches de largo.
 
 Coloca los palitos en un recipiente con agua fría durante 10 minutos para que queden más crujientes.
 
@@ -13218,15 +13248,15 @@ Serve plain or with ranch dressing, hummus, or peanut butter for dipping.`,
       ingredients: `4 zanahorias grandes, peladas
 
 Opcional:
-1/4 taza de aderezo ranch
-1/4 taza de hummus
-1/4 taza de mantequilla de cacahuate
-1/4 cucharadita de sazonador ranch`,
+1/4 cup de aderezo ranch
+1/4 cup de hummus
+1/4 cup de mantequilla de cacahuate
+1/4 tsp de sazonador ranch`,
       instructions: `Lava y pela 4 zanahorias grandes.
 
 Recorta los extremos.
 
-Corta las zanahorias en palitos de aproximadamente 3 a 4 pulgadas de largo y 1/2 pulgada de grosor.
+Corta las zanahorias en palitos de aproximadamente 3 a 4 inches de largo y 1/2 inch de grosor.
 
 Coloca los palitos en un recipiente con agua helada durante 10 minutos para obtener una textura más crujiente si lo deseas.
 
@@ -13300,25 +13330,25 @@ Serve immediately or refrigerate until ready to serve.`,
         "familiar",
       ],
       ingredients: `Fruta:
-2 tazas de fresas, en rodajas
-1 taza de arándanos
-1 taza de uvas, cortadas por la mitad
+2 cups de fresas, en rodajas
+1 cup de arándanos
+1 cup de uvas, cortadas por la mitad
 2 manzanas, en cubos
 2 naranjas, peladas y en gajos
 
 Aderezo:
-1 cucharada de miel
-1 cucharada de jugo de limón verde
+1 Tbsp de miel
+1 Tbsp de jugo de limón verde
 
 Opcional:
-1 cucharada de menta fresca picada`,
+1 Tbsp de menta fresca picada`,
       instructions: `Lava bien toda la fruta.
 
-Corta 2 tazas de fresas, parte 1 taza de uvas por la mitad, corta 2 manzanas en cubos y separa 2 naranjas en gajos.
+Corta 2 cups de fresas, parte 1 cup de uvas por la mitad, corta 2 manzanas en cubos y separa 2 naranjas en gajos.
 
 Coloca toda la fruta en un tazón grande.
 
-En un recipiente pequeño, mezcla 1 cucharada de miel y 1 cucharada de jugo de limón verde.
+En un recipiente pequeño, mezcla 1 Tbsp de miel y 1 Tbsp de jugo de limón verde.
 
 Vierte el aderezo sobre la fruta.
 
@@ -13385,16 +13415,16 @@ Serve warm.`,
         "familiar",
         "meal-prep",
       ],
-      ingredients: `1 taza de arroz blanco de grano largo
-2 tazas de agua
-1/2 cucharadita de sal
+      ingredients: `1 cup de arroz blanco de grano largo
+2 cups de agua
+1/2 tsp de sal
 
 Opcional:
-1 cucharada de mantequilla
-1 cucharada de perejil fresco picado`,
-      instructions: `Enjuaga 1 taza de arroz bajo agua fría hasta que el agua salga casi transparente.
+1 Tbsp de mantequilla
+1 Tbsp de perejil fresco picado`,
+      instructions: `Enjuaga 1 cup de arroz bajo agua fría hasta que el agua salga casi transparente.
 
-Combina el arroz, 2 tazas de agua y 1/2 cucharadita de sal en una cacerola mediana.
+Combina el arroz, 2 cups de agua y 1/2 tsp de sal en una cacerola mediana.
 
 Lleva a ebullición a fuego medio-alto.
 
@@ -13404,7 +13434,7 @@ Retira del fuego y deja reposar tapado durante 5 minutos.
 
 Esponja suavemente con un tenedor.
 
-Agrega 1 cucharada de mantequilla si lo deseas.
+Agrega 1 Tbsp de mantequilla si lo deseas.
 
 Sirve caliente.`,
     },
@@ -13479,22 +13509,22 @@ Serve chilled.`,
 1/4 cebolla morada, en rodajas finas
 
 Aderezo:
-3 cucharadas de vinagre de manzana
-1 cucharada de aceite de oliva
-1 cucharadita de azúcar
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
+3 Tbsp de vinagre de manzana
+1 Tbsp de aceite de oliva
+1 tsp de azúcar
+1/2 tsp de sal
+1/4 tsp de pimienta negra
 
 Opcional:
-1 cucharada de eneldo fresco picado
-1 cucharada de perejil fresco picado`,
+1 Tbsp de eneldo fresco picado
+1 Tbsp de perejil fresco picado`,
       instructions: `Lava y corta en rodajas finas 2 pepinos.
 
 Corta en rodajas finas 1/4 de cebolla morada.
 
 Coloca los pepinos y la cebolla en un tazón grande.
 
-En un recipiente pequeño, mezcla 3 cucharadas de vinagre de manzana, 1 cucharada de aceite de oliva, 1 cucharadita de azúcar, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+En un recipiente pequeño, mezcla 3 Tbsp de vinagre de manzana, 1 Tbsp de aceite de oliva, 1 tsp de azúcar, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Vierte el aderezo sobre las verduras.
 
@@ -13575,19 +13605,19 @@ Serve immediately with sweet chili sauce for dipping.`,
       ],
       ingredients: `Rollitos:
 8 hojas de papel de arroz
-1 taza de lechuga, picada
-1 taza de zanahorias en tiras finas
+1 cup de lechuga, picada
+1 cup de zanahorias en tiras finas
 1 pepino en tiras finas
 1 pimiento morrón en tiras finas
-1/4 taza de hojas de cilantro fresco
-1/4 taza de hojas de menta fresca
+1/4 cup de hojas de cilantro fresco
+1/4 cup de hojas de menta fresca
 
 Salsa para Mojar:
-1/4 taza de salsa dulce de chile
+1/4 cup de salsa dulce de chile
 
 Opcional:
 1 aguacate en rebanadas
-1 taza de fideos de arroz cocidos`,
+1 cup de fideos de arroz cocidos`,
       instructions: `Llena un plato hondo o molde poco profundo con agua tibia.
 
 Sumerge 1 hoja de papel de arroz durante 10 a 15 segundos hasta que se suavice.
@@ -13659,9 +13689,9 @@ Serve chilled.`,
       ingredients: `4 gajos grandes de pepinillo eneldo
 
 Opcional:
-1/4 cucharadita de eneldo seco
-1/8 cucharadita de pimienta negra
-1/8 cucharadita de hojuelas de chile rojo`,
+1/4 tsp de eneldo seco
+1/8 tsp de pimienta negra
+1/8 tsp de hojuelas de chile rojo`,
       instructions: `Escurre 4 gajos de pepinillo del frasco.
 
 Sécalos ligeramente con papel absorbente si lo deseas.
@@ -13735,24 +13765,24 @@ Serve warm.`,
         "rápido",
       ],
       ingredients: `2 calabacines medianos, cortados en medias lunas
-2 cucharadas de aceite de oliva
-1 cucharadita de ajo en polvo
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
+2 Tbsp de aceite de oliva
+1 tsp de ajo en polvo
+1/2 tsp de sal
+1/4 tsp de pimienta negra
 
 Opcional:
-2 cucharadas de queso parmesano
-1 cucharada de perejil fresco picado
-1 cucharadita de jugo de limón`,
+2 Tbsp de queso parmesano
+1 Tbsp de perejil fresco picado
+1 tsp de jugo de limón`,
       instructions: `Precalienta el horno a 425°F.
 
 Cubre una bandeja para hornear con papel para hornear.
 
 Coloca los 2 calabacines cortados sobre la bandeja.
 
-Rocía con 2 cucharadas de aceite de oliva.
+Rocía con 2 Tbsp de aceite de oliva.
 
-Espolvorea 1 cucharadita de ajo en polvo, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+Espolvorea 1 tsp de ajo en polvo, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Mezcla hasta cubrir uniformemente y acomoda en una sola capa.
 
@@ -13823,11 +13853,11 @@ Serve immediately with lemon wedges if desired.`,
       ],
       ingredients: `Ensalada:
 1 cabeza de lechuga romana, picada
-1/2 taza de crutones
-1/4 taza de queso parmesano rallado
+1/2 cup de crutones
+1/4 cup de queso parmesano rallado
 
 Aderezo:
-1/4 taza de aderezo César
+1/4 cup de aderezo César
 
 Opcional:
 pimienta negra recién molida
@@ -13836,9 +13866,9 @@ gajos de limón`,
 
 Corta la lechuga en trozos del tamaño de un bocado y colócala en un tazón grande.
 
-Agrega 1/2 taza de crutones y 1/4 taza de queso parmesano.
+Agrega 1/2 cup de crutones y 1/4 cup de queso parmesano.
 
-Rocía con 1/4 taza de aderezo César.
+Rocía con 1/4 cup de aderezo César.
 
 Mezcla suavemente hasta cubrir uniformemente.
 
@@ -13903,8 +13933,8 @@ Serve chilled.`,
       ingredients: `1 sandía pequeña sin semillas
 
 Opcional:
-1 cucharada de jugo de limón verde
-1 cucharada de menta fresca picada
+1 Tbsp de jugo de limón verde
+1 Tbsp de menta fresca picada
 pizca de sal marina`,
       instructions: `Lava bien el exterior de la sandía.
 
@@ -13984,19 +14014,19 @@ Serve immediately with lemon wedges if desired.`,
         "mediterráneo",
       ],
       ingredients: `Ensalada:
-2 tazas de lechuga romana, picada
-1 taza de pepino, en cubos
-1 taza de tomates cherry, partidos por la mitad
-1/4 taza de cebolla morada, en rodajas finas
-1/4 taza de aceitunas Kalamata
-1/4 taza de queso feta desmoronado
+2 cups de lechuga romana, picada
+1 cup de pepino, en cubos
+1 cup de tomates cherry, partidos por la mitad
+1/4 cup de cebolla morada, en rodajas finas
+1/4 cup de aceitunas Kalamata
+1/4 cup de queso feta desmoronado
 
 Aderezo:
-2 cucharadas de aceite de oliva
-1 cucharada de vinagre de vino tinto
-1/2 cucharadita de orégano seco
-1/4 cucharadita de sal
-1/4 cucharadita de pimienta negra
+2 Tbsp de aceite de oliva
+1 Tbsp de vinagre de vino tinto
+1/2 tsp de orégano seco
+1/4 tsp de sal
+1/4 tsp de pimienta negra
 
 Opcional:
 gajos de limón`,
@@ -14004,7 +14034,7 @@ gajos de limón`,
 
 Coloca la lechuga, el pepino, los tomates, la cebolla morada, las aceitunas y el queso feta en un tazón grande.
 
-En un recipiente pequeño, mezcla 2 cucharadas de aceite de oliva, 1 cucharada de vinagre de vino tinto, 1/2 cucharadita de orégano, 1/4 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+En un recipiente pequeño, mezcla 2 Tbsp de aceite de oliva, 1 Tbsp de vinagre de vino tinto, 1/2 tsp de orégano, 1/4 tsp de sal y 1/4 tsp de pimienta negra.
 
 Vierte el aderezo sobre la ensalada.
 
@@ -14078,27 +14108,27 @@ Serve immediately with lime wedges for squeezing over the corn.`,
 4 elotes, sin hojas
 
 Cobertura:
-1/4 taza de mayonesa
-1/4 taza de crema agria
-1/2 taza de queso cotija desmoronado
-1 cucharada de jugo de limón verde
-1 cucharadita de chile en polvo
-1/2 cucharadita de ajo en polvo
+1/4 cup de mayonesa
+1/4 cup de crema agria
+1/2 cup de queso cotija desmoronado
+1 Tbsp de jugo de limón verde
+1 tsp de chile en polvo
+1/2 tsp de ajo en polvo
 
 Final:
-2 cucharadas de cilantro fresco picado
+2 Tbsp de cilantro fresco picado
 gajos de limón para servir`,
       instructions: `Precalienta una parrilla a fuego medio-alto o calienta una sartén para asar.
 
 Cocina 4 elotes durante 8 a 10 minutos, girándolos ocasionalmente, hasta que estén ligeramente dorados por todos lados.
 
-En un recipiente pequeño, mezcla 1/4 taza de mayonesa, 1/4 taza de crema agria, 1 cucharada de jugo de limón, 1 cucharadita de chile en polvo y 1/2 cucharadita de ajo en polvo.
+En un recipiente pequeño, mezcla 1/4 cup de mayonesa, 1/4 cup de crema agria, 1 Tbsp de jugo de limón, 1 tsp de chile en polvo y 1/2 tsp de ajo en polvo.
 
 Unta generosamente la mezcla cremosa sobre los elotes calientes.
 
-Espolvorea uniformemente con 1/2 taza de queso cotija.
+Espolvorea uniformemente con 1/2 cup de queso cotija.
 
-Agrega 2 cucharadas de cilantro picado.
+Agrega 2 Tbsp de cilantro picado.
 
 Sirve inmediatamente con gajos de limón para exprimir encima.`,
     },
@@ -14214,9 +14244,9 @@ Serve warm directly from the foil with spoons if desired.`,
         "familiar",
       ],
       ingredients: `4 bananas
-1/2 taza de chispas de chocolate
-1 taza de mini malvaviscos
-1/4 taza de migas de galleta graham
+1/2 cup de chispas de chocolate
+1 cup de mini malvaviscos
+1/4 cup de migas de galleta graham
 papel aluminio resistente`,
       instructions: `Precalienta una parrilla de fogata o asador a fuego medio-bajo.
 
@@ -14274,7 +14304,7 @@ Store leftovers in an airtight container in the refrigerator.`,
 1/2 cup de chispas de chocolate oscuro para hornear
 1 tsp de aceite de coco`,
       instructions: `Lava 12 fresas grandes y maduras, y sécalas completamente. El chocolate no se pegará si están mojadas.
-Lleva una olla pequeña con unas pocas pulgadas de agua a un hervor suave.
+Lleva una olla pequeña con unas pocas inches de agua a un hervor suave.
 Agrega 1/2 cup de chispas de chocolate oscuro y 1 tsp de aceite de coco a un tazón de vidrio resistente al calor.
 Coloca el tazón sobre la olla como baño maría, asegurándote de que el tazón no toque el agua.
 Revuelve hasta que el chocolate esté completamente derretido y suave.
@@ -14413,32 +14443,32 @@ Cool on the baking sheet for 5 minutes before transferring to a wire rack.`,
         "niños"
       ],
       ingredients: `Ingredientes Secos:
-2 1/4 tazas de harina
-1 cucharadita de bicarbonato de sodio
-1/2 cucharadita de sal
+2 1/4 cups de harina
+1 tsp de bicarbonato de sodio
+1/2 tsp de sal
 
 Ingredientes Húmedos:
-1 taza de mantequilla suave
-3/4 taza de azúcar morena
-3/4 taza de azúcar
+1 cup de mantequilla suave
+3/4 cup de azúcar morena
+3/4 cup de azúcar
 2 huevos grandes
-2 cucharaditas de extracto de vainilla
+2 tsp de extracto de vainilla
 
 Complementos:
-2 tazas de chispas de chocolate`,
+2 cups de chispas de chocolate`,
       instructions: `Precalienta el horno a 375°F.
 
-En un recipiente mediano mezcla 2 1/4 tazas de harina, 1 cucharadita de bicarbonato y 1/2 cucharadita de sal.
+En un recipiente mediano mezcla 2 1/4 cups de harina, 1 tsp de bicarbonato y 1/2 tsp de sal.
 
-En un recipiente grande bate 1 taza de mantequilla, 3/4 taza de azúcar morena y 3/4 taza de azúcar hasta obtener una mezcla esponjosa.
+En un recipiente grande bate 1 cup de mantequilla, 3/4 cup de azúcar morena y 3/4 cup de azúcar hasta obtener una mezcla esponjosa.
 
-Agrega 2 huevos y 2 cucharaditas de vainilla y mezcla bien.
+Agrega 2 huevos y 2 tsp de vainilla y mezcla bien.
 
 Añade gradualmente los ingredientes secos hasta formar una masa.
 
-Incorpora 2 tazas de chispas de chocolate.
+Incorpora 2 cups de chispas de chocolate.
 
-Coloca cucharadas de masa sobre bandejas para hornear cubiertas con papel para hornear.
+Coloca Tbsp de masa sobre bandejas para hornear cubiertas con papel para hornear.
 
 Hornea de 9 a 11 minutos hasta que los bordes estén ligeramente dorados.
 
@@ -14513,28 +14543,28 @@ Serve and enjoy.`,
         "niños"
       ],
       ingredients: `Ingredientes Secos:
-1 taza de harina
-1/2 taza de cacao en polvo sin azúcar
-1/2 cucharadita de sal
+1 cup de harina
+1/2 cup de cacao en polvo sin azúcar
+1/2 tsp de sal
 
 Ingredientes Húmedos:
-1/2 taza de mantequilla derretida
-1 taza de azúcar
+1/2 cup de mantequilla derretida
+1 cup de azúcar
 2 huevos grandes
-1 cucharadita de extracto de vainilla
+1 tsp de extracto de vainilla
 
 Opcional:
-1/2 taza de chispas de chocolate
-1/2 taza de nueces picadas`,
+1/2 cup de chispas de chocolate
+1/2 cup de nueces picadas`,
       instructions: `Precalienta el horno a 350°F.
 
-Engrasa o cubre un molde de 8x8 pulgadas con papel para hornear.
+Engrasa o cubre un molde de 8x8 inches con papel para hornear.
 
-En un recipiente mediano mezcla 1 taza de harina, 1/2 taza de cacao en polvo y 1/2 cucharadita de sal.
+En un recipiente mediano mezcla 1 cup de harina, 1/2 cup de cacao en polvo y 1/2 tsp de sal.
 
-En un recipiente grande mezcla 1/2 taza de mantequilla derretida y 1 taza de azúcar.
+En un recipiente grande mezcla 1/2 cup de mantequilla derretida y 1 cup de azúcar.
 
-Agrega 2 huevos y 1 cucharadita de vainilla y bate hasta obtener una mezcla suave.
+Agrega 2 huevos y 1 tsp de vainilla y bate hasta obtener una mezcla suave.
 
 Incorpora los ingredientes secos hasta que estén combinados.
 
@@ -14617,28 +14647,28 @@ Serve warm.`,
       ],
       ingredients: `Relleno de Manzana:
 6 manzanas, peladas y en rodajas
-1/4 taza de azúcar morena
-1 cucharada de jugo de limón
-1 cucharadita de canela
-1/4 cucharadita de nuez moscada
+1/4 cup de azúcar morena
+1 Tbsp de jugo de limón
+1 tsp de canela
+1/4 tsp de nuez moscada
 
 Cobertura:
-1 taza de avena tradicional
-3/4 taza de harina
-1/2 taza de azúcar morena
-1/2 cucharadita de canela
-1/2 taza de mantequilla derretida`,
+1 cup de avena tradicional
+3/4 cup de harina
+1/2 cup de azúcar morena
+1/2 tsp de canela
+1/2 cup de mantequilla derretida`,
       instructions: `Precalienta el horno a 350°F.
 
-Engrasa ligeramente un molde para hornear de 9x13 pulgadas.
+Engrasa ligeramente un molde para hornear de 9x13 inches.
 
-En un recipiente grande mezcla 6 manzanas en rodajas, 1/4 taza de azúcar morena, 1 cucharada de jugo de limón, 1 cucharadita de canela y 1/4 cucharadita de nuez moscada.
+En un recipiente grande mezcla 6 manzanas en rodajas, 1/4 cup de azúcar morena, 1 Tbsp de jugo de limón, 1 tsp de canela y 1/4 tsp de nuez moscada.
 
 Distribuye la mezcla de manzana en el molde.
 
-En otro recipiente mezcla 1 taza de avena, 3/4 taza de harina, 1/2 taza de azúcar morena y 1/2 cucharadita de canela.
+En otro recipiente mezcla 1 cup de avena, 3/4 cup de harina, 1/2 cup de azúcar morena y 1/2 tsp de canela.
 
-Agrega 1/2 taza de mantequilla derretida y mezcla hasta obtener migas gruesas.
+Agrega 1/2 cup de mantequilla derretida y mezcla hasta obtener migas gruesas.
 
 Espolvorea la cobertura sobre las manzanas.
 
@@ -14710,15 +14740,15 @@ Serve chilled.`,
       ],
       ingredients: `Pudín:
 2 cajas (3.4 oz) de pudín instantáneo de vainilla
-3 tazas de leche fría
+3 cups de leche fría
 
 Capas:
 4 plátanos en rodajas
 1 caja (11 oz) de galletas de vainilla
 
 Final:
-1 taza de cobertura batida`,
-      instructions: `En un recipiente grande mezcla 2 cajas de pudín de vainilla con 3 tazas de leche fría durante 2 minutos.
+1 cup de cobertura batida`,
+      instructions: `En un recipiente grande mezcla 2 cajas de pudín de vainilla con 3 cups de leche fría durante 2 minutos.
 
 Deja reposar durante 5 minutos para que espese.
 
@@ -14730,7 +14760,7 @@ Cubre con más pudín.
 
 Repite las capas hasta usar todos los ingredientes.
 
-Cubre con 1 taza de cobertura batida.
+Cubre con 1 cup de cobertura batida.
 
 Refrigera durante al menos 2 horas antes de servir.
 
@@ -14795,22 +14825,22 @@ Cut into squares and serve.`,
         "fiesta"
       ],
       ingredients: `Postre:
-6 tazas de cereal de arroz inflado
+6 cups de cereal de arroz inflado
 10 oz de mini malvaviscos
-3 cucharadas de mantequilla
+3 Tbsp de mantequilla
 
 Opcional:
-1/2 taza de chispas de chocolate
+1/2 cup de chispas de chocolate
 grageas`,
-      instructions: `Engrasa un molde de 9x13 pulgadas.
+      instructions: `Engrasa un molde de 9x13 inches.
 
-Derrite 3 cucharadas de mantequilla en una olla grande a fuego bajo.
+Derrite 3 Tbsp de mantequilla en una olla grande a fuego bajo.
 
 Agrega 10 oz de mini malvaviscos y revuelve hasta que se derritan por completo.
 
 Retira del fuego.
 
-Agrega 6 tazas de cereal de arroz inflado y mezcla hasta cubrir uniformemente.
+Agrega 6 cups de cereal de arroz inflado y mezcla hasta cubrir uniformemente.
 
 Incorpora chispas de chocolate o grageas si lo deseas.
 
@@ -14881,16 +14911,16 @@ Serve immediately.`,
       ],
       ingredients: `Fresas:
 1 lb de fresas, en rodajas
-1/4 taza de azúcar
+1/4 cup de azúcar
 
 Bizcochos:
 4 bizcochos para shortcake
 
 Cobertura:
-1 taza de crema batida`,
+1 cup de crema batida`,
       instructions: `Coloca 1 lb de fresas en rodajas en un recipiente.
 
-Espolvorea con 1/4 taza de azúcar y mezcla suavemente.
+Espolvorea con 1/4 cup de azúcar y mezcla suavemente.
 
 Deja reposar de 20 a 30 minutos hasta que las fresas suelten sus jugos.
 
@@ -14900,7 +14930,7 @@ Coloca la mitad inferior de cada uno en platos para servir.
 
 Agrega las fresas y sus jugos sobre los bizcochos.
 
-Añade 1 taza de crema batida repartida entre las porciones.
+Añade 1 cup de crema batida repartida entre las porciones.
 
 Coloca la parte superior del bizcocho encima si lo deseas.
 
@@ -14974,29 +15004,29 @@ Serve warm.`,
         "sureño"
       ],
       ingredients: `Relleno:
-6 tazas de duraznos en rodajas
-1/2 taza de azúcar
-1 cucharada de jugo de limón
-1 cucharadita de canela
+6 cups de duraznos en rodajas
+1/2 cup de azúcar
+1 Tbsp de jugo de limón
+1 tsp de canela
 
 Cobertura:
-1 taza de harina
-1 taza de azúcar
-2 cucharaditas de polvo para hornear
-1/4 cucharadita de sal
-1 taza de leche
-1/2 taza de mantequilla derretida`,
+1 cup de harina
+1 cup de azúcar
+2 tsp de polvo para hornear
+1/4 tsp de sal
+1 cup de leche
+1/2 cup de mantequilla derretida`,
       instructions: `Precalienta el horno a 350°F.
 
-Vierte 1/2 taza de mantequilla derretida en un molde para hornear de 9x13 pulgadas.
+Vierte 1/2 cup de mantequilla derretida en un molde para hornear de 9x13 inches.
 
-En un recipiente mezcla 6 tazas de duraznos, 1/2 taza de azúcar, 1 cucharada de jugo de limón y 1 cucharadita de canela.
+En un recipiente mezcla 6 cups de duraznos, 1/2 cup de azúcar, 1 Tbsp de jugo de limón y 1 tsp de canela.
 
 Distribuye los duraznos sobre la mantequilla.
 
-En otro recipiente mezcla 1 taza de harina, 1 taza de azúcar, 2 cucharaditas de polvo para hornear y 1/4 cucharadita de sal.
+En otro recipiente mezcla 1 cup de harina, 1 cup de azúcar, 2 tsp de polvo para hornear y 1/4 tsp de sal.
 
-Agrega 1 taza de leche y mezcla hasta obtener una masa suave.
+Agrega 1 cup de leche y mezcla hasta obtener una masa suave.
 
 Vierte la masa sobre los duraznos. No mezcles.
 
@@ -15076,29 +15106,29 @@ Serve chilled or at room temperature.`,
         "primavera"
       ],
       ingredients: `Base:
-1 taza de mantequilla suave
-1/2 taza de azúcar glas
-2 tazas de harina
+1 cup de mantequilla suave
+1/2 cup de azúcar glas
+2 cups de harina
 
 Relleno de Limón:
 4 huevos grandes
-1 1/2 tazas de azúcar
-1/4 taza de harina
-2/3 taza de jugo de limón fresco
+1 1/2 cups de azúcar
+1/4 cup de harina
+2/3 cup de jugo de limón fresco
 
 Final:
 azúcar glas para espolvorear`,
       instructions: `Precalienta el horno a 350°F.
 
-Engrasa ligeramente un molde para hornear de 9x13 pulgadas.
+Engrasa ligeramente un molde para hornear de 9x13 inches.
 
-En un recipiente mezcla 1 taza de mantequilla, 1/2 taza de azúcar glas y 2 tazas de harina hasta formar una masa.
+En un recipiente mezcla 1 cup de mantequilla, 1/2 cup de azúcar glas y 2 cups de harina hasta formar una masa.
 
 Presiona la masa uniformemente en el molde.
 
 Hornea de 18 a 20 minutos hasta que esté ligeramente dorada.
 
-Mientras tanto, bate 4 huevos, 1 1/2 tazas de azúcar, 1/4 taza de harina y 2/3 taza de jugo de limón hasta obtener una mezcla suave.
+Mientras tanto, bate 4 huevos, 1 1/2 cups de azúcar, 1/4 cup de harina y 2/3 cup de jugo de limón hasta obtener una mezcla suave.
 
 Vierte la mezcla de limón sobre la base caliente.
 
@@ -15176,29 +15206,29 @@ Serve chilled.`,
         "fiesta"
       ],
       ingredients: `Base:
-1 taza de migas de galleta tipo graham
-3 cucharadas de mantequilla derretida
+1 cup de migas de galleta tipo graham
+3 Tbsp de mantequilla derretida
 
 Relleno:
 8 oz de queso crema suave
-1/2 taza de azúcar glas
-1 cucharadita de extracto de vainilla
-1 taza de cobertura batida
+1/2 cup de azúcar glas
+1 tsp de extracto de vainilla
+1 cup de cobertura batida
 
 Coberturas Opcionales:
 fresas
 arándanos
 relleno de cereza
 salsa de caramelo`,
-      instructions: `En un recipiente pequeño mezcla 1 taza de migas de galleta y 3 cucharadas de mantequilla derretida.
+      instructions: `En un recipiente pequeño mezcla 1 cup de migas de galleta y 3 Tbsp de mantequilla derretida.
 
 Divide la mezcla entre 4 vasos para servir.
 
 En un recipiente grande bate 8 oz de queso crema hasta que quede suave.
 
-Agrega 1/2 taza de azúcar glas y 1 cucharadita de vainilla.
+Agrega 1/2 cup de azúcar glas y 1 tsp de vainilla.
 
-Incorpora 1 taza de cobertura batida hasta obtener una mezcla ligera y cremosa.
+Incorpora 1 cup de cobertura batida hasta obtener una mezcla ligera y cremosa.
 
 Coloca el relleno sobre la capa de galleta.
 
@@ -15261,7 +15291,7 @@ Top with whipped cream or ice cream if desired.
 Serve warm directly from the mug.`,
   translations: {
     es: {
-      name: "Pastel de Chocolate en Taza",
+      name: "Pastel de Chocolate en cup",
       notes:
         "Un pastel de chocolate rico y esponjoso preparado en minutos en el microondas. Perfecto cuando quieres un postre rápido sin hornear un pastel completo.",
       tags: [
@@ -15274,27 +15304,27 @@ Serve warm directly from the mug.`,
         "niños"
       ],
       ingredients: `Ingredientes Secos:
-4 cucharadas de harina
-2 cucharadas de azúcar
-1 cucharada de cacao en polvo
-1/4 cucharadita de polvo para hornear
+4 Tbsp de harina
+2 Tbsp de azúcar
+1 Tbsp de cacao en polvo
+1/4 tsp de polvo para hornear
 
 Ingredientes Húmedos:
-3 cucharadas de leche
-2 cucharadas de aceite vegetal
-1/4 cucharadita de extracto de vainilla
+3 Tbsp de leche
+2 Tbsp de aceite vegetal
+1/4 tsp de extracto de vainilla
 
 Opcional:
-1 cucharada de chispas de chocolate
+1 Tbsp de chispas de chocolate
 crema batida
 helado de vainilla`,
-      instructions: `En una taza grande apta para microondas mezcla 4 cucharadas de harina, 2 cucharadas de azúcar, 1 cucharada de cacao y 1/4 cucharadita de polvo para hornear.
+      instructions: `En una cup grande apta para microondas mezcla 4 Tbsp de harina, 2 Tbsp de azúcar, 1 Tbsp de cacao y 1/4 tsp de polvo para hornear.
 
-Agrega 3 cucharadas de leche, 2 cucharadas de aceite vegetal y 1/4 cucharadita de vainilla.
+Agrega 3 Tbsp de leche, 2 Tbsp de aceite vegetal y 1/4 tsp de vainilla.
 
 Mezcla hasta que quede suave y sin grumos.
 
-Incorpora 1 cucharada de chispas de chocolate si lo deseas.
+Incorpora 1 Tbsp de chispas de chocolate si lo deseas.
 
 Cocina en el microondas de 60 a 90 segundos hasta que el pastel esté cocido pero aún húmedo.
 
@@ -15302,7 +15332,7 @@ Deja reposar durante 1 a 2 minutos.
 
 Agrega crema batida o helado si lo deseas.
 
-Sirve caliente directamente en la taza.`,
+Sirve caliente directamente en la cup.`,
     },
   },
 },
@@ -15365,12 +15395,12 @@ Serve immediately before the ice cream melts.`,
         "personalizable"
       ],
       ingredients: `Helado:
-4 tazas de helado de vainilla
+4 cups de helado de vainilla
 
 Coberturas:
-1/4 taza de jarabe de chocolate
-1/4 taza de salsa de caramelo
-1/4 taza de crema batida
+1/4 cup de jarabe de chocolate
+1/4 cup de salsa de caramelo
+1/4 cup de crema batida
 
 Opcional:
 cerezas marrasquino
@@ -15378,7 +15408,7 @@ grageas
 galletas trituradas
 cacahuates picados
 mini chispas de chocolate`,
-      instructions: `Sirve 4 tazas de helado de vainilla en 4 recipientes.
+      instructions: `Sirve 4 cups de helado de vainilla en 4 recipientes.
 
 Agrega jarabe de chocolate y salsa de caramelo sobre cada porción.
 
@@ -15537,18 +15567,18 @@ Serve chilled.`,
       ],
       ingredients: `Pudín:
 2 cajas (3.9 oz) de pudín instantáneo de chocolate
-3 tazas de leche fría
+3 cups de leche fría
 
 Capas:
 20 galletas Oreo trituradas
 
 Final:
-1 taza de crema batida
+1 cup de crema batida
 
 Opcional:
 gomitas en forma de gusano
 más Oreo trituradas`,
-      instructions: `En un recipiente grande mezcla 2 cajas de pudín de chocolate con 3 tazas de leche fría durante 2 minutos.
+      instructions: `En un recipiente grande mezcla 2 cajas de pudín de chocolate con 3 cups de leche fría durante 2 minutos.
 
 Deja reposar durante 5 minutos para que espese.
 
@@ -15558,7 +15588,7 @@ Agrega una capa de pudín de chocolate.
 
 Repite las capas hasta llenar los vasos.
 
-Cubre con 1 taza de crema batida repartida entre los vasos.
+Cubre con 1 cup de crema batida repartida entre los vasos.
 
 Espolvorea más Oreo trituradas por encima.
 
@@ -15637,30 +15667,30 @@ Allow to cool for 5 minutes before serving.`,
         "horneado"
       ],
       ingredients: `Masa:
-1/2 taza de mantequilla suave
-3/4 taza de azúcar
+1/2 cup de mantequilla suave
+3/4 cup de azúcar
 1 huevo grande
-1 cucharadita de extracto de vainilla
-1 1/2 tazas de harina
-1/2 cucharadita de bicarbonato de sodio
-1/4 cucharadita de sal
+1 tsp de extracto de vainilla
+1 1/2 cups de harina
+1/2 tsp de bicarbonato de sodio
+1/4 tsp de sal
 
 Azúcar con Canela:
-2 cucharadas de azúcar
-1 cucharadita de canela`,
+2 Tbsp de azúcar
+1 tsp de canela`,
       instructions: `Precalienta el horno a 375°F.
 
 Cubre una bandeja para hornear con papel para hornear.
 
-En un recipiente grande bate 1/2 taza de mantequilla y 3/4 taza de azúcar hasta que quede esponjosa.
+En un recipiente grande bate 1/2 cup de mantequilla y 3/4 cup de azúcar hasta que quede esponjosa.
 
-Agrega 1 huevo y 1 cucharadita de vainilla y mezcla bien.
+Agrega 1 huevo y 1 tsp de vainilla y mezcla bien.
 
-Incorpora 1 1/2 tazas de harina, 1/2 cucharadita de bicarbonato y 1/4 cucharadita de sal hasta formar una masa suave.
+Incorpora 1 1/2 cups de harina, 1/2 tsp de bicarbonato y 1/4 tsp de sal hasta formar una masa suave.
 
-En un recipiente pequeño mezcla 2 cucharadas de azúcar y 1 cucharadita de canela.
+En un recipiente pequeño mezcla 2 Tbsp de azúcar y 1 tsp de canela.
 
-Forma bolitas de aproximadamente 1 pulgada.
+Forma bolitas de aproximadamente 1 inch.
 
 Pasa cada bolita por la mezcla de azúcar con canela.
 
@@ -15735,26 +15765,26 @@ Serve and enjoy.`,
         "horneado"
       ],
       ingredients: `Masa:
-1/2 taza de mantequilla suave
-1/2 taza de mantequilla de cacahuate cremosa
-1/2 taza de azúcar morena
-1/2 taza de azúcar
+1/2 cup de mantequilla suave
+1/2 cup de mantequilla de cacahuate cremosa
+1/2 cup de azúcar morena
+1/2 cup de azúcar
 1 huevo grande
-1 cucharadita de extracto de vainilla
-1 1/4 tazas de harina
-1/2 cucharadita de bicarbonato de sodio
-1/4 cucharadita de sal`,
+1 tsp de extracto de vainilla
+1 1/4 cups de harina
+1/2 tsp de bicarbonato de sodio
+1/4 tsp de sal`,
       instructions: `Precalienta el horno a 350°F.
 
 Cubre una bandeja para hornear con papel para hornear.
 
-En un recipiente grande bate 1/2 taza de mantequilla, 1/2 taza de mantequilla de cacahuate, 1/2 taza de azúcar morena y 1/2 taza de azúcar hasta que quede suave.
+En un recipiente grande bate 1/2 cup de mantequilla, 1/2 cup de mantequilla de cacahuate, 1/2 cup de azúcar morena y 1/2 cup de azúcar hasta que quede suave.
 
-Agrega 1 huevo y 1 cucharadita de vainilla y mezcla bien.
+Agrega 1 huevo y 1 tsp de vainilla y mezcla bien.
 
-Incorpora 1 1/4 tazas de harina, 1/2 cucharadita de bicarbonato y 1/4 cucharadita de sal hasta formar una masa.
+Incorpora 1 1/4 cups de harina, 1/2 tsp de bicarbonato y 1/4 tsp de sal hasta formar una masa.
 
-Forma bolitas de aproximadamente 1 pulgada y colócalas sobre la bandeja.
+Forma bolitas de aproximadamente 1 inch y colócalas sobre la bandeja.
 
 Usa un tenedor para marcar el clásico patrón cruzado sobre cada galleta.
 
@@ -15829,30 +15859,30 @@ Allow to cool for 5 minutes before serving.`,
         "horneado"
       ],
       ingredients: `Masa:
-1/2 taza de mantequilla suave
-1/2 taza de azúcar morena
-1/4 taza de azúcar
+1/2 cup de mantequilla suave
+1/2 cup de azúcar morena
+1/4 cup de azúcar
 1 huevo grande
-1 cucharadita de extracto de vainilla
-3/4 taza de harina
-1/2 cucharadita de bicarbonato de sodio
-1/2 cucharadita de canela
-1/4 cucharadita de sal
-1 1/2 tazas de avena tradicional
-3/4 taza de pasas`,
+1 tsp de extracto de vainilla
+3/4 cup de harina
+1/2 tsp de bicarbonato de sodio
+1/2 tsp de canela
+1/4 tsp de sal
+1 1/2 cups de avena tradicional
+3/4 cup de pasas`,
       instructions: `Precalienta el horno a 350°F.
 
 Cubre una bandeja para hornear con papel para hornear.
 
-Bate 1/2 taza de mantequilla, 1/2 taza de azúcar morena y 1/4 taza de azúcar hasta que quede esponjosa.
+Bate 1/2 cup de mantequilla, 1/2 cup de azúcar morena y 1/4 cup de azúcar hasta que quede esponjosa.
 
-Agrega 1 huevo y 1 cucharadita de vainilla.
+Agrega 1 huevo y 1 tsp de vainilla.
 
-Incorpora 3/4 taza de harina, 1/2 cucharadita de bicarbonato, 1/2 cucharadita de canela y 1/4 cucharadita de sal.
+Incorpora 3/4 cup de harina, 1/2 tsp de bicarbonato, 1/2 tsp de canela y 1/4 tsp de sal.
 
-Agrega 1 1/2 tazas de avena y 3/4 taza de pasas.
+Agrega 1 1/2 cups de avena y 3/4 cup de pasas.
 
-Coloca cucharadas de masa sobre la bandeja.
+Coloca Tbsp de masa sobre la bandeja.
 
 Hornea de 10 a 12 minutos hasta que estén ligeramente doradas.
 
@@ -15927,30 +15957,30 @@ Serve warm.`,
         "verano"
       ],
       ingredients: `Relleno:
-6 tazas de arándanos
-1/2 taza de azúcar
-1 cucharada de jugo de limón
-2 cucharadas de maicena
+6 cups de arándanos
+1/2 cup de azúcar
+1 Tbsp de jugo de limón
+2 Tbsp de maicena
 
 Cobertura:
-1 taza de avena tradicional
-3/4 taza de harina
-1/2 taza de azúcar morena
-1/2 cucharadita de canela
-1/2 taza de mantequilla derretida`,
+1 cup de avena tradicional
+3/4 cup de harina
+1/2 cup de azúcar morena
+1/2 tsp de canela
+1/2 cup de mantequilla derretida`,
       instructions: `Precalienta el horno a 350°F.
 
-Engrasa ligeramente un molde para hornear de 8x8 pulgadas.
+Engrasa ligeramente un molde para hornear de 8x8 inches.
 
-En un recipiente grande mezcla 6 tazas de arándanos, 1/2 taza de azúcar, 1 cucharada de jugo de limón y 2 cucharadas de maicena.
+En un recipiente grande mezcla 6 cups de arándanos, 1/2 cup de azúcar, 1 Tbsp de jugo de limón y 2 Tbsp de maicena.
 
 Revuelve hasta cubrir uniformemente.
 
 Coloca la mezcla en el molde preparado.
 
-En otro recipiente mezcla 1 taza de avena, 3/4 taza de harina, 1/2 taza de azúcar morena y 1/2 cucharadita de canela.
+En otro recipiente mezcla 1 cup de avena, 3/4 cup de harina, 1/2 cup de azúcar morena y 1/2 tsp de canela.
 
-Agrega 1/2 taza de mantequilla derretida y mezcla hasta formar migas.
+Agrega 1/2 cup de mantequilla derretida y mezcla hasta formar migas.
 
 Espolvorea la cobertura sobre los arándanos.
 
@@ -16029,18 +16059,18 @@ Capa de Pastel:
 1 caja de mezcla para pastel amarillo
 
 Cobertura:
-1/2 taza de mantequilla derretida
+1/2 cup de mantequilla derretida
 
 Opcional:
 helado de vainilla
 crema batida`,
       instructions: `Precalienta el horno a 350°F.
 
-Extiende uniformemente 2 latas de relleno para pay de cereza en un molde para hornear de 9x13 pulgadas.
+Extiende uniformemente 2 latas de relleno para pay de cereza en un molde para hornear de 9x13 inches.
 
 Espolvorea 1 caja de mezcla para pastel amarillo sobre el relleno.
 
-Vierte 1/2 taza de mantequilla derretida sobre la mezcla para pastel.
+Vierte 1/2 cup de mantequilla derretida sobre la mezcla para pastel.
 
 No mezcles.
 
@@ -16121,28 +16151,28 @@ Serve at room temperature or chilled.`,
       ingredients: `Barritas:
 2 latas (8 oz) de masa para medialunas
 2 paquetes (8 oz) de queso crema, suave
-1 taza de azúcar
-1 cucharadita de extracto de vainilla
+1 cup de azúcar
+1 tsp de extracto de vainilla
 
 Cobertura:
-1/4 taza de mantequilla derretida
-1/4 taza de azúcar
-1 cucharadita de canela`,
+1/4 cup de mantequilla derretida
+1/4 cup de azúcar
+1 tsp de canela`,
       instructions: `Precalienta el horno a 350°F.
 
-Engrasa ligeramente un molde para hornear de 9x13 pulgadas.
+Engrasa ligeramente un molde para hornear de 9x13 inches.
 
 Extiende 1 lata de masa para medialunas en el fondo del molde.
 
-En un recipiente grande bate 2 paquetes de queso crema, 1 taza de azúcar y 1 cucharadita de vainilla hasta que quede suave.
+En un recipiente grande bate 2 paquetes de queso crema, 1 cup de azúcar y 1 tsp de vainilla hasta que quede suave.
 
 Distribuye la mezcla uniformemente sobre la masa.
 
 Coloca la segunda lámina de masa sobre el relleno.
 
-Pincela la superficie con 1/4 taza de mantequilla derretida.
+Pincela la superficie con 1/4 cup de mantequilla derretida.
 
-En un recipiente pequeño mezcla 1/4 taza de azúcar y 1 cucharadita de canela.
+En un recipiente pequeño mezcla 1/4 cup de azúcar y 1 tsp de canela.
 
 Espolvorea la mezcla sobre la superficie.
 
@@ -16219,20 +16249,20 @@ Serve cold.`,
         "clásico"
       ],
       ingredients: `Pudín:
-1/2 taza de azúcar
-1/4 taza de cacao en polvo
-3 cucharadas de maicena
-1/4 cucharadita de sal
-2 3/4 tazas de leche entera
-1 cucharadita de extracto de vainilla
-2 cucharadas de mantequilla
+1/2 cup de azúcar
+1/4 cup de cacao en polvo
+3 Tbsp de maicena
+1/4 tsp de sal
+2 3/4 cups de leche entera
+1 tsp de extracto de vainilla
+2 Tbsp de mantequilla
 
 Opcional:
 crema batida
 virutas de chocolate`,
-      instructions: `En una cacerola mediana mezcla 1/2 taza de azúcar, 1/4 taza de cacao en polvo, 3 cucharadas de maicena y 1/4 cucharadita de sal.
+      instructions: `En una cacerola mediana mezcla 1/2 cup de azúcar, 1/4 cup de cacao en polvo, 3 Tbsp de maicena y 1/4 tsp de sal.
 
-Agrega poco a poco 2 3/4 tazas de leche mientras bates hasta que quede suave.
+Agrega poco a poco 2 3/4 cups de leche mientras bates hasta que quede suave.
 
 Coloca la cacerola a fuego medio.
 
@@ -16240,7 +16270,7 @@ Cocina de 8 a 10 minutos, batiendo constantemente, hasta que la mezcla espese y 
 
 Retira del fuego.
 
-Agrega 1 cucharadita de vainilla y 2 cucharadas de mantequilla y mezcla hasta que quede suave.
+Agrega 1 tsp de vainilla y 2 Tbsp de mantequilla y mezcla hasta que quede suave.
 
 Vierte el pudín en recipientes para servir.
 
@@ -16325,14 +16355,14 @@ Top with fruit, caramel, or chocolate sauce if desired.`,
         "festivo"
       ],
       ingredients: `Base:
-1 taza de migas de galleta tipo graham
-3 cucharadas de mantequilla derretida
+1 cup de migas de galleta tipo graham
+3 Tbsp de mantequilla derretida
 
 Relleno:
 16 oz de queso crema suave
-1/2 taza de azúcar
+1/2 cup de azúcar
 2 huevos grandes
-1 cucharadita de extracto de vainilla
+1 tsp de extracto de vainilla
 
 Coberturas Opcionales:
 fresas
@@ -16344,15 +16374,15 @@ salsa de chocolate`,
 
 Coloca capacillos en un molde para 12 muffins.
 
-En un recipiente pequeño mezcla 1 taza de migas de galleta y 3 cucharadas de mantequilla derretida.
+En un recipiente pequeño mezcla 1 cup de migas de galleta y 3 Tbsp de mantequilla derretida.
 
 Divide la mezcla entre los moldes y presiónala en el fondo.
 
-En un recipiente grande bate 16 oz de queso crema y 1/2 taza de azúcar hasta que quede suave.
+En un recipiente grande bate 16 oz de queso crema y 1/2 cup de azúcar hasta que quede suave.
 
 Agrega 2 huevos, uno a la vez, mezclando después de cada adición.
 
-Incorpora 1 cucharadita de vainilla.
+Incorpora 1 tsp de vainilla.
 
 Divide el relleno entre los moldes.
 
@@ -16432,23 +16462,23 @@ Serve immediately or store in an airtight container.`,
         "dulce"
       ],
       ingredients: `Mezcla:
-9 tazas de cereal de arroz en cuadros
+9 cups de cereal de arroz en cuadros
 
 Cobertura de Chocolate:
-1 taza de chispas de chocolate semidulce
-1/2 taza de mantequilla de cacahuate cremosa
-1/4 taza de mantequilla
+1 cup de chispas de chocolate semidulce
+1/2 cup de mantequilla de cacahuate cremosa
+1/4 cup de mantequilla
 
 Final:
-1 cucharadita de extracto de vainilla
-1 1/2 tazas de azúcar glas`,
-      instructions: `Coloca 9 tazas de cereal en cuadros en un recipiente grande.
+1 tsp de extracto de vainilla
+1 1/2 cups de azúcar glas`,
+      instructions: `Coloca 9 cups de cereal en cuadros en un recipiente grande.
 
-En un recipiente apto para microondas combina 1 taza de chispas de chocolate, 1/2 taza de mantequilla de cacahuate y 1/4 taza de mantequilla.
+En un recipiente apto para microondas combina 1 cup de chispas de chocolate, 1/2 cup de mantequilla de cacahuate y 1/4 cup de mantequilla.
 
 Calienta en intervalos de 30 segundos, mezclando después de cada uno, hasta que quede suave.
 
-Agrega 1 cucharadita de vainilla.
+Agrega 1 tsp de vainilla.
 
 Vierte la mezcla de chocolate sobre el cereal.
 
@@ -16456,7 +16486,7 @@ Revuelve suavemente hasta cubrir todo el cereal.
 
 Transfiere el cereal a una bolsa grande con cierre o recipiente con tapa.
 
-Agrega 1 1/2 tazas de azúcar glas.
+Agrega 1 1/2 cups de azúcar glas.
 
 Cierra y agita hasta cubrir completamente.
 
@@ -16536,23 +16566,23 @@ Serve at room temperature.`,
         "horneado"
       ],
       ingredients: `Base de Mantequilla:
-1 taza de mantequilla suave
-1/2 taza de azúcar morena
-2 tazas de harina
+1 cup de mantequilla suave
+1/2 cup de azúcar morena
+2 cups de harina
 
 Relleno de Nuez:
 3 huevos grandes
-1 taza de jarabe de maíz claro
-3/4 taza de azúcar morena
-2 cucharadas de mantequilla derretida
-1 cucharadita de extracto de vainilla
-1/4 cucharadita de sal
-2 tazas de nueces picadas`,
+1 cup de jarabe de maíz claro
+3/4 cup de azúcar morena
+2 Tbsp de mantequilla derretida
+1 tsp de extracto de vainilla
+1/4 tsp de sal
+2 cups de nueces picadas`,
       instructions: `Precalienta el horno a 350°F.
 
-Engrasa ligeramente un molde para hornear de 9x13 pulgadas.
+Engrasa ligeramente un molde para hornear de 9x13 inches.
 
-En un recipiente grande mezcla 1 taza de mantequilla, 1/2 taza de azúcar morena y 2 tazas de harina.
+En un recipiente grande mezcla 1 cup de mantequilla, 1/2 cup de azúcar morena y 2 cups de harina.
 
 Mezcla hasta formar una masa desmoronada.
 
@@ -16560,9 +16590,9 @@ Presiona la masa uniformemente en el fondo del molde.
 
 Hornea de 18 a 20 minutos hasta que esté ligeramente dorada.
 
-Mientras tanto, bate 3 huevos, 1 taza de jarabe de maíz, 3/4 taza de azúcar morena, 2 cucharadas de mantequilla derretida, 1 cucharadita de vainilla y 1/4 cucharadita de sal.
+Mientras tanto, bate 3 huevos, 1 cup de jarabe de maíz, 3/4 cup de azúcar morena, 2 Tbsp de mantequilla derretida, 1 tsp de vainilla y 1/4 tsp de sal.
 
-Agrega 2 tazas de nueces picadas.
+Agrega 2 cups de nueces picadas.
 
 Vierte la mezcla sobre la base caliente.
 
@@ -16641,30 +16671,30 @@ Serve warm or at room temperature.`,
         "niños"
       ],
       ingredients: `Masa:
-1/2 taza de mantequilla suave
-1/2 taza de azúcar morena
-1/4 taza de azúcar
+1/2 cup de mantequilla suave
+1/2 cup de azúcar morena
+1/4 cup de azúcar
 1 huevo grande
-1 cucharadita de extracto de vainilla
-1 1/4 tazas de harina
-1/2 cucharadita de bicarbonato de sodio
-1/4 cucharadita de sal
-1 taza de chispas de chocolate semidulce
+1 tsp de extracto de vainilla
+1 1/4 cups de harina
+1/2 tsp de bicarbonato de sodio
+1/4 tsp de sal
+1 cup de chispas de chocolate semidulce
 
 Opcional:
-1/2 taza de nueces picadas
-1/2 taza de chispas de chocolate con leche`,
+1/2 cup de nueces picadas
+1/2 cup de chispas de chocolate con leche`,
       instructions: `Precalienta el horno a 350°F.
 
-Engrasa ligeramente o cubre un molde de 8x8 pulgadas con papel para hornear.
+Engrasa ligeramente o cubre un molde de 8x8 inches con papel para hornear.
 
-En un recipiente grande bate 1/2 taza de mantequilla, 1/2 taza de azúcar morena y 1/4 taza de azúcar hasta que quede esponjosa.
+En un recipiente grande bate 1/2 cup de mantequilla, 1/2 cup de azúcar morena y 1/4 cup de azúcar hasta que quede esponjosa.
 
-Agrega 1 huevo y 1 cucharadita de vainilla y mezcla bien.
+Agrega 1 huevo y 1 tsp de vainilla y mezcla bien.
 
-Incorpora 1 1/4 tazas de harina, 1/2 cucharadita de bicarbonato y 1/4 cucharadita de sal hasta formar una masa suave.
+Incorpora 1 1/4 cups de harina, 1/2 tsp de bicarbonato y 1/4 tsp de sal hasta formar una masa suave.
 
-Agrega 1 taza de chispas de chocolate y nueces si las usas.
+Agrega 1 cup de chispas de chocolate y nueces si las usas.
 
 Extiende la masa uniformemente en el molde preparado.
 
@@ -17492,37 +17522,37 @@ Serve hot and garnish with sesame seeds if desired.`,
 8 oz de fideos lo mein (o espagueti como sustituto)
 
 Verduras:
-1 cucharada de aceite de ajonjolí
-1 cucharada de aceite de oliva
-1 taza de champiñones, en rodajas
-1 taza de zanahorias ralladas
+1 Tbsp de aceite de ajonjolí
+1 Tbsp de aceite de oliva
+1 cup de champiñones, en rodajas
+1 cup de zanahorias ralladas
 1 pimiento morrón, en rodajas
-1 taza de floretes de brócoli
+1 cup de floretes de brócoli
 3 cebollines, en rodajas
 2 dientes de ajo, picados
-1 cucharadita de jengibre fresco, rallado
+1 tsp de jengibre fresco, rallado
 
 Salsa:
-1/4 taza de salsa de soya
-2 cucharadas de salsa hoisin
-1 cucharada de azúcar morena
-1 cucharadita de aceite de ajonjolí
-1 cucharada de vinagre de arroz
-1/4 cucharadita de hojuelas de chile rojo (opcional)
+1/4 cup de salsa de soya
+2 Tbsp de salsa hoisin
+1 Tbsp de azúcar morena
+1 tsp de aceite de ajonjolí
+1 Tbsp de vinagre de arroz
+1/4 tsp de hojuelas de chile rojo (opcional)
 
 Opcional:
 semillas de ajonjolí para decorar`,
       instructions: `Cocina 8 oz de fideos lo mein según las instrucciones del paquete. Escurre y reserva.
 
-En un tazón pequeño, mezcla 1/4 taza de salsa de soya, 2 cucharadas de salsa hoisin, 1 cucharada de azúcar morena, 1 cucharadita de aceite de ajonjolí, 1 cucharada de vinagre de arroz y hojuelas de chile rojo si las usas.
+En un tazón pequeño, mezcla 1/4 cup de salsa de soya, 2 Tbsp de salsa hoisin, 1 Tbsp de azúcar morena, 1 tsp de aceite de ajonjolí, 1 Tbsp de vinagre de arroz y hojuelas de chile rojo si las usas.
 
-Calienta 1 cucharada de aceite de ajonjolí y 1 cucharada de aceite de oliva en una sartén grande o wok a fuego medio-alto.
+Calienta 1 Tbsp de aceite de ajonjolí y 1 Tbsp de aceite de oliva en una sartén grande o wok a fuego medio-alto.
 
-Agrega 1 taza de champiñones, 1 taza de zanahorias, 1 pimiento morrón y 1 taza de brócoli.
+Agrega 1 cup de champiñones, 1 cup de zanahorias, 1 pimiento morrón y 1 cup de brócoli.
 
 Cocina de 5 a 7 minutos, revolviendo con frecuencia, hasta que las verduras estén tiernas pero crujientes y ligeramente caramelizadas.
 
-Agrega 3 cebollines, 2 dientes de ajo y 1 cucharadita de jengibre. Cocina 30 segundos hasta que desprenda aroma.
+Agrega 3 cebollines, 2 dientes de ajo y 1 tsp de jengibre. Cocina 30 segundos hasta que desprenda aroma.
 
 Agrega los fideos cocidos y vierte la salsa.
 
@@ -17619,35 +17649,35 @@ Drizzle with balsamic glaze if desired and serve warm.`,
 1 calabacín, en rodajas
 1 pimiento morrón, picado
 1 cebolla morada pequeña, en rodajas
-1 taza de tomates cherry
-3 cucharadas de aceite de oliva
+1 cup de tomates cherry
+3 Tbsp de aceite de oliva
 
 Sazonadores:
-1 cucharadita de ajo en polvo
-1 cucharadita de sazón italiana
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
-1/4 cucharadita de hojuelas de chile rojo (opcional)
+1 tsp de ajo en polvo
+1 tsp de sazón italiana
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1/4 tsp de hojuelas de chile rojo (opcional)
 
 Final:
-1/4 taza de queso parmesano rallado
-2 cucharadas de albahaca fresca, picada
-1 cucharada de glaseado balsámico (opcional)`,
+1/4 cup de queso parmesano rallado
+2 Tbsp de albahaca fresca, picada
+1 Tbsp de glaseado balsámico (opcional)`,
       instructions: `Precalienta el horno a 425°F.
 
 Cubre una charola grande con papel para hornear.
 
 Agrega 1 paquete de gnocchi, calabacín, pimiento morrón, cebolla morada y tomates cherry a la charola.
 
-Rocía con 3 cucharadas de aceite de oliva.
+Rocía con 3 Tbsp de aceite de oliva.
 
-Espolvorea 1 cucharadita de ajo en polvo, 1 cucharadita de sazón italiana, 1/2 cucharadita de sal, 1/4 cucharadita de pimienta negra y hojuelas de chile rojo si las usas.
+Espolvorea 1 tsp de ajo en polvo, 1 tsp de sazón italiana, 1/2 tsp de sal, 1/4 tsp de pimienta negra y hojuelas de chile rojo si las usas.
 
 Mezcla bien hasta cubrir todo uniformemente y acomoda en una sola capa.
 
 Hornea de 25 a 30 minutos, revolviendo a la mitad del tiempo, hasta que el gnocchi esté crujiente por fuera y las verduras caramelizadas y tiernas.
 
-Retira del horno y agrega inmediatamente 1/4 taza de queso parmesano y 2 cucharadas de albahaca fresca.
+Retira del horno y agrega inmediatamente 1/4 cup de queso parmesano y 2 Tbsp de albahaca fresca.
 
 Rocía con glaseado balsámico si deseas y sirve caliente.`,
     },
@@ -17738,35 +17768,35 @@ Garnish with parsley if using and serve immediately.`,
       ],
       ingredients: `Pasta:
 12 oz de pasta tipo conchas medianas
-1 taza de chícharos congelados
+1 cup de chícharos congelados
 
 Salsa:
-2 cucharadas de mantequilla
+2 Tbsp de mantequilla
 3 dientes de ajo, picados
-1 taza de crema espesa (o half-and-half para una versión más ligera)
-3/4 taza de queso parmesano rallado
-1/2 cucharadita de ajo en polvo
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
+1 cup de crema espesa (o half-and-half para una versión más ligera)
+3/4 cup de queso parmesano rallado
+1/2 tsp de ajo en polvo
+1/2 tsp de sal
+1/4 tsp de pimienta negra
 
 Final:
-1/4 taza de agua reservada de la pasta
-2 cucharadas de perejil fresco, picado (opcional)`,
+1/4 cup de agua reservada de la pasta
+2 Tbsp de perejil fresco, picado (opcional)`,
       instructions: `Hierve una olla grande con agua y sal.
 
 Cocina 12 oz de pasta tipo conchas según las instrucciones del paquete.
 
-Durante los últimos 2 minutos de cocción, agrega 1 taza de chícharos congelados al agua de la pasta.
+Durante los últimos 2 minutos de cocción, agrega 1 cup de chícharos congelados al agua de la pasta.
 
-Reserva 1/4 taza del agua de cocción y luego escurre la pasta y los chícharos.
+Reserva 1/4 cup del agua de cocción y luego escurre la pasta y los chícharos.
 
-En una sartén grande a fuego medio, derrite 2 cucharadas de mantequilla.
+En una sartén grande a fuego medio, derrite 2 Tbsp de mantequilla.
 
 Agrega 3 dientes de ajo y cocina 30 segundos hasta que estén fragantes.
 
-Vierte 1 taza de crema espesa y lleva a fuego lento suave.
+Vierte 1 cup de crema espesa y lleva a fuego lento suave.
 
-Agrega 3/4 taza de parmesano, 1/2 cucharadita de ajo en polvo, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+Agrega 3/4 cup de parmesano, 1/2 tsp de ajo en polvo, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Cocina de 2 a 3 minutos, revolviendo frecuentemente, hasta que la salsa quede suave y cubra ligeramente el dorso de una cuchara.
 
@@ -17858,16 +17888,16 @@ Slice into wedges and serve warm with desired toppings.`,
       ],
       ingredients: `Relleno:
 1 lata (15 oz) de frijoles negros, escurridos y enjuagados
-1 taza de granos de elote
-1 taza de queso cheddar rallado
-1/2 cucharadita de chile en polvo
-1/2 cucharadita de comino
-1/4 cucharadita de ajo en polvo
-1/4 cucharadita de sal
+1 cup de granos de elote
+1 cup de queso cheddar rallado
+1/2 tsp de chile en polvo
+1/2 tsp de comino
+1/4 tsp de ajo en polvo
+1/4 tsp de sal
 
 Quesadillas:
 4 tortillas grandes de harina
-1 cucharada de mantequilla o aceite de oliva
+1 Tbsp de mantequilla o aceite de oliva
 
 Toppings Opcionales:
 crema agria
@@ -17875,7 +17905,7 @@ salsa
 guacamole
 cilantro fresco
 gajos de limón`,
-      instructions: `En un tazón mediano, mezcla 1 lata de frijoles negros, 1 taza de elote, 1 taza de queso cheddar, 1/2 cucharadita de chile en polvo, 1/2 cucharadita de comino, 1/4 cucharadita de ajo en polvo y 1/4 cucharadita de sal.
+      instructions: `En un tazón mediano, mezcla 1 lata de frijoles negros, 1 cup de elote, 1 cup de queso cheddar, 1/2 tsp de chile en polvo, 1/2 tsp de comino, 1/4 tsp de ajo en polvo y 1/4 tsp de sal.
 
 Calienta una sartén grande a fuego medio.
 
@@ -17982,47 +18012,47 @@ Add desired toppings and serve warm.`,
         "Pepinillos en tiras",
       ],
       ingredients: `Relleno de Lentejas:
-1 cucharada de aceite de oliva
+1 Tbsp de aceite de oliva
 1/2 cebolla, picada
 1 pimiento morrón, picado
 2 dientes de ajo, picados
-1 taza de lentejas cocidas
-1/2 taza de salsa de tomate
-1/4 taza de salsa
-1 cucharada de pasta de tomate
+1 cup de lentejas cocidas
+1/2 cup de salsa de tomate
+1/4 cup de salsa
+1 Tbsp de pasta de tomate
 
 Sazonadores:
-1 cucharadita de chile en polvo
-1/2 cucharadita de comino
-1/2 cucharadita de paprika ahumada
-1/2 cucharadita de ajo en polvo
-1/2 cucharadita de sal
-1/4 cucharadita de pimienta negra
+1 tsp de chile en polvo
+1/2 tsp de comino
+1/2 tsp de paprika ahumada
+1/2 tsp de ajo en polvo
+1/2 tsp de sal
+1/4 tsp de pimienta negra
 
 Montaje:
 4 panes para hamburguesa
-1/2 taza de queso cheddar rallado
+1/2 cup de queso cheddar rallado
 
 Toppings Opcionales:
 rebanadas de aguacate
 jalapeños
 cilantro
 crema agria`,
-      instructions: `Calienta 1 cucharada de aceite de oliva en una sartén grande a fuego medio.
+      instructions: `Calienta 1 Tbsp de aceite de oliva en una sartén grande a fuego medio.
 
 Agrega 1/2 cebolla picada y 1 pimiento morrón picado. Cocina de 5 a 6 minutos hasta que estén suaves.
 
 Agrega 2 dientes de ajo y cocina 30 segundos hasta que estén fragantes.
 
-Incorpora 1 taza de lentejas cocidas, 1/2 taza de salsa de tomate, 1/4 taza de salsa y 1 cucharada de pasta de tomate.
+Incorpora 1 cup de lentejas cocidas, 1/2 cup de salsa de tomate, 1/4 cup de salsa y 1 Tbsp de pasta de tomate.
 
-Agrega 1 cucharadita de chile en polvo, 1/2 cucharadita de comino, 1/2 cucharadita de paprika ahumada, 1/2 cucharadita de ajo en polvo, 1/2 cucharadita de sal y 1/4 cucharadita de pimienta negra.
+Agrega 1 tsp de chile en polvo, 1/2 tsp de comino, 1/2 tsp de paprika ahumada, 1/2 tsp de ajo en polvo, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
 
 Cocina a fuego lento de 8 a 10 minutos, revolviendo ocasionalmente, hasta que la mezcla espese y quede jugosa.
 
 Tuesta 4 panes para hamburguesa si lo deseas.
 
-Coloca la mezcla de lentejas sobre los panes y agrega 1/2 taza de queso cheddar dividida uniformemente.
+Coloca la mezcla de lentejas sobre los panes y agrega 1/2 cup de queso cheddar dividida uniformemente.
 
 Añade los toppings deseados y sirve caliente.`,
     },
@@ -18231,7 +18261,7 @@ En un tazón pequeño, machaca ligeramente aproximadamente la mitad de 1 lata de
 
 Coloca una de las 4 tortillas de harina pequeñas en el sartén y espolvorea una capa de queso cheddar rallado sobre la mitad.
 
-Agrega una capa de frijoles negros sazonados, luego una cucharada de salsa y un poco más de queso.
+Agrega una capa de frijoles negros sazonados, luego una Tbsp de salsa y un poco más de queso.
 
 Dobla la tortilla y cocina de 2 a 3 minutos, hasta que la parte inferior esté dorada y crujiente.
 
@@ -21165,7 +21195,7 @@ Calienta 4 tortillas grandes hasta que estén suaves y flexibles.
 
 En el centro de cada tortilla, extiende una capa del relleno de frijoles.
 
-Cubre con una tostada, luego agrega una cucharada de salsa, 1/4 cup de lechuga, tomates y queso vegano.
+Cubre con una tostada, luego agrega una Tbsp de salsa, 1/4 cup de lechuga, tomates y queso vegano.
 
 Dobla los bordes de la tortilla hacia arriba y sobre el centro, trabajando alrededor para formar un wrap sellado.
 
