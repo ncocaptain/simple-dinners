@@ -12,7 +12,7 @@ export function getRecipeBySlug(slug: string) {
   const key = normalizeSlug(slug);
 
   const cookbook = getCookbook();
-  const allRecipes = [...cookbook, ...ALL_RECIPES];
+  const allRecipes = [...ALL_RECIPES, ...cookbook];
 
   return allRecipes.find((recipe) => {
     const recipeSlug = normalizeSlug(recipe.slug || recipe.id || "");
