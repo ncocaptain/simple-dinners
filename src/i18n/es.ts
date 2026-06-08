@@ -92,6 +92,11 @@ sideAdded: "Acompañamiento agregado a la lista ✓",
 sidesAdded: "Acompañamientos agregados a la lista ✓",
 selectedSidesAdded: "Acompañamientos seleccionados agregados ✓",
 allSidesAdded: "Todos los acompañamientos agregados ✓",
+optionalDessert: "¿Quieres algo dulce?",
+addDessertsToShoppingList: "Agregar postres a la lista de compras",
+selectedDessertsAdded: "Postres seleccionados agregados ✓",
+allDessertsAdded: "Todos los postres agregados ✓",
+cookDessert: "Cocinar postre",
 
 tips: {
   cookMode: "Usa el modo cocina para cocinar paso a paso.",

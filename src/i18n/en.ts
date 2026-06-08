@@ -91,6 +91,11 @@ sideAdded: "Side added to shopping list ✓",
 sidesAdded: "Sides added to shopping list ✓",
 selectedSidesAdded: "Selected sides added ✓",
 allSidesAdded: "All sides added ✓",
+optionalDessert: "Want something sweet?",
+addDessertsToShoppingList: "Add desserts to shopping list",
+selectedDessertsAdded: "Selected desserts added ✓",
+allDessertsAdded: "All desserts added ✓",
+cookDessert: "Cook dessert",
 
 tips: {
   cookMode: "Use Cook Mode for step-by-step cooking.",
