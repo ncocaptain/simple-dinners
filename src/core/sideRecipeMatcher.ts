@@ -1,5 +1,6 @@
 import { ALL_RECIPES } from "./data";
 import type { Meal } from "./types";
+import { getStoredLanguage } from "../i18n";
 
 function normalizeSideName(value: string) {
   return String(value || "")
@@ -100,10 +101,22 @@ export function findSideRecipeByName(sideName: string): Meal | null {
   );
 }
 
+function getLocalizedIngredientsForShopping(recipe: Meal) {
+  const language = getStoredLanguage();
+
+  if (language === "es" && recipe.translations?.es?.ingredients?.trim()) {
+    return recipe.translations.es.ingredients;
+  }
+
+  return recipe.ingredients;
+}
+
 export function getSideShoppingLines(sideName: string) {
   const sideRecipe = findSideRecipeByName(sideName);
 
-  if (!sideRecipe?.ingredients?.trim()) {
+  const ingredients = sideRecipe ? getLocalizedIngredientsForShopping(sideRecipe) : "";
+
+if (!ingredients?.trim()) {
     return {
       sideName,
       sideRecipe: null,
@@ -114,10 +127,10 @@ export function getSideShoppingLines(sideName: string) {
   return {
     sideName,
     sideRecipe,
-    lines: sideRecipe.ingredients
-      .split(/\n+/)
-      .map((line) => line.trim())
-      .filter(Boolean),
+    lines: ingredients
+  .split(/\n+/)
+  .map((line) => line.trim())
+  .filter(Boolean),
   };
 }
 
@@ -134,8 +147,11 @@ export function findDessertRecipeByName(dessertName: string): Meal | null {
 
 export function getDessertShoppingLines(dessertName: string) {
   const dessertRecipe = findDessertRecipeByName(dessertName);
+  const ingredients = dessertRecipe
+    ? getLocalizedIngredientsForShopping(dessertRecipe)
+    : "";
 
-  if (!dessertRecipe?.ingredients?.trim()) {
+  if (!ingredients?.trim()) {
     return {
       dessertName,
       dessertRecipe: null,
@@ -146,7 +162,7 @@ export function getDessertShoppingLines(dessertName: string) {
   return {
     dessertName,
     dessertRecipe,
-    lines: dessertRecipe.ingredients
+    lines: ingredients
       .split(/\n+/)
       .map((line) => line.trim())
       .filter(Boolean),
