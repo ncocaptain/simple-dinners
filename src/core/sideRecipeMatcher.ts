@@ -1,262 +1,25 @@
 import { ALL_RECIPES } from "./data";
 import type { Meal } from "./types";
 
-function normalizeSideName(text: string) {
-  return String(text || "")
+function normalizeSideName(value: string) {
+  return String(value || "")
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/&/g, "and")
+    .replace(/\+/g, "and")
     .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\b(simple|classic|easy|homemade|casero|casera|sencillo|sencilla|clasico|clasica)\b/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
 
-const SIDE_ALIASES: Record<string, string> = {
-  // =====================================================
-  // Bread / bakery sides
-  // =====================================================
-  "garlic bread": "quick-garlic-bread",
-  "cheesy garlic bread": "quick-garlic-bread",
-  "toast garlic bread": "quick-garlic-bread",
-
-  "dinner rolls": "quick-soft-dinner-rolls",
-  "rolls": "quick-soft-dinner-rolls",
-  "soft dinner rolls": "quick-soft-dinner-rolls",
-  
-
-  // =====================================================
-  // Potato sides
-  // =====================================================
-  "baked potato": "quick-airfryer-baked-potato",
-  "baked potatoes": "quick-airfryer-baked-potato",
-  "air fryer baked potato": "quick-airfryer-baked-potato",
-  "loaded baked potato": "quick-airfryer-baked-potato",
-  "loaded baked potatoes": "quick-airfryer-baked-potato",
-
-  "mashed potatoes": "quick-creamy-mashed-potatoes",
-  "creamy mashed potatoes": "quick-creamy-mashed-potatoes",
-  "potatoes mashed": "quick-creamy-mashed-potatoes",
-
-  "roasted potatoes": "quick-garlic-roasted-potatoes",
-  "garlic roasted potatoes": "quick-garlic-roasted-potatoes",
-  "roasted garlic potatoes": "quick-garlic-roasted-potatoes",
-
-  "red potatoes": "quick-roasted-red-potatoes",
-  "roasted red potatoes": "quick-roasted-red-potatoes",
-
-  "crispy smashed potatoes": "quick-crispy-smashed-potatoes",
-  "smashed potatoes": "quick-crispy-smashed-potatoes",
-
-  "scalloped potatoes": "normal-scalloped-potatoes",
-  "creamy scalloped potatoes": "normal-scalloped-potatoes",
-
-  "potato salad": "classic-potato-salad",
-  "classic potato salad": "classic-potato-salad",
-
-  "french fries": "quick-seasoned-fries",
-  "fries": "quick-seasoned-fries",
-  "seasoned fries": "quick-seasoned-fries",
-  "potato fries": "quick-seasoned-fries",
-
-  // =====================================================
-  // Sweet potato sides
-  // =====================================================
-  "baked sweet potato": "quick-baked-sweet-potatoes",
-  "baked sweet potatoes": "quick-baked-sweet-potatoes",
-
-  "roasted sweet potatoes": "quick-roasted-sweet-potato-cubes",
-  "roasted sweet potato cubes": "quick-roasted-sweet-potato-cubes",
-  "sweet potato cubes": "quick-roasted-sweet-potato-cubes",
-
-  "sweet potato fries": "quick-sweet-potato-fries",
-  "sweet potato wedges": "quick-sweet-potato-fries",
-
-  "sweet potato casserole": "normal-sweet-potato-casserole",
-
-  // =====================================================
-  // Batch 2: Vegetable sides
-  // =====================================================
-
-  // Green beans
-  "green beans": "quick-garlic-green-beans",
-  "garlic green beans": "quick-garlic-green-beans",
-  "roasted green beans": "quick-garlic-green-beans",
-  "steamed green beans": "quick-garlic-green-beans",
-
-  // Broccoli
-  "broccoli": "quick-lemon-roasted-broccoli",
-  "roasted broccoli": "quick-lemon-roasted-broccoli",
-  "lemon roasted broccoli": "quick-lemon-roasted-broccoli",
-  "steamed broccoli": "quick-lemon-roasted-broccoli",
-
-  // Carrots
-  "carrots": "quick-glazed-carrots",
-  "glazed carrots": "quick-glazed-carrots",
-  "roasted carrots": "quick-glazed-carrots",
-  "steamed carrots": "quick-glazed-carrots",
-
-  // Asparagus
-  "asparagus": "quick-garlic-butter-asparagus",
-  "garlic butter asparagus": "quick-garlic-butter-asparagus",
-  "roasted asparagus": "quick-garlic-butter-asparagus",
-  "grilled asparagus": "quick-garlic-butter-asparagus",
-  "steamed asparagus": "quick-garlic-butter-asparagus",
-
-  // Brussels sprouts
-  "brussels sprouts": "quick-crispy-brussels-sprouts",
-  "crispy brussels sprouts": "quick-crispy-brussels-sprouts",
-  "roasted brussels sprouts": "quick-crispy-brussels-sprouts",
-
-  // Cauliflower
-  "cauliflower": "quick-roasted-cauliflower",
-  "roasted cauliflower": "quick-roasted-cauliflower",
-  "parmesan cauliflower": "quick-roasted-cauliflower",
-
-  // Zucchini / squash
-  "zucchini": "quick-sauteed-zucchini-squash",
-  "zucchini and squash": "quick-sauteed-zucchini-squash",
-  "sautéed zucchini and squash": "quick-sauteed-zucchini-squash",
-  "sauteed zucchini and squash": "quick-sauteed-zucchini-squash",
-  "summer squash": "quick-sauteed-zucchini-squash",
-
-  // Spinach
-  "creamed spinach": "quick-creamed-spinach",
-  "spinach": "quick-creamed-spinach",
-
-  // Peas / carrots
-  "peas and carrots": "quick-peas-and-carrots",
-  "peas": "quick-peas-and-carrots",
-
-  // Root vegetables
-  "roasted root vegetables": "quick-roasted-root-vegetables",
-  "root vegetables": "quick-roasted-root-vegetables",
-  "roasted vegetables": "quick-roasted-root-vegetables",
-
-  // Grilled vegetables
-  "grilled vegetables": "quick-grilled-veggie-kabobs",
-  "grilled veggies": "quick-grilled-veggie-kabobs",
-  "veggie kabobs": "quick-grilled-veggie-kabobs",
-  "grilled veggie kabobs": "quick-grilled-veggie-kabobs",
-
-  // Corn
-  "corn on the cob": "quick-buttered-corn-on-the-cob",
-  "buttered corn on the cob": "quick-buttered-corn-on-the-cob",
-  "corn": "quick-buttered-corn-on-the-cob",
-  "grilled corn": "quick-grilled-corn",
-  "grilled corn on the cob": "quick-grilled-corn",
-  "creamed corn": "quick-creamed-corn",
-
-    // =====================================================
-  // Batch 3: Rice, grains, beans, and Tex-Mex sides
-  // =====================================================
-
-  // Rice / grains
-
-  "brown rice": "quick-brown-rice",
-
-  "rice pilaf": "quick-rice-pilaf",
-
-  "cilantro lime rice": "quick-cilantro-lime-rice",
-  "lime rice": "quick-cilantro-lime-rice",
-
-
-  // Beans
-
-  "refried beans": "quick-refried-beans",
-
-  "baked beans": "normal-baked-beans",
-
-  "seasoned black beans": "quick-seasoned-black-beans",
-  "black beans": "quick-seasoned-black-beans",
-
-
-  // Tex-Mex simple sides
-
-  "guacamole": "quick-classic-guacamole",
-
-  // =====================================================
-// Batch 4: BBQ, cookout, and comfort sides
-// =====================================================
-
-// Mac and cheese
-"smoked mac and cheese": "big-smoked-mac-and-cheese",
-"mac and cheese": "big-smoked-mac-and-cheese",
-"macaroni and cheese": "big-smoked-mac-and-cheese",
-
-// Potato / pasta salads
-"pasta salad": "quick-classic-pasta-salad",
-
-
-  // Appetizer-ish / special
-  "buffalo chicken tots": "buffalo-chicken-tots",
-
-  // =====================================================
-// New side recipe aliases
-// =====================================================
-
-"lemon potatoes": "quick-greek-lemon-potatoes",
-"greek lemon potatoes": "quick-greek-lemon-potatoes",
-
-"side salad": "quick-classic-side-salad",
-"classic side salad": "quick-classic-side-salad",
-
-"coleslaw": "quick-classic-coleslaw",
-"classic coleslaw": "quick-classic-coleslaw",
-
-"biscuits": "quick-buttery-biscuits",
-"buttery biscuits": "quick-buttery-biscuits",
-
-"cornbread": "quick-classic-cornbread",
-"classic cornbread": "quick-classic-cornbread",
-
-"pickles": "quick-classic-dill-pickles",
-"classic dill pickles": "quick-classic-dill-pickles",
-
-"simple green salad": "quick-simple-green-salad",
-
-"avocado slices": "quick-avocado-slices",
-
-"toast": "quick-buttered-toast",
-"buttered toast": "quick-buttered-toast",
-
-"tomato soup": "quick-classic-tomato-soup",
-"classic tomato soup": "quick-classic-tomato-soup",
-
-"apple slices": "quick-apple-slices",
-
-"celery sticks": "quick-celery-sticks",
-
-"carrot sticks": "quick-carrot-sticks",
-"carrot sticks with ranch": "quick-carrot-sticks",
-
-"fruit salad": "quick-classic-fruit-salad",
-"classic fruit salad": "quick-classic-fruit-salad",
-
-"steamed rice": "quick-steamed-rice",
-
-"cucumber salad": "quick-classic-cucumber-salad",
-"classic cucumber salad": "quick-classic-cucumber-salad",
-
-"spring rolls": "quick-fresh-spring-rolls",
-"fresh spring rolls": "quick-fresh-spring-rolls",
-
-"pickle spears": "quick-dill-pickle-spears",
-"dill pickle spears": "quick-dill-pickle-spears",
-
-"roasted zucchini": "quick-roasted-zucchini",
-
-"caesar salad": "quick-side-caesar-salad",
-"side caesar salad": "quick-side-caesar-salad",
-
-"watermelon slices": "quick-watermelon-slices",
-
-"greek salad": "quick-side-greek-salad",
-"side greek salad": "quick-side-greek-salad",
-
-"mexican street corn": "quick-mexican-street-corn",
-"street corn": "quick-mexican-street-corn",
-
+const SIDE_ALIASES: Record<string, string[]> = {
+  cornbread: ["corn bread", "pan de maiz"],
+  "tortilla chips": ["totopos", "chips de tortilla"],
+  "simple green salad": ["green salad", "ensalada verde", "ensalada verde sencilla"],
+  "fruit salad": ["ensalada de frutas"],
+  "carrot sticks with ranch": ["palitos de zanahoria con ranch"],
 };
 
 function getRecipesByTag(tagName: string): Meal[] {
@@ -275,34 +38,65 @@ function getSideRecipes(): Meal[] {
   return getRecipesByTag("side");
 }
 
-export function findSideRecipeByName(sideName: string): Meal | null {
-  const original = String(sideName || "").trim();
-  if (!original) return null;
+function getDessertRecipes(): Meal[] {
+  return getRecipesByTag("dessert");
+}
+
+function getRecipeMatchNames(meal: Meal): string[] {
+  return [
+    meal.name,
+    meal.slug,
+    meal.id,
+    meal.translations?.es?.name,
+  ]
+    .map((value) => String(value || "").trim())
+    .filter(Boolean);
+}
+
+function recipeMatchesName(meal: Meal, incomingName: string) {
+  const original = String(incomingName || "").trim();
+  if (!original) return false;
 
   const lower = original.toLowerCase().trim();
   const normalized = normalizeSideName(original);
 
-  const aliasSlug =
-    SIDE_ALIASES[lower] ||
-    SIDE_ALIASES[normalized];
+  const matchNames = getRecipeMatchNames(meal);
 
+  return matchNames.some((name) => {
+    const candidateLower = name.toLowerCase().trim();
+    const candidateNormalized = normalizeSideName(name);
+
+    if (candidateLower === lower) return true;
+    if (candidateNormalized === normalized) return true;
+
+    const aliases = SIDE_ALIASES[candidateNormalized] || [];
+
+    return aliases.some(
+      (alias) => normalizeSideName(alias) === normalized
+    );
+  });
+}
+
+export function findSideRecipeByName(sideName: string): Meal | null {
+  const original = String(sideName || "").trim();
+  if (!original) return null;
+
+  const normalized = normalizeSideName(original);
   const sideRecipes = getSideRecipes();
 
-  if (aliasSlug) {
-    return (
-      sideRecipes.find((meal) => meal.slug === aliasSlug || meal.id === aliasSlug) ||
-      null
-    );
-  }
-
   return (
+    sideRecipes.find((meal) => recipeMatchesName(meal, original)) ||
     sideRecipes.find((meal) => {
-      const recipeName = String(meal.name || "");
-      return (
-        recipeName.toLowerCase().trim() === lower ||
-        normalizeSideName(recipeName) === normalized
-      );
-    }) || null
+      const names = getRecipeMatchNames(meal).map(normalizeSideName);
+
+      return names.some((name) => {
+        const aliases = SIDE_ALIASES[name] || [];
+        return aliases.some(
+          (alias) => normalizeSideName(alias) === normalized
+        );
+      });
+    }) ||
+    null
   );
 }
 
@@ -327,27 +121,14 @@ export function getSideShoppingLines(sideName: string) {
   };
 }
 
-function getDessertRecipes(): Meal[] {
-  return getRecipesByTag("dessert");
-}
-
 export function findDessertRecipeByName(dessertName: string): Meal | null {
   const original = String(dessertName || "").trim();
   if (!original) return null;
 
-  const lower = original.toLowerCase().trim();
-  const normalized = normalizeSideName(original);
-
   const dessertRecipes = getDessertRecipes();
 
   return (
-    dessertRecipes.find((meal) => {
-      const recipeName = String(meal.name || "");
-      return (
-        recipeName.toLowerCase().trim() === lower ||
-        normalizeSideName(recipeName) === normalized
-      );
-    }) || null
+    dessertRecipes.find((meal) => recipeMatchesName(meal, original)) || null
   );
 }
 
