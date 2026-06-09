@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 
 import { getRecipeBySlug } from "../core/recipes";
+import { ALL_RECIPES } from "../core/data";
 import { addIngredientsToList } from "../shoppingList";
 import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
 import { isCommonPantryStaple } from "../core/pantry";
@@ -34,6 +35,8 @@ import {
 import {
   getSideShoppingLines,
   findSideRecipeByName,
+  getDessertShoppingLines,
+  findDessertRecipeByName,
 } from "../core/sideRecipeMatcher";
 
 
@@ -124,6 +127,10 @@ function formatEffortLabel(effort?: string) {
   const value = String(effort).trim();
   if (!value) return "";
   return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function normalizeRecipeLookupKey(value?: string) {
+  return String(value || "").trim().toLowerCase();
 }
 
 function normalizeTagForDisplay(tag: string) {
@@ -709,12 +716,62 @@ useEffect(() => {
   const from = params.get("from") || "/week";
   const printMode = params.get("print") === "1";
   const startInCookMode = params.get("cook") === "true";
+  const showDessertDebug = params.get("debugDesserts") === "1";
 
   // =====================================================
   // Builder: recipe lookup
   // =====================================================
 
   const recipe = useMemo(() => getRecipeBySlug(slug), [slug]);
+
+  const builtInRecipe = useMemo(() => {
+    const key = normalizeRecipeLookupKey(slug);
+
+    return ALL_RECIPES.find((item) => {
+      const itemKey = normalizeRecipeLookupKey(item.slug || item.id || "");
+      return itemKey === key;
+    });
+  }, [slug]);
+
+  const sourceRecipe = useMemo(() => {
+    if (builtInRecipe && recipe) {
+      return {
+        ...builtInRecipe,
+        ...recipe,
+
+        // Backfill newer built-in add-on data when an older saved/cookbook
+        // recipe does not have it yet.
+        suggestedSides:
+          recipe.suggestedSides?.length
+            ? recipe.suggestedSides
+            : builtInRecipe.suggestedSides,
+
+        suggestedDesserts:
+          recipe.suggestedDesserts?.length
+            ? recipe.suggestedDesserts
+            : builtInRecipe.suggestedDesserts,
+
+        translations: {
+          ...builtInRecipe.translations,
+          ...recipe.translations,
+          es: {
+            ...builtInRecipe.translations?.es,
+            ...recipe.translations?.es,
+            suggestedSides:
+              recipe.translations?.es?.suggestedSides?.length
+                ? recipe.translations.es.suggestedSides
+                : builtInRecipe.translations?.es?.suggestedSides,
+            suggestedDesserts:
+              recipe.translations?.es?.suggestedDesserts?.length
+                ? recipe.translations.es.suggestedDesserts
+                : builtInRecipe.translations?.es?.suggestedDesserts,
+          },
+        },
+      };
+    }
+
+    return recipe || builtInRecipe;
+  }, [recipe, builtInRecipe]);
 
   // =====================================================
   // Builder: local state
@@ -747,12 +804,13 @@ const [editSidesOpen, setEditSidesOpen] = useState(false);
 const [sideDraft, setSideDraft] = useState("");
 const [sideDraftList, setSideDraftList] = useState<string[]>([]);
 const [checkedSides, setCheckedSides] = useState<Record<string, boolean>>({});
+const [checkedDesserts, setCheckedDesserts] = useState<Record<string, boolean>>({});
 
   const wakeLockRef = useRef<any>(null);
-  const recipeNoteKey = recipe?.slug || recipe?.name || "";
+  const recipeNoteKey = sourceRecipe?.slug || sourceRecipe?.name || "";
   const safeRecipe =
-  getLocalizedMeal(recipe, getStoredLanguage()) ||
-  recipe || {
+  getLocalizedMeal(sourceRecipe, getStoredLanguage()) ||
+  sourceRecipe || {
     id: "",
     slug: "",
     name: t("recipe.fallbackTitle", "Recipe"),
@@ -788,13 +846,13 @@ const visibleInstructions = showAllInstructions
 const hasMoreIngredients = ingredients.length > 5;
 const hasMoreInstructions = instructions.length > 5;
 
-  const photoUrl = normalizePhotoUrl(recipe?.photoUrl);
+  const photoUrl = normalizePhotoUrl(sourceRecipe?.photoUrl);
   const currentStep = instructions[stepIndex] || "";
   const detectedTimerSeconds = extractTimerSeconds(currentStep);
   const isLastStep =
     instructions.length > 0 && stepIndex >= instructions.length - 1;
-  const isGrilling = Array.isArray(recipe?.tags)
-    ? recipe.tags.includes("grilling")
+  const isGrilling = Array.isArray(sourceRecipe?.tags)
+    ? sourceRecipe.tags.includes("grilling")
     : false;
 
   const stepIngredients = useMemo(() => {
@@ -840,10 +898,10 @@ const hasMoreInstructions = instructions.length > 5;
   // =====================================================
 
   useEffect(() => {
-    if (!recipe?.slug) return;
-    const history = getCookHistoryFor(recipe.slug);
+    if (!sourceRecipe?.slug) return;
+    const history = getCookHistoryFor(sourceRecipe.slug);
     setHistoryCount(history?.timesCooked ?? 0);
-  }, [recipe?.slug]);
+  }, [sourceRecipe?.slug]);
 
   useEffect(() => {
     const savedNote = getRecipeUserNote(recipeNoteKey);
@@ -863,6 +921,7 @@ const hasMoreInstructions = instructions.length > 5;
   setStepIndex(0);
   setCheckedIngredients({});
   setCheckedSides({});
+  setCheckedDesserts({});
   setTimerSeconds(null);
   setTimerRunning(false);
   setSaveMessage("");
@@ -1001,7 +1060,7 @@ const hasMoreInstructions = instructions.length > 5;
   // Builder: empty state
   // =====================================================
 
-  if (!recipe) {
+  if (!sourceRecipe) {
     return (
       <div
         style={{
@@ -1163,6 +1222,12 @@ const handleCloseNoteModal = () => {
     [side]: !prev[side],
   }));
 };
+const toggleDessert = (dessert: string) => {
+  setCheckedDesserts((prev) => ({
+    ...prev,
+    [dessert]: !prev[dessert],
+  }));
+};
 
   const handleAddIngredients = () => {
     const selectedIngredients = ingredients.filter(
@@ -1202,6 +1267,34 @@ const handleCloseNoteModal = () => {
     selectedSides.length
       ? t("recipe.selectedSidesAdded", "Selected sides added ✓")
       : t("recipe.allSidesAdded", "All sides added ✓")
+  );
+};
+
+const handleAddDessertsToShoppingList = () => {
+  if (!suggestedDesserts.length) return;
+
+  const selectedDesserts = suggestedDesserts.filter(
+    (dessert) => checkedDesserts[dessert]
+  );
+
+  const dessertsToProcess = selectedDesserts.length
+    ? selectedDesserts
+    : suggestedDesserts;
+
+  const shoppingLines = dessertsToProcess.flatMap((dessert) => {
+    const result = getDessertShoppingLines(dessert);
+    return result.lines;
+  });
+
+  addIngredientsToList(
+    `${safeRecipe.name || "Recipe"} desserts`,
+    shoppingLines.join("\n")
+  );
+
+  setSaveMessage(
+    selectedDesserts.length
+      ? t("recipe.selectedDessertsAdded", "Selected desserts added ✓")
+      : t("recipe.allDessertsAdded", "All desserts added ✓")
   );
 };
 
@@ -1449,6 +1542,26 @@ const instructionStepStyle: React.CSSProperties = {
   };
   
   const recipeSideKey = safeRecipe.slug || safeRecipe.name;
+  const suggestedDesserts = Array.isArray(safeRecipe.suggestedDesserts)
+  ? safeRecipe.suggestedDesserts.filter((dessert) => String(dessert).trim())
+  : [];
+
+  const dessertDebug = {
+    routeSlug: slug,
+    recipeName: safeRecipe.name,
+    recipeSlug: safeRecipe.slug,
+    sourceRecipeName: sourceRecipe?.name,
+    sourceRecipeSlug: sourceRecipe?.slug,
+    sourceRecipeSuggestedDesserts: sourceRecipe?.suggestedDesserts,
+    builtInRecipeName: builtInRecipe?.name,
+    builtInRecipeSlug: builtInRecipe?.slug,
+    builtInSuggestedDesserts: builtInRecipe?.suggestedDesserts,
+    getRecipeBySlugName: recipe?.name,
+    getRecipeBySlugSuggestedDesserts: recipe?.suggestedDesserts,
+    safeRecipeSuggestedDesserts: safeRecipe.suggestedDesserts,
+    suggestedDesserts,
+    suggestedDessertsLength: suggestedDesserts.length,
+  };
 
 const suggestedSides = getDisplaySides(
   recipeSideKey,
@@ -1606,6 +1719,23 @@ function resetSideDrafts() {
           </div>
 
           {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
+
+          {showDessertDebug && (
+            <div
+              style={{
+                padding: 12,
+                borderRadius: 12,
+                background: "rgba(250,204,21,0.12)",
+                border: "1px solid rgba(250,204,21,0.35)",
+                color: "#fde68a",
+                fontSize: 12,
+                whiteSpace: "pre-wrap",
+                overflowX: "auto",
+              }}
+            >
+              {JSON.stringify(dessertDebug, null, 2)}
+            </div>
+          )}
 
           {!!userNote.trim() && (
             <button
@@ -2008,6 +2138,142 @@ aria-label={t("recipe.cookSide", "Cook side")}
 </button>
               </div>
             )}
+
+            {suggestedDesserts.length > 0 && (
+  <div
+    style={{
+      display: "grid",
+      gap: 8,
+      marginTop: 10,
+      paddingTop: 12,
+      borderTop: "1px solid rgba(255,255,255,0.06)",
+    }}
+  >
+    <div
+      style={{
+        fontSize: 12,
+        fontWeight: 900,
+        letterSpacing: 0.4,
+        textTransform: "uppercase",
+        color: "#facc15",
+      }}
+    >
+      {t("recipe.optionalDessert", "Want something sweet?")}
+    </div>
+
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 8,
+      }}
+    >
+      {suggestedDesserts.map((dessert: string) => {
+        const checked = !!checkedDesserts[dessert];
+        const dessertRecipe = findDessertRecipeByName(dessert);
+
+        return (
+          <div
+            key={dessert}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              flexWrap: "wrap",
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => toggleDessert(dessert)}
+              style={{
+                padding: "8px 10px",
+                borderRadius: 999,
+                background: checked
+                  ? "rgba(250,204,21,0.14)"
+                  : "rgba(255,255,255,0.06)",
+                border: checked
+                  ? "1px solid rgba(250,204,21,0.32)"
+                  : "1px solid rgba(255,255,255,0.10)",
+                color: checked ? "#fde68a" : "rgba(255,255,255,0.88)",
+                fontSize: 13,
+                fontWeight: 800,
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+              }}
+            >
+              <CheckCircle2
+                size={14}
+                style={{
+                  color: checked ? "#facc15" : "rgba(255,255,255,0.35)",
+                }}
+              />
+              {dessert}
+            </button>
+
+            {dessertRecipe && (dessertRecipe.slug || dessertRecipe.name) && (
+              <button
+                type="button"
+                title={t("recipe.cookDessert", "Cook dessert")}
+                aria-label={t("recipe.cookDessert", "Cook dessert")}
+                onClick={() => {
+                  const dessertRecipeKey =
+                    dessertRecipe.slug || dessertRecipe.name || "";
+
+                  navigate(
+                    `/recipe/${encodeURIComponent(
+                      dessertRecipeKey
+                    )}?from=${encodeURIComponent(
+                      `/recipe/${safeRecipe.slug || safeRecipe.name || ""}`
+                    )}&cook=true`
+                  );
+                }}
+                style={{
+                  padding: "8px 10px",
+                  borderRadius: 999,
+                  background: "rgba(250,204,21,0.10)",
+                  border: "1px solid rgba(250,204,21,0.24)",
+                  color: "#fde68a",
+                  fontSize: 12,
+                  fontWeight: 900,
+                  cursor: "pointer",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                }}
+              >
+                <Play size={14} />
+              </button>
+            )}
+          </div>
+        );
+      })}
+    </div>
+
+    <button
+      type="button"
+      onClick={handleAddDessertsToShoppingList}
+      style={{
+        width: "fit-content",
+        border: "1px solid rgba(250,204,21,0.24)",
+        borderRadius: 999,
+        padding: "8px 12px",
+        background: "rgba(250,204,21,0.08)",
+        color: "#fde68a",
+        fontSize: 13,
+        fontWeight: 900,
+        cursor: "pointer",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 7,
+      }}
+    >
+      <ShoppingCart size={14} />
+      {t("recipe.addDessertsToShoppingList", "Add desserts to shopping list")}
+    </button>
+  </div>
+)}
 
             {suggestedSides.length === 0 && (
               <button
