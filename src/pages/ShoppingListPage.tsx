@@ -23,7 +23,7 @@ import {
   GROCERY_CATEGORY_ORDER,
 } from "../core/groceryCategories";
 import TipsModal from "../components/TipsModal";
-import { t } from "../i18n";
+import { t, getStoredLanguage } from "../i18n";
 
 // =====================================================
 // ShoppingListPage map
@@ -286,12 +286,46 @@ function formatQuantity(value: number | null | undefined) {
 // Display helpers
 // These control how items look on screen
 // =====================================================
-const SMALL_TITLE_WORDS = new Set(["of", "and", "or", "the", "a", "an", "with", "in"]);
+const SMALL_TITLE_WORDS = new Set([
+  "of",
+  "and",
+  "or",
+  "the",
+  "a",
+  "an",
+  "with",
+  "in",
+
+  // Spanish connector words
+  "de",
+  "del",
+  "la",
+  "las",
+  "el",
+  "los",
+  "y",
+  "con",
+  "en",
+]);
 
 function formatDisplayName(name: string) {
   if (!name) return "";
 
-  return name
+  const cleaned = String(name || "")
+    .replace(/^de\s+/i, "")
+    .replace(/^del\s+/i, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!cleaned) return "";
+
+  if (getStoredLanguage() === "es") {
+    const lower = cleaned.toLowerCase();
+
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
+  }
+
+  return cleaned
     .split(" ")
     .map((word, index) => {
       if (!word) return word;
@@ -1006,6 +1040,19 @@ function cleanIngredientName(line: string) {
   // Example: "4 oz cream cheese and" -> "cream cheese".
   text = text.replace(/\b(and|or|with)$/g, "").trim();
   text = cleanupSpacing(text);
+  // Spanish ingredient cleanup.
+// Examples:
+// "de sal" -> "sal"
+// "de bicarbonato de sodio" -> "bicarbonato de sodio"
+// "2 cups de fresas" stays as "2 cups de fresas"
+text = text
+  .replace(/^de\s+/i, "")
+  .replace(/^del\s+/i, "")
+  .replace(/\bDe\b/g, "de")
+  .replace(/\bDel\b/g, "del")
+  .trim();
+
+text = cleanupSpacing(text);
 
   return text;
 }
