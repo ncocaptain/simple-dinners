@@ -1437,6 +1437,8 @@ function isPreparedBakerySide(cleaned: string) {
 
 function isPreparedFrozenSide(cleaned: string) {
   return (
+    cleaned.includes("ice cream") ||
+    cleaned.includes("helado") ||
     cleaned.includes("french fries") ||
     cleaned.includes("sweet potato fries") ||
     cleaned.includes("egg rolls") ||
