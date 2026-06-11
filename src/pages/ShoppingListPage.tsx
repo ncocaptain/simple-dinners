@@ -1543,7 +1543,18 @@ function isBakingStaplePantryItem(cleaned: string) {
     cleaned.includes("all purpose flour") ||
     cleaned.includes("all-purpose flour") ||
     cleaned.includes("flour") ||
-    cleaned.includes("sugar")
+    cleaned.includes("sugar") ||
+    cleaned.includes("migas de galleta") ||
+cleaned.includes("galleta graham") ||
+cleaned.includes("harina") ||
+cleaned.includes("azucar") ||
+cleaned.includes("azúcar") ||
+cleaned.includes("azucar morena") ||
+cleaned.includes("azúcar morena") ||
+cleaned.includes("bicarbonato de sodio") ||
+cleaned.includes("polvo para hornear") ||
+cleaned.includes("extracto de vainilla") ||
+cleaned.includes("chispas de chocolate")
   );
 }
 
