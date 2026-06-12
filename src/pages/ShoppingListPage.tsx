@@ -501,6 +501,7 @@ const RECIPE_STYLE_PHRASES = [
   "serve with",
   "if desired",
   "if using",
+  "for dusting",
 ];
 
 const PREP_WORDS = [
