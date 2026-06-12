@@ -1539,24 +1539,67 @@ function isBeanPantryItem(cleaned: string) {
 
 function isBakingStaplePantryItem(cleaned: string) {
   return (
+    // Baking basics
     cleaned.includes("cornmeal") ||
+    cleaned.includes("cornstarch") ||
+    cleaned.includes("corn starch") ||
+    cleaned.includes("maicena") ||
     cleaned.includes("baking powder") ||
     cleaned.includes("baking soda") ||
+    cleaned.includes("polvo para hornear") ||
+    cleaned.includes("bicarbonato") ||
     cleaned.includes("all purpose flour") ||
     cleaned.includes("all-purpose flour") ||
     cleaned.includes("flour") ||
+    cleaned.includes("harina") ||
+
+    // Sugars
+    cleaned.includes("powdered sugar") ||
+    cleaned.includes("azucar glas") ||
+    cleaned.includes("azúcar glas") ||
+    cleaned.includes("brown sugar") ||
+    cleaned.includes("azucar morena") ||
+    cleaned.includes("azúcar morena") ||
+    cleaned.includes("granulated sugar") ||
     cleaned.includes("sugar") ||
+    cleaned.includes("azucar") ||
+    cleaned.includes("azúcar") ||
+
+    // Chocolate / dessert items
+    cleaned.includes("cocoa powder") ||
+    cleaned.includes("cocoa") ||
+    cleaned.includes("cacao") ||
+    cleaned.includes("cacao en polvo") ||
+    cleaned.includes("chocolate shavings") ||
+    cleaned.includes("virutas de chocolate") ||
+    cleaned.includes("chocolate chips") ||
+    cleaned.includes("chispas de chocolate") ||
+    cleaned.includes("dark chocolate") ||
+    cleaned.includes("baking chips") ||
+
+    // Dessert mixes / add-ins
+    cleaned.includes("graham cracker crumbs") ||
     cleaned.includes("migas de galleta") ||
-cleaned.includes("galleta graham") ||
-cleaned.includes("harina") ||
-cleaned.includes("azucar") ||
-cleaned.includes("azúcar") ||
-cleaned.includes("azucar morena") ||
-cleaned.includes("azúcar morena") ||
-cleaned.includes("bicarbonato de sodio") ||
-cleaned.includes("polvo para hornear") ||
-cleaned.includes("extracto de vainilla") ||
-cleaned.includes("chispas de chocolate")
+    cleaned.includes("galleta graham") ||
+    cleaned.includes("cake mix") ||
+    cleaned.includes("mezcla para pastel") ||
+    cleaned.includes("pudding mix") ||
+    cleaned.includes("pudin") ||
+    cleaned.includes("pudín") ||
+    cleaned.includes("marshmallow") ||
+    cleaned.includes("malvavisco") ||
+    cleaned.includes("sprinkles") ||
+    cleaned.includes("grageas") ||
+
+    // Other baking/dessert pantry items
+    cleaned.includes("vanilla extract") ||
+    cleaned.includes("extracto de vainilla") ||
+    cleaned.includes("vanilla") ||
+    cleaned.includes("vainilla") ||
+    cleaned.includes("coconut oil") ||
+    cleaned.includes("aceite de coco") ||
+    cleaned.includes("oats") ||
+    cleaned.includes("avena")
   );
 }
 
@@ -1743,6 +1786,8 @@ if (
 if (cleaned.includes("kimchi")) {
   return "Produce";
 }
+
+
 
   return resolveShoppingCategory(name);
 }
