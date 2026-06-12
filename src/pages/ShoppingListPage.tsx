@@ -226,6 +226,14 @@ const MERGE_AS_SINGLE_DAIRY_ITEMS = new Set([
   "parmesan cheese",
 ]);
 
+const MERGE_AS_SINGLE_BAKING_ITEMS = new Set([
+  "powdered sugar",
+  "confectioners sugar",
+  "confectioner's sugar",
+  "azucar glas",
+  "azúcar glas",
+]);
+
 const DEFAULT_CAN_PACKAGE_SIZE_BY_NAME: Record<string, string> = {
   "black beans": "15 oz",
 };
@@ -2671,6 +2679,10 @@ export default function ShoppingListPage() {
         parsedUnit = null;
         parsedQuantity = null;
       }
+      if (MERGE_AS_SINGLE_BAKING_ITEMS.has(safeName)) {
+  parsedUnit = null;
+  parsedQuantity = null;
+}
 
       // Treat generic cheddar cheese as one grocery item when one recipe gives
       // an amount and another only says "shredded cheese".
