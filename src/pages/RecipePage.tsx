@@ -19,7 +19,10 @@ import {
 } from "lucide-react";
 
 import { getRecipeBySlug } from "../core/recipes";
-import { ALL_RECIPES } from "../core/data";
+import {
+  ALL_RECIPES,
+  getSuggestedDessertsForRecipe,
+} from "../core/data";
 import { addIngredientsToList } from "../shoppingList";
 import { recordCook, getCookHistoryFor } from "../core/cookHistoryStore";
 import { isCommonPantryStaple } from "../core/pantry";
@@ -716,7 +719,6 @@ useEffect(() => {
   const from = params.get("from") || "/week";
   const printMode = params.get("print") === "1";
   const startInCookMode = params.get("cook") === "true";
-  const showDessertDebug = params.get("debugDesserts") === "1";
 
   // =====================================================
   // Builder: recipe lookup
@@ -1542,26 +1544,14 @@ const instructionStepStyle: React.CSSProperties = {
   };
   
   const recipeSideKey = safeRecipe.slug || safeRecipe.name;
-  const suggestedDesserts = Array.isArray(safeRecipe.suggestedDesserts)
-  ? safeRecipe.suggestedDesserts.filter((dessert) => String(dessert).trim())
-  : [];
+  const currentLanguage = getStoredLanguage();
 
-  const dessertDebug = {
-    routeSlug: slug,
-    recipeName: safeRecipe.name,
-    recipeSlug: safeRecipe.slug,
-    sourceRecipeName: sourceRecipe?.name,
-    sourceRecipeSlug: sourceRecipe?.slug,
-    sourceRecipeSuggestedDesserts: sourceRecipe?.suggestedDesserts,
-    builtInRecipeName: builtInRecipe?.name,
-    builtInRecipeSlug: builtInRecipe?.slug,
-    builtInSuggestedDesserts: builtInRecipe?.suggestedDesserts,
-    getRecipeBySlugName: recipe?.name,
-    getRecipeBySlugSuggestedDesserts: recipe?.suggestedDesserts,
-    safeRecipeSuggestedDesserts: safeRecipe.suggestedDesserts,
-    suggestedDesserts,
-    suggestedDessertsLength: suggestedDesserts.length,
-  };
+const suggestedDesserts = getSuggestedDessertsForRecipe(
+  sourceRecipe || safeRecipe,
+  currentLanguage === "es" ? "es" : "en"
+);
+
+  
 
 const suggestedSides = getDisplaySides(
   recipeSideKey,
@@ -1720,22 +1710,7 @@ function resetSideDrafts() {
 
           {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
 
-          {showDessertDebug && (
-            <div
-              style={{
-                padding: 12,
-                borderRadius: 12,
-                background: "rgba(250,204,21,0.12)",
-                border: "1px solid rgba(250,204,21,0.35)",
-                color: "#fde68a",
-                fontSize: 12,
-                whiteSpace: "pre-wrap",
-                overflowX: "auto",
-              }}
-            >
-              {JSON.stringify(dessertDebug, null, 2)}
-            </div>
-          )}
+          
 
           {!!userNote.trim() && (
             <button

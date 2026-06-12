@@ -111,6 +111,900 @@ export const MEAT_WORDS = [
   "scallops",
 ];
 
+const DESSERT_NAME = {
+  blueberryCheesecakeCrescentRolls: {
+    en: "Blueberry Cheesecake Crescent Rolls",
+    es: "Crecientes de cheesecake con arándanos",
+  },
+  campfireBananaBoats: {
+    en: "Campfire Banana Boats",
+    es: "Bananas Boat de Fogata",
+  },
+  darkChocolateDippedStrawberries: {
+    en: "Dark Chocolate Dipped Strawberries",
+    es: "Fresas cubiertas con chocolate oscuro",
+  },
+  chocolatePeanutButterNoBakeBars: {
+    en: "Chocolate Peanut Butter No-Bake Bars",
+    es: "Barras sin hornear de chocolate y crema de cacahuate",
+  },
+  chocolateChipCookies: {
+    en: "Chocolate Chip Cookies",
+    es: "Galletas con Chispas de Chocolate",
+  },
+  classicBrownies: {
+    en: "Classic Brownies",
+    es: "Brownies Clásicos",
+  },
+  appleCrisp: {
+    en: "Apple Crisp",
+    es: "Crumble de Manzana",
+  },
+  bananaPudding: {
+    en: "Banana Pudding",
+    es: "Pudín de Plátano",
+  },
+  riceKrispieTreats: {
+    en: "Rice Krispie Treats",
+    es: "Cuadritos de Arroz Inflado",
+  },
+  strawberryShortcake: {
+    en: "Strawberry Shortcake",
+    es: "Pastelito de Fresas",
+  },
+  peachCobbler: {
+    en: "Peach Cobbler",
+    es: "Cobbler de Durazno",
+  },
+  lemonBars: {
+    en: "Lemon Bars",
+    es: "Barritas de Limón",
+  },
+  noBakeCheesecakeCups: {
+    en: "No-Bake Cheesecake Cups",
+    es: "Vasitos de Cheesecake Sin Horno",
+  },
+  chocolateMugCake: {
+    en: "Chocolate Mug Cake",
+    es: "Pastel de Chocolate en Taza",
+  },
+  iceCreamSundaes: {
+    en: "Ice Cream Sundaes",
+    es: "Helados Sundae",
+  },
+  smores: {
+    en: "S'mores",
+    es: "S'mores",
+  },
+  oreoDirtCups: {
+    en: "Oreo Dirt Cups",
+    es: "Vasitos de Tierra con Oreo",
+  },
+  snickerdoodles: {
+    en: "Snickerdoodles",
+    es: "Galletas Snickerdoodle",
+  },
+  peanutButterCookies: {
+    en: "Peanut Butter Cookies",
+    es: "Galletas de Mantequilla de Cacahuate",
+  },
+  oatmealRaisinCookies: {
+    en: "Oatmeal Raisin Cookies",
+    es: "Galletas de Avena con Pasas",
+  },
+  blueberryCrisp: {
+    en: "Blueberry Crisp",
+    es: "Crumble de Arándanos",
+  },
+  cherryDumpCake: {
+    en: "Cherry Dump Cake",
+    es: "Pastel Fácil de Cereza",
+  },
+  sopapillaBars: {
+    en: "Sopapilla Bars",
+    es: "Barritas de Sopapilla",
+  },
+  chocolatePudding: {
+    en: "Chocolate Pudding",
+    es: "Pudín de Chocolate",
+  },
+  miniCheesecakes: {
+    en: "Mini Cheesecakes",
+    es: "Mini Cheesecakes",
+  },
+  puppyChowMuddyBuddies: {
+    en: "Puppy Chow (Muddy Buddies)",
+    es: "Muddy Buddies (Puppy Chow)",
+  },
+  pecanPieBars: {
+    en: "Pecan Pie Bars",
+    es: "Barritas de Pay de Nuez",
+  },
+  chocolateChipCookieBars: {
+    en: "Chocolate Chip Cookie Bars",
+    es: "Barritas de Galleta con Chispas de Chocolate",
+  },
+} as const;
+
+type DessertKey = keyof typeof DESSERT_NAME;
+
+function dessertEN(...keys: DessertKey[]) {
+  return keys.map((key) => DESSERT_NAME[key].en);
+}
+
+function dessertES(...keys: DessertKey[]) {
+  return keys.map((key) => DESSERT_NAME[key].es);
+}
+
+export const DESSERT_SUGGESTIONS_BY_RECIPE: Partial<
+  Record<string, DessertKey[]>
+> = {
+  "quick-beef-chili": [
+    "blueberryCheesecakeCrescentRolls",
+    "chocolatePeanutButterNoBakeBars",
+    "campfireBananaBoats",
+  ],
+
+  "normal-school-pizza": [
+    "chocolateChipCookies",
+    "classicBrownies",
+    "riceKrispieTreats",
+  ],
+
+  "normal-tilapia-asparagus-foil-packets": [
+    "lemonBars",
+    "darkChocolateDippedStrawberries",
+    "noBakeCheesecakeCups",
+  ],
+
+  "normal-slow-cooker-beef-enchilada-casserole": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "chocolatePudding",
+  ],
+
+  "normal-shepherds-pie": [
+    "appleCrisp",
+    "classicBrownies",
+    "bananaPudding",
+  ],
+
+  "normal-italian-sausage-stuffed-peppers": [
+    "miniCheesecakes",
+    "lemonBars",
+    "chocolateChipCookieBars",
+  ],
+
+  "quick-honey-garlic-chicken": [
+    "darkChocolateDippedStrawberries",
+    "noBakeCheesecakeCups",
+    "chocolateMugCake",
+  ],
+
+  "quick-lemon-butter-salmon": [
+    "lemonBars",
+    "darkChocolateDippedStrawberries",
+    "strawberryShortcake",
+  ],
+
+  "quick-chicken-fried-rice": [
+    "oreoDirtCups",
+    "riceKrispieTreats",
+    "iceCreamSundaes",
+  ],
+
+  "quick-bbq-chicken-flatbread": [
+    "campfireBananaBoats",
+    "bananaPudding",
+    "peachCobbler",
+  ],
+
+  "normal-baked-ziti": [
+    "miniCheesecakes",
+    "chocolateChipCookieBars",
+    "classicBrownies",
+  ],
+
+  "normal-chicken-alfredo": [
+    "strawberryShortcake",
+    "miniCheesecakes",
+    "lemonBars",
+  ],
+
+  "normal-beef-stroganoff": [
+    "appleCrisp",
+    "classicBrownies",
+    "chocolatePudding",
+  ],
+
+  "normal-chicken-pot-pie": [
+    "appleCrisp",
+    "bananaPudding",
+    "chocolateChipCookieBars",
+  ],
+
+  "normal-taco-pasta": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "chocolatePudding",
+  ],
+
+  "pan-seared-scallops-lemon-risotto": [
+    "lemonBars",
+    "darkChocolateDippedStrawberries",
+    "miniCheesecakes",
+  ],
+
+  "lemon-herb-roasted-salmon": [
+    "lemonBars",
+    "strawberryShortcake",
+    "noBakeCheesecakeCups",
+  ],
+
+  "beef-broccoli-stir-fry": [
+    "darkChocolateDippedStrawberries",
+    "riceKrispieTreats",
+    "iceCreamSundaes",
+  ],
+
+  "zuppa-toscana-soup": [
+    "miniCheesecakes",
+    "chocolateChipCookieBars",
+    "appleCrisp",
+  ],
+
+  "hidden-veggie-meatloaf": [
+    "classicBrownies",
+    "appleCrisp",
+    "chocolateChipCookies",
+  ],
+
+  "toms-spaghetti": [
+    "miniCheesecakes",
+    "classicBrownies",
+    "chocolateChipCookieBars",
+  ],
+
+  "shrimp-scampi": [
+    "lemonBars",
+    "strawberryShortcake",
+    "darkChocolateDippedStrawberries",
+  ],
+
+  "maryland-crab-cake": [
+    "lemonBars",
+    "peachCobbler",
+    "darkChocolateDippedStrawberries",
+  ],
+
+  "crock-pot-roast-beef": [
+    "appleCrisp",
+    "pecanPieBars",
+    "classicBrownies",
+  ],
+
+  "big-crockpot-potato-soup": [
+    "chocolateChipCookies",
+    "riceKrispieTreats",
+    "chocolatePudding",
+  ],
+
+  "big-crispy-chicken-wings": [
+    "riceKrispieTreats",
+    "iceCreamSundaes",
+    "puppyChowMuddyBuddies",
+  ],
+
+  "normal-grilled-bbq-chicken-thighs": [
+    "campfireBananaBoats",
+    "peachCobbler",
+    "bananaPudding",
+  ],
+
+  "quick-grilled-steak": [
+    "pecanPieBars",
+    "chocolatePudding",
+    "miniCheesecakes",
+  ],
+
+  "quick-grilled-chicken-breasts": [
+    "strawberryShortcake",
+    "noBakeCheesecakeCups",
+    "lemonBars",
+  ],
+
+  "quick-grilled-shrimp-skewers": [
+    "lemonBars",
+    "darkChocolateDippedStrawberries",
+    "strawberryShortcake",
+  ],
+
+  "quick-grilled-sausage-peppers": [
+    "miniCheesecakes",
+    "chocolateChipCookieBars",
+    "lemonBars",
+  ],
+
+  "normal-grilled-pork-chops": [
+    "appleCrisp",
+    "peachCobbler",
+    "snickerdoodles",
+  ],
+
+  "quick-grilled-burgers": [
+    "chocolateChipCookies",
+    "iceCreamSundaes",
+    "riceKrispieTreats",
+  ],
+
+  "grilled-cheese-sandwich": [
+    "chocolatePudding",
+    "riceKrispieTreats",
+    "chocolateChipCookies",
+  ],
+
+  "quick-chicken-parmesan-melts": [
+    "miniCheesecakes",
+    "chocolateChipCookieBars",
+    "lemonBars",
+  ],
+
+  "quick-taco-mac-skillet": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "chocolatePudding",
+  ],
+
+  "quick-lemon-pepper-tilapia": [
+    "lemonBars",
+    "darkChocolateDippedStrawberries",
+    "noBakeCheesecakeCups",
+  ],
+
+  "quick-bbq-chicken": [
+    "campfireBananaBoats",
+    "peachCobbler",
+    "bananaPudding",
+  ],
+
+  "normal-simple-tacos": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "chocolatePudding",
+  ],
+
+  "quick-sloppy-joes-sandwich": [
+    "chocolateChipCookies",
+    "riceKrispieTreats",
+    "iceCreamSundaes",
+  ],
+
+  "big-beef-lasagna": [
+    "miniCheesecakes",
+    "classicBrownies",
+    "chocolateChipCookieBars",
+  ],
+
+  "normal-chili-cheese-dogs": [
+    "iceCreamSundaes",
+    "riceKrispieTreats",
+    "puppyChowMuddyBuddies",
+  ],
+
+  "big-white-chicken-chili": [
+    "blueberryCheesecakeCrescentRolls",
+    "chocolatePeanutButterNoBakeBars",
+    "noBakeCheesecakeCups",
+  ],
+
+  "normal-taco-soup": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "chocolatePudding",
+  ],
+
+  "big-sheet-pan-fajitas": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "chocolatePudding",
+  ],
+
+  "normal-air-fryer-chicken-tenders": [
+    "chocolateChipCookies",
+    "riceKrispieTreats",
+    "iceCreamSundaes",
+  ],
+
+  "big-baked-chicken-thighs": [
+    "appleCrisp",
+    "classicBrownies",
+    "chocolateChipCookies",
+  ],
+
+  "big-bbq-chicken-drumsticks": [
+    "campfireBananaBoats",
+    "peachCobbler",
+    "bananaPudding",
+  ],
+
+  "smoked-pulled-pork": [
+    "peachCobbler",
+    "bananaPudding",
+    "pecanPieBars",
+  ],
+
+  "big-smoked-meatloaf": [
+    "appleCrisp",
+    "classicBrownies",
+    "pecanPieBars",
+  ],
+
+  "pork-street-tacos": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "chocolatePudding",
+  ],
+
+  "roasted-tomato-basil-soup": [
+    "chocolatePudding",
+    "chocolateChipCookies",
+    "strawberryShortcake",
+  ],
+
+  "slow-cooker-beef-stew": [
+    "appleCrisp",
+    "pecanPieBars",
+    "classicBrownies",
+  ],
+
+  "loaded-taco-party-ring": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "puppyChowMuddyBuddies",
+  ],
+
+  "barbecue-chicken-pizza": [
+    "campfireBananaBoats",
+    "bananaPudding",
+    "chocolateChipCookies",
+  ],
+
+  "homemade-fried-chicken": [
+    "peachCobbler",
+    "bananaPudding",
+    "pecanPieBars",
+  ],
+
+  "chimichurri-skirt-steak-bowls": [
+    "darkChocolateDippedStrawberries",
+    "lemonBars",
+    "noBakeCheesecakeCups",
+  ],
+
+  "lamb-and-beef-gateway-burgers": [
+    "miniCheesecakes",
+    "lemonBars",
+    "darkChocolateDippedStrawberries",
+  ],
+
+  "air-fryer-brisket-taquitos": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "chocolatePudding",
+  ],
+
+  "homemade-pizza-pockets": [
+    "chocolateChipCookies",
+    "riceKrispieTreats",
+    "iceCreamSundaes",
+  ],
+
+  "baked-potato-bar": [
+    "chocolatePudding",
+    "classicBrownies",
+    "strawberryShortcake",
+  ],
+
+  "alphabet-star-pasta-soup": [
+    "riceKrispieTreats",
+    "chocolatePudding",
+    "chocolateChipCookies",
+  ],
+
+  "mississippi-chicken": [
+    "appleCrisp",
+    "classicBrownies",
+    "bananaPudding",
+  ],
+
+  "garlic-herb-pork-loin": [
+    "appleCrisp",
+    "peachCobbler",
+    "snickerdoodles",
+  ],
+
+  "smashburgers-with-tallow-crisped-edges": [
+    "iceCreamSundaes",
+    "chocolateChipCookies",
+    "puppyChowMuddyBuddies",
+  ],
+
+  "slow-cooked-birria-tacos": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "chocolatePudding",
+  ],
+
+  "hot-honey-applewood-smoked-ribs": [
+    "peachCobbler",
+    "bananaPudding",
+    "pecanPieBars",
+  ],
+
+  "spatchcock-butter-bath-chicken": [
+    "appleCrisp",
+    "strawberryShortcake",
+    "classicBrownies",
+  ],
+
+  "korean-inspired-mini-beef-patties": [
+    "darkChocolateDippedStrawberries",
+    "riceKrispieTreats",
+    "iceCreamSundaes",
+  ],
+
+  "duck-carnitas-tacos": [
+    "sopapillaBars",
+    "miniCheesecakes",
+    "chocolatePudding",
+  ],
+
+  "wagyu-blend-meatloaf": [
+    "appleCrisp",
+    "pecanPieBars",
+    "classicBrownies",
+  ],
+
+  "big-jamaican-jerk-chicken": [
+    "campfireBananaBoats",
+    "bananaPudding",
+    "peachCobbler",
+  ],
+
+  "quick-classic-hobo-foil-packet": [
+    "smores",
+    "campfireBananaBoats",
+    "riceKrispieTreats",
+  ],
+
+  "big-dutch-oven-taco-mountain": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "puppyChowMuddyBuddies",
+  ],
+
+  "big-campfire-chili-mac": [
+    "campfireBananaBoats",
+    "smores",
+    "chocolateChipCookies",
+  ],
+
+  "quick-hot-dog-octopus-veggie-kebabs": [
+    "iceCreamSundaes",
+    "riceKrispieTreats",
+    "smores",
+  ],
+
+  "quick-pie-iron-pudgie-pies": [
+    "campfireBananaBoats",
+    "smores",
+    "chocolateChipCookies",
+  ],
+
+  "quick-vegetable-stir-fry": [
+    "darkChocolateDippedStrawberries",
+    "riceKrispieTreats",
+    "iceCreamSundaes",
+  ],
+
+  "vegetable-lo-mein-noodles": [
+    "darkChocolateDippedStrawberries",
+    "riceKrispieTreats",
+    "chocolatePudding",
+  ],
+
+  "crispy-sheet-pan-gnocchi-roasted-veggies": [
+    "lemonBars",
+    "miniCheesecakes",
+    "chocolateChipCookieBars",
+  ],
+
+  "creamy-shells-peas-parmesan": [
+    "strawberryShortcake",
+    "lemonBars",
+    "miniCheesecakes",
+  ],
+
+  "black-bean-corn-quesadillas": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "chocolatePudding",
+  ],
+
+  "taco-style-lentil-sloppy-joes": [
+    "chocolateChipCookies",
+    "riceKrispieTreats",
+    "iceCreamSundaes",
+  ],
+
+  "normal-vegan-jambalaya": [
+    "peachCobbler",
+    "bananaPudding",
+    "lemonBars",
+  ],
+
+  "quick-black-bean-quesadillas": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "chocolatePudding",
+  ],
+
+  "quick-pesto-naan-pizzas": [
+    "strawberryShortcake",
+    "chocolateChipCookies",
+    "lemonBars",
+  ],
+
+  "quick-jamaican-jerk-tofu": [
+    "campfireBananaBoats",
+    "bananaPudding",
+    "peachCobbler",
+  ],
+
+  "big-vegetarian-shepherds-pie": [
+    "appleCrisp",
+    "classicBrownies",
+    "bananaPudding",
+  ],
+
+  "quick-creamy-tortellini": [
+    "strawberryShortcake",
+    "miniCheesecakes",
+    "lemonBars",
+  ],
+
+  "big-spinach-ricotta-stuffed-shells": [
+    "miniCheesecakes",
+    "classicBrownies",
+    "chocolateChipCookieBars",
+  ],
+
+  "normal-chickpea-curry": [
+    "riceKrispieTreats",
+    "noBakeCheesecakeCups",
+    "darkChocolateDippedStrawberries",
+  ],
+
+  "normal-spicy-tofu-mushroom-hash": [
+    "darkChocolateDippedStrawberries",
+    "lemonBars",
+    "riceKrispieTreats",
+  ],
+
+  "quick-caprese-pasta": [
+    "strawberryShortcake",
+    "lemonBars",
+    "noBakeCheesecakeCups",
+  ],
+
+  "big-mediterranean-stuffed-peppers": [
+    "lemonBars",
+    "miniCheesecakes",
+    "darkChocolateDippedStrawberries",
+  ],
+
+  "quick-vegetable-pad-thai": [
+    "darkChocolateDippedStrawberries",
+    "riceKrispieTreats",
+    "iceCreamSundaes",
+  ],
+
+  "big-roasted-vegetable-wellington": [
+    "appleCrisp",
+    "pecanPieBars",
+    "miniCheesecakes",
+  ],
+
+  "big-black-bean-burgers-sweet-potato-fries": [
+    "chocolateChipCookies",
+    "iceCreamSundaes",
+    "riceKrispieTreats",
+  ],
+
+  "big-sweet-potato-black-bean-enchiladas": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "chocolatePudding",
+  ],
+
+  "vegetarian-fri-chik-noodle-casserole": [
+    "classicBrownies",
+    "appleCrisp",
+    "chocolateChipCookies",
+  ],
+
+  "normal-caprese-stuffed-portobello-mushrooms": [
+    "strawberryShortcake",
+    "lemonBars",
+    "miniCheesecakes",
+  ],
+
+  "normal-spinach-mushroom-feta-crustless-quiche": [
+    "strawberryShortcake",
+    "blueberryCheesecakeCrescentRolls",
+    "lemonBars",
+  ],
+
+  "quick-cream-cheese-spinach-pasta": [
+    "strawberryShortcake",
+    "miniCheesecakes",
+    "chocolateChipCookieBars",
+  ],
+
+  "quick-caprese-sandwich": [
+    "chocolateChipCookies",
+    "strawberryShortcake",
+    "chocolatePudding",
+  ],
+
+  "creamy-mushroom-stroganoff": [
+    "appleCrisp",
+    "classicBrownies",
+    "chocolatePudding",
+  ],
+
+  "oyster-mushroom-bbq-tacos": [
+    "campfireBananaBoats",
+    "peachCobbler",
+    "bananaPudding",
+  ],
+
+  "gochujang-tofu-broccoli-stir-fry": [
+    "darkChocolateDippedStrawberries",
+    "riceKrispieTreats",
+    "iceCreamSundaes",
+  ],
+
+  "coconut-curry-ramen": [
+    "darkChocolateDippedStrawberries",
+    "noBakeCheesecakeCups",
+    "riceKrispieTreats",
+  ],
+
+  "kimchi-brown-rice-bliss-bowl": [
+    "darkChocolateDippedStrawberries",
+    "riceKrispieTreats",
+    "iceCreamSundaes",
+  ],
+
+  "sweet-potato-kale-chili": [
+    "appleCrisp",
+    "chocolatePeanutButterNoBakeBars",
+    "noBakeCheesecakeCups",
+  ],
+
+  "greek-style-baked-orzo": [
+    "lemonBars",
+    "miniCheesecakes",
+    "darkChocolateDippedStrawberries",
+  ],
+
+  "mushroom-sage-tagliatelle": [
+    "appleCrisp",
+    "miniCheesecakes",
+    "classicBrownies",
+  ],
+
+  "vegan-crunchwrap-supreme": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "chocolatePudding",
+  ],
+
+  "cauliflower-gnocchi-mushroom-alfredo": [
+    "strawberryShortcake",
+    "miniCheesecakes",
+    "lemonBars",
+  ],
+
+  "black-bean-sweet-potato-tacos": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "chocolatePudding",
+  ],
+
+  "mediterranean-chickpea-bowl": [
+    "lemonBars",
+    "darkChocolateDippedStrawberries",
+    "noBakeCheesecakeCups",
+  ],
+
+  "cheese-enchiladas": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "chocolatePudding",
+  ],
+
+  "quick-southwest-chicken-salad": [
+    "iceCreamSundaes",
+    "riceKrispieTreats",
+    "darkChocolateDippedStrawberries",
+  ],
+
+  "normal-grilled-chicken-caesar-salad": [
+    "strawberryShortcake",
+    "lemonBars",
+    "darkChocolateDippedStrawberries",
+  ],
+
+  "normal-cobb-salad": [
+    "strawberryShortcake",
+    "chocolateChipCookies",
+    "noBakeCheesecakeCups",
+  ],
+
+  "normal-steakhouse-salad": [
+    "pecanPieBars",
+    "chocolatePudding",
+    "miniCheesecakes",
+  ],
+
+  "normal-avocado-ranch-chicken-salad": [
+    "strawberryShortcake",
+    "lemonBars",
+    "iceCreamSundaes",
+  ],
+
+  "big-buffalo-chicken-salad": [
+    "riceKrispieTreats",
+    "iceCreamSundaes",
+    "chocolateChipCookies",
+  ],
+
+  "big-asian-chicken-salad": [
+    "darkChocolateDippedStrawberries",
+    "riceKrispieTreats",
+    "iceCreamSundaes",
+  ],
+
+  "big-taco-salad": [
+    "sopapillaBars",
+    "iceCreamSundaes",
+    "chocolatePudding",
+  ],
+
+
+
+};
+
+export function getSuggestedDessertsForRecipe(
+  recipe: { slug?: string; id?: string; suggestedDesserts?: string[] } | null | undefined,
+  language: "en" | "es" = "en"
+) {
+  const recipeKey = recipe?.slug || recipe?.id || "";
+  const dessertKeys = DESSERT_SUGGESTIONS_BY_RECIPE[recipeKey];
+
+  if (dessertKeys?.length) {
+    return dessertKeys.map((key) =>
+      language === "es" ? DESSERT_NAME[key].es : DESSERT_NAME[key].en
+    );
+  }
+
+  return Array.isArray(recipe?.suggestedDesserts)
+    ? recipe.suggestedDesserts.filter((dessert) => String(dessert).trim())
+    : [];
+}
+
 // =====================================================
 // DINNER / MAIN RECIPES
 // =====================================================
@@ -221,6 +1115,7 @@ suggestedSides: [
   "Side salad",
   "Roasted carrots",
 ],
+suggestedDesserts: [ "No-Bake Cheesecake Cups", "Classic Brownies", "Chocolate Chip Cookies", ],
   notes: "A creamy baked chicken dinner that works well for cozy weeknights and reheats nicely.",
   ingredients: `4 skinless chicken breasts
 8 oz baby bella mushrooms, sliced
@@ -261,6 +1156,7 @@ Serve chicken and mushroom mixture over rice; season with salt and pepper.`,
         "Ensalada sencilla",
         "Zanahorias rostizadas",
       ],
+      suggestedDesserts: [ "Vasitos de Cheesecake Sin Horno", "Brownies Clásicos", "Galletas con Chispas de Chocolate", ],
       ingredients: `4 pechugas de pollo sin piel
 8 oz de champiñones baby bella, rebanados
 2 latas (10.5 oz) de crema de champiñones
@@ -335,6 +1231,7 @@ suggestedSides: [
   "Cucumber salad",
   "Roasted asparagus",
 ],
+suggestedDesserts: [ "Dark Chocolate Dipped Strawberries", "No-Bake Cheesecake Cups", "Lemon Bars", ],
   notes: "Use sushi-grade ahi tuna for best results. The key is a very hot pan and a quick sear to keep the center tender and rare.",
   translations: {
     es: {
@@ -356,6 +1253,7 @@ suggestedSides: [
         "Ensalada de pepino",
         "Espárragos rostizados",
       ],
+      suggestedDesserts: [ "Fresas cubiertas con chocolate oscuro", "Vasitos de Cheesecake Sin Horno", "Barritas de Limón", ],
       ingredients: `Atún:
 2 filetes de atún ahi (aprox. 6 oz cada uno)
 1 Tbsp de aceite de sésamo o aceite de oliva
@@ -409,6 +1307,7 @@ suggestedSides: [
   "Green beans",
   "Dinner rolls",
 ],
+suggestedDesserts: [ "Classic Brownies", "Apple Crisp", "Chocolate Mug Cake", ],
   notes: "Classic comfort food with rich mushroom gravy that is perfect over mashed potatoes.",
   ingredients: `1 lb ground beef
 1/4 cup panko breadcrumbs
@@ -454,6 +1353,7 @@ Serve over mashed potatoes with mushroom gravy spooned on top.`,
         "Ejotes",
         "Panecillos",
       ],
+      suggestedDesserts: [ "Brownies Clásicos", "Crumble de Manzana", "Pastel de Chocolate en Taza", ],
       ingredients: `1 lb de carne molida de res
 1/4 cup de pan molido panko
 1 huevo grande, batido
@@ -497,6 +1397,7 @@ suggestedSides: [
   "Coleslaw",
   "Corn on the cob",
 ],
+suggestedDesserts: [ "Campfire Banana Boats", "Rice Krispie Treats", "Chocolate Peanut Butter No-Bake Bars", ],
   notes: "A restaurant-style shrimp dish with bold buttery heat and a crunchy coating.",
   ingredients: `1 lb medium shrimp, peeled and deveined
 1 1/2 cups flour
@@ -541,6 +1442,7 @@ Serve warm with ranch dressing.`,
         "Ensalada de col",
         "Elote",
       ],
+      suggestedDesserts: [ "Bananas Boat de Fogata", "Cuadritos de Arroz Inflado", "Barras sin hornear de chocolate y crema de cacahuate", ],
       ingredients: `1 lb de camarones medianos, pelados y desvenados
 1 1/2 cups de harina
 1 tsp de pimienta
@@ -583,6 +1485,11 @@ suggestedSides: [
   "Pickles",
   "Coleslaw",
 ],
+suggestedDesserts: dessertEN(
+  "chocolateChipCookies",
+  "classicBrownies",
+  "riceKrispieTreats"
+),
   notes: "Great for feeding a crowd or using as a fun family dinner night.",
   ingredients: `1 Tbsp seasoned salt
 1 Tbsp hamburger seasoning
@@ -649,6 +1556,11 @@ Serve warm.`,
         "Pepinillos",
         "Ensalada de col",
       ],
+      suggestedDesserts: dessertES(
+  "chocolateChipCookies",
+  "classicBrownies",
+  "riceKrispieTreats"
+),
       ingredients: `1 Tbsp de sal sazonada
 1 Tbsp de sazonador para hamburguesa
 1/4 tsp de sal
@@ -816,6 +1728,7 @@ suggestedSides: [
   "Coleslaw",
   "Macaroni salad",
 ],
+suggestedDesserts: [ "Apple Crisp", "Campfire Banana Boats", "Chocolate Chip Cookies", ],
   notes: "A big-flavor BBQ dinner that is fun for weekends, cookouts, or game day.",
   ingredients: `2 (8 oz) boxes manicotti shells (uncooked)
 1 1/2 lb ground beef
@@ -866,6 +1779,7 @@ Serve hot.`,
         "Ensalada de col",
         "Ensalada de macarrones",
       ],
+      suggestedDesserts: [ "Crumble de Manzana", "Bananas Boat de Fogata", "Galletas con Chispas de Chocolate", ],
       ingredients: `2 cajas (8 oz) de conchas manicotti, sin cocinar
 1 1/2 lb de carne molida de res
 1 lb de salchicha italiana picante
@@ -912,6 +1826,7 @@ suggestedSides: [
   "Garlic bread",
   "Simple green salad",
 ],
+suggestedDesserts: [ "Lemon Bars", "Dark Chocolate Dipped Strawberries", "No-Bake Cheesecake Cups", ],
   notes: "A low-mess sheet-pan dinner with big flavor and a nice mix of protein and veggies.",
   ingredients: `cooking spray
 3 cups red potatoes, cut into 1-inch pieces
@@ -972,6 +1887,7 @@ Toss gently and garnish with fresh parsley before serving.`,
         "Pan de ajo",
         "Ensalada verde sencilla",
       ],
+      suggestedDesserts: [ "Barras de Limón", "Fresas cubiertas con chocolate oscuro", "Vasitos de Cheesecake Sin Horno", ],
       ingredients: `spray para cocinar
 3 cups de papas rojas, cortadas en trozos de 1 inch
 4 Tbsp de mantequilla, derretida
@@ -1029,6 +1945,7 @@ suggestedSides: [
   "Green beans",
   "Dinner rolls",
 ],
+suggestedDesserts: [ "Classic Brownies", "Apple Crisp", "Chocolate Chip Cookies", ],
   isVegetarian: false,
   notes: "Juicy, tender meatloaf with a sweet and tangy glaze. For extra flavor, sauté the onions and garlic before mixing. Great served with mashed potatoes and green beans.",
   ingredients: `1 1/2 lbs ground beef
@@ -1085,6 +2002,7 @@ Let rest for 10 minutes before slicing and serving.`,
         "Ejotes",
         "Panecillos",
       ],
+      suggestedDesserts: [ "Brownies Clásicos", "Crumble de Manzana", "Galletas con Chispas de Chocolate", ],
       ingredients: `1 1/2 lbs de carne molida de res
 1 cup de pan molido o galletas saladas trituradas
 1/2 cup de leche
@@ -15291,7 +16209,7 @@ Top with whipped cream or ice cream if desired.
 Serve warm directly from the mug.`,
   translations: {
     es: {
-      name: "Pastel de Chocolate en cup",
+      name: "Pastel de Chocolate en Taza",
       notes:
         "Un pastel de chocolate rico y esponjoso preparado en minutos en el microondas. Perfecto cuando quieres un postre rápido sin hornear un pastel completo.",
       tags: [
@@ -15318,7 +16236,7 @@ Opcional:
 1 Tbsp de chispas de chocolate
 crema batida
 helado de vainilla`,
-      instructions: `En una cup grande apta para microondas mezcla 4 Tbsp de harina, 2 Tbsp de azúcar, 1 Tbsp de cacao y 1/4 tsp de polvo para hornear.
+      instructions: `En una taza grande apta para microondas mezcla 4 Tbsp de harina, 2 Tbsp de azúcar, 1 Tbsp de cacao y 1/4 tsp de polvo para hornear.
 
 Agrega 3 Tbsp de leche, 2 Tbsp de aceite vegetal y 1/4 tsp de vainilla.
 
@@ -15332,7 +16250,7 @@ Deja reposar durante 1 a 2 minutos.
 
 Agrega crema batida o helado si lo deseas.
 
-Sirve caliente directamente en la cup.`,
+Sirve caliente directamente en la taza.`,
     },
   },
 },
