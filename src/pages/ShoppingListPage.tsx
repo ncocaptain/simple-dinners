@@ -696,7 +696,10 @@ function normalizeDairyAndCheese(text: string) {
     .replace(/\bcream cheese, softened\b/g, "cream cheese")
     .replace(/\bcream cheese, cubed\b/g, "cream cheese")
     .replace(/\bunsalted butter\b/g, "butter")
-.replace(/\bsalted butter\b/g, "butter");
+.replace(/\bsalted butter\b/g, "butter")
+.replace(/\bcold milk\b/g, "milk")
+.replace(/\bwhole milk\b/g, "milk")
+.replace(/\bheavy whipping cream\b/g, "heavy cream")
 }
 
 function normalizeMushrooms(text: string) {
@@ -1536,6 +1539,13 @@ function isCornstarchPantryItem(cleaned: string) {
 function isBeanPantryItem(cleaned: string) {
   return cleaned.includes("black beans");
 }
+function isDessertBakeryItem(cleaned: string) {
+  return (
+    cleaned.includes("shortcake biscuit") ||
+    cleaned.includes("dessert biscuit") ||
+    cleaned.includes("vanilla wafer")
+  );
+}
 
 function isBakingStaplePantryItem(cleaned: string) {
   return (
@@ -1576,6 +1586,11 @@ function isBakingStaplePantryItem(cleaned: string) {
     cleaned.includes("chispas de chocolate") ||
     cleaned.includes("dark chocolate") ||
     cleaned.includes("baking chips") ||
+    cleaned.includes("mini chocolate chips") ||
+cleaned.includes("mini marshmallows") ||
+cleaned.includes("vanilla wafers") ||
+cleaned.includes("crispy rice cereal") ||
+cleaned.includes("instant vanilla pudding") ||
 
         // Dessert toppings / add-ins
     cleaned.includes("chocolate syrup") ||
@@ -1670,6 +1685,7 @@ function resolveShoppingCategory(name: string): GroceryCategory {
   if (isPreparedBakerySide(cleaned)) return "Bakery";
   if (isPreparedPantrySide(cleaned)) return "Pantry";
   if (isPreparedProduceSide(cleaned)) return "Produce";
+  if (isDessertBakeryItem(cleaned)) return "Bakery";
 
   if (isSkewerOrGrillSupply(cleaned)) return "Household";
   if (isBakingStaplePantryItem(cleaned)) return "Pantry";
@@ -1683,6 +1699,14 @@ function resolveShoppingCategory(name: string): GroceryCategory {
   ) {
     return "Dairy / Eggs";
   }
+  if (
+  cleaned.includes("peach") ||
+  cleaned.includes("peaches") ||
+  cleaned.includes("durazno") ||
+  cleaned.includes("duraznos")
+) {
+  return "Produce";
+}
 
   if (isRealPepperProduce(cleaned) || isFreshChileProduce(cleaned)) return "Produce";
   if (isBakeryBreadItem(cleaned)) return "Bakery";
@@ -1717,6 +1741,7 @@ function resolveShoppingCategoryForItem(
   if (isPreparedBakerySide(cleaned)) return "Bakery";
   if (isPreparedPantrySide(cleaned)) return "Pantry";
   if (isPreparedProduceSide(cleaned)) return "Produce";
+  if (isDessertBakeryItem(cleaned)) return "Bakery";
 
   if (isSkewerOrGrillSupply(cleaned)) return "Household";
 
@@ -1734,6 +1759,14 @@ function resolveShoppingCategoryForItem(
   ) {
     return "Meat / Seafood";
   }
+  if (
+  cleaned.includes("peach") ||
+  cleaned.includes("peaches") ||
+  cleaned.includes("durazno") ||
+  cleaned.includes("duraznos")
+) {
+  return "Produce";
+}
 
   // Put BEFORE generic cheese / dairy checks
 if (
