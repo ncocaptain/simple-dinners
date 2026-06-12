@@ -1577,6 +1577,32 @@ function isBakingStaplePantryItem(cleaned: string) {
     cleaned.includes("dark chocolate") ||
     cleaned.includes("baking chips") ||
 
+        // Dessert toppings / add-ins
+    cleaned.includes("chocolate syrup") ||
+    cleaned.includes("jarabe de chocolate") ||
+    cleaned.includes("sirope de chocolate") ||
+    cleaned.includes("maraschino cherry") ||
+    cleaned.includes("maraschino cherries") ||
+    cleaned.includes("cereza maraschino") ||
+    cleaned.includes("cerezas maraschino") ||
+    cleaned.includes("cookies") ||
+    cleaned.includes("cookie crumbs") ||
+    cleaned.includes("oreo") ||
+    cleaned.includes("galletas") ||
+    cleaned.includes("peanuts") ||
+    cleaned.includes("peanut") ||
+    cleaned.includes("cacahuate") ||
+    cleaned.includes("cacahuates") ||
+    cleaned.includes("maní") ||
+    cleaned.includes("mani") ||
+    cleaned.includes("walnuts") ||
+    cleaned.includes("walnut") ||
+    cleaned.includes("nueces") ||
+    cleaned.includes("nuez") ||
+    cleaned.includes("pecans") ||
+    cleaned.includes("pecan") ||
+    cleaned.includes("nuez pecana") ||
+
     // Dessert mixes / add-ins
     cleaned.includes("graham cracker crumbs") ||
     cleaned.includes("migas de galleta") ||
