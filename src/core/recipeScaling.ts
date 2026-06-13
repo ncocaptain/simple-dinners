@@ -64,11 +64,15 @@ const COUNTABLE_ITEMS = [
   { singular: "tortilla", plural: "tortillas" },
   { singular: "bun", plural: "buns" },
   { singular: "roll", plural: "rolls" },
+    { singular: "flatbread", plural: "flatbreads" },
+  { singular: "naan", plural: "naan" },
+  { singular: "pita", plural: "pitas" },
   { singular: "slice", plural: "slices" },
   { singular: "can", plural: "cans" },
   { singular: "package", plural: "packages" },
   { singular: "bag", plural: "bags" },
   { singular: "jar", plural: "jars" },
+  
 ];
 
 const COUNTABLE_DESCRIPTORS = [
