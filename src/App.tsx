@@ -338,10 +338,9 @@ function Navigation() {
 function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
-  if (location.pathname === "/about") {
-    return null;
-  }
-  const hideBottomNav = location.pathname.startsWith("/recipe/");
+
+const hideBottomNav =
+  location.pathname === "/about" || location.pathname.startsWith("/recipe/");
   const [showTesterPrompt, setShowTesterPrompt] = useState(false);
   const toastApi: any = useToast();
   const toast = toastApi.toast ?? toastApi;
