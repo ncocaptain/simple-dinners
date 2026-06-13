@@ -852,8 +852,8 @@ const ingredients = useMemo(
 );
 
 const instructions = useMemo(
-  () => scaleInstructionLines(baseInstructions, recipeScale),
-  [baseInstructions, recipeScale]
+  () => scaleInstructionLines(baseInstructions, recipeScale, baseIngredients),
+  [baseInstructions, recipeScale, baseIngredients]
 );
   const visibleIngredients = showAllIngredients
   ? ingredients
