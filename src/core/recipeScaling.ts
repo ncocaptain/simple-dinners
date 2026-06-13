@@ -57,6 +57,27 @@ const DO_NOT_SCALE_UNITS = [
   "c",
 ];
 
+const UNIT_GRAMMAR = [
+  { singular: "cup", plural: "cups" },
+  { singular: "tablespoon", plural: "tablespoons" },
+  { singular: "teaspoon", plural: "teaspoons" },
+  { singular: "ounce", plural: "ounces" },
+  { singular: "pound", plural: "pounds" },
+  { singular: "gram", plural: "grams" },
+  { singular: "liter", plural: "liters" },
+
+  // Abbreviations stay the same.
+  { singular: "tbsp", plural: "tbsp" },
+  { singular: "tsp", plural: "tsp" },
+  { singular: "oz", plural: "oz" },
+  { singular: "lb", plural: "lb" },
+  { singular: "lbs", plural: "lbs" },
+  { singular: "g", plural: "g" },
+  { singular: "kg", plural: "kg" },
+  { singular: "ml", plural: "ml" },
+  { singular: "l", plural: "l" },
+];
+
 const COUNTABLE_ITEMS = [
   { singular: "egg", plural: "eggs" },
   { singular: "onion", plural: "onions" },
@@ -173,6 +194,55 @@ function scaleQuantityText(raw: string, scale: RecipeScale) {
   if (parsed === null) return raw;
 
   return formatScaledNumber(parsed * scale);
+}
+
+function preserveCapitalization(original: string, replacement: string) {
+  if (original === original.toUpperCase()) {
+    return replacement.toUpperCase();
+  }
+
+  if (original[0] === original[0]?.toUpperCase()) {
+    return replacement.charAt(0).toUpperCase() + replacement.slice(1);
+  }
+
+  return replacement;
+}
+
+function normalizeMeasurementUnitGrammar(text: string) {
+  const unitPattern = UNIT_GRAMMAR.flatMap((unit) => [
+    unit.singular,
+    unit.plural,
+  ])
+    .map((unit) => unit.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+    .join("|");
+
+  const quantityUnitRegex = new RegExp(
+    `\\b((?:\\d+\\s+\\d+\\/\\d+)|(?:\\d+\\/\\d+)|(?:\\d+(?:\\.\\d+)?))\\s+(${unitPattern})\\b`,
+    "gi"
+  );
+
+  return text.replace(quantityUnitRegex, (match, amount, unit) => {
+    const parsedAmount = parseQuantity(amount);
+
+    if (parsedAmount === null) return match;
+
+    const found = UNIT_GRAMMAR.find(
+      (entry) =>
+        entry.singular.toLowerCase() === unit.toLowerCase() ||
+        entry.plural.toLowerCase() === unit.toLowerCase()
+    );
+
+    if (!found) return match;
+
+    // Abbreviations like tbsp, tsp, oz, lb stay as written.
+    if (found.singular === found.plural) {
+      return `${amount} ${unit}`;
+    }
+
+    const nextUnit = parsedAmount <= 1 ? found.singular : found.plural;
+
+    return `${amount} ${preserveCapitalization(unit, nextUnit)}`;
+  });
 }
 
 function protectParentheses(text: string) {
@@ -326,7 +396,9 @@ export function scaleIngredientLine(
   const scaledQuantity = scaleQuantityText(originalQuantity, scale);
   const scaledLine = trimmed.replace(originalQuantity, scaledQuantity);
 
-  return pluralizeCountableQuantityText(scaledLine);
+  return normalizeMeasurementUnitGrammar(
+  pluralizeCountableQuantityText(scaledLine)
+);
 }
 
 export function scaleIngredientLines(
@@ -371,9 +443,10 @@ export function scaleInstructionText(
   });
 
   scaled = scaleCountableInstructionItems(scaled, scale);
-  scaled = scaleLooseEggMentions(scaled, scale);
+scaled = scaleLooseEggMentions(scaled, scale);
+scaled = normalizeMeasurementUnitGrammar(scaled);
 
-  return restore(scaled);
+return restore(scaled);
 }
 
 export function scaleInstructionLines(
