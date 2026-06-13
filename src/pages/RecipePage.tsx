@@ -41,6 +41,13 @@ import {
   getDessertShoppingLines,
   findDessertRecipeByName,
 } from "../core/sideRecipeMatcher";
+import {
+  getRecipeScaleLabel,
+  RECIPE_SCALE_OPTIONS,
+  scaleIngredientLines,
+  scaleInstructionLines,
+  type RecipeScale,
+} from "../core/recipeScaling";
 
 
 
@@ -807,6 +814,7 @@ const [sideDraft, setSideDraft] = useState("");
 const [sideDraftList, setSideDraftList] = useState<string[]>([]);
 const [checkedSides, setCheckedSides] = useState<Record<string, boolean>>({});
 const [checkedDesserts, setCheckedDesserts] = useState<Record<string, boolean>>({});
+const [recipeScale, setRecipeScale] = useState<RecipeScale>(1);
 
   const wakeLockRef = useRef<any>(null);
   const recipeNoteKey = sourceRecipe?.slug || sourceRecipe?.name || "";
@@ -828,14 +836,24 @@ const [checkedDesserts, setCheckedDesserts] = useState<Record<string, boolean>>(
   // Builder: derived recipe data
   // =====================================================
 
-  const ingredients = useMemo(
+  const baseIngredients = useMemo(
   () => splitLines(safeRecipe?.ingredients),
   [safeRecipe?.ingredients]
 );
 
-const instructions = useMemo(
+const baseInstructions = useMemo(
   () => splitLines(safeRecipe?.instructions),
   [safeRecipe?.instructions]
+);
+
+const ingredients = useMemo(
+  () => scaleIngredientLines(baseIngredients, recipeScale),
+  [baseIngredients, recipeScale]
+);
+
+const instructions = useMemo(
+  () => scaleInstructionLines(baseInstructions, recipeScale),
+  [baseInstructions, recipeScale]
 );
   const visibleIngredients = showAllIngredients
   ? ingredients
@@ -2534,6 +2552,8 @@ function resetSideDrafts() {
     </div>
   </div>
 ) : (
+
+  
         <>
           <div style={sectionCardStyle}>
   <div style={sectionHeaderRow}>
@@ -2541,6 +2561,91 @@ function resetSideDrafts() {
       <span style={sectionIconBadge}>
         <ShoppingCart size={16} />
       </span>
+
+      <div
+  style={{
+    padding: 14,
+    borderRadius: 20,
+    background: "rgba(255,255,255,0.04)",
+    border: "1px solid rgba(255,255,255,0.08)",
+    display: "grid",
+    gap: 10,
+  }}
+>
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: 10,
+      flexWrap: "wrap",
+    }}
+  >
+    <div>
+      <div
+        style={{
+          fontSize: 13,
+          fontWeight: 1000,
+          color: "rgba(255,255,255,0.92)",
+        }}
+      >
+        {currentLanguage === "es" ? "Tamaño de la receta" : "Recipe Size"}
+      </div>
+
+      <div
+        style={{
+          fontSize: 12,
+          color: "rgba(255,255,255,0.58)",
+          marginTop: 2,
+        }}
+      >
+        {currentLanguage === "es"
+          ? "Ajusta las cantidades sin cambiar la receta guardada."
+          : "Adjust amounts without changing the saved recipe."}
+      </div>
+    </div>
+
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(3, 1fr)",
+        gap: 6,
+        minWidth: 220,
+      }}
+    >
+      {RECIPE_SCALE_OPTIONS.map((scale) => {
+        const active = recipeScale === scale;
+
+        return (
+          <button
+            key={scale}
+            type="button"
+            onClick={() => setRecipeScale(scale)}
+            style={{
+              borderRadius: 999,
+              padding: "9px 10px",
+              border: active
+                ? "1px solid rgba(34,197,94,0.45)"
+                : "1px solid rgba(255,255,255,0.10)",
+              background: active
+                ? "rgba(34,197,94,0.16)"
+                : "rgba(255,255,255,0.05)",
+              color: active ? "#86efac" : "rgba(255,255,255,0.78)",
+              fontWeight: 1000,
+              fontSize: 12,
+              cursor: "pointer",
+            }}
+          >
+            {getRecipeScaleLabel(
+              scale,
+              currentLanguage === "es" ? "es" : "en"
+            )}
+          </button>
+        );
+      })}
+    </div>
+  </div>
+</div>
 
       <div>
         <h2 style={{ margin: 0, fontSize: 22 }}>{t("recipe.ingredients")}</h2>
