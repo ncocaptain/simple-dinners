@@ -21,6 +21,9 @@ const INSTRUCTION_SAFE_UNITS = [
   "tsp",
   "teaspoon",
   "teaspoons",
+  "oz",
+  "ounce",
+  "ounces",
   "lb",
   "lbs",
   "pound",
@@ -62,17 +65,16 @@ const COUNTABLE_ITEMS = [
   { singular: "carrot", plural: "carrots" },
   { singular: "clove", plural: "cloves" },
   { singular: "tortilla", plural: "tortillas" },
-  { singular: "bun", plural: "buns" },
-  { singular: "roll", plural: "rolls" },
-    { singular: "flatbread", plural: "flatbreads" },
+  { singular: "flatbread", plural: "flatbreads" },
   { singular: "naan", plural: "naan" },
   { singular: "pita", plural: "pitas" },
+  { singular: "bun", plural: "buns" },
+  { singular: "roll", plural: "rolls" },
   { singular: "slice", plural: "slices" },
   { singular: "can", plural: "cans" },
   { singular: "package", plural: "packages" },
   { singular: "bag", plural: "bags" },
   { singular: "jar", plural: "jars" },
-  
 ];
 
 const COUNTABLE_DESCRIPTORS = [
@@ -268,16 +270,26 @@ function scaleCountableInstructionItems(text: string, scale: RecipeScale) {
 function scaleLooseEggMentions(text: string, scale: RecipeScale) {
   if (scale === 1) return text;
 
-  return text.replace(
-    /\b(the\s+)?egg\b(?!\s+(mixture|wash|noodles?|rolls?|bites?|salad))/gi,
-    (_match, article = "") => {
-      if (scale === 2) {
-        return `${article}eggs`;
-      }
+  const looseEggRegex =
+    /\b(the\s+)?egg\b(?!\s+(mixture|wash|noodles?|rolls?|bites?|salad))/gi;
 
-      return `${article}1/2 egg`;
+  return text.replace(looseEggRegex, (...args) => {
+    const match = args[0] as string;
+    const article = (args[1] as string | undefined) || "";
+    const offset = args[3] as number;
+    const fullText = args[4] as string;
+
+    const before = fullText.slice(Math.max(0, offset - 12), offset);
+
+    // If it already has a number right before it, let the normal countable scaler handle it.
+    if (/(?:\d|\/)\s*$/.test(before)) return match;
+
+    if (scale === 2) {
+      return `${article}eggs`;
     }
-  );
+
+    return `${article}1/2 egg`;
+  });
 }
 
 export function scaleIngredientLine(
@@ -314,94 +326,9 @@ export function scaleIngredientLines(
   return ingredients.map((ingredient) => scaleIngredientLine(ingredient, scale));
 }
 
-function getBaseCountableQuantitiesFromIngredients(ingredients: string[]) {
-  const quantities = new Map<string, number>();
-  const itemPattern = getCountableItemPattern();
-  const descriptorPattern = getDescriptorPattern();
-  const unicodeFractionPattern = Object.keys(UNICODE_FRACTIONS).join("");
-
-  const leadingCountableRegex = new RegExp(
-    `^((?:\\d+\\s+\\d+\\/\\d+)|(?:\\d+\\/\\d+)|(?:\\d+(?:\\.\\d+)?)|[${unicodeFractionPattern}])\\s+((?:(?:${descriptorPattern})\\s+)*)(${itemPattern})\\b`,
-    "i"
-  );
-
-  for (const ingredient of ingredients) {
-    const trimmed = ingredient.trim();
-    const match = trimmed.match(leadingCountableRegex);
-
-    if (!match) continue;
-
-    const amount = parseQuantity(match[1]);
-    const item = match[3];
-
-    if (amount === null) continue;
-
-    const found = COUNTABLE_ITEMS.find(
-      (entry) =>
-        entry.singular.toLowerCase() === item.toLowerCase() ||
-        entry.plural.toLowerCase() === item.toLowerCase()
-    );
-
-    if (!found) continue;
-
-    quantities.set(found.singular, (quantities.get(found.singular) || 0) + amount);
-  }
-
-  return quantities;
-}
-
-function scaleLooseCountableMentionsFromIngredients(
-  text: string,
-  scale: RecipeScale,
-  ingredientQuantities: Map<string, number>
-) {
-  if (scale === 1 || ingredientQuantities.size === 0) return text;
-
-  let result = text;
-  const descriptorPattern = getDescriptorPattern();
-
-  for (const [singular, baseAmount] of ingredientQuantities.entries()) {
-    const found = COUNTABLE_ITEMS.find((entry) => entry.singular === singular);
-
-    if (!found) continue;
-
-    const scaledAmount = baseAmount * scale;
-    const amountText = formatScaledNumber(scaledAmount);
-    const scaledItem = normalizeCountableItem(found.singular, scaledAmount);
-
-    const singularPattern = found.singular.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const pluralPattern = found.plural.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
-    const blockedEggFollowup =
-      found.singular === "egg"
-        ? `(?!\\s+(mixture|wash|noodles?|rolls?|bites?|salad))`
-        : "";
-
-    const looseRegex = new RegExp(
-      `\\b(the\\s+)?((?:(?:${descriptorPattern})\\s+)*)(${singularPattern}|${pluralPattern})\\b${blockedEggFollowup}`,
-      "gi"
-    );
-
-    result = result.replace(
-      looseRegex,
-      (match, article = "", descriptors = "", _item, offset, fullText) => {
-        const before = fullText.slice(Math.max(0, offset - 12), offset);
-
-        // If it already has a number right before it, let the normal scaler handle it.
-        if (/(?:\d|\/)\s*$/.test(before)) return match;
-
-        return `${article || ""}${amountText} ${descriptors || ""}${scaledItem}`;
-      }
-    );
-  }
-
-  return result;
-}
-
-function scaleInstructionTextWithQuantities(
+export function scaleInstructionText(
   instruction: string,
-  scale: RecipeScale,
-  ingredientQuantities: Map<string, number>
+  scale: RecipeScale
 ): string {
   if (scale === 1) return instruction;
 
@@ -434,48 +361,17 @@ function scaleInstructionTextWithQuantities(
   });
 
   scaled = scaleCountableInstructionItems(scaled, scale);
-  scaled = scaleLooseCountableMentionsFromIngredients(
-    scaled,
-    scale,
-    ingredientQuantities
-  );
-
-  if (!ingredientQuantities.has("egg")) {
-    scaled = scaleLooseEggMentions(scaled, scale);
-  }
+  scaled = scaleLooseEggMentions(scaled, scale);
 
   return restore(scaled);
 }
 
-export function scaleInstructionText(
-  instruction: string,
-  scale: RecipeScale,
-  baseIngredients: string[] = []
-): string {
-  const ingredientQuantities =
-    getBaseCountableQuantitiesFromIngredients(baseIngredients);
-
-  return scaleInstructionTextWithQuantities(
-    instruction,
-    scale,
-    ingredientQuantities
-  );
-}
-
 export function scaleInstructionLines(
   instructions: string[],
-  scale: RecipeScale,
-  baseIngredients: string[] = []
+  scale: RecipeScale
 ): string[] {
-  const ingredientQuantities =
-    getBaseCountableQuantitiesFromIngredients(baseIngredients);
-
   return instructions.map((instruction) =>
-    scaleInstructionTextWithQuantities(
-      instruction,
-      scale,
-      ingredientQuantities
-    )
+    scaleInstructionText(instruction, scale)
   );
 }
 
