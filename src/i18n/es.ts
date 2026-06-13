@@ -97,6 +97,7 @@ addDessertsToShoppingList: "Agregar postres a la lista de compras",
 selectedDessertsAdded: "Postres seleccionados agregados ✓",
 allDessertsAdded: "Todos los postres agregados ✓",
 cookDessert: "Cocinar postre",
+edit: "Editar",
 
 tips: {
   cookMode: "Usa el modo cocina para cocinar paso a paso.",

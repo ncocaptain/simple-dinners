@@ -118,7 +118,7 @@ const DESSERT_NAME = {
   },
   campfireBananaBoats: {
     en: "Campfire Banana Boats",
-    es: "Bananas Boat de Fogata",
+    es: "Bananas de Fogata",
   },
   darkChocolateDippedStrawberries: {
     en: "Dark Chocolate Dipped Strawberries",
@@ -1080,7 +1080,7 @@ Serve hot and top with shredded cheese, sour cream, and jalapeños.`,
       suggestedDesserts: [
   "Crecientes de cheesecake con arándanos",
   "Barras sin hornear de chocolate y crema de cacahuate",
-  "Bananas Boat de Fogata",
+  "Bananas de Fogata",
 ],
       ingredients: `1 lb de carne molida de res
 2 latas (14.5 oz) de tomates asados en cubitos
@@ -1442,7 +1442,7 @@ Serve warm with ranch dressing.`,
         "Ensalada de col",
         "Elote",
       ],
-      suggestedDesserts: [ "Bananas Boat de Fogata", "Cuadritos de Arroz Inflado", "Barras sin hornear de chocolate y crema de cacahuate", ],
+      suggestedDesserts: [ "Bananas de Fogata", "Cuadritos de Arroz Inflado", "Barras sin hornear de chocolate y crema de cacahuate", ],
       ingredients: `1 lb de camarones medianos, pelados y desvenados
 1 1/2 cups de harina
 1 tsp de pimienta
@@ -1779,7 +1779,7 @@ Serve hot.`,
         "Ensalada de col",
         "Ensalada de macarrones",
       ],
-      suggestedDesserts: [ "Crumble de Manzana", "Bananas Boat de Fogata", "Galletas con Chispas de Chocolate", ],
+      suggestedDesserts: [ "Crumble de Manzana", "Bananas de Fogata", "Galletas con Chispas de Chocolate", ],
       ingredients: `2 cajas (8 oz) de conchas manicotti, sin cocinar
 1 1/2 lb de carne molida de res
 1 lb de salchicha italiana picante
@@ -15149,7 +15149,7 @@ Carefully unwrap because hot steam will escape.
 Serve warm directly from the foil with spoons if desired.`,
   translations: {
     es: {
-      name: "Bananas Boat de Fogata",
+      name: "Bananas de Fogata",
       notes:
         "Un postre divertido y fácil de fogata con chocolate derretido, malvaviscos suaves y bananas calientes envueltas en aluminio.",
       tags: [
