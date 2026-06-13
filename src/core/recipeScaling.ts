@@ -12,7 +12,6 @@ const UNICODE_FRACTIONS: Record<string, number> = {
   "⅞": 0.875,
 };
 
-
 const INSTRUCTION_SAFE_UNITS = [
   "cup",
   "cups",
@@ -53,6 +52,35 @@ const DO_NOT_SCALE_UNITS = [
   "degrees",
   "f",
   "c",
+];
+
+const COUNTABLE_ITEMS = [
+  { singular: "egg", plural: "eggs" },
+  { singular: "onion", plural: "onions" },
+  { singular: "pepper", plural: "peppers" },
+  { singular: "potato", plural: "potatoes" },
+  { singular: "carrot", plural: "carrots" },
+  { singular: "clove", plural: "cloves" },
+  { singular: "tortilla", plural: "tortillas" },
+  { singular: "bun", plural: "buns" },
+  { singular: "roll", plural: "rolls" },
+  { singular: "slice", plural: "slices" },
+  { singular: "can", plural: "cans" },
+  { singular: "package", plural: "packages" },
+  { singular: "bag", plural: "bags" },
+  { singular: "jar", plural: "jars" },
+];
+
+const COUNTABLE_DESCRIPTORS = [
+  "small",
+  "medium",
+  "large",
+  "whole",
+  "fresh",
+  "ripe",
+  "large-sized",
+  "medium-sized",
+  "small-sized",
 ];
 
 function gcd(a: number, b: number): number {
@@ -146,10 +174,10 @@ function protectParentheses(text: string) {
   return {
     protectedText,
     restore(value: string) {
-      return protectedParts.reduce(
-        (result, part, index) => result.replace(`__PAREN_${index}__`, part),
-        value
-      );
+      return protectedParts.reduce((result, part, index) => {
+        const token = `__PAREN_${index}__`;
+        return result.split(token).join(part);
+      }, value);
     },
   };
 }
@@ -158,6 +186,87 @@ function getUnitPattern(units: string[]) {
   return units
     .map((unit) => unit.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
     .join("|");
+}
+
+function getCountableItemPattern() {
+  return COUNTABLE_ITEMS.flatMap((item) => [item.singular, item.plural])
+    .map((item) => item.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+    .join("|");
+}
+
+function getDescriptorPattern() {
+  return COUNTABLE_DESCRIPTORS.map((item) =>
+    item.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+  ).join("|");
+}
+
+function normalizeCountableItem(item: string, amount: number) {
+  const found = COUNTABLE_ITEMS.find(
+    (entry) =>
+      entry.singular.toLowerCase() === item.toLowerCase() ||
+      entry.plural.toLowerCase() === item.toLowerCase()
+  );
+
+  if (!found) return item;
+
+  return amount <= 1 ? found.singular : found.plural;
+}
+
+function pluralizeCountableQuantityText(text: string) {
+  const itemPattern = getCountableItemPattern();
+  const descriptorPattern = getDescriptorPattern();
+
+  const countableRegex = new RegExp(
+    `\\b((?:\\d+\\s+\\d+\\/\\d+)|(?:\\d+\\/\\d+)|(?:\\d+(?:\\.\\d+)?))\\s+((?:(?:${descriptorPattern})\\s+)*)(${itemPattern})\\b`,
+    "gi"
+  );
+
+  return text.replace(countableRegex, (match, amount, descriptors, item) => {
+    const parsedAmount = parseQuantity(amount);
+
+    if (parsedAmount === null) return match;
+
+    const normalizedItem = normalizeCountableItem(item, parsedAmount);
+
+    return `${amount} ${descriptors || ""}${normalizedItem}`;
+  });
+}
+
+function scaleCountableInstructionItems(text: string, scale: RecipeScale) {
+  const itemPattern = getCountableItemPattern();
+  const descriptorPattern = getDescriptorPattern();
+
+  const countableRegex = new RegExp(
+    `\\b((?:\\d+\\s+\\d+\\/\\d+)|(?:\\d+\\/\\d+)|(?:\\d+(?:\\.\\d+)?))\\s+((?:(?:${descriptorPattern})\\s+)*)(${itemPattern})\\b`,
+    "gi"
+  );
+
+  return text.replace(countableRegex, (match, amount, descriptors, item) => {
+    const parsedAmount = parseQuantity(amount);
+
+    if (parsedAmount === null) return match;
+
+    const scaledAmountNumber = parsedAmount * scale;
+    const scaledAmountText = formatScaledNumber(scaledAmountNumber);
+    const scaledItem = normalizeCountableItem(item, scaledAmountNumber);
+
+    return `${scaledAmountText} ${descriptors || ""}${scaledItem}`;
+  });
+}
+
+function scaleLooseEggMentions(text: string, scale: RecipeScale) {
+  if (scale === 1) return text;
+
+  return text.replace(
+    /\b(the\s+)?egg\b(?!\s+(mixture|wash|noodles?|rolls?|bites?|salad))/gi,
+    (_match, article = "") => {
+      if (scale === 2) {
+        return `${article}eggs`;
+      }
+
+      return `${article}1/2 egg`;
+    }
+  );
 }
 
 export function scaleIngredientLine(
@@ -182,8 +291,9 @@ export function scaleIngredientLine(
 
   const originalQuantity = match[1];
   const scaledQuantity = scaleQuantityText(originalQuantity, scale);
+  const scaledLine = trimmed.replace(originalQuantity, scaledQuantity);
 
-  return trimmed.replace(originalQuantity, scaledQuantity);
+  return pluralizeCountableQuantityText(scaledLine);
 }
 
 export function scaleIngredientLines(
@@ -221,11 +331,14 @@ export function scaleInstructionText(
     return match;
   });
 
-  const scaled = protectedText.replace(measurementRegex, (match, amount, unit) => {
+  let scaled = protectedText.replace(measurementRegex, (match, amount, unit) => {
     if (blockedMatches.has(match)) return match;
 
     return `${scaleQuantityText(amount, scale)} ${unit}`;
   });
+
+  scaled = scaleCountableInstructionItems(scaled, scale);
+  scaled = scaleLooseEggMentions(scaled, scale);
 
   return restore(scaled);
 }
@@ -234,7 +347,9 @@ export function scaleInstructionLines(
   instructions: string[],
   scale: RecipeScale
 ): string[] {
-  return instructions.map((instruction) => scaleInstructionText(instruction, scale));
+  return instructions.map((instruction) =>
+    scaleInstructionText(instruction, scale)
+  );
 }
 
 export function getRecipeScaleLabel(scale: RecipeScale, language: "en" | "es") {
