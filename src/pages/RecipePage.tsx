@@ -1772,7 +1772,11 @@ function resetSideDrafts() {
                     alignItems: "center",
                   }}
                 >
-                  <div style={{ fontWeight: 900 }}>{t("recipe.personalNote", "Personal Note")}</div>
+                  <div style={{ fontWeight: 900 }}>
+  {currentLanguage === "es"
+    ? "Nota personal"
+    : t("recipe.personalNote", "Personal Note")}
+</div>
 
                   <button onClick={handleCloseNoteModal} style={{ ...topBtn }}>
                     <X size={16} />
@@ -1782,7 +1786,14 @@ function resetSideDrafts() {
                 <textarea
                   value={draftUserNote}
                   onChange={(e) => setDraftUserNote(e.target.value)}
-                  placeholder={t("recipe.personalNotePlaceholder", "Add a reminder, tweak, or family preference...")}
+                  placeholder={
+  currentLanguage === "es"
+    ? "Agrega un recordatorio, ajuste o preferencia familiar..."
+    : t(
+        "recipe.personalNotePlaceholder",
+        "Add a reminder, tweak, or family preference..."
+      )
+}
                   style={{
                     width: "100%",
                     minHeight: 120,
@@ -1998,7 +2009,7 @@ function resetSideDrafts() {
                       cursor: "pointer",
                     }}
                   >
-                    {t("recipe.editSides", "Edit")}
+                    {currentLanguage === "es" ? "Editar" : t("recipe.editSides", "Edit")}
                   </button>
                 </div>
 
