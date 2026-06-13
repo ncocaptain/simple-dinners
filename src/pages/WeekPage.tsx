@@ -25,6 +25,8 @@ import { Capacitor } from "@capacitor/core";
 import { getDisplaySides } from "../core/customSides";
 import { addIngredientsToList } from "../shoppingList";
 import { getSideShoppingLines } from "../core/sideRecipeMatcher";
+import { Filesystem, Directory, Encoding } from "@capacitor/filesystem";
+import { Share } from "@capacitor/share";
 
 type WalkthroughStep = 1 | 2 | 3;
 type TooltipPosition = {
@@ -435,6 +437,7 @@ addIngredientsToList(
   }, 1800);
 };
 
+  
   // =====================================================
   // Calendar helpers
   // =====================================================
@@ -453,7 +456,7 @@ addIngredientsToList(
   }
 
   function escapeICS(text: string) {
-    return text
+    return String(text || "")
       .replace(/\\/g, "\\\\")
       .replace(/\n/g, "\\n")
       .replace(/,/g, "\\,")
@@ -512,6 +515,7 @@ addIngredientsToList(
 
     result.setDate(today.getDate() + diff);
     result.setHours(16, 0, 0, 0);
+
     return result;
   }
 
@@ -545,6 +549,7 @@ addIngredientsToList(
   function buildEventTimes(day: string) {
     const start = getNextDateForDay(day);
     const end = new Date(start.getTime() + 60 * 60 * 1000);
+
     return { start, end };
   }
 
@@ -552,6 +557,7 @@ addIngredientsToList(
     const { start, end } = buildEventTimes(day);
     const label = getDayLabel(dayPlan) || t("week.meal");
     const title = `${t("week.dinner")}: ${label}`;
+
     const description =
       dayPlan.mode === "planned" && dayPlan.meal
         ? buildMealDescription(dayPlan.meal)
@@ -571,15 +577,17 @@ addIngredientsToList(
     ].join("\r\n");
   }
 
-  function downloadICSFile(filename: string, events: string[]) {
-    const ics = [
+  function buildICSCalendar(events: string[]) {
+    return [
       "BEGIN:VCALENDAR",
       "VERSION:2.0",
       "PRODID:-//Simple Dinners//Meal Planner//EN",
       ...events,
       "END:VCALENDAR",
     ].join("\r\n");
+  }
 
+  function downloadICSInBrowser(filename: string, ics: string) {
     const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -593,11 +601,49 @@ addIngredientsToList(
     URL.revokeObjectURL(url);
   }
 
+  async function shareICSInNativeApp(filename: string, ics: string) {
+    await Filesystem.writeFile({
+      path: filename,
+      data: ics,
+      directory: Directory.Cache,
+      encoding: Encoding.UTF8,
+    });
+
+    const fileResult = await Filesystem.getUri({
+      path: filename,
+      directory: Directory.Cache,
+    });
+
+    await Share.share({
+      title: "Simple Dinners Calendar",
+      text: "Add your Simple Dinners meal plan to your calendar.",
+      files: [fileResult.uri],
+    });
+  }
+
+  async function downloadICSFile(filename: string, events: string[]) {
+    const ics = buildICSCalendar(events);
+    const platform = Capacitor.getPlatform();
+    const isNativeApp = platform === "android" || platform === "ios";
+
+    if (isNativeApp) {
+      try {
+        await shareICSInNativeApp(filename, ics);
+        return;
+      } catch (error) {
+        console.warn("Native ICS share failed:", error);
+      }
+    }
+
+    downloadICSInBrowser(filename, ics);
+  }
+
   function shareWeekPlan() {
     const lines = days
       .map((day) => {
         const label = getDayLabel(meals[day]);
         if (!label) return null;
+
         return `${getTranslatedDay(day)}: ${label}`;
       })
       .filter(Boolean) as string[];
@@ -622,7 +668,8 @@ addIngredientsToList(
   function downloadDayICS(day: string, dayPlan: PlannedDay) {
     const label = getDayLabel(dayPlan) || t("week.meal").toLowerCase();
     const filename = `${safeFileName(day)}-${safeFileName(label)}.ics`;
-    downloadICSFile(filename, [buildICSEvent(day, dayPlan)]);
+
+    void downloadICSFile(filename, [buildICSEvent(day, dayPlan)]);
   }
 
   function downloadWholeWeekICS() {
@@ -634,13 +681,14 @@ addIngredientsToList(
       buildICSEvent(day, meals[day], index),
     );
 
-    downloadICSFile("simple-dinners-week-plan.ics", events);
+    void downloadICSFile("simple-dinners-week-plan.ics", events);
   }
 
   function openGoogleCalendar(day: string, dayPlan: PlannedDay) {
     const { start, end } = buildEventTimes(day);
     const label = getDayLabel(dayPlan) || t("week.meal");
     const title = `${t("week.dinner")}: ${label}`;
+
     const details =
       dayPlan.mode === "planned" && dayPlan.meal
         ? buildMealDescription(dayPlan.meal)
@@ -657,7 +705,9 @@ addIngredientsToList(
 
   function addWholeWeekToCalendar() {
     const validDays = days.filter((day) => !!getDayLabel(meals[day]));
+
     if (!validDays.length) return;
+
     downloadWholeWeekICS();
   }
 

@@ -2002,94 +2002,106 @@ function resetSideDrafts() {
                   </button>
                 </div>
 
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: 8,
-                  }}
-                >
-                  {suggestedSides.map((side: string) => {
-  const checked = !!checkedSides[side];
-  const sideRecipe = findSideRecipeByName(side);
+                
+<div
+  style={{
+    display: "grid",
+    gap: 8,
+  }}
+>
+  {suggestedSides.map((side: string) => {
+    const checked = !!checkedSides[side];
+    const sideRecipe = findSideRecipeByName(side);
+    const hasCookButton = !!(sideRecipe && (sideRecipe.slug || sideRecipe.name));
 
-  return (
-    <div
-      key={side}
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 6,
-        flexWrap: "wrap",
-      }}
-    >
-      <button
-        type="button"
-        onClick={() => toggleSide(side)}
+    return (
+      <div
+        key={side}
         style={{
-          padding: "8px 10px",
-          borderRadius: 999,
-          background: checked
-            ? "rgba(34,197,94,0.14)"
-            : "rgba(255,255,255,0.06)",
-          border: checked
-            ? "1px solid rgba(34,197,94,0.32)"
-            : "1px solid rgba(255,255,255,0.10)",
-          color: checked ? "#86efac" : "rgba(255,255,255,0.88)",
-          fontSize: 13,
-          fontWeight: 800,
-          cursor: "pointer",
-          display: "inline-flex",
+          display: "grid",
+          gridTemplateColumns: hasCookButton
+            ? "minmax(0, 1fr) 42px"
+            : "minmax(0, 1fr)",
+          gap: 8,
           alignItems: "center",
-          gap: 6,
+          width: "100%",
         }}
       >
-        <CheckCircle2
-          size={14}
+        <button
+          type="button"
+          onClick={() => toggleSide(side)}
           style={{
-            color: checked ? "#22c55e" : "rgba(255,255,255,0.35)",
+            minWidth: 0,
+            width: "100%",
+            padding: "8px 10px",
+            borderRadius: 999,
+            background: checked
+              ? "rgba(34,197,94,0.14)"
+              : "rgba(255,255,255,0.06)",
+            border: checked
+              ? "1px solid rgba(34,197,94,0.32)"
+              : "1px solid rgba(255,255,255,0.10)",
+            color: checked ? "#86efac" : "rgba(255,255,255,0.88)",
+            fontSize: 13,
+            fontWeight: 800,
+            cursor: "pointer",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            gap: 6,
+            textAlign: "left",
+            whiteSpace: "normal",
+            lineHeight: 1.2,
           }}
-        />
-        {side}
-      </button>
+        >
+          <CheckCircle2
+            size={14}
+            style={{
+              color: checked ? "#22c55e" : "rgba(255,255,255,0.35)",
+              flexShrink: 0,
+            }}
+          />
+          <span>{side}</span>
+        </button>
 
-      {sideRecipe && (sideRecipe.slug || sideRecipe.name) && (
-  <button
-    type="button"
-    title={t("recipe.cookSide", "Cook side")}
-aria-label={t("recipe.cookSide", "Cook side")}
-    onClick={() => {
-      const sideRecipeKey = sideRecipe.slug || sideRecipe.name || "";
+        {hasCookButton && (
+          <button
+            type="button"
+            title={t("recipe.cookSide", "Cook side")}
+            aria-label={t("recipe.cookSide", "Cook side")}
+            onClick={() => {
+              const sideRecipeKey = sideRecipe.slug || sideRecipe.name || "";
 
-      navigate(
-        `/recipe/${encodeURIComponent(
-          sideRecipeKey
-        )}?from=${encodeURIComponent(
-          `/recipe/${safeRecipe.slug || safeRecipe.name || ""}`
-        )}&cook=true`
-      );
-    }}
-    style={{
-      padding: "8px 10px",
-      borderRadius: 999,
-      background: "rgba(34,197,94,0.10)",
-      border: "1px solid rgba(34,197,94,0.24)",
-      color: "#86efac",
-      fontSize: 12,
-      fontWeight: 900,
-      cursor: "pointer",
-      display: "inline-flex",
-      alignItems: "center",
-      gap: 6,
-    }}
-  >
-    <Play size={14} />
-  </button>
-)}
-    </div>
-  );
-})}
-                </div>
+              navigate(
+                `/recipe/${encodeURIComponent(
+                  sideRecipeKey
+                )}?from=${encodeURIComponent(
+                  `/recipe/${safeRecipe.slug || safeRecipe.name || ""}`
+                )}&cook=true`
+              );
+            }}
+            style={{
+              width: 42,
+              height: 42,
+              padding: 0,
+              borderRadius: 999,
+              background: "rgba(34,197,94,0.10)",
+              border: "1px solid rgba(34,197,94,0.24)",
+              color: "#86efac",
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+            }}
+          >
+            <Play size={15} />
+          </button>
+        )}
+      </div>
+    );
+  })}
+</div>
                 <button
   type="button"
   onClick={handleAddSidesToShoppingList}
@@ -2136,95 +2148,109 @@ aria-label={t("recipe.cookSide", "Cook side")}
       {t("recipe.optionalDessert", "Want something sweet?")}
     </div>
 
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: 8,
-      }}
-    >
-      {suggestedDesserts.map((dessert: string) => {
-        const checked = !!checkedDesserts[dessert];
-        const dessertRecipe = findDessertRecipeByName(dessert);
+  
+<div
+  style={{
+    display: "grid",
+    gap: 8,
+  }}
+>
+  {suggestedDesserts.map((dessert: string) => {
+    const checked = !!checkedDesserts[dessert];
+    const dessertRecipe = findDessertRecipeByName(dessert);
+    const hasCookButton = !!(
+      dessertRecipe && (dessertRecipe.slug || dessertRecipe.name)
+    );
 
-        return (
-          <div
-            key={dessert}
+    return (
+      <div
+        key={dessert}
+        style={{
+          display: "grid",
+          gridTemplateColumns: hasCookButton
+            ? "minmax(0, 1fr) 42px"
+            : "minmax(0, 1fr)",
+          gap: 8,
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
+        <button
+          type="button"
+          onClick={() => toggleDessert(dessert)}
+          style={{
+            minWidth: 0,
+            width: "100%",
+            padding: "8px 10px",
+            borderRadius: 999,
+            background: checked
+              ? "rgba(250,204,21,0.14)"
+              : "rgba(255,255,255,0.06)",
+            border: checked
+              ? "1px solid rgba(250,204,21,0.32)"
+              : "1px solid rgba(255,255,255,0.10)",
+            color: checked ? "#fde68a" : "rgba(255,255,255,0.88)",
+            fontSize: 13,
+            fontWeight: 800,
+            cursor: "pointer",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            gap: 6,
+            textAlign: "left",
+            whiteSpace: "normal",
+            lineHeight: 1.2,
+          }}
+        >
+          <CheckCircle2
+            size={14}
             style={{
+              color: checked ? "#facc15" : "rgba(255,255,255,0.35)",
+              flexShrink: 0,
+            }}
+          />
+          <span>{dessert}</span>
+        </button>
+
+        {hasCookButton && (
+          <button
+            type="button"
+            title={t("recipe.cookDessert", "Cook dessert")}
+            aria-label={t("recipe.cookDessert", "Cook dessert")}
+            onClick={() => {
+              const dessertRecipeKey =
+                dessertRecipe.slug || dessertRecipe.name || "";
+
+              navigate(
+                `/recipe/${encodeURIComponent(
+                  dessertRecipeKey
+                )}?from=${encodeURIComponent(
+                  `/recipe/${safeRecipe.slug || safeRecipe.name || ""}`
+                )}&cook=true`
+              );
+            }}
+            style={{
+              width: 42,
+              height: 42,
+              padding: 0,
+              borderRadius: 999,
+              background: "rgba(250,204,21,0.10)",
+              border: "1px solid rgba(250,204,21,0.24)",
+              color: "#fde68a",
+              cursor: "pointer",
               display: "inline-flex",
               alignItems: "center",
-              gap: 6,
-              flexWrap: "wrap",
+              justifyContent: "center",
+              flexShrink: 0,
             }}
           >
-            <button
-              type="button"
-              onClick={() => toggleDessert(dessert)}
-              style={{
-                padding: "8px 10px",
-                borderRadius: 999,
-                background: checked
-                  ? "rgba(250,204,21,0.14)"
-                  : "rgba(255,255,255,0.06)",
-                border: checked
-                  ? "1px solid rgba(250,204,21,0.32)"
-                  : "1px solid rgba(255,255,255,0.10)",
-                color: checked ? "#fde68a" : "rgba(255,255,255,0.88)",
-                fontSize: 13,
-                fontWeight: 800,
-                cursor: "pointer",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-              }}
-            >
-              <CheckCircle2
-                size={14}
-                style={{
-                  color: checked ? "#facc15" : "rgba(255,255,255,0.35)",
-                }}
-              />
-              {dessert}
-            </button>
-
-            {dessertRecipe && (dessertRecipe.slug || dessertRecipe.name) && (
-              <button
-                type="button"
-                title={t("recipe.cookDessert", "Cook dessert")}
-                aria-label={t("recipe.cookDessert", "Cook dessert")}
-                onClick={() => {
-                  const dessertRecipeKey =
-                    dessertRecipe.slug || dessertRecipe.name || "";
-
-                  navigate(
-                    `/recipe/${encodeURIComponent(
-                      dessertRecipeKey
-                    )}?from=${encodeURIComponent(
-                      `/recipe/${safeRecipe.slug || safeRecipe.name || ""}`
-                    )}&cook=true`
-                  );
-                }}
-                style={{
-                  padding: "8px 10px",
-                  borderRadius: 999,
-                  background: "rgba(250,204,21,0.10)",
-                  border: "1px solid rgba(250,204,21,0.24)",
-                  color: "#fde68a",
-                  fontSize: 12,
-                  fontWeight: 900,
-                  cursor: "pointer",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 6,
-                }}
-              >
-                <Play size={14} />
-              </button>
-            )}
-          </div>
-        );
-      })}
-    </div>
+            <Play size={15} />
+          </button>
+        )}
+      </div>
+    );
+  })}
+</div>
 
     <button
       type="button"

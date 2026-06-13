@@ -24,7 +24,7 @@ import {
 } from "../i18n";
 
 // =====================================================
-// Builder: types
+// PlanPage: types
 // =====================================================
 
 type PlanPageProps = {
@@ -38,7 +38,7 @@ type PlanPageProps = {
 };
 
 // =====================================================
-// Builder: component
+// PlanPage: component
 // =====================================================
 
 export default function PlanPage({
@@ -54,18 +54,19 @@ export default function PlanPage({
   const location = useLocation();
 
   // =====================================================
-  // Builder: state
+  // State
   // =====================================================
 
   const [pantryText, setPantryText] = useState(
     pantry.map((p) => p.name).join(", ")
   );
+
   const [language, setLanguage] = useState<LanguageCode>(() =>
     getStoredLanguage()
   );
 
   // =====================================================
-  // Builder: effects
+  // Effects
   // =====================================================
 
   useEffect(() => {
@@ -81,7 +82,7 @@ export default function PlanPage({
   }, [location.search, generateDinnerPlan]);
 
   // =====================================================
-  // Builder: derived data
+  // Derived data
   // =====================================================
 
   const pantryItems = useMemo(() => {
@@ -129,7 +130,7 @@ export default function PlanPage({
   };
 
   // =====================================================
-  // Builder: actions
+  // Actions
   // =====================================================
 
   const commitPantry = () => {
@@ -151,6 +152,7 @@ export default function PlanPage({
 
   const updatePrefs = (updatedFields: any) => {
     const nextPrefs = { ...prefs, ...updatedFields };
+
     setPrefs(nextPrefs);
     localStorage.setItem("prefs", JSON.stringify(nextPrefs));
   };
@@ -159,9 +161,11 @@ export default function PlanPage({
     const nextItems = pantryItems.filter(
       (item) => item.toLowerCase() !== nameToRemove.toLowerCase()
     );
+
     const nextText = nextItems.join(", ");
 
     setPantryText(nextText);
+
     setPantry(
       nextItems.map((name) => ({
         id: name.toLowerCase().replace(/\s+/g, "-"),
@@ -172,17 +176,17 @@ export default function PlanPage({
   };
 
   const handleLanguageChange = (nextLanguage: LanguageCode) => {
-  if (nextLanguage === language) return;
+    if (nextLanguage === language) return;
 
-  saveStoredLanguage(nextLanguage);
-  setLanguage(nextLanguage);
+    saveStoredLanguage(nextLanguage);
+    setLanguage(nextLanguage);
 
-  window.dispatchEvent(
-    new CustomEvent("simple-dinners-language-change", {
-      detail: nextLanguage,
-    })
-  );
-};
+    window.dispatchEvent(
+      new CustomEvent("simple-dinners-language-change", {
+        detail: nextLanguage,
+      })
+    );
+  };
 
   const toggleAllergen = (key: string) => {
     const current = Array.isArray(prefs.allergens) ? prefs.allergens : [];
@@ -206,21 +210,39 @@ export default function PlanPage({
   };
 
   // =====================================================
-  // Builder: shared styles
+  // Shared styles: layout
   // =====================================================
 
-  const inputBase: React.CSSProperties = {
+  const pageWrap: React.CSSProperties = {
     width: "100%",
-    padding: "16px",
-    borderRadius: "16px",
-    background: "rgba(255,255,255,0.05)",
-    border: "1px solid rgba(255,255,255,0.1)",
-    color: "white",
-    fontSize: "16px",
-    fontFamily: "inherit",
-    outline: "none",
-    boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   };
+
+  const contentWrap: React.CSSProperties = {
+    maxWidth: "550px",
+    width: "100%",
+    padding: "0 20px 120px 20px",
+    display: "grid",
+    gap: 24,
+  };
+
+  const cardContentGrid: React.CSSProperties = {
+    display: "grid",
+    gap: 24,
+  };
+
+  const sectionCard: React.CSSProperties = {
+    padding: 16,
+    borderRadius: 20,
+    background: "rgba(255,255,255,0.03)",
+    border: "1px solid rgba(255,255,255,0.06)",
+  };
+
+  // =====================================================
+  // Shared styles: hero and section headers
+  // =====================================================
 
   const heroTitle: React.CSSProperties = {
     display: "flex",
@@ -262,11 +284,34 @@ export default function PlanPage({
     flexShrink: 0,
   };
 
-  const sectionCard: React.CSSProperties = {
-    padding: 16,
-    borderRadius: 20,
-    background: "rgba(255,255,255,0.03)",
-    border: "1px solid rgba(255,255,255,0.06)",
+  const sectionHeading: React.CSSProperties = {
+    fontSize: 17,
+    fontWeight: 900,
+    margin: 0,
+  };
+
+  const sectionDescription: React.CSSProperties = {
+    margin: "0 0 12px 0",
+    fontSize: 14,
+    opacity: 0.62,
+    lineHeight: 1.4,
+  };
+
+  // =====================================================
+  // Shared styles: inputs and helper text
+  // =====================================================
+
+  const inputBase: React.CSSProperties = {
+    width: "100%",
+    padding: "16px",
+    borderRadius: "16px",
+    background: "rgba(255,255,255,0.05)",
+    border: "1px solid rgba(255,255,255,0.1)",
+    color: "white",
+    fontSize: "16px",
+    fontFamily: "inherit",
+    outline: "none",
+    boxSizing: "border-box",
   };
 
   const helperRow: React.CSSProperties = {
@@ -296,8 +341,56 @@ export default function PlanPage({
   };
 
   // =====================================================
-  // Builder: render helpers
+  // Shared styles: buttons
   // =====================================================
+
+  const languageButtonBase: React.CSSProperties = {
+    flex: 1,
+    padding: "11px 12px",
+    borderRadius: 14,
+    fontWeight: 900,
+    cursor: "pointer",
+  };
+
+  const effortGrid: React.CSSProperties = {
+    display: "grid",
+    gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+    gap: 8,
+    width: "100%",
+  };
+
+  const bottomActionGrid: React.CSSProperties = {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: 10,
+    marginTop: 6,
+  };
+
+  const bottomActionButton: React.CSSProperties = {
+    minWidth: 0,
+    width: "100%",
+    padding: "14px 10px",
+    borderRadius: "16px",
+    fontWeight: 800,
+    fontSize: "clamp(12px, 3.2vw, 15px)",
+    lineHeight: 1.15,
+    whiteSpace: "nowrap",
+    cursor: "pointer",
+  };
+
+  // =====================================================
+  // Render helpers
+  // =====================================================
+
+  const renderSectionHeader = (
+    icon: React.ReactNode,
+    title: string
+  ) => (
+    <div style={sectionTitleRow}>
+      <span style={sectionIconWrap}>{icon}</span>
+      <h3 style={sectionHeading}>{title}</h3>
+    </div>
+  );
 
   const renderLanguageToggle = () => (
     <section
@@ -311,8 +404,8 @@ export default function PlanPage({
       }}
     >
       <div style={{ fontSize: 14, fontWeight: 900 }}>
-  🌐 {t("plan.language", "Language")}
-</div>
+        🌐 {t("plan.language", "Language")}
+      </div>
 
       <div style={{ display: "flex", gap: 10 }}>
         {(["en", "es"] as LanguageCode[]).map((option) => {
@@ -324,9 +417,7 @@ export default function PlanPage({
               type="button"
               onClick={() => handleLanguageChange(option)}
               style={{
-                flex: 1,
-                padding: "11px 12px",
-                borderRadius: 14,
+                ...languageButtonBase,
                 border: active
                   ? "1px solid rgba(34,197,94,0.45)"
                   : "1px solid rgba(255,255,255,0.1)",
@@ -334,8 +425,6 @@ export default function PlanPage({
                   ? "rgba(34,197,94,0.14)"
                   : "rgba(255,255,255,0.04)",
                 color: active ? "#86efac" : "white",
-                fontWeight: 900,
-                cursor: "pointer",
               }}
             >
               {getLanguageLabel(option)}
@@ -346,28 +435,50 @@ export default function PlanPage({
     </section>
   );
 
+  const renderEffortButton = (day: string, opt: { key: Effort; label: string }) => {
+    const active = (daySettings[day] ?? "normal") === opt.key;
+
+    return (
+      <button
+        key={opt.key}
+        type="button"
+        onClick={() =>
+          setDaySettings((prev) => ({
+            ...prev,
+            [day]: opt.key,
+          }))
+        }
+        style={{
+          minWidth: 0,
+          width: "100%",
+          padding: "10px 6px",
+          borderRadius: "12px",
+          border: "1px solid",
+          borderColor: active ? "#22c55e" : "rgba(255,255,255,0.1)",
+          background: active
+            ? "rgba(34,197,94,0.1)"
+            : "rgba(255,255,255,0.03)",
+          color: active ? "#22c55e" : "rgba(255,255,255,0.6)",
+          fontWeight: 800,
+          fontSize: "clamp(10px, 2.8vw, 13px)",
+          lineHeight: 1.1,
+          whiteSpace: "nowrap",
+          cursor: "pointer",
+          transition: "all 0.2s",
+        }}
+      >
+        {opt.label}
+      </button>
+    );
+  };
+
   // =====================================================
-  // Builder: render
+  // Render: main
   // =====================================================
 
   return (
-    <div
-      style={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "550px",
-          width: "100%",
-          padding: "0 20px 120px 20px",
-          display: "grid",
-          gap: 24,
-        }}
-      >
+    <div style={pageWrap}>
+      <div style={contentWrap}>
         <Card
           title={
             <span style={heroTitle}>
@@ -379,37 +490,24 @@ export default function PlanPage({
           }
           subtitle={t("plan.subtitle")}
         >
-          <div style={{ display: "grid", gap: 24 }}>
+          <div style={cardContentGrid}>
             {/* =====================================================
-                Language toggle
+                Section: language toggle
             ===================================================== */}
 
             {renderLanguageToggle()}
 
             {/* =====================================================
-                What's in your kitchen
+                Section: what's in your kitchen
             ===================================================== */}
 
             <section style={sectionCard}>
-              <div style={sectionTitleRow}>
-                <span style={sectionIconWrap}>
-                  <Refrigerator size={17} />
-                </span>
-                <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
-                  {t("plan.kitchenTitle")}
-                </h3>
-              </div>
+              {renderSectionHeader(
+                <Refrigerator size={17} />,
+                t("plan.kitchenTitle")
+              )}
 
-              <p
-                style={{
-                  margin: "0 0 12px 0",
-                  fontSize: 14,
-                  opacity: 0.62,
-                  lineHeight: 1.4,
-                }}
-              >
-                {t("plan.kitchenSubtitle")}
-              </p>
+              <p style={sectionDescription}>{t("plan.kitchenSubtitle")}</p>
 
               {!!pantryItems.length && (
                 <div
@@ -460,18 +558,14 @@ export default function PlanPage({
             </section>
 
             {/* =====================================================
-                Dietary preferences
+                Section: dietary preferences
             ===================================================== */}
 
             <section style={sectionCard}>
-              <div style={sectionTitleRow}>
-                <span style={sectionIconWrap}>
-                  <Leaf size={17} />
-                </span>
-                <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
-                  {t("plan.dietaryPreferences")}
-                </h3>
-              </div>
+              {renderSectionHeader(
+                <Leaf size={17} />,
+                t("plan.dietaryPreferences")
+              )}
 
               <div
                 style={{
@@ -526,29 +620,16 @@ export default function PlanPage({
             </section>
 
             {/* =====================================================
-                Allergies and restrictions
+                Section: allergies and restrictions
             ===================================================== */}
 
             <section style={sectionCard}>
-              <div style={sectionTitleRow}>
-                <span style={sectionIconWrap}>
-                  <AlertCircle size={17} />
-                </span>
-                <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
-                  {t("plan.allergies")}
-                </h3>
-              </div>
+              {renderSectionHeader(
+                <AlertCircle size={17} />,
+                t("plan.allergies")
+              )}
 
-              <p
-                style={{
-                  margin: "0 0 12px 0",
-                  fontSize: 14,
-                  opacity: 0.62,
-                  lineHeight: 1.4,
-                }}
-              >
-                {t("plan.allergiesSubtitle")}
-              </p>
+              <p style={sectionDescription}>{t("plan.allergiesSubtitle")}</p>
 
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                 {ALLERGENS.map((key) => {
@@ -583,27 +664,16 @@ export default function PlanPage({
             </section>
 
             {/* =====================================================
-                Dietary notes
+                Section: dietary notes
             ===================================================== */}
 
             <section style={sectionCard}>
-              <div style={sectionTitleRow}>
-                <span style={sectionIconWrap}>
-                  <Info size={17} />
-                </span>
-                <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
-                  {t("plan.dietaryNotes")}
-                </h3>
-              </div>
+              {renderSectionHeader(
+                <Info size={17} />,
+                t("plan.dietaryNotes")
+              )}
 
-              <p
-                style={{
-                  margin: "0 0 12px 0",
-                  fontSize: 14,
-                  opacity: 0.62,
-                  lineHeight: 1.4,
-                }}
-              >
+              <p style={sectionDescription}>
                 {t("plan.dietaryNotesSubtitle")}
               </p>
 
@@ -616,25 +686,19 @@ export default function PlanPage({
             </section>
 
             {/* =====================================================
-                Set your week
+                Section: set your week
             ===================================================== */}
 
             <section style={sectionCard}>
-              <div style={sectionTitleRow}>
-                <span style={sectionIconWrap}>
-                  <Utensils size={17} />
-                </span>
-                <h3 style={{ fontSize: 17, fontWeight: 900, margin: 0 }}>
-                  {t("plan.setYourWeek")}
-                </h3>
-              </div>
+              {renderSectionHeader(
+                <Utensils size={17} />,
+                t("plan.setYourWeek")
+              )}
 
               <p
                 style={{
-                  margin: "0 0 14px 0",
-                  fontSize: 14,
-                  opacity: 0.62,
-                  lineHeight: 1.4,
+                  ...sectionDescription,
+                  marginBottom: 14,
                 }}
               >
                 {t("plan.setYourWeekSubtitle")}
@@ -661,44 +725,8 @@ export default function PlanPage({
                       {(dayLabels[day] || day).toUpperCase()}
                     </div>
 
-                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                      {effortOptions.map((opt) => {
-                        const active =
-                          (daySettings[day] ?? "normal") === opt.key;
-
-                        return (
-                          <button
-                            key={opt.key}
-                            type="button"
-                            onClick={() =>
-                              setDaySettings((prev) => ({
-                                ...prev,
-                                [day]: opt.key,
-                              }))
-                            }
-                            style={{
-                              padding: "10px 14px",
-                              borderRadius: "12px",
-                              border: "1px solid",
-                              borderColor: active
-                                ? "#22c55e"
-                                : "rgba(255,255,255,0.1)",
-                              background: active
-                                ? "rgba(34,197,94,0.1)"
-                                : "rgba(255,255,255,0.03)",
-                              color: active
-                                ? "#22c55e"
-                                : "rgba(255,255,255,0.6)",
-                              fontWeight: 800,
-                              fontSize: 13,
-                              cursor: "pointer",
-                              transition: "all 0.2s",
-                            }}
-                          >
-                            {opt.label}
-                          </button>
-                        );
-                      })}
+                    <div style={effortGrid}>
+                      {effortOptions.map((opt) => renderEffortButton(day, opt))}
                     </div>
                   </div>
                 ))}
@@ -706,20 +734,16 @@ export default function PlanPage({
             </section>
 
             {/* =====================================================
-                Bottom actions
+                Section: bottom actions
             ===================================================== */}
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 12,
-                marginTop: 6,
-              }}
-            >
+            <div style={bottomActionGrid}>
               <Button
                 onClick={handleGenerate}
-                style={{ padding: "16px", fontSize: 16 }}
+                style={{
+                  ...bottomActionButton,
+                  padding: "14px 8px",
+                }}
               >
                 ✨ {t("plan.generatePlan")}
               </Button>
@@ -728,21 +752,18 @@ export default function PlanPage({
                 type="button"
                 onClick={handleBackToWeek}
                 style={{
-                  padding: "16px",
-                  borderRadius: "16px",
+                  ...bottomActionButton,
                   background: "transparent",
                   color: "rgba(255,255,255,0.8)",
                   border: "1px solid rgba(255,255,255,0.08)",
-                  fontWeight: 800,
-                  cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: 8,
+                  gap: 6,
                 }}
               >
-                {t("plan.backToWeek")}
-                <ChevronRight size={16} />
+                <span>{t("plan.backToWeek")}</span>
+                <ChevronRight size={15} />
               </button>
             </div>
           </div>
