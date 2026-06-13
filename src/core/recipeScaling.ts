@@ -276,13 +276,23 @@ function scaleLooseEggMentions(text: string, scale: RecipeScale) {
   return text.replace(looseEggRegex, (...args) => {
     const match = args[0] as string;
     const article = (args[1] as string | undefined) || "";
-    const offset = args[3] as number;
-    const fullText = args[4] as string;
+    const offset = args[args.length - 2] as number;
+    const fullText = args[args.length - 1] as string;
 
-    const before = fullText.slice(Math.max(0, offset - 12), offset);
+    const before = fullText.slice(Math.max(0, offset - 40), offset);
+    const descriptorPattern = getDescriptorPattern();
+    const unicodeFractionPattern = Object.keys(UNICODE_FRACTIONS).join("");
 
-    // If it already has a number right before it, let the normal countable scaler handle it.
-    if (/(?:\d|\/)\s*$/.test(before)) return match;
+    const alreadyNumberedEggRegex = new RegExp(
+      `((?:\\d+\\s+\\d+\\/\\d+)|(?:\\d+\\/\\d+)|(?:\\d+(?:\\.\\d+)?)|[${unicodeFractionPattern}])\\s+(?:(?:${descriptorPattern})\\s+)*$`,
+      "i"
+    );
+
+    // If it already says something like "1 beaten egg",
+    // do not touch it again.
+    if (alreadyNumberedEggRegex.test(before)) {
+      return match;
+    }
 
     if (scale === 2) {
       return `${article}eggs`;
