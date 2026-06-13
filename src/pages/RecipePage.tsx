@@ -2552,252 +2552,255 @@ function resetSideDrafts() {
     </div>
   </div>
 ) : (
-
-  
-        <>
-          <div style={sectionCardStyle}>
-  <div style={sectionHeaderRow}>
-    <div style={sectionHeadingWrap}>
-      <span style={sectionIconBadge}>
-        <ShoppingCart size={16} />
-      </span>
-
-      <div
-  style={{
-    padding: 14,
-    borderRadius: 20,
-    background: "rgba(255,255,255,0.04)",
-    border: "1px solid rgba(255,255,255,0.08)",
-    display: "grid",
-    gap: 10,
-  }}
->
-  <div
-    style={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      gap: 10,
-      flexWrap: "wrap",
-    }}
-  >
-    <div>
+  <>
+    <div
+      style={{
+        padding: 16,
+        borderRadius: 22,
+        background: "rgba(255,255,255,0.04)",
+        border: "1px solid rgba(255,255,255,0.08)",
+        display: "grid",
+        gap: 10,
+      }}
+    >
       <div
         style={{
-          fontSize: 13,
-          fontWeight: 1000,
-          color: "rgba(255,255,255,0.92)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 12,
+          flexWrap: "wrap",
         }}
       >
-        {currentLanguage === "es" ? "Tamaño de la receta" : "Recipe Size"}
-      </div>
+        <div>
+          <div
+            style={{
+              fontSize: 14,
+              fontWeight: 1000,
+              color: "rgba(255,255,255,0.92)",
+            }}
+          >
+            {currentLanguage === "es" ? "Tamaño de la receta" : "Recipe Size"}
+          </div>
 
-      <div
-        style={{
-          fontSize: 12,
-          color: "rgba(255,255,255,0.58)",
-          marginTop: 2,
-        }}
-      >
-        {currentLanguage === "es"
-          ? "Ajusta las cantidades sin cambiar la receta guardada."
-          : "Adjust amounts without changing the saved recipe."}
+          <div
+            style={{
+              fontSize: 12,
+              color: "rgba(255,255,255,0.58)",
+              marginTop: 3,
+              lineHeight: 1.4,
+            }}
+          >
+            {currentLanguage === "es"
+              ? "Ajusta las cantidades sin cambiar la receta guardada."
+              : "Adjust amounts without changing the saved recipe."}
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 6,
+            minWidth: 220,
+          }}
+        >
+          {RECIPE_SCALE_OPTIONS.map((scale) => {
+            const active = recipeScale === scale;
+
+            return (
+              <button
+                key={scale}
+                type="button"
+                onClick={() => setRecipeScale(scale)}
+                style={{
+                  borderRadius: 999,
+                  padding: "9px 10px",
+                  border: active
+                    ? "1px solid rgba(34,197,94,0.45)"
+                    : "1px solid rgba(255,255,255,0.10)",
+                  background: active
+                    ? "rgba(34,197,94,0.16)"
+                    : "rgba(255,255,255,0.05)",
+                  color: active ? "#86efac" : "rgba(255,255,255,0.78)",
+                  fontWeight: 1000,
+                  fontSize: 12,
+                  cursor: "pointer",
+                }}
+              >
+                {getRecipeScaleLabel(
+                  scale,
+                  currentLanguage === "es" ? "es" : "en"
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </div>
 
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
-        gap: 6,
-        minWidth: 220,
-      }}
-    >
-      {RECIPE_SCALE_OPTIONS.map((scale) => {
-        const active = recipeScale === scale;
+    <div style={sectionCardStyle}>
+      <div style={sectionHeaderRow}>
+        <div style={sectionHeadingWrap}>
+          <span style={sectionIconBadge}>
+            <ShoppingCart size={16} />
+          </span>
 
-        return (
+          <div>
+            <h2 style={{ margin: 0, fontSize: 22 }}>
+              {t("recipe.ingredients")}
+            </h2>
+            <div style={{ fontSize: 12, opacity: 0.58, marginTop: 3 }}>
+              {t("recipe.tapIngredients")}
+            </div>
+          </div>
+        </div>
+
+        <span style={countBadge}>
+          {ingredients.length} {t("recipe.ingredientCount")}
+        </span>
+      </div>
+
+      <div style={{ display: "grid", gap: 10 }}>
+        {visibleIngredients.map((item, index) => {
+          const checked = !!checkedIngredients[index];
+          const isHeader = isIngredientHeader(item) || item.trim().endsWith(":");
+
+          if (isHeader) {
+            return (
+              <div key={`${item}-${index}`} style={ingredientHeaderStyle}>
+                {item.replace(/:$/, "")}
+              </div>
+            );
+          }
+
+          return (
+            <button
+              key={`${item}-${index}`}
+              type="button"
+              onClick={() => toggleIngredient(index)}
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: 10,
+                textAlign: "left",
+                background: checked
+                  ? "rgba(34,197,94,0.06)"
+                  : "rgba(255,255,255,0.02)",
+                border: checked
+                  ? "1px solid rgba(34,197,94,0.18)"
+                  : "1px solid rgba(255,255,255,0.045)",
+                padding: "10px 11px",
+                borderRadius: 14,
+                cursor: "pointer",
+                color: "white",
+                opacity: checked ? 0.72 : 1,
+              }}
+            >
+              <CheckCircle2
+                size={16}
+                style={{
+                  marginTop: 2,
+                  color: checked ? "#22c55e" : "rgba(255,255,255,0.35)",
+                  flexShrink: 0,
+                }}
+              />
+
+              <span
+                style={{
+                  lineHeight: 1.45,
+                  textDecoration: checked ? "line-through" : "none",
+                }}
+              >
+                {item}
+              </span>
+            </button>
+          );
+        })}
+
+        {hasMoreIngredients && (
           <button
-            key={scale}
             type="button"
-            onClick={() => setRecipeScale(scale)}
+            onClick={() => setShowAllIngredients((prev) => !prev)}
             style={{
-              borderRadius: 999,
-              padding: "9px 10px",
-              border: active
-                ? "1px solid rgba(34,197,94,0.45)"
-                : "1px solid rgba(255,255,255,0.10)",
-              background: active
-                ? "rgba(34,197,94,0.16)"
-                : "rgba(255,255,255,0.05)",
-              color: active ? "#86efac" : "rgba(255,255,255,0.78)",
-              fontWeight: 1000,
-              fontSize: 12,
+              marginTop: 12,
+              width: "100%",
+              border: "1px solid rgba(255,255,255,0.08)",
+              background: "rgba(255,255,255,0.04)",
+              color: "#86efac",
+              borderRadius: 14,
+              padding: "12px 14px",
+              fontWeight: 900,
               cursor: "pointer",
             }}
           >
-            {getRecipeScaleLabel(
-              scale,
-              currentLanguage === "es" ? "es" : "en"
-            )}
+            {showAllIngredients
+              ? t("recipe.showFewerIngredients")
+              : `${t("recipe.showAllIngredients")} (${ingredients.length})`}
           </button>
-        );
-      })}
-    </div>
-  </div>
-</div>
-
-      <div>
-        <h2 style={{ margin: 0, fontSize: 22 }}>{t("recipe.ingredients")}</h2>
-        <div style={{ fontSize: 12, opacity: 0.58, marginTop: 3 }}>
-          {t("recipe.tapIngredients")}
-        </div>
+        )}
       </div>
     </div>
 
-    <span style={countBadge}>
-      {ingredients.length} {t("recipe.ingredientCount")}
-    </span>
-  </div>
-
-  <div style={{ display: "grid", gap: 10 }}>
-    {visibleIngredients.map((item, index) => {
-      const checked = !!checkedIngredients[index];
-      const isHeader = isIngredientHeader(item) || item.trim().endsWith(":");
-
-      if (isHeader) {
-        return (
-          <div key={`${item}-${index}`} style={ingredientHeaderStyle}>
-            {item.replace(/:$/, "")}
-          </div>
-        );
-      }
-
-      return (
-        <button
-          key={`${item}-${index}`}
-          type="button"
-          onClick={() => toggleIngredient(index)}
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            gap: 10,
-            textAlign: "left",
-            background: checked
-              ? "rgba(34,197,94,0.06)"
-              : "rgba(255,255,255,0.02)",
-            border: checked
-              ? "1px solid rgba(34,197,94,0.18)"
-              : "1px solid rgba(255,255,255,0.045)",
-            padding: "10px 11px",
-            borderRadius: 14,
-            cursor: "pointer",
-            color: "white",
-            opacity: checked ? 0.72 : 1,
-          }}
-        >
-          <CheckCircle2
-            size={16}
-            style={{
-              marginTop: 2,
-              color: checked ? "#22c55e" : "rgba(255,255,255,0.35)",
-              flexShrink: 0,
-            }}
-          />
-
-          <span
-            style={{
-              lineHeight: 1.45,
-              textDecoration: checked ? "line-through" : "none",
-            }}
-          >
-            {item}
+    <div style={sectionCardStyle}>
+      <div style={sectionHeaderRow}>
+        <div style={sectionHeadingWrap}>
+          <span style={sectionIconBadge}>
+            <ChefHat size={16} />
           </span>
-        </button>
-      );
-    })}
 
-    {hasMoreIngredients && (
-      <button
-        type="button"
-        onClick={() => setShowAllIngredients((prev) => !prev)}
-        style={{
-          marginTop: 12,
-          width: "100%",
-          border: "1px solid rgba(255,255,255,0.08)",
-          background: "rgba(255,255,255,0.04)",
-          color: "#86efac",
-          borderRadius: 14,
-          padding: "12px 14px",
-          fontWeight: 900,
-          cursor: "pointer",
-        }}
-      >
-        {showAllIngredients
-          ? t("recipe.showFewerIngredients")
-          : `${t("recipe.showAllIngredients")} (${ingredients.length})`}
-      </button>
-    )}
-  </div>
-</div>
-
-          <div style={sectionCardStyle}>
-  <div style={sectionHeaderRow}>
-    <div style={sectionHeadingWrap}>
-      <span style={sectionIconBadge}>
-        <ChefHat size={16} />
-      </span>
-
-      <div>
-        <h2 style={{ margin: 0, fontSize: 22 }}>{t("recipe.instructions")}</h2>
-        <div style={{ fontSize: 12, opacity: 0.58, marginTop: 3 }}>
-          {t("recipe.followSteps")}
-        </div>
-      </div>
-    </div>
-
-    <span style={countBadge}>
-      {instructions.length} {t("recipe.stepCount")}
-    </span>
-  </div>
-
-  <div style={{ display: "grid", gap: 0 }}>
-              {visibleInstructions.map((step, index) => (
-                <div
-  key={`${step}-${index}`}
-  style={{
-    ...instructionStepStyle,
-    borderBottom:
-      index === visibleInstructions.length - 1
-        ? "none"
-        : instructionStepStyle.borderBottom,
-  }}
->
-                  <div
-                    style={{
-                      minWidth: 28,
-                      height: 28,
-                      borderRadius: 999,
-                      background: "rgba(34,197,94,0.12)",
-                      color: "#86efac",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontWeight: 900,
-                      fontSize: 13,
-                      marginTop: 2,
-                    }}
-                  >
-                    {index + 1}
-                  </div>
-
-                  <div style={{ lineHeight: 1.6 }}>{step}</div>
-                </div>
-              ))}
+          <div>
+            <h2 style={{ margin: 0, fontSize: 22 }}>
+              {t("recipe.instructions")}
+            </h2>
+            <div style={{ fontSize: 12, opacity: 0.58, marginTop: 3 }}>
+              {t("recipe.followSteps")}
             </div>
           </div>
-        </>
-      )}
+        </div>
+
+        <span style={countBadge}>
+          {instructions.length} {t("recipe.stepCount")}
+        </span>
+      </div>
+
+      <div style={{ display: "grid", gap: 0 }}>
+        {visibleInstructions.map((step, index) => (
+          <div
+            key={`${step}-${index}`}
+            style={{
+              ...instructionStepStyle,
+              borderBottom:
+                index === visibleInstructions.length - 1
+                  ? "none"
+                  : instructionStepStyle.borderBottom,
+            }}
+          >
+            <div
+              style={{
+                minWidth: 28,
+                height: 28,
+                borderRadius: 999,
+                background: "rgba(34,197,94,0.12)",
+                color: "#86efac",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: 900,
+                fontSize: 13,
+                marginTop: 2,
+              }}
+            >
+              {index + 1}
+            </div>
+
+            <div style={{ lineHeight: 1.6 }}>{step}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </>
+)}
 
       {!cookMode && hasMoreInstructions && (
   <button
