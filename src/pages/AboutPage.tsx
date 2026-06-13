@@ -1,12 +1,16 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   CalendarDays,
   ChefHat,
+  ExternalLink,
   Globe2,
   Heart,
   Languages,
+  MessageCircle,
   ShoppingCart,
   Sparkles,
+  Star,
   Utensils,
 } from "lucide-react";
 
@@ -19,15 +23,77 @@ const PLAY_STORE_URL =
 const APP_STORE_URL =
   "https://apps.apple.com/us/app/simple-dinners/id6761655374";
 
+const FACEBOOK_URL = "https://www.facebook.com/simpledinnersapp/";
+const TIKTOK_URL = "https://www.tiktok.com/@simpledinnersapp";
+const INSTAGRAM_URL = "";
+const YOUTUBE_URL = "";
+
+type StoreRating = {
+  platform: string;
+  rating: string;
+  count: string;
+  href: string;
+};
+
+const DEFAULT_STORE_RATINGS: StoreRating[] = [
+  {
+    platform: "Google Play",
+    rating: "5.0",
+    count: "12 public reviews",
+    href: PLAY_STORE_URL,
+  },
+  {
+  platform: "App Store",
+  rating: "5.0",
+  count: "2 public reviews",
+  href: APP_STORE_URL,
+},
+];
+
+const SOCIAL_LINKS = [
+  { label: "Facebook", href: FACEBOOK_URL },
+  { label: "TikTok", href: TIKTOK_URL },
+  { label: "Instagram", href: INSTAGRAM_URL },
+  { label: "YouTube", href: YOUTUBE_URL },
+].filter((link) => link.href.trim().length > 0);
+
 export default function AboutPage() {
   const navigate = useNavigate();
   const language = getStoredLanguage();
 
   const isSpanish = language === "es";
 
+  const [storeRatings, setStoreRatings] =
+    useState<StoreRating[]>(DEFAULT_STORE_RATINGS);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadStoreRatings() {
+      try {
+        const response = await fetch("/api/store-ratings");
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        if (!cancelled && Array.isArray(data?.ratings)) {
+          setStoreRatings(data.ratings);
+        }
+      } catch {
+        // Keep fallback ratings if the live endpoint is not ready yet.
+      }
+    }
+
+    loadStoreRatings();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const copy = isSpanish
     ? {
-        appName: "Simple Dinners",
         eyebrow: "Planificación de cenas para la vida real",
         title: "La cena, más simple.",
         subtitle:
@@ -38,7 +104,13 @@ export default function AboutPage() {
         updateTitle: "Ahora con Complete the Meal",
         updateText:
           "Simple Dinners ahora sugiere acompañamientos y postres opcionales, con soporte para la lista de compras y enlaces al Modo Cocina cuando hay una receta disponible.",
-        socialProof: "12 reseñas públicas de 5 estrellas en Google Play",
+        socialProof: "12 reseñas en Google Play y 2 reseñas en App Store",
+        ratingsTitle: "Calificaciones de la app",
+        ratingsSubtitle:
+          "Gracias a los primeros usuarios que están ayudando a crecer Simple Dinners.",
+        socialTitle: "Síguenos",
+        socialSubtitle:
+          "Acompaña el crecimiento de Simple Dinners y ve lo que viene después.",
         missionTitle: "Hecha para familias ocupadas",
         missionText:
           "Simple Dinners fue creada para reducir el estrés de la cena. Ya sea que estés alimentando a tu familia, planificando una semana ocupada o simplemente cansado de preguntar “¿qué hay para cenar?”, el objetivo es simple: hacer la cena más fácil, una noche a la vez.",
@@ -74,7 +146,6 @@ export default function AboutPage() {
         ],
       }
     : {
-        appName: "Simple Dinners",
         eyebrow: "Dinner planning for real life",
         title: "Dinner planning made simple.",
         subtitle:
@@ -85,7 +156,13 @@ export default function AboutPage() {
         updateTitle: "Now with Complete the Meal",
         updateText:
           "Simple Dinners now suggests side dishes and optional desserts, with shopping list support and Cook Mode links when a matching recipe is available.",
-        socialProof: "12 public 5-star reviews on Google Play",
+        socialProof: "12 Google Play reviews and 2 App Store reviews",
+        ratingsTitle: "App ratings",
+        ratingsSubtitle:
+          "Thanks to the early users helping Simple Dinners grow.",
+        socialTitle: "Follow along",
+        socialSubtitle:
+          "Follow the Simple Dinners journey and see what is coming next.",
         missionTitle: "Built for busy families",
         missionText:
           "Simple Dinners was built to make dinner feel less stressful. Whether you’re feeding a family, planning around a busy week, or just tired of asking “what’s for dinner?”, the goal is simple: make dinner easier, one night at a time.",
@@ -276,7 +353,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <Card title={copy.updateTitle} subtitle={copy.updateText}>
+        <Card title={copy.updateTitle} subtitle="">
           <div
             style={{
               padding: 14,
@@ -292,6 +369,108 @@ export default function AboutPage() {
             {copy.updateText}
           </div>
         </Card>
+
+        <Card title={copy.ratingsTitle} subtitle={copy.ratingsSubtitle}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+              gap: 12,
+            }}
+          >
+            {storeRatings.map((item) => (
+              <a
+                key={item.platform}
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  textDecoration: "none",
+                  padding: 16,
+                  borderRadius: 20,
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  color: "white",
+                  display: "grid",
+                  gap: 8,
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 10,
+                  }}
+                >
+                  <div style={{ fontWeight: 1000 }}>{item.platform}</div>
+                  <ExternalLink size={15} style={{ opacity: 0.65 }} />
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    color: "#fde68a",
+                    fontSize: 24,
+                    fontWeight: 1000,
+                    letterSpacing: "-0.03em",
+                  }}
+                >
+                  <Star size={22} fill="currentColor" />
+                  {item.rating}
+                </div>
+
+                <div
+                  style={{
+                    fontSize: 13,
+                    opacity: 0.68,
+                    fontWeight: 800,
+                  }}
+                >
+                  {item.count}
+                </div>
+              </a>
+            ))}
+          </div>
+        </Card>
+
+        {SOCIAL_LINKS.length > 0 && (
+          <Card title={copy.socialTitle} subtitle={copy.socialSubtitle}>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 10,
+              }}
+            >
+              {SOCIAL_LINKS.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    textDecoration: "none",
+                    border: "1px solid rgba(255,255,255,0.10)",
+                    background: "rgba(255,255,255,0.05)",
+                    color: "white",
+                    borderRadius: 16,
+                    padding: "12px 14px",
+                    fontWeight: 900,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                  }}
+                >
+                  <MessageCircle size={16} />
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </Card>
+        )}
 
         <section
           style={{
