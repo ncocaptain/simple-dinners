@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import {
   CalendarDays,
   ChefHat,
@@ -86,6 +87,11 @@ const SOCIAL_LINKS = [
 
 export default function AboutPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+if (location.pathname === "/about") {
+  return null;
+}
   const language = getStoredLanguage();
 
   const isSpanish = language === "es";
