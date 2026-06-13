@@ -7,7 +7,6 @@ import {
   Globe2,
   Heart,
   Languages,
-  MessageCircle,
   ShoppingCart,
   Sparkles,
   Star,
@@ -50,11 +49,39 @@ const DEFAULT_STORE_RATINGS: StoreRating[] = [
 },
 ];
 
+function FacebookIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      fill="currentColor"
+    >
+      <path d="M22 12.06C22 6.49 17.52 2 12 2S2 6.49 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.52 1.49-3.91 3.77-3.91 1.09 0 2.23.2 2.23.2v2.47h-1.26c-1.24 0-1.63.78-1.63 1.57v1.89h2.78l-.44 2.91h-2.34V22C18.34 21.24 22 17.08 22 12.06Z" />
+    </svg>
+  );
+}
+
+function TikTokIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      fill="currentColor"
+    >
+      <path d="M16.6 5.82c1.05.75 2.3 1.2 3.62 1.25v3.3a7.45 7.45 0 0 1-3.7-.98v5.94c0 3.27-2.65 5.92-5.92 5.92a5.92 5.92 0 0 1-5.92-5.92c0-3.27 2.65-5.92 5.92-5.92.4 0 .8.04 1.17.12v3.43a2.58 2.58 0 0 0-1.17-.28 2.65 2.65 0 1 0 2.65 2.65V2.75h3.35c.2 1.25.9 2.35 2 3.07Z" />
+    </svg>
+  );
+}
+
 const SOCIAL_LINKS = [
-  { label: "Facebook", href: FACEBOOK_URL },
-  { label: "TikTok", href: TIKTOK_URL },
-  { label: "Instagram", href: INSTAGRAM_URL },
-  { label: "YouTube", href: YOUTUBE_URL },
+  { label: "Facebook", href: FACEBOOK_URL, Icon: FacebookIcon },
+  { label: "TikTok", href: TIKTOK_URL, Icon: TikTokIcon },
+  { label: "Instagram", href: INSTAGRAM_URL, Icon: Sparkles },
+  { label: "YouTube", href: YOUTUBE_URL, Icon: Sparkles },
 ].filter((link) => link.href.trim().length > 0);
 
 export default function AboutPage() {
@@ -445,29 +472,33 @@ export default function AboutPage() {
                 gap: 10,
               }}
             >
-              {SOCIAL_LINKS.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{
-                    textDecoration: "none",
-                    border: "1px solid rgba(255,255,255,0.10)",
-                    background: "rgba(255,255,255,0.05)",
-                    color: "white",
-                    borderRadius: 16,
-                    padding: "12px 14px",
-                    fontWeight: 900,
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 8,
-                  }}
-                >
-                  <MessageCircle size={16} />
-                  {link.label}
-                </a>
-              ))}
+              {SOCIAL_LINKS.map((link) => {
+  const Icon = link.Icon;
+
+  return (
+    <a
+      key={link.label}
+      href={link.href}
+      target="_blank"
+      rel="noreferrer"
+      style={{
+        textDecoration: "none",
+        border: "1px solid rgba(255,255,255,0.10)",
+        background: "rgba(255,255,255,0.05)",
+        color: "white",
+        borderRadius: 16,
+        padding: "12px 14px",
+        fontWeight: 900,
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 8,
+      }}
+    >
+      <Icon size={16} />
+      {link.label}
+    </a>
+  );
+})}
             </div>
           </Card>
         )}
