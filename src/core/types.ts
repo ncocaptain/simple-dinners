@@ -6,6 +6,7 @@ export interface Meal {
   name: string;
   ingredients: string;
   instructions?: string;
+  servings?: number;
   photoUrl?: string;
   effort?: Effort;
   tags?: string[];

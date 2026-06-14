@@ -855,6 +855,14 @@ const instructions = useMemo(
   () => scaleInstructionLines(baseInstructions, recipeScale),
   [baseInstructions, recipeScale]
 );
+
+const baseServings =
+  typeof safeRecipe.servings === "number" ? safeRecipe.servings : null;
+
+const scaledServings =
+  baseServings !== null
+    ? Math.max(1, Math.round(baseServings * recipeScale))
+    : null;
   const visibleIngredients = showAllIngredients
   ? ingredients
   : ingredients.slice(0, 5);
@@ -2633,9 +2641,28 @@ function resetSideDrafts() {
                   currentLanguage === "es" ? "es" : "en"
                 )}
               </button>
+              
             );
           })}
+          
         </div>
+                {scaledServings !== null && (
+          <div
+            style={{
+              paddingTop: 10,
+              borderTop: "1px solid rgba(255,255,255,0.06)",
+              fontSize: 13,
+              fontWeight: 900,
+              color: "#86efac",
+            }}
+          >
+            {currentLanguage === "es"
+              ? `Rinde ${scaledServings} ${
+                  scaledServings === 1 ? "porción" : "porciones"
+                }`
+              : `Serves ${scaledServings}`}
+          </div>
+        )}
       </div>
     </div>
 
