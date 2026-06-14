@@ -287,6 +287,12 @@ export const DESSERT_SUGGESTIONS_BY_RECIPE: Partial<
     "strawberryShortcake",
   ],
 
+  "cajun-shrimp-sausage-potato-bake": [
+  "bananaPudding",
+  "lemonBars",
+  "peachCobbler",
+],
+
   "quick-chicken-fried-rice": [
     "oreoDirtCups",
     "riceKrispieTreats",
@@ -1814,122 +1820,151 @@ Sirve caliente.`,
 },
 
 {
-  id: "normal-shrimp-and-sausage-bake",
-  slug: "normal-shrimp-and-sausage-bake",
-  name: "Shrimp and Sausage Bake",
-  effort: "normal",
-  photoUrl: "/images/normal-shrimp-and-sausage-bake.jpg",
-  tags: ["dinner", "sheet-pan", "seafood", "shellfish", "shrimp", "sausage", "one-pan", "leftovers-friendly"],
-  // Shrimp and Sausage Bake
-suggestedSides: [
-  "Rice pilaf",
-  "Garlic bread",
-  "Simple green salad",
-],
-suggestedDesserts: [ "Lemon Bars", "Dark Chocolate Dipped Strawberries", "No-Bake Cheesecake Cups", ],
-  notes: "A low-mess sheet-pan dinner with big flavor and a nice mix of protein and veggies.",
-  ingredients: `cooking spray
-3 cups red potatoes, cut into 1-inch pieces
-4 Tbsp butter, melted
-3 Tbsp olive oil
-2 tsp garlic, minced
-1 Tbsp dried parsley
-1 Tbsp dried oregano
-1/2 tsp garlic powder
-1/2 tsp seasoned salt
+  id: "cajun-shrimp-sausage-potato-bake",
+  slug: "cajun-shrimp-sausage-potato-bake",
+  name: "Cajun Shrimp and Sausage Potato Bake",
+  ingredients: `Main Dish:
+3 lbs red potatoes, cubed
+4 jalapeño smoked sausages, sliced into medallions
+1 lb shrimp, peeled and deveined
+1 (14 oz) can corn, drained
+1 green bell pepper, diced
+1 red bell pepper, diced
+1 yellow onion, diced
+4 tbsp butter, divided
+2 tbsp garlic, minced
+1 tbsp olive oil
+
+Seasonings:
 1 tsp paprika
-1/4 tsp cayenne pepper
-1 lb extra-large shrimp, peeled and deveined
-1 package smoked sausage, sliced into coins
-1 large yellow onion, cut into 1/2-inch pieces
-1 red bell pepper, cut into 1-inch pieces
-1 green bell pepper, cut into 1-inch pieces
-1 can corn, drained
-fresh parsley`,
+1 tbsp Italian seasoning
+1 tbsp dried rosemary
+1 tbsp dried thyme
+1/2 tsp cayenne pepper`,
   instructions: `Preheat oven to 400°F.
-Lightly coat a large sheet pan with cooking spray. Add cut potatoes to the sheet pan.
 
-In a small bowl, whisk together 4 Tbsp melted butter, 3 Tbsp olive oil, 2 tsp garlic, 1 Tbsp dried parsley, 1 Tbsp dried oregano, 1/2 tsp garlic powder, 1/2 tsp seasoned salt, 1 tsp paprika, and 1/4 tsp cayenne pepper.
+Cube 3 lbs red potatoes.
 
-Remove 2 tablespoons of this mixture and toss with potatoes until evenly coated. Spread potatoes into an even layer and bake for 15 minutes.
+Slice 4 jalapeño smoked sausages into medallions.
 
-Meanwhile, pat shrimp dry and toss with 2 1/2 tablespoons of the butter-herb mixture. Set aside.
+Dice 1 green bell pepper, 1 red bell pepper, and 1 yellow onion.
 
-Slice sausage into coins, cut onion into 1/2-inch pieces, cut bell peppers into 1-inch pieces, and drain corn thoroughly.
+In a large bowl, combine the potatoes, sausage, corn, bell peppers, and onion.
 
-Remove potatoes from oven and toss. Push potatoes to one side of the sheet pan. Add sausage, onion, and bell peppers to the other side.
+Drizzle with 1 tbsp olive oil.
 
-Pour remaining herb-butter mixture over everything and toss well. Spread into an even layer and return to oven for 15 minutes.
+Add 2 tbsp minced garlic, 1 tsp paprika, 1 tbsp Italian seasoning, 1 tbsp dried rosemary, 1 tbsp dried thyme, and 1/2 tsp cayenne pepper.
 
-Toss and bake an additional 8 minutes.
+Toss until everything is evenly coated.
 
-Remove from oven and space vegetables evenly. Add shrimp to pan and bake 6 minutes, or until shrimp is cooked through and vegetables are crisp-tender.
+Place 4 tbsp butter into the bottom of a large roasting pan, dividing it into 4 pieces.
 
-Add drained corn on top and bake 1 additional minute.
+Pour the potato mixture into the roasting pan and spread evenly.
 
-Toss gently and garnish with fresh parsley before serving.`,
+Bake for 20 minutes.
+
+Remove from the oven and stir.
+
+Bake for another 20 minutes.
+
+Remove from the oven and stir again.
+
+Add 1 lb shrimp and mix into the pan.
+
+Return to the oven and bake for 5 additional minutes, until the shrimp are pink and cooked through.
+
+Serve warm.`,
+  photoUrl: "/images/cajun-shrimp-sausage-potato-bake.webp",
+  effort: "normal",
+  tags: [
+    "dinner",
+    "shrimp",
+    "sausage",
+    "cajun",
+    "one-pan",
+    "oven",
+    "comfort",
+    "family"
+  ],
+  suggestedSides: [
+    "cornbread",
+    "side-salad",
+    "coleslaw"
+  ],
   translations: {
     es: {
-      name: "Camarones y salchicha al horno",
-      notes:
-        "Una cena en bandeja con poco desorden, mucho sabor y una buena mezcla de proteína y verduras.",
+      name: "Horneado Cajún de Camarones, Salchicha y Papas",
+      suggestedSides: [
+        "pan de maíz",
+        "ensalada",
+        "ensalada de col"
+      ],
+      ingredients: `Plato Principal:
+3 libras de papas rojas en cubos
+4 salchichas ahumadas con jalapeño en rodajas
+1 libra de camarones pelados y limpios
+1 lata (14 oz) de maíz escurrido
+1 pimiento verde picado
+1 pimiento rojo picado
+1 cebolla amarilla picada
+4 cucharadas de mantequilla, divididas
+2 cucharadas de ajo picado
+1 cucharada de aceite de oliva
+
+Condimentos:
+1 cucharadita de paprika
+1 cucharada de condimento italiano
+1 cucharada de romero seco
+1 cucharada de tomillo seco
+1/2 cucharadita de pimienta de cayena`,
+      instructions: `Precalienta el horno a 400°F.
+
+Corta 3 libras de papas rojas en cubos.
+
+Corta 4 salchichas ahumadas con jalapeño en rodajas.
+
+Pica 1 pimiento verde, 1 pimiento rojo y 1 cebolla amarilla.
+
+En un recipiente grande mezcla las papas, la salchicha, el maíz, los pimientos y la cebolla.
+
+Agrega 1 cucharada de aceite de oliva.
+
+Añade 2 cucharadas de ajo picado, 1 cucharadita de paprika, 1 cucharada de condimento italiano, 1 cucharada de romero seco, 1 cucharada de tomillo seco y 1/2 cucharadita de pimienta de cayena.
+
+Mezcla bien hasta cubrir todos los ingredientes.
+
+Coloca 4 cucharadas de mantequilla en el fondo de una charola para hornear grande.
+
+Vierte la mezcla de papas en la charola y distribuye uniformemente.
+
+Hornea durante 20 minutos.
+
+Retira del horno y mezcla.
+
+Hornea otros 20 minutos.
+
+Retira nuevamente y mezcla.
+
+Agrega 1 libra de camarones y revuelve para incorporarlos.
+
+Hornea 5 minutos más hasta que los camarones estén rosados y completamente cocidos.
+
+Sirve caliente.`,
       tags: [
         "cena",
-        "bandeja",
-        "mariscos",
         "camarones",
         "salchicha",
+        "cajún",
         "una bandeja",
-        "bueno para sobras",
+        "horno",
+        "comfort",
+        "familiar"
       ],
-      suggestedSides: [
-        "Arroz pilaf",
-        "Pan de ajo",
-        "Ensalada verde sencilla",
-      ],
-      suggestedDesserts: [ "Barras de Limón", "Fresas cubiertas con chocolate oscuro", "Vasitos de Cheesecake Sin Horno", ],
-      ingredients: `spray para cocinar
-3 cups de papas rojas, cortadas en trozos de 1 inch
-4 Tbsp de mantequilla, derretida
-3 Tbsp de aceite de oliva
-2 tsp de ajo, picado
-1 Tbsp de perejil seco
-1 Tbsp de orégano seco
-1/2 tsp de ajo en polvo
-1/2 tsp de sal sazonada
-1 tsp de paprika
-1/4 tsp de pimienta de cayena
-1 lb de camarones extra grandes, pelados y desvenados
-1 paquete de salchicha ahumada, rebanada en rodajas
-1 cebolla amarilla grande, cortada en trozos de 1/2 inch
-1 pimiento rojo, cortado en trozos de 1 inch
-1 pimiento verde, cortado en trozos de 1 inch
-1 lata de maíz, escurrido
-perejil fresco`,
-      instructions: `Precalienta el horno a 400°F.
-Cubre ligeramente una bandeja grande para hornear con spray para cocinar. Agrega las papas cortadas a la bandeja.
-
-En un tazón pequeño, bate 4 Tbsp de mantequilla derretida, 3 Tbsp de aceite de oliva, 2 tsp de ajo, 1 Tbsp de perejil seco, 1 Tbsp de orégano seco, 1/2 tsp de ajo en polvo, 1/2 tsp de sal sazonada, 1 tsp de paprika y 1/4 tsp de pimienta de cayena.
-
-Retira 2 Tbsp de esta mezcla y revuelve con las papas hasta cubrirlas de manera uniforme. Extiende las papas en una sola capa y hornea durante 15 minutos.
-
-Mientras tanto, seca los camarones y mézclalos con 2 1/2 Tbsp de la mezcla de mantequilla y hierbas. Reserva.
-
-Rebana la salchicha en rodajas, corta la cebolla en trozos de 1/2 inch, corta los pimientos en trozos de 1 inch y escurre bien el maíz.
-
-Retira las papas del horno y revuelve. Empuja las papas hacia un lado de la bandeja. Agrega la salchicha, la cebolla y los pimientos al otro lado.
-
-Vierte el resto de la mezcla de mantequilla y hierbas sobre todo y revuelve bien. Extiende en una sola capa y regresa al horno durante 15 minutos.
-
-Revuelve y hornea 8 minutos más.
-
-Retira del horno y distribuye las verduras de manera uniforme. Agrega los camarones a la bandeja y hornea 6 minutos, o hasta que los camarones estén cocidos y las verduras estén tiernas pero firmes.
-
-Agrega el maíz escurrido encima y hornea 1 minuto más.
-
-Mezcla suavemente y decora con perejil fresco antes de servir.`,
-    },
+      notes: "Una comida completa en una sola bandeja con sabores cajunes, salchicha ahumada y camarones tiernos. Perfecta para alimentar a toda la familia con una limpieza mínima."
+    }
   },
+  isVegetarian: false,
+  notes: "This one-pan Cajun-inspired dinner combines smoky sausage, tender shrimp, potatoes, and vegetables for a hearty family meal with minimal cleanup."
 },
 
 {
