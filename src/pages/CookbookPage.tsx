@@ -826,7 +826,17 @@ const language = getStoredLanguage();
                 alignItems: "center",
               }}
             >
-              <h1>{t("cookbook.title")}</h1>
+              <h1
+  style={{
+    margin: 0,
+    fontSize: "clamp(38px, 9vw, 58px)",
+    lineHeight: 1.05,
+    letterSpacing: "-0.055em",
+    fontWeight: 1000,
+  }}
+>
+  {t("cookbook.title")}
+</h1>
               <TipsModal tips={cookbookTips} />
             </div>
           </header>
