@@ -95,6 +95,7 @@ const COUNTABLE_ITEMS = [
   { singular: "slice", plural: "slices" },
   { singular: "can", plural: "cans" },
   { singular: "package", plural: "packages" },
+  { singular: "packet", plural: "packets" },
   { singular: "bag", plural: "bags" },
   { singular: "jar", plural: "jars" },
 ];
