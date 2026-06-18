@@ -308,9 +308,11 @@ function pluralizeCountableQuantityText(text: string) {
   const descriptorPattern = getDescriptorPattern();
 
   const countableRegex = new RegExp(
-    `\\b((?:\\d+\\s+\\d+\\/\\d+)|(?:\\d+\\/\\d+)|(?:\\d+(?:\\.\\d+)?))\\s+((?:(?:${descriptorPattern})\\s+)*)(${itemPattern})\\b`,
-    "gi"
-  );
+  `\\b((?:\\d+\\s+\\d+\\/\\d+)|(?:\\d+\\/\\d+)|(?:\\d+(?:\\.\\d)?\\d*)|[${Object.keys(
+    UNICODE_FRACTIONS
+  ).join("")}])\\s+((?:(?:${descriptorPattern})\\s+)*)(${itemPattern})\\b`,
+  "gi"
+);
 
   return text.replace(countableRegex, (match, amount, descriptors, item) => {
     const parsedAmount = parseQuantity(amount);
