@@ -236,6 +236,7 @@ const MERGE_AS_SINGLE_BAKING_ITEMS = new Set([
 
 const DEFAULT_CAN_PACKAGE_SIZE_BY_NAME: Record<string, string> = {
   "black beans": "15 oz",
+  corn: "15 oz",
 };
 
 // =====================================================
@@ -1417,7 +1418,6 @@ function isPreparedProduceSide(cleaned: string) {
     cleaned.includes("mexican street corn") ||
     cleaned.includes("ears corn") ||
     cleaned.includes("ear corn") ||
-    cleaned === "corn" ||
     cleaned === "potato" ||
     cleaned.includes("roasted potatoes") ||
     cleaned.includes("mashed potatoes") ||
@@ -1761,11 +1761,29 @@ function resolveShoppingCategoryForItem(
 ): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
 
+  // Canned/boxed/jarred items belong in pantry even if the ingredient name
+  // contains produce words like tomatoes or corn.
+  if (
+    unit &&
+    ["can", "package", "box", "jar", "carton", "bag", "tube", "packet"].includes(unit)
+  ) {
+    return "Pantry";
+  }
+
+  if (
+    packageSize &&
+    (cleaned.includes("tomato") ||
+      cleaned.includes("beans") ||
+      cleaned.includes("corn") ||
+      cleaned.includes("soup"))
+  ) {
+    return "Pantry";
+  }
+
   if (isPreparedFrozenSide(cleaned)) return "Frozen";
   if (isPreparedBakerySide(cleaned)) return "Bakery";
   if (isPreparedPantrySide(cleaned)) return "Pantry";
   if (isPreparedProduceSide(cleaned)) return "Produce";
-  if (isDessertBakeryItem(cleaned)) return "Bakery";
 
   if (isSkewerOrGrillSupply(cleaned)) return "Household";
 
@@ -1830,25 +1848,6 @@ if (
     isBeanPantryItem(cleaned) ||
     isPastaOrCrumbPantryItem(cleaned) ||
     isCondimentOilOrVinegarPantryItem(cleaned)
-  ) {
-    return "Pantry";
-  }
-
-  // Canned/boxed/jarred items belong in pantry even if the ingredient name
-  // contains produce words like tomatoes or corn.
-  if (
-    unit &&
-    ["can", "package", "box", "jar", "carton", "bag", "tube", "packet"].includes(unit)
-  ) {
-    return "Pantry";
-  }
-
-  if (
-    packageSize &&
-    (cleaned.includes("tomato") ||
-      cleaned.includes("beans") ||
-      cleaned.includes("corn") ||
-      cleaned.includes("soup"))
   ) {
     return "Pantry";
   }
@@ -2598,7 +2597,11 @@ export default function ShoppingListPage() {
         .replace(/\s+/g, " ")
         .trim();
 
-      safeName = normalizeSideSuggestionText(safeName);
+      if (parsedUnit === "can" && safeName === "corn on the cob") {
+        safeName = "corn";
+      } else if (!parsedUnit) {
+        safeName = normalizeSideSuggestionText(safeName);
+      }
 
       // --- Recipe name fixes before category/merge decisions ---
       // Protect seasoning and pantry onion/garlic items before broad produce cleanup.
@@ -2684,6 +2687,14 @@ export default function ShoppingListPage() {
         if (!packageSize) packageSize = DEFAULT_CAN_PACKAGE_SIZE_BY_NAME["black beans"];
       }
 
+      if (safeName === "corn") {
+        if (!parsedUnit || parsedUnit === "cup" || parsedUnit === "Tbsp" || parsedUnit === "tsp") {
+          parsedUnit = "can";
+        }
+        if (parsedQuantity === null) parsedQuantity = 1;
+        if (!packageSize) packageSize = DEFAULT_CAN_PACKAGE_SIZE_BY_NAME.corn;
+      }
+
       // Spices and small dairy check-items should merge by name, not teaspoon amounts.
       if (MERGE_AS_SINGLE_SPICES.has(safeName)) {
         parsedUnit = null;
@@ -2720,6 +2731,9 @@ if (
   if (!parsedUnit || parsedUnit === "cup" || parsedUnit === "Tbsp" || parsedUnit === "tsp") {
     parsedUnit = "can";
     parsedQuantity = parsedQuantity ?? 1;
+    if (!packageSize && safeName === "black beans") {
+      packageSize = DEFAULT_CAN_PACKAGE_SIZE_BY_NAME["black beans"];
+    }
   }
 }
 

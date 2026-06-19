@@ -220,6 +220,11 @@ const DEFAULT_BUY_DISPLAY: Record<string, string> = {
   "brown sugar": "Brown Sugar",
 };
 
+const DEFAULT_CAN_PACKAGE_SIZE_BY_NAME: Record<string, string> = {
+  "black beans": "15 oz",
+  corn: "15 oz",
+};
+
 // =====================================================
 // Builder: unit helpers
 // =====================================================
@@ -1070,8 +1075,16 @@ function parseIngredientParts(line: string): {
     return { normalizedName: "", quantity: null, unit: "", packageSize: "" };
   }
 
-  const preparedSideName = normalizeSideSuggestionText(text);
-  if (isPreparedSideName(preparedSideName)) {
+  const looksLikeMeasuredIngredient = new RegExp(
+    `^\s*(?:${QUANTITY_PATTERN})\s+(?:${UNIT_PATTERN})\b`,
+    "i"
+  ).test(text);
+
+  const preparedSideName = looksLikeMeasuredIngredient
+    ? ""
+    : normalizeSideSuggestionText(text);
+
+  if (preparedSideName && isPreparedSideName(preparedSideName)) {
     return {
       normalizedName: preparedSideName,
       quantity: null,
@@ -1121,12 +1134,12 @@ function parseIngredientParts(line: string): {
   }
 
   const parsedUnitForName = unit;
-const cleanedNormalizedName = normalizeIngredientName(text);
+  const cleanedNormalizedName = normalizeIngredientName(text);
 
-const normalizedName = normalizeContainerIngredientName(
-  cleanedNormalizedName,
-  parsedUnitForName
-);
+  let normalizedName = normalizeContainerIngredientName(
+    cleanedNormalizedName,
+    parsedUnitForName
+  );
 
   // Smart defaults stored as real metadata so ShoppingListPage can merge correctly.
   if (normalizedName === "garlic") {
@@ -1160,7 +1173,21 @@ if (
   if (!unit || unit === "cup" || unit === "Tbsp" || unit === "tsp") {
     unit = "can";
     if (quantity === null) quantity = 1;
-    if (!packageSize) packageSize = "15 oz";
+    if (!packageSize) {
+      packageSize =
+        DEFAULT_CAN_PACKAGE_SIZE_BY_NAME[normalizedName] || "15 oz";
+    }
+  }
+}
+
+if (normalizedName === "corn") {
+  if (!unit || unit === "cup" || unit === "Tbsp" || unit === "tsp") {
+    unit = "can";
+    if (quantity === null) quantity = 1;
+  }
+
+  if (unit === "can" && !packageSize) {
+    packageSize = DEFAULT_CAN_PACKAGE_SIZE_BY_NAME.corn;
   }
 }
 
@@ -1185,6 +1212,9 @@ if (normalizedName === "baby bella mushrooms") {
   if (normalizedName === "black beans" && !unit) {
     unit = "can";
     if (quantity === null) quantity = 1;
+    if (!packageSize) {
+      packageSize = DEFAULT_CAN_PACKAGE_SIZE_BY_NAME["black beans"];
+    }
   }
 
   return {
@@ -1302,11 +1332,12 @@ function buildDisplayText(
   if (!normalizedName) return "";
   
 
-  const name = normalizedName.toLowerCase().trim();
+  const rawName = normalizedName.toLowerCase().trim();
+  const name = normalizeContainerIngredientName(rawName, unit || "");
   const displayName = formatSmartName(name);
   const size = formatPackageSize(packageSize);
 
-  if (isPreparedSideName(name)) {
+  if (isPreparedSideName(name) && !unit) {
     return displayName;
   }
 
@@ -1668,6 +1699,44 @@ if (
 
   return categorizeGroceryItem(cleaned);
 }
+function resolveShoppingCategoryForItem(
+  name: string,
+  unit: string,
+  packageSize?: string
+): GroceryCategory {
+  const cleaned =
+    preserveManualShoppingName(name) ||
+    normalizeIngredientName(name) ||
+    cleanIngredientForCategory(name);
+
+  const lower = cleaned.toLowerCase();
+  const normalizedUnit = normalizeUnit(unit || "");
+  const normalizedPackageSize = normalizePackageSize(packageSize || "");
+
+  // Container/package items should stay pantry, even when the name is produce-like.
+  // Example: 1 can corn should not become Produce / Corn on the Cob.
+  if (
+    normalizedUnit &&
+    ["can", "package", "box", "jar", "carton", "bag", "tube", "packet"].includes(
+      normalizedUnit
+    )
+  ) {
+    return "Pantry";
+  }
+
+  if (
+    normalizedPackageSize &&
+    (lower.includes("tomato") ||
+      lower.includes("beans") ||
+      lower.includes("corn") ||
+      lower.includes("soup"))
+  ) {
+    return "Pantry";
+  }
+
+  return resolveShoppingCategory(cleaned);
+}
+
 
 
 // =====================================================
@@ -1823,17 +1892,26 @@ export function loadShoppingList(): ShoppingItem[] {
           item.packageSize || parsedManual.packageSize || ""
         );
 
+        const safeNormalizedName = normalizeContainerIngredientName(
+          normalizedName,
+          unit
+        );
+
         return {
           ...item,
           id:
             item.id ||
-            `${makeId(normalizedName)}-item-${item.addedAt || Date.now()}`,
-          text: buildDisplayText(normalizedName, quantity, unit, packageSize),
-          normalizedName,
+            `${makeId(safeNormalizedName)}-item-${item.addedAt || Date.now()}`,
+          text: buildDisplayText(safeNormalizedName, quantity, unit, packageSize),
+          normalizedName: safeNormalizedName,
           quantity,
           unit,
           packageSize,
-          category: resolveShoppingCategory(normalizedName),
+          category: resolveShoppingCategoryForItem(
+            safeNormalizedName,
+            unit,
+            packageSize
+          ),
           sourceRecipe: "",
         } as ShoppingItem;
       }
@@ -1858,17 +1936,26 @@ export function loadShoppingList(): ShoppingItem[] {
       const unit = normalizeUnit(item.unit || parsed.unit || "");
       const packageSize = normalizePackageSize(item.packageSize || parsed.packageSize || "");
 
+      const safeNormalizedName = normalizeContainerIngredientName(
+        normalizedName,
+        unit
+      );
+
       return {
         ...item,
         id:
           item.id ||
-          `${makeId(normalizedName)}-${item.sourceRecipe || "item"}-${item.addedAt || 0}`,
-        text: buildDisplayText(normalizedName, quantity, unit, packageSize),
-        normalizedName,
+          `${makeId(safeNormalizedName)}-${item.sourceRecipe || "item"}-${item.addedAt || 0}`,
+        text: buildDisplayText(safeNormalizedName, quantity, unit, packageSize),
+        normalizedName: safeNormalizedName,
         quantity,
         unit,
         packageSize,
-        category: resolveShoppingCategory(normalizedName),
+        category: resolveShoppingCategoryForItem(
+          safeNormalizedName,
+          unit,
+          packageSize
+        ),
         sourceRecipe,
       } as ShoppingItem;
         })
@@ -1992,13 +2079,18 @@ export function addIngredientsToList(
     continue;
   }
 
+  const safeNormalizedName = normalizeContainerIngredientName(
+    parsed.normalizedName,
+    parsed.unit
+  );
+
   // keep items separate per recipe/line so UI can merge/count later
-  const id = `${makeId(parsed.normalizedName)}-${makeId(recipeName || "recipe")}-${makeId(
+  const id = `${makeId(safeNormalizedName)}-${makeId(recipeName || "recipe")}-${makeId(
     line
   )}-${now}-${newItems.length}`;
 
   const text = buildDisplayText(
-    parsed.normalizedName,
+    safeNormalizedName,
     parsed.quantity,
     parsed.unit,
     parsed.packageSize
@@ -2009,9 +2101,13 @@ export function addIngredientsToList(
     text,
     checked: false,
     addedAt: now,
-    category: resolveShoppingCategory(parsed.normalizedName),
+    category: resolveShoppingCategoryForItem(
+      safeNormalizedName,
+      parsed.unit,
+      parsed.packageSize
+    ),
     sourceRecipe: recipeName || "",
-    normalizedName: parsed.normalizedName,
+    normalizedName: safeNormalizedName,
     quantity: parsed.quantity,
     unit: parsed.unit,
     packageSize: parsed.packageSize,
