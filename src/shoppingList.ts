@@ -142,6 +142,16 @@ function formatPackageSize(value?: string) {
   return normalizePackageSize(value);
 }
 
+function normalizeContainerIngredientName(name: string, unit: string) {
+  const cleaned = cleanupSpacing(normalizeAscii(name));
+
+  if (unit === "can" && cleaned === "corn on the cob") {
+    return "corn";
+  }
+
+  return name;
+}
+
 function formatSmartName(value: string) {
   const cleaned = cleanupSpacing(String(value || "").toLowerCase());
 
@@ -1111,7 +1121,13 @@ function parseIngredientParts(line: string): {
     text = text.slice(unitMatch[0].length).trim();
   }
 
-  const normalizedName = normalizeIngredientName(text);
+  const parsedUnitForName = unit;
+const cleanedNormalizedName = normalizeIngredientName(text);
+
+const normalizedName = normalizeContainerIngredientName(
+  cleanedNormalizedName,
+  parsedUnitForName
+);
 
   // Smart defaults stored as real metadata so ShoppingListPage can merge correctly.
   if (normalizedName === "garlic") {
