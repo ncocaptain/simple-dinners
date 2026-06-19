@@ -1957,9 +1957,16 @@ export function addIngredientsToList(
   const newItems: ShoppingItem[] = [];
 
   for (const line of lines) {
-  const sideName = normalizeSideSuggestionText(line);
+  const looksLikeMeasuredIngredient = new RegExp(
+    `^\\s*(?:${QUANTITY_PATTERN})\\s+(?:${UNIT_PATTERN})\\b`,
+    "i"
+  ).test(line);
 
-  if (isPreparedSideName(sideName)) {
+  const sideName = looksLikeMeasuredIngredient
+    ? ""
+    : normalizeSideSuggestionText(line);
+
+  if (sideName && isPreparedSideName(sideName)) {
     const id = `${makeId(sideName)}-${makeId(recipeName || "recipe")}-${makeId(
       line
     )}-${now}-${newItems.length}`;
