@@ -1115,6 +1115,16 @@ function formatPackageSize(packageSize: string) {
   return normalizePackageSize(packageSize);
 }
 
+function normalizeContainerIngredientName(name: string, unit: string | null) {
+  const cleaned = cleanIngredientName(name).toLowerCase();
+
+  if (unit === "can" && cleaned === "corn on the cob") {
+    return "corn";
+  }
+
+  return name;
+}
+
 // =====================================================
 // Ingredient parsing
 // This figures out quantity, unit, cleaned name,
@@ -1138,14 +1148,17 @@ function parseIngredient(line: string): ParsedIngredient {
   if (measuredRangeMatch) {
     const [, minRaw, maxRaw, unitRaw, rest] = measuredRangeMatch;
 
-    return {
-      quantity: parseFraction(maxRaw),
-      minQuantity: parseFraction(minRaw),
-      maxQuantity: parseFraction(maxRaw),
-      unit: normalizeUnit(unitRaw),
-      name: cleanIngredientName(rest),
-      packageSize,
-    };
+    const normalizedUnit = normalizeUnit(unitRaw);
+const cleanedName = cleanIngredientName(rest);
+
+return {
+  quantity: parseFraction(maxRaw),
+  minQuantity: parseFraction(minRaw),
+  maxQuantity: parseFraction(maxRaw),
+  unit: normalizedUnit,
+  name: normalizeContainerIngredientName(cleanedName, normalizedUnit),
+  packageSize,
+};
   }
 
   const countedRangeMatch = raw.match(
@@ -1172,14 +1185,17 @@ function parseIngredient(line: string): ParsedIngredient {
   if (measuredMatch) {
     const [, qtyRaw, unitRaw, rest] = measuredMatch;
 
-    return {
-      quantity: parseFraction(qtyRaw),
-      minQuantity: parseFraction(qtyRaw),
-      maxQuantity: parseFraction(qtyRaw),
-      unit: normalizeUnit(unitRaw),
-      name: cleanIngredientName(rest),
-      packageSize,
-    };
+    const normalizedUnit = normalizeUnit(unitRaw);
+const cleanedName = cleanIngredientName(rest);
+
+return {
+  quantity: parseFraction(qtyRaw),
+  minQuantity: parseFraction(qtyRaw),
+  maxQuantity: parseFraction(qtyRaw),
+  unit: normalizedUnit,
+  name: normalizeContainerIngredientName(cleanedName, normalizedUnit),
+  packageSize,
+};
   }
 
   const countedMatch = raw.match(
