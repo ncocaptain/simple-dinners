@@ -909,8 +909,7 @@ if (
 if (
   cleaned.includes("corn on the cob") ||
   cleaned.includes("ears corn") ||
-  cleaned.includes("ear corn") ||
-  cleaned === "corn"
+  cleaned.includes("ear corn")
 ) {
   return "corn on the cob";
 }
