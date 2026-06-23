@@ -118,6 +118,28 @@ function normalizePhotoUrl(url?: string) {
   return trimmed;
 }
 
+function getSharedRecipeUrlFromSearch(search: string) {
+  const params = new URLSearchParams(search);
+
+  const rawUrl =
+    params.get("url") ||
+    params.get("sharedUrl") ||
+    params.get("text") ||
+    "";
+
+  const trimmed = rawUrl.trim();
+
+  if (!trimmed) return "";
+
+  const directUrlMatch = trimmed.match(/https?:\/\/[^\s]+/i);
+
+  if (directUrlMatch) {
+    return directUrlMatch[0];
+  }
+
+  return trimmed;
+}
+
 function normalizeEffort(value: unknown): RecipeEffort {
   if (
     value === "quick" ||
@@ -141,6 +163,34 @@ function normalizeTags(value: unknown): string[] {
 
 function normalizeNotes(value: unknown): string {
   return String(value ?? "").trim();
+}
+
+function hasRealRecipeDetails(recipe: ManualRecipeDraft) {
+  const ingredientCount = splitLines(recipe.ingredients).length;
+
+  const instructions = normalizeMultilineField(recipe.instructions);
+  const instructionsArePlaceholder =
+    !instructions ||
+    instructions.trim().toLowerCase() ===
+      "steps available at source link!".toLowerCase();
+
+  const stepCount = instructionsArePlaceholder
+    ? 0
+    : splitLines(instructions).length;
+
+  return ingredientCount > 0 && stepCount > 0;
+}
+
+function looksLikeSocialRecipeUrl(url: string) {
+  const value = String(url || "").toLowerCase();
+
+  return (
+    value.includes("facebook.com") ||
+    value.includes("fb.watch") ||
+    value.includes("instagram.com") ||
+    value.includes("tiktok.com") ||
+    value.includes("pinterest.com")
+  );
 }
 
 function getRecipeStatus(recipe: CookbookRecipe) {
@@ -441,6 +491,25 @@ const language = getStoredLanguage();
   // =========================================================
 
   useEffect(() => {
+  const sharedUrl = getSharedRecipeUrlFromSearch(location.search);
+
+  if (!sharedUrl) return;
+
+  setImportUrl(sharedUrl);
+
+  const timer = window.setTimeout(() => {
+    const input = document.getElementById("cookbook-import-url-input");
+
+    if (input) {
+      input.scrollIntoView({ behavior: "smooth", block: "center" });
+      (input as HTMLInputElement).focus();
+    }
+  }, 150);
+
+  return () => window.clearTimeout(timer);
+}, [location.search]);
+
+  useEffect(() => {
     const savedSlug = localStorage.getItem("scrollToCookbook");
     if (!savedSlug) return;
 
@@ -594,6 +663,22 @@ const language = getStoredLanguage();
             imported?.isVegetarian === true || data?.isVegetarian === true,
           notes: normalizeNotes(imported?.notes ?? data?.notes),
         };
+
+        const importSourceUrl = normalizedRecipe.sourceUrl || importUrl.trim();
+
+if (!hasRealRecipeDetails(normalizedRecipe)) {
+  const socialMessage = looksLikeSocialRecipeUrl(importSourceUrl)
+    ? "Simple Dinners found the link, but social posts do not always expose the full recipe details. Try copying the caption, ingredients, or recipe text and use Paste Text instead."
+    : "Simple Dinners found the link, but could not read enough recipe details. Try Paste Text if the recipe is shown on the page.";
+
+  alert(socialMessage);
+
+  setPasteText("");
+  setShowTextImport(true);
+  setImportUrl(importSourceUrl);
+
+  return;
+}
 
         setManualRecipe(normalizedRecipe);
 
@@ -906,9 +991,10 @@ const language = getStoredLanguage();
                     />
 
                     <input
-                      placeholder={t("cookbook.pasteRecipeLink")}
-                      value={importUrl}
-                      onChange={(e) => setImportUrl(e.target.value)}
+  id="cookbook-import-url-input"
+  placeholder={t("cookbook.pasteRecipeLink")}
+  value={importUrl}
+  onChange={(e) => setImportUrl(e.target.value)}
                       style={{
                         width: "100%",
                         boxSizing: "border-box",
