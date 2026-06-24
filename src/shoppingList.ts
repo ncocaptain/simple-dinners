@@ -334,6 +334,20 @@ function normalizeAscii(text: string) {
     .trim();
 }
 
+function normalizeChoiceIngredient(text: string) {
+  return String(text || "")
+    .replace(/\bolive oil or butter\b/g, "olive oil")
+    .replace(/\bbutter or olive oil\b/g, "butter")
+    .replace(/\bfrench bread or italian bread\b/g, "french bread")
+    .replace(/\bitalian bread or french bread\b/g, "italian bread")
+    .replace(/\bparsley or cilantro\b/g, "parsley")
+    .replace(/\bcilantro or parsley\b/g, "cilantro")
+    .replace(/\bchopped parsley or cilantro\b/g, "parsley")
+    .replace(/\bchopped cilantro or parsley\b/g, "cilantro")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function cleanupSpacing(text: string) {
   return String(text || "")
     .replace(/^[-•*]+\s*/, "")
@@ -945,6 +959,7 @@ function removeNonShoppingItems(text: string) {
 
 function normalizeIngredientCore(text: string) {
   let next = normalizeAscii(text);
+  next = normalizeChoiceIngredient(next);
   
 
   next = next.replace(/<[^>]+>/g, " ");
@@ -1586,7 +1601,7 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     normalizeIngredientName(name) ||
     cleanIngredientForCategory(name);
 
-  const lower = cleaned.toLowerCase();
+  const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
 
   if (includesAny(lower, PREPARED_FROZEN_SIDE_KEYWORDS)) return "Frozen";
 if (includesAny(lower, PREPARED_BAKERY_SIDE_KEYWORDS)) return "Bakery";
@@ -1709,7 +1724,7 @@ function resolveShoppingCategoryForItem(
     normalizeIngredientName(name) ||
     cleanIngredientForCategory(name);
 
-  const lower = cleaned.toLowerCase();
+  const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
   const normalizedUnit = normalizeUnit(unit || "");
   const normalizedPackageSize = normalizePackageSize(packageSize || "");
 
