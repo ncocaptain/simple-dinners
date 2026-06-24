@@ -2382,7 +2382,11 @@ export default function ShoppingListPage() {
     return;
   }
 
-  let text = `🛒 ${t("shopping.title")}\n\n`;
+  const itemCount = itemsToShare.length;
+  const itemLabel = itemCount === 1 ? "item" : "items";
+
+  let text = `🛒 Simple Dinners Shopping List\n`;
+  text += `${itemCount} ${itemLabel} to pick up\n\n`;
 
   GROCERY_CATEGORY_ORDER.forEach((section) => {
     const sectionItems = itemsToShare.filter(
@@ -2391,21 +2395,21 @@ export default function ShoppingListPage() {
 
     if (sectionItems.length === 0) return;
 
-    text += `${section.toUpperCase()}\n`;
+    text += `${getCategoryLabel(section)}\n`;
 
     sectionItems.forEach((item) => {
-      text += `• ${item.displayText}\n`;
+      text += `□ ${item.displayText}\n`;
     });
 
     text += "\n";
   });
 
-  text += t("shopping.generatedWith");
+  text += `Generated with Simple Dinners`;
 
   try {
     if (navigator.share) {
       await navigator.share({
-        title: "Shopping List",
+        title: "Simple Dinners Shopping List",
         text,
       });
     } else {
