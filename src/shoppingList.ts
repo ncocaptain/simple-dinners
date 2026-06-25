@@ -160,6 +160,10 @@ function normalizeContainerIngredientName(name: string, unit: string) {
 function formatSmartName(value: string) {
   const cleaned = cleanupSpacing(String(value || "").toLowerCase());
 
+  if (DEFAULT_BUY_DISPLAY[cleaned]) {
+  return DEFAULT_BUY_DISPLAY[cleaned];
+}
+
   const specialDisplayName = SPECIAL_DISPLAY_NAMES[cleaned];
   if (specialDisplayName) {
     return specialDisplayName;
