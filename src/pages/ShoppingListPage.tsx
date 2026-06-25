@@ -176,6 +176,8 @@ const ALWAYS_SHOW_MEASURED_TOTALS = new Set([
   "pasta",
   "manicotti shells",
   "baby bella mushrooms",
+  "parsley",
+  "cilantro",
 ]);
 
 const HIDE_MEASURED_TOTALS = new Set([
