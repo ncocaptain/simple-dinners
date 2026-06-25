@@ -283,6 +283,8 @@ function normalizeUnit(unit?: string) {
     tubes: "tube",
     packet: "packet",
     packets: "packet",
+    loaf: "loaf",
+loaves: "loaf",
   };
 
   return map[value] || value;
@@ -315,13 +317,14 @@ function pluralizeUnit(unit: string, quantity: number | null | undefined) {
     bag: "bags",
     tube: "tubes",
     packet: "packets",
+    loaf: "loaves",
   };
 
   return pluralMap[unit] || unit;
 }
 
 const UNIT_PATTERN =
-  "cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|l|clove|cloves|can|cans|package|packages|pkg|pkgs|box|boxes|slice|slices|stick|sticks|bunch|bunches|jar|jars|carton|cartons|bag|bags|tube|tubes|packet|packets";
+  "cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|l|clove|cloves|can|cans|package|packages|pkg|pkgs|box|boxes|slice|slices|stick|sticks|bunch|bunches|jar|jars|carton|cartons|bag|bags|tube|tubes|packet|packets|loaf|loaves";
 
 const QUANTITY_PATTERN =
   "\\d+\\s+\\d+\\/\\d+|\\d+\\/\\d+|\\d+\\.\\d+|\\d+|½|¼|¾|⅓|⅔|⅛";
@@ -1107,6 +1110,13 @@ function parseIngredientParts(line: string): {
   text = text.replace(/^[/\\\-–—]+\s*/, "");
   text = text.replace(/\u00a0/g, " ");
   text = text.replace(/\s+/g, " ").trim();
+  text = text
+  .replace(/\bloaf of french bread\b/g, "1 loaf french bread")
+  .replace(/\bloaf french bread\b/g, "1 loaf french bread")
+  .replace(/\bfrench bread loaf\b/g, "1 loaf french bread")
+  .replace(/\bloaf of italian bread\b/g, "1 loaf italian bread")
+  .replace(/\bloaf italian bread\b/g, "1 loaf italian bread")
+  .replace(/\bitalian bread loaf\b/g, "1 loaf italian bread");
 
   if (isSectionHeader(text)) {
     return { normalizedName: "", quantity: null, unit: "", packageSize: "" };
