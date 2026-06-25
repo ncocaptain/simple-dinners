@@ -16,6 +16,11 @@ export type ShoppingItem = {
   quantity?: number | null;
   unit?: string;
   packageSize?: string;
+
+  // future grocery / display helpers
+  displayText?: string;
+  grocerySearchName?: string;
+  groceryNotes?: string;
 };
 
 const KEY = "simple-dinners.shoppingList.v1";
@@ -356,6 +361,23 @@ function cleanupSpacing(text: string) {
     .replace(/\s+/g, " ")
     .trim()
     .replace(/[:;,]+$/g, "");
+}
+
+function buildGrocerySearchName(normalizedName: string) {
+  return cleanupSpacing(
+    normalizeAscii(normalizedName)
+      .replace(/\b\d+\b/g, "")
+      .replace(/\bloaf\b/g, "")
+      .replace(/\bbunch\b/g, "")
+      .replace(/\bcloves?\b/g, "")
+      .replace(/\bcans?\b/g, "")
+      .replace(/\bpackages?\b/g, "")
+      .replace(/\bbox(es)?\b/g, "")
+      .replace(/\bjars?\b/g, "")
+      .replace(/\bbags?\b/g, "")
+      .replace(/\btubes?\b/g, "")
+      .replace(/\bpackets?\b/g, "")
+  );
 }
 
 // =====================================================
@@ -1844,14 +1866,23 @@ function mergeSafeShoppingItems(items: ShoppingItem[]): ShoppingItem[] {
     const qty = getSafeMergeQuantity(item) ?? 0;
 
     if (!existing) {
-      const nextItem: ShoppingItem = {
-        ...item,
-        quantity: qty,
-        unit: "",
-        packageSize: "",
-        text: buildDisplayText(item.normalizedName || item.text, qty, "", ""),
-        category: resolveShoppingCategory(item.normalizedName || item.text),
-      };
+      const displayText = buildDisplayText(
+  item.normalizedName || item.text,
+  qty,
+  "",
+  ""
+);
+
+const nextItem: ShoppingItem = {
+  ...item,
+  quantity: qty,
+  unit: "",
+  packageSize: "",
+  text: displayText,
+  displayText,
+  grocerySearchName: buildGrocerySearchName(item.normalizedName || item.text),
+  category: resolveShoppingCategory(item.normalizedName || item.text),
+};
 
       merged.set(key, nextItem);
       output.push(nextItem);
@@ -1862,7 +1893,18 @@ function mergeSafeShoppingItems(items: ShoppingItem[]): ShoppingItem[] {
     const newQty = existingQty + qty;
 
     existing.quantity = newQty;
-    existing.text = buildDisplayText(existing.normalizedName || existing.text, newQty, "", "");
+    const displayText = buildDisplayText(
+  existing.normalizedName || existing.text,
+  newQty,
+  "",
+  ""
+);
+
+existing.text = displayText;
+existing.displayText = displayText;
+existing.grocerySearchName = buildGrocerySearchName(
+  existing.normalizedName || existing.text
+);
     existing.checked = existing.checked && item.checked;
     existing.addedAt = Math.min(existing.addedAt || Date.now(), item.addedAt || Date.now());
 
@@ -1912,13 +1954,22 @@ export function loadShoppingList(): ShoppingItem[] {
           unit
         );
 
-        return {
-          ...item,
-          id:
-            item.id ||
-            `${makeId(safeNormalizedName)}-item-${item.addedAt || Date.now()}`,
-          text: buildDisplayText(safeNormalizedName, quantity, unit, packageSize),
-          normalizedName: safeNormalizedName,
+        const displayText = buildDisplayText(
+  safeNormalizedName,
+  quantity,
+  unit,
+  packageSize
+);
+
+return {
+  ...item,
+  id:
+    item.id ||
+    `${makeId(safeNormalizedName)}-item-${item.addedAt || Date.now()}`,
+  text: displayText,
+  displayText,
+  grocerySearchName: buildGrocerySearchName(safeNormalizedName),
+  normalizedName: safeNormalizedName,
           quantity,
           unit,
           packageSize,
@@ -1956,13 +2007,22 @@ export function loadShoppingList(): ShoppingItem[] {
         unit
       );
 
-      return {
-        ...item,
-        id:
-          item.id ||
-          `${makeId(safeNormalizedName)}-${item.sourceRecipe || "item"}-${item.addedAt || 0}`,
-        text: buildDisplayText(safeNormalizedName, quantity, unit, packageSize),
-        normalizedName: safeNormalizedName,
+      const displayText = buildDisplayText(
+  safeNormalizedName,
+  quantity,
+  unit,
+  packageSize
+);
+
+return {
+  ...item,
+  id:
+    item.id ||
+    `${makeId(safeNormalizedName)}-${item.sourceRecipe || "item"}-${item.addedAt || 0}`,
+  text: displayText,
+  displayText,
+  grocerySearchName: buildGrocerySearchName(safeNormalizedName),
+  normalizedName: safeNormalizedName,
         quantity,
         unit,
         packageSize,
@@ -2007,18 +2067,22 @@ export function addSidesToList(
       line
     )}-${now}-${newItems.length}`;
 
-    newItems.push({
-      id,
-      text: formatSmartName(sideName),
-      checked: false,
-      addedAt: now,
-      category: resolveShoppingCategory(sideName),
-      sourceRecipe: "",
-      normalizedName: sideName,
-      quantity: null,
-      unit: "",
-      packageSize: "",
-    });
+    const displayText = formatSmartName(sideName);
+
+newItems.push({
+  id,
+  text: displayText,
+  displayText,
+  grocerySearchName: buildGrocerySearchName(sideName),
+  checked: false,
+  addedAt: now,
+  category: resolveShoppingCategory(sideName),
+  sourceRecipe: "",
+  normalizedName: sideName,
+  quantity: null,
+  unit: "",
+  packageSize: "",
+});
   }
 
   const addedSideNames = new Set(
@@ -2072,18 +2136,22 @@ export function addIngredientsToList(
       line
     )}-${now}-${newItems.length}`;
 
-    newItems.push({
-      id,
-      text: formatSmartName(sideName),
-      checked: false,
-      addedAt: now,
-      category: resolveShoppingCategory(sideName),
-      sourceRecipe: "",
-      normalizedName: sideName,
-      quantity: null,
-      unit: "",
-      packageSize: "",
-    });
+    const displayText = formatSmartName(sideName);
+
+newItems.push({
+  id,
+  text: displayText,
+  displayText,
+  grocerySearchName: buildGrocerySearchName(sideName),
+  checked: false,
+  addedAt: now,
+  category: resolveShoppingCategory(sideName),
+  sourceRecipe: "",
+  normalizedName: sideName,
+  quantity: null,
+  unit: "",
+  packageSize: "",
+});
 
     continue;
   }
@@ -2112,21 +2180,23 @@ export function addIngredientsToList(
   );
 
   newItems.push({
-    id,
-    text,
-    checked: false,
-    addedAt: now,
-    category: resolveShoppingCategoryForItem(
-      safeNormalizedName,
-      parsed.unit,
-      parsed.packageSize
-    ),
-    sourceRecipe: recipeName || "",
-    normalizedName: safeNormalizedName,
-    quantity: parsed.quantity,
-    unit: parsed.unit,
-    packageSize: parsed.packageSize,
-  });
+  id,
+  text,
+  displayText: text,
+  grocerySearchName: buildGrocerySearchName(safeNormalizedName),
+  checked: false,
+  addedAt: now,
+  category: resolveShoppingCategoryForItem(
+    safeNormalizedName,
+    parsed.unit,
+    parsed.packageSize
+  ),
+  sourceRecipe: recipeName || "",
+  normalizedName: safeNormalizedName,
+  quantity: parsed.quantity,
+  unit: parsed.unit,
+  packageSize: parsed.packageSize,
+});
 }
 
     // Idempotent recipe adds: adding the same recipe again refreshes its ingredients instead of duplicating them.
