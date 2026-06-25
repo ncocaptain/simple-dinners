@@ -1406,9 +1406,9 @@ if (quantity === null && DEFAULT_COUNTABLE_FALLBACK.has(name)) {
 }
 
   // Helpful defaults for common loose items when recipes do not include a real quantity.
-  if (quantity === null && DEFAULT_BUY_DISPLAY[name]) {
-    return DEFAULT_BUY_DISPLAY[name];
-  }
+  if ((quantity === null || quantity === undefined) && DEFAULT_BUY_DISPLAY[name]) {
+  return DEFAULT_BUY_DISPLAY[name];
+}
 
   if (quantity !== null) {
     const qty = formatQuantity(quantity);
