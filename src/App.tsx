@@ -49,6 +49,7 @@ import { hasCompletedOnboarding } from "./core/onboardingStore";
 import { t, getStoredLanguage, type LanguageCode } from "./i18n";
 import { Capacitor } from "@capacitor/core";
 import AboutPage from "./pages/AboutPage";
+import ShareImport from "./pages/ShareImport";
 
 type CookbookRecipe = Meal & {
   sourceUrl?: string;
@@ -740,6 +741,7 @@ useEffect(() => {
         <Route path="/guide" element={<TestersGuidePage />} />
         <Route path="/feedback" element={<FeedbackForm />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/share-import" element={<ShareImport />} />
 
         <Route
           path="/recipes"

@@ -509,6 +509,31 @@ const language = getStoredLanguage();
   return () => window.clearTimeout(timer);
 }, [location.search]);
 
+useEffect(() => {
+  const sharedImportedRecipe = location.state?.sharedImportedRecipe;
+
+  if (!sharedImportedRecipe) return;
+
+  const normalizedRecipe: ManualRecipeDraft = {
+    name: String(sharedImportedRecipe?.name ?? "").trim(),
+    ingredients: normalizeMultilineField(sharedImportedRecipe?.ingredients),
+    instructions: normalizeMultilineField(sharedImportedRecipe?.instructions),
+    photoUrl: String(sharedImportedRecipe?.photoUrl ?? "").trim(),
+    sourceUrl: String(sharedImportedRecipe?.sourceUrl ?? "").trim(),
+    effort: normalizeEffort(sharedImportedRecipe?.effort),
+    tags: normalizeTags(sharedImportedRecipe?.tags),
+    isVegetarian: sharedImportedRecipe?.isVegetarian === true,
+    notes: normalizeNotes(sharedImportedRecipe?.notes),
+  };
+
+  setManualRecipe(normalizedRecipe);
+  setEditingSlug(null);
+  setHasImportedDraft(true);
+  setShowManual(true);
+
+  navigate("/cookbook", { replace: true });
+}, [location.state, navigate]);
+
   useEffect(() => {
     const savedSlug = localStorage.getItem("scrollToCookbook");
     if (!savedSlug) return;

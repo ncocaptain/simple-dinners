@@ -10,10 +10,12 @@ import com.getcapacitor.BridgeActivity;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+
 public class MainActivity extends BridgeActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        registerPlugin(ShareRecipeExtractorPlugin.class);
         super.onCreate(savedInstanceState);
         handleSharedIntent(getIntent());
     }
@@ -44,12 +46,12 @@ public class MainActivity extends BridgeActivity {
             if (bridge == null || bridge.getWebView() == null) return;
 
             bridge
-                .getWebView()
-                .loadUrl(
-                    "javascript:window.location.href='/cookbook?url="
-                        + encodedSharedText
-                        + "';"
-                );
+    .getWebView()
+    .loadUrl(
+        "javascript:window.location.href='/share-import?url="
+            + encodedSharedText
+            + "';"
+    );
         }, 500);
     }
 
