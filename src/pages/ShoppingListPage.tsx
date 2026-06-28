@@ -1941,7 +1941,7 @@ function formatRecipeBreakdownAmount(
       packageSize && isPackageSizeSensitiveUnit(unit)
         ? ` (${formatPackageSize(packageSize)})`
         : "";
-    return `${formatQuantity(quantity)}${sizeText} ${pluralizeUnit(unit, quantity)}`;
+    return `${formatQuantity(quantity)} ${pluralizeUnit(unit, quantity)}${sizeText}`;
   }
 
   return formatQuantity(quantity);
@@ -2950,16 +2950,18 @@ if (safeName === "baby bella mushrooms") {
   shouldShowMeasuredTotal(value.name, value.unit, value.totalQuantity) &&
   !shouldHideMainRowAmount(value.name, value.unit)
 ) {
-        const formattedName = formatDisplayName(value.name);
-        const packageText =
-          value.packageSize && isPackageSizeSensitiveUnit(value.unit)
-            ? ` (${formatPackageSize(value.packageSize)})`
-            : "";
-        displayText = `${formatQuantity(value.totalQuantity)}${packageText} ${pluralizeUnit(
-          value.unit,
-          value.totalQuantity
-        )} ${formattedName}`;
-      }
+  const formattedName = formatDisplayName(value.name);
+
+  const packageText =
+    value.packageSize && isPackageSizeSensitiveUnit(value.unit)
+      ? ` (${formatPackageSize(value.packageSize)})`
+      : "";
+
+  displayText = `${formatQuantity(value.totalQuantity)} ${pluralizeUnit(
+    value.unit,
+    value.totalQuantity
+  )}${packageText} ${formattedName}`;
+}
 
       const recipeNames = Array.from(value.recipeNames)
         .flatMap((name) =>
