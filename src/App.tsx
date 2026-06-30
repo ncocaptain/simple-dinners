@@ -51,6 +51,7 @@ import { Capacitor } from "@capacitor/core";
 import AboutPage from "./pages/AboutPage";
 import ShareImport from "./pages/ShareImport";
 
+
 type CookbookRecipe = Meal & {
   sourceUrl?: string;
 };
@@ -339,6 +340,33 @@ function Navigation() {
 function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+  if (!Capacitor.isNativePlatform()) return;
+
+  let removeListener: (() => void) | undefined;
+
+  CapacitorApp.addListener("appUrlOpen", (event) => {
+    const incomingUrl = event.url || "";
+
+    try {
+      const parsed = new URL(incomingUrl);
+      const sharedUrl = parsed.searchParams.get("url");
+
+      if (sharedUrl) {
+        window.location.href = `/share-import?url=${encodeURIComponent(sharedUrl)}`;
+      }
+    } catch {
+      // Ignore malformed URLs.
+    }
+  }).then((listener) => {
+    removeListener = () => listener.remove();
+  });
+
+  return () => {
+    removeListener?.();
+  };
+}, []);
 
 const hideBottomNav =
   location.pathname === "/about" || location.pathname.startsWith("/recipe/");
