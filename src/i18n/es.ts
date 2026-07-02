@@ -415,7 +415,7 @@ cookbook: {
 
   tips: {
     saveFavorites: "Guarda tus recetas favoritas",
-    tapRecipe: "Toca una receta para cocinarla cuando quieras",
+    tapRecipe: "¿Encontraste una receta en línea? Pega el enlace o compártelo con Simple Dinners. La limpiaremos para que puedas revisarla y guardarla.",
     instantUpdates: "Tus recetas guardadas se actualizan al instante",
   },
 },

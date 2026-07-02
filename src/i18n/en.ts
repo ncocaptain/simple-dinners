@@ -406,7 +406,7 @@ cookbook: {
 
   tips: {
     saveFavorites: "Save your favorite recipes",
-    tapRecipe: "Tap a recipe to cook it anytime",
+    tapRecipe: "Found a recipe online? Paste the link or share it to Simple Dinners. We’ll clean it up so you can review and save it.",
     instantUpdates: "Your saved recipes update instantly",
   },
 },
