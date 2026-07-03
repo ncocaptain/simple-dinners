@@ -1,5 +1,5 @@
 import type { Meal, Effort } from "./types";
-import { ALL_RECIPES, SIDE_DISHES, DESSERTS, days } from "./data";
+import { PLANNER_RECIPES, SIDE_DISHES, DESSERTS, days } from "./data";
 
 // =====================================================
 // Planner types
@@ -247,7 +247,7 @@ function dedupeMeals(items: Meal[]) {
 }
 
 export const dinnerLibrary: Meal[] = dedupeMeals(
-  ALL_RECIPES.filter((meal) => {
+  PLANNER_RECIPES.filter((meal) => {
     const tags = normalizeTags(meal.tags);
 
     const blockedTags = [

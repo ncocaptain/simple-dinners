@@ -1,4 +1,5 @@
 import type { Meal } from "./types";
+import { SEASONAL_RECIPES } from "./seasonalRecipes";
 
 
 export const days = [
@@ -988,6 +989,232 @@ export const DESSERT_SUGGESTIONS_BY_RECIPE: Partial<
     "iceCreamSundaes",
     "chocolatePudding",
   ],
+
+  "holiday-new-years-day-comfort-dinner": [
+  "miniCheesecakes",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
+"holiday-winter-snow-day-chicken-noodle-soup": [
+  "chocolateChipCookieBars",
+  "classicBrownies",
+  "riceKrispieTreats",
+],
+"holiday-game-day-chili-bar-dinner": [
+  "chocolatePeanutButterNoBakeBars",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
+"holiday-three-kings-taco-bake-dinner": [
+  "miniCheesecakes",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
+"holiday-lunar-new-year-noodle-stir-fry-dinner": [
+  "miniCheesecakes",
+  "riceKrispieTreats",
+  "classicBrownies",
+],
+"holiday-valentines-family-pasta-bake": [
+  "miniCheesecakes",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
+"holiday-big-game-slider-dinner": [
+  "chocolatePeanutButterNoBakeBars",
+  "chocolateChipCookieBars",
+  "riceKrispieTreats",
+],
+"holiday-presidents-day-meatloaf-dinner": [
+  "classicBrownies",
+  "chocolateChipCookieBars",
+  "miniCheesecakes",
+],
+"holiday-mardi-gras-sausage-rice-skillet": [
+  "riceKrispieTreats",
+  "classicBrownies",
+  "chocolateChipCookieBars",
+],
+"holiday-st-patricks-slow-cooker-corned-beef-dinner": [
+  "miniCheesecakes",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
+"holiday-march-madness-loaded-nacho-dinner": [
+  "chocolatePeanutButterNoBakeBars",
+  "riceKrispieTreats",
+  "classicBrownies",
+],
+"holiday-lenten-fish-taco-dinner": [
+  "miniCheesecakes",
+  "chocolateChipCookieBars",
+  "riceKrispieTreats",
+],
+"holiday-spring-chicken-rice-bake": [
+  "classicBrownies",
+  "chocolateChipCookieBars",
+  "miniCheesecakes",
+],
+"holiday-easter-glazed-ham-dinner": [
+  "miniCheesecakes",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
+"holiday-passover-brisket-potato-dinner": [
+  "miniCheesecakes",
+  "classicBrownies",
+  "chocolateChipCookieBars",
+],
+"holiday-earth-day-veggie-pasta-bake": [
+  "classicBrownies",
+  "chocolateChipCookieBars",
+  "riceKrispieTreats",
+],
+"holiday-april-showers-chicken-pot-pie-skillet": [
+  "chocolateChipCookieBars",
+  "classicBrownies",
+  "miniCheesecakes",
+],
+"holiday-cinco-de-mayo-chicken-fajita-rice-bake": [
+  "miniCheesecakes",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
+"holiday-mothers-day-creamy-lemon-chicken-pasta": [
+  "miniCheesecakes",
+  "classicBrownies",
+  "chocolateChipCookieBars",
+],
+"holiday-memorial-day-bbq-chicken-tray-dinner": [
+  "riceKrispieTreats",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
+"holiday-graduation-party-baked-sandwiches": [
+  "chocolateChipCookieBars",
+  "riceKrispieTreats",
+  "classicBrownies",
+],
+"holiday-fourth-of-july-pulled-pork-sandwich-dinner": [
+  "riceKrispieTreats",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
+"holiday-summer-pool-day-chicken-caesar-wraps": [
+  "miniCheesecakes",
+  "riceKrispieTreats",
+  "chocolateChipCookieBars",
+],
+"holiday-backyard-bbq-sausage-corn-sheet-pan": [
+  "classicBrownies",
+  "chocolateChipCookieBars",
+  "riceKrispieTreats",
+],
+"holiday-campfire-walking-taco-night": [
+  "riceKrispieTreats",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
+"holiday-back-to-school-taco-pasta-skillet": [
+  "chocolateChipCookieBars",
+  "classicBrownies",
+  "riceKrispieTreats",
+],
+"holiday-county-fair-corn-dog-casserole": [
+  "riceKrispieTreats",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
+"holiday-late-summer-garden-chicken-pasta": [
+  "miniCheesecakes",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
+"holiday-beach-vacation-shrimp-boil-foil-packets": [
+  "riceKrispieTreats",
+  "miniCheesecakes",
+  "chocolateChipCookieBars",
+],
+"holiday-labor-day-bbq-chicken-drumstick-dinner": [
+  "riceKrispieTreats",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
+"holiday-football-kickoff-loaded-baked-potato-bar": [
+  "chocolatePeanutButterNoBakeBars",
+  "classicBrownies",
+  "chocolateChipCookieBars",
+],
+"holiday-grandparents-day-chicken-dumplings": [
+  "miniCheesecakes",
+  "classicBrownies",
+  "chocolateChipCookieBars",
+],
+"holiday-first-day-of-fall-sausage-apple-sheet-pan": [
+  "miniCheesecakes",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
+"holiday-halloween-mummy-hot-dog-dinner": [
+  "riceKrispieTreats",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
+"holiday-oktoberfest-sausage-potato-sheet-pan": [
+  "miniCheesecakes",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
+"holiday-pumpkin-patch-turkey-chili": [
+  "classicBrownies",
+  "chocolateChipCookieBars",
+  "miniCheesecakes",
+],
+"holiday-fall-harvest-chicken-wild-rice-casserole": [
+  "miniCheesecakes",
+  "classicBrownies",
+  "chocolateChipCookieBars",
+],
+"holiday-veterans-day-beef-stew-dinner": [
+  "classicBrownies",
+  "miniCheesecakes",
+  "chocolateChipCookieBars",
+],
+"holiday-thanksgiving-turkey-breast-dinner": [
+  "miniCheesecakes",
+  "classicBrownies",
+  "chocolateChipCookieBars",
+],
+"holiday-friendsgiving-chicken-stuffing-casserole": [
+  "miniCheesecakes",
+  "classicBrownies",
+  "riceKrispieTreats",
+],
+"holiday-black-friday-leftover-turkey-pot-pie-skillet": [
+  "chocolateChipCookieBars",
+  "classicBrownies",
+  "miniCheesecakes",
+],
+"holiday-christmas-eve-lasagna-dinner": [
+  "miniCheesecakes",
+  "classicBrownies",
+  "chocolateChipCookieBars",
+],
+"holiday-hanukkah-chicken-potato-sheet-pan": [
+  "miniCheesecakes",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
+"holiday-kwanzaa-black-eyed-pea-rice-skillet": [
+  "classicBrownies",
+  "riceKrispieTreats",
+  "chocolateChipCookieBars",
+],
+"holiday-new-years-eve-snack-dinner": [
+  "riceKrispieTreats",
+  "chocolateChipCookieBars",
+  "classicBrownies",
+],
 
 
 
@@ -24078,13 +24305,22 @@ export const VEGGIE_POOL = NEW_VEGETARIAN_RECIPES.map((meal) => ({
   isVegetarian: true,
 }));
 
-export const ALL_RECIPES: Meal[] = [
+export const DINNER_RECIPES: Meal[] = [
   ...NEW_BUILTIN_RECIPES,
   ...CAMPFIRE_RECIPES,
   ...NEW_VEGETARIAN_RECIPES,
-  ...SIDE_DISHES,
-  ...DESSERTS,
   ...EXTRA_RECIPES,
   ...VEGETARIAN_EXTRAS,
   ...NEW_SALAD_RECIPES,
+];
+
+export const PLANNER_RECIPES: Meal[] = [
+  ...DINNER_RECIPES,
+];
+
+export const ALL_RECIPES: Meal[] = [
+  ...DINNER_RECIPES,
+  ...SEASONAL_RECIPES,
+  ...SIDE_DISHES,
+  ...DESSERTS,
 ];
