@@ -315,8 +315,11 @@ function recipeMatchesCategory(
   // Builder: merged recipe source
   // =====================================================
 
-  const mergedRecipes = useMemo(() => {
-    const source = recipes?.length ? recipes : ALL_RECIPES;
+    const mergedRecipes = useMemo(() => {
+    const source = recipes?.length
+      ? [...ALL_RECIPES, ...recipes]
+      : ALL_RECIPES;
+
     const seen = new Set<string>();
 
     return [...source, ...cookbook].filter((recipe) => {
