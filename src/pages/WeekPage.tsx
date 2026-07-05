@@ -27,6 +27,10 @@ import { addIngredientsToList } from "../shoppingList";
 import { getSideShoppingLines } from "../core/sideRecipeMatcher";
 import { Filesystem, Directory, Encoding } from "@capacitor/filesystem";
 import { Share } from "@capacitor/share";
+import {
+  dismissHolidaySuggestion,
+  getActiveHolidaySuggestion,
+} from "../core/holidaySuggestions";
 
 type WalkthroughStep = 1 | 2 | 3;
 type TooltipPosition = {
@@ -158,6 +162,9 @@ export default function WeekPage({
   addDayToCookbook: (day: string) => void;
 }) {
   const navigate = useNavigate();
+const [holidaySuggestion, setHolidaySuggestion] = useState(() =>
+  getActiveHolidaySuggestion()
+);
   const location = useLocation();
   const language = getStoredLanguage();
 
@@ -807,7 +814,76 @@ addIngredientsToList(
           )}
 
           <div style={{ display: "grid", gap: 16 }}>
-            {days.map((day, index) => {
+  {holidaySuggestion && (
+    <Card
+      style={{
+        padding: 18,
+        borderRadius: 24,
+        background:
+          "linear-gradient(135deg, rgba(20,184,166,0.18), rgba(249,115,22,0.14))",
+        border: "1px solid rgba(255,255,255,0.12)",
+        boxShadow: "0 12px 28px rgba(0,0,0,0.18)",
+      }}
+    >
+      <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+        <div style={{ fontSize: 32, lineHeight: 1 }}>
+          {holidaySuggestion.emoji}
+        </div>
+
+        <div style={{ flex: 1 }}>
+          <div style={{ fontWeight: 900, fontSize: 18, marginBottom: 4 }}>
+            {holidaySuggestion.title}
+          </div>
+
+          <div style={{ opacity: 0.82, lineHeight: 1.45, marginBottom: 14 }}>
+            {holidaySuggestion.message}
+          </div>
+
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <button
+              type="button"
+              onClick={() => navigate(`/recipe/${holidaySuggestion.recipeSlug}`)}
+              style={{
+                padding: "10px 14px",
+                borderRadius: 12,
+                border: "1px solid rgba(20,184,166,0.45)",
+                background: "rgba(20,184,166,0.22)",
+                color: "inherit",
+                fontWeight: 800,
+                cursor: "pointer",
+              }}
+            >
+              View Recipe
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                dismissHolidaySuggestion(
+  holidaySuggestion.id,
+  holidaySuggestion.suggestionYear,
+);
+setHolidaySuggestion(undefined);
+              }}
+              style={{
+                padding: "10px 14px",
+                borderRadius: 12,
+                border: "1px solid rgba(255,255,255,0.14)",
+                background: "rgba(255,255,255,0.06)",
+                color: "inherit",
+                fontWeight: 800,
+                cursor: "pointer",
+              }}
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      </div>
+    </Card>
+  )}
+
+  {days.map((day, index) => {
               const dayPlan = meals[day];
               const mode = dayPlan?.mode ?? "planned";
 
@@ -842,6 +918,8 @@ const isLeftovers = mode === "leftovers";
 
               const prepAheadItems = getPrepAheadItems(meal, nextMeal);
               return (
+
+                
                 <Card
                   key={getTranslatedDay(day)}
                   style={{
@@ -859,6 +937,7 @@ const isLeftovers = mode === "leftovers";
                     transition: "outline 0.4s ease, box-shadow 0.4s ease",
                   }}
                 >
+                  
                   <div
                     id={`day-${getTranslatedDay(day)}`}
                     style={{ padding: "20px", display: "grid", gap: 16 }}
