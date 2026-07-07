@@ -2213,17 +2213,36 @@ newItems.push({
 });
 }
 
-    // Idempotent recipe adds: adding the same recipe again refreshes its ingredients instead of duplicating them.
-  const recipeKey = String(recipeName || "").trim().toLowerCase();
+    // Additive recipe adds:
+// If a user adds a few ingredients from a recipe, then comes back and adds more,
+// preserve the first batch instead of wiping everything from that recipe.
+// Only replace exact same recipe/item matches to avoid duplicates.
+const recipeKey = String(recipeName || "").trim().toLowerCase();
 
-  const existingWithoutSameRecipe = recipeKey
-    ? existing.filter(
-        (item) =>
-          String(item.sourceRecipe || "").trim().toLowerCase() !== recipeKey
-      )
-    : existing;
+function itemMergeKey(item: ShoppingItem) {
+  return [
+    String(item.sourceRecipe || "").trim().toLowerCase(),
+    String(item.normalizedName || item.text || "").trim().toLowerCase(),
+    normalizeUnit(item.unit || ""),
+    normalizePackageSize(item.packageSize || ""),
+  ].join("|");
+}
 
-  const merged = [...existingWithoutSameRecipe, ...newItems];
+const newItemKeys = new Set(newItems.map(itemMergeKey));
+
+const existingWithoutExactMatches = recipeKey
+  ? existing.filter((item) => {
+      const existingRecipeKey = String(item.sourceRecipe || "")
+        .trim()
+        .toLowerCase();
+
+      if (existingRecipeKey !== recipeKey) return true;
+
+      return !newItemKeys.has(itemMergeKey(item));
+    })
+  : existing;
+
+const merged = [...existingWithoutExactMatches, ...newItems];
 
   // Save the real raw/individual recipe items so recipe refresh/removal stays safe.
   saveShoppingList(merged);
