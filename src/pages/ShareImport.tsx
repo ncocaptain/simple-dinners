@@ -3,15 +3,89 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Capacitor } from "@capacitor/core";
 import { ShareRecipeExtractor } from "../plugins/shareRecipeExtractor";
 
+const API_BASE = "https://simple-dinners-api.onrender.com";
+
+function extractFirstUrlFromSharedText(value: string | null): string {
+  if (!value) return "";
+
+  let text = value.trim();
+
+  try {
+    text = decodeURIComponent(text);
+  } catch {
+    // If it is already decoded, keep going.
+  }
+
+  const match = text.match(/https?:\/\/[^\s"'<>]+/i);
+
+  if (!match) {
+    return text;
+  }
+
+  return match[0]
+    .replace(/[)\].,!?]+$/g, "")
+    .replace(/&amp;/g, "&")
+    .trim();
+}
+
+function isPinterestUrl(rawUrl: string): boolean {
+  try {
+    const parsed = new URL(rawUrl);
+    const host = parsed.hostname.toLowerCase();
+
+    return (
+      host === "pin.it" ||
+      host === "pinterest.com" ||
+      host === "www.pinterest.com" ||
+      host.endsWith(".pinterest.com")
+    );
+  } catch {
+    const lower = rawUrl.toLowerCase();
+
+    return lower.includes("pinterest.com") || lower.includes("pin.it/");
+  }
+}
+
 export default function ShareImport() {
   const [params] = useSearchParams();
-  const url = params.get("url");
+
+  const rawSharedValue =
+    params.get("url") ||
+    params.get("text") ||
+    params.get("title") ||
+    "";
+
+  const url = extractFirstUrlFromSharedText(rawSharedValue);
+
   const navigate = useNavigate();
 
   const [status, setStatus] = useState("Ready to import recipe...");
   const [jsonLdLength, setJsonLdLength] = useState<number | null>(null);
 
   useEffect(() => {
+    async function importFromUrl(recipeUrl: string) {
+      const response = await fetch(`${API_BASE}/import-recipe`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: recipeUrl }),
+      });
+
+      return response.json();
+    }
+
+    async function importFromJsonLd(recipeUrl: string, jsonLd: string) {
+      const response = await fetch(`${API_BASE}/import-jsonld`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          url: recipeUrl,
+          jsonLd,
+        }),
+      });
+
+      return response.json();
+    }
+
     async function runShareImport() {
       if (!url) {
         setStatus("No shared URL found.");
@@ -21,40 +95,33 @@ export default function ShareImport() {
       try {
         let data;
 
-        if (Capacitor.getPlatform() === "android") {
-          setStatus("Opening recipe page securely to read recipe details...");
+        const platform = Capacitor.getPlatform();
+        const pinterestShare = isPinterestUrl(url);
 
-          const result = await ShareRecipeExtractor.extractJsonLd({ url });
+        if (pinterestShare) {
+          setStatus("Finding the original recipe from Pinterest...");
+          data = await importFromUrl(url);
+        } else if (platform === "android") {
+          try {
+            setStatus("Opening recipe page securely to read recipe details...");
 
-          setJsonLdLength(result.length);
-          setStatus("Sending recipe data to Simple Dinners...");
+            const result = await ShareRecipeExtractor.extractJsonLd({ url });
 
-          const response = await fetch(
-            "https://simple-dinners-api.onrender.com/import-jsonld",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                url,
-                jsonLd: result.jsonLd,
-              }),
+            setJsonLdLength(result.length);
+            setStatus("Sending recipe data to Simple Dinners...");
+
+            data = await importFromJsonLd(url, result.jsonLd);
+
+            if (!data?.success || !data?.recipe) {
+              throw new Error(data?.error || "JSON-LD import failed");
             }
-          );
-
-          data = await response.json();
+          } catch {
+            setStatus("Trying the recipe link another way...");
+            data = await importFromUrl(url);
+          }
         } else {
           setStatus("Sending recipe link to Simple Dinners...");
-
-          const response = await fetch(
-            "https://simple-dinners-api.onrender.com/import-recipe",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ url }),
-            }
-          );
-
-          data = await response.json();
+          data = await importFromUrl(url);
         }
 
         if (!data?.success || !data?.recipe) {
