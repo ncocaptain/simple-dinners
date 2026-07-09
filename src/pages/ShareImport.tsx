@@ -89,7 +89,7 @@ const url = extractFirstUrlFromSharedText(rawSharedValue);
 
   const navigate = useNavigate();
 
-  const [status, setStatus] = useState("Ready to import recipe...");
+  const [status, setStatus] = useState("Ready to save recipe...");
   const [jsonLdLength, setJsonLdLength] = useState<number | null>(null);
 
   useEffect(() => {
@@ -138,7 +138,7 @@ const url = extractFirstUrlFromSharedText(rawSharedValue);
             const result = await ShareRecipeExtractor.extractJsonLd({ url });
 
             setJsonLdLength(result.length);
-            setStatus("Sending recipe data to Simple Dinners...");
+            setStatus("Saving recipe details to Simple Dinners...");
 
             data = await importFromJsonLd(url, result.jsonLd);
 
@@ -146,11 +146,11 @@ const url = extractFirstUrlFromSharedText(rawSharedValue);
               throw new Error(data?.error || "JSON-LD import failed");
             }
           } catch {
-            setStatus("Trying the recipe link another way...");
+            setStatus("Trying to find the recipe another way...");
             data = await importFromUrl(url);
           }
         } else {
-          setStatus("Sending recipe link to Simple Dinners...");
+          setStatus("Finding recipe details...");
           data = await importFromUrl(url);
         }
 
@@ -158,7 +158,7 @@ const url = extractFirstUrlFromSharedText(rawSharedValue);
           throw new Error(data?.error || "Recipe import failed");
         }
 
-        setStatus(`Imported: ${data.recipe.name || data.name || "Recipe"}`);
+        setStatus(`Recipe found: ${data.recipe.name || data.name || "Recipe"}`);
 
         setTimeout(() => {
           navigate("/cookbook", {
@@ -169,12 +169,17 @@ const url = extractFirstUrlFromSharedText(rawSharedValue);
           });
         }, 500);
       } catch (error) {
-  console.error("Share import failed:", error);
+  console.error("Share recipe failed:", error);
+
+  if (isPinterestUrl(url)) {
+    setStatus(
+      "We couldn’t open this Pinterest link. Try opening the pin, copying the full Pinterest link, and pasting it into Simple Dinners."
+    );
+    return;
+  }
 
   setStatus(
-    `Share import failed. Shared value: ${rawSharedValue || "none"} | Extracted URL: ${
-      url || "none"
-    }`
+    "We couldn’t save this shared recipe link. Try copying the recipe link and pasting it into Simple Dinners."
   );
 }
     }
@@ -184,7 +189,7 @@ const url = extractFirstUrlFromSharedText(rawSharedValue);
 
   return (
     <div style={{ padding: 24 }}>
-      <h1>📥 Importing Recipe</h1>
+      <h1>📥 Saving Recipe</h1>
 
       <p>{status}</p>
 

@@ -215,9 +215,9 @@ export default function AboutPage() {
             text: "Use Cook Mode to follow recipes one step at a time.",
           },
           {
-            title: "Import recipes",
-            text: "Save favorite recipes from links or pasted text.",
-          },
+  title: "Save recipes",
+  text: "Save favorite recipes from links, Pinterest, or pasted text.",
+},
           {
             title: "English and Spanish",
             text: "Switch languages and plan dinner your way.",
