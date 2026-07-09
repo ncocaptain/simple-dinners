@@ -8,24 +8,36 @@ const API_BASE = "https://simple-dinners-api.onrender.com";
 function extractFirstUrlFromSharedText(value: string | null): string {
   if (!value) return "";
 
-  let text = value.trim();
+  let text = value.trim().replace(/\+/g, " ");
 
   try {
     text = decodeURIComponent(text);
   } catch {
-    // If it is already decoded, keep going.
+    // If already decoded, keep going.
   }
 
-  const match = text.match(/https?:\/\/[^\s"'<>]+/i);
+  const match = text.match(
+    /(?:https?:\/\/|www\.|pin\.it\/|pinterest\.com\/)[^\s"'<>]+/i
+  );
 
   if (!match) {
-    return text;
+    return "";
   }
 
-  return match[0]
+  let foundUrl = match[0]
     .replace(/[)\].,!?]+$/g, "")
     .replace(/&amp;/g, "&")
     .trim();
+
+  if (foundUrl.startsWith("www.")) {
+    foundUrl = `https://${foundUrl}`;
+  }
+
+  if (foundUrl.startsWith("pin.it/") || foundUrl.startsWith("pinterest.com/")) {
+    foundUrl = `https://${foundUrl}`;
+  }
+
+  return foundUrl;
 }
 
 function isPinterestUrl(rawUrl: string): boolean {
@@ -49,13 +61,31 @@ function isPinterestUrl(rawUrl: string): boolean {
 export default function ShareImport() {
   const [params] = useSearchParams();
 
-  const rawSharedValue =
-    params.get("url") ||
-    params.get("text") ||
-    params.get("title") ||
-    "";
+  function getRawSharedValue(params: URLSearchParams): string {
+  const knownKeys = [
+    "url",
+    "text",
+    "title",
+    "sharedUrl",
+    "sharedText",
+    "content",
+    "message",
+    "u",
+  ];
 
-  const url = extractFirstUrlFromSharedText(rawSharedValue);
+  const knownValues = knownKeys
+    .map((key) => params.get(key))
+    .filter((value): value is string => Boolean(value && value.trim()));
+
+  const allValues = Array.from(params.values()).filter((value) =>
+    Boolean(value && value.trim())
+  );
+
+  return Array.from(new Set([...knownValues, ...allValues])).join("\n");
+}
+
+const rawSharedValue = getRawSharedValue(params);
+const url = extractFirstUrlFromSharedText(rawSharedValue);
 
   const navigate = useNavigate();
 
@@ -138,9 +168,15 @@ export default function ShareImport() {
             },
           });
         }, 500);
-      } catch {
-        setStatus("Share import failed. Please try pasting the recipe link instead.");
-      }
+      } catch (error) {
+  console.error("Share import failed:", error);
+
+  setStatus(
+    `Share import failed. Shared value: ${rawSharedValue || "none"} | Extracted URL: ${
+      url || "none"
+    }`
+  );
+}
     }
 
     runShareImport();
