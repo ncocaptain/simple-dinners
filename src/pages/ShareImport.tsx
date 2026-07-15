@@ -233,23 +233,45 @@ export default function ShareImport() {
     setStatus("Finishing recipe from caption...");
 
     try {
-      const assistedData = await importFromUrl(sourceUrl, captionAssistText);
+      const cleanedCaptionText = captionAssistText.trim();
 
-      if (!assistedData?.success || !assistedData?.recipe) {
-        throw new Error(assistedData?.error || "Caption Assist failed.");
-      }
+const captionPayload = {
+  url: sourceUrl,
+  captionText: cleanedCaptionText,
+  sharedText: cleanedCaptionText,
+};
 
-      if (isIncompleteSocialImport(assistedData)) {
-        setCaptionAssistResult(assistedData);
-        setStatus(
-          "We still couldn't finish this recipe from the caption. You can save it and edit it later."
-        );
-        return;
-      }
+const captionResponse = await fetch(`${API_BASE}/import-recipe`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(captionPayload),
+});
 
-      setCaptionAssistResult(null);
-      setCaptionAssistText("");
-      finishImport(assistedData);
+const assistedData = await captionResponse.json();
+
+if (!captionResponse.ok) {
+  throw new Error(assistedData?.error || "Caption Assist failed.");
+}
+
+if (!assistedData?.success || !assistedData?.recipe) {
+  throw new Error(assistedData?.error || "Caption Assist failed.");
+}
+
+const ingredientCount = countRecipeLines(assistedData.recipe.ingredients);
+const instructionCount = countRecipeLines(assistedData.recipe.instructions);
+
+if (ingredientCount === 0 || instructionCount === 0) {
+  setStatus(
+    "We still couldn't finish this recipe from the caption. Try pasting the full caption, including Ingredients and How to Make."
+  );
+  return;
+}
+
+setCaptionAssistResult(null);
+setCaptionAssistText("");
+finishImport(assistedData);
     } catch (error) {
       console.error("Caption Assist failed:", error);
       setStatus(
@@ -346,7 +368,7 @@ export default function ShareImport() {
   }, [url, finishImport]);
 
   return (
-    <div style={{ padding: 24 }}>
+    <div style={{ padding: 24, paddingBottom: 140, maxWidth: 900, margin: "0 auto" }}>
       <h1>📥 Saving Recipe</h1>
 
       <p>{status}</p>
@@ -364,9 +386,7 @@ export default function ShareImport() {
           <h2 style={{ marginTop: 0 }}>Paste caption to finish</h2>
 
           <p style={{ lineHeight: 1.5 }}>
-            We found the post, but not the full recipe text. Paste the visible
-            caption from Instagram, TikTok, or Facebook and Simple Dinners will
-            try to finish the recipe.
+            We found the post, but not the full recipe text. Paste the caption text if you can, and Simple Dinners will try to finish the recipe.
           </p>
 
           <textarea
@@ -375,14 +395,17 @@ export default function ShareImport() {
             placeholder="Paste the recipe caption here..."
             rows={9}
             style={{
-              width: "100%",
-              boxSizing: "border-box",
-              borderRadius: 14,
-              border: "1px solid rgba(255, 255, 255, 0.2)",
-              padding: 12,
-              fontSize: 16,
-              resize: "vertical",
-            }}
+  width: "100%",
+  boxSizing: "border-box",
+  borderRadius: 14,
+  border: "1px solid rgba(255, 255, 255, 0.22)",
+  background: "#0f172a",
+  color: "#f8fafc",
+  padding: 12,
+  fontSize: 16,
+  resize: "vertical",
+  minHeight: 180,
+}}
           />
 
           <div
@@ -398,15 +421,20 @@ export default function ShareImport() {
               onClick={finishWithCaptionAssist}
               disabled={captionAssistLoading || !captionAssistText.trim()}
               style={{
-                padding: "12px 16px",
-                borderRadius: 999,
-                border: 0,
-                fontWeight: 700,
-                cursor:
-                  captionAssistLoading || !captionAssistText.trim()
-                    ? "not-allowed"
-                    : "pointer",
-              }}
+  padding: "12px 16px",
+  borderRadius: 999,
+  border: 0,
+  background:
+    captionAssistLoading || !captionAssistText.trim()
+      ? "rgba(148, 163, 184, 0.45)"
+      : "#22c55e",
+  color: "#ffffff",
+  fontWeight: 700,
+  cursor:
+    captionAssistLoading || !captionAssistText.trim()
+      ? "not-allowed"
+      : "pointer",
+}}
             >
               {captionAssistLoading ? "Finishing..." : "Finish with Caption"}
             </button>
