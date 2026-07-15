@@ -121,9 +121,9 @@ function countRecipeLines(value: unknown): number {
 function getResultSourceUrl(result: any): string {
   return String(
     result?.sourceUrl ||
-      result?.importedFromUrl ||
-      result?.recipe?.sourceUrl ||
-      ""
+    result?.importedFromUrl ||
+    result?.recipe?.sourceUrl ||
+    ""
   );
 }
 
@@ -235,43 +235,43 @@ export default function ShareImport() {
     try {
       const cleanedCaptionText = captionAssistText.trim();
 
-const captionPayload = {
-  url: sourceUrl,
-  captionText: cleanedCaptionText,
-  sharedText: cleanedCaptionText,
-};
+      const captionPayload = {
+        url: sourceUrl,
+        captionText: cleanedCaptionText,
+        sharedText: cleanedCaptionText,
+      };
 
-const captionResponse = await fetch(`${API_BASE}/import-recipe`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify(captionPayload),
-});
+      const captionResponse = await fetch(`${API_BASE}/import-recipe`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(captionPayload),
+      });
 
-const assistedData = await captionResponse.json();
+      const assistedData = await captionResponse.json();
 
-if (!captionResponse.ok) {
-  throw new Error(assistedData?.error || "Caption Assist failed.");
-}
+      if (!captionResponse.ok) {
+        throw new Error(assistedData?.error || "Caption Assist failed.");
+      }
 
-if (!assistedData?.success || !assistedData?.recipe) {
-  throw new Error(assistedData?.error || "Caption Assist failed.");
-}
+      if (!assistedData?.success || !assistedData?.recipe) {
+        throw new Error(assistedData?.error || "Caption Assist failed.");
+      }
 
-const ingredientCount = countRecipeLines(assistedData.recipe.ingredients);
-const instructionCount = countRecipeLines(assistedData.recipe.instructions);
+      const ingredientCount = countRecipeLines(assistedData.recipe.ingredients);
+      const instructionCount = countRecipeLines(assistedData.recipe.instructions);
 
-if (ingredientCount === 0 || instructionCount === 0) {
-  setStatus(
-    "We still couldn't finish this recipe from the caption. Try pasting the full caption, including Ingredients and How to Make."
-  );
-  return;
-}
+      if (ingredientCount === 0 || instructionCount === 0) {
+        setStatus(
+          "We still couldn't finish this recipe from the caption. Try pasting the full caption, including Ingredients and How to Make."
+        );
+        return;
+      }
 
-setCaptionAssistResult(null);
-setCaptionAssistText("");
-finishImport(assistedData);
+      setCaptionAssistResult(null);
+      setCaptionAssistText("");
+      finishImport(assistedData);
     } catch (error) {
       console.error("Caption Assist failed:", error);
       setStatus(
@@ -395,17 +395,17 @@ finishImport(assistedData);
             placeholder="Paste the recipe caption here..."
             rows={9}
             style={{
-  width: "100%",
-  boxSizing: "border-box",
-  borderRadius: 14,
-  border: "1px solid rgba(255, 255, 255, 0.22)",
-  background: "#0f172a",
-  color: "#f8fafc",
-  padding: 12,
-  fontSize: 16,
-  resize: "vertical",
-  minHeight: 180,
-}}
+              width: "100%",
+              boxSizing: "border-box",
+              borderRadius: 14,
+              border: "1px solid rgba(255, 255, 255, 0.22)",
+              background: "#0f172a",
+              color: "#f8fafc",
+              padding: 12,
+              fontSize: 16,
+              resize: "vertical",
+              minHeight: 180,
+            }}
           />
 
           <div
@@ -421,20 +421,20 @@ finishImport(assistedData);
               onClick={finishWithCaptionAssist}
               disabled={captionAssistLoading || !captionAssistText.trim()}
               style={{
-  padding: "12px 16px",
-  borderRadius: 999,
-  border: 0,
-  background:
-    captionAssistLoading || !captionAssistText.trim()
-      ? "rgba(148, 163, 184, 0.45)"
-      : "#22c55e",
-  color: "#ffffff",
-  fontWeight: 700,
-  cursor:
-    captionAssistLoading || !captionAssistText.trim()
-      ? "not-allowed"
-      : "pointer",
-}}
+                padding: "12px 16px",
+                borderRadius: 999,
+                border: 0,
+                background:
+                  captionAssistLoading || !captionAssistText.trim()
+                    ? "rgba(148, 163, 184, 0.45)"
+                    : "#22c55e",
+                color: "#ffffff",
+                fontWeight: 700,
+                cursor:
+                  captionAssistLoading || !captionAssistText.trim()
+                    ? "not-allowed"
+                    : "pointer",
+              }}
             >
               {captionAssistLoading ? "Finishing..." : "Finish with Caption"}
             </button>
