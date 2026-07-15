@@ -29,6 +29,9 @@ import type { Meal } from "../core/types";
 import { getLocalizedMeal } from "../core/localizedMeal";
 import { Capacitor } from "@capacitor/core";
 
+const API_BASE = "https://simple-dinners-api.onrender.com";
+const SOURCE_STEPS_PLACEHOLDER = "Steps available at source link!";
+
 // =========================================================
 // TYPES
 // =========================================================
@@ -165,6 +168,26 @@ function normalizeNotes(value: unknown): string {
   return String(value ?? "").trim();
 }
 
+function normalizeImportedRecipe(
+  imported: any,
+  data: any = {},
+  fallbackSourceUrl = ""
+): ManualRecipeDraft {
+  return {
+    name: String(imported?.name ?? "").trim(),
+    ingredients: normalizeMultilineField(imported?.ingredients),
+    instructions: normalizeMultilineField(imported?.instructions),
+    photoUrl: String(imported?.photoUrl ?? "").trim(),
+    sourceUrl:
+      String(imported?.sourceUrl ?? "").trim() || fallbackSourceUrl.trim(),
+    effort: normalizeEffort(imported?.effort ?? data?.effort),
+    tags: normalizeTags(imported?.tags ?? data?.tags),
+    isVegetarian:
+      imported?.isVegetarian === true || data?.isVegetarian === true,
+    notes: normalizeNotes(imported?.notes ?? data?.notes),
+  };
+}
+
 function hasRealRecipeDetails(recipe: ManualRecipeDraft) {
   const ingredientCount = splitLines(recipe.ingredients).length;
 
@@ -172,7 +195,7 @@ function hasRealRecipeDetails(recipe: ManualRecipeDraft) {
   const instructionsArePlaceholder =
     !instructions ||
     instructions.trim().toLowerCase() ===
-      "steps available at source link!".toLowerCase();
+    "steps available at source link!".toLowerCase();
 
   const stepCount = instructionsArePlaceholder
     ? 0
@@ -197,7 +220,7 @@ function getRecipeStatus(recipe: CookbookRecipe) {
   const ingredientCount = splitLines(recipe?.ingredients).length;
   const instructionsMissing =
     !recipe?.instructions ||
-    recipe.instructions === "Steps available at source link!";
+    recipe.instructions === SOURCE_STEPS_PLACEHOLDER;
 
   const stepCount = instructionsMissing
     ? 0
@@ -449,10 +472,10 @@ export default function CookbookPage({
   // =========================================================
 
   const navigate = useNavigate();
-const location = useLocation();
-const pickForDay = location.state?.pickForDay as string | undefined;
-const cookbookTips = COOKBOOK_TIP_KEYS.map((key) => t(key));
-const language = getStoredLanguage();
+  const location = useLocation();
+  const pickForDay = location.state?.pickForDay as string | undefined;
+  const cookbookTips = COOKBOOK_TIP_KEYS.map((key) => t(key));
+  const language = getStoredLanguage();
 
   // =========================================================
   // STATE
@@ -460,6 +483,12 @@ const language = getStoredLanguage();
 
   const [importUrl, setImportUrl] = useState("");
   const [isImporting, setIsImporting] = useState(false);
+
+  const [captionAssistDraft, setCaptionAssistDraft] =
+    useState<ManualRecipeDraft | null>(null);
+  const [captionAssistText, setCaptionAssistText] = useState("");
+  const [captionAssistStatus, setCaptionAssistStatus] = useState("");
+  const [isCaptionAssisting, setIsCaptionAssisting] = useState(false);
 
   const [showTextImport, setShowTextImport] = useState(false);
   const [pasteText, setPasteText] = useState("");
@@ -478,61 +507,51 @@ const language = getStoredLanguage();
     manualRecipe.instructions
   );
   const localizedCookbook = useMemo(
-  () =>
-    (cookbook || []).map((recipe) => ({
-      raw: recipe,
-      display: getLocalizedMeal(recipe, language) || recipe,
-    })),
-  [cookbook, language]
-);
+    () =>
+      (cookbook || []).map((recipe) => ({
+        raw: recipe,
+        display: getLocalizedMeal(recipe, language) || recipe,
+      })),
+    [cookbook, language]
+  );
 
   // =========================================================
   // EFFECTS
   // =========================================================
 
   useEffect(() => {
-  const sharedUrl = getSharedRecipeUrlFromSearch(location.search);
+    const sharedUrl = getSharedRecipeUrlFromSearch(location.search);
 
-  if (!sharedUrl) return;
+    if (!sharedUrl) return;
 
-  setImportUrl(sharedUrl);
+    setImportUrl(sharedUrl);
 
-  const timer = window.setTimeout(() => {
-    const input = document.getElementById("cookbook-import-url-input");
+    const timer = window.setTimeout(() => {
+      const input = document.getElementById("cookbook-import-url-input");
 
-    if (input) {
-      input.scrollIntoView({ behavior: "smooth", block: "center" });
-      (input as HTMLInputElement).focus();
-    }
-  }, 150);
+      if (input) {
+        input.scrollIntoView({ behavior: "smooth", block: "center" });
+        (input as HTMLInputElement).focus();
+      }
+    }, 150);
 
-  return () => window.clearTimeout(timer);
-}, [location.search]);
+    return () => window.clearTimeout(timer);
+  }, [location.search]);
 
-useEffect(() => {
-  const sharedImportedRecipe = location.state?.sharedImportedRecipe;
+  useEffect(() => {
+    const sharedImportedRecipe = location.state?.sharedImportedRecipe;
 
-  if (!sharedImportedRecipe) return;
+    if (!sharedImportedRecipe) return;
 
-  const normalizedRecipe: ManualRecipeDraft = {
-    name: String(sharedImportedRecipe?.name ?? "").trim(),
-    ingredients: normalizeMultilineField(sharedImportedRecipe?.ingredients),
-    instructions: normalizeMultilineField(sharedImportedRecipe?.instructions),
-    photoUrl: String(sharedImportedRecipe?.photoUrl ?? "").trim(),
-    sourceUrl: String(sharedImportedRecipe?.sourceUrl ?? "").trim(),
-    effort: normalizeEffort(sharedImportedRecipe?.effort),
-    tags: normalizeTags(sharedImportedRecipe?.tags),
-    isVegetarian: sharedImportedRecipe?.isVegetarian === true,
-    notes: normalizeNotes(sharedImportedRecipe?.notes),
-  };
+    const normalizedRecipe = normalizeImportedRecipe(sharedImportedRecipe);
 
-  setManualRecipe(normalizedRecipe);
-  setEditingSlug(null);
-  setHasImportedDraft(true);
-  setShowManual(true);
+    setManualRecipe(normalizedRecipe);
+    setEditingSlug(null);
+    setHasImportedDraft(true);
+    setShowManual(true);
 
-  navigate("/cookbook", { replace: true });
-}, [location.state, navigate]);
+    navigate("/cookbook", { replace: true });
+  }, [location.state, navigate]);
 
   useEffect(() => {
     const savedSlug = localStorage.getItem("scrollToCookbook");
@@ -594,12 +613,41 @@ useEffect(() => {
     setShowTextImport(false);
   };
 
+  const openCaptionAssistModal = (recipe: ManualRecipeDraft) => {
+    setCaptionAssistDraft(recipe);
+    setCaptionAssistText("");
+    setCaptionAssistStatus(
+      "We found the post, but not the full recipe text. Paste the caption if you can, or save it as Needs Finishing."
+    );
+    setShowTextImport(false);
+    setShowManual(false);
+  };
+
+  const closeCaptionAssistModal = () => {
+    if (isCaptionAssisting) return;
+    setCaptionAssistDraft(null);
+    setCaptionAssistText("");
+    setCaptionAssistStatus("");
+  };
+
+  const saveCaptionAssistNeedsFinishing = () => {
+    if (!captionAssistDraft) return;
+
+    setManualRecipe(captionAssistDraft);
+    setEditingSlug(null);
+    setHasImportedDraft(true);
+    setShowManual(true);
+    setCaptionAssistDraft(null);
+    setCaptionAssistText("");
+    setCaptionAssistStatus("");
+  };
+
   const openEditRecipe = (recipe: CookbookRecipe) => {
     setManualRecipe({
       name: recipe?.name || "",
       ingredients: recipe?.ingredients || "",
       instructions:
-        recipe?.instructions === "Steps available at source link!"
+        recipe?.instructions === SOURCE_STEPS_PLACEHOLDER
           ? ""
           : recipe?.instructions || "",
       photoUrl: recipe?.photoUrl || "",
@@ -642,11 +690,9 @@ useEffect(() => {
     setIsImporting(true);
 
     try {
-      const API_BASE = "https://dinners.ncocaptain.com";
-
       (document.activeElement as HTMLElement)?.blur();
 
-      const response = await fetch(`${API_BASE}/api/import-recipe`, {
+      const response = await fetch(`${API_BASE}/import-recipe`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url: importUrl.trim() }),
@@ -674,36 +720,31 @@ useEffect(() => {
 
       if (data?.recipe) {
         const imported = data.recipe;
-
-        const normalizedRecipe: ManualRecipeDraft = {
-          name: String(imported?.name ?? "").trim(),
-          ingredients: normalizeMultilineField(imported?.ingredients),
-          instructions: normalizeMultilineField(imported?.instructions),
-          photoUrl: String(imported?.photoUrl ?? "").trim(),
-          sourceUrl:
-            String(imported?.sourceUrl ?? "").trim() || importUrl.trim(),
-          effort: normalizeEffort(imported?.effort ?? data?.effort),
-          tags: normalizeTags(imported?.tags ?? data?.tags),
-          isVegetarian:
-            imported?.isVegetarian === true || data?.isVegetarian === true,
-          notes: normalizeNotes(imported?.notes ?? data?.notes),
-        };
+        const normalizedRecipe = normalizeImportedRecipe(
+          imported,
+          data,
+          importUrl.trim()
+        );
 
         const importSourceUrl = normalizedRecipe.sourceUrl || importUrl.trim();
 
-if (!hasRealRecipeDetails(normalizedRecipe)) {
-  const socialMessage = looksLikeSocialRecipeUrl(importSourceUrl)
-    ? "Simple Dinners found the link, but social posts do not always expose the full recipe details. Try copying the caption, ingredients, or recipe text and use Paste Text instead."
-    : "Simple Dinners found the link, but could not read enough recipe details. Try Paste Text if the recipe is shown on the page.";
+        if (!hasRealRecipeDetails(normalizedRecipe)) {
+          if (looksLikeSocialRecipeUrl(importSourceUrl)) {
+            setImportUrl(importSourceUrl);
+            openCaptionAssistModal(normalizedRecipe);
+            return;
+          }
 
-  alert(socialMessage);
+          alert(
+            "Simple Dinners found the link, but could not read enough recipe details. Try Paste Text if the recipe is shown on the page."
+          );
 
-  setPasteText("");
-  setShowTextImport(true);
-  setImportUrl(importSourceUrl);
+          setPasteText("");
+          setShowTextImport(true);
+          setImportUrl(importSourceUrl);
 
-  return;
-}
+          return;
+        }
 
         setManualRecipe(normalizedRecipe);
 
@@ -717,9 +758,7 @@ if (!hasRealRecipeDetails(normalizedRecipe)) {
           !normalizedRecipe.ingredients &&
           !normalizedRecipe.instructions
         ) {
-          alert(
-            t("cookbook.importSparse")
-          );
+          alert(t("cookbook.importSparse"));
         } else {
           alert(t("cookbook.importedReviewSave"));
         }
@@ -731,6 +770,76 @@ if (!hasRealRecipeDetails(normalizedRecipe)) {
       alert(t("cookbook.unableImportNow"));
     } finally {
       setIsImporting(false);
+    }
+  };
+
+  const handleCaptionAssistImport = async () => {
+    if (!captionAssistDraft) return;
+
+    if (!captionAssistText.trim()) {
+      setCaptionAssistStatus("Paste the recipe caption first.");
+      return;
+    }
+
+    const sourceUrl = captionAssistDraft.sourceUrl || importUrl.trim();
+
+    if (!sourceUrl) {
+      setCaptionAssistStatus("Missing source link for this recipe.");
+      return;
+    }
+
+    setIsCaptionAssisting(true);
+    setCaptionAssistStatus("Finishing recipe from caption...");
+
+    try {
+      const cleanedCaptionText = captionAssistText.trim();
+
+      const response = await fetch(`${API_BASE}/import-recipe`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          url: sourceUrl,
+          captionText: cleanedCaptionText,
+          sharedText: cleanedCaptionText,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data?.recipe) {
+        throw new Error(data?.error || "Caption Assist failed.");
+      }
+
+      const normalizedRecipe = normalizeImportedRecipe(
+        data.recipe,
+        data,
+        sourceUrl
+      );
+
+      if (!hasRealRecipeDetails(normalizedRecipe)) {
+        setCaptionAssistStatus(
+          "We still couldn't finish this recipe from the caption. Try pasting the full caption, including the ingredients and steps."
+        );
+        return;
+      }
+
+      setManualRecipe(normalizedRecipe);
+      setEditingSlug(null);
+      setHasImportedDraft(true);
+      setShowManual(true);
+      setImportUrl("");
+      setCaptionAssistDraft(null);
+      setCaptionAssistText("");
+      setCaptionAssistStatus("");
+
+      alert(t("cookbook.importedReviewSave"));
+    } catch (err) {
+      console.error("Caption Assist failed:", err);
+      setCaptionAssistStatus(
+        "We couldn’t finish this recipe from the caption. You can still save it and edit it manually."
+      );
+    } finally {
+      setIsCaptionAssisting(false);
     }
   };
 
@@ -747,11 +856,9 @@ if (!hasRealRecipeDetails(normalizedRecipe)) {
     setIsTextImporting(true);
 
     try {
-      const API_BASE = "https://dinners.ncocaptain.com";
-
       (document.activeElement as HTMLElement)?.blur();
 
-      const response = await fetch(`${API_BASE}/api/import-text`, {
+      const response = await fetch(`${API_BASE}/import-text`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: pasteText.trim() }),
@@ -766,18 +873,7 @@ if (!hasRealRecipeDetails(normalizedRecipe)) {
 
       const imported = data.recipe;
 
-      setManualRecipe({
-        name: String(imported?.name ?? "").trim(),
-        ingredients: normalizeMultilineField(imported?.ingredients),
-        instructions: normalizeMultilineField(imported?.instructions),
-        photoUrl: String(imported?.photoUrl ?? "").trim(),
-        sourceUrl: String(imported?.sourceUrl ?? "").trim(),
-        effort: normalizeEffort(imported?.effort ?? data?.effort),
-        tags: normalizeTags(imported?.tags ?? data?.tags),
-        isVegetarian:
-          imported?.isVegetarian === true || data?.isVegetarian === true,
-        notes: normalizeNotes(imported?.notes ?? data?.notes),
-      });
+      setManualRecipe(normalizeImportedRecipe(imported, data));
 
       setPasteText("");
       setShowTextImport(false);
@@ -826,9 +922,9 @@ if (!hasRealRecipeDetails(normalizedRecipe)) {
         prev.map((recipe) =>
           recipe.slug === editingSlug
             ? {
-                ...recipe,
-                ...cleanedRecipe,
-              }
+              ...recipe,
+              ...cleanedRecipe,
+            }
             : recipe
         )
       );
@@ -937,16 +1033,16 @@ if (!hasRealRecipeDetails(normalizedRecipe)) {
               }}
             >
               <h1
-  style={{
-    margin: 0,
-    fontSize: "clamp(38px, 9vw, 58px)",
-    lineHeight: 1.05,
-    letterSpacing: "-0.055em",
-    fontWeight: 1000,
-  }}
->
-  {t("cookbook.title")}
-</h1>
+                style={{
+                  margin: 0,
+                  fontSize: "clamp(38px, 9vw, 58px)",
+                  lineHeight: 1.05,
+                  letterSpacing: "-0.055em",
+                  fontWeight: 1000,
+                }}
+              >
+                {t("cookbook.title")}
+              </h1>
               <TipsModal tips={cookbookTips} />
             </div>
           </header>
@@ -1016,10 +1112,10 @@ if (!hasRealRecipeDetails(normalizedRecipe)) {
                     />
 
                     <input
-  id="cookbook-import-url-input"
-  placeholder={t("cookbook.pasteRecipeLink")}
-  value={importUrl}
-  onChange={(e) => setImportUrl(e.target.value)}
+                      id="cookbook-import-url-input"
+                      placeholder={t("cookbook.pasteRecipeLink")}
+                      value={importUrl}
+                      onChange={(e) => setImportUrl(e.target.value)}
                       style={{
                         width: "100%",
                         boxSizing: "border-box",
@@ -1148,8 +1244,8 @@ if (!hasRealRecipeDetails(normalizedRecipe)) {
                   {editingSlug
                     ? t("cookbook.editRecipe")
                     : hasImportedDraft
-                    ? t("cookbook.reviewImportedRecipe")
-                    : t("cookbook.newRecipe")}
+                      ? t("cookbook.reviewImportedRecipe")
+                      : t("cookbook.newRecipe")}
                 </h2>
 
                 <p
@@ -1164,8 +1260,8 @@ if (!hasRealRecipeDetails(normalizedRecipe)) {
                   {editingSlug
                     ? t("cookbook.updateRecipeDetails")
                     : hasImportedDraft
-                    ? t("cookbook.reviewImportedDetails")
-                    : t("cookbook.addManualOrPasteUrl")}
+                      ? t("cookbook.reviewImportedDetails")
+                      : t("cookbook.addManualOrPasteUrl")}
                 </p>
 
                 {!editingSlug && (
@@ -1240,8 +1336,8 @@ if (!hasRealRecipeDetails(normalizedRecipe)) {
                         {isImporting
                           ? "..."
                           : hasImportedDraft
-                          ? t("cookbook.reimport")
-                          : t("cookbook.import")}
+                            ? t("cookbook.reimport")
+                            : t("cookbook.import")}
                       </button>
                     </div>
 
@@ -1450,6 +1546,175 @@ if (!hasRealRecipeDetails(normalizedRecipe)) {
           )}
 
           {/* =========================================================
+              CAPTION ASSIST MODAL
+          ========================================================= */}
+
+          {captionAssistDraft && (
+            <div
+              style={{
+                position: "fixed",
+                inset: 0,
+                backgroundColor: "rgba(0,0,0,0.88)",
+                zIndex: 10001,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "20px",
+              }}
+            >
+              <div
+                style={{
+                  width: "100%",
+                  maxWidth: 560,
+                  background: "#1e293b",
+                  borderRadius: 24,
+                  padding: 28,
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  boxShadow: "0 20px 60px rgba(0,0,0,0.45)",
+                  maxHeight: "90vh",
+                  overflowY: "auto",
+                  boxSizing: "border-box",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: 18,
+                  }}
+                >
+                  <h2 style={{ margin: 0, fontSize: 24, fontWeight: 900 }}>
+                    Paste caption to finish
+                  </h2>
+
+                  <button
+                    onClick={closeCaptionAssistModal}
+                    disabled={isCaptionAssisting}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      color: "white",
+                      cursor: isCaptionAssisting ? "default" : "pointer",
+                    }}
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
+
+                <p
+                  style={{
+                    opacity: 0.78,
+                    lineHeight: 1.6,
+                    marginBottom: 12,
+                    fontSize: 14,
+                  }}
+                >
+                  {captionAssistStatus ||
+                    "We found the post, but not the full recipe text. Paste the caption if you can, and Simple Dinners will try to finish the recipe."}
+                </p>
+
+                {captionAssistDraft.name && (
+                  <div
+                    style={{
+                      padding: 12,
+                      borderRadius: 14,
+                      background: "rgba(255,255,255,0.05)",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      marginBottom: 14,
+                      fontSize: 13,
+                      fontWeight: 800,
+                    }}
+                  >
+                    {captionAssistDraft.name}
+                  </div>
+                )}
+
+                <textarea
+                  value={captionAssistText}
+                  onChange={(e) => setCaptionAssistText(e.target.value)}
+                  placeholder="Paste the recipe caption here..."
+                  disabled={isCaptionAssisting}
+                  rows={9}
+                  style={{
+                    width: "100%",
+                    minHeight: 220,
+                    resize: "vertical",
+                    borderRadius: 16,
+                    padding: 16,
+                    boxSizing: "border-box",
+                    background: "#0f172a",
+                    border: "1px solid rgba(255,255,255,0.18)",
+                    color: "#f8fafc",
+                    outline: "none",
+                    marginBottom: 16,
+                    lineHeight: 1.6,
+                    opacity: isCaptionAssisting ? 0.72 : 1,
+                  }}
+                />
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 10,
+                  }}
+                >
+                  <button
+                    onClick={handleCaptionAssistImport}
+                    disabled={isCaptionAssisting || !captionAssistText.trim()}
+                    style={{
+                      ...btn,
+                      padding: 14,
+                      borderRadius: 16,
+                      background:
+                        isCaptionAssisting || !captionAssistText.trim()
+                          ? "rgba(148,163,184,0.45)"
+                          : "#22c55e",
+                      color: "white",
+                      cursor:
+                        isCaptionAssisting || !captionAssistText.trim()
+                          ? "default"
+                          : "pointer",
+                    }}
+                  >
+                    {isCaptionAssisting ? "Finishing..." : "Finish with Caption"}
+                  </button>
+
+                  <button
+                    onClick={saveCaptionAssistNeedsFinishing}
+                    disabled={isCaptionAssisting}
+                    style={{
+                      ...btn,
+                      padding: 14,
+                      borderRadius: 16,
+                      background: "rgba(255,255,255,0.06)",
+                      border: "1px solid rgba(255,255,255,0.12)",
+                      color: "white",
+                      cursor: isCaptionAssisting ? "default" : "pointer",
+                    }}
+                  >
+                    Save Needs Finishing
+                  </button>
+                </div>
+
+                <p
+                  style={{
+                    fontSize: 12,
+                    opacity: 0.68,
+                    lineHeight: 1.5,
+                    marginTop: 12,
+                    marginBottom: 0,
+                  }}
+                >
+                  Can’t paste the caption? Save it as Needs Finishing and edit
+                  the ingredients and steps later.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* =========================================================
               PASTE TEXT MODAL
           ========================================================= */}
 
@@ -1563,18 +1828,18 @@ if (!hasRealRecipeDetails(normalizedRecipe)) {
 
           <div style={{ display: "grid", gap: 14 }}>
             {localizedCookbook.map(({ raw, display }, index) => {
-  const status = getRecipeStatus(raw);
-  const ingredientCount = splitLines(display?.ingredients).length;
-  const stepCount =
-    !display?.instructions ||
-    display.instructions === "Steps available at source link!"
-      ? 0
-      : splitLines(display?.instructions).length;
+              const status = getRecipeStatus(raw);
+              const ingredientCount = splitLines(display?.ingredients).length;
+              const stepCount =
+                !display?.instructions ||
+                  display.instructions === "Steps available at source link!"
+                  ? 0
+                  : splitLines(display?.instructions).length;
 
-  const recipeSlug =
-    raw.slug || `${slugify(raw.name || "recipe")}-${index}`;
+              const recipeSlug =
+                raw.slug || `${slugify(raw.name || "recipe")}-${index}`;
 
-  const recipePhotoUrl = normalizePhotoUrl(display?.photoUrl || raw?.photoUrl);
+              const recipePhotoUrl = normalizePhotoUrl(display?.photoUrl || raw?.photoUrl);
 
               return (
                 <div
@@ -1678,8 +1943,8 @@ if (!hasRealRecipeDetails(normalizedRecipe)) {
                           </div>
 
                           {raw.effort && (
-  <div style={pillStyle}>{getCookbookEffortLabel(raw.effort)}</div>
-)}
+                            <div style={pillStyle}>{getCookbookEffortLabel(raw.effort)}</div>
+                          )}
                         </div>
                       </div>
 
