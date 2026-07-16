@@ -50,6 +50,7 @@ import { t, getStoredLanguage, type LanguageCode } from "./i18n";
 import { Capacitor } from "@capacitor/core";
 import AboutPage from "./pages/AboutPage";
 import ShareImport from "./pages/ShareImport";
+import { AccountButton } from "./auth/AccountButton";
 
 
 type CookbookRecipe = Meal & {
@@ -130,12 +131,12 @@ function resolveMeal(
 
   const merged: Meal = latest
     ? {
-        ...meal,
-        ...latest,
-      }
+      ...meal,
+      ...latest,
+    }
     : {
-        ...meal,
-      };
+      ...meal,
+    };
 
   return {
     ...merged,
@@ -323,11 +324,11 @@ function Navigation() {
         }}
       >
         {navItem("/", Home, t("nav.home").toUpperCase())}
-{navItem("/week", Calendar, t("nav.week").toUpperCase())}
-{navItem("/cookbook", BookOpen, t("nav.cook").toUpperCase())}
-{navItem("/shopping-list", ShoppingCart, t("nav.shop").toUpperCase())}
-{navItem("/plan", Settings, t("nav.plan").toUpperCase())}
-{navItem("/recipes", BookOpenText, t("nav.recipes").toUpperCase())}
+        {navItem("/week", Calendar, t("nav.week").toUpperCase())}
+        {navItem("/cookbook", BookOpen, t("nav.cook").toUpperCase())}
+        {navItem("/shopping-list", ShoppingCart, t("nav.shop").toUpperCase())}
+        {navItem("/plan", Settings, t("nav.plan").toUpperCase())}
+        {navItem("/recipes", BookOpenText, t("nav.recipes").toUpperCase())}
       </div>
     </div>
   );
@@ -342,34 +343,34 @@ function AppContent() {
   const location = useLocation();
 
   useEffect(() => {
-  if (!Capacitor.isNativePlatform()) return;
+    if (!Capacitor.isNativePlatform()) return;
 
-  let removeListener: (() => void) | undefined;
+    let removeListener: (() => void) | undefined;
 
-  CapacitorApp.addListener("appUrlOpen", (event) => {
-    const incomingUrl = event.url || "";
+    CapacitorApp.addListener("appUrlOpen", (event) => {
+      const incomingUrl = event.url || "";
 
-    try {
-      const parsed = new URL(incomingUrl);
-      const sharedUrl = parsed.searchParams.get("url");
+      try {
+        const parsed = new URL(incomingUrl);
+        const sharedUrl = parsed.searchParams.get("url");
 
-      if (sharedUrl) {
-        window.location.href = `/share-import?url=${encodeURIComponent(sharedUrl)}`;
+        if (sharedUrl) {
+          window.location.href = `/share-import?url=${encodeURIComponent(sharedUrl)}`;
+        }
+      } catch {
+        // Ignore malformed URLs.
       }
-    } catch {
-      // Ignore malformed URLs.
-    }
-  }).then((listener) => {
-    removeListener = () => listener.remove();
-  });
+    }).then((listener) => {
+      removeListener = () => listener.remove();
+    });
 
-  return () => {
-    removeListener?.();
-  };
-}, []);
+    return () => {
+      removeListener?.();
+    };
+  }, []);
 
-const hideBottomNav =
-  location.pathname === "/about" || location.pathname.startsWith("/recipe/");
+  const hideBottomNav =
+    location.pathname === "/about" || location.pathname.startsWith("/recipe/");
   const [showTesterPrompt, setShowTesterPrompt] = useState(false);
   const toastApi: any = useToast();
   const toast = toastApi.toast ?? toastApi;
@@ -414,11 +415,11 @@ const hideBottomNav =
       return saved
         ? JSON.parse(saved)
         : {
-            vegetarian: false,
-            dietaryNotes: "",
-            includeDesserts: false,
-            includeAppetizers: false,
-          };
+          vegetarian: false,
+          dietaryNotes: "",
+          includeDesserts: false,
+          includeAppetizers: false,
+        };
     } catch {
       return {
         vegetarian: false,
@@ -440,17 +441,17 @@ const hideBottomNav =
   const [language, setLanguage] = useState<LanguageCode>(() => getStoredLanguage());
   void language;
 
-useEffect(() => {
-  const handleLanguageChange = () => {
-    setLanguage(getStoredLanguage());
-  };
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      setLanguage(getStoredLanguage());
+    };
 
-  window.addEventListener("simple-dinners:language-changed", handleLanguageChange);
+    window.addEventListener("simple-dinners:language-changed", handleLanguageChange);
 
-  return () => {
-    window.removeEventListener("simple-dinners:language-changed", handleLanguageChange);
-  };
-}, []);
+    return () => {
+      window.removeEventListener("simple-dinners:language-changed", handleLanguageChange);
+    };
+  }, []);
 
   // =====================================================
   // Builder: update checks
@@ -529,21 +530,21 @@ useEffect(() => {
   }, [prefs]);
 
   useEffect(() => {
-  const refreshPantry = () => {
-    try {
-      const saved = JSON.parse(localStorage.getItem("pantry") || "[]");
-      setPantry(Array.isArray(saved) ? saved : []);
-    } catch {
-      setPantry([]);
-    }
-  };
+    const refreshPantry = () => {
+      try {
+        const saved = JSON.parse(localStorage.getItem("pantry") || "[]");
+        setPantry(Array.isArray(saved) ? saved : []);
+      } catch {
+        setPantry([]);
+      }
+    };
 
-  window.addEventListener("simple-dinners:pantry-updated", refreshPantry);
+    window.addEventListener("simple-dinners:pantry-updated", refreshPantry);
 
-  return () => {
-    window.removeEventListener("simple-dinners:pantry-updated", refreshPantry);
-  };
-}, []);
+    return () => {
+      window.removeEventListener("simple-dinners:pantry-updated", refreshPantry);
+    };
+  }, []);
 
   // =====================================================
   // Builder: cookbook actions
@@ -633,10 +634,10 @@ useEffect(() => {
         mode: "planned",
         meal: meal
           ? resolveMeal(meal, cookbook) ?? {
-              ...meal,
-              photoUrl:
-                normalizePhotoUrl(meal.photoUrl) || mealImageUrl(meal.name),
-            }
+            ...meal,
+            photoUrl:
+              normalizePhotoUrl(meal.photoUrl) || mealImageUrl(meal.name),
+          }
           : null,
       };
     }
@@ -651,19 +652,19 @@ useEffect(() => {
   const adaptiveInset = getAdaptiveBottomInset();
 
   return (
-  <div
-    style={{
-      minHeight: "100dvh",
-      background:
-        "linear-gradient(180deg, #050505 0%, #07111f 45%, #06111f 100%)",
-      color: "#f8fafc",
-      paddingTop: "calc(env(safe-area-inset-top, 0px) + 12px)",
-      paddingBottom: hideBottomNav
-        ? "calc(24px + env(safe-area-inset-bottom, 0px))"
-        : `calc(120px + env(safe-area-inset-bottom, 0px) + ${adaptiveInset}px)`,
-      overflowX: "hidden",
-    }}
-  >
+    <div
+      style={{
+        minHeight: "100dvh",
+        background:
+          "linear-gradient(180deg, #050505 0%, #07111f 45%, #06111f 100%)",
+        color: "#f8fafc",
+        paddingTop: "calc(env(safe-area-inset-top, 0px) + 12px)",
+        paddingBottom: hideBottomNav
+          ? "calc(24px + env(safe-area-inset-bottom, 0px))"
+          : `calc(120px + env(safe-area-inset-bottom, 0px) + ${adaptiveInset}px)`,
+        overflowX: "hidden",
+      }}
+    >
       <BackHandler />
       <UpdateBanner />
 
@@ -695,15 +696,16 @@ useEffect(() => {
         >
           {t("app.tagline").toUpperCase()}
         </div>
+        <AccountButton />
       </header>
 
       <Routes>
         <Route
-  path="/"
-  element={requireOnboarding(
-    <HomePage meals={meals} setMeals={setMeals} />
-  )}
-/>
+          path="/"
+          element={requireOnboarding(
+            <HomePage meals={meals} setMeals={setMeals} />
+          )}
+        />
 
         <Route path="/onboarding" element={<OnboardingPage />} />
 
@@ -723,35 +725,35 @@ useEffect(() => {
         />
 
         <Route
-  path="/week"
-  element={
-    <WeekPage
-      meals={meals}
-      setMeals={setMeals}
-      generateDinnerPlan={generateDinnerPlan}
-      lockedDays={lockedDays}
-      setLockedDays={setLockedDays}
-      addDayToCookbook={addDayToCookbook}
-    />
-  }
-/>
+          path="/week"
+          element={
+            <WeekPage
+              meals={meals}
+              setMeals={setMeals}
+              generateDinnerPlan={generateDinnerPlan}
+              lockedDays={lockedDays}
+              setLockedDays={setLockedDays}
+              addDayToCookbook={addDayToCookbook}
+            />
+          }
+        />
 
         <Route
           path="/cookbook"
           element={requireOnboarding(
             <CookbookPage
-  cookbook={cookbook}
-  setCookbook={setCookbook}
-  onAddToWeek={(recipe, day) => {
-    setMeals((prev) => ({
-      ...prev,
-      [day]: {
-        mode: "planned",
-        meal: recipe,
-      },
-    }));
-  }}
-/>
+              cookbook={cookbook}
+              setCookbook={setCookbook}
+              onAddToWeek={(recipe, day) => {
+                setMeals((prev) => ({
+                  ...prev,
+                  [day]: {
+                    mode: "planned",
+                    meal: recipe,
+                  },
+                }));
+              }}
+            />
           )}
         />
 
@@ -890,14 +892,14 @@ export default function App() {
     <ThemeProvider>
       <ToastProvider>
         <div
-  style={{
-    minHeight: "100dvh",
-    background:
-      "linear-gradient(180deg, #050505 0%, #07111f 45%, #06111f 100%)",
-    opacity: visible ? 1 : 0,
-    transition: "opacity 300ms ease",
-  }}
->
+          style={{
+            minHeight: "100dvh",
+            background:
+              "linear-gradient(180deg, #050505 0%, #07111f 45%, #06111f 100%)",
+            opacity: visible ? 1 : 0,
+            transition: "opacity 300ms ease",
+          }}
+        >
           <AppContent />
         </div>
       </ToastProvider>

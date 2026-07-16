@@ -25,6 +25,18 @@ export type ShoppingItem = {
 
 const KEY = "simple-dinners.shoppingList.v1";
 
+export const SHOPPING_LIST_CHANGED_EVENT =
+  "simple-dinners:shopping-list-changed";
+
+export type ShoppingListChangeSource =
+  | "local"
+  | "cloud";
+
+export type ShoppingListChangedDetail = {
+  items: ShoppingItem[];
+  source: ShoppingListChangeSource;
+};
+
 // =====================================================
 // Builder: safe localStorage parsing
 // =====================================================
@@ -36,6 +48,10 @@ function safeParse(json: string | null): ShoppingItem[] {
   } catch {
     return [];
   }
+}
+
+export function loadRawShoppingList(): ShoppingItem[] {
+  return safeParse(localStorage.getItem(KEY));
 }
 
 // =====================================================
@@ -161,8 +177,8 @@ function formatSmartName(value: string) {
   const cleaned = cleanupSpacing(String(value || "").toLowerCase());
 
   if (DEFAULT_BUY_DISPLAY[cleaned]) {
-  return DEFAULT_BUY_DISPLAY[cleaned];
-}
+    return DEFAULT_BUY_DISPLAY[cleaned];
+  }
 
   const specialDisplayName = SPECIAL_DISPLAY_NAMES[cleaned];
   if (specialDisplayName) {
@@ -288,7 +304,7 @@ function normalizeUnit(unit?: string) {
     packet: "packet",
     packets: "packet",
     loaf: "loaf",
-loaves: "loaf",
+    loaves: "loaf",
   };
 
   return map[value] || value;
@@ -703,7 +719,7 @@ function normalizePantryAndSeasonings(text: string) {
     .replace(/\bpaprikas\b/g, "paprika")
     .replace(/\bchile powder\b/g, "chili powder")
     .replace(/\bground cumin\b/g, "cumin");
-    
+
 }
 
 function normalizeProduce(text: string) {
@@ -779,8 +795,8 @@ function normalizeProteinsAndBakery(text: string) {
     .replace(/\bbone[- ]in pork chops?\b/g, "bone-in pork chop")
     .replace(/\bpork chops?\b/g, "pork chop")
     .replace(/\bsalmon fillets?\b/g, "salmon")
-.replace(/\bsalmon filet\b/g, "salmon")
-.replace(/\bsalmon filets\b/g, "salmon")
+    .replace(/\bsalmon filet\b/g, "salmon")
+    .replace(/\bsalmon filets\b/g, "salmon")
     .replace(/\bmanicotti shells?\b/g, "manicotti shells");
 }
 
@@ -803,11 +819,11 @@ function normalizeDairyAndCheese(text: string) {
       .replace(/\bblock of ([a-z\s]+ cheese)\b/g, "block $1")
       .replace(/\b([a-z\s]+ cheese) block\b/g, "block $1")
       .replace(/\bsmoked gouda\b/g, "smoked gouda cheese")
-.replace(/\bgouda\b/g, "gouda cheese")
+      .replace(/\bgouda\b/g, "gouda cheese")
       .replace(/\bcream cheese, softened\b/g, "cream cheese")
       .replace(/\bcream cheese, cubed\b/g, "cream cheese")
       .replace(/\bunsalted butter\b/g, "butter")
-.replace(/\bsalted butter\b/g, "butter");
+      .replace(/\bsalted butter\b/g, "butter");
   }
 
   return text
@@ -865,20 +881,20 @@ function normalizeSideSuggestionText(text: string) {
   }
 
   // Corn sides
-if (
-  cleaned.includes("mexican street corn") ||
-  cleaned.includes("street corn")
-) {
-  return "mexican street corn";
-}
+  if (
+    cleaned.includes("mexican street corn") ||
+    cleaned.includes("street corn")
+  ) {
+    return "mexican street corn";
+  }
 
-if (
-  cleaned.includes("corn on the cob") ||
-  cleaned.includes("ears corn") ||
-  cleaned.includes("ear corn")
-) {
-  return "corn on the cob";
-}
+  if (
+    cleaned.includes("corn on the cob") ||
+    cleaned.includes("ears corn") ||
+    cleaned.includes("ear corn")
+  ) {
+    return "corn on the cob";
+  }
 
   if (
     cleaned.includes("lime wedge") ||
@@ -989,7 +1005,7 @@ function removeNonShoppingItems(text: string) {
 function normalizeIngredientCore(text: string) {
   let next = normalizeAscii(text);
   next = normalizeChoiceIngredient(next);
-  
+
 
   next = next.replace(/<[^>]+>/g, " ");
   next = next.replace(/^[-•*]+\s*/, "");
@@ -997,20 +1013,20 @@ function normalizeIngredientCore(text: string) {
   next = next.replace(/\([^)]*\)/g, " ");
   next = cleanupSpacing(next);
   next = next
-  .replace(/\bwooden or metal skewers?\b/g, "skewers")
-  .replace(/\bmetal or wooden skewers?\b/g, "skewers")
-  .replace(/\bwooden skewers?\b/g, "wooden skewers")
-  .replace(/\bmetal skewers?\b/g, "metal skewers");
+    .replace(/\bwooden or metal skewers?\b/g, "skewers")
+    .replace(/\bmetal or wooden skewers?\b/g, "skewers")
+    .replace(/\bwooden skewers?\b/g, "wooden skewers")
+    .replace(/\bmetal skewers?\b/g, "metal skewers");
   next = next.replace(/^(and|or|with)\s+/g, "").trim();
   next = cleanupSpacing(next);
   next = normalizeSideSuggestionText(next);
   const preparedSide = normalizeSideSuggestionText(next);
 
-if (isPreparedSideName(preparedSide)) {
-  return preparedSide;
-}
+  if (isPreparedSideName(preparedSide)) {
+    return preparedSide;
+  }
 
-next = preparedSide;
+  next = preparedSide;
 
   const protectedManualName = preserveManualShoppingName(next);
   if (protectedManualName) return protectedManualName;
@@ -1115,12 +1131,12 @@ function parseIngredientParts(line: string): {
   text = text.replace(/\u00a0/g, " ");
   text = text.replace(/\s+/g, " ").trim();
   text = text
-  .replace(/\bloaf of french bread\b/g, "1 loaf french bread")
-  .replace(/\bloaf french bread\b/g, "1 loaf french bread")
-  .replace(/\bfrench bread loaf\b/g, "1 loaf french bread")
-  .replace(/\bloaf of italian bread\b/g, "1 loaf italian bread")
-  .replace(/\bloaf italian bread\b/g, "1 loaf italian bread")
-  .replace(/\bitalian bread loaf\b/g, "1 loaf italian bread");
+    .replace(/\bloaf of french bread\b/g, "1 loaf french bread")
+    .replace(/\bloaf french bread\b/g, "1 loaf french bread")
+    .replace(/\bfrench bread loaf\b/g, "1 loaf french bread")
+    .replace(/\bloaf of italian bread\b/g, "1 loaf italian bread")
+    .replace(/\bloaf italian bread\b/g, "1 loaf italian bread")
+    .replace(/\bitalian bread loaf\b/g, "1 loaf italian bread");
 
   if (isSectionHeader(text)) {
     return { normalizedName: "", quantity: null, unit: "", packageSize: "" };
@@ -1204,55 +1220,55 @@ function parseIngredientParts(line: string): {
   }
 
   if (
-  normalizedName === "onion" ||
-  normalizedName === "yellow onion" ||
-  normalizedName === "white onion" ||
-  normalizedName === "red onion" ||
-  normalizedName === "green onion"
-) {
-  unit = "";
-  if (quantity === null) quantity = 1;
-}
-
-if (
-  normalizedName === "black beans" ||
-  normalizedName === "pinto beans" ||
-  normalizedName === "kidney beans" ||
-  normalizedName === "white beans" ||
-  normalizedName === "chili beans"
-) {
-  if (!unit || unit === "cup" || unit === "Tbsp" || unit === "tsp") {
-    unit = "can";
+    normalizedName === "onion" ||
+    normalizedName === "yellow onion" ||
+    normalizedName === "white onion" ||
+    normalizedName === "red onion" ||
+    normalizedName === "green onion"
+  ) {
+    unit = "";
     if (quantity === null) quantity = 1;
-    if (!packageSize) {
-      packageSize =
-        DEFAULT_CAN_PACKAGE_SIZE_BY_NAME[normalizedName] || "15 oz";
+  }
+
+  if (
+    normalizedName === "black beans" ||
+    normalizedName === "pinto beans" ||
+    normalizedName === "kidney beans" ||
+    normalizedName === "white beans" ||
+    normalizedName === "chili beans"
+  ) {
+    if (!unit || unit === "cup" || unit === "Tbsp" || unit === "tsp") {
+      unit = "can";
+      if (quantity === null) quantity = 1;
+      if (!packageSize) {
+        packageSize =
+          DEFAULT_CAN_PACKAGE_SIZE_BY_NAME[normalizedName] || "15 oz";
+      }
     }
   }
-}
 
-if (normalizedName === "corn") {
-  if (!unit || unit === "cup" || unit === "Tbsp" || unit === "tsp") {
-    unit = "can";
-    if (quantity === null) quantity = 1;
+  if (normalizedName === "corn") {
+    if (!unit || unit === "cup" || unit === "Tbsp" || unit === "tsp") {
+      unit = "can";
+      if (quantity === null) quantity = 1;
+    }
+
+    if (unit === "can" && !packageSize) {
+      packageSize = DEFAULT_CAN_PACKAGE_SIZE_BY_NAME.corn;
+    }
   }
 
-  if (unit === "can" && !packageSize) {
-    packageSize = DEFAULT_CAN_PACKAGE_SIZE_BY_NAME.corn;
-  }
-}
+  if (normalizedName === "baby bella mushrooms") {
+    const packageOz = getOzFromPackageSize(packageSize);
 
-if (normalizedName === "baby bella mushrooms") {
-  const packageOz = getOzFromPackageSize(packageSize);
-
-  if (packageOz && (!unit || unit === "oz")) {
-    unit = "oz";
-    quantity = packageOz;
-  } else if (!unit || unit === "cup" || unit === "Tbsp" || unit === "tsp") {
-    unit = "oz";
-    quantity = 8;
+    if (packageOz && (!unit || unit === "oz")) {
+      unit = "oz";
+      quantity = packageOz;
+    } else if (!unit || unit === "cup" || unit === "Tbsp" || unit === "tsp") {
+      unit = "oz";
+      quantity = 8;
+    }
   }
-}
 
   if (normalizedName === "ground beef" && !unit && quantity !== null) {
     unit = "lb";
@@ -1381,7 +1397,7 @@ function buildDisplayText(
   packageSize?: string
 ) {
   if (!normalizedName) return "";
-  
+
 
   const rawName = normalizedName.toLowerCase().trim();
   const name = normalizeContainerIngredientName(rawName, unit || "");
@@ -1398,21 +1414,21 @@ function buildDisplayText(
 
   // Avoid grocery-noise measurements like "1/2 cup pasta". Users buy pasta, not half a cup.
   if (
-  unit &&
-  ["cup", "Tbsp", "tsp"].includes(unit) &&
-  CUP_MEASURE_NOISE.has(name)
-) {
-  return displayName;
-}
+    unit &&
+    ["cup", "Tbsp", "tsp"].includes(unit) &&
+    CUP_MEASURE_NOISE.has(name)
+  ) {
+    return displayName;
+  }
   // Default to 1 for loose countable produce if no quantity
-if (quantity === null && DEFAULT_COUNTABLE_FALLBACK.has(name)) {
-  return `1 ${formatSmartName(name)}`;
-}
+  if (quantity === null && DEFAULT_COUNTABLE_FALLBACK.has(name)) {
+    return `1 ${formatSmartName(name)}`;
+  }
 
   // Helpful defaults for common loose items when recipes do not include a real quantity.
   if ((quantity === null || quantity === undefined) && DEFAULT_BUY_DISPLAY[name]) {
-  return DEFAULT_BUY_DISPLAY[name];
-}
+    return DEFAULT_BUY_DISPLAY[name];
+  }
 
   if (quantity !== null) {
     const qty = formatQuantity(quantity);
@@ -1640,84 +1656,84 @@ function resolveShoppingCategory(name: string): GroceryCategory {
   const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
 
   if (includesAny(lower, PREPARED_FROZEN_SIDE_KEYWORDS)) return "Frozen";
-if (includesAny(lower, PREPARED_BAKERY_SIDE_KEYWORDS)) return "Bakery";
-if (includesAny(lower, PREPARED_PANTRY_SIDE_KEYWORDS)) return "Pantry";
-if (includesAny(lower, PREPARED_PRODUCE_SIDE_KEYWORDS)) return "Produce";
+  if (includesAny(lower, PREPARED_BAKERY_SIDE_KEYWORDS)) return "Bakery";
+  if (includesAny(lower, PREPARED_PANTRY_SIDE_KEYWORDS)) return "Pantry";
+  if (includesAny(lower, PREPARED_PRODUCE_SIDE_KEYWORDS)) return "Produce";
 
   // Produce / salad overrides.
-// These must run before broad pantry/spice/beverage matching.
-if (
-  lower.includes("caesar salad") ||
-  lower.includes("spring mix") ||
-  lower.includes("salad mix") ||
-  lower.includes("coleslaw mix") ||
-  lower.includes("watermelon") ||
-  lower.includes("mild red chili") ||
-  lower.includes("red chili") ||
-  lower.includes("red chile") ||
-  lower.includes("chili pepper") ||
-  lower.includes("chile pepper")
-) {
-  return "Produce";
-}
+  // These must run before broad pantry/spice/beverage matching.
+  if (
+    lower.includes("caesar salad") ||
+    lower.includes("spring mix") ||
+    lower.includes("salad mix") ||
+    lower.includes("coleslaw mix") ||
+    lower.includes("watermelon") ||
+    lower.includes("mild red chili") ||
+    lower.includes("red chili") ||
+    lower.includes("red chile") ||
+    lower.includes("chili pepper") ||
+    lower.includes("chile pepper")
+  ) {
+    return "Produce";
+  }
 
-// Skewers / grill supplies.
-// If cleanup accidentally reduced "wooden skewers" to "wooden",
-// keep it out of food categories.
-if (
-  lower.includes("wooden skewer") ||
-  lower.includes("bamboo skewer") ||
-  lower === "wooden" ||
-  lower === "bamboo"
-) {
-  return "Household";
-}
+  // Skewers / grill supplies.
+  // If cleanup accidentally reduced "wooden skewers" to "wooden",
+  // keep it out of food categories.
+  if (
+    lower.includes("wooden skewer") ||
+    lower.includes("bamboo skewer") ||
+    lower === "wooden" ||
+    lower === "bamboo"
+  ) {
+    return "Household";
+  }
 
   if (
-  lower.includes("salmon") ||
-  lower.includes("hot dog") ||
-  lower.includes("sausage") ||
-  lower.includes("bacon") ||
-  lower.includes("ground beef") ||
-  lower.includes("ground pork") ||
-  lower.includes("chicken") ||
-  lower.includes("beef") ||
-  lower.includes("pork") ||
-  lower.includes("shrimp")
-) {
-  return "Meat / Seafood";
-}
+    lower.includes("salmon") ||
+    lower.includes("hot dog") ||
+    lower.includes("sausage") ||
+    lower.includes("bacon") ||
+    lower.includes("ground beef") ||
+    lower.includes("ground pork") ||
+    lower.includes("chicken") ||
+    lower.includes("beef") ||
+    lower.includes("pork") ||
+    lower.includes("shrimp")
+  ) {
+    return "Meat / Seafood";
+  }
 
-if (
-  lower.includes("butter") ||
-  lower.includes("gouda cheese") ||
-  lower.includes("smoked gouda") ||
-  lower.includes("cheese") ||
-  lower.includes("milk") ||
-  lower.includes("cream") ||
-  lower.includes("eggs")
-) {
-  return "Dairy / Eggs";
-}
+  if (
+    lower.includes("butter") ||
+    lower.includes("gouda cheese") ||
+    lower.includes("smoked gouda") ||
+    lower.includes("cheese") ||
+    lower.includes("milk") ||
+    lower.includes("cream") ||
+    lower.includes("eggs")
+  ) {
+    return "Dairy / Eggs";
+  }
 
-if (
-  lower.includes("coleslaw mix") ||
-  lower.includes("mild red chili") ||
-  lower.includes("red chili") ||
-  lower.includes("red chile") ||
-  lower.includes("chili pepper") ||
-  lower.includes("chile pepper")
-) {
-  return "Produce";
-}
+  if (
+    lower.includes("coleslaw mix") ||
+    lower.includes("mild red chili") ||
+    lower.includes("red chili") ||
+    lower.includes("red chile") ||
+    lower.includes("chili pepper") ||
+    lower.includes("chile pepper")
+  ) {
+    return "Produce";
+  }
 
-if (
-  lower.includes("wooden skewer") ||
-  lower.includes("bamboo skewer") ||
-  lower.includes("skewers")
-) {
-  return "Household";
-}
+  if (
+    lower.includes("wooden skewer") ||
+    lower.includes("bamboo skewer") ||
+    lower.includes("skewers")
+  ) {
+    return "Household";
+  }
 
   // Produce protections must happen before broad spice/pantry matching.
   if (isRealPepperProduce(lower) || includesAny(lower, PRODUCE_CHILI_KEYWORDS)) {
@@ -1746,7 +1762,7 @@ if (
     return "Spices / Seasonings";
   }
 
-  
+
 
   return categorizeGroceryItem(cleaned);
 }
@@ -1881,22 +1897,22 @@ function mergeSafeShoppingItems(items: ShoppingItem[]): ShoppingItem[] {
 
     if (!existing) {
       const displayText = buildDisplayText(
-  item.normalizedName || item.text,
-  qty,
-  "",
-  ""
-);
+        item.normalizedName || item.text,
+        qty,
+        "",
+        ""
+      );
 
-const nextItem: ShoppingItem = {
-  ...item,
-  quantity: qty,
-  unit: "",
-  packageSize: "",
-  text: displayText,
-  displayText,
-  grocerySearchName: buildGrocerySearchName(item.normalizedName || item.text),
-  category: resolveShoppingCategory(item.normalizedName || item.text),
-};
+      const nextItem: ShoppingItem = {
+        ...item,
+        quantity: qty,
+        unit: "",
+        packageSize: "",
+        text: displayText,
+        displayText,
+        grocerySearchName: buildGrocerySearchName(item.normalizedName || item.text),
+        category: resolveShoppingCategory(item.normalizedName || item.text),
+      };
 
       merged.set(key, nextItem);
       output.push(nextItem);
@@ -1908,17 +1924,17 @@ const nextItem: ShoppingItem = {
 
     existing.quantity = newQty;
     const displayText = buildDisplayText(
-  existing.normalizedName || existing.text,
-  newQty,
-  "",
-  ""
-);
+      existing.normalizedName || existing.text,
+      newQty,
+      "",
+      ""
+    );
 
-existing.text = displayText;
-existing.displayText = displayText;
-existing.grocerySearchName = buildGrocerySearchName(
-  existing.normalizedName || existing.text
-);
+    existing.text = displayText;
+    existing.displayText = displayText;
+    existing.grocerySearchName = buildGrocerySearchName(
+      existing.normalizedName || existing.text
+    );
     existing.checked = existing.checked && item.checked;
     existing.addedAt = Math.min(existing.addedAt || Date.now(), item.addedAt || Date.now());
 
@@ -1969,21 +1985,21 @@ export function loadShoppingList(): ShoppingItem[] {
         );
 
         const displayText = buildDisplayText(
-  safeNormalizedName,
-  quantity,
-  unit,
-  packageSize
-);
+          safeNormalizedName,
+          quantity,
+          unit,
+          packageSize
+        );
 
-return {
-  ...item,
-  id:
-    item.id ||
-    `${makeId(safeNormalizedName)}-item-${item.addedAt || Date.now()}`,
-  text: displayText,
-  displayText,
-  grocerySearchName: buildGrocerySearchName(safeNormalizedName),
-  normalizedName: safeNormalizedName,
+        return {
+          ...item,
+          id:
+            item.id ||
+            `${makeId(safeNormalizedName)}-item-${item.addedAt || Date.now()}`,
+          text: displayText,
+          displayText,
+          grocerySearchName: buildGrocerySearchName(safeNormalizedName),
+          normalizedName: safeNormalizedName,
           quantity,
           unit,
           packageSize,
@@ -2006,8 +2022,8 @@ return {
         savedNormalizedName === "cheese" && parsed.normalizedName && parsed.normalizedName !== "cheese"
           ? parsed.normalizedName
           : savedNormalizedName ||
-            parsed.normalizedName ||
-            normalizeIngredientName(item.text || "");
+          parsed.normalizedName ||
+          normalizeIngredientName(item.text || "");
 
       if (!normalizedName || shouldHideShoppingItem(normalizedName)) return null;
 
@@ -2022,21 +2038,21 @@ return {
       );
 
       const displayText = buildDisplayText(
-  safeNormalizedName,
-  quantity,
-  unit,
-  packageSize
-);
+        safeNormalizedName,
+        quantity,
+        unit,
+        packageSize
+      );
 
-return {
-  ...item,
-  id:
-    item.id ||
-    `${makeId(safeNormalizedName)}-${item.sourceRecipe || "item"}-${item.addedAt || 0}`,
-  text: displayText,
-  displayText,
-  grocerySearchName: buildGrocerySearchName(safeNormalizedName),
-  normalizedName: safeNormalizedName,
+      return {
+        ...item,
+        id:
+          item.id ||
+          `${makeId(safeNormalizedName)}-${item.sourceRecipe || "item"}-${item.addedAt || 0}`,
+        text: displayText,
+        displayText,
+        grocerySearchName: buildGrocerySearchName(safeNormalizedName),
+        normalizedName: safeNormalizedName,
         quantity,
         unit,
         packageSize,
@@ -2047,7 +2063,7 @@ return {
         ),
         sourceRecipe,
       } as ShoppingItem;
-        })
+    })
     .filter(Boolean) as ShoppingItem[];
 
   return mergeSafeShoppingItems(normalizedItems);
@@ -2056,8 +2072,39 @@ return {
 // =====================================================
 // Builder: save list
 // =====================================================
-export function saveShoppingList(items: ShoppingItem[]) {
+function announceShoppingListChange(
+  items: ShoppingItem[],
+  source: ShoppingListChangeSource,
+) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.dispatchEvent(
+    new CustomEvent<ShoppingListChangedDetail>(
+      SHOPPING_LIST_CHANGED_EVENT,
+      {
+        detail: {
+          items,
+          source,
+        },
+      },
+    ),
+  );
+}
+
+export function saveShoppingList(
+  items: ShoppingItem[],
+  source: ShoppingListChangeSource = "local",
+) {
   localStorage.setItem(KEY, JSON.stringify(items));
+  announceShoppingListChange(items, source);
+}
+
+export function replaceShoppingListFromCloud(
+  items: ShoppingItem[],
+) {
+  saveShoppingList(items, "cloud");
 }
 
 export function addSidesToList(
@@ -2083,20 +2130,20 @@ export function addSidesToList(
 
     const displayText = formatSmartName(sideName);
 
-newItems.push({
-  id,
-  text: displayText,
-  displayText,
-  grocerySearchName: buildGrocerySearchName(sideName),
-  checked: false,
-  addedAt: now,
-  category: resolveShoppingCategory(sideName),
-  sourceRecipe: "",
-  normalizedName: sideName,
-  quantity: null,
-  unit: "",
-  packageSize: "",
-});
+    newItems.push({
+      id,
+      text: displayText,
+      displayText,
+      grocerySearchName: buildGrocerySearchName(sideName),
+      checked: false,
+      addedAt: now,
+      category: resolveShoppingCategory(sideName),
+      sourceRecipe: "",
+      normalizedName: sideName,
+      quantity: null,
+      unit: "",
+      packageSize: "",
+    });
   }
 
   const addedSideNames = new Set(
@@ -2136,102 +2183,102 @@ export function addIngredientsToList(
   const newItems: ShoppingItem[] = [];
 
   for (const line of lines) {
-  const looksLikeMeasuredIngredient = new RegExp(
-    `^\\s*(?:${QUANTITY_PATTERN})\\s+(?:${UNIT_PATTERN})\\b`,
-    "i"
-  ).test(line);
+    const looksLikeMeasuredIngredient = new RegExp(
+      `^\\s*(?:${QUANTITY_PATTERN})\\s+(?:${UNIT_PATTERN})\\b`,
+      "i"
+    ).test(line);
 
-  const sideName = looksLikeMeasuredIngredient
-    ? ""
-    : normalizeSideSuggestionText(line);
+    const sideName = looksLikeMeasuredIngredient
+      ? ""
+      : normalizeSideSuggestionText(line);
 
-  if (sideName && isPreparedSideName(sideName)) {
-    const id = `${makeId(sideName)}-${makeId(recipeName || "recipe")}-${makeId(
+    if (sideName && isPreparedSideName(sideName)) {
+      const id = `${makeId(sideName)}-${makeId(recipeName || "recipe")}-${makeId(
+        line
+      )}-${now}-${newItems.length}`;
+
+      const displayText = formatSmartName(sideName);
+
+      newItems.push({
+        id,
+        text: displayText,
+        displayText,
+        grocerySearchName: buildGrocerySearchName(sideName),
+        checked: false,
+        addedAt: now,
+        category: resolveShoppingCategory(sideName),
+        sourceRecipe: "",
+        normalizedName: sideName,
+        quantity: null,
+        unit: "",
+        packageSize: "",
+      });
+
+      continue;
+    }
+
+    const parsed = parseIngredientParts(line);
+
+    if (!parsed.normalizedName || shouldHideShoppingItem(parsed.normalizedName)) {
+      continue;
+    }
+
+    const safeNormalizedName = normalizeContainerIngredientName(
+      parsed.normalizedName,
+      parsed.unit
+    );
+
+    // keep items separate per recipe/line so UI can merge/count later
+    const id = `${makeId(safeNormalizedName)}-${makeId(recipeName || "recipe")}-${makeId(
       line
     )}-${now}-${newItems.length}`;
 
-    const displayText = formatSmartName(sideName);
+    const text = buildDisplayText(
+      safeNormalizedName,
+      parsed.quantity,
+      parsed.unit,
+      parsed.packageSize
+    );
 
-newItems.push({
-  id,
-  text: displayText,
-  displayText,
-  grocerySearchName: buildGrocerySearchName(sideName),
-  checked: false,
-  addedAt: now,
-  category: resolveShoppingCategory(sideName),
-  sourceRecipe: "",
-  normalizedName: sideName,
-  quantity: null,
-  unit: "",
-  packageSize: "",
-});
-
-    continue;
+    newItems.push({
+      id,
+      text,
+      displayText: text,
+      grocerySearchName: buildGrocerySearchName(safeNormalizedName),
+      checked: false,
+      addedAt: now,
+      category: resolveShoppingCategoryForItem(
+        safeNormalizedName,
+        parsed.unit,
+        parsed.packageSize
+      ),
+      sourceRecipe: recipeName || "",
+      normalizedName: safeNormalizedName,
+      quantity: parsed.quantity,
+      unit: parsed.unit,
+      packageSize: parsed.packageSize,
+    });
   }
 
-  const parsed = parseIngredientParts(line);
+  // Additive recipe adds:
+  // If a user adds a few ingredients from a recipe, then comes back and adds more,
+  // preserve the first batch instead of wiping everything from that recipe.
+  // Only replace exact same recipe/item matches to avoid duplicates.
+  const recipeKey = String(recipeName || "").trim().toLowerCase();
 
-  if (!parsed.normalizedName || shouldHideShoppingItem(parsed.normalizedName)) {
-    continue;
+  function itemMergeKey(item: ShoppingItem) {
+    return [
+      String(item.sourceRecipe || "").trim().toLowerCase(),
+      String(item.normalizedName || item.text || "").trim().toLowerCase(),
+      normalizeUnit(item.unit || ""),
+      normalizePackageSize(item.packageSize || ""),
+    ].join("|");
   }
 
-  const safeNormalizedName = normalizeContainerIngredientName(
-    parsed.normalizedName,
-    parsed.unit
-  );
+  const newItemKeys = new Set(newItems.map(itemMergeKey));
 
-  // keep items separate per recipe/line so UI can merge/count later
-  const id = `${makeId(safeNormalizedName)}-${makeId(recipeName || "recipe")}-${makeId(
-    line
-  )}-${now}-${newItems.length}`;
-
-  const text = buildDisplayText(
-    safeNormalizedName,
-    parsed.quantity,
-    parsed.unit,
-    parsed.packageSize
-  );
-
-  newItems.push({
-  id,
-  text,
-  displayText: text,
-  grocerySearchName: buildGrocerySearchName(safeNormalizedName),
-  checked: false,
-  addedAt: now,
-  category: resolveShoppingCategoryForItem(
-    safeNormalizedName,
-    parsed.unit,
-    parsed.packageSize
-  ),
-  sourceRecipe: recipeName || "",
-  normalizedName: safeNormalizedName,
-  quantity: parsed.quantity,
-  unit: parsed.unit,
-  packageSize: parsed.packageSize,
-});
-}
-
-    // Additive recipe adds:
-// If a user adds a few ingredients from a recipe, then comes back and adds more,
-// preserve the first batch instead of wiping everything from that recipe.
-// Only replace exact same recipe/item matches to avoid duplicates.
-const recipeKey = String(recipeName || "").trim().toLowerCase();
-
-function itemMergeKey(item: ShoppingItem) {
-  return [
-    String(item.sourceRecipe || "").trim().toLowerCase(),
-    String(item.normalizedName || item.text || "").trim().toLowerCase(),
-    normalizeUnit(item.unit || ""),
-    normalizePackageSize(item.packageSize || ""),
-  ].join("|");
-}
-
-const newItemKeys = new Set(newItems.map(itemMergeKey));
-
-const existingWithoutExactMatches = recipeKey
-  ? existing.filter((item) => {
+  const existingWithoutExactMatches = recipeKey
+    ? existing.filter((item) => {
       const existingRecipeKey = String(item.sourceRecipe || "")
         .trim()
         .toLowerCase();
@@ -2240,9 +2287,9 @@ const existingWithoutExactMatches = recipeKey
 
       return !newItemKeys.has(itemMergeKey(item));
     })
-  : existing;
+    : existing;
 
-const merged = [...existingWithoutExactMatches, ...newItems];
+  const merged = [...existingWithoutExactMatches, ...newItems];
 
   // Save the real raw/individual recipe items so recipe refresh/removal stays safe.
   saveShoppingList(merged);

@@ -15,6 +15,7 @@ import Card from "../components/Card";
 import {
   loadShoppingList,
   saveShoppingList,
+  SHOPPING_LIST_CHANGED_EVENT,
   type ShoppingItem,
 } from "../shoppingList";
 import {
@@ -599,8 +600,8 @@ function normalizePantryAndSeasonings(text: string) {
     .replace(/\bground pepper\b/g, "black pepper")
     .replace(/\bblack black pepper\b/g, "black pepper")
     .replace(/\bcracked black pepper\b/g, "black pepper")
-.replace(/\bfresh cracked black pepper\b/g, "black pepper")
-.replace(/\bfreshly cracked black pepper\b/g, "black pepper")
+    .replace(/\bfresh cracked black pepper\b/g, "black pepper")
+    .replace(/\bfreshly cracked black pepper\b/g, "black pepper")
 
 
     // safe fallback: plain "pepper" becomes black pepper, but real peppers stay real peppers
@@ -674,8 +675,8 @@ function normalizeProteinsAndBakery(text: string) {
     .replace(/\bpork chops?\b/g, "pork chop")
     .replace(/\bbone-in pork chops?\b/g, "pork chop")
     .replace(/\bsalmon fillets?\b/g, "salmon")
-.replace(/\bsalmon filet\b/g, "salmon")
-.replace(/\bsalmon filets\b/g, "salmon");
+    .replace(/\bsalmon filet\b/g, "salmon")
+    .replace(/\bsalmon filets\b/g, "salmon");
 }
 
 function normalizeDairyAndCheese(text: string) {
@@ -699,19 +700,19 @@ function normalizeDairyAndCheese(text: string) {
     .replace(/\bfreshly grated parmesan cheese\b/g, "parmesan cheese")
     .replace(/\bparmesan cheese, grated\b/g, "parmesan cheese")
     .replace(/\bshredded parmesan cheese\b/g, "parmesan cheese")
-.replace(/\bparmesan, grated\b/g, "parmesan cheese")
-.replace(/\bparmesan\b/g, "parmesan cheese")
+    .replace(/\bparmesan, grated\b/g, "parmesan cheese")
+    .replace(/\bparmesan\b/g, "parmesan cheese")
     .replace(/\bshredded swiss cheese\b/g, "swiss cheese")
     .replace(/\bswiss cheese, shredded\b/g, "swiss cheese")
     .replace(/\bsmoked gouda\b/g, "smoked gouda cheese")
-.replace(/\bgouda\b/g, "gouda cheese")
+    .replace(/\bgouda\b/g, "gouda cheese")
     .replace(/\bcream cheese, softened\b/g, "cream cheese")
     .replace(/\bcream cheese, cubed\b/g, "cream cheese")
     .replace(/\bunsalted butter\b/g, "butter")
-.replace(/\bsalted butter\b/g, "butter")
-.replace(/\bcold milk\b/g, "milk")
-.replace(/\bwhole milk\b/g, "milk")
-.replace(/\bheavy whipping cream\b/g, "heavy cream")
+    .replace(/\bsalted butter\b/g, "butter")
+    .replace(/\bcold milk\b/g, "milk")
+    .replace(/\bwhole milk\b/g, "milk")
+    .replace(/\bheavy whipping cream\b/g, "heavy cream")
 }
 
 function normalizeMushrooms(text: string) {
@@ -902,20 +903,20 @@ function normalizeSideSuggestionText(text: string) {
   // Collapse street-corn/corn-on-cob wording to one shopping item so the list
   // does not show both "Mexican Street Corn" and "Corn On the Cob" separately.
   // Corn sides
-if (
-  cleaned.includes("mexican street corn") ||
-  cleaned.includes("street corn")
-) {
-  return "mexican street corn";
-}
+  if (
+    cleaned.includes("mexican street corn") ||
+    cleaned.includes("street corn")
+  ) {
+    return "mexican street corn";
+  }
 
-if (
-  cleaned.includes("corn on the cob") ||
-  cleaned.includes("ears corn") ||
-  cleaned.includes("ear corn")
-) {
-  return "corn on the cob";
-}
+  if (
+    cleaned.includes("corn on the cob") ||
+    cleaned.includes("ears corn") ||
+    cleaned.includes("ear corn")
+  ) {
+    return "corn on the cob";
+  }
 
   if (
     cleaned.includes("roasted potatoes") ||
@@ -1024,10 +1025,10 @@ function cleanIngredientName(line: string) {
   text = text.replace(/\([^)]*\)/g, " ");
   text = cleanupSpacing(text);
   text = text
-  .replace(/\bwooden or metal skewers?\b/g, "skewers")
-  .replace(/\bmetal or wooden skewers?\b/g, "skewers")
-  .replace(/\bwooden skewers?\b/g, "wooden skewers")
-  .replace(/\bmetal skewers?\b/g, "metal skewers");
+    .replace(/\bwooden or metal skewers?\b/g, "skewers")
+    .replace(/\bmetal or wooden skewers?\b/g, "skewers")
+    .replace(/\bwooden skewers?\b/g, "wooden skewers")
+    .replace(/\bmetal skewers?\b/g, "metal skewers");
   text = text.replace(/^(and|or|with)\s+/g, "").trim();
 
   if (isSectionHeader(text)) return "";
@@ -1055,18 +1056,18 @@ function cleanIngredientName(line: string) {
   text = text.replace(/\b(and|or|with)$/g, "").trim();
   text = cleanupSpacing(text);
   // Spanish ingredient cleanup.
-// Examples:
-// "de sal" -> "sal"
-// "de bicarbonato de sodio" -> "bicarbonato de sodio"
-// "2 cups de fresas" stays as "2 cups de fresas"
-text = text
-  .replace(/^de\s+/i, "")
-  .replace(/^del\s+/i, "")
-  .replace(/\bDe\b/g, "de")
-  .replace(/\bDel\b/g, "del")
-  .trim();
+  // Examples:
+  // "de sal" -> "sal"
+  // "de bicarbonato de sodio" -> "bicarbonato de sodio"
+  // "2 cups de fresas" stays as "2 cups de fresas"
+  text = text
+    .replace(/^de\s+/i, "")
+    .replace(/^del\s+/i, "")
+    .replace(/\bDe\b/g, "de")
+    .replace(/\bDel\b/g, "del")
+    .trim();
 
-text = cleanupSpacing(text);
+  text = cleanupSpacing(text);
 
   return text;
 }
@@ -1151,16 +1152,16 @@ function parseIngredient(line: string): ParsedIngredient {
     const [, minRaw, maxRaw, unitRaw, rest] = measuredRangeMatch;
 
     const normalizedUnit = normalizeUnit(unitRaw);
-const cleanedName = cleanIngredientName(rest);
+    const cleanedName = cleanIngredientName(rest);
 
-return {
-  quantity: parseFraction(maxRaw),
-  minQuantity: parseFraction(minRaw),
-  maxQuantity: parseFraction(maxRaw),
-  unit: normalizedUnit,
-  name: normalizeContainerIngredientName(cleanedName, normalizedUnit),
-  packageSize,
-};
+    return {
+      quantity: parseFraction(maxRaw),
+      minQuantity: parseFraction(minRaw),
+      maxQuantity: parseFraction(maxRaw),
+      unit: normalizedUnit,
+      name: normalizeContainerIngredientName(cleanedName, normalizedUnit),
+      packageSize,
+    };
   }
 
   const countedRangeMatch = raw.match(
@@ -1188,16 +1189,16 @@ return {
     const [, qtyRaw, unitRaw, rest] = measuredMatch;
 
     const normalizedUnit = normalizeUnit(unitRaw);
-const cleanedName = cleanIngredientName(rest);
+    const cleanedName = cleanIngredientName(rest);
 
-return {
-  quantity: parseFraction(qtyRaw),
-  minQuantity: parseFraction(qtyRaw),
-  maxQuantity: parseFraction(qtyRaw),
-  unit: normalizedUnit,
-  name: normalizeContainerIngredientName(cleanedName, normalizedUnit),
-  packageSize,
-};
+    return {
+      quantity: parseFraction(qtyRaw),
+      minQuantity: parseFraction(qtyRaw),
+      maxQuantity: parseFraction(qtyRaw),
+      unit: normalizedUnit,
+      name: normalizeContainerIngredientName(cleanedName, normalizedUnit),
+      packageSize,
+    };
   }
 
   const countedMatch = raw.match(
@@ -1613,12 +1614,12 @@ function isBakingStaplePantryItem(cleaned: string) {
     cleaned.includes("dark chocolate") ||
     cleaned.includes("baking chips") ||
     cleaned.includes("mini chocolate chips") ||
-cleaned.includes("mini marshmallows") ||
-cleaned.includes("vanilla wafers") ||
-cleaned.includes("crispy rice cereal") ||
-cleaned.includes("instant vanilla pudding") ||
+    cleaned.includes("mini marshmallows") ||
+    cleaned.includes("vanilla wafers") ||
+    cleaned.includes("crispy rice cereal") ||
+    cleaned.includes("instant vanilla pudding") ||
 
-        // Dessert toppings / add-ins
+    // Dessert toppings / add-ins
     cleaned.includes("chocolate syrup") ||
     cleaned.includes("jarabe de chocolate") ||
     cleaned.includes("sirope de chocolate") ||
@@ -1726,13 +1727,13 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     return "Dairy / Eggs";
   }
   if (
-  cleaned.includes("peach") ||
-  cleaned.includes("peaches") ||
-  cleaned.includes("durazno") ||
-  cleaned.includes("duraznos")
-) {
-  return "Produce";
-}
+    cleaned.includes("peach") ||
+    cleaned.includes("peaches") ||
+    cleaned.includes("durazno") ||
+    cleaned.includes("duraznos")
+  ) {
+    return "Produce";
+  }
 
   if (isRealPepperProduce(cleaned) || isFreshChileProduce(cleaned)) return "Produce";
   if (isBakeryBreadItem(cleaned)) return "Bakery";
@@ -1804,22 +1805,22 @@ function resolveShoppingCategoryForItem(
     return "Meat / Seafood";
   }
   if (
-  cleaned.includes("peach") ||
-  cleaned.includes("peaches") ||
-  cleaned.includes("durazno") ||
-  cleaned.includes("duraznos")
-) {
-  return "Produce";
-}
+    cleaned.includes("peach") ||
+    cleaned.includes("peaches") ||
+    cleaned.includes("durazno") ||
+    cleaned.includes("duraznos")
+  ) {
+    return "Produce";
+  }
 
   // Put BEFORE generic cheese / dairy checks
-if (
-  cleaned.includes("smoked mac and cheese") ||
-  cleaned.includes("mac and cheese") ||
-  cleaned.includes("macaroni and cheese")
-) {
-  return "Pantry";
-}
+  if (
+    cleaned.includes("smoked mac and cheese") ||
+    cleaned.includes("mac and cheese") ||
+    cleaned.includes("macaroni and cheese")
+  ) {
+    return "Pantry";
+  }
 
   if (
     cleaned.includes("butter") ||
@@ -1855,21 +1856,21 @@ if (
   }
 
   if (
-  cleaned.includes("greek salad") ||
-  cleaned.includes("macaroni salad") ||
-  cleaned.includes("potato salad") ||
-  cleaned.includes("pasta salad") ||
-  cleaned.includes("caesar salad") ||
-  cleaned.includes("simple green salad") ||
-  cleaned.includes("fruit salad") ||
-  cleaned.includes("coleslaw")
-) {
-  return "Produce";
-}
+    cleaned.includes("greek salad") ||
+    cleaned.includes("macaroni salad") ||
+    cleaned.includes("potato salad") ||
+    cleaned.includes("pasta salad") ||
+    cleaned.includes("caesar salad") ||
+    cleaned.includes("simple green salad") ||
+    cleaned.includes("fruit salad") ||
+    cleaned.includes("coleslaw")
+  ) {
+    return "Produce";
+  }
 
-if (cleaned.includes("kimchi")) {
-  return "Produce";
-}
+  if (cleaned.includes("kimchi")) {
+    return "Produce";
+  }
 
 
 
@@ -1926,15 +1927,15 @@ function formatRecipeBreakdownAmount(
   if (quantity <= 0) return "";
 
   if (isCountable) {
-  const qty = Math.ceil(quantity);
-  const baseName = singularizeWord(name);
+    const qty = Math.ceil(quantity);
+    const baseName = singularizeWord(name);
 
-  if (baseName === "garlic") {
-    return `${qty} ${qty === 1 ? "clove" : "cloves"}`;
+    if (baseName === "garlic") {
+      return `${qty} ${qty === 1 ? "clove" : "cloves"}`;
+    }
+
+    return `${qty} ${formatDisplayName(pluralizeCountable(baseName, qty))}`;
   }
-
-  return `${qty} ${formatDisplayName(pluralizeCountable(baseName, qty))}`;
-}
 
   if (unit && unit !== "__count__") {
     const sizeText =
@@ -2219,6 +2220,36 @@ export default function ShoppingListPage() {
     };
   }, []);
 
+  useEffect(() => {
+    const refresh = () => {
+      setShoppingItems(loadShoppingList());
+    };
+
+    refresh();
+
+    window.addEventListener("focus", refresh);
+    window.addEventListener(
+      SHOPPING_LIST_CHANGED_EVENT,
+      refresh,
+    );
+    document.addEventListener(
+      "visibilitychange",
+      refresh,
+    );
+
+    return () => {
+      window.removeEventListener("focus", refresh);
+      window.removeEventListener(
+        SHOPPING_LIST_CHANGED_EVENT,
+        refresh,
+      );
+      document.removeEventListener(
+        "visibilitychange",
+        refresh,
+      );
+    };
+  }, []);
+
   // =====================================================
   // Save helper
   // =====================================================
@@ -2313,115 +2344,114 @@ export default function ShoppingListPage() {
   };
 
   const addCheckedItemsToPantry = () => {
-  const checkedGroups = combinedItems.filter((item) => item.checked);
-  if (checkedGroups.length === 0) return;
+    const checkedGroups = combinedItems.filter((item) => item.checked);
+    if (checkedGroups.length === 0) return;
 
 
 
-  const existingPantry = loadPantryItems();
+    const existingPantry = loadPantryItems();
 
-  const existingNames = new Set(
-    existingPantry.map((item) => cleanIngredientName(item.name).toLowerCase())
-  );
+    const existingNames = new Set(
+      existingPantry.map((item) => cleanIngredientName(item.name).toLowerCase())
+    );
 
-  const newPantryItems: PantryItem[] = [];
+    const newPantryItems: PantryItem[] = [];
 
-  for (const group of checkedGroups) {
-    let pantryName = group.displayText;
+    for (const group of checkedGroups) {
+      let pantryName = group.displayText;
 
-    // Remove leading amounts from grouped display names:
-    // "10 cloves Garlic" -> "Garlic"
-    // "2 Avocados" -> "Avocado"
-    pantryName = pantryName
-      .replace(/^\d+(\.\d+)?\s+(clove|cloves)\s+/i, "")
-      .replace(/^\d+(\.\d+)?\s+/i, "")
-      .trim();
+      // Remove leading amounts from grouped display names:
+      // "10 cloves Garlic" -> "Garlic"
+      // "2 Avocados" -> "Avocado"
+      pantryName = pantryName
+        .replace(/^\d+(\.\d+)?\s+(clove|cloves)\s+/i, "")
+        .replace(/^\d+(\.\d+)?\s+/i, "")
+        .trim();
 
-    pantryName = cleanIngredientName(pantryName);
+      pantryName = cleanIngredientName(pantryName);
 
-    // Extra safety fixes
-    if (pantryName.includes("garlic")) pantryName = "garlic";
-    if (pantryName.includes("cilantro")) pantryName = "cilantro";
+      // Extra safety fixes
+      if (pantryName.includes("garlic")) pantryName = "garlic";
+      if (pantryName.includes("cilantro")) pantryName = "cilantro";
 
-    if (!pantryName || shouldHideShoppingItem(pantryName)) continue;
+      if (!pantryName || shouldHideShoppingItem(pantryName)) continue;
 
-    const key = cleanIngredientName(pantryName).toLowerCase();
-    if (existingNames.has(key)) continue;
+      const key = cleanIngredientName(pantryName).toLowerCase();
+      if (existingNames.has(key)) continue;
 
-    existingNames.add(key);
+      existingNames.add(key);
 
-    newPantryItems.push({
-      id: makePantryId(pantryName),
-      name: formatDisplayName(pantryName),
-      createdAt: Date.now(),
-    });
-  }
+      newPantryItems.push({
+        id: makePantryId(pantryName),
+        name: formatDisplayName(pantryName),
+        createdAt: Date.now(),
+      });
+    }
 
-  if (newPantryItems.length === 0) {
-    setPantryMessage("Those items are already in your Pantry.");
+    if (newPantryItems.length === 0) {
+      setPantryMessage("Those items are already in your Pantry.");
+      setTimeout(() => setPantryMessage(""), 2500);
+      return;
+    }
+
+    savePantryItems([...existingPantry, ...newPantryItems]);
+
+    setPantryMessage(
+      `Added ${newPantryItems.length} ${newPantryItems.length === 1 ? "item" : "items"
+      } to Pantry`
+    );
+
     setTimeout(() => setPantryMessage(""), 2500);
-    return;
-  }
-
-  savePantryItems([...existingPantry, ...newPantryItems]);
-
-  setPantryMessage(
-    `Added ${newPantryItems.length} ${
-      newPantryItems.length === 1 ? "item" : "items"
-    } to Pantry`
-  );
-
-  setTimeout(() => setPantryMessage(""), 2500);
-};
+  };
 
   const checkedCount = shoppingItems.filter((item) => item.checked).length;
 
   const shareShoppingList = async () => {
-  const itemsToShare = combinedItems.filter((item) => !item.checked);
+    const itemsToShare = combinedItems.filter((item) => !item.checked);
 
-  if (itemsToShare.length === 0) {
-    alert(t("shopping.noItemsToShare"));
-    return;
-  }
+    if (itemsToShare.length === 0) {
+      alert(t("shopping.noItemsToShare"));
+      return;
+    }
 
-  const itemCount = itemsToShare.length;
-  const itemLabel = itemCount === 1 ? "item" : "items";
+    const itemCount = itemsToShare.length;
+    const itemLabel = itemCount === 1 ? "item" : "items";
 
-  let text = `🛒 Simple Dinners Shopping List\n`;
-  text += `${itemCount} ${itemLabel} to pick up\n\n`;
+    let text = `🛒 Simple Dinners Shopping List\n`;
+    text += `${itemCount} ${itemLabel} to pick up\n\n`;
 
-  GROCERY_CATEGORY_ORDER.forEach((section) => {
-    const sectionItems = itemsToShare.filter(
-      (item) => item.category === section
-    );
+    GROCERY_CATEGORY_ORDER.forEach((section) => {
+      const sectionItems = itemsToShare.filter(
+        (item) => item.category === section
+      );
 
-    if (sectionItems.length === 0) return;
+      if (sectionItems.length === 0) return;
 
-    text += `${getCategoryLabel(section)}\n`;
+      text += `${getCategoryLabel(section)}\n`;
 
-    sectionItems.forEach((item) => {
-      text += `□ ${item.displayText}\n`;
+      sectionItems.forEach((item) => {
+        text += `□ ${item.displayText}\n`;
+      });
+
+      text += "\n";
     });
 
-    text += "\n";
-  });
+    text += `Generated with Simple Dinners`;
 
-  text += `Generated with Simple Dinners`;
-
-  try {
-    if (navigator.share) {
-      await navigator.share({
-        title: "Simple Dinners Shopping List",
-        text,
-      });
-    } else {
-      await navigator.clipboard.writeText(text);
-      alert(t("shopping.copied"));
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: "Simple Dinners Shopping List",
+          text,
+        });
+      } else {
+        await navigator.clipboard.writeText(text);
+        alert(t("shopping.copied"));
+      }
+    } catch (err) {
+      console.error("Share shopping list failed:", err);
     }
-  } catch (err) {
-    console.error("Share shopping list failed:", err);
-  }
-};
+  };
 
   // =====================================================
   // Combine / merge shopping items for cleaner display
@@ -2586,9 +2616,9 @@ export default function ShoppingListPage() {
       parsedUnit = normalizeUnit(parsedUnit);
 
       let parsedQuantity =
-  typeof smartItem.quantity === "number"
-    ? smartItem.quantity
-    : parsed.quantity ?? null;
+        typeof smartItem.quantity === "number"
+          ? smartItem.quantity
+          : parsed.quantity ?? null;
 
       let packageSize =
         normalizePackageSize(smartItem.packageSize) ||
@@ -2712,9 +2742,9 @@ export default function ShoppingListPage() {
         parsedQuantity = null;
       }
       if (MERGE_AS_SINGLE_BAKING_ITEMS.has(safeName)) {
-  parsedUnit = null;
-  parsedQuantity = null;
-}
+        parsedUnit = null;
+        parsedQuantity = null;
+      }
 
       // Treat generic cheddar cheese as one grocery item when one recipe gives
       // an amount and another only says "shredded cheese".
@@ -2726,41 +2756,41 @@ export default function ShoppingListPage() {
       }
 
       // Treat loose/measured beans as canned pantry items for shopping.
-// Example: "1 cup black beans, rinsed" should shop as "1 (15 oz) can Black Beans".
-if (
-  safeName === "black beans" ||
-  safeName === "pinto beans" ||
-  safeName === "kidney beans" ||
-  safeName === "white beans" ||
-  safeName === "chili beans"
-) {
-  if (!parsedUnit || parsedUnit === "cup" || parsedUnit === "Tbsp" || parsedUnit === "tsp") {
-    parsedUnit = "can";
-    parsedQuantity = parsedQuantity ?? 1;
-    if (!packageSize && safeName === "black beans") {
-      packageSize = DEFAULT_CAN_PACKAGE_SIZE_BY_NAME["black beans"];
-    }
-  }
-}
+      // Example: "1 cup black beans, rinsed" should shop as "1 (15 oz) can Black Beans".
+      if (
+        safeName === "black beans" ||
+        safeName === "pinto beans" ||
+        safeName === "kidney beans" ||
+        safeName === "white beans" ||
+        safeName === "chili beans"
+      ) {
+        if (!parsedUnit || parsedUnit === "cup" || parsedUnit === "Tbsp" || parsedUnit === "tsp") {
+          parsedUnit = "can";
+          parsedQuantity = parsedQuantity ?? 1;
+          if (!packageSize && safeName === "black beans") {
+            packageSize = DEFAULT_CAN_PACKAGE_SIZE_BY_NAME["black beans"];
+          }
+        }
+      }
 
-// Treat loose or cup-measured baby bella mushrooms as the common 8 oz package.
-// Preserve real package/weight amounts if the recipe already gives oz/lb/package.
-if (safeName === "baby bella mushrooms") {
-  const packageOz = getOzFromPackageSize(packageSize);
+      // Treat loose or cup-measured baby bella mushrooms as the common 8 oz package.
+      // Preserve real package/weight amounts if the recipe already gives oz/lb/package.
+      if (safeName === "baby bella mushrooms") {
+        const packageOz = getOzFromPackageSize(packageSize);
 
-  if (packageOz && (!parsedUnit || parsedUnit === "oz")) {
-    parsedUnit = "oz";
-    parsedQuantity = packageOz;
-  } else if (
-    !parsedUnit ||
-    parsedUnit === "cup" ||
-    parsedUnit === "Tbsp" ||
-    parsedUnit === "tsp"
-  ) {
-    parsedUnit = "oz";
-    parsedQuantity = 8;
-  }
-}
+        if (packageOz && (!parsedUnit || parsedUnit === "oz")) {
+          parsedUnit = "oz";
+          parsedQuantity = packageOz;
+        } else if (
+          !parsedUnit ||
+          parsedUnit === "cup" ||
+          parsedUnit === "Tbsp" ||
+          parsedUnit === "tsp"
+        ) {
+          parsedUnit = "oz";
+          parsedQuantity = 8;
+        }
+      }
 
       // Prepared side suggestions are plain shopping-list ideas, not measured
       // recipe ingredients. Merge them by name and keep awkward units off the row.
@@ -2799,8 +2829,8 @@ if (safeName === "baby bella mushrooms") {
             ? Math.ceil(parsedQuantity)
             : parsedQuantity
           : isCountable
-          ? 1
-          : 0;
+            ? 1
+            : 0;
 
       const minQuantityToAdd =
         parsed.minQuantity !== null && parsed.minQuantity !== undefined
@@ -2921,8 +2951,8 @@ if (safeName === "baby bella mushrooms") {
           value.totalQuantity > 0
             ? value.totalQuantity
             : value.count > 0
-            ? value.count
-            : 1;
+              ? value.count
+              : 1;
 
         const baseName = singularizeWord(value.name);
 
@@ -2935,33 +2965,32 @@ if (safeName === "baby bella mushrooms") {
         );
 
         if (baseName === "garlic") {
-          displayText = `${finalQty} ${
-            finalQty === 1 ? "clove" : "cloves"
-          } Garlic`;
+          displayText = `${finalQty} ${finalQty === 1 ? "clove" : "cloves"
+            } Garlic`;
         } else if (min !== max) {
           displayText = `${min}-${max} ${formattedName}`;
         } else {
           displayText = `${finalQty} ${formattedName}`;
         }
       } else if (
-  !value.mixedUnits &&
-  value.unit &&
-  value.totalQuantity > 0 &&
-  shouldShowMeasuredTotal(value.name, value.unit, value.totalQuantity) &&
-  !shouldHideMainRowAmount(value.name, value.unit)
-) {
-  const formattedName = formatDisplayName(value.name);
+        !value.mixedUnits &&
+        value.unit &&
+        value.totalQuantity > 0 &&
+        shouldShowMeasuredTotal(value.name, value.unit, value.totalQuantity) &&
+        !shouldHideMainRowAmount(value.name, value.unit)
+      ) {
+        const formattedName = formatDisplayName(value.name);
 
-  const packageText =
-    value.packageSize && isPackageSizeSensitiveUnit(value.unit)
-      ? ` (${formatPackageSize(value.packageSize)})`
-      : "";
+        const packageText =
+          value.packageSize && isPackageSizeSensitiveUnit(value.unit)
+            ? ` (${formatPackageSize(value.packageSize)})`
+            : "";
 
-  displayText = `${formatQuantity(value.totalQuantity)} ${pluralizeUnit(
-    value.unit,
-    value.totalQuantity
-  )}${packageText} ${formattedName}`;
-}
+        displayText = `${formatQuantity(value.totalQuantity)} ${pluralizeUnit(
+          value.unit,
+          value.totalQuantity
+        )}${packageText} ${formattedName}`;
+      }
 
       const recipeNames = Array.from(value.recipeNames)
         .flatMap((name) =>
@@ -2977,12 +3006,12 @@ if (safeName === "baby bella mushrooms") {
         const breakdown = value.recipeBreakdown.get(recipeName);
         const amountText = breakdown
           ? formatRecipeBreakdownAmount(
-              breakdown.name,
-              breakdown.quantity,
-              breakdown.mixedUnits ? null : breakdown.unit,
-              breakdown.isCountable,
-              breakdown.mixedUnits ? "" : breakdown.packageSize
-            )
+            breakdown.name,
+            breakdown.quantity,
+            breakdown.mixedUnits ? null : breakdown.unit,
+            breakdown.isCountable,
+            breakdown.mixedUnits ? "" : breakdown.packageSize
+          )
           : "";
 
         return { recipeName, amountText };
@@ -3036,24 +3065,24 @@ if (safeName === "baby bella mushrooms") {
     const updated = shoppingItems.map((item) =>
       editingGroup.sourceIds.includes(item.id)
         ? ({
-            ...item,
-            text: manual.rawText,
-            category: resolveShoppingCategoryForItem(
-              manual.name,
-              manual.unit,
-              manual.packageSize
-            ),
-            sourceRecipe: "",
-            normalizedName: manual.name,
-            quantity: manual.quantity ?? undefined,
-            unit: manual.unit ?? undefined,
-            packageSize: manual.packageSize || undefined,
-          } as ShoppingItem & {
-            normalizedName?: string;
-            quantity?: number;
-            unit?: string | null;
-            packageSize?: string;
-          })
+          ...item,
+          text: manual.rawText,
+          category: resolveShoppingCategoryForItem(
+            manual.name,
+            manual.unit,
+            manual.packageSize
+          ),
+          sourceRecipe: "",
+          normalizedName: manual.name,
+          quantity: manual.quantity ?? undefined,
+          unit: manual.unit ?? undefined,
+          packageSize: manual.packageSize || undefined,
+        } as ShoppingItem & {
+          normalizedName?: string;
+          quantity?: number;
+          unit?: string | null;
+          packageSize?: string;
+        })
         : item
     );
 
@@ -3083,24 +3112,24 @@ if (safeName === "baby bella mushrooms") {
   // =====================================================
   return (
     <div
-  style={{
-    width: "100%",
-    boxSizing: "border-box",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: "0 20px 120px 20px",
-    overflowX: "hidden",
-  }}
->
+      style={{
+        width: "100%",
+        boxSizing: "border-box",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: "0 20px 120px 20px",
+        overflowX: "hidden",
+      }}
+    >
       <div
-  style={{
-    maxWidth: "550px",
-    width: "100%",
-    boxSizing: "border-box",
-    overflowX: "hidden",
-  }}
->
+        style={{
+          maxWidth: "550px",
+          width: "100%",
+          boxSizing: "border-box",
+          overflowX: "hidden",
+        }}
+      >
         <header>
           <div
             style={{
@@ -3164,26 +3193,26 @@ if (safeName === "baby bella mushrooms") {
         >
 
           {combinedItems.length > 0 && (
-  <button
-    onClick={shareShoppingList}
-    style={{
-      background: "rgba(59,130,246,0.12)",
-      border: "1px solid rgba(59,130,246,0.28)",
-      color: "#93c5fd",
-      fontSize: 11,
-      fontWeight: 900,
-      padding: "6px 12px",
-      borderRadius: "999px",
-      display: "inline-flex",
-      alignItems: "center",
-      gap: 6,
-      letterSpacing: 0.3,
-    }}
-  >
-    <Share2 size={14} />
-    {t("shopping.shareList").toUpperCase()}
-  </button>
-)}
+            <button
+              onClick={shareShoppingList}
+              style={{
+                background: "rgba(59,130,246,0.12)",
+                border: "1px solid rgba(59,130,246,0.28)",
+                color: "#93c5fd",
+                fontSize: 11,
+                fontWeight: 900,
+                padding: "6px 12px",
+                borderRadius: "999px",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                letterSpacing: 0.3,
+              }}
+            >
+              <Share2 size={14} />
+              {t("shopping.shareList").toUpperCase()}
+            </button>
+          )}
           <button
             onClick={() => setHideChecked((prev) => !prev)}
             style={{
@@ -3202,8 +3231,8 @@ if (safeName === "baby bella mushrooms") {
           >
             {hideChecked ? <Eye size={14} /> : <EyeOff size={14} />}
             {hideChecked
-  ? t("shopping.showChecked").toUpperCase()
-  : t("shopping.hideChecked").toUpperCase()}
+              ? t("shopping.showChecked").toUpperCase()
+              : t("shopping.hideChecked").toUpperCase()}
           </button>
 
           {shoppingItems.length > 0 && (
@@ -3228,25 +3257,25 @@ if (safeName === "baby bella mushrooms") {
           )}
 
           {checkedCount > 0 && (
-  <button
-    onClick={addCheckedItemsToPantry}
-    style={{
-      background: "rgba(34,197,94,0.12)",
-      border: "1px solid rgba(34,197,94,0.28)",
-      color: "#86efac",
-      fontSize: 11,
-      fontWeight: 900,
-      padding: "6px 12px",
-      borderRadius: "999px",
-      display: "inline-flex",
-      alignItems: "center",
-      gap: 6,
-      letterSpacing: 0.3,
-    }}
-  >
-    {t("shopping.addBoughtToPantry").toUpperCase()} ({checkedCount})
-  </button>
-)}
+            <button
+              onClick={addCheckedItemsToPantry}
+              style={{
+                background: "rgba(34,197,94,0.12)",
+                border: "1px solid rgba(34,197,94,0.28)",
+                color: "#86efac",
+                fontSize: 11,
+                fontWeight: 900,
+                padding: "6px 12px",
+                borderRadius: "999px",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                letterSpacing: 0.3,
+              }}
+            >
+              {t("shopping.addBoughtToPantry").toUpperCase()} ({checkedCount})
+            </button>
+          )}
 
           {checkedCount > 0 && (
             <button
@@ -3271,22 +3300,22 @@ if (safeName === "baby bella mushrooms") {
         </div>
 
         {pantryMessage && (
-  <div
-    style={{
-      marginBottom: 16,
-      padding: "10px 12px",
-      borderRadius: 14,
-      background: "rgba(34,197,94,0.12)",
-      border: "1px solid rgba(34,197,94,0.22)",
-      color: "#86efac",
-      fontSize: 13,
-      fontWeight: 800,
-      textAlign: "center",
-    }}
-  >
-    {pantryMessage}
-  </div>
-)}
+          <div
+            style={{
+              marginBottom: 16,
+              padding: "10px 12px",
+              borderRadius: 14,
+              background: "rgba(34,197,94,0.12)",
+              border: "1px solid rgba(34,197,94,0.22)",
+              color: "#86efac",
+              fontSize: 13,
+              fontWeight: 800,
+              textAlign: "center",
+            }}
+          >
+            {pantryMessage}
+          </div>
+        )}
 
         {grouped.map((group) => (
           <div key={group.section} style={{ marginBottom: 28 }}>
@@ -3406,18 +3435,18 @@ if (safeName === "baby bella mushrooms") {
                         openSourceModal(item);
                       }}
                       style={{
-  flex: "1 1 auto",
-  minWidth: 0,
-  maxWidth: "100%",
-  background: "none",
-  border: "none",
-  padding: 0,
-  color: "inherit",
-  font: "inherit",
-  textAlign: "left",
-  cursor: item.recipeNames.length > 0 ? "pointer" : "default",
-  overflow: "hidden",
-}}
+                        flex: "1 1 auto",
+                        minWidth: 0,
+                        maxWidth: "100%",
+                        background: "none",
+                        border: "none",
+                        padding: 0,
+                        color: "inherit",
+                        font: "inherit",
+                        textAlign: "left",
+                        cursor: item.recipeNames.length > 0 ? "pointer" : "default",
+                        overflow: "hidden",
+                      }}
                       aria-label={
                         item.recipeNames.length > 0
                           ? `Show recipes using ${item.displayText}`
@@ -3460,13 +3489,13 @@ if (safeName === "baby bella mushrooms") {
                   </div>
 
                   <div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: 8,
-    flexShrink: 0,
-  }}
->
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      flexShrink: 0,
+                    }}
+                  >
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -3571,13 +3600,12 @@ if (safeName === "baby bella mushrooms") {
               >
                 <div style={{ display: "grid", gap: 3 }}>
                   <div style={{ fontSize: 18, fontWeight: 900 }}>
-  Used In{" "}
-  {sourceModalGroup.recipeCount > 0
-    ? `(${sourceModalGroup.recipeCount} ${
-        sourceModalGroup.recipeCount === 1 ? "recipe" : "recipes"
-      })`
-    : ""}
-</div>
+                    Used In{" "}
+                    {sourceModalGroup.recipeCount > 0
+                      ? `(${sourceModalGroup.recipeCount} ${sourceModalGroup.recipeCount === 1 ? "recipe" : "recipes"
+                      })`
+                      : ""}
+                  </div>
                   <div style={{ fontSize: 13, opacity: 0.65 }}>
                     {sourceModalGroup.displayText}
                   </div>

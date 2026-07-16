@@ -1,0 +1,257 @@
+.sd-account-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.62);
+  backdrop-filter: blur(8px);
+}
+
+.sd-account-modal {
+  position: relative;
+  width: min(100%, 440px);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  padding: 28px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 24px;
+  background: #ffffff;
+  color: #172033;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.32);
+}
+
+.sd-account-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #64748b;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.sd-account-close:hover {
+  background: #f1f5f9;
+  color: #172033;
+}
+
+.sd-account-brand {
+  padding-right: 34px;
+  margin-bottom: 24px;
+}
+
+.sd-account-plus-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 27px;
+  padding: 4px 10px;
+  margin-bottom: 10px;
+  border-radius: 999px;
+  background: #fff3c4;
+  color: #7c5700;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sd-account-brand h2 {
+  margin: 0;
+  font-size: 1.65rem;
+  line-height: 1.15;
+}
+
+.sd-account-brand p {
+  margin: 8px 0 0;
+  color: #64748b;
+}
+
+.sd-account-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 5px;
+  margin-bottom: 20px;
+  border-radius: 14px;
+  background: #f1f5f9;
+}
+
+.sd-account-tabs button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #64748b;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sd-account-tabs button.active {
+  background: #ffffff;
+  color: #172033;
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.1);
+}
+
+.sd-account-form {
+  display: grid;
+  gap: 16px;
+}
+
+.sd-account-form label {
+  display: grid;
+  gap: 7px;
+  color: #334155;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.sd-account-form input {
+  width: 100%;
+  min-height: 48px;
+  box-sizing: border-box;
+  padding: 0 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #172033;
+  font: inherit;
+  outline: none;
+}
+
+.sd-account-modal .sd-account-form input {
+  background: #ffffff;
+  color: #172033 !important;
+  -webkit-text-fill-color: #172033;
+  caret-color: #172033;
+  opacity: 1;
+}
+
+.sd-account-modal .sd-account-form input::placeholder {
+  color: #94a3b8 !important;
+  -webkit-text-fill-color: #94a3b8;
+  opacity: 1;
+}
+
+/* Keep browser autofill readable */
+.sd-account-modal .sd-account-form input:-webkit-autofill,
+.sd-account-modal .sd-account-form input:-webkit-autofill:hover,
+.sd-account-modal .sd-account-form input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #172033;
+  caret-color: #172033;
+  box-shadow: 0 0 0 1000px #ffffff inset;
+  transition: background-color 9999s ease-out;
+}
+
+.sd-account-form input:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.16);
+}
+
+.sd-account-primary-button,
+.sd-account-secondary-button {
+  width: 100%;
+  min-height: 48px;
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.sd-account-primary-button {
+  border: 0;
+  background: #f59e0b;
+  color: #271900;
+}
+
+.sd-account-secondary-button {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+}
+
+.sd-account-primary-button:disabled,
+.sd-account-secondary-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.sd-account-notice {
+  padding: 11px 13px;
+  border-radius: 11px;
+  background: #ecfdf5;
+  color: #166534;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.sd-account-error {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.sd-account-free-note {
+  margin: 18px 0 0;
+  color: #64748b;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.sd-account-signed-in {
+  display: grid;
+  gap: 18px;
+}
+
+.sd-account-status-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid #bbf7d0;
+  border-radius: 14px;
+  background: #f0fdf4;
+}
+
+.sd-account-status-card p {
+  margin: 3px 0 0;
+  color: #4b5563;
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+
+.sd-account-status-dot {
+  width: 11px;
+  height: 11px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.15);
+}
+
+.sd-account-description {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+@media (max-width: 520px) {
+  .sd-account-backdrop {
+    align-items: end;
+    padding: 0;
+  }
+
+  .sd-account-modal {
+    width: 100%;
+    max-height: 92vh;
+    padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+    border-radius: 24px 24px 0 0;
+  }
+}
