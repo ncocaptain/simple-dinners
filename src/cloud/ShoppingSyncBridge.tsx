@@ -1,5 +1,7 @@
 import { useEffect } from "react";
+import type { RealtimeChannel } from "@supabase/supabase-js";
 import { useAuth } from "../auth/AuthContext";
+import { supabase } from "../lib/supabase";
 import {
   loadCloudShoppingSnapshot,
   replaceCloudShoppingSnapshot,
@@ -83,18 +85,30 @@ export function ShoppingSyncBridge() {
   const { isSignedIn, householdId } = useAuth();
 
   useEffect(() => {
-    if (!isSignedIn || !householdId) {
+    if (
+      !isSignedIn ||
+      !householdId ||
+      !supabase
+    ) {
       return;
     }
 
     const activeHouseholdId = householdId;
+    const activeSupabase = supabase;
 
     let cancelled = false;
     let syncReady = false;
+
     let uploadTimer: number | null = null;
     let uploadInProgress = false;
     let queuedItems: ShoppingItem[] | null = null;
     let pendingItems: ShoppingItem[] | null = null;
+
+    let cloudPullTimer: number | null = null;
+    let cloudPullInProgress = false;
+    let cloudPullQueued = false;
+
+    let realtimeChannel: RealtimeChannel | null = null;
 
     async function uploadSnapshot(
       items: ShoppingItem[],
@@ -107,13 +121,6 @@ export function ShoppingSyncBridge() {
         queuedItems = items;
         return true;
       }
-
-      uploadInProgress = true;
-
-      await replaceCloudShoppingSnapshot(
-        activeHouseholdId,
-        items,
-      );
 
       uploadInProgress = true;
 
@@ -148,7 +155,9 @@ export function ShoppingSyncBridge() {
       return true;
     }
 
-    function scheduleUpload(items: ShoppingItem[]) {
+    function scheduleUpload(
+      items: ShoppingItem[],
+    ) {
       if (uploadTimer !== null) {
         window.clearTimeout(uploadTimer);
       }
@@ -159,6 +168,87 @@ export function ShoppingSyncBridge() {
       }, 500);
     }
 
+    async function pullCloudSnapshot() {
+      if (cancelled) {
+        return;
+      }
+
+      /*
+       * Give this device's pending local upload priority.
+       * This avoids pulling an older cloud snapshot over a
+       * local edit that is still waiting to upload.
+       */
+      if (
+        uploadTimer !== null ||
+        uploadInProgress
+      ) {
+        scheduleCloudPull(400);
+        return;
+      }
+
+      if (cloudPullInProgress) {
+        cloudPullQueued = true;
+        return;
+      }
+
+      cloudPullInProgress = true;
+
+      const result =
+        await loadCloudShoppingSnapshot(
+          activeHouseholdId,
+        );
+
+      cloudPullInProgress = false;
+
+      if (cancelled) {
+        return;
+      }
+
+      if (result.error) {
+        console.error(
+          "Unable to receive live shopping-list update:",
+          result.error,
+        );
+      } else {
+        const cloudItems = result.data ?? [];
+        const currentLocalItems =
+          loadRawShoppingList();
+
+        /*
+         * Avoid unnecessary page refreshes and prevent
+         * this device from reacting to its own upload.
+         */
+        if (
+          !snapshotsMatch(
+            currentLocalItems,
+            cloudItems,
+          )
+        ) {
+          replaceShoppingListFromCloud(
+            cloudItems,
+          );
+        }
+      }
+
+      if (cloudPullQueued) {
+        cloudPullQueued = false;
+        scheduleCloudPull(100);
+      }
+    }
+
+    function scheduleCloudPull(
+      delay = 250,
+    ) {
+      if (cloudPullTimer !== null) {
+        window.clearTimeout(cloudPullTimer);
+      }
+
+      cloudPullTimer = window.setTimeout(() => {
+        cloudPullTimer = null;
+        void pullCloudSnapshot();
+      }, delay);
+    }
+
     function handleShoppingListChanged(
       event: Event,
     ) {
@@ -167,7 +257,14 @@ export function ShoppingSyncBridge() {
 
       const detail = customEvent.detail;
 
-      if (!detail || detail.source !== "local") {
+      /*
+       * Cloud-applied data must not be uploaded again.
+       * This prevents device-to-device update loops.
+       */
+      if (
+        !detail ||
+        detail.source !== "local"
+      ) {
         return;
       }
 
@@ -179,13 +276,52 @@ export function ShoppingSyncBridge() {
       scheduleUpload(detail.items);
     }
 
+    function startRealtime() {
+      const channelName = [
+        "shopping-household",
+        activeHouseholdId,
+        Math.random()
+          .toString(36)
+          .slice(2),
+      ].join("-");
+
+      realtimeChannel = activeSupabase
+        .channel(channelName)
+        .on(
+          "postgres_changes",
+          {
+            event: "UPDATE",
+            schema: "public",
+            table: "households",
+            filter:
+              `id=eq.${activeHouseholdId}`,
+          },
+          () => {
+            scheduleCloudPull();
+          },
+        )
+        .subscribe((status, error) => {
+          if (
+            status === "CHANNEL_ERROR" ||
+            status === "TIMED_OUT"
+          ) {
+            console.error(
+              "Shopping-list Realtime connection failed:",
+              status,
+              error,
+            );
+          }
+        });
+    }
+
     window.addEventListener(
       SHOPPING_LIST_CHANGED_EVENT,
       handleShoppingListChanged,
     );
 
     async function initializeSync() {
-      const localItems = loadRawShoppingList();
+      const localItems =
+        loadRawShoppingList();
 
       const cloudResult =
         await loadCloudShoppingSnapshot(
@@ -205,11 +341,12 @@ export function ShoppingSyncBridge() {
         return;
       }
 
-      const cloudItems = cloudResult.data ?? [];
+      const cloudItems =
+        cloudResult.data ?? [];
 
       /*
-       * Existing device has data and cloud is new:
-       * safely upload the current local list.
+       * Existing device with a new cloud account:
+       * upload its current local list.
        */
       if (
         localItems.length > 0 &&
@@ -224,36 +361,42 @@ export function ShoppingSyncBridge() {
       }
 
       /*
-       * New/empty device joining an existing household:
-       * use the cloud list.
+       * Empty/new device joining an existing household:
+       * download the household list.
        */
       if (
         localItems.length === 0 &&
         cloudItems.length > 0
       ) {
-        replaceShoppingListFromCloud(cloudItems);
+        replaceShoppingListFromCloud(
+          cloudItems,
+        );
       }
 
       /*
-       * Both sides have data. If they differ, make the
-       * user choose rather than overwriting silently.
+       * Both sides contain different data:
+       * never overwrite silently.
        */
       if (
         localItems.length > 0 &&
         cloudItems.length > 0 &&
-        !snapshotsMatch(localItems, cloudItems)
+        !snapshotsMatch(
+          localItems,
+          cloudItems,
+        )
       ) {
-        const useCloudList = window.confirm(
-          [
-            "Simple Dinners Plus found two different shopping lists.",
-            "",
-            "Press OK to use the household cloud list on this device.",
-            "",
-            "Press Cancel to keep this device’s list and replace the cloud list.",
-            "",
-            "A backup will be saved before either list is replaced.",
-          ].join("\n"),
-        );
+        const useCloudList =
+          window.confirm(
+            [
+              "Simple Dinners Plus found two different shopping lists.",
+              "",
+              "Press OK to use the household cloud list on this device.",
+              "",
+              "Press Cancel to keep this device’s list and replace the cloud list.",
+              "",
+              "A backup will be saved before either list is replaced.",
+            ].join("\n"),
+          );
 
         if (useCloudList) {
           saveBackup(
@@ -280,10 +423,11 @@ export function ShoppingSyncBridge() {
       }
 
       syncReady = true;
+      startRealtime();
 
       /*
-       * Capture any change made while initialization
-       * was still loading.
+       * Preserve an edit made while the initial cloud
+       * comparison was still loading.
        */
       if (pendingItems) {
         const latestItems = pendingItems;
@@ -305,6 +449,16 @@ export function ShoppingSyncBridge() {
 
       if (uploadTimer !== null) {
         window.clearTimeout(uploadTimer);
+      }
+
+      if (cloudPullTimer !== null) {
+        window.clearTimeout(cloudPullTimer);
+      }
+
+      if (realtimeChannel) {
+        void activeSupabase.removeChannel(
+          realtimeChannel,
+        );
       }
     };
   }, [householdId, isSignedIn]);
