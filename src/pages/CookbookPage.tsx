@@ -2,8 +2,9 @@
 // IMPORTS
 // =========================================================
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type {
+  ChangeEvent,
   CSSProperties,
   Dispatch,
   FormEvent,
@@ -34,6 +35,16 @@ import {
 
 const API_BASE = "https://simple-dinners-api.onrender.com";
 const SOURCE_STEPS_PLACEHOLDER = "Steps available at source link!";
+
+const MAX_SCREENSHOT_FILES = 5;
+const MAX_SCREENSHOT_FILE_BYTES = 8 * 1024 * 1024;
+const MAX_SCREENSHOT_TOTAL_BYTES = 25 * 1024 * 1024;
+
+const SCREENSHOT_MIME_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+]);
 
 // =========================================================
 // TYPES
@@ -492,6 +503,15 @@ export default function CookbookPage({
   const [captionAssistText, setCaptionAssistText] = useState("");
   const [captionAssistStatus, setCaptionAssistStatus] = useState("");
   const [isCaptionAssisting, setIsCaptionAssisting] = useState(false);
+  const [captionAssistAction, setCaptionAssistAction] = useState<
+    "caption" | "screenshots" | null
+  >(null);
+
+  const captionScreenshotInputRef = useRef<HTMLInputElement | null>(null);
+  const [captionScreenshotFiles, setCaptionScreenshotFiles] = useState<File[]>([]);
+  const [captionScreenshotPreviewUrls, setCaptionScreenshotPreviewUrls] =
+    useState<string[]>([]);
+  const [captionScreenshotError, setCaptionScreenshotError] = useState("");
 
   const [showTextImport, setShowTextImport] = useState(false);
   const [pasteText, setPasteText] = useState("");
@@ -521,6 +541,20 @@ export default function CookbookPage({
   // =========================================================
   // EFFECTS
   // =========================================================
+
+  useEffect(() => {
+    const previewUrls = captionScreenshotFiles.map((file) =>
+      URL.createObjectURL(file)
+    );
+
+    setCaptionScreenshotPreviewUrls(previewUrls);
+
+    return () => {
+      previewUrls.forEach((previewUrl) => {
+        URL.revokeObjectURL(previewUrl);
+      });
+    };
+  }, [captionScreenshotFiles]);
 
   useEffect(() => {
     const sharedUrl = getSharedRecipeUrlFromSearch(location.search);
@@ -616,11 +650,22 @@ export default function CookbookPage({
     setShowTextImport(false);
   };
 
+  const resetCaptionScreenshots = () => {
+    setCaptionScreenshotFiles([]);
+    setCaptionScreenshotError("");
+
+    if (captionScreenshotInputRef.current) {
+      captionScreenshotInputRef.current.value = "";
+    }
+  };
+
   const openCaptionAssistModal = (recipe: ManualRecipeDraft) => {
     setCaptionAssistDraft(recipe);
     setCaptionAssistText("");
+    resetCaptionScreenshots();
+    setCaptionAssistAction(null);
     setCaptionAssistStatus(
-      "We found the post, but not the full recipe text. Paste the caption if you can, or save it as Needs Finishing."
+      "We found the post, but not the full recipe text. Paste the caption, use screenshots, or save it as Needs Finishing."
     );
     setShowTextImport(false);
     setShowManual(false);
@@ -630,7 +675,79 @@ export default function CookbookPage({
     if (isCaptionAssisting) return;
     setCaptionAssistDraft(null);
     setCaptionAssistText("");
+    resetCaptionScreenshots();
+    setCaptionAssistAction(null);
     setCaptionAssistStatus("");
+  };
+
+  const chooseCaptionScreenshots = () => {
+    captionScreenshotInputRef.current?.click();
+  };
+
+  const handleCaptionScreenshotSelection = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    const selectedFiles = Array.from(event.currentTarget.files || []);
+
+    // Let the user pick the same file again after removing it.
+    event.currentTarget.value = "";
+
+    if (selectedFiles.length === 0) return;
+
+    const invalidType = selectedFiles.find(
+      (file) => !SCREENSHOT_MIME_TYPES.has(file.type)
+    );
+
+    if (invalidType) {
+      setCaptionScreenshotError(
+        "Please choose JPEG, PNG, or WebP screenshots."
+      );
+      return;
+    }
+
+    const oversizedFile = selectedFiles.find(
+      (file) => file.size > MAX_SCREENSHOT_FILE_BYTES
+    );
+
+    if (oversizedFile) {
+      setCaptionScreenshotError(
+        `${oversizedFile.name} is larger than 8 MB.`
+      );
+      return;
+    }
+
+    if (
+      captionScreenshotFiles.length + selectedFiles.length >
+      MAX_SCREENSHOT_FILES
+    ) {
+      setCaptionScreenshotError(
+        `Choose up to ${MAX_SCREENSHOT_FILES} screenshots total.`
+      );
+      return;
+    }
+
+    const combinedFiles = [...captionScreenshotFiles, ...selectedFiles];
+    const totalBytes = combinedFiles.reduce(
+      (total, file) => total + file.size,
+      0
+    );
+
+    if (totalBytes > MAX_SCREENSHOT_TOTAL_BYTES) {
+      setCaptionScreenshotError(
+        "Those screenshots are larger than 25 MB combined. Try fewer or smaller images."
+      );
+      return;
+    }
+
+    setCaptionScreenshotFiles(combinedFiles);
+    setCaptionScreenshotError("");
+  };
+
+  const removeCaptionScreenshot = (indexToRemove: number) => {
+    setCaptionScreenshotFiles((currentFiles) =>
+      currentFiles.filter((_, index) => index !== indexToRemove)
+    );
+    setCaptionScreenshotError("");
   };
 
   const saveCaptionAssistNeedsFinishing = () => {
@@ -642,6 +759,8 @@ export default function CookbookPage({
     setShowManual(true);
     setCaptionAssistDraft(null);
     setCaptionAssistText("");
+    resetCaptionScreenshots();
+    setCaptionAssistAction(null);
     setCaptionAssistStatus("");
   };
 
@@ -792,6 +911,7 @@ export default function CookbookPage({
     }
 
     setIsCaptionAssisting(true);
+    setCaptionAssistAction("caption");
     setCaptionAssistStatus("Finishing recipe from caption...");
 
     try {
@@ -833,6 +953,7 @@ export default function CookbookPage({
       setImportUrl("");
       setCaptionAssistDraft(null);
       setCaptionAssistText("");
+      resetCaptionScreenshots();
       setCaptionAssistStatus("");
 
       alert(t("cookbook.importedReviewSave"));
@@ -843,6 +964,108 @@ export default function CookbookPage({
       );
     } finally {
       setIsCaptionAssisting(false);
+      setCaptionAssistAction(null);
+    }
+  };
+
+  const handleScreenshotAssistImport = async () => {
+    if (!captionAssistDraft) return;
+
+    if (captionScreenshotFiles.length === 0) {
+      setCaptionScreenshotError("Choose at least one screenshot.");
+      return;
+    }
+
+    const sourceUrl = captionAssistDraft.sourceUrl || importUrl.trim();
+    const rawSourceTitle = captionAssistDraft.name.trim();
+    const sourceTitle =
+      /^(instagram|tiktok|facebook|social|saved|imported)( recipe)?$/i.test(
+        rawSourceTitle
+      )
+        ? ""
+        : rawSourceTitle;
+
+    setIsCaptionAssisting(true);
+    setCaptionAssistAction("screenshots");
+    setCaptionScreenshotError("");
+    setCaptionAssistStatus(
+      captionScreenshotFiles.length === 1
+        ? "Reading recipe screenshot..."
+        : `Combining ${captionScreenshotFiles.length} recipe screenshots...`
+    );
+
+    try {
+      const formData = new FormData();
+
+      captionScreenshotFiles.forEach((file) => {
+        formData.append("screenshots", file, file.name);
+      });
+
+      if (sourceUrl) {
+        formData.append("sourceUrl", sourceUrl);
+      }
+
+      if (sourceTitle) {
+        formData.append("sourceTitle", sourceTitle);
+      }
+
+      formData.append("language", language || navigator.language || "en");
+
+      const response = await fetch(`${API_BASE}/import-screenshots`, {
+        method: "POST",
+        body: formData,
+      });
+
+      let data: any;
+
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error(
+          "Simple Dinners could not read the screenshot import response."
+        );
+      }
+
+      if (!response.ok || !data?.success || !data?.recipe) {
+        throw new Error(
+          data?.error ||
+          "Simple Dinners could not read a recipe from those screenshots."
+        );
+      }
+
+      const mergedRecipe = {
+        ...data.recipe,
+        photoUrl: data.recipe.photoUrl || captionAssistDraft.photoUrl,
+        sourceUrl: data.recipe.sourceUrl || sourceUrl,
+      };
+
+      const normalizedRecipe = normalizeImportedRecipe(
+        mergedRecipe,
+        data,
+        sourceUrl
+      );
+
+      setManualRecipe(normalizedRecipe);
+      setEditingSlug(null);
+      setHasImportedDraft(true);
+      setShowManual(true);
+      setImportUrl("");
+      setCaptionAssistDraft(null);
+      setCaptionAssistText("");
+      resetCaptionScreenshots();
+      setCaptionAssistStatus("");
+
+      alert(t("cookbook.importedReviewSave"));
+    } catch (err) {
+      console.error("Screenshot Assist failed:", err);
+      setCaptionAssistStatus(
+        err instanceof Error
+          ? err.message
+          : "We couldn’t read a recipe from those screenshots. Try again or save it as Needs Finishing."
+      );
+    } finally {
+      setIsCaptionAssisting(false);
+      setCaptionAssistAction(null);
     }
   };
 
@@ -1591,7 +1814,7 @@ export default function CookbookPage({
                   }}
                 >
                   <h2 style={{ margin: 0, fontSize: 24, fontWeight: 900 }}>
-                    Paste caption to finish
+                    Finish this recipe
                   </h2>
 
                   <button
@@ -1617,7 +1840,7 @@ export default function CookbookPage({
                   }}
                 >
                   {captionAssistStatus ||
-                    "We found the post, but not the full recipe text. Paste the caption if you can, and Simple Dinners will try to finish the recipe."}
+                    "We found the post, but not the full recipe text. Paste the caption or add screenshots showing the ingredients and instructions."}
                 </p>
 
                 {captionAssistDraft.name && (
@@ -1636,15 +1859,19 @@ export default function CookbookPage({
                   </div>
                 )}
 
+                <h3 style={{ margin: "0 0 8px", fontSize: 16 }}>
+                  Paste caption text
+                </h3>
+
                 <textarea
                   value={captionAssistText}
                   onChange={(e) => setCaptionAssistText(e.target.value)}
                   placeholder="Paste the recipe caption here..."
                   disabled={isCaptionAssisting}
-                  rows={9}
+                  rows={7}
                   style={{
                     width: "100%",
-                    minHeight: 220,
+                    minHeight: 170,
                     resize: "vertical",
                     borderRadius: 16,
                     padding: 16,
@@ -1653,56 +1880,279 @@ export default function CookbookPage({
                     border: "1px solid rgba(255,255,255,0.18)",
                     color: "#f8fafc",
                     outline: "none",
-                    marginBottom: 16,
+                    marginBottom: 12,
                     lineHeight: 1.6,
                     opacity: isCaptionAssisting ? 0.72 : 1,
                   }}
                 />
 
-                <div
+                <button
+                  onClick={handleCaptionAssistImport}
+                  disabled={isCaptionAssisting || !captionAssistText.trim()}
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: 10,
+                    ...btn,
+                    width: "100%",
+                    padding: 14,
+                    borderRadius: 16,
+                    background:
+                      isCaptionAssisting || !captionAssistText.trim()
+                        ? "rgba(148,163,184,0.45)"
+                        : "#22c55e",
+                    color: "white",
+                    cursor:
+                      isCaptionAssisting || !captionAssistText.trim()
+                        ? "default"
+                        : "pointer",
                   }}
                 >
-                  <button
-                    onClick={handleCaptionAssistImport}
-                    disabled={isCaptionAssisting || !captionAssistText.trim()}
-                    style={{
-                      ...btn,
-                      padding: 14,
-                      borderRadius: 16,
-                      background:
-                        isCaptionAssisting || !captionAssistText.trim()
-                          ? "rgba(148,163,184,0.45)"
-                          : "#22c55e",
-                      color: "white",
-                      cursor:
-                        isCaptionAssisting || !captionAssistText.trim()
-                          ? "default"
-                          : "pointer",
-                    }}
-                  >
-                    {isCaptionAssisting ? "Finishing..." : "Finish with Caption"}
-                  </button>
+                  {captionAssistAction === "caption"
+                    ? "Finishing..."
+                    : "Finish with Caption"}
+                </button>
 
-                  <button
-                    onClick={saveCaptionAssistNeedsFinishing}
-                    disabled={isCaptionAssisting}
+                <div
+                  style={{
+                    marginTop: 20,
+                    paddingTop: 20,
+                    borderTop: "1px solid rgba(255,255,255,0.12)",
+                  }}
+                >
+                  <h3 style={{ margin: "0 0 6px", fontSize: 16 }}>
+                    Or use screenshots
+                  </h3>
+
+                  <p
                     style={{
-                      ...btn,
-                      padding: 14,
-                      borderRadius: 16,
-                      background: "rgba(255,255,255,0.06)",
-                      border: "1px solid rgba(255,255,255,0.12)",
-                      color: "white",
-                      cursor: isCaptionAssisting ? "default" : "pointer",
+                      margin: "0 0 12px",
+                      fontSize: 13,
+                      lineHeight: 1.5,
+                      opacity: 0.72,
                     }}
                   >
-                    Save Needs Finishing
-                  </button>
+                    Add up to five screenshots showing the ingredients and
+                    instructions. Choose them in recipe order.
+                  </p>
+
+                  <input
+                    ref={captionScreenshotInputRef}
+                    type="file"
+                    accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                    multiple
+                    onChange={handleCaptionScreenshotSelection}
+                    style={{ display: "none" }}
+                  />
+
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: 10,
+                      alignItems: "center",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    <button
+                      type="button"
+                      onClick={chooseCaptionScreenshots}
+                      disabled={
+                        isCaptionAssisting ||
+                        captionScreenshotFiles.length >= MAX_SCREENSHOT_FILES
+                      }
+                      style={{
+                        ...btn,
+                        padding: "12px 16px",
+                        borderRadius: 999,
+                        background: "rgba(255,255,255,0.06)",
+                        border: "1px solid rgba(255,255,255,0.14)",
+                        color: "white",
+                        opacity:
+                          isCaptionAssisting ||
+                            captionScreenshotFiles.length >= MAX_SCREENSHOT_FILES
+                            ? 0.55
+                            : 1,
+                        cursor:
+                          isCaptionAssisting ||
+                            captionScreenshotFiles.length >= MAX_SCREENSHOT_FILES
+                            ? "default"
+                            : "pointer",
+                      }}
+                    >
+                      {captionScreenshotFiles.length > 0
+                        ? "Add More Screenshots"
+                        : "Choose Screenshots"}
+                    </button>
+
+                    <span style={{ fontSize: 12, opacity: 0.68 }}>
+                      {captionScreenshotFiles.length} of {MAX_SCREENSHOT_FILES}
+                    </span>
+                  </div>
+
+                  {captionScreenshotError && (
+                    <p
+                      role="alert"
+                      style={{
+                        margin: "10px 0 0",
+                        color: "#fca5a5",
+                        fontSize: 13,
+                        lineHeight: 1.45,
+                      }}
+                    >
+                      {captionScreenshotError}
+                    </p>
+                  )}
+
+                  {captionScreenshotFiles.length > 0 && (
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns:
+                          "repeat(auto-fit, minmax(105px, 1fr))",
+                        gap: 10,
+                        marginTop: 14,
+                      }}
+                    >
+                      {captionScreenshotFiles.map((file, index) => (
+                        <div
+                          key={`${file.name}-${file.size}-${file.lastModified}-${index}`}
+                          style={{
+                            position: "relative",
+                            overflow: "hidden",
+                            borderRadius: 14,
+                            border: "1px solid rgba(255,255,255,0.14)",
+                            background: "#0f172a",
+                          }}
+                        >
+                          <img
+                            src={captionScreenshotPreviewUrls[index]}
+                            alt={`Recipe screenshot ${index + 1}`}
+                            style={{
+                              display: "block",
+                              width: "100%",
+                              aspectRatio: "4 / 5",
+                              objectFit: "cover",
+                            }}
+                          />
+
+                          <div
+                            style={{
+                              position: "absolute",
+                              left: 7,
+                              top: 7,
+                              minWidth: 26,
+                              height: 26,
+                              padding: "0 7px",
+                              borderRadius: 999,
+                              display: "grid",
+                              placeItems: "center",
+                              background: "rgba(15,23,42,0.9)",
+                              color: "white",
+                              fontSize: 12,
+                              fontWeight: 900,
+                            }}
+                          >
+                            {index + 1}
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => removeCaptionScreenshot(index)}
+                            disabled={isCaptionAssisting}
+                            aria-label={`Remove screenshot ${index + 1}`}
+                            style={{
+                              position: "absolute",
+                              right: 7,
+                              top: 7,
+                              width: 30,
+                              height: 30,
+                              borderRadius: 999,
+                              border: "none",
+                              background: "rgba(15,23,42,0.9)",
+                              color: "white",
+                              fontSize: 18,
+                              lineHeight: 1,
+                              cursor: isCaptionAssisting
+                                ? "default"
+                                : "pointer",
+                            }}
+                          >
+                            ×
+                          </button>
+
+                          <div
+                            title={file.name}
+                            style={{
+                              padding: "8px 9px",
+                              fontSize: 11,
+                              opacity: 0.72,
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {file.name}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {captionScreenshotFiles.length > 0 && (
+                    <>
+                      <p
+                        style={{
+                          margin: "10px 0 0",
+                          fontSize: 12,
+                          opacity: 0.66,
+                          lineHeight: 1.45,
+                        }}
+                      >
+                        Screenshot 1 will be read first. Remove and reselect
+                        images to change their order.
+                      </p>
+
+                      <button
+                        type="button"
+                        onClick={handleScreenshotAssistImport}
+                        disabled={isCaptionAssisting}
+                        style={{
+                          ...btn,
+                          width: "100%",
+                          marginTop: 12,
+                          padding: 14,
+                          borderRadius: 16,
+                          background: isCaptionAssisting
+                            ? "rgba(148,163,184,0.35)"
+                            : "rgba(139,92,246,0.18)",
+                          border: "1px solid rgba(139,92,246,0.45)",
+                          color: isCaptionAssisting ? "#cbd5e1" : "#ddd6fe",
+                          cursor: isCaptionAssisting ? "default" : "pointer",
+                        }}
+                      >
+                        {captionAssistAction === "screenshots"
+                          ? "Reading Screenshots..."
+                          : "Finish with Screenshots"}
+                      </button>
+                    </>
+                  )}
                 </div>
+
+                <button
+                  type="button"
+                  onClick={saveCaptionAssistNeedsFinishing}
+                  disabled={isCaptionAssisting}
+                  style={{
+                    ...btn,
+                    width: "100%",
+                    marginTop: 18,
+                    padding: 14,
+                    borderRadius: 16,
+                    background: "rgba(255,255,255,0.06)",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    color: "white",
+                    cursor: isCaptionAssisting ? "default" : "pointer",
+                  }}
+                >
+                  Save Needs Finishing
+                </button>
 
                 <p
                   style={{
@@ -1713,8 +2163,8 @@ export default function CookbookPage({
                     marginBottom: 0,
                   }}
                 >
-                  Can’t paste the caption? Save it as Needs Finishing and edit
-                  the ingredients and steps later.
+                  Everything opens in Review Recipe before it is saved to your
+                  Cookbook.
                 </p>
               </div>
             </div>

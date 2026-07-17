@@ -1,10 +1,25 @@
-import { useCallback, useEffect, useState } from "react";
+import {
+  type ChangeEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Capacitor } from "@capacitor/core";
 import { ShareRecipeExtractor } from "../plugins/shareRecipeExtractor";
 
 const API_BASE = "https://simple-dinners-api.onrender.com";
 const SOURCE_STEPS_PLACEHOLDER = "Steps available at source link!";
+const MAX_SCREENSHOT_FILES = 5;
+const MAX_SCREENSHOT_FILE_BYTES = 8 * 1024 * 1024;
+const MAX_SCREENSHOT_TOTAL_BYTES = 25 * 1024 * 1024;
+
+const SCREENSHOT_MIME_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+]);
 
 function extractFirstUrlFromSharedText(value: string | null): string {
   if (!value) return "";
@@ -197,9 +212,32 @@ export default function ShareImport() {
   );
   const [captionAssistText, setCaptionAssistText] = useState("");
   const [captionAssistLoading, setCaptionAssistLoading] = useState(false);
+  const screenshotInputRef = useRef<HTMLInputElement | null>(null);
+
+  const [screenshotFiles, setScreenshotFiles] = useState<File[]>([]);
+  const [screenshotPreviewUrls, setScreenshotPreviewUrls] = useState<string[]>(
+    []
+  );
+  const [screenshotSelectionError, setScreenshotSelectionError] = useState("");
+
+  useEffect(() => {
+    const previewUrls = screenshotFiles.map((file) =>
+      URL.createObjectURL(file)
+    );
+
+    setScreenshotPreviewUrls(previewUrls);
+
+    return () => {
+      previewUrls.forEach((previewUrl) => {
+        URL.revokeObjectURL(previewUrl);
+      });
+    };
+  }, [screenshotFiles]);
 
   const finishImport = useCallback(
     (data: any) => {
+      setScreenshotFiles([]);
+      setScreenshotSelectionError("");
       setStatus(`Recipe found: ${data.recipe.name || data.name || "Recipe"}`);
 
       setTimeout(() => {
@@ -213,6 +251,80 @@ export default function ShareImport() {
     },
     [navigate]
   );
+
+  function chooseScreenshots() {
+    screenshotInputRef.current?.click();
+  }
+
+  function handleScreenshotSelection(
+    event: ChangeEvent<HTMLInputElement>
+  ) {
+    const selectedFiles = Array.from(event.currentTarget.files || []);
+
+    // Allow the same image to be selected again after removal.
+    event.currentTarget.value = "";
+
+    if (selectedFiles.length === 0) {
+      return;
+    }
+
+    const invalidType = selectedFiles.find(
+      (file) => !SCREENSHOT_MIME_TYPES.has(file.type)
+    );
+
+    if (invalidType) {
+      setScreenshotSelectionError(
+        "Please choose JPEG, PNG, or WebP screenshots."
+      );
+      return;
+    }
+
+    const oversizedFile = selectedFiles.find(
+      (file) => file.size > MAX_SCREENSHOT_FILE_BYTES
+    );
+
+    if (oversizedFile) {
+      setScreenshotSelectionError(
+        `${oversizedFile.name} is larger than 8 MB.`
+      );
+      return;
+    }
+
+    if (
+      screenshotFiles.length + selectedFiles.length >
+      MAX_SCREENSHOT_FILES
+    ) {
+      setScreenshotSelectionError(
+        `Choose up to ${MAX_SCREENSHOT_FILES} screenshots total.`
+      );
+      return;
+    }
+
+    const combinedFiles = [...screenshotFiles, ...selectedFiles];
+
+    const totalBytes = combinedFiles.reduce(
+      (total, file) => total + file.size,
+      0
+    );
+
+    if (totalBytes > MAX_SCREENSHOT_TOTAL_BYTES) {
+      setScreenshotSelectionError(
+        "Those screenshots are larger than 25 MB combined. Try fewer or smaller images."
+      );
+      return;
+    }
+
+    setScreenshotFiles(combinedFiles);
+    setScreenshotSelectionError("");
+  }
+
+  function removeScreenshot(indexToRemove: number) {
+    setScreenshotFiles((currentFiles) =>
+      currentFiles.filter((_, index) => index !== indexToRemove)
+    );
+
+    setScreenshotSelectionError("");
+  }
 
   async function finishWithCaptionAssist() {
     if (!captionAssistResult) return;
@@ -252,15 +364,24 @@ export default function ShareImport() {
       const assistedData = await captionResponse.json();
 
       if (!captionResponse.ok) {
-        throw new Error(assistedData?.error || "Caption Assist failed.");
+        throw new Error(
+          assistedData?.error || "Caption Assist failed."
+        );
       }
 
       if (!assistedData?.success || !assistedData?.recipe) {
-        throw new Error(assistedData?.error || "Caption Assist failed.");
+        throw new Error(
+          assistedData?.error || "Caption Assist failed."
+        );
       }
 
-      const ingredientCount = countRecipeLines(assistedData.recipe.ingredients);
-      const instructionCount = countRecipeLines(assistedData.recipe.instructions);
+      const ingredientCount = countRecipeLines(
+        assistedData.recipe.ingredients
+      );
+
+      const instructionCount = countRecipeLines(
+        assistedData.recipe.instructions
+      );
 
       if (ingredientCount === 0 || instructionCount === 0) {
         setStatus(
@@ -271,11 +392,125 @@ export default function ShareImport() {
 
       setCaptionAssistResult(null);
       setCaptionAssistText("");
+      setScreenshotFiles([]);
+      setScreenshotSelectionError("");
+
       finishImport(assistedData);
     } catch (error) {
       console.error("Caption Assist failed:", error);
+
       setStatus(
         "We couldn’t finish this recipe from the caption. You can still save it and edit it manually."
+      );
+    } finally {
+      setCaptionAssistLoading(false);
+    }
+  }
+
+  async function finishWithScreenshotAssist() {
+    if (!captionAssistResult) return;
+
+    if (screenshotFiles.length === 0) {
+      setScreenshotSelectionError("Choose at least one screenshot.");
+      return;
+    }
+
+    const sourceUrl = getResultSourceUrl(captionAssistResult) || url;
+
+    const rawSourceTitle = String(
+      captionAssistResult?.recipe?.name ||
+      captionAssistResult?.name ||
+      ""
+    ).trim();
+
+    const sourceTitle =
+      /^(instagram|tiktok|facebook|social|saved|imported)( recipe)?$/i.test(
+        rawSourceTitle
+      )
+        ? ""
+        : rawSourceTitle;
+
+    setCaptionAssistLoading(true);
+    setScreenshotSelectionError("");
+
+    setStatus(
+      screenshotFiles.length === 1
+        ? "Reading recipe screenshot..."
+        : `Combining ${screenshotFiles.length} recipe screenshots...`
+    );
+
+    try {
+      const formData = new FormData();
+
+      screenshotFiles.forEach((file) => {
+        formData.append("screenshots", file, file.name);
+      });
+
+      if (sourceUrl) {
+        formData.append("sourceUrl", sourceUrl);
+      }
+
+      if (sourceTitle) {
+        formData.append("sourceTitle", sourceTitle);
+      }
+
+      formData.append("language", navigator.language || "en");
+
+      const response = await fetch(
+        `${API_BASE}/import-screenshots`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      let data: any;
+
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error(
+          "Simple Dinners could not read the screenshot import response."
+        );
+      }
+
+      if (!response.ok || !data?.success || !data?.recipe) {
+        throw new Error(
+          data?.error ||
+          "Simple Dinners could not read a recipe from those screenshots."
+        );
+      }
+
+      const existingPhotoUrl = String(
+        captionAssistResult?.recipe?.photoUrl ||
+        captionAssistResult?.image ||
+        ""
+      ).trim();
+
+      const mergedData = {
+        ...data,
+        recipe: {
+          ...data.recipe,
+          photoUrl:
+            data.recipe.photoUrl || existingPhotoUrl,
+          sourceUrl:
+            data.recipe.sourceUrl || sourceUrl,
+        },
+      };
+
+      setCaptionAssistResult(null);
+      setCaptionAssistText("");
+      setScreenshotFiles([]);
+      setScreenshotSelectionError("");
+
+      finishImport(mergedData);
+    } catch (error) {
+      console.error("Screenshot Assist failed:", error);
+
+      setStatus(
+        error instanceof Error
+          ? error.message
+          : "We couldn’t read a recipe from those screenshots. You can try again or save it as Needs Finishing."
       );
     } finally {
       setCaptionAssistLoading(false);
@@ -343,6 +578,8 @@ export default function ShareImport() {
         if (isIncompleteSocialImport(data)) {
           setCaptionAssistResult(data);
           setCaptionAssistText("");
+          setScreenshotFiles([]);
+          setScreenshotSelectionError("");
           setStatus("We found the post, but not the full recipe text.");
           return;
         }
@@ -407,6 +644,223 @@ export default function ShareImport() {
               minHeight: 180,
             }}
           />
+          <div
+            style={{
+              marginTop: 18,
+              paddingTop: 18,
+              borderTop: "1px solid rgba(255, 255, 255, 0.14)",
+            }}
+          >
+            <h3 style={{ margin: "0 0 6px" }}>Or use screenshots</h3>
+
+            <p
+              style={{
+                margin: "0 0 12px",
+                lineHeight: 1.5,
+                opacity: 0.82,
+              }}
+            >
+              Add screenshots showing the ingredients and instructions. Choose them
+              in recipe order.
+            </p>
+
+            <input
+              ref={screenshotInputRef}
+              type="file"
+              accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+              multiple
+              onChange={handleScreenshotSelection}
+              style={{ display: "none" }}
+            />
+
+            <button
+              type="button"
+              onClick={chooseScreenshots}
+              disabled={
+                captionAssistLoading ||
+                screenshotFiles.length >= MAX_SCREENSHOT_FILES
+              }
+              style={{
+                padding: "12px 16px",
+                borderRadius: 999,
+                border: "1px solid rgba(255, 255, 255, 0.22)",
+                background: "rgba(255, 255, 255, 0.08)",
+                color: "inherit",
+                fontWeight: 700,
+                cursor:
+                  captionAssistLoading ||
+                    screenshotFiles.length >= MAX_SCREENSHOT_FILES
+                    ? "not-allowed"
+                    : "pointer",
+                opacity:
+                  captionAssistLoading ||
+                    screenshotFiles.length >= MAX_SCREENSHOT_FILES
+                    ? 0.55
+                    : 1,
+              }}
+            >
+              {screenshotFiles.length > 0
+                ? "Add More Screenshots"
+                : "Choose Screenshots"}
+            </button>
+
+            <span
+              style={{
+                marginLeft: 10,
+                fontSize: 13,
+                opacity: 0.72,
+              }}
+            >
+              {screenshotFiles.length} of {MAX_SCREENSHOT_FILES} selected
+            </span>
+
+            {screenshotSelectionError && (
+              <p
+                role="alert"
+                style={{
+                  margin: "10px 0 0",
+                  color: "#fca5a5",
+                  fontSize: 14,
+                  lineHeight: 1.4,
+                }}
+              >
+                {screenshotSelectionError}
+              </p>
+            )}
+
+            {screenshotFiles.length > 0 && (
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns:
+                    "repeat(auto-fit, minmax(110px, 1fr))",
+                  gap: 10,
+                  marginTop: 14,
+                }}
+              >
+                {screenshotFiles.map((file, index) => (
+                  <div
+                    key={`${file.name}-${file.size}-${file.lastModified}-${index}`}
+                    style={{
+                      position: "relative",
+                      overflow: "hidden",
+                      borderRadius: 14,
+                      border: "1px solid rgba(255, 255, 255, 0.16)",
+                      background: "rgba(15, 23, 42, 0.7)",
+                    }}
+                  >
+                    <img
+                      src={screenshotPreviewUrls[index]}
+                      alt={`Recipe screenshot ${index + 1}`}
+                      style={{
+                        display: "block",
+                        width: "100%",
+                        aspectRatio: "4 / 5",
+                        objectFit: "cover",
+                      }}
+                    />
+
+                    <div
+                      style={{
+                        position: "absolute",
+                        left: 7,
+                        top: 7,
+                        minWidth: 26,
+                        height: 26,
+                        padding: "0 7px",
+                        borderRadius: 999,
+                        display: "grid",
+                        placeItems: "center",
+                        background: "rgba(15, 23, 42, 0.88)",
+                        color: "#ffffff",
+                        fontSize: 12,
+                        fontWeight: 800,
+                      }}
+                    >
+                      {index + 1}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => removeScreenshot(index)}
+                      disabled={captionAssistLoading}
+                      aria-label={`Remove screenshot ${index + 1}`}
+                      style={{
+                        position: "absolute",
+                        right: 7,
+                        top: 7,
+                        width: 30,
+                        height: 30,
+                        borderRadius: 999,
+                        border: 0,
+                        background: "rgba(15, 23, 42, 0.88)",
+                        color: "#ffffff",
+                        fontSize: 18,
+                        lineHeight: 1,
+                        cursor: captionAssistLoading
+                          ? "not-allowed"
+                          : "pointer",
+                      }}
+                    >
+                      ×
+                    </button>
+
+                    <div
+                      style={{
+                        padding: "8px 9px",
+                        fontSize: 11,
+                        opacity: 0.75,
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                      title={file.name}
+                    >
+                      {file.name}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {screenshotFiles.length > 0 && (
+              <p
+                style={{
+                  margin: "10px 0 0",
+                  fontSize: 12,
+                  opacity: 0.68,
+                  lineHeight: 1.4,
+                }}
+              >
+                Screenshot 1 will be read first. You can remove images and select
+                them again to change the order.
+              </p>
+            )}
+            {screenshotFiles.length > 0 && (
+              <button
+                type="button"
+                onClick={finishWithScreenshotAssist}
+                disabled={captionAssistLoading}
+                style={{
+                  width: "100%",
+                  marginTop: 14,
+                  padding: "14px 18px",
+                  borderRadius: 16,
+                  border: "1px solid rgba(139, 92, 246, 0.45)",
+                  background: captionAssistLoading
+                    ? "rgba(148, 163, 184, 0.35)"
+                    : "rgba(139, 92, 246, 0.18)",
+                  color: captionAssistLoading ? "#cbd5e1" : "#ddd6fe",
+                  fontWeight: 800,
+                  cursor: captionAssistLoading ? "not-allowed" : "pointer",
+                }}
+              >
+                {captionAssistLoading
+                  ? "Reading Screenshots..."
+                  : "Finish with Screenshots"}
+              </button>
+            )}
+          </div>
 
           <div
             style={{
