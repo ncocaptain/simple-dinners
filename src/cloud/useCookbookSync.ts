@@ -23,6 +23,11 @@ import {
   requestCookbookConflict,
 } from "./cookbookConflictState";
 
+import {
+  COOKBOOK_SYNC_RETRY_EVENT,
+  publishCookbookSyncState,
+} from "./cookbookSyncState";
+
 const LOCAL_BACKUP_KEY =
   "simple-dinners.cookbook.pre-cloud-backup.v1";
 
@@ -73,12 +78,39 @@ export function useCookbookSync(
   } = useAuth();
 
   useEffect(() => {
-    if (
-      !isSignedIn ||
-      householdLoading ||
-      !householdId ||
-      !supabase
-    ) {
+    if (!isSignedIn) {
+      publishCookbookSyncState({
+        status: "local",
+        error: null,
+      });
+
+      return;
+    }
+
+    if (householdLoading) {
+      publishCookbookSyncState({
+        status: "connecting",
+        error: null,
+      });
+
+      return;
+    }
+
+    if (!householdId) {
+      publishCookbookSyncState({
+        status: "local",
+        error: null,
+      });
+
+      return;
+    }
+
+    if (!supabase) {
+      publishCookbookSyncState({
+        status: "error",
+        error: "Cloud sync is not configured.",
+      });
+
       return;
     }
 
@@ -109,6 +141,22 @@ export function useCookbookSync(
       | RealtimeChannel
       | null = null;
 
+    function markFailure(message: string) {
+      publishCookbookSyncState({
+        status: navigator.onLine
+          ? "error"
+          : "offline",
+        error: message,
+      });
+    }
+
+    function markOffline() {
+      publishCookbookSyncState({
+        status: "offline",
+        error: null,
+      });
+    }
+
     async function uploadCookbook(
       recipes: CloudCookbookRecipe[],
     ): Promise<boolean> {
@@ -118,16 +166,28 @@ export function useCookbookSync(
 
       if (!navigator.onLine) {
         hasPendingLocalChanges = true;
+        markOffline();
         return false;
       }
 
       if (uploadInProgress) {
         queuedRecipes = recipes;
         hasPendingLocalChanges = true;
+
+        publishCookbookSyncState({
+          status: "syncing",
+          error: null,
+        });
+
         return true;
       }
 
       uploadInProgress = true;
+
+      publishCookbookSyncState({
+        status: "syncing",
+        error: null,
+      });
 
       let result;
 
@@ -140,9 +200,10 @@ export function useCookbookSync(
         uploadInProgress = false;
         hasPendingLocalChanges = true;
 
-        console.error(
-          "Unable to sync the cookbook:",
-          error,
+        markFailure(
+          error instanceof Error
+            ? error.message
+            : "Unable to sync the cookbook.",
         );
 
         return false;
@@ -162,6 +223,7 @@ export function useCookbookSync(
           result.error,
         );
 
+        markFailure(result.error);
         return false;
       }
 
@@ -173,6 +235,13 @@ export function useCookbookSync(
       }
 
       hasPendingLocalChanges = false;
+
+      publishCookbookSyncState({
+        status: "synced",
+        error: null,
+        lastSyncedAt: Date.now(),
+      });
+
       return true;
     }
 
@@ -182,8 +251,14 @@ export function useCookbookSync(
       hasPendingLocalChanges = true;
 
       if (!navigator.onLine) {
+        markOffline();
         return;
       }
+
+      publishCookbookSyncState({
+        status: "syncing",
+        error: null,
+      });
 
       if (uploadTimer !== null) {
         window.clearTimeout(uploadTimer);
@@ -196,10 +271,12 @@ export function useCookbookSync(
     }
 
     async function pullCloudCookbook() {
-      if (
-        cancelled ||
-        !navigator.onLine
-      ) {
+      if (cancelled) {
+        return;
+      }
+
+      if (!navigator.onLine) {
+        markOffline();
         return;
       }
 
@@ -223,6 +300,11 @@ export function useCookbookSync(
 
       cloudPullInProgress = true;
 
+      publishCookbookSyncState({
+        status: "syncing",
+        error: null,
+      });
+
       let result;
 
       try {
@@ -232,9 +314,10 @@ export function useCookbookSync(
       } catch (error) {
         cloudPullInProgress = false;
 
-        console.error(
-          "Unable to receive the household cookbook:",
-          error,
+        markFailure(
+          error instanceof Error
+            ? error.message
+            : "Unable to receive the household cookbook.",
         );
 
         return;
@@ -251,6 +334,8 @@ export function useCookbookSync(
           "Unable to receive live cookbook update:",
           result.error,
         );
+
+        markFailure(result.error);
       } else if (result.data) {
         const cloudRecipes =
           result.data.recipes;
@@ -268,16 +353,24 @@ export function useCookbookSync(
             cloudRecipes,
           );
         }
+
+        publishCookbookSyncState({
+          status: "synced",
+          error: null,
+          lastSyncedAt: Date.now(),
+        });
       } else {
-        /*
-         * Restore a missing cloud row when this
-         * device still has saved recipes.
-         */
         const localRecipes =
           getCookbook();
 
         if (localRecipes.length > 0) {
           scheduleUpload(localRecipes);
+        } else {
+          publishCookbookSyncState({
+            status: "synced",
+            error: null,
+            lastSyncedAt: Date.now(),
+          });
         }
       }
 
@@ -330,6 +423,11 @@ export function useCookbookSync(
 
       if (!syncReady) {
         pendingRecipes = detail.recipes;
+
+        if (!navigator.onLine) {
+          markOffline();
+        }
+
         return;
       }
 
@@ -368,6 +466,16 @@ export function useCookbookSync(
           },
         )
         .subscribe((status, error) => {
+          if (status === "SUBSCRIBED") {
+            publishCookbookSyncState({
+              status: "synced",
+              error: null,
+              lastSyncedAt: Date.now(),
+            });
+
+            return;
+          }
+
           if (
             status === "CHANNEL_ERROR" ||
             status === "TIMED_OUT"
@@ -376,6 +484,11 @@ export function useCookbookSync(
               "Cookbook Realtime connection failed:",
               status,
               error,
+            );
+
+            markFailure(
+              error?.message ??
+              "The live sync connection was interrupted.",
             );
           }
         });
@@ -401,13 +514,22 @@ export function useCookbookSync(
     async function initializeSync() {
       if (
         cancelled ||
-        initializationInProgress ||
-        !navigator.onLine
+        initializationInProgress
       ) {
         return;
       }
 
+      if (!navigator.onLine) {
+        markOffline();
+        return;
+      }
+
       initializationInProgress = true;
+
+      publishCookbookSyncState({
+        status: "connecting",
+        error: null,
+      });
 
       try {
         const localRecipes =
@@ -428,6 +550,7 @@ export function useCookbookSync(
             cloudResult.error,
           );
 
+          markFailure(cloudResult.error);
           return;
         }
 
@@ -445,10 +568,6 @@ export function useCookbookSync(
             cloudRecipes.length > 0,
           );
 
-        /*
-         * The household has no cookbook yet.
-         * Preserve this device's recipes.
-         */
         if (
           localHasRecipes &&
           !cloudHasRecipes
@@ -463,10 +582,6 @@ export function useCookbookSync(
           }
         }
 
-        /*
-         * This device is empty, but the household
-         * already has saved recipes.
-         */
         if (
           !localHasRecipes &&
           cloudRecipes &&
@@ -477,9 +592,6 @@ export function useCookbookSync(
           );
         }
 
-        /*
-         * Both sides contain different recipes.
-         */
         if (
           localHasRecipes &&
           cloudRecipes &&
@@ -489,10 +601,6 @@ export function useCookbookSync(
             cloudRecipes,
           )
         ) {
-          /*
-           * Offline or early local edits take
-           * priority when reconnecting.
-           */
           if (
             hasPendingLocalChanges ||
             pendingRecipes
@@ -558,6 +666,12 @@ export function useCookbookSync(
         syncReady = true;
         startRealtime();
 
+        publishCookbookSyncState({
+          status: "synced",
+          error: null,
+          lastSyncedAt: Date.now(),
+        });
+
         if (pendingRecipes) {
           const latestRecipes =
             pendingRecipes;
@@ -573,10 +687,20 @@ export function useCookbookSync(
       }
     }
 
-    function handleOnline() {
+    function handleRetry() {
       if (cancelled) {
         return;
       }
+
+      if (!navigator.onLine) {
+        markOffline();
+        return;
+      }
+
+      publishCookbookSyncState({
+        status: "connecting",
+        error: null,
+      });
 
       if (!syncReady) {
         void initializeSync();
@@ -594,16 +718,22 @@ export function useCookbookSync(
       }
     }
 
+    function handleOnline() {
+      handleRetry();
+    }
+
     function handleOffline() {
-      /*
-       * Cookbook changes remain saved locally.
-       * They upload automatically after reconnect.
-       */
+      markOffline();
     }
 
     window.addEventListener(
       COOKBOOK_CHANGED_EVENT,
       handleCookbookChanged,
+    );
+
+    window.addEventListener(
+      COOKBOOK_SYNC_RETRY_EVENT,
+      handleRetry,
     );
 
     window.addEventListener(
@@ -625,6 +755,11 @@ export function useCookbookSync(
       window.removeEventListener(
         COOKBOOK_CHANGED_EVENT,
         handleCookbookChanged,
+      );
+
+      window.removeEventListener(
+        COOKBOOK_SYNC_RETRY_EVENT,
+        handleRetry,
       );
 
       window.removeEventListener(

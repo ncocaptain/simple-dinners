@@ -28,6 +28,9 @@ import { t, getStoredLanguage } from "../i18n";
 import type { Meal } from "../core/types";
 import { getLocalizedMeal } from "../core/localizedMeal";
 import { Capacitor } from "@capacitor/core";
+import {
+  CookbookSyncStatus,
+} from "../cloud/CookbookSyncStatus";
 
 const API_BASE = "https://simple-dinners-api.onrender.com";
 const SOURCE_STEPS_PLACEHOLDER = "Steps available at source link!";
@@ -1043,8 +1046,11 @@ export default function CookbookPage({
               >
                 {t("cookbook.title")}
               </h1>
+
               <TipsModal tips={cookbookTips} />
             </div>
+
+            <CookbookSyncStatus />
           </header>
 
           {/* =========================================================
