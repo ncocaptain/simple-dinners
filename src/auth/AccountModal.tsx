@@ -12,6 +12,7 @@ type AccountModalProps = {
 };
 
 type AccountMode = "sign-in" | "sign-up";
+type HouseholdMode = "create" | "join";
 
 export function AccountModal({
   isOpen,
@@ -21,23 +22,42 @@ export function AccountModal({
     user,
     isSignedIn,
     isConfigured,
+
+    household,
+    householdLoading,
+    householdError,
+    needsHouseholdSetup,
+
     signIn,
     signUp,
     signOut,
+    createHousehold,
+    joinHousehold,
   } = useAuth();
 
   const [mode, setMode] =
     useState<AccountMode>("sign-in");
+
+  const [householdMode, setHouseholdMode] =
+    useState<HouseholdMode>("create");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [householdName, setHouseholdName] =
+    useState("My Household");
+
+  const [inviteCode, setInviteCode] =
+    useState("");
+
   const [isSubmitting, setIsSubmitting] =
     useState(false);
-  const [message, setMessage] = useState<string | null>(
-    null,
-  );
-  const [error, setError] = useState<string | null>(
-    null,
-  );
+
+  const [message, setMessage] =
+    useState<string | null>(null);
+
+  const [error, setError] =
+    useState<string | null>(null);
 
   useEffect(() => {
     if (!isOpen) {
@@ -47,7 +67,7 @@ export function AccountModal({
     setMessage(null);
     setError(null);
     setPassword("");
-  }, [isOpen, mode]);
+  }, [isOpen, mode, householdMode]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -60,7 +80,10 @@ export function AccountModal({
       }
     }
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener(
+      "keydown",
+      handleKeyDown,
+    );
 
     return () => {
       window.removeEventListener(
@@ -85,7 +108,9 @@ export function AccountModal({
     const normalizedEmail = email.trim();
 
     if (!normalizedEmail) {
-      setError("Please enter your email address.");
+      setError(
+        "Please enter your email address.",
+      );
       return;
     }
 
@@ -119,6 +144,7 @@ export function AccountModal({
         setMessage(
           "Your Simple Dinners account is ready.",
         );
+
         return;
       }
 
@@ -139,6 +165,69 @@ export function AccountModal({
     }
   }
 
+  async function handleHouseholdSubmit(
+    event: FormEvent<HTMLFormElement>,
+  ) {
+    event.preventDefault();
+
+    setMessage(null);
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      if (householdMode === "create") {
+        const safeName = householdName.trim();
+
+        if (!safeName) {
+          setError(
+            "Please enter a household name.",
+          );
+          return;
+        }
+
+        const result =
+          await createHousehold(safeName);
+
+        if (result.error) {
+          setError(result.error);
+          return;
+        }
+
+        setMessage(
+          "Your household is ready.",
+        );
+
+        return;
+      }
+
+      const normalizedCode = inviteCode
+        .trim()
+        .toUpperCase();
+
+      if (!normalizedCode) {
+        setError(
+          "Please enter the household code.",
+        );
+        return;
+      }
+
+      const result =
+        await joinHousehold(normalizedCode);
+
+      if (result.error) {
+        setError(result.error);
+        return;
+      }
+
+      setInviteCode("");
+      setMessage(
+        "You joined the household.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   async function handleSignOut() {
     setMessage(null);
     setError(null);
@@ -154,9 +243,59 @@ export function AccountModal({
 
       setEmail("");
       setPassword("");
+      setInviteCode("");
       setMessage("You are signed out.");
     } finally {
       setIsSubmitting(false);
+    }
+  }
+
+  async function handleCopyInviteCode() {
+    if (!household?.inviteCode) {
+      return;
+    }
+
+    setMessage(null);
+    setError(null);
+
+    try {
+      await navigator.clipboard.writeText(
+        household.inviteCode,
+      );
+
+      setMessage(
+        "Household code copied.",
+      );
+    } catch {
+      /*
+       * Fallback for browsers or native WebViews where
+       * the modern Clipboard API is unavailable.
+       */
+      const textarea =
+        document.createElement("textarea");
+
+      textarea.value = household.inviteCode;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+
+      const copied =
+        document.execCommand("copy");
+
+      document.body.removeChild(textarea);
+
+      if (copied) {
+        setMessage(
+          "Household code copied.",
+        );
+      } else {
+        setError(
+          "Unable to copy the household code.",
+        );
+      }
     }
   }
 
@@ -165,7 +304,9 @@ export function AccountModal({
       className="sd-account-backdrop"
       role="presentation"
       onMouseDown={(event) => {
-        if (event.target === event.currentTarget) {
+        if (
+          event.target === event.currentTarget
+        ) {
           onClose();
         }
       }}
@@ -201,7 +342,8 @@ export function AccountModal({
 
         {!isConfigured ? (
           <div className="sd-account-notice sd-account-error">
-            Cloud sync is not configured on this device.
+            Cloud sync is not configured on this
+            device.
           </div>
         ) : isSignedIn ? (
           <div className="sd-account-signed-in">
@@ -210,31 +352,218 @@ export function AccountModal({
 
               <div>
                 <strong>Signed in</strong>
-                <p>{user?.email ?? "Simple Dinners user"}</p>
+
+                <p>
+                  {user?.email ??
+                    "Simple Dinners user"}
+                </p>
               </div>
             </div>
 
-            <p className="sd-account-description">
-              Your account is ready. Shopping-list sync
-              will be connected in the next step.
-            </p>
-
-            {message && (
+            {householdLoading ? (
               <div className="sd-account-notice">
-                {message}
+                Loading your household…
               </div>
-            )}
+            ) : needsHouseholdSetup ? (
+              <div className="sd-household-setup">
+                <div>
+                  <h3>
+                    Set up your household
+                  </h3>
 
-            {error && (
+                  <p className="sd-account-description">
+                    Create a new household or join
+                    someone else using their household
+                    code.
+                  </p>
+                </div>
+
+                <div className="sd-household-choice-grid">
+                  <button
+                    type="button"
+                    className={
+                      householdMode === "create"
+                        ? "active"
+                        : ""
+                    }
+                    onClick={() =>
+                      setHouseholdMode("create")
+                    }
+                  >
+                    Create household
+                  </button>
+
+                  <button
+                    type="button"
+                    className={
+                      householdMode === "join"
+                        ? "active"
+                        : ""
+                    }
+                    onClick={() =>
+                      setHouseholdMode("join")
+                    }
+                  >
+                    Join household
+                  </button>
+                </div>
+
+                <form
+                  className="sd-account-form"
+                  onSubmit={(event) =>
+                    void handleHouseholdSubmit(
+                      event,
+                    )
+                  }
+                >
+                  {householdMode === "create" ? (
+                    <label>
+                      Household name
+
+                      <input
+                        type="text"
+                        value={householdName}
+                        onChange={(event) =>
+                          setHouseholdName(
+                            event.target.value,
+                          )
+                        }
+                        placeholder="My Household"
+                        maxLength={80}
+                        disabled={isSubmitting}
+                      />
+                    </label>
+                  ) : (
+                    <label>
+                      Household code
+
+                      <input
+                        type="text"
+                        value={inviteCode}
+                        onChange={(event) =>
+                          setInviteCode(
+                            event.target.value
+                              .toUpperCase(),
+                          )
+                        }
+                        placeholder="ABCD1234"
+                        autoCapitalize="characters"
+                        autoCorrect="off"
+                        spellCheck={false}
+                        maxLength={8}
+                        disabled={isSubmitting}
+                      />
+                    </label>
+                  )}
+
+                  {message && (
+                    <div className="sd-account-notice">
+                      {message}
+                    </div>
+                  )}
+
+                  {(error ||
+                    householdError) && (
+                      <div className="sd-account-notice sd-account-error">
+                        {error ?? householdError}
+                      </div>
+                    )}
+
+                  <button
+                    type="submit"
+                    className="sd-account-primary-button"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting
+                      ? "Please wait..."
+                      : householdMode ===
+                        "create"
+                        ? "Create household"
+                        : "Join household"}
+                  </button>
+                </form>
+              </div>
+            ) : household ? (
+              <>
+                <div className="sd-household-card">
+                  <div className="sd-household-card-header">
+                    <div>
+                      <span className="sd-household-label">
+                        Household
+                      </span>
+
+                      <h3>{household.name}</h3>
+                    </div>
+
+                    <span className="sd-household-role">
+                      {household.role === "owner"
+                        ? "Owner"
+                        : "Member"}
+                    </span>
+                  </div>
+
+                  <p className="sd-account-description">
+                    Your household shopping list is
+                    backed up and synced live across
+                    your devices.
+                  </p>
+
+                  {household.role === "owner" && (
+                    <div className="sd-household-invite">
+                      <span className="sd-household-label">
+                        Household code
+                      </span>
+
+                      <div className="sd-household-code-row">
+                        <code>
+                          {household.inviteCode}
+                        </code>
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            void handleCopyInviteCode()
+                          }
+                        >
+                          Copy code
+                        </button>
+                      </div>
+
+                      <p>
+                        Share this code privately with
+                        someone you want to add to your
+                        household.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {message && (
+                  <div className="sd-account-notice">
+                    {message}
+                  </div>
+                )}
+
+                {(error ||
+                  householdError) && (
+                    <div className="sd-account-notice sd-account-error">
+                      {error ?? householdError}
+                    </div>
+                  )}
+              </>
+            ) : (
               <div className="sd-account-notice sd-account-error">
-                {error}
+                {householdError ??
+                  "Unable to load your household."}
               </div>
             )}
 
             <button
               type="button"
               className="sd-account-secondary-button"
-              onClick={() => void handleSignOut()}
+              onClick={() =>
+                void handleSignOut()
+              }
               disabled={isSubmitting}
             >
               {isSubmitting
@@ -248,9 +577,13 @@ export function AccountModal({
               <button
                 type="button"
                 className={
-                  mode === "sign-in" ? "active" : ""
+                  mode === "sign-in"
+                    ? "active"
+                    : ""
                 }
-                onClick={() => setMode("sign-in")}
+                onClick={() =>
+                  setMode("sign-in")
+                }
               >
                 Sign in
               </button>
@@ -258,9 +591,13 @@ export function AccountModal({
               <button
                 type="button"
                 className={
-                  mode === "sign-up" ? "active" : ""
+                  mode === "sign-up"
+                    ? "active"
+                    : ""
                 }
-                onClick={() => setMode("sign-up")}
+                onClick={() =>
+                  setMode("sign-up")
+                }
               >
                 Create account
               </button>
@@ -274,6 +611,7 @@ export function AccountModal({
             >
               <label>
                 Email
+
                 <input
                   type="email"
                   autoComplete="email"
@@ -288,6 +626,7 @@ export function AccountModal({
 
               <label>
                 Password
+
                 <input
                   type="password"
                   autoComplete={
@@ -297,7 +636,9 @@ export function AccountModal({
                   }
                   value={password}
                   onChange={(event) =>
-                    setPassword(event.target.value)
+                    setPassword(
+                      event.target.value,
+                    )
                   }
                   placeholder="Enter your password"
                   disabled={isSubmitting}
@@ -330,9 +671,9 @@ export function AccountModal({
             </form>
 
             <p className="sd-account-free-note">
-              Simple Dinners remains fully usable without
-              an account. Plus adds cloud and household
-              convenience.
+              Simple Dinners remains fully usable
+              without an account. Plus adds cloud and
+              household convenience.
             </p>
           </>
         )}

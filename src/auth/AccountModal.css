@@ -255,3 +255,136 @@
     border-radius: 24px 24px 0 0;
   }
 }
+
+.sd-household-setup {
+  display: grid;
+  gap: 18px;
+}
+
+.sd-household-setup h3,
+.sd-household-card h3 {
+  margin: 0;
+  color: #172033;
+  font-size: 1.15rem;
+}
+
+.sd-household-choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.sd-household-choice-grid button {
+  min-height: 46px;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #64748b;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.sd-household-choice-grid button.active {
+  border-color: #f59e0b;
+  background: #fff7db;
+  color: #6b4b00;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.12);
+}
+
+.sd-household-card {
+  display: grid;
+  gap: 16px;
+  padding: 17px;
+  border: 1px solid #dbe4ef;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+
+.sd-household-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sd-household-label {
+  display: block;
+  margin-bottom: 4px;
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.sd-household-role {
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.sd-household-invite {
+  padding-top: 15px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.sd-household-code-row {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.sd-household-code-row code {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 11px;
+  background: #ffffff;
+  color: #172033;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.sd-household-code-row button {
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 11px;
+  background: #f59e0b;
+  color: #271900;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.sd-household-invite p {
+  margin: 9px 0 0;
+  color: #64748b;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 420px) {
+  .sd-household-code-row {
+    display: grid;
+  }
+
+  .sd-household-code-row code {
+    justify-content: center;
+  }
+
+  .sd-household-code-row button {
+    width: 100%;
+  }
+}

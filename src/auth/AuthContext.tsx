@@ -1,13 +1,22 @@
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
   type PropsWithChildren,
 } from "react";
-import type { Session, User } from "@supabase/supabase-js";
-import { ensureCurrentHousehold } from "../cloud/household";
+import type {
+  Session,
+  User,
+} from "@supabase/supabase-js";
+import {
+  createCurrentHousehold,
+  getCurrentHousehold,
+  joinCurrentHousehold,
+  type HouseholdInfo,
+} from "../cloud/household";
 import {
   isCloudSyncConfigured,
   supabase,
@@ -25,9 +34,21 @@ type AuthContextValue = {
   isConfigured: boolean;
   isSignedIn: boolean;
 
+  household: HouseholdInfo | null;
   householdId: string | null;
   householdLoading: boolean;
   householdError: string | null;
+  needsHouseholdSetup: boolean;
+
+  refreshHousehold: () => Promise<void>;
+
+  createHousehold: (
+    name: string,
+  ) => Promise<AuthResult>;
+
+  joinHousehold: (
+    inviteCode: string,
+  ) => Promise<AuthResult>;
 
   signUp: (
     email: string,
@@ -42,21 +63,19 @@ type AuthContextValue = {
   signOut: () => Promise<AuthResult>;
 };
 
-const AuthContext = createContext<AuthContextValue | null>(
-  null,
-);
+const AuthContext =
+  createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({
   children,
 }: PropsWithChildren) {
-  const [session, setSession] = useState<Session | null>(
-    null,
-  );
+  const [session, setSession] =
+    useState<Session | null>(null);
 
   const [loading, setLoading] = useState(true);
 
-  const [householdId, setHouseholdId] =
-    useState<string | null>(null);
+  const [household, setHousehold] =
+    useState<HouseholdInfo | null>(null);
 
   const [householdLoading, setHouseholdLoading] =
     useState(false);
@@ -109,33 +128,93 @@ export function AuthProvider({
     };
   }, []);
 
-  useEffect(() => {
-    if (!session?.user) {
-      setHouseholdId(null);
-      setHouseholdError(null);
-      setHouseholdLoading(false);
-      return;
-    }
+  const refreshHousehold =
+    useCallback(async () => {
+      if (!session?.user) {
+        setHousehold(null);
+        setHouseholdError(null);
+        setHouseholdLoading(false);
+        return;
+      }
 
-    let isMounted = true;
+      setHouseholdLoading(true);
+      setHouseholdError(null);
+
+      const result =
+        await getCurrentHousehold();
+
+      setHousehold(result.data);
+      setHouseholdError(result.error);
+      setHouseholdLoading(false);
+    }, [session?.user?.id]);
+
+  useEffect(() => {
+    void refreshHousehold();
+  }, [refreshHousehold]);
+
+  async function createHousehold(
+    name: string,
+  ): Promise<AuthResult> {
+    if (!session?.user) {
+      return {
+        error:
+          "Sign in before creating a household.",
+      };
+    }
 
     setHouseholdLoading(true);
     setHouseholdError(null);
 
-    void ensureCurrentHousehold().then((result) => {
-      if (!isMounted) {
-        return;
-      }
+    const result =
+      await createCurrentHousehold(name);
 
-      setHouseholdId(result.householdId);
+    if (result.error) {
       setHouseholdError(result.error);
       setHouseholdLoading(false);
-    });
 
-    return () => {
-      isMounted = false;
+      return {
+        error: result.error,
+      };
+    }
+
+    await refreshHousehold();
+
+    return {
+      error: null,
     };
-  }, [session?.user.id]);
+  }
+
+  async function joinHousehold(
+    inviteCode: string,
+  ): Promise<AuthResult> {
+    if (!session?.user) {
+      return {
+        error:
+          "Sign in before joining a household.",
+      };
+    }
+
+    setHouseholdLoading(true);
+    setHouseholdError(null);
+
+    const result =
+      await joinCurrentHousehold(inviteCode);
+
+    if (result.error) {
+      setHouseholdError(result.error);
+      setHouseholdLoading(false);
+
+      return {
+        error: result.error,
+      };
+    }
+
+    await refreshHousehold();
+
+    return {
+      error: null,
+    };
+  }
 
   async function signUp(
     email: string,
@@ -147,12 +226,14 @@ export function AuthProvider({
       };
     }
 
-    const normalizedEmail = email.trim().toLowerCase();
+    const normalizedEmail =
+      email.trim().toLowerCase();
 
-    const { data, error } = await supabase.auth.signUp({
-      email: normalizedEmail,
-      password,
-    });
+    const { data, error } =
+      await supabase.auth.signUp({
+        email: normalizedEmail,
+        password,
+      });
 
     if (error) {
       return {
@@ -176,7 +257,8 @@ export function AuthProvider({
       };
     }
 
-    const normalizedEmail = email.trim().toLowerCase();
+    const normalizedEmail =
+      email.trim().toLowerCase();
 
     const { error } =
       await supabase.auth.signInWithPassword({
@@ -196,7 +278,8 @@ export function AuthProvider({
       };
     }
 
-    const { error } = await supabase.auth.signOut();
+    const { error } =
+      await supabase.auth.signOut();
 
     return {
       error: error?.message ?? null,
@@ -211,9 +294,19 @@ export function AuthProvider({
       isConfigured: isCloudSyncConfigured,
       isSignedIn: Boolean(session?.user),
 
-      householdId,
+      household,
+      householdId: household?.id ?? null,
       householdLoading,
       householdError,
+
+      needsHouseholdSetup:
+        Boolean(session?.user) &&
+        !householdLoading &&
+        !household,
+
+      refreshHousehold,
+      createHousehold,
+      joinHousehold,
 
       signUp,
       signIn,
@@ -222,9 +315,10 @@ export function AuthProvider({
     [
       session,
       loading,
-      householdId,
+      household,
       householdLoading,
       householdError,
+      refreshHousehold,
     ],
   );
 
