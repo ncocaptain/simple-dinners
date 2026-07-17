@@ -11,6 +11,9 @@ import {
 import {
   WeeklyPlanConflictModal,
 } from "./cloud/WeeklyPlanConflictModal";
+import {
+  CookbookConflictModal,
+} from "./cloud/CookbookConflictModal";
 
 ReactDOM.createRoot(
   document.getElementById("root")!,
@@ -20,6 +23,7 @@ ReactDOM.createRoot(
       <ShoppingSyncBridge />
       <ShoppingListConflictModal />
       <WeeklyPlanConflictModal />
+      <CookbookConflictModal />
 
       <BrowserRouter>
         <div className="appBackground">

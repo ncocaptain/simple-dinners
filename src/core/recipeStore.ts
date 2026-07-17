@@ -1,10 +1,10 @@
 // recipeStore.ts
 import type { Meal } from "./types";
+import {
+  COOKBOOK_LS_KEY,
+} from "./cookbookStore";
 
 export const RECIPES_LS_KEY = "simple-dinners:recipes:v1";
-
-// ADD: cookbook key (change this string if your app uses a different one)
-export const COOKBOOK_LS_KEY = "simple-dinners:cookbook:v1";
 
 function safeParse<T>(raw: string | null, fallback: T): T {
   try {

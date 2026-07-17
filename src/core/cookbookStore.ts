@@ -1,6 +1,77 @@
 import type { Meal } from "./types";
 
-export const COOKBOOK_LS_KEY = "simple-dinners:cookbook:v1";
+export const COOKBOOK_LS_KEY =
+  "simple-dinners:cookbook:v1";
+
+export type CookbookChangeSource =
+  | "local"
+  | "cloud";
+
+export type CookbookChangedDetail = {
+  recipes: Meal[];
+  source: CookbookChangeSource;
+};
+
+export const COOKBOOK_CHANGED_EVENT =
+  "simple-dinners:cookbook-changed";
+
+function isRecord(
+  value: unknown,
+): value is Record<string, unknown> {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !Array.isArray(value)
+  );
+}
+
+function canonicalize(value: unknown): unknown {
+  if (Array.isArray(value)) {
+    return value.map(canonicalize);
+  }
+
+  if (isRecord(value)) {
+    return Object.fromEntries(
+      Object.keys(value)
+        .sort()
+        .map((key) => [
+          key,
+          canonicalize(value[key]),
+        ]),
+    );
+  }
+
+  return value;
+}
+
+export function cookbookSignature(
+  recipes: Meal[],
+): string {
+  return JSON.stringify(
+    canonicalize(recipes),
+  );
+}
+
+function announceCookbookChange(
+  recipes: Meal[],
+  source: CookbookChangeSource,
+) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.dispatchEvent(
+    new CustomEvent<CookbookChangedDetail>(
+      COOKBOOK_CHANGED_EVENT,
+      {
+        detail: {
+          recipes,
+          source,
+        },
+      },
+    ),
+  );
+}
 
 function safeParse<T>(raw: string | null, fallback: T): T {
   try {
@@ -54,8 +125,44 @@ export function getCookbook(): Meal[] {
   return safeParse<Meal[]>(localStorage.getItem(COOKBOOK_LS_KEY), []);
 }
 
-export function setCookbook(items: Meal[]) {
-  localStorage.setItem(COOKBOOK_LS_KEY, JSON.stringify(items));
+export function setCookbook(
+  items: Meal[],
+  source: CookbookChangeSource = "local",
+) {
+  const previous = getCookbook();
+
+  const previousSignature =
+    cookbookSignature(previous);
+
+  const nextSignature =
+    cookbookSignature(items);
+
+  localStorage.setItem(
+    COOKBOOK_LS_KEY,
+    JSON.stringify(items),
+  );
+
+  /*
+   * App.tsx persists the cookbook from a larger
+   * effect that also watches pantry and plan data.
+   * Only announce a real cookbook change.
+   */
+  if (
+    previousSignature === nextSignature
+  ) {
+    return;
+  }
+
+  announceCookbookChange(
+    items,
+    source,
+  );
+}
+
+export function replaceCookbookFromCloud(
+  items: Meal[],
+) {
+  setCookbook(items, "cloud");
 }
 
 export function addToCookbook(recipe: any) {

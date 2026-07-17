@@ -43,6 +43,7 @@ import { generatePlan } from "./core/planner";
 import { days, ALL_RECIPES } from "./core/data";
 import {
   getCookbook,
+  replaceCookbookFromCloud,
   setCookbook as persistCookbook,
 } from "./core/cookbookStore";
 import { hasCompletedOnboarding } from "./core/onboardingStore";
@@ -58,6 +59,10 @@ import {
 import {
   useWeeklyPlanSync,
 } from "./cloud/useWeeklyPlanSync";
+import {
+  useCookbookSync,
+} from "./cloud/useCookbookSync";
+
 
 
 
@@ -388,6 +393,25 @@ function AppContent() {
   // =====================================================
 
   const [cookbook, setCookbook] = useState<CookbookRecipe[]>(() => getCookbook());
+
+  const applyCloudCookbook = useCallback(
+    (recipes: CookbookRecipe[]) => {
+      /*
+       * Persist first with a cloud source so the
+       * sync bridge never sends it back upstream.
+       */
+      replaceCookbookFromCloud(
+        recipes,
+      );
+
+      setCookbook(recipes);
+    },
+    [],
+  );
+
+  useCookbookSync(
+    applyCloudCookbook,
+  );
 
   const [meals, setMeals] = useState<Record<string, PlannedDay>>(() => {
     try {
