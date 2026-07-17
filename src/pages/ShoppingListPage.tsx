@@ -25,6 +25,7 @@ import {
 } from "../core/groceryCategories";
 import TipsModal from "../components/TipsModal";
 import { t, getStoredLanguage } from "../i18n";
+import { ShoppingSyncStatus } from "../cloud/ShoppingSyncStatus";
 
 // =====================================================
 // ShoppingListPage map
@@ -3141,6 +3142,7 @@ export default function ShoppingListPage() {
             <h1>{t("shopping.title")}</h1>
             <TipsModal tips={SHOPPING_TIPS} />
           </div>
+          <ShoppingSyncStatus />
         </header>
 
         <Card style={{ marginBottom: 8 }}>

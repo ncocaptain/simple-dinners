@@ -7,6 +7,10 @@ import {
   replaceCloudShoppingSnapshot,
 } from "./shoppingSync";
 import {
+  publishShoppingSyncState,
+  SHOPPING_SYNC_RETRY_EVENT,
+} from "./shoppingSyncState";
+import {
   loadRawShoppingList,
   replaceShoppingListFromCloud,
   SHOPPING_LIST_CHANGED_EVENT,
@@ -82,14 +86,46 @@ function saveBackup(
 }
 
 export function ShoppingSyncBridge() {
-  const { isSignedIn, householdId } = useAuth();
+  const {
+    isSignedIn,
+    householdId,
+    householdLoading,
+  } = useAuth();
 
   useEffect(() => {
-    if (
-      !isSignedIn ||
-      !householdId ||
-      !supabase
-    ) {
+    if (!isSignedIn) {
+      publishShoppingSyncState({
+        status: "local",
+        error: null,
+      });
+
+      return;
+    }
+
+    if (householdLoading) {
+      publishShoppingSyncState({
+        status: "connecting",
+        error: null,
+      });
+
+      return;
+    }
+
+    if (!householdId) {
+      publishShoppingSyncState({
+        status: "local",
+        error: null,
+      });
+
+      return;
+    }
+
+    if (!supabase) {
+      publishShoppingSyncState({
+        status: "error",
+        error: "Cloud sync is not configured.",
+      });
+
       return;
     }
 
@@ -98,6 +134,8 @@ export function ShoppingSyncBridge() {
 
     let cancelled = false;
     let syncReady = false;
+    let initializationInProgress = false;
+    let hasPendingLocalChanges = false;
 
     let uploadTimer: number | null = null;
     let uploadInProgress = false;
@@ -110,6 +148,22 @@ export function ShoppingSyncBridge() {
 
     let realtimeChannel: RealtimeChannel | null = null;
 
+    function markFailure(message: string) {
+      publishShoppingSyncState({
+        status: navigator.onLine
+          ? "error"
+          : "offline",
+        error: message,
+      });
+    }
+
+    function markOffline() {
+      publishShoppingSyncState({
+        status: "offline",
+        error: null,
+      });
+    }
+
     async function uploadSnapshot(
       items: ShoppingItem[],
     ): Promise<boolean> {
@@ -117,18 +171,51 @@ export function ShoppingSyncBridge() {
         return false;
       }
 
+      if (!navigator.onLine) {
+        hasPendingLocalChanges = true;
+        markOffline();
+        return false;
+      }
+
       if (uploadInProgress) {
         queuedItems = items;
+        hasPendingLocalChanges = true;
+
+        publishShoppingSyncState({
+          status: "syncing",
+          error: null,
+        });
+
         return true;
       }
 
       uploadInProgress = true;
 
-      const result =
-        await replaceCloudShoppingSnapshot(
-          activeHouseholdId,
-          items,
+      publishShoppingSyncState({
+        status: "syncing",
+        error: null,
+      });
+
+      let result;
+
+      try {
+        result =
+          await replaceCloudShoppingSnapshot(
+            activeHouseholdId,
+            items,
+          );
+      } catch (error) {
+        uploadInProgress = false;
+        hasPendingLocalChanges = true;
+
+        markFailure(
+          error instanceof Error
+            ? error.message
+            : "Unable to sync the shopping list.",
         );
+
+        return false;
+      }
 
       uploadInProgress = false;
 
@@ -137,11 +224,14 @@ export function ShoppingSyncBridge() {
       }
 
       if (result.error) {
+        hasPendingLocalChanges = true;
+
         console.error(
           "Shopping-list cloud upload failed:",
           result.error,
         );
 
+        markFailure(result.error);
         return false;
       }
 
@@ -152,12 +242,32 @@ export function ShoppingSyncBridge() {
         return uploadSnapshot(nextItems);
       }
 
+      hasPendingLocalChanges = false;
+
+      publishShoppingSyncState({
+        status: "synced",
+        error: null,
+        lastSyncedAt: Date.now(),
+      });
+
       return true;
     }
 
     function scheduleUpload(
       items: ShoppingItem[],
     ) {
+      hasPendingLocalChanges = true;
+
+      if (!navigator.onLine) {
+        markOffline();
+        return;
+      }
+
+      publishShoppingSyncState({
+        status: "syncing",
+        error: null,
+      });
+
       if (uploadTimer !== null) {
         window.clearTimeout(uploadTimer);
       }
@@ -173,14 +283,19 @@ export function ShoppingSyncBridge() {
         return;
       }
 
+      if (!navigator.onLine) {
+        markOffline();
+        return;
+      }
+
       /*
-       * Give this device's pending local upload priority.
-       * This avoids pulling an older cloud snapshot over a
-       * local edit that is still waiting to upload.
+       * A local change waiting to upload takes priority
+       * over an older cloud snapshot.
        */
       if (
         uploadTimer !== null ||
-        uploadInProgress
+        uploadInProgress ||
+        hasPendingLocalChanges
       ) {
         scheduleCloudPull(400);
         return;
@@ -193,10 +308,29 @@ export function ShoppingSyncBridge() {
 
       cloudPullInProgress = true;
 
-      const result =
-        await loadCloudShoppingSnapshot(
-          activeHouseholdId,
+      publishShoppingSyncState({
+        status: "syncing",
+        error: null,
+      });
+
+      let result;
+
+      try {
+        result =
+          await loadCloudShoppingSnapshot(
+            activeHouseholdId,
+          );
+      } catch (error) {
+        cloudPullInProgress = false;
+
+        markFailure(
+          error instanceof Error
+            ? error.message
+            : "Unable to receive the household list.",
         );
+
+        return;
+      }
 
       cloudPullInProgress = false;
 
@@ -209,15 +343,13 @@ export function ShoppingSyncBridge() {
           "Unable to receive live shopping-list update:",
           result.error,
         );
+
+        markFailure(result.error);
       } else {
         const cloudItems = result.data ?? [];
         const currentLocalItems =
           loadRawShoppingList();
 
-        /*
-         * Avoid unnecessary page refreshes and prevent
-         * this device from reacting to its own upload.
-         */
         if (
           !snapshotsMatch(
             currentLocalItems,
@@ -228,6 +360,12 @@ export function ShoppingSyncBridge() {
             cloudItems,
           );
         }
+
+        publishShoppingSyncState({
+          status: "synced",
+          error: null,
+          lastSyncedAt: Date.now(),
+        });
       }
 
       if (cloudPullQueued) {
@@ -258,8 +396,8 @@ export function ShoppingSyncBridge() {
       const detail = customEvent.detail;
 
       /*
-       * Cloud-applied data must not be uploaded again.
-       * This prevents device-to-device update loops.
+       * A cloud-applied list must never be uploaded
+       * again by this device.
        */
       if (
         !detail ||
@@ -268,8 +406,15 @@ export function ShoppingSyncBridge() {
         return;
       }
 
+      hasPendingLocalChanges = true;
+
       if (!syncReady) {
         pendingItems = detail.items;
+
+        if (!navigator.onLine) {
+          markOffline();
+        }
+
         return;
       }
 
@@ -277,6 +422,10 @@ export function ShoppingSyncBridge() {
     }
 
     function startRealtime() {
+      if (realtimeChannel || cancelled) {
+        return;
+      }
+
       const channelName = [
         "shopping-household",
         activeHouseholdId,
@@ -301,6 +450,16 @@ export function ShoppingSyncBridge() {
           },
         )
         .subscribe((status, error) => {
+          if (status === "SUBSCRIBED") {
+            publishShoppingSyncState({
+              status: "synced",
+              error: null,
+              lastSyncedAt: Date.now(),
+            });
+
+            return;
+          }
+
           if (
             status === "CHANNEL_ERROR" ||
             status === "TIMED_OUT"
@@ -310,109 +469,80 @@ export function ShoppingSyncBridge() {
               status,
               error,
             );
+
+            markFailure(
+              error?.message ??
+              "The live sync connection was interrupted.",
+            );
           }
         });
     }
 
-    window.addEventListener(
-      SHOPPING_LIST_CHANGED_EVENT,
-      handleShoppingListChanged,
-    );
+    async function restartRealtime() {
+      const previousChannel = realtimeChannel;
+      realtimeChannel = null;
+
+      if (previousChannel) {
+        await activeSupabase.removeChannel(
+          previousChannel,
+        );
+      }
+
+      if (!cancelled) {
+        startRealtime();
+      }
+    }
 
     async function initializeSync() {
-      const localItems =
-        loadRawShoppingList();
-
-      const cloudResult =
-        await loadCloudShoppingSnapshot(
-          activeHouseholdId,
-        );
-
-      if (cancelled) {
-        return;
-      }
-
-      if (cloudResult.error) {
-        console.error(
-          "Unable to initialize shopping-list sync:",
-          cloudResult.error,
-        );
-
-        return;
-      }
-
-      const cloudItems =
-        cloudResult.data ?? [];
-
-      /*
-       * Existing device with a new cloud account:
-       * upload its current local list.
-       */
       if (
-        localItems.length > 0 &&
-        cloudItems.length === 0
+        cancelled ||
+        initializationInProgress
       ) {
-        const uploaded =
-          await uploadSnapshot(localItems);
+        return;
+      }
 
-        if (!uploaded || cancelled) {
+      if (!navigator.onLine) {
+        markOffline();
+        return;
+      }
+
+      initializationInProgress = true;
+
+      publishShoppingSyncState({
+        status: "connecting",
+        error: null,
+      });
+
+      try {
+        const localItems =
+          loadRawShoppingList();
+
+        const cloudResult =
+          await loadCloudShoppingSnapshot(
+            activeHouseholdId,
+          );
+
+        if (cancelled) {
           return;
         }
-      }
 
-      /*
-       * Empty/new device joining an existing household:
-       * download the household list.
-       */
-      if (
-        localItems.length === 0 &&
-        cloudItems.length > 0
-      ) {
-        replaceShoppingListFromCloud(
-          cloudItems,
-        );
-      }
-
-      /*
-       * Both sides contain different data:
-       * never overwrite silently.
-       */
-      if (
-        localItems.length > 0 &&
-        cloudItems.length > 0 &&
-        !snapshotsMatch(
-          localItems,
-          cloudItems,
-        )
-      ) {
-        const useCloudList =
-          window.confirm(
-            [
-              "Simple Dinners Plus found two different shopping lists.",
-              "",
-              "Press OK to use the household cloud list on this device.",
-              "",
-              "Press Cancel to keep this device’s list and replace the cloud list.",
-              "",
-              "A backup will be saved before either list is replaced.",
-            ].join("\n"),
+        if (cloudResult.error) {
+          console.error(
+            "Unable to initialize shopping-list sync:",
+            cloudResult.error,
           );
 
-        if (useCloudList) {
-          saveBackup(
-            LOCAL_BACKUP_KEY,
-            localItems,
-          );
+          markFailure(cloudResult.error);
+          return;
+        }
 
-          replaceShoppingListFromCloud(
-            cloudItems,
-          );
-        } else {
-          saveBackup(
-            CLOUD_BACKUP_KEY,
-            cloudItems,
-          );
+        const cloudItems =
+          cloudResult.data ?? [];
 
+        if (
+          localItems.length > 0 &&
+          cloudItems.length === 0
+        ) {
           const uploaded =
             await uploadSnapshot(localItems);
 
@@ -420,21 +550,162 @@ export function ShoppingSyncBridge() {
             return;
           }
         }
-      }
 
-      syncReady = true;
-      startRealtime();
+        if (
+          localItems.length === 0 &&
+          cloudItems.length > 0
+        ) {
+          replaceShoppingListFromCloud(
+            cloudItems,
+          );
+        }
 
-      /*
-       * Preserve an edit made while the initial cloud
-       * comparison was still loading.
-       */
-      if (pendingItems) {
-        const latestItems = pendingItems;
-        pendingItems = null;
-        scheduleUpload(latestItems);
+        if (
+          localItems.length > 0 &&
+          cloudItems.length > 0 &&
+          !snapshotsMatch(
+            localItems,
+            cloudItems,
+          )
+        ) {
+          /*
+           * Changes made while offline should be sent
+           * when this device reconnects instead of
+           * producing another conflict prompt.
+           */
+          if (
+            hasPendingLocalChanges ||
+            pendingItems
+          ) {
+            saveBackup(
+              CLOUD_BACKUP_KEY,
+              cloudItems,
+            );
+
+            const uploaded =
+              await uploadSnapshot(localItems);
+
+            if (!uploaded || cancelled) {
+              return;
+            }
+
+            pendingItems = null;
+          } else {
+            const useCloudList =
+              window.confirm(
+                [
+                  "Simple Dinners Plus found two different shopping lists.",
+                  "",
+                  "Press OK to use the household cloud list on this device.",
+                  "",
+                  "Press Cancel to keep this device’s list and replace the cloud list.",
+                  "",
+                  "A backup will be saved before either list is replaced.",
+                ].join("\n"),
+              );
+
+            if (useCloudList) {
+              saveBackup(
+                LOCAL_BACKUP_KEY,
+                localItems,
+              );
+
+              replaceShoppingListFromCloud(
+                cloudItems,
+              );
+            } else {
+              saveBackup(
+                CLOUD_BACKUP_KEY,
+                cloudItems,
+              );
+
+              const uploaded =
+                await uploadSnapshot(localItems);
+
+              if (!uploaded || cancelled) {
+                return;
+              }
+            }
+          }
+        }
+
+        syncReady = true;
+        startRealtime();
+
+        publishShoppingSyncState({
+          status: "synced",
+          error: null,
+          lastSyncedAt: Date.now(),
+        });
+
+        if (pendingItems) {
+          const latestItems = pendingItems;
+          pendingItems = null;
+          scheduleUpload(latestItems);
+        }
+      } finally {
+        initializationInProgress = false;
       }
     }
+
+    function handleRetry() {
+      if (cancelled) {
+        return;
+      }
+
+      if (!navigator.onLine) {
+        markOffline();
+        return;
+      }
+
+      publishShoppingSyncState({
+        status: "connecting",
+        error: null,
+      });
+
+      if (!syncReady) {
+        void initializeSync();
+        return;
+      }
+
+      void restartRealtime();
+
+      if (hasPendingLocalChanges) {
+        scheduleUpload(
+          loadRawShoppingList(),
+        );
+      } else {
+        scheduleCloudPull(0);
+      }
+    }
+
+    function handleOnline() {
+      handleRetry();
+    }
+
+    function handleOffline() {
+      markOffline();
+    }
+
+    window.addEventListener(
+      SHOPPING_LIST_CHANGED_EVENT,
+      handleShoppingListChanged,
+    );
+
+    window.addEventListener(
+      SHOPPING_SYNC_RETRY_EVENT,
+      handleRetry,
+    );
+
+    window.addEventListener(
+      "online",
+      handleOnline,
+    );
+
+    window.addEventListener(
+      "offline",
+      handleOffline,
+    );
 
     void initializeSync();
 
@@ -445,6 +716,21 @@ export function ShoppingSyncBridge() {
       window.removeEventListener(
         SHOPPING_LIST_CHANGED_EVENT,
         handleShoppingListChanged,
+      );
+
+      window.removeEventListener(
+        SHOPPING_SYNC_RETRY_EVENT,
+        handleRetry,
+      );
+
+      window.removeEventListener(
+        "online",
+        handleOnline,
+      );
+
+      window.removeEventListener(
+        "offline",
+        handleOffline,
       );
 
       if (uploadTimer !== null) {
@@ -461,7 +747,11 @@ export function ShoppingSyncBridge() {
         );
       }
     };
-  }, [householdId, isSignedIn]);
+  }, [
+    householdId,
+    householdLoading,
+    isSignedIn,
+  ]);
 
   return null;
 }
