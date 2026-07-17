@@ -24,6 +24,11 @@ import {
   requestWeeklyPlanConflict,
 } from "./weeklyPlanConflictState";
 
+import {
+  publishWeeklyPlanSyncState,
+  WEEKLY_PLAN_SYNC_RETRY_EVENT,
+} from "./weeklyPlanSyncState";
+
 const LOCAL_BACKUP_KEY =
   "simple-dinners.weeklyPlan.pre-cloud-backup.v1";
 
@@ -74,9 +79,6 @@ function hasPlanContent(
           return false;
         }
 
-        /*
-         * Current PlannedDay format.
-         */
         if ("mode" in value) {
           if (
             value.mode === "leftovers" ||
@@ -91,16 +93,13 @@ function hasPlanContent(
           );
         }
 
-        /*
-         * Legacy format where the stored value
-         * was the meal itself.
-         */
         return Object.keys(value).length > 0;
       },
     );
 
   const hasDaySettings =
-    Object.keys(snapshot.daySettings).length > 0;
+    Object.keys(snapshot.daySettings).length >
+    0;
 
   const hasLockedDays =
     Object.values(snapshot.lockedDays).some(
@@ -144,12 +143,39 @@ export function useWeeklyPlanSync(
   } = useAuth();
 
   useEffect(() => {
-    if (
-      !isSignedIn ||
-      householdLoading ||
-      !householdId ||
-      !supabase
-    ) {
+    if (!isSignedIn) {
+      publishWeeklyPlanSyncState({
+        status: "local",
+        error: null,
+      });
+
+      return;
+    }
+
+    if (householdLoading) {
+      publishWeeklyPlanSyncState({
+        status: "connecting",
+        error: null,
+      });
+
+      return;
+    }
+
+    if (!householdId) {
+      publishWeeklyPlanSyncState({
+        status: "local",
+        error: null,
+      });
+
+      return;
+    }
+
+    if (!supabase) {
+      publishWeeklyPlanSyncState({
+        status: "error",
+        error: "Cloud sync is not configured.",
+      });
+
       return;
     }
 
@@ -180,6 +206,22 @@ export function useWeeklyPlanSync(
       | RealtimeChannel
       | null = null;
 
+    function markFailure(message: string) {
+      publishWeeklyPlanSyncState({
+        status: navigator.onLine
+          ? "error"
+          : "offline",
+        error: message,
+      });
+    }
+
+    function markOffline() {
+      publishWeeklyPlanSyncState({
+        status: "offline",
+        error: null,
+      });
+    }
+
     async function uploadSnapshot(
       snapshot: WeeklyPlanLocalSnapshot,
     ): Promise<boolean> {
@@ -189,16 +231,28 @@ export function useWeeklyPlanSync(
 
       if (!navigator.onLine) {
         hasPendingLocalChanges = true;
+        markOffline();
         return false;
       }
 
       if (uploadInProgress) {
         queuedSnapshot = snapshot;
         hasPendingLocalChanges = true;
+
+        publishWeeklyPlanSyncState({
+          status: "syncing",
+          error: null,
+        });
+
         return true;
       }
 
       uploadInProgress = true;
+
+      publishWeeklyPlanSyncState({
+        status: "syncing",
+        error: null,
+      });
 
       let result;
 
@@ -211,9 +265,10 @@ export function useWeeklyPlanSync(
         uploadInProgress = false;
         hasPendingLocalChanges = true;
 
-        console.error(
-          "Unable to sync the weekly plan:",
-          error,
+        markFailure(
+          error instanceof Error
+            ? error.message
+            : "Unable to sync the weekly plan.",
         );
 
         return false;
@@ -233,6 +288,7 @@ export function useWeeklyPlanSync(
           result.error,
         );
 
+        markFailure(result.error);
         return false;
       }
 
@@ -244,6 +300,13 @@ export function useWeeklyPlanSync(
       }
 
       hasPendingLocalChanges = false;
+
+      publishWeeklyPlanSyncState({
+        status: "synced",
+        error: null,
+        lastSyncedAt: Date.now(),
+      });
+
       return true;
     }
 
@@ -253,8 +316,14 @@ export function useWeeklyPlanSync(
       hasPendingLocalChanges = true;
 
       if (!navigator.onLine) {
+        markOffline();
         return;
       }
+
+      publishWeeklyPlanSyncState({
+        status: "syncing",
+        error: null,
+      });
 
       if (uploadTimer !== null) {
         window.clearTimeout(uploadTimer);
@@ -267,14 +336,15 @@ export function useWeeklyPlanSync(
     }
 
     async function pullCloudSnapshot() {
-      if (cancelled || !navigator.onLine) {
+      if (cancelled) {
         return;
       }
 
-      /*
-       * An unsaved local edit takes priority over
-       * an older cloud snapshot.
-       */
+      if (!navigator.onLine) {
+        markOffline();
+        return;
+      }
+
       if (
         uploadTimer !== null ||
         uploadInProgress ||
@@ -291,6 +361,11 @@ export function useWeeklyPlanSync(
 
       cloudPullInProgress = true;
 
+      publishWeeklyPlanSyncState({
+        status: "syncing",
+        error: null,
+      });
+
       let result;
 
       try {
@@ -300,9 +375,10 @@ export function useWeeklyPlanSync(
       } catch (error) {
         cloudPullInProgress = false;
 
-        console.error(
-          "Unable to receive the household plan:",
-          error,
+        markFailure(
+          error instanceof Error
+            ? error.message
+            : "Unable to receive the household plan.",
         );
 
         return;
@@ -319,6 +395,8 @@ export function useWeeklyPlanSync(
           "Unable to receive live weekly-plan update:",
           result.error,
         );
+
+        markFailure(result.error);
       } else if (result.data) {
         const cloudSnapshot =
           toLocalSnapshot(result.data);
@@ -336,16 +414,24 @@ export function useWeeklyPlanSync(
             cloudSnapshot,
           );
         }
+
+        publishWeeklyPlanSyncState({
+          status: "synced",
+          error: null,
+          lastSyncedAt: Date.now(),
+        });
       } else {
-        /*
-         * Restore the household row if it was removed
-         * while this device still has a useful plan.
-         */
         const localSnapshot =
           loadLocalWeeklyPlan();
 
         if (hasPlanContent(localSnapshot)) {
           scheduleUpload(localSnapshot);
+        } else {
+          publishWeeklyPlanSyncState({
+            status: "synced",
+            error: null,
+            lastSyncedAt: Date.now(),
+          });
         }
       }
 
@@ -383,10 +469,6 @@ export function useWeeklyPlanSync(
 
       const detail = customEvent.detail;
 
-      /*
-       * Never upload a snapshot that this device
-       * just received from the household.
-       */
       if (
         !detail ||
         detail.source !== "local"
@@ -398,6 +480,11 @@ export function useWeeklyPlanSync(
 
       if (!syncReady) {
         pendingSnapshot = detail.snapshot;
+
+        if (!navigator.onLine) {
+          markOffline();
+        }
+
         return;
       }
 
@@ -434,6 +521,16 @@ export function useWeeklyPlanSync(
           },
         )
         .subscribe((status, error) => {
+          if (status === "SUBSCRIBED") {
+            publishWeeklyPlanSyncState({
+              status: "synced",
+              error: null,
+              lastSyncedAt: Date.now(),
+            });
+
+            return;
+          }
+
           if (
             status === "CHANNEL_ERROR" ||
             status === "TIMED_OUT"
@@ -442,6 +539,11 @@ export function useWeeklyPlanSync(
               "Weekly-plan Realtime connection failed:",
               status,
               error,
+            );
+
+            markFailure(
+              error?.message ??
+              "The live sync connection was interrupted.",
             );
           }
         });
@@ -467,13 +569,22 @@ export function useWeeklyPlanSync(
     async function initializeSync() {
       if (
         cancelled ||
-        initializationInProgress ||
-        !navigator.onLine
+        initializationInProgress
       ) {
         return;
       }
 
+      if (!navigator.onLine) {
+        markOffline();
+        return;
+      }
+
       initializationInProgress = true;
+
+      publishWeeklyPlanSyncState({
+        status: "connecting",
+        error: null,
+      });
 
       try {
         const localSnapshot =
@@ -494,6 +605,7 @@ export function useWeeklyPlanSync(
             cloudResult.error,
           );
 
+          markFailure(cloudResult.error);
           return;
         }
 
@@ -514,10 +626,6 @@ export function useWeeklyPlanSync(
             )
             : false;
 
-        /*
-         * This household has no useful cloud plan yet.
-         * Preserve and upload this device's useful plan.
-         */
         if (
           localHasContent &&
           !cloudHasContent
@@ -532,10 +640,6 @@ export function useWeeklyPlanSync(
           }
         }
 
-        /*
-         * This device has no useful plan, but the
-         * household already does.
-         */
         if (
           !localHasContent &&
           cloudSnapshot &&
@@ -546,10 +650,6 @@ export function useWeeklyPlanSync(
           );
         }
 
-        /*
-         * Both sides contain useful but different
-         * weekly plans.
-         */
         if (
           localHasContent &&
           cloudSnapshot &&
@@ -559,11 +659,6 @@ export function useWeeklyPlanSync(
             cloudSnapshot,
           )
         ) {
-          /*
-           * Local edits made while disconnected or
-           * while initialization was running take
-           * priority when reconnecting.
-           */
           if (
             hasPendingLocalChanges ||
             pendingSnapshot
@@ -629,11 +724,18 @@ export function useWeeklyPlanSync(
         syncReady = true;
         startRealtime();
 
+        publishWeeklyPlanSyncState({
+          status: "synced",
+          error: null,
+          lastSyncedAt: Date.now(),
+        });
+
         if (pendingSnapshot) {
           const latestSnapshot =
             pendingSnapshot;
 
           pendingSnapshot = null;
+
           scheduleUpload(
             latestSnapshot,
           );
@@ -643,10 +745,20 @@ export function useWeeklyPlanSync(
       }
     }
 
-    function handleOnline() {
+    function handleRetry() {
       if (cancelled) {
         return;
       }
+
+      if (!navigator.onLine) {
+        markOffline();
+        return;
+      }
+
+      publishWeeklyPlanSyncState({
+        status: "connecting",
+        error: null,
+      });
 
       if (!syncReady) {
         void initializeSync();
@@ -664,16 +776,22 @@ export function useWeeklyPlanSync(
       }
     }
 
+    function handleOnline() {
+      handleRetry();
+    }
+
     function handleOffline() {
-      /*
-       * Local changes continue saving normally.
-       * They will upload after the online event.
-       */
+      markOffline();
     }
 
     window.addEventListener(
       WEEKLY_PLAN_CHANGED_EVENT,
       handleWeeklyPlanChanged,
+    );
+
+    window.addEventListener(
+      WEEKLY_PLAN_SYNC_RETRY_EVENT,
+      handleRetry,
     );
 
     window.addEventListener(
@@ -695,6 +813,11 @@ export function useWeeklyPlanSync(
       window.removeEventListener(
         WEEKLY_PLAN_CHANGED_EVENT,
         handleWeeklyPlanChanged,
+      );
+
+      window.removeEventListener(
+        WEEKLY_PLAN_SYNC_RETRY_EVENT,
+        handleRetry,
       );
 
       window.removeEventListener(

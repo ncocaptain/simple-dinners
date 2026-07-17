@@ -31,6 +31,9 @@ import {
   dismissHolidaySuggestion,
   getActiveHolidaySuggestion,
 } from "../core/holidaySuggestions";
+import {
+  WeeklyPlanSyncStatus,
+} from "../cloud/WeeklyPlanSyncStatus";
 
 type WalkthroughStep = 1 | 2 | 3;
 type TooltipPosition = {
@@ -162,9 +165,9 @@ export default function WeekPage({
   addDayToCookbook: (day: string) => void;
 }) {
   const navigate = useNavigate();
-const [holidaySuggestion, setHolidaySuggestion] = useState(() =>
-  getActiveHolidaySuggestion()
-);
+  const [holidaySuggestion, setHolidaySuggestion] = useState(() =>
+    getActiveHolidaySuggestion()
+  );
   const location = useLocation();
   const language = getStoredLanguage();
 
@@ -185,8 +188,8 @@ const [holidaySuggestion, setHolidaySuggestion] = useState(() =>
   const [highlightDay, setHighlightDay] = useState<string | null>(null);
   const [showAddedMessage, setShowAddedMessage] = useState<string | null>(null);
   const [checkedSidesByDay, setCheckedSidesByDay] = useState<
-  Record<string, Record<string, boolean>>
->({});
+    Record<string, Record<string, boolean>>
+  >({});
   const generatePlanRef = useRef<HTMLButtonElement | null>(null);
   const firstLockRef = useRef<HTMLButtonElement | null>(null);
   const wholeWeekCalendarRef = useRef<HTMLButtonElement | null>(null);
@@ -403,48 +406,48 @@ const [holidaySuggestion, setHolidaySuggestion] = useState(() =>
   };
 
   const toggleSideForDay = (day: string, side: string) => {
-  setCheckedSidesByDay((prev) => ({
-    ...prev,
-    [day]: {
-      ...(prev[day] || {}),
-      [side]: !prev[day]?.[side],
-    },
-  }));
-};
+    setCheckedSidesByDay((prev) => ({
+      ...prev,
+      [day]: {
+        ...(prev[day] || {}),
+        [side]: !prev[day]?.[side],
+      },
+    }));
+  };
 
-const handleAddSidesToShoppingList = (
-  day: string,
-  mealName: string,
-  sides: string[],
-) => {
-  if (!sides.length) return;
+  const handleAddSidesToShoppingList = (
+    day: string,
+    mealName: string,
+    sides: string[],
+  ) => {
+    if (!sides.length) return;
 
-  const selectedSides = sides.filter((side) => checkedSidesByDay[day]?.[side]);
-  const sidesToSend = selectedSides.length ? selectedSides : sides;
+    const selectedSides = sides.filter((side) => checkedSidesByDay[day]?.[side]);
+    const sidesToSend = selectedSides.length ? selectedSides : sides;
 
-  const shoppingLines = sidesToSend.flatMap((side) => {
-  const result = getSideShoppingLines(side);
-  return result.lines;
-});
+    const shoppingLines = sidesToSend.flatMap((side) => {
+      const result = getSideShoppingLines(side);
+      return result.lines;
+    });
 
-addIngredientsToList(
-  `${mealName || getTranslatedDay(day)} sides`,
-  shoppingLines.join("\n"),
-);
+    addIngredientsToList(
+      `${mealName || getTranslatedDay(day)} sides`,
+      shoppingLines.join("\n"),
+    );
 
-  setCheckedSidesByDay((prev) => ({
-    ...prev,
-    [day]: {},
-  }));
+    setCheckedSidesByDay((prev) => ({
+      ...prev,
+      [day]: {},
+    }));
 
-  setShowAddedMessage(day);
+    setShowAddedMessage(day);
 
-  window.setTimeout(() => {
-    setShowAddedMessage((current) => (current === day ? null : current));
-  }, 1800);
-};
+    window.setTimeout(() => {
+      setShowAddedMessage((current) => (current === day ? null : current));
+    }, 1800);
+  };
 
-  
+
   // =====================================================
   // Calendar helpers
   // =====================================================
@@ -665,7 +668,7 @@ addIngredientsToList(
           title: t("week.shareTitle"),
           text,
         })
-        .catch(() => {});
+        .catch(() => { });
     } else {
       navigator.clipboard.writeText(text);
       alert(t("week.copied"));
@@ -795,6 +798,8 @@ addIngredientsToList(
               <h1>{t("week.title")}</h1>
               <TipsModal tips={weekTips} />
             </div>
+
+            <WeeklyPlanSyncStatus />
           </header>
 
           {showFirstMessage && (
@@ -814,95 +819,95 @@ addIngredientsToList(
           )}
 
           <div style={{ display: "grid", gap: 16 }}>
-  {holidaySuggestion && (
-    <Card
-      style={{
-        padding: 18,
-        borderRadius: 24,
-        background:
-          "linear-gradient(135deg, rgba(20,184,166,0.18), rgba(249,115,22,0.14))",
-        border: "1px solid rgba(255,255,255,0.12)",
-        boxShadow: "0 12px 28px rgba(0,0,0,0.18)",
-      }}
-    >
-      <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-        <div style={{ fontSize: 32, lineHeight: 1 }}>
-          {holidaySuggestion.emoji}
-        </div>
+            {holidaySuggestion && (
+              <Card
+                style={{
+                  padding: 18,
+                  borderRadius: 24,
+                  background:
+                    "linear-gradient(135deg, rgba(20,184,166,0.18), rgba(249,115,22,0.14))",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  boxShadow: "0 12px 28px rgba(0,0,0,0.18)",
+                }}
+              >
+                <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                  <div style={{ fontSize: 32, lineHeight: 1 }}>
+                    {holidaySuggestion.emoji}
+                  </div>
 
-        <div style={{ flex: 1 }}>
-          <div style={{ fontWeight: 900, fontSize: 18, marginBottom: 4 }}>
-            {holidaySuggestion.title}
-          </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 900, fontSize: 18, marginBottom: 4 }}>
+                      {holidaySuggestion.title}
+                    </div>
 
-          <div style={{ opacity: 0.82, lineHeight: 1.45, marginBottom: 14 }}>
-            {holidaySuggestion.message}
-          </div>
+                    <div style={{ opacity: 0.82, lineHeight: 1.45, marginBottom: 14 }}>
+                      {holidaySuggestion.message}
+                    </div>
 
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <button
-              type="button"
-              onClick={() => navigate(`/recipe/${holidaySuggestion.recipeSlug}`)}
-              style={{
-                padding: "10px 14px",
-                borderRadius: 12,
-                border: "1px solid rgba(20,184,166,0.45)",
-                background: "rgba(20,184,166,0.22)",
-                color: "inherit",
-                fontWeight: 800,
-                cursor: "pointer",
-              }}
-            >
-              View Recipe
-            </button>
+                    <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                      <button
+                        type="button"
+                        onClick={() => navigate(`/recipe/${holidaySuggestion.recipeSlug}`)}
+                        style={{
+                          padding: "10px 14px",
+                          borderRadius: 12,
+                          border: "1px solid rgba(20,184,166,0.45)",
+                          background: "rgba(20,184,166,0.22)",
+                          color: "inherit",
+                          fontWeight: 800,
+                          cursor: "pointer",
+                        }}
+                      >
+                        View Recipe
+                      </button>
 
-            <button
-              type="button"
-              onClick={() => {
-                dismissHolidaySuggestion(
-  holidaySuggestion.id,
-  holidaySuggestion.suggestionYear,
-);
-setHolidaySuggestion(undefined);
-              }}
-              style={{
-                padding: "10px 14px",
-                borderRadius: 12,
-                border: "1px solid rgba(255,255,255,0.14)",
-                background: "rgba(255,255,255,0.06)",
-                color: "inherit",
-                fontWeight: 800,
-                cursor: "pointer",
-              }}
-            >
-              Dismiss
-            </button>
-          </div>
-        </div>
-      </div>
-    </Card>
-  )}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          dismissHolidaySuggestion(
+                            holidaySuggestion.id,
+                            holidaySuggestion.suggestionYear,
+                          );
+                          setHolidaySuggestion(undefined);
+                        }}
+                        style={{
+                          padding: "10px 14px",
+                          borderRadius: 12,
+                          border: "1px solid rgba(255,255,255,0.14)",
+                          background: "rgba(255,255,255,0.06)",
+                          color: "inherit",
+                          fontWeight: 800,
+                          cursor: "pointer",
+                        }}
+                      >
+                        Dismiss
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            )}
 
-  {days.map((day, index) => {
+            {days.map((day, index) => {
               const dayPlan = meals[day];
               const mode = dayPlan?.mode ?? "planned";
 
               const rawMeal = mode === "planned" ? dayPlan?.meal ?? null : null;
-const meal = getLocalizedMeal(rawMeal, language);
+              const meal = getLocalizedMeal(rawMeal, language);
 
-const recipeSideKey =
-  rawMeal?.slug ||
-  rawMeal?.name ||
-  meal?.slug ||
-  meal?.name ||
-  "";
+              const recipeSideKey =
+                rawMeal?.slug ||
+                rawMeal?.name ||
+                meal?.slug ||
+                meal?.name ||
+                "";
 
-const suggestedSides = getDisplaySides(
-  recipeSideKey,
-  meal?.suggestedSides
-);
+              const suggestedSides = getDisplaySides(
+                recipeSideKey,
+                meal?.suggestedSides
+              );
 
-const isLeftovers = mode === "leftovers";
+              const isLeftovers = mode === "leftovers";
               const isFreezer = mode === "freezer";
               const hasMeal = !!meal?.name?.trim();
               const isLocked = !!lockedDays[day];
@@ -919,7 +924,7 @@ const isLeftovers = mode === "leftovers";
               const prepAheadItems = getPrepAheadItems(meal, nextMeal);
               return (
 
-                
+
                 <Card
                   key={getTranslatedDay(day)}
                   style={{
@@ -937,7 +942,7 @@ const isLeftovers = mode === "leftovers";
                     transition: "outline 0.4s ease, box-shadow 0.4s ease",
                   }}
                 >
-                  
+
                   <div
                     id={`day-${getTranslatedDay(day)}`}
                     style={{ padding: "20px", display: "grid", gap: 16 }}
@@ -1033,21 +1038,21 @@ const isLeftovers = mode === "leftovers";
                           }}
                         >
                           <img
-  src={normalizePhotoUrl("/images/leftovers.jpg")}
-  alt={t("week.leftovers")}
-  onError={(e) => {
-    e.currentTarget.src = normalizePhotoUrl("/images/takeout-night.jpg");
-  }}
-  style={{
-    width: 85,
-    height: 85,
-    borderRadius: 18,
-    objectFit: "cover",
-    border: "1px solid rgba(255,255,255,0.1)",
-    background: "rgba(255,255,255,0.04)",
-    flexShrink: 0,
-  }}
-/>
+                            src={normalizePhotoUrl("/images/leftovers.jpg")}
+                            alt={t("week.leftovers")}
+                            onError={(e) => {
+                              e.currentTarget.src = normalizePhotoUrl("/images/takeout-night.jpg");
+                            }}
+                            style={{
+                              width: 85,
+                              height: 85,
+                              borderRadius: 18,
+                              objectFit: "cover",
+                              border: "1px solid rgba(255,255,255,0.1)",
+                              background: "rgba(255,255,255,0.04)",
+                              flexShrink: 0,
+                            }}
+                          />
 
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div
@@ -1133,21 +1138,21 @@ const isLeftovers = mode === "leftovers";
                           }}
                         >
                           <img
-  src={normalizePhotoUrl("/images/freezer-night.jpg")}
-  alt={t("week.freezerNight")}
-  onError={(e) => {
-    e.currentTarget.src = normalizePhotoUrl("/images/takeout-night.jpg");
-  }}
-  style={{
-    width: 85,
-    height: 85,
-    borderRadius: 18,
-    objectFit: "cover",
-    border: "1px solid rgba(255,255,255,0.1)",
-    background: "rgba(255,255,255,0.04)",
-    flexShrink: 0,
-  }}
-/>
+                            src={normalizePhotoUrl("/images/freezer-night.jpg")}
+                            alt={t("week.freezerNight")}
+                            onError={(e) => {
+                              e.currentTarget.src = normalizePhotoUrl("/images/takeout-night.jpg");
+                            }}
+                            style={{
+                              width: 85,
+                              height: 85,
+                              borderRadius: 18,
+                              objectFit: "cover",
+                              border: "1px solid rgba(255,255,255,0.1)",
+                              background: "rgba(255,255,255,0.04)",
+                              flexShrink: 0,
+                            }}
+                          />
 
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div
@@ -1230,10 +1235,10 @@ const isLeftovers = mode === "leftovers";
                             navigate(
                               `/recipe/${encodeURIComponent(
                                 rawMeal?.slug ||
-                                  rawMeal?.name ||
-                                  meal?.slug ||
-                                  meal?.name ||
-                                  "",
+                                rawMeal?.name ||
+                                meal?.slug ||
+                                meal?.name ||
+                                "",
                               )}?from=/week`,
                             );
                           }}
@@ -1309,102 +1314,102 @@ const isLeftovers = mode === "leftovers";
                         </div>
 
                         {suggestedSides.length > 0 && (
-  <div
-    style={{
-      display: "grid",
-      gap: 8,
-      padding: "10px 12px",
-      borderRadius: 16,
-      background: "rgba(34,197,94,0.08)",
-      border: "1px solid rgba(34,197,94,0.16)",
-    }}
-  >
-    <div
-      style={{
-        fontSize: 11,
-        fontWeight: 900,
-        letterSpacing: 0.35,
-        textTransform: "uppercase",
-        color: "#86efac",
-      }}
-    >
-      {t("recipe.goesWellWith", "Goes well with")}
-    </div>
+                          <div
+                            style={{
+                              display: "grid",
+                              gap: 8,
+                              padding: "10px 12px",
+                              borderRadius: 16,
+                              background: "rgba(34,197,94,0.08)",
+                              border: "1px solid rgba(34,197,94,0.16)",
+                            }}
+                          >
+                            <div
+                              style={{
+                                fontSize: 11,
+                                fontWeight: 900,
+                                letterSpacing: 0.35,
+                                textTransform: "uppercase",
+                                color: "#86efac",
+                              }}
+                            >
+                              {t("recipe.goesWellWith", "Goes well with")}
+                            </div>
 
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: 6,
-      }}
-    >
-      {suggestedSides.slice(0, 3).map((side: string) => {
-        const checked = !!checkedSidesByDay[day]?.[side];
+                            <div
+                              style={{
+                                display: "flex",
+                                flexWrap: "wrap",
+                                gap: 6,
+                              }}
+                            >
+                              {suggestedSides.slice(0, 3).map((side: string) => {
+                                const checked = !!checkedSidesByDay[day]?.[side];
 
-        return (
-          <button
-            key={side}
-            type="button"
-            onClick={() => toggleSideForDay(day, side)}
-            style={{
-              padding: "5px 7px",
-              borderRadius: 999,
-              background: checked
-                ? "rgba(34,197,94,0.14)"
-                : "rgba(255,255,255,0.06)",
-              border: checked
-                ? "1px solid rgba(34,197,94,0.32)"
-                : "1px solid rgba(255,255,255,0.10)",
-              color: checked ? "#86efac" : "rgba(255,255,255,0.86)",
-              fontSize: 12,
-              fontWeight: 800,
-              cursor: "pointer",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 5,
-            }}
-          >
-            <CheckCircle2
-              size={13}
-              style={{
-                color: checked ? "#22c55e" : "rgba(255,255,255,0.35)",
-              }}
-            />
-            {side}
-          </button>
-        );
-      })}
-    </div>
+                                return (
+                                  <button
+                                    key={side}
+                                    type="button"
+                                    onClick={() => toggleSideForDay(day, side)}
+                                    style={{
+                                      padding: "5px 7px",
+                                      borderRadius: 999,
+                                      background: checked
+                                        ? "rgba(34,197,94,0.14)"
+                                        : "rgba(255,255,255,0.06)",
+                                      border: checked
+                                        ? "1px solid rgba(34,197,94,0.32)"
+                                        : "1px solid rgba(255,255,255,0.10)",
+                                      color: checked ? "#86efac" : "rgba(255,255,255,0.86)",
+                                      fontSize: 12,
+                                      fontWeight: 800,
+                                      cursor: "pointer",
+                                      display: "inline-flex",
+                                      alignItems: "center",
+                                      gap: 5,
+                                    }}
+                                  >
+                                    <CheckCircle2
+                                      size={13}
+                                      style={{
+                                        color: checked ? "#22c55e" : "rgba(255,255,255,0.35)",
+                                      }}
+                                    />
+                                    {side}
+                                  </button>
+                                );
+                              })}
+                            </div>
 
-    <button
-      type="button"
-      onClick={() =>
-        handleAddSidesToShoppingList(
-          day,
-          meal.name || t("week.meal"),
-          suggestedSides.slice(0, 3),
-        )
-      }
-      style={{
-        width: "fit-content",
-        border: "1px solid rgba(34,197,94,0.22)",
-        borderRadius: 999,
-        padding: "7px 10px",
-        background: "rgba(34,197,94,0.08)",
-        color: "#86efac",
-        fontSize: 12,
-        fontWeight: 900,
-        cursor: "pointer",
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 6,
-      }}
-    >
-      <ShoppingCart size={13} />
-      {t("recipe.addSidesToShoppingList", "Add sides to shopping list")}
-    </button>
-  </div>
-)}
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handleAddSidesToShoppingList(
+                                  day,
+                                  meal.name || t("week.meal"),
+                                  suggestedSides.slice(0, 3),
+                                )
+                              }
+                              style={{
+                                width: "fit-content",
+                                border: "1px solid rgba(34,197,94,0.22)",
+                                borderRadius: 999,
+                                padding: "7px 10px",
+                                background: "rgba(34,197,94,0.08)",
+                                color: "#86efac",
+                                fontSize: 12,
+                                fontWeight: 900,
+                                cursor: "pointer",
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: 6,
+                              }}
+                            >
+                              <ShoppingCart size={13} />
+                              {t("recipe.addSidesToShoppingList", "Add sides to shopping list")}
+                            </button>
+                          </div>
+                        )}
 
                         {prepAheadItems.length >= 2 && nextDay && (
                           <div
@@ -1722,11 +1727,10 @@ const isLeftovers = mode === "leftovers";
             >
               <CalendarPlus size={16} />
               {plannedMealCount
-                ? `${t("week.add")} ${plannedMealCount} ${
-                    plannedMealCount === 1
-                      ? t("week.calendarDay")
-                      : t("week.calendarDays")
-                  } ${t("week.toCalendar")}`
+                ? `${t("week.add")} ${plannedMealCount} ${plannedMealCount === 1
+                  ? t("week.calendarDay")
+                  : t("week.calendarDays")
+                } ${t("week.toCalendar")}`
                 : t("week.noMealsPlanned")}
             </button>
           </div>
