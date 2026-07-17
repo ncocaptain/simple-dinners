@@ -5,6 +5,9 @@ import App from "./App";
 import "./index.css";
 import { AuthProvider } from "./auth/AuthContext";
 import { ShoppingSyncBridge } from "./cloud/ShoppingSyncBridge";
+import {
+  ShoppingListConflictModal,
+} from "./cloud/ShoppingListConflictModal";
 
 ReactDOM.createRoot(
   document.getElementById("root")!,
@@ -12,6 +15,7 @@ ReactDOM.createRoot(
   <React.StrictMode>
     <AuthProvider>
       <ShoppingSyncBridge />
+      <ShoppingListConflictModal />
 
       <BrowserRouter>
         <div className="appBackground">

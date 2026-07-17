@@ -17,6 +17,9 @@ import {
   type ShoppingItem,
   type ShoppingListChangedDetail,
 } from "../shoppingList";
+import {
+  requestShoppingListConflict,
+} from "./shoppingListConflictState";
 
 const LOCAL_BACKUP_KEY =
   "simple-dinners.shoppingList.pre-cloud-backup.v1";
@@ -591,20 +594,17 @@ export function ShoppingSyncBridge() {
 
             pendingItems = null;
           } else {
-            const useCloudList =
-              window.confirm(
-                [
-                  "Simple Dinners Plus found two different shopping lists.",
-                  "",
-                  "Press OK to use the household cloud list on this device.",
-                  "",
-                  "Press Cancel to keep this device’s list and replace the cloud list.",
-                  "",
-                  "A backup will be saved before either list is replaced.",
-                ].join("\n"),
+            const conflictChoice =
+              await requestShoppingListConflict(
+                localItems,
+                cloudItems,
               );
 
-            if (useCloudList) {
+            if (cancelled) {
+              return;
+            }
+
+            if (conflictChoice === "cloud") {
               saveBackup(
                 LOCAL_BACKUP_KEY,
                 localItems,
