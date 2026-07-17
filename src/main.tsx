@@ -8,6 +8,9 @@ import { ShoppingSyncBridge } from "./cloud/ShoppingSyncBridge";
 import {
   ShoppingListConflictModal,
 } from "./cloud/ShoppingListConflictModal";
+import {
+  WeeklyPlanConflictModal,
+} from "./cloud/WeeklyPlanConflictModal";
 
 ReactDOM.createRoot(
   document.getElementById("root")!,
@@ -16,6 +19,7 @@ ReactDOM.createRoot(
     <AuthProvider>
       <ShoppingSyncBridge />
       <ShoppingListConflictModal />
+      <WeeklyPlanConflictModal />
 
       <BrowserRouter>
         <div className="appBackground">

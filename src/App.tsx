@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import {
   Navigate,
   Route,
@@ -51,6 +51,14 @@ import { Capacitor } from "@capacitor/core";
 import AboutPage from "./pages/AboutPage";
 import ShareImport from "./pages/ShareImport";
 import { AccountButton } from "./auth/AccountButton";
+import {
+  saveLocalWeeklyPlan,
+  type WeeklyPlanLocalSnapshot,
+} from "./cloud/weeklyPlanLocal";
+import {
+  useWeeklyPlanSync,
+} from "./cloud/useWeeklyPlanSync";
+
 
 
 type CookbookRecipe = Meal & {
@@ -453,6 +461,60 @@ function AppContent() {
     };
   }, []);
 
+  const applyCloudWeeklyPlan = useCallback(
+    (
+      snapshot: WeeklyPlanLocalSnapshot,
+    ) => {
+      const hydratedMeals =
+        migrateSavedMeals(
+          snapshot.meals,
+          cookbook,
+        );
+
+      const hydratedDaySettings =
+        snapshot.daySettings as Record<
+          string,
+          Effort
+        >;
+
+      const hydratedSnapshot:
+        WeeklyPlanLocalSnapshot = {
+        meals: hydratedMeals,
+        daySettings:
+          hydratedDaySettings,
+        lockedDays:
+          snapshot.lockedDays,
+      };
+
+      /*
+       * Persist first so React's following save effect
+       * sees the same snapshot and does not announce it
+       * as a new local edit.
+       */
+      saveLocalWeeklyPlan(
+        hydratedSnapshot,
+        "cloud",
+      );
+
+      setMeals(hydratedMeals);
+
+      setDaySettings(
+        hydratedDaySettings,
+      );
+
+      setLockedDays(
+        snapshot.lockedDays,
+      );
+    },
+    [cookbook],
+  );
+
+  useWeeklyPlanSync(
+    applyCloudWeeklyPlan,
+  );
+  const hasSavedInitialWeeklyPlanRef =
+    useRef(false);
+
   // =====================================================
   // Builder: update checks
   // =====================================================
@@ -515,15 +577,44 @@ function AppContent() {
   // =====================================================
 
   useEffect(() => {
-    const normalizedMeals = migrateSavedMeals(meals, cookbook);
+    const normalizedMeals =
+      migrateSavedMeals(meals, cookbook);
 
-    localStorage.setItem("meals", JSON.stringify(normalizedMeals));
-    localStorage.setItem("daySettings", JSON.stringify(daySettings));
-    localStorage.setItem("pantry", JSON.stringify(pantry));
-    localStorage.setItem("lockedDays", JSON.stringify(lockedDays));
-    localStorage.setItem("app-version", APP_VERSION);
+    const changeSource =
+      hasSavedInitialWeeklyPlanRef.current
+        ? "local"
+        : "cloud";
+
+    saveLocalWeeklyPlan(
+      {
+        meals: normalizedMeals,
+        daySettings,
+        lockedDays,
+      },
+      changeSource,
+    );
+
+    hasSavedInitialWeeklyPlanRef.current =
+      true;
+
+    localStorage.setItem(
+      "pantry",
+      JSON.stringify(pantry),
+    );
+
+    localStorage.setItem(
+      "app-version",
+      APP_VERSION,
+    );
+
     persistCookbook(cookbook);
-  }, [meals, cookbook, daySettings, pantry, lockedDays]);
+  }, [
+    meals,
+    cookbook,
+    daySettings,
+    pantry,
+    lockedDays,
+  ]);
 
   useEffect(() => {
     localStorage.setItem("prefs", JSON.stringify(prefs));
