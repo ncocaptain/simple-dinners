@@ -10,10 +10,20 @@ import {
   Pencil,
   X,
   Share2,
+  Sparkles,
+  Image as ImageIcon,
+  ImageOff,
 } from "lucide-react";
 import Card from "../components/Card";
+import SmartShoppingThumbnail from "../components/SmartShoppingThumbnail";
 import {
-  loadShoppingList,
+  loadSmartShoppingPreferences,
+  setShowSmartShoppingPictures,
+  SMART_SHOPPING_PREFERENCES_CHANGED_EVENT,
+  type SmartShoppingPreferences,
+} from "../plus/smartShoppingPreferences";
+import {
+  loadRawShoppingList,
   saveShoppingList,
   SHOPPING_LIST_CHANGED_EVENT,
   type ShoppingItem,
@@ -24,8 +34,20 @@ import {
   GROCERY_CATEGORY_ORDER,
 } from "../core/groceryCategories";
 import TipsModal from "../components/TipsModal";
+import SmartShoppingPreviewModal from "../components/SmartShoppingPreviewModal";
+import {
+  buildShoppingListSignature,
+  buildSmartShoppingApplyPlan,
+  buildSmartShoppingPreview,
+  type SmartShoppingApplyPlan,
+  type SmartShoppingPreview,
+} from "../plus/smartShopping";
 import { t, getStoredLanguage } from "../i18n";
 import { ShoppingSyncStatus } from "../cloud/ShoppingSyncStatus";
+import {
+  resolveSmartShoppingThumbnail,
+  type SmartShoppingThumbnailMatchType,
+} from "../plus/smartShoppingThumbnails";
 
 // =====================================================
 // ShoppingListPage map
@@ -83,6 +105,9 @@ type CombinedItem = {
   recipeCountLabel: string;
   recipeNames: string[];
   recipeBreakdown: RecipeBreakdownItem[];
+  thumbnailKey: string;
+  thumbnailMatchType: SmartShoppingThumbnailMatchType;
+  thumbnailAltText: string;
   displayText: string;
 };
 
@@ -206,6 +231,14 @@ const FORCE_COUNTABLE_RECIPE_ITEMS = new Set([
   "pork chop",
   "porkchop",
   "garlic",
+]);
+
+const SMART_SHOPPING_FORCE_COUNTABLE_ITEMS = new Set([
+  "bell pepper",
+  "green bell pepper",
+  "red bell pepper",
+  "yellow bell pepper",
+  "orange bell pepper",
 ]);
 
 const MERGE_AS_SINGLE_SPICES = new Set([
@@ -1371,6 +1404,8 @@ function isRealPepperProduce(cleaned: string) {
   }
 
   return (
+    cleaned === "green pepper" ||
+    cleaned === "green peppers" ||
     cleaned.includes("bell pepper") ||
     cleaned.includes("red bell pepper") ||
     cleaned.includes("yellow bell pepper") ||
@@ -2192,9 +2227,35 @@ function getCategoryLabel(section: GroceryCategory) {
 export default function ShoppingListPage() {
   const [newItem, setNewItem] = useState("");
   const [shoppingItems, setShoppingItems] = useState<ShoppingItem[]>(() =>
-    loadShoppingList()
+    loadRawShoppingList()
   );
   const [hideChecked, setHideChecked] = useState(false);
+  const [smartShoppingPreview, setSmartShoppingPreview] =
+    useState<SmartShoppingPreview | null>(null);
+  const [
+    smartShoppingPreviewIsStale,
+    setSmartShoppingPreviewIsStale,
+  ] = useState(false);
+  const [
+    smartShoppingPreferences,
+    setSmartShoppingPreferences,
+  ] = useState<SmartShoppingPreferences>(() =>
+    loadSmartShoppingPreferences()
+  );
+  const [
+    smartShoppingApplyPlan,
+    setSmartShoppingApplyPlan,
+  ] = useState<SmartShoppingApplyPlan | null>(null);
+
+  const [
+    smartShoppingUndoPlan,
+    setSmartShoppingUndoPlan,
+  ] = useState<SmartShoppingApplyPlan | null>(null);
+
+  const [
+    smartShoppingStatusMessage,
+    setSmartShoppingStatusMessage,
+  ] = useState("");
   const [touchStartX, setTouchStartX] = useState<Record<string, number>>({});
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editText, setEditText] = useState("");
@@ -2207,7 +2268,7 @@ export default function ShoppingListPage() {
   // =====================================================
   useEffect(() => {
     const refresh = () => {
-      setShoppingItems(loadShoppingList());
+      setShoppingItems(loadRawShoppingList());
     };
 
     refresh();
@@ -2223,7 +2284,7 @@ export default function ShoppingListPage() {
 
   useEffect(() => {
     const refresh = () => {
-      setShoppingItems(loadShoppingList());
+      setShoppingItems(loadRawShoppingList());
     };
 
     refresh();
@@ -2251,6 +2312,39 @@ export default function ShoppingListPage() {
     };
   }, []);
 
+  useEffect(() => {
+    const refreshSmartShoppingPreferences = () => {
+      setSmartShoppingPreferences(
+        loadSmartShoppingPreferences()
+      );
+    };
+
+    // Updates this page when the preference is changed
+    // elsewhere in the current app session.
+    window.addEventListener(
+      SMART_SHOPPING_PREFERENCES_CHANGED_EVENT,
+      refreshSmartShoppingPreferences
+    );
+
+    // Keeps another browser tab on this device in sync.
+    window.addEventListener(
+      "storage",
+      refreshSmartShoppingPreferences
+    );
+
+    return () => {
+      window.removeEventListener(
+        SMART_SHOPPING_PREFERENCES_CHANGED_EVENT,
+        refreshSmartShoppingPreferences
+      );
+
+      window.removeEventListener(
+        "storage",
+        refreshSmartShoppingPreferences
+      );
+    };
+  }, []);
+
   // =====================================================
   // Save helper
   // =====================================================
@@ -2259,6 +2353,154 @@ export default function ShoppingListPage() {
     saveShoppingList(updated);
   };
 
+  // =====================================================
+  // Smart Shopping preview
+  //
+  // Preview-only:
+  // - Reads the raw shopping snapshot
+  // - Does not save
+  // - Does not dispatch a sync event
+  // - Does not modify household data
+  // =====================================================
+  const createSmartShoppingPreview = () => {
+    const rawItems = loadRawShoppingList();
+
+    if (rawItems.length === 0) {
+      setSmartShoppingPreview(null);
+      setSmartShoppingApplyPlan(null);
+      setSmartShoppingPreviewIsStale(false);
+      return;
+    }
+
+    const preview =
+      buildSmartShoppingPreview(rawItems);
+
+    const applyPlan =
+      buildSmartShoppingApplyPlan(
+        preview,
+        rawItems
+      );
+
+    setSmartShoppingPreview(preview);
+    setSmartShoppingApplyPlan(applyPlan);
+    setSmartShoppingPreviewIsStale(false);
+  };
+
+  const openSmartShoppingPreview = () => {
+    setSmartShoppingStatusMessage("");
+    createSmartShoppingPreview();
+  };
+
+  const refreshSmartShoppingPreview = () => {
+    createSmartShoppingPreview();
+  };
+
+  const closeSmartShoppingPreview = () => {
+    setSmartShoppingPreview(null);
+    setSmartShoppingApplyPlan(null);
+    setSmartShoppingPreviewIsStale(false);
+  };
+
+  const applySmartShoppingChanges = () => {
+    if (!smartShoppingPreview) {
+      return;
+    }
+
+    // Rebuild the plan at the exact moment Apply is tapped.
+    // This prevents an older in-memory plan from overwriting
+    // a household edit that arrived moments earlier.
+    const latestRawItems =
+      loadRawShoppingList();
+
+    const latestPlan =
+      buildSmartShoppingApplyPlan(
+        smartShoppingPreview,
+        latestRawItems
+      );
+
+    if (!latestPlan.canApply) {
+      setSmartShoppingApplyPlan(latestPlan);
+
+      if (
+        latestPlan.reason === "stale-preview" ||
+        latestPlan.reason === "missing-items"
+      ) {
+        setSmartShoppingPreviewIsStale(true);
+      }
+
+      return;
+    }
+
+    saveShoppingList(latestPlan.nextItems);
+
+    // Reload the page's existing shopper-friendly view.
+    setShoppingItems(loadRawShoppingList());
+
+    // Keep the complete raw before/after plan for Undo.
+    setSmartShoppingUndoPlan(latestPlan);
+
+    setSmartShoppingStatusMessage(
+      getStoredLanguage() === "es"
+        ? "Lista organizada."
+        : "List organized."
+    );
+
+    closeSmartShoppingPreview();
+  };
+
+  const undoSmartShoppingChanges = () => {
+    if (!smartShoppingUndoPlan) {
+      return;
+    }
+
+    const latestRawItems =
+      loadRawShoppingList();
+
+    const latestSignature =
+      buildShoppingListSignature(
+        latestRawItems
+      );
+
+    // Do not overwrite newer local or household changes.
+    if (
+      latestSignature !==
+      smartShoppingUndoPlan.afterSignature
+    ) {
+      setSmartShoppingUndoPlan(null);
+
+      setSmartShoppingStatusMessage(
+        getStoredLanguage() === "es"
+          ? "La lista cambió después de organizarla, por lo que no se puede deshacer de forma segura."
+          : "The list changed after it was organized, so it cannot be safely undone."
+      );
+
+      return;
+    }
+
+    saveShoppingList(
+      smartShoppingUndoPlan.originalItems
+    );
+
+    setShoppingItems(loadRawShoppingList());
+    setSmartShoppingUndoPlan(null);
+
+    setSmartShoppingStatusMessage(
+      getStoredLanguage() === "es"
+        ? "Se deshicieron los cambios."
+        : "Changes undone."
+    );
+  };
+
+  const toggleSmartShoppingPictures = () => {
+    const nextPreferences =
+      setShowSmartShoppingPictures(
+        !smartShoppingPreferences.showItemPictures
+      );
+
+    setSmartShoppingPreferences(
+      nextPreferences
+    );
+  };
   // =====================================================
   // Manual add item
   // =====================================================
@@ -2522,26 +2764,87 @@ export default function ShoppingListPage() {
           normalizePackageSize(smartItem.packageSize) ||
           normalizePackageSize(manual.packageSize);
 
-        const category = resolveShoppingCategoryForItem(
-          manual.name,
-          unit,
-          packageSize
-        );
+        const approvedSmartName =
+          normalizeManualText(
+            String(
+              smartItem.grocerySearchName ||
+              smartItem.normalizedName ||
+              ""
+            )
+          ).toLowerCase();
 
-        // Only merge manual entries when the user gave a real quantity.
-        // This keeps "fresh jalapenos" separate from "jalapenos", and keeps
-        // "#2 pencils" exactly as a manually typed store item.
+        const hasApprovedSmartIdentity =
+          approvedSmartName.length > 0;
+
+        // Once approved, the Smart Shopping identity takes
+        // priority over descriptive variations in the raw text.
         const mergeName =
-          quantity !== null
-            ? singularizeManualPhrase(manual.name)
-            : normalizeManualText(manual.name).toLowerCase();
+          hasApprovedSmartIdentity
+            ? approvedSmartName
+            : quantity !== null
+              ? singularizeManualPhrase(
+                manual.name
+              )
+              : normalizeManualText(
+                manual.name
+              ).toLowerCase();
 
-        const key =
-          quantity !== null
+        // Mixed-source merging is intentionally limited to
+        // manual entries with a real quantity.
+        const canMergeWithRecipe =
+          hasApprovedSmartIdentity &&
+          quantity !== null;
+
+        const manualIsCountable =
+          canMergeWithRecipe &&
+          !unit &&
+          (
+            FORCE_COUNTABLE_RECIPE_ITEMS.has(
+              mergeName
+            ) ||
+            SMART_SHOPPING_FORCE_COUNTABLE_ITEMS.has(
+              mergeName
+            ) ||
+            isCountableIngredient(mergeName)
+          );
+
+        const mergeUnit =
+          manualIsCountable
+            ? "__count__"
+            : unit;
+
+        const categoryName =
+          hasApprovedSmartIdentity
+            ? approvedSmartName
+            : manual.name;
+
+        const category =
+          resolveShoppingCategoryForItem(
+            categoryName,
+            mergeUnit,
+            packageSize
+          );
+
+        const packageKey =
+          packageSize &&
+            isPackageSizeSensitiveUnit(mergeUnit)
+            ? packageSize
+            : "";
+
+        const key = canMergeWithRecipe
+          ? `recipe::${category}::${mergeName}::${mergeUnit || ""}::${packageKey}`
+          : quantity !== null ||
+            hasApprovedSmartIdentity
             ? `manual::${category}::${mergeName}::${unit || ""}::${packageSize}`
             : `manual::${category}::${mergeName}::${item.id}`;
 
-        const quantityToAdd = quantity !== null ? quantity : 0;
+        const quantityToAdd =
+          quantity !== null
+            ? manualIsCountable
+              ? Math.ceil(quantity)
+              : quantity
+            : 0;
+
         const existing = map.get(key);
 
         if (existing) {
@@ -2551,15 +2854,20 @@ export default function ShoppingListPage() {
 
           if (quantityToAdd > 0) {
             existing.totalQuantity += quantityToAdd;
-            existing.minQuantity =
-              existing.minQuantity > 0
-                ? Math.min(existing.minQuantity, quantityToAdd)
-                : quantityToAdd;
-            existing.maxQuantity = Math.max(existing.maxQuantity, quantityToAdd);
+            existing.minQuantity += quantityToAdd;
+            existing.maxQuantity += quantityToAdd;
           }
 
-          if (existing.unit !== unit || existing.packageSize !== packageSize) {
-            if (existing.unit !== null || unit !== null || existing.packageSize || packageSize) {
+          if (
+            existing.unit !== mergeUnit ||
+            existing.packageSize !== packageSize
+          ) {
+            if (
+              existing.unit !== null ||
+              mergeUnit !== null ||
+              existing.packageSize ||
+              packageSize
+            ) {
               existing.mixedUnits = true;
             }
           }
@@ -2569,15 +2877,29 @@ export default function ShoppingListPage() {
             category,
             sourceIds: [item.id],
             count: 1,
-            name: quantity !== null ? mergeName : manual.name,
-            isManual: true,
-            isCountable: false,
+
+            name:
+              canMergeWithRecipe ||
+                quantity !== null ||
+                hasApprovedSmartIdentity
+                ? mergeName
+                : manual.name,
+
+            // An approved, measured manual item uses the same
+            // shopper-facing formatting as compatible recipe items.
+            // It remains a separate raw row underneath.
+            isManual: !canMergeWithRecipe,
+            isCountable: manualIsCountable,
+
             totalQuantity: quantityToAdd,
             minQuantity: quantityToAdd,
             maxQuantity: quantityToAdd,
-            unit: unit ?? null,
+
+            unit: mergeUnit ?? null,
             packageSize,
             mixedUnits: false,
+
+            // Manual rows do not pretend to be recipes.
             recipeNames: new Set(),
             recipeBreakdown: new Map(),
           });
@@ -2801,7 +3123,11 @@ export default function ShoppingListPage() {
         packageSize = "";
       }
 
-      const forceCountable = FORCE_COUNTABLE_RECIPE_ITEMS.has(safeName);
+      const forceCountable =
+        FORCE_COUNTABLE_RECIPE_ITEMS.has(safeName) ||
+        SMART_SHOPPING_FORCE_COUNTABLE_ITEMS.has(
+          safeName
+        );
 
       const isMeasured = !forceCountable && parsedUnit !== null;
       const isCountable =
@@ -2859,14 +3185,8 @@ export default function ShoppingListPage() {
 
         if (quantityToAdd > 0) {
           existing.totalQuantity += quantityToAdd;
-          existing.minQuantity =
-            existing.minQuantity > 0
-              ? Math.min(existing.minQuantity, minQuantityToAdd)
-              : minQuantityToAdd;
-          existing.maxQuantity = Math.max(
-            existing.maxQuantity,
-            maxQuantityToAdd
-          );
+          existing.minQuantity += minQuantityToAdd;
+          existing.maxQuantity += maxQuantityToAdd;
         }
 
         if (existing.unit !== mergeUnit || existing.packageSize !== packageSize) {
@@ -2946,6 +3266,15 @@ export default function ShoppingListPage() {
               qty
             )}`.trim();
           }
+        } else if (value.count > 1) {
+          const entryDescription =
+            getStoredLanguage() === "es"
+              ? `${value.count} artículos en la lista`
+              : `${value.count} list entries`;
+
+          displayText = `${formatManualName(
+            value.name
+          )} · ${entryDescription}`;
         }
       } else if (value.isCountable) {
         const qty =
@@ -3018,6 +3347,12 @@ export default function ShoppingListPage() {
         return { recipeName, amountText };
       });
 
+      const thumbnail =
+        resolveSmartShoppingThumbnail(
+          value.name,
+          value.category
+        );
+
       return {
         id: key,
         checked: value.checked,
@@ -3028,6 +3363,9 @@ export default function ShoppingListPage() {
         recipeCountLabel: recipeCount > 1 ? `(${recipeCount} recipes)` : "",
         recipeNames,
         recipeBreakdown,
+        thumbnailKey: thumbnail.thumbnailKey,
+        thumbnailMatchType: thumbnail.matchType,
+        thumbnailAltText: thumbnail.altText,
         displayText,
       } satisfies CombinedItem;
     });
@@ -3214,6 +3552,219 @@ export default function ShoppingListPage() {
               <Share2 size={14} />
               {t("shopping.shareList").toUpperCase()}
             </button>
+          )}
+
+          {combinedItems.length > 0 && (
+            <button
+              type="button"
+              onClick={openSmartShoppingPreview}
+              style={{
+                minHeight: 34,
+                padding: "7px 12px",
+                borderRadius: 999,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 7,
+
+                background:
+                  "linear-gradient(135deg, rgba(147,51,234,0.24), rgba(79,70,229,0.18))",
+
+                border:
+                  "1px solid rgba(192,132,252,0.38)",
+
+                color: "#f3e8ff",
+
+                boxShadow:
+                  "inset 0 1px 0 rgba(255,255,255,0.08), 0 7px 20px rgba(88,28,135,0.2)",
+
+                fontSize: 11,
+                fontWeight: 900,
+                letterSpacing: 0.3,
+              }}
+            >
+              <Sparkles
+                size={14}
+                style={{
+                  flexShrink: 0,
+                  color: "#d8b4fe",
+                }}
+              />
+
+              <span>
+                {getStoredLanguage() === "es"
+                  ? "ORGANIZAR LISTA"
+                  : "ORGANIZE LIST"}
+              </span>
+
+              <span
+                style={{
+                  padding: "3px 6px",
+                  borderRadius: 999,
+                  background:
+                    "rgba(216,180,254,0.13)",
+                  border:
+                    "1px solid rgba(216,180,254,0.22)",
+                  color: "#e9d5ff",
+                  fontSize: 8,
+                  fontWeight: 950,
+                  lineHeight: 1,
+                  letterSpacing: 0.7,
+                }}
+              >
+                PLUS
+              </span>
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={toggleSmartShoppingPictures}
+            aria-pressed={
+              smartShoppingPreferences.showItemPictures
+            }
+            style={{
+              minHeight: 34,
+              padding: "7px 11px",
+              borderRadius: 999,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+
+              background:
+                smartShoppingPreferences.showItemPictures
+                  ? "rgba(59,130,246,0.09)"
+                  : "rgba(255,255,255,0.035)",
+
+              border:
+                smartShoppingPreferences.showItemPictures
+                  ? "1px solid rgba(96,165,250,0.2)"
+                  : "1px solid rgba(255,255,255,0.08)",
+
+              color:
+                smartShoppingPreferences.showItemPictures
+                  ? "rgba(191,219,254,0.82)"
+                  : "rgba(255,255,255,0.52)",
+
+              fontSize: 10,
+              fontWeight: 850,
+              letterSpacing: 0.25,
+            }}
+          >
+            {smartShoppingPreferences.showItemPictures ? (
+              <ImageIcon size={14} />
+            ) : (
+              <ImageOff size={14} />
+            )}
+
+            {getStoredLanguage() === "es"
+              ? smartShoppingPreferences.showItemPictures
+                ? "OCULTAR FOTOS"
+                : "MOSTRAR FOTOS"
+              : smartShoppingPreferences.showItemPictures
+                ? "HIDE PICTURES"
+                : "SHOW PICTURES"}
+          </button>
+
+          {smartShoppingStatusMessage && (
+            <div
+              role="status"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 12,
+                padding: "12px 14px",
+                marginBottom: 16,
+                borderRadius: 15,
+                background:
+                  "rgba(34,197,94,0.09)",
+                border:
+                  "1px solid rgba(74,222,128,0.2)",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 9,
+                  minWidth: 0,
+                  color: "#bbf7d0",
+                  fontSize: 12,
+                  fontWeight: 800,
+                }}
+              >
+                <CheckCircle2
+                  size={17}
+                  style={{ flexShrink: 0 }}
+                />
+
+                <span>
+                  {smartShoppingStatusMessage}
+                </span>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 7,
+                  flexShrink: 0,
+                }}
+              >
+                {smartShoppingUndoPlan && (
+                  <button
+                    type="button"
+                    onClick={
+                      undoSmartShoppingChanges
+                    }
+                    style={{
+                      padding: "6px 10px",
+                      borderRadius: 10,
+                      background:
+                        "rgba(34,197,94,0.12)",
+                      border:
+                        "1px solid rgba(74,222,128,0.22)",
+                      color: "#bbf7d0",
+                      fontSize: 10,
+                      fontWeight: 900,
+                    }}
+                  >
+                    {getStoredLanguage() === "es"
+                      ? "DESHACER"
+                      : "UNDO"}
+                  </button>
+                )}
+
+                <button
+                  type="button"
+                  aria-label={
+                    getStoredLanguage() === "es"
+                      ? "Cerrar mensaje"
+                      : "Dismiss message"
+                  }
+                  onClick={() =>
+                    setSmartShoppingStatusMessage("")
+                  }
+                  style={{
+                    width: 28,
+                    height: 28,
+                    padding: 0,
+                    borderRadius: 9,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background:
+                      "rgba(255,255,255,0.04)",
+                    border:
+                      "1px solid rgba(255,255,255,0.08)",
+                    color:
+                      "rgba(255,255,255,0.65)",
+                  }}
+                >
+                  <X size={14} />
+                </button>
+              </div>
+            </div>
           )}
           <button
             onClick={() => setHideChecked((prev) => !prev)}
@@ -3427,6 +3978,16 @@ export default function ShoppingListPage() {
                       <CheckCircle2 size={18} color="#22c55e" />
                     ) : (
                       <Circle size={18} style={{ opacity: 0.2, flexShrink: 0 }} />
+                    )}
+
+                    {smartShoppingPreferences.showItemPictures && (
+                      <SmartShoppingThumbnail
+                        thumbnailKey={item.thumbnailKey}
+                        altText={item.thumbnailAltText}
+                        category={item.category}
+                        size={36}
+                        variant="list"
+                      />
                     )}
 
                     <button
@@ -3854,6 +4415,19 @@ export default function ShoppingListPage() {
           </div>
         )}
       </div>
+      <SmartShoppingPreviewModal
+        preview={smartShoppingPreview}
+        isStale={smartShoppingPreviewIsStale}
+        canApply={Boolean(
+          smartShoppingApplyPlan?.canApply
+        )}
+        showItemPictures={
+          smartShoppingPreferences.showItemPictures
+        }
+        onClose={closeSmartShoppingPreview}
+        onRefresh={refreshSmartShoppingPreview}
+        onApply={applySmartShoppingChanges}
+      />
     </div>
   );
 }

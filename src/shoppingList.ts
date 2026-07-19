@@ -1625,6 +1625,8 @@ function isRealPepperProduce(cleaned: string) {
   }
 
   return (
+    cleaned === "green pepper" ||
+    cleaned === "green peppers" ||
     cleaned.includes("bell pepper") ||
     cleaned.includes("red bell pepper") ||
     cleaned.includes("yellow bell pepper") ||
