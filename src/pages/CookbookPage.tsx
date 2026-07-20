@@ -32,8 +32,8 @@ import { Capacitor } from "@capacitor/core";
 import {
   CookbookSyncStatus,
 } from "../cloud/CookbookSyncStatus";
+import { API_BASE } from "../core/api";
 
-const API_BASE = "https://simple-dinners-api.onrender.com";
 const SOURCE_STEPS_PLACEHOLDER = "Steps available at source link!";
 
 const MAX_SCREENSHOT_FILES = 5;

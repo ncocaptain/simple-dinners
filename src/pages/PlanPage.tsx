@@ -203,6 +203,14 @@ export default function PlanPage({
     commitPantry();
     generateDinnerPlan(true);
   };
+  const handleSmartWeek = () => {
+    /*
+     * Save any pantry text currently being edited before
+     * opening Smart Week so the draft uses the latest items.
+     */
+    commitPantry();
+    navigate("/smart-week");
+  };
 
   const handleBackToWeek = () => {
     commitPantry();
@@ -734,8 +742,98 @@ export default function PlanPage({
             </section>
 
             {/* =====================================================
-                Section: bottom actions
-            ===================================================== */}
+    Section: Smart Week
+===================================================== */}
+
+            <button
+              type="button"
+              onClick={handleSmartWeek}
+              style={{
+                width: "100%",
+                padding: "18px",
+                borderRadius: 20,
+                border: "1px solid rgba(34,197,94,0.28)",
+                background:
+                  "linear-gradient(135deg, rgba(34,197,94,0.16), rgba(20,184,166,0.10))",
+                color: "white",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 14,
+                textAlign: "left",
+                boxShadow: "0 12px 30px rgba(0,0,0,0.16)",
+              }}
+            >
+              <span
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 16,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                  background: "rgba(34,197,94,0.16)",
+                  border: "1px solid rgba(34,197,94,0.28)",
+                  color: "#86efac",
+                }}
+              >
+                <Sparkles size={21} />
+              </span>
+
+              <span
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  display: "grid",
+                  gap: 4,
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: 17,
+                    fontWeight: 950,
+                  }}
+                >
+                  {t("smartWeek.title")}
+                </span>
+
+                <span
+                  style={{
+                    fontSize: 13,
+                    lineHeight: 1.4,
+                    color: "rgba(255,255,255,0.62)",
+                  }}
+                >
+                  {t("smartWeek.subtitle")}
+                </span>
+
+                <span
+                  style={{
+                    marginTop: 2,
+                    fontSize: 11,
+                    fontWeight: 900,
+                    color: "#86efac",
+                    textTransform: "uppercase",
+                    letterSpacing: 0.45,
+                  }}
+                >
+                  Simple Dinners Plus
+                </span>
+              </span>
+
+              <ChevronRight
+                size={20}
+                style={{
+                  color: "#86efac",
+                  flexShrink: 0,
+                }}
+              />
+            </button>
+
+            {/* =====================================================
+    Section: bottom actions
+===================================================== */}
 
             <div style={bottomActionGrid}>
               <Button

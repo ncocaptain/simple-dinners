@@ -15,6 +15,7 @@ import PlanPage from "./pages/PlanPage";
 import ShoppingListPage from "./pages/ShoppingListPage";
 import OnboardingPage from "./pages/OnboardingPage";
 import RecipePage from "./pages/RecipePage";
+import SmartWeekPage from "./pages/SmartWeekPage";
 import HomePage from "./pages/HomePage";
 import TestersGuidePage from "./pages/TestersGuidePage";
 import FeedbackForm from "./pages/FeedbackForm";
@@ -38,8 +39,10 @@ import type {
   PantryItem,
   Preferences,
   PlannedDay,
+  SmartWeekDraft,
 } from "./core/types";
 import { generatePlan } from "./core/planner";
+import { applySmartWeekDraft } from "./core/smartWeek";
 import { days, ALL_RECIPES } from "./core/data";
 import {
   getCookbook,
@@ -709,6 +712,31 @@ function AppContent() {
   // Builder: planner actions
   // =====================================================
 
+  const handleUseSmartWeekDraft = (
+    draft: SmartWeekDraft,
+  ) => {
+    setMeals((currentMeals) => {
+      const appliedMeals =
+        applySmartWeekDraft({
+          currentMeals,
+          lockedDays,
+          draft,
+        });
+
+      /*
+       * Rehydrate the approved week through the same
+       * production repair boundary used by saved and
+       * cloud-synced plans.
+       */
+      return migrateSavedMeals(
+        appliedMeals,
+        cookbook,
+      );
+    });
+
+    toast(t("smartWeek.draftApplied"));
+  };
+
   const generateDinnerPlan = (force = false) => {
     const lockedMeals = Object.fromEntries(
       days.map((d) => {
@@ -835,6 +863,21 @@ function AppContent() {
               prefs={prefs}
               setPrefs={setPrefs}
               generateDinnerPlan={generateDinnerPlan}
+            />
+          )}
+        />
+
+        <Route
+          path="/smart-week"
+          element={requireOnboarding(
+            <SmartWeekPage
+              meals={meals}
+              cookbook={cookbook}
+              pantry={pantry}
+              daySettings={daySettings}
+              lockedDays={lockedDays}
+              prefs={prefs}
+              onUseDraft={handleUseSmartWeekDraft}
             />
           )}
         />

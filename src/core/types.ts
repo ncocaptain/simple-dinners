@@ -12,8 +12,8 @@ export interface Meal {
   tags?: string[];
   isVegetarian?: boolean;
   notes?: string;
-suggestedSides?: string[];
-suggestedDesserts?: string[];
+  suggestedSides?: string[];
+  suggestedDesserts?: string[];
 
   translations?: {
     es?: {
@@ -22,8 +22,8 @@ suggestedDesserts?: string[];
       ingredients?: string;
       instructions?: string;
       tags?: string[];
-suggestedSides?: string[];
-suggestedDesserts?: string[];
+      suggestedSides?: string[];
+      suggestedDesserts?: string[];
     };
   };
 }
@@ -63,4 +63,52 @@ export type DayMode = "planned" | "leftovers" | "freezer";
 export interface PlannedDay {
   mode: DayMode;
   meal: Meal | null;
+}
+
+export type SmartWeekMealSource =
+  | "cookbook"
+  | "built-in"
+  | "special"
+  | "unknown";
+
+export type SmartWeekReasonCode =
+  | "locked-day"
+  | "existing-leftovers"
+  | "existing-freezer"
+  | "effort-match"
+  | "pantry-match"
+  | "cookbook-pick"
+  | "variety"
+  | "takeout-night"
+  | "request-match";
+
+export interface SmartWeekDraftDay {
+  plannedDay: PlannedDay;
+  source: SmartWeekMealSource;
+  reason?: SmartWeekReasonCode;
+  preserved: boolean;
+}
+
+export type SmartWeekProteinTarget = {
+  keyword: string;
+  count: number;
+};
+
+export interface SmartWeekRequestConstraints {
+  excludedKeywords: string[];
+  preferredKeywords: string[];
+  preferredTags: string[];
+  mostlyQuick: boolean;
+  vegetarianNightCount: number;
+  pantryPriority: boolean;
+  budgetPriority: boolean;
+  kidFriendly: boolean;
+  proteinTargets: SmartWeekProteinTarget[];
+}
+
+export interface SmartWeekDraft {
+  days: Record<string, SmartWeekDraftDay>;
+  request?: string;
+  constraints?: SmartWeekRequestConstraints;
+  createdAt: number;
 }

@@ -1,4 +1,8 @@
-import type { Meal, Effort } from "./types";
+import type {
+  Meal,
+  Effort,
+  SmartWeekRequestConstraints,
+} from "./types";
 import { PLANNER_RECIPES, SIDE_DISHES, DESSERTS, days } from "./data";
 
 // =====================================================
@@ -176,6 +180,197 @@ function hasAnyKeyword(text: string, keywords: string[]) {
   return keywords.some((word) => lower.includes(word.toLowerCase()));
 }
 
+const REQUEST_KEYWORD_ALIASES: Record<string, string[]> = {
+  seafood: [
+    "seafood",
+    "fish",
+    "salmon",
+    "tuna",
+    "tilapia",
+    "cod",
+    "mahi",
+    "trout",
+    "halibut",
+    "shrimp",
+    "crab",
+    "lobster",
+    "scallop",
+    "scallops",
+    "clam",
+    "mussel",
+    "oyster",
+    "prawn",
+    "crawfish",
+  ],
+  fish: [
+    "fish",
+    "salmon",
+    "tuna",
+    "tilapia",
+    "cod",
+    "mahi",
+    "trout",
+    "halibut",
+  ],
+  chicken: ["chicken"],
+  beef: ["beef", "steak", "ground beef"],
+  pork: ["pork", "ham", "bacon"],
+  vegetarian: ["vegetarian"],
+  pasta: ["pasta", "spaghetti", "ziti", "noodle", "noodles"],
+  rice: ["rice", "risotto"],
+  soup: ["soup", "stew", "chowder"],
+  tacos: ["taco", "tacos", "tortilla"],
+};
+
+function getRequestKeywordTerms(keyword: string) {
+  const normalized = normalizeText(keyword);
+
+  return REQUEST_KEYWORD_ALIASES[normalized] ?? [normalized];
+}
+
+export function mealMatchesRequestKeyword(
+  meal: Meal,
+  keyword: string,
+) {
+  const normalizedKeyword =
+    normalizeText(keyword);
+
+  const terms =
+    getRequestKeywordTerms(
+      normalizedKeyword,
+    );
+
+  const text = mealSearchText(meal);
+  const tags = normalizeTags(meal.tags);
+
+  if (
+    normalizedKeyword === "vegetarian"
+  ) {
+    return (
+      meal.isVegetarian === true ||
+      tags.includes("vegetarian")
+    );
+  }
+
+  return terms.some((term) => {
+    if (!term) return false;
+
+    return (
+      text.includes(term) ||
+      tags.includes(term)
+    );
+  });
+}
+
+export function mealMatchesPrimaryProteinKeyword(
+  meal: Meal,
+  keyword: string,
+) {
+  const terms =
+    getRequestKeywordTerms(keyword);
+
+  /*
+   * Protein-count requests should identify the main
+   * dinner, not incidental ingredients such as broth.
+   */
+  const primaryText = [
+    meal.name,
+    ...(meal.tags ?? []),
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+  return terms.some(
+    (term) =>
+      !!term &&
+      primaryText.includes(term),
+  );
+}
+
+function mealMatchesAnyRequestKeyword(
+  meal: Meal,
+  keywords: string[],
+) {
+  return keywords.some((keyword) =>
+    mealMatchesRequestKeyword(meal, keyword),
+  );
+}
+
+function getSmartWeekRequestScore(
+  meal: Meal,
+  constraints:
+    | SmartWeekRequestConstraints
+    | undefined,
+  pantry: string[],
+) {
+  if (!constraints) return 0;
+
+  const tags = normalizeTags(meal.tags);
+  const effort = normalizeEffort(meal.effort);
+
+  let score = 0;
+
+  for (const keyword of constraints.preferredKeywords) {
+    if (mealMatchesRequestKeyword(meal, keyword)) {
+      score += 8;
+    }
+  }
+
+  for (const tag of constraints.preferredTags) {
+    if (tags.includes(normalizeText(tag))) {
+      score += 7;
+    }
+  }
+
+  if (
+    constraints.mostlyQuick &&
+    (effort === "quick" || tags.includes("quick"))
+  ) {
+    score += 12;
+  }
+
+  if (
+    constraints.kidFriendly &&
+    (
+      tags.includes("kid-friendly") ||
+      tags.includes("family")
+    )
+  ) {
+    score += 10;
+  }
+
+  if (
+    constraints.pantryPriority &&
+    scoreMealAgainstPantry(meal, pantry) > 0
+  ) {
+    score += 10;
+  }
+
+  /*
+   * The app does not currently store recipe prices.
+   * For budget guidance, prefer simpler meals and meals
+   * that use pantry ingredients rather than claiming an
+   * exact cost calculation.
+   */
+  if (constraints.budgetPriority) {
+    if (
+      effort === "quick" ||
+      tags.includes("easy") ||
+      tags.includes("one-pot") ||
+      tags.includes("casserole")
+    ) {
+      score += 5;
+    }
+
+    if (scoreMealAgainstPantry(meal, pantry) > 0) {
+      score += 5;
+    }
+  }
+
+  return score;
+}
+
 // =====================================================
 // Allergen checks
 // =====================================================
@@ -289,26 +484,26 @@ export function filterMealsForPrefs(meals: Meal[], prefs: PlannerPrefs) {
   let filtered = [...meals];
 
   filtered = filtered.filter((meal) => {
-  const tags = normalizeTags(meal.tags);
+    const tags = normalizeTags(meal.tags);
 
-  const blockedTags = [
-    "dessert",
-    "side",
-    "side-dish",
-    "seasoning",
-    "spice-mix",
-    "dip",
-    "breakfast",
-    "brunch",
-    "lunch",
-  ];
+    const blockedTags = [
+      "dessert",
+      "side",
+      "side-dish",
+      "seasoning",
+      "spice-mix",
+      "dip",
+      "breakfast",
+      "brunch",
+      "lunch",
+    ];
 
-  const isDinnerSalad = tags.includes("salad") && tags.includes("dinner");
+    const isDinnerSalad = tags.includes("salad") && tags.includes("dinner");
 
-  if (isDinnerSalad) return true;
+    if (isDinnerSalad) return true;
 
-  return !blockedTags.some((tag) => tags.includes(tag));
-});
+    return !blockedTags.some((tag) => tags.includes(tag));
+  });
 
   if (prefs.vegetarian) {
     filtered = filtered.filter((meal) => {
@@ -344,7 +539,7 @@ export function filterMealsForPrefs(meals: Meal[], prefs: PlannerPrefs) {
     });
   }
 
-    filtered = filtered.filter((meal) => matchesEffort(meal, prefs.effort));
+  filtered = filtered.filter((meal) => matchesEffort(meal, prefs.effort));
 
   const blocked = (prefs.allergens ?? []).map(normalizeText).filter(Boolean);
   if (blocked.length > 0) {
@@ -385,14 +580,14 @@ export function buildPlannerBuckets(prefs: PlannerPrefs): MealBucket {
 
   const sides = prefs.includeSides
     ? extrasLibrary.sides.filter(
-        (meal) => !blocked.some((allergen) => mealHasAllergen(meal, allergen))
-      )
+      (meal) => !blocked.some((allergen) => mealHasAllergen(meal, allergen))
+    )
     : [];
 
   const desserts = prefs.includeDesserts
     ? extrasLibrary.desserts.filter(
-        (meal) => !blocked.some((allergen) => mealHasAllergen(meal, allergen))
-      )
+      (meal) => !blocked.some((allergen) => mealHasAllergen(meal, allergen))
+    )
     : [];
 
   return {
@@ -467,7 +662,7 @@ export function getPlannerScore(
   const cookedRecently = (opts?.cookedRecently ?? []).map(normalizeText);
   const isFirstRun = !!opts?.isFirstRun;
   const usedCategories = opts?.usedCategories ?? [];
-  
+
 
   const nameKey = normalizeText(meal.name);
   const idKey = normalizeText(meal.id || meal.slug || meal.name);
@@ -479,9 +674,9 @@ export function getPlannerScore(
   score += scoreMealAgainstPantry(meal, pantry, { isFirstRun });
 
   // 🔥 Small bonus if meal uses ANY pantry items
-if (pantry.length > 0 && score > 0) {
-  score += 2;
-}
+  if (pantry.length > 0 && score > 0) {
+    score += 2;
+  }
 
   if (favorites.includes(nameKey) || favorites.includes(idKey)) {
     score += 8;
@@ -501,7 +696,7 @@ if (pantry.length > 0 && score > 0) {
   // Cookbook meals should win more often than built-ins
   if (tags.includes("cookbook")) score += 15;
 
-  
+
   const recentCategories = usedCategories.slice(-2);
 
   if (recentCategories.includes(category)) {
@@ -620,10 +815,14 @@ export function generatePlan(opts: {
     allergens?: string[];
     dietaryNotes?: string;
     includeDesserts?: boolean;
-    
   };
   favorites?: string[];
   cookedRecently?: string[];
+  excludeMeals?: string[];
+  requestConstraints?: SmartWeekRequestConstraints;
+  requiredRequestKeywords?: string[];
+  requiredPrimaryProteinKeywords?: string[];
+  markFirstPlanGenerated?: boolean;
 }) {
   const {
     cookbook = [],
@@ -633,6 +832,11 @@ export function generatePlan(opts: {
     preferences,
     favorites = [],
     cookedRecently = [],
+    excludeMeals = [],
+    requestConstraints,
+    requiredRequestKeywords = [],
+    requiredPrimaryProteinKeywords = [],
+    markFirstPlanGenerated = true,
   } = opts;
 
   const isFirstRun =
@@ -653,6 +857,87 @@ export function generatePlan(opts: {
   ]);
 
   const dinnerPool = filterMealsForPrefs(combinedDinnerLibrary, plannerPrefs);
+  const excludedMealKeys = new Set(
+    excludeMeals
+      .map((value) => normalizeText(value))
+      .filter(Boolean),
+  );
+
+  const requestExcludedKeywords =
+    requestConstraints?.excludedKeywords ?? [];
+
+  const eligibleDinnerPool = dinnerPool.filter(
+    (meal) =>
+      !mealMatchesAnyRequestKeyword(
+        meal,
+        requestExcludedKeywords,
+      ),
+  );
+
+  const normalizedRequiredKeywords =
+    requiredRequestKeywords
+      .map((keyword) =>
+        normalizeText(keyword),
+      )
+      .filter(Boolean);
+
+  const normalizedRequiredPrimaryProteinKeywords =
+    requiredPrimaryProteinKeywords
+      .map((keyword) =>
+        normalizeText(keyword),
+      )
+      .filter(Boolean);
+
+  const hasRequiredTargets =
+    normalizedRequiredKeywords.length >
+    0 ||
+    normalizedRequiredPrimaryProteinKeywords
+      .length > 0;
+
+  const targetedDinnerPool =
+    hasRequiredTargets
+      ? eligibleDinnerPool.filter(
+        (meal) =>
+          normalizedRequiredKeywords.every(
+            (keyword) =>
+              mealMatchesRequestKeyword(
+                meal,
+                keyword,
+              ),
+          ) &&
+          normalizedRequiredPrimaryProteinKeywords.every(
+            (keyword) =>
+              mealMatchesPrimaryProteinKeyword(
+                meal,
+                keyword,
+              ),
+          ),
+      )
+      : eligibleDinnerPool;
+
+  /*
+   * Safely fall back if the available library cannot
+   * satisfy a targeted request.
+   */
+  const selectionDinnerPool =
+    hasRequiredTargets &&
+      targetedDinnerPool.length > 0
+      ? targetedDinnerPool
+      : eligibleDinnerPool;
+
+  const isExcludedMeal = (meal: Meal) => {
+    const keys = [
+      meal.name,
+      meal.id,
+      meal.slug,
+    ]
+      .map((value) => normalizeText(value))
+      .filter(Boolean);
+
+    return keys.some((key) =>
+      excludedMealKeys.has(key),
+    );
+  };
   const usedNames = new Set<string>();
   const usedCategories: string[] = [];
   const plan = {} as Record<Day, Meal>;
@@ -688,70 +973,95 @@ export function generatePlan(opts: {
       continue;
     }
 
-    let candidates = dinnerPool
-  .filter(isDinnerCandidate)
-  .filter((meal) => mealMatchesDayEffort(meal, requestedEffort))
-  .filter((meal) => {
-    if (isSalad(meal) && saladCount >= MAX_SALADS) return false;
-    return true;
-  });
+    let candidates = selectionDinnerPool
+      .filter(isDinnerCandidate)
+      .filter((meal) => !isExcludedMeal(meal))
+      .filter((meal) => mealMatchesDayEffort(meal, requestedEffort))
+      .filter((meal) => {
+        if (isSalad(meal) && saladCount >= MAX_SALADS) return false;
+        return true;
+      });
 
-if (candidates.length === 0) {
-  candidates = dinnerPool.filter(isDinnerCandidate);
-}
+    if (candidates.length === 0) {
+      /*
+       * Relax the day's effort requirement, but keep any
+       * targeted Smart Week requirement such as chicken.
+       */
+      candidates = selectionDinnerPool
+        .filter(isDinnerCandidate)
+        .filter((meal) => !isExcludedMeal(meal));
+    }
 
-candidates = dedupeByName(candidates).filter(
-  (meal) => !usedNames.has(normalizeText(meal.name))
-);
+    candidates = dedupeByName(candidates).filter(
+      (meal) => !usedNames.has(normalizeText(meal.name))
+    );
 
-if (candidates.length === 0) {
-  candidates = dedupeByName(dinnerPool.filter(isDinnerCandidate));
-}
+    if (candidates.length === 0) {
+      candidates = dedupeByName(
+        selectionDinnerPool
+          .filter(isDinnerCandidate)
+          .filter((meal) => !isExcludedMeal(meal)),
+      );
+    }
 
     const ranked = [...candidates].sort((a, b) => {
-  const aScore = getPlannerScore(a, {
-    pantry,
-    favorites,
-    cookedRecently,
-    isFirstRun,
-    usedCategories,
-  });
-  const bScore = getPlannerScore(b, {
-    pantry,
-    favorites,
-    cookedRecently,
-    isFirstRun,
-    usedCategories,
-  });
-  return bScore - aScore;
-});
+      const aScore =
+        getPlannerScore(a, {
+          pantry,
+          favorites,
+          cookedRecently,
+          isFirstRun,
+          usedCategories,
+        }) +
+        getSmartWeekRequestScore(
+          a,
+          requestConstraints,
+          pantry,
+        );
 
-const cookbookRanked = ranked.filter((meal) =>
-  normalizeTags(meal.tags).includes("cookbook")
-);
+      const bScore =
+        getPlannerScore(b, {
+          pantry,
+          favorites,
+          cookedRecently,
+          isFirstRun,
+          usedCategories,
+        }) +
+        getSmartWeekRequestScore(
+          b,
+          requestConstraints,
+          pantry,
+        );
 
-const regularRanked = ranked.filter(
-  (meal) => !normalizeTags(meal.tags).includes("cookbook")
-);
+      return bScore - aScore;
+    });
 
-const TOP_N = 6;
+    const cookbookRanked = ranked.filter((meal) =>
+      normalizeTags(meal.tags).includes("cookbook")
+    );
 
-const cookbookPool = cookbookRanked.slice(0, TOP_N);
-const regularPool = regularRanked.slice(0, TOP_N);
+    const regularRanked = ranked.filter(
+      (meal) => !normalizeTags(meal.tags).includes("cookbook")
+    );
 
-const selected =
-  (cookbookPool.length > 0
-    ? cookbookPool[Math.floor(Math.random() * cookbookPool.length)]
-    : regularPool[Math.floor(Math.random() * regularPool.length)]) ??
-  ({
-    id: `meal-fallback-${day.toLowerCase()}`,
-    slug: `meal-fallback-${day.toLowerCase()}`,
-    name: "Dinner Night",
-    ingredients: "",
-    instructions: "",
-    effort: requestedEffort ?? "normal",
-    tags: ["dinner"],
-  } satisfies Meal);
+    const TOP_N = 6;
+
+    const cookbookPool = cookbookRanked.slice(0, TOP_N);
+    const regularPool = regularRanked.slice(0, TOP_N);
+
+    const selected =
+      (cookbookPool.length > 0
+        ? cookbookPool[Math.floor(Math.random() * cookbookPool.length)]
+        : regularPool[Math.floor(Math.random() * regularPool.length)]) ??
+      ({
+        id: `meal-fallback-${day.toLowerCase()}`,
+        slug: `meal-fallback-${day.toLowerCase()}`,
+        name: "Dinner Night",
+        ingredients: "",
+        instructions: "",
+        effort: requestedEffort ?? "normal",
+        tags: ["dinner"],
+      } satisfies Meal);
 
     plan[day] = selected;
     usedNames.add(normalizeText(selected.name));
@@ -762,7 +1072,7 @@ const selected =
     }
   }
 
-  if (isFirstRun) {
+  if (isFirstRun && markFirstPlanGenerated) {
     localStorage.setItem("simple-dinners.hasGeneratedFirstPlan", "true");
   }
 

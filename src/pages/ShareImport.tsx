@@ -8,8 +8,9 @@ import {
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Capacitor } from "@capacitor/core";
 import { ShareRecipeExtractor } from "../plugins/shareRecipeExtractor";
+import { API_BASE } from "../core/api";
 
-const API_BASE = "https://simple-dinners-api.onrender.com";
+
 const SOURCE_STEPS_PLACEHOLDER = "Steps available at source link!";
 const MAX_SCREENSHOT_FILES = 5;
 const MAX_SCREENSHOT_FILE_BYTES = 8 * 1024 * 1024;
