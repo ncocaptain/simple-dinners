@@ -20,6 +20,7 @@ import HomePage from "./pages/HomePage";
 import TestersGuidePage from "./pages/TestersGuidePage";
 import FeedbackForm from "./pages/FeedbackForm";
 import RecipesPage from "./pages/RecipesPage";
+import PlusDashboardPage from "./pages/PlusDashboardPage";
 import { ToastProvider, useToast } from "./components/Toast";
 import { ThemeProvider } from "./theme";
 import {
@@ -879,6 +880,13 @@ function AppContent() {
               prefs={prefs}
               onUseDraft={handleUseSmartWeekDraft}
             />
+          )}
+        />
+
+        <Route
+          path="/plus"
+          element={requireOnboarding(
+            <PlusDashboardPage />
           )}
         />
 

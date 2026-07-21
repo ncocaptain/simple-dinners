@@ -3,6 +3,9 @@ import {
   useState,
   type FormEvent,
 } from "react";
+import {
+  useNavigate,
+} from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import "./AccountModal.css";
 
@@ -34,6 +37,13 @@ export function AccountModal({
     createHousehold,
     joinHousehold,
   } = useAuth();
+
+  const navigate = useNavigate();
+
+  function openPlusDashboard() {
+    onClose();
+    navigate("/plus");
+  }
 
   const [mode, setMode] =
     useState<AccountMode>("sign-in");
@@ -503,9 +513,9 @@ export function AccountModal({
                   </div>
 
                   <p className="sd-account-description">
-                    Your household shopping list is
-                    backed up and synced live across
-                    your devices.
+                    Your weekly plan, shopping list,
+                    and Cookbook are backed up and
+                    synced live across your devices.
                   </p>
 
                   {household.role === "owner" && (
@@ -557,6 +567,14 @@ export function AccountModal({
                   "Unable to load your household."}
               </div>
             )}
+
+            <button
+              type="button"
+              className="sd-account-primary-button"
+              onClick={openPlusDashboard}
+            >
+              Open Plus Dashboard
+            </button>
 
             <button
               type="button"
@@ -670,10 +688,19 @@ export function AccountModal({
               </button>
             </form>
 
+            <button
+              type="button"
+              className="sd-account-secondary-button"
+              onClick={openPlusDashboard}
+            >
+              Explore Simple Dinners Plus
+            </button>
+
             <p className="sd-account-free-note">
               Simple Dinners remains fully usable
-              without an account. Plus adds cloud and
-              household convenience.
+              without an account. Plus adds household
+              sharing, smart planning, and advanced
+              recipe tools.
             </p>
           </>
         )}
