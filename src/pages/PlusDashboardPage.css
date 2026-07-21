@@ -212,3 +212,215 @@
 #household {
   scroll-margin-top: 24px;
 }
+
+.sd-plus-members-card {
+  margin-top: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 20px;
+  background: rgba(25, 39, 61, 0.88);
+}
+
+.sd-plus-members-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sd-plus-members-heading span {
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.sd-plus-members-heading h3 {
+  margin: 3px 0 0;
+  font-size: 18px;
+}
+
+.sd-plus-members-heading svg {
+  color: #4ce183;
+}
+
+.sd-plus-members-list {
+  display: grid;
+}
+
+.sd-plus-member-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 16px;
+}
+
+.sd-plus-member-row+.sd-plus-member-row {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sd-plus-member-avatar {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(31, 211, 109, 0.14);
+  color: #56e68c;
+  font-weight: 900;
+}
+
+.sd-plus-member-copy {
+  min-width: 0;
+}
+
+.sd-plus-member-copy strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sd-plus-member-copy strong span {
+  margin-left: 5px;
+  color: #56e68c;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.sd-plus-member-copy p {
+  margin: 3px 0 0;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sd-plus-member-role {
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.sd-plus-members-message {
+  margin: 0;
+  padding: 18px 16px;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.sd-plus-members-message.is-error {
+  color: #ff9d9d;
+}
+
+.sd-plus-invite-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: flex-start;
+  margin-top: 14px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at top right,
+      rgba(31, 211, 109, 0.12),
+      transparent 48%),
+    rgba(25, 39, 61, 0.88);
+}
+
+.sd-plus-invite-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(31, 211, 109, 0.14);
+  color: #56e68c;
+}
+
+.sd-plus-invite-copy {
+  min-width: 0;
+}
+
+.sd-plus-invite-copy>span {
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.sd-plus-invite-copy h3 {
+  margin: 4px 0 6px;
+  font-size: 18px;
+}
+
+.sd-plus-invite-copy p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.62);
+  line-height: 1.5;
+}
+
+.sd-plus-invite-code-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.sd-plus-invite-code-row code {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 12px 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 13px;
+  background: rgba(0, 0, 0, 0.18);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-overflow: ellipsis;
+}
+
+.sd-plus-invite-code-row button {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 13px;
+  background: #25d875;
+  color: #062414;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.sd-plus-invite-error {
+  margin-top: 10px !important;
+  color: #ff9d9d !important;
+  font-size: 13px;
+}
+
+@media (max-width: 520px) {
+  .sd-plus-invite-code-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .sd-plus-invite-code-row button {
+    width: 100%;
+  }
+}

@@ -10,6 +10,24 @@ export type HouseholdInfo = {
   inviteCode: string;
 };
 
+export type HouseholdMember = {
+  userId: string;
+  role: HouseholdRole;
+  email: string | null;
+  displayName: string | null;
+  joinedAt: string;
+  isCurrentUser: boolean;
+};
+
+type HouseholdMemberRow = {
+  member_user_id: string;
+  member_role: string;
+  member_email: string | null;
+  member_display_name: string | null;
+  member_joined_at: string;
+  is_current_user: boolean;
+};
+
 type CloudResult<T> = {
   data: T | null;
   error: string | null;
@@ -175,6 +193,60 @@ export async function joinCurrentHousehold(
 
   return {
     data,
+    error: null,
+  };
+}
+
+export async function getHouseholdMembers(): Promise<
+  CloudResult<HouseholdMember[]>
+> {
+  if (!supabase) {
+    return {
+      data: null,
+      error: "Cloud sync is not configured.",
+    };
+  }
+
+  const { data, error } = await supabase.rpc(
+    "get_household_members",
+  );
+
+  if (error) {
+    console.error(
+      "Unable to load household members:",
+      error,
+    );
+
+    return {
+      data: null,
+      error: error.message,
+    };
+  }
+
+  const rows = Array.isArray(data)
+    ? (data as HouseholdMemberRow[])
+    : [];
+
+  const members: HouseholdMember[] = rows.map(
+    (row) => ({
+      userId: row.member_user_id,
+
+      role:
+        row.member_role === "owner"
+          ? "owner"
+          : "member",
+
+      email: row.member_email,
+      displayName: row.member_display_name,
+      joinedAt: row.member_joined_at,
+      isCurrentUser: Boolean(
+        row.is_current_user,
+      ),
+    }),
+  );
+
+  return {
+    data: members,
     error: null,
   };
 }

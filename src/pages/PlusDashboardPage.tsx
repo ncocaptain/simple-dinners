@@ -4,11 +4,15 @@ import {
   Camera,
   CheckCircle2,
   ChevronRight,
+  Copy,
   ShoppingCart,
   Sparkles,
   Users,
 } from "lucide-react";
-import { useEffect } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 import { Link, useLocation, } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import {
@@ -21,6 +25,10 @@ import {
   useCookbookSyncStatus,
 } from "../cloud/cookbookSyncState";
 import "./PlusDashboardPage.css";
+import {
+  getHouseholdMembers,
+  type HouseholdMember,
+} from "../cloud/household";
 
 type FeatureCardProps = {
   title: string;
@@ -149,6 +157,121 @@ export default function PlusDashboardPage() {
   const cookbookSync =
     useCookbookSyncStatus();
 
+  const [
+    householdMembers,
+    setHouseholdMembers,
+  ] = useState<HouseholdMember[]>([]);
+
+  const [
+    householdMembersLoading,
+    setHouseholdMembersLoading,
+  ] = useState(false);
+
+  const [
+    householdMembersError,
+    setHouseholdMembersError,
+  ] = useState<string | null>(null);
+
+  const [inviteCodeCopied, setInviteCodeCopied] =
+    useState(false);
+
+  const [inviteCodeError, setInviteCodeError] =
+    useState<string | null>(null);
+
+  async function handleCopyInviteCode() {
+    if (!household?.inviteCode) {
+      return;
+    }
+
+    setInviteCodeCopied(false);
+    setInviteCodeError(null);
+
+    try {
+      await navigator.clipboard.writeText(
+        household.inviteCode,
+      );
+
+      setInviteCodeCopied(true);
+
+      window.setTimeout(() => {
+        setInviteCodeCopied(false);
+      }, 2500);
+    } catch {
+      const textarea =
+        document.createElement("textarea");
+
+      textarea.value = household.inviteCode;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+
+      const copied =
+        document.execCommand("copy");
+
+      document.body.removeChild(textarea);
+
+      if (copied) {
+        setInviteCodeCopied(true);
+
+        window.setTimeout(() => {
+          setInviteCodeCopied(false);
+        }, 2500);
+      } else {
+        setInviteCodeError(
+          "Unable to copy the household code.",
+        );
+      }
+    }
+  }
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!isSignedIn || !household?.id) {
+      setHouseholdMembers([]);
+      setHouseholdMembersError(null);
+      setHouseholdMembersLoading(false);
+      return;
+    }
+
+    async function loadMembers() {
+      setHouseholdMembersLoading(true);
+      setHouseholdMembersError(null);
+
+      const result =
+        await getHouseholdMembers();
+
+      if (cancelled) {
+        return;
+      }
+
+      if (result.error) {
+        setHouseholdMembers([]);
+        setHouseholdMembersError(
+          result.error,
+        );
+      } else {
+        setHouseholdMembers(
+          result.data ?? [],
+        );
+      }
+
+      setHouseholdMembersLoading(false);
+    }
+
+    void loadMembers();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    household?.id,
+    isSignedIn,
+  ]);
+
   return (
     <main className="sd-plus-page">
       <section className="sd-plus-hero">
@@ -212,26 +335,146 @@ export default function PlusDashboardPage() {
               />
             </div>
           )}
-        </section>
-      )}
 
-      {!isSignedIn && (
-        <section id="household"
-          className="sd-plus-preview-card">
-          <Users
-            size={24}
-            aria-hidden="true"
-          />
+          <div className="sd-plus-members-card">
+            <div className="sd-plus-members-heading">
+              <div>
+                <span>Household members</span>
 
-          <div>
-            <h2>Built for your household</h2>
+                <h3>
+                  {householdMembers.length}{" "}
+                  {householdMembers.length === 1
+                    ? "member"
+                    : "members"}
+                </h3>
+              </div>
 
-            <p>
-              Create an account when you are
-              ready to share plans, lists, and
-              saved recipes across devices.
-            </p>
+              <Users
+                size={21}
+                aria-hidden="true"
+              />
+            </div>
+
+            {householdMembersLoading ? (
+              <p className="sd-plus-members-message">
+                Loading household members…
+              </p>
+            ) : householdMembersError ? (
+              <p className="sd-plus-members-message is-error">
+                Unable to load household members.
+              </p>
+            ) : (
+              <div className="sd-plus-members-list">
+                {householdMembers.map((member) => {
+                  const memberName =
+                    member.displayName?.trim() ||
+                    member.email ||
+                    "Household member";
+
+                  const initial =
+                    memberName
+                      .charAt(0)
+                      .toUpperCase() || "?";
+
+                  return (
+                    <div
+                      key={member.userId}
+                      className="sd-plus-member-row"
+                    >
+                      <div
+                        className="sd-plus-member-avatar"
+                        aria-hidden="true"
+                      >
+                        {initial}
+                      </div>
+
+                      <div className="sd-plus-member-copy">
+                        <strong>
+                          {memberName}
+
+                          {member.isCurrentUser && (
+                            <span> You</span>
+                          )}
+                        </strong>
+
+                        {member.displayName &&
+                          member.email && (
+                            <p>{member.email}</p>
+                          )}
+                      </div>
+
+                      <span className="sd-plus-member-role">
+                        {member.role === "owner"
+                          ? "Owner"
+                          : "Member"}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
+
+          {household?.role === "owner" &&
+            household.inviteCode && (
+              <div className="sd-plus-invite-card">
+                <div className="sd-plus-invite-icon">
+                  <Users
+                    size={22}
+                    aria-hidden="true"
+                  />
+                </div>
+
+                <div className="sd-plus-invite-copy">
+                  <span>Invite someone</span>
+
+                  <h3>
+                    Share your household code
+                  </h3>
+
+                  <p>
+                    Send this code privately to
+                    someone you want to plan, shop,
+                    and save recipes with.
+                  </p>
+
+                  <div className="sd-plus-invite-code-row">
+                    <code>
+                      {household.inviteCode}
+                    </code>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        void handleCopyInviteCode()
+                      }
+                    >
+                      {inviteCodeCopied ? (
+                        <CheckCircle2
+                          size={16}
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <Copy
+                          size={16}
+                          aria-hidden="true"
+                        />
+                      )}
+
+                      {inviteCodeCopied
+                        ? "Copied"
+                        : "Copy code"}
+                    </button>
+                  </div>
+
+                  {inviteCodeError && (
+                    <p className="sd-plus-invite-error">
+                      {inviteCodeError}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
         </section>
       )}
 
