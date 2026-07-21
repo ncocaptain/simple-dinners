@@ -250,3 +250,43 @@ export async function getHouseholdMembers(): Promise<
     error: null,
   };
 }
+
+export async function regenerateHouseholdInviteCode(): Promise<
+  CloudResult<string>
+> {
+  if (!supabase) {
+    return {
+      data: null,
+      error: "Cloud sync is not configured.",
+    };
+  }
+
+  const { data, error } = await supabase.rpc(
+    "regenerate_household_invite_code",
+  );
+
+  if (error) {
+    console.error(
+      "Unable to regenerate household invite code:",
+      error,
+    );
+
+    return {
+      data: null,
+      error: error.message,
+    };
+  }
+
+  if (typeof data !== "string") {
+    return {
+      data: null,
+      error:
+        "Supabase did not return a new household code.",
+    };
+  }
+
+  return {
+    data: data.trim().toUpperCase(),
+    error: null,
+  };
+}

@@ -5,6 +5,7 @@ import {
   CheckCircle2,
   ChevronRight,
   Copy,
+  RefreshCw,
   ShoppingCart,
   Sparkles,
   Users,
@@ -27,6 +28,7 @@ import {
 import "./PlusDashboardPage.css";
 import {
   getHouseholdMembers,
+  regenerateHouseholdInviteCode,
   type HouseholdMember,
 } from "../cloud/household";
 
@@ -127,6 +129,7 @@ export default function PlusDashboardPage() {
     isSignedIn,
     household,
     householdLoading,
+    refreshHousehold,
   } = useAuth();
 
   const location = useLocation();
@@ -178,6 +181,21 @@ export default function PlusDashboardPage() {
   const [inviteCodeError, setInviteCodeError] =
     useState<string | null>(null);
 
+  const [
+    showRegenerateCodeConfirm,
+    setShowRegenerateCodeConfirm,
+  ] = useState(false);
+
+  const [
+    isRegeneratingInviteCode,
+    setIsRegeneratingInviteCode,
+  ] = useState(false);
+
+  const [
+    regenerateInviteCodeError,
+    setRegenerateInviteCodeError,
+  ] = useState<string | null>(null);
+
   async function handleCopyInviteCode() {
     if (!household?.inviteCode) {
       return;
@@ -224,6 +242,34 @@ export default function PlusDashboardPage() {
           "Unable to copy the household code.",
         );
       }
+    }
+  }
+
+  async function handleRegenerateInviteCode() {
+    setIsRegeneratingInviteCode(true);
+    setRegenerateInviteCodeError(null);
+    setInviteCodeCopied(false);
+
+    try {
+      const result =
+        await regenerateHouseholdInviteCode();
+
+      if (result.error) {
+        setRegenerateInviteCodeError(
+          result.error,
+        );
+        return;
+      }
+
+      /*
+       * Reload the household summary so every place
+       * using household.inviteCode receives the new code.
+       */
+      await refreshHousehold();
+
+      setShowRegenerateCodeConfirm(false);
+    } finally {
+      setIsRegeneratingInviteCode(false);
     }
   }
 
@@ -428,14 +474,12 @@ export default function PlusDashboardPage() {
                 <div className="sd-plus-invite-copy">
                   <span>Invite someone</span>
 
-                  <h3>
-                    Share your household code
-                  </h3>
+                  <h3>Share your household code</h3>
 
                   <p>
-                    Send this code privately to
-                    someone you want to plan, shop,
-                    and save recipes with.
+                    Send this code privately to someone
+                    you want to plan, shop, and save
+                    recipes with.
                   </p>
 
                   <div className="sd-plus-invite-code-row">
@@ -467,11 +511,70 @@ export default function PlusDashboardPage() {
                     </button>
                   </div>
 
-                  {inviteCodeError && (
-                    <p className="sd-plus-invite-error">
-                      {inviteCodeError}
-                    </p>
+                  {!showRegenerateCodeConfirm ? (
+                    <button
+                      type="button"
+                      className="sd-plus-regenerate-button"
+                      onClick={() => {
+                        setRegenerateInviteCodeError(null);
+                        setShowRegenerateCodeConfirm(true);
+                      }}
+                    >
+                      <RefreshCw
+                        size={15}
+                        aria-hidden="true"
+                      />
+
+                      Regenerate code
+                    </button>
+                  ) : (
+                    <div className="sd-plus-regenerate-confirm">
+                      <strong>
+                        Replace this household code?
+                      </strong>
+
+                      <p>
+                        The current code will stop working
+                        immediately. Existing household
+                        members will not be removed.
+                      </p>
+
+                      <div className="sd-plus-regenerate-actions">
+                        <button
+                          type="button"
+                          className="confirm"
+                          disabled={isRegeneratingInviteCode}
+                          onClick={() =>
+                            void handleRegenerateInviteCode()
+                          }
+                        >
+                          {isRegeneratingInviteCode
+                            ? "Replacing…"
+                            : "Replace code"}
+                        </button>
+
+                        <button
+                          type="button"
+                          className="cancel"
+                          disabled={isRegeneratingInviteCode}
+                          onClick={() => {
+                            setShowRegenerateCodeConfirm(false);
+                            setRegenerateInviteCodeError(null);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
                   )}
+
+                  {(inviteCodeError ||
+                    regenerateInviteCodeError) && (
+                      <p className="sd-plus-invite-error">
+                        {inviteCodeError ??
+                          regenerateInviteCodeError}
+                      </p>
+                    )}
                 </div>
               </div>
             )}
