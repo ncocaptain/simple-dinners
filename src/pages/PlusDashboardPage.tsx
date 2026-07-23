@@ -34,6 +34,12 @@ import {
   regenerateHouseholdInviteCode,
   type HouseholdMember,
 } from "../cloud/household";
+import {
+  usePlusEntitlement,
+} from "../plus/PlusEntitlementContext";
+import {
+  PlusUpgradePanel,
+} from "../plus/PlusUpgradePanel";
 
 
 const PLUS_COPY = {
@@ -418,6 +424,9 @@ export default function PlusDashboardPage() {
     householdLoading,
     refreshHousehold,
   } = useAuth();
+  const {
+    hasPlus,
+  } = usePlusEntitlement();
 
   const location = useLocation();
   const language = getStoredLanguage();
@@ -685,7 +694,11 @@ export default function PlusDashboardPage() {
         </section>
       )}
 
-      {isSignedIn && (
+      {!hasPlus && (
+        <PlusUpgradePanel />
+      )}
+
+      {hasPlus && isSignedIn && (
         <section
           id="household"
           className="sd-plus-section"
