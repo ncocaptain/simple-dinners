@@ -7,6 +7,9 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { getStoredLanguage } from "../i18n";
+import {
+  usePlusAccess,
+} from "../plus/usePlusAccess";
 import { useAuth } from "./AuthContext";
 import "./AccountModal.css";
 
@@ -40,6 +43,9 @@ export function AccountModal({
   } = useAuth();
 
   const navigate = useNavigate();
+  const {
+    requirePlus,
+  } = usePlusAccess();
   const language = getStoredLanguage();
   const isSpanish = language === "es";
 
@@ -335,6 +341,14 @@ export function AccountModal({
     event: FormEvent<HTMLFormElement>,
   ) {
     event.preventDefault();
+
+    if (
+      !requirePlus({
+        feature: "household-sharing",
+      })
+    ) {
+      return;
+    }
 
     setMessage(null);
     setError(null);

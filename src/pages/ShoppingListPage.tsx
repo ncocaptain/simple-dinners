@@ -48,6 +48,9 @@ import {
   resolveSmartShoppingThumbnail,
   type SmartShoppingThumbnailMatchType,
 } from "../plus/smartShoppingThumbnails";
+import {
+  usePlusAccess,
+} from "../plus/usePlusAccess";
 
 // =====================================================
 // ShoppingListPage map
@@ -2225,6 +2228,10 @@ function getCategoryLabel(section: GroceryCategory) {
 // Page component
 // =====================================================
 export default function ShoppingListPage() {
+  const {
+    requirePlus,
+  } = usePlusAccess();
+
   const [newItem, setNewItem] = useState("");
   const [shoppingItems, setShoppingItems] = useState<ShoppingItem[]>(() =>
     loadRawShoppingList()
@@ -2387,6 +2394,14 @@ export default function ShoppingListPage() {
   };
 
   const openSmartShoppingPreview = () => {
+    if (
+      !requirePlus({
+        feature: "smart-shopping",
+      })
+    ) {
+      return;
+    }
+
     setSmartShoppingStatusMessage("");
     createSmartShoppingPreview();
   };
@@ -2402,6 +2417,14 @@ export default function ShoppingListPage() {
   };
 
   const applySmartShoppingChanges = () => {
+    if (
+      !requirePlus({
+        feature: "smart-shopping",
+      })
+    ) {
+      return;
+    }
+
     if (!smartShoppingPreview) {
       return;
     }

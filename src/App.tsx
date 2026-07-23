@@ -66,6 +66,9 @@ import {
 import {
   useCookbookSync,
 } from "./cloud/useCookbookSync";
+import {
+  PlusFeatureGate,
+} from "./plus/PlusFeatureGate";
 
 
 
@@ -871,15 +874,17 @@ function AppContent() {
         <Route
           path="/smart-week"
           element={requireOnboarding(
-            <SmartWeekPage
-              meals={meals}
-              cookbook={cookbook}
-              pantry={pantry}
-              daySettings={daySettings}
-              lockedDays={lockedDays}
-              prefs={prefs}
-              onUseDraft={handleUseSmartWeekDraft}
-            />
+            <PlusFeatureGate feature="smart-week">
+              <SmartWeekPage
+                meals={meals}
+                cookbook={cookbook}
+                pantry={pantry}
+                daySettings={daySettings}
+                lockedDays={lockedDays}
+                prefs={prefs}
+                onUseDraft={handleUseSmartWeekDraft}
+              />
+            </PlusFeatureGate>,
           )}
         />
 

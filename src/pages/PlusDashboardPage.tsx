@@ -213,6 +213,97 @@ const PLUS_COPY = {
   },
 } as const;
 
+type PlusFeatureId =
+  | "smart-week"
+  | "smart-shopping"
+  | "screenshot-import"
+  | "social-recipe-import"
+  | "household-sharing";
+
+type PlusLocationState = {
+  feature?: string | null;
+  returnTo?: string | null;
+};
+
+const PLUS_FOCUS_COPY = {
+  en: {
+    "smart-week": {
+      title: "Smart Week is included in Plus",
+      description:
+        "Build a personalized dinner week around your schedule, pantry, preferences, and requests.",
+    },
+    "smart-shopping": {
+      title: "Smart Shopping is included in Plus",
+      description:
+        "Organize and clean up your list while the everyday shopping-list basics remain free.",
+    },
+    "screenshot-import": {
+      title: "Screenshot Import is included in Plus",
+      description:
+        "Turn one or more recipe screenshots into a recipe you can review and save.",
+    },
+    "social-recipe-import": {
+      title:
+        "Instagram & TikTok Import is included in Plus",
+      description:
+        "Save recipes directly from supported social posts and videos instead of copying everything by hand.",
+    },
+    "household-sharing": {
+      title: "Household Sharing is included in Plus",
+      description:
+        "Create or join a household to sync plans, groceries, and recipes across devices.",
+    },
+  },
+  es: {
+    "smart-week": {
+      title: "Semana Inteligente está incluida en Plus",
+      description:
+        "Crea una semana de cenas personalizada según tu horario, despensa, preferencias y solicitudes.",
+    },
+    "smart-shopping": {
+      title: "Compras Inteligentes está incluida en Plus",
+      description:
+        "Organiza y limpia tu lista mientras las funciones básicas de la lista de compras siguen siendo gratuitas.",
+    },
+    "screenshot-import": {
+      title: "Importar capturas está incluido en Plus",
+      description:
+        "Convierte una o varias capturas de una receta en una receta que puedes revisar y guardar.",
+    },
+    "social-recipe-import": {
+      title:
+        "Importar desde Instagram y TikTok está incluido en Plus",
+      description:
+        "Guarda recetas directamente desde publicaciones y videos sociales compatibles sin copiar todo a mano.",
+    },
+    "household-sharing": {
+      title: "Hogar compartido está incluido en Plus",
+      description:
+        "Crea o únete a un hogar para sincronizar planes, compras y recetas entre dispositivos.",
+    },
+  },
+} as const;
+
+const PLUS_FOCUS_ICONS: Record<
+  PlusFeatureId,
+  typeof Sparkles
+> = {
+  "smart-week": CalendarDays,
+  "smart-shopping": ShoppingCart,
+  "screenshot-import": Camera,
+  "social-recipe-import": Share2,
+  "household-sharing": Users,
+};
+
+function isPlusFeatureId(
+  value: unknown,
+): value is PlusFeatureId {
+  return (
+    typeof value === "string" &&
+    value in PLUS_FOCUS_ICONS
+  );
+}
+
 type FeatureCardProps = {
   title: string;
   description: string;
@@ -332,6 +423,40 @@ export default function PlusDashboardPage() {
   const language = getStoredLanguage();
   const isSpanish = language === "es";
   const copy = PLUS_COPY[isSpanish ? "es" : "en"];
+
+  const locationState =
+    location.state as PlusLocationState | null;
+
+  const requestedFeatureValue =
+    locationState?.feature;
+
+  const requestedFeature =
+    isPlusFeatureId(requestedFeatureValue)
+      ? requestedFeatureValue
+      : null;
+
+  const focusedFeature = requestedFeature
+    ? PLUS_FOCUS_COPY[isSpanish ? "es" : "en"][
+    requestedFeature
+    ]
+    : null;
+
+  const FocusedFeatureIcon = requestedFeature
+    ? PLUS_FOCUS_ICONS[requestedFeature]
+    : Sparkles;
+
+  useEffect(() => {
+    if (!requestedFeature) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    });
+  }, [requestedFeature]);
 
   useEffect(() => {
     if (location.hash === "#household") {
@@ -533,6 +658,32 @@ export default function PlusDashboardPage() {
 
         <p>{copy.heroDescription}</p>
       </section>
+
+      {focusedFeature && (
+        <section
+          className="sd-plus-focus-card"
+          role="status"
+        >
+          <div className="sd-plus-focus-icon">
+            <FocusedFeatureIcon
+              size={23}
+              aria-hidden="true"
+            />
+          </div>
+
+          <div className="sd-plus-focus-copy">
+            <span>
+              {isSpanish
+                ? "Función de Plus"
+                : "Plus feature"}
+            </span>
+
+            <h2>{focusedFeature.title}</h2>
+
+            <p>{focusedFeature.description}</p>
+          </div>
+        </section>
+      )}
 
       {isSignedIn && (
         <section

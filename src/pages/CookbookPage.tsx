@@ -33,6 +33,9 @@ import {
   CookbookSyncStatus,
 } from "../cloud/CookbookSyncStatus";
 import { API_BASE } from "../core/api";
+import {
+  usePlusAccess,
+} from "../plus/usePlusAccess";
 
 const SOURCE_STEPS_PLACEHOLDER = "Steps available at source link!";
 
@@ -615,6 +618,9 @@ export default function CookbookPage({
   const pickForDay = location.state?.pickForDay as string | undefined;
   const cookbookTips = COOKBOOK_TIP_KEYS.map((key) => t(key));
   const language = getStoredLanguage();
+  const {
+    requirePlus,
+  } = usePlusAccess();
 
   // =========================================================
   // STATE
@@ -836,10 +842,26 @@ export default function CookbookPage({
   };
 
   const chooseCaptionScreenshots = () => {
+    if (
+      !requirePlus({
+        feature: "screenshot-import",
+      })
+    ) {
+      return;
+    }
+
     captionScreenshotInputRef.current?.click();
   };
 
   const chooseCaptionVideo = () => {
+    if (
+      !requirePlus({
+        feature: "social-recipe-import",
+      })
+    ) {
+      return;
+    }
+
     captionVideoInputRef.current?.click();
   };
 
@@ -1004,6 +1026,15 @@ export default function CookbookPage({
 
     if (!requestedUrl) {
       alert(t("cookbook.alertPasteUrl"));
+      return;
+    }
+
+    if (
+      isPublicVideoRecipeUrl(requestedUrl) &&
+      !requirePlus({
+        feature: "social-recipe-import",
+      })
+    ) {
       return;
     }
 
@@ -1312,6 +1343,14 @@ export default function CookbookPage({
   };
 
   const handleScreenshotAssistImport = async () => {
+    if (
+      !requirePlus({
+        feature: "screenshot-import",
+      })
+    ) {
+      return;
+    }
+
     if (!captionAssistDraft) return;
 
     if (captionScreenshotFiles.length === 0) {
@@ -1415,6 +1454,14 @@ export default function CookbookPage({
 
 
   const handleVideoAssistImport = async () => {
+    if (
+      !requirePlus({
+        feature: "social-recipe-import",
+      })
+    ) {
+      return;
+    }
+
     if (!captionAssistDraft) return;
 
     if (!captionVideoFile) {
