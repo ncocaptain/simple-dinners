@@ -5,7 +5,9 @@ import {
   CheckCircle2,
   ChevronRight,
   Copy,
+  ListChecks,
   RefreshCw,
+  Share2,
   ShoppingCart,
   Sparkles,
   Users,
@@ -601,31 +603,46 @@ export default function PlusDashboardPage() {
 
           <FeatureCard
             title="Smart Shopping"
-            description="Turn your dinner plan into a cleaner, smarter grocery trip."
+            description="Turn your dinner plan into a cleaner, smarter, easier grocery trip."
             to="/shopping-list"
             icon={ShoppingCart}
           />
 
           <FeatureCard
+            title="Instagram & TikTok Import"
+            description="Save recipes directly from social posts instead of copying everything by hand."
+            to="/cookbook"
+            icon={Share2}
+            badge="SOCIAL"
+          />
+
+          <FeatureCard
             title="Screenshot Import"
-            description="Save recipes from screenshots and review everything before adding them."
+            description="Turn one or more recipe screenshots into a complete recipe you can review and save."
             to="/cookbook"
             icon={Camera}
             badge="AI"
           />
 
           <FeatureCard
-            title="Shared Cookbook"
-            description="Keep your household’s saved recipes together and synced."
-            to="/cookbook"
-            icon={BookOpen}
+            title="Shared Weekly Plan"
+            description="Keep everyone in your household working from the same dinner plan."
+            to="/week"
+            icon={CalendarDays}
           />
 
           <FeatureCard
-            title="Shared Weekly Plan"
-            description="Let everyone in the household see the same dinner plan."
-            to="/week"
-            icon={CalendarDays}
+            title="Shared Shopping List"
+            description="Let household members add, check off, and update groceries together."
+            to="/shopping-list"
+            icon={ListChecks}
+          />
+
+          <FeatureCard
+            title="Shared Cookbook"
+            description="Keep your household’s saved recipes together and synced across devices."
+            to="/cookbook"
+            icon={BookOpen}
           />
 
           <FeatureCard
