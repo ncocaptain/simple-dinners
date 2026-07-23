@@ -269,25 +269,27 @@ function looksLikeSocialRecipeUrl(url: string) {
   );
 }
 
-function isInstagramVideoUrl(rawUrl: string): boolean {
+function isPublicVideoRecipeUrl(url: string) {
   try {
-    const parsed = new URL(rawUrl);
-    const host = parsed.hostname.toLowerCase();
-
-    const isInstagramHost =
-      host === "instagram.com" ||
-      host === "www.instagram.com" ||
-      host.endsWith(".instagram.com");
+    const host = new URL(
+      String(url || "").trim()
+    ).hostname
+      .toLowerCase()
+      .replace(/\.$/, "");
 
     return (
-      isInstagramHost &&
-      /^\/(reel|reels|p)\//i.test(
-        parsed.pathname
-      )
+      host === "instagram.com" ||
+      host.endsWith(".instagram.com") ||
+      host === "tiktok.com" ||
+      host.endsWith(".tiktok.com")
     );
   } catch {
-    return /instagram\.com\/(reel|reels|p)\//i.test(
-      rawUrl
+    const value =
+      String(url || "").toLowerCase();
+
+    return (
+      value.includes("instagram.com") ||
+      value.includes("tiktok.com")
     );
   }
 }
@@ -1013,12 +1015,12 @@ export default function CookbookPage({
       )?.blur();
 
       // -----------------------------------------------------
-      // Instagram video import
+      // Instagram and TikTok video import
       // Resolve the public reel automatically and send the
       // recovered recipe directly to Review Recipe.
       // -----------------------------------------------------
 
-      if (isInstagramVideoUrl(requestedUrl)) {
+      if (isPublicVideoRecipeUrl(requestedUrl)) {
         try {
           const videoResponse = await fetch(
             `${API_BASE}/import-video-url`,
