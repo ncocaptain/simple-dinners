@@ -6,6 +6,7 @@ import {
 import {
   useNavigate,
 } from "react-router-dom";
+import { getStoredLanguage } from "../i18n";
 import { useAuth } from "./AuthContext";
 import "./AccountModal.css";
 
@@ -39,6 +40,145 @@ export function AccountModal({
   } = useAuth();
 
   const navigate = useNavigate();
+  const language = getStoredLanguage();
+  const isSpanish = language === "es";
+
+  const copy = isSpanish
+    ? {
+      closeLabel: "Cerrar ventana de cuenta",
+      tagline:
+        "Planificación compartida para familias ocupadas.",
+      cloudNotConfigured:
+        "La sincronización en la nube no está configurada en este dispositivo.",
+      signedIn: "Sesión iniciada",
+      defaultUser: "Usuario de Simple Dinners",
+      loadingHousehold: "Cargando tu hogar…",
+      setupHousehold: "Configura tu hogar",
+      setupDescription:
+        "Crea un hogar nuevo o únete al de otra persona usando su código.",
+      createHousehold: "Crear hogar",
+      joinHousehold: "Unirse a un hogar",
+      householdName: "Nombre del hogar",
+      householdCode: "Código del hogar",
+      defaultHouseholdName: "Mi hogar",
+      pleaseWait: "Espera…",
+      household: "Hogar",
+      owner: "Propietario",
+      member: "Miembro",
+      syncDescription:
+        "Tu plan semanal, lista de compras y recetario están respaldados y sincronizados en tiempo real en tus dispositivos.",
+      copyCode: "Copiar código",
+      shareCode:
+        "Comparte este código en privado con alguien que quieras añadir a tu hogar.",
+      unableToLoadHousehold:
+        "No se pudo cargar tu hogar.",
+      openDashboard: "Abrir panel de Plus",
+      signingOut: "Cerrando sesión…",
+      signOut: "Cerrar sesión",
+      signIn: "Iniciar sesión",
+      createAccount: "Crear cuenta",
+      email: "Correo electrónico",
+      password: "Contraseña",
+      emailPlaceholder: "tu@ejemplo.com",
+      passwordPlaceholder: "Introduce tu contraseña",
+      explorePlus: "Explorar Simple Dinners Plus",
+      freeNote:
+        "Simple Dinners sigue siendo totalmente útil sin una cuenta. Plus añade hogares compartidos, planificación inteligente y herramientas avanzadas para recetas.",
+      enterEmail:
+        "Introduce tu correo electrónico.",
+      enterPassword: "Introduce tu contraseña.",
+      confirmEmail:
+        "Revisa tu correo electrónico para confirmar tu cuenta de Simple Dinners.",
+      accountReady:
+        "Tu cuenta de Simple Dinners está lista.",
+      signedInMessage:
+        "Has iniciado sesión.",
+      enterHouseholdName:
+        "Introduce un nombre para el hogar.",
+      householdReady: "Tu hogar está listo.",
+      enterHouseholdCode:
+        "Introduce el código del hogar.",
+      joinedHousehold:
+        "Te uniste al hogar.",
+      signedOutMessage:
+        "Has cerrado sesión.",
+      codeCopied:
+        "Código del hogar copiado.",
+      unableToCopy:
+        "No se pudo copiar el código del hogar.",
+    }
+    : {
+      closeLabel: "Close account window",
+      tagline:
+        "Shared planning for busy families.",
+      cloudNotConfigured:
+        "Cloud sync is not configured on this device.",
+      signedIn: "Signed in",
+      defaultUser: "Simple Dinners user",
+      loadingHousehold:
+        "Loading your household…",
+      setupHousehold:
+        "Set up your household",
+      setupDescription:
+        "Create a new household or join someone else using their household code.",
+      createHousehold:
+        "Create household",
+      joinHousehold: "Join household",
+      householdName: "Household name",
+      householdCode: "Household code",
+      defaultHouseholdName:
+        "My Household",
+      pleaseWait: "Please wait...",
+      household: "Household",
+      owner: "Owner",
+      member: "Member",
+      syncDescription:
+        "Your weekly plan, shopping list, and Cookbook are backed up and synced live across your devices.",
+      copyCode: "Copy code",
+      shareCode:
+        "Share this code privately with someone you want to add to your household.",
+      unableToLoadHousehold:
+        "Unable to load your household.",
+      openDashboard:
+        "Open Plus Dashboard",
+      signingOut: "Signing out...",
+      signOut: "Sign out",
+      signIn: "Sign in",
+      createAccount: "Create account",
+      email: "Email",
+      password: "Password",
+      emailPlaceholder: "you@example.com",
+      passwordPlaceholder:
+        "Enter your password",
+      explorePlus:
+        "Explore Simple Dinners Plus",
+      freeNote:
+        "Simple Dinners remains fully usable without an account. Plus adds household sharing, smart planning, and advanced recipe tools.",
+      enterEmail:
+        "Please enter your email address.",
+      enterPassword:
+        "Please enter your password.",
+      confirmEmail:
+        "Check your email to confirm your Simple Dinners account.",
+      accountReady:
+        "Your Simple Dinners account is ready.",
+      signedInMessage:
+        "You are signed in.",
+      enterHouseholdName:
+        "Please enter a household name.",
+      householdReady:
+        "Your household is ready.",
+      enterHouseholdCode:
+        "Please enter the household code.",
+      joinedHousehold:
+        "You joined the household.",
+      signedOutMessage:
+        "You are signed out.",
+      codeCopied:
+        "Household code copied.",
+      unableToCopy:
+        "Unable to copy the household code.",
+    };
 
   function openPlusDashboard() {
     onClose();
@@ -55,7 +195,11 @@ export function AccountModal({
   const [password, setPassword] = useState("");
 
   const [householdName, setHouseholdName] =
-    useState("My Household");
+    useState(
+      isSpanish
+        ? "Mi hogar"
+        : "My Household",
+    );
 
   const [inviteCode, setInviteCode] =
     useState("");
@@ -77,7 +221,25 @@ export function AccountModal({
     setMessage(null);
     setError(null);
     setPassword("");
-  }, [isOpen, mode, householdMode]);
+
+    setHouseholdName((currentName) => {
+      if (
+        currentName === "My Household" ||
+        currentName === "Mi hogar"
+      ) {
+        return isSpanish
+          ? "Mi hogar"
+          : "My Household";
+      }
+
+      return currentName;
+    });
+  }, [
+    isOpen,
+    mode,
+    householdMode,
+    isSpanish,
+  ]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -118,14 +280,12 @@ export function AccountModal({
     const normalizedEmail = email.trim();
 
     if (!normalizedEmail) {
-      setError(
-        "Please enter your email address.",
-      );
+      setError(copy.enterEmail);
       return;
     }
 
     if (!password) {
-      setError("Please enter your password.");
+      setError(copy.enterPassword);
       return;
     }
 
@@ -144,16 +304,12 @@ export function AccountModal({
         }
 
         if (result.needsEmailConfirmation) {
-          setMessage(
-            "Check your email to confirm your Simple Dinners account.",
-          );
+          setMessage(copy.confirmEmail);
           setPassword("");
           return;
         }
 
-        setMessage(
-          "Your Simple Dinners account is ready.",
-        );
+        setMessage(copy.accountReady);
 
         return;
       }
@@ -169,7 +325,7 @@ export function AccountModal({
       }
 
       setPassword("");
-      setMessage("You are signed in.");
+      setMessage(copy.signedInMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -189,9 +345,7 @@ export function AccountModal({
         const safeName = householdName.trim();
 
         if (!safeName) {
-          setError(
-            "Please enter a household name.",
-          );
+          setError(copy.enterHouseholdName);
           return;
         }
 
@@ -203,9 +357,7 @@ export function AccountModal({
           return;
         }
 
-        setMessage(
-          "Your household is ready.",
-        );
+        setMessage(copy.householdReady);
 
         return;
       }
@@ -215,9 +367,7 @@ export function AccountModal({
         .toUpperCase();
 
       if (!normalizedCode) {
-        setError(
-          "Please enter the household code.",
-        );
+        setError(copy.enterHouseholdCode);
         return;
       }
 
@@ -230,9 +380,7 @@ export function AccountModal({
       }
 
       setInviteCode("");
-      setMessage(
-        "You joined the household.",
-      );
+      setMessage(copy.joinedHousehold);
     } finally {
       setIsSubmitting(false);
     }
@@ -254,7 +402,7 @@ export function AccountModal({
       setEmail("");
       setPassword("");
       setInviteCode("");
-      setMessage("You are signed out.");
+      setMessage(copy.signedOutMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -273,9 +421,7 @@ export function AccountModal({
         household.inviteCode,
       );
 
-      setMessage(
-        "Household code copied.",
-      );
+      setMessage(copy.codeCopied);
     } catch {
       /*
        * Fallback for browsers or native WebViews where
@@ -298,16 +444,18 @@ export function AccountModal({
       document.body.removeChild(textarea);
 
       if (copied) {
-        setMessage(
-          "Household code copied.",
-        );
+        setMessage(copy.codeCopied);
       } else {
-        setError(
-          "Unable to copy the household code.",
-        );
+        setError(copy.unableToCopy);
       }
     }
   }
+
+  const displayedHouseholdName =
+    isSpanish &&
+      household?.name === "My Household"
+      ? "Mi hogar"
+      : household?.name;
 
   return (
     <div
@@ -331,7 +479,7 @@ export function AccountModal({
           type="button"
           className="sd-account-close"
           onClick={onClose}
-          aria-label="Close account window"
+          aria-label={copy.closeLabel}
         >
           ×
         </button>
@@ -345,15 +493,12 @@ export function AccountModal({
             Simple Dinners Plus
           </h2>
 
-          <p>
-            Shared planning for busy families.
-          </p>
+          <p>{copy.tagline}</p>
         </div>
 
         {!isConfigured ? (
           <div className="sd-account-notice sd-account-error">
-            Cloud sync is not configured on this
-            device.
+            {copy.cloudNotConfigured}
           </div>
         ) : isSignedIn ? (
           <div className="sd-account-signed-in">
@@ -361,30 +506,28 @@ export function AccountModal({
               <span className="sd-account-status-dot" />
 
               <div>
-                <strong>Signed in</strong>
+                <strong>{copy.signedIn}</strong>
 
                 <p>
                   {user?.email ??
-                    "Simple Dinners user"}
+                    copy.defaultUser}
                 </p>
               </div>
             </div>
 
             {householdLoading ? (
               <div className="sd-account-notice">
-                Loading your household…
+                {copy.loadingHousehold}
               </div>
             ) : needsHouseholdSetup ? (
               <div className="sd-household-setup">
                 <div>
                   <h3>
-                    Set up your household
+                    {copy.setupHousehold}
                   </h3>
 
                   <p className="sd-account-description">
-                    Create a new household or join
-                    someone else using their household
-                    code.
+                    {copy.setupDescription}
                   </p>
                 </div>
 
@@ -400,7 +543,7 @@ export function AccountModal({
                       setHouseholdMode("create")
                     }
                   >
-                    Create household
+                    {copy.createHousehold}
                   </button>
 
                   <button
@@ -414,7 +557,7 @@ export function AccountModal({
                       setHouseholdMode("join")
                     }
                   >
-                    Join household
+                    {copy.joinHousehold}
                   </button>
                 </div>
 
@@ -428,7 +571,7 @@ export function AccountModal({
                 >
                   {householdMode === "create" ? (
                     <label>
-                      Household name
+                      {copy.householdName}
 
                       <input
                         type="text"
@@ -438,14 +581,16 @@ export function AccountModal({
                             event.target.value,
                           )
                         }
-                        placeholder="My Household"
+                        placeholder={
+                          copy.defaultHouseholdName
+                        }
                         maxLength={80}
                         disabled={isSubmitting}
                       />
                     </label>
                   ) : (
                     <label>
-                      Household code
+                      {copy.householdCode}
 
                       <input
                         type="text"
@@ -485,11 +630,11 @@ export function AccountModal({
                     disabled={isSubmitting}
                   >
                     {isSubmitting
-                      ? "Please wait..."
+                      ? copy.pleaseWait
                       : householdMode ===
                         "create"
-                        ? "Create household"
-                        : "Join household"}
+                        ? copy.createHousehold
+                        : copy.joinHousehold}
                   </button>
                 </form>
               </div>
@@ -499,29 +644,29 @@ export function AccountModal({
                   <div className="sd-household-card-header">
                     <div>
                       <span className="sd-household-label">
-                        Household
+                        {copy.household}
                       </span>
 
-                      <h3>{household.name}</h3>
+                      <h3>
+                        {displayedHouseholdName}
+                      </h3>
                     </div>
 
                     <span className="sd-household-role">
                       {household.role === "owner"
-                        ? "Owner"
-                        : "Member"}
+                        ? copy.owner
+                        : copy.member}
                     </span>
                   </div>
 
                   <p className="sd-account-description">
-                    Your weekly plan, shopping list,
-                    and Cookbook are backed up and
-                    synced live across your devices.
+                    {copy.syncDescription}
                   </p>
 
                   {household.role === "owner" && (
                     <div className="sd-household-invite">
                       <span className="sd-household-label">
-                        Household code
+                        {copy.householdCode}
                       </span>
 
                       <div className="sd-household-code-row">
@@ -535,15 +680,11 @@ export function AccountModal({
                             void handleCopyInviteCode()
                           }
                         >
-                          Copy code
+                          {copy.copyCode}
                         </button>
                       </div>
 
-                      <p>
-                        Share this code privately with
-                        someone you want to add to your
-                        household.
-                      </p>
+                      <p>{copy.shareCode}</p>
                     </div>
                   )}
                 </div>
@@ -564,7 +705,7 @@ export function AccountModal({
             ) : (
               <div className="sd-account-notice sd-account-error">
                 {householdError ??
-                  "Unable to load your household."}
+                  copy.unableToLoadHousehold}
               </div>
             )}
 
@@ -573,7 +714,7 @@ export function AccountModal({
               className="sd-account-primary-button"
               onClick={openPlusDashboard}
             >
-              Open Plus Dashboard
+              {copy.openDashboard}
             </button>
 
             <button
@@ -585,8 +726,8 @@ export function AccountModal({
               disabled={isSubmitting}
             >
               {isSubmitting
-                ? "Signing out..."
-                : "Sign out"}
+                ? copy.signingOut
+                : copy.signOut}
             </button>
           </div>
         ) : (
@@ -603,7 +744,7 @@ export function AccountModal({
                   setMode("sign-in")
                 }
               >
-                Sign in
+                {copy.signIn}
               </button>
 
               <button
@@ -617,7 +758,7 @@ export function AccountModal({
                   setMode("sign-up")
                 }
               >
-                Create account
+                {copy.createAccount}
               </button>
             </div>
 
@@ -628,7 +769,7 @@ export function AccountModal({
               }
             >
               <label>
-                Email
+                {copy.email}
 
                 <input
                   type="email"
@@ -637,13 +778,15 @@ export function AccountModal({
                   onChange={(event) =>
                     setEmail(event.target.value)
                   }
-                  placeholder="you@example.com"
+                  placeholder={
+                    copy.emailPlaceholder
+                  }
                   disabled={isSubmitting}
                 />
               </label>
 
               <label>
-                Password
+                {copy.password}
 
                 <input
                   type="password"
@@ -658,7 +801,9 @@ export function AccountModal({
                       event.target.value,
                     )
                   }
-                  placeholder="Enter your password"
+                  placeholder={
+                    copy.passwordPlaceholder
+                  }
                   disabled={isSubmitting}
                 />
               </label>
@@ -681,10 +826,10 @@ export function AccountModal({
                 disabled={isSubmitting}
               >
                 {isSubmitting
-                  ? "Please wait..."
+                  ? copy.pleaseWait
                   : mode === "sign-up"
-                    ? "Create account"
-                    : "Sign in"}
+                    ? copy.createAccount
+                    : copy.signIn}
               </button>
             </form>
 
@@ -693,14 +838,11 @@ export function AccountModal({
               className="sd-account-secondary-button"
               onClick={openPlusDashboard}
             >
-              Explore Simple Dinners Plus
+              {copy.explorePlus}
             </button>
 
             <p className="sd-account-free-note">
-              Simple Dinners remains fully usable
-              without an account. Plus adds household
-              sharing, smart planning, and advanced
-              recipe tools.
+              {copy.freeNote}
             </p>
           </>
         )}

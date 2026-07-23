@@ -12,11 +12,12 @@ import {
   Sparkles,
   Users,
 } from "lucide-react";
+import { getStoredLanguage } from "../i18n";
 import {
   useEffect,
   useState,
 } from "react";
-import { Link, useLocation, } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import {
   useShoppingSyncStatus,
@@ -33,6 +34,184 @@ import {
   regenerateHouseholdInviteCode,
   type HouseholdMember,
 } from "../cloud/household";
+
+
+const PLUS_COPY = {
+  en: {
+    heroTitle: "Shared planning for busy families.",
+    heroDescription:
+      "Plan together, save recipes faster, and make the weekly dinner routine feel a little more simple.",
+    householdEyebrow: "Your household",
+    loading: "Loading…",
+    setUpHousehold: "Set up your household",
+    owner: "Owner",
+    member: "Member",
+    weeklyPlan: "Weekly Plan",
+    shoppingList: "Shopping List",
+    cookbook: "Cookbook",
+    householdMembers: "Household members",
+    memberSingular: "member",
+    memberPlural: "members",
+    loadingMembers: "Loading household members…",
+    unableToLoadMembers:
+      "Unable to load household members.",
+    householdMember: "Household member",
+    you: "You",
+    inviteSomeone: "Invite someone",
+    shareHouseholdCode: "Share your household code",
+    inviteDescription:
+      "Send this code privately to someone you want to plan, shop, and save recipes with.",
+    copied: "Copied",
+    copyCode: "Copy code",
+    copyCodeError:
+      "Unable to copy the household code.",
+    regenerateCode: "Regenerate code",
+    replaceCodeQuestion:
+      "Replace this household code?",
+    replaceCodeDescription:
+      "The current code will stop working immediately. Existing household members will not be removed.",
+    replacing: "Replacing…",
+    replaceCode: "Replace code",
+    cancel: "Cancel",
+    regenerateCodeError:
+      "Unable to generate a new household code.",
+    includedInPlus: "Included in Plus",
+    makeDinnerEasier: "Make dinner easier",
+    aiBadge: "AI",
+    socialBadge: "SOCIAL",
+    features: {
+      smartWeek: {
+        title: "Smart Week",
+        description:
+          "Build a thoughtful week around your schedule, pantry, preferences, and requests.",
+      },
+      smartShopping: {
+        title: "Smart Shopping",
+        description:
+          "Turn your dinner plan into a cleaner, smarter, easier grocery trip.",
+      },
+      socialImport: {
+        title: "Instagram & TikTok Import",
+        description:
+          "Save recipes directly from social posts instead of copying everything by hand.",
+      },
+      screenshotImport: {
+        title: "Screenshot Import",
+        description:
+          "Turn one or more recipe screenshots into a complete recipe you can review and save.",
+      },
+      sharedWeeklyPlan: {
+        title: "Shared Weekly Plan",
+        description:
+          "Keep everyone in your household working from the same dinner plan.",
+      },
+      sharedShoppingList: {
+        title: "Shared Shopping List",
+        description:
+          "Let household members add, check off, and update groceries together.",
+      },
+      sharedCookbook: {
+        title: "Shared Cookbook",
+        description:
+          "Keep your household’s saved recipes together and synced across devices.",
+      },
+      householdSharing: {
+        title: "Household Sharing",
+        description:
+          "Keep planning, shopping, and recipes connected across your family.",
+      },
+    },
+  },
+  es: {
+    heroTitle:
+      "Planificación compartida para familias ocupadas.",
+    heroDescription:
+      "Planifiquen juntos, guarden recetas más rápido y hagan que la rutina semanal de la cena sea un poco más simple.",
+    householdEyebrow: "Tu hogar",
+    loading: "Cargando…",
+    setUpHousehold: "Configura tu hogar",
+    owner: "Propietario",
+    member: "Miembro",
+    weeklyPlan: "Plan semanal",
+    shoppingList: "Lista de compras",
+    cookbook: "Recetario",
+    householdMembers: "Miembros del hogar",
+    memberSingular: "miembro",
+    memberPlural: "miembros",
+    loadingMembers:
+      "Cargando miembros del hogar…",
+    unableToLoadMembers:
+      "No se pudieron cargar los miembros del hogar.",
+    householdMember: "Miembro del hogar",
+    you: "Tú",
+    inviteSomeone: "Invita a alguien",
+    shareHouseholdCode:
+      "Comparte el código de tu hogar",
+    inviteDescription:
+      "Envía este código en privado a la persona con quien quieras planificar, comprar y guardar recetas.",
+    copied: "Copiado",
+    copyCode: "Copiar código",
+    copyCodeError:
+      "No se pudo copiar el código del hogar.",
+    regenerateCode: "Generar código nuevo",
+    replaceCodeQuestion:
+      "¿Reemplazar este código del hogar?",
+    replaceCodeDescription:
+      "El código actual dejará de funcionar inmediatamente. Los miembros actuales del hogar no serán eliminados.",
+    replacing: "Reemplazando…",
+    replaceCode: "Reemplazar código",
+    cancel: "Cancelar",
+    regenerateCodeError:
+      "No se pudo generar un código nuevo para el hogar.",
+    includedInPlus: "Incluido en Plus",
+    makeDinnerEasier:
+      "Haz que la cena sea más fácil",
+    aiBadge: "IA",
+    socialBadge: "SOCIAL",
+    features: {
+      smartWeek: {
+        title: "Semana Inteligente",
+        description:
+          "Crea una semana pensada para tu horario, despensa, preferencias y solicitudes.",
+      },
+      smartShopping: {
+        title: "Compras Inteligentes",
+        description:
+          "Convierte tu plan de cenas en una compra más organizada, inteligente y sencilla.",
+      },
+      socialImport: {
+        title: "Importar desde Instagram y TikTok",
+        description:
+          "Guarda recetas directamente desde publicaciones sociales sin copiar todo a mano.",
+      },
+      screenshotImport: {
+        title: "Importar capturas",
+        description:
+          "Convierte una o varias capturas de una receta en una receta completa que puedes revisar y guardar.",
+      },
+      sharedWeeklyPlan: {
+        title: "Plan semanal compartido",
+        description:
+          "Mantén a todos en tu hogar usando el mismo plan de cenas.",
+      },
+      sharedShoppingList: {
+        title: "Lista de compras compartida",
+        description:
+          "Permite que los miembros del hogar agreguen, marquen y actualicen las compras juntos.",
+      },
+      sharedCookbook: {
+        title: "Recetario compartido",
+        description:
+          "Mantén las recetas guardadas de tu hogar juntas y sincronizadas entre dispositivos.",
+      },
+      householdSharing: {
+        title: "Hogar compartido",
+        description:
+          "Mantén conectados la planificación, las compras y las recetas de tu familia.",
+      },
+    },
+  },
+} as const;
 
 type FeatureCardProps = {
   title: string;
@@ -88,11 +267,38 @@ function FeatureCard({
 function SyncItem({
   label,
   status,
+  isSpanish,
 }: {
   label: string;
   status: string;
+  isSpanish: boolean;
 }) {
   const isSynced = status === "synced";
+
+  const statusLabel =
+    status === "synced"
+      ? isSpanish
+        ? "Sincronizado"
+        : "Synced"
+      : status === "syncing"
+        ? isSpanish
+          ? "Sincronizando…"
+          : "Syncing…"
+        : status === "connecting"
+          ? isSpanish
+            ? "Conectando…"
+            : "Connecting…"
+          : status === "offline"
+            ? isSpanish
+              ? "Sin conexión"
+              : "Offline"
+            : status === "error"
+              ? isSpanish
+                ? "Necesita atención"
+                : "Needs attention"
+              : isSpanish
+                ? "En este dispositivo"
+                : "On this device";
 
   return (
     <div className="sd-plus-sync-item">
@@ -108,19 +314,7 @@ function SyncItem({
 
       <span>{label}</span>
 
-      <strong>
-        {status === "synced"
-          ? "Synced"
-          : status === "syncing"
-            ? "Syncing…"
-            : status === "connecting"
-              ? "Connecting…"
-              : status === "offline"
-                ? "Offline"
-                : status === "error"
-                  ? "Needs attention"
-                  : "On this device"}
-      </strong>
+      <strong>{statusLabel}</strong>
     </div>
   );
 }
@@ -135,6 +329,9 @@ export default function PlusDashboardPage() {
   } = useAuth();
 
   const location = useLocation();
+  const language = getStoredLanguage();
+  const isSpanish = language === "es";
+  const copy = PLUS_COPY[isSpanish ? "es" : "en"];
 
   useEffect(() => {
     if (location.hash === "#household") {
@@ -241,7 +438,7 @@ export default function PlusDashboardPage() {
         }, 2500);
       } else {
         setInviteCodeError(
-          "Unable to copy the household code.",
+          copy.copyCodeError,
         );
       }
     }
@@ -257,8 +454,13 @@ export default function PlusDashboardPage() {
         await regenerateHouseholdInviteCode();
 
       if (result.error) {
-        setRegenerateInviteCodeError(
+        console.error(
+          "Unable to regenerate household invite code:",
           result.error,
+        );
+
+        setRegenerateInviteCodeError(
+          copy.regenerateCodeError,
         );
         return;
       }
@@ -327,36 +529,40 @@ export default function PlusDashboardPage() {
           Simple Dinners Plus
         </span>
 
-        <h1>
-          Shared planning for busy families.
-        </h1>
+        <h1>{copy.heroTitle}</h1>
 
-        <p>
-          Plan together, save recipes faster,
-          and make the weekly dinner routine
-          feel a little more simple.
-        </p>
+        <p>{copy.heroDescription}</p>
       </section>
 
       {isSignedIn && (
-        <section className="sd-plus-section">
+        <section
+          id="household"
+          className="sd-plus-section"
+        >
           <div className="sd-plus-section-heading">
             <div>
-              <span>Your household</span>
+              <span>{copy.householdEyebrow}</span>
 
               <h2>
                 {householdLoading
-                  ? "Loading…"
-                  : household?.name ??
-                  "Set up your household"}
+                  ? isSpanish
+                    ? "Cargando…"
+                    : "Loading…"
+                  : household?.name === "My Household" &&
+                    isSpanish
+                    ? "Mi hogar"
+                    : household?.name ??
+                    (isSpanish
+                      ? "Configura tu hogar"
+                      : "Set up your household")}
               </h2>
             </div>
 
             {household && (
               <span className="sd-plus-role">
                 {household.role === "owner"
-                  ? "Owner"
-                  : "Member"}
+                  ? copy.owner
+                  : copy.member}
               </span>
             )}
           </div>
@@ -368,18 +574,21 @@ export default function PlusDashboardPage() {
           {household && (
             <div className="sd-plus-sync-card">
               <SyncItem
-                label="Weekly Plan"
+                label={copy.weeklyPlan}
                 status={weeklyPlanSync.status}
+                isSpanish={isSpanish}
               />
 
               <SyncItem
-                label="Shopping List"
+                label={copy.shoppingList}
                 status={shoppingSync.status}
+                isSpanish={isSpanish}
               />
 
               <SyncItem
-                label="Cookbook"
+                label={copy.cookbook}
                 status={cookbookSync.status}
+                isSpanish={isSpanish}
               />
             </div>
           )}
@@ -387,13 +596,15 @@ export default function PlusDashboardPage() {
           <div className="sd-plus-members-card">
             <div className="sd-plus-members-heading">
               <div>
-                <span>Household members</span>
+                <span>
+                  {copy.householdMembers}
+                </span>
 
                 <h3>
                   {householdMembers.length}{" "}
                   {householdMembers.length === 1
-                    ? "member"
-                    : "members"}
+                    ? copy.memberSingular
+                    : copy.memberPlural}
                 </h3>
               </div>
 
@@ -405,11 +616,11 @@ export default function PlusDashboardPage() {
 
             {householdMembersLoading ? (
               <p className="sd-plus-members-message">
-                Loading household members…
+                {copy.loadingMembers}
               </p>
             ) : householdMembersError ? (
               <p className="sd-plus-members-message is-error">
-                Unable to load household members.
+                {copy.unableToLoadMembers}
               </p>
             ) : (
               <div className="sd-plus-members-list">
@@ -417,7 +628,7 @@ export default function PlusDashboardPage() {
                   const memberName =
                     member.displayName?.trim() ||
                     member.email ||
-                    "Household member";
+                    copy.householdMember;
 
                   const initial =
                     memberName
@@ -441,7 +652,10 @@ export default function PlusDashboardPage() {
                           {memberName}
 
                           {member.isCurrentUser && (
-                            <span> You</span>
+                            <span>
+                              {" "}
+                              {copy.you}
+                            </span>
                           )}
                         </strong>
 
@@ -453,8 +667,8 @@ export default function PlusDashboardPage() {
 
                       <span className="sd-plus-member-role">
                         {member.role === "owner"
-                          ? "Owner"
-                          : "Member"}
+                          ? copy.owner
+                          : copy.member}
                       </span>
                     </div>
                   );
@@ -474,15 +688,13 @@ export default function PlusDashboardPage() {
                 </div>
 
                 <div className="sd-plus-invite-copy">
-                  <span>Invite someone</span>
+                  <span>{copy.inviteSomeone}</span>
 
-                  <h3>Share your household code</h3>
+                  <h3>
+                    {copy.shareHouseholdCode}
+                  </h3>
 
-                  <p>
-                    Send this code privately to someone
-                    you want to plan, shop, and save
-                    recipes with.
-                  </p>
+                  <p>{copy.inviteDescription}</p>
 
                   <div className="sd-plus-invite-code-row">
                     <code>
@@ -508,8 +720,8 @@ export default function PlusDashboardPage() {
                       )}
 
                       {inviteCodeCopied
-                        ? "Copied"
-                        : "Copy code"}
+                        ? copy.copied
+                        : copy.copyCode}
                     </button>
                   </div>
 
@@ -527,18 +739,16 @@ export default function PlusDashboardPage() {
                         aria-hidden="true"
                       />
 
-                      Regenerate code
+                      {copy.regenerateCode}
                     </button>
                   ) : (
                     <div className="sd-plus-regenerate-confirm">
                       <strong>
-                        Replace this household code?
+                        {copy.replaceCodeQuestion}
                       </strong>
 
                       <p>
-                        The current code will stop working
-                        immediately. Existing household
-                        members will not be removed.
+                        {copy.replaceCodeDescription}
                       </p>
 
                       <div className="sd-plus-regenerate-actions">
@@ -551,8 +761,8 @@ export default function PlusDashboardPage() {
                           }
                         >
                           {isRegeneratingInviteCode
-                            ? "Replacing…"
-                            : "Replace code"}
+                            ? copy.replacing
+                            : copy.replaceCode}
                         </button>
 
                         <button
@@ -564,7 +774,7 @@ export default function PlusDashboardPage() {
                             setRegenerateInviteCodeError(null);
                           }}
                         >
-                          Cancel
+                          {copy.cancel}
                         </button>
                       </div>
                     </div>
@@ -583,71 +793,105 @@ export default function PlusDashboardPage() {
         </section>
       )}
 
-      <section id="household"
-        className="sd-plus-section">
+      <section
+        className="sd-plus-section"
+        id={isSignedIn ? undefined : "household"}
+      >
         <div className="sd-plus-section-heading">
           <div>
-            <span>Included in Plus</span>
-            <h2>Make dinner easier</h2>
+            <span>{copy.includedInPlus}</span>
+
+            <h2>{copy.makeDinnerEasier}</h2>
           </div>
         </div>
 
         <div className="sd-plus-feature-grid">
           <FeatureCard
-            title="Smart Week"
-            description="Build a thoughtful week around your schedule, pantry, preferences, and requests."
+            title={copy.features.smartWeek.title}
+            description={
+              copy.features.smartWeek.description
+            }
             to="/smart-week"
             icon={CalendarDays}
-            badge="AI"
+            badge={copy.aiBadge}
           />
 
           <FeatureCard
-            title="Smart Shopping"
-            description="Turn your dinner plan into a cleaner, smarter, easier grocery trip."
+            title={copy.features.smartShopping.title}
+            description={
+              copy.features.smartShopping.description
+            }
             to="/shopping-list"
             icon={ShoppingCart}
           />
 
           <FeatureCard
-            title="Instagram & TikTok Import"
-            description="Save recipes directly from social posts instead of copying everything by hand."
+            title={copy.features.socialImport.title}
+            description={
+              copy.features.socialImport.description
+            }
             to="/cookbook"
             icon={Share2}
-            badge="SOCIAL"
+            badge={copy.socialBadge}
           />
 
           <FeatureCard
-            title="Screenshot Import"
-            description="Turn one or more recipe screenshots into a complete recipe you can review and save."
+            title={
+              copy.features.screenshotImport.title
+            }
+            description={
+              copy.features.screenshotImport
+                .description
+            }
             to="/cookbook"
             icon={Camera}
-            badge="AI"
+            badge={copy.aiBadge}
           />
 
           <FeatureCard
-            title="Shared Weekly Plan"
-            description="Keep everyone in your household working from the same dinner plan."
+            title={
+              copy.features.sharedWeeklyPlan.title
+            }
+            description={
+              copy.features.sharedWeeklyPlan
+                .description
+            }
             to="/week"
             icon={CalendarDays}
           />
 
           <FeatureCard
-            title="Shared Shopping List"
-            description="Let household members add, check off, and update groceries together."
+            title={
+              copy.features.sharedShoppingList.title
+            }
+            description={
+              copy.features.sharedShoppingList
+                .description
+            }
             to="/shopping-list"
             icon={ListChecks}
           />
 
           <FeatureCard
-            title="Shared Cookbook"
-            description="Keep your household’s saved recipes together and synced across devices."
+            title={
+              copy.features.sharedCookbook.title
+            }
+            description={
+              copy.features.sharedCookbook
+                .description
+            }
             to="/cookbook"
             icon={BookOpen}
           />
 
           <FeatureCard
-            title="Household Sharing"
-            description="Keep planning, shopping, and recipes connected across your family."
+            title={
+              copy.features.householdSharing.title
+            }
+            description={
+              copy.features.householdSharing
+                .description
+            }
             to="/plus#household"
             icon={Users}
             onClick={scrollToHousehold}
