@@ -36,6 +36,7 @@
     "@capacitor/ios": "^8.3.0",
     "@capacitor/share": "^8.0.1",
     "@capacitor/splash-screen": "^8.0.1",
+    "@revenuecat/purchases-capacitor": "^13.2.4",
     "@supabase/supabase-js": "^2.110.7",
     "cheerio": "^1.2.0",
     "lucide-react": "^0.575.0",
