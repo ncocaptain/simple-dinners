@@ -39,11 +39,26 @@ const SOURCE_STEPS_PLACEHOLDER = "Steps available at source link!";
 const MAX_SCREENSHOT_FILES = 5;
 const MAX_SCREENSHOT_FILE_BYTES = 8 * 1024 * 1024;
 const MAX_SCREENSHOT_TOTAL_BYTES = 25 * 1024 * 1024;
+const MAX_VIDEO_FILE_BYTES = 75 * 1024 * 1024;
 
 const SCREENSHOT_MIME_TYPES = new Set([
   "image/jpeg",
   "image/png",
   "image/webp",
+]);
+
+const VIDEO_MIME_TYPES = new Set([
+  "video/mp4",
+  "video/quicktime",
+  "video/webm",
+  "video/x-m4v",
+]);
+
+const VIDEO_FILE_EXTENSIONS = new Set([
+  "mp4",
+  "mov",
+  "webm",
+  "m4v",
 ]);
 
 // =========================================================
@@ -95,6 +110,30 @@ function splitLines(text?: string) {
     .split("\n")
     .map((line) => line.trim())
     .filter(Boolean);
+}
+
+function getFileExtension(filename: string): string {
+  const match = filename.trim().toLowerCase().match(/\.([a-z0-9]+)$/);
+  return match?.[1] || "";
+}
+
+function isSupportedVideoFile(file: File): boolean {
+  if (VIDEO_MIME_TYPES.has(file.type)) {
+    return true;
+  }
+
+  const hasGenericMimeType =
+    !file.type || file.type === "application/octet-stream";
+
+  return (
+    hasGenericMimeType &&
+    VIDEO_FILE_EXTENSIONS.has(getFileExtension(file.name))
+  );
+}
+
+function formatFileSize(bytes: number): string {
+  const megabytes = bytes / (1024 * 1024);
+  return `${megabytes.toFixed(megabytes >= 10 ? 0 : 1)} MB`;
 }
 
 function normalizeMultilineField(value: unknown): string {
@@ -230,6 +269,29 @@ function looksLikeSocialRecipeUrl(url: string) {
   );
 }
 
+function isInstagramVideoUrl(rawUrl: string): boolean {
+  try {
+    const parsed = new URL(rawUrl);
+    const host = parsed.hostname.toLowerCase();
+
+    const isInstagramHost =
+      host === "instagram.com" ||
+      host === "www.instagram.com" ||
+      host.endsWith(".instagram.com");
+
+    return (
+      isInstagramHost &&
+      /^\/(reel|reels|p)\//i.test(
+        parsed.pathname
+      )
+    );
+  } catch {
+    return /instagram\.com\/(reel|reels|p)\//i.test(
+      rawUrl
+    );
+  }
+}
+
 function getRecipeStatus(recipe: CookbookRecipe) {
   const ingredientCount = splitLines(recipe?.ingredients).length;
   const instructionsMissing =
@@ -245,6 +307,67 @@ function getRecipeStatus(recipe: CookbookRecipe) {
   if (stepCount === 0) return "Needs steps";
 
   return "Ready";
+}
+
+function normalizeSourceUrlForMatching(value?: string): string {
+  const rawUrl = String(value || "").trim();
+
+  if (!rawUrl) return "";
+
+  try {
+    const parsed = new URL(rawUrl);
+
+    parsed.hash = "";
+    parsed.hostname = parsed.hostname
+      .toLowerCase()
+      .replace(/^www\./, "");
+
+    const trackingParameters = new Set([
+      "igsh",
+      "fbclid",
+      "gclid",
+      "si",
+      "feature",
+      "ref",
+      "ref_src",
+      "share_id",
+      "share_app_id",
+    ]);
+
+    Array.from(parsed.searchParams.keys()).forEach((key) => {
+      const normalizedKey = key.toLowerCase();
+
+      if (
+        normalizedKey.startsWith("utm_") ||
+        trackingParameters.has(normalizedKey)
+      ) {
+        parsed.searchParams.delete(key);
+      }
+    });
+
+    parsed.searchParams.sort();
+
+    parsed.pathname =
+      parsed.pathname.replace(/\/+$/, "") || "/";
+
+    return parsed.toString();
+  } catch {
+    return rawUrl
+      .toLowerCase()
+      .replace(/#.*$/, "")
+      .replace(/\/+$/, "");
+  }
+}
+
+function hasUsableRecipeInstructions(value?: string): boolean {
+  const instructions =
+    normalizeMultilineField(value);
+
+  return Boolean(
+    instructions &&
+    instructions.toLowerCase() !==
+    SOURCE_STEPS_PLACEHOLDER.toLowerCase()
+  );
 }
 
 function normalizeIngredientForMatching(value: string) {
@@ -504,14 +627,19 @@ export default function CookbookPage({
   const [captionAssistStatus, setCaptionAssistStatus] = useState("");
   const [isCaptionAssisting, setIsCaptionAssisting] = useState(false);
   const [captionAssistAction, setCaptionAssistAction] = useState<
-    "caption" | "screenshots" | null
+    "caption" | "screenshots" | "video" | null
   >(null);
 
   const captionScreenshotInputRef = useRef<HTMLInputElement | null>(null);
+  const captionVideoInputRef = useRef<HTMLInputElement | null>(null);
   const [captionScreenshotFiles, setCaptionScreenshotFiles] = useState<File[]>([]);
   const [captionScreenshotPreviewUrls, setCaptionScreenshotPreviewUrls] =
     useState<string[]>([]);
   const [captionScreenshotError, setCaptionScreenshotError] = useState("");
+
+  const [captionVideoFile, setCaptionVideoFile] = useState<File | null>(null);
+  const [captionVideoPreviewUrl, setCaptionVideoPreviewUrl] = useState("");
+  const [captionVideoError, setCaptionVideoError] = useState("");
 
   const [showTextImport, setShowTextImport] = useState(false);
   const [pasteText, setPasteText] = useState("");
@@ -555,6 +683,20 @@ export default function CookbookPage({
       });
     };
   }, [captionScreenshotFiles]);
+
+  useEffect(() => {
+    if (!captionVideoFile) {
+      setCaptionVideoPreviewUrl("");
+      return;
+    }
+
+    const previewUrl = URL.createObjectURL(captionVideoFile);
+    setCaptionVideoPreviewUrl(previewUrl);
+
+    return () => {
+      URL.revokeObjectURL(previewUrl);
+    };
+  }, [captionVideoFile]);
 
   useEffect(() => {
     const sharedUrl = getSharedRecipeUrlFromSearch(location.search);
@@ -659,13 +801,23 @@ export default function CookbookPage({
     }
   };
 
+  const resetCaptionVideo = () => {
+    setCaptionVideoFile(null);
+    setCaptionVideoError("");
+
+    if (captionVideoInputRef.current) {
+      captionVideoInputRef.current.value = "";
+    }
+  };
+
   const openCaptionAssistModal = (recipe: ManualRecipeDraft) => {
     setCaptionAssistDraft(recipe);
     setCaptionAssistText("");
     resetCaptionScreenshots();
+    resetCaptionVideo();
     setCaptionAssistAction(null);
     setCaptionAssistStatus(
-      "We found the post, but not the full recipe text. Paste the caption, use screenshots, or save it as Needs Finishing."
+      "We found the post, but not the full recipe text. Paste the caption, use screenshots or a saved video, or save it as Needs Finishing."
     );
     setShowTextImport(false);
     setShowManual(false);
@@ -676,12 +828,17 @@ export default function CookbookPage({
     setCaptionAssistDraft(null);
     setCaptionAssistText("");
     resetCaptionScreenshots();
+    resetCaptionVideo();
     setCaptionAssistAction(null);
     setCaptionAssistStatus("");
   };
 
   const chooseCaptionScreenshots = () => {
     captionScreenshotInputRef.current?.click();
+  };
+
+  const chooseCaptionVideo = () => {
+    captionVideoInputRef.current?.click();
   };
 
   const handleCaptionScreenshotSelection = (
@@ -741,6 +898,7 @@ export default function CookbookPage({
 
     setCaptionScreenshotFiles(combinedFiles);
     setCaptionScreenshotError("");
+    resetCaptionVideo();
   };
 
   const removeCaptionScreenshot = (indexToRemove: number) => {
@@ -748,6 +906,39 @@ export default function CookbookPage({
       currentFiles.filter((_, index) => index !== indexToRemove)
     );
     setCaptionScreenshotError("");
+  };
+
+  const handleCaptionVideoSelection = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    const selectedFile = event.currentTarget.files?.[0] || null;
+
+    // Let the user pick the same video again after removing it.
+    event.currentTarget.value = "";
+
+    if (!selectedFile) return;
+
+    if (!isSupportedVideoFile(selectedFile)) {
+      setCaptionVideoError(
+        "Please choose an MP4, MOV, WebM, or M4V video."
+      );
+      return;
+    }
+
+    if (selectedFile.size > MAX_VIDEO_FILE_BYTES) {
+      setCaptionVideoError(
+        `${selectedFile.name} is larger than 75 MB.`
+      );
+      return;
+    }
+
+    setCaptionVideoFile(selectedFile);
+    setCaptionVideoError("");
+    resetCaptionScreenshots();
+  };
+
+  const removeCaptionVideo = () => {
+    resetCaptionVideo();
   };
 
   const saveCaptionAssistNeedsFinishing = () => {
@@ -760,6 +951,7 @@ export default function CookbookPage({
     setCaptionAssistDraft(null);
     setCaptionAssistText("");
     resetCaptionScreenshots();
+    resetCaptionVideo();
     setCaptionAssistAction(null);
     setCaptionAssistStatus("");
   };
@@ -801,10 +993,14 @@ export default function CookbookPage({
   // URL IMPORT
   // =========================================================
 
-  const handleImport = async (e?: FormEvent | MouseEvent) => {
+  const handleImport = async (
+    e?: FormEvent | MouseEvent
+  ) => {
     e?.preventDefault();
 
-    if (!importUrl.trim()) {
+    const requestedUrl = importUrl.trim();
+
+    if (!requestedUrl) {
       alert(t("cookbook.alertPasteUrl"));
       return;
     }
@@ -812,84 +1008,228 @@ export default function CookbookPage({
     setIsImporting(true);
 
     try {
-      (document.activeElement as HTMLElement)?.blur();
+      (
+        document.activeElement as HTMLElement
+      )?.blur();
 
-      const response = await fetch(`${API_BASE}/import-recipe`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: importUrl.trim() }),
-      });
+      // -----------------------------------------------------
+      // Instagram video import
+      // Resolve the public reel automatically and send the
+      // recovered recipe directly to Review Recipe.
+      // -----------------------------------------------------
+
+      if (isInstagramVideoUrl(requestedUrl)) {
+        try {
+          const videoResponse = await fetch(
+            `${API_BASE}/import-video-url`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type":
+                  "application/json",
+              },
+              body: JSON.stringify({
+                url: requestedUrl,
+                language:
+                  language ||
+                  navigator.language ||
+                  "en",
+              }),
+            }
+          );
+
+          let videoData: any;
+
+          try {
+            videoData =
+              await videoResponse.json();
+          } catch {
+            throw new Error(
+              "Simple Dinners could not read the Instagram video response."
+            );
+          }
+
+          if (
+            !videoResponse.ok ||
+            !videoData?.success ||
+            !videoData?.recipe
+          ) {
+            throw new Error(
+              videoData?.error ||
+              "Simple Dinners could not read that Instagram video."
+            );
+          }
+
+          const normalizedVideoRecipe =
+            normalizeImportedRecipe(
+              videoData.recipe,
+              videoData,
+              requestedUrl
+            );
+
+          setManualRecipe(
+            normalizedVideoRecipe
+          );
+
+          setEditingSlug(null);
+          setHasImportedDraft(true);
+          setShowManual(true);
+          setImportUrl("");
+
+          if (videoData.needsFinishing) {
+            alert(
+              "We found part of this recipe from the video. Review what was recovered and fill in anything missing."
+            );
+          } else {
+            alert(
+              t(
+                "cookbook.importedReviewSave"
+              )
+            );
+          }
+
+          return;
+        } catch (videoError) {
+          console.error(
+            "Automatic Instagram video import failed:",
+            videoError
+          );
+
+          // Continue to the standard social-post importer.
+          // That preserves Caption Assist, screenshots,
+          // and saved-video options as fallbacks.
+        }
+      }
+
+      // -----------------------------------------------------
+      // Existing standard URL importer
+      // -----------------------------------------------------
+
+      const response = await fetch(
+        `${API_BASE}/import-recipe`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+          body: JSON.stringify({
+            url: requestedUrl,
+          }),
+        }
+      );
 
       if (!response.ok) {
-        let errorMessage = t("cookbook.recipeImportFailed");
+        let errorMessage = t(
+          "cookbook.recipeImportFailed"
+        );
 
         try {
-          const errorData = await response.json();
+          const errorData =
+            await response.json();
 
           if (errorData?.error) {
-            errorMessage = errorData.error;
+            errorMessage =
+              errorData.error;
           }
         } catch {
-          // Ignore JSON parse errors
+          // Ignore JSON parsing errors.
         }
 
-        console.error("Import API error:", response.status, errorMessage);
+        console.error(
+          "Import API error:",
+          response.status,
+          errorMessage
+        );
+
         alert(errorMessage);
         return;
       }
 
       const data = await response.json();
 
-      if (data?.recipe) {
-        const imported = data.recipe;
-        const normalizedRecipe = normalizeImportedRecipe(
-          imported,
+      if (!data?.recipe) {
+        alert(
+          data?.error ||
+          t(
+            "cookbook.failedToImportRecipe"
+          )
+        );
+        return;
+      }
+
+      const normalizedRecipe =
+        normalizeImportedRecipe(
+          data.recipe,
           data,
-          importUrl.trim()
+          requestedUrl
         );
 
-        const importSourceUrl = normalizedRecipe.sourceUrl || importUrl.trim();
+      const importSourceUrl =
+        normalizedRecipe.sourceUrl ||
+        requestedUrl;
 
-        if (!hasRealRecipeDetails(normalizedRecipe)) {
-          if (looksLikeSocialRecipeUrl(importSourceUrl)) {
-            setImportUrl(importSourceUrl);
-            openCaptionAssistModal(normalizedRecipe);
-            return;
-          }
-
-          alert(
-            "Simple Dinners found the link, but could not read enough recipe details. Try Paste Text if the recipe is shown on the page."
+      if (
+        !hasRealRecipeDetails(
+          normalizedRecipe
+        )
+      ) {
+        if (
+          looksLikeSocialRecipeUrl(
+            importSourceUrl
+          )
+        ) {
+          setImportUrl(
+            importSourceUrl
           );
 
-          setPasteText("");
-          setShowTextImport(true);
-          setImportUrl(importSourceUrl);
+          openCaptionAssistModal(
+            normalizedRecipe
+          );
 
           return;
         }
 
-        setManualRecipe(normalizedRecipe);
+        alert(
+          "Simple Dinners found the link, but could not read enough recipe details. Try Paste Text if the recipe is shown on the page."
+        );
 
-        setEditingSlug(null);
-        setHasImportedDraft(true);
-        setShowManual(true);
-        setImportUrl("");
+        setPasteText("");
+        setShowTextImport(true);
+        setImportUrl(
+          importSourceUrl
+        );
 
-        if (
-          !normalizedRecipe.name &&
-          !normalizedRecipe.ingredients &&
-          !normalizedRecipe.instructions
-        ) {
-          alert(t("cookbook.importSparse"));
-        } else {
-          alert(t("cookbook.importedReviewSave"));
-        }
-      } else {
-        alert(data?.error || t("cookbook.failedToImportRecipe"));
+        return;
       }
+
+      setManualRecipe(
+        normalizedRecipe
+      );
+
+      setEditingSlug(null);
+      setHasImportedDraft(true);
+      setShowManual(true);
+      setImportUrl("");
+
+      alert(
+        t(
+          "cookbook.importedReviewSave"
+        )
+      );
     } catch (err) {
-      console.error("Import failed:", err);
-      alert(t("cookbook.unableImportNow"));
+      console.error(
+        "Import failed:",
+        err
+      );
+
+      alert(
+        err instanceof Error
+          ? err.message
+          : t(
+            "cookbook.unableImportNow"
+          )
+      );
     } finally {
       setIsImporting(false);
     }
@@ -954,6 +1294,7 @@ export default function CookbookPage({
       setCaptionAssistDraft(null);
       setCaptionAssistText("");
       resetCaptionScreenshots();
+      resetCaptionVideo();
       setCaptionAssistStatus("");
 
       alert(t("cookbook.importedReviewSave"));
@@ -1053,6 +1394,7 @@ export default function CookbookPage({
       setCaptionAssistDraft(null);
       setCaptionAssistText("");
       resetCaptionScreenshots();
+      resetCaptionVideo();
       setCaptionAssistStatus("");
 
       alert(t("cookbook.importedReviewSave"));
@@ -1062,6 +1404,96 @@ export default function CookbookPage({
         err instanceof Error
           ? err.message
           : "We couldn’t read a recipe from those screenshots. Try again or save it as Needs Finishing."
+      );
+    } finally {
+      setIsCaptionAssisting(false);
+      setCaptionAssistAction(null);
+    }
+  };
+
+
+  const handleVideoAssistImport = async () => {
+    if (!captionAssistDraft) return;
+
+    if (!captionVideoFile) {
+      setCaptionVideoError("Choose a saved recipe video first.");
+      return;
+    }
+
+    const sourceUrl = captionAssistDraft.sourceUrl || importUrl.trim();
+
+    setIsCaptionAssisting(true);
+    setCaptionAssistAction("video");
+    setCaptionVideoError("");
+    setCaptionAssistStatus("Reading and listening to recipe video...");
+
+    try {
+      const formData = new FormData();
+
+      // Keep regular fields before the file for multipart processing.
+      if (sourceUrl) {
+        formData.append("sourceUrl", sourceUrl);
+      }
+
+      formData.append("language", language || navigator.language || "en");
+      formData.append(
+        "video",
+        captionVideoFile,
+        captionVideoFile.name
+      );
+
+      const response = await fetch(`${API_BASE}/import-video`, {
+        method: "POST",
+        body: formData,
+      });
+
+      let data: any;
+
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error(
+          "Simple Dinners could not read the video import response."
+        );
+      }
+
+      if (!response.ok || !data?.success || !data?.recipe) {
+        throw new Error(
+          data?.error ||
+          "Simple Dinners could not build a recipe from that video."
+        );
+      }
+
+      const mergedRecipe = {
+        ...data.recipe,
+        photoUrl: data.recipe.photoUrl || captionAssistDraft.photoUrl,
+        sourceUrl: data.recipe.sourceUrl || sourceUrl,
+      };
+
+      const normalizedRecipe = normalizeImportedRecipe(
+        mergedRecipe,
+        data,
+        sourceUrl
+      );
+
+      setManualRecipe(normalizedRecipe);
+      setEditingSlug(null);
+      setHasImportedDraft(true);
+      setShowManual(true);
+      setImportUrl("");
+      setCaptionAssistDraft(null);
+      setCaptionAssistText("");
+      resetCaptionScreenshots();
+      resetCaptionVideo();
+      setCaptionAssistStatus("");
+
+      alert(t("cookbook.importedReviewSave"));
+    } catch (err) {
+      console.error("Video Assist failed:", err);
+      setCaptionAssistStatus(
+        err instanceof Error
+          ? err.message
+          : "We couldn’t build a recipe from that video. Try a shorter screen recording that clearly shows or says the ingredients and steps."
       );
     } finally {
       setIsCaptionAssisting(false);
@@ -1120,7 +1552,9 @@ export default function CookbookPage({
   // SAVE MANUAL / IMPORTED RECIPE
   // =========================================================
 
-  const handleManualSave = (e?: FormEvent | MouseEvent) => {
+  const handleManualSave = (
+    e?: FormEvent | MouseEvent
+  ) => {
     e?.preventDefault();
 
     if (!manualRecipe.name.trim()) {
@@ -1128,20 +1562,54 @@ export default function CookbookPage({
       return;
     }
 
-    const normalizedPhotoUrl = normalizePhotoUrl(manualRecipe.photoUrl);
+    const normalizedPhotoUrl =
+      normalizePhotoUrl(
+        manualRecipe.photoUrl
+      );
 
     const cleanedRecipe: CookbookRecipe = {
       name: manualRecipe.name.trim(),
-      ingredients: normalizeMultilineField(manualRecipe.ingredients),
-      instructions: normalizeMultilineField(manualRecipe.instructions),
+
+      ingredients:
+        normalizeMultilineField(
+          manualRecipe.ingredients
+        ),
+
+      instructions:
+        normalizeMultilineField(
+          manualRecipe.instructions
+        ),
+
       photoUrl: normalizedPhotoUrl,
-      sourceUrl: manualRecipe.sourceUrl.trim(),
-      effort: normalizeEffort(manualRecipe.effort),
-      tags: normalizeTags(manualRecipe.tags),
-      isVegetarian: manualRecipe.isVegetarian === true,
-      notes: normalizeNotes(manualRecipe.notes),
-      id: slugify(manualRecipe.name),
+      sourceUrl:
+        manualRecipe.sourceUrl.trim(),
+
+      effort:
+        normalizeEffort(
+          manualRecipe.effort
+        ),
+
+      tags:
+        normalizeTags(
+          manualRecipe.tags
+        ),
+
+      isVegetarian:
+        manualRecipe.isVegetarian === true,
+
+      notes:
+        normalizeNotes(
+          manualRecipe.notes
+        ),
+
+      id: slugify(
+        manualRecipe.name
+      ),
     };
+
+    // -------------------------------------------------------
+    // Normal edit flow
+    // -------------------------------------------------------
 
     if (editingSlug) {
       setCookbook((prev) =>
@@ -1155,18 +1623,222 @@ export default function CookbookPage({
         )
       );
 
-      alert(t("cookbook.recipeUpdated"));
-    } else {
-      const recipeToSave: CookbookRecipe = {
-        ...cleanedRecipe,
-        slug: `${slugify(manualRecipe.name)}-${Date.now()
-          .toString()
-          .slice(-4)}`,
-      };
+      alert(
+        t("cookbook.recipeUpdated")
+      );
 
-      setCookbook((prev) => [...prev, recipeToSave]);
-      alert(t("cookbook.recipeSavedToCookbook"));
+      closeManualModal();
+      return;
     }
+
+    // -------------------------------------------------------
+    // Imported recipe duplicate / upgrade detection
+    // -------------------------------------------------------
+
+    const incomingSourceKey =
+      hasImportedDraft
+        ? normalizeSourceUrlForMatching(
+          cleanedRecipe.sourceUrl
+        )
+        : "";
+
+    const matchingSourceRecipes =
+      incomingSourceKey
+        ? cookbook.filter(
+          (recipe) =>
+            normalizeSourceUrlForMatching(
+              recipe.sourceUrl
+            ) === incomingSourceKey
+        )
+        : [];
+
+    const existingReadyRecipe =
+      matchingSourceRecipes.find(
+        (recipe) =>
+          getRecipeStatus(recipe) ===
+          "Ready"
+      );
+
+    const existingUnfinishedRecipe =
+      matchingSourceRecipes.find(
+        (recipe) =>
+          getRecipeStatus(recipe) !==
+          "Ready"
+      );
+
+    // -------------------------------------------------------
+    // Same source is already complete
+    // -------------------------------------------------------
+
+    if (existingReadyRecipe) {
+      if (existingReadyRecipe.slug) {
+        setHighlightSlug(
+          existingReadyRecipe.slug
+        );
+      }
+
+      alert(
+        language === "es"
+          ? "Esta receta ya está guardada y completa en tu recetario."
+          : "This recipe is already saved and complete in your Cookbook."
+      );
+
+      closeManualModal();
+      return;
+    }
+
+    // -------------------------------------------------------
+    // Upgrade an unfinished recipe in place
+    // -------------------------------------------------------
+
+    if (existingUnfinishedRecipe) {
+      const existingSlug =
+        existingUnfinishedRecipe.slug;
+
+      const existingId =
+        existingUnfinishedRecipe.id;
+
+      setCookbook((prev) =>
+        prev.map((recipe) => {
+          const isRecipeToUpgrade =
+            existingSlug
+              ? recipe.slug ===
+              existingSlug
+              : existingId
+                ? recipe.id ===
+                existingId
+                : normalizeSourceUrlForMatching(
+                  recipe.sourceUrl
+                ) === incomingSourceKey &&
+                getRecipeStatus(
+                  recipe
+                ) !== "Ready";
+
+          if (!isRecipeToUpgrade) {
+            return recipe;
+          }
+
+          const existingIngredients =
+            normalizeMultilineField(
+              recipe.ingredients
+            );
+
+          const existingInstructions =
+            normalizeMultilineField(
+              recipe.instructions
+            );
+
+          const incomingInstructions =
+            normalizeMultilineField(
+              cleanedRecipe.instructions
+            );
+
+          const existingTags =
+            normalizeTags(
+              recipe.tags
+            );
+
+          return {
+            // Preserve favorite status, translations,
+            // custom fields, cloud IDs, slug, and any
+            // other user data already on the recipe.
+            ...recipe,
+
+            name:
+              cleanedRecipe.name ||
+              recipe.name,
+
+            ingredients:
+              cleanedRecipe.ingredients ||
+              existingIngredients,
+
+            instructions:
+              hasUsableRecipeInstructions(
+                incomingInstructions
+              )
+                ? incomingInstructions
+                : existingInstructions,
+
+            photoUrl:
+              cleanedRecipe.photoUrl ||
+              recipe.photoUrl ||
+              "",
+
+            sourceUrl:
+              cleanedRecipe.sourceUrl ||
+              recipe.sourceUrl ||
+              "",
+
+            // Preserve user-selected metadata.
+            effort:
+              recipe.effort ||
+              cleanedRecipe.effort,
+
+            tags:
+              existingTags.length > 0
+                ? existingTags
+                : cleanedRecipe.tags,
+
+            isVegetarian:
+              recipe.isVegetarian === true ||
+              cleanedRecipe.isVegetarian ===
+              true,
+
+            notes:
+              normalizeNotes(
+                recipe.notes
+              ) ||
+              cleanedRecipe.notes,
+
+            id:
+              recipe.id ||
+              cleanedRecipe.id,
+          };
+        })
+      );
+
+      if (
+        existingUnfinishedRecipe.slug
+      ) {
+        setHighlightSlug(
+          existingUnfinishedRecipe.slug
+        );
+      }
+
+      alert(
+        language === "es"
+          ? "¡La receta guardada se actualizó con los nuevos detalles!"
+          : "Your saved recipe was updated with the new details!"
+      );
+
+      closeManualModal();
+      return;
+    }
+
+    // -------------------------------------------------------
+    // No source match — save normally
+    // -------------------------------------------------------
+
+    const recipeToSave: CookbookRecipe = {
+      ...cleanedRecipe,
+
+      slug: `${slugify(
+        manualRecipe.name
+      )}-${Date.now()
+        .toString()
+        .slice(-4)}`,
+    };
+
+    setCookbook((prev) => [
+      ...prev,
+      recipeToSave,
+    ]);
+
+    alert(
+      t(
+        "cookbook.recipeSavedToCookbook"
+      )
+    );
 
     closeManualModal();
   };
@@ -1840,7 +2512,7 @@ export default function CookbookPage({
                   }}
                 >
                   {captionAssistStatus ||
-                    "We found the post, but not the full recipe text. Paste the caption or add screenshots showing the ingredients and instructions."}
+                    "We found the post, but not the full recipe text. Paste the caption, add screenshots, or choose a saved recipe video."}
                 </p>
 
                 {captionAssistDraft.name && (
@@ -2133,6 +2805,192 @@ export default function CookbookPage({
                       </button>
                     </>
                   )}
+                </div>
+
+
+                <div
+                  style={{
+                    marginTop: 20,
+                    paddingTop: 20,
+                    borderTop: "1px solid rgba(255,255,255,0.12)",
+                  }}
+                >
+                  <h3 style={{ margin: "0 0 6px", fontSize: 16 }}>
+                    Or use a saved video
+                  </h3>
+
+                  <p
+                    style={{
+                      margin: "0 0 12px",
+                      fontSize: 13,
+                      lineHeight: 1.5,
+                      opacity: 0.72,
+                    }}
+                  >
+                    Choose a saved recipe clip or screen recording. Simple
+                    Dinners will read visible recipe text and listen for spoken
+                    ingredients and steps.
+                  </p>
+
+                  <input
+                    ref={captionVideoInputRef}
+                    type="file"
+                    accept=".mp4,.mov,.webm,.m4v,video/mp4,video/quicktime,video/webm,video/x-m4v"
+                    onChange={handleCaptionVideoSelection}
+                    style={{ display: "none" }}
+                  />
+
+                  {!captionVideoFile && (
+                    <button
+                      type="button"
+                      onClick={chooseCaptionVideo}
+                      disabled={isCaptionAssisting}
+                      style={{
+                        ...btn,
+                        padding: "12px 16px",
+                        borderRadius: 999,
+                        background: "rgba(255,255,255,0.06)",
+                        border: "1px solid rgba(255,255,255,0.14)",
+                        color: "white",
+                        opacity: isCaptionAssisting ? 0.55 : 1,
+                        cursor: isCaptionAssisting ? "default" : "pointer",
+                      }}
+                    >
+                      Choose Video
+                    </button>
+                  )}
+
+                  {captionVideoError && (
+                    <p
+                      role="alert"
+                      style={{
+                        margin: "10px 0 0",
+                        color: "#fca5a5",
+                        fontSize: 13,
+                        lineHeight: 1.45,
+                      }}
+                    >
+                      {captionVideoError}
+                    </p>
+                  )}
+
+                  {captionVideoFile && (
+                    <div
+                      style={{
+                        marginTop: 14,
+                        overflow: "hidden",
+                        borderRadius: 16,
+                        border: "1px solid rgba(255,255,255,0.14)",
+                        background: "#0f172a",
+                      }}
+                    >
+                      {captionVideoPreviewUrl && (
+                        <video
+                          src={captionVideoPreviewUrl}
+                          controls
+                          preload="metadata"
+                          style={{
+                            display: "block",
+                            width: "100%",
+                            maxHeight: 360,
+                            background: "#020617",
+                          }}
+                        />
+                      )}
+
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          gap: 12,
+                          padding: 12,
+                        }}
+                      >
+                        <div style={{ minWidth: 0 }}>
+                          <div
+                            title={captionVideoFile.name}
+                            style={{
+                              fontWeight: 700,
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {captionVideoFile.name}
+                          </div>
+
+                          <div
+                            style={{
+                              marginTop: 3,
+                              fontSize: 12,
+                              opacity: 0.68,
+                            }}
+                          >
+                            {formatFileSize(captionVideoFile.size)} · 75 MB
+                            maximum
+                          </div>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={removeCaptionVideo}
+                          disabled={isCaptionAssisting}
+                          style={{
+                            flex: "0 0 auto",
+                            padding: "9px 12px",
+                            borderRadius: 999,
+                            border: "1px solid rgba(255,255,255,0.16)",
+                            background: "transparent",
+                            color: "white",
+                            fontWeight: 700,
+                            cursor: isCaptionAssisting
+                              ? "default"
+                              : "pointer",
+                          }}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {captionVideoFile && (
+                    <button
+                      type="button"
+                      onClick={handleVideoAssistImport}
+                      disabled={isCaptionAssisting}
+                      style={{
+                        ...btn,
+                        width: "100%",
+                        marginTop: 12,
+                        padding: 14,
+                        borderRadius: 16,
+                        background: isCaptionAssisting
+                          ? "rgba(148,163,184,0.35)"
+                          : "rgba(14,165,233,0.18)",
+                        border: "1px solid rgba(14,165,233,0.45)",
+                        color: isCaptionAssisting ? "#cbd5e1" : "#bae6fd",
+                        cursor: isCaptionAssisting ? "default" : "pointer",
+                      }}
+                    >
+                      {captionAssistAction === "video"
+                        ? "Reading Video..."
+                        : "Finish with Video"}
+                    </button>
+                  )}
+
+                  <p
+                    style={{
+                      margin: "10px 0 0",
+                      fontSize: 12,
+                      opacity: 0.66,
+                      lineHeight: 1.45,
+                    }}
+                  >
+                    For best results, use a short clip that clearly shows or
+                    says the ingredients and cooking steps.
+                  </p>
                 </div>
 
                 <button

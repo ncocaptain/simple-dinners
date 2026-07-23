@@ -15,12 +15,51 @@ const SOURCE_STEPS_PLACEHOLDER = "Steps available at source link!";
 const MAX_SCREENSHOT_FILES = 5;
 const MAX_SCREENSHOT_FILE_BYTES = 8 * 1024 * 1024;
 const MAX_SCREENSHOT_TOTAL_BYTES = 25 * 1024 * 1024;
+const MAX_VIDEO_FILE_BYTES = 75 * 1024 * 1024;
 
 const SCREENSHOT_MIME_TYPES = new Set([
   "image/jpeg",
   "image/png",
   "image/webp",
 ]);
+
+const VIDEO_MIME_TYPES = new Set([
+  "video/mp4",
+  "video/quicktime",
+  "video/webm",
+  "video/x-m4v",
+]);
+
+const VIDEO_FILE_EXTENSIONS = new Set([
+  "mp4",
+  "mov",
+  "webm",
+  "m4v",
+]);
+
+function getFileExtension(filename: string): string {
+  const match = filename.trim().toLowerCase().match(/\.([a-z0-9]+)$/);
+  return match?.[1] || "";
+}
+
+function isSupportedVideoFile(file: File): boolean {
+  if (VIDEO_MIME_TYPES.has(file.type)) {
+    return true;
+  }
+
+  const hasGenericMimeType =
+    !file.type || file.type === "application/octet-stream";
+
+  return (
+    hasGenericMimeType &&
+    VIDEO_FILE_EXTENSIONS.has(getFileExtension(file.name))
+  );
+}
+
+function formatFileSize(bytes: number): string {
+  const megabytes = bytes / (1024 * 1024);
+  return `${megabytes.toFixed(megabytes >= 10 ? 0 : 1)} MB`;
+}
 
 function extractFirstUrlFromSharedText(value: string | null): string {
   if (!value) return "";
@@ -94,6 +133,29 @@ function isCaptionAssistSocialUrl(rawUrl: string): boolean {
       lower.includes("tiktok.com") ||
       lower.includes("facebook.com") ||
       lower.includes("fb.watch")
+    );
+  }
+}
+
+function isInstagramVideoUrl(rawUrl: string): boolean {
+  try {
+    const parsed = new URL(rawUrl);
+    const host = parsed.hostname.toLowerCase();
+
+    const isInstagramHost =
+      host === "instagram.com" ||
+      host === "www.instagram.com" ||
+      host.endsWith(".instagram.com");
+
+    return (
+      isInstagramHost &&
+      /^\/(reel|reels|p)\//i.test(
+        parsed.pathname
+      )
+    );
+  } catch {
+    return /instagram\.com\/(reel|reels|p)\//i.test(
+      rawUrl
     );
   }
 }
@@ -180,6 +242,49 @@ async function importFromUrl(recipeUrl: string, captionText = "") {
   return data;
 }
 
+async function importFromPublicVideoUrl(
+  videoUrl: string
+) {
+  const response = await fetch(
+    `${API_BASE}/import-video-url`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type":
+          "application/json",
+      },
+      body: JSON.stringify({
+        url: videoUrl,
+        language:
+          navigator.language || "en",
+      }),
+    }
+  );
+
+  let data: any;
+
+  try {
+    data = await response.json();
+  } catch {
+    throw new Error(
+      "Simple Dinners could not read the public video response."
+    );
+  }
+
+  if (
+    !response.ok ||
+    !data?.success ||
+    !data?.recipe
+  ) {
+    throw new Error(
+      data?.error ||
+      "Simple Dinners could not read that Instagram video."
+    );
+  }
+
+  return data;
+}
+
 async function importFromJsonLd(recipeUrl: string, jsonLd: string) {
   const response = await fetch(`${API_BASE}/import-jsonld`, {
     method: "POST",
@@ -214,12 +319,16 @@ export default function ShareImport() {
   const [captionAssistText, setCaptionAssistText] = useState("");
   const [captionAssistLoading, setCaptionAssistLoading] = useState(false);
   const screenshotInputRef = useRef<HTMLInputElement | null>(null);
+  const videoInputRef = useRef<HTMLInputElement | null>(null);
 
   const [screenshotFiles, setScreenshotFiles] = useState<File[]>([]);
   const [screenshotPreviewUrls, setScreenshotPreviewUrls] = useState<string[]>(
     []
   );
   const [screenshotSelectionError, setScreenshotSelectionError] = useState("");
+  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [videoPreviewUrl, setVideoPreviewUrl] = useState("");
+  const [videoSelectionError, setVideoSelectionError] = useState("");
 
   useEffect(() => {
     const previewUrls = screenshotFiles.map((file) =>
@@ -235,10 +344,26 @@ export default function ShareImport() {
     };
   }, [screenshotFiles]);
 
+  useEffect(() => {
+    if (!videoFile) {
+      setVideoPreviewUrl("");
+      return;
+    }
+
+    const previewUrl = URL.createObjectURL(videoFile);
+    setVideoPreviewUrl(previewUrl);
+
+    return () => {
+      URL.revokeObjectURL(previewUrl);
+    };
+  }, [videoFile]);
+
   const finishImport = useCallback(
     (data: any) => {
       setScreenshotFiles([]);
       setScreenshotSelectionError("");
+      setVideoFile(null);
+      setVideoSelectionError("");
       setStatus(`Recipe found: ${data.recipe.name || data.name || "Recipe"}`);
 
       setTimeout(() => {
@@ -255,6 +380,10 @@ export default function ShareImport() {
 
   function chooseScreenshots() {
     screenshotInputRef.current?.click();
+  }
+
+  function chooseVideo() {
+    videoInputRef.current?.click();
   }
 
   function handleScreenshotSelection(
@@ -317,6 +446,8 @@ export default function ShareImport() {
 
     setScreenshotFiles(combinedFiles);
     setScreenshotSelectionError("");
+    setVideoFile(null);
+    setVideoSelectionError("");
   }
 
   function removeScreenshot(indexToRemove: number) {
@@ -325,6 +456,41 @@ export default function ShareImport() {
     );
 
     setScreenshotSelectionError("");
+  }
+
+  function handleVideoSelection(event: ChangeEvent<HTMLInputElement>) {
+    const selectedFile = event.currentTarget.files?.[0] || null;
+
+    // Allow the same video to be selected again after removal.
+    event.currentTarget.value = "";
+
+    if (!selectedFile) {
+      return;
+    }
+
+    if (!isSupportedVideoFile(selectedFile)) {
+      setVideoSelectionError(
+        "Please choose an MP4, MOV, WebM, or M4V video."
+      );
+      return;
+    }
+
+    if (selectedFile.size > MAX_VIDEO_FILE_BYTES) {
+      setVideoSelectionError(
+        `${selectedFile.name} is larger than 75 MB.`
+      );
+      return;
+    }
+
+    setVideoFile(selectedFile);
+    setVideoSelectionError("");
+    setScreenshotFiles([]);
+    setScreenshotSelectionError("");
+  }
+
+  function removeVideo() {
+    setVideoFile(null);
+    setVideoSelectionError("");
   }
 
   async function finishWithCaptionAssist() {
@@ -395,6 +561,8 @@ export default function ShareImport() {
       setCaptionAssistText("");
       setScreenshotFiles([]);
       setScreenshotSelectionError("");
+      setVideoFile(null);
+      setVideoSelectionError("");
 
       finishImport(assistedData);
     } catch (error) {
@@ -503,6 +671,8 @@ export default function ShareImport() {
       setCaptionAssistText("");
       setScreenshotFiles([]);
       setScreenshotSelectionError("");
+      setVideoFile(null);
+      setVideoSelectionError("");
 
       finishImport(mergedData);
     } catch (error) {
@@ -512,6 +682,89 @@ export default function ShareImport() {
         error instanceof Error
           ? error.message
           : "We couldn’t read a recipe from those screenshots. You can try again or save it as Needs Finishing."
+      );
+    } finally {
+      setCaptionAssistLoading(false);
+    }
+  }
+
+  async function finishWithVideoAssist() {
+    if (!captionAssistResult) return;
+
+    if (!videoFile) {
+      setVideoSelectionError("Choose a saved recipe video first.");
+      return;
+    }
+
+    const sourceUrl = getResultSourceUrl(captionAssistResult) || url;
+
+    setCaptionAssistLoading(true);
+    setVideoSelectionError("");
+    setStatus("Reading and listening to recipe video...");
+
+    try {
+      const formData = new FormData();
+
+      // Keep ordinary fields before the file for multipart processing.
+      if (sourceUrl) {
+        formData.append("sourceUrl", sourceUrl);
+      }
+
+      formData.append("language", navigator.language || "en");
+      formData.append("video", videoFile, videoFile.name);
+
+      const response = await fetch(`${API_BASE}/import-video`, {
+        method: "POST",
+        body: formData,
+      });
+
+      let data: any;
+
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error(
+          "Simple Dinners could not read the video import response."
+        );
+      }
+
+      if (!response.ok || !data?.success || !data?.recipe) {
+        throw new Error(
+          data?.error ||
+          "Simple Dinners could not build a recipe from that video."
+        );
+      }
+
+      const existingPhotoUrl = String(
+        captionAssistResult?.recipe?.photoUrl ||
+        captionAssistResult?.image ||
+        ""
+      ).trim();
+
+      const mergedData = {
+        ...data,
+        recipe: {
+          ...data.recipe,
+          photoUrl: data.recipe.photoUrl || existingPhotoUrl,
+          sourceUrl: data.recipe.sourceUrl || sourceUrl,
+        },
+      };
+
+      setCaptionAssistResult(null);
+      setCaptionAssistText("");
+      setScreenshotFiles([]);
+      setScreenshotSelectionError("");
+      setVideoFile(null);
+      setVideoSelectionError("");
+
+      finishImport(mergedData);
+    } catch (error) {
+      console.error("Video Assist failed:", error);
+
+      setStatus(
+        error instanceof Error
+          ? error.message
+          : "We couldn’t build a recipe from that video. Try a shorter screen recording that clearly shows or says the ingredients and steps."
       );
     } finally {
       setCaptionAssistLoading(false);
@@ -577,11 +830,67 @@ export default function ShareImport() {
         }
 
         if (isIncompleteSocialImport(data)) {
+          if (isInstagramVideoUrl(url)) {
+            try {
+              setStatus(
+                "Reading and listening to the Instagram video..."
+              );
+
+              const videoData =
+                await importFromPublicVideoUrl(
+                  url
+                );
+
+              const existingPhotoUrl = String(
+                data?.recipe?.photoUrl ||
+                data?.image ||
+                ""
+              ).trim();
+
+              const sourceUrl =
+                getResultSourceUrl(data) ||
+                url;
+
+              const mergedVideoData = {
+                ...videoData,
+
+                recipe: {
+                  ...videoData.recipe,
+
+                  photoUrl:
+                    videoData.recipe.photoUrl ||
+                    existingPhotoUrl,
+
+                  sourceUrl:
+                    videoData.recipe.sourceUrl ||
+                    sourceUrl,
+                },
+              };
+
+              finishImport(mergedVideoData);
+              return;
+            } catch (videoError) {
+              console.error(
+                "Automatic Instagram video import failed:",
+                videoError
+              );
+
+              // Continue into the existing caption,
+              // screenshot, and saved-video fallbacks.
+            }
+          }
+
           setCaptionAssistResult(data);
           setCaptionAssistText("");
           setScreenshotFiles([]);
           setScreenshotSelectionError("");
-          setStatus("We found the post, but not the full recipe text.");
+          setVideoFile(null);
+          setVideoSelectionError("");
+
+          setStatus(
+            "We found the post, but not the full recipe text."
+          );
+
           return;
         }
 
@@ -861,6 +1170,177 @@ export default function ShareImport() {
                   : "Finish with Screenshots"}
               </button>
             )}
+          </div>
+
+          <div
+            style={{
+              marginTop: 18,
+              paddingTop: 18,
+              borderTop: "1px solid rgba(255, 255, 255, 0.14)",
+            }}
+          >
+            <h3 style={{ margin: "0 0 6px" }}>Or use a saved video</h3>
+
+            <p
+              style={{
+                margin: "0 0 12px",
+                lineHeight: 1.5,
+                opacity: 0.82,
+              }}
+            >
+              Choose a saved recipe clip or screen recording. Simple Dinners will
+              read visible recipe text and listen for spoken ingredients and steps.
+            </p>
+
+            <input
+              ref={videoInputRef}
+              type="file"
+              accept=".mp4,.mov,.webm,.m4v,video/mp4,video/quicktime,video/webm,video/x-m4v"
+              onChange={handleVideoSelection}
+              style={{ display: "none" }}
+            />
+
+            {!videoFile && (
+              <button
+                type="button"
+                onClick={chooseVideo}
+                disabled={captionAssistLoading}
+                style={{
+                  padding: "12px 16px",
+                  borderRadius: 999,
+                  border: "1px solid rgba(255, 255, 255, 0.22)",
+                  background: "rgba(255, 255, 255, 0.08)",
+                  color: "inherit",
+                  fontWeight: 700,
+                  cursor: captionAssistLoading ? "not-allowed" : "pointer",
+                  opacity: captionAssistLoading ? 0.55 : 1,
+                }}
+              >
+                Choose Video
+              </button>
+            )}
+
+            {videoSelectionError && (
+              <p
+                role="alert"
+                style={{
+                  margin: "10px 0 0",
+                  color: "#fca5a5",
+                  fontSize: 14,
+                  lineHeight: 1.4,
+                }}
+              >
+                {videoSelectionError}
+              </p>
+            )}
+
+            {videoFile && (
+              <div
+                style={{
+                  marginTop: 14,
+                  overflow: "hidden",
+                  borderRadius: 16,
+                  border: "1px solid rgba(255, 255, 255, 0.16)",
+                  background: "rgba(15, 23, 42, 0.7)",
+                }}
+              >
+                {videoPreviewUrl && (
+                  <video
+                    src={videoPreviewUrl}
+                    controls
+                    preload="metadata"
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      maxHeight: 360,
+                      background: "#020617",
+                    }}
+                  />
+                )}
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 12,
+                    padding: 12,
+                  }}
+                >
+                  <div style={{ minWidth: 0 }}>
+                    <div
+                      style={{
+                        fontWeight: 700,
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                      title={videoFile.name}
+                    >
+                      {videoFile.name}
+                    </div>
+                    <div style={{ marginTop: 3, fontSize: 12, opacity: 0.68 }}>
+                      {formatFileSize(videoFile.size)} · 75 MB maximum
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={removeVideo}
+                    disabled={captionAssistLoading}
+                    style={{
+                      flex: "0 0 auto",
+                      padding: "9px 12px",
+                      borderRadius: 999,
+                      border: "1px solid rgba(255, 255, 255, 0.2)",
+                      background: "transparent",
+                      color: "inherit",
+                      fontWeight: 700,
+                      cursor: captionAssistLoading ? "not-allowed" : "pointer",
+                    }}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {videoFile && (
+              <button
+                type="button"
+                onClick={finishWithVideoAssist}
+                disabled={captionAssistLoading}
+                style={{
+                  width: "100%",
+                  marginTop: 14,
+                  padding: "14px 18px",
+                  borderRadius: 16,
+                  border: "1px solid rgba(14, 165, 233, 0.45)",
+                  background: captionAssistLoading
+                    ? "rgba(148, 163, 184, 0.35)"
+                    : "rgba(14, 165, 233, 0.18)",
+                  color: captionAssistLoading ? "#cbd5e1" : "#bae6fd",
+                  fontWeight: 800,
+                  cursor: captionAssistLoading ? "not-allowed" : "pointer",
+                }}
+              >
+                {captionAssistLoading
+                  ? "Reading Video..."
+                  : "Finish with Video"}
+              </button>
+            )}
+
+            <p
+              style={{
+                margin: "10px 0 0",
+                fontSize: 12,
+                opacity: 0.68,
+                lineHeight: 1.4,
+              }}
+            >
+              For best results, use a short clip that clearly shows or says the
+              ingredients and cooking steps.
+            </p>
           </div>
 
           <div
