@@ -21,6 +21,12 @@ type ActionMessage = {
   text: string;
 };
 
+const PRIVACY_POLICY_URL =
+  "https://dinners.ncocaptain.com/privacy/index.html";
+
+const TERMS_OF_USE_URL =
+  "https://dinners.ncocaptain.com/terms/index.html";
+
 const UPGRADE_COPY = {
   en: {
     eyebrow: "Simple Dinners plans",
@@ -63,6 +69,22 @@ const UPGRADE_COPY = {
         "Sign in before subscribing or restoring purchases.",
       mobileOnly:
         "Plus subscriptions are available in the Simple Dinners iOS and Android apps.",
+      activeTitle:
+        "Your Plus subscription is active",
+      activeDescription:
+        "Your subscription is connected to this Simple Dinners account.",
+      manageSubscription:
+        "Manage subscription",
+      manageDescription:
+        "Change or cancel your plan through Google Play or the App Store.",
+      householdActiveTitle:
+        "Plus is included through your household",
+      householdActiveDescription:
+        "A member of your household has an active Simple Dinners Plus subscription.",
+      householdFooter:
+        "Plus access is provided through your household’s active subscription.",
+      manageUnavailable:
+        "Manage this subscription through the Apple or Google account used to subscribe.",
       restore: "Restore purchases",
       restoring: "Restoring…",
       purchaseSuccess:
@@ -75,6 +97,8 @@ const UPGRADE_COPY = {
         "Unable to restore purchases.",
       footer:
         "Subscriptions renew automatically unless cancelled through your Apple or Google account.",
+      privacy: "Privacy Policy",
+      terms: "Terms of Use",
     },
   },
 
@@ -123,6 +147,22 @@ const UPGRADE_COPY = {
         "Inicia sesión antes de suscribirte o restaurar compras.",
       mobileOnly:
         "Las suscripciones de Plus están disponibles en las aplicaciones de Simple Dinners para iOS y Android.",
+      activeTitle:
+        "Tu suscripción Plus está activa",
+      activeDescription:
+        "Tu suscripción está conectada a esta cuenta de Simple Dinners.",
+      householdFooter:
+        "El acceso a Plus se proporciona mediante la suscripción activa de tu hogar.",
+      manageSubscription:
+        "Administrar suscripción",
+      manageDescription:
+        "Cambia o cancela tu plan desde Google Play o App Store.",
+      householdActiveTitle:
+        "Plus está incluido a través de tu hogar",
+      householdActiveDescription:
+        "Un miembro de tu hogar tiene una suscripción activa a Simple Dinners Plus.",
+      manageUnavailable:
+        "Administra esta suscripción desde la cuenta de Apple o Google que usaste para suscribirte.",
       restore: "Restaurar compras",
       restoring: "Restaurando…",
       purchaseSuccess:
@@ -135,6 +175,8 @@ const UPGRADE_COPY = {
         "No se pudieron restaurar las compras.",
       footer:
         "Las suscripciones se renuevan automáticamente a menos que se cancelen desde tu cuenta de Apple o Google.",
+      privacy: "Política de privacidad",
+      terms: "Términos de uso",
     },
   },
 } as const;
@@ -149,6 +191,9 @@ export function PlusUpgradePanel() {
   } = useAuth();
 
   const {
+    hasPlus,
+    plusSource,
+    subscriptionManagementURL,
     monthlyPrice,
     annualPrice,
     annualMonthlyPrice,
@@ -167,6 +212,9 @@ export function PlusUpgradePanel() {
 
   const isBusy =
     purchaseLoading || restoreLoading;
+
+  const hasHouseholdPlus =
+    plusSource === "household";
 
   async function handlePurchase(
     plan: PlusPlan,
@@ -218,6 +266,18 @@ export function PlusUpgradePanel() {
           copy.plus.restoreError,
       });
     }
+  }
+
+  function handleManageSubscription() {
+    if (!subscriptionManagementURL) {
+      return;
+    }
+
+    window.open(
+      subscriptionManagementURL,
+      "_blank",
+      "noopener,noreferrer",
+    );
   }
 
   return (
@@ -289,7 +349,76 @@ export function PlusUpgradePanel() {
             ))}
           </div>
 
-          {!isNative ? (
+          {hasPlus ? (
+            <div className="sd-plus-purchase-options">
+              <div className="sd-plus-purchase-note">
+                <strong>
+                  {hasHouseholdPlus
+                    ? copy.plus.householdActiveTitle
+                    : copy.plus.activeTitle}
+                </strong>
+
+                <br />
+
+                <span>
+                  {hasHouseholdPlus
+                    ? copy.plus.householdActiveDescription
+                    : copy.plus.activeDescription}
+                </span>
+              </div>
+
+              {!hasHouseholdPlus && (
+                <>
+                  {subscriptionManagementURL ? (
+                    <button
+                      type="button"
+                      className="sd-plus-purchase-option"
+                      disabled={isBusy}
+                      onClick={
+                        handleManageSubscription
+                      }
+                    >
+                      <span className="sd-plus-purchase-option-copy">
+                        <strong>
+                          {copy.plus.manageSubscription}
+                        </strong>
+
+                        <small>
+                          {copy.plus.manageDescription}
+                        </small>
+                      </span>
+
+                      <span
+                        className="sd-plus-purchase-price"
+                        aria-hidden="true"
+                      >
+                        ›
+                      </span>
+                    </button>
+                  ) : (
+                    <div className="sd-plus-purchase-note">
+                      {copy.plus.manageUnavailable}
+                    </div>
+                  )}
+
+                  {isNative && isSignedIn && (
+                    <button
+                      type="button"
+                      className="sd-plus-restore-button"
+                      disabled={isBusy}
+                      onClick={() =>
+                        void handleRestore()
+                      }
+                    >
+                      {restoreLoading
+                        ? copy.plus.restoring
+                        : copy.plus.restore}
+                    </button>
+                  )}
+                </>
+              )}
+            </div>
+          ) : !isNative ? (
             <div className="sd-plus-purchase-note">
               {copy.plus.mobileOnly}
             </div>
@@ -394,8 +523,30 @@ export function PlusUpgradePanel() {
           )}
 
           <p className="sd-plus-plan-footer">
-            {copy.plus.footer}
+            {hasHouseholdPlus
+              ? copy.plus.householdFooter
+              : copy.plus.footer}
           </p>
+
+          <div className="sd-plus-legal-links">
+            <a
+              href={PRIVACY_POLICY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {copy.plus.privacy}
+            </a>
+
+            <span aria-hidden="true">·</span>
+
+            <a
+              href={TERMS_OF_USE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {copy.plus.terms}
+            </a>
+          </div>
         </article>
       </div>
     </section>

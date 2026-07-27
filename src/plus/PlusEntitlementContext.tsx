@@ -13,6 +13,9 @@ import {
 } from "@revenuecat/purchases-capacitor";
 import { useAuth } from "../auth/AuthContext";
 import {
+  getHouseholdPlusStatus,
+} from "./householdPlus";
+import {
   configureRevenueCat,
   customerHasPlus,
   getRevenueCatCustomerInfo,
@@ -36,6 +39,8 @@ export type PlusSource =
   | "test"
   | "apple"
   | "google"
+  | "personal"
+  | "household"
   | "promo"
   | "other"
   | "none";
@@ -56,6 +61,8 @@ type PlusEntitlementContextValue = {
   plusSource: PlusSource;
   plusLoading: boolean;
 
+  subscriptionManagementURL: string | null;
+
   monthlyPrice: string | null;
   annualPrice: string | null;
   annualMonthlyPrice: string | null;
@@ -75,18 +82,7 @@ type PlusEntitlementContextValue = {
   () => Promise<PlusActionResult>;
 };
 
-/*
- * Quiet beta:
- * Everyone still receives Plus access.
- *
- * RevenueCat is checked on native devices,
- * but a customer without a subscription continues
- * receiving beta access while this remains true.
- *
- * Set this to false locally when testing actual
- * RevenueCat inactive and purchase states.
- */
-const PLUS_BETA_ENABLED = true;
+const PLUS_BETA_ENABLED = false;
 
 const EMPTY_PACKAGES: RevenueCatPackages = {
   monthly: null,
@@ -133,6 +129,7 @@ export function PlusEntitlementProvider({
   const {
     user,
     loading: authLoading,
+    householdId,
   } = useAuth();
 
   const [plusStatus, setPlusStatus] =
@@ -148,6 +145,16 @@ export function PlusEntitlementProvider({
         ? "beta"
         : "none",
     );
+
+  const [
+    householdPlusLoading,
+    setHouseholdPlusLoading,
+  ] = useState(false);
+
+  const [
+    subscriptionManagementURL,
+    setSubscriptionManagementURL,
+  ] = useState<string | null>(null);
 
   const [packages, setPackages] =
     useState<RevenueCatPackages>(
@@ -171,6 +178,8 @@ export function PlusEntitlementProvider({
 
   const applyBetaFallback =
     useCallback(() => {
+      setSubscriptionManagementURL(null);
+
       setPlusStatus(
         PLUS_BETA_ENABLED
           ? "active"
@@ -186,21 +195,80 @@ export function PlusEntitlementProvider({
 
   const applyCustomerInfo =
     useCallback(
-      (customerInfo: CustomerInfo) => {
-        if (
-          customerHasPlus(customerInfo)
-        ) {
-          setPlusStatus("active");
-          setPlusSource(
-            getPlusSource(customerInfo),
-          );
-          return;
+      (
+        customerInfo: CustomerInfo,
+      ): boolean => {
+        const hasPersonalPlus =
+          customerHasPlus(customerInfo);
+
+        setSubscriptionManagementURL(
+          hasPersonalPlus
+            ? customerInfo.managementURL ?? null
+            : null,
+        );
+
+        if (!hasPersonalPlus) {
+          return false;
         }
 
-        applyBetaFallback();
+        setPlusStatus("active");
+        setPlusSource(
+          getPlusSource(customerInfo),
+        );
+
+        return true;
       },
-      [applyBetaFallback],
+      [],
     );
+
+  const checkHouseholdPlus =
+    useCallback(async (): Promise<boolean> => {
+      if (!user?.id) {
+        return false;
+      }
+
+      setHouseholdPlusLoading(true);
+
+      try {
+        const result =
+          await getHouseholdPlusStatus();
+
+        if (result.error || !result.data) {
+          if (result.error) {
+            console.error(
+              "Household Plus status unavailable:",
+              result.error,
+            );
+          }
+
+          return false;
+        }
+
+        if (!result.data.hasPlus) {
+          return false;
+        }
+
+        setSubscriptionManagementURL(null);
+        setPlusStatus("active");
+
+        setPlusSource(
+          result.data.source === "household"
+            ? "household"
+            : "personal",
+        );
+
+        return true;
+      } catch (error) {
+        console.error(
+          "Unable to check household Plus access:",
+          error,
+        );
+
+        return false;
+      } finally {
+        setHouseholdPlusLoading(false);
+      }
+    }, [user?.id]);
 
   const refreshPlusPackages =
     useCallback(async () => {
@@ -262,17 +330,7 @@ export function PlusEntitlementProvider({
         return;
       }
 
-      /*
-       * RevenueCat purchases currently run only
-       * inside native iOS and Android builds.
-       *
-       * The Vercel/PWA version continues using
-       * the current beta entitlement.
-       */
-      if (
-        !isRevenueCatNativePlatform() ||
-        !user?.id
-      ) {
+      if (!user?.id) {
         applyBetaFallback();
         return;
       }
@@ -280,6 +338,17 @@ export function PlusEntitlementProvider({
       if (!PLUS_BETA_ENABLED) {
         setPlusStatus("loading");
         setPlusSource("none");
+      }
+
+      if (!isRevenueCatNativePlatform()) {
+        const hasServerAccess =
+          await checkHouseholdPlus();
+
+        if (!hasServerAccess) {
+          applyBetaFallback();
+        }
+
+        return;
       }
 
       const setupResult =
@@ -293,7 +362,13 @@ export function PlusEntitlementProvider({
           );
         }
 
-        applyBetaFallback();
+        const hasServerAccess =
+          await checkHouseholdPlus();
+
+        if (!hasServerAccess) {
+          applyBetaFallback();
+        }
+
         return;
       }
 
@@ -301,24 +376,38 @@ export function PlusEntitlementProvider({
         const customerInfo =
           await getRevenueCatCustomerInfo();
 
-        applyCustomerInfo(customerInfo);
+        const hasPersonalPlus =
+          applyCustomerInfo(customerInfo);
+
+        if (hasPersonalPlus) {
+          return;
+        }
+
+        const hasHouseholdAccess =
+          await checkHouseholdPlus();
+
+        if (!hasHouseholdAccess) {
+          applyBetaFallback();
+        }
       } catch (error) {
         console.error(
           "Unable to refresh Plus entitlement:",
           error,
         );
 
-        /*
-         * Keep the beta available if RevenueCat
-         * is temporarily unavailable.
-         */
-        applyBetaFallback();
+        const hasServerAccess =
+          await checkHouseholdPlus();
+
+        if (!hasServerAccess) {
+          applyBetaFallback();
+        }
       }
     }, [
       authLoading,
       user?.id,
       applyBetaFallback,
       applyCustomerInfo,
+      checkHouseholdPlus,
     ]);
 
   const purchasePlus =
@@ -393,9 +482,10 @@ export function PlusEntitlementProvider({
               packageToPurchase,
             );
 
-          applyCustomerInfo(customerInfo);
+          const hasPersonalPlus =
+            applyCustomerInfo(customerInfo);
 
-          if (!customerHasPlus(customerInfo)) {
+          if (!hasPersonalPlus) {
             return {
               success: false,
               cancelled: false,
@@ -488,9 +578,10 @@ export function PlusEntitlementProvider({
           const customerInfo =
             await restoreRevenueCatPurchases();
 
-          applyCustomerInfo(customerInfo);
+          const hasPersonalPlus =
+            applyCustomerInfo(customerInfo);
 
-          if (!customerHasPlus(customerInfo)) {
+          if (!hasPersonalPlus) {
             return {
               success: false,
               cancelled: false,
@@ -556,9 +647,30 @@ export function PlusEntitlementProvider({
                   return;
                 }
 
-                applyCustomerInfo(
-                  customerInfo,
-                );
+                const hasPersonalPlus =
+                  applyCustomerInfo(
+                    customerInfo,
+                  );
+
+                if (hasPersonalPlus) {
+                  return;
+                }
+
+                void checkHouseholdPlus()
+                  .then(
+                    (
+                      hasHouseholdAccess,
+                    ) => {
+                      if (
+                        cancelled ||
+                        hasHouseholdAccess
+                      ) {
+                        return;
+                      }
+
+                      applyBetaFallback();
+                    },
+                  );
               },
             );
 
@@ -574,10 +686,6 @@ export function PlusEntitlementProvider({
 
         listenerId = nextListenerId;
       } catch (error) {
-        /*
-         * This can occur when no native key is
-         * present, such as normal web development.
-         */
         console.error(
           "Unable to start RevenueCat listener:",
           error,
@@ -606,9 +714,12 @@ export function PlusEntitlementProvider({
   }, [
     authLoading,
     user?.id,
+    householdId,
     refreshPlusEntitlement,
     refreshPlusPackages,
     applyCustomerInfo,
+    checkHouseholdPlus,
+    applyBetaFallback,
   ]);
 
   const value =
@@ -621,7 +732,10 @@ export function PlusEntitlementProvider({
         plusSource,
 
         plusLoading:
-          plusStatus === "loading",
+          plusStatus === "loading" ||
+          householdPlusLoading,
+
+        subscriptionManagementURL,
 
         monthlyPrice:
           packages.monthly?.product
@@ -647,6 +761,8 @@ export function PlusEntitlementProvider({
       [
         plusStatus,
         plusSource,
+        householdPlusLoading,
+        subscriptionManagementURL,
         packages,
         packagesLoading,
         purchaseLoading,

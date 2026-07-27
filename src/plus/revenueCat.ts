@@ -20,10 +20,23 @@ export type RevenueCatPackages = {
 };
 
 function getRevenueCatApiKey(): string {
-  return String(
-    import.meta.env
-      .VITE_REVENUECAT_TEST_API_KEY ?? "",
-  ).trim();
+  const platform = Capacitor.getPlatform();
+
+  if (platform === "ios") {
+    return String(
+      import.meta.env
+        .VITE_REVENUECAT_IOS_API_KEY ?? "",
+    ).trim();
+  }
+
+  if (platform === "android") {
+    return String(
+      import.meta.env
+        .VITE_REVENUECAT_ANDROID_API_KEY ?? "",
+    ).trim();
+  }
+
+  return "";
 }
 
 export function isRevenueCatNativePlatform(): boolean {

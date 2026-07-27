@@ -41,6 +41,14 @@ import {
   PlusUpgradePanel,
 } from "../plus/PlusUpgradePanel";
 
+const PRIVACY_POLICY_URL =
+  "https://dinners.ncocaptain.com/privacy/index.html";
+
+const TERMS_OF_USE_URL =
+  "https://dinners.ncocaptain.com/terms/index.html";
+
+const ACCOUNT_DELETION_URL =
+  "https://dinners.ncocaptain.com/delete-account/index.html";
 
 const PLUS_COPY = {
   en: {
@@ -83,6 +91,10 @@ const PLUS_COPY = {
       "Unable to generate a new household code.",
     includedInPlus: "Included in Plus",
     makeDinnerEasier: "Make dinner easier",
+    privacyPolicy: "Privacy Policy",
+    termsOfUse: "Terms of Use",
+    accountDeletion: "Delete account & data",
+    legalLinksLabel: "Legal and account links",
     aiBadge: "AI",
     socialBadge: "SOCIAL",
     features: {
@@ -172,6 +184,12 @@ const PLUS_COPY = {
     includedInPlus: "Incluido en Plus",
     makeDinnerEasier:
       "Haz que la cena sea más fácil",
+    privacyPolicy: "Política de privacidad",
+    termsOfUse: "Términos de uso",
+    accountDeletion:
+      "Eliminar cuenta y datos",
+    legalLinksLabel:
+      "Enlaces legales y de cuenta",
     aiBadge: "IA",
     socialBadge: "SOCIAL",
     features: {
@@ -694,7 +712,7 @@ export default function PlusDashboardPage() {
         </section>
       )}
 
-      {!hasPlus && (
+      {isSignedIn && (
         <PlusUpgradePanel />
       )}
 
@@ -1062,6 +1080,41 @@ export default function PlusDashboardPage() {
           />
         </div>
       </section>
+
+      {hasPlus && (
+        <footer
+          className="sd-plus-legal-footer"
+          aria-label={copy.legalLinksLabel}
+        >
+          <a
+            href={PRIVACY_POLICY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {copy.privacyPolicy}
+          </a>
+
+          <span aria-hidden="true">·</span>
+
+          <a
+            href={TERMS_OF_USE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {copy.termsOfUse}
+          </a>
+
+          <span aria-hidden="true">·</span>
+
+          <a
+            href={ACCOUNT_DELETION_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {copy.accountDeletion}
+          </a>
+        </footer>
+      )}
     </main>
   );
 }

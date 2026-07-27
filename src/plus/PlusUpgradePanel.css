@@ -293,3 +293,27 @@
     font-size: 16px;
   }
 }
+
+.sd-plus-legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 12px;
+}
+
+.sd-plus-legal-links a {
+  color: rgba(255, 255, 255, 0.68);
+  font-weight: 750;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.28);
+  text-underline-offset: 3px;
+}
+
+.sd-plus-legal-links a:hover {
+  color: #ffffff;
+  text-decoration-color: rgba(255, 255, 255, 0.7);
+}

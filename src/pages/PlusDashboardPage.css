@@ -565,3 +565,29 @@
     height: 42px;
   }
 }
+
+.sd-plus-legal-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin: 18px auto 0;
+  padding: 4px 16px 24px;
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 12px;
+  text-align: center;
+}
+
+.sd-plus-legal-footer a {
+  color: rgba(255, 255, 255, 0.68);
+  font-weight: 750;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.28);
+  text-underline-offset: 3px;
+}
+
+.sd-plus-legal-footer a:hover {
+  color: #ffffff;
+  text-decoration-color: rgba(255, 255, 255, 0.7);
+}

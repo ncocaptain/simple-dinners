@@ -6,6 +6,10 @@ import {
 import {
   useNavigate,
 } from "react-router-dom";
+import {
+  Eye,
+  EyeOff,
+} from "lucide-react";
 import { getStoredLanguage } from "../i18n";
 import {
   usePlusAccess,
@@ -199,6 +203,8 @@ export function AccountModal({
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] =
+    useState(false);
 
   const [householdName, setHouseholdName] =
     useState(
@@ -343,6 +349,7 @@ export function AccountModal({
     event.preventDefault();
 
     if (
+      householdMode === "create" &&
       !requirePlus({
         feature: "household-sharing",
       })
@@ -802,24 +809,58 @@ export function AccountModal({
               <label>
                 {copy.password}
 
-                <input
-                  type="password"
-                  autoComplete={
-                    mode === "sign-up"
-                      ? "new-password"
-                      : "current-password"
-                  }
-                  value={password}
-                  onChange={(event) =>
-                    setPassword(
-                      event.target.value,
-                    )
-                  }
-                  placeholder={
-                    copy.passwordPlaceholder
-                  }
-                  disabled={isSubmitting}
-                />
+                <div className="sd-password-field">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    autoComplete={
+                      mode === "sign-up"
+                        ? "new-password"
+                        : "current-password"
+                    }
+                    value={password}
+                    onChange={(event) =>
+                      setPassword(event.target.value)
+                    }
+                    placeholder={copy.passwordPlaceholder}
+                    disabled={isSubmitting}
+                  />
+
+                  <button
+                    type="button"
+                    className="sd-password-toggle"
+                    onClick={() =>
+                      setShowPassword(
+                        (currentValue) => !currentValue,
+                      )
+                    }
+                    disabled={isSubmitting}
+                    aria-pressed={showPassword}
+                    aria-label={
+                      showPassword
+                        ? isSpanish
+                          ? "Ocultar contraseña"
+                          : "Hide password"
+                        : isSpanish
+                          ? "Mostrar contraseña"
+                          : "Show password"
+                    }
+                    title={
+                      showPassword
+                        ? isSpanish
+                          ? "Ocultar contraseña"
+                          : "Hide password"
+                        : isSpanish
+                          ? "Mostrar contraseña"
+                          : "Show password"
+                    }
+                  >
+                    {showPassword ? (
+                      <EyeOff size={20} aria-hidden="true" />
+                    ) : (
+                      <Eye size={20} aria-hidden="true" />
+                    )}
+                  </button>
+                </div>
               </label>
 
               {message && (
