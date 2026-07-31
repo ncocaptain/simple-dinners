@@ -79,11 +79,125 @@ function canonicalize(value: unknown): unknown {
   return value;
 }
 
+function normalizeSignatureText(
+  value: unknown,
+): string {
+  return typeof value === "string"
+    ? value.trim().toLowerCase()
+    : "";
+}
+
+function summarizePlannedDay(
+  value: unknown,
+): unknown {
+  if (!isRecord(value)) {
+    return null;
+  }
+
+  /*
+   * Current PlannedDay format.
+   */
+  if ("mode" in value) {
+    if (
+      value.mode === "leftovers" ||
+      value.mode === "freezer"
+    ) {
+      return {
+        mode: value.mode,
+      };
+    }
+
+    if (value.mode !== "planned") {
+      return null;
+    }
+
+    const meal = value.meal;
+
+    if (!isRecord(meal)) {
+      return null;
+    }
+
+    /*
+     * Compare the selected dinner rather than its
+     * hydrated recipe details. Photos, ingredients,
+     * instructions, tags, and other recipe updates
+     * should not create a weekly-plan conflict.
+     */
+   const mealKey =
+  normalizeSignatureText(meal.slug) ||
+  normalizeSignatureText(meal.id) ||
+  normalizeSignatureText(meal.name);
+
+    if (!mealKey) {
+      return null;
+    }
+
+    return {
+      mode: "planned",
+      meal: mealKey,
+    };
+  }
+
+  /*
+   * Legacy format where the saved value itself
+   * was the meal object.
+   */
+ const mealKey =
+  normalizeSignatureText(value.slug) ||
+  normalizeSignatureText(value.id) ||
+  normalizeSignatureText(value.name);
+
+  if (!mealKey) {
+    return null;
+  }
+
+  return {
+    mode: "planned",
+    meal: mealKey,
+  };
+}
+
 export function weeklyPlanSignature(
   snapshot: WeeklyPlanLocalSnapshot,
 ): string {
+  const meaningfulMeals =
+    Object.fromEntries(
+      Object.entries(snapshot.meals)
+        .map(([day, value]) => [
+          day,
+          summarizePlannedDay(value),
+        ])
+        .filter((entry) => entry[1] !== null),
+    );
+
+  const meaningfulDaySettings =
+    Object.fromEntries(
+      Object.entries(
+        snapshot.daySettings,
+      ).filter(([, value]) => {
+        return (
+          value !== null &&
+          value !== undefined &&
+          value !== ""
+        );
+      }),
+    );
+
+  const meaningfulLockedDays =
+    Object.fromEntries(
+      Object.entries(
+        snapshot.lockedDays,
+      ).filter(([, isLocked]) => isLocked),
+    );
+
   return JSON.stringify(
-    canonicalize(snapshot),
+    canonicalize({
+      meals: meaningfulMeals,
+      daySettings:
+        meaningfulDaySettings,
+      lockedDays:
+        meaningfulLockedDays,
+    }),
   );
 }
 
