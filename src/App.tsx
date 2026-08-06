@@ -17,6 +17,7 @@ import OnboardingPage from "./pages/OnboardingPage";
 import RecipePage from "./pages/RecipePage";
 import SmartWeekPage from "./pages/SmartWeekPage";
 import HomePage from "./pages/HomePage";
+import SmashMealsPreviewPage from "./pages/SmashMealsPreviewPage";
 import TestersGuidePage from "./pages/TestersGuidePage";
 import FeedbackForm from "./pages/FeedbackForm";
 import RecipesPage from "./pages/RecipesPage";
@@ -931,6 +932,11 @@ function AppContent() {
         <Route
           path="/recipe/:slug"
           element={<RecipePage onAddToCookbook={handleAddToCookbook} />}
+        />
+
+        <Route
+          path="/partner-preview/smashmeals"
+          element={<SmashMealsPreviewPage />}
         />
 
         <Route
