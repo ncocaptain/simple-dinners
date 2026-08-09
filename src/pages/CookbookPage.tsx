@@ -1179,6 +1179,7 @@ export default function CookbookPage({
           },
           body: JSON.stringify({
             url: requestedUrl,
+            language: getStoredLanguage(),
           }),
         }
       );

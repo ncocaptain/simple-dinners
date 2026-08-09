@@ -9,6 +9,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Capacitor } from "@capacitor/core";
 import { ShareRecipeExtractor } from "../plugins/shareRecipeExtractor";
 import { API_BASE } from "../core/api";
+import { getStoredLanguage } from "../i18n";
 import { usePlusAccess } from "../plus/usePlusAccess";
 
 
@@ -230,6 +231,7 @@ async function importFromUrl(recipeUrl: string, captionText = "") {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       url: recipeUrl,
+      language: getStoredLanguage(),
       ...(captionText.trim() ? { captionText: captionText.trim() } : {}),
     }),
   });
