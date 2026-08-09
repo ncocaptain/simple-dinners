@@ -461,6 +461,7 @@ export const en = {
     recipeName: "Recipe Name",
     ingredientsPlaceholder: "Ingredients (one per line)",
     instructionsPlaceholder: "Instructions (one step per line)",
+    sourceStepsPlaceholder: "Steps available at source link!",
     photoUrlPlaceholder: "Photo URL (optional)",
     sourceUrlPlaceholder: "Source URL (optional)",
     updateRecipe: "Update Recipe",
@@ -493,6 +494,42 @@ export const en = {
     alertEnterName: "Please enter a name.",
     recipeUpdated: "Recipe updated!",
     recipeSavedToCookbook: "Recipe saved to Cookbook!",
+
+    captionAssist: {
+      finishRecipe: "Finish this recipe",
+      foundPostStatus:
+        "We found the post, but not the full recipe text. Paste the caption, use screenshots or a saved video, or save it as Needs Finishing.",
+      foundPostDescription:
+        "We found the post, but not the full recipe text. Paste the caption, add screenshots, or choose a saved recipe video.",
+      pasteCaptionText: "Paste caption text",
+      pasteCaptionPlaceholder: "Paste the recipe caption here...",
+      finishing: "Finishing...",
+      finishWithCaption: "Finish with Caption",
+      orUseScreenshots: "Or use screenshots",
+      screenshotsDescription:
+        "Add up to five screenshots showing the ingredients and instructions. Choose them in recipe order.",
+      addMoreScreenshots: "Add More Screenshots",
+      chooseScreenshots: "Choose Screenshots",
+      of: "of",
+      removeScreenshot: "Remove screenshot",
+      screenshotsOrder:
+        "Screenshot 1 will be read first. Remove and reselect images to change their order.",
+      readingScreenshots: "Reading Screenshots...",
+      finishWithScreenshots: "Finish with Screenshots",
+      orUseSavedVideo: "Or use a saved video",
+      savedVideoDescription:
+        "Choose a saved recipe clip or screen recording. Simple Dinners will read visible recipe text and listen for spoken ingredients and steps.",
+      chooseVideo: "Choose Video",
+      maximum: "maximum",
+      remove: "Remove",
+      readingVideo: "Reading Video...",
+      finishWithVideo: "Finish with Video",
+      videoBestResults:
+        "For best results, use a short clip that clearly shows or says the ingredients and cooking steps.",
+      saveNeedsFinishing: "Save Needs Finishing",
+      reviewBeforeSave:
+        "Everything opens in Review Recipe before it is saved to your Cookbook.",
+    },
 
     status: {
       ready: "Ready",

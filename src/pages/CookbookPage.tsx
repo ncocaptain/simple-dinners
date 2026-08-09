@@ -856,7 +856,7 @@ export default function CookbookPage({
     resetCaptionVideo();
     setCaptionAssistAction(null);
     setCaptionAssistStatus(
-      "We found the post, but not the full recipe text. Paste the caption, use screenshots or a saved video, or save it as Needs Finishing."
+      t("cookbook.captionAssist.foundPostStatus")
     );
     setShowTextImport(false);
     setShowManual(false);
@@ -2424,8 +2424,16 @@ export default function CookbookPage({
                   />
 
                   <textarea
-                    placeholder={t("cookbook.instructionsPlaceholder")}
-                    value={manualRecipe.instructions}
+                    placeholder={
+                      manualRecipe.instructions === SOURCE_STEPS_PLACEHOLDER
+                        ? t("cookbook.sourceStepsPlaceholder")
+                        : t("cookbook.instructionsPlaceholder")
+                    }
+                    value={
+                      manualRecipe.instructions === SOURCE_STEPS_PLACEHOLDER
+                        ? ""
+                        : manualRecipe.instructions
+                    }
                     onChange={(e) =>
                       setManualRecipe({
                         ...manualRecipe,
@@ -2567,7 +2575,7 @@ export default function CookbookPage({
                   }}
                 >
                   <h2 style={{ margin: 0, fontSize: 24, fontWeight: 900 }}>
-                    Finish this recipe
+                    {t("cookbook.captionAssist.finishRecipe")}
                   </h2>
 
                   <button
@@ -2593,7 +2601,7 @@ export default function CookbookPage({
                   }}
                 >
                   {captionAssistStatus ||
-                    "We found the post, but not the full recipe text. Paste the caption, add screenshots, or choose a saved recipe video."}
+                    t("cookbook.captionAssist.foundPostDescription")}
                 </p>
 
                 {captionAssistDraft.name && (
@@ -2613,13 +2621,13 @@ export default function CookbookPage({
                 )}
 
                 <h3 style={{ margin: "0 0 8px", fontSize: 16 }}>
-                  Paste caption text
+                  {t("cookbook.captionAssist.pasteCaptionText")}
                 </h3>
 
                 <textarea
                   value={captionAssistText}
                   onChange={(e) => setCaptionAssistText(e.target.value)}
-                  placeholder="Paste the recipe caption here..."
+                  placeholder={t("cookbook.captionAssist.pasteCaptionPlaceholder")}
                   disabled={isCaptionAssisting}
                   rows={7}
                   style={{
@@ -2659,8 +2667,8 @@ export default function CookbookPage({
                   }}
                 >
                   {captionAssistAction === "caption"
-                    ? "Finishing..."
-                    : "Finish with Caption"}
+                    ? t("cookbook.captionAssist.finishing")
+                    : t("cookbook.captionAssist.finishWithCaption")}
                 </button>
 
                 <div
@@ -2671,7 +2679,7 @@ export default function CookbookPage({
                   }}
                 >
                   <h3 style={{ margin: "0 0 6px", fontSize: 16 }}>
-                    Or use screenshots
+                    {t("cookbook.captionAssist.orUseScreenshots")}
                   </h3>
 
                   <p
@@ -2682,8 +2690,7 @@ export default function CookbookPage({
                       opacity: 0.72,
                     }}
                   >
-                    Add up to five screenshots showing the ingredients and
-                    instructions. Choose them in recipe order.
+                    {t("cookbook.captionAssist.screenshotsDescription")}
                   </p>
 
                   <input
@@ -2730,12 +2737,14 @@ export default function CookbookPage({
                       }}
                     >
                       {captionScreenshotFiles.length > 0
-                        ? "Add More Screenshots"
-                        : "Choose Screenshots"}
+                        ? t("cookbook.captionAssist.addMoreScreenshots")
+                        : t("cookbook.captionAssist.chooseScreenshots")}
                     </button>
 
                     <span style={{ fontSize: 12, opacity: 0.68 }}>
-                      {captionScreenshotFiles.length} of {MAX_SCREENSHOT_FILES}
+                      {captionScreenshotFiles.length}{" "}
+                      {t("cookbook.captionAssist.of")}{" "}
+                      {MAX_SCREENSHOT_FILES}
                     </span>
                   </div>
 
@@ -2809,7 +2818,7 @@ export default function CookbookPage({
                             type="button"
                             onClick={() => removeCaptionScreenshot(index)}
                             disabled={isCaptionAssisting}
-                            aria-label={`Remove screenshot ${index + 1}`}
+                            aria-label={`${t("cookbook.captionAssist.removeScreenshot")} ${index + 1}`}
                             style={{
                               position: "absolute",
                               right: 7,
@@ -2858,8 +2867,7 @@ export default function CookbookPage({
                           lineHeight: 1.45,
                         }}
                       >
-                        Screenshot 1 will be read first. Remove and reselect
-                        images to change their order.
+                        {t("cookbook.captionAssist.screenshotsOrder")}
                       </p>
 
                       <button
@@ -2881,8 +2889,8 @@ export default function CookbookPage({
                         }}
                       >
                         {captionAssistAction === "screenshots"
-                          ? "Reading Screenshots..."
-                          : "Finish with Screenshots"}
+                          ? t("cookbook.captionAssist.readingScreenshots")
+                          : t("cookbook.captionAssist.finishWithScreenshots")}
                       </button>
                     </>
                   )}
@@ -2897,7 +2905,7 @@ export default function CookbookPage({
                   }}
                 >
                   <h3 style={{ margin: "0 0 6px", fontSize: 16 }}>
-                    Or use a saved video
+                    {t("cookbook.captionAssist.orUseSavedVideo")}
                   </h3>
 
                   <p
@@ -2908,9 +2916,7 @@ export default function CookbookPage({
                       opacity: 0.72,
                     }}
                   >
-                    Choose a saved recipe clip or screen recording. Simple
-                    Dinners will read visible recipe text and listen for spoken
-                    ingredients and steps.
+                    {t("cookbook.captionAssist.savedVideoDescription")}
                   </p>
 
                   <input
@@ -2937,7 +2943,7 @@ export default function CookbookPage({
                         cursor: isCaptionAssisting ? "default" : "pointer",
                       }}
                     >
-                      Choose Video
+                      {t("cookbook.captionAssist.chooseVideo")}
                     </button>
                   )}
 
@@ -3008,8 +3014,8 @@ export default function CookbookPage({
                               opacity: 0.68,
                             }}
                           >
-                            {formatFileSize(captionVideoFile.size)} · 75 MB
-                            maximum
+                            {formatFileSize(captionVideoFile.size)} · 75 MB{" "}
+                            {t("cookbook.captionAssist.maximum")}
                           </div>
                         </div>
 
@@ -3030,7 +3036,7 @@ export default function CookbookPage({
                               : "pointer",
                           }}
                         >
-                          Remove
+                          {t("cookbook.captionAssist.remove")}
                         </button>
                       </div>
                     </div>
@@ -3056,8 +3062,8 @@ export default function CookbookPage({
                       }}
                     >
                       {captionAssistAction === "video"
-                        ? "Reading Video..."
-                        : "Finish with Video"}
+                        ? t("cookbook.captionAssist.readingVideo")
+                        : t("cookbook.captionAssist.finishWithVideo")}
                     </button>
                   )}
 
@@ -3069,8 +3075,7 @@ export default function CookbookPage({
                       lineHeight: 1.45,
                     }}
                   >
-                    For best results, use a short clip that clearly shows or
-                    says the ingredients and cooking steps.
+                    {t("cookbook.captionAssist.videoBestResults")}
                   </p>
                 </div>
 
@@ -3090,7 +3095,7 @@ export default function CookbookPage({
                     cursor: isCaptionAssisting ? "default" : "pointer",
                   }}
                 >
-                  Save Needs Finishing
+                  {t("cookbook.captionAssist.saveNeedsFinishing")}
                 </button>
 
                 <p
@@ -3102,8 +3107,7 @@ export default function CookbookPage({
                     marginBottom: 0,
                   }}
                 >
-                  Everything opens in Review Recipe before it is saved to your
-                  Cookbook.
+                  {t("cookbook.captionAssist.reviewBeforeSave")}
                 </p>
               </div>
             </div>

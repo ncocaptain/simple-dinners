@@ -468,6 +468,7 @@ export const es = {
     recipeName: "Nombre de la receta",
     ingredientsPlaceholder: "Ingredientes (uno por línea)",
     instructionsPlaceholder: "Instrucciones (un paso por línea)",
+    sourceStepsPlaceholder: "¡Pasos disponibles en el enlace de origen!",
     photoUrlPlaceholder: "URL de foto (opcional)",
     sourceUrlPlaceholder: "URL de origen (opcional)",
     updateRecipe: "Actualizar receta",
@@ -502,6 +503,42 @@ export const es = {
     alertEnterName: "Ingresa un nombre.",
     recipeUpdated: "¡Receta actualizada!",
     recipeSavedToCookbook: "¡Receta guardada en el recetario!",
+
+    captionAssist: {
+      finishRecipe: "Termina esta receta",
+      foundPostStatus:
+        "Encontramos la publicación, pero no el texto completo de la receta. Pega el texto de la publicación, usa capturas de pantalla o un video guardado, o guárdala como Necesita terminarse.",
+      foundPostDescription:
+        "Encontramos la publicación, pero no el texto completo de la receta. Pega el texto de la publicación, agrega capturas de pantalla o elige un video guardado de la receta.",
+      pasteCaptionText: "Pega el texto de la publicación",
+      pasteCaptionPlaceholder: "Pega aquí el texto de la receta...",
+      finishing: "Terminando...",
+      finishWithCaption: "Terminar con el texto",
+      orUseScreenshots: "O usa capturas de pantalla",
+      screenshotsDescription:
+        "Agrega hasta cinco capturas que muestren los ingredientes y las instrucciones. Selecciónalas en el orden de la receta.",
+      addMoreScreenshots: "Agregar más capturas",
+      chooseScreenshots: "Elegir capturas",
+      of: "de",
+      removeScreenshot: "Eliminar captura",
+      screenshotsOrder:
+        "La captura 1 se leerá primero. Elimina y vuelve a seleccionar las imágenes para cambiar su orden.",
+      readingScreenshots: "Leyendo capturas...",
+      finishWithScreenshots: "Terminar con capturas",
+      orUseSavedVideo: "O usa un video guardado",
+      savedVideoDescription:
+        "Elige un clip de receta guardado o una grabación de pantalla. Simple Dinners leerá el texto visible de la receta y escuchará los ingredientes y pasos mencionados.",
+      chooseVideo: "Elegir video",
+      maximum: "máximo",
+      remove: "Eliminar",
+      readingVideo: "Leyendo video...",
+      finishWithVideo: "Terminar con video",
+      videoBestResults:
+        "Para obtener mejores resultados, usa un clip corto que muestre o diga claramente los ingredientes y los pasos de preparación.",
+      saveNeedsFinishing: "Guardar como necesita terminarse",
+      reviewBeforeSave:
+        "Todo se abre en Revisar receta antes de guardarse en tu recetario.",
+    },
 
     status: {
       ready: "Lista",
