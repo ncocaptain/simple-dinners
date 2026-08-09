@@ -9,6 +9,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Capacitor } from "@capacitor/core";
 import { ShareRecipeExtractor } from "../plugins/shareRecipeExtractor";
 import { API_BASE } from "../core/api";
+import { usePlusAccess } from "../plus/usePlusAccess";
 
 
 const SOURCE_STEPS_PLACEHOLDER = "Steps available at source link!";
@@ -310,6 +311,10 @@ export default function ShareImport() {
   const url = extractFirstUrlFromSharedText(rawSharedValue);
 
   const navigate = useNavigate();
+  const {
+    plusLoading,
+    requirePlus,
+  } = usePlusAccess();
 
   const [status, setStatus] = useState("Ready to save recipe...");
   const [jsonLdLength, setJsonLdLength] = useState<number | null>(null);
@@ -789,12 +794,27 @@ export default function ShareImport() {
         return;
       }
 
+      if (plusLoading) {
+        setStatus("Checking Simple Dinners Plus...");
+        return;
+      }
+
       try {
         let data;
 
         const platform = Capacitor.getPlatform();
         const pinterestShare = isPinterestUrl(url);
         const captionAssistSocialShare = isCaptionAssistSocialUrl(url);
+
+        if (
+          captionAssistSocialShare &&
+          !requirePlus({
+            feature: "social-recipe-import",
+          })
+        ) {
+          setStatus("Simple Dinners Plus is required for social recipe importing.");
+          return;
+        }
 
         if (pinterestShare) {
           setStatus("Finding the original recipe from Pinterest...");
@@ -912,7 +932,7 @@ export default function ShareImport() {
     }
 
     runShareImport();
-  }, [url, finishImport]);
+  }, [url, finishImport, plusLoading]);
 
   return (
     <div style={{ padding: 24, paddingBottom: 140, maxWidth: 900, margin: "0 auto" }}>

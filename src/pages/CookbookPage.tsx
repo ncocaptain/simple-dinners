@@ -272,6 +272,37 @@ function looksLikeSocialRecipeUrl(url: string) {
   );
 }
 
+function isPlusSocialRecipeUrl(url: string) {
+  try {
+    const host = new URL(
+      String(url || "").trim()
+    ).hostname
+      .toLowerCase()
+      .replace(/\.$/, "");
+
+    return (
+      host === "instagram.com" ||
+      host.endsWith(".instagram.com") ||
+      host === "tiktok.com" ||
+      host.endsWith(".tiktok.com") ||
+      host === "facebook.com" ||
+      host.endsWith(".facebook.com") ||
+      host === "fb.watch" ||
+      host.endsWith(".fb.watch")
+    );
+  } catch {
+    const value =
+      String(url || "").toLowerCase();
+
+    return (
+      value.includes("instagram.com") ||
+      value.includes("tiktok.com") ||
+      value.includes("facebook.com") ||
+      value.includes("fb.watch")
+    );
+  }
+}
+
 function isPublicVideoRecipeUrl(url: string) {
   try {
     const host = new URL(
@@ -1030,7 +1061,7 @@ export default function CookbookPage({
     }
 
     if (
-      isPublicVideoRecipeUrl(requestedUrl) &&
+      isPlusSocialRecipeUrl(requestedUrl) &&
       !requirePlus({
         feature: "social-recipe-import",
       })
