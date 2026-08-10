@@ -368,6 +368,8 @@ function normalizeSourceUrlForMatching(value?: string): string {
       "ref_src",
       "share_id",
       "share_app_id",
+      "rdid",
+      "_rdr",
     ]);
 
     Array.from(parsed.searchParams.keys()).forEach((key) => {
