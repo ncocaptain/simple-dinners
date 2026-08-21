@@ -287,6 +287,8 @@ function normalizeUnit(unit?: string) {
     pkgs: "package",
     box: "box",
     boxes: "box",
+    strip: "strip",
+strips: "strip",
     slice: "slice",
     slices: "slice",
     stick: "stick",
@@ -329,6 +331,7 @@ function pluralizeUnit(unit: string, quantity: number | null | undefined) {
     can: "cans",
     package: "packages",
     box: "boxes",
+    strip: "strips",
     slice: "slices",
     stick: "sticks",
     bunch: "bunches",
@@ -344,7 +347,7 @@ function pluralizeUnit(unit: string, quantity: number | null | undefined) {
 }
 
 const UNIT_PATTERN =
-  "cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|loaf|loaves|l|clove|cloves|can|cans|package|packages|pkg|pkgs|box|boxes|slice|slices|stick|sticks|bunch|bunches|jar|jars|carton|cartons|bag|bags|tube|tubes|packet|packets";
+  "cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|loaf|loaves|l|clove|cloves|can|cans|package|packages|pkg|pkgs|box|boxes|strip|strips|slice|slices|stick|sticks|bunch|bunches|jar|jars|carton|cartons|bag|bags|tube|tubes|packet|packets";
 
 const QUANTITY_PATTERN =
   "\\d+\\s+\\d+\\/\\d+|\\d+\\/\\d+|\\d+\\.\\d+|\\d+|½|¼|¾|⅓|⅔|⅛";
@@ -505,17 +508,37 @@ function parseManualShoppingParts(line: string): {
 
   // Do not treat #2 pencils as a quantity. It is the item name.
   if (!text.startsWith("#")) {
-    const quantityMatch = text.match(new RegExp(`^(${QUANTITY_PATTERN})\\b`, "i"));
-    if (quantityMatch) {
-      quantity = parseFraction(quantityMatch[1]);
-      text = text.slice(quantityMatch[0].length).trim();
-    }
+   const measuredRangeMatch = text.match(
+  new RegExp(
+    String.raw`^(${QUANTITY_PATTERN})\s*(?:-|–|—|to)\s*(${QUANTITY_PATTERN})\s+(${UNIT_PATTERN})\b`,
+    "i"
+  )
+);
 
-    const unitMatch = text.match(new RegExp(`^(${UNIT_PATTERN})\\b`, "i"));
-    if (unitMatch) {
-      unit = normalizeUnit(unitMatch[1]);
-      text = text.slice(unitMatch[0].length).trim();
-    }
+if (measuredRangeMatch) {
+  const [, , maxRaw, unitRaw] = measuredRangeMatch;
+
+  // Use the upper end for the purchase quantity so the shopper buys enough.
+  quantity = parseFraction(maxRaw);
+  unit = normalizeUnit(unitRaw);
+  text = text.slice(measuredRangeMatch[0].length).trim();
+} else {
+  const quantityMatch = text.match(
+    new RegExp(`^(${QUANTITY_PATTERN})\\b`, "i")
+  );
+
+  if (quantityMatch) {
+    quantity = parseFraction(quantityMatch[1]);
+    text = text.slice(quantityMatch[0].length).trim();
+  }
+
+  const unitMatch = text.match(new RegExp(`^(${UNIT_PATTERN})\\b`, "i"));
+
+  if (unitMatch) {
+    unit = normalizeUnit(unitMatch[1]);
+    text = text.slice(unitMatch[0].length).trim();
+  }
+}
   }
 
   const normalizedName = normalizeManualCountableName(text, quantity);
@@ -690,6 +713,7 @@ function normalizePantryAndSeasonings(text: string) {
   }
 
   return protectRealPeppers(text)
+    .replace(/^(?:a\s+)?pinch(?:\s+of)?\s+/i, "")
     .replace(/\bfreshly ground black pepper\b/g, "black pepper")
     .replace(/\bground black pepper\b/g, "black pepper")
     .replace(/\bfreshly ground pepper\b/g, "black pepper")
@@ -719,7 +743,6 @@ function normalizePantryAndSeasonings(text: string) {
     .replace(/\bpaprikas\b/g, "paprika")
     .replace(/\bchile powder\b/g, "chili powder")
     .replace(/\bground cumin\b/g, "cumin");
-
 }
 
 function normalizeProduce(text: string) {
@@ -786,7 +809,7 @@ function normalizeProteinsAndBakery(text: string) {
     .replace(/\bcrumbled bacon\b/g, "bacon")
     .replace(/\bground italian sausage\b/g, "italian sausage")
     .replace(/\bitalian ground sausage\b/g, "italian sausage")
-    .replace(/\bhot dog buns?\b/g, "hot dog bun")
+    .replace(/\bhot dogs?\s+buns?\b/g, "hot dog bun")
     .replace(/\bhot dogs?\b/g, "hot dogs")
     .replace(/\bhamburger buns?\b/g, "hamburger bun")
     .replace(/\bchicken breasts?\b/g, "chicken breast")
@@ -936,7 +959,15 @@ function normalizeSideSuggestionText(text: string) {
   if (cleaned.includes("edamame")) return "edamame";
   if (cleaned.includes("rice pilaf")) return "rice pilaf";
   if (cleaned.includes("cilantro lime rice")) return "cilantro lime rice";
-  if (cleaned === "steamed rice" || cleaned === "white rice") return "rice";
+  if (
+  cleaned === "rice" ||
+  cleaned === "steamed rice" ||
+  cleaned === "white rice" ||
+  cleaned === "long grain white rice" ||
+  cleaned === "long-grain white rice"
+) {
+  return "white rice";
+}
 
   return cleaned;
 }
@@ -1143,9 +1174,9 @@ function parseIngredientParts(line: string): {
   }
 
   const looksLikeMeasuredIngredient = new RegExp(
-    `^\s*(?:${QUANTITY_PATTERN})\s+(?:${UNIT_PATTERN})\b`,
-    "i"
-  ).test(text);
+  `^\\s*(?:${QUANTITY_PATTERN})\\s+(?:${UNIT_PATTERN})\\b`,
+  "i"
+).test(text);
 
   const preparedSideName = looksLikeMeasuredIngredient
     ? ""
@@ -1162,6 +1193,24 @@ function parseIngredientParts(line: string): {
 
   let quantity: number | null = null;
   let unit = "";
+
+  // Bacon is commonly written as a range such as:
+// "10 to 12 slices bacon" or "10-12 strips bacon".
+// Handle this explicitly before the generic quantity parser.
+const baconRangeMatch = text.match(
+  /^(\d+(?:\.\d+)?)\s*(?:-|–|—|to)\s*(\d+(?:\.\d+)?)\s+(slices?|strips?)\s+bacon\b/i
+);
+
+if (baconRangeMatch) {
+  const [, , maxRaw, unitRaw] = baconRangeMatch;
+
+  return {
+    normalizedName: "bacon",
+    quantity: parseFraction(maxRaw),
+    unit: normalizeUnit(unitRaw),
+    packageSize: "",
+  };
+}
 
   // Convert "juice of 1 lemon" before quantity parsing so it becomes 1 lemon.
   const juiceOfLemonMatch = text.match(/^juice of (\d+) lemons?\b/);
@@ -1473,6 +1522,8 @@ const FORCED_SPICE_ITEMS = new Set([
   "cayenne pepper",
   "dried thyme",
   "chinese five spice",
+  "msg",
+"monosodium glutamate",
 ]);
 
 const HIDDEN_ITEMS = new Set([
@@ -1656,6 +1707,29 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     cleanIngredientForCategory(name);
 
   const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
+  if (
+  lower.includes("smoked sausage") ||
+  lower.includes("pepperoni")
+) {
+  return "Meat / Seafood";
+}
+
+if (lower === "msg" || lower.includes("monosodium glutamate")) {
+  return "Spices / Seasonings";
+}
+
+  // Bakery items must win before broad meat rules such as "hot dog".
+  if (
+    includesAny(lower, BAKERY_CATEGORY_KEYWORDS) ||
+    /\bhot dogs?\s+buns?\b/.test(lower)
+  ) {
+    return "Bakery";
+  }
+
+  // Broth and stock are pantry products even when their names contain meat words.
+  if (/\b(?:beef|chicken|vegetable)?\s*(?:broth|stock)\b/.test(lower)) {
+    return "Pantry";
+  }
 
   if (includesAny(lower, PREPARED_FROZEN_SIDE_KEYWORDS)) return "Frozen";
   if (includesAny(lower, PREPARED_BAKERY_SIDE_KEYWORDS)) return "Bakery";
@@ -1779,6 +1853,38 @@ function resolveShoppingCategoryForItem(
     cleanIngredientForCategory(name);
 
   const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
+  if (
+  lower.includes("smoked sausage") ||
+  lower.includes("pepperoni")
+) {
+  return "Meat / Seafood";
+}
+
+if (lower === "msg" || lower.includes("monosodium glutamate")) {
+  return "Spices / Seasonings";
+}
+
+  // Bakery items must win before packaged-item Pantry fallback.
+  if (
+    includesAny(lower, BAKERY_CATEGORY_KEYWORDS) ||
+    /\bhot dogs?\s+buns?\b/.test(lower)
+  ) {
+    return "Bakery";
+  }
+
+  // Broth and stock are pantry products even when their names contain meat words.
+  if (/\b(?:beef|chicken|vegetable)?\s*(?:broth|stock)\b/.test(lower)) {
+    return "Pantry";
+  }
+
+  // Refrigerated bagged produce must win before bag/package Pantry fallback.
+  if (
+    lower.includes("coleslaw mix") ||
+    lower.includes("bagged coleslaw") ||
+    lower.includes("shredded coleslaw")
+  ) {
+    return "Produce";
+  }
   const normalizedUnit = normalizeUnit(unit || "");
   const normalizedPackageSize = normalizePackageSize(packageSize || "");
 
@@ -2140,7 +2246,9 @@ export function addSidesToList(
       checked: false,
       addedAt: now,
       category: resolveShoppingCategory(sideName),
-      sourceRecipe: "",
+      sourceRecipe: recipeName
+  ? `${recipeName} sides`
+  : "Suggested sides",
       normalizedName: sideName,
       quantity: null,
       unit: "",
@@ -2209,7 +2317,9 @@ export function addIngredientsToList(
         checked: false,
         addedAt: now,
         category: resolveShoppingCategory(sideName),
-        sourceRecipe: "",
+        sourceRecipe: recipeName
+  ? `${recipeName} sides`
+  : "Suggested sides",
         normalizedName: sideName,
         quantity: null,
         unit: "",

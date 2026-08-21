@@ -226,6 +226,8 @@ const EXACT_NAME_ALIASES: Record<string, string> = {
 
   tomato: "tomato",
   tomatoes: "tomato",
+  "roma tomato": "roma tomato",
+  "roma tomatoes": "roma tomato",
 
   avocado: "avocado",
   avocados: "avocado",
@@ -263,7 +265,9 @@ const EXACT_NAME_ALIASES: Record<string, string> = {
   "burger buns": "hamburger bun",
 
   "hot dog bun": "hot dog bun",
-  "hot dog buns": "hot dog bun",
+"hot dog buns": "hot dog bun",
+"hot dogs bun": "hot dog bun",
+"hot dogs buns": "hot dog bun",
 
   tortilla: "tortilla",
   tortillas: "tortilla",

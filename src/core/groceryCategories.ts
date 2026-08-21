@@ -543,6 +543,76 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
     return "Produce";
   }
 
+    // ===== EXACT PRODUCE / PANTRY EXCEPTIONS =====
+  // Exact matching prevents short translated keywords such as
+  // "sal" from incorrectly matching words such as "salad".
+  if (
+    [
+      "salad",
+      "ensalada",
+      "guacamole",
+      "fresh guacamole",
+      "prepared guacamole",
+      "orange",
+"oranges",
+"naranja",
+"naranjas",
+"mint",
+"fresh mint",
+"mint leaves",
+"menta",
+"menta fresca",
+"hojas de menta",
+    ].includes(normalized)
+  ) {
+    return "Produce";
+  }
+
+  if (
+    [
+      "taco shell",
+      "taco shells",
+      "hard taco shell",
+      "hard taco shells",
+      "crunchy taco shell",
+      "crunchy taco shells",
+      "con queso",
+      "queso dip",
+      "salsa con queso",
+    ].includes(normalized)
+  ) {
+    return "Pantry";
+  }
+
+  // Core protections for items that broad substring rules can misclassify.
+  if (
+    normalized.includes("pepperoni") ||
+    normalized.includes("salami")
+  ) {
+    return "Meat / Seafood";
+  }
+
+  if (
+    normalized === "msg" ||
+    normalized.includes("monosodium glutamate")
+  ) {
+    return "Spices / Seasonings";
+  }
+
+  if (
+    normalized === "coleslaw mix" ||
+    normalized === "bagged coleslaw mix" ||
+    normalized === "shredded coleslaw mix"
+  ) {
+    return "Produce";
+  }
+
+  // Spanish "sal" must match as a word, not as a substring.
+  // This prevents collisions with items such as salsa or salami.
+  if (normalized === "sal" || normalized.startsWith("sal ")) {
+    return "Spices / Seasonings";
+  }
+
   // ===== SPICES / SEASONINGS =====
   // Spices should beat Pantry and Produce for things like pepper, cumin, taco seasoning.
   if (
@@ -578,7 +648,6 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
       "rub",
       "cinnamon",
       "nutmeg",
-      "sal",
       "pimienta",
       "pimenton",
       "comino",

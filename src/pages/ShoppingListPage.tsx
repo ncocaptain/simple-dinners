@@ -39,6 +39,7 @@ import {
   buildShoppingListSignature,
   buildSmartShoppingApplyPlan,
   buildSmartShoppingPreview,
+  canonicalizeSmartShoppingName,
   type SmartShoppingApplyPlan,
   type SmartShoppingPreview,
 } from "../plus/smartShopping";
@@ -149,8 +150,13 @@ const COUNTABLE_BASE_WORDS = new Set([
 const COUNTABLE_PHRASES: Record<string, string> = {
   eggs: "egg",
   onions: "onion",
+  "yellow onions": "yellow onion",
+  "white onions": "white onion",
+  "red onions": "red onion",
+  "green onions": "green onion",
   potatoes: "potato",
   tomatoes: "tomato",
+  "roma tomatoes": "roma tomato",
   avocados: "avocado",
   bananas: "banana",
   apples: "apple",
@@ -361,6 +367,8 @@ function formatDisplayName(name: string) {
   if (!name) return "";
 
   const cleaned = String(name || "")
+    // Repair malformed wording from older saved shopping items.
+    .replace(/\bhot dogs\s+(bun|buns)\b/gi, "hot dog $1")
     .replace(/^de\s+/i, "")
     .replace(/^del\s+/i, "")
     .replace(/\s+/g, " ")
@@ -407,8 +415,10 @@ function normalizeUnit(unit: string | null): string | null {
   if (["carton", "cartons"].includes(u)) return "carton";
   if (["bag", "bags"].includes(u)) return "bag";
   if (["bunch", "bunches"].includes(u)) return "bunch";
+  if (["strip", "strips"].includes(u)) return "strip";
   if (["tube", "tubes"].includes(u)) return "tube";
   if (["packet", "packets"].includes(u)) return "packet";
+  if (["slice", "slices"].includes(u)) return "slice";
 
   return u;
 }
@@ -422,6 +432,12 @@ function pluralizeUnit(unit: string, quantity: number): string {
     if (unit === "tsp") return "tsp";
     if (unit === "can") return "can";
     if (unit === "package") return "package";
+    if (unit === "slice") {
+      return quantity === 1 ? "slice" : "slices";
+    }
+    if (unit === "strip") {
+      return quantity === 1 ? "strip" : "strips";
+    }
     if (unit === "clove") return "clove";
     return unit;
   }
@@ -489,6 +505,7 @@ function pluralizeCountable(name: string, quantity: number): string {
     potato: "potatoes",
     "sweet potato": "sweet potatoes",
     tomato: "tomatoes",
+    "roma tomato": "roma tomatoes",
     avocado: "avocados",
     banana: "bananas",
     apple: "apples",
@@ -622,6 +639,10 @@ function normalizePantryAndSeasonings(text: string) {
   }
 
   return text
+    // Recipe amounts such as "a pinch of" are not useful
+    // as the shopper-facing ingredient identity.
+    .replace(/^(?:a\s+)?pinch(?:\s+of)?\s+/g, "")
+
     // repair older saved bad names first
     .replace(/\bgreen bell black pepper\b/g, "green bell pepper")
     .replace(/\bred bell black pepper\b/g, "red bell pepper")
@@ -677,6 +698,7 @@ function normalizeProduce(text: string) {
     .replace(/\blemon zest\b/g, "lemon")
     .replace(/\bsweet potatoes\b/g, "sweet potato")
     .replace(/\bsweet potatoe\b/g, "sweet potato")
+    .replace(/\broma tomato(?:es|s)?\b/g, "roma tomato")
     .replace(/\bgarlic cloves?\b/g, "garlic")
     .replace(/\bcloves? garlic\b/g, "garlic")
     .replace(/\bminced garlic\b/g, "garlic")
@@ -703,7 +725,7 @@ function normalizeProteinsAndBakery(text: string) {
   return text
     .replace(/\bextra lean ground beef\b/g, "ground beef")
     .replace(/\blean ground beef\b/g, "ground beef")
-    .replace(/\bhot dog buns?\b/g, "hot dog bun")
+    .replace(/\bhot dogs?\s+buns?\b/g, "hot dog bun")
     .replace(/\bhot dogs?\b/g, "hot dogs")
     .replace(/\bhamburger buns?\b/g, "hamburger bun")
     .replace(/\bchicken breasts?\b/g, "chicken breast")
@@ -1021,7 +1043,15 @@ function normalizeSideSuggestionText(text: string) {
   if (cleaned.includes("edamame")) return "steamed edamame";
   if (cleaned.includes("rice pilaf")) return "rice pilaf";
   if (cleaned.includes("cilantro lime rice")) return "cilantro lime rice";
-  if (cleaned === "steamed rice" || cleaned === "white rice") return "rice";
+  if (
+    cleaned === "rice" ||
+    cleaned === "steamed rice" ||
+    cleaned === "white rice" ||
+    cleaned === "long grain white rice" ||
+    cleaned === "long-grain white rice"
+  ) {
+    return "white rice";
+  }
 
   return cleaned;
 }
@@ -1181,8 +1211,29 @@ function parseIngredient(line: string): ParsedIngredient {
     .replace(/\([^)]*\)/g, " ")
     .replace(/\s+/g, " ");
 
+  // Recipe wording such as "juice of 1 lemon" should become
+  // a practical countable grocery item: "1 Lemon".
+  const citrusJuiceMatch = raw.match(
+    /^\s*juice\s+(?:of|from)\s+(\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lemons?|limes?|oranges?)\b/i
+  );
+
+  if (citrusJuiceMatch) {
+    const [, qtyRaw, citrusRaw] = citrusJuiceMatch;
+    const quantity = parseFraction(qtyRaw);
+    const citrusName = citrusRaw.toLowerCase().replace(/s$/i, "");
+
+    return {
+      quantity,
+      minQuantity: quantity,
+      maxQuantity: quantity,
+      unit: "__count__",
+      name: citrusName,
+      packageSize,
+    };
+  }
+
   const measuredRangeMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:-|–|to)\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|box|boxes|clove|cloves|jar|jars|carton|cartons|bag|bags)\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:-|–|to)\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|box|boxes|clove|cloves|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices)\s+(.*)$/i
   );
 
   if (measuredRangeMatch) {
@@ -1219,7 +1270,7 @@ function parseIngredient(line: string): ParsedIngredient {
   }
 
   const measuredMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags)\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices)\s+(.*)$/i
   );
 
   if (measuredMatch) {
@@ -1320,6 +1371,8 @@ function shouldHideMainRowAmount(name: string, unit: string | null) {
       "bag",
       "tube",
       "packet",
+      "strip",
+      "slice",
     ].includes(unit)
   ) {
     return false;
@@ -1366,6 +1419,19 @@ function shouldShowMeasuredTotal(
   const cleaned = cleanIngredientName(name).toLowerCase();
 
   if (!unit) return false;
+  // Recipe-volume measurements are useful in the source breakdown,
+  // but "2 cups Chicken" is not a practical main shopping-list label.
+  if (
+    ["cup", "Tbsp", "tsp"].includes(unit) &&
+    [
+      "chicken",
+      "cooked chicken",
+      "diced chicken",
+      "shredded chicken",
+    ].includes(cleaned)
+  ) {
+    return false;
+  }
   if (HIDE_MEASURED_TOTALS.has(cleaned)) return false;
   if (ALWAYS_SHOW_MEASURED_TOTALS.has(cleaned)) return true;
 
@@ -1381,6 +1447,8 @@ function shouldShowMeasuredTotal(
       "bag",
       "tube",
       "packet",
+      "strip",
+      "slice",
     ].includes(unit)
   ) {
     return true;
@@ -1460,6 +1528,9 @@ function isPreparedProduceSide(cleaned: string) {
     cleaned.includes("mexican street corn") ||
     cleaned.includes("ears corn") ||
     cleaned.includes("ear corn") ||
+    cleaned === "guacamole" ||
+    cleaned === "fresh guacamole" ||
+    cleaned === "prepared guacamole" ||
     cleaned === "potato" ||
     cleaned.includes("roasted potatoes") ||
     cleaned.includes("mashed potatoes") ||
@@ -1478,7 +1549,6 @@ function isPreparedPantrySide(cleaned: string) {
     cleaned.includes("molasses") ||
     cleaned.includes("ketchup") ||
     cleaned.includes("mustard") ||
-    cleaned.includes("guacamole") ||
     cleaned.includes("hummus") ||
     cleaned.includes("salsa") ||
     cleaned.includes("rice pilaf") ||
@@ -1725,6 +1795,8 @@ function isForcedSpice(cleaned: string) {
     "salt",
     "black pepper",
     "salt / pepper",
+    "msg",
+    "monosodium glutamate",
     "garlic powder",
     "onion powder",
     "paprika",
@@ -1746,6 +1818,17 @@ function isForcedSpice(cleaned: string) {
 
 function resolveShoppingCategory(name: string): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
+  // Explicit protections before broad pantry/spice fallbacks.
+  if (
+    cleaned.includes("smoked sausage") ||
+    cleaned.includes("pepperoni")
+  ) {
+    return "Meat / Seafood";
+  }
+
+  if (cleaned === "msg" || cleaned.includes("monosodium glutamate")) {
+    return "Spices / Seasonings";
+  }
 
   if (isPreparedFrozenSide(cleaned)) return "Frozen";
   if (isPreparedBakerySide(cleaned)) return "Bakery";
@@ -1802,6 +1885,44 @@ function resolveShoppingCategoryForItem(
   packageSize?: string
 ): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
+  // Explicit protections before broad pantry/spice fallbacks.
+  if (
+    cleaned.includes("smoked sausage") ||
+    cleaned.includes("pepperoni")
+  ) {
+    return "Meat / Seafood";
+  }
+
+  if (cleaned === "msg" || cleaned.includes("monosodium glutamate")) {
+    return "Spices / Seasonings";
+  }
+  // Bakery items must win before the broad packaged-item Pantry fallback.
+  // Bakery items must win before broad packaged-item or meat rules.
+  if (
+    isBakeryBreadItem(cleaned) ||
+    /\b(?:flour|corn|wheat)?\s*tortillas?\b/.test(cleaned) ||
+    /\bhot dogs?\s+buns?\b/.test(cleaned)
+  ) {
+    return "Bakery";
+  }
+
+  // Broth and stock are pantry products, even when their names
+  // contain meat words such as beef or chicken.
+  if (
+    /\b(?:beef|chicken|vegetable)?\s*(?:broth|stock)\b/.test(cleaned)
+  ) {
+    return "Pantry";
+  }
+
+  // Refrigerated bagged produce must win before the broad
+  // package/bag-to-Pantry fallback.
+  if (
+    cleaned.includes("coleslaw mix") ||
+    cleaned.includes("bagged coleslaw") ||
+    cleaned.includes("shredded coleslaw")
+  ) {
+    return "Produce";
+  }
 
   // Canned/boxed/jarred items belong in pantry even if the ingredient name
   // contains produce words like tomatoes or corn.
@@ -2165,7 +2286,7 @@ function parseManualShoppingItem(raw: string): {
       rest = quantityMatch[2].trim();
 
       const unitMatch = rest.match(
-        /^(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags|tube|tubes|packet|packets)\s+(.+)$/i
+        /^(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags|tube|tubes|packet|packets|strip|strips|slice|slices)\s+(.+)$/i
       );
 
       if (unitMatch) {
@@ -2788,13 +2909,13 @@ export default function ShoppingListPage() {
           normalizePackageSize(manual.packageSize);
 
         const approvedSmartName =
-          normalizeManualText(
+          canonicalizeSmartShoppingName(
             String(
               smartItem.grocerySearchName ||
               smartItem.normalizedName ||
               ""
             )
-          ).toLowerCase();
+          );
 
         const hasApprovedSmartIdentity =
           approvedSmartName.length > 0;
@@ -2812,14 +2933,11 @@ export default function ShoppingListPage() {
                 manual.name
               ).toLowerCase();
 
-        // Mixed-source merging is intentionally limited to
-        // manual entries with a real quantity.
-        const canMergeWithRecipe =
-          hasApprovedSmartIdentity &&
-          quantity !== null;
-
-        const manualIsCountable =
-          canMergeWithRecipe &&
+        // A plain manual countable item such as "white onion"
+        // reasonably means one item and may merge with a matching
+        // recipe ingredient. Non-countable manual entries remain
+        // protected unless the user supplied a real quantity.
+        const manualLooksCountable =
           !unit &&
           (
             FORCE_COUNTABLE_RECIPE_ITEMS.has(
@@ -2830,6 +2948,21 @@ export default function ShoppingListPage() {
             ) ||
             isCountableIngredient(mergeName)
           );
+
+        const effectiveQuantity =
+          quantity !== null
+            ? quantity
+            : manualLooksCountable
+              ? 1
+              : null;
+
+        const canMergeWithRecipe =
+          hasApprovedSmartIdentity &&
+          effectiveQuantity !== null;
+
+        const manualIsCountable =
+          canMergeWithRecipe &&
+          manualLooksCountable;
 
         const mergeUnit =
           manualIsCountable
@@ -2862,10 +2995,10 @@ export default function ShoppingListPage() {
             : `manual::${category}::${mergeName}::${item.id}`;
 
         const quantityToAdd =
-          quantity !== null
+          effectiveQuantity !== null
             ? manualIsCountable
-              ? Math.ceil(quantity)
-              : quantity
+              ? Math.ceil(effectiveQuantity)
+              : effectiveQuantity
             : 0;
 
         const existing = map.get(key);
@@ -2978,6 +3111,48 @@ export default function ShoppingListPage() {
         .replace(/[^a-z0-9\s]/g, " ")
         .replace(/\s+/g, " ")
         .trim();
+
+      // Repair older saved wording such as "hot dogs buns".
+      if (/\bhot dogs?\s+buns?\b/.test(safeName)) {
+        safeName = "hot dog bun";
+      }
+
+      // Recover bacon quantities from original recipe wording.
+      const baconPieceMatch = String(item.text || "").match(
+        /^\s*(\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:-|–|to)?\s*(\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)?\s+(strips?|slices?)\s+bacon\b/i
+      );
+
+      if (baconPieceMatch) {
+        const [, minRaw, maxRaw, unitRaw] = baconPieceMatch;
+
+        safeName = "bacon";
+        parsedUnit = normalizeUnit(unitRaw);
+        parsedQuantity = parseFraction(maxRaw || minRaw);
+
+        parsed.minQuantity = parseFraction(minRaw);
+        parsed.maxQuantity = parseFraction(maxRaw || minRaw);
+      }
+
+      // Repair older parsed rows such as "6 strips bacon"
+      // where the quantity survived but "strips" became part of the name.
+      if (
+        (!parsedUnit || parsedUnit === "strip") &&
+        /^(?:(?:strip|strips)\s+bacon|bacon\s+(?:strip|strips))$/.test(
+          safeName
+        )
+      ) {
+        safeName = "bacon";
+        parsedUnit = "strip";
+
+        if (parsedQuantity === null) {
+          parsedQuantity = 1;
+        }
+      }
+
+      // Run the junk/combined-seasoning check after final name cleanup.
+      if (shouldHideShoppingItem(safeName)) {
+        continue;
+      }
 
       if (parsedUnit === "can" && safeName === "corn on the cob") {
         safeName = "corn";
@@ -3161,6 +3336,27 @@ export default function ShoppingListPage() {
         : safeName;
 
       const mergeUnit = isCountable ? "__count__" : parsedUnit;
+
+      // Keep recipe-style measurements in the source breakdown when they are
+      // not especially useful on the main shopper-facing row.
+      const isVolumeMeasuredTomato =
+        (
+          normalizedName === "cherry tomato" ||
+          normalizedName === "cherry tomatoes"
+        ) &&
+        (
+          mergeUnit === "cup" ||
+          mergeUnit === "Tbsp" ||
+          mergeUnit === "tsp"
+        );
+
+      const hideMainMeasurement =
+        normalizedName === "white rice" ||
+        isVolumeMeasuredTomato;
+
+      const groupedUnit = hideMainMeasurement ? null : mergeUnit;
+      const groupedPackageSize = hideMainMeasurement ? "" : packageSize;
+
       const category = resolveShoppingCategoryForItem(
         normalizedName,
         mergeUnit,
@@ -3168,9 +3364,11 @@ export default function ShoppingListPage() {
       );
 
       const packageKey =
-        packageSize && isPackageSizeSensitiveUnit(mergeUnit) ? packageSize : "";
+        groupedPackageSize && isPackageSizeSensitiveUnit(groupedUnit)
+          ? groupedPackageSize
+          : "";
 
-      const key = `recipe::${category}::${normalizedName}::${mergeUnit || ""}::${packageKey}`;
+      const key = `recipe::${category}::${normalizedName}::${groupedUnit || ""}::${packageKey}`;
 
 
       const quantityToAdd =
@@ -3195,6 +3393,9 @@ export default function ShoppingListPage() {
             ? Math.ceil(parsed.maxQuantity)
             : parsed.maxQuantity
           : quantityToAdd;
+      const mainQuantityToAdd = hideMainMeasurement ? 0 : quantityToAdd;
+      const mainMinQuantityToAdd = hideMainMeasurement ? 0 : minQuantityToAdd;
+      const mainMaxQuantityToAdd = hideMainMeasurement ? 0 : maxQuantityToAdd;
 
       const recipeQuantityToAdd = quantityToAdd > 0 ? quantityToAdd : 0;
       const recipeUnit = mergeUnit ?? null;
@@ -3206,14 +3407,22 @@ export default function ShoppingListPage() {
         existing.count += 1;
         existing.checked = existing.checked && item.checked;
 
-        if (quantityToAdd > 0) {
-          existing.totalQuantity += quantityToAdd;
-          existing.minQuantity += minQuantityToAdd;
-          existing.maxQuantity += maxQuantityToAdd;
+        if (mainQuantityToAdd > 0) {
+          existing.totalQuantity += mainQuantityToAdd;
+          existing.minQuantity += mainMinQuantityToAdd;
+          existing.maxQuantity += mainMaxQuantityToAdd;
         }
 
-        if (existing.unit !== mergeUnit || existing.packageSize !== packageSize) {
-          if (existing.unit !== null || mergeUnit !== null || existing.packageSize || packageSize) {
+        if (
+          existing.unit !== groupedUnit ||
+          existing.packageSize !== groupedPackageSize
+        ) {
+          if (
+            existing.unit !== null ||
+            groupedUnit !== null ||
+            existing.packageSize ||
+            groupedPackageSize
+          ) {
             existing.mixedUnits = true;
           }
         }
@@ -3245,11 +3454,11 @@ export default function ShoppingListPage() {
           name: normalizedName,
           isManual: false,
           isCountable,
-          totalQuantity: quantityToAdd,
-          minQuantity: minQuantityToAdd,
-          maxQuantity: maxQuantityToAdd,
-          unit: mergeUnit ?? null,
-          packageSize,
+          totalQuantity: mainQuantityToAdd,
+          minQuantity: mainMinQuantityToAdd,
+          maxQuantity: mainMaxQuantityToAdd,
+          unit: groupedUnit ?? null,
+          packageSize: groupedPackageSize,
           mixedUnits: false,
           recipeNames: new Set([recipeName]),
           recipeBreakdown: new Map([
