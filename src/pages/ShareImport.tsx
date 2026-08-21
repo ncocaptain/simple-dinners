@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Capacitor } from "@capacitor/core";
+import { Capacitor, CapacitorHttp } from "@capacitor/core";
 import { ShareRecipeExtractor } from "../plugins/shareRecipeExtractor";
 import { API_BASE } from "../core/api";
 import { getStoredLanguage } from "../i18n";
@@ -139,6 +139,96 @@ function isCaptionAssistSocialUrl(rawUrl: string): boolean {
   }
 }
 
+function isInstagramRecipeUrl(rawUrl: string): boolean {
+  try {
+    const parsed = new URL(rawUrl);
+    const host = parsed.hostname.toLowerCase();
+
+    return (
+      host === "instagram.com" ||
+      host.endsWith(".instagram.com")
+    );
+  } catch {
+    return String(rawUrl || "")
+      .toLowerCase()
+      .includes("instagram.com");
+  }
+}
+
+const INSTAGRAM_CAPTION_TIMEOUT_MS = 15000;
+
+async function extractInstagramCaptionForShare(
+  rawUrl: string
+): Promise<string> {
+  if (
+    Capacitor.getPlatform() !== "android" ||
+    !isInstagramRecipeUrl(rawUrl)
+  ) {
+    return "";
+  }
+
+  let timeoutId: number | undefined;
+
+  try {
+    const result = await Promise.race([
+      ShareRecipeExtractor.extractInstagramCaption({
+        url: rawUrl,
+      }),
+      new Promise<never>((_, reject) => {
+        timeoutId = window.setTimeout(() => {
+          reject(
+            new Error(
+              "Instagram caption extraction timed out."
+            )
+          );
+        }, INSTAGRAM_CAPTION_TIMEOUT_MS);
+      }),
+    ]);
+
+    const captionText = String(
+      result?.captionText || ""
+    ).trim();
+
+    console.error(
+      "ShareImport Instagram fallback metadata extracted:",
+      JSON.stringify({
+        captionLength: captionText.length,
+        hasPhotoUrl: Boolean(result?.photoUrl),
+        hasOgTitle: Boolean(result?.ogTitle),
+      })
+    );
+
+    return captionText;
+  } catch (error) {
+    console.error(
+      "Automatic ShareImport Instagram caption extraction failed:",
+      error
+    );
+
+    return "";
+  } finally {
+    if (timeoutId !== undefined) {
+      window.clearTimeout(timeoutId);
+    }
+  }
+}
+
+function isTikTokRecipeUrl(rawUrl: string): boolean {
+  try {
+    const parsed = new URL(rawUrl);
+    const host = parsed.hostname.toLowerCase();
+
+    return (
+      host === "tiktok.com" ||
+      host.endsWith(".tiktok.com")
+    );
+  } catch {
+    return String(rawUrl || "")
+      .toLowerCase()
+      .includes("tiktok.com");
+  }
+}
+
 function isInstagramVideoUrl(rawUrl: string): boolean {
   try {
     const parsed = new URL(rawUrl);
@@ -158,6 +248,62 @@ function isInstagramVideoUrl(rawUrl: string): boolean {
   } catch {
     return /instagram\.com\/(reel|reels|p)\//i.test(
       rawUrl
+    );
+  }
+}
+
+async function probeInstagramWithNativeHttp(rawUrl: string) {
+  console.error(
+    "Instagram native HTTP probe ENTER:",
+    JSON.stringify({
+      platform: Capacitor.getPlatform(),
+      isNativePlatform: Capacitor.isNativePlatform(),
+    })
+  );
+
+  if (!Capacitor.isNativePlatform()) {
+    console.error(
+      "Instagram native HTTP probe SKIPPED: not native"
+    );
+    return;
+  }
+
+  try {
+    const response = await CapacitorHttp.get({
+      url: rawUrl,
+      headers: {
+        Accept:
+          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent":
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      },
+      responseType: "text",
+      connectTimeout: 15000,
+      readTimeout: 15000,
+    });
+
+    const body =
+      typeof response.data === "string"
+        ? response.data
+        : JSON.stringify(response.data ?? "");
+
+    console.error(
+      "Instagram native HTTP probe RESULT:",
+      JSON.stringify({
+        status: response.status,
+        finalUrl: response.url,
+        bodyLength: body.length,
+        hasOgDescription:
+          body.toLowerCase().includes("og:description"),
+        hasLoginGate:
+          body.toLowerCase().includes("/accounts/login"),
+      })
+    );
+  } catch (error) {
+    console.error(
+      "Instagram native HTTP probe failed:",
+      error
     );
   }
 }
@@ -823,7 +969,16 @@ export default function ShareImport() {
           data = await importFromUrl(url);
         } else if (captionAssistSocialShare) {
           setStatus("Finding post details...");
-          data = await importFromUrl(url);
+
+          const instagramCaptionText =
+            await extractInstagramCaptionForShare(
+              url
+            );
+
+          data = await importFromUrl(
+            url,
+            instagramCaptionText
+          );
         } else if (platform === "android") {
           try {
             setStatus("Opening recipe page securely to read recipe details...");
@@ -852,10 +1007,27 @@ export default function ShareImport() {
         }
 
         if (isIncompleteSocialImport(data)) {
-          if (isInstagramVideoUrl(url)) {
+          const instagramVideoShare =
+            isInstagramVideoUrl(url);
+
+          const tiktokVideoShare =
+            isTikTokRecipeUrl(url);
+
+          if (
+            instagramVideoShare ||
+            tiktokVideoShare
+          ) {
             try {
+              if (instagramVideoShare) {
+                await probeInstagramWithNativeHttp(
+                  url
+                );
+              }
+
               setStatus(
-                "Reading and listening to the Instagram video..."
+                instagramVideoShare
+                  ? "Reading and listening to the Instagram video..."
+                  : "Reading and listening to the TikTok video..."
               );
 
               const videoData =
@@ -893,7 +1065,9 @@ export default function ShareImport() {
               return;
             } catch (videoError) {
               console.error(
-                "Automatic Instagram video import failed:",
+                instagramVideoShare
+                  ? "Automatic Instagram video import failed:"
+                  : "Automatic TikTok video import failed:",
                 videoError
               );
 

@@ -26,6 +26,7 @@ import {
 import Card from "../components/Card";
 import TipsModal from "../components/TipsModal";
 import { t, getStoredLanguage } from "../i18n";
+import { ShareRecipeExtractor } from "../plugins/shareRecipeExtractor";
 import type { Meal } from "../core/types";
 import { getLocalizedMeal } from "../core/localizedMeal";
 import { Capacitor } from "@capacitor/core";
@@ -325,6 +326,111 @@ function isPublicVideoRecipeUrl(url: string) {
       value.includes("instagram.com") ||
       value.includes("tiktok.com")
     );
+  }
+}
+
+function isInstagramRecipeUrl(url: string) {
+  try {
+    const host = new URL(
+      String(url || "").trim()
+    ).hostname
+      .toLowerCase()
+      .replace(/\.$/, "");
+
+    return (
+      host === "instagram.com" ||
+      host.endsWith(".instagram.com")
+    );
+  } catch {
+    return String(url || "")
+      .toLowerCase()
+      .includes("instagram.com");
+  }
+}
+
+type InstagramFallbackMetadata = {
+  url: string;
+  captionText: string;
+  photoUrl: string;
+  ogTitle: string;
+};
+
+const EMPTY_INSTAGRAM_FALLBACK_METADATA: InstagramFallbackMetadata = {
+  url: "",
+  captionText: "",
+  photoUrl: "",
+  ogTitle: "",
+};
+
+const INSTAGRAM_CAPTION_TIMEOUT_MS = 15000;
+
+async function extractInstagramMetadataForFallback(
+  rawUrl: string
+): Promise<InstagramFallbackMetadata> {
+  if (
+    Capacitor.getPlatform() !== "android" ||
+    !isInstagramRecipeUrl(rawUrl)
+  ) {
+    return EMPTY_INSTAGRAM_FALLBACK_METADATA;
+  }
+
+  let timeoutId: number | undefined;
+
+  try {
+    const result = await Promise.race([
+      ShareRecipeExtractor.extractInstagramCaption({
+        url: rawUrl,
+      }),
+      new Promise<never>((_, reject) => {
+        timeoutId = window.setTimeout(() => {
+          reject(
+            new Error(
+              "Instagram metadata extraction timed out."
+            )
+          );
+        }, INSTAGRAM_CAPTION_TIMEOUT_MS);
+      }),
+    ]);
+
+    const metadata: InstagramFallbackMetadata = {
+      url: String(
+        result?.url || rawUrl
+      ).trim(),
+
+      captionText: String(
+        result?.captionText || ""
+      ).trim(),
+
+      photoUrl: String(
+        result?.photoUrl || ""
+      ).trim(),
+
+      ogTitle: String(
+        result?.ogTitle || ""
+      ).trim(),
+    };
+
+    console.error(
+      "Instagram fallback metadata extracted:",
+      JSON.stringify({
+        captionLength: metadata.captionText.length,
+        hasPhotoUrl: Boolean(metadata.photoUrl),
+        hasOgTitle: Boolean(metadata.ogTitle),
+      })
+    );
+
+    return metadata;
+  } catch (error) {
+    console.error(
+      "Automatic Instagram metadata extraction failed:",
+      error
+    );
+
+    return EMPTY_INSTAGRAM_FALLBACK_METADATA;
+  } finally {
+    if (timeoutId !== undefined) {
+      window.clearTimeout(timeoutId);
+    }
   }
 }
 
@@ -1078,13 +1184,25 @@ export default function CookbookPage({
         document.activeElement as HTMLElement
       )?.blur();
 
+      let instagramFallbackMetadata: InstagramFallbackMetadata =
+        EMPTY_INSTAGRAM_FALLBACK_METADATA;
+
       // -----------------------------------------------------
       // Instagram and TikTok video import
-      // Resolve the public reel automatically and send the
-      // recovered recipe directly to Review Recipe.
+      // Keep the existing public-video path first.
+      // On Android Instagram imports, start the native caption
+      // extraction in parallel so it is ready if video import
+      // fails and the standard importer needs caption evidence.
       // -----------------------------------------------------
 
       if (isPublicVideoRecipeUrl(requestedUrl)) {
+        const instagramMetadataPromise =
+          isInstagramRecipeUrl(requestedUrl)
+            ? extractInstagramMetadataForFallback(
+              requestedUrl
+            )
+            : null;
+
         try {
           const videoResponse = await fetch(
             `${API_BASE}/import-video-url`,
@@ -1161,11 +1279,28 @@ export default function CookbookPage({
             videoError
           );
 
+          if (instagramMetadataPromise) {
+            instagramFallbackMetadata =
+              await instagramMetadataPromise;
+          }
+
           // Continue to the standard social-post importer.
-          // That preserves Caption Assist, screenshots,
-          // and saved-video options as fallbacks.
+          // When Android recovered an Instagram caption, pass
+          // that exact caption as primary rescue evidence.
         }
       }
+
+      console.error(
+        "Instagram standard importer request:",
+        JSON.stringify({
+          isInstagram: isInstagramRecipeUrl(requestedUrl),
+          captionLength:
+            instagramFallbackMetadata.captionText.length,
+          hasCaptionText: Boolean(
+            instagramFallbackMetadata.captionText
+          ),
+        })
+      );
 
       // -----------------------------------------------------
       // Existing standard URL importer
@@ -1182,6 +1317,12 @@ export default function CookbookPage({
           body: JSON.stringify({
             url: requestedUrl,
             language: getStoredLanguage(),
+            ...(instagramFallbackMetadata.captionText
+              ? {
+                captionText:
+                  instagramFallbackMetadata.captionText,
+              }
+              : {}),
           }),
         }
       );
