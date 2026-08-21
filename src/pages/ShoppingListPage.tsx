@@ -2957,8 +2957,8 @@ export default function ShoppingListPage() {
               : null;
 
         const canMergeWithRecipe =
-          hasApprovedSmartIdentity &&
-          effectiveQuantity !== null;
+          effectiveQuantity !== null &&
+          (hasApprovedSmartIdentity || manualLooksCountable);
 
         const manualIsCountable =
           canMergeWithRecipe &&
