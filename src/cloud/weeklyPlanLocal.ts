@@ -87,6 +87,55 @@ function normalizeSignatureText(
     : "";
 }
 
+function normalizeRecipeNameForSlug(
+  value: unknown,
+): string {
+  return normalizeSignatureText(value)
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+}
+
+function normalizeMealIdentityKey(
+  value: Record<string, unknown>,
+): string {
+  const nameKey =
+    normalizeRecipeNameForSlug(
+      value.name,
+    );
+
+  for (const candidate of [
+    value.slug,
+    value.id,
+  ]) {
+    const key =
+      normalizeSignatureText(
+        candidate,
+      );
+
+    if (!key) {
+      continue;
+    }
+
+    const generatedSlugMatch =
+      key.match(/^(.*)-\d{4}$/);
+
+    if (
+      generatedSlugMatch &&
+      nameKey &&
+      generatedSlugMatch[1] === nameKey
+    ) {
+      return nameKey;
+    }
+
+    return key;
+  }
+
+  return normalizeSignatureText(
+    value.name,
+  );
+}
+
 function summarizePlannedDay(
   value: unknown,
 ): unknown {
@@ -123,10 +172,8 @@ function summarizePlannedDay(
      * instructions, tags, and other recipe updates
      * should not create a weekly-plan conflict.
      */
-   const mealKey =
-  normalizeSignatureText(meal.slug) ||
-  normalizeSignatureText(meal.id) ||
-  normalizeSignatureText(meal.name);
+    const mealKey =
+      normalizeMealIdentityKey(meal);
 
     if (!mealKey) {
       return null;
@@ -142,10 +189,8 @@ function summarizePlannedDay(
    * Legacy format where the saved value itself
    * was the meal object.
    */
- const mealKey =
-  normalizeSignatureText(value.slug) ||
-  normalizeSignatureText(value.id) ||
-  normalizeSignatureText(value.name);
+  const mealKey =
+    normalizeMealIdentityKey(value);
 
   if (!mealKey) {
     return null;
