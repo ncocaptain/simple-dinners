@@ -260,26 +260,18 @@ export default function WeekPage({
       return;
     }
 
-    const rect = el.getBoundingClientRect();
     const tooltipWidth = Math.min(window.innerWidth - 32, 340);
-
-    let left = rect.left + rect.width / 2 - tooltipWidth / 2;
-    left = Math.max(16, left);
-    left = Math.min(left, window.innerWidth - tooltipWidth - 16);
-
-    const spaceBelow = window.innerHeight - rect.bottom;
     const tooltipHeight = Math.min(320, window.innerHeight * 0.5);
 
-    let top: number;
+    const left = Math.max(
+      16,
+      (window.innerWidth - tooltipWidth) / 2,
+    );
 
-    if (spaceBelow < tooltipHeight) {
-      top = rect.top - tooltipHeight - 16;
-    } else {
-      top = rect.bottom + 16;
-    }
-
-    top = Math.max(20, top);
-    top = Math.min(top, window.innerHeight - tooltipHeight - 20);
+    const top = Math.max(
+      20,
+      (window.innerHeight - tooltipHeight) / 2,
+    );
 
     setTooltipPosition({
       top,
@@ -1831,28 +1823,6 @@ export default function WeekPage({
                 {walkthroughContent.body}
               </p>
 
-              <div
-                style={{
-                  marginTop: 12,
-                  padding: "8px 10px",
-                  borderRadius: 12,
-                  background: "rgba(20,184,166,0.14)",
-                  border: "1px solid rgba(20,184,166,0.28)",
-                  fontSize: 12,
-                  fontWeight: 800,
-                  color: "#ccfbf1",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                }}
-              >
-                <Sparkles size={12} />
-                {walkthroughStep === 1 && t("week.walkthrough.tapButton")}
-                {walkthroughStep === 2 && t("week.walkthrough.tryLocking")}
-                {walkthroughStep === 3 &&
-                  t("week.walkthrough.addMealsCalendar")}
-              </div>
-
               <div style={{ display: "grid", gap: 10, marginTop: 18 }}>
                 {walkthroughStep < 3 ? (
                   <button
@@ -1891,12 +1861,11 @@ export default function WeekPage({
                 <button
                   onClick={finishWalkthrough}
                   style={{
-                    width: "100%",
-                    padding: "12px 16px",
-                    borderRadius: 16,
-                    border: "1px solid rgba(255,255,255,0.10)",
-                    background: "rgba(255,255,255,0.04)",
-                    color: "rgba(248,250,252,0.82)",
+                    justifySelf: "center",
+                    padding: "4px 10px",
+                    border: "none",
+                    background: "transparent",
+                    color: "rgba(248,250,252,0.58)",
                     fontWeight: 800,
                     cursor: "pointer",
                   }}
