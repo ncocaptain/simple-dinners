@@ -22,12 +22,15 @@ export type FulfillmentProvider = {
 
   enabled: boolean;
 
+  eyebrowLabel: string;
+  headline: string;
   description: string;
   ctaLabel: string;
 
   menuUrl: string;
 
   serviceAreaLabel?: string;
+  secondaryLabel?: string;
   logoSrc?: string;
 
   capabilities: FulfillmentCapability[];

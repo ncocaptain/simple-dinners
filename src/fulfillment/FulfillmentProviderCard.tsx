@@ -15,13 +15,11 @@ import type {
 type FulfillmentProviderCardProps = {
   provider: FulfillmentProvider;
   placement: string;
-  title?: string;
 };
 
 export default function FulfillmentProviderCard({
   provider,
   placement,
-  title = "Too busy to cook tonight?",
 }: FulfillmentProviderCardProps) {
   function openProvider() {
     const url = buildFulfillmentProviderUrl(
@@ -117,7 +115,7 @@ export default function FulfillmentProviderCard({
                 color: "#fdba74",
               }}
             >
-              Local backup dinner
+              {provider.eyebrowLabel}
             </span>
 
             <span
@@ -144,7 +142,7 @@ export default function FulfillmentProviderCard({
               letterSpacing: "-0.025em",
             }}
           >
-            {title}
+            {provider.headline}
           </h3>
 
           <p
@@ -205,7 +203,7 @@ export default function FulfillmentProviderCard({
                   color: "#cbd5e1",
                 }}
               >
-                Ready to heat
+                {provider.secondaryLabel}
               </span>
             </div>
           )}

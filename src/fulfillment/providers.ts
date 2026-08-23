@@ -8,35 +8,39 @@ const smashMealsMenuUrl =
 
 export const FULFILLMENT_PROVIDERS: FulfillmentProvider[] = [
   {
-    id: "smashmeals",
-    name: "SmashMeals",
+  id: "smashmeals",
+  name: "SmashMeals",
 
-    kind: "prepared-meals",
+  kind: "prepared-meals",
 
-    enabled: true,
+  enabled: true,
 
-    description:
-      "Fresh, ready-to-heat meals for busy weeks and nights when cooking just isn't happening.",
+  eyebrowLabel: "Local backup dinner",
+  headline: "Too busy to cook tonight?",
 
-    ctaLabel: "View This Week's Menu",
+  description:
+    "SmashMeals offers fresh, ready-to-heat meals for busy weeks, sports nights, and nights when cooking just isn't happening.",
 
-    menuUrl: smashMealsMenuUrl,
+  ctaLabel: "View This Week's Menu",
 
-    serviceAreaLabel: "Local to the Tri-Cities",
+  menuUrl: smashMealsMenuUrl,
 
-    logoSrc: "/partners/smashmeals/logo.png",
+  serviceAreaLabel: "Local to the Tri-Cities",
+  secondaryLabel: "Ready to heat",
 
-    capabilities: [
-      "external-menu",
-      "pickup",
-    ],
+  logoSrc: "/partners/smashmeals/logo.png",
 
-    tracking: {
-      source: "simple_dinners",
-      medium: "partner",
-      campaign: "backup_dinner",
-    },
+  capabilities: [
+    "external-menu",
+    "pickup",
+  ],
+
+  tracking: {
+    source: "simple_dinners",
+    medium: "partner",
+    campaign: "backup_dinner",
   },
+},
 ];
 
 export function getFulfillmentProvider(
