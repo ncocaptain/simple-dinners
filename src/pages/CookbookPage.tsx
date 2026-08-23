@@ -1373,6 +1373,14 @@ export default function CookbookPage({
           requestedUrl
         );
 
+      if (
+        !normalizedRecipe.photoUrl &&
+        instagramFallbackMetadata.photoUrl
+      ) {
+        normalizedRecipe.photoUrl =
+          instagramFallbackMetadata.photoUrl;
+      }
+
       const importSourceUrl =
         normalizedRecipe.sourceUrl ||
         requestedUrl;
