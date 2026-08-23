@@ -1,0 +1,93 @@
+import type {
+  FulfillmentProvider,
+} from "./types";
+
+const smashMealsMenuUrl =
+  import.meta.env.VITE_SMASHMEALS_MENU_URL?.trim() ||
+  "https://smashmeals.com/menu";
+
+export const FULFILLMENT_PROVIDERS: FulfillmentProvider[] = [
+  {
+    id: "smashmeals",
+    name: "SmashMeals",
+
+    kind: "prepared-meals",
+
+    enabled: true,
+
+    description:
+      "Fresh, ready-to-heat meals for busy weeks and nights when cooking just isn't happening.",
+
+    ctaLabel: "View This Week's Menu",
+
+    menuUrl: smashMealsMenuUrl,
+
+    serviceAreaLabel: "Local to the Tri-Cities",
+
+    logoSrc: "/partners/smashmeals/logo.png",
+
+    capabilities: [
+      "external-menu",
+      "pickup",
+    ],
+
+    tracking: {
+      source: "simple_dinners",
+      medium: "partner",
+      campaign: "backup_dinner",
+    },
+  },
+];
+
+export function getFulfillmentProvider(
+  providerId: string,
+): FulfillmentProvider | undefined {
+  return FULFILLMENT_PROVIDERS.find(
+    (provider) =>
+      provider.enabled &&
+      provider.id === providerId,
+  );
+}
+
+export function getEnabledFulfillmentProviders(): FulfillmentProvider[] {
+  return FULFILLMENT_PROVIDERS.filter(
+    (provider) => provider.enabled,
+  );
+}
+
+export function buildFulfillmentProviderUrl(
+  provider: FulfillmentProvider,
+  placement?: string,
+): string {
+  try {
+    const url = new URL(provider.menuUrl);
+
+    if (provider.tracking) {
+      url.searchParams.set(
+        "utm_source",
+        provider.tracking.source,
+      );
+
+      url.searchParams.set(
+        "utm_medium",
+        provider.tracking.medium,
+      );
+
+      url.searchParams.set(
+        "utm_campaign",
+        provider.tracking.campaign,
+      );
+    }
+
+    if (placement?.trim()) {
+      url.searchParams.set(
+        "utm_content",
+        placement.trim(),
+      );
+    }
+
+    return url.toString();
+  } catch {
+    return provider.menuUrl;
+  }
+}

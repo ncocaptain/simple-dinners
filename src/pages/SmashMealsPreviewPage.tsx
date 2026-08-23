@@ -1,5 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import {
+  buildFulfillmentProviderUrl,
+  getFulfillmentProvider,
+} from "../fulfillment/providers";
+import {
   ArrowLeft,
   ArrowRight,
   CalendarDays,
@@ -12,9 +16,8 @@ import {
   Utensils,
 } from "lucide-react";
 
-const SMASHMEALS_MENU_URL =
-  import.meta.env.VITE_SMASHMEALS_MENU_URL?.trim() ||
-  "https://smashmeals.com/menu?utm_source=simple_dinners&utm_medium=partner_preview&utm_campaign=backup_dinner";
+const smashMealsProvider =
+  getFulfillmentProvider("smashmeals");
 
 const pageStyles = {
   page: {
@@ -59,7 +62,18 @@ const pageStyles = {
 };
 
 function openSmashMealsMenu() {
-  window.open(SMASHMEALS_MENU_URL, "_blank", "noopener,noreferrer");
+  if (!smashMealsProvider) return;
+
+  const url = buildFulfillmentProviderUrl(
+    smashMealsProvider,
+    "partner-preview",
+  );
+
+  window.open(
+    url,
+    "_blank",
+    "noopener,noreferrer",
+  );
 }
 
 export default function SmashMealsPreviewPage() {
@@ -134,7 +148,7 @@ export default function SmashMealsPreviewPage() {
                   color: "#fb923c",
                 }}
               >
-                × SmashMeals
+                × {smashMealsProvider?.name}
               </span>
             </h1>
 
@@ -286,9 +300,7 @@ export default function SmashMealsPreviewPage() {
                         marginBottom: 16,
                       }}
                     >
-                      SmashMeals offers fresh, ready-to-heat meals for busy
-                      weeks, sports nights, and nights when cooking just isn’t
-                      happening.
+                      {smashMealsProvider?.description}
                     </p>
 
                     <div
@@ -310,7 +322,7 @@ export default function SmashMealsPreviewPage() {
                         }}
                       >
                         <MapPin size={14} aria-hidden="true" />
-                        Local to the Tri-Cities
+                        {smashMealsProvider?.serviceAreaLabel}
                       </span>
 
                       <span
@@ -352,7 +364,7 @@ export default function SmashMealsPreviewPage() {
                         boxShadow: "0 12px 28px rgba(249, 115, 22, 0.24)",
                       }}
                     >
-                      View This Week’s Menu
+                      {smashMealsProvider?.ctaLabel}
                       <ExternalLink size={18} aria-hidden="true" />
                     </button>
                   </div>
@@ -391,8 +403,8 @@ export default function SmashMealsPreviewPage() {
 
               <p style={pageStyles.bodyText}>
                 Simple Dinners remains focused on helping families plan, shop,
-                and cook. SmashMeals becomes an optional local backup for the
-                nights when the plan changes.
+                and cook. {smashMealsProvider?.name} becomes an optional local
+                backup for the nights when the plan changes.
               </p>
             </section>
 
@@ -417,7 +429,7 @@ export default function SmashMealsPreviewPage() {
                 {
                   icon: <ShoppingBag size={20} aria-hidden="true" />,
                   title: "Choose a local backup",
-                  text: "The family can optionally view SmashMeals without leaving the Simple Dinners mission behind.",
+                  text: `The family can optionally view ${smashMealsProvider?.name} without leaving the Simple Dinners mission behind.`,
                 },
               ].map((item) => (
                 <article
