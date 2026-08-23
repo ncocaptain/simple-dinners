@@ -9,12 +9,13 @@ import {
 } from "./providers";
 
 import type {
+  FulfillmentPlacement,
   FulfillmentProvider,
 } from "./types";
 
 type FulfillmentProviderCardProps = {
   provider: FulfillmentProvider;
-  placement: string;
+  placement: FulfillmentPlacement;
 };
 
 export default function FulfillmentProviderCard({

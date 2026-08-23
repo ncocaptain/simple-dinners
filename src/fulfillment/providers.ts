@@ -1,4 +1,5 @@
 import type {
+  FulfillmentPlacement,
   FulfillmentProvider,
 } from "./types";
 
@@ -14,6 +15,9 @@ export const FULFILLMENT_PROVIDERS: FulfillmentProvider[] = [
   kind: "prepared-meals",
 
   enabled: true,
+  placements: [
+  "partner-preview",
+],
 
   eyebrowLabel: "Local backup dinner",
   headline: "Too busy to cook tonight?",
@@ -53,15 +57,22 @@ export function getFulfillmentProvider(
   );
 }
 
-export function getEnabledFulfillmentProviders(): FulfillmentProvider[] {
+export function getEnabledFulfillmentProviders(
+  placement?: FulfillmentPlacement,
+): FulfillmentProvider[] {
   return FULFILLMENT_PROVIDERS.filter(
-    (provider) => provider.enabled,
+    (provider) =>
+      provider.enabled &&
+      (
+        !placement ||
+        provider.placements.includes(placement)
+      ),
   );
 }
 
 export function buildFulfillmentProviderUrl(
   provider: FulfillmentProvider,
-  placement?: string,
+  placement?: FulfillmentPlacement,
 ): string {
   try {
     const url = new URL(provider.menuUrl);

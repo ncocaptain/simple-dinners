@@ -24,6 +24,11 @@ import { getLocalizedMeal } from "../core/localizedMeal";
 import { Capacitor } from "@capacitor/core";
 import { getDisplaySides } from "../core/customSides";
 import { addIngredientsToList } from "../shoppingList";
+import FulfillmentProviderCard from "../fulfillment/FulfillmentProviderCard";
+
+import {
+  getEnabledFulfillmentProviders,
+} from "../fulfillment/providers";
 import { getSideShoppingLines } from "../core/sideRecipeMatcher";
 import { Filesystem, Directory, Encoding } from "@capacitor/filesystem";
 import { Share } from "@capacitor/share";
@@ -34,6 +39,11 @@ import {
 import {
   WeeklyPlanSyncStatus,
 } from "../cloud/WeeklyPlanSyncStatus";
+
+const WEEKLY_PLAN_TAKEOUT_PROVIDERS =
+  getEnabledFulfillmentProviders(
+    "weekly-plan-takeout",
+  );
 
 type WalkthroughStep = 1 | 2 | 3;
 type TooltipPosition = {
@@ -901,6 +911,11 @@ export default function WeekPage({
 
               const isLeftovers = mode === "leftovers";
               const isFreezer = mode === "freezer";
+
+              const isTakeout =
+                mode === "planned" &&
+                rawMeal?.effort === "takeout";
+
               const hasMeal = !!meal?.name?.trim();
               const isLocked = !!lockedDays[day];
               const mealPhotoUrl = normalizePhotoUrl(meal?.photoUrl);
@@ -1304,6 +1319,26 @@ export default function WeekPage({
                             style={{ opacity: 0.2, flexShrink: 0 }}
                           />
                         </div>
+
+                        {isTakeout &&
+                          WEEKLY_PLAN_TAKEOUT_PROVIDERS.length > 0 && (
+                            <div
+                              style={{
+                                display: "grid",
+                                gap: 12,
+                              }}
+                            >
+                              {WEEKLY_PLAN_TAKEOUT_PROVIDERS.map(
+                                (provider) => (
+                                  <FulfillmentProviderCard
+                                    key={provider.id}
+                                    provider={provider}
+                                    placement="weekly-plan-takeout"
+                                  />
+                                ),
+                              )}
+                            </div>
+                          )}
 
                         {suggestedSides.length > 0 && (
                           <div

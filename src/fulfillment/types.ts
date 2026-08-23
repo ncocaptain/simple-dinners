@@ -21,6 +21,7 @@ export type FulfillmentProvider = {
   kind: FulfillmentProviderKind;
 
   enabled: boolean;
+  placements: FulfillmentPlacement[];
 
   eyebrowLabel: string;
   headline: string;
@@ -37,3 +38,7 @@ export type FulfillmentProvider = {
 
   tracking?: FulfillmentTracking;
 };
+
+export type FulfillmentPlacement =
+  | "partner-preview"
+  | "weekly-plan-takeout";
