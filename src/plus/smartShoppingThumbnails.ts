@@ -253,6 +253,11 @@ const EXACT_THUMBNAIL_KEYS: Record<string, string> = {
   "baby spinach": "spinach",
   "spinach leaves": "spinach",
 
+  broccoli: "broccoli",
+  "broccoli florets": "broccoli",
+  "fresh broccoli": "broccoli",
+  "chopped broccoli": "broccoli",
+
   // Spices
   "garlic powder": "garlic-powder",
   "onion powder": "onion-powder",
@@ -470,6 +475,12 @@ const AVAILABLE_LOCAL_THUMBNAIL_KEYS =
     "red-bell-pepper",
     "yellow-bell-pepper",
     "orange-bell-pepper",
+    "onion",
+    "white-onion",
+    "red-onion",
+    "potato",
+    "sweet-potato",
+    "bell-pepper",
     "tomato",
     "avocado",
     "carrot",
@@ -485,6 +496,7 @@ const AVAILABLE_LOCAL_THUMBNAIL_KEYS =
     "cilantro",
     "ginger",
     "spinach",
+    "broccoli",
 
     "milk",
     "eggs",
@@ -543,11 +555,24 @@ const AVAILABLE_LOCAL_THUMBNAIL_KEYS =
     "rice",
     "oats",
     "spaghetti",
+    "pasta",
     "bread",
     "egg-noodles",
     "penne",
     "mashed-potatoes",
     "baked-potato",
+
+    "bagels",
+    "black-beans",
+    "canned-black-beans",
+    "dried-black-beans",
+    "hamburger-buns",
+    "hot-dog-buns",
+    "orange",
+    "tortillas",
+    "water",
+    "soda",
+    "energy-drink",
   ]);
 
 export function hasLocalSmartShoppingThumbnail(
