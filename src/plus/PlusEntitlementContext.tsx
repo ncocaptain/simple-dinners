@@ -21,11 +21,14 @@ import {
   getRevenueCatCustomerInfo,
   getRevenueCatErrorMessage,
   getRevenueCatPackages,
+  getRevenueCatTrialAvailability,
   isRevenueCatNativePlatform,
   purchaseRevenueCatPackage,
   REVENUECAT_ENTITLEMENT_ID,
   restoreRevenueCatPurchases,
   wasRevenueCatPurchaseCancelled,
+  EMPTY_TRIAL_AVAILABILITY,
+  type RevenueCatTrialAvailability,
   type RevenueCatPackages,
 } from "./revenueCat";
 
@@ -66,6 +69,8 @@ type PlusEntitlementContextValue = {
   monthlyPrice: string | null;
   annualPrice: string | null;
   annualMonthlyPrice: string | null;
+  monthlyTrialAvailable: boolean;
+  annualTrialAvailable: boolean;
 
   packagesLoading: boolean;
   purchaseLoading: boolean;
@@ -160,6 +165,13 @@ export function PlusEntitlementProvider({
     useState<RevenueCatPackages>(
       EMPTY_PACKAGES,
     );
+
+  const [
+    trialAvailability,
+    setTrialAvailability,
+  ] = useState<RevenueCatTrialAvailability>(
+    EMPTY_TRIAL_AVAILABILITY,
+  );
 
   const [
     packagesLoading,
@@ -278,6 +290,9 @@ export function PlusEntitlementProvider({
         !isRevenueCatNativePlatform()
       ) {
         setPackages(EMPTY_PACKAGES);
+        setTrialAvailability(
+          EMPTY_TRIAL_AVAILABILITY,
+        );
         setPackagesLoading(false);
         return;
       }
@@ -297,6 +312,9 @@ export function PlusEntitlementProvider({
           }
 
           setPackages(EMPTY_PACKAGES);
+          setTrialAvailability(
+            EMPTY_TRIAL_AVAILABILITY,
+          );
           return;
         }
 
@@ -304,6 +322,26 @@ export function PlusEntitlementProvider({
           await getRevenueCatPackages();
 
         setPackages(nextPackages);
+
+        try {
+          const nextTrialAvailability =
+            await getRevenueCatTrialAvailability(
+              nextPackages,
+            );
+
+          setTrialAvailability(
+            nextTrialAvailability,
+          );
+        } catch (error) {
+          console.error(
+            "Unable to determine Plus trial availability:",
+            error,
+          );
+
+          setTrialAvailability(
+            EMPTY_TRIAL_AVAILABILITY,
+          );
+        }
       } catch (error) {
         console.error(
           "Unable to load RevenueCat packages:",
@@ -311,6 +349,9 @@ export function PlusEntitlementProvider({
         );
 
         setPackages(EMPTY_PACKAGES);
+        setTrialAvailability(
+          EMPTY_TRIAL_AVAILABILITY,
+        );
       } finally {
         setPackagesLoading(false);
       }
@@ -749,6 +790,10 @@ export function PlusEntitlementProvider({
           packages.annual?.product
             .pricePerMonthString ?? null,
 
+        monthlyTrialAvailable:
+          trialAvailability.monthly,
+        annualTrialAvailable:
+          trialAvailability.annual,
         packagesLoading,
         purchaseLoading,
         restoreLoading,
@@ -764,6 +809,7 @@ export function PlusEntitlementProvider({
         householdPlusLoading,
         subscriptionManagementURL,
         packages,
+        trialAvailability,
         packagesLoading,
         purchaseLoading,
         restoreLoading,

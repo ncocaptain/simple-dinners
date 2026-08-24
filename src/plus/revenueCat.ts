@@ -1,5 +1,6 @@
 import { Capacitor } from "@capacitor/core";
 import {
+  INTRO_ELIGIBILITY_STATUS,
   LOG_LEVEL,
   Purchases,
   type CustomerInfo,
@@ -18,6 +19,95 @@ export type RevenueCatPackages = {
   monthly: PurchasesPackage | null;
   annual: PurchasesPackage | null;
 };
+
+export type RevenueCatTrialAvailability = {
+  monthly: boolean;
+  annual: boolean;
+};
+
+export const EMPTY_TRIAL_AVAILABILITY:
+  RevenueCatTrialAvailability = {
+    monthly: false,
+    annual: false,
+  };
+
+export async function getRevenueCatTrialAvailability(
+  packages: RevenueCatPackages,
+): Promise<RevenueCatTrialAvailability> {
+  const platform = Capacitor.getPlatform();
+
+  if (platform === "android") {
+    return {
+      monthly: Boolean(
+        packages.monthly?.product
+          .defaultOption?.freePhase,
+      ),
+      annual: Boolean(
+        packages.annual?.product
+          .defaultOption?.freePhase,
+      ),
+    };
+  }
+
+  if (platform !== "ios") {
+    return EMPTY_TRIAL_AVAILABILITY;
+  }
+
+  const packageEntries = [
+    ["monthly", packages.monthly],
+    ["annual", packages.annual],
+  ] as const;
+
+  const freeTrialPackages =
+    packageEntries.filter(([, aPackage]) => {
+      const introPrice =
+        aPackage?.product.introPrice;
+
+      return Boolean(
+        aPackage &&
+        introPrice &&
+        introPrice.price === 0,
+      );
+    });
+
+  if (freeTrialPackages.length === 0) {
+    return EMPTY_TRIAL_AVAILABILITY;
+  }
+
+  const productIdentifiers =
+    freeTrialPackages.map(
+      ([, aPackage]) =>
+        aPackage!.product.identifier,
+    );
+
+  const eligibility =
+    await Purchases
+      .checkTrialOrIntroductoryPriceEligibility({
+        productIdentifiers,
+      });
+
+  const result: RevenueCatTrialAvailability = {
+    ...EMPTY_TRIAL_AVAILABILITY,
+  };
+
+  for (const [plan, aPackage] of freeTrialPackages) {
+    if (!aPackage) {
+      continue;
+    }
+
+    const productEligibility =
+      eligibility[
+        aPackage.product.identifier
+      ];
+
+    result[plan] =
+      productEligibility?.status ===
+      INTRO_ELIGIBILITY_STATUS
+        .INTRO_ELIGIBILITY_STATUS_ELIGIBLE;
+  }
+
+  return result;
+}
 
 function getRevenueCatApiKey(): string {
   const platform = Capacitor.getPlatform();

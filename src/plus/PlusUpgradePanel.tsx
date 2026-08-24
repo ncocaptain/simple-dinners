@@ -64,6 +64,8 @@ const UPGRADE_COPY = {
       billedYearly: "billed yearly",
       chooseMonthly: "Choose monthly",
       chooseAnnual: "Choose yearly",
+      freeTrial: "7-day free trial",
+      then: "then",
       loadingPlans: "Loading subscription options…",
       signInNote:
         "Sign in before subscribing or restoring purchases.",
@@ -141,6 +143,8 @@ const UPGRADE_COPY = {
       billedYearly: "facturado anualmente",
       chooseMonthly: "Elegir mensual",
       chooseAnnual: "Elegir anual",
+      freeTrial: "Prueba gratis de 7 días",
+      then: "después",
       loadingPlans:
         "Cargando opciones de suscripción…",
       signInNote:
@@ -197,6 +201,8 @@ export function PlusUpgradePanel() {
     monthlyPrice,
     annualPrice,
     annualMonthlyPrice,
+    monthlyTrialAvailable,
+    annualTrialAvailable,
     packagesLoading,
     purchaseLoading,
     restoreLoading,
@@ -449,7 +455,9 @@ export function PlusUpgradePanel() {
                   </strong>
 
                   <small>
-                    {copy.plus.chooseMonthly}
+                    {monthlyTrialAvailable && monthlyPrice
+                      ? `${copy.plus.freeTrial} · ${copy.plus.then} ${monthlyPrice} ${copy.plus.perMonth}`
+                      : copy.plus.chooseMonthly}
                   </small>
                 </span>
 
@@ -479,9 +487,11 @@ export function PlusUpgradePanel() {
                   </strong>
 
                   <small>
-                    {annualMonthlyPrice
-                      ? `${annualMonthlyPrice} ${copy.plus.perMonth} · ${copy.plus.billedYearly}`
-                      : copy.plus.chooseAnnual}
+                    {annualTrialAvailable && annualPrice
+                      ? `${copy.plus.freeTrial} · ${copy.plus.then} ${annualPrice} ${copy.plus.billedYearly}`
+                      : annualMonthlyPrice
+                        ? `${annualMonthlyPrice} ${copy.plus.perMonth} · ${copy.plus.billedYearly}`
+                        : copy.plus.chooseAnnual}
                   </small>
                 </span>
 
