@@ -8,6 +8,10 @@ import {
   buildFulfillmentProviderUrl,
 } from "./providers";
 
+import {
+  trackFulfillmentOutboundClick,
+} from "./tracking";
+
 import type {
   FulfillmentPlacement,
   FulfillmentProvider,
@@ -27,6 +31,11 @@ export default function FulfillmentProviderCard({
   function openProvider() {
     const url = buildFulfillmentProviderUrl(
       provider,
+      placement,
+    );
+
+    void trackFulfillmentOutboundClick(
+      provider.id,
       placement,
     );
 
