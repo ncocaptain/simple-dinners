@@ -214,6 +214,85 @@ export default function FulfillmentProviderCard({
             </a>
           )}
 
+        {provider.promoCode &&
+          provider.promoLabel && (
+            <div
+              style={{
+                padding: "10px 12px",
+                borderRadius: 12,
+                border: "1px solid rgba(34,197,94,0.22)",
+                background: "rgba(34,197,94,0.08)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 12,
+              }}
+            >
+              <div style={{ minWidth: 0 }}>
+                <div
+                  style={{
+                    marginBottom: 2,
+                    fontSize: 10,
+                    fontWeight: 900,
+                    letterSpacing: "0.06em",
+                    textTransform: "uppercase",
+                    color: "#86efac",
+                  }}
+                >
+                  {provider.promoLabel}
+                </div>
+
+                <div
+                  style={{
+                    fontSize: 13,
+                    lineHeight: 1.35,
+                    color: "rgba(248,250,252,0.82)",
+                  }}
+                >
+                  Use code{" "}
+                  <strong
+                    style={{
+                      color: "#f8fafc",
+                      letterSpacing: "0.03em",
+                    }}
+                  >
+                    {provider.promoCode}
+                  </strong>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  if (
+                    provider.promoCode &&
+                    navigator.clipboard?.writeText
+                  ) {
+                    void navigator.clipboard.writeText(
+                      provider.promoCode,
+                    );
+                  }
+                }}
+                style={{
+                  flexShrink: 0,
+                  minHeight: 34,
+                  padding: "7px 10px",
+                  borderRadius: 9,
+                  border:
+                    "1px solid rgba(134,239,172,0.28)",
+                  background:
+                    "rgba(34,197,94,0.10)",
+                  color: "#86efac",
+                  fontSize: 11,
+                  fontWeight: 900,
+                  cursor: "pointer",
+                }}
+              >
+                Copy
+              </button>
+            </div>
+          )}
+
         <button
           type="button"
           onClick={openProvider}

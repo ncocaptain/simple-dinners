@@ -31,12 +31,15 @@ export const FULFILLMENT_PROVIDERS: FulfillmentProvider[] = [
   menuUrl: smashMealsMenuUrl,
 
   serviceAreaLabel: "Tri-Cities pickup & delivery",
-secondaryLabel: "Shipping available",
+  secondaryLabel: "Shipping available",
 
-serviceAreaUrl:
-  "https://smashmeals.com/service-areas",
+  serviceAreaUrl:
+    "https://smashmeals.com/service-areas",
 
-serviceAreaCtaLabel: "Check service area",
+  serviceAreaCtaLabel: "Check service area",
+
+  promoCode: "SIMPLEDINNERS",
+  promoLabel: "$5 off your order",
 
   logoSrc: "/partners/smashmeals/logo.png",
 

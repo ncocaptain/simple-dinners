@@ -34,6 +34,9 @@ export type FulfillmentProvider = {
   secondaryLabel?: string;
   serviceAreaUrl?: string;
   serviceAreaCtaLabel?: string;
+
+  promoCode?: string;
+  promoLabel?: string;
   logoSrc?: string;
 
   capabilities: FulfillmentCapability[];
