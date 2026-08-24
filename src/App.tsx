@@ -71,6 +71,14 @@ import {
   PlusFeatureGate,
 } from "./plus/PlusFeatureGate";
 
+import {
+  usePlusEntitlement,
+} from "./plus/PlusEntitlementContext";
+
+import {
+  PlusDiscoveryModal,
+} from "./plus/PlusDiscoveryModal";
+
 
 
 
@@ -79,6 +87,14 @@ type CookbookRecipe = Meal & {
 };
 
 const APP_VERSION = "22.0.7";
+
+const PLUS_DISCOVERY_STORAGE_KEY =
+  "simple-dinners.plus-discovery.v1";
+
+const PLUS_DISCOVERY_COOLDOWN_MS =
+  7 * 24 * 60 * 60 * 1000;
+
+const PLUS_DISCOVERY_MAX_IMPRESSIONS = 3;
 
 // =====================================================
 // Builder: helpers
@@ -363,6 +379,22 @@ function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const {
+    hasPlus,
+    plusLoading,
+    monthlyTrialAvailable,
+    annualTrialAvailable,
+    packagesLoading,
+  } = usePlusEntitlement();
+
+  const [
+    showPlusDiscovery,
+    setShowPlusDiscovery,
+  ] = useState(false);
+
+  const plusDiscoveryScheduledRef =
+    useRef(false);
+
   useEffect(() => {
     if (!Capacitor.isNativePlatform()) return;
 
@@ -389,6 +421,91 @@ function AppContent() {
       removeListener?.();
     };
   }, []);
+
+  useEffect(() => {
+    if (plusDiscoveryScheduledRef.current) {
+      return;
+    }
+
+    if (
+      !Capacitor.isNativePlatform() ||
+      !hasCompletedOnboarding() ||
+      location.pathname !== "/" ||
+      plusLoading ||
+      packagesLoading ||
+      hasPlus
+    ) {
+      return;
+    }
+
+    let impressions = 0;
+    let lastShownAt = 0;
+
+    try {
+      const saved = localStorage.getItem(
+        PLUS_DISCOVERY_STORAGE_KEY,
+      );
+
+      if (saved) {
+        const parsed = JSON.parse(saved);
+
+        impressions = Number(
+          parsed?.impressions ?? 0,
+        );
+
+        lastShownAt = Number(
+          parsed?.lastShownAt ?? 0,
+        );
+      }
+    } catch {
+      impressions = 0;
+      lastShownAt = 0;
+    }
+
+    if (
+      impressions >=
+        PLUS_DISCOVERY_MAX_IMPRESSIONS
+    ) {
+      plusDiscoveryScheduledRef.current = true;
+      return;
+    }
+
+    if (
+      lastShownAt > 0 &&
+      Date.now() - lastShownAt <
+        PLUS_DISCOVERY_COOLDOWN_MS
+    ) {
+      plusDiscoveryScheduledRef.current = true;
+      return;
+    }
+
+    plusDiscoveryScheduledRef.current = true;
+
+    const timer = window.setTimeout(() => {
+      try {
+        localStorage.setItem(
+          PLUS_DISCOVERY_STORAGE_KEY,
+          JSON.stringify({
+            impressions: impressions + 1,
+            lastShownAt: Date.now(),
+          }),
+        );
+      } catch {
+        // Discovery still works if storage is unavailable.
+      }
+
+      setShowPlusDiscovery(true);
+    }, 1200);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [
+    hasPlus,
+    plusLoading,
+    packagesLoading,
+    location.pathname,
+  ]);
 
   const hideBottomNav =
     location.pathname === "/about" || location.pathname.startsWith("/recipe/");
@@ -978,6 +1095,22 @@ function AppContent() {
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
+      {showPlusDiscovery && !showTesterPrompt && (
+        <PlusDiscoveryModal
+          trialAvailable={
+            monthlyTrialAvailable ||
+            annualTrialAvailable
+          }
+          onDismiss={() => {
+            setShowPlusDiscovery(false);
+          }}
+          onExplore={() => {
+            setShowPlusDiscovery(false);
+            navigate("/plus");
+          }}
+        />
+      )}
 
       {showTesterPrompt && (
         <div

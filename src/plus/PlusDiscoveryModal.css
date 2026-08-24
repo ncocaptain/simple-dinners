@@ -1,0 +1,163 @@
+.sd-plus-discovery-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:
+    max(20px, env(safe-area-inset-top, 0px))
+    max(18px, env(safe-area-inset-right, 0px))
+    max(20px, env(safe-area-inset-bottom, 0px))
+    max(18px, env(safe-area-inset-left, 0px));
+  background: rgba(2, 6, 23, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.sd-plus-discovery-card {
+  position: relative;
+  width: min(100%, 430px);
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+  padding: 30px 24px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(15, 35, 58, 0.98) 0%,
+      rgba(7, 17, 31, 0.99) 100%
+    );
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.5);
+  color: #f8fafc;
+  text-align: center;
+}
+
+.sd-plus-discovery-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(248, 250, 252, 0.78);
+  cursor: pointer;
+}
+
+.sd-plus-discovery-icon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 14px;
+  border-radius: 18px;
+  background: rgba(34, 197, 94, 0.14);
+  color: #86efac;
+}
+
+.sd-plus-discovery-badge {
+  margin-bottom: 9px;
+  color: #86efac;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.sd-plus-discovery-card h2 {
+  margin: 0;
+  font-size: clamp(25px, 7vw, 32px);
+  line-height: 1.08;
+  font-weight: 950;
+  letter-spacing: -0.03em;
+}
+
+.sd-plus-discovery-description {
+  margin: 14px auto 20px;
+  max-width: 355px;
+  color: rgba(226, 232, 240, 0.76);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.sd-plus-discovery-features {
+  display: grid;
+  gap: 11px;
+  margin: 0 0 22px;
+  text-align: left;
+}
+
+.sd-plus-discovery-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: rgba(241, 245, 249, 0.94);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.sd-plus-discovery-feature svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+  color: #86efac;
+}
+
+.sd-plus-discovery-primary,
+.sd-plus-discovery-later {
+  width: 100%;
+  min-height: 48px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.sd-plus-discovery-primary {
+  border: 0;
+  background: #22c55e;
+  color: #052e16;
+  box-shadow:
+    0 10px 28px rgba(34, 197, 94, 0.2);
+}
+
+.sd-plus-discovery-later {
+  margin-top: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.055);
+  color: rgba(248, 250, 252, 0.8);
+}
+
+.sd-plus-discovery-note {
+  margin: 12px 4px 0;
+  color: rgba(203, 213, 225, 0.54);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+@media (max-height: 650px) {
+  .sd-plus-discovery-card {
+    padding-top: 24px;
+  }
+
+  .sd-plus-discovery-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 10px;
+  }
+
+  .sd-plus-discovery-description {
+    margin-bottom: 15px;
+  }
+
+  .sd-plus-discovery-features {
+    gap: 8px;
+    margin-bottom: 17px;
+  }
+}
