@@ -17,6 +17,7 @@ export const FULFILLMENT_PROVIDERS: FulfillmentProvider[] = [
   enabled: true,
   placements: [
   "partner-preview",
+  "weekly-plan-takeout",
 ],
 
   eyebrowLabel: "Local backup dinner",
@@ -29,8 +30,13 @@ export const FULFILLMENT_PROVIDERS: FulfillmentProvider[] = [
 
   menuUrl: smashMealsMenuUrl,
 
-  serviceAreaLabel: "Local to the Tri-Cities",
-  secondaryLabel: "Ready to heat",
+  serviceAreaLabel: "Tri-Cities pickup & delivery",
+secondaryLabel: "Shipping available",
+
+serviceAreaUrl:
+  "https://smashmeals.com/service-areas",
+
+serviceAreaCtaLabel: "Check service area",
 
   logoSrc: "/partners/smashmeals/logo.png",
 

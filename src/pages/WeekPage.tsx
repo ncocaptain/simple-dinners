@@ -1239,6 +1239,8 @@ export default function WeekPage({
                       <>
                         <div
                           onClick={() => {
+                            if (isTakeout) return;
+
                             navigate(
                               `/recipe/${encodeURIComponent(
                                 rawMeal?.slug ||
@@ -1253,7 +1255,7 @@ export default function WeekPage({
                             display: "flex",
                             gap: 16,
                             alignItems: "center",
-                            cursor: "pointer",
+                            cursor: isTakeout ? "default" : "pointer",
                           }}
                         >
                           {mealPhotoUrl ? (
@@ -1310,14 +1312,22 @@ export default function WeekPage({
                               }}
                             >
                               <ChefHat size={14} />
-                              {t("week.tapForDetails")}
+
+                              {isTakeout
+                                ? t("week.noCookingTonight")
+                                : t("week.tapForDetails")}
                             </div>
                           </div>
 
-                          <ChevronRight
-                            size={20}
-                            style={{ opacity: 0.2, flexShrink: 0 }}
-                          />
+                          {!isTakeout && (
+                            <ChevronRight
+                              size={20}
+                              style={{
+                                opacity: 0.2,
+                                flexShrink: 0,
+                              }}
+                            />
+                          )}
                         </div>
 
                         {isTakeout &&
@@ -1334,6 +1344,7 @@ export default function WeekPage({
                                     key={provider.id}
                                     provider={provider}
                                     placement="weekly-plan-takeout"
+                                    variant="compact"
                                   />
                                 ),
                               )}
@@ -1658,7 +1669,7 @@ export default function WeekPage({
                           {t("week.remove")}
                         </button>
 
-                        {mode === "planned" && hasMeal && (
+                        {mode === "planned" && hasMeal && !isTakeout && (
                           <button
                             onClick={() => addDayToCookbook(day)}
                             style={{

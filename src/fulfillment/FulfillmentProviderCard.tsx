@@ -16,11 +16,13 @@ import type {
 type FulfillmentProviderCardProps = {
   provider: FulfillmentProvider;
   placement: FulfillmentPlacement;
+  variant?: "full" | "compact";
 };
 
 export default function FulfillmentProviderCard({
   provider,
   placement,
+  variant = "full",
 }: FulfillmentProviderCardProps) {
   function openProvider() {
     const url = buildFulfillmentProviderUrl(
@@ -32,6 +34,200 @@ export default function FulfillmentProviderCard({
       url,
       "_blank",
       "noopener,noreferrer",
+    );
+  }
+
+  if (variant === "compact") {
+    return (
+      <article
+        style={{
+          padding: 14,
+          borderRadius: 16,
+          border: "1px solid rgba(251, 146, 60, 0.24)",
+          background:
+            "linear-gradient(145deg, rgba(124, 45, 18, 0.22), rgba(30, 41, 59, 0.72))",
+          display: "grid",
+          gap: 12,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            gap: 12,
+          }}
+        >
+          <div
+            style={{
+              width: 44,
+              height: 44,
+              flexShrink: 0,
+              display: "grid",
+              placeItems: "center",
+              borderRadius: 12,
+              background: provider.logoSrc
+                ? "rgba(255,255,255,0.94)"
+                : "rgba(249, 115, 22, 0.16)",
+              color: "#fb923c",
+            }}
+          >
+            {provider.logoSrc ? (
+              <img
+                src={provider.logoSrc}
+                alt={`${provider.name} logo`}
+                style={{
+                  width: 40,
+                  height: 40,
+                  objectFit: "contain",
+                  borderRadius: "50%",
+                }}
+              />
+            ) : (
+              <Utensils
+                size={20}
+                aria-hidden="true"
+              />
+            )}
+          </div>
+
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                gap: 6,
+                marginBottom: 4,
+              }}
+            >
+              <span
+                style={{
+                  fontSize: 10,
+                  fontWeight: 900,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  color: "#fdba74",
+                }}
+              >
+                {provider.eyebrowLabel}
+              </span>
+
+              <span
+                style={{
+                  padding: "2px 6px",
+                  borderRadius: 999,
+                  background: "rgba(255,255,255,0.07)",
+                  fontSize: 9,
+                  fontWeight: 900,
+                  color: "#cbd5e1",
+                }}
+              >
+                Optional
+              </span>
+            </div>
+
+            <div
+              style={{
+                fontSize: 17,
+                fontWeight: 900,
+                lineHeight: 1.2,
+                marginBottom: 4,
+              }}
+            >
+              {provider.name}
+            </div>
+
+            <div
+              style={{
+                fontSize: 12,
+                lineHeight: 1.45,
+                color: "rgba(248,250,252,0.62)",
+              }}
+            >
+              {provider.description}
+            </div>
+          </div>
+        </div>
+
+        {(provider.serviceAreaLabel ||
+          provider.secondaryLabel) && (
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                gap: 6,
+                fontSize: 11,
+                fontWeight: 800,
+                color: "rgba(248,250,252,0.62)",
+              }}
+            >
+              {provider.serviceAreaLabel && (
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 4,
+                  }}
+                >
+                  <MapPin size={12} aria-hidden="true" />
+                  {provider.serviceAreaLabel}
+                </span>
+              )}
+
+              {provider.serviceAreaLabel &&
+                provider.secondaryLabel && (
+                  <span aria-hidden="true">•</span>
+                )}
+
+              {provider.secondaryLabel && (
+                <span>{provider.secondaryLabel}</span>
+              )}
+            </div>
+          )}
+
+        {provider.serviceAreaUrl &&
+          provider.serviceAreaCtaLabel && (
+            <a
+              href={provider.serviceAreaUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                width: "fit-content",
+                fontSize: 11,
+                fontWeight: 800,
+                color: "#fdba74",
+                textDecoration: "none",
+                opacity: 0.9,
+              }}
+            >
+              {provider.serviceAreaCtaLabel} →
+            </a>
+          )}
+
+        <button
+          type="button"
+          onClick={openProvider}
+          style={{
+            width: "100%",
+            minHeight: 42,
+            border: 0,
+            borderRadius: 12,
+            background: "#f97316",
+            color: "#fff",
+            fontSize: 13,
+            fontWeight: 900,
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 7,
+          }}
+        >
+          {provider.ctaLabel}
+          <ExternalLink size={15} aria-hidden="true" />
+        </button>
+      </article>
     );
   }
 
@@ -80,16 +276,31 @@ export default function FulfillmentProviderCard({
             display: "grid",
             placeItems: "center",
             borderRadius: 15,
-            background: "#f97316",
+            background: provider.logoSrc
+              ? "rgba(255,255,255,0.94)"
+              : "#f97316",
             color: "#fff7ed",
             boxShadow:
               "0 10px 24px rgba(249, 115, 22, 0.26)",
           }}
         >
-          <Utensils
-            size={23}
-            aria-hidden="true"
-          />
+          {provider.logoSrc ? (
+            <img
+              src={provider.logoSrc}
+              alt={`${provider.name} logo`}
+              style={{
+                width: 42,
+                height: 42,
+                objectFit: "contain",
+                borderRadius: "50%",
+              }}
+            />
+          ) : (
+            <Utensils
+              size={23}
+              aria-hidden="true"
+            />
+          )}
         </div>
 
         <div
