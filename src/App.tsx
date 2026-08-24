@@ -507,8 +507,12 @@ function AppContent() {
     location.pathname,
   ]);
 
+  const isOnboarding = location.pathname === "/onboarding";
+
   const hideBottomNav =
-    location.pathname === "/about" || location.pathname.startsWith("/recipe/");
+    isOnboarding ||
+    location.pathname === "/about" ||
+    location.pathname.startsWith("/recipe/");
   const [showTesterPrompt, setShowTesterPrompt] = useState(false);
   const toastApi: any = useToast();
   const toast = toastApi.toast ?? toastApi;
@@ -933,36 +937,38 @@ function AppContent() {
       <BackHandler />
       <UpdateBanner />
 
-      <header
-        style={{
-          padding: "32px 20px",
-          textAlign: "center",
-          maxWidth: "550px",
-          margin: "0 auto",
-        }}
-      >
-        <h1
+      {!isOnboarding && (
+        <header
           style={{
-            margin: 0,
-            fontSize: 36,
-            fontWeight: 1000,
-            color: "#f8fafc",
+            padding: "32px 20px",
+            textAlign: "center",
+            maxWidth: "550px",
+            margin: "0 auto",
           }}
         >
-          Simple Dinners
-        </h1>
-        <div
-          style={{
-            fontSize: 12,
-            opacity: 0.4,
-            fontWeight: 800,
-            textTransform: "uppercase",
-          }}
-        >
-          {t("app.tagline").toUpperCase()}
-        </div>
-        <AccountButton />
-      </header>
+          <h1
+            style={{
+              margin: 0,
+              fontSize: 36,
+              fontWeight: 1000,
+              color: "#f8fafc",
+            }}
+          >
+            Simple Dinners
+          </h1>
+          <div
+            style={{
+              fontSize: 12,
+              opacity: 0.4,
+              fontWeight: 800,
+              textTransform: "uppercase",
+            }}
+          >
+            {t("app.tagline").toUpperCase()}
+          </div>
+          <AccountButton />
+        </header>
+      )}
 
       <Routes>
         <Route

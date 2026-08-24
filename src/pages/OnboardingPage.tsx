@@ -25,7 +25,7 @@ const pageStyle: React.CSSProperties = {
   padding: "16px 16px max(20px, env(safe-area-inset-bottom))",
   display: "flex",
   justifyContent: "center",
-  alignItems: "stretch",
+  alignItems: "center",
   color: "#f8fafc",
 };
 
@@ -38,7 +38,6 @@ const shellStyle: React.CSSProperties = {
 
 const panelStyle: React.CSSProperties = {
   width: "100%",
-  minHeight: "calc(100dvh - 36px)",
   padding: 24,
   borderRadius: 22,
   background: "rgba(15,23,42,0.55)",
