@@ -1,3 +1,4 @@
+import SafeRecipeImage from "../components/SafeRecipeImage";
 import { useState } from "react";
 import type { CSSProperties } from "react";
 import { useNavigate } from "react-router-dom";
@@ -1159,48 +1160,21 @@ export default function SmartWeekPage({
                       gap: 14,
                     }}
                   >
-                    {photoUrl ? (
-                      <img
-                        src={photoUrl}
-                        alt={title}
-                        style={{
-                          width: 78,
-                          height: 78,
-                          objectFit: "cover",
-                          borderRadius: 17,
-                          border:
-                            "1px solid rgba(255,255,255,0.1)",
-                          background:
-                            "rgba(255,255,255,0.04)",
-                          flexShrink: 0,
-                        }}
-                      />
-                    ) : (
-                      <div
-                        style={{
-                          width: 78,
-                          height: 78,
-                          borderRadius: 17,
-                          border:
-                            "1px solid rgba(255,255,255,0.1)",
-                          background:
-                            "rgba(255,255,255,0.04)",
-                          display: "flex",
-                          alignItems:
-                            "center",
-                          justifyContent:
-                            "center",
-                          flexShrink: 0,
-                        }}
-                      >
-                        <Utensils
-                          size={22}
-                          style={{
-                            opacity: 0.4,
-                          }}
-                        />
-                      </div>
-                    )}
+                    <SafeRecipeImage
+                      src={photoUrl}
+                      alt={title}
+                      style={{
+                        width: 78,
+                        height: 78,
+                        objectFit: "cover",
+                        borderRadius: 17,
+                        border:
+                          "1px solid rgba(255,255,255,0.1)",
+                        background:
+                          "rgba(255,255,255,0.04)",
+                        flexShrink: 0,
+                      }}
+                    />
 
                     <div
                       style={{

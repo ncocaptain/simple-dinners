@@ -1,3 +1,4 @@
+import SafeRecipeImage from "../components/SafeRecipeImage";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
@@ -1934,14 +1935,16 @@ function resetSideDrafts() {
           }}
         >
           {photoUrl ? (
-            <img
+            <SafeRecipeImage
               src={photoUrl}
               alt={safeRecipe.name || "Recipe"}
+              iconSize={32}
               style={{
                 width: "100%",
                 aspectRatio: "16 / 8",
                 objectFit: "cover",
                 display: "block",
+                background: "rgba(255,255,255,0.04)",
               }}
             />
           ) : null}

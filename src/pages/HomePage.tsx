@@ -1,3 +1,4 @@
+import SafeRecipeImage from "../components/SafeRecipeImage";
 import { useNavigate } from "react-router-dom";
 import { RefreshCw } from "lucide-react";
 import Card from "../components/Card";
@@ -157,13 +158,17 @@ const tomorrowMeal = getLocalizedMeal(rawTomorrowMeal, language);
             >
               <div style={{ display: "grid", gap: 16, position: "relative" }}>
                 <div style={{ position: "relative" }}>
-                  <img
-                    src={todayMeal.photoUrl || fallbackPhotoUrl(todayMeal.name)}
+                  <SafeRecipeImage
+                    src={todayMeal.photoUrl}
+                    fallbackSrc={fallbackPhotoUrl(todayMeal.name)}
+                    alt={todayMeal.name || t("home.todaysDinner")}
+                    iconSize={32}
                     style={{
                       width: "100%",
                       height: 260,
                       objectFit: "cover",
                       borderRadius: 20,
+                      background: "rgba(255,255,255,0.04)",
                     }}
                   />
 

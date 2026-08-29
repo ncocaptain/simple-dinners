@@ -1,3 +1,4 @@
+import SafeRecipeImage from "../components/SafeRecipeImage";
 // =========================================================
 // IMPORTS
 // =========================================================
@@ -3423,7 +3424,7 @@ export default function CookbookPage({
                       }}
                     >
                       {recipePhotoUrl && (
-                        <img
+                        <SafeRecipeImage
                           src={recipePhotoUrl}
                           alt={display.name || raw.name}
                           style={{
@@ -3431,6 +3432,7 @@ export default function CookbookPage({
                             minHeight: 104,
                             objectFit: "cover",
                             display: "block",
+                            background: "rgba(255,255,255,0.04)",
                           }}
                         />
                       )}

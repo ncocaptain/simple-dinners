@@ -1,3 +1,4 @@
+import SafeRecipeImage from "../components/SafeRecipeImage";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
@@ -1258,37 +1259,19 @@ export default function WeekPage({
                             cursor: isTakeout ? "default" : "pointer",
                           }}
                         >
-                          {mealPhotoUrl ? (
-                            <img
-                              src={mealPhotoUrl}
-                              alt={meal.name || t("week.meal")}
-                              style={{
-                                width: 85,
-                                height: 85,
-                                borderRadius: 18,
-                                objectFit: "cover",
-                                border: "1px solid rgba(255,255,255,0.1)",
-                                background: "rgba(255,255,255,0.04)",
-                                flexShrink: 0,
-                              }}
-                            />
-                          ) : (
-                            <div
-                              style={{
-                                width: 85,
-                                height: 85,
-                                borderRadius: 18,
-                                border: "1px solid rgba(255,255,255,0.1)",
-                                background: "rgba(255,255,255,0.04)",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                flexShrink: 0,
-                              }}
-                            >
-                              <Utensils size={22} style={{ opacity: 0.4 }} />
-                            </div>
-                          )}
+                          <SafeRecipeImage
+                            src={mealPhotoUrl}
+                            alt={meal.name || t("week.meal")}
+                            style={{
+                              width: 85,
+                              height: 85,
+                              borderRadius: 18,
+                              objectFit: "cover",
+                              border: "1px solid rgba(255,255,255,0.1)",
+                              background: "rgba(255,255,255,0.04)",
+                              flexShrink: 0,
+                            }}
+                          />
 
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div
