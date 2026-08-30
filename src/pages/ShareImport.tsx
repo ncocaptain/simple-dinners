@@ -434,6 +434,29 @@ async function importFromPublicVideoUrl(
   return data;
 }
 
+async function withTimeout<T>(
+  promise: Promise<T>,
+  timeoutMs: number,
+  message: string
+): Promise<T> {
+  let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+  try {
+    return await Promise.race([
+      promise,
+      new Promise<T>((_, reject) => {
+        timeoutId = setTimeout(() => {
+          reject(new Error(message));
+        }, timeoutMs);
+      }),
+    ]);
+  } finally {
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId);
+    }
+  }
+}
+
 async function importFromJsonLd(recipeUrl: string, jsonLd: string) {
   const response = await fetch(`${API_BASE}/import-jsonld`, {
     method: "POST",
@@ -983,7 +1006,11 @@ export default function ShareImport() {
           try {
             setStatus("Opening recipe page securely to read recipe details...");
 
-            const result = await ShareRecipeExtractor.extractJsonLd({ url });
+            const result = await withTimeout(
+              ShareRecipeExtractor.extractJsonLd({ url }),
+              12000,
+              "Device recipe extraction timed out"
+            );
 
             setJsonLdLength(result.length);
             setStatus("Saving recipe details to Simple Dinners...");
