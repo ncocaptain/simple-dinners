@@ -9878,6 +9878,1936 @@ Sirve caliente con arroz, verduras a la parrilla o una ensalada fresca.`,
     },
   },
 
+  {
+  id: "big-dolly-inspired-chicken-and-dumplins",
+  slug: "big-dolly-inspired-chicken-and-dumplins",
+  name: "Dolly-Inspired Chicken and Dumplins'",
+  servings: 6,
+  effort: "big",
+  photoUrl: "/images/big-dolly-inspired-chicken-and-dumplins.jpg",
+  tags: [
+    "dinner",
+    "chicken",
+    "southern",
+    "comfort",
+    "homestyle",
+    "family-friendly",
+    "appalachian"
+  ],
+  isVegetarian: false,
+  suggestedSides: [
+    "Garlic Green Beans",
+    "Cast-Iron Skillet Buttermilk Cornbread",
+    "Simple Green Salad",
+  ],
+  notes:
+    "A Simple Dinners tribute to the Southern chicken and dumplins' associated with Dolly Parton, featuring tender chicken, rich broth, and old-fashioned rolled flat dumplings.",
+  ingredients: `Chicken and Broth:
+2 1/2 lbs boneless skinless chicken thighs or breasts
+8 cups chicken broth
+1 medium yellow onion, diced
+2 celery stalks, diced
+2 carrots, diced
+3 cloves garlic, minced
+2 Tbsp butter
+1 tsp poultry seasoning
+1 tsp dried thyme
+1 1/2 tsp salt
+1/2 tsp black pepper
+
+Dumplins':
+2 cups all-purpose flour
+1/2 tsp baking powder
+1/2 tsp salt
+3 Tbsp cold butter, cubed
+3/4 cup buttermilk
+
+Finish:
+2 Tbsp fresh parsley, chopped`,
+  instructions: `Melt 2 Tbsp butter in a large Dutch oven or heavy pot over medium heat.
+
+Add 1 diced yellow onion, 2 diced celery stalks, and 2 diced carrots. Cook for 5 to 6 minutes, stirring occasionally, until the vegetables begin to soften.
+
+Add 3 cloves minced garlic and cook for 30 seconds, until fragrant.
+
+Pour in 8 cups chicken broth and add 2 1/2 lbs chicken, 1 tsp poultry seasoning, 1 tsp dried thyme, 1 1/2 tsp salt, and 1/2 tsp black pepper.
+
+Bring to a gentle boil, reduce heat to medium-low, cover, and simmer for 25 to 30 minutes, until the chicken is tender and reaches 165°F.
+
+While the chicken cooks, whisk together 2 cups flour, 1/2 tsp baking powder, and 1/2 tsp salt in a large bowl.
+
+Cut 3 Tbsp cold butter into the flour mixture until it resembles coarse crumbs.
+
+Pour in 3/4 cup buttermilk and stir just until a soft dough forms. Do not overmix.
+
+Turn the dough onto a lightly floured surface and roll to about 1/8-inch thickness.
+
+Cut the dough into strips about 1 inch wide and 2 to 3 inches long.
+
+Remove the cooked chicken from the pot and shred with two forks.
+
+Return the broth to a gentle simmer. Add the dumpling strips one at a time, stirring gently between additions so they do not stick together.
+
+Simmer uncovered for 12 to 15 minutes, stirring gently occasionally, until the dumplings are tender and the broth has thickened slightly.
+
+Return the shredded chicken to the pot and simmer for 3 to 5 minutes, until heated through.
+
+Stir in 2 Tbsp chopped fresh parsley. Taste and adjust salt and pepper if needed.
+
+Serve hot with plenty of the rich broth.`,
+  translations: {
+    es: {
+      name: "Pollo con Dumplings Inspirado en Dolly",
+      notes:
+        "Un homenaje de Simple Dinners al clásico pollo con dumplings sureño asociado con Dolly Parton, preparado con pollo tierno, caldo abundante y dumplings planos al estilo tradicional.",
+      tags: [
+        "cena",
+        "pollo",
+        "sureño",
+        "comfort",
+        "casero",
+        "familiar",
+        "apalache"
+      ],
+      suggestedSides: [
+        "Ejotes con Ajo",
+        "Pan de Maíz con Buttermilk en Sartén de Hierro",
+        "Ensalada Verde Sencilla",
+      ],
+      ingredients: `Pollo y Caldo:
+2 1/2 lbs de muslos o pechugas de pollo sin hueso y sin piel
+8 cups de caldo de pollo
+1 cebolla amarilla mediana, picada
+2 tallos de apio, picados
+2 zanahorias, picadas
+3 dientes de ajo, picados
+2 Tbsp de mantequilla
+1 tsp de sazonador para aves
+1 tsp de tomillo seco
+1 1/2 tsp de sal
+1/2 tsp de pimienta negra
+
+Dumplings:
+2 cups de harina
+1/2 tsp de polvo para hornear
+1/2 tsp de sal
+3 Tbsp de mantequilla fría, en cubos
+3/4 cup de buttermilk
+
+Final:
+2 Tbsp de perejil fresco, picado`,
+      instructions: `Derrite 2 Tbsp de mantequilla en un horno holandés grande o una olla pesada a fuego medio.
+
+Agrega 1 cebolla amarilla picada, 2 tallos de apio picados y 2 zanahorias picadas. Cocina de 5 a 6 minutos, revolviendo ocasionalmente, hasta que comiencen a suavizarse.
+
+Agrega 3 dientes de ajo picados y cocina durante 30 segundos, hasta que estén fragantes.
+
+Vierte 8 cups de caldo de pollo y agrega 2 1/2 lbs de pollo, 1 tsp de sazonador para aves, 1 tsp de tomillo seco, 1 1/2 tsp de sal y 1/2 tsp de pimienta negra.
+
+Lleva a un hervor suave, reduce el fuego a medio-bajo, tapa y cocina de 25 a 30 minutos, hasta que el pollo esté tierno y alcance 165°F.
+
+Mientras se cocina el pollo, mezcla 2 cups de harina, 1/2 tsp de polvo para hornear y 1/2 tsp de sal.
+
+Incorpora 3 Tbsp de mantequilla fría hasta obtener una textura de migas gruesas.
+
+Agrega 3/4 cup de buttermilk y mezcla solo hasta formar una masa suave. No mezcles demasiado.
+
+Extiende la masa sobre una superficie ligeramente enharinada hasta aproximadamente 1/8 de pulgada de grosor.
+
+Corta la masa en tiras de aproximadamente 1 pulgada de ancho y 2 a 3 pulgadas de largo.
+
+Retira el pollo cocido de la olla y desmenúzalo con dos tenedores.
+
+Regresa el caldo a un hervor suave. Agrega las tiras de masa una por una, revolviendo suavemente para evitar que se peguen.
+
+Cocina sin tapar de 12 a 15 minutos, revolviendo suavemente de vez en cuando, hasta que los dumplings estén tiernos y el caldo espese ligeramente.
+
+Regresa el pollo desmenuzado a la olla y cocina de 3 a 5 minutos, hasta que esté bien caliente.
+
+Agrega 2 Tbsp de perejil fresco picado. Prueba y ajusta la sal y pimienta si es necesario.
+
+Sirve caliente con abundante caldo.`,
+    },
+  },
+},
+
+{
+  id: "big-dolly-inspired-slow-roasted-pork-pan-gravy",
+  slug: "big-dolly-inspired-slow-roasted-pork-pan-gravy",
+  name: "Dolly-Inspired Slow-Roasted Pork with Pan Gravy",
+  servings: 8,
+  effort: "big",
+  photoUrl: "/images/big-dolly-inspired-slow-roasted-pork-pan-gravy.jpg",
+  tags: [
+    "dinner",
+    "pork",
+    "southern",
+    "comfort",
+    "roasted",
+    "family-friendly",
+    "holiday"
+  ],
+  isVegetarian: false,
+  suggestedSides: [
+    "Creamy Mashed Potatoes",
+    "Garlic Green Beans",
+    "Soft Dinner Rolls",
+  ],
+  notes:
+    "A comforting slow-roasted pork dinner inspired by classic Southern entertaining, with tender pork and a savory gravy made from the flavorful pan drippings.",
+  ingredients: `Pork:
+4 lbs boneless pork shoulder or pork butt
+2 Tbsp olive oil
+
+Seasoning:
+1 Tbsp kosher salt
+1 tsp black pepper
+1 Tbsp garlic powder
+1 tsp onion powder
+1 tsp dried thyme
+1 tsp dried rosemary
+1 tsp smoked paprika
+
+Roasting:
+1 large yellow onion, sliced
+4 cloves garlic, smashed
+2 cups chicken broth
+2 Tbsp Worcestershire sauce
+
+Pan Gravy:
+2 Tbsp butter
+2 Tbsp all-purpose flour
+2 cups reserved pan juices or chicken broth`,
+  instructions: `Preheat oven to 325°F.
+
+Pat 4 lbs pork shoulder completely dry with paper towels and rub all sides with 2 Tbsp olive oil.
+
+Combine 1 Tbsp kosher salt, 1 tsp black pepper, 1 Tbsp garlic powder, 1 tsp onion powder, 1 tsp dried thyme, 1 tsp dried rosemary, and 1 tsp smoked paprika.
+
+Rub the seasoning mixture evenly over all sides of the pork.
+
+Spread 1 sliced yellow onion and 4 smashed garlic cloves across the bottom of a large Dutch oven or roasting pan.
+
+Place the seasoned pork on top of the onions.
+
+Pour 2 cups chicken broth and 2 Tbsp Worcestershire sauce around the pork.
+
+Cover tightly and roast for 3 1/2 to 4 hours, until the pork is very tender and easily pulls apart with a fork.
+
+Remove the pork from the pan, tent loosely with foil, and rest for 15 minutes.
+
+Strain the pan juices into a bowl and skim off excess fat if desired.
+
+Melt 2 Tbsp butter in a medium saucepan over medium heat.
+
+Whisk in 2 Tbsp flour and cook for 1 minute.
+
+Slowly whisk in 2 cups reserved pan juices, adding chicken broth if needed to reach 2 cups total.
+
+Simmer for 4 to 6 minutes, whisking frequently, until the gravy is smooth and thick enough to coat the back of a spoon.
+
+Slice or pull the rested pork into tender pieces.
+
+Serve warm with the pan gravy spooned generously over the pork.`,
+  translations: {
+    es: {
+      name: "Cerdo Asado Lentamente con Gravy Inspirado en Dolly",
+      notes:
+        "Un reconfortante cerdo asado lentamente inspirado en las clásicas comidas sureñas para invitados, acompañado de un sabroso gravy preparado con los jugos de cocción.",
+      tags: [
+        "cena",
+        "cerdo",
+        "sureño",
+        "comfort",
+        "asado",
+        "familiar",
+        "festivo"
+      ],
+      suggestedSides: [
+        "Puré de Papas Cremoso",
+        "Ejotes con Ajo",
+        "Panecillos Suaves para la Cena",
+      ],
+      ingredients: `Cerdo:
+4 lbs de paleta de cerdo sin hueso
+2 Tbsp de aceite de oliva
+
+Sazonadores:
+1 Tbsp de sal kosher
+1 tsp de pimienta negra
+1 Tbsp de ajo en polvo
+1 tsp de cebolla en polvo
+1 tsp de tomillo seco
+1 tsp de romero seco
+1 tsp de paprika ahumada
+
+Para Asar:
+1 cebolla amarilla grande, en rodajas
+4 dientes de ajo, aplastados
+2 cups de caldo de pollo
+2 Tbsp de salsa Worcestershire
+
+Gravy:
+2 Tbsp de mantequilla
+2 Tbsp de harina
+2 cups de jugos de cocción reservados o caldo de pollo`,
+      instructions: `Precalienta el horno a 325°F.
+
+Seca completamente 4 lbs de paleta de cerdo y unta todos los lados con 2 Tbsp de aceite de oliva.
+
+Mezcla 1 Tbsp de sal kosher, 1 tsp de pimienta negra, 1 Tbsp de ajo en polvo, 1 tsp de cebolla en polvo, 1 tsp de tomillo seco, 1 tsp de romero seco y 1 tsp de paprika ahumada.
+
+Frota los condimentos uniformemente sobre el cerdo.
+
+Distribuye 1 cebolla amarilla en rodajas y 4 dientes de ajo aplastados en el fondo de un horno holandés o bandeja para asar.
+
+Coloca el cerdo sazonado sobre la cebolla.
+
+Vierte 2 cups de caldo de pollo y 2 Tbsp de salsa Worcestershire alrededor del cerdo.
+
+Cubre bien y hornea de 3 1/2 a 4 horas, hasta que el cerdo esté muy tierno y se separe fácilmente con un tenedor.
+
+Retira el cerdo, cúbrelo ligeramente con papel aluminio y deja reposar durante 15 minutos.
+
+Cuela los jugos de cocción y retira el exceso de grasa si deseas.
+
+Derrite 2 Tbsp de mantequilla en una cacerola mediana a fuego medio.
+
+Agrega 2 Tbsp de harina y bate durante 1 minuto.
+
+Incorpora lentamente 2 cups de los jugos reservados, agregando caldo de pollo si es necesario.
+
+Cocina de 4 a 6 minutos, batiendo frecuentemente, hasta que el gravy esté suave y espeso.
+
+Corta o desmenuza el cerdo en trozos tiernos.
+
+Sirve caliente con abundante gravy por encima.`,
+    },
+  },
+},
+
+{
+  id: "normal-dolly-inspired-five-layer-dinner-casserole",
+  slug: "normal-dolly-inspired-five-layer-dinner-casserole",
+  name: "Dolly-Inspired 5-Layer Dinner Casserole",
+  servings: 6,
+  effort: "normal",
+  photoUrl: "/images/normal-dolly-inspired-five-layer-dinner-casserole.jpg",
+  tags: [
+    "dinner",
+    "beef",
+    "casserole",
+    "southern",
+    "comfort",
+    "family-friendly",
+    "budget-friendly"
+  ],
+  isVegetarian: false,
+  suggestedSides: [
+    "Cast-Iron Skillet Buttermilk Cornbread",
+    "Garlic Green Beans",
+    "Simple Green Salad",
+  ],
+  notes:
+    "An old-fashioned layered casserole inspired by simple Southern family cooking, with potatoes, seasoned beef, onions, tomatoes, and sweet peas baked together in one dish.",
+  ingredients: `Casserole:
+3 medium russet potatoes, peeled and thinly sliced
+1 1/2 lbs ground beef
+1 medium yellow onion, thinly sliced
+1 (14.5 oz) can diced tomatoes, undrained
+1 1/2 cups frozen sweet peas
+1/2 cup beef broth
+2 Tbsp butter, cut into small pieces
+
+Seasoning:
+1 tsp salt, divided
+1/2 tsp black pepper, divided
+1 tsp garlic powder`,
+  instructions: `Preheat oven to 375°F and lightly grease a 9x13-inch baking dish.
+
+Arrange 3 thinly sliced russet potatoes in an even layer across the bottom of the baking dish.
+
+Season the potatoes with 1/2 tsp salt and 1/4 tsp black pepper.
+
+Crumble 1 1/2 lbs ground beef evenly over the potatoes.
+
+Season the beef with 1 tsp garlic powder, the remaining 1/2 tsp salt, and the remaining 1/4 tsp black pepper.
+
+Spread 1 thinly sliced yellow onion evenly over the ground beef to form the third layer.
+
+Pour 1 can undrained diced tomatoes evenly over the onion to form the fourth layer.
+
+Spread 1 1/2 cups frozen sweet peas over the tomatoes to form the fifth layer.
+
+Pour 1/2 cup beef broth evenly around the casserole and dot the top with 2 Tbsp butter.
+
+Cover tightly with aluminum foil and bake for 50 minutes.
+
+Remove the foil and bake for another 15 to 20 minutes, until the potatoes are fork-tender, the beef reaches 160°F, and the top is lightly browned.
+
+Let the casserole rest for 10 minutes before serving.
+
+Spoon through all five layers when serving and serve warm.`,
+  translations: {
+    es: {
+      name: "Cazuela de Cena de 5 Capas Inspirada en Dolly",
+      notes:
+        "Una cazuela tradicional inspirada en la cocina familiar sureña, con capas de papas, carne sazonada, cebolla, tomates y chícharos horneados juntos.",
+      tags: [
+        "cena",
+        "res",
+        "cazuela",
+        "sureño",
+        "comfort",
+        "familiar",
+        "económico"
+      ],
+      suggestedSides: [
+        "Pan de Maíz con Buttermilk en Sartén de Hierro",
+        "Ejotes con Ajo",
+        "Ensalada Verde Sencilla",
+      ],
+      ingredients: `Cazuela:
+3 papas russet medianas, peladas y cortadas en rodajas finas
+1 1/2 lbs de carne molida de res
+1 cebolla amarilla mediana, en rodajas finas
+1 lata (14.5 oz) de tomates cortados en cubitos, sin escurrir
+1 1/2 cups de chícharos dulces congelados
+1/2 cup de caldo de res
+2 Tbsp de mantequilla, cortada en trozos pequeños
+
+Sazonadores:
+1 tsp de sal, dividida
+1/2 tsp de pimienta negra, dividida
+1 tsp de ajo en polvo`,
+      instructions: `Precalienta el horno a 375°F y engrasa ligeramente un molde para hornear de 9x13 pulgadas.
+
+Coloca 3 papas russet cortadas en rodajas finas en una capa uniforme en el fondo del molde.
+
+Sazona las papas con 1/2 tsp de sal y 1/4 tsp de pimienta negra.
+
+Distribuye 1 1/2 lbs de carne molida de res sobre las papas.
+
+Sazona la carne con 1 tsp de ajo en polvo, la 1/2 tsp de sal restante y la 1/4 tsp de pimienta negra restante.
+
+Distribuye 1 cebolla amarilla en rodajas sobre la carne para formar la tercera capa.
+
+Vierte 1 lata de tomates con su líquido sobre la cebolla para formar la cuarta capa.
+
+Distribuye 1 1/2 cups de chícharos congelados sobre los tomates para formar la quinta capa.
+
+Vierte 1/2 cup de caldo de res alrededor de la cazuela y distribuye 2 Tbsp de mantequilla por encima.
+
+Cubre bien con papel aluminio y hornea durante 50 minutos.
+
+Retira el papel aluminio y hornea de 15 a 20 minutos más, hasta que las papas estén tiernas, la carne alcance 160°F y la parte superior esté ligeramente dorada.
+
+Deja reposar durante 10 minutos antes de servir.
+
+Sirve procurando incluir las cinco capas en cada porción.`,
+    },
+  },
+},
+{
+  id: "normal-dolly-inspired-mamas-stone-soup",
+  slug: "normal-dolly-inspired-mamas-stone-soup",
+  name: "Dolly-Inspired Mama's Stone Soup",
+  servings: 8,
+  effort: "normal",
+  photoUrl: "/images/normal-dolly-inspired-mamas-stone-soup.jpg",
+  tags: [
+    "dinner",
+    "soup",
+    "beef",
+    "southern",
+    "appalachian",
+    "comfort",
+    "family-friendly",
+    "budget-friendly"
+  ],
+  isVegetarian: false,
+  suggestedSides: [
+    "Cast-Iron Skillet Buttermilk Cornbread",
+    "Soft Dinner Rolls",
+    "Simple Green Salad",
+  ],
+  notes:
+    "A hearty Simple Dinners tribute inspired by the Parton family's Stone Soup story, filled with tender beef, potatoes, cabbage, and humble vegetables simmered together into a comforting family meal.",
+  ingredients: `Beef:
+1 1/2 lbs beef chuck, cut into 1-inch pieces
+1 Tbsp vegetable oil
+1 tsp salt
+1/2 tsp black pepper
+
+Soup:
+1 medium yellow onion, diced
+2 carrots, sliced
+2 celery stalks, sliced
+2 cloves garlic, minced
+8 cups beef broth
+2 medium russet potatoes, peeled and cut into chunks
+1 medium turnip, peeled and cut into chunks
+2 cups green cabbage, roughly chopped
+1 (14.5 oz) can diced tomatoes, undrained
+1 tsp dried thyme
+1/2 tsp dried rosemary
+1 bay leaf
+1 Tbsp Worcestershire sauce
+1 cup frozen green beans
+1 cup frozen corn
+
+Finish:
+2 Tbsp fresh parsley, chopped
+salt and black pepper, to taste`,
+  instructions: `Pat 1 1/2 lbs beef chuck dry and season with 1 tsp salt and 1/2 tsp black pepper.
+
+Heat 1 Tbsp vegetable oil in a large Dutch oven or heavy soup pot over medium-high heat.
+
+Add the seasoned beef in a single layer and brown for 5 to 7 minutes, turning occasionally. Work in batches if necessary so the beef browns instead of steaming.
+
+Remove the browned beef from the pot and set aside.
+
+Add 1 diced yellow onion, 2 sliced carrots, and 2 sliced celery stalks to the same pot. Cook for 5 minutes, stirring occasionally, until the vegetables begin to soften.
+
+Add 2 cloves minced garlic and cook for 30 seconds, until fragrant.
+
+Return the browned beef and any accumulated juices to the pot.
+
+Pour in 8 cups beef broth and add 1 can undrained diced tomatoes, 1 tsp dried thyme, 1/2 tsp dried rosemary, 1 bay leaf, and 1 Tbsp Worcestershire sauce.
+
+Bring the soup to a gentle boil, then reduce the heat to low. Cover and simmer for 45 minutes.
+
+Add 2 chopped russet potatoes and 1 chopped turnip. Cover and simmer for another 20 minutes.
+
+Add 2 cups roughly chopped cabbage, 1 cup frozen green beans, and 1 cup frozen corn.
+
+Simmer uncovered for 15 to 20 minutes more, until the beef is tender and the potatoes, turnip, cabbage, and other vegetables are cooked through.
+
+Remove and discard the bay leaf.
+
+Stir in 2 Tbsp chopped fresh parsley. Taste the soup and add additional salt and black pepper if needed.
+
+Ladle the Stone Soup into deep bowls and serve hot with cornbread or warm dinner rolls.`,
+  translations: {
+    es: {
+      name: "Sopa de Piedra de Mamá Inspirada en Dolly",
+      notes:
+        "Un abundante homenaje de Simple Dinners inspirado en la historia de la Sopa de Piedra de la familia Parton, preparado con carne tierna, papas, repollo y vegetales sencillos cocidos lentamente para crear una reconfortante comida familiar.",
+      tags: [
+        "cena",
+        "sopa",
+        "res",
+        "sureño",
+        "apalache",
+        "comfort",
+        "familiar",
+        "económico"
+      ],
+      suggestedSides: [
+        "Pan de Maíz con Buttermilk en Sartén de Hierro",
+        "Panecillos Suaves para la Cena",
+        "Ensalada Verde Sencilla",
+      ],
+      ingredients: `Carne:
+1 1/2 lbs de carne de res tipo chuck, cortada en trozos de 1 pulgada
+1 Tbsp de aceite vegetal
+1 tsp de sal
+1/2 tsp de pimienta negra
+
+Sopa:
+1 cebolla amarilla mediana, picada
+2 zanahorias, en rodajas
+2 tallos de apio, en rodajas
+2 dientes de ajo, picados
+8 cups de caldo de res
+2 papas russet medianas, peladas y cortadas en trozos
+1 nabo mediano, pelado y cortado en trozos
+2 cups de repollo verde, cortado en trozos
+1 lata (14.5 oz) de tomates cortados en cubitos, sin escurrir
+1 tsp de tomillo seco
+1/2 tsp de romero seco
+1 hoja de laurel
+1 Tbsp de salsa Worcestershire
+1 cup de ejotes congelados
+1 cup de maíz congelado
+
+Final:
+2 Tbsp de perejil fresco, picado
+sal y pimienta negra, al gusto`,
+      instructions: `Seca 1 1/2 lbs de carne de res y sazona con 1 tsp de sal y 1/2 tsp de pimienta negra.
+
+Calienta 1 Tbsp de aceite vegetal en un horno holandés grande o una olla pesada a fuego medio-alto.
+
+Agrega la carne sazonada en una sola capa y dórala durante 5 a 7 minutos, volteándola ocasionalmente. Cocina en tandas si es necesario para que la carne se dore en lugar de cocinarse al vapor.
+
+Retira la carne dorada de la olla y reserva.
+
+Agrega 1 cebolla amarilla picada, 2 zanahorias en rodajas y 2 tallos de apio en rodajas a la misma olla. Cocina durante 5 minutos, revolviendo ocasionalmente, hasta que los vegetales comiencen a suavizarse.
+
+Agrega 2 dientes de ajo picados y cocina durante 30 segundos, hasta que estén fragantes.
+
+Regresa la carne dorada y sus jugos a la olla.
+
+Vierte 8 cups de caldo de res y agrega 1 lata de tomates sin escurrir, 1 tsp de tomillo seco, 1/2 tsp de romero seco, 1 hoja de laurel y 1 Tbsp de salsa Worcestershire.
+
+Lleva la sopa a un hervor suave, reduce el fuego a bajo, tapa y cocina durante 45 minutos.
+
+Agrega 2 papas russet cortadas en trozos y 1 nabo cortado en trozos. Tapa y cocina durante 20 minutos más.
+
+Agrega 2 cups de repollo picado, 1 cup de ejotes congelados y 1 cup de maíz congelado.
+
+Cocina sin tapar durante 15 a 20 minutos más, hasta que la carne esté tierna y las papas, el nabo, el repollo y los demás vegetales estén completamente cocidos.
+
+Retira y desecha la hoja de laurel.
+
+Agrega 2 Tbsp de perejil fresco picado. Prueba la sopa y agrega más sal y pimienta negra si es necesario.
+
+Sirve la Sopa de Piedra caliente en tazones hondos acompañada de pan de maíz o panecillos calientes.`,
+    },
+  },
+},
+
+{
+  id: "normal-dolly-inspired-parton-family-meatloaf",
+  slug: "normal-dolly-inspired-parton-family-meatloaf",
+  name: "Dolly-Inspired Parton Family Meatloaf",
+  servings: 6,
+  effort: "normal",
+  photoUrl: "/images/normal-dolly-inspired-parton-family-meatloaf.jpg",
+  tags: [
+    "dinner",
+    "beef",
+    "meatloaf",
+    "southern",
+    "comfort",
+    "family-friendly",
+    "homestyle"
+  ],
+  isVegetarian: false,
+  suggestedSides: [
+    "Creamy Mashed Potatoes",
+    "Garlic Green Beans",
+    "Soft Dinner Rolls",
+  ],
+  notes:
+    "A classic Southern-style meatloaf inspired by the Parton family's comforting home cooking, made with seasoned ground beef and finished with a sweet and tangy tomato glaze.",
+  ingredients: `Meatloaf:
+2 lbs ground beef
+1 cup plain breadcrumbs
+1 medium yellow onion, finely diced
+2 large eggs
+1/2 cup whole milk
+2 Tbsp Worcestershire sauce
+2 cloves garlic, minced
+1 tsp salt
+1 tsp black pepper
+1 tsp onion powder
+1 tsp garlic powder
+1/2 tsp dried thyme
+
+Glaze:
+1/2 cup ketchup
+2 Tbsp brown sugar
+1 Tbsp yellow mustard
+1 tsp Worcestershire sauce`,
+  instructions: `Preheat oven to 350°F and lightly grease a 9x5-inch loaf pan or line a rimmed baking sheet with parchment paper.
+
+Add 2 lbs ground beef, 1 cup breadcrumbs, 1 finely diced yellow onion, 2 large eggs, 1/2 cup whole milk, 2 Tbsp Worcestershire sauce, 2 cloves minced garlic, 1 tsp salt, 1 tsp black pepper, 1 tsp onion powder, 1 tsp garlic powder, and 1/2 tsp dried thyme to a large bowl.
+
+Mix gently with clean hands just until the ingredients are evenly combined. Do not overmix or the meatloaf can become dense.
+
+Shape the meat mixture into a loaf and place it in the prepared loaf pan or on the lined baking sheet.
+
+In a small bowl, stir together 1/2 cup ketchup, 2 Tbsp brown sugar, 1 Tbsp yellow mustard, and 1 tsp Worcestershire sauce until smooth.
+
+Spread about half of the glaze evenly over the top of the meatloaf.
+
+Bake for 40 minutes.
+
+Remove the meatloaf from the oven and spread the remaining glaze over the top.
+
+Return to the oven and bake for another 20 to 25 minutes, until the center of the meatloaf reaches an internal temperature of 160°F.
+
+Remove from the oven and let the meatloaf rest for 10 minutes before slicing.
+
+Serve warm with mashed potatoes, green beans, and extra pan juices spooned over the slices if desired.`,
+  translations: {
+    es: {
+      name: "Pastel de Carne Familiar Inspirado en Dolly",
+      notes:
+        "Un clásico pastel de carne estilo sureño inspirado en la cocina casera de la familia Parton, preparado con carne de res sazonada y terminado con un glaseado dulce y ligeramente ácido de tomate.",
+      tags: [
+        "cena",
+        "res",
+        "pastel de carne",
+        "sureño",
+        "comfort",
+        "familiar",
+        "casero"
+      ],
+      suggestedSides: [
+        "Puré de Papas Cremoso",
+        "Ejotes con Ajo",
+        "Panecillos Suaves para la Cena",
+      ],
+      ingredients: `Pastel de Carne:
+2 lbs de carne molida de res
+1 cup de pan rallado
+1 cebolla amarilla mediana, finamente picada
+2 huevos grandes
+1/2 cup de leche entera
+2 Tbsp de salsa Worcestershire
+2 dientes de ajo, picados
+1 tsp de sal
+1 tsp de pimienta negra
+1 tsp de cebolla en polvo
+1 tsp de ajo en polvo
+1/2 tsp de tomillo seco
+
+Glaseado:
+1/2 cup de ketchup
+2 Tbsp de azúcar morena
+1 Tbsp de mostaza amarilla
+1 tsp de salsa Worcestershire`,
+      instructions: `Precalienta el horno a 350°F y engrasa ligeramente un molde para pan de 9x5 pulgadas o cubre una bandeja para hornear con papel pergamino.
+
+Agrega 2 lbs de carne molida de res, 1 cup de pan rallado, 1 cebolla amarilla finamente picada, 2 huevos grandes, 1/2 cup de leche entera, 2 Tbsp de salsa Worcestershire, 2 dientes de ajo picados, 1 tsp de sal, 1 tsp de pimienta negra, 1 tsp de cebolla en polvo, 1 tsp de ajo en polvo y 1/2 tsp de tomillo seco a un recipiente grande.
+
+Mezcla suavemente con las manos limpias solo hasta que los ingredientes estén bien combinados. No mezcles demasiado para evitar que el pastel de carne quede compacto.
+
+Forma una barra con la mezcla y colócala en el molde preparado o sobre la bandeja forrada.
+
+En un recipiente pequeño, mezcla 1/2 cup de ketchup, 2 Tbsp de azúcar morena, 1 Tbsp de mostaza amarilla y 1 tsp de salsa Worcestershire hasta obtener una mezcla suave.
+
+Distribuye aproximadamente la mitad del glaseado sobre la parte superior del pastel de carne.
+
+Hornea durante 40 minutos.
+
+Retira el pastel de carne del horno y distribuye el glaseado restante por encima.
+
+Regresa al horno y cocina durante 20 a 25 minutos más, hasta que el centro alcance una temperatura interna de 160°F.
+
+Retira del horno y deja reposar durante 10 minutos antes de cortar.
+
+Sirve caliente con puré de papas, ejotes y, si deseas, los jugos de cocción por encima.`,
+    },
+  },
+},
+
+{
+  id: "big-dolly-inspired-country-fried-crispy-chicken",
+  slug: "big-dolly-inspired-country-fried-crispy-chicken",
+  name: "Dolly-Inspired Country-Fried Crispy Chicken",
+  servings: 6,
+  effort: "big",
+  photoUrl: "/images/big-dolly-inspired-country-fried-crispy-chicken.jpg",
+  tags: [
+    "dinner",
+    "chicken",
+    "southern",
+    "fried",
+    "comfort",
+    "family-friendly",
+    "homestyle"
+  ],
+  isVegetarian: false,
+  suggestedSides: [
+    "Creamy Mashed Potatoes",
+    "Garlic Green Beans",
+    "Cast-Iron Skillet Buttermilk Cornbread",
+  ],
+  notes:
+    "A Simple Dinners tribute to classic Southern country-fried chicken, with buttermilk-soaked bone-in chicken, a crisp seasoned coating, and peppery white cream gravy.",
+  ingredients: `Chicken:
+3 lbs bone-in, skin-on chicken pieces
+2 cups buttermilk
+1 Tbsp hot sauce
+2 tsp salt
+1 tsp black pepper
+
+Seasoned Flour:
+2 cups all-purpose flour
+1 Tbsp paprika
+2 tsp garlic powder
+2 tsp onion powder
+1 tsp salt
+1 tsp black pepper
+1/2 tsp cayenne pepper, optional
+
+For Frying:
+4 cups vegetable or canola oil, or enough for 1 1/2 inches in the skillet
+
+Peppery White Cream Gravy:
+1/4 cup reserved frying oil or chicken drippings
+1/4 cup all-purpose flour
+2 1/2 cups whole milk
+1 tsp black pepper
+1/2 tsp salt, plus more to taste`,
+  instructions: `Place 3 lbs bone-in, skin-on chicken pieces in a large bowl or resealable bag.
+
+Pour 2 cups buttermilk and 1 Tbsp hot sauce over the chicken, then add 2 tsp salt and 1 tsp black pepper.
+
+Turn the chicken until every piece is well coated. Cover and refrigerate for at least 2 hours or overnight.
+
+Remove the chicken from the refrigerator about 20 minutes before frying.
+
+In a large shallow bowl, whisk together 2 cups flour, 1 Tbsp paprika, 2 tsp garlic powder, 2 tsp onion powder, 1 tsp salt, 1 tsp black pepper, and 1/2 tsp cayenne pepper if using.
+
+Remove one piece of chicken from the buttermilk mixture and allow the excess to drip off.
+
+Dredge the chicken thoroughly in the seasoned flour, pressing the flour onto the surface to create a craggy coating.
+
+Place the coated chicken on a wire rack and repeat with the remaining pieces.
+
+Let the coated chicken rest for 10 minutes while the oil heats. This helps the breading adhere.
+
+Pour about 4 cups vegetable or canola oil into a large cast-iron skillet or heavy frying pan, enough to reach about 1 1/2 inches deep.
+
+Heat the oil over medium heat to 325°F.
+
+Carefully add the chicken in batches without overcrowding the skillet.
+
+Fry the chicken for about 12 to 16 minutes total, turning every few minutes, until deeply golden and the thickest part of each piece reaches at least 165°F. Larger pieces may need additional cooking time.
+
+Transfer the cooked chicken to a wire rack set over a baking sheet and allow it to drain. Keep warm while frying the remaining chicken.
+
+When the chicken is finished, carefully pour off the frying oil, reserving 1/4 cup of the oil or flavorful drippings in the skillet.
+
+Heat the reserved 1/4 cup oil over medium heat and whisk in 1/4 cup flour.
+
+Cook the flour mixture for 1 to 2 minutes, whisking constantly, until smooth and lightly golden.
+
+Slowly pour in 2 1/2 cups whole milk while whisking continuously to prevent lumps.
+
+Add 1 tsp black pepper and 1/2 tsp salt.
+
+Cook the gravy for 5 to 7 minutes, whisking frequently, until thick and creamy.
+
+Taste the gravy and add additional salt or black pepper if desired.
+
+Serve the crispy fried chicken hot with the peppery white cream gravy spooned over the top or alongside for dipping.`,
+  translations: {
+    es: {
+      name: "Pollo Crujiente Frito al Estilo Campestre Inspirado en Dolly",
+      notes:
+        "Un homenaje de Simple Dinners al clásico pollo frito sureño, preparado con pollo con hueso marinado en buttermilk, una cubierta crujiente y gravy blanco cremoso con abundante pimienta.",
+      tags: [
+        "cena",
+        "pollo",
+        "sureño",
+        "frito",
+        "comfort",
+        "familiar",
+        "casero"
+      ],
+      suggestedSides: [
+        "Puré de Papas Cremoso",
+        "Ejotes con Ajo",
+        "Pan de Maíz con Buttermilk en Sartén de Hierro",
+      ],
+      ingredients: `Pollo:
+3 lbs de piezas de pollo con hueso y piel
+2 cups de buttermilk
+1 Tbsp de salsa picante
+2 tsp de sal
+1 tsp de pimienta negra
+
+Harina Sazonada:
+2 cups de harina
+1 Tbsp de paprika
+2 tsp de ajo en polvo
+2 tsp de cebolla en polvo
+1 tsp de sal
+1 tsp de pimienta negra
+1/2 tsp de pimienta de cayena, opcional
+
+Para Freír:
+4 cups de aceite vegetal o de canola, o suficiente para llenar 1 1/2 pulgadas de la sartén
+
+Gravy Blanco con Pimienta:
+1/4 cup de aceite de freír reservado o jugos del pollo
+1/4 cup de harina
+2 1/2 cups de leche entera
+1 tsp de pimienta negra
+1/2 tsp de sal, más al gusto`,
+      instructions: `Coloca 3 lbs de piezas de pollo con hueso y piel en un recipiente grande o una bolsa con cierre hermético.
+
+Vierte 2 cups de buttermilk y 1 Tbsp de salsa picante sobre el pollo, luego agrega 2 tsp de sal y 1 tsp de pimienta negra.
+
+Mezcla hasta cubrir bien todas las piezas. Tapa y refrigera durante al menos 2 horas o toda la noche.
+
+Retira el pollo del refrigerador aproximadamente 20 minutos antes de freír.
+
+En un recipiente ancho, mezcla 2 cups de harina, 1 Tbsp de paprika, 2 tsp de ajo en polvo, 2 tsp de cebolla en polvo, 1 tsp de sal, 1 tsp de pimienta negra y 1/2 tsp de pimienta de cayena si la usas.
+
+Retira una pieza de pollo de la mezcla de buttermilk y deja escurrir el exceso.
+
+Cubre completamente el pollo con la harina sazonada, presionando la harina sobre la superficie para formar una cubierta irregular y crujiente.
+
+Coloca el pollo empanizado sobre una rejilla y repite con las piezas restantes.
+
+Deja reposar el pollo empanizado durante 10 minutos mientras se calienta el aceite. Esto ayuda a que la cubierta se adhiera.
+
+Vierte aproximadamente 4 cups de aceite vegetal o de canola en una sartén grande de hierro fundido o sartén pesada, suficiente para alcanzar aproximadamente 1 1/2 pulgadas de profundidad.
+
+Calienta el aceite a fuego medio hasta alcanzar 325°F.
+
+Agrega cuidadosamente el pollo en tandas sin llenar demasiado la sartén.
+
+Fríe el pollo durante aproximadamente 12 a 16 minutos en total, volteándolo cada pocos minutos, hasta que esté profundamente dorado y la parte más gruesa de cada pieza alcance al menos 165°F. Las piezas más grandes pueden necesitar más tiempo.
+
+Transfiere el pollo cocido a una rejilla colocada sobre una bandeja para hornear y deja escurrir. Mantén caliente mientras fríes el resto del pollo.
+
+Cuando termines de freír, vierte cuidadosamente el exceso de aceite y reserva 1/4 cup de aceite o jugos sabrosos en la sartén.
+
+Calienta el 1/4 cup de aceite reservado a fuego medio y agrega 1/4 cup de harina, batiendo constantemente.
+
+Cocina durante 1 a 2 minutos, batiendo continuamente, hasta que la mezcla esté suave y ligeramente dorada.
+
+Vierte lentamente 2 1/2 cups de leche entera mientras continúas batiendo para evitar grumos.
+
+Agrega 1 tsp de pimienta negra y 1/2 tsp de sal.
+
+Cocina el gravy durante 5 a 7 minutos, batiendo frecuentemente, hasta que esté espeso y cremoso.
+
+Prueba el gravy y agrega más sal o pimienta negra si deseas.
+
+Sirve el pollo frito crujiente caliente con el gravy blanco con pimienta por encima o al lado para mojar.`,
+    },
+  },
+},
+
+{
+  id: "normal-dolly-inspired-cajun-baked-catfish",
+  slug: "normal-dolly-inspired-cajun-baked-catfish",
+  name: "Dolly-Inspired Cajun Baked Catfish",
+  servings: 4,
+  effort: "normal",
+  photoUrl: "/images/normal-dolly-inspired-cajun-baked-catfish.jpg",
+  tags: [
+    "dinner",
+    "fish",
+    "catfish",
+    "southern",
+    "cajun",
+    "baked",
+    "family-friendly",
+    "high-protein"
+  ],
+  isVegetarian: false,
+  suggestedSides: [
+    "Cilantro Lime Rice",
+    "Roasted Broccoli",
+    "Cast-Iron Skillet Buttermilk Cornbread",
+  ],
+  notes:
+    "A lighter Southern-style catfish dinner inspired by Dolly's love of comforting country cooking, with bold Cajun seasoning, a crisp cornmeal coating, and a simple oven-baked preparation.",
+  ingredients: `Catfish:
+4 catfish fillets, about 6 oz each
+2 Tbsp olive oil
+1 Tbsp lemon juice
+
+Cajun Cornmeal Coating:
+1/2 cup yellow cornmeal
+1/4 cup all-purpose flour
+2 tsp paprika
+1 tsp garlic powder
+1 tsp onion powder
+1 tsp dried oregano
+1 tsp dried thyme
+1/2 tsp cayenne pepper
+1 tsp salt
+1/2 tsp black pepper
+
+For Serving:
+1 lemon, cut into wedges
+2 Tbsp fresh parsley, chopped`,
+  instructions: `Preheat oven to 425°F and line a large baking sheet with parchment paper or lightly grease it.
+
+Pat 4 catfish fillets dry with paper towels.
+
+Brush both sides of the fillets with 2 Tbsp olive oil and drizzle evenly with 1 Tbsp lemon juice.
+
+In a shallow bowl, combine 1/2 cup yellow cornmeal, 1/4 cup flour, 2 tsp paprika, 1 tsp garlic powder, 1 tsp onion powder, 1 tsp dried oregano, 1 tsp dried thyme, 1/2 tsp cayenne pepper, 1 tsp salt, and 1/2 tsp black pepper.
+
+Press each catfish fillet into the cornmeal mixture, coating both sides evenly.
+
+Place the coated fillets on the prepared baking sheet, leaving space between each piece.
+
+Bake for 12 to 15 minutes, until the coating is lightly crisp and the catfish flakes easily with a fork.
+
+Check the thickest part of each fillet and cook until it reaches an internal temperature of 145°F.
+
+Remove the catfish from the oven and let rest for 2 minutes.
+
+Sprinkle with 2 Tbsp chopped fresh parsley.
+
+Serve warm with lemon wedges for squeezing over the fish.`,
+  translations: {
+    es: {
+      name: "Bagre Cajún al Horno Inspirado en Dolly",
+      notes:
+        "Una cena de bagre estilo sureño más ligera, inspirada en la cocina campestre reconfortante asociada con Dolly, preparada con condimentos cajún intensos, una cubierta crujiente de harina de maíz y una sencilla cocción al horno.",
+      tags: [
+        "cena",
+        "pescado",
+        "bagre",
+        "sureño",
+        "cajún",
+        "horneado",
+        "familiar",
+        "alto en proteína"
+      ],
+      suggestedSides: [
+        "Arroz con Cilantro y Limón",
+        "Brócoli Asado",
+        "Pan de Maíz con Buttermilk en Sartén de Hierro",
+      ],
+      ingredients: `Bagre:
+4 filetes de bagre, aproximadamente 6 oz cada uno
+2 Tbsp de aceite de oliva
+1 Tbsp de jugo de limón
+
+Cubierta Cajún de Harina de Maíz:
+1/2 cup de harina de maíz amarilla
+1/4 cup de harina
+2 tsp de paprika
+1 tsp de ajo en polvo
+1 tsp de cebolla en polvo
+1 tsp de orégano seco
+1 tsp de tomillo seco
+1/2 tsp de pimienta de cayena
+1 tsp de sal
+1/2 tsp de pimienta negra
+
+Para Servir:
+1 limón, cortado en gajos
+2 Tbsp de perejil fresco, picado`,
+      instructions: `Precalienta el horno a 425°F y cubre una bandeja grande para hornear con papel pergamino o engrásala ligeramente.
+
+Seca 4 filetes de bagre con toallas de papel.
+
+Unta ambos lados de los filetes con 2 Tbsp de aceite de oliva y rocía uniformemente con 1 Tbsp de jugo de limón.
+
+En un recipiente poco profundo, mezcla 1/2 cup de harina de maíz amarilla, 1/4 cup de harina, 2 tsp de paprika, 1 tsp de ajo en polvo, 1 tsp de cebolla en polvo, 1 tsp de orégano seco, 1 tsp de tomillo seco, 1/2 tsp de pimienta de cayena, 1 tsp de sal y 1/2 tsp de pimienta negra.
+
+Presiona cada filete de bagre sobre la mezcla de harina de maíz hasta cubrir ambos lados uniformemente.
+
+Coloca los filetes empanizados sobre la bandeja preparada, dejando espacio entre cada uno.
+
+Hornea durante 12 a 15 minutos, hasta que la cubierta esté ligeramente crujiente y el bagre se desmenuce fácilmente con un tenedor.
+
+Verifica la parte más gruesa de cada filete y cocina hasta alcanzar una temperatura interna de 145°F.
+
+Retira el bagre del horno y deja reposar durante 2 minutos.
+
+Espolvorea con 2 Tbsp de perejil fresco picado.
+
+Sirve caliente con gajos de limón para exprimir sobre el pescado.`,
+    },
+  },
+},
+
+{
+  id: "quick-smash-burger-tacos",
+  slug: "quick-smash-burger-tacos",
+  name: "Smash Burger Tacos",
+  servings: 4,
+  effort: "quick",
+  photoUrl: "/images/quick-smash-burger-tacos.jpg",
+  tags: [
+    "dinner",
+    "beef",
+    "tacos",
+    "burger",
+    "quick",
+    "family-friendly",
+    "kid-friendly",
+    "one-pan"
+  ],
+  isVegetarian: false,
+  suggestedSides: [
+    "Fries",
+    "Coleslaw",
+    "Pickle Spears",
+  ],
+  notes:
+    "Everything you love about a crispy smash burger packed into a warm tortilla. Ground beef is smashed directly onto flour tortillas, seared until deeply browned, topped with melty cheese, and finished with classic burger toppings and an easy homemade sauce.",
+  ingredients: `Smash Burger Tacos:
+1/2 lb ground beef, preferably 80/20
+4 street taco-sized flour tortillas
+4 slices American or Cheddar cheese
+1/2 tsp salt
+1/4 tsp black pepper
+1/4 tsp garlic powder
+
+Burger Sauce:
+1/4 cup mayonnaise
+1 Tbsp ketchup
+1 Tbsp yellow mustard
+1 Tbsp sweet relish
+1/2 tsp vinegar
+
+Toppings:
+1 cup shredded iceberg lettuce
+1/4 cup finely diced white onion
+12 dill pickle chips`,
+  instructions: `In a small bowl, stir together 1/4 cup mayonnaise, 1 Tbsp ketchup, 1 Tbsp yellow mustard, 1 Tbsp sweet relish, and 1/2 tsp vinegar until smooth. Set the burger sauce aside.
+
+Divide 1/2 lb ground beef into 4 equal portions, about 2 oz each.
+
+Place 1 portion of ground beef onto one side of each of the 4 flour tortillas.
+
+Using clean hands or the back of a spoon, press the beef into a very thin, even layer that extends almost completely to the edges of each tortilla.
+
+Season the beef evenly with 1/2 tsp salt, 1/4 tsp black pepper, and 1/4 tsp garlic powder.
+
+Heat a large nonstick skillet or cast-iron griddle over medium-high heat.
+
+Working in batches if necessary, place the tortillas beef-side down onto the hot skillet.
+
+Press each tortilla firmly with a spatula and cook for 2 to 3 minutes, until the beef develops a deeply browned, crispy crust and is cooked through.
+
+Flip each taco so the tortilla is against the skillet.
+
+Place 1 slice American or Cheddar cheese over the cooked beef on each taco.
+
+Cover the skillet and cook for 30 to 45 seconds, until the cheese is melted and the tortilla is warm and lightly toasted.
+
+Remove the tacos from the skillet.
+
+Top the 4 tacos evenly with 1 cup shredded iceberg lettuce, 1/4 cup finely diced white onion, 12 dill pickle chips, and the prepared burger sauce.
+
+Fold each tortilla in half and serve immediately while the beef is crispy and the cheese is hot.`,
+  translations: {
+    es: {
+      name: "Tacos de Smash Burger",
+      notes:
+        "Todo el sabor de una smash burger crujiente dentro de una tortilla caliente. La carne molida se aplasta directamente sobre las tortillas, se dora hasta quedar crujiente y se termina con queso derretido, ingredientes clásicos de hamburguesa y una sencilla salsa casera.",
+      tags: [
+        "cena",
+        "res",
+        "tacos",
+        "hamburguesa",
+        "rápido",
+        "familiar",
+        "para niños",
+        "una sartén"
+      ],
+      suggestedSides: [
+        "Papas Fritas",
+        "Ensalada de Col",
+        "Pepinillos en Lanza",
+      ],
+      ingredients: `Tacos de Smash Burger:
+1/2 lb de carne molida de res, preferiblemente 80/20
+4 tortillas pequeñas de harina para tacos
+4 rebanadas de queso americano o Cheddar
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+1/4 tsp de ajo en polvo
+
+Salsa para Hamburguesa:
+1/4 cup de mayonesa
+1 Tbsp de ketchup
+1 Tbsp de mostaza amarilla
+1 Tbsp de relish dulce
+1/2 tsp de vinagre
+
+Toppings:
+1 cup de lechuga iceberg rallada
+1/4 cup de cebolla blanca finamente picada
+12 rodajas de pepinillos en vinagre`,
+      instructions: `En un recipiente pequeño, mezcla 1/4 cup de mayonesa, 1 Tbsp de ketchup, 1 Tbsp de mostaza amarilla, 1 Tbsp de relish dulce y 1/2 tsp de vinagre hasta obtener una salsa uniforme. Reserva.
+
+Divide 1/2 lb de carne molida de res en 4 porciones iguales de aproximadamente 2 oz cada una.
+
+Coloca 1 porción de carne sobre un lado de cada una de las 4 tortillas de harina.
+
+Con las manos limpias o la parte posterior de una cuchara, presiona la carne hasta formar una capa muy fina y uniforme que llegue casi hasta los bordes de cada tortilla.
+
+Sazona uniformemente la carne con 1/2 tsp de sal, 1/4 tsp de pimienta negra y 1/4 tsp de ajo en polvo.
+
+Calienta una sartén antiadherente grande o plancha de hierro fundido a fuego medio-alto.
+
+Trabajando en tandas si es necesario, coloca las tortillas en la sartén caliente con el lado de la carne hacia abajo.
+
+Presiona firmemente cada tortilla con una espátula y cocina durante 2 a 3 minutos, hasta que la carne esté bien dorada, crujiente y completamente cocida.
+
+Voltea cada taco para que el lado de la tortilla quede contra la sartén.
+
+Coloca 1 rebanada de queso americano o Cheddar sobre la carne cocida de cada taco.
+
+Tapa la sartén y cocina durante 30 a 45 segundos, hasta que el queso se derrita y la tortilla esté caliente y ligeramente tostada.
+
+Retira los tacos de la sartén.
+
+Distribuye sobre los 4 tacos 1 cup de lechuga iceberg rallada, 1/4 cup de cebolla blanca finamente picada, 12 rodajas de pepinillos y la salsa para hamburguesa preparada.
+
+Dobla cada tortilla por la mitad y sirve inmediatamente mientras la carne está crujiente y el queso caliente.`,
+    },
+  },
+},
+
+{
+  id: "normal-one-pan-marry-me-tuscan-chicken-orzo",
+  slug: "normal-one-pan-marry-me-tuscan-chicken-orzo",
+  name: "One-Pan Marry Me Tuscan Chicken Orzo",
+  servings: 4,
+  effort: "normal",
+  photoUrl: "/images/normal-one-pan-marry-me-tuscan-chicken-orzo.jpg",
+  tags: [
+    "dinner",
+    "chicken",
+    "pasta",
+    "orzo",
+    "one-pan",
+    "creamy",
+    "italian-inspired",
+    "family-friendly"
+  ],
+  isVegetarian: false,
+  suggestedSides: [
+    "Garlic Bread",
+    "Roasted Broccoli",
+    "Side Caesar Salad",
+  ],
+  notes:
+    "Tender chicken and orzo come together in one skillet with sun-dried tomatoes, garlic, Parmesan, spinach, and a creamy Tuscan-inspired sauce. A cozy 30-minute dinner with plenty of flavor and very little cleanup.",
+  ingredients: `Chicken:
+1 lb boneless skinless chicken breasts, cut into bite-sized pieces
+1 Tbsp olive oil
+1 tsp Italian seasoning
+1/2 tsp salt
+1/4 tsp black pepper
+
+Orzo:
+1 cup dry orzo pasta
+2 cups low-sodium chicken broth
+1/2 cup oil-packed sun-dried tomatoes, drained and chopped
+3 cloves garlic, minced
+1/2 tsp red pepper flakes
+
+Creamy Sauce:
+1/2 cup heavy cream
+1/2 cup freshly grated Parmesan cheese
+2 cups fresh baby spinach
+
+Finish:
+salt and black pepper, to taste`,
+  instructions: `Heat 1 Tbsp olive oil in a large deep skillet over medium-high heat.
+
+Season 1 lb bite-sized chicken pieces with 1 tsp Italian seasoning, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Add the seasoned chicken to the hot skillet and cook for 5 to 6 minutes, stirring occasionally, until golden brown and cooked through to 165°F.
+
+Transfer the cooked chicken to a plate and set aside.
+
+Reduce the heat to medium and add 3 cloves minced garlic and 1/2 cup drained and chopped sun-dried tomatoes to the same skillet.
+
+Cook for 1 minute, stirring frequently, until the garlic is fragrant.
+
+Add 1 cup dry orzo, 2 cups low-sodium chicken broth, and 1/2 tsp red pepper flakes.
+
+Stir well and bring the mixture to a gentle boil.
+
+Reduce the heat to medium-low, cover, and simmer for 8 to 10 minutes, stirring every couple of minutes to prevent the orzo from sticking, until the pasta is tender and most of the broth has been absorbed.
+
+Reduce the heat to low and stir in 1/2 cup heavy cream and 1/2 cup freshly grated Parmesan cheese.
+
+Add 2 cups fresh baby spinach and stir for 1 to 2 minutes, until the Parmesan has melted and the spinach has wilted into the creamy sauce.
+
+Return the cooked chicken and any accumulated juices to the skillet.
+
+Stir gently to coat the chicken in the creamy orzo and cook for another 1 to 2 minutes, until everything is hot.
+
+Taste and add additional salt and black pepper if needed.
+
+Remove from the heat and serve immediately with extra Parmesan cheese if desired.`,
+  translations: {
+    es: {
+      name: "Pollo Toscano Marry Me con Orzo en Una Sola Sartén",
+      notes:
+        "Pollo tierno y orzo preparados juntos en una sola sartén con tomates secos, ajo, queso Parmesano, espinaca y una cremosa salsa inspirada en los sabores toscanos. Una reconfortante cena de 30 minutos con mucho sabor y poca limpieza.",
+      tags: [
+        "cena",
+        "pollo",
+        "pasta",
+        "orzo",
+        "una sartén",
+        "cremoso",
+        "inspirado en Italia",
+        "familiar"
+      ],
+      suggestedSides: [
+        "Pan de Ajo",
+        "Brócoli Asado",
+        "Ensalada César de Acompañamiento",
+      ],
+      ingredients: `Pollo:
+1 lb de pechugas de pollo sin hueso y sin piel, cortadas en trozos pequeños
+1 Tbsp de aceite de oliva
+1 tsp de sazonador italiano
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+
+Orzo:
+1 cup de pasta orzo seca
+2 cups de caldo de pollo bajo en sodio
+1/2 cup de tomates secos en aceite, escurridos y picados
+3 dientes de ajo, picados
+1/2 tsp de hojuelas de chile rojo
+
+Salsa Cremosa:
+1/2 cup de crema para batir
+1/2 cup de queso Parmesano recién rallado
+2 cups de espinaca baby fresca
+
+Final:
+sal y pimienta negra, al gusto`,
+      instructions: `Calienta 1 Tbsp de aceite de oliva en una sartén grande y profunda a fuego medio-alto.
+
+Sazona 1 lb de pollo cortado en trozos con 1 tsp de sazonador italiano, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
+
+Agrega el pollo sazonado a la sartén caliente y cocina durante 5 a 6 minutos, revolviendo ocasionalmente, hasta que esté dorado y completamente cocido a 165°F.
+
+Transfiere el pollo cocido a un plato y reserva.
+
+Reduce el fuego a medio y agrega 3 dientes de ajo picados y 1/2 cup de tomates secos escurridos y picados a la misma sartén.
+
+Cocina durante 1 minuto, revolviendo frecuentemente, hasta que el ajo esté fragante.
+
+Agrega 1 cup de orzo seco, 2 cups de caldo de pollo bajo en sodio y 1/2 tsp de hojuelas de chile rojo.
+
+Mezcla bien y lleva a un hervor suave.
+
+Reduce el fuego a medio-bajo, tapa y cocina durante 8 a 10 minutos, revolviendo cada par de minutos para evitar que el orzo se pegue, hasta que la pasta esté tierna y haya absorbido la mayor parte del caldo.
+
+Reduce el fuego a bajo y agrega 1/2 cup de crema para batir y 1/2 cup de queso Parmesano recién rallado.
+
+Agrega 2 cups de espinaca baby fresca y mezcla durante 1 a 2 minutos, hasta que el Parmesano se derrita y la espinaca se marchite dentro de la salsa cremosa.
+
+Regresa el pollo cocido y sus jugos a la sartén.
+
+Mezcla suavemente para cubrir el pollo con el orzo cremoso y cocina durante 1 a 2 minutos más, hasta que todo esté bien caliente.
+
+Prueba y agrega más sal y pimienta negra si es necesario.
+
+Retira del fuego y sirve inmediatamente con Parmesano adicional si deseas.`,
+    },
+  },
+},
+
+{
+  id: "quick-swicy-hot-honey-salmon-rice-bowls",
+  slug: "quick-swicy-hot-honey-salmon-rice-bowls",
+  name: "Swicy Hot Honey Salmon Rice Bowls",
+  servings: 3,
+  effort: "quick",
+  photoUrl: "/images/quick-swicy-hot-honey-salmon-rice-bowls.jpg",
+  tags: [
+    "dinner",
+    "salmon",
+    "seafood",
+    "rice-bowl",
+    "quick",
+    "high-protein",
+    "spicy",
+    "family-friendly"
+  ],
+  isVegetarian: false,
+  suggestedSides: [
+    "Cucumber Salad",
+    "Steamed Broccoli",
+    "Spring Rolls",
+  ],
+  notes:
+    "A fast sweet-and-spicy salmon bowl with caramelized hot honey glaze, warm jasmine rice, cool cucumber, creamy avocado, and spicy mayo.",
+  ingredients: `Salmon:
+1 lb skinless salmon fillets, cut into 1-inch cubes
+1 Tbsp olive oil or avocado oil
+1/2 tsp garlic powder
+1/2 tsp smoked paprika
+1/2 tsp salt
+1/4 tsp black pepper
+
+Hot Honey Glaze:
+3 Tbsp hot honey
+1 1/2 Tbsp soy sauce or tamari
+1 tsp sesame oil
+1 tsp minced garlic
+
+Bowls:
+2 cups cooked jasmine rice
+1 Persian cucumber, thinly sliced
+1 ripe avocado, sliced
+1 Tbsp sriracha mayo or spicy mayo
+1 tsp sesame seeds
+2 green onions, sliced`,
+  instructions: `Add 1 lb salmon cubes to a medium bowl.
+
+Drizzle the salmon with 1 Tbsp olive oil or avocado oil and season with 1/2 tsp garlic powder, 1/2 tsp smoked paprika, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Toss gently until the salmon is evenly coated.
+
+In a small bowl, whisk together 3 Tbsp hot honey, 1 1/2 Tbsp soy sauce, 1 tsp sesame oil, and 1 tsp minced garlic.
+
+For the air fryer method, arrange the salmon in a single layer in the air fryer basket and cook at 400°F for 6 to 7 minutes.
+
+Brush the salmon generously with the hot honey glaze and air fry for another 2 minutes, until caramelized and the salmon flakes easily.
+
+For the skillet method, heat a large nonstick skillet over medium-high heat.
+
+Add the seasoned salmon cubes and sear for about 3 minutes.
+
+Flip the salmon, pour in the hot honey glaze, and cook for another 2 to 3 minutes, gently tossing until the glaze becomes sticky and coats the salmon.
+
+Cook the salmon until it reaches an internal temperature of 145°F.
+
+Divide 2 cups cooked jasmine rice between 2 to 3 bowls.
+
+Top with the glazed salmon, 1 thinly sliced Persian cucumber, and 1 sliced ripe avocado.
+
+Drizzle the bowls with 1 Tbsp sriracha mayo or spicy mayo.
+
+Finish with 1 tsp sesame seeds and 2 sliced green onions.
+
+Serve immediately while the salmon is warm and caramelized.`,
+  translations: {
+    es: {
+      name: "Bowls de Salmón con Miel Picante y Arroz",
+      notes:
+        "Un bowl rápido de salmón dulce y picante con glaseado de miel picante caramelizada, arroz jazmín caliente, pepino fresco, aguacate cremoso y mayonesa picante.",
+      tags: [
+        "cena",
+        "salmón",
+        "mariscos",
+        "bowl de arroz",
+        "rápido",
+        "alto en proteína",
+        "picante",
+        "familiar"
+      ],
+      suggestedSides: [
+        "Ensalada de Pepino",
+        "Brócoli al Vapor",
+        "Rollitos Primavera",
+      ],
+      ingredients: `Salmón:
+1 lb de filetes de salmón sin piel, cortados en cubos de 1 pulgada
+1 Tbsp de aceite de oliva o aguacate
+1/2 tsp de ajo en polvo
+1/2 tsp de paprika ahumada
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+
+Glaseado de Miel Picante:
+3 Tbsp de miel picante
+1 1/2 Tbsp de salsa de soya o tamari
+1 tsp de aceite de ajonjolí
+1 tsp de ajo picado
+
+Bowls:
+2 cups de arroz jazmín cocido
+1 pepino persa, cortado en rodajas finas
+1 aguacate maduro, en rebanadas
+1 Tbsp de mayonesa con sriracha o mayonesa picante
+1 tsp de semillas de ajonjolí
+2 cebollines, en rodajas`,
+      instructions: `Coloca 1 lb de cubos de salmón en un recipiente mediano.
+
+Agrega 1 Tbsp de aceite de oliva o aguacate y sazona con 1/2 tsp de ajo en polvo, 1/2 tsp de paprika ahumada, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
+
+Mezcla suavemente hasta cubrir el salmón.
+
+En un recipiente pequeño, mezcla 3 Tbsp de miel picante, 1 1/2 Tbsp de salsa de soya, 1 tsp de aceite de ajonjolí y 1 tsp de ajo picado.
+
+Para la freidora de aire, coloca el salmón en una sola capa y cocina a 400°F durante 6 a 7 minutos.
+
+Unta generosamente con el glaseado y cocina durante 2 minutos más, hasta que esté caramelizado.
+
+Para la sartén, calienta una sartén antiadherente grande a fuego medio-alto.
+
+Agrega el salmón sazonado y cocina durante aproximadamente 3 minutos.
+
+Voltea el salmón, agrega el glaseado y cocina de 2 a 3 minutos más, mezclando suavemente hasta que la salsa se vuelva pegajosa.
+
+Cocina hasta que el salmón alcance una temperatura interna de 145°F.
+
+Divide 2 cups de arroz jazmín cocido entre 2 a 3 bowls.
+
+Agrega el salmón glaseado, 1 pepino persa en rodajas y 1 aguacate en rebanadas.
+
+Rocía con 1 Tbsp de mayonesa picante.
+
+Termina con 1 tsp de semillas de ajonjolí y 2 cebollines en rodajas.
+
+Sirve inmediatamente.`,
+    },
+  },
+},
+
+{
+  id: "normal-parchment-sheet-pan-gyros",
+  slug: "normal-parchment-sheet-pan-gyros",
+  name: "Parchment Sheet-Pan Gyros",
+  servings: 4,
+  effort: "normal",
+  photoUrl: "/images/normal-parchment-sheet-pan-gyros.jpg",
+  tags: [
+    "dinner",
+    "beef",
+    "lamb",
+    "gyro",
+    "mediterranean",
+    "sheet-pan",
+    "family-friendly",
+    "high-protein"
+  ],
+  isVegetarian: false,
+  suggestedSides: [
+    "Cucumber Salad",
+    "Roasted Potatoes",
+    "Side Greek Salad",
+  ],
+  notes:
+    "A simple sheet-pan gyro method that creates thin, deeply browned strips of seasoned beef or lamb without a rotisserie spit.",
+  ingredients: `Gyro Meat:
+1 lb ground beef, ground lamb, or a 50/50 mix
+1 small yellow onion, finely grated and squeezed dry
+3 cloves garlic, minced
+1 1/2 tsp dried oregano
+1 tsp ground cumin
+1 tsp ground coriander
+1 tsp salt
+1/2 tsp black pepper
+
+For Serving:
+4 soft Greek pita flatbreads
+1 cup tzatziki sauce
+2 Roma tomatoes, sliced
+1/2 small red onion, thinly sliced
+2 Tbsp fresh parsley, chopped`,
+  instructions: `Preheat oven to 400°F.
+
+Add 1 lb ground beef, ground lamb, or a 50/50 mixture to a large bowl.
+
+Add 1 finely grated and squeezed-dry yellow onion, 3 cloves minced garlic, 1 1/2 tsp dried oregano, 1 tsp ground cumin, 1 tsp ground coriander, 1 tsp salt, and 1/2 tsp black pepper.
+
+Knead the mixture vigorously with clean hands for about 2 minutes, until the meat becomes sticky and paste-like.
+
+Place the meat mixture onto a large sheet of parchment paper.
+
+Lay a second sheet of parchment paper over the meat.
+
+Use a rolling pin or your hands to press the meat into a thin, even rectangle about 1/4-inch thick.
+
+Remove the top sheet of parchment.
+
+Slide the bottom parchment and meat onto a rimmed baking sheet.
+
+Bake at 400°F for 15 minutes.
+
+Carefully drain excess fat from the baking sheet.
+
+Switch the oven to high broil.
+
+Broil the gyro meat for 2 to 3 minutes, watching closely, until the surface is deeply browned and crisp around the edges.
+
+Remove from the oven and let rest for 3 minutes.
+
+Cut the meat into long, thin strips.
+
+Warm 4 Greek pita flatbreads.
+
+Spread each pita with about 1/4 cup tzatziki sauce.
+
+Divide the gyro strips among the 4 pitas.
+
+Top with 2 sliced Roma tomatoes, 1/2 thinly sliced red onion, and 2 Tbsp chopped fresh parsley.
+
+Fold the pitas and serve warm.`,
+  translations: {
+    es: {
+      name: "Gyros en Bandeja con Papel Pergamino",
+      notes:
+        "Una sencilla técnica en bandeja que crea tiras finas y bien doradas de carne sazonada estilo gyro sin necesidad de un asador vertical.",
+      tags: [
+        "cena",
+        "res",
+        "cordero",
+        "gyro",
+        "mediterráneo",
+        "bandeja",
+        "familiar",
+        "alto en proteína"
+      ],
+      suggestedSides: [
+        "Ensalada de Pepino",
+        "Papas Asadas",
+        "Ensalada Griega de Acompañamiento",
+      ],
+      ingredients: `Carne para Gyro:
+1 lb de carne molida de res, cordero o mezcla 50/50
+1 cebolla amarilla pequeña, finamente rallada y bien escurrida
+3 dientes de ajo, picados
+1 1/2 tsp de orégano seco
+1 tsp de comino molido
+1 tsp de cilantro molido
+1 tsp de sal
+1/2 tsp de pimienta negra
+
+Para Servir:
+4 panes pita griegos suaves
+1 cup de salsa tzatziki
+2 tomates Roma, en rodajas
+1/2 cebolla morada pequeña, en rodajas finas
+2 Tbsp de perejil fresco, picado`,
+      instructions: `Precalienta el horno a 400°F.
+
+Agrega 1 lb de carne molida de res, cordero o mezcla 50/50 a un recipiente grande.
+
+Agrega 1 cebolla amarilla rallada y escurrida, 3 dientes de ajo picados, 1 1/2 tsp de orégano seco, 1 tsp de comino molido, 1 tsp de cilantro molido, 1 tsp de sal y 1/2 tsp de pimienta negra.
+
+Amasa vigorosamente con las manos limpias durante aproximadamente 2 minutos, hasta que la carne tenga una textura pegajosa y similar a una pasta.
+
+Coloca la mezcla sobre una hoja grande de papel pergamino.
+
+Cubre con una segunda hoja de papel pergamino.
+
+Usa un rodillo o las manos para extender la carne en un rectángulo uniforme de aproximadamente 1/4 de pulgada de grosor.
+
+Retira la hoja superior de papel pergamino.
+
+Desliza el papel inferior con la carne sobre una bandeja para hornear con borde.
+
+Hornea a 400°F durante 15 minutos.
+
+Escurre cuidadosamente el exceso de grasa.
+
+Cambia el horno a broil alto.
+
+Dora durante 2 a 3 minutos, observando cuidadosamente, hasta que la superficie esté bien dorada y los bordes crujientes.
+
+Retira del horno y deja reposar durante 3 minutos.
+
+Corta la carne en tiras largas y delgadas.
+
+Calienta 4 panes pita griegos.
+
+Unta cada pita con aproximadamente 1/4 cup de salsa tzatziki.
+
+Divide las tiras de gyro entre los 4 panes.
+
+Agrega 2 tomates Roma en rodajas, 1/2 cebolla morada en rodajas finas y 2 Tbsp de perejil fresco picado.
+
+Dobla y sirve caliente.`,
+    },
+  },
+},
+
+{
+  id: "normal-crispy-garlic-butter-smashed-potato-bowls-chicken",
+  slug: "normal-crispy-garlic-butter-smashed-potato-bowls-chicken",
+  name: "Crispy Garlic Butter Smashed Potato Bowls with Chicken",
+  servings: 4,
+  effort: "normal",
+  photoUrl: "/images/normal-crispy-garlic-butter-smashed-potato-bowls-chicken.jpg",
+  tags: [
+    "dinner",
+    "chicken",
+    "potatoes",
+    "bowl",
+    "comfort",
+    "high-protein",
+    "family-friendly",
+    "cheesy"
+  ],
+  isVegetarian: false,
+  suggestedSides: [
+    "Roasted Broccoli",
+    "Simple Green Salad",
+    "Glazed Carrots",
+  ],
+  notes:
+    "Crispy garlic-butter smashed potatoes become the base for seasoned chicken, melted Cheddar, sour cream, and fresh green onions in a hearty family-friendly dinner bowl.",
+  ingredients: `Smashed Potatoes:
+1 1/2 lbs baby Yukon gold potatoes
+3 Tbsp butter, melted
+1 Tbsp olive oil
+3 cloves garlic, minced
+1/2 tsp salt
+1/4 tsp black pepper
+
+Chicken:
+1 lb boneless skinless chicken breasts, cut into strips
+1 Tbsp olive oil
+1 tsp smoked paprika
+1 tsp Italian seasoning
+1/2 tsp salt
+1/4 tsp black pepper
+
+Toppings:
+1 cup shredded sharp Cheddar cheese
+1/4 cup sour cream or Greek yogurt
+3 green onions, sliced
+2 Tbsp fresh chives, chopped`,
+  instructions: `Place 1 1/2 lbs baby Yukon gold potatoes in a large pot and cover with salted water.
+
+Bring to a boil and cook for about 15 minutes, until the potatoes are fork-tender.
+
+Drain the potatoes and transfer them to a large rimmed baking sheet.
+
+Preheat oven to 425°F.
+
+Use the bottom of a sturdy glass or measuring cup to gently smash each potato to about 1/2-inch thick.
+
+In a small bowl, whisk together 3 Tbsp melted butter, 1 Tbsp olive oil, 3 cloves minced garlic, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Brush the garlic-butter mixture generously over the smashed potatoes.
+
+Roast at 425°F for 20 to 25 minutes, until deeply golden and crisp around the edges.
+
+While the potatoes roast, add 1 lb chicken strips to a bowl.
+
+Toss the chicken with 1 Tbsp olive oil, 1 tsp smoked paprika, 1 tsp Italian seasoning, 1/2 tsp salt, and 1/4 tsp black pepper.
+
+Heat a large skillet over medium-high heat.
+
+Cook the seasoned chicken for 6 to 8 minutes, stirring occasionally, until golden and cooked through to 165°F.
+
+Remove the potatoes from the oven and sprinkle 1 cup shredded sharp Cheddar cheese over the top.
+
+Turn the oven off and return the potatoes to the warm oven for about 2 minutes, until the cheese melts.
+
+Divide the cheesy smashed potatoes among 4 bowls.
+
+Top each bowl with the cooked chicken.
+
+Finish the bowls with 1/4 cup sour cream or Greek yogurt, 3 sliced green onions, and 2 Tbsp chopped fresh chives.
+
+Serve immediately while the potatoes are crisp and the cheese is melted.`,
+  translations: {
+    es: {
+      name: "Bowls de Papas Aplastadas con Mantequilla de Ajo y Pollo",
+      notes:
+        "Papas aplastadas crujientes con mantequilla de ajo sirven como base para pollo sazonado, queso Cheddar derretido, crema agria y cebollines frescos.",
+      tags: [
+        "cena",
+        "pollo",
+        "papas",
+        "bowl",
+        "comfort",
+        "alto en proteína",
+        "familiar",
+        "con queso"
+      ],
+      suggestedSides: [
+        "Brócoli Asado",
+        "Ensalada Verde Sencilla",
+        "Zanahorias Glaseadas",
+      ],
+      ingredients: `Papas Aplastadas:
+1 1/2 lbs de papas baby Yukon gold
+3 Tbsp de mantequilla, derretida
+1 Tbsp de aceite de oliva
+3 dientes de ajo, picados
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+
+Pollo:
+1 lb de pechugas de pollo sin hueso y sin piel, cortadas en tiras
+1 Tbsp de aceite de oliva
+1 tsp de paprika ahumada
+1 tsp de sazonador italiano
+1/2 tsp de sal
+1/4 tsp de pimienta negra
+
+Toppings:
+1 cup de queso Cheddar fuerte rallado
+1/4 cup de crema agria o yogur griego
+3 cebollines, en rodajas
+2 Tbsp de cebollín fresco, picado`,
+      instructions: `Coloca 1 1/2 lbs de papas baby Yukon gold en una olla grande y cúbrelas con agua con sal.
+
+Lleva a hervor y cocina durante aproximadamente 15 minutos, hasta que estén tiernas al pincharlas con un tenedor.
+
+Escurre las papas y colócalas sobre una bandeja grande para hornear.
+
+Precalienta el horno a 425°F.
+
+Usa el fondo de un vaso resistente o taza medidora para aplastar suavemente cada papa hasta aproximadamente 1/2 pulgada de grosor.
+
+Mezcla 3 Tbsp de mantequilla derretida, 1 Tbsp de aceite de oliva, 3 dientes de ajo picados, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
+
+Unta generosamente la mezcla sobre las papas aplastadas.
+
+Hornea a 425°F durante 20 a 25 minutos, hasta que estén bien doradas y crujientes en los bordes.
+
+Mientras se hornean, coloca 1 lb de tiras de pollo en un recipiente.
+
+Mezcla con 1 Tbsp de aceite de oliva, 1 tsp de paprika ahumada, 1 tsp de sazonador italiano, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
+
+Calienta una sartén grande a fuego medio-alto.
+
+Cocina el pollo durante 6 a 8 minutos, revolviendo ocasionalmente, hasta que esté dorado y alcance 165°F.
+
+Retira las papas del horno y espolvorea 1 cup de queso Cheddar rallado por encima.
+
+Apaga el horno y regresa las papas durante aproximadamente 2 minutos, hasta que el queso se derrita.
+
+Divide las papas con queso entre 4 bowls.
+
+Agrega el pollo cocido.
+
+Termina con 1/4 cup de crema agria o yogur griego, 3 cebollines en rodajas y 2 Tbsp de cebollín fresco picado.
+
+Sirve inmediatamente.`,
+    },
+  },
+},
+
+{
+  id: "quick-chili-crisp-gochujang-creamy-noodles",
+  slug: "quick-chili-crisp-gochujang-creamy-noodles",
+  name: "10-Minute Chili Crisp & Gochujang Creamy Noodles",
+  servings: 2,
+  effort: "quick",
+  photoUrl: "/images/quick-chili-crisp-gochujang-creamy-noodles.jpg",
+  tags: [
+    "dinner",
+    "noodles",
+    "ramen",
+    "korean-inspired",
+    "spicy",
+    "quick",
+    "vegetarian",
+    "comfort"
+  ],
+  isVegetarian: true,
+  suggestedSides: [
+    "Cucumber Salad",
+    "Spring Rolls",
+    "Roasted Broccoli",
+  ],
+  notes:
+    "An ultra-fast creamy noodle bowl with gochujang, chili crisp, garlic, soy sauce, and a touch of sweetness for a rich spicy-sweet sauce.",
+  ingredients: `Noodles:
+2 packs dry ramen noodles, about 7 oz total, flavor packets discarded
+1/4 cup reserved noodle water
+
+Creamy Gochujang Sauce:
+1 Tbsp butter
+2 cloves garlic, finely grated
+1 1/2 Tbsp gochujang
+1 Tbsp chili crisp or chili oil
+1 1/2 Tbsp soy sauce
+1 Tbsp honey or brown sugar
+1/3 cup heavy cream
+
+Optional Toppings:
+2 fried eggs
+2 green onions, sliced
+1 tsp toasted sesame seeds`,
+  instructions: `Bring a medium pot of water to a boil.
+
+Add 2 packs dry ramen noodles and cook according to package directions, about 3 minutes.
+
+Before draining, reserve 1/4 cup of the starchy noodle water.
+
+Drain the noodles and set aside.
+
+While the noodles cook, melt 1 Tbsp butter in a large skillet over medium-low heat.
+
+Add 2 cloves finely grated garlic, 1 1/2 Tbsp gochujang, and 1 Tbsp chili crisp.
+
+Cook for 1 minute, stirring constantly, until fragrant.
+
+Stir in 1 1/2 Tbsp soy sauce, 1 Tbsp honey or brown sugar, and 1/3 cup heavy cream.
+
+Add 1 to 2 Tbsp of the reserved noodle water and whisk for about 1 minute, until the sauce becomes smooth, glossy, and creamy.
+
+Add the drained noodles directly to the skillet.
+
+Toss continuously over low heat for about 1 minute, adding another splash of reserved noodle water if needed to loosen the sauce.
+
+Divide the creamy noodles between 2 bowls.
+
+If desired, top each bowl with 1 fried egg.
+
+Finish with 2 sliced green onions and 1 tsp toasted sesame seeds.
+
+Serve immediately while hot and creamy.`,
+  translations: {
+    es: {
+      name: "Fideos Cremosos con Chili Crisp y Gochujang en 10 Minutos",
+      notes:
+        "Un bowl de fideos ultra rápido con gochujang, chili crisp, ajo, salsa de soya y un toque dulce para crear una salsa cremosa, picante y reconfortante.",
+      tags: [
+        "cena",
+        "fideos",
+        "ramen",
+        "inspirado en Corea",
+        "picante",
+        "rápido",
+        "vegetariano",
+        "comfort"
+      ],
+      suggestedSides: [
+        "Ensalada de Pepino",
+        "Rollitos Primavera",
+        "Brócoli Asado",
+      ],
+      ingredients: `Fideos:
+2 paquetes de ramen seco, aproximadamente 7 oz en total, sin usar los sobres de condimento
+1/4 cup de agua reservada de los fideos
+
+Salsa Cremosa de Gochujang:
+1 Tbsp de mantequilla
+2 dientes de ajo, finamente rallados
+1 1/2 Tbsp de gochujang
+1 Tbsp de chili crisp o aceite de chile
+1 1/2 Tbsp de salsa de soya
+1 Tbsp de miel o azúcar morena
+1/3 cup de crema para batir
+
+Toppings Opcionales:
+2 huevos fritos
+2 cebollines, en rodajas
+1 tsp de semillas de ajonjolí tostadas`,
+      instructions: `Lleva una olla mediana con agua a hervor.
+
+Agrega 2 paquetes de ramen seco y cocina según las instrucciones del paquete, aproximadamente 3 minutos.
+
+Antes de escurrir, reserva 1/4 cup del agua con almidón de los fideos.
+
+Escurre los fideos y reserva.
+
+Mientras se cocinan los fideos, derrite 1 Tbsp de mantequilla en una sartén grande a fuego medio-bajo.
+
+Agrega 2 dientes de ajo finamente rallados, 1 1/2 Tbsp de gochujang y 1 Tbsp de chili crisp.
+
+Cocina durante 1 minuto, revolviendo constantemente, hasta que esté fragante.
+
+Agrega 1 1/2 Tbsp de salsa de soya, 1 Tbsp de miel o azúcar morena y 1/3 cup de crema para batir.
+
+Agrega 1 a 2 Tbsp del agua reservada y bate durante aproximadamente 1 minuto, hasta formar una salsa suave, brillante y cremosa.
+
+Agrega los fideos escurridos directamente a la sartén.
+
+Mezcla continuamente a fuego bajo durante aproximadamente 1 minuto, agregando un poco más del agua reservada si la salsa necesita aflojarse.
+
+Divide los fideos cremosos entre 2 bowls.
+
+Si deseas, coloca 1 huevo frito sobre cada bowl.
+
+Termina con 2 cebollines en rodajas y 1 tsp de semillas de ajonjolí tostadas.
+
+Sirve inmediatamente mientras estén calientes y cremosos.`,
+    },
+  },
+},
+
 
 ];
 
@@ -10383,6 +12313,121 @@ Retira cuidadosamente el pudgie pie y deja enfriar de 1 a 2 minutos antes de ser
 export const SIDE_DISHES: Meal[] = [
 
   {
+  id: "normal-dolly-inspired-cast-iron-buttermilk-cornbread",
+  slug: "normal-dolly-inspired-cast-iron-buttermilk-cornbread",
+  name: "Dolly-Inspired Cast-Iron Skillet Buttermilk Cornbread",
+  servings: 8,
+  effort: "normal",
+  photoUrl: "/images/normal-dolly-inspired-cast-iron-buttermilk-cornbread.jpg",
+  tags: [
+    "side",
+    "bread",
+    "cornbread",
+    "southern",
+    "appalachian",
+    "cast-iron",
+    "family-friendly",
+    "comfort"
+  ],
+  isVegetarian: true,
+  suggestedSides: [
+    "Garlic Green Beans",
+    "Creamy Mashed Potatoes",
+    "Coleslaw",
+  ],
+  notes:
+    "A Simple Dinners tribute to classic Southern skillet cornbread, baked in a hot cast-iron skillet with buttermilk and bacon drippings for a crisp golden crust and tender center.",
+  ingredients: `Cornbread:
+1 1/2 cups yellow cornmeal
+1/2 cup all-purpose flour
+1 Tbsp baking powder
+1 tsp salt
+1/2 tsp baking soda
+2 large eggs
+1 1/2 cups buttermilk
+4 Tbsp unsalted butter, melted
+
+Skillet:
+2 Tbsp bacon drippings or butter`,
+  instructions: `Preheat oven to 425°F.
+
+Place a 10-inch cast-iron skillet in the oven while it preheats.
+
+In a large bowl, whisk together 1 1/2 cups yellow cornmeal, 1/2 cup flour, 1 Tbsp baking powder, 1 tsp salt, and 1/2 tsp baking soda.
+
+In a separate bowl, whisk together 2 large eggs, 1 1/2 cups buttermilk, and 4 Tbsp melted butter.
+
+Pour the wet ingredients into the dry ingredients and stir just until combined. Do not overmix.
+
+Carefully remove the hot cast-iron skillet from the oven.
+
+Add 2 Tbsp bacon drippings or butter to the hot skillet and swirl to coat the bottom and sides.
+
+Immediately pour the cornbread batter into the hot skillet. The batter should sizzle around the edges.
+
+Return the skillet to the oven and bake for 20 to 24 minutes, until the top is golden brown and a toothpick inserted into the center comes out clean.
+
+Remove the skillet from the oven and let the cornbread rest for 5 to 10 minutes.
+
+Slice into wedges and serve warm.`,
+  translations: {
+    es: {
+      name: "Pan de Maíz con Buttermilk en Sartén de Hierro Inspirado en Dolly",
+      notes:
+        "Un homenaje de Simple Dinners al clásico pan de maíz sureño preparado en una sartén de hierro caliente con buttermilk y grasa de tocino para lograr una corteza dorada y crujiente con un centro tierno.",
+      tags: [
+        "acompañamiento",
+        "pan",
+        "pan de maíz",
+        "sureño",
+        "apalache",
+        "sartén de hierro",
+        "familiar",
+        "comfort"
+      ],
+      suggestedSides: [
+        "Ejotes con Ajo",
+        "Puré de Papas Cremoso",
+        "Ensalada de Col",
+      ],
+      ingredients: `Pan de Maíz:
+1 1/2 cups de harina de maíz amarilla
+1/2 cup de harina
+1 Tbsp de polvo para hornear
+1 tsp de sal
+1/2 tsp de bicarbonato de sodio
+2 huevos grandes
+1 1/2 cups de buttermilk
+4 Tbsp de mantequilla sin sal, derretida
+
+Sartén:
+2 Tbsp de grasa de tocino o mantequilla`,
+      instructions: `Precalienta el horno a 425°F.
+
+Coloca una sartén de hierro fundido de 10 pulgadas dentro del horno mientras se precalienta.
+
+En un recipiente grande, mezcla 1 1/2 cups de harina de maíz amarilla, 1/2 cup de harina, 1 Tbsp de polvo para hornear, 1 tsp de sal y 1/2 tsp de bicarbonato de sodio.
+
+En otro recipiente, bate 2 huevos grandes, 1 1/2 cups de buttermilk y 4 Tbsp de mantequilla derretida.
+
+Vierte los ingredientes líquidos sobre los ingredientes secos y mezcla solo hasta que estén combinados. No mezcles demasiado.
+
+Retira cuidadosamente la sartén caliente del horno.
+
+Agrega 2 Tbsp de grasa de tocino o mantequilla y mueve la sartén para cubrir el fondo y los lados.
+
+Vierte inmediatamente la masa del pan de maíz en la sartén caliente. La masa debe chisporrotear alrededor de los bordes.
+
+Regresa la sartén al horno y hornea durante 20 a 24 minutos, hasta que la superficie esté dorada y un palillo insertado en el centro salga limpio.
+
+Retira la sartén del horno y deja reposar el pan de maíz durante 5 a 10 minutos.
+
+Corta en porciones y sirve caliente.`,
+    },
+  },
+},
+
+{
     id: "big-smoked-mac-and-cheese",
     slug: "big-smoked-mac-and-cheese",
     name: "Smoked Mac and Cheese",
@@ -15471,6 +17516,318 @@ Sirve inmediatamente con gajos de limón para exprimir encima.`,
 export const DESSERTS: Meal[] = [
 
   {
+  id: "big-dollywood-inspired-cinnamon-bread",
+  slug: "big-dollywood-inspired-cinnamon-bread",
+  name: "Dollywood-Inspired Cinnamon Bread",
+  servings: 8,
+  effort: "big",
+  photoUrl: "/images/big-dollywood-inspired-cinnamon-bread.jpg",
+  tags: [
+    "dessert",
+    "bread",
+    "cinnamon",
+    "southern",
+    "tennessee",
+    "baking",
+    "family-friendly",
+    "sweet"
+  ],
+  isVegetarian: true,
+  suggestedSides: [
+    "Fresh Strawberries",
+    "Apple Slices",
+    "Fruit Salad",
+  ],
+  notes:
+    "A Simple Dinners tribute inspired by the famous cinnamon bread enjoyed at Dollywood, with a soft pull-apart loaf coated in melted butter and cinnamon sugar and finished with a sweet vanilla glaze. This is an original inspired recipe and is not the official Dollywood recipe.",
+  ingredients: `Dough:
+3 1/4 cups all-purpose flour
+2 1/4 tsp active dry yeast
+1/4 cup granulated sugar
+1 tsp salt
+3/4 cup whole milk, warmed
+1/4 cup warm water
+4 Tbsp unsalted butter, melted
+1 large egg
+
+Cinnamon Sugar Coating:
+6 Tbsp unsalted butter, melted
+3/4 cup granulated sugar
+2 Tbsp ground cinnamon
+
+Vanilla Glaze:
+1 cup powdered sugar
+2 Tbsp whole milk
+1/2 tsp vanilla extract`,
+  instructions: `In a large bowl, combine 2 1/4 tsp active dry yeast, 1/4 cup warm water, and 1 tsp of the 1/4 cup granulated sugar. Let stand for 5 to 10 minutes, until foamy.
+
+Add the remaining granulated sugar, 3/4 cup warm whole milk, 4 Tbsp melted butter, 1 large egg, and 1 tsp salt to the yeast mixture. Stir until combined.
+
+Add 3 1/4 cups all-purpose flour gradually, mixing until a soft dough forms.
+
+Turn the dough onto a lightly floured surface and knead for 6 to 8 minutes, until smooth and elastic. Add a small amount of flour if needed to prevent sticking, but keep the dough soft.
+
+Place the dough in a lightly greased bowl, cover with a clean kitchen towel, and let rise in a warm place for 60 to 90 minutes, until doubled in size.
+
+Lightly grease a 9x5-inch loaf pan.
+
+Punch down the risen dough and shape it into a loaf approximately the length of the prepared pan.
+
+Using a sharp knife, cut 4 deep slashes across the top of the loaf, cutting most of the way through without separating the loaf into pieces.
+
+Pour 6 Tbsp melted butter over the loaf, working some of the butter down into the cuts.
+
+In a small bowl, mix 3/4 cup granulated sugar with 2 Tbsp ground cinnamon.
+
+Coat the loaf generously with the cinnamon-sugar mixture, pressing the mixture over the top, sides, and into the cuts.
+
+Place the coated loaf into the prepared pan, cover loosely, and let rise for another 30 to 40 minutes.
+
+Preheat oven to 350°F while the loaf finishes rising.
+
+Bake for 30 to 35 minutes, until deeply golden brown and the center of the bread reaches about 190°F.
+
+Let the cinnamon bread cool in the pan for 10 minutes.
+
+While the bread cools, whisk together 1 cup powdered sugar, 2 Tbsp whole milk, and 1/2 tsp vanilla extract until smooth.
+
+Transfer the warm bread to a serving plate and drizzle the vanilla glaze generously over the top.
+
+Serve warm by pulling apart the cinnamon-coated sections or slicing into thick pieces.`,
+  translations: {
+    es: {
+      name: "Pan de Canela Inspirado en Dollywood",
+      notes:
+        "Un homenaje de Simple Dinners inspirado en el famoso pan de canela que se disfruta en Dollywood, con un pan suave para compartir cubierto de mantequilla derretida y azúcar con canela, terminado con un dulce glaseado de vainilla. Esta es una receta original inspirada en el clásico y no es la receta oficial de Dollywood.",
+      tags: [
+        "postre",
+        "pan",
+        "canela",
+        "sureño",
+        "tennessee",
+        "horneado",
+        "familiar",
+        "dulce"
+      ],
+      suggestedSides: [
+        "Fresas Frescas",
+        "Rebanadas de Manzana",
+        "Ensalada de Frutas",
+      ],
+      ingredients: `Masa:
+3 1/4 cups de harina
+2 1/4 tsp de levadura seca activa
+1/4 cup de azúcar granulada
+1 tsp de sal
+3/4 cup de leche entera, tibia
+1/4 cup de agua tibia
+4 Tbsp de mantequilla sin sal, derretida
+1 huevo grande
+
+Cubierta de Azúcar y Canela:
+6 Tbsp de mantequilla sin sal, derretida
+3/4 cup de azúcar granulada
+2 Tbsp de canela molida
+
+Glaseado de Vainilla:
+1 cup de azúcar en polvo
+2 Tbsp de leche entera
+1/2 tsp de extracto de vainilla`,
+      instructions: `En un recipiente grande, combina 2 1/4 tsp de levadura seca activa, 1/4 cup de agua tibia y 1 tsp del 1/4 cup de azúcar granulada. Deja reposar durante 5 a 10 minutos, hasta que la mezcla esté espumosa.
+
+Agrega el resto del azúcar granulada, 3/4 cup de leche entera tibia, 4 Tbsp de mantequilla derretida, 1 huevo grande y 1 tsp de sal. Mezcla hasta combinar.
+
+Agrega gradualmente 3 1/4 cups de harina y mezcla hasta formar una masa suave.
+
+Coloca la masa sobre una superficie ligeramente enharinada y amasa durante 6 a 8 minutos, hasta que esté suave y elástica. Agrega una pequeña cantidad de harina si es necesario para evitar que se pegue, pero mantén la masa suave.
+
+Coloca la masa en un recipiente ligeramente engrasado, cubre con una toalla limpia y deja crecer en un lugar cálido durante 60 a 90 minutos, hasta que duplique su tamaño.
+
+Engrasa ligeramente un molde para pan de 9x5 pulgadas.
+
+Presiona suavemente la masa para sacar el aire y forma un pan aproximadamente del largo del molde preparado.
+
+Con un cuchillo afilado, haz 4 cortes profundos a lo ancho de la parte superior, cortando casi hasta el fondo sin separar completamente el pan.
+
+Vierte 6 Tbsp de mantequilla derretida sobre el pan, dejando que parte de la mantequilla entre en los cortes.
+
+En un recipiente pequeño, mezcla 3/4 cup de azúcar granulada con 2 Tbsp de canela molida.
+
+Cubre generosamente el pan con la mezcla de azúcar y canela, presionándola sobre la superficie, los lados y dentro de los cortes.
+
+Coloca el pan en el molde preparado, cubre ligeramente y deja crecer durante otros 30 a 40 minutos.
+
+Precalienta el horno a 350°F mientras el pan termina de crecer.
+
+Hornea durante 30 a 35 minutos, hasta que esté bien dorado y el centro del pan alcance aproximadamente 190°F.
+
+Deja enfriar el pan en el molde durante 10 minutos.
+
+Mientras se enfría, mezcla 1 cup de azúcar en polvo, 2 Tbsp de leche entera y 1/2 tsp de extracto de vainilla hasta obtener un glaseado suave.
+
+Transfiere el pan tibio a un plato y vierte generosamente el glaseado de vainilla por encima.
+
+Sirve caliente separando las secciones cubiertas de canela o cortándolo en rebanadas gruesas.`,
+    },
+  },
+},
+
+{
+  id: "normal-dolly-inspired-mama-avie-lees-banana-pudding",
+  slug: "normal-dolly-inspired-mama-avie-lees-banana-pudding",
+  name: "Dolly-Inspired Mama Avie Lee's Banana Pudding",
+  servings: 8,
+  effort: "normal",
+  photoUrl: "/images/normal-dolly-inspired-mama-avie-lees-banana-pudding.jpg",
+  tags: [
+    "dessert",
+    "banana",
+    "pudding",
+    "southern",
+    "appalachian",
+    "family-friendly",
+    "comfort",
+    "homestyle"
+  ],
+  isVegetarian: true,
+  suggestedSides: [
+    "Fresh Strawberries",
+    "Apple Slices",
+    "Fruit Salad",
+  ],
+  notes:
+    "A Simple Dinners tribute inspired by the banana pudding associated with Dolly Parton's family table, layered with vanilla wafers, fresh bananas, rich homemade vanilla custard, and a softly toasted meringue.",
+  ingredients: `Banana Pudding:
+1 (11 oz) box vanilla wafers
+4 ripe bananas, sliced
+
+Vanilla Custard:
+3/4 cup granulated sugar
+1/3 cup all-purpose flour
+1/4 tsp salt
+4 large egg yolks
+3 cups whole milk
+2 Tbsp unsalted butter
+2 tsp vanilla extract
+
+Meringue:
+4 large egg whites
+1/4 tsp cream of tartar
+1/3 cup granulated sugar
+1/2 tsp vanilla extract`,
+  instructions: `Preheat oven to 350°F.
+
+Arrange a layer of vanilla wafers across the bottom of a 2-quart baking dish.
+
+Top the wafers with a layer of sliced bananas using about half of the 4 ripe bananas.
+
+Add another layer of vanilla wafers, followed by the remaining sliced bananas. Set the dish aside while you prepare the custard.
+
+In a medium saucepan, whisk together 3/4 cup granulated sugar, 1/3 cup flour, and 1/4 tsp salt.
+
+In a separate bowl, whisk together 4 large egg yolks and 3 cups whole milk until smooth.
+
+Slowly pour the milk mixture into the saucepan while whisking continuously.
+
+Cook over medium heat for 8 to 10 minutes, whisking frequently, until the custard thickens enough to coat the back of a spoon.
+
+Remove the saucepan from the heat and stir in 2 Tbsp unsalted butter and 2 tsp vanilla extract until smooth.
+
+Pour the warm vanilla custard evenly over the layered bananas and vanilla wafers, making sure the custard reaches the edges of the baking dish.
+
+In a clean mixing bowl, beat 4 large egg whites with 1/4 tsp cream of tartar on medium-high speed until soft peaks form.
+
+Gradually add 1/3 cup granulated sugar, a little at a time, while continuing to beat the egg whites.
+
+Add 1/2 tsp vanilla extract and continue beating until the meringue forms glossy stiff peaks.
+
+Spread the meringue over the warm pudding, making sure it reaches all the way to the edges of the baking dish to seal the surface.
+
+Use the back of a spoon to create soft peaks across the top of the meringue.
+
+Bake at 350°F for 10 to 12 minutes, until the meringue is lightly golden brown.
+
+Remove the banana pudding from the oven and let cool for about 30 minutes.
+
+Serve slightly warm for a traditional Southern-style pudding, or refrigerate for at least 2 hours and serve chilled.`,
+  translations: {
+    es: {
+      name: "Pudín de Plátano de Mama Avie Lee Inspirado en Dolly",
+      notes:
+        "Un homenaje de Simple Dinners inspirado en el pudín de plátano asociado con la mesa familiar de Dolly Parton, preparado con galletas de vainilla, plátanos frescos, una rica crema de vainilla casera y merengue ligeramente tostado.",
+      tags: [
+        "postre",
+        "plátano",
+        "pudín",
+        "sureño",
+        "apalache",
+        "familiar",
+        "comfort",
+        "casero"
+      ],
+      suggestedSides: [
+        "Fresas Frescas",
+        "Rebanadas de Manzana",
+        "Ensalada de Frutas",
+      ],
+      ingredients: `Pudín de Plátano:
+1 caja (11 oz) de galletas de vainilla
+4 plátanos maduros, cortados en rodajas
+
+Crema de Vainilla:
+3/4 cup de azúcar granulada
+1/3 cup de harina
+1/4 tsp de sal
+4 yemas de huevo grandes
+3 cups de leche entera
+2 Tbsp de mantequilla sin sal
+2 tsp de extracto de vainilla
+
+Merengue:
+4 claras de huevo grandes
+1/4 tsp de cremor tártaro
+1/3 cup de azúcar granulada
+1/2 tsp de extracto de vainilla`,
+      instructions: `Precalienta el horno a 350°F.
+
+Coloca una capa de galletas de vainilla en el fondo de un molde para hornear de aproximadamente 2 cuartos.
+
+Cubre las galletas con una capa de plátano usando aproximadamente la mitad de los 4 plátanos maduros.
+
+Agrega otra capa de galletas de vainilla y después el resto de las rodajas de plátano. Reserva mientras preparas la crema.
+
+En una cacerola mediana, mezcla 3/4 cup de azúcar granulada, 1/3 cup de harina y 1/4 tsp de sal.
+
+En otro recipiente, bate 4 yemas de huevo grandes con 3 cups de leche entera hasta obtener una mezcla suave.
+
+Vierte lentamente la mezcla de leche en la cacerola mientras bates continuamente.
+
+Cocina a fuego medio durante 8 a 10 minutos, batiendo frecuentemente, hasta que la crema espese lo suficiente para cubrir el dorso de una cuchara.
+
+Retira la cacerola del fuego y agrega 2 Tbsp de mantequilla sin sal y 2 tsp de extracto de vainilla. Mezcla hasta que esté suave.
+
+Vierte la crema de vainilla caliente uniformemente sobre las capas de plátano y galletas, asegurándote de que llegue hasta los bordes del molde.
+
+En un recipiente limpio, bate 4 claras de huevo con 1/4 tsp de cremor tártaro a velocidad media-alta hasta formar picos suaves.
+
+Agrega gradualmente 1/3 cup de azúcar granulada mientras continúas batiendo.
+
+Agrega 1/2 tsp de extracto de vainilla y continúa batiendo hasta que el merengue forme picos firmes y brillantes.
+
+Distribuye el merengue sobre el pudín caliente, asegurándote de extenderlo completamente hasta los bordes del molde.
+
+Usa la parte posterior de una cuchara para formar pequeños picos sobre la superficie del merengue.
+
+Hornea a 350°F durante 10 a 12 minutos, hasta que el merengue esté ligeramente dorado.
+
+Retira el pudín de plátano del horno y deja enfriar durante aproximadamente 30 minutos.
+
+Sirve ligeramente tibio para un estilo sureño tradicional, o refrigera durante al menos 2 horas y sírvelo frío.`,
+    },
+  },
+},
+
+{
     id: "quick-blueberry-cheesecake-crescent-rolls",
     slug: "quick-blueberry-cheesecake-crescent-rolls",
     name: "Blueberry Cheesecake Crescent Rolls",
