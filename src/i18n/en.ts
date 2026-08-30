@@ -297,6 +297,7 @@ export const en = {
     produce: "Produce",
     meatSeafood: "Meat / Seafood",
     dairyEggs: "Dairy / Eggs",
+    deliRefrigerated: "Deli / Refrigerated",
     bakery: "Bakery",
     pantry: "Pantry",
     frozen: "Frozen",

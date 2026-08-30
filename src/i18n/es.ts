@@ -304,6 +304,7 @@ export const es = {
     produce: "Verduras / Frutas",
     meatSeafood: "Carne / Mariscos",
     dairyEggs: "Lácteos / Huevos",
+    deliRefrigerated: "Deli / Refrigerados",
     bakery: "Panadería",
     pantry: "Despensa",
     frozen: "Congelados",

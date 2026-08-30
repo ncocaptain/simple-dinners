@@ -141,6 +141,7 @@ const COUNTABLE_BASE_WORDS = new Set([
   "jalapeno",
   "jalapeño",
   "clove",
+  "lobster tail",
   "green bell pepper",
   "red bell pepper",
   "yellow bell pepper",
@@ -179,11 +180,17 @@ const COUNTABLE_PHRASES: Record<string, string> = {
   drumsticks: "drumstick",
   porkchops: "porkchop",
   "pork chops": "pork chop",
+  "tilapia fillets": "tilapia fillet",
+  "lobster tails": "lobster tail",
   "hamburger buns": "hamburger bun",
   "hot dog buns": "hot dog bun",
   "green bell peppers": "green bell pepper",
   "red bell peppers": "red bell pepper",
   "yellow bell peppers": "yellow bell pepper",
+  "fresno peppers": "fresno pepper",
+  "habanero peppers": "habanero pepper",
+  "sea scallops": "sea scallop",
+  scallions: "scallion",
   "bell peppers": "bell pepper",
 };
 
@@ -225,7 +232,25 @@ const HIDE_MEASURED_TOTALS = new Set([
   "italian seasoning",
   "cumin",
   "chili powder",
+  "ancho chili powder",
   "oregano",
+  "cornmeal",
+  "cornstarch",
+  "brown sugar",
+  "fresh ginger",
+  "sweet potato cubes",
+  "baby carrot",
+  "celery",
+  "yukon gold potatoes",
+  "shredded lettuce",
+  "orange juice",
+  "heavy cream",
+  "colby jack cheese",
+  "colby jack cheese, shredded",
+  "seafood broth",
+  "chicken broth",
+  "beef broth",
+  "chicken stock",
   "simple syrup",
 ]);
 
@@ -239,6 +264,10 @@ const FORCE_COUNTABLE_RECIPE_ITEMS = new Set([
   "drumstick",
   "pork chop",
   "porkchop",
+  "chuck roast",
+  "lobster tail",
+  "salmon fillet",
+  "shallot",
   "garlic",
 ]);
 
@@ -248,6 +277,8 @@ const SMART_SHOPPING_FORCE_COUNTABLE_ITEMS = new Set([
   "red bell pepper",
   "yellow bell pepper",
   "orange bell pepper",
+  "fresno pepper",
+  "habanero pepper",
 ]);
 
 const MERGE_AS_SINGLE_SPICES = new Set([
@@ -255,13 +286,19 @@ const MERGE_AS_SINGLE_SPICES = new Set([
   "black pepper",
   "paprika",
   "cumin",
+  "turmeric",
+  "curcuma",
+  "cúrcuma",
   "chili powder",
+  "ancho chili powder",
   "oregano",
   "garlic powder",
   "onion powder",
   "italian seasoning",
   "red pepper flakes",
   "cayenne pepper",
+  "bbq rub",
+  "barbecue rub",
   "seasoning",
 ]);
 
@@ -376,6 +413,10 @@ function formatDisplayName(name: string) {
 
   if (!cleaned) return "";
 
+  if (getStoredLanguage() !== "es" && cleaned.toLowerCase() === "baby carrot") {
+    return "Baby Carrots";
+  }
+
   if (getStoredLanguage() === "es") {
     const lower = cleaned.toLowerCase();
 
@@ -415,6 +456,7 @@ function normalizeUnit(unit: string | null): string | null {
   if (["carton", "cartons"].includes(u)) return "carton";
   if (["bag", "bags"].includes(u)) return "bag";
   if (["bunch", "bunches"].includes(u)) return "bunch";
+  if (["head", "heads"].includes(u)) return "head";
   if (["strip", "strips"].includes(u)) return "strip";
   if (["tube", "tubes"].includes(u)) return "tube";
   if (["packet", "packets"].includes(u)) return "packet";
@@ -544,7 +586,7 @@ function pluralizeCountable(name: string, quantity: number): string {
 // =====================================================
 const SECTION_HEADER_PATTERNS = [
   /seasoning:?$/,
-  /sauce:?$/,
+  /^sauce:?$/,
   /glaze:?$/,
   /topping:?$/,
   /toppings:?$/,
@@ -639,6 +681,10 @@ function normalizePantryAndSeasonings(text: string) {
   }
 
   return text
+    .replace(/\bbarbecue sauce\b/gi, "bbq sauce")
+    .replace(/\bcrushed red pepper\b/gi, "red pepper flakes")
+    .replace(/\bcorn starch\b/gi, "cornstarch")
+    .replace(/\bcornstarch\s+mixed\s+with\b.*$/gi, "cornstarch")
     // Recipe amounts such as "a pinch of" are not useful
     // as the shopper-facing ingredient identity.
     .replace(/^(?:a\s+)?pinch(?:\s+of)?\s+/g, "")
@@ -662,6 +708,10 @@ function normalizePantryAndSeasonings(text: string) {
     .replace(/\bfreshly cracked black pepper\b/g, "black pepper")
 
 
+    // Normalize jalapeno before the plain-pepper fallback so it cannot
+    // become "jalapeno black pepper".
+    .replace(/\bjalapeno pepper\b/g, "jalapeno")
+
     // safe fallback: plain "pepper" becomes black pepper, but real peppers stay real peppers
     .replace(/\bpepper\b/g, (match, offset, full) => {
       const before = full.slice(0, offset).trimEnd();
@@ -673,6 +723,9 @@ function normalizePantryAndSeasonings(text: string) {
         before.endsWith("red") ||
         before.endsWith("green") ||
         before.endsWith("yellow") ||
+        before.endsWith("poblano") ||
+        before.endsWith("fresno") ||
+        before.endsWith("habanero") ||
         after.startsWith("flakes")
       ) {
         return match;
@@ -682,7 +735,6 @@ function normalizePantryAndSeasonings(text: string) {
     })
 
     .replace(/\bblack black pepper\b/g, "black pepper")
-    .replace(/\bjalapeno pepper\b/g, "jalapeno")
     .replace(/\bonion powders?\b/g, "onion powder")
     .replace(/\bgarlic powders?\b/g, "garlic powder")
     .replace(/\bsmoked paprika\b/g, "paprika")
@@ -714,9 +766,12 @@ function normalizeProduce(text: string) {
     .replace(/\bmint leaves?\b/g, "mint")
     .replace(/\bmint sprigs?\b/g, "mint")
     .replace(/\bcilantro leaves?\b/g, "cilantro")
+    .replace(/\bextra parsley\b/g, "parsley")
     .replace(/\bparsley leaves?\b/g, "parsley")
     .replace(/\bjalapeños?\b/g, "jalapeno")
     .replace(/\bjalapenos?\b/g, "jalapeno")
+    .replace(/\bfresno peppers?\b/g, "fresno pepper")
+    .replace(/\bhabanero peppers?\b/g, "habanero pepper")
     .replace(/\bjalapeno peppers?\b/g, "jalapeno")
     .replace(/\bcoleslaw mix\b/g, "coleslaw mix");
 }
@@ -733,9 +788,8 @@ function normalizeProteinsAndBakery(text: string) {
     .replace(/\bdrumsticks?\b/g, "drumstick")
     .replace(/\bpork chops?\b/g, "pork chop")
     .replace(/\bbone-in pork chops?\b/g, "pork chop")
-    .replace(/\bsalmon fillets?\b/g, "salmon")
-    .replace(/\bsalmon filet\b/g, "salmon")
-    .replace(/\bsalmon filets\b/g, "salmon");
+    .replace(/\bsalmon fillets?\b/g, "salmon fillet")
+    .replace(/\bsalmon filets?\b/g, "salmon fillet");
 }
 
 function normalizeDairyAndCheese(text: string) {
@@ -787,9 +841,11 @@ function removePrepWords(text: string) {
   // item, while "sliced onion" is just prep wording.
   const keepSlicedCheese =
     /\bsliced cheese\b/i.test(next) || /\bcheese slices?\b/i.test(next);
+  const keepShreddedLettuce = /\bshredded lettuce\b/i.test(next);
 
   PREP_WORDS.forEach((word) => {
     if (word === "sliced" && keepSlicedCheese) return;
+    if (word === "shredded" && keepShreddedLettuce) return;
 
     const regex = new RegExp(`\\b${word}\\b`, "g");
     next = next.replace(regex, " ");
@@ -801,6 +857,11 @@ function removePrepWords(text: string) {
 function removeNonShoppingItems(text: string) {
   let next = text;
   const cleaned = cleanupSpacing(next);
+
+  // Reserved pasta water is a cooking instruction, not something to buy.
+  if (cleaned === "pasta water" || cleaned === "reserved pasta water") {
+    return "";
+  }
 
   if (cleaned === "ice" || cleaned === "crushed ice") {
     next = "";
@@ -1095,7 +1156,16 @@ function cleanIngredientName(line: string) {
     .replace(/\bwooden or metal skewers?\b/g, "skewers")
     .replace(/\bmetal or wooden skewers?\b/g, "skewers")
     .replace(/\bwooden skewers?\b/g, "wooden skewers")
-    .replace(/\bmetal skewers?\b/g, "metal skewers");
+    .replace(/\bmetal skewers?\b/g, "metal skewers")
+    .replace(/\bflank steak or skirt steak\b/g, "flank steak")
+    .replace(/\bskirt steak or flank steak\b/g, "skirt steak")
+    .replace(/\bmozzarella or provolone cheese\b/g, "mozzarella cheese")
+    .replace(/\bprovolone or mozzarella cheese\b/g, "provolone cheese")
+    .replace(/\b(?:small\s+)?burger buns? or english muffin halves\b/g, "burger bun")
+    .replace(/\benglish muffin halves or (?:small\s+)?burger buns?\b/g, "english muffin")
+    .replace(/\bchicken broth or water\b/g, "chicken broth")
+    .replace(/\btaco sauce or salsa\b/g, "taco sauce")
+    .replace(/\bsalsa or taco sauce\b/g, "salsa");
   text = text.replace(/^(and|or|with)\s+/g, "").trim();
 
   if (isSectionHeader(text)) return "";
@@ -1144,7 +1214,7 @@ function cleanIngredientName(line: string) {
 // Keeps details like "14.5 oz" for canned/boxed goods
 // =====================================================
 function normalizePackageSize(value: string | null | undefined) {
-  return String(value || "")
+  const normalized = String(value || "")
     .toLowerCase()
     .replace(/\s+/g, " ")
     .trim()
@@ -1154,6 +1224,15 @@ function normalizePackageSize(value: string | null | undefined) {
     .replace(/\blbs?\b/g, "lb")
     .replace(/\s+/g, " ")
     .trim();
+
+  if (!normalized) return "";
+
+  const hasRealSize =
+    /\b(?:\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:oz|lb|g|kg|ml|l)\b/i.test(
+      normalized
+    );
+
+  return hasRealSize ? normalized : "";
 }
 
 function getOzFromPackageSize(value?: string) {
@@ -1209,7 +1288,8 @@ function parseIngredient(line: string): ParsedIngredient {
 
   const raw = originalRaw
     .replace(/\([^)]*\)/g, " ")
-    .replace(/\s+/g, " ");
+    .replace(/\s+/g, " ")
+    .replace(/^\s*about\s+/i, "");
 
   // Recipe wording such as "juice of 1 lemon" should become
   // a practical countable grocery item: "1 Lemon".
@@ -1233,7 +1313,7 @@ function parseIngredient(line: string): ParsedIngredient {
   }
 
   const measuredRangeMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:-|–|to)\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|box|boxes|clove|cloves|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices)\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:-|–|to)\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|box|boxes|clove|cloves|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices|head|heads)\s+(.*)$/i
   );
 
   if (measuredRangeMatch) {
@@ -1270,7 +1350,7 @@ function parseIngredient(line: string): ParsedIngredient {
   }
 
   const measuredMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices)\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices|head|heads)\s+(.*)$/i
   );
 
   if (measuredMatch) {
@@ -1373,6 +1453,7 @@ function shouldHideMainRowAmount(name: string, unit: string | null) {
       "packet",
       "strip",
       "slice",
+      "head",
     ].includes(unit)
   ) {
     return false;
@@ -1382,6 +1463,9 @@ function shouldHideMainRowAmount(name: string, unit: string | null) {
     "butter",
     "cheddar cheese",
     "mozzarella cheese",
+    "mexican blend cheese",
+    "mexican cheese blend",
+    "shredded mexican cheese blend",
     "parmesan cheese",
     "monterey jack cheese",
     "blue cheese crumbles",
@@ -1449,6 +1533,7 @@ function shouldShowMeasuredTotal(
       "packet",
       "strip",
       "slice",
+      "head",
     ].includes(unit)
   ) {
     return true;
@@ -1483,7 +1568,11 @@ function isRealPepperProduce(cleaned: string) {
     cleaned.includes("green bell pepper") ||
     cleaned.includes("poblano") ||
     cleaned.includes("jalapeno") ||
-    cleaned.includes("jalapeño")
+    cleaned.includes("jalapeño") ||
+    cleaned.includes("fresno pepper") ||
+    cleaned.includes("habanero pepper") ||
+    cleaned.includes("fresno chile") ||
+    cleaned.includes("chile fresno")
   );
 }
 
@@ -1528,9 +1617,6 @@ function isPreparedProduceSide(cleaned: string) {
     cleaned.includes("mexican street corn") ||
     cleaned.includes("ears corn") ||
     cleaned.includes("ear corn") ||
-    cleaned === "guacamole" ||
-    cleaned === "fresh guacamole" ||
-    cleaned === "prepared guacamole" ||
     cleaned === "potato" ||
     cleaned.includes("roasted potatoes") ||
     cleaned.includes("mashed potatoes") ||
@@ -1549,7 +1635,6 @@ function isPreparedPantrySide(cleaned: string) {
     cleaned.includes("molasses") ||
     cleaned.includes("ketchup") ||
     cleaned.includes("mustard") ||
-    cleaned.includes("hummus") ||
     cleaned.includes("salsa") ||
     cleaned.includes("rice pilaf") ||
     cleaned.includes("cilantro lime rice") ||
@@ -1591,6 +1676,7 @@ function isPreparedFrozenSide(cleaned: string) {
 function isSalsaPantryItem(cleaned: string) {
   return (
     cleaned === "salsa" ||
+    cleaned === "taco sauce" ||
     cleaned.includes("jar salsa") ||
     cleaned.includes("salsa verde") ||
     cleaned.includes("chips and salsa")
@@ -1628,6 +1714,7 @@ function isPastaOrCrumbPantryItem(cleaned: string) {
     cleaned.includes("breadcrumbs") ||
     cleaned.includes("bread crumbs") ||
     cleaned.includes("cracker crumbs") ||
+    cleaned.includes("grits") ||
     cleaned.includes("lasagna noodles") ||
     cleaned.includes("egg noodles") ||
     cleaned.includes("noodles") ||
@@ -1640,6 +1727,10 @@ function isCondimentOilOrVinegarPantryItem(cleaned: string) {
     cleaned.includes("dijon mustard") ||
     cleaned.includes("mustard") ||
     cleaned.includes("ketchup") ||
+    cleaned.includes("hot sauce") ||
+    cleaned === "buffalo sauce" ||
+    cleaned === "bbq sauce" ||
+    cleaned === "barbecue sauce" ||
     cleaned.includes("honey") ||
     cleaned.includes("sesame oil") ||
     cleaned.includes("toasted sesame oil") ||
@@ -1820,6 +1911,7 @@ function resolveShoppingCategory(name: string): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
   // Explicit protections before broad pantry/spice fallbacks.
   if (
+    cleaned === "chuck roast" ||
     cleaned.includes("smoked sausage") ||
     cleaned.includes("pepperoni")
   ) {
@@ -1887,6 +1979,7 @@ function resolveShoppingCategoryForItem(
   const cleaned = cleanIngredientName(name).toLowerCase();
   // Explicit protections before broad pantry/spice fallbacks.
   if (
+    cleaned === "chuck roast" ||
     cleaned.includes("smoked sausage") ||
     cleaned.includes("pepperoni")
   ) {
@@ -1896,6 +1989,12 @@ function resolveShoppingCategoryForItem(
   if (cleaned === "msg" || cleaned.includes("monosodium glutamate")) {
     return "Spices / Seasonings";
   }
+
+  // Tortilla chips are a packaged pantry/snack item, not bakery tortillas.
+  if (cleaned.includes("tortilla chips")) {
+    return "Pantry";
+  }
+
   // Bakery items must win before the broad packaged-item Pantry fallback.
   // Bakery items must win before broad packaged-item or meat rules.
   if (
@@ -1922,6 +2021,11 @@ function resolveShoppingCategoryForItem(
     cleaned.includes("shredded coleslaw")
   ) {
     return "Produce";
+  }
+
+  // Bacon stays Meat / Seafood even when recipes specify a package size.
+  if (cleaned === "bacon") {
+    return "Meat / Seafood";
   }
 
   // Canned/boxed/jarred items belong in pantry even if the ingredient name
@@ -2286,7 +2390,7 @@ function parseManualShoppingItem(raw: string): {
       rest = quantityMatch[2].trim();
 
       const unitMatch = rest.match(
-        /^(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags|tube|tubes|packet|packets|strip|strips|slice|slices)\s+(.+)$/i
+        /^(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags|tube|tubes|packet|packets|strip|strips|slice|slices|head|heads)\s+(.+)$/i
       );
 
       if (unitMatch) {
@@ -2332,6 +2436,7 @@ function getCategoryLabel(section: GroceryCategory) {
     Produce: t("categories.produce"),
     "Meat / Seafood": t("categories.meatSeafood"),
     "Dairy / Eggs": t("categories.dairyEggs"),
+    "Deli / Refrigerated": t("categories.deliRefrigerated"),
     Bakery: t("categories.bakery"),
     Pantry: t("categories.pantry"),
     Frozen: t("categories.frozen"),
@@ -2863,6 +2968,10 @@ export default function ShoppingListPage() {
         unit: string | null;
         packageSize: string;
         mixedUnits: boolean;
+        freshHerbActualBunchQuantity?: number;
+        freshHerbActualMinBunchQuantity?: number;
+        freshHerbActualMaxBunchQuantity?: number;
+        freshHerbNeedsConvertedBunch?: boolean;
         recipeNames: Set<string>;
         recipeBreakdown: Map<
           string,
@@ -3068,25 +3177,54 @@ export default function ShoppingListPage() {
       // Recipe ingredient path
       // =====================================================
       const smartItem = item as ShoppingItemWithSmartMeta;
-      const cleanedRaw = cleanIngredientName(item.text);
-      const parsed = parseIngredient(item.text);
+      const recipeIngredientText = String(
+        smartItem.recipeIngredientText || item.text || ""
+      );
+      const cleanedRaw = cleanIngredientName(recipeIngredientText);
+      const parsed = parseIngredient(recipeIngredientText);
       const savedName = String(smartItem.normalizedName || "").trim().toLowerCase();
       const parsedName = parsed.name || cleanedRaw;
 
       // Prefer the freshly parsed name when an older saved item only kept a
       // vague name like "cheese". This lets updated cleanup rules fix existing
       // list items such as "shredded cheese" -> "cheddar cheese".
-      const cleanedName =
-        savedName && savedName !== "cheese"
+      const preferParsedSalmonFillet =
+        savedName === "salmon" &&
+        /\bsalmon (?:fillet|fillets|filet|filets)\b/i.test(recipeIngredientText);
+
+      const preferParsedCitrusJuice =
+        /^\s*juice\s+(?:of|from)\s+(?:\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(?:lemons?|limes?|oranges?)\b/i.test(
+          recipeIngredientText
+        );
+
+      // Older imported rows may have had "crushed" stripped as a prep word,
+      // leaving the vague saved name "red pepper". Recover it only when
+      // the preserved recipe text or legacy item id proves the original
+      // ingredient was crushed red pepper.
+      const preferLegacyCrushedRedPepper =
+        savedName === "red pepper" &&
+        (
+          /\bcrushed red pepper\b/i.test(recipeIngredientText) ||
+          String(item.id || "").toLowerCase().includes("crushed-red-pepper")
+        );
+
+      const cleanedName = preferLegacyCrushedRedPepper
+        ? "red pepper flakes"
+        : savedName &&
+            savedName !== "cheese" &&
+            !savedName.startsWith("about ") &&
+            !preferParsedSalmonFillet &&
+            !preferParsedCitrusJuice
           ? savedName
           : parsedName || savedName;
 
       if (shouldHideShoppingItem(cleanedName)) continue;
 
-      let parsedUnit =
-        smartItem.unit !== undefined && smartItem.unit !== null
-          ? smartItem.unit
-          : parsed.unit;
+      // An older saved row may contain an empty unit even when the
+      // original recipe text has a real measurement such as "10 oz".
+      // Only prefer the saved unit when it actually contains a value.
+      const savedUnit = String(smartItem.unit ?? "").trim();
+      let parsedUnit = savedUnit || parsed.unit;
 
       if (parsedUnit === "__count__") {
         parsedUnit = null;
@@ -3220,6 +3358,17 @@ export default function ShoppingListPage() {
         }
       }
 
+      // Preserve the recipe measurement before converting fresh herbs
+      // to a shopper-facing bunch quantity.
+      const freshHerbRecipeMeasurement =
+        safeName === "parsley" || safeName === "cilantro"
+          ? {
+              quantity: parsed.quantity ?? null,
+              unit: parsed.unit ? normalizeUnit(parsed.unit) : null,
+              packageSize: normalizePackageSize(parsed.packageSize),
+            }
+          : null;
+
       // Fresh herbs shop better as bunches than tsp/Tbsp/cup amounts.
       if (safeName === "parsley" || safeName === "cilantro") {
         if (
@@ -3251,6 +3400,17 @@ export default function ShoppingListPage() {
         if (parsedQuantity === null) parsedQuantity = 1;
         if (!packageSize) packageSize = DEFAULT_CAN_PACKAGE_SIZE_BY_NAME.corn;
       }
+
+      // Preserve the original recipe measurement before collapsing spices
+      // into shopper-facing check-items with no tsp/Tbsp amount.
+      const singleSpiceRecipeMeasurement =
+        MERGE_AS_SINGLE_SPICES.has(safeName)
+          ? {
+              quantity: parsed.quantity ?? null,
+              unit: parsed.unit ? normalizeUnit(parsed.unit) : null,
+              packageSize: normalizePackageSize(parsed.packageSize),
+            }
+          : null;
 
       // Spices and small dairy check-items should merge by name, not teaspoon amounts.
       if (MERGE_AS_SINGLE_SPICES.has(safeName)) {
@@ -3315,7 +3475,11 @@ export default function ShoppingListPage() {
 
       // Prepared side suggestions are plain shopping-list ideas, not measured
       // recipe ingredients. Merge them by name and keep awkward units off the row.
-      if (isPreparedSideName(safeName)) {
+      if (
+        isPreparedSideName(safeName) &&
+        parsed.quantity === null &&
+        parsed.unit === null
+      ) {
         parsedUnit = null;
         parsedQuantity = null;
         packageSize = "";
@@ -3352,6 +3516,9 @@ export default function ShoppingListPage() {
 
       const hideMainMeasurement =
         normalizedName === "white rice" ||
+        normalizedName === "shrimp" ||
+        normalizedName === "worcestershire sauce" ||
+        normalizedName === "olive oil" ||
         isVolumeMeasuredTomato;
 
       const groupedUnit = hideMainMeasurement ? null : mergeUnit;
@@ -3397,8 +3564,45 @@ export default function ShoppingListPage() {
       const mainMinQuantityToAdd = hideMainMeasurement ? 0 : minQuantityToAdd;
       const mainMaxQuantityToAdd = hideMainMeasurement ? 0 : maxQuantityToAdd;
 
-      const recipeQuantityToAdd = quantityToAdd > 0 ? quantityToAdd : 0;
-      const recipeUnit = mergeUnit ?? null;
+      const citrusJuiceRecipeMeasurement =
+        preferParsedCitrusJuice && parsed.quantity !== null
+          ? {
+              quantity: parsed.quantity,
+              unit: null,
+              packageSize: "",
+            }
+          : null;
+
+      const recipeMeasurementForBreakdown =
+        freshHerbRecipeMeasurement ??
+        singleSpiceRecipeMeasurement ??
+        citrusJuiceRecipeMeasurement;
+
+      const recipeBreakdownIsCountable =
+        citrusJuiceRecipeMeasurement ? false : isCountable;
+
+      const recipeQuantityToAdd = recipeMeasurementForBreakdown
+        ? recipeMeasurementForBreakdown.quantity ?? 0
+        : quantityToAdd > 0
+          ? quantityToAdd
+          : 0;
+      const recipeUnit = recipeMeasurementForBreakdown
+        ? recipeMeasurementForBreakdown.unit
+        : mergeUnit ?? null;
+      const recipePackageSize = recipeMeasurementForBreakdown
+        ? recipeMeasurementForBreakdown.packageSize
+        : packageSize;
+      const isFreshHerbBunch =
+        (normalizedName === "parsley" || normalizedName === "cilantro") &&
+        groupedUnit === "bunch";
+      const isConvertedFreshHerbBunch =
+        isFreshHerbBunch &&
+        (
+          !freshHerbRecipeMeasurement?.unit ||
+          freshHerbRecipeMeasurement.unit === "tsp" ||
+          freshHerbRecipeMeasurement.unit === "Tbsp" ||
+          freshHerbRecipeMeasurement.unit === "cup"
+        );
 
       const existing = map.get(key);
 
@@ -3408,9 +3612,35 @@ export default function ShoppingListPage() {
         existing.checked = existing.checked && item.checked;
 
         if (mainQuantityToAdd > 0) {
-          existing.totalQuantity += mainQuantityToAdd;
-          existing.minQuantity += mainMinQuantityToAdd;
-          existing.maxQuantity += mainMaxQuantityToAdd;
+          if (isFreshHerbBunch) {
+            if (isConvertedFreshHerbBunch) {
+              existing.freshHerbNeedsConvertedBunch = true;
+            } else {
+              existing.freshHerbActualBunchQuantity =
+                (existing.freshHerbActualBunchQuantity ?? 0) + mainQuantityToAdd;
+              existing.freshHerbActualMinBunchQuantity =
+                (existing.freshHerbActualMinBunchQuantity ?? 0) + mainMinQuantityToAdd;
+              existing.freshHerbActualMaxBunchQuantity =
+                (existing.freshHerbActualMaxBunchQuantity ?? 0) + mainMaxQuantityToAdd;
+            }
+
+            existing.totalQuantity = Math.max(
+              existing.freshHerbActualBunchQuantity ?? 0,
+              existing.freshHerbNeedsConvertedBunch ? 1 : 0
+            );
+            existing.minQuantity = Math.max(
+              existing.freshHerbActualMinBunchQuantity ?? 0,
+              existing.freshHerbNeedsConvertedBunch ? 1 : 0
+            );
+            existing.maxQuantity = Math.max(
+              existing.freshHerbActualMaxBunchQuantity ?? 0,
+              existing.freshHerbNeedsConvertedBunch ? 1 : 0
+            );
+          } else {
+            existing.totalQuantity += mainQuantityToAdd;
+            existing.minQuantity += mainMinQuantityToAdd;
+            existing.maxQuantity += mainMaxQuantityToAdd;
+          }
         }
 
         if (
@@ -3431,16 +3661,34 @@ export default function ShoppingListPage() {
 
         const breakdown = existing.recipeBreakdown.get(recipeName);
         if (breakdown) {
-          breakdown.quantity += recipeQuantityToAdd;
-          if (breakdown.unit !== recipeUnit || breakdown.packageSize !== packageSize) {
+          const existingHasMeasurement = breakdown.quantity > 0;
+          const incomingHasMeasurement = recipeQuantityToAdd > 0;
+
+          // An unmeasured duplicate from the same recipe should not erase
+          // a real measurement such as "2 Tbsp". Only treat units as mixed
+          // when both entries actually provide measurements.
+          if (!existingHasMeasurement && incomingHasMeasurement) {
+            breakdown.unit = recipeUnit;
+            breakdown.packageSize = recipePackageSize;
+            breakdown.mixedUnits = false;
+          } else if (
+            existingHasMeasurement &&
+            incomingHasMeasurement &&
+            (breakdown.unit !== recipeUnit ||
+              breakdown.packageSize !== recipePackageSize)
+          ) {
             breakdown.mixedUnits = true;
           }
+
+          breakdown.quantity += recipeQuantityToAdd;
+          breakdown.isCountable =
+            breakdown.isCountable && recipeBreakdownIsCountable;
         } else {
           existing.recipeBreakdown.set(recipeName, {
             quantity: recipeQuantityToAdd,
             unit: recipeUnit,
-            packageSize,
-            isCountable,
+            packageSize: recipePackageSize,
+            isCountable: recipeBreakdownIsCountable,
             name: normalizedName,
             mixedUnits: false,
           });
@@ -3460,6 +3708,19 @@ export default function ShoppingListPage() {
           unit: groupedUnit ?? null,
           packageSize: groupedPackageSize,
           mixedUnits: false,
+          freshHerbActualBunchQuantity:
+            isFreshHerbBunch && !isConvertedFreshHerbBunch
+              ? mainQuantityToAdd
+              : 0,
+          freshHerbActualMinBunchQuantity:
+            isFreshHerbBunch && !isConvertedFreshHerbBunch
+              ? mainMinQuantityToAdd
+              : 0,
+          freshHerbActualMaxBunchQuantity:
+            isFreshHerbBunch && !isConvertedFreshHerbBunch
+              ? mainMaxQuantityToAdd
+              : 0,
+          freshHerbNeedsConvertedBunch: isConvertedFreshHerbBunch,
           recipeNames: new Set([recipeName]),
           recipeBreakdown: new Map([
             [
@@ -3467,8 +3728,8 @@ export default function ShoppingListPage() {
               {
                 quantity: recipeQuantityToAdd,
                 unit: recipeUnit,
-                packageSize,
-                isCountable,
+                packageSize: recipePackageSize,
+                isCountable: recipeBreakdownIsCountable,
                 name: normalizedName,
                 mixedUnits: false,
               },
@@ -3554,13 +3815,11 @@ export default function ShoppingListPage() {
         )}${packageText} ${formattedName}`;
       }
 
+      // Each sourceRecipe value is one recipe title. Commas inside titles
+      // are punctuation, not separators between multiple recipes.
       const recipeNames = Array.from(value.recipeNames)
-        .flatMap((name) =>
-          String(name || "")
-            .split(",")
-            .map((part) => part.trim())
-            .filter(Boolean)
-        )
+        .map((name) => String(name || "").trim())
+        .filter(Boolean)
         .filter((name, index, arr) => arr.indexOf(name) === index)
         .sort((a, b) => a.localeCompare(b));
       const recipeCount = recipeNames.length;
@@ -4446,8 +4705,8 @@ export default function ShoppingListPage() {
                       borderRadius: 14,
                       background: "rgba(255,255,255,0.05)",
                       border: "1px solid rgba(255,255,255,0.08)",
-                      display: "flex",
-                      justifyContent: "space-between",
+                      display: "grid",
+                      gridTemplateColumns: "minmax(0, 1fr) max-content",
                       alignItems: "center",
                       gap: 12,
                     }}
@@ -4468,7 +4727,7 @@ export default function ShoppingListPage() {
                     {recipe.amountText ? (
                       <span
                         style={{
-                          flexShrink: 0,
+                          whiteSpace: "nowrap",
                           fontSize: 12,
                           fontWeight: 900,
                           color: "#86efac",

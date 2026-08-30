@@ -5,6 +5,7 @@ export type GroceryCategory =
   | "Produce"
   | "Meat / Seafood"
   | "Dairy / Eggs"
+  | "Deli / Refrigerated"
   | "Pantry"
   | "Frozen"
   | "Spices / Seasonings"
@@ -37,6 +38,8 @@ const CATEGORY_KEYWORDS: Array<{
       "green onion",
       "scallion",
       "scallions",
+      "shallot",
+      "shallots",
       "garlic",
       "garlic cloves",
       "tomato",
@@ -97,6 +100,9 @@ const CATEGORY_KEYWORDS: Array<{
       "jalapeno",
       "jalapenos",
       "poblano",
+      "habanero",
+      "habanero pepper",
+      "habanero peppers",
       "serrano",
       "cabbage",
       "cauliflower",
@@ -128,6 +134,11 @@ const CATEGORY_KEYWORDS: Array<{
       "ground turkey",
       "bacon",
       "ham",
+      "sandwich meat",
+      "deli meat",
+      "lunch meat",
+      "lunchmeat",
+      "cold cuts",
       "steak",
       "shrimp",
       "fish",
@@ -138,7 +149,10 @@ const CATEGORY_KEYWORDS: Array<{
       "tuna",
       "crab",
       "lobster",
+      "scallop",
       "scallops",
+      "sea scallop",
+      "sea scallops",
       "ground chicken",
     ],
   },
@@ -215,6 +229,7 @@ const CATEGORY_KEYWORDS: Array<{
       "spaghetti",
       "flour",
       "cornmeal",
+      "grits",
       "cornstarch",
       "sugar",
       "brown sugar",
@@ -223,6 +238,9 @@ const CATEGORY_KEYWORDS: Array<{
       "black beans",
       "chili beans",
       "tomato sauce",
+      "taco sauce",
+      "bbq sauce",
+      "barbecue sauce",
       "diced tomatoes",
       "broth",
       "stock",
@@ -270,6 +288,7 @@ const CATEGORY_KEYWORDS: Array<{
       "black pepper",
       "paprika",
       "cumin",
+      "turmeric",
       "oregano",
       "basil",
       "garlic powder",
@@ -363,6 +382,7 @@ const CATEGORY_KEYWORDS: Array<{
       "toothbrush",
       "deodorant",
       "lotion",
+      "brow liner",
       "razor",
       "razors",
     ],
@@ -425,8 +445,22 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
 
   if (!normalized) return "Other";
 
+  // Refrigerated deli items.
+  if (
+    normalized === "hummus" ||
+    normalized === "guacamole" ||
+    normalized === "fresh guacamole" ||
+    normalized === "prepared guacamole"
+  ) {
+    return "Deli / Refrigerated";
+  }
+
   // ===== FROZEN FIRST =====
   // Frozen should beat Produce/Pantry.
+  if (normalized === "breakfast bowl" || normalized === "breakfast bowls") {
+    return "Frozen";
+  }
+
   if (
     includesAny(normalized, [
       "frozen",
@@ -550,9 +584,6 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
     [
       "salad",
       "ensalada",
-      "guacamole",
-      "fresh guacamole",
-      "prepared guacamole",
       "orange",
 "oranges",
 "naranja",
@@ -579,6 +610,14 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
       "con queso",
       "queso dip",
       "salsa con queso",
+      "popcorn",
+      "microwave popcorn",
+      "popcorn kernels",
+      "tortilla chips",
+      "almond",
+      "almonds",
+      "almendra",
+      "almendras",
     ].includes(normalized)
   ) {
     return "Pantry";
@@ -586,6 +625,7 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
 
   // Core protections for items that broad substring rules can misclassify.
   if (
+    normalized === "chuck roast" ||
     normalized.includes("pepperoni") ||
     normalized.includes("salami")
   ) {
@@ -613,6 +653,20 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
     return "Spices / Seasonings";
   }
 
+  // Fresh Fresno and Habanero peppers are produce, not black-pepper-style seasoning.
+  if (
+    normalized === "habanero pepper" ||
+    normalized === "habanero peppers" ||
+    normalized === "fresno pepper" ||
+    normalized === "fresno peppers" ||
+    normalized === "fresno chile" ||
+    normalized === "fresno chiles" ||
+    normalized === "chile fresno" ||
+    normalized === "chiles fresno"
+  ) {
+    return "Produce";
+  }
+
   // ===== SPICES / SEASONINGS =====
   // Spices should beat Pantry and Produce for things like pepper, cumin, taco seasoning.
   if (
@@ -628,6 +682,7 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
       "paprika",
       "smoked paprika",
       "cumin",
+      "turmeric",
       "oregano",
       "dried basil",
       "dried parsley",
@@ -651,6 +706,8 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
       "pimienta",
       "pimenton",
       "comino",
+      "curcuma",
+      "cúrcuma",
       "oregano",
       "ajo en polvo",
       "cebolla en polvo",
@@ -791,6 +848,7 @@ export const GROCERY_CATEGORY_ORDER: GroceryCategory[] = [
   "Produce",
   "Meat / Seafood",
   "Dairy / Eggs",
+  "Deli / Refrigerated",
   "Bakery",
   "Frozen",
   "Pantry",

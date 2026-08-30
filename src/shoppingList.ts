@@ -10,6 +10,7 @@ export type ShoppingItem = {
   addedAt: number;
   category: GroceryCategory;
   sourceRecipe?: string;
+  recipeIngredientText?: string;
 
   // smart merge helpers
   normalizedName?: string;
@@ -141,13 +142,20 @@ function normalizePackageSize(value?: string) {
 
   if (!cleaned) return "";
 
-  return cleaned
+  const normalized = cleaned
     .replace(/(\d)(oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|l)\b/g, "$1 $2")
     .replace(/ounces?\b/g, "oz")
     .replace(/pounds?\b/g, "lb")
     .replace(/\blbs?\b/g, "lb")
     .replace(/\s+/g, " ")
     .trim();
+
+  const hasRealSize =
+    /\b(?:\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:oz|lb|g|kg|ml|l)\b/i.test(
+      normalized
+    );
+
+  return hasRealSize ? normalized : "";
 }
 
 function getOzFromPackageSize(value?: string): number | null {
@@ -204,8 +212,24 @@ const CUP_MEASURE_NOISE = new Set([
   "flour",
   "sugar",
   "brown sugar",
+  "fresh ginger",
+  "bbq rub",
+  "barbecue rub",
   "bread crumbs",
   "breadcrumbs",
+  "cornmeal",
+  "cornstarch",
+  "sweet potato cubes",
+  "baby carrot",
+  "celery",
+  "yukon gold potatoes",
+  "shredded lettuce",
+  "orange juice",
+  "heavy cream",
+  "seafood broth",
+  "chicken broth",
+  "beef broth",
+  "chicken stock",
   "oil",
   "olive oil",
   "vegetable oil",
@@ -215,6 +239,11 @@ const CUP_MEASURE_NOISE = new Set([
   "butter",
   "cheddar cheese",
   "mozzarella cheese",
+  "colby jack cheese",
+  "colby jack cheese, shredded",
+  "mexican blend cheese",
+  "mexican cheese blend",
+  "shredded mexican cheese blend",
   "parmesan cheese",
   "monterey jack cheese",
   "blue cheese crumbles",
@@ -295,6 +324,8 @@ strips: "strip",
     sticks: "stick",
     bunch: "bunch",
     bunches: "bunch",
+    head: "head",
+    heads: "head",
     jar: "jar",
     jars: "jar",
     carton: "carton",
@@ -335,6 +366,7 @@ function pluralizeUnit(unit: string, quantity: number | null | undefined) {
     slice: "slices",
     stick: "sticks",
     bunch: "bunches",
+    head: "heads",
     jar: "jars",
     carton: "cartons",
     bag: "bags",
@@ -347,7 +379,7 @@ function pluralizeUnit(unit: string, quantity: number | null | undefined) {
 }
 
 const UNIT_PATTERN =
-  "cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|loaf|loaves|l|clove|cloves|can|cans|package|packages|pkg|pkgs|box|boxes|strip|strips|slice|slices|stick|sticks|bunch|bunches|jar|jars|carton|cartons|bag|bags|tube|tubes|packet|packets";
+  "cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|loaf|loaves|l|clove|cloves|can|cans|package|packages|pkg|pkgs|box|boxes|strip|strips|slice|slices|stick|sticks|bunch|bunches|jar|jars|carton|cartons|bag|bags|tube|tubes|packet|packets|head|heads";
 
 const QUANTITY_PATTERN =
   "\\d+\\s+\\d+\\/\\d+|\\d+\\/\\d+|\\d+\\.\\d+|\\d+|½|¼|¾|⅓|⅔|⅛";
@@ -375,6 +407,19 @@ function normalizeChoiceIngredient(text: string) {
     .replace(/\bcilantro or parsley\b/g, "cilantro")
     .replace(/\bchopped parsley or cilantro\b/g, "parsley")
     .replace(/\bchopped cilantro or parsley\b/g, "cilantro")
+    .replace(
+      /\bshredded mexican blend cheese,?\s+or cheddar or monterey jack\b/g,
+      "mexican blend cheese"
+    )
+    .replace(/\bflank steak or skirt steak\b/g, "flank steak")
+    .replace(/\bskirt steak or flank steak\b/g, "skirt steak")
+    .replace(/\bmozzarella or provolone cheese\b/g, "mozzarella cheese")
+    .replace(/\bprovolone or mozzarella cheese\b/g, "provolone cheese")
+    .replace(/\b(?:small\s+)?burger buns? or english muffin halves\b/g, "burger bun")
+    .replace(/\benglish muffin halves or (?:small\s+)?burger buns?\b/g, "english muffin")
+    .replace(/\bchicken broth or water\b/g, "chicken broth")
+    .replace(/\btaco sauce or salsa\b/g, "taco sauce")
+    .replace(/\bsalsa or taco sauce\b/g, "salsa")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -412,6 +457,7 @@ function buildGrocerySearchName(normalizedName: string) {
 // be cleaned, but we avoid stripping words that change what someone buys.
 // =====================================================
 const SPECIAL_DISPLAY_NAMES: Record<string, string> = {
+  "baby carrot": "Baby Carrots",
   "aa batteries": "AA Batteries",
   "aaa batteries": "AAA Batteries",
   "ziploc bags": "Ziploc Bags",
@@ -446,6 +492,8 @@ const COUNTABLE_MANUAL_SINGULARS: Record<string, string> = {
   "green bell peppers": "green bell pepper",
   "red bell peppers": "red bell pepper",
   "yellow bell peppers": "yellow bell pepper",
+  "fresno peppers": "fresno pepper",
+  "habanero peppers": "habanero pepper",
 };
 
 function removeLeadingAmountAndUnit(text: string) {
@@ -584,7 +632,7 @@ function preserveManualShoppingName(text: string) {
 
 const SECTION_HEADER_PATTERNS = [
   /seasoning:?$/,
-  /sauce:?$/,
+  /^sauce:?$/,
   /glaze:?$/,
   /topping:?$/,
   /toppings:?$/,
@@ -713,6 +761,10 @@ function normalizePantryAndSeasonings(text: string) {
   }
 
   return protectRealPeppers(text)
+    .replace(/\bbarbecue sauce\b/gi, "bbq sauce")
+    .replace(/\bcrushed red pepper\b/gi, "red pepper flakes")
+    .replace(/\bcorn starch\b/gi, "cornstarch")
+    .replace(/\bcornstarch\s+mixed\s+with\b.*$/gi, "cornstarch")
     .replace(/^(?:a\s+)?pinch(?:\s+of)?\s+/i, "")
     .replace(/\bfreshly ground black pepper\b/g, "black pepper")
     .replace(/\bground black pepper\b/g, "black pepper")
@@ -729,6 +781,7 @@ function normalizePantryAndSeasonings(text: string) {
         before.endsWith("red") ||
         before.endsWith("yellow") ||
         before.endsWith("cayenne") ||
+        before.endsWith("habanero") ||
         after.startsWith("flakes")
       ) {
         return match;
@@ -768,9 +821,12 @@ function normalizeProduce(text: string) {
     .replace(/\bmint leaves?\b/g, "mint")
     .replace(/\bmint sprigs?\b/g, "mint")
     .replace(/\bcilantro leaves?\b/g, "cilantro")
+    .replace(/\bextra parsley\b/g, "parsley")
     .replace(/\bparsley leaves?\b/g, "parsley")
     .replace(/\bor pickled jalapeno\b/g, "jalapeno")
     .replace(/\bjalapeno peppers?\b/g, "jalapenos")
+    .replace(/\bfresno peppers?\b/g, "fresno pepper")
+    .replace(/\bhabanero peppers?\b/g, "habanero pepper")
     .replace(/\bmild red chilis?\b/g, "mild red chili")
     .replace(/\bmild red chiles?\b/g, "mild red chili")
     .replace(/\bred chilis?\b/g, "red chili")
@@ -817,9 +873,8 @@ function normalizeProteinsAndBakery(text: string) {
     .replace(/\bdrumsticks?\b/g, "drumstick")
     .replace(/\bbone[- ]in pork chops?\b/g, "bone-in pork chop")
     .replace(/\bpork chops?\b/g, "pork chop")
-    .replace(/\bsalmon fillets?\b/g, "salmon")
-    .replace(/\bsalmon filet\b/g, "salmon")
-    .replace(/\bsalmon filets\b/g, "salmon")
+    .replace(/\bsalmon fillets?\b/g, "salmon fillet")
+    .replace(/\bsalmon filets?\b/g, "salmon fillet")
     .replace(/\bmanicotti shells?\b/g, "manicotti shells");
 }
 
@@ -1017,6 +1072,8 @@ function removeNonShoppingItems(text: string) {
     "cold water",
     "warm water",
     "hot water",
+    "pasta water",
+    "reserved pasta water",
     "ice",
     "crushed ice",
     "cooking spray",
@@ -1161,6 +1218,9 @@ function parseIngredientParts(line: string): {
   text = text.replace(/^[/\\\-–—]+\s*/, "");
   text = text.replace(/\u00a0/g, " ");
   text = text.replace(/\s+/g, " ").trim();
+  // Approximation wording should not block normal quantity/unit parsing.
+  // Example: "about 10 oz shrimp" -> "10 oz shrimp".
+  text = text.replace(/^\s*about\s+/i, "");
   text = text
     .replace(/\bloaf of french bread\b/g, "1 loaf french bread")
     .replace(/\bloaf french bread\b/g, "1 loaf french bread")
@@ -1212,12 +1272,22 @@ if (baconRangeMatch) {
   };
 }
 
-  // Convert "juice of 1 lemon" before quantity parsing so it becomes 1 lemon.
-  const juiceOfLemonMatch = text.match(/^juice of (\d+) lemons?\b/);
-  if (juiceOfLemonMatch) {
+  // Convert citrus wording such as "juice from 1/2 lime" into a
+  // practical whole-fruit shopping identity while preserving quantity.
+  const citrusJuiceMatch = text.match(
+    new RegExp(
+      `^juice\\s+(?:of|from)\\s+(${QUANTITY_PATTERN})\\s+(lemons?|limes?|oranges?)\\b`,
+      "i"
+    )
+  );
+
+  if (citrusJuiceMatch) {
+    const [, qtyRaw, citrusRaw] = citrusJuiceMatch;
+    const citrusName = citrusRaw.toLowerCase().replace(/s$/i, "");
+
     return {
-      normalizedName: "lemon",
-      quantity: parseFraction(juiceOfLemonMatch[1]),
+      normalizedName: citrusName,
+      quantity: parseFraction(qtyRaw),
       unit: "",
       packageSize: "",
     };
@@ -1264,8 +1334,15 @@ if (baconRangeMatch) {
   }
 
   if (normalizedName === "cilantro" || normalizedName === "parsley") {
-    unit = "bunch";
-    if (quantity === null) quantity = 1;
+    if (
+      !parsedUnitForName ||
+      parsedUnitForName === "tsp" ||
+      parsedUnitForName === "Tbsp" ||
+      parsedUnitForName === "cup"
+    ) {
+      unit = "bunch";
+      quantity = 1;
+    }
   }
 
   if (
@@ -1371,6 +1448,8 @@ const COUNTABLE_DISPLAY_NAMES = new Set([
   "cucumber",
   "zucchini",
   "jalapeno",
+  "fresno pepper",
+  "habanero pepper",
   "green bell pepper",
   "red bell pepper",
   "yellow bell pepper",
@@ -1582,12 +1661,18 @@ const PANTRY_CATEGORY_KEYWORDS = [
   "black beans",
   "tomato paste",
   "tomato sauce",
+  "taco sauce",
+  "hot sauce",
+  "buffalo sauce",
+  "bbq sauce",
+  "barbecue sauce",
   "french fried onion",
   "fried onion",
   "tortilla chips",
   "breadcrumbs",
   "bread crumbs",
   "cracker crumbs",
+  "grits",
   "lasagna noodles",
   "egg noodles",
   "noodles",
@@ -1684,7 +1769,8 @@ function isRealPepperProduce(cleaned: string) {
     cleaned.includes("green bell pepper") ||
     cleaned.includes("poblano") ||
     cleaned.includes("jalapeno") ||
-    cleaned.includes("jalapeño")
+    cleaned.includes("jalapeño") ||
+    cleaned.includes("habanero")
   );
 }
 
@@ -1708,6 +1794,7 @@ function resolveShoppingCategory(name: string): GroceryCategory {
 
   const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
   if (
+  lower === "chuck roast" ||
   lower.includes("smoked sausage") ||
   lower.includes("pepperoni")
 ) {
@@ -1716,6 +1803,11 @@ function resolveShoppingCategory(name: string): GroceryCategory {
 
 if (lower === "msg" || lower.includes("monosodium glutamate")) {
   return "Spices / Seasonings";
+}
+
+// Tortilla chips are a packaged pantry/snack item, not bakery tortillas.
+if (lower.includes("tortilla chips")) {
+  return "Pantry";
 }
 
   // Bakery items must win before broad meat rules such as "hot dog".
@@ -1854,6 +1946,7 @@ function resolveShoppingCategoryForItem(
 
   const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
   if (
+  lower === "chuck roast" ||
   lower.includes("smoked sausage") ||
   lower.includes("pepperoni")
 ) {
@@ -1862,6 +1955,11 @@ function resolveShoppingCategoryForItem(
 
 if (lower === "msg" || lower.includes("monosodium glutamate")) {
   return "Spices / Seasonings";
+}
+
+// Tortilla chips are a packaged pantry/snack item, not bakery tortillas.
+if (lower.includes("tortilla chips")) {
+  return "Pantry";
 }
 
   // Bakery items must win before packaged-item Pantry fallback.
@@ -1887,6 +1985,11 @@ if (lower === "msg" || lower.includes("monosodium glutamate")) {
   }
   const normalizedUnit = normalizeUnit(unit || "");
   const normalizedPackageSize = normalizePackageSize(packageSize || "");
+
+  // Bacon stays Meat / Seafood even when recipes specify a package size.
+  if (lower === "bacon") {
+    return "Meat / Seafood";
+  }
 
   // Container/package items should stay pantry, even when the name is produce-like.
   // Example: 1 can corn should not become Produce / Corn on the Cob.
@@ -1945,6 +2048,8 @@ const SAFE_COUNTABLE_MERGE_NAMES = new Set([
   "cucumber",
   "zucchini",
   "jalapeno",
+  "fresno pepper",
+  "habanero pepper",
   "green bell pepper",
   "red bell pepper",
   "yellow bell pepper",
@@ -2126,10 +2231,14 @@ export function loadShoppingList(): ShoppingItem[] {
       // Older saved entries may have collapsed "shredded cheese" into generic
       // "cheese". Prefer the original line parse when it gives us a more
       // shopper-useful cheese name like "shredded cheddar cheese".
-      const normalizedName =
-        savedNormalizedName === "cheese" && parsed.normalizedName && parsed.normalizedName !== "cheese"
-          ? parsed.normalizedName
-          : savedNormalizedName ||
+      const shouldPreferParsedName =
+        Boolean(parsed.normalizedName) &&
+        ((savedNormalizedName === "cheese" && parsed.normalizedName !== "cheese") ||
+          savedNormalizedName.startsWith("about "));
+
+      const normalizedName = shouldPreferParsedName
+        ? parsed.normalizedName
+        : savedNormalizedName ||
           parsed.normalizedName ||
           normalizeIngredientName(item.text || "");
 
@@ -2365,6 +2474,7 @@ export function addIngredientsToList(
         parsed.packageSize
       ),
       sourceRecipe: recipeName || "",
+      recipeIngredientText: line,
       normalizedName: safeNormalizedName,
       quantity: parsed.quantity,
       unit: parsed.unit,
