@@ -155,16 +155,30 @@ function isInstagramRecipeUrl(rawUrl: string): boolean {
   }
 }
 
+type InstagramShareMetadata = {
+  url: string;
+  captionText: string;
+  photoUrl: string;
+  ogTitle: string;
+};
+
+const EMPTY_INSTAGRAM_SHARE_METADATA: InstagramShareMetadata = {
+  url: "",
+  captionText: "",
+  photoUrl: "",
+  ogTitle: "",
+};
+
 const INSTAGRAM_CAPTION_TIMEOUT_MS = 15000;
 
-async function extractInstagramCaptionForShare(
+async function extractInstagramMetadataForShare(
   rawUrl: string
-): Promise<string> {
+): Promise<InstagramShareMetadata> {
   if (
     Capacitor.getPlatform() !== "android" ||
     !isInstagramRecipeUrl(rawUrl)
   ) {
-    return "";
+    return EMPTY_INSTAGRAM_SHARE_METADATA;
   }
 
   let timeoutId: number | undefined;
@@ -185,27 +199,38 @@ async function extractInstagramCaptionForShare(
       }),
     ]);
 
-    const captionText = String(
-      result?.captionText || ""
-    ).trim();
+    const metadata: InstagramShareMetadata = {
+      url: String(
+        result?.url || rawUrl
+      ).trim(),
+      captionText: String(
+        result?.captionText || ""
+      ).trim(),
+      photoUrl: String(
+        result?.photoUrl || ""
+      ).trim(),
+      ogTitle: String(
+        result?.ogTitle || ""
+      ).trim(),
+    };
 
     console.error(
       "ShareImport Instagram fallback metadata extracted:",
       JSON.stringify({
-        captionLength: captionText.length,
-        hasPhotoUrl: Boolean(result?.photoUrl),
-        hasOgTitle: Boolean(result?.ogTitle),
+        captionLength: metadata.captionText.length,
+        hasPhotoUrl: Boolean(metadata.photoUrl),
+        hasOgTitle: Boolean(metadata.ogTitle),
       })
     );
 
-    return captionText;
+    return metadata;
   } catch (error) {
     console.error(
       "Automatic ShareImport Instagram caption extraction failed:",
       error
     );
 
-    return "";
+    return EMPTY_INSTAGRAM_SHARE_METADATA;
   } finally {
     if (timeoutId !== undefined) {
       window.clearTimeout(timeoutId);
@@ -371,7 +396,11 @@ function isIncompleteSocialImport(result: any): boolean {
   return ingredientCount === 0 && instructionCount === 0;
 }
 
-async function importFromUrl(recipeUrl: string, captionText = "") {
+async function importFromUrl(
+  recipeUrl: string,
+  captionText = "",
+  photoUrl = ""
+) {
   const response = await fetch(`${API_BASE}/import-recipe`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -379,6 +408,7 @@ async function importFromUrl(recipeUrl: string, captionText = "") {
       url: recipeUrl,
       language: getStoredLanguage(),
       ...(captionText.trim() ? { captionText: captionText.trim() } : {}),
+      ...(photoUrl.trim() ? { photoUrl: photoUrl.trim() } : {}),
     }),
   });
 
@@ -993,14 +1023,15 @@ export default function ShareImport() {
         } else if (captionAssistSocialShare) {
           setStatus("Finding post details...");
 
-          const instagramCaptionText =
-            await extractInstagramCaptionForShare(
+          const instagramMetadata =
+            await extractInstagramMetadataForShare(
               url
             );
 
           data = await importFromUrl(
             url,
-            instagramCaptionText
+            instagramMetadata.captionText,
+            instagramMetadata.photoUrl
           );
         } else if (platform === "android") {
           try {

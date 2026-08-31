@@ -1324,6 +1324,12 @@ export default function CookbookPage({
                   instagramFallbackMetadata.captionText,
               }
               : {}),
+            ...(instagramFallbackMetadata.photoUrl
+              ? {
+                photoUrl:
+                  instagramFallbackMetadata.photoUrl,
+              }
+              : {}),
           }),
         }
       );
