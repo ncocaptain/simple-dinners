@@ -239,6 +239,16 @@ const EXACT_THUMBNAIL_KEYS: Record<string, string> = {
 
   cilantro: "cilantro",
   "fresh cilantro": "cilantro",
+  "flank steak": "steak",
+  "flank steaks": "steak",
+  "ancho chili powder": "chili-powder",
+  "flour tortilla": "tortillas",
+  "flour tortillas": "tortillas",
+  "guacamole": "avocado",
+  "jasmine rice": "rice",
+  "nonfat greek yogurt": "yogurt",
+  "manicotti shell": "pasta",
+  "manicotti shells": "pasta",
   "chopped cilantro": "cilantro",
 
   ginger: "ginger",
@@ -300,6 +310,45 @@ const EXACT_THUMBNAIL_KEYS: Record<string, string> = {
   penne: "penne",
   "mashed potatoes": "mashed-potatoes",
   "baked potato": "baked-potato",
+
+  // Shopping thumbnail expansion batch 1
+  "breadcrumbs": "breadcrumbs",
+  "bread crumbs": "breadcrumbs",
+  "worcestershire sauce": "worcestershire-sauce",
+  "bbq sauce": "bbq-sauce",
+  "barbecue sauce": "bbq-sauce",
+  "salt": "salt",
+  "kosher salt": "salt",
+  "sea salt": "salt",
+  "orange juice": "orange-juice",
+  "paprika": "paprika",
+  "smoked paprika": "paprika",
+  "fresno pepper": "fresno-pepper",
+  "fresno peppers": "fresno-pepper",
+  "salsa": "salsa",
+  "turmeric": "turmeric",
+  "ground turmeric": "turmeric",
+  "chicken broth": "chicken-broth",
+  "chicken stock": "chicken-broth",
+  "parsley": "parsley",
+  "fresh parsley": "parsley",
+  "chopped parsley": "parsley",
+  "romaine lettuce": "romaine-lettuce",
+  "romaine": "romaine-lettuce",
+
+  // Shopping thumbnail expansion batch 2
+  "chipotle hot sauce": "chipotle-hot-sauce",
+  "sea scallop": "sea-scallops",
+  "sea scallops": "sea-scallops",
+  "scallop": "sea-scallops",
+  "scallops": "sea-scallops",
+  "lobster tail": "lobster-tail",
+  "lobster tails": "lobster-tail",
+  "seafood broth": "seafood-broth",
+  "seafood stock": "seafood-broth",
+  "dried thyme": "dried-thyme",
+  "buffalo sauce": "buffalo-sauce",
+  "buffalo wing sauce": "buffalo-sauce",
 
 };
 
@@ -472,7 +521,6 @@ const AVAILABLE_LOCAL_THUMBNAIL_KEYS =
     "green-bell-pepper",
     "red-bell-pepper",
     "garlic",
-    "red-bell-pepper",
     "yellow-bell-pepper",
     "orange-bell-pepper",
     "onion",
@@ -556,7 +604,6 @@ const AVAILABLE_LOCAL_THUMBNAIL_KEYS =
     "oats",
     "spaghetti",
     "pasta",
-    "bread",
     "egg-noodles",
     "penne",
     "mashed-potatoes",
@@ -573,6 +620,28 @@ const AVAILABLE_LOCAL_THUMBNAIL_KEYS =
     "water",
     "soda",
     "energy-drink",
+
+    // Shopping thumbnail expansion batch 2
+    "chipotle-hot-sauce",
+    "sea-scallops",
+    "lobster-tail",
+    "seafood-broth",
+    "dried-thyme",
+    "buffalo-sauce",
+
+    // Shopping thumbnail expansion batch 1
+    "breadcrumbs",
+    "worcestershire-sauce",
+    "bbq-sauce",
+    "salt",
+    "orange-juice",
+    "paprika",
+    "fresno-pepper",
+    "salsa",
+    "turmeric",
+    "chicken-broth",
+    "parsley",
+    "romaine-lettuce",
   ]);
 
 export function hasLocalSmartShoppingThumbnail(
@@ -620,9 +689,11 @@ export function resolveSmartShoppingThumbnail(
     };
   }
 
+  const categoryThumbnailKey =
+    getCategoryThumbnailKey(category);
+
   return {
-    thumbnailKey:
-      getCategoryThumbnailKey(category),
+    thumbnailKey: categoryThumbnailKey,
     matchType: "category",
     altText: normalizedName || String(category),
   };

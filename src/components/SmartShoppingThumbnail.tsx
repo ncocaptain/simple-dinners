@@ -123,20 +123,12 @@ export default function SmartShoppingThumbnail({
     );
 
   const isListVariant = variant === "list";
-  const showTransparentImage =
-    isListVariant &&
-    hasLocalImage &&
-    imageStatus === "loaded";
 
   const borderRadius = isListVariant
     ? Math.max(10, Math.round(size * 0.3))
     : Math.max(10, Math.round(size * 0.32));
 
-  const imageInset = isListVariant
-    ? showTransparentImage
-      ? 2
-      : Math.max(5, Math.round(size * 0.14))
-    : 0;
+  const imageInset = isListVariant ? 3 : 0;
 
   return (
     <div
@@ -154,24 +146,15 @@ export default function SmartShoppingThumbnail({
         alignItems: "center",
         justifyContent: "center",
 
-        background: showTransparentImage
-          ? "transparent"
-          : isListVariant
-            ? "linear-gradient(145deg, rgba(255,255,255,0.085), rgba(255,255,255,0.035))"
-            : "rgba(255,255,255,0.055)",
-
-        border: showTransparentImage
-          ? "1px solid transparent"
-          : isListVariant
-            ? "1px solid rgba(255,255,255,0.11)"
-            : "1px solid rgba(255,255,255,0.1)",
-
-        boxShadow: showTransparentImage
-          ? "none"
-          : isListVariant
-            ? "inset 0 1px 0 rgba(255,255,255,0.045), 0 5px 14px rgba(0,0,0,0.16)"
-            : "none",
-
+        background: isListVariant
+          ? "linear-gradient(145deg, rgba(255,255,255,0.085), rgba(255,255,255,0.035))"
+          : "rgba(255,255,255,0.055)",
+        border: isListVariant
+          ? "1px solid rgba(255,255,255,0.11)"
+          : "1px solid rgba(255,255,255,0.1)",
+        boxShadow: isListVariant
+          ? "inset 0 1px 0 rgba(255,255,255,0.045), 0 5px 14px rgba(0,0,0,0.16)"
+          : "none",
         color: isListVariant
           ? "rgba(255,255,255,0.62)"
           : "rgba(255,255,255,0.72)",

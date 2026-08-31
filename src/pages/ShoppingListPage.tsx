@@ -4476,7 +4476,7 @@ export default function ShoppingListPage() {
                         thumbnailKey={item.thumbnailKey}
                         altText={item.thumbnailAltText}
                         category={item.category}
-                        size={36}
+                        size={40}
                         variant="list"
                       />
                     )}
