@@ -369,7 +369,7 @@ async function extractInstagramMetadataForFallback(
   rawUrl: string
 ): Promise<InstagramFallbackMetadata> {
   if (
-    Capacitor.getPlatform() !== "android" ||
+    !["android", "ios"].includes(Capacitor.getPlatform()) ||
     !isInstagramRecipeUrl(rawUrl)
   ) {
     return EMPTY_INSTAGRAM_FALLBACK_METADATA;
@@ -872,13 +872,46 @@ export default function CookbookPage({
 
     const normalizedRecipe = normalizeImportedRecipe(sharedImportedRecipe);
 
+    const incomingSourceKey =
+      normalizeSourceUrlForMatching(
+        normalizedRecipe.sourceUrl
+      );
+
+    const existingReadyRecipe =
+      incomingSourceKey
+        ? cookbook.find(
+            (recipe) =>
+              normalizeSourceUrlForMatching(
+                recipe.sourceUrl
+              ) === incomingSourceKey &&
+              getRecipeStatus(recipe) === "Ready"
+          )
+        : undefined;
+
+    // Consume the navigation state immediately so this import
+    // cannot be reopened after the review/save flow completes.
+    navigate("/cookbook", { replace: true });
+
+    if (existingReadyRecipe) {
+      if (existingReadyRecipe.slug) {
+        setHighlightSlug(existingReadyRecipe.slug);
+      }
+
+      alert(
+        language === "es"
+          ? "Esta receta ya está guardada y completa en tu recetario."
+          : "This recipe is already saved and complete in your Cookbook."
+      );
+
+      return;
+    }
+
     setManualRecipe(normalizedRecipe);
     setEditingSlug(null);
     setHasImportedDraft(true);
     setShowManual(true);
 
-    navigate("/cookbook", { replace: true });
-  }, [location.state, navigate]);
+  }, [location.state, navigate, cookbook, language]);
 
   useEffect(() => {
     const savedSlug = localStorage.getItem("scrollToCookbook");

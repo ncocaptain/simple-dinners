@@ -175,7 +175,7 @@ async function extractInstagramMetadataForShare(
   rawUrl: string
 ): Promise<InstagramShareMetadata> {
   if (
-    Capacitor.getPlatform() !== "android" ||
+    !["android", "ios"].includes(Capacitor.getPlatform()) ||
     !isInstagramRecipeUrl(rawUrl)
   ) {
     return EMPTY_INSTAGRAM_SHARE_METADATA;
@@ -526,6 +526,7 @@ export default function ShareImport() {
   const [captionAssistLoading, setCaptionAssistLoading] = useState(false);
   const screenshotInputRef = useRef<HTMLInputElement | null>(null);
   const videoInputRef = useRef<HTMLInputElement | null>(null);
+  const startedShareImportUrlRef = useRef<string | null>(null);
 
   const [screenshotFiles, setScreenshotFiles] = useState<File[]>([]);
   const [screenshotPreviewUrls, setScreenshotPreviewUrls] = useState<string[]>(
@@ -999,6 +1000,12 @@ export default function ShareImport() {
         setStatus("Checking Simple Dinners Plus...");
         return;
       }
+
+      if (startedShareImportUrlRef.current === url) {
+        return;
+      }
+
+      startedShareImportUrlRef.current = url;
 
       try {
         let data;
