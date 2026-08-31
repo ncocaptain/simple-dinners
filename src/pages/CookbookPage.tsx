@@ -467,6 +467,8 @@ function normalizeSourceUrlForMatching(value?: string): string {
 
     const trackingParameters = new Set([
       "igsh",
+      "igsi",
+      "igshid",
       "fbclid",
       "gclid",
       "si",
@@ -935,11 +937,27 @@ export default function CookbookPage({
   useEffect(() => {
     if (!highlightSlug) return;
 
-    const timer = window.setTimeout(() => {
-      setHighlightSlug(null);
-    }, 2000);
+    const scrollTimer = window.setTimeout(() => {
+      const el = document.getElementById(
+        `cookbook-${highlightSlug}`
+      );
 
-    return () => window.clearTimeout(timer);
+      if (el) {
+        el.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    }, 100);
+
+    const clearTimer = window.setTimeout(() => {
+      setHighlightSlug(null);
+    }, 4000);
+
+    return () => {
+      window.clearTimeout(scrollTimer);
+      window.clearTimeout(clearTimer);
+    };
   }, [highlightSlug]);
 
   // =========================================================

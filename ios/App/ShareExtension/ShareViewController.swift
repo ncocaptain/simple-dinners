@@ -1,32 +1,44 @@
 import UIKit
-import Social
 import UniformTypeIdentifiers
 
-class ShareViewController: SLComposeServiceViewController {
+class ShareViewController: UIViewController {
 
-    override func isContentValid() -> Bool {
-        return true
-    }
+    private var hasHandledShare = false
 
-    override func didSelectPost() {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        guard !hasHandledShare else {
+            return
+        }
+
+        hasHandledShare = true
+
         findSharedURL { urlString in
             guard let urlString else {
-                self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+                self.extensionContext?.completeRequest(
+                    returningItems: [],
+                    completionHandler: nil
+                )
                 return
             }
 
-            let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? urlString
+            let encoded =
+                urlString.addingPercentEncoding(
+                    withAllowedCharacters: .urlQueryAllowed
+                ) ?? urlString
 
-            if let appUrl = URL(string: "simpledinners://share-import?url=\(encoded)") {
+            if let appUrl = URL(
+                string: "simpledinners://share-import?url=\(encoded)"
+            ) {
                 self.openApp(url: appUrl)
             }
 
-            self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+            self.extensionContext?.completeRequest(
+                returningItems: [],
+                completionHandler: nil
+            )
         }
-    }
-
-    override func configurationItems() -> [Any]! {
-        return []
     }
 
     private func findSharedURL(completion: @escaping (String?) -> Void) {

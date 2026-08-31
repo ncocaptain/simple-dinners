@@ -408,7 +408,10 @@ function AppContent() {
         const sharedUrl = parsed.searchParams.get("url");
 
         if (sharedUrl) {
-          window.location.href = `/share-import?url=${encodeURIComponent(sharedUrl)}`;
+          navigate(
+            `/share-import?url=${encodeURIComponent(sharedUrl)}`,
+            { replace: true }
+          );
         }
       } catch {
         // Ignore malformed URLs.
@@ -420,7 +423,7 @@ function AppContent() {
     return () => {
       removeListener?.();
     };
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     if (plusDiscoveryScheduledRef.current) {
