@@ -1827,6 +1827,32 @@ function resolveShoppingCategory(name: string): GroceryCategory {
   ) {
     return "Household";
   }
+  // Additional category corrections found by cookbook audit.
+  if (
+    lower.includes("caramel sauce") ||
+    lower.includes("enchilada sauce") ||
+    lower.includes("gochujang") ||
+    lower.includes("mini marshmallows") ||
+    lower.includes("cocoa powder") ||
+    lower.includes("lentils") ||
+    lower.includes("maple syrup") ||
+    lower.includes("quinoa") ||
+    lower.includes("rotel")
+  ) {
+    return "Pantry";
+  }
+
+  if (lower.includes("fresh chives")) {
+    return "Produce";
+  }
+
+  if (
+    lower.includes("pico de gallo") ||
+    lower.includes("refrigerated biscuits")
+  ) {
+    return "Deli / Refrigerated";
+  }
+
   // Common packaged staples that broad keyword matching can misclassify.
   if (
     lower.includes("baking soda") ||
@@ -2017,6 +2043,32 @@ function resolveShoppingCategoryForItem(
   ) {
     return "Household";
   }
+  // Additional category corrections found by cookbook audit.
+  if (
+    lower.includes("caramel sauce") ||
+    lower.includes("enchilada sauce") ||
+    lower.includes("gochujang") ||
+    lower.includes("mini marshmallows") ||
+    lower.includes("cocoa powder") ||
+    lower.includes("lentils") ||
+    lower.includes("maple syrup") ||
+    lower.includes("quinoa") ||
+    lower.includes("rotel")
+  ) {
+    return "Pantry";
+  }
+
+  if (lower.includes("fresh chives")) {
+    return "Produce";
+  }
+
+  if (
+    lower.includes("pico de gallo") ||
+    lower.includes("refrigerated biscuits")
+  ) {
+    return "Deli / Refrigerated";
+  }
+
   // Common packaged staples that broad keyword matching can misclassify.
   if (
     lower.includes("baking soda") ||

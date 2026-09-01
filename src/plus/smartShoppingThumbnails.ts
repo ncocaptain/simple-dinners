@@ -476,6 +476,15 @@ const EXACT_THUMBNAIL_KEYS: Record<string, string> = {
   "kidney beans": "kidney-beans",
   "nutmeg": "nutmeg",
   "ground nutmeg": "nutmeg",
+
+  // Additional cookbook audit aliases
+  "honey or brown sugar": "honey",
+  "honey or maple syrup": "honey",
+  "ripe avocados": "avocado",
+  "portobello mushroom": "mushrooms",
+  "portobello mushrooms": "mushrooms",
+  "salt / pepper": "salt",
+
 };
 
 const BROAD_THUMBNAIL_RULES: Array<{
