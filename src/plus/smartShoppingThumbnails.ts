@@ -455,6 +455,27 @@ const EXACT_THUMBNAIL_KEYS: Record<string, string> = {
   "frozen peas and carrot": "frozen-mixed-vegetables",
   "frozen peas and carrots": "frozen-mixed-vegetables",
 
+  // Built-in cookbook thumbnail expansion batch
+  "hot dog": "hot-dogs",
+  "hot dogs": "hot-dogs",
+  "hot sauce": "hot-sauce",
+  "powdered sugar": "powdered-sugar",
+  "confectioners sugar": "powdered-sugar",
+  "confectioner's sugar": "powdered-sugar",
+  "red wine vinegar": "red-wine-vinegar",
+  "strawberry": "strawberries",
+  "strawberries": "strawberries",
+  "fresh strawberries": "strawberries",
+  "whipped cream": "whipped-cream",
+  "whipped topping": "whipped-cream",
+  "fresh dill": "fresh-dill",
+  "dill": "fresh-dill",
+  "kalamata olive": "kalamata-olives",
+  "kalamata olives": "kalamata-olives",
+  "kidney bean": "kidney-beans",
+  "kidney beans": "kidney-beans",
+  "nutmeg": "nutmeg",
+  "ground nutmeg": "nutmeg",
 };
 
 const BROAD_THUMBNAIL_RULES: Array<{
@@ -780,7 +801,19 @@ const AVAILABLE_LOCAL_THUMBNAIL_KEYS =
     "blueberries",
     "chickpeas",
     "chocolate-chips",
-    "frozen-mixed-vegetables",]);
+    "frozen-mixed-vegetables",
+
+    // Built-in cookbook thumbnail expansion batch
+    "hot-dogs",
+    "hot-sauce",
+    "powdered-sugar",
+    "red-wine-vinegar",
+    "strawberries",
+    "whipped-cream",
+    "fresh-dill",
+    "kalamata-olives",
+    "kidney-beans",
+    "nutmeg",]);
 
 export function hasLocalSmartShoppingThumbnail(
   thumbnailKey: string,
