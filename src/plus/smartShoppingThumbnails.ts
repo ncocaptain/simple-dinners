@@ -505,6 +505,22 @@ const EXACT_THUMBNAIL_KEYS: Record<string, string> = {
   "mini marshmallow": "mini-marshmallows",
   "mini marshmallows": "mini-marshmallows",
   "pizza dough": "pizza-dough",
+
+  // Additional normalized cookbook audit aliases
+  "salt pepper": "salt",
+  "semi-sweet chocolate chips": "chocolate-chips",
+  "semi sweet chocolate chips": "chocolate-chips",
+  "shredded lettuce": "romaine-lettuce",
+  "sliced mushrooms": "mushrooms",
+  "vegetable broth or water": "vegetable-broth",
+  "seasoned salt": "salt",
+  "pico de gallo": "salsa",
+
+  // Final cookbook coverage aliases
+  "arugula or lettuce": "romaine-lettuce",
+  "bacon drippings or butter": "butter",
+  "bags corn chips": "tortilla-chips",
+
 };
 
 const BROAD_THUMBNAIL_RULES: Array<{
