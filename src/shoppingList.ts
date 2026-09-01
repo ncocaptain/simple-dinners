@@ -1793,6 +1793,24 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     cleanIngredientForCategory(name);
 
   const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
+  // Common packaged staples that broad keyword matching can misclassify.
+  if (
+    lower.includes("baking soda") ||
+    lower.includes("vanilla extract") ||
+    lower.includes("marinara sauce") ||
+    lower.includes("cream of chicken soup")
+  ) {
+    return "Pantry";
+  }
+
+  // Corn tortillas are a bakery item; tortilla chips remain Pantry.
+  if (
+    /\bcorn tortillas?\b/.test(lower) &&
+    !lower.includes("tortilla chips")
+  ) {
+    return "Bakery";
+  }
+
   if (
   lower === "chuck roast" ||
   lower.includes("smoked sausage") ||
@@ -1945,6 +1963,24 @@ function resolveShoppingCategoryForItem(
     cleanIngredientForCategory(name);
 
   const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
+  // Common packaged staples that broad keyword matching can misclassify.
+  if (
+    lower.includes("baking soda") ||
+    lower.includes("vanilla extract") ||
+    lower.includes("marinara sauce") ||
+    lower.includes("cream of chicken soup")
+  ) {
+    return "Pantry";
+  }
+
+  // Corn tortillas are a bakery item; tortilla chips remain Pantry.
+  if (
+    /\bcorn tortillas?\b/.test(lower) &&
+    !lower.includes("tortilla chips")
+  ) {
+    return "Bakery";
+  }
+
   if (
   lower === "chuck roast" ||
   lower.includes("smoked sausage") ||

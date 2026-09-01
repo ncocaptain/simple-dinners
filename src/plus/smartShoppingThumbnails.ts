@@ -350,6 +350,24 @@ const EXACT_THUMBNAIL_KEYS: Record<string, string> = {
   "buffalo sauce": "buffalo-sauce",
   "buffalo wing sauce": "buffalo-sauce",
 
+  // Common built-in recipe thumbnail aliases
+  "unsalted butter": "butter",
+  "fresh spinach": "spinach",
+  "fresh basil": "basil",
+  "fresh basil leaves": "basil",
+  "corn tortilla": "tortillas",
+  "corn tortillas": "tortillas",
+  "ripe avocado": "avocado",
+  "old-fashioned oats": "oats",
+  "old fashioned oats": "oats",
+  "panko breadcrumbs": "breadcrumbs",
+  "panko bread crumbs": "breadcrumbs",
+  "sourdough bread": "bread",
+  "corn on the cob": "corn",
+  "shredded chicken": "chicken-breast",
+  "cooked shredded chicken": "chicken-breast",
+  "chicken": "chicken-breast",
+
 };
 
 const BROAD_THUMBNAIL_RULES: Array<{

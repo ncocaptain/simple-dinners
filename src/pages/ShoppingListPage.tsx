@@ -1909,6 +1909,24 @@ function isForcedSpice(cleaned: string) {
 
 function resolveShoppingCategory(name: string): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
+  // Common packaged staples that broad keyword matching can misclassify.
+  if (
+    cleaned.includes("baking soda") ||
+    cleaned.includes("vanilla extract") ||
+    cleaned.includes("marinara sauce") ||
+    cleaned.includes("cream of chicken soup")
+  ) {
+    return "Pantry";
+  }
+
+  // Corn tortillas are a bakery item; tortilla chips remain Pantry.
+  if (
+    /\bcorn tortillas?\b/.test(cleaned) &&
+    !cleaned.includes("tortilla chips")
+  ) {
+    return "Bakery";
+  }
+
   // Explicit protections before broad pantry/spice fallbacks.
   if (
     cleaned === "chuck roast" ||
@@ -1977,6 +1995,24 @@ function resolveShoppingCategoryForItem(
   packageSize?: string
 ): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
+  // Common packaged staples that broad keyword matching can misclassify.
+  if (
+    cleaned.includes("baking soda") ||
+    cleaned.includes("vanilla extract") ||
+    cleaned.includes("marinara sauce") ||
+    cleaned.includes("cream of chicken soup")
+  ) {
+    return "Pantry";
+  }
+
+  // Corn tortillas are a bakery item; tortilla chips remain Pantry.
+  if (
+    /\bcorn tortillas?\b/.test(cleaned) &&
+    !cleaned.includes("tortilla chips")
+  ) {
+    return "Bakery";
+  }
+
   // Explicit protections before broad pantry/spice fallbacks.
   if (
     cleaned === "chuck roast" ||
