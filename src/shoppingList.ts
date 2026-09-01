@@ -1320,6 +1320,20 @@ if (baconRangeMatch) {
   }
 
   const parsedUnitForName = unit;
+  // Shopping identity should describe the food, not preparation descriptors.
+  // Example: "6 bone-in, skin-on chicken thighs" -> "chicken thighs".
+  text = text
+    .replace(/^\s*bone-in\s*,?\s*/i, "")
+    .replace(/^\s*bone in\s*,?\s*/i, "")
+    .replace(/^\s*skin-on\s*,?\s*/i, "")
+    .replace(/^\s*skin on\s*,?\s*/i, "")
+    .trim();
+
+  // A cornstarch + water slurry is one shopping ingredient: cornstarch.
+  // Example: "1 tsp cornstarch + 2 Tbsp water" -> "cornstarch".
+  if (/^(?:cornstarch|corn starch)\s*\+.*\bwater\b/i.test(text)) {
+    text = text.replace(/\s*\+.*$/i, "").trim();
+  }
   const cleanedNormalizedName = normalizeIngredientName(text);
 
   let normalizedName = normalizeContainerIngredientName(
@@ -1793,6 +1807,26 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     cleanIngredientForCategory(name);
 
   const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
+  // Audit-discovered category protections.
+  if (lower.includes("cream of mushroom soup")) {
+    return "Pantry";
+  }
+
+  if (lower.includes("cornmeal")) {
+    return "Pantry";
+  }
+
+  if (lower.includes("ground coriander")) {
+    return "Spices / Seasonings";
+  }
+
+  if (
+    lower.includes("heavy-duty aluminum foil") ||
+    lower.includes("heavy duty aluminum foil") ||
+    lower.includes("aluminum foil")
+  ) {
+    return "Household";
+  }
   // Common packaged staples that broad keyword matching can misclassify.
   if (
     lower.includes("baking soda") ||
@@ -1963,6 +1997,26 @@ function resolveShoppingCategoryForItem(
     cleanIngredientForCategory(name);
 
   const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
+  // Audit-discovered category protections.
+  if (lower.includes("cream of mushroom soup")) {
+    return "Pantry";
+  }
+
+  if (lower.includes("cornmeal")) {
+    return "Pantry";
+  }
+
+  if (lower.includes("ground coriander")) {
+    return "Spices / Seasonings";
+  }
+
+  if (
+    lower.includes("heavy-duty aluminum foil") ||
+    lower.includes("heavy duty aluminum foil") ||
+    lower.includes("aluminum foil")
+  ) {
+    return "Household";
+  }
   // Common packaged staples that broad keyword matching can misclassify.
   if (
     lower.includes("baking soda") ||

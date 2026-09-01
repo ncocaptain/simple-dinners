@@ -1909,6 +1909,26 @@ function isForcedSpice(cleaned: string) {
 
 function resolveShoppingCategory(name: string): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
+  // Audit-discovered category protections.
+  if (cleaned.includes("cream of mushroom soup")) {
+    return "Pantry";
+  }
+
+  if (cleaned.includes("cornmeal")) {
+    return "Pantry";
+  }
+
+  if (cleaned.includes("ground coriander")) {
+    return "Spices / Seasonings";
+  }
+
+  if (
+    cleaned.includes("heavy-duty aluminum foil") ||
+    cleaned.includes("heavy duty aluminum foil") ||
+    cleaned.includes("aluminum foil")
+  ) {
+    return "Household";
+  }
   // Common packaged staples that broad keyword matching can misclassify.
   if (
     cleaned.includes("baking soda") ||
@@ -1995,6 +2015,26 @@ function resolveShoppingCategoryForItem(
   packageSize?: string
 ): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
+  // Audit-discovered category protections.
+  if (cleaned.includes("cream of mushroom soup")) {
+    return "Pantry";
+  }
+
+  if (cleaned.includes("cornmeal")) {
+    return "Pantry";
+  }
+
+  if (cleaned.includes("ground coriander")) {
+    return "Spices / Seasonings";
+  }
+
+  if (
+    cleaned.includes("heavy-duty aluminum foil") ||
+    cleaned.includes("heavy duty aluminum foil") ||
+    cleaned.includes("aluminum foil")
+  ) {
+    return "Household";
+  }
   // Common packaged staples that broad keyword matching can misclassify.
   if (
     cleaned.includes("baking soda") ||

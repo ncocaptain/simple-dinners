@@ -449,6 +449,12 @@ const EXACT_THUMBNAIL_KEYS: Record<string, string> = {
   "mini chocolate chips": "chocolate-chips",
   "frozen mixed vegetables": "frozen-mixed-vegetables",
   "mixed vegetables": "frozen-mixed-vegetables",
+
+  // Additional cookbook cleanup aliases
+  "bacon bits": "bacon",
+  "frozen peas and carrot": "frozen-mixed-vegetables",
+  "frozen peas and carrots": "frozen-mixed-vegetables",
+
 };
 
 const BROAD_THUMBNAIL_RULES: Array<{
