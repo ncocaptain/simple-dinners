@@ -407,6 +407,48 @@ const EXACT_THUMBNAIL_KEYS: Record<string, string> = {
   "zucchinis": "zucchini",
   "baking powder": "baking-powder",
   "cream of chicken soup": "cream-of-chicken-soup",
+
+  // Additional built-in recipe thumbnail aliases
+  "dried parsley": "parsley",
+  "lettuce": "romaine-lettuce",
+  "mustard": "yellow-mustard",
+  "thyme": "dried-thyme",
+  "avocado slices": "avocado",
+  "baby carrot": "carrot",
+  "baby carrots": "carrot",
+  "burger bun": "hamburger-buns",
+  "burger buns": "hamburger-buns",
+  "cold butter": "butter",
+  "extra bbq sauce": "bbq-sauce",
+  "extra barbecue sauce": "bbq-sauce",
+  "corn kernels": "corn",
+  "brown rice": "rice",
+  "hot dogs bun": "hot-dog-buns",
+
+  // Built-in cookbook thumbnail expansion batch
+  "crouton": "croutons",
+  "croutons": "croutons",
+  "dried rosemary": "dried-rosemary",
+  "rosemary": "dried-rosemary",
+  "marinara": "marinara-sauce",
+  "marinara sauce": "marinara-sauce",
+  "tortilla chip": "tortilla-chips",
+  "tortilla chips": "tortilla-chips",
+  "baking soda": "baking-soda",
+  "rice vinegar": "rice-vinegar",
+  "seasoned rice vinegar": "rice-vinegar",
+  "blueberry": "blueberries",
+  "blueberries": "blueberries",
+  "fresh blueberries": "blueberries",
+  "chickpea": "chickpeas",
+  "chickpeas": "chickpeas",
+  "garbanzo bean": "chickpeas",
+  "garbanzo beans": "chickpeas",
+  "chocolate chip": "chocolate-chips",
+  "chocolate chips": "chocolate-chips",
+  "mini chocolate chips": "chocolate-chips",
+  "frozen mixed vegetables": "frozen-mixed-vegetables",
+  "mixed vegetables": "frozen-mixed-vegetables",
 };
 
 const BROAD_THUMBNAIL_RULES: Array<{
@@ -720,7 +762,19 @@ const AVAILABLE_LOCAL_THUMBNAIL_KEYS =
     "mayonnaise",
     "zucchini",
     "baking-powder",
-    "cream-of-chicken-soup",]);
+    "cream-of-chicken-soup",
+
+    // Built-in cookbook thumbnail expansion batch
+    "croutons",
+    "dried-rosemary",
+    "marinara-sauce",
+    "tortilla-chips",
+    "baking-soda",
+    "rice-vinegar",
+    "blueberries",
+    "chickpeas",
+    "chocolate-chips",
+    "frozen-mixed-vegetables",]);
 
 export function hasLocalSmartShoppingThumbnail(
   thumbnailKey: string,
