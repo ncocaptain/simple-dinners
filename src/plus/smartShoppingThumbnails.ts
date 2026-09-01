@@ -521,6 +521,21 @@ const EXACT_THUMBNAIL_KEYS: Record<string, string> = {
   "bacon drippings or butter": "butter",
   "bags corn chips": "tortilla-chips",
 
+  // Final built-in coverage thumbnail batch
+  "refrigerated biscuit": "refrigerated-biscuits",
+  "refrigerated biscuits": "refrigerated-biscuits",
+  "biscuit dough": "refrigerated-biscuits",
+  "tofu": "tofu",
+  "firm tofu": "tofu",
+  "extra-firm tofu": "tofu",
+  "extra firm tofu": "tofu",
+  "block firm tofu": "tofu",
+  "block extra-firm tofu": "tofu",
+  "block extra firm tofu": "tofu",
+  "crescent roll dough": "crescent-roll-dough",
+  "refrigerated crescent roll dough": "crescent-roll-dough",
+  "cornmeal": "cornmeal",
+  "yellow cornmeal": "cornmeal",
 };
 
 const BROAD_THUMBNAIL_RULES: Array<{
@@ -870,7 +885,13 @@ const AVAILABLE_LOCAL_THUMBNAIL_KEYS =
     "gochujang",
     "graham-cracker-crumbs",
     "mini-marshmallows",
-    "pizza-dough",]);
+    "pizza-dough",
+
+    // Final built-in coverage thumbnail batch
+    "refrigerated-biscuits",
+    "tofu",
+    "crescent-roll-dough",
+    "cornmeal",]);
 
 export function hasLocalSmartShoppingThumbnail(
   thumbnailKey: string,
