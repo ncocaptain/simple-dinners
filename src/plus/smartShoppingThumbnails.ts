@@ -485,6 +485,26 @@ const EXACT_THUMBNAIL_KEYS: Record<string, string> = {
   "portobello mushrooms": "mushrooms",
   "salt / pepper": "salt",
 
+  // Built-in cookbook thumbnail expansion batch
+  "balsamic vinegar": "balsamic-vinegar",
+  "caramel sauce": "caramel-sauce",
+  "caramel topping": "caramel-sauce",
+  "chili beans": "chili-beans",
+  "chilli beans": "chili-beans",
+  "coleslaw mix": "coleslaw-mix",
+  "cole slaw mix": "coleslaw-mix",
+  "enchilada sauce": "enchilada-sauce",
+  "red enchilada sauce": "enchilada-sauce",
+  "green enchilada sauce": "enchilada-sauce",
+  "frozen peas": "frozen-peas",
+  "gochujang": "gochujang",
+  "gochujang paste": "gochujang",
+  "korean chili paste": "gochujang",
+  "graham cracker crumbs": "graham-cracker-crumbs",
+  "graham crumbs": "graham-cracker-crumbs",
+  "mini marshmallow": "mini-marshmallows",
+  "mini marshmallows": "mini-marshmallows",
+  "pizza dough": "pizza-dough",
 };
 
 const BROAD_THUMBNAIL_RULES: Array<{
@@ -822,7 +842,19 @@ const AVAILABLE_LOCAL_THUMBNAIL_KEYS =
     "fresh-dill",
     "kalamata-olives",
     "kidney-beans",
-    "nutmeg",]);
+    "nutmeg",
+
+    // Built-in cookbook thumbnail expansion batch
+    "balsamic-vinegar",
+    "caramel-sauce",
+    "chili-beans",
+    "coleslaw-mix",
+    "enchilada-sauce",
+    "frozen-peas",
+    "gochujang",
+    "graham-cracker-crumbs",
+    "mini-marshmallows",
+    "pizza-dough",]);
 
 export function hasLocalSmartShoppingThumbnail(
   thumbnailKey: string,
