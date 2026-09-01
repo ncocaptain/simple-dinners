@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Plus,
   Trash2,
@@ -52,6 +53,8 @@ import {
 import {
   usePlusAccess,
 } from "../plus/usePlusAccess";
+import { ALL_RECIPES } from "../core/data";
+import { getCookbook } from "../core/cookbookStore";
 
 // =====================================================
 // ShoppingListPage map
@@ -114,6 +117,39 @@ type CombinedItem = {
   thumbnailAltText: string;
   displayText: string;
 };
+
+function normalizeRecipeSourceName(value: unknown) {
+  return String(value || "")
+    .trim()
+    .toLocaleLowerCase()
+    .replace(/\s+/g, " ");
+}
+
+function getRecipeSourceSlug(recipeName: string) {
+  const key = normalizeRecipeSourceName(recipeName);
+  if (!key) return null;
+
+  // Cookbook first so imported/saved recipes resolve to their actual
+  // stored identifier. Built-in recipes remain the fallback.
+  const recipes = [...getCookbook(), ...ALL_RECIPES];
+
+  const match = recipes.find((recipe) => {
+    const identifier = String(recipe.slug || recipe.id || "").trim();
+    if (!identifier) return false;
+
+    const possibleNames = [
+      recipe.name,
+      (recipe as any)?.translations?.es?.name,
+    ];
+
+    return possibleNames.some(
+      (name) => normalizeRecipeSourceName(name) === key
+    );
+  });
+
+  const slug = String(match?.slug || match?.id || "").trim();
+  return slug || null;
+}
 
 // =====================================================
 // Countable ingredient rules
@@ -2582,6 +2618,7 @@ function getCategoryLabel(section: GroceryCategory) {
 // Page component
 // =====================================================
 export default function ShoppingListPage() {
+  const navigate = useNavigate();
   const {
     requirePlus,
   } = usePlusAccess();
@@ -4065,6 +4102,18 @@ export default function ShoppingListPage() {
     setSourceModalGroup(null);
   };
 
+  const openRecipeFromSourceModal = (recipeName: string) => {
+    const recipeSlug = getRecipeSourceSlug(recipeName);
+    if (!recipeSlug) return;
+
+    closeSourceModal();
+
+    navigate(
+      `/recipe/${encodeURIComponent(recipeSlug)}?from=%2Fshopping-list`
+    );
+  };
+
+
   // =====================================================
   // Render
   // =====================================================
@@ -4839,18 +4888,49 @@ export default function ShoppingListPage() {
                       gap: 12,
                     }}
                   >
-                    <span
-                      style={{
-                        minWidth: 0,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                        fontSize: 14,
-                        fontWeight: 800,
-                      }}
-                    >
-                      {recipe.recipeName}
-                    </span>
+                    {getRecipeSourceSlug(recipe.recipeName) ? (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          openRecipeFromSourceModal(recipe.recipeName)
+                        }
+                        title={`Open ${recipe.recipeName}`}
+                        aria-label={`Open recipe ${recipe.recipeName}`}
+                        style={{
+                          minWidth: 0,
+                          maxWidth: "100%",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                          fontSize: 14,
+                          fontWeight: 800,
+                          fontFamily: "inherit",
+                          textAlign: "left",
+                          color: "#93c5fd",
+                          background: "transparent",
+                          border: "none",
+                          padding: 0,
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                          textUnderlineOffset: 3,
+                        }}
+                      >
+                        {recipe.recipeName}
+                      </button>
+                    ) : (
+                      <span
+                        style={{
+                          minWidth: 0,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                          fontSize: 14,
+                          fontWeight: 800,
+                        }}
+                      >
+                        {recipe.recipeName}
+                      </span>
+                    )}
 
                     {recipe.amountText ? (
                       <span
