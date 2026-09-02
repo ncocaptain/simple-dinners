@@ -719,6 +719,7 @@ function normalizePantryAndSeasonings(text: string) {
   return text
     .replace(/\bbarbecue sauce\b/gi, "bbq sauce")
     .replace(/\bcrushed red pepper\b/gi, "red pepper flakes")
+    .replace(/\bchili flakes?\b/gi, "red pepper flakes")
     .replace(/\bcorn starch\b/gi, "cornstarch")
     .replace(/\bcornstarch\s+mixed\s+with\b.*$/gi, "cornstarch")
     // Recipe amounts such as "a pinch of" are not useful

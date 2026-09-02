@@ -698,6 +698,8 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
       "ground pepper",
       "red pepper flakes",
       "pepper flakes",
+      "chili flakes",
+      "chili flake",
       "cayenne",
       "cayenne pepper",
       "paprika",
