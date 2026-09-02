@@ -2083,7 +2083,31 @@ function resolveShoppingCategoryForItem(
   // Example: "Sprite Zero Sugar" should not match "sugar" -> Pantry.
   if (
     cleaned === "sprite" ||
-    cleaned.startsWith("sprite ")
+    cleaned.startsWith("sprite ") ||
+    cleaned === "coca cola" ||
+    cleaned.startsWith("coca cola ") ||
+    cleaned === "coca-cola" ||
+    cleaned.startsWith("coca-cola ") ||
+    cleaned === "coke" ||
+    cleaned.startsWith("coke ") ||
+    cleaned === "diet coke" ||
+    cleaned.startsWith("diet coke ") ||
+    cleaned === "pepsi" ||
+    cleaned.startsWith("pepsi ") ||
+    cleaned === "diet pepsi" ||
+    cleaned.startsWith("diet pepsi ") ||
+    cleaned === "dr pepper" ||
+    cleaned.startsWith("dr pepper ") ||
+    cleaned === "diet dr pepper" ||
+    cleaned.startsWith("diet dr pepper ") ||
+    cleaned === "mountain dew" ||
+    cleaned.startsWith("mountain dew ") ||
+    cleaned === "diet mountain dew" ||
+    cleaned.startsWith("diet mountain dew ") ||
+    cleaned === "mtn dew" ||
+    cleaned.startsWith("mtn dew ") ||
+    cleaned === "diet mtn dew" ||
+    cleaned.startsWith("diet mtn dew ")
   ) {
     return "Beverages";
   }

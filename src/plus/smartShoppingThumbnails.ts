@@ -102,6 +102,38 @@ const EXACT_THUMBNAIL_KEYS: Record<string, string> = {
   "sprite zero": "sprite",
   "sprite zero sugar": "sprite",
 
+  "coca cola": "coca-cola",
+  "coca-cola": "coca-cola",
+  coke: "coca-cola",
+
+  "diet coke": "diet-coke",
+
+  "coke zero": "coke-zero-sugar",
+  "coke zero sugar": "coke-zero-sugar",
+  "coca cola zero": "coke-zero-sugar",
+  "coca cola zero sugar": "coke-zero-sugar",
+  "coca-cola zero": "coke-zero-sugar",
+  "coca-cola zero sugar": "coke-zero-sugar",
+
+  pepsi: "pepsi",
+  "diet pepsi": "diet-pepsi",
+  "pepsi zero": "pepsi-zero-sugar",
+  "pepsi zero sugar": "pepsi-zero-sugar",
+
+  "dr pepper": "dr-pepper",
+  "diet dr pepper": "diet-dr-pepper",
+  "dr pepper zero": "dr-pepper-zero-sugar",
+  "dr pepper zero sugar": "dr-pepper-zero-sugar",
+
+  "mountain dew": "mountain-dew",
+  "mtn dew": "mountain-dew",
+  "diet mountain dew": "diet-mountain-dew",
+  "diet mtn dew": "diet-mountain-dew",
+  "mountain dew zero": "mountain-dew-zero-sugar",
+  "mountain dew zero sugar": "mountain-dew-zero-sugar",
+  "mtn dew zero": "mountain-dew-zero-sugar",
+  "mtn dew zero sugar": "mountain-dew-zero-sugar",
+
   "energy drink": "energy-drink",
   "energy drinks": "energy-drink",
 
@@ -812,6 +844,18 @@ const AVAILABLE_LOCAL_THUMBNAIL_KEYS =
     "water",
     "soda",
     "sprite",
+    "coca-cola",
+    "diet-coke",
+    "coke-zero-sugar",
+    "pepsi",
+    "diet-pepsi",
+    "pepsi-zero-sugar",
+    "dr-pepper",
+    "diet-dr-pepper",
+    "dr-pepper-zero-sugar",
+    "mountain-dew",
+    "diet-mountain-dew",
+    "mountain-dew-zero-sugar",
     "energy-drink",
 
     // Shopping thumbnail expansion batch 2

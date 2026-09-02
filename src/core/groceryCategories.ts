@@ -441,6 +441,18 @@ function includesAny(normalized: string, keywords: string[]) {
 
 const RECOGNIZED_BRAND_BEVERAGES = [
   "sprite",
+  "coca cola",
+  "coca-cola",
+  "coke",
+  "diet coke",
+  "pepsi",
+  "diet pepsi",
+  "dr pepper",
+  "diet dr pepper",
+  "mountain dew",
+  "diet mountain dew",
+  "mtn dew",
+  "diet mtn dew",
 ];
 
 function isRecognizedBrandBeverage(normalized: string) {
