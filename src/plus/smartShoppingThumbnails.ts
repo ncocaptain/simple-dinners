@@ -247,6 +247,33 @@ const EXACT_THUMBNAIL_KEYS: Record<string, string> = {
   "whole chicken": "whole-chicken",
   "roasting chicken": "whole-chicken",
 
+  // Recognizable brand-name grocery products
+  "heinz ketchup": "heinz-ketchup",
+  "heinz tomato ketchup": "heinz-ketchup",
+
+  "hellmanns mayonnaise": "hellmanns-mayonnaise",
+  "hellmann's mayonnaise": "hellmanns-mayonnaise",
+  "hellmanns mayo": "hellmanns-mayonnaise",
+  "hellmann's mayo": "hellmanns-mayonnaise",
+
+  "jif peanut butter": "jif-peanut-butter",
+  "jif creamy peanut butter": "jif-peanut-butter",
+
+  "hidden valley ranch": "hidden-valley-ranch",
+  "hidden valley ranch dressing": "hidden-valley-ranch",
+  "hidden valley original ranch": "hidden-valley-ranch",
+
+  "kraft mac & cheese": "kraft-mac-and-cheese",
+  "kraft mac and cheese": "kraft-mac-and-cheese",
+  "kraft macaroni and cheese": "kraft-mac-and-cheese",
+
+  velveeta: "velveeta",
+  "velveeta original": "velveeta",
+  "velveeta cheese": "velveeta",
+
+  cheerios: "cheerios",
+  "original cheerios": "cheerios",
+
   // Additional pantry items and aliases
   "peanut butter": "peanut-butter",
   "creamy peanut butter": "peanut-butter",
@@ -856,6 +883,13 @@ const AVAILABLE_LOCAL_THUMBNAIL_KEYS =
     "mountain-dew",
     "diet-mountain-dew",
     "mountain-dew-zero-sugar",
+    "heinz-ketchup",
+    "hellmanns-mayonnaise",
+    "jif-peanut-butter",
+    "hidden-valley-ranch",
+    "kraft-mac-and-cheese",
+    "velveeta",
+    "cheerios",
     "energy-drink",
 
     // Shopping thumbnail expansion batch 2

@@ -478,6 +478,30 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
     return "Beverages";
   }
 
+  // Recognizable branded grocery products with category names
+  // that are not obvious from the product name alone.
+  if (
+    normalized === "velveeta" ||
+    normalized === "velveeta original" ||
+    normalized === "velveeta cheese"
+  ) {
+    return "Dairy / Eggs";
+  }
+
+  if (
+    normalized.includes("cheerios") ||
+    normalized === "hidden valley ranch" ||
+    normalized.startsWith("hidden valley ranch ") ||
+    normalized === "kraft mac cheese" ||
+    normalized.startsWith("kraft mac cheese ") ||
+    normalized === "kraft mac and cheese" ||
+    normalized.startsWith("kraft mac and cheese ") ||
+    normalized === "kraft macaroni and cheese" ||
+    normalized.startsWith("kraft macaroni and cheese ")
+  ) {
+    return "Pantry";
+  }
+
   // Refrigerated deli items.
   if (
     normalized === "hummus" ||

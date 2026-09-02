@@ -2077,39 +2077,72 @@ function resolveShoppingCategoryForItem(
   unit: string | null,
   packageSize?: string
 ): GroceryCategory {
+  const rawBrandName = normalizeManualText(name).toLowerCase();
   const cleaned = cleanIngredientName(name).toLowerCase();
 
   // Recognizable beverage brands must win before broad Pantry matches.
   // Example: "Sprite Zero Sugar" should not match "sugar" -> Pantry.
   if (
-    cleaned === "sprite" ||
-    cleaned.startsWith("sprite ") ||
-    cleaned === "coca cola" ||
-    cleaned.startsWith("coca cola ") ||
-    cleaned === "coca-cola" ||
-    cleaned.startsWith("coca-cola ") ||
-    cleaned === "coke" ||
-    cleaned.startsWith("coke ") ||
-    cleaned === "diet coke" ||
-    cleaned.startsWith("diet coke ") ||
-    cleaned === "pepsi" ||
-    cleaned.startsWith("pepsi ") ||
-    cleaned === "diet pepsi" ||
-    cleaned.startsWith("diet pepsi ") ||
-    cleaned === "dr pepper" ||
-    cleaned.startsWith("dr pepper ") ||
-    cleaned === "diet dr pepper" ||
-    cleaned.startsWith("diet dr pepper ") ||
-    cleaned === "mountain dew" ||
-    cleaned.startsWith("mountain dew ") ||
-    cleaned === "diet mountain dew" ||
-    cleaned.startsWith("diet mountain dew ") ||
-    cleaned === "mtn dew" ||
-    cleaned.startsWith("mtn dew ") ||
-    cleaned === "diet mtn dew" ||
-    cleaned.startsWith("diet mtn dew ")
+    rawBrandName === "sprite" ||
+    rawBrandName.startsWith("sprite ") ||
+    rawBrandName === "coca cola" ||
+    rawBrandName.startsWith("coca cola ") ||
+    rawBrandName === "coca-cola" ||
+    rawBrandName.startsWith("coca-cola ") ||
+    rawBrandName === "coke" ||
+    rawBrandName.startsWith("coke ") ||
+    rawBrandName === "diet coke" ||
+    rawBrandName.startsWith("diet coke ") ||
+    rawBrandName === "pepsi" ||
+    rawBrandName.startsWith("pepsi ") ||
+    rawBrandName === "diet pepsi" ||
+    rawBrandName.startsWith("diet pepsi ") ||
+    rawBrandName === "dr pepper" ||
+    rawBrandName.startsWith("dr pepper ") ||
+    rawBrandName === "diet dr pepper" ||
+    rawBrandName.startsWith("diet dr pepper ") ||
+    rawBrandName === "mountain dew" ||
+    rawBrandName.startsWith("mountain dew ") ||
+    rawBrandName === "diet mountain dew" ||
+    rawBrandName.startsWith("diet mountain dew ") ||
+    rawBrandName === "mtn dew" ||
+    rawBrandName.startsWith("mtn dew ") ||
+    rawBrandName === "diet mtn dew" ||
+    rawBrandName.startsWith("diet mtn dew ")
   ) {
     return "Beverages";
+  }
+
+  // Branded grocery products whose category is not obvious
+  // from their literal product name.
+  if (
+    rawBrandName === "velveeta" ||
+    rawBrandName === "velveeta original" ||
+    rawBrandName === "velveeta cheese"
+  ) {
+    return "Dairy / Eggs";
+  }
+
+  if (
+    rawBrandName === "heinz ketchup" ||
+    rawBrandName === "heinz tomato ketchup" ||
+    rawBrandName === "hellmanns mayonnaise" ||
+    rawBrandName === "hellmann's mayonnaise" ||
+    rawBrandName === "hellmanns mayo" ||
+    rawBrandName === "hellmann's mayo" ||
+    rawBrandName === "jif peanut butter" ||
+    rawBrandName === "jif creamy peanut butter" ||
+    rawBrandName.includes("cheerios") ||
+    rawBrandName === "hidden valley ranch" ||
+    rawBrandName.startsWith("hidden valley ranch ") ||
+    rawBrandName === "kraft mac & cheese" ||
+    rawBrandName.startsWith("kraft mac & cheese ") ||
+    rawBrandName === "kraft mac and cheese" ||
+    rawBrandName.startsWith("kraft mac and cheese ") ||
+    rawBrandName === "kraft macaroni and cheese" ||
+    rawBrandName.startsWith("kraft macaroni and cheese ")
+  ) {
+    return "Pantry";
   }
   // Audit-discovered category protections.
   if (cleaned.includes("cream of mushroom soup")) {
@@ -3277,10 +3310,9 @@ export default function ShoppingListPage() {
             ? "__count__"
             : unit;
 
-        const categoryName =
-          hasApprovedSmartIdentity
-            ? approvedSmartName
-            : manual.name;
+        // Keep the shopper-entered name authoritative for category.
+        // Smart Shopping identity still controls merging separately.
+        const categoryName = manual.name;
 
         const category =
           resolveShoppingCategoryForItem(
