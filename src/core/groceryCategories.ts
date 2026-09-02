@@ -316,6 +316,9 @@ const CATEGORY_KEYWORDS: Array<{
       "tea",
       "juice",
       "soda",
+      "sprite",
+      "sprite zero",
+      "sprite zero sugar",
       "water",
       "sparkling water",
       "sports drink",
@@ -436,6 +439,18 @@ function includesAny(normalized: string, keywords: string[]) {
   return keywords.some((keyword) => normalized.includes(normalize(keyword)));
 }
 
+const RECOGNIZED_BRAND_BEVERAGES = [
+  "sprite",
+];
+
+function isRecognizedBrandBeverage(normalized: string) {
+  return RECOGNIZED_BRAND_BEVERAGES.some(
+    (brand) =>
+      normalized === brand ||
+      normalized.startsWith(`${brand} `)
+  );
+}
+
 // =====================================================
 // Builder: category matcher
 // Smarter priority rules first, then keyword fallback.
@@ -444,6 +459,12 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
   const normalized = normalize(name);
 
   if (!normalized) return "Other";
+
+  // Recognizable beverage brands should win before broad Pantry words.
+  // Example: "Sprite Zero Sugar" must not match "sugar" -> Pantry.
+  if (isRecognizedBrandBeverage(normalized)) {
+    return "Beverages";
+  }
 
   // Refrigerated deli items.
   if (

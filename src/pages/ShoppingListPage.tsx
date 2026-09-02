@@ -2077,6 +2077,15 @@ function resolveShoppingCategoryForItem(
   packageSize?: string
 ): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
+
+  // Recognizable beverage brands must win before broad Pantry matches.
+  // Example: "Sprite Zero Sugar" should not match "sugar" -> Pantry.
+  if (
+    cleaned === "sprite" ||
+    cleaned.startsWith("sprite ")
+  ) {
+    return "Beverages";
+  }
   // Audit-discovered category protections.
   if (cleaned.includes("cream of mushroom soup")) {
     return "Pantry";

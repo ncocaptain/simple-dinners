@@ -96,6 +96,12 @@ const EXACT_THUMBNAIL_KEYS: Record<string, string> = {
   // Beverages
   water: "water",
   soda: "soda",
+
+  // Recognizable brand-name beverages
+  sprite: "sprite",
+  "sprite zero": "sprite",
+  "sprite zero sugar": "sprite",
+
   "energy drink": "energy-drink",
   "energy drinks": "energy-drink",
 
@@ -805,6 +811,7 @@ const AVAILABLE_LOCAL_THUMBNAIL_KEYS =
     "tortillas",
     "water",
     "soda",
+    "sprite",
     "energy-drink",
 
     // Shopping thumbnail expansion batch 2
