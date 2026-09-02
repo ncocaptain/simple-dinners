@@ -274,6 +274,41 @@ const EXACT_THUMBNAIL_KEYS: Record<string, string> = {
   cheerios: "cheerios",
   "original cheerios": "cheerios",
 
+  // Recognizable brand-name grocery products: batch 3
+  lays: "lays",
+  "lay's": "lays",
+  "lays classic": "lays",
+  "lay's classic": "lays",
+
+  oreo: "oreo",
+  oreos: "oreo",
+  "oreo original": "oreo",
+  "oreo cookies": "oreo",
+
+  doritos: "doritos",
+  "doritos nacho cheese": "doritos",
+
+  ritz: "ritz",
+  "ritz crackers": "ritz",
+
+  goldfish: "goldfish",
+  "goldfish crackers": "goldfish",
+  "goldfish cheddar": "goldfish",
+
+  poptarts: "poptarts",
+  "pop tarts": "poptarts",
+  "pop-tarts": "poptarts",
+  "frosted strawberry pop tarts": "poptarts",
+  "frosted strawberry pop-tarts": "poptarts",
+
+  eggo: "eggo",
+  "eggo waffles": "eggo",
+  "eggo homestyle": "eggo",
+  "eggo homestyle waffles": "eggo",
+
+  philadelphia: "philadelphia-cream-cheese",
+  "philadelphia cream cheese": "philadelphia-cream-cheese",
+  "philadelphia original cream cheese": "philadelphia-cream-cheese",
   // Additional pantry items and aliases
   "peanut butter": "peanut-butter",
   "creamy peanut butter": "peanut-butter",
@@ -890,6 +925,14 @@ const AVAILABLE_LOCAL_THUMBNAIL_KEYS =
     "kraft-mac-and-cheese",
     "velveeta",
     "cheerios",
+    "lays",
+    "oreo",
+    "doritos",
+    "ritz",
+    "goldfish",
+    "poptarts",
+    "eggo",
+    "philadelphia-cream-cheese",
     "energy-drink",
 
     // Shopping thumbnail expansion batch 2

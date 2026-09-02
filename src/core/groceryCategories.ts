@@ -497,9 +497,35 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
     normalized === "kraft mac and cheese" ||
     normalized.startsWith("kraft mac and cheese ") ||
     normalized === "kraft macaroni and cheese" ||
-    normalized.startsWith("kraft macaroni and cheese ")
+    normalized.startsWith("kraft macaroni and cheese ") ||
+    normalized === "oreo" ||
+    normalized === "oreos" ||
+    normalized.startsWith("oreo ") ||
+    normalized.startsWith("oreos ") ||
+    normalized === "doritos" ||
+    normalized.startsWith("doritos ") ||
+    normalized === "lays" ||
+    normalized.startsWith("lays ") ||
+    normalized === "ritz" ||
+    normalized.startsWith("ritz ") ||
+    normalized === "goldfish" ||
+    normalized.startsWith("goldfish ") ||
+    normalized === "poptarts" ||
+    normalized.startsWith("poptarts ") ||
+    normalized === "pop tarts" ||
+    normalized.startsWith("pop tarts ") ||
+    normalized === "pop-tarts" ||
+    normalized.startsWith("pop-tarts ")
   ) {
     return "Pantry";
+  }
+
+  // Frozen branded breakfast items must win before generic "egg" matching.
+  if (
+    normalized === "eggo" ||
+    normalized.startsWith("eggo ")
+  ) {
+    return "Frozen";
   }
 
   // Refrigerated deli items.

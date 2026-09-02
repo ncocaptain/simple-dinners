@@ -2123,6 +2123,14 @@ function resolveShoppingCategoryForItem(
     return "Dairy / Eggs";
   }
 
+  // Frozen branded breakfast items must win before generic "egg" matching.
+  if (
+    rawBrandName === "eggo" ||
+    rawBrandName.startsWith("eggo ")
+  ) {
+    return "Frozen";
+  }
+
   if (
     rawBrandName === "heinz ketchup" ||
     rawBrandName === "heinz tomato ketchup" ||
@@ -2140,7 +2148,27 @@ function resolveShoppingCategoryForItem(
     rawBrandName === "kraft mac and cheese" ||
     rawBrandName.startsWith("kraft mac and cheese ") ||
     rawBrandName === "kraft macaroni and cheese" ||
-    rawBrandName.startsWith("kraft macaroni and cheese ")
+    rawBrandName.startsWith("kraft macaroni and cheese ") ||
+    rawBrandName === "oreo" ||
+    rawBrandName === "oreos" ||
+    rawBrandName.startsWith("oreo ") ||
+    rawBrandName.startsWith("oreos ") ||
+    rawBrandName === "doritos" ||
+    rawBrandName.startsWith("doritos ") ||
+    rawBrandName === "lays" ||
+    rawBrandName.startsWith("lays ") ||
+    rawBrandName === "lay's" ||
+    rawBrandName.startsWith("lay's ") ||
+    rawBrandName === "ritz" ||
+    rawBrandName.startsWith("ritz ") ||
+    rawBrandName === "goldfish" ||
+    rawBrandName.startsWith("goldfish ") ||
+    rawBrandName === "poptarts" ||
+    rawBrandName.startsWith("poptarts ") ||
+    rawBrandName === "pop tarts" ||
+    rawBrandName.startsWith("pop tarts ") ||
+    rawBrandName === "pop-tarts" ||
+    rawBrandName.startsWith("pop-tarts ")
   ) {
     return "Pantry";
   }
