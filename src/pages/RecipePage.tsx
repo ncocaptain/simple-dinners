@@ -17,6 +17,7 @@ import {
   ChefHat,
   Pin,
   X,
+  HeartPulse,
 } from "lucide-react";
 
 import { getRecipeBySlug } from "../core/recipes";
@@ -31,6 +32,8 @@ import TipsModal from "../components/TipsModal";
 import { t, getStoredLanguage } from "../i18n";
 import { getLocalizedMeal } from "../core/localizedMeal";
 import { Capacitor } from "@capacitor/core";
+import { API_BASE } from "../core/api";
+import { usePlusAccess } from "../plus/usePlusAccess";
 import {
   getDisplaySides,
   getCustomSides,
@@ -695,11 +698,45 @@ type RecipePageProps = {
   };
 };
 
+type NutritionValues = {
+  calories: number;
+  proteinG: number;
+  carbsG: number;
+  fatG: number;
+  fiberG: number;
+  sodiumMg: number;
+};
+
+type RecipeNutritionAnalysis = {
+  source: string;
+  estimated: boolean;
+  servings: number;
+  coverage: number;
+  qualityScore?: number;
+  confidence: "high" | "medium" | "low";
+  perRecipe: NutritionValues;
+  perServing: NutritionValues;
+  cached: boolean;
+};
+
+type NutritionApiResponse = {
+  success: boolean;
+  successLevel?: string;
+  error?: string;
+  nutrition?: RecipeNutritionAnalysis;
+};
+
 
 export default function RecipePage({ onAddToCookbook }: RecipePageProps) {
   const navigate = useNavigate();
   const { slug = "" } = useParams();
   const location = useLocation();
+
+  const {
+    hasPlus,
+    plusLoading,
+    requirePlus,
+  } = usePlusAccess();
 
 useEffect(() => {
   window.scrollTo({ top: 0, left: 0, behavior: "auto" });
@@ -817,6 +854,15 @@ const [checkedSides, setCheckedSides] = useState<Record<string, boolean>>({});
 const [checkedDesserts, setCheckedDesserts] = useState<Record<string, boolean>>({});
 const [recipeScale, setRecipeScale] = useState<RecipeScale>(1);
 
+const [nutrition, setNutrition] =
+  useState<RecipeNutritionAnalysis | null>(null);
+
+const [nutritionLoading, setNutritionLoading] =
+  useState(false);
+
+const [nutritionError, setNutritionError] =
+  useState("");
+
   const wakeLockRef = useRef<any>(null);
   const recipeNoteKey = sourceRecipe?.slug || sourceRecipe?.name || "";
   const safeRecipe =
@@ -874,6 +920,124 @@ const visibleInstructions = showAllInstructions
 
 const hasMoreIngredients = ingredients.length > 5;
 const hasMoreInstructions = instructions.length > 5;
+
+async function analyzeNutrition() {
+  if (
+    !requirePlus({
+      feature: "nutrition",
+    })
+  ) {
+    return;
+  }
+
+  if (nutritionLoading) {
+    return;
+  }
+
+  if (
+    baseServings === null ||
+    baseServings <= 0
+  ) {
+    setNutritionError(
+      currentLanguage === "es"
+        ? "Esta receta necesita información de porciones antes de calcular la nutrición."
+        : "This recipe needs serving information before nutrition can be calculated."
+    );
+    return;
+  }
+
+  const nutritionIngredients =
+    String(
+      sourceRecipe?.ingredients ||
+      safeRecipe.ingredients ||
+      ""
+    ).trim();
+
+  if (!nutritionIngredients) {
+    setNutritionError(
+      currentLanguage === "es"
+        ? "No hay ingredientes suficientes para calcular la nutrición."
+        : "There are not enough ingredients to calculate nutrition."
+    );
+    return;
+  }
+
+  setNutritionLoading(true);
+  setNutritionError("");
+
+  try {
+    const response = await fetch(
+      `${API_BASE}/nutrition`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type":
+            "application/json",
+        },
+        body: JSON.stringify({
+          recipeName:
+            sourceRecipe?.name ||
+            safeRecipe.name,
+          ingredients:
+            nutritionIngredients,
+          servings:
+            baseServings,
+        }),
+      }
+    );
+
+    const raw =
+      await response.text();
+
+    let data:
+      | NutritionApiResponse
+      | null = null;
+
+    try {
+      data =
+        JSON.parse(raw) as
+          NutritionApiResponse;
+    } catch {
+      data = null;
+    }
+
+    if (
+      !response.ok ||
+      !data?.success ||
+      !data.nutrition
+    ) {
+      throw new Error(
+        data?.error ||
+          (
+            currentLanguage === "es"
+              ? "No se pudo calcular la nutrición."
+              : "Nutrition analysis could not be completed."
+          )
+      );
+    }
+
+    setNutrition(
+      data.nutrition
+    );
+  } catch (error) {
+    console.error(
+      "Nutrition analysis failed:",
+      error
+    );
+
+    setNutritionError(
+      error instanceof Error
+        ? error.message
+        : (
+          currentLanguage === "es"
+            ? "No se pudo calcular la nutrición."
+            : "Nutrition analysis could not be completed."
+        )
+    );
+  } finally {
+    setNutritionLoading(false);
+  }
+}
 
   const photoUrl = normalizePhotoUrl(sourceRecipe?.photoUrl);
   const currentStep = instructions[stepIndex] || "";
@@ -937,6 +1101,12 @@ const hasMoreInstructions = instructions.length > 5;
     setUserNote(savedNote);
     setNoteDraft(savedNote);
     setNoteModalOpen(false);
+  }, [recipeNoteKey]);
+
+  useEffect(() => {
+    setNutrition(null);
+    setNutritionError("");
+    setNutritionLoading(false);
   }, [recipeNoteKey]);
 
   useEffect(() => {
@@ -1392,7 +1562,7 @@ const handleAddDessertsToShoppingList = () => {
     setTouchEndX(null);
   };
 
-  
+
 
   // =====================================================
   // Builder: shared styles
@@ -1569,7 +1739,7 @@ const instructionStepStyle: React.CSSProperties = {
     color: "rgba(255,255,255,0.82)",
     letterSpacing: 0.35,
   };
-  
+
   const recipeSideKey = safeRecipe.slug || safeRecipe.name;
   const currentLanguage = getStoredLanguage();
 
@@ -1578,7 +1748,7 @@ const suggestedDesserts = getSuggestedDessertsForRecipe(
   currentLanguage === "es" ? "es" : "en"
 );
 
-  
+
 
 const suggestedSides = getDisplaySides(
   recipeSideKey,
@@ -1617,7 +1787,7 @@ function resetSideDrafts() {
   setSideDraftList([]);
   setEditSidesOpen(false);
 }
-  
+
   const visibleRecipeTags = getVisibleRecipeTags(safeRecipe);
 
   // =====================================================
@@ -1707,7 +1877,7 @@ function resetSideDrafts() {
             </div>
 
             <div style={utilityGrid}>
-              
+
 
               <button
                 onClick={() =>
@@ -1737,7 +1907,7 @@ function resetSideDrafts() {
 
           {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
 
-          
+
 
           {!!userNote.trim() && (
             <button
@@ -2042,7 +2212,7 @@ function resetSideDrafts() {
                   </button>
                 </div>
 
-                
+
 <div
   style={{
     display: "grid",
@@ -2188,7 +2358,7 @@ function resetSideDrafts() {
       {t("recipe.optionalDessert", "Want something sweet?")}
     </div>
 
-  
+
 <div
   style={{
     display: "grid",
@@ -2644,10 +2814,10 @@ function resetSideDrafts() {
                   currentLanguage === "es" ? "es" : "en"
                 )}
               </button>
-              
+
             );
           })}
-          
+
         </div>
                 {scaledServings !== null && (
           <div
@@ -2667,6 +2837,427 @@ function resetSideDrafts() {
           </div>
         )}
       </div>
+    </div>
+
+    <div style={sectionCardStyle}>
+      <div style={sectionHeaderRow}>
+        <div style={sectionHeadingWrap}>
+          <span style={sectionIconBadge}>
+            <HeartPulse size={16} />
+          </span>
+
+          <div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                flexWrap: "wrap",
+              }}
+            >
+              <h2
+                style={{
+                  margin: 0,
+                  fontSize: 22,
+                }}
+              >
+                {currentLanguage === "es"
+                  ? "Nutrición"
+                  : "Nutrition"}
+              </h2>
+
+              <span
+                style={{
+                  fontSize: 10,
+                  fontWeight: 1000,
+                  letterSpacing: 0.7,
+                  textTransform: "uppercase",
+                  padding: "4px 7px",
+                  borderRadius: 999,
+                  color: "#86efac",
+                  background:
+                    "rgba(34,197,94,0.12)",
+                  border:
+                    "1px solid rgba(34,197,94,0.22)",
+                }}
+              >
+                Plus
+              </span>
+            </div>
+
+            <div
+              style={{
+                fontSize: 12,
+                opacity: 0.58,
+                marginTop: 3,
+              }}
+            >
+              {currentLanguage === "es"
+                ? "Valores estimados por porción."
+                : "Estimated values per serving."}
+            </div>
+          </div>
+        </div>
+
+        {nutrition && (
+          <span style={countBadge}>
+            {nutrition.confidence === "high"
+              ? currentLanguage === "es"
+                ? "Alta confianza"
+                : "High confidence"
+              : nutrition.confidence === "medium"
+                ? currentLanguage === "es"
+                  ? "Confianza media"
+                  : "Medium confidence"
+                : currentLanguage === "es"
+                  ? "Confianza baja"
+                  : "Low confidence"}
+          </span>
+        )}
+      </div>
+
+      {!hasPlus && !plusLoading && (
+        <div
+          style={{
+            display: "grid",
+            gap: 12,
+          }}
+        >
+          <div
+            style={{
+              padding: 14,
+              borderRadius: 16,
+              background:
+                "rgba(255,255,255,0.025)",
+              border:
+                "1px solid rgba(255,255,255,0.06)",
+              fontSize: 13,
+              lineHeight: 1.55,
+              color:
+                "rgba(255,255,255,0.72)",
+            }}
+          >
+            {currentLanguage === "es"
+              ? "Consulta calorías, proteína, carbohidratos, grasa, fibra y sodio con Simple Dinners Plus."
+              : "See calories, protein, carbs, fat, fiber, and sodium with Simple Dinners Plus."}
+          </div>
+
+          <button
+            type="button"
+            onClick={() =>
+              requirePlus({
+                feature: "nutrition",
+              })
+            }
+            style={{
+              ...primaryCookButton,
+              padding: "12px 14px",
+              fontSize: 14,
+            }}
+          >
+            <HeartPulse size={17} />
+
+            {currentLanguage === "es"
+              ? "Ver nutrición con Plus"
+              : "View Nutrition with Plus"}
+          </button>
+        </div>
+      )}
+
+      {plusLoading && (
+        <div
+          style={{
+            fontSize: 13,
+            color:
+              "rgba(255,255,255,0.60)",
+          }}
+        >
+          {currentLanguage === "es"
+            ? "Comprobando Simple Dinners Plus…"
+            : "Checking Simple Dinners Plus…"}
+        </div>
+      )}
+
+      {hasPlus &&
+        !nutrition &&
+        !nutritionLoading && (
+          <div
+            style={{
+              display: "grid",
+              gap: 12,
+            }}
+          >
+            <div
+              style={{
+                padding: 14,
+                borderRadius: 16,
+                background:
+                  "rgba(255,255,255,0.025)",
+                border:
+                  "1px solid rgba(255,255,255,0.06)",
+                fontSize: 13,
+                lineHeight: 1.55,
+                color:
+                  "rgba(255,255,255,0.72)",
+              }}
+            >
+              {currentLanguage === "es"
+                ? "Calcula una estimación nutricional utilizando datos de USDA FoodData Central."
+                : "Calculate an estimated nutrition breakdown using USDA FoodData Central data."}
+            </div>
+
+            {nutritionError && (
+              <div
+                style={{
+                  padding: "10px 12px",
+                  borderRadius: 12,
+                  background:
+                    "rgba(239,68,68,0.08)",
+                  border:
+                    "1px solid rgba(239,68,68,0.18)",
+                  color: "#fca5a5",
+                  fontSize: 12,
+                  lineHeight: 1.45,
+                }}
+              >
+                {nutritionError}
+              </div>
+            )}
+
+            <button
+              type="button"
+              onClick={
+                analyzeNutrition
+              }
+              disabled={
+                baseServings ===
+                null
+              }
+              style={{
+                ...primaryCookButton,
+                padding: "12px 14px",
+                fontSize: 14,
+                opacity:
+                  baseServings ===
+                  null
+                    ? 0.5
+                    : 1,
+                cursor:
+                  baseServings ===
+                  null
+                    ? "not-allowed"
+                    : "pointer",
+              }}
+            >
+              <HeartPulse size={17} />
+
+              {currentLanguage === "es"
+                ? "Analizar nutrición"
+                : "Analyze Nutrition"}
+            </button>
+          </div>
+        )}
+
+      {hasPlus &&
+        nutritionLoading && (
+          <div
+            style={{
+              padding: 16,
+              borderRadius: 16,
+              background:
+                "rgba(34,197,94,0.07)",
+              border:
+                "1px solid rgba(34,197,94,0.14)",
+              display: "grid",
+              gap: 6,
+            }}
+          >
+            <div
+              style={{
+                fontSize: 14,
+                fontWeight: 1000,
+                color: "#86efac",
+              }}
+            >
+              {currentLanguage === "es"
+                ? "Analizando ingredientes…"
+                : "Analyzing ingredients…"}
+            </div>
+
+            <div
+              style={{
+                fontSize: 12,
+                lineHeight: 1.45,
+                color:
+                  "rgba(255,255,255,0.58)",
+              }}
+            >
+              {currentLanguage === "es"
+                ? "Estamos comparando los ingredientes con datos nutricionales de USDA FoodData Central."
+                : "Matching ingredients with USDA FoodData Central nutrition data."}
+            </div>
+          </div>
+        )}
+
+      {hasPlus && nutrition && (
+        <div
+          style={{
+            display: "grid",
+            gap: 12,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "flex-end",
+              gap: 8,
+              flexWrap: "wrap",
+            }}
+          >
+            <div
+              style={{
+                fontSize: 36,
+                lineHeight: 1,
+                fontWeight: 1000,
+                color: "#fff",
+              }}
+            >
+              {
+                nutrition
+                  .perServing
+                  .calories
+              }
+            </div>
+
+            <div
+              style={{
+                paddingBottom: 3,
+                fontSize: 13,
+                fontWeight: 900,
+                color:
+                  "rgba(255,255,255,0.62)",
+              }}
+            >
+              {currentLanguage === "es"
+                ? "calorías por porción"
+                : "calories per serving"}
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns:
+                "repeat(2, minmax(0, 1fr))",
+              gap: 8,
+            }}
+          >
+            {[
+              {
+                label:
+                  currentLanguage ===
+                  "es"
+                    ? "Proteína"
+                    : "Protein",
+                value: `${nutrition.perServing.proteinG}g`,
+              },
+              {
+                label:
+                  currentLanguage ===
+                  "es"
+                    ? "Carbohidratos"
+                    : "Carbs",
+                value: `${nutrition.perServing.carbsG}g`,
+              },
+              {
+                label:
+                  currentLanguage ===
+                  "es"
+                    ? "Grasa"
+                    : "Fat",
+                value: `${nutrition.perServing.fatG}g`,
+              },
+              {
+                label:
+                  currentLanguage ===
+                  "es"
+                    ? "Fibra"
+                    : "Fiber",
+                value: `${nutrition.perServing.fiberG}g`,
+              },
+              {
+                label:
+                  currentLanguage ===
+                  "es"
+                    ? "Sodio"
+                    : "Sodium",
+                value: `${nutrition.perServing.sodiumMg}mg`,
+              },
+              {
+                label:
+                  currentLanguage ===
+                  "es"
+                    ? "Ingredientes identificados"
+                    : "Ingredients matched",
+                value: `${Math.round(
+                  nutrition.coverage *
+                    100
+                )}%`,
+              },
+            ].map((item) => (
+              <div
+                key={item.label}
+                style={{
+                  padding:
+                    "11px 12px",
+                  borderRadius: 14,
+                  background:
+                    "rgba(255,255,255,0.035)",
+                  border:
+                    "1px solid rgba(255,255,255,0.06)",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 11,
+                    color:
+                      "rgba(255,255,255,0.52)",
+                    marginBottom: 3,
+                  }}
+                >
+                  {item.label}
+                </div>
+
+                <div
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 1000,
+                    color: "#fff",
+                  }}
+                >
+                  {item.value}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div
+            style={{
+              paddingTop: 10,
+              borderTop:
+                "1px solid rgba(255,255,255,0.06)",
+              fontSize: 11,
+              lineHeight: 1.5,
+              color:
+                "rgba(255,255,255,0.48)",
+            }}
+          >
+            {currentLanguage === "es"
+              ? "Estimación basada en datos de USDA FoodData Central. Los valores pueden variar según la marca, el tamaño de la porción y la preparación."
+              : "Estimated using USDA FoodData Central data. Values may vary by brand, portion size, and preparation."}
+          </div>
+        </div>
+      )}
     </div>
 
     <div style={sectionCardStyle}>
