@@ -2432,7 +2432,7 @@ Abre los paquetes con cuidado. El vapor estará caliente. Retira del aluminio an
 1 packet taco seasoning
 1 (15 oz) can black beans, drained and rinsed
 1 (28 oz) jar enchilada sauce
-1 (4 oz) can green chilies
+1 (4 oz) can green chiles
 1 white onion, diced
 10 (6-inch) corn tortillas, cut into wedges
 1 1/2 cups shredded Mexican cheese blend
@@ -2443,7 +2443,7 @@ sour cream`,
 Drain excess grease and stir in 1 packet of taco seasoning.
 
 Transfer the seasoned beef to the slow cooker.
-Add 28 oz enchilada sauce, 15 oz drained black beans, 4 oz green chilies, and 1 diced white onion.
+Add 28 oz enchilada sauce, 15 oz drained black beans, 4 oz green chiles, and 1 diced white onion.
 Stir to combine.
 
 Cover and cook on Low for 3 to 4 hours.
@@ -23352,7 +23352,7 @@ Decora con 1/4 cup de cilantro fresco picado antes de servir.`,
 2 Tbsp butter
 1 Tbsp olive oil
 1 Tbsp garlic, minced
-1 (4 to 7 oz) can green chilies (optional)
+1 (4 to 7 oz) can green chiles (optional)
 salt
 pepper`,
     instructions: `Preheat oven to 350°F.
@@ -23365,7 +23365,7 @@ Add 8 oz sliced baby bella mushrooms and cook until they begin to brown. Stir in
 
 Chop the contents of 1 can Loma Linda Fri-Chik into small pieces.
 
-In a large bowl, combine the cooked noodles, 2 beaten eggs, 1 cup milk, the cooked onions and mushrooms, 1 can cream of mushroom soup, most of the shredded sharp cheddar cheese, reserving some for the topping, the chopped Fri-Chik with its gravy, 2 1/2 Tbsp McKay's Chicken Seasoning, salt, pepper, and 1 can green chilies if using. Mix well.
+In a large bowl, combine the cooked noodles, 2 beaten eggs, 1 cup milk, the cooked onions and mushrooms, 1 can cream of mushroom soup, most of the shredded sharp cheddar cheese, reserving some for the topping, the chopped Fri-Chik with its gravy, 2 1/2 Tbsp McKay's Chicken Seasoning, salt, pepper, and 1 can green chiles if using. Mix well.
 
 Transfer the mixture to a baking dish and cover tightly with foil. Bake for 1 hour.
 
