@@ -138,6 +138,9 @@ export default function AboutPage() {
         socialTitle: "Síguenos",
         socialSubtitle:
           "Acompaña el crecimiento de Simple Dinners y ve lo que viene después.",
+        featuredTitle: "Presentado en WJHL",
+        featuredText:
+          "Simple Dinners apareció en In the Kitchen with Kelly, compartiendo la historia de cómo se creó la app.",
         missionTitle: "Hecha para familias ocupadas",
         missionText:
           "Simple Dinners fue creada para reducir el estrés de la cena. Ya sea que estés alimentando a tu familia, planificando una semana ocupada o simplemente cansado de preguntar “¿qué hay para cenar?”, el objetivo es simple: hacer la cena más fácil, una noche a la vez.",
@@ -190,6 +193,9 @@ export default function AboutPage() {
         socialTitle: "Follow along",
         socialSubtitle:
           "Follow the Simple Dinners journey and see what is coming next.",
+        featuredTitle: "Featured on WJHL",
+        featuredText:
+          "Simple Dinners was featured on In the Kitchen with Kelly, sharing the story behind how the app was created.",
         missionTitle: "Built for busy families",
         missionText:
           "Simple Dinners was built to make dinner feel less stressful. Whether you’re feeding a family, planning around a busy week, or just tired of asking “what’s for dinner?”, the goal is simple: make dinner easier, one night at a time.",
@@ -502,6 +508,63 @@ export default function AboutPage() {
             </div>
           </Card>
         )}
+
+        <section
+          style={{
+            padding: 22,
+            borderRadius: 26,
+            border: "1px solid rgba(255,255,255,0.08)",
+            background: "rgba(255,255,255,0.04)",
+            display: "grid",
+            gap: 14,
+          }}
+        >
+          <div style={{ display: "grid", gap: 6 }}>
+            <h2
+              style={{
+                margin: 0,
+                fontSize: 28,
+                letterSpacing: "-0.03em",
+              }}
+            >
+              {copy.featuredTitle}
+            </h2>
+
+            <p
+              style={{
+                margin: 0,
+                opacity: 0.72,
+                lineHeight: 1.5,
+              }}
+            >
+              {copy.featuredText}
+            </p>
+          </div>
+
+          <div
+            style={{
+              width: "100%",
+              overflow: "hidden",
+              borderRadius: 18,
+              background: "#000",
+            }}
+          >
+            <iframe
+              id="nxs-video-iframe-11"
+              title="In the Kitchen with Kelly - Simple Dinners"
+              src="https://redir1.wjhl.com/nxs-video/vid-anvato-12190209/embed/?autoplay=0&injected_via=embed&post_id=3142517&aspect_ratio=landscape"
+              allowFullScreen
+              loading="lazy"
+              style={{
+                display: "block",
+                width: "100%",
+                height: "auto",
+                aspectRatio: "16 / 9",
+                border: 0,
+              }}
+            />
+          </div>
+        </section>
 
         <section
           style={{
