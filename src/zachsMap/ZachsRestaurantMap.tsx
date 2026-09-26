@@ -4,11 +4,16 @@ import {
   MapContainer,
   Marker,
   Popup,
-  TileLayer,
   useMap,
 } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
+import { maplibreGL } from "@maplibre/maplibre-gl-leaflet";
+import { setWorkerUrl } from "maplibre-gl";
+import maplibreWorkerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
+import "maplibre-gl/dist/maplibre-gl.css";
+
+setWorkerUrl(maplibreWorkerUrl);
 
 import type { ZachsMapRestaurant } from "./restaurants";
 import { ZACHS_MAP_COORDINATES } from "./coordinates.generated";
@@ -23,9 +28,10 @@ type MappedRestaurant = {
   longitude: number;
 };
 
-const tileUrl =
-  import.meta.env.VITE_ZACHS_MAP_TILE_URL?.trim() ||
-  "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+const mapStyleUrl =
+  import.meta.env.VITE_ZACHS_MAP_STYLE_URL?.trim() ||
+  "https://tiles.openfreemap.org/styles/liberty";
+
 
 const pinIcon = L.divIcon({
   className: "",
@@ -57,6 +63,22 @@ const pinIcon = L.divIcon({
     </div>
   `,
 });
+
+function OpenFreeMapLayer() {
+  const map = useMap();
+
+  useEffect(() => {
+    const layer = maplibreGL({
+      style: mapStyleUrl,
+    }).addTo(map);
+
+    return () => {
+      map.removeLayer(layer);
+    };
+  }, [map]);
+
+  return null;
+}
 
 function FitRestaurantBounds({
   restaurants,
@@ -279,12 +301,8 @@ export default function ZachsRestaurantMap({
             height: "100%",
           }}
         >
-          <TileLayer
-            attribution='&copy; OpenStreetMap contributors'
-            url={tileUrl}
-          />
-
-          <FitRestaurantBounds
+          <OpenFreeMapLayer />
+<FitRestaurantBounds
             restaurants={
               mappedRestaurants
             }
