@@ -54,6 +54,38 @@ export const FULFILLMENT_PROVIDERS: FulfillmentProvider[] = [
     campaign: "backup_dinner",
   },
 },
+  {
+    id: "zachs-map",
+    name: "Zach's Map",
+
+    kind: "restaurant-discovery",
+
+    enabled: true,
+    placements: [
+      "weekly-plan-takeout",
+    ],
+
+    eyebrowLabel: "Local restaurants",
+    headline: "Find somewhere local tonight",
+
+    description:
+      "Explore local restaurants featured by ZachBites and find your next takeout night.",
+
+    ctaLabel: "Explore Zach's Map",
+
+    internalPath: "/zachs-map",
+
+    serviceAreaLabel: "Tri-Cities",
+    secondaryLabel: "Featured by ZachBites",
+
+    capabilities: [],
+
+    tracking: {
+      source: "simple_dinners",
+      medium: "local_discovery",
+      campaign: "zachs_map",
+    },
+  },
 ];
 
 export function getFulfillmentProvider(
@@ -83,6 +115,8 @@ export function buildFulfillmentProviderUrl(
   provider: FulfillmentProvider,
   placement?: FulfillmentPlacement,
 ): string {
+  if (!provider.menuUrl) return "";
+
   try {
     const url = new URL(provider.menuUrl);
 

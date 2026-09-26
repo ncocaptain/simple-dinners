@@ -1,8 +1,10 @@
 import {
+  ChevronRight,
   ExternalLink,
   MapPin,
   Utensils,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 import {
   buildFulfillmentProviderUrl,
@@ -28,7 +30,16 @@ export default function FulfillmentProviderCard({
   placement,
   variant = "full",
 }: FulfillmentProviderCardProps) {
+  const navigate = useNavigate();
+
   function openProvider() {
+    if (provider.internalPath) {
+      navigate(provider.internalPath);
+      return;
+    }
+
+    if (!provider.menuUrl) return;
+
     const url = buildFulfillmentProviderUrl(
       provider,
       placement,
@@ -91,6 +102,11 @@ export default function FulfillmentProviderCard({
                   borderRadius: "50%",
                 }}
               />
+            ) : provider.kind === "restaurant-discovery" ? (
+              <MapPin
+                size={20}
+                aria-hidden="true"
+              />
             ) : (
               <Utensils
                 size={20}
@@ -131,7 +147,9 @@ export default function FulfillmentProviderCard({
                   color: "#cbd5e1",
                 }}
               >
-                Optional
+                {provider.kind === "restaurant-discovery"
+                  ? "New"
+                  : "Optional"}
               </span>
             </div>
 
@@ -313,7 +331,12 @@ export default function FulfillmentProviderCard({
           }}
         >
           {provider.ctaLabel}
-          <ExternalLink size={15} aria-hidden="true" />
+
+          {provider.internalPath ? (
+            <ChevronRight size={16} aria-hidden="true" />
+          ) : (
+            <ExternalLink size={15} aria-hidden="true" />
+          )}
         </button>
       </article>
     );
@@ -383,6 +406,11 @@ export default function FulfillmentProviderCard({
                 borderRadius: "50%",
               }}
             />
+          ) : provider.kind === "restaurant-discovery" ? (
+            <MapPin
+              size={23}
+              aria-hidden="true"
+            />
           ) : (
             <Utensils
               size={23}
@@ -429,7 +457,9 @@ export default function FulfillmentProviderCard({
                 color: "#cbd5e1",
               }}
             >
-              Optional
+              {provider.kind === "restaurant-discovery"
+                ? "New"
+                : "Optional"}
             </span>
           </div>
 
@@ -532,10 +562,17 @@ export default function FulfillmentProviderCard({
           >
             {provider.ctaLabel}
 
-            <ExternalLink
-              size={18}
-              aria-hidden="true"
-            />
+            {provider.internalPath ? (
+              <ChevronRight
+                size={19}
+                aria-hidden="true"
+              />
+            ) : (
+              <ExternalLink
+                size={18}
+                aria-hidden="true"
+              />
+            )}
           </button>
         </div>
       </div>
@@ -551,8 +588,10 @@ export default function FulfillmentProviderCard({
             "rgba(248, 250, 252, 0.45)",
         }}
       >
-        Opens {provider.name} in a new window.
-        Nothing is added to your plan unless you
+        {provider.internalPath
+          ? `Explore ${provider.name} inside Simple Dinners.`
+          : `Opens ${provider.name} in a new window.`}
+        {" "}Nothing is added to your plan unless you
         choose it.
       </p>
     </article>

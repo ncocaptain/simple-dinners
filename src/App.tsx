@@ -18,6 +18,7 @@ import RecipePage from "./pages/RecipePage";
 import SmartWeekPage from "./pages/SmartWeekPage";
 import HomePage from "./pages/HomePage";
 import SmashMealsPreviewPage from "./pages/SmashMealsPreviewPage";
+import ZachsMapPage from "./pages/ZachsMapPage";
 import TestersGuidePage from "./pages/TestersGuidePage";
 import FeedbackForm from "./pages/FeedbackForm";
 import RecipesPage from "./pages/RecipesPage";
@@ -1063,6 +1064,11 @@ function AppContent() {
         <Route
           path="/partner-preview/smashmeals"
           element={<SmashMealsPreviewPage />}
+        />
+
+        <Route
+          path="/zachs-map"
+          element={requireOnboarding(<ZachsMapPage />)}
         />
 
         <Route

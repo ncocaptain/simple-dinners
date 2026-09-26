@@ -28,7 +28,8 @@ export type FulfillmentProvider = {
   description: string;
   ctaLabel: string;
 
-  menuUrl: string;
+  menuUrl?: string;
+  internalPath?: string;
 
   serviceAreaLabel?: string;
   secondaryLabel?: string;
