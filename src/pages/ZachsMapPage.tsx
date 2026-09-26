@@ -15,6 +15,8 @@ import {
   getZachVideoUrl,
 } from "../zachsMap/restaurants";
 
+import ZachsRestaurantMap from "../zachsMap/ZachsRestaurantMap";
+
 const restaurants = getActiveZachsMapRestaurants();
 
 function openExternal(url: string) {
@@ -150,52 +152,9 @@ export default function ZachsMapPage() {
           </div>
         </section>
 
-        <section
-          style={{
-            minHeight: 160,
-            marginBottom: 22,
-            borderRadius: 22,
-            border: "1px solid rgba(255,255,255,0.08)",
-            background:
-              "linear-gradient(145deg, rgba(30,41,59,0.92), rgba(15,23,42,0.94))",
-            display: "grid",
-            placeItems: "center",
-            textAlign: "center",
-            padding: 24,
-          }}
-        >
-          <div>
-            <MapPin
-              size={34}
-              style={{
-                color: "#fb923c",
-                marginBottom: 10,
-              }}
-            />
-
-            <div
-              style={{
-                fontSize: 17,
-                fontWeight: 900,
-                marginBottom: 5,
-              }}
-            >
-              {restaurants.length} pins ready for the map
-            </div>
-
-            <div
-              style={{
-                maxWidth: 390,
-                fontSize: 12,
-                lineHeight: 1.5,
-                color: "rgba(248,250,252,0.5)",
-              }}
-            >
-              We&apos;re starting with ZachBites spots around the
-              Tri-Cities. The interactive map goes right here next.
-            </div>
-          </div>
-        </section>
+        <ZachsRestaurantMap
+          restaurants={restaurants}
+        />
 
         <div
           style={{
@@ -218,8 +177,10 @@ export default function ZachsMapPage() {
         >
           {restaurants.map((restaurant) => (
             <article
+              id={`zach-card-${restaurant.id}`}
               key={restaurant.id}
               style={{
+                scrollMarginTop: 24,
                 overflow: "hidden",
                 borderRadius: 20,
                 border: "1px solid rgba(255,255,255,0.08)",
