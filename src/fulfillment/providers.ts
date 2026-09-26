@@ -57,6 +57,7 @@ export const FULFILLMENT_PROVIDERS: FulfillmentProvider[] = [
   {
     id: "zachs-map",
     name: "Zach's Map",
+    logoSrc: "/images/ZachBites-Logo.jpg",
 
     kind: "restaurant-discovery",
 

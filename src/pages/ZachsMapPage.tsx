@@ -1,4 +1,7 @@
-import { useNavigate } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import {
   ArrowLeft,
   MapPin,
@@ -13,6 +16,7 @@ import {
   getRestaurantDirectionsUrl,
   getZachThumbnailUrl,
   getZachVideoUrl,
+  type ZachsMapRestaurant,
 } from "../zachsMap/restaurants";
 
 import ZachsRestaurantMap from "../zachsMap/ZachsRestaurantMap";
@@ -29,6 +33,27 @@ function openExternal(url: string) {
 
 export default function ZachsMapPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const targetDay =
+    new URLSearchParams(
+      location.search,
+    ).get("day");
+
+  function chooseRestaurant(
+    restaurant: ZachsMapRestaurant,
+  ) {
+    if (!targetDay) return;
+
+    navigate("/week", {
+      state: {
+        zachsMapSelection: {
+          day: targetDay,
+          restaurant,
+        },
+      },
+    });
+  }
 
   return (
     <main
@@ -80,20 +105,18 @@ export default function ZachsMapPage() {
               "linear-gradient(145deg, rgba(124,45,18,0.28), rgba(30,41,59,0.86))",
           }}
         >
-          <div
+          <img
+            src="/images/ZachBites-Logo.jpg"
+            alt="ZachBites"
             style={{
-              width: 52,
-              height: 52,
-              marginBottom: 16,
-              display: "grid",
-              placeItems: "center",
-              borderRadius: 16,
-              background: "rgba(249,115,22,0.16)",
-              color: "#fb923c",
+              display: "block",
+              width: "min(240px, 68vw)",
+              height: "auto",
+              marginBottom: 18,
+              borderRadius: 14,
+              objectFit: "contain",
             }}
-          >
-            <MapPin size={27} />
-          </div>
+          />
 
           <div
             style={{
@@ -399,7 +422,12 @@ export default function ZachsMapPage() {
 
                 <button
                   type="button"
-                  disabled
+                  disabled={!targetDay}
+                  onClick={() =>
+                    chooseRestaurant(
+                      restaurant,
+                    )
+                  }
                   style={{
                     width: "100%",
                     minHeight: 44,
@@ -410,11 +438,17 @@ export default function ZachsMapPage() {
                     color: "#fff",
                     fontSize: 12,
                     fontWeight: 900,
-                    opacity: 0.48,
-                    cursor: "not-allowed",
+                    opacity: targetDay
+                      ? 1
+                      : 0.48,
+                    cursor: targetDay
+                      ? "pointer"
+                      : "not-allowed",
                   }}
                 >
-                  Make this tonight&apos;s dinner · Coming next
+                  {targetDay
+                    ? `Make this ${targetDay}'s dinner`
+                    : "Open from a Takeout Night to choose"}
                 </button>
               </div>
             </article>

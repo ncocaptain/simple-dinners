@@ -41,6 +41,11 @@ import {
   WeeklyPlanSyncStatus,
 } from "../cloud/WeeklyPlanSyncStatus";
 
+import {
+  getZachThumbnailUrl,
+  type ZachsMapRestaurant,
+} from "../zachsMap/restaurants";
+
 const WEEKLY_PLAN_TAKEOUT_PROVIDERS =
   getEnabledFulfillmentProviders(
     "weekly-plan-takeout",
@@ -181,6 +186,88 @@ export default function WeekPage({
   );
   const location = useLocation();
   const language = getStoredLanguage();
+
+  useEffect(() => {
+    const state = location.state as
+      | {
+          zachsMapSelection?: {
+            day: string;
+            restaurant: ZachsMapRestaurant;
+          };
+        }
+      | null;
+
+    const selection =
+      state?.zachsMapSelection;
+
+    if (!selection) return;
+
+    const { day, restaurant } =
+      selection;
+
+    const validDay = days.some(
+      (candidate) => candidate === day,
+    );
+
+    if (!validDay) {
+      navigate("/week", {
+        replace: true,
+        state: null,
+      });
+      return;
+    }
+
+    const restaurantMeal: Meal = {
+      id: `zachs-map-${restaurant.id}-${day.toLowerCase()}`,
+      slug: `zachs-map-${restaurant.id}`,
+      name: restaurant.name,
+      ingredients:
+        "Takeout order — no groceries needed",
+      instructions:
+        "Order from the restaurant and enjoy a night off from cooking.",
+      effort: "takeout",
+      tags: [
+        "dinner",
+        "takeout",
+        "zachs-map",
+        `zach-restaurant:${restaurant.id}`,
+      ],
+      notes: `Featured by ZachBites • ${restaurant.city}, ${restaurant.state}`,
+      photoUrl: getZachThumbnailUrl(
+        restaurant.videoId,
+      ),
+    };
+
+    setMeals((previous) => {
+      const current = previous[day];
+
+      // Only replace the Takeout Night that launched Zach's Map.
+      if (
+        current?.mode !== "planned" ||
+        current.meal?.effort !== "takeout"
+      ) {
+        return previous;
+      }
+
+      return {
+        ...previous,
+        [day]: {
+          mode: "planned",
+          meal: restaurantMeal,
+        },
+      };
+    });
+
+    // Clear the navigation payload so refresh/back cannot apply it again.
+    navigate("/week", {
+      replace: true,
+      state: null,
+    });
+  }, [
+    location.state,
+    navigate,
+    setMeals,
+  ]);
 
   const WEEK_TIP_KEYS = [
     "week.tips.tapMeal",
@@ -917,6 +1004,14 @@ export default function WeekPage({
                 mode === "planned" &&
                 rawMeal?.effort === "takeout";
 
+              const isZachsMapRestaurant =
+                isTakeout &&
+                !!rawMeal?.tags?.some(
+                  (tag) =>
+                    tag === "zachs-map" ||
+                    tag.startsWith("zach-restaurant:"),
+                );
+
               const hasMeal = !!meal?.name?.trim();
               const isLocked = !!lockedDays[day];
               const mealPhotoUrl = normalizePhotoUrl(meal?.photoUrl);
@@ -1297,7 +1392,9 @@ export default function WeekPage({
                               <ChefHat size={14} />
 
                               {isTakeout
-                                ? t("week.noCookingTonight")
+                                ? isZachsMapRestaurant
+                                  ? "Takeout • Zach's Map"
+                                  : t("week.noCookingTonight")
                                 : t("week.tapForDetails")}
                             </div>
                           </div>
@@ -1314,6 +1411,7 @@ export default function WeekPage({
                         </div>
 
                         {isTakeout &&
+                          !isZachsMapRestaurant &&
                           WEEKLY_PLAN_TAKEOUT_PROVIDERS.length > 0 && (
                             <div
                               style={{
@@ -1325,7 +1423,16 @@ export default function WeekPage({
                                 (provider) => (
                                   <FulfillmentProviderCard
                                     key={provider.id}
-                                    provider={provider}
+                                    provider={
+                                      provider.id === "zachs-map"
+                                        ? {
+                                            ...provider,
+                                            internalPath: `/zachs-map?day=${encodeURIComponent(
+                                              day,
+                                            )}`,
+                                          }
+                                        : provider
+                                    }
                                     placement="weekly-plan-takeout"
                                     variant="compact"
                                   />
@@ -1333,6 +1440,61 @@ export default function WeekPage({
                               )}
                             </div>
                           )}
+
+                        {isZachsMapRestaurant && (
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              gap: 12,
+                              flexWrap: "wrap",
+                              padding: "10px 12px",
+                              borderRadius: 14,
+                              background: "rgba(249,115,22,0.08)",
+                              border: "1px solid rgba(249,115,22,0.18)",
+                            }}
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 7,
+                                color: "#fdba74",
+                                fontSize: 11,
+                                fontWeight: 900,
+                                letterSpacing: "0.04em",
+                                textTransform: "uppercase",
+                              }}
+                            >
+                              <Sparkles size={14} />
+                              Featured by ZachBites
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() =>
+                                navigate(
+                                  `/zachs-map?day=${encodeURIComponent(
+                                    day,
+                                  )}`,
+                                )
+                              }
+                              style={{
+                                border: "1px solid rgba(249,115,22,0.24)",
+                                borderRadius: 999,
+                                padding: "7px 10px",
+                                background: "rgba(249,115,22,0.10)",
+                                color: "#fdba74",
+                                fontSize: 11,
+                                fontWeight: 900,
+                                cursor: "pointer",
+                              }}
+                            >
+                              Change restaurant
+                            </button>
+                          </div>
+                        )}
 
                         {suggestedSides.length > 0 && (
                           <div
