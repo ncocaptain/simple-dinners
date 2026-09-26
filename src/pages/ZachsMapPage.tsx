@@ -40,6 +40,30 @@ export default function ZachsMapPage() {
       location.search,
     ).get("day");
 
+  function showRestaurantOnMap(
+    restaurantId: string,
+  ) {
+    document
+      .getElementById("zachs-map-map")
+      ?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
+    window.setTimeout(() => {
+      window.dispatchEvent(
+        new CustomEvent(
+          "zachs-map-focus",
+          {
+            detail: {
+              restaurantId,
+            },
+          },
+        ),
+      );
+    }, 400);
+  }
+
   function chooseRestaurant(
     restaurant: ZachsMapRestaurant,
   ) {
@@ -202,8 +226,25 @@ export default function ZachsMapPage() {
             <article
               id={`zach-card-${restaurant.id}`}
               key={restaurant.id}
+              onClick={(event) => {
+                const target =
+                  event.target as HTMLElement;
+
+                if (
+                  target.closest(
+                    "button, a",
+                  )
+                ) {
+                  return;
+                }
+
+                showRestaurantOnMap(
+                  restaurant.id,
+                );
+              }}
               style={{
                 scrollMarginTop: 24,
+                cursor: "pointer",
                 overflow: "hidden",
                 borderRadius: 20,
                 border: "1px solid rgba(255,255,255,0.08)",

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import L from "leaflet";
 import {
   MapContainer,
@@ -97,9 +97,73 @@ function jumpToRestaurantCard(
     });
 }
 
+function FocusRestaurantBridge({
+  markerRefs,
+}: {
+  markerRefs: {
+    current: Record<string, L.Marker | null>;
+  };
+}) {
+  const map = useMap();
+
+  useEffect(() => {
+    function handleFocus(event: Event) {
+      const detail = (
+        event as CustomEvent<{
+          restaurantId?: string;
+        }>
+      ).detail;
+
+      const restaurantId =
+        detail?.restaurantId;
+
+      if (!restaurantId) return;
+
+      const marker =
+        markerRefs.current[restaurantId];
+
+      if (!marker) return;
+
+      const position =
+        marker.getLatLng();
+
+      map.flyTo(
+        position,
+        Math.max(map.getZoom(), 15),
+        {
+          duration: 0.65,
+        },
+      );
+
+      window.setTimeout(() => {
+        marker.openPopup();
+      }, 700);
+    }
+
+    window.addEventListener(
+      "zachs-map-focus",
+      handleFocus,
+    );
+
+    return () => {
+      window.removeEventListener(
+        "zachs-map-focus",
+        handleFocus,
+      );
+    };
+  }, [map, markerRefs]);
+
+  return null;
+}
+
 export default function ZachsRestaurantMap({
   restaurants,
 }: Props) {
+  const markerRefs =
+    useRef<Record<string, L.Marker | null>>(
+      {},
+    );
+
   const mappedRestaurants =
     useMemo<MappedRestaurant[]>(() => {
       return restaurants.flatMap(
@@ -226,6 +290,10 @@ export default function ZachsRestaurantMap({
             }
           />
 
+          <FocusRestaurantBridge
+            markerRefs={markerRefs}
+          />
+
           {mappedRestaurants.map(
             ({
               restaurant,
@@ -234,6 +302,11 @@ export default function ZachsRestaurantMap({
             }) => (
               <Marker
                 key={restaurant.id}
+                ref={(marker) => {
+                  markerRefs.current[
+                    restaurant.id
+                  ] = marker;
+                }}
                 position={[
                   latitude,
                   longitude,
