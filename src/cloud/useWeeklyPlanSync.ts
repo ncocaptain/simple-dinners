@@ -21,10 +21,6 @@ import {
 } from "./weeklyPlanLocal";
 
 import {
-  requestWeeklyPlanConflict,
-} from "./weeklyPlanConflictState";
-
-import {
   publishWeeklyPlanSyncState,
   WEEKLY_PLAN_SYNC_RETRY_EVENT,
 } from "./weeklyPlanSyncState";
@@ -34,6 +30,57 @@ const LOCAL_BACKUP_KEY =
 
 const CLOUD_BACKUP_KEY =
   "simple-dinners.weeklyPlan.cloud-backup.v1";
+
+const PENDING_LOCAL_KEY_PREFIX =
+  "simple-dinners.weeklyPlan.pending.v1";
+
+function pendingLocalKey(
+  householdId: string,
+) {
+  return `${PENDING_LOCAL_KEY_PREFIX}:${householdId}`;
+}
+
+function readPendingLocalChanges(
+  householdId: string,
+) {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  try {
+    return (
+      localStorage.getItem(
+        pendingLocalKey(householdId),
+      ) === "1"
+    );
+  } catch {
+    return false;
+  }
+}
+
+function writePendingLocalChanges(
+  householdId: string,
+  pending: boolean,
+) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  try {
+    const key = pendingLocalKey(householdId);
+
+    if (pending) {
+      localStorage.setItem(key, "1");
+    } else {
+      localStorage.removeItem(key);
+    }
+  } catch (error) {
+    console.error(
+      "Unable to persist weekly-plan pending state:",
+      error,
+    );
+  }
+}
 
 type ApplyCloudWeeklyPlan = (
   snapshot: WeeklyPlanLocalSnapshot,
@@ -185,7 +232,26 @@ export function useWeeklyPlanSync(
     let cancelled = false;
     let syncReady = false;
     let initializationInProgress = false;
-    let hasPendingLocalChanges = false;
+    let hasPendingLocalChanges =
+      readPendingLocalChanges(
+        activeHouseholdId,
+      );
+
+    function markLocalChangesPending() {
+      hasPendingLocalChanges = true;
+      writePendingLocalChanges(
+        activeHouseholdId,
+        true,
+      );
+    }
+
+    function clearLocalChangesPending() {
+      hasPendingLocalChanges = false;
+      writePendingLocalChanges(
+        activeHouseholdId,
+        false,
+      );
+    }
 
     let uploadTimer: number | null = null;
     let uploadInProgress = false;
@@ -230,15 +296,14 @@ export function useWeeklyPlanSync(
       }
 
       if (!navigator.onLine) {
-        hasPendingLocalChanges = true;
+        markLocalChangesPending();
         markOffline();
         return false;
       }
 
       if (uploadInProgress) {
         queuedSnapshot = snapshot;
-        hasPendingLocalChanges = true;
-
+        markLocalChangesPending();
         publishWeeklyPlanSyncState({
           status: "syncing",
           error: null,
@@ -263,8 +328,7 @@ export function useWeeklyPlanSync(
         );
       } catch (error) {
         uploadInProgress = false;
-        hasPendingLocalChanges = true;
-
+        markLocalChangesPending();
         markFailure(
           error instanceof Error
             ? error.message
@@ -281,8 +345,7 @@ export function useWeeklyPlanSync(
       }
 
       if (result.error) {
-        hasPendingLocalChanges = true;
-
+        markLocalChangesPending();
         console.error(
           "Weekly-plan cloud upload failed:",
           result.error,
@@ -299,8 +362,7 @@ export function useWeeklyPlanSync(
         return uploadSnapshot(nextSnapshot);
       }
 
-      hasPendingLocalChanges = false;
-
+      clearLocalChangesPending();
       publishWeeklyPlanSyncState({
         status: "synced",
         error: null,
@@ -313,8 +375,7 @@ export function useWeeklyPlanSync(
     function scheduleUpload(
       snapshot: WeeklyPlanLocalSnapshot,
     ) {
-      hasPendingLocalChanges = true;
-
+      markLocalChangesPending();
       if (!navigator.onLine) {
         markOffline();
         return;
@@ -476,8 +537,7 @@ export function useWeeklyPlanSync(
         return;
       }
 
-      hasPendingLocalChanges = true;
-
+      markLocalChangesPending();
       if (!syncReady) {
         pendingSnapshot = detail.snapshot;
 
@@ -522,11 +582,23 @@ export function useWeeklyPlanSync(
         )
         .subscribe((status, error) => {
           if (status === "SUBSCRIBED") {
-            publishWeeklyPlanSyncState({
-              status: "synced",
-              error: null,
-              lastSyncedAt: Date.now(),
-            });
+            if (
+              hasPendingLocalChanges ||
+              uploadTimer !== null ||
+              uploadInProgress
+            ) {
+              publishWeeklyPlanSyncState({
+                status: "syncing",
+                error: null,
+              });
+            } else {
+              /*
+               * Close the small gap between the initial
+               * cloud load and the realtime subscription.
+               * "Synced" is published by the verified pull.
+               */
+              scheduleCloudPull(0);
+            }
 
             return;
           }
@@ -619,46 +691,45 @@ export function useWeeklyPlanSync(
         const localHasContent =
           hasPlanContent(localSnapshot);
 
-        const cloudHasContent =
-          cloudSnapshot
-            ? hasPlanContent(
-              cloudSnapshot,
-            )
-            : false;
+        if (!cloudSnapshot) {
+          /*
+           * There is genuinely no household snapshot yet.
+           * Seed it from this device if it has a plan or
+           * if this device has a pending local change,
+           * including an intentionally empty plan.
+           */
+          if (
+            localHasContent ||
+            hasPendingLocalChanges ||
+            pendingSnapshot
+          ) {
+            const snapshotToUpload =
+              pendingSnapshot ?? localSnapshot;
 
-        if (
-          localHasContent &&
-          !cloudHasContent
-        ) {
-          const uploaded =
-            await uploadSnapshot(
-              localSnapshot,
-            );
+            const uploaded =
+              await uploadSnapshot(
+                snapshotToUpload,
+              );
 
-          if (!uploaded || cancelled) {
-            return;
+            if (!uploaded || cancelled) {
+              return;
+            }
+
+            pendingSnapshot = null;
           }
-        }
-
-        if (
-          !localHasContent &&
-          cloudSnapshot &&
-          cloudHasContent
-        ) {
-          applyCloudWeeklyPlan(
-            cloudSnapshot,
-          );
-        }
-
-        if (
-          localHasContent &&
-          cloudSnapshot &&
-          cloudHasContent &&
+        } else if (
           !snapshotsMatch(
             localSnapshot,
             cloudSnapshot,
           )
         ) {
+          /*
+           * A cloud row already exists. That row is a
+           * legitimate household state even when empty.
+           *
+           * Only overwrite it when this device has a
+           * real unsynced local edit.
+           */
           if (
             hasPendingLocalChanges ||
             pendingSnapshot
@@ -668,9 +739,12 @@ export function useWeeklyPlanSync(
               cloudSnapshot,
             );
 
+            const snapshotToUpload =
+              pendingSnapshot ?? localSnapshot;
+
             const uploaded =
               await uploadSnapshot(
-                localSnapshot,
+                snapshotToUpload,
               );
 
             if (!uploaded || cancelled) {
@@ -679,56 +753,26 @@ export function useWeeklyPlanSync(
 
             pendingSnapshot = null;
           } else {
-            const conflictChoice =
-              await requestWeeklyPlanConflict(
-                localSnapshot,
-                cloudSnapshot,
-              );
+            saveBackup(
+              LOCAL_BACKUP_KEY,
+              localSnapshot,
+            );
 
-            if (cancelled) {
-              return;
-            }
-
-            if (
-              conflictChoice === "cloud"
-            ) {
-              saveBackup(
-                LOCAL_BACKUP_KEY,
-                localSnapshot,
-              );
-
-              applyCloudWeeklyPlan(
-                cloudSnapshot,
-              );
-            } else {
-              saveBackup(
-                CLOUD_BACKUP_KEY,
-                cloudSnapshot,
-              );
-
-              const uploaded =
-                await uploadSnapshot(
-                  localSnapshot,
-                );
-
-              if (
-                !uploaded ||
-                cancelled
-              ) {
-                return;
-              }
-            }
+            applyCloudWeeklyPlan(
+              cloudSnapshot,
+            );
           }
+        } else if (hasPendingLocalChanges) {
+          /*
+           * Local and cloud already match, so any
+           * persisted dirty marker is stale.
+           */
+          clearLocalChangesPending();
+          pendingSnapshot = null;
         }
 
         syncReady = true;
         startRealtime();
-
-        publishWeeklyPlanSyncState({
-          status: "synced",
-          error: null,
-          lastSyncedAt: Date.now(),
-        });
 
         if (pendingSnapshot) {
           const latestSnapshot =
