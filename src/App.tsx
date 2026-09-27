@@ -19,6 +19,7 @@ import SmartWeekPage from "./pages/SmartWeekPage";
 import HomePage from "./pages/HomePage";
 import SmashMealsPreviewPage from "./pages/SmashMealsPreviewPage";
 import ZachsMapPage from "./pages/ZachsMapPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import TestersGuidePage from "./pages/TestersGuidePage";
 import FeedbackForm from "./pages/FeedbackForm";
 import RecipesPage from "./pages/RecipesPage";
@@ -58,6 +59,8 @@ import { Capacitor } from "@capacitor/core";
 import AboutPage from "./pages/AboutPage";
 import ShareImport from "./pages/ShareImport";
 import { AccountButton } from "./auth/AccountButton";
+import { useAuth } from "./auth/AuthContext";
+import { supabase } from "./lib/supabase";
 import {
   saveLocalWeeklyPlan,
   type WeeklyPlanLocalSnapshot,
@@ -381,6 +384,26 @@ function AppContent() {
   const location = useLocation();
 
   const {
+    isPasswordRecovery,
+  } = useAuth();
+
+  useEffect(() => {
+    if (
+      isPasswordRecovery &&
+      location.pathname !== "/reset-password"
+    ) {
+      navigate(
+        "/reset-password",
+        { replace: true },
+      );
+    }
+  }, [
+    isPasswordRecovery,
+    location.pathname,
+    navigate,
+  ]);
+
+  const {
     hasPlus,
     plusLoading,
     monthlyTrialAvailable,
@@ -404,19 +427,72 @@ function AppContent() {
     CapacitorApp.addListener("appUrlOpen", (event) => {
       const incomingUrl = event.url || "";
 
-      try {
-        const parsed = new URL(incomingUrl);
-        const sharedUrl = parsed.searchParams.get("url");
+      void (async () => {
+        try {
+          const parsed =
+            new URL(incomingUrl);
 
-        if (sharedUrl) {
-          navigate(
-            `/share-import?url=${encodeURIComponent(sharedUrl)}`,
-            { replace: true }
-          );
+          const hashParams =
+            new URLSearchParams(
+              parsed.hash.replace(/^#/, ""),
+            );
+
+          const recoveryType =
+            hashParams.get("type") ??
+            parsed.searchParams.get("type");
+
+          const accessToken =
+            hashParams.get("access_token");
+
+          const refreshToken =
+            hashParams.get("refresh_token");
+
+          const isRecoveryLink =
+            parsed.pathname ===
+              "/reset-password" ||
+            recoveryType === "recovery";
+
+          if (isRecoveryLink) {
+            if (
+              supabase &&
+              accessToken &&
+              refreshToken
+            ) {
+              const { error } =
+                await supabase.auth.setSession({
+                  access_token: accessToken,
+                  refresh_token: refreshToken,
+                });
+
+              if (error) {
+                console.error(
+                  "Unable to restore password recovery session:",
+                  error,
+                );
+              }
+            }
+
+            navigate(
+              "/reset-password",
+              { replace: true },
+            );
+
+            return;
+          }
+
+          const sharedUrl =
+            parsed.searchParams.get("url");
+
+          if (sharedUrl) {
+            navigate(
+              `/share-import?url=${encodeURIComponent(sharedUrl)}`,
+              { replace: true },
+            );
+          }
+        } catch {
+          // Ignore malformed URLs.
         }
-      } catch {
-        // Ignore malformed URLs.
-      }
+      })();
     }).then((listener) => {
       removeListener = () => listener.remove();
     });
@@ -980,6 +1056,11 @@ function AppContent() {
           element={requireOnboarding(
             <HomePage meals={meals} setMeals={setMeals} />
           )}
+        />
+
+        <Route
+          path="/reset-password"
+          element={<ResetPasswordPage />}
         />
 
         <Route path="/onboarding" element={<OnboardingPage />} />

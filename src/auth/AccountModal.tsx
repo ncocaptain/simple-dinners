@@ -41,6 +41,7 @@ export function AccountModal({
 
     signIn,
     signUp,
+    requestPasswordReset,
     signOut,
     createHousehold,
     joinHousehold,
@@ -91,6 +92,9 @@ export function AccountModal({
       password: "Contraseña",
       emailPlaceholder: "tu@ejemplo.com",
       passwordPlaceholder: "Introduce tu contraseña",
+      forgotPassword: "¿Olvidaste tu contraseña?",
+      resetEmailSent:
+        "Revisa tu correo electrónico. Te enviamos un enlace para crear una contraseña nueva.",
       explorePlus: "Explorar Simple Dinners Plus",
       freeNote:
         "Simple Dinners sigue siendo totalmente útil sin una cuenta. Plus añade hogares compartidos, planificación inteligente y herramientas avanzadas para recetas.",
@@ -160,6 +164,9 @@ export function AccountModal({
       emailPlaceholder: "you@example.com",
       passwordPlaceholder:
         "Enter your password",
+      forgotPassword: "Forgot password?",
+      resetEmailSent:
+        "Check your email. We sent you a link to create a new password.",
       explorePlus:
         "Explore Simple Dinners Plus",
       freeNote:
@@ -338,6 +345,37 @@ export function AccountModal({
 
       setPassword("");
       setMessage(copy.signedInMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  async function handleForgotPassword() {
+    setMessage(null);
+    setError(null);
+
+    const normalizedEmail = email.trim();
+
+    if (!normalizedEmail) {
+      setError(copy.enterEmail);
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const result =
+        await requestPasswordReset(
+          normalizedEmail,
+        );
+
+      if (result.error) {
+        setError(result.error);
+        return;
+      }
+
+      setPassword("");
+      setMessage(copy.resetEmailSent);
     } finally {
       setIsSubmitting(false);
     }
@@ -862,6 +900,19 @@ export function AccountModal({
                   </button>
                 </div>
               </label>
+
+              {mode === "sign-in" && (
+                <button
+                  type="button"
+                  className="sd-forgot-password-button"
+                  onClick={() =>
+                    void handleForgotPassword()
+                  }
+                  disabled={isSubmitting}
+                >
+                  {copy.forgotPassword}
+                </button>
+              )}
 
               {message && (
                 <div className="sd-account-notice">

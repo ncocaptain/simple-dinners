@@ -430,3 +430,27 @@
     width: 100%;
   }
 }
+
+.sd-forgot-password-button {
+  align-self: flex-end;
+  width: fit-content;
+  margin: -2px 0 2px auto;
+  padding: 2px 0;
+  border: 0;
+  background: transparent;
+  color: #c4b5fd;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.sd-forgot-password-button:hover,
+.sd-forgot-password-button:focus-visible {
+  text-decoration: underline;
+}
+
+.sd-forgot-password-button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}

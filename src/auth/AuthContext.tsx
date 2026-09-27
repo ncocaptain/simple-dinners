@@ -33,6 +33,7 @@ type AuthContextValue = {
   loading: boolean;
   isConfigured: boolean;
   isSignedIn: boolean;
+  isPasswordRecovery: boolean;
 
   household: HouseholdInfo | null;
   householdId: string | null;
@@ -60,6 +61,14 @@ type AuthContextValue = {
     password: string,
   ) => Promise<AuthResult>;
 
+  requestPasswordReset: (
+    email: string,
+  ) => Promise<AuthResult>;
+
+  updatePassword: (
+    password: string,
+  ) => Promise<AuthResult>;
+
   signOut: () => Promise<AuthResult>;
 };
 
@@ -73,6 +82,11 @@ export function AuthProvider({
     useState<Session | null>(null);
 
   const [loading, setLoading] = useState(true);
+
+  const [
+    isPasswordRecovery,
+    setIsPasswordRecovery,
+  ] = useState(false);
 
   const [household, setHousehold] =
     useState<HouseholdInfo | null>(null);
@@ -112,9 +126,13 @@ export function AuthProvider({
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(
-      (_event, nextSession) => {
+      (event, nextSession) => {
         if (!isMounted) {
           return;
+        }
+
+        if (event === "PASSWORD_RECOVERY") {
+          setIsPasswordRecovery(true);
         }
 
         setSession(nextSession);
@@ -271,6 +289,68 @@ export function AuthProvider({
     };
   }
 
+  async function requestPasswordReset(
+    email: string,
+  ): Promise<AuthResult> {
+    if (!supabase) {
+      return {
+        error: "Cloud sync is not configured.",
+      };
+    }
+
+    const normalizedEmail =
+      email.trim().toLowerCase();
+
+    if (!normalizedEmail) {
+      return {
+        error: "Please enter your email address.",
+      };
+    }
+
+    const { error } =
+      await supabase.auth.resetPasswordForEmail(
+        normalizedEmail,
+        {
+          redirectTo:
+            "https://dinners.ncocaptain.com/reset-password",
+        },
+      );
+
+    return {
+      error: error?.message ?? null,
+    };
+  }
+
+  async function updatePassword(
+    password: string,
+  ): Promise<AuthResult> {
+    if (!supabase) {
+      return {
+        error: "Cloud sync is not configured.",
+      };
+    }
+
+    if (password.length < 8) {
+      return {
+        error:
+          "Your new password must be at least 8 characters.",
+      };
+    }
+
+    const { error } =
+      await supabase.auth.updateUser({
+        password,
+      });
+
+    if (!error) {
+      setIsPasswordRecovery(false);
+    }
+
+    return {
+      error: error?.message ?? null,
+    };
+  }
+
   async function signOut(): Promise<AuthResult> {
     if (!supabase) {
       return {
@@ -280,6 +360,10 @@ export function AuthProvider({
 
     const { error } =
       await supabase.auth.signOut();
+
+    if (!error) {
+      setIsPasswordRecovery(false);
+    }
 
     return {
       error: error?.message ?? null,
@@ -293,6 +377,7 @@ export function AuthProvider({
       loading,
       isConfigured: isCloudSyncConfigured,
       isSignedIn: Boolean(session?.user),
+      isPasswordRecovery,
 
       household,
       householdId: household?.id ?? null,
@@ -310,11 +395,14 @@ export function AuthProvider({
 
       signUp,
       signIn,
+      requestPasswordReset,
+      updatePassword,
       signOut,
     }),
     [
       session,
       loading,
+      isPasswordRecovery,
       household,
       householdLoading,
       householdError,
