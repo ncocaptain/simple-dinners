@@ -90,8 +90,11 @@ export function AccountModal({
       createAccount: "Crear cuenta",
       email: "Correo electrónico",
       password: "Contraseña",
+      confirmPassword: "Confirmar contraseña",
       emailPlaceholder: "tu@ejemplo.com",
       passwordPlaceholder: "Introduce tu contraseña",
+      confirmPasswordPlaceholder:
+        "Vuelve a introducir tu contraseña",
       forgotPassword: "¿Olvidaste tu contraseña?",
       resetEmailSent:
         "Revisa tu correo electrónico. Te enviamos un enlace para crear una contraseña nueva.",
@@ -101,6 +104,10 @@ export function AccountModal({
       enterEmail:
         "Introduce tu correo electrónico.",
       enterPassword: "Introduce tu contraseña.",
+      confirmPasswordRequired:
+        "Confirma tu contraseña.",
+      passwordsDoNotMatch:
+        "Las contraseñas no coinciden.",
       confirmEmail:
         "Revisa tu correo electrónico para confirmar tu cuenta de Simple Dinners.",
       accountReady:
@@ -161,9 +168,12 @@ export function AccountModal({
       createAccount: "Create account",
       email: "Email",
       password: "Password",
+      confirmPassword: "Confirm password",
       emailPlaceholder: "you@example.com",
       passwordPlaceholder:
         "Enter your password",
+      confirmPasswordPlaceholder:
+        "Enter your password again",
       forgotPassword: "Forgot password?",
       resetEmailSent:
         "Check your email. We sent you a link to create a new password.",
@@ -175,6 +185,10 @@ export function AccountModal({
         "Please enter your email address.",
       enterPassword:
         "Please enter your password.",
+      confirmPasswordRequired:
+        "Please confirm your password.",
+      passwordsDoNotMatch:
+        "Passwords do not match.",
       confirmEmail:
         "Check your email to confirm your Simple Dinners account.",
       accountReady:
@@ -210,6 +224,8 @@ export function AccountModal({
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] =
+    useState("");
   const [showPassword, setShowPassword] =
     useState(false);
 
@@ -240,6 +256,7 @@ export function AccountModal({
     setMessage(null);
     setError(null);
     setPassword("");
+    setConfirmPassword("");
 
     setHouseholdName((currentName) => {
       if (
@@ -308,6 +325,18 @@ export function AccountModal({
       return;
     }
 
+    if (mode === "sign-up") {
+      if (!confirmPassword) {
+        setError(copy.confirmPasswordRequired);
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        setError(copy.passwordsDoNotMatch);
+        return;
+      }
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -325,9 +354,12 @@ export function AccountModal({
         if (result.needsEmailConfirmation) {
           setMessage(copy.confirmEmail);
           setPassword("");
+          setConfirmPassword("");
           return;
         }
 
+        setPassword("");
+        setConfirmPassword("");
         setMessage(copy.accountReady);
 
         return;
@@ -900,6 +932,27 @@ export function AccountModal({
                   </button>
                 </div>
               </label>
+
+              {mode === "sign-up" && (
+                <label>
+                  {copy.confirmPassword}
+
+                  <div className="sd-password-field">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      autoComplete="new-password"
+                      value={confirmPassword}
+                      onChange={(event) =>
+                        setConfirmPassword(event.target.value)
+                      }
+                      placeholder={copy.confirmPasswordPlaceholder}
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                </label>
+              )}
+
+
 
               {mode === "sign-in" && (
                 <button
