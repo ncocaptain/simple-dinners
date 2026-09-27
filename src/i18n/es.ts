@@ -505,6 +505,37 @@ export const es = {
     recipeUpdated: "¡Receta actualizada!",
     recipeSavedToCookbook: "¡Receta guardada en el recetario!",
 
+    photoImport: {
+      button: "Importar desde foto",
+      title: "Importar desde una foto",
+      description:
+        "Elige fotos o capturas de una receta. Simple Dinners leerá los ingredientes y las instrucciones visibles y los convertirá en una receta editable.",
+      choose: "Elegir fotos",
+      addMore: "Agregar más fotos",
+      selected: "seleccionadas",
+      formats: "JPEG, PNG o WebP • hasta 8",
+      preview: "Imagen de receta",
+      remove: "Eliminar imagen",
+      order:
+        "Las imágenes se leen en el orden mostrado. Si usas varias, coloca los ingredientes antes de las instrucciones.",
+      readRecipe: "Leer receta",
+      reading: "Leyendo receta...",
+      review:
+        "Podrás revisar y editar la receta antes de guardarla en tu recetario.",
+      invalidType:
+        "Elige imágenes JPEG, PNG o WebP.",
+      fileTooLarge:
+        "supera los 8 MB.",
+      tooMany:
+        "Elige hasta 5 imágenes en total.",
+      totalTooLarge:
+        "Esas imágenes superan los 25 MB en total. Prueba con menos imágenes o archivos más pequeños.",
+      none:
+        "Elige al menos una foto de la receta.",
+      failed:
+        "No pudimos leer una receta de esas imágenes. Prueba con una foto más clara donde se vean los ingredientes y las instrucciones.",
+    },
+
     captionAssist: {
       finishRecipe: "Termina esta receta",
       foundPostStatus:
@@ -517,7 +548,7 @@ export const es = {
       finishWithCaption: "Terminar con el texto",
       orUseScreenshots: "O usa capturas de pantalla",
       screenshotsDescription:
-        "Agrega hasta cinco capturas que muestren los ingredientes y las instrucciones. Selecciónalas en el orden de la receta.",
+        "Agrega hasta ocho capturas que muestren los ingredientes y las instrucciones. Selecciónalas en el orden de la receta.",
       addMoreScreenshots: "Agregar más capturas",
       chooseScreenshots: "Elegir capturas",
       of: "de",

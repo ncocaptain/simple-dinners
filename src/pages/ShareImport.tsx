@@ -14,7 +14,7 @@ import { usePlusAccess } from "../plus/usePlusAccess";
 
 
 const SOURCE_STEPS_PLACEHOLDER = "Steps available at source link!";
-const MAX_SCREENSHOT_FILES = 5;
+const MAX_SCREENSHOT_FILES = 8;
 const MAX_SCREENSHOT_FILE_BYTES = 8 * 1024 * 1024;
 const MAX_SCREENSHOT_TOTAL_BYTES = 25 * 1024 * 1024;
 const MAX_VIDEO_FILE_BYTES = 75 * 1024 * 1024;

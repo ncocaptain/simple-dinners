@@ -496,6 +496,37 @@ export const en = {
     recipeUpdated: "Recipe updated!",
     recipeSavedToCookbook: "Recipe saved to Cookbook!",
 
+    photoImport: {
+      button: "Import from Photo",
+      title: "Import from photo",
+      description:
+        "Choose photos or screenshots of a recipe. Simple Dinners will read the visible ingredients and directions and turn them into an editable recipe.",
+      choose: "Choose Photos",
+      addMore: "Add More Photos",
+      selected: "selected",
+      formats: "JPEG, PNG, or WebP • up to 8",
+      preview: "Recipe image",
+      remove: "Remove image",
+      order:
+        "Images are read in the order shown. Put ingredients before directions when using multiple images.",
+      readRecipe: "Read Recipe",
+      reading: "Reading Recipe...",
+      review:
+        "You'll review and edit the recipe before it is saved to your Cookbook.",
+      invalidType:
+        "Please choose JPEG, PNG, or WebP images.",
+      fileTooLarge:
+        "is larger than 8 MB.",
+      tooMany:
+        "Choose up to 5 images total.",
+      totalTooLarge:
+        "Those images are larger than 25 MB combined. Try fewer or smaller images.",
+      none:
+        "Choose at least one recipe photo.",
+      failed:
+        "We couldn't read a recipe from those images. Try a clearer photo with the ingredients and directions visible.",
+    },
+
     captionAssist: {
       finishRecipe: "Finish this recipe",
       foundPostStatus:
@@ -508,7 +539,7 @@ export const en = {
       finishWithCaption: "Finish with Caption",
       orUseScreenshots: "Or use screenshots",
       screenshotsDescription:
-        "Add up to five screenshots showing the ingredients and instructions. Choose them in recipe order.",
+        "Add up to eight screenshots showing the ingredients and instructions. Choose them in recipe order.",
       addMoreScreenshots: "Add More Screenshots",
       chooseScreenshots: "Choose Screenshots",
       of: "of",

@@ -41,7 +41,7 @@ import {
 
 const SOURCE_STEPS_PLACEHOLDER = "Steps available at source link!";
 
-const MAX_SCREENSHOT_FILES = 5;
+const MAX_SCREENSHOT_FILES = 8;
 const MAX_SCREENSHOT_FILE_BYTES = 8 * 1024 * 1024;
 const MAX_SCREENSHOT_TOTAL_BYTES = 25 * 1024 * 1024;
 const MAX_VIDEO_FILE_BYTES = 75 * 1024 * 1024;
@@ -791,6 +791,26 @@ export default function CookbookPage({
   const [captionVideoPreviewUrl, setCaptionVideoPreviewUrl] = useState("");
   const [captionVideoError, setCaptionVideoError] = useState("");
 
+  const photoImportInputRef =
+    useRef<HTMLInputElement | null>(null);
+
+  const [showPhotoImport, setShowPhotoImport] =
+    useState(false);
+
+  const [photoImportFiles, setPhotoImportFiles] =
+    useState<File[]>([]);
+
+  const [
+    photoImportPreviewUrls,
+    setPhotoImportPreviewUrls,
+  ] = useState<string[]>([]);
+
+  const [photoImportError, setPhotoImportError] =
+    useState("");
+
+  const [isPhotoImporting, setIsPhotoImporting] =
+    useState(false);
+
   const [showTextImport, setShowTextImport] = useState(false);
   const [pasteText, setPasteText] = useState("");
   const [isTextImporting, setIsTextImporting] = useState(false);
@@ -847,6 +867,25 @@ export default function CookbookPage({
       URL.revokeObjectURL(previewUrl);
     };
   }, [captionVideoFile]);
+
+  useEffect(() => {
+    const previewUrls =
+      photoImportFiles.map((file) =>
+        URL.createObjectURL(file),
+      );
+
+    setPhotoImportPreviewUrls(
+      previewUrls,
+    );
+
+    return () => {
+      previewUrls.forEach((previewUrl) => {
+        URL.revokeObjectURL(
+          previewUrl,
+        );
+      });
+    };
+  }, [photoImportFiles]);
 
   useEffect(() => {
     const sharedUrl = getSharedRecipeUrlFromSearch(location.search);
@@ -1170,6 +1209,270 @@ export default function CookbookPage({
     setCaptionAssistAction(null);
     setCaptionAssistStatus("");
   };
+
+  const resetPhotoImport = () => {
+    setPhotoImportFiles([]);
+    setPhotoImportError("");
+
+    if (photoImportInputRef.current) {
+      photoImportInputRef.current.value =
+        "";
+    }
+  };
+
+  const openPhotoImportModal = () => {
+    if (
+      !requirePlus({
+        feature: "screenshot-import",
+      })
+    ) {
+      return;
+    }
+
+    resetPhotoImport();
+    setShowPhotoImport(true);
+    setShowTextImport(false);
+    setShowManual(false);
+  };
+
+  const closePhotoImportModal = () => {
+    if (isPhotoImporting) {
+      return;
+    }
+
+    setShowPhotoImport(false);
+    resetPhotoImport();
+  };
+
+  const choosePhotoImportFiles = () => {
+    photoImportInputRef.current?.click();
+  };
+
+  const handlePhotoImportSelection = (
+    event: ChangeEvent<HTMLInputElement>,
+  ) => {
+    const selectedFiles =
+      Array.from(
+        event.currentTarget.files || [],
+      );
+
+    event.currentTarget.value = "";
+
+    if (selectedFiles.length === 0) {
+      return;
+    }
+
+    const invalidType =
+      selectedFiles.find(
+        (file) =>
+          !SCREENSHOT_MIME_TYPES.has(
+            file.type,
+          ),
+      );
+
+    if (invalidType) {
+      setPhotoImportError(
+        t(
+          "cookbook.photoImport.invalidType",
+        ),
+      );
+      return;
+    }
+
+    const oversizedFile =
+      selectedFiles.find(
+        (file) =>
+          file.size >
+          MAX_SCREENSHOT_FILE_BYTES,
+      );
+
+    if (oversizedFile) {
+      setPhotoImportError(
+        `${oversizedFile.name} ${t(
+          "cookbook.photoImport.fileTooLarge",
+        )}`,
+      );
+      return;
+    }
+
+    if (
+      photoImportFiles.length +
+        selectedFiles.length >
+      MAX_SCREENSHOT_FILES
+    ) {
+      setPhotoImportError(
+        t(
+          "cookbook.photoImport.tooMany",
+        ),
+      );
+      return;
+    }
+
+    const combinedFiles = [
+      ...photoImportFiles,
+      ...selectedFiles,
+    ];
+
+    const totalBytes =
+      combinedFiles.reduce(
+        (total, file) =>
+          total + file.size,
+        0,
+      );
+
+    if (
+      totalBytes >
+      MAX_SCREENSHOT_TOTAL_BYTES
+    ) {
+      setPhotoImportError(
+        t(
+          "cookbook.photoImport.totalTooLarge",
+        ),
+      );
+      return;
+    }
+
+    setPhotoImportFiles(
+      combinedFiles,
+    );
+
+    setPhotoImportError("");
+  };
+
+  const removePhotoImportFile = (
+    indexToRemove: number,
+  ) => {
+    setPhotoImportFiles(
+      (currentFiles) =>
+        currentFiles.filter(
+          (_, index) =>
+            index !== indexToRemove,
+        ),
+    );
+
+    setPhotoImportError("");
+  };
+
+  const handlePhotoImport =
+    async () => {
+      if (
+        !requirePlus({
+          feature:
+            "screenshot-import",
+        })
+      ) {
+        return;
+      }
+
+      if (
+        photoImportFiles.length === 0
+      ) {
+        setPhotoImportError(
+          t(
+            "cookbook.photoImport.none",
+          ),
+        );
+        return;
+      }
+
+      setIsPhotoImporting(true);
+      setPhotoImportError("");
+
+      try {
+        const formData =
+          new FormData();
+
+        photoImportFiles.forEach(
+          (file) => {
+            formData.append(
+              "screenshots",
+              file,
+              file.name,
+            );
+          },
+        );
+
+        formData.append(
+          "language",
+          language ||
+            navigator.language ||
+            "en",
+        );
+
+        const response =
+          await fetch(
+            `${API_BASE}/import-screenshots`,
+            {
+              method: "POST",
+              body: formData,
+            },
+          );
+
+        let data: any;
+
+        try {
+          data =
+            await response.json();
+        } catch {
+          throw new Error(
+            t(
+              "cookbook.photoImport.failed",
+            ),
+          );
+        }
+
+        if (
+          !response.ok ||
+          !data?.success ||
+          !data?.recipe
+        ) {
+          throw new Error(
+            t(
+              "cookbook.photoImport.failed",
+            ),
+          );
+        }
+
+        const normalizedRecipe =
+          normalizeImportedRecipe(
+            data.recipe,
+            data,
+          );
+
+        setManualRecipe(
+          normalizedRecipe,
+        );
+
+        setEditingSlug(null);
+        setHasImportedDraft(true);
+
+        setShowPhotoImport(false);
+        resetPhotoImport();
+
+        setShowManual(true);
+
+        alert(
+          t(
+            "cookbook.importedReviewSave",
+          ),
+        );
+      } catch (error) {
+        console.error(
+          "Photo recipe import failed:",
+          error,
+        );
+
+        setPhotoImportError(
+          error instanceof Error
+            ? error.message
+            : t(
+                "cookbook.photoImport.failed",
+              ),
+        );
+      } finally {
+        setIsPhotoImporting(false);
+      }
+    };
 
   const openEditRecipe = (recipe: CookbookRecipe) => {
     setManualRecipe({
@@ -2380,9 +2683,445 @@ export default function CookbookPage({
                   <FileText size={18} />
                   {t("cookbook.pasteText")}
                 </button>
+
+                <button
+                  type="button"
+                  onClick={openPhotoImportModal}
+                  style={{
+                    ...btn,
+                    gridColumn: "1 / -1",
+                    padding: "14px 16px",
+                    borderRadius: 18,
+                    background:
+                      "rgba(168,85,247,0.12)",
+                    border:
+                      "1px solid rgba(168,85,247,0.28)",
+                    color: "#c4b5fd",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 10,
+                  }}
+                >
+                  <ImageIcon size={18} />
+                  {t(
+                    "cookbook.photoImport.button",
+                  )}
+                </button>
               </div>
             </div>
           </Card>
+
+          {/* =========================================================
+              PHOTO RECIPE IMPORT
+          ========================================================= */}
+
+          {showPhotoImport && (
+            <div
+              style={{
+                position: "fixed",
+                inset: 0,
+                backgroundColor:
+                  "rgba(0,0,0,0.88)",
+                zIndex: 10002,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 20,
+              }}
+            >
+              <div
+                style={{
+                  width: "100%",
+                  maxWidth: 560,
+                  background: "#1e293b",
+                  borderRadius: 24,
+                  padding: 28,
+                  border:
+                    "1px solid rgba(255,255,255,0.1)",
+                  boxShadow:
+                    "0 20px 60px rgba(0,0,0,0.45)",
+                  maxHeight: "90vh",
+                  overflowY: "auto",
+                  boxSizing: "border-box",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent:
+                      "space-between",
+                    alignItems: "center",
+                    gap: 14,
+                    marginBottom: 12,
+                  }}
+                >
+                  <div>
+                    <div
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 900,
+                        letterSpacing:
+                          "0.1em",
+                        color: "#c4b5fd",
+                        marginBottom: 6,
+                      }}
+                    >
+                      SIMPLE DINNERS PLUS
+                    </div>
+
+                    <h2
+                      style={{
+                        margin: 0,
+                        fontSize: 24,
+                        fontWeight: 900,
+                      }}
+                    >
+                      {t(
+                        "cookbook.photoImport.title",
+                      )}
+                    </h2>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={
+                      closePhotoImportModal
+                    }
+                    disabled={
+                      isPhotoImporting
+                    }
+                    aria-label={t(
+                      "common.cancel",
+                    )}
+                    style={{
+                      border: 0,
+                      background:
+                        "transparent",
+                      color: "white",
+                      cursor:
+                        isPhotoImporting
+                          ? "default"
+                          : "pointer",
+                    }}
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
+
+                <p
+                  style={{
+                    margin:
+                      "0 0 18px",
+                    fontSize: 14,
+                    lineHeight: 1.55,
+                    opacity: 0.76,
+                  }}
+                >
+                  {t(
+                    "cookbook.photoImport.description",
+                  )}
+                </p>
+
+                <input
+                  ref={
+                    photoImportInputRef
+                  }
+                  type="file"
+                  accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                  multiple
+                  onChange={
+                    handlePhotoImportSelection
+                  }
+                  style={{
+                    display: "none",
+                  }}
+                />
+
+                <button
+                  type="button"
+                  onClick={
+                    choosePhotoImportFiles
+                  }
+                  disabled={
+                    isPhotoImporting ||
+                    photoImportFiles.length >=
+                      MAX_SCREENSHOT_FILES
+                  }
+                  style={{
+                    ...btn,
+                    width: "100%",
+                    padding: 14,
+                    borderRadius: 16,
+                    background:
+                      "rgba(255,255,255,0.07)",
+                    border:
+                      "1px solid rgba(255,255,255,0.14)",
+                    color: "white",
+                    display:
+                      "inline-flex",
+                    justifyContent:
+                      "center",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  <ImageIcon size={19} />
+
+                  {photoImportFiles.length >
+                  0
+                    ? t(
+                        "cookbook.photoImport.addMore",
+                      )
+                    : t(
+                        "cookbook.photoImport.choose",
+                      )}
+                </button>
+
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent:
+                      "space-between",
+                    gap: 10,
+                    marginTop: 10,
+                    fontSize: 12,
+                    opacity: 0.66,
+                  }}
+                >
+                  <span>
+                    {
+                      photoImportFiles.length
+                    }{" "}
+                    {t(
+                      "cookbook.photoImport.selected",
+                    )}
+                  </span>
+
+                  <span>
+                    {t(
+                      "cookbook.photoImport.formats",
+                    )}
+                  </span>
+                </div>
+
+                {photoImportFiles.length >
+                  0 && (
+                  <>
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns:
+                          "repeat(auto-fit, minmax(105px, 1fr))",
+                        gap: 10,
+                        marginTop: 16,
+                      }}
+                    >
+                      {photoImportFiles.map(
+                        (
+                          file,
+                          index,
+                        ) => (
+                          <div
+                            key={`${file.name}-${file.size}-${file.lastModified}-${index}`}
+                            style={{
+                              position:
+                                "relative",
+                              overflow:
+                                "hidden",
+                              borderRadius: 14,
+                              border:
+                                "1px solid rgba(255,255,255,0.14)",
+                              background:
+                                "#0f172a",
+                            }}
+                          >
+                            <img
+                              src={
+                                photoImportPreviewUrls[
+                                  index
+                                ]
+                              }
+                              alt={`${t(
+                                "cookbook.photoImport.preview",
+                              )} ${
+                                index + 1
+                              }`}
+                              style={{
+                                display:
+                                  "block",
+                                width:
+                                  "100%",
+                                aspectRatio:
+                                  "4 / 5",
+                                objectFit:
+                                  "cover",
+                              }}
+                            />
+
+                            <span
+                              style={{
+                                position:
+                                  "absolute",
+                                left: 7,
+                                top: 7,
+                                minWidth: 26,
+                                height: 26,
+                                padding:
+                                  "0 7px",
+                                borderRadius:
+                                  999,
+                                display:
+                                  "grid",
+                                placeItems:
+                                  "center",
+                                background:
+                                  "rgba(15,23,42,0.9)",
+                                fontSize: 12,
+                                fontWeight: 900,
+                              }}
+                            >
+                              {index + 1}
+                            </span>
+
+                            <button
+                              type="button"
+                              onClick={() =>
+                                removePhotoImportFile(
+                                  index,
+                                )
+                              }
+                              disabled={
+                                isPhotoImporting
+                              }
+                              aria-label={t(
+                                "cookbook.photoImport.remove",
+                              )}
+                              style={{
+                                position:
+                                  "absolute",
+                                right: 7,
+                                top: 7,
+                                width: 28,
+                                height: 28,
+                                border: 0,
+                                borderRadius:
+                                  999,
+                                display:
+                                  "grid",
+                                placeItems:
+                                  "center",
+                                background:
+                                  "rgba(15,23,42,0.9)",
+                                color:
+                                  "white",
+                                cursor:
+                                  "pointer",
+                              }}
+                            >
+                              <X
+                                size={15}
+                              />
+                            </button>
+                          </div>
+                        ),
+                      )}
+                    </div>
+
+                    <p
+                      style={{
+                        margin:
+                          "10px 0 0",
+                        fontSize: 12,
+                        lineHeight: 1.45,
+                        opacity: 0.64,
+                      }}
+                    >
+                      {t(
+                        "cookbook.photoImport.order",
+                      )}
+                    </p>
+                  </>
+                )}
+
+                {photoImportError && (
+                  <div
+                    role="alert"
+                    style={{
+                      marginTop: 16,
+                      padding:
+                        "12px 14px",
+                      borderRadius: 14,
+                      background:
+                        "rgba(239,68,68,0.12)",
+                      border:
+                        "1px solid rgba(239,68,68,0.24)",
+                      color: "#fecaca",
+                      fontSize: 13,
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    {photoImportError}
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    void handlePhotoImport()
+                  }
+                  disabled={
+                    isPhotoImporting ||
+                    photoImportFiles.length ===
+                      0
+                  }
+                  style={{
+                    ...btn,
+                    width: "100%",
+                    marginTop: 18,
+                    padding: 15,
+                    borderRadius: 16,
+                    background:
+                      isPhotoImporting ||
+                      photoImportFiles.length ===
+                        0
+                        ? "rgba(148,163,184,0.4)"
+                        : "#22c55e",
+                    color: "white",
+                    cursor:
+                      isPhotoImporting ||
+                      photoImportFiles.length ===
+                        0
+                        ? "default"
+                        : "pointer",
+                  }}
+                >
+                  {isPhotoImporting
+                    ? t(
+                        "cookbook.photoImport.reading",
+                      )
+                    : t(
+                        "cookbook.photoImport.readRecipe",
+                      )}
+                </button>
+
+                <p
+                  style={{
+                    margin:
+                      "12px 0 0",
+                    textAlign: "center",
+                    fontSize: 12,
+                    lineHeight: 1.45,
+                    opacity: 0.62,
+                  }}
+                >
+                  {t(
+                    "cookbook.photoImport.review",
+                  )}
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* =========================================================
               MANUAL / REVIEW MODAL
