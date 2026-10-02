@@ -244,6 +244,40 @@ export const ZACHS_MAP_RESTAURANTS: ZachsMapRestaurant[] = [
     videoId: "_UNc3k5kboA",
     active: true,
   },
+
+  {
+    id: "galaxy-pizza-arcade",
+    name: "Galaxy Pizza Arcade",
+    address: "121 Shelby St",
+    city: "Kingsport",
+    state: "TN",
+    zip: "37660",
+    categories: ["Pizza"],
+    videoId: "EnP2coqHB-g",
+    active: true,
+  },
+  {
+    id: "the-crumbum",
+    name: "The Crumbum",
+    address: "128 E Market St",
+    city: "Kingsport",
+    state: "TN",
+    zip: "37660",
+    categories: ["Bakery", "Cafe"],
+    videoId: "sxRHXrG8xSY",
+    active: true,
+  },
+  {
+    id: "kalm-bistro",
+    name: "Kalm Bistro",
+    address: "5205 Bobby Hicks Hwy Suite 4",
+    city: "Gray",
+    state: "TN",
+    zip: "37615",
+    categories: ["Vietnamese", "Asian"],
+    videoId: "vAnbFwEHrDE",
+    active: true,
+  },
 ];
 
 export function getActiveZachsMapRestaurants() {

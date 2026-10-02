@@ -75,5 +75,17 @@ export const ZACHS_MAP_COORDINATES = {
   "fusion-ridgefields": {
     "latitude": 36.5495449,
     "longitude": -82.6055493
+  },
+  "galaxy-pizza-arcade": {
+    "latitude": 36.5460058,
+    "longitude": -82.5626597
+  },
+  "the-crumbum": {
+    "latitude": 36.5462661,
+    "longitude": -82.5603337
+  },
+  "kalm-bistro": {
+    "latitude": 36.4129642221,
+    "longitude": -82.47193283545
   }
 } as const;
