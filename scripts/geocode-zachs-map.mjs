@@ -1,72 +1,57 @@
 import { mkdir, writeFile } from "node:fs/promises";
-
-const restaurants = [
-  {
-    id: "motos-kingsport",
-    queries: [
-      "1001 E Stone Dr, Kingsport, TN 37660, USA",
-    ],
-  },
-  {
-    id: "super-yummy-kingsport",
-    queries: [
-      "4366 W Stone Dr, Kingsport, TN 37660, USA",
-    ],
-  },
-  {
-    id: "si-senor-gray",
-    queries: [
-      "405 Roy Martin Rd, Gray, TN 37615, USA",
-      "Si Senor Mexican Grill, Gray, TN, USA",
-    ],
-  },
-  {
-    id: "jaks-diner",
-    queries: [
-      "4028 Fort Henry Dr, Kingsport, TN 37663, USA",
-    ],
-  },
-  {
-    id: "la-abejita",
-    queries: [
-      "1401 Bloomingdale Rd, Kingsport, TN 37660",
-    ],
-  },
-  {
-    id: "china-wok-kingsport",
-    queries: [
-      "600 E Sullivan St, Kingsport, TN 37660, USA",
-    ],
-  },
-  {
-    id: "rice-bistro-filipino",
-    queries: [
-      "1811 W State of Franklin Rd, Johnson City, TN 37604, USA",
-      "Hana Asian Fusion, Johnson City, TN, USA",
-    ],
-  },
-  {
-    id: "thai-house-kingsport",
-    queries: [
-      "2003 N Eastman Rd, Kingsport, TN 37660, USA",
-    ],
-  },
-  {
-    id: "latin-love-kitchen",
-    queries: [
-      "221 E Center St, Kingsport, TN 37660, USA",
-    ],
-  },
-  {
-    id: "ole-crow-tavern",
-    queries: [
-      "215 Commerce St, Kingsport, TN 37660, USA",
-    ],
-  },
-];
+import {
+  ZACHS_MAP_RESTAURANTS,
+} from "../src/zachsMap/restaurants.ts";
 
 const sleep = (ms) =>
   new Promise((resolve) => setTimeout(resolve, ms));
+
+function stripSuite(address) {
+  return String(address || "")
+    .replace(/\s+(?:ste|suite)\s+[a-z0-9-]+$/i, "")
+    .replace(/\s+#\s*[a-z0-9-]+$/i, "")
+    .trim();
+}
+
+function unique(values) {
+  return [...new Set(values.filter(Boolean))];
+}
+
+const restaurants = ZACHS_MAP_RESTAURANTS
+  .filter((restaurant) => restaurant.active)
+  .map((restaurant) => {
+    const fullAddress = [
+      restaurant.address,
+      restaurant.city,
+      restaurant.state,
+      restaurant.zip,
+      "USA",
+    ].join(", ");
+
+    const simplifiedAddress = [
+      stripSuite(restaurant.address),
+      restaurant.city,
+      restaurant.state,
+      restaurant.zip,
+      "USA",
+    ].join(", ");
+
+    const businessQuery = [
+      restaurant.name,
+      restaurant.city,
+      restaurant.state,
+      "USA",
+    ].join(", ");
+
+    return {
+      id: restaurant.id,
+      queries: unique([
+        fullAddress,
+        simplifiedAddress,
+        businessQuery,
+      ]),
+    };
+  });
 
 const coordinates = {};
 
@@ -152,14 +137,20 @@ for (const restaurant of restaurants) {
   for (const query of restaurant.queries) {
     console.log(`   trying OSM: ${query}`);
 
-    matched =
-      await geocodeNominatim(query);
+    try {
+      matched =
+        await geocodeNominatim(query);
+    } catch (error) {
+      console.log(
+        `   OSM lookup error: ${error.message}`,
+      );
+    }
 
     await sleep(1200);
 
     if (!matched) {
       console.log(
-        `   OSM had no match; trying Census...`,
+        "   OSM had no match; trying Census...",
       );
 
       try {
@@ -222,5 +213,5 @@ export const ZACHS_MAP_COORDINATES = ${JSON.stringify(
 );
 
 console.log(
-  "\n✅ Wrote src/zachsMap/coordinates.generated.ts",
+  `\n✅ Wrote ${Object.keys(coordinates).length} coordinates to src/zachsMap/coordinates.generated.ts`,
 );
