@@ -128,10 +128,10 @@ export default function AboutPage() {
         primaryCta: "Abrir la app",
         playStore: "Google Play",
         appStore: "App Store",
-        updateTitle: "Ahora con Complete the Meal",
+        updateTitle: "Ahora con Zach’s Map y nutrición Plus",
         updateText:
-          "Simple Dinners ahora sugiere acompañamientos y postres opcionales, con soporte para la lista de compras y enlaces al Modo Cocina cuando hay una receta disponible.",
-        socialProof: "12 reseñas en Google Play y 2 reseñas en App Store",
+          "Descubre restaurantes destacados por ZachBites en la sección de comida para llevar. Con Simple Dinners Plus, también puedes consultar información nutricional estimada por porción de tus recetas.",
+        socialProof: "Gracias por ayudar a crecer Simple Dinners.",
         ratingsTitle: "Calificaciones de la app",
         ratingsSubtitle:
           "Gracias a los primeros usuarios que están ayudando a crecer Simple Dinners.",
@@ -148,31 +148,59 @@ export default function AboutPage() {
         finalTitle: "¿Listo para hacer la cena más fácil?",
         finalText:
           "Usa Simple Dinners en la web o descarga la app en tu teléfono.",
+        plusTitle: "Más ayuda con Simple Dinners Plus",
+        plusText: "La planificación diaria, tu recetario, la lista de compras y el Modo Cocina siguen siendo gratis. Plus añade más ayuda y funciones para compartir en familia.",
+        plusFeatures: [
+          {
+            "title": "Nutrición estimada",
+            "text": "Consulta las calorías, proteínas, carbohidratos, grasas, fibra y sodio estimados por porción, a partir de datos de USDA FoodData Central."
+          },
+          {
+            "title": "Sincronización del hogar",
+            "text": "Mantén tu plan de cenas, lista de compras y recetario sincronizados con tu hogar."
+          },
+          {
+            "title": "Smart Week",
+            "text": "Crea un plan de cenas personalizado según tu horario, despensa, preferencias y peticiones."
+          },
+          {
+            "title": "Smart Shopping",
+            "text": "Recibe ayuda adicional para organizar y depurar tu lista de compras."
+          },
+          {
+            "title": "Más formas de guardar recetas",
+            "text": "Importa recetas desde enlaces compatibles de Instagram, TikTok, Facebook y Pinterest, o desde descripciones de publicaciones, capturas de pantalla y videos."
+          }
+        ],
         features: [
           {
-            title: "Planifica tu semana",
-            text: "Crea un plan de cenas para cada noche sin pensarlo demasiado.",
+            "title": "Planifica tu semana",
+            "text": "Crea un plan de cenas para cada noche sin pensarlo demasiado."
           },
           {
-            title: "Completa la comida",
-            text: "Agrega acompañamientos y postres opcionales a tu plan.",
+            "title": "Completa la comida",
+            "text": "Agrega acompañamientos y postres opcionales a tu plan."
           },
           {
-            title: "Lista de compras",
-            text: "Manda ingredientes, acompañamientos y postres a una lista limpia.",
+            "title": "Lista de compras",
+            "text": "Manda ingredientes, acompañamientos y postres a una lista limpia."
           },
           {
-            title: "Modo Cocina",
-            text: "Sigue instrucciones paso a paso mientras cocinas.",
+            "title": "Modo Cocina",
+            "text": "Sigue instrucciones paso a paso mientras cocinas."
           },
           {
-            title: "Importa recetas",
-            text: "Guarda recetas favoritas desde enlaces o texto pegado.",
+            "title": "Guarda recetas",
+            "text": "Guarda tus recetas favoritas desde enlaces de sitios web o texto pegado."
           },
           {
-            title: "Inglés y español",
-            text: "Cambia de idioma y planifica la cena a tu manera.",
+            "title": "Zach’s Map",
+            "text": "Explora restaurantes de las Tri-Cities destacados por ZachBites, mira sus reseñas, obtén indicaciones y agrega una opción para llevar a tu plan semanal."
           },
+          {
+            "title": "Inglés y español",
+            "text": "Cambia de idioma y planifica la cena a tu manera."
+          }
         ],
       }
     : {
@@ -183,10 +211,10 @@ export default function AboutPage() {
         primaryCta: "Open the app",
         playStore: "Google Play",
         appStore: "App Store",
-        updateTitle: "Now with Complete the Meal",
+        updateTitle: "Now with Zach’s Map and Plus nutrition",
         updateText:
-          "Simple Dinners now suggests side dishes and optional desserts, with shopping list support and Cook Mode links when a matching recipe is available.",
-        socialProof: "12 Google Play reviews and 2 App Store reviews",
+          "Discover restaurants featured by ZachBites in Takeout. With Simple Dinners Plus, you can also explore estimated nutrition per serving for your recipes.",
+        socialProof: "Thank you for helping Simple Dinners grow.",
         ratingsTitle: "App ratings",
         ratingsSubtitle:
           "Thanks to the early users helping Simple Dinners grow.",
@@ -203,31 +231,59 @@ export default function AboutPage() {
         finalTitle: "Ready to make dinner easier?",
         finalText:
           "Use Simple Dinners on the web or download the app on your phone.",
+        plusTitle: "More help with Simple Dinners Plus",
+        plusText: "Your everyday planning, cookbook, shopping list, and Cook Mode stay free. Plus adds extra help and household sharing.",
+        plusFeatures: [
+          {
+            "title": "Estimated nutrition",
+            "text": "See estimated calories, protein, carbs, fat, fiber, and sodium per serving, based on USDA FoodData Central data."
+          },
+          {
+            "title": "Household sync",
+            "text": "Keep your dinner plan, shopping list, and cookbook in sync with your household."
+          },
+          {
+            "title": "Smart Week",
+            "text": "Build a personalized dinner week around your schedule, pantry, preferences, and requests."
+          },
+          {
+            "title": "Smart Shopping",
+            "text": "Get extra help organizing and cleaning up your shopping list."
+          },
+          {
+            "title": "More ways to save recipes",
+            "text": "Import recipes from supported Instagram, TikTok, Facebook, and Pinterest links, or from captions, screenshots, and videos."
+          }
+        ],
         features: [
           {
-            title: "Plan your week",
-            text: "Create a dinner plan for each night without overthinking it.",
+            "title": "Plan your week",
+            "text": "Create a dinner plan for each night without overthinking it."
           },
           {
-            title: "Complete the meal",
-            text: "Add suggested sides and optional desserts to your dinner plan.",
+            "title": "Complete the meal",
+            "text": "Add suggested sides and optional desserts to your dinner plan."
           },
           {
-            title: "Build a shopping list",
-            text: "Send ingredients, sides, and desserts to one clean list.",
+            "title": "Build a shopping list",
+            "text": "Send ingredients, sides, and desserts to one clean list."
           },
           {
-            title: "Cook step by step",
-            text: "Use Cook Mode to follow recipes one step at a time.",
+            "title": "Cook step by step",
+            "text": "Use Cook Mode to follow recipes one step at a time."
           },
           {
-  title: "Save recipes",
-  text: "Save favorite recipes from links, Pinterest, or pasted text.",
-},
-          {
-            title: "English and Spanish",
-            text: "Switch languages and plan dinner your way.",
+            "title": "Save recipes",
+            "text": "Save favorite recipes from website links or pasted text."
           },
+          {
+            "title": "Zach’s Map",
+            "text": "Explore Tri-Cities restaurants featured by ZachBites, watch his reviews, get directions, and add a takeout pick to your weekly dinner plan."
+          },
+          {
+            "title": "English and Spanish",
+            "text": "Switch languages and plan dinner your way."
+          }
         ],
       };
 
@@ -237,6 +293,7 @@ export default function AboutPage() {
     ShoppingCart,
     ChefHat,
     Sparkles,
+    Globe2,
     Languages,
   ];
 
@@ -638,6 +695,38 @@ export default function AboutPage() {
             })}
           </div>
         </section>
+
+        <Card title={copy.plusTitle} subtitle={copy.plusText}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
+              gap: 12,
+            }}
+          >
+            {copy.plusFeatures.map((feature) => (
+              <div
+                key={feature.title}
+                style={{
+                  padding: 18,
+                  borderRadius: 22,
+                  background: "rgba(250,204,21,0.06)",
+                  border: "1px solid rgba(250,204,21,0.18)",
+                  display: "grid",
+                  alignContent: "start",
+                  gap: 10,
+                }}
+              >
+                <h3 style={{ margin: 0, fontWeight: 1000, fontSize: 17 }}>
+                  {feature.title}
+                </h3>
+                <p style={{ margin: 0, opacity: 0.76, fontSize: 14, lineHeight: 1.45 }}>
+                  {feature.text}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Card>
 
         <Card title={copy.missionTitle} subtitle="">
           <p
