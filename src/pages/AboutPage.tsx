@@ -38,7 +38,7 @@ const DEFAULT_STORE_RATINGS: StoreRating[] = [
   {
     platform: "Google Play",
     rating: "5.0",
-    count: "12 public reviews",
+    count: "14 public reviews",
     href: PLAY_STORE_URL,
   },
   {
@@ -48,6 +48,33 @@ const DEFAULT_STORE_RATINGS: StoreRating[] = [
   href: APP_STORE_URL,
 },
 ];
+
+type StoreBadgeProps = { store: "google" | "apple"; isSpanish: boolean };
+
+function StoreBadgeImage({ store, isSpanish }: StoreBadgeProps) {
+  return (
+    <img
+      src={"/store-badges/" + store + "-" + (isSpanish ? "es" : "en") + (store === "google" ? ".png" : ".svg")}
+      alt={store === "google" ? "Google Play" : "App Store"}
+      style={{ display: "block", width: store === "google" ? 196 : 144, maxWidth: "100%", height: "auto" }}
+    />
+  );
+}
+
+function StoreBadgeLink({ store, isSpanish }: StoreBadgeProps) {
+  const label = store === "google" ? "Google Play" : "App Store";
+  return (
+    <a
+      href={store === "google" ? PLAY_STORE_URL : APP_STORE_URL}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={(isSpanish ? "Descargar Simple Dinners en " : "Download Simple Dinners on ") + label}
+      style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", height: 76, maxWidth: "100%", textDecoration: "none", borderRadius: 12 }}
+    >
+      <StoreBadgeImage store={store} isSpanish={isSpanish} />
+    </a>
+  );
+}
 
 function FacebookIcon({ size = 16 }: { size?: number }) {
   return (
@@ -393,39 +420,9 @@ export default function AboutPage() {
               {copy.primaryCta}
             </button>
 
-            <a
-              href={PLAY_STORE_URL}
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                textDecoration: "none",
-                border: "1px solid rgba(255,255,255,0.10)",
-                background: "rgba(255,255,255,0.05)",
-                color: "white",
-                borderRadius: 16,
-                padding: "13px 16px",
-                fontWeight: 900,
-              }}
-            >
-              {copy.playStore}
-            </a>
+            <StoreBadgeLink store="google" isSpanish={isSpanish} />
 
-            <a
-              href={APP_STORE_URL}
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                textDecoration: "none",
-                border: "1px solid rgba(255,255,255,0.10)",
-                background: "rgba(255,255,255,0.05)",
-                color: "white",
-                borderRadius: 16,
-                padding: "13px 16px",
-                fontWeight: 900,
-              }}
-            >
-              {copy.appStore}
-            </a>
+            <StoreBadgeLink store="apple" isSpanish={isSpanish} />
           </div>
 
           <div
@@ -493,7 +490,11 @@ export default function AboutPage() {
                     gap: 10,
                   }}
                 >
-                  <div style={{ fontWeight: 1000 }}>{item.platform}</div>
+                  <div style={{ fontWeight: 1000, minWidth: 0, flex: 1 }}>
+                    {item.platform === "Google Play" || item.platform === "App Store" ? (
+                      <StoreBadgeImage store={item.platform === "Google Play" ? "google" : "apple"} isSpanish={isSpanish} />
+                    ) : item.platform}
+                  </div>
                   <ExternalLink size={15} style={{ opacity: 0.65 }} />
                 </div>
 
@@ -772,6 +773,7 @@ export default function AboutPage() {
               flexWrap: "wrap",
               gap: 10,
               marginTop: 4,
+                alignItems: "center",
             }}
           >
             <button
@@ -790,39 +792,9 @@ export default function AboutPage() {
               {copy.primaryCta}
             </button>
 
-            <a
-              href={PLAY_STORE_URL}
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                textDecoration: "none",
-                border: "1px solid rgba(255,255,255,0.10)",
-                background: "rgba(255,255,255,0.05)",
-                color: "white",
-                borderRadius: 16,
-                padding: "13px 16px",
-                fontWeight: 900,
-              }}
-            >
-              {copy.playStore}
-            </a>
+            <StoreBadgeLink store="google" isSpanish={isSpanish} />
 
-            <a
-              href={APP_STORE_URL}
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                textDecoration: "none",
-                border: "1px solid rgba(255,255,255,0.10)",
-                background: "rgba(255,255,255,0.05)",
-                color: "white",
-                borderRadius: 16,
-                padding: "13px 16px",
-                fontWeight: 900,
-              }}
-            >
-              {copy.appStore}
-            </a>
+            <StoreBadgeLink store="apple" isSpanish={isSpanish} />
           </div>
         </section>
       </div>
