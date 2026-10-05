@@ -443,7 +443,7 @@ export const es = {
   cookbook: {
     title: "Recetario",
     selectingRecipeFor: "Seleccionando receta para",
-    pasteRecipeLink: "Pega un enlace de receta o Pinterest...",
+    pasteRecipeLink: "Pega un enlace de receta o red social...",
     import: "Buscar receta",
     reimport: "Buscar de nuevo",
     addManually: "Agregar manualmente",
@@ -456,7 +456,7 @@ export const es = {
     reviewImportedDetails:
       "Revisa los detalles de la receta y haz cualquier cambio antes de guardar.",
     addManualOrPasteUrl:
-      "Agrega una receta manualmente o pega un enlace de receta o Pinterest abajo.",
+      "Agrega una receta manualmente o pega un enlace de receta o red social abajo.",
     importFromUrl: "Guardar desde enlace",
     importedDetailsLoaded:
       "Los detalles de la receta están cargados abajo. Edita lo que quieras antes de guardar.",
@@ -526,7 +526,7 @@ export const es = {
     confirmDeletePrefix: "¿Eliminar",
     confirmDeleteSuffix: "de tu recetario?",
     recipeDeleted: "Receta eliminada.",
-    alertPasteUrl: "Pega un enlace de receta o Pinterest.",
+    alertPasteUrl: "Pega un enlace de receta o red social.",
     recipeImportFailed: "No se pudo guardar la receta.",
     importSparse:
       "Encontramos el enlace de la receta, pero no muchos detalles. Puedes completar el resto manualmente.",

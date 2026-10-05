@@ -436,7 +436,7 @@ export const en = {
   cookbook: {
     title: "Cookbook",
     selectingRecipeFor: "Selecting recipe for",
-    pasteRecipeLink: "Paste recipe or Pinterest link...",
+    pasteRecipeLink: "Paste recipe or social link...",
     import: "Find Recipe",
     reimport: "Find Again",
     addManually: "Add Manually",
@@ -449,7 +449,7 @@ export const en = {
     reviewImportedDetails:
       "Review the recipe details and make any edits before saving.",
     addManualOrPasteUrl:
-      "Add a recipe manually, or paste a recipe or Pinterest link below.",
+      "Add a recipe manually, or paste a recipe or social link below.",
     importFromUrl: "Save from Link",
     importedDetailsLoaded:
       "Recipe details are loaded below. Edit anything you want before saving.",
@@ -519,7 +519,7 @@ export const en = {
     confirmDeletePrefix: "Delete",
     confirmDeleteSuffix: "from your cookbook?",
     recipeDeleted: "Recipe deleted.",
-    alertPasteUrl: "Please paste a recipe or Pinterest link.",
+    alertPasteUrl: "Please paste a recipe or social link.",
     recipeImportFailed: "Recipe save failed.",
     importSparse:
       "We found the recipe link, but not many details. You can fill in the rest manually.",
