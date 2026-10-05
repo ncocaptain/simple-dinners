@@ -1807,8 +1807,21 @@ export default function CookbookPage({
           setImportUrl("");
 
           if (videoData.needsFinishing) {
+            const partialReason =
+              String(
+                videoData.debug?.partialReason ||
+                ""
+              );
+
             alert(
-              "We found part of this recipe from the video. Review what was recovered and fill in anything missing."
+              partialReason ===
+                "instagram-teaser-missing-measurements"
+                ? t(
+                    "cookbook.instagramTeaserMissingMeasurements"
+                  )
+                : t(
+                    "cookbook.videoPartialReview"
+                  )
             );
           } else {
             alert(
