@@ -270,6 +270,8 @@ function looksLikeSocialRecipeUrl(url: string) {
     value.includes("fb.watch") ||
     value.includes("instagram.com") ||
     value.includes("tiktok.com") ||
+    value.includes("youtube.com") ||
+    value.includes("youtu.be") ||
     value.includes("pinterest.com")
   );
 }
@@ -290,7 +292,10 @@ function isPlusSocialRecipeUrl(url: string) {
       host === "facebook.com" ||
       host.endsWith(".facebook.com") ||
       host === "fb.watch" ||
-      host.endsWith(".fb.watch")
+      host.endsWith(".fb.watch") ||
+      host === "youtube.com" ||
+      host.endsWith(".youtube.com") ||
+      host === "youtu.be"
     );
   } catch {
     const value =
@@ -300,7 +305,9 @@ function isPlusSocialRecipeUrl(url: string) {
       value.includes("instagram.com") ||
       value.includes("tiktok.com") ||
       value.includes("facebook.com") ||
-      value.includes("fb.watch")
+      value.includes("fb.watch") ||
+      value.includes("youtube.com") ||
+      value.includes("youtu.be")
     );
   }
 }
@@ -317,7 +324,10 @@ function isPublicVideoRecipeUrl(url: string) {
       host === "instagram.com" ||
       host.endsWith(".instagram.com") ||
       host === "tiktok.com" ||
-      host.endsWith(".tiktok.com")
+      host.endsWith(".tiktok.com") ||
+      host === "youtube.com" ||
+      host.endsWith(".youtube.com") ||
+      host === "youtu.be"
     );
   } catch {
     const value =
@@ -325,7 +335,9 @@ function isPublicVideoRecipeUrl(url: string) {
 
     return (
       value.includes("instagram.com") ||
-      value.includes("tiktok.com")
+      value.includes("tiktok.com") ||
+      value.includes("youtube.com") ||
+      value.includes("youtu.be")
     );
   }
 }
@@ -1730,7 +1742,7 @@ export default function CookbookPage({
         EMPTY_INSTAGRAM_FALLBACK_METADATA;
 
       // -----------------------------------------------------
-      // Instagram and TikTok video import
+      // Instagram, TikTok, and YouTube video import
       // Keep the existing public-video path first.
       // On Android Instagram imports, start the native caption
       // extraction in parallel so it is ready if video import
@@ -1775,7 +1787,7 @@ export default function CookbookPage({
               await videoResponse.json();
           } catch {
             throw new Error(
-              "Simple Dinners could not read the Instagram video response."
+              "Simple Dinners could not read the social video response."
             );
           }
 
@@ -1786,7 +1798,7 @@ export default function CookbookPage({
           ) {
             throw new Error(
               videoData?.error ||
-              "Simple Dinners could not read that Instagram video."
+              "Simple Dinners could not read that social video."
             );
           }
 
@@ -1819,9 +1831,14 @@ export default function CookbookPage({
                 ? t(
                     "cookbook.instagramTeaserMissingMeasurements"
                   )
-                : t(
-                    "cookbook.videoPartialReview"
-                  )
+                : partialReason ===
+                    "youtube-teaser-missing-measurements"
+                  ? t(
+                      "cookbook.youtubeTeaserMissingMeasurements"
+                    )
+                  : t(
+                      "cookbook.videoPartialReview"
+                    )
             );
           } else {
             alert(
@@ -1838,7 +1855,7 @@ export default function CookbookPage({
           );
 
           console.error(
-            "Automatic Instagram video import failed:",
+            "Automatic social video import failed:",
             videoError
           );
 

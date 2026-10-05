@@ -527,6 +527,8 @@ export const en = {
       "Recipe details found. Review and save before adding it.",
     instagramTeaserMissingMeasurements:
       "This post includes the recipe steps but not the ingredient amounts. Add the missing measurements before saving.",
+    youtubeTeaserMissingMeasurements:
+      "This YouTube video includes recipe steps but not the ingredient amounts. Add the missing measurements before saving.",
     videoPartialReview:
       "We found part of this recipe from the video. Review what was recovered and fill in anything missing.",
     failedToImportRecipe: "Failed to find recipe details.",
