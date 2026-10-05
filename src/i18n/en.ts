@@ -525,6 +525,10 @@ export const en = {
       "We found the recipe link, but not many details. You can fill in the rest manually.",
     importedReviewSave:
       "Recipe details found. Review and save before adding it.",
+    instagramTeaserMissingMeasurements:
+      "This post includes the recipe steps but not the ingredient amounts. Add the missing measurements before saving.",
+    videoPartialReview:
+      "We found part of this recipe from the video. Review what was recovered and fill in anything missing.",
     failedToImportRecipe: "Failed to find recipe details.",
     unableImportNow: "Unable to save this recipe right now. Please try again.",
     alertPasteText: "Please paste recipe text.",
