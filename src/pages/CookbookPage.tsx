@@ -704,6 +704,16 @@ const COOKBOOK_TIP_KEYS = [
   "cookbook.tips.instantUpdates",
 ];
 
+const IMPORT_TIP_KEYS = [
+  "cookbook.importProgress.tips.lockMeals",
+  "cookbook.importProgress.tips.cookMode",
+  "cookbook.importProgress.tips.servings",
+  "cookbook.importProgress.tips.shopping",
+  "cookbook.importProgress.tips.photoImport",
+  "cookbook.importProgress.tips.editImports",
+  "cookbook.importProgress.tips.calendar",
+];
+
 function getCookbookDayLabel(day: string) {
   const labels: Record<string, string> = {
     Monday: t("week.days.monday"),
@@ -770,6 +780,31 @@ export default function CookbookPage({
 
   const [importUrl, setImportUrl] = useState("");
   const [isImporting, setIsImporting] = useState(false);
+
+  const [
+    importStatusKey,
+    setImportStatusKey,
+  ] = useState(
+    "cookbook.importProgress.opening"
+  );
+
+  const [
+    importTipIndex,
+    setImportTipIndex,
+  ] = useState(0);
+
+  const recipePhotoInputRef =
+    useRef<HTMLInputElement | null>(null);
+
+  const [
+    isRecipePhotoUploading,
+    setIsRecipePhotoUploading,
+  ] = useState(false);
+
+  const [
+    recipePhotoUploadError,
+    setRecipePhotoUploadError,
+  ] = useState("");
 
   const [captionAssistDraft, setCaptionAssistDraft] =
     useState<ManualRecipeDraft | null>(null);
@@ -839,6 +874,28 @@ export default function CookbookPage({
   // =========================================================
   // EFFECTS
   // =========================================================
+
+  useEffect(() => {
+    if (!isImporting) {
+      setImportTipIndex(0);
+      return;
+    }
+
+    const timer = window.setInterval(
+      () => {
+        setImportTipIndex(
+          (current) =>
+            (current + 1) %
+            IMPORT_TIP_KEYS.length
+        );
+      },
+      6500
+    );
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, [isImporting]);
 
   useEffect(() => {
     const previewUrls = captionScreenshotFiles.map((file) =>
@@ -1007,11 +1064,137 @@ export default function CookbookPage({
     setManualRecipe(EMPTY_MANUAL_RECIPE);
     setEditingSlug(null);
     setHasImportedDraft(false);
+    setRecipePhotoUploadError("");
+
+    if (recipePhotoInputRef.current) {
+      recipePhotoInputRef.current.value = "";
+    }
   };
 
   const closeManualModal = () => {
+    if (isRecipePhotoUploading) return;
+
     setShowManual(false);
     resetManualRecipe();
+  };
+
+  const chooseRecipePhoto = () => {
+    if (isRecipePhotoUploading) return;
+
+    recipePhotoInputRef.current?.click();
+  };
+
+  const removeRecipePhoto = () => {
+    if (isRecipePhotoUploading) return;
+
+    setManualRecipe((current) => ({
+      ...current,
+      photoUrl: "",
+    }));
+
+    setRecipePhotoUploadError("");
+  };
+
+  const handleRecipePhotoSelection = async (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    const file =
+      event.currentTarget.files?.[0] ||
+      null;
+
+    // Allow choosing the same file again later.
+    event.currentTarget.value = "";
+
+    if (!file) return;
+
+    if (
+      !SCREENSHOT_MIME_TYPES.has(
+        file.type
+      )
+    ) {
+      setRecipePhotoUploadError(
+        t(
+          "cookbook.recipePhotoInvalidType"
+        )
+      );
+      return;
+    }
+
+    if (
+      file.size >
+      MAX_SCREENSHOT_FILE_BYTES
+    ) {
+      setRecipePhotoUploadError(
+        t(
+          "cookbook.recipePhotoTooLarge"
+        )
+      );
+      return;
+    }
+
+    setIsRecipePhotoUploading(true);
+    setRecipePhotoUploadError("");
+
+    try {
+      const formData = new FormData();
+
+      formData.append(
+        "image",
+        file,
+        file.name
+      );
+
+      const response = await fetch(
+        `${API_BASE}/upload-recipe-image`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      let data: any = null;
+
+      try {
+        data = await response.json();
+      } catch {
+        // Error handled below.
+      }
+
+      if (
+        !response.ok ||
+        !data?.success ||
+        !data?.photoUrl
+      ) {
+        throw new Error(
+          data?.error ||
+          t(
+            "cookbook.recipePhotoUploadFailed"
+          )
+        );
+      }
+
+      setManualRecipe((current) => ({
+        ...current,
+        photoUrl: String(
+          data.photoUrl
+        ).trim(),
+      }));
+    } catch (error) {
+      console.error(
+        "Recipe photo upload failed:",
+        error
+      );
+
+      setRecipePhotoUploadError(
+        error instanceof Error
+          ? error.message
+          : t(
+            "cookbook.recipePhotoUploadFailed"
+          )
+      );
+    } finally {
+      setIsRecipePhotoUploading(false);
+    }
   };
 
   const openNewRecipeModal = () => {
@@ -1532,6 +1715,10 @@ export default function CookbookPage({
       return;
     }
 
+    setImportStatusKey(
+      "cookbook.importProgress.opening"
+    );
+    setImportTipIndex(0);
     setIsImporting(true);
 
     try {
@@ -1551,6 +1738,10 @@ export default function CookbookPage({
       // -----------------------------------------------------
 
       if (isPublicVideoRecipeUrl(requestedUrl)) {
+        setImportStatusKey(
+          "cookbook.importProgress.readingVideo"
+        );
+
         const instagramMetadataPromise =
           isInstagramRecipeUrl(requestedUrl)
             ? extractInstagramMetadataForFallback(
@@ -1629,6 +1820,10 @@ export default function CookbookPage({
 
           return;
         } catch (videoError) {
+          setImportStatusKey(
+            "cookbook.importProgress.checkingPost"
+          );
+
           console.error(
             "Automatic Instagram video import failed:",
             videoError
@@ -1660,6 +1855,14 @@ export default function CookbookPage({
       // -----------------------------------------------------
       // Existing standard URL importer
       // -----------------------------------------------------
+
+      setImportStatusKey(
+        looksLikeSocialRecipeUrl(
+          requestedUrl
+        )
+          ? "cookbook.importProgress.checkingPost"
+          : "cookbook.importProgress.readingPage"
+      );
 
       const response = await fetch(
         `${API_BASE}/import-recipe`,
@@ -1716,6 +1919,10 @@ export default function CookbookPage({
       }
 
       const data = await response.json();
+
+      setImportStatusKey(
+        "cookbook.importProgress.organizing"
+      );
 
       if (!data?.recipe) {
         alert(
@@ -3400,37 +3607,229 @@ export default function CookbookPage({
                     }}
                   />
 
-                  <div style={{ position: "relative" }}>
-                    <ImageIcon
-                      size={18}
+                  <div
+                    style={{
+                      display: "grid",
+                      gap: 10,
+                    }}
+                  >
+                    <input
+                      ref={recipePhotoInputRef}
+                      type="file"
+                      accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                      onChange={
+                        handleRecipePhotoSelection
+                      }
                       style={{
-                        position: "absolute",
-                        left: 12,
-                        top: 14,
-                        opacity: 0.45,
+                        display: "none",
                       }}
                     />
 
-                    <input
-                      placeholder={t("cookbook.photoUrlPlaceholder")}
-                      value={manualRecipe.photoUrl}
-                      onChange={(e) =>
-                        setManualRecipe({
-                          ...manualRecipe,
-                          photoUrl: e.target.value,
-                        })
-                      }
+                    <div
                       style={{
-                        width: "100%",
-                        padding: "14px 14px 14px 40px",
-                        borderRadius: 12,
-                        background: "rgba(255,255,255,0.05)",
-                        border: "1px solid rgba(255,255,255,0.1)",
-                        color: "white",
-                        boxSizing: "border-box",
-                        outline: "none",
+                        fontSize: 13,
+                        fontWeight: 800,
+                        opacity: 0.82,
                       }}
-                    />
+                    >
+                      {t(
+                        "cookbook.recipePhoto"
+                      )}
+                    </div>
+
+                    {manualRecipe.photoUrl ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 12,
+                          padding: 10,
+                          borderRadius: 16,
+                          background:
+                            "rgba(255,255,255,0.045)",
+                          border:
+                            "1px solid rgba(255,255,255,0.1)",
+                        }}
+                      >
+                        <SafeRecipeImage
+                          src={normalizePhotoUrl(
+                            manualRecipe.photoUrl
+                          )}
+                          alt={manualRecipe.name || t(
+                            "cookbook.recipePhoto"
+                          )}
+                          style={{
+                            width: 72,
+                            height: 72,
+                            flex: "0 0 72px",
+                            borderRadius: 14,
+                            objectFit: "cover",
+                            background:
+                              "#0f172a",
+                          }}
+                          fallbackStyle={{
+                            width: 72,
+                            height: 72,
+                            flex: "0 0 72px",
+                            borderRadius: 14,
+                            background:
+                              "#0f172a",
+                          }}
+                        />
+
+                        <div
+                          style={{
+                            flex: 1,
+                            minWidth: 0,
+                            display: "grid",
+                            gap: 8,
+                          }}
+                        >
+                          <button
+                            type="button"
+                            onClick={
+                              chooseRecipePhoto
+                            }
+                            disabled={
+                              isRecipePhotoUploading
+                            }
+                            style={{
+                              ...btn,
+                              padding:
+                                "10px 12px",
+                              borderRadius: 12,
+                              background:
+                                "rgba(255,255,255,0.07)",
+                              border:
+                                "1px solid rgba(255,255,255,0.14)",
+                              color: "white",
+                            }}
+                          >
+                            {isRecipePhotoUploading
+                              ? t(
+                                  "cookbook.uploadingRecipePhoto"
+                                )
+                              : t(
+                                  "cookbook.changeRecipePhoto"
+                                )}
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={
+                              removeRecipePhoto
+                            }
+                            disabled={
+                              isRecipePhotoUploading
+                            }
+                            style={{
+                              ...btn,
+                              padding:
+                                "9px 12px",
+                              borderRadius: 12,
+                              background:
+                                "rgba(239,68,68,0.08)",
+                              border:
+                                "1px solid rgba(239,68,68,0.22)",
+                              color:
+                                "#fca5a5",
+                            }}
+                          >
+                            {t(
+                              "cookbook.removeRecipePhoto"
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={
+                          chooseRecipePhoto
+                        }
+                        disabled={
+                          isRecipePhotoUploading
+                        }
+                        style={{
+                          ...btn,
+                          width: "100%",
+                          padding: 13,
+                          borderRadius: 14,
+                          background:
+                            "rgba(168,85,247,0.1)",
+                          border:
+                            "1px solid rgba(168,85,247,0.28)",
+                          color:
+                            "#c4b5fd",
+                          display:
+                            "inline-flex",
+                          alignItems:
+                            "center",
+                          justifyContent:
+                            "center",
+                          gap: 9,
+                        }}
+                      >
+                        <ImageIcon
+                          size={18}
+                        />
+
+                        {isRecipePhotoUploading
+                          ? t(
+                              "cookbook.uploadingRecipePhoto"
+                            )
+                          : t(
+                              "cookbook.chooseRecipePhoto"
+                            )}
+                      </button>
+                    )}
+
+                    {recipePhotoUploadError && (
+                      <div
+                        role="alert"
+                        style={{
+                          color:
+                            "#fca5a5",
+                          fontSize: 12,
+                          lineHeight: 1.45,
+                        }}
+                      >
+                        {recipePhotoUploadError}
+                      </div>
+                    )}
+
+                    <div style={{ position: "relative" }}>
+                      <ImageIcon
+                        size={18}
+                        style={{
+                          position: "absolute",
+                          left: 12,
+                          top: 14,
+                          opacity: 0.45,
+                        }}
+                      />
+
+                      <input
+                        placeholder={t("cookbook.photoUrlPlaceholder")}
+                        value={manualRecipe.photoUrl}
+                        onChange={(e) =>
+                          setManualRecipe({
+                            ...manualRecipe,
+                            photoUrl: e.target.value,
+                          })
+                        }
+                        style={{
+                          width: "100%",
+                          padding: "14px 14px 14px 40px",
+                          borderRadius: 12,
+                          background: "rgba(255,255,255,0.05)",
+                          border: "1px solid rgba(255,255,255,0.1)",
+                          color: "white",
+                          boxSizing: "border-box",
+                          outline: "none",
+                        }}
+                      />
+                    </div>
                   </div>
 
                   <div style={{ position: "relative" }}>
@@ -4397,12 +4796,81 @@ export default function CookbookPage({
 
                 <div
                   style={{
-                    fontSize: 14,
-                    opacity: 0.72,
-                    lineHeight: 1.6,
+                    fontSize: 15,
+                    fontWeight: 800,
+                    lineHeight: 1.5,
+                    color: "#bbf7d0",
                   }}
                 >
-                  {t("cookbook.importingRecipeDescription")}
+                  {t(importStatusKey)}
+                </div>
+
+                <div
+                  style={{
+                    marginTop: 8,
+                    fontSize: 13,
+                    opacity: 0.66,
+                    lineHeight: 1.55,
+                  }}
+                >
+                  {t(
+                    "cookbook.importProgress.waitMessage"
+                  )}
+                </div>
+
+                <div
+                  style={{
+                    marginTop: 22,
+                    padding: "15px 16px",
+                    borderRadius: 18,
+                    background:
+                      "rgba(255,255,255,0.055)",
+                    border:
+                      "1px solid rgba(255,255,255,0.1)",
+                    textAlign: "left",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 7,
+                      marginBottom: 7,
+                      color: "#fde68a",
+                      fontSize: 11,
+                      fontWeight: 900,
+                      letterSpacing:
+                        "0.08em",
+                      textTransform:
+                        "uppercase",
+                    }}
+                  >
+                    <span
+                      aria-hidden="true"
+                    >
+                      💡
+                    </span>
+
+                    {t(
+                      "cookbook.importProgress.tipLabel"
+                    )}
+                  </div>
+
+                  <div
+                    key={importTipIndex}
+                    style={{
+                      fontSize: 13,
+                      lineHeight: 1.55,
+                      opacity: 0.88,
+                    }}
+                  >
+                    {t(
+                      IMPORT_TIP_KEYS[
+                        importTipIndex %
+                          IMPORT_TIP_KEYS.length
+                      ]
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
