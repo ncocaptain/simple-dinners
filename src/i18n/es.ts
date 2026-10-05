@@ -534,6 +534,8 @@ export const es = {
       "Detalles de receta encontrados. Revisa y guarda antes de agregarla.",
     instagramTeaserMissingMeasurements:
       "Esta publicación incluye los pasos de la receta, pero no las cantidades de los ingredientes. Agrega las cantidades que faltan antes de guardarla.",
+    youtubeTeaserMissingMeasurements:
+      "Este video de YouTube incluye los pasos de la receta, pero no las cantidades de los ingredientes. Agrega las cantidades que faltan antes de guardarla.",
     videoPartialReview:
       "Encontramos parte de esta receta en el video. Revisa lo recuperado y completa cualquier detalle que falte.",
     failedToImportRecipe: "No se pudieron encontrar los detalles de la receta.",
