@@ -471,6 +471,17 @@ export const es = {
     instructionsPlaceholder: "Instrucciones (un paso por línea)",
     sourceStepsPlaceholder: "¡Pasos disponibles en el enlace de origen!",
     photoUrlPlaceholder: "URL de foto (opcional)",
+    recipePhoto: "Foto de la receta",
+    chooseRecipePhoto: "Elegir foto",
+    changeRecipePhoto: "Cambiar foto",
+    removeRecipePhoto: "Eliminar foto",
+    uploadingRecipePhoto: "Subiendo foto...",
+    recipePhotoInvalidType:
+      "Elige una imagen JPEG, PNG o WebP.",
+    recipePhotoTooLarge:
+      "Elige una imagen de menos de 8 MB.",
+    recipePhotoUploadFailed:
+      "Simple Dinners no pudo guardar esa foto.",
     sourceUrlPlaceholder: "URL de origen (opcional)",
     updateRecipe: "Actualizar receta",
     saveToCookbook: "Guardar en recetario",
@@ -484,6 +495,34 @@ export const es = {
     importingRecipe: "Buscando receta...",
     importingRecipeDescription:
       "Estamos buscando los ingredientes, instrucciones e imagen de la receta. Algunos sitios pueden tardar hasta un minuto.",
+
+    importProgress: {
+      opening: "Abriendo la receta...",
+      readingPage: "Leyendo la página de la receta...",
+      readingVideo: "Leyendo el video de la receta...",
+      checkingPost: "Buscando los detalles de la receta en la publicación...",
+      organizing: "Organizando tu receta...",
+      waitMessage:
+        "Algunas fuentes tardan un poco más. Nosotros nos encargamos del resto.",
+      tipLabel: "Consejo de Simple Dinners",
+
+      tips: {
+        lockMeals:
+          "Bloquea las comidas que quieres conservar antes de volver a generar el resto de la semana.",
+        cookMode:
+          "El Modo Cocinar mantiene los ingredientes y pasos fáciles de seguir mientras preparas la cena.",
+        servings:
+          "Ajusta las porciones antes de cocinar cuando necesites preparar más — o menos — comida.",
+        shopping:
+          "Agrega los ingredientes de una receta directamente a tu lista de compras cuando estés listo para comprar.",
+        photoImport:
+          "Si una receta solo existe en una captura o página de un libro, prueba Importar desde foto.",
+        editImports:
+          "Las recetas importadas siguen siendo editables para que se adapten a cómo cocina realmente tu familia.",
+        calendar:
+          "Cuando tu semana esté lista, puedes agregar tus cenas al calendario.",
+      },
+    },
     confirmDeletePrefix: "¿Eliminar",
     confirmDeleteSuffix: "de tu recetario?",
     recipeDeleted: "Receta eliminada.",

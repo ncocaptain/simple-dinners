@@ -464,6 +464,17 @@ export const en = {
     instructionsPlaceholder: "Instructions (one step per line)",
     sourceStepsPlaceholder: "Steps available at source link!",
     photoUrlPlaceholder: "Photo URL (optional)",
+    recipePhoto: "Recipe photo",
+    chooseRecipePhoto: "Choose Photo",
+    changeRecipePhoto: "Change Photo",
+    removeRecipePhoto: "Remove Photo",
+    uploadingRecipePhoto: "Uploading Photo...",
+    recipePhotoInvalidType:
+      "Please choose a JPEG, PNG, or WebP image.",
+    recipePhotoTooLarge:
+      "Choose an image smaller than 8 MB.",
+    recipePhotoUploadFailed:
+      "Simple Dinners could not save that photo.",
     sourceUrlPlaceholder: "Source URL (optional)",
     updateRecipe: "Update Recipe",
     saveToCookbook: "Save to Cookbook",
@@ -477,6 +488,34 @@ export const en = {
     importingRecipe: "Finding Recipe...",
     importingRecipeDescription:
       "We're looking for the ingredients, instructions, and recipe image. Some websites can take up to a minute.",
+
+    importProgress: {
+      opening: "Opening the recipe...",
+      readingPage: "Reading the recipe page...",
+      readingVideo: "Reading the recipe video...",
+      checkingPost: "Checking the post for recipe details...",
+      organizing: "Organizing your recipe...",
+      waitMessage:
+        "Some sources take a little longer. You can leave the magic to us.",
+      tipLabel: "Simple Dinners Tip",
+
+      tips: {
+        lockMeals:
+          "Lock meals you want to keep before regenerating the rest of your week.",
+        cookMode:
+          "Cook Mode keeps ingredients and directions easy to follow while dinner is underway.",
+        servings:
+          "Scale recipe servings before you cook when dinner needs to feed more — or fewer — people.",
+        shopping:
+          "Add recipe ingredients straight to your shopping list when you're ready to shop.",
+        photoImport:
+          "If a recipe only exists in a screenshot or cookbook page, try Import from Photo.",
+        editImports:
+          "Imported recipes stay editable, so you can make them fit the way your family actually cooks.",
+        calendar:
+          "When your week is planned, you can add your dinners to your calendar.",
+      },
+    },
     confirmDeletePrefix: "Delete",
     confirmDeleteSuffix: "from your cookbook?",
     recipeDeleted: "Recipe deleted.",
