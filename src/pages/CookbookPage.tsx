@@ -1809,6 +1809,24 @@ export default function CookbookPage({
               requestedUrl
             );
 
+          if (
+            videoData.needsFinishing &&
+            !hasRealRecipeDetails(
+              normalizedVideoRecipe
+            )
+          ) {
+            setImportUrl(
+              normalizedVideoRecipe.sourceUrl ||
+              requestedUrl
+            );
+
+            openCaptionAssistModal(
+              normalizedVideoRecipe
+            );
+
+            return;
+          }
+
           setManualRecipe(
             normalizedVideoRecipe
           );
