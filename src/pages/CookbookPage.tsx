@@ -822,6 +822,12 @@ export default function CookbookPage({
     useState<ManualRecipeDraft | null>(null);
   const [captionAssistText, setCaptionAssistText] = useState("");
   const [captionAssistStatus, setCaptionAssistStatus] = useState("");
+  const [
+    captionAssistReason,
+    setCaptionAssistReason,
+  ] = useState<
+    "" | "facebook-private-recipe-message"
+  >("");
   const [isCaptionAssisting, setIsCaptionAssisting] = useState(false);
   const [captionAssistAction, setCaptionAssistAction] = useState<
     "caption" | "screenshots" | "video" | null
@@ -1243,14 +1249,27 @@ export default function CookbookPage({
     }
   };
 
-  const openCaptionAssistModal = (recipe: ManualRecipeDraft) => {
+  const openCaptionAssistModal = (
+    recipe: ManualRecipeDraft,
+    reason:
+      | ""
+      | "facebook-private-recipe-message" = ""
+  ) => {
     setCaptionAssistDraft(recipe);
+    setCaptionAssistReason(reason);
     setCaptionAssistText("");
     resetCaptionScreenshots();
     resetCaptionVideo();
     setCaptionAssistAction(null);
     setCaptionAssistStatus(
-      t("cookbook.captionAssist.foundPostStatus")
+      reason ===
+        "facebook-private-recipe-message"
+        ? t(
+            "cookbook.captionAssist.privateRecipeStatus"
+          )
+        : t(
+            "cookbook.captionAssist.foundPostStatus"
+          )
     );
     setShowTextImport(false);
     setShowManual(false);
@@ -1259,6 +1278,7 @@ export default function CookbookPage({
   const closeCaptionAssistModal = () => {
     if (isCaptionAssisting) return;
     setCaptionAssistDraft(null);
+    setCaptionAssistReason("");
     setCaptionAssistText("");
     resetCaptionScreenshots();
     resetCaptionVideo();
@@ -1398,6 +1418,7 @@ export default function CookbookPage({
     setHasImportedDraft(true);
     setShowManual(true);
     setCaptionAssistDraft(null);
+    setCaptionAssistReason("");
     setCaptionAssistText("");
     resetCaptionScreenshots();
     resetCaptionVideo();
@@ -2015,8 +2036,19 @@ export default function CookbookPage({
             importSourceUrl
           );
 
+          const partialReason =
+            String(
+              data.partialReason ||
+              data.debug?.partialReason ||
+              ""
+            );
+
           openCaptionAssistModal(
-            normalizedRecipe
+            normalizedRecipe,
+            partialReason ===
+              "facebook-private-recipe-message"
+              ? "facebook-private-recipe-message"
+              : ""
           );
 
           return;
@@ -3970,7 +4002,14 @@ export default function CookbookPage({
                   }}
                 >
                   <h2 style={{ margin: 0, fontSize: 24, fontWeight: 900 }}>
-                    {t("cookbook.captionAssist.finishRecipe")}
+                    {captionAssistReason ===
+                    "facebook-private-recipe-message"
+                      ? t(
+                          "cookbook.captionAssist.privateRecipeTitle"
+                        )
+                      : t(
+                          "cookbook.captionAssist.finishRecipe"
+                        )}
                   </h2>
 
                   <button
@@ -4016,13 +4055,29 @@ export default function CookbookPage({
                 )}
 
                 <h3 style={{ margin: "0 0 8px", fontSize: 16 }}>
-                  {t("cookbook.captionAssist.pasteCaptionText")}
+                  {captionAssistReason ===
+                  "facebook-private-recipe-message"
+                    ? t(
+                        "cookbook.captionAssist.pasteReceivedRecipeText"
+                      )
+                    : t(
+                        "cookbook.captionAssist.pasteCaptionText"
+                      )}
                 </h3>
 
                 <textarea
                   value={captionAssistText}
                   onChange={(e) => setCaptionAssistText(e.target.value)}
-                  placeholder={t("cookbook.captionAssist.pasteCaptionPlaceholder")}
+                  placeholder={
+                    captionAssistReason ===
+                    "facebook-private-recipe-message"
+                      ? t(
+                          "cookbook.captionAssist.pasteReceivedRecipePlaceholder"
+                        )
+                      : t(
+                          "cookbook.captionAssist.pasteCaptionPlaceholder"
+                        )
+                  }
                   disabled={isCaptionAssisting}
                   rows={7}
                   style={{
@@ -4062,8 +4117,17 @@ export default function CookbookPage({
                   }}
                 >
                   {captionAssistAction === "caption"
-                    ? t("cookbook.captionAssist.finishing")
-                    : t("cookbook.captionAssist.finishWithCaption")}
+                    ? t(
+                        "cookbook.captionAssist.finishing"
+                      )
+                    : captionAssistReason ===
+                        "facebook-private-recipe-message"
+                      ? t(
+                          "cookbook.captionAssist.finishWithReceivedText"
+                        )
+                      : t(
+                          "cookbook.captionAssist.finishWithCaption"
+                        )}
                 </button>
 
                 <div

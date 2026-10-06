@@ -574,6 +574,13 @@ export const en = {
 
     captionAssist: {
       finishRecipe: "Finish this recipe",
+      privateRecipeTitle: "Recipe available by message",
+      privateRecipeStatus:
+        "This creator sends the full recipe privately. Once you receive it, paste the recipe text or upload a screenshot and Simple Dinners can finish it.",
+      pasteReceivedRecipeText: "Paste received recipe text",
+      pasteReceivedRecipePlaceholder:
+        "Paste the recipe you received here...",
+      finishWithReceivedText: "Finish with Recipe Text",
       foundPostStatus:
         "We found the post, but not the full recipe text. Paste the caption, use screenshots or a saved video, or save it as Needs Finishing.",
       foundPostDescription:
