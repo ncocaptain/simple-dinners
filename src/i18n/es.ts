@@ -583,6 +583,15 @@ export const es = {
 
     captionAssist: {
       finishRecipe: "Termina esta receta",
+      privateRecipeTitle: "Receta disponible por mensaje",
+      privateRecipeStatus:
+        "Este creador envía la receta completa por mensaje privado. Cuando la recibas, pega el texto de la receta o sube una captura y Simple Dinners podrá terminarla.",
+      pasteReceivedRecipeText:
+        "Pega el texto de la receta recibida",
+      pasteReceivedRecipePlaceholder:
+        "Pega aquí la receta que recibiste...",
+      finishWithReceivedText:
+        "Terminar con el texto de la receta",
       foundPostStatus:
         "Encontramos la publicación, pero no el texto completo de la receta. Pega el texto de la publicación, usa capturas de pantalla o un video guardado, o guárdala como Necesita terminarse.",
       foundPostDescription:
