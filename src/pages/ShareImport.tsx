@@ -122,10 +122,17 @@ function isCaptionAssistSocialUrl(rawUrl: string): boolean {
     const host = parsed.hostname.toLowerCase();
 
     return (
-      host.includes("instagram.com") ||
-      host.includes("tiktok.com") ||
-      host.includes("facebook.com") ||
-      host.includes("fb.watch")
+      host === "instagram.com" ||
+      host.endsWith(".instagram.com") ||
+      host === "tiktok.com" ||
+      host.endsWith(".tiktok.com") ||
+      host === "facebook.com" ||
+      host.endsWith(".facebook.com") ||
+      host === "fb.watch" ||
+      host.endsWith(".fb.watch") ||
+      host === "youtube.com" ||
+      host.endsWith(".youtube.com") ||
+      host === "youtu.be"
     );
   } catch {
     const lower = rawUrl.toLowerCase();
@@ -134,7 +141,9 @@ function isCaptionAssistSocialUrl(rawUrl: string): boolean {
       lower.includes("instagram.com") ||
       lower.includes("tiktok.com") ||
       lower.includes("facebook.com") ||
-      lower.includes("fb.watch")
+      lower.includes("fb.watch") ||
+      lower.includes("youtube.com") ||
+      lower.includes("youtu.be")
     );
   }
 }
@@ -238,41 +247,48 @@ async function extractInstagramMetadataForShare(
   }
 }
 
-function isTikTokRecipeUrl(rawUrl: string): boolean {
+function isYouTubeRecipeUrl(rawUrl: string): boolean {
   try {
     const parsed = new URL(rawUrl);
     const host = parsed.hostname.toLowerCase();
 
     return (
-      host === "tiktok.com" ||
-      host.endsWith(".tiktok.com")
+      host === "youtube.com" ||
+      host.endsWith(".youtube.com") ||
+      host === "youtu.be"
     );
   } catch {
-    return String(rawUrl || "")
-      .toLowerCase()
-      .includes("tiktok.com");
+    const lower = String(rawUrl || "").toLowerCase();
+
+    return (
+      lower.includes("youtube.com") ||
+      lower.includes("youtu.be")
+    );
   }
 }
 
-function isInstagramVideoUrl(rawUrl: string): boolean {
+function isPublicVideoRecipeUrl(rawUrl: string): boolean {
   try {
     const parsed = new URL(rawUrl);
     const host = parsed.hostname.toLowerCase();
 
-    const isInstagramHost =
-      host === "instagram.com" ||
-      host === "www.instagram.com" ||
-      host.endsWith(".instagram.com");
-
     return (
-      isInstagramHost &&
-      /^\/(reel|reels|p)\//i.test(
-        parsed.pathname
-      )
+      host === "instagram.com" ||
+      host.endsWith(".instagram.com") ||
+      host === "tiktok.com" ||
+      host.endsWith(".tiktok.com") ||
+      host === "youtube.com" ||
+      host.endsWith(".youtube.com") ||
+      host === "youtu.be"
     );
   } catch {
-    return /instagram\.com\/(reel|reels|p)\//i.test(
-      rawUrl
+    const lower = String(rawUrl || "").toLowerCase();
+
+    return (
+      lower.includes("instagram.com") ||
+      lower.includes("tiktok.com") ||
+      lower.includes("youtube.com") ||
+      lower.includes("youtu.be")
     );
   }
 }
@@ -378,13 +394,7 @@ function getResultSourceUrl(result: any): string {
   );
 }
 
-function isIncompleteSocialImport(result: any): boolean {
-  const sourceUrl = getResultSourceUrl(result).toLowerCase();
-
-  if (!isCaptionAssistSocialUrl(sourceUrl)) {
-    return false;
-  }
-
+function hasRealRecipeDetails(result: any): boolean {
   const ingredientCount = Array.isArray(result?.ingredients)
     ? result.ingredients.length
     : countRecipeLines(result?.recipe?.ingredients);
@@ -393,7 +403,29 @@ function isIncompleteSocialImport(result: any): boolean {
     ? result.instructions.length
     : countRecipeLines(result?.recipe?.instructions);
 
-  return ingredientCount === 0 && instructionCount === 0;
+  return (
+    ingredientCount > 0 &&
+    instructionCount > 0
+  );
+}
+
+function needsSocialFinishing(result: any): boolean {
+  const sourceUrl =
+    getResultSourceUrl(result).toLowerCase();
+
+  if (!isCaptionAssistSocialUrl(sourceUrl)) {
+    return false;
+  }
+
+  return !hasRealRecipeDetails(result);
+}
+
+function getPartialReason(result: any): string {
+  return String(
+    result?.partialReason ||
+    result?.debug?.partialReason ||
+    ""
+  );
 }
 
 async function importFromUrl(
@@ -457,7 +489,7 @@ async function importFromPublicVideoUrl(
   ) {
     throw new Error(
       data?.error ||
-      "Simple Dinners could not read that Instagram video."
+      "Simple Dinners could not read that social video."
     );
   }
 
@@ -523,6 +555,10 @@ export default function ShareImport() {
     null
   );
   const [captionAssistText, setCaptionAssistText] = useState("");
+  const [
+    captionAssistReason,
+    setCaptionAssistReason,
+  ] = useState("");
   const [captionAssistLoading, setCaptionAssistLoading] = useState(false);
   const screenshotInputRef = useRef<HTMLInputElement | null>(null);
   const videoInputRef = useRef<HTMLInputElement | null>(null);
@@ -567,6 +603,9 @@ export default function ShareImport() {
 
   const finishImport = useCallback(
     (data: any) => {
+      setCaptionAssistResult(null);
+      setCaptionAssistReason("");
+      setCaptionAssistText("");
       setScreenshotFiles([]);
       setScreenshotSelectionError("");
       setVideoFile(null);
@@ -583,6 +622,31 @@ export default function ShareImport() {
       }, 500);
     },
     [navigate]
+  );
+
+  const openFinishingAssist = useCallback(
+    (data: any) => {
+      const partialReason =
+        getPartialReason(data);
+
+      setCaptionAssistResult(data);
+      setCaptionAssistReason(
+        partialReason
+      );
+      setCaptionAssistText("");
+      setScreenshotFiles([]);
+      setScreenshotSelectionError("");
+      setVideoFile(null);
+      setVideoSelectionError("");
+
+      setStatus(
+        partialReason ===
+          "facebook-private-recipe-message"
+          ? "This creator sends the full recipe privately. Once you receive it, paste the recipe text or upload a screenshot and Simple Dinners can finish it."
+          : "We found the post, but not the full recipe text."
+      );
+    },
+    []
   );
 
   function chooseScreenshots() {
@@ -704,7 +768,12 @@ export default function ShareImport() {
     if (!captionAssistResult) return;
 
     if (!captionAssistText.trim()) {
-      setStatus("Paste the recipe caption first.");
+      setStatus(
+        captionAssistReason ===
+          "facebook-private-recipe-message"
+          ? "Paste the recipe you received first."
+          : "Paste the recipe caption first."
+      );
       return;
     }
 
@@ -716,7 +785,12 @@ export default function ShareImport() {
     }
 
     setCaptionAssistLoading(true);
-    setStatus("Finishing recipe from caption...");
+    setStatus(
+      captionAssistReason ===
+        "facebook-private-recipe-message"
+        ? "Finishing recipe from received text..."
+        : "Finishing recipe from caption..."
+    );
 
     try {
       const cleanedCaptionText = captionAssistText.trim();
@@ -1001,98 +1075,72 @@ export default function ShareImport() {
         return;
       }
 
-      if (startedShareImportUrlRef.current === url) {
+      if (
+        startedShareImportUrlRef.current ===
+        url
+      ) {
         return;
       }
 
-      startedShareImportUrlRef.current = url;
+      startedShareImportUrlRef.current =
+        url;
 
       try {
         let data;
 
-        const platform = Capacitor.getPlatform();
-        const pinterestShare = isPinterestUrl(url);
-        const captionAssistSocialShare = isCaptionAssistSocialUrl(url);
+        const platform =
+          Capacitor.getPlatform();
+
+        const pinterestShare =
+          isPinterestUrl(url);
+
+        const socialShare =
+          isCaptionAssistSocialUrl(url);
 
         if (
-          captionAssistSocialShare &&
+          socialShare &&
           !requirePlus({
-            feature: "social-recipe-import",
+            feature:
+              "social-recipe-import",
           })
         ) {
-          setStatus("Simple Dinners Plus is required for social recipe importing.");
+          setStatus(
+            "Simple Dinners Plus is required for social recipe importing."
+          );
           return;
         }
 
         if (pinterestShare) {
-          setStatus("Finding the original recipe from Pinterest...");
-          data = await importFromUrl(url);
-        } else if (captionAssistSocialShare) {
-          setStatus("Finding post details...");
-
-          const instagramMetadata =
-            await extractInstagramMetadataForShare(
-              url
-            );
-
-          data = await importFromUrl(
-            url,
-            instagramMetadata.captionText,
-            instagramMetadata.photoUrl
+          setStatus(
+            "Finding the original recipe from Pinterest..."
           );
-        } else if (platform === "android") {
-          try {
-            setStatus("Opening recipe page securely to read recipe details...");
 
-            const result = await withTimeout(
-              ShareRecipeExtractor.extractJsonLd({ url }),
-              12000,
-              "Device recipe extraction timed out"
-            );
+          data =
+            await importFromUrl(url);
+        } else if (socialShare) {
+          let instagramMetadata =
+            EMPTY_INSTAGRAM_SHARE_METADATA;
 
-            setJsonLdLength(result.length);
-            setStatus("Saving recipe details to Simple Dinners...");
+          const publicVideoShare =
+            isPublicVideoRecipeUrl(url);
 
-            data = await importFromJsonLd(url, result.jsonLd);
+          if (publicVideoShare) {
+            const instagramMetadataPromise =
+              isInstagramRecipeUrl(url)
+                ? extractInstagramMetadataForShare(
+                    url
+                  )
+                : Promise.resolve(
+                    EMPTY_INSTAGRAM_SHARE_METADATA
+                  );
 
-            if (!data?.success || !data?.recipe) {
-              throw new Error(data?.error || "JSON-LD import failed");
-            }
-          } catch {
-            setStatus("Trying to find the recipe another way...");
-            data = await importFromUrl(url);
-          }
-        } else {
-          setStatus("Finding recipe details...");
-          data = await importFromUrl(url);
-        }
-
-        if (!data?.success || !data?.recipe) {
-          throw new Error(data?.error || "Recipe import failed");
-        }
-
-        if (isIncompleteSocialImport(data)) {
-          const instagramVideoShare =
-            isInstagramVideoUrl(url);
-
-          const tiktokVideoShare =
-            isTikTokRecipeUrl(url);
-
-          if (
-            instagramVideoShare ||
-            tiktokVideoShare
-          ) {
             try {
-              if (instagramVideoShare) {
-                await probeInstagramWithNativeHttp(
-                  url
-                );
-              }
-
               setStatus(
-                instagramVideoShare
-                  ? "Reading and listening to the Instagram video..."
-                  : "Reading and listening to the TikTok video..."
+                isYouTubeRecipeUrl(url)
+                  ? "Reading the YouTube recipe..."
+                  : isInstagramRecipeUrl(url)
+                    ? "Reading the Instagram recipe..."
+                    : "Reading the TikTok recipe..."
               );
 
               const videoData =
@@ -1100,15 +1148,8 @@ export default function ShareImport() {
                   url
                 );
 
-              const existingPhotoUrl = String(
-                data?.recipe?.photoUrl ||
-                data?.image ||
-                ""
-              ).trim();
-
-              const sourceUrl =
-                getResultSourceUrl(data) ||
-                url;
+              instagramMetadata =
+                await instagramMetadataPromise;
 
               const mergedVideoData = {
                 ...videoData,
@@ -1117,47 +1158,158 @@ export default function ShareImport() {
                   ...videoData.recipe,
 
                   photoUrl:
-                    videoData.recipe.photoUrl ||
-                    existingPhotoUrl,
+                    videoData.recipe
+                      ?.photoUrl ||
+                    instagramMetadata
+                      .photoUrl ||
+                    "",
 
                   sourceUrl:
-                    videoData.recipe.sourceUrl ||
-                    sourceUrl,
+                    videoData.recipe
+                      ?.sourceUrl ||
+                    url,
                 },
               };
 
-              finishImport(mergedVideoData);
+              if (
+                videoData.needsFinishing &&
+                !hasRealRecipeDetails(
+                  mergedVideoData
+                )
+              ) {
+                openFinishingAssist(
+                  mergedVideoData
+                );
+
+                return;
+              }
+
+              finishImport(
+                mergedVideoData
+              );
+
               return;
             } catch (videoError) {
               console.error(
-                instagramVideoShare
-                  ? "Automatic Instagram video import failed:"
-                  : "Automatic TikTok video import failed:",
+                "Automatic shared social video import failed:",
                 videoError
               );
 
-              // Continue into the existing caption,
-              // screenshot, and saved-video fallbacks.
+              instagramMetadata =
+                await instagramMetadataPromise;
+
+              if (
+                isInstagramRecipeUrl(
+                  url
+                )
+              ) {
+                await probeInstagramWithNativeHttp(
+                  url
+                );
+              }
+
+              // Fall through to the standard
+              // social-post importer.
             }
+          } else if (
+            isInstagramRecipeUrl(url)
+          ) {
+            instagramMetadata =
+              await extractInstagramMetadataForShare(
+                url
+              );
           }
 
-          setCaptionAssistResult(data);
-          setCaptionAssistText("");
-          setScreenshotFiles([]);
-          setScreenshotSelectionError("");
-          setVideoFile(null);
-          setVideoSelectionError("");
-
           setStatus(
-            "We found the post, but not the full recipe text."
+            "Finding post details..."
           );
 
+          data =
+            await importFromUrl(
+              url,
+              instagramMetadata.captionText,
+              instagramMetadata.photoUrl
+            );
+        } else if (
+          platform === "android"
+        ) {
+          try {
+            setStatus(
+              "Opening recipe page securely to read recipe details..."
+            );
+
+            const result =
+              await withTimeout(
+                ShareRecipeExtractor.extractJsonLd({
+                  url,
+                }),
+                12000,
+                "Device recipe extraction timed out"
+              );
+
+            setJsonLdLength(
+              result.length
+            );
+
+            setStatus(
+              "Saving recipe details to Simple Dinners..."
+            );
+
+            data =
+              await importFromJsonLd(
+                url,
+                result.jsonLd
+              );
+
+            if (
+              !data?.success ||
+              !data?.recipe
+            ) {
+              throw new Error(
+                data?.error ||
+                "JSON-LD import failed"
+              );
+            }
+          } catch {
+            setStatus(
+              "Trying to find the recipe another way..."
+            );
+
+            data =
+              await importFromUrl(url);
+          }
+        } else {
+          setStatus(
+            "Finding recipe details..."
+          );
+
+          data =
+            await importFromUrl(url);
+        }
+
+        if (
+          !data?.success ||
+          !data?.recipe
+        ) {
+          throw new Error(
+            data?.error ||
+            "Recipe import failed"
+          );
+        }
+
+        if (
+          needsSocialFinishing(data)
+        ) {
+          openFinishingAssist(data);
           return;
         }
 
         finishImport(data);
       } catch (error) {
-        console.error("Share recipe failed:", error);
+        console.error(
+          "Share recipe failed:",
+          error
+        );
 
         if (isPinterestUrl(url)) {
           setStatus(
@@ -1173,7 +1325,13 @@ export default function ShareImport() {
     }
 
     runShareImport();
-  }, [url, finishImport, plusLoading]);
+  }, [
+    url,
+    finishImport,
+    openFinishingAssist,
+    plusLoading,
+    requirePlus,
+  ]);
 
   return (
     <div style={{ padding: 24, paddingBottom: 140, maxWidth: 900, margin: "0 auto" }}>
@@ -1191,16 +1349,29 @@ export default function ShareImport() {
             border: "1px solid rgba(255, 255, 255, 0.14)",
           }}
         >
-          <h2 style={{ marginTop: 0 }}>Paste caption to finish</h2>
+          <h2 style={{ marginTop: 0 }}>
+            {captionAssistReason ===
+            "facebook-private-recipe-message"
+              ? "Recipe available by message"
+              : "Paste caption to finish"}
+          </h2>
 
           <p style={{ lineHeight: 1.5 }}>
-            We found the post, but not the full recipe text. Paste the caption text if you can, and Simple Dinners will try to finish the recipe.
+            {captionAssistReason ===
+            "facebook-private-recipe-message"
+              ? "This creator sends the full recipe privately. Once you receive it, paste the recipe text or upload a screenshot and Simple Dinners can finish it."
+              : "We found the post, but not the full recipe text. Paste the caption text if you can, and Simple Dinners will try to finish the recipe."}
           </p>
 
           <textarea
             value={captionAssistText}
             onChange={(event) => setCaptionAssistText(event.target.value)}
-            placeholder="Paste the recipe caption here..."
+            placeholder={
+              captionAssistReason ===
+              "facebook-private-recipe-message"
+                ? "Paste the recipe you received here..."
+                : "Paste the recipe caption here..."
+            }
             rows={9}
             style={{
               width: "100%",
@@ -1632,7 +1803,12 @@ export default function ShareImport() {
                     : "pointer",
               }}
             >
-              {captionAssistLoading ? "Finishing..." : "Finish with Caption"}
+              {captionAssistLoading
+                ? "Finishing..."
+                : captionAssistReason ===
+                    "facebook-private-recipe-message"
+                  ? "Finish with Recipe Text"
+                  : "Finish with Caption"}
             </button>
 
             <button
