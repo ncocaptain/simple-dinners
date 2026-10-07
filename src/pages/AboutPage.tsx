@@ -148,16 +148,16 @@ export default function AboutPage() {
 
   const copy = isSpanish
     ? {
-        eyebrow: "Planificación de cenas para la vida real",
+        eyebrow: "Planifica. Compra. Cocina. La cena a tu manera.",
         title: "La cena, más simple.",
         subtitle:
-          "Simple Dinners te ayuda a planificar tu semana, guardar recetas, crear listas de compras y cocinar paso a paso sin complicarte.",
+          "Simple Dinners ayuda a familias ocupadas a planificar la semana, convertir recetas de la web y redes sociales en un recetario útil, crear una sola lista de compras y cocinar paso a paso.",
         primaryCta: "Abrir la app",
         playStore: "Google Play",
         appStore: "App Store",
-        updateTitle: "Ahora con Zach’s Map y nutrición Plus",
+        updateTitle: "Import 2.0 ya está aquí",
         updateText:
-          "Descubre restaurantes destacados por ZachBites en la sección de comida para llevar. Con Simple Dinners Plus, también puedes consultar información nutricional estimada por porción de tus recetas.",
+          "Guarda recetas desde Instagram, TikTok, Facebook y YouTube con detección más inteligente, mejores opciones cuando faltan detalles y el mismo flujo si pegas un enlace o lo compartes directamente con Simple Dinners.",
         socialProof: "Gracias por ayudar a crecer Simple Dinners.",
         ratingsTitle: "Calificaciones de la app",
         ratingsSubtitle:
@@ -176,8 +176,12 @@ export default function AboutPage() {
         finalText:
           "Usa Simple Dinners en la web o descarga la app en tu teléfono.",
         plusTitle: "Más ayuda con Simple Dinners Plus",
-        plusText: "La planificación diaria, tu recetario, la lista de compras y el Modo Cocina siguen siendo gratis. Plus añade más ayuda y funciones para compartir en familia.",
+        plusText: "La planificación diaria, tu recetario, la lista de compras y el Modo Cocina siguen siendo gratis. Plus añade importaciones sociales inteligentes, sincronización del hogar, nutrición y más.",
         plusFeatures: [
+          {
+            "title": "Importación social inteligente",
+            "text": "Importa recetas compatibles de Instagram, TikTok, Facebook y YouTube. Si faltan detalles, Simple Dinners puede ayudarte a completarlas con texto pegado, capturas de pantalla o un video guardado."
+          },
           {
             "title": "Nutrición estimada",
             "text": "Consulta las calorías, proteínas, carbohidratos, grasas, fibra y sodio estimados por porción, a partir de datos de USDA FoodData Central."
@@ -193,10 +197,6 @@ export default function AboutPage() {
           {
             "title": "Smart Shopping",
             "text": "Recibe ayuda adicional para organizar y depurar tu lista de compras."
-          },
-          {
-            "title": "Más formas de guardar recetas",
-            "text": "Importa recetas desde enlaces compatibles de Instagram, TikTok, Facebook y Pinterest, o desde descripciones de publicaciones, capturas de pantalla y videos."
           }
         ],
         features: [
@@ -231,16 +231,16 @@ export default function AboutPage() {
         ],
       }
     : {
-        eyebrow: "Dinner planning for real life",
+        eyebrow: "Plan. Shop. Cook. Dinner built around you.",
         title: "Dinner planning made simple.",
         subtitle:
-          "Simple Dinners helps you plan your week, save recipes, build shopping lists, and cook step by step without overcomplicating dinner.",
+          "Simple Dinners helps busy families plan the week, turn recipes from the web and social media into a useful cookbook, build one shopping list, and cook step by step.",
         primaryCta: "Open the app",
         playStore: "Google Play",
         appStore: "App Store",
-        updateTitle: "Now with Zach’s Map and Plus nutrition",
+        updateTitle: "Import 2.0 is here",
         updateText:
-          "Discover restaurants featured by ZachBites in Takeout. With Simple Dinners Plus, you can also explore estimated nutrition per serving for your recipes.",
+          "Save recipes from Instagram, TikTok, Facebook, and YouTube with smarter recipe detection, better options when details are missing, and the same flow whether you paste a link or share it straight to Simple Dinners.",
         socialProof: "Thank you for helping Simple Dinners grow.",
         ratingsTitle: "App ratings",
         ratingsSubtitle:
@@ -259,8 +259,12 @@ export default function AboutPage() {
         finalText:
           "Use Simple Dinners on the web or download the app on your phone.",
         plusTitle: "More help with Simple Dinners Plus",
-        plusText: "Your everyday planning, cookbook, shopping list, and Cook Mode stay free. Plus adds extra help and household sharing.",
+        plusText: "Your everyday planning, cookbook, shopping list, and Cook Mode stay free. Plus adds smart social imports, household sharing, nutrition, and more.",
         plusFeatures: [
+          {
+            "title": "Smart social imports",
+            "text": "Import supported recipes from Instagram, TikTok, Facebook, and YouTube. When details are missing, Simple Dinners can help finish them with pasted text, screenshots, or a saved video."
+          },
           {
             "title": "Estimated nutrition",
             "text": "See estimated calories, protein, carbs, fat, fiber, and sodium per serving, based on USDA FoodData Central data."
@@ -276,10 +280,6 @@ export default function AboutPage() {
           {
             "title": "Smart Shopping",
             "text": "Get extra help organizing and cleaning up your shopping list."
-          },
-          {
-            "title": "More ways to save recipes",
-            "text": "Import recipes from supported Instagram, TikTok, Facebook, and Pinterest links, or from captions, screenshots, and videos."
           }
         ],
         features: [
