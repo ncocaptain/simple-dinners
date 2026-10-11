@@ -440,6 +440,25 @@ export default function AboutPage() {
           </div>
         </section>
 
+        <a
+          href="/mealime"
+          style={{
+            display: "block",
+            textDecoration: "none",
+            borderRadius: 18,
+            border: "1px solid rgba(134,239,172,0.32)",
+            padding: "16px 18px",
+            background: "rgba(34,197,94,0.09)",
+            color: "#dcfce7",
+            fontWeight: 800,
+            lineHeight: 1.5,
+          }}
+        >
+          {isSpanish
+            ? "¿Usabas Mealime? Cierra el 21 de octubre. Descubre cómo guardar tus recetas públicas →"
+            : "Moving from Mealime? It closes October 21. Learn how to save public recipe links →"}
+        </a>
+
         <Card title={copy.updateTitle} subtitle="">
           <div
             style={{
