@@ -22,7 +22,7 @@
     "description": "Import individual public Mealime recipe links into your Simple Dinners Cookbook.",
     "step": [
       {"@type": "HowToStep", "name": "Open a recipe", "text": "Open a favorite Mealime recipe and its public recipe page."},
-      {"@type": "HowToStep", "name": "Share or copy the link", "text": "On Android, use Share and select Simple Dinners, or copy the public recipe URL."},
+      {"@type": "HowToStep", "name": "Share or copy the link", "text": "On iPhone or Android, use Share and choose Simple Dinners if it appears. Otherwise copy the public recipe link and import it from the Cookbook."},
       {"@type": "HowToStep", "name": "Import into your Cookbook", "text": "If you copied the URL, open Simple Dinners, go to Cookbook and import the recipe link."},
       {"@type": "HowToStep", "name": "Review and save", "text": "Check the ingredients, instructions, and servings, then save the recipe. Repeat for each favorite."}
     ]
@@ -58,6 +58,13 @@
     .secondary { background:rgba(255,255,255,.06); color:#f8fafc; border-color:rgba(255,255,255,.18); }
     .secondary:hover { color:white; background:rgba(255,255,255,.11); }
     .hero-note { margin:17px 0 0; font-size:13px; color:#93a4bb; }
+    .watch-link { display:inline-flex; margin:-4px 0 18px; color:#a7f3d0; font-size:15px; font-weight:800; }
+    .demo-slot { min-width:0; }
+    .demo-video { padding:18px; border-radius:25px; border:1px solid rgba(134,239,172,.3); background:rgba(15,23,42,.96); box-shadow:0 20px 65px rgba(0,0,0,.28); text-align:center; }
+    .demo-video h2 { margin:7px 0 15px; font-size:21px; line-height:1.28; letter-spacing:-.02em; }
+    .demo-video video { display:block; width:100%; max-width:258px; max-height:480px; margin:0 auto; border-radius:15px; background:#030712; aspect-ratio:9/16; }
+    .demo-video p { font-size:12px; color:#bdcbdc; margin:12px 0 0; line-height:1.45; }
+    [hidden] { display:none !important; }
     .preview { background:linear-gradient(145deg,rgba(30,41,59,.96),rgba(15,23,42,.98)); border:1px solid rgba(134,239,172,.25); border-radius:30px; box-shadow:0 20px 65px rgba(0,0,0,.30); padding:26px; transform:rotate(1deg); }
     .preview-header { display:flex; justify-content:space-between; gap:12px; align-items:center; font-weight:900; font-size:18px; }
     .preview-pill { background:rgba(34,197,94,.15); color:#86efac; padding:5px 9px; border-radius:999px; font-size:11px; border:1px solid rgba(34,197,94,.28); }
@@ -135,6 +142,7 @@
       <div>
         <span class="eyebrow"><span aria-hidden="true">●</span><span data-en="Mealime closes October 21, 2026" data-es="Mealime cierra el 21 de octubre de 2026">Mealime closes October 21, 2026</span></span>
         <h1 id="title"><span data-en="Mealime is closing." data-es="Mealime va a cerrar.">Mealime is closing.</span><br><em data-en="Dinner isn't." data-es="Tus cenas continúan.">Dinner isn't.</em></h1>
+        <a class="watch-link" id="watch-demo" href="#demo-video" hidden data-en="▶ Watch a real Mealime recipe import (23 seconds)" data-es="▶ Mira una importación real de Mealime (23 segundos)">▶ Watch a real Mealime recipe import (23 seconds)</a>
         <p class="intro" data-en="Keep the recipes your family loves and make your next week of dinners easier. Simple Dinners lets you save supported public Mealime recipe links, plan meals, build a shopping list, and cook step by step." data-es="Conserva las recetas favoritas de tu familia y simplifica las cenas de la semana. Simple Dinners te permite guardar enlaces públicos compatibles de recetas de Mealime, planificar, crear tu lista de compras y cocinar paso a paso.">Keep the recipes your family loves and make your next week of dinners easier. Simple Dinners lets you save supported public Mealime recipe links, plan meals, build a shopping list, and cook step by step.</p>
         <div class="actions">
           <a class="action primary" href="#how-to" data-en="How to save a recipe ↓" data-es="Cómo guardar una receta ↓">How to save a recipe ↓</a>
@@ -142,7 +150,15 @@
         </div>
         <p class="hero-note" data-en="Individual recipe imports • No automatic Mealime account transfer" data-es="Importación de recetas individuales • No se transfiere automáticamente la cuenta de Mealime">Individual recipe imports • No automatic Mealime account transfer</p>
       </div>
-      <div class="preview" aria-label="Simple Dinners workflow">
+      <div class="demo-slot">
+        <div class="demo-video" id="demo-video" hidden>
+          <h2 data-en="See a real Mealime recipe import" data-es="Mira una importación real de Mealime">See a real Mealime recipe import</h2>
+          <video id="mealime-demo-player" controls playsinline preload="metadata" aria-label="Mealime recipe imported into Simple Dinners on Android">
+            <span data-en="Your browser does not support video playback." data-es="Tu navegador no admite reproducción de video.">Your browser does not support video playback.</span>
+          </video>
+          <p data-en="Real Android screen recording · 23 seconds · Waiting time shortened in editing." data-es="Grabación real de Android · 23 segundos · Tiempo de espera acortado durante la edición.">Real Android screen recording · 23 seconds · Waiting time shortened in editing.</p>
+        </div>
+        <div id="demo-fallback" class="preview" aria-label="Simple Dinners workflow">
         <div class="preview-header"><span data-en="Your dinner routine" data-es="Tu rutina de cenas">Your dinner routine</span><span class="preview-pill" data-en="Made simple" data-es="Más fácil">Made simple</span></div>
         <div class="preview-recipes">
           <div class="preview-item"><span class="preview-icon" aria-hidden="true">📖</span><span data-en="Save favorite recipes" data-es="Guarda tus recetas favoritas">Save favorite recipes</span></div>
@@ -151,6 +167,7 @@
           <div class="preview-item"><span class="preview-icon" aria-hidden="true">👩‍🍳</span><span data-en="Cook with easy steps" data-es="Cocina paso a paso">Cook with easy steps</span></div>
         </div>
         <div class="preview-footer" data-en="Plan. Shop. Cook. Together." data-es="Planifica. Compra. Cocina. En familia.">Plan. Shop. Cook. Together.</div>
+        </div>
       </div>
     </section>
 
@@ -168,7 +185,7 @@
       </div>
       <div class="steps">
         <article class="card"><span class="step-number">1</span><h3 data-en="Open a Mealime recipe" data-es="Abre una receta de Mealime">Open a Mealime recipe</h3><p data-en="Find a recipe you love in Mealime and open its public recipe page. Start with your favorites." data-es="Busca una receta que te encante en Mealime y abre su página pública. Empieza por tus favoritas.">Find a recipe you love in Mealime and open its public recipe page. Start with your favorites.</p></article>
-        <article class="card"><span class="step-number">2</span><h3 data-en="Share or copy the link" data-es="Comparte o copia el enlace">Share or copy the link</h3><p data-en="On Android, tap Share and choose Simple Dinners. If it isn't listed, copy the recipe's public URL instead." data-es="En Android, toca Compartir y elige Simple Dinners. Si no aparece, copia el enlace público de la receta.">On Android, tap Share and choose Simple Dinners. If it isn't listed, copy the recipe's public URL instead.</p></article>
+        <article class="card"><span class="step-number">2</span><h3 data-en="Share or copy the link" data-es="Comparte o copia el enlace">Share or copy the link</h3><p data-en="On iPhone or Android, tap Share and choose Simple Dinners if offered. If the app isn't shown, copy the public recipe URL. You can paste it into the Simple Dinners Cookbook instead." data-es="En iPhone o Android, toca Compartir y elige Simple Dinners si aparece. Si no aparece, copia la URL pública de la receta y pégala en el Recetario de Simple Dinners.">On iPhone or Android, tap Share and choose Simple Dinners if offered. If the app isn't shown, copy the public recipe URL. You can paste it into the Simple Dinners Cookbook instead.</p></article>
         <article class="card"><span class="step-number">3</span><h3 data-en="Import and check" data-es="Importa y revisa">Import and check</h3><p data-en="If you copied the link, open Simple Dinners → Cookbook and import the URL. Review the ingredients, steps, and servings before saving. Repeat for each recipe." data-es="Si copiaste el enlace, abre Simple Dinners → Recetario e importa la URL. Revisa los ingredientes, pasos y porciones antes de guardar. Repite con cada receta.">If you copied the link, open Simple Dinners → Cookbook and import the URL. Review the ingredients, steps, and servings before saving. Repeat for each recipe.</p></article>
       </div>
       <div class="tip"><strong data-en="Important:" data-es="Importante:">Important:</strong> <span data-en="This is not a bulk migration or an account connection. Each public recipe is imported individually. Private notes, personal ingredient swaps, saved plans, and other account-only information won't transfer through a recipe link. Save those separately." data-es="No es una migración masiva ni una conexión entre cuentas. Cada receta pública se importa individualmente. Las notas privadas, los cambios de ingredientes, los planes guardados y otros datos personales no se transfieren mediante un enlace. Guárdalos por separado.">This is not a bulk migration or an account connection. Each public recipe is imported individually. Private notes, personal ingredient swaps, saved plans, and other account-only information won't transfer through a recipe link. Save those separately.</span></div>
@@ -236,6 +253,18 @@
       }
       document.getElementById("en").addEventListener("click", function () { setLanguage("en"); });
       document.getElementById("es").addEventListener("click", function () { setLanguage("es"); });
+      // Avoid broken players until the actual MP4 has been uploaded to the website.
+      fetch("/mealime/demo.mp4", { method: "HEAD" }).then(function (response) {
+        var mime = response.headers.get("content-type") || "";
+        if (!response.ok || !mime.toLowerCase().startsWith("video/")) return;
+        var player = document.getElementById("mealime-demo-player");
+        player.src = "/mealime/demo.mp4";
+        document.getElementById("demo-video").hidden = false;
+        document.getElementById("demo-fallback").hidden = true;
+        document.getElementById("watch-demo").hidden = false;
+      }).catch(function () {
+        // Keep the static workflow preview if the video isn't publicly available.
+      });
       var queryLanguage = new URLSearchParams(window.location.search).get("lang");
       setLanguage(queryLanguage === "es" ? "es" : "en");
     })();
