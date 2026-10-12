@@ -150,6 +150,29 @@ const tomorrowMeal = getLocalizedMeal(rawTomorrowMeal, language);
           gap: 20,
         }}
       >
+        <a
+          href="/mealime"
+          style={{
+            display: "block",
+            textDecoration: "none",
+            borderRadius: 18,
+            border: "1px solid rgba(134,239,172,0.32)",
+            background: "rgba(34,197,94,0.11)",
+            padding: "14px 16px",
+            lineHeight: 1.5,
+          }}
+        >
+          <div style={{ fontWeight: 900, color: "#a7f3d0", fontSize: 15 }}>
+            {language === "es"
+              ? "¿Vienes de Mealime? Conserva tus recetas favoritas →"
+              : "Moving from Mealime? Save your favorite recipes →"}
+          </div>
+          <div style={{ color: "#cbd5e1", fontSize: 13, marginTop: 3 }}>
+            {language === "es"
+              ? "Mealime cierra el 21 de octubre. Lee nuestra guía para importar enlaces públicos."
+              : "Mealime closes October 21. Follow our public recipe import guide."}
+          </div>
+        </a>
         {todayHasMeal && todayMeal ? (
           <>
             <Card
