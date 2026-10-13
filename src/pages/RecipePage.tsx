@@ -798,6 +798,10 @@ useEffect(() => {
   // =====================================================
 
   const [cookMode, setCookMode] = useState(startInCookMode);
+  const [cookStage, setCookStage] = useState<"prep" | "steps">("prep");
+  const [prepCheckedIngredients, setPrepCheckedIngredients] = useState<
+    Record<number, boolean>
+  >({});
   const [stepIndex, setStepIndex] = useState(0);
   const [historyCount, setHistoryCount] = useState(0);
   const [savedState, setSavedState] = useState<"idle" | "saved" | "already">(
@@ -899,6 +903,25 @@ const visibleInstructions = showAllInstructions
 
 const hasMoreIngredients = ingredients.length > 5;
 const hasMoreInstructions = instructions.length > 5;
+
+const prepIngredientItems = useMemo(
+  () =>
+    ingredients
+      .map((ingredient, index) => ({
+        ingredient,
+        index,
+      }))
+      .filter(
+        ({ ingredient }) =>
+          !isIngredientHeader(ingredient) &&
+          !ingredient.trim().endsWith(":")
+      ),
+  [ingredients]
+);
+
+const prepReadyCount = prepIngredientItems.filter(
+  ({ index }) => prepCheckedIngredients[index]
+).length;
 
 async function analyzeNutrition() {
   if (
@@ -1097,6 +1120,8 @@ async function analyzeNutrition() {
 
   useEffect(() => {
   setStepIndex(0);
+  setCookStage("prep");
+  setPrepCheckedIngredients({});
   setCheckedIngredients({});
   setCheckedSides({});
   setCheckedDesserts({});
@@ -1404,6 +1429,25 @@ const handleCloseNoteModal = () => {
       ...prev,
       [index]: !prev[index],
     }));
+  };
+
+  const togglePrepIngredient = (index: number) => {
+    setPrepCheckedIngredients((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
+
+  const handleEnterCookMode = () => {
+    setStepIndex(0);
+    setCookStage("prep");
+    setPrepCheckedIngredients({});
+    setCookMode(true);
+  };
+
+  const handleStartCooking = () => {
+    setStepIndex(0);
+    setCookStage("steps");
   };
 
   const toggleSide = (side: string) => {
@@ -1872,7 +1916,7 @@ function resetSideDrafts() {
   <TipsModal tips={recipeTips} />
 </div>
 
-            <button onClick={() => setCookMode(true)} style={primaryCookButton}>
+            <button onClick={handleEnterCookMode} style={primaryCookButton}>
               <Play size={18} />
               {t("recipe.startCookMode")}
             </button>
@@ -2074,7 +2118,13 @@ function resetSideDrafts() {
       }}
     >
       <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-        <button onClick={() => setCookMode(false)} style={topBtn}>
+        <button
+          onClick={() => {
+            setCookMode(false);
+            setCookStage("prep");
+          }}
+          style={topBtn}
+        >
           <ArrowLeft size={16} />
           {t("cookMode.exit")}
         </button>
@@ -2558,7 +2608,208 @@ function resetSideDrafts() {
         </div>
       )}
 
-      {cookMode ? (
+      {cookMode && cookStage === "prep" && (
+        <div
+          style={{
+            padding: 20,
+            borderRadius: 24,
+            border: "1px solid rgba(34,197,94,0.22)",
+            background:
+              "linear-gradient(180deg, rgba(34,197,94,0.08), rgba(255,255,255,0.035))",
+            display: "grid",
+            gap: 18,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: 14,
+              alignItems: "flex-start",
+              flexWrap: "wrap",
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  fontSize: 12,
+                  fontWeight: 1000,
+                  letterSpacing: 0.7,
+                  textTransform: "uppercase",
+                  color: "#86efac",
+                  marginBottom: 5,
+                }}
+              >
+                {currentLanguage === "es"
+                  ? "Preparación"
+                  : "Prep"}
+              </div>
+
+              <h2
+                style={{
+                  margin: 0,
+                  fontSize: 28,
+                  lineHeight: 1.1,
+                  fontWeight: 1000,
+                }}
+              >
+                {currentLanguage === "es"
+                  ? "Ten todo listo"
+                  : "Get everything ready"}
+              </h2>
+
+              <div
+                style={{
+                  marginTop: 7,
+                  fontSize: 13,
+                  lineHeight: 1.45,
+                  color: "rgba(255,255,255,0.60)",
+                }}
+              >
+                {currentLanguage === "es"
+                  ? "Reúne los ingredientes antes de comenzar. Puedes empezar cuando quieras."
+                  : "Gather your ingredients before you begin. Start cooking whenever you're ready."}
+              </div>
+            </div>
+
+            <div
+              style={{
+                borderRadius: 999,
+                padding: "7px 11px",
+                background: "rgba(34,197,94,0.12)",
+                border: "1px solid rgba(34,197,94,0.24)",
+                color: "#86efac",
+                fontSize: 12,
+                fontWeight: 1000,
+                whiteSpace: "nowrap",
+              }}
+            >
+              {prepReadyCount} {currentLanguage === "es" ? "de" : "of"}{" "}
+              {prepIngredientItems.length}{" "}
+              {currentLanguage === "es" ? "listos" : "ready"}
+            </div>
+          </div>
+
+          {scaledServings !== null && (
+            <div
+              style={{
+                padding: "10px 12px",
+                borderRadius: 14,
+                background: "rgba(255,255,255,0.035)",
+                border: "1px solid rgba(255,255,255,0.07)",
+                fontSize: 13,
+                fontWeight: 900,
+                color: "rgba(255,255,255,0.76)",
+              }}
+            >
+              {currentLanguage === "es"
+                ? `Preparando ${scaledServings} ${
+                    scaledServings === 1 ? "porción" : "porciones"
+                  }`
+                : `Preparing ${scaledServings} ${
+                    scaledServings === 1 ? "serving" : "servings"
+                  }`}
+            </div>
+          )}
+
+          <div
+            style={{
+              display: "grid",
+              gap: 8,
+            }}
+          >
+            {prepIngredientItems.length ? (
+              prepIngredientItems.map(({ ingredient, index }) => {
+                const ready = !!prepCheckedIngredients[index];
+
+                return (
+                  <button
+                    key={`${ingredient}-${index}`}
+                    type="button"
+                    onClick={() => togglePrepIngredient(index)}
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: 11,
+                      textAlign: "left",
+                      padding: "11px 12px",
+                      borderRadius: 15,
+                      cursor: "pointer",
+                      color: ready
+                        ? "#bbf7d0"
+                        : "rgba(255,255,255,0.90)",
+                      background: ready
+                        ? "rgba(34,197,94,0.10)"
+                        : "rgba(255,255,255,0.035)",
+                      border: ready
+                        ? "1px solid rgba(34,197,94,0.28)"
+                        : "1px solid rgba(255,255,255,0.07)",
+                    }}
+                  >
+                    <CheckCircle2
+                      size={18}
+                      style={{
+                        marginTop: 1,
+                        flexShrink: 0,
+                        color: ready
+                          ? "#22c55e"
+                          : "rgba(255,255,255,0.28)",
+                      }}
+                    />
+
+                    <span
+                      style={{
+                        lineHeight: 1.45,
+                        fontSize: 14,
+                        fontWeight: 750,
+                        textDecoration: ready
+                          ? "line-through"
+                          : "none",
+                        opacity: ready ? 0.72 : 1,
+                      }}
+                    >
+                      {formatIngredientDisplay(ingredient)}
+                    </span>
+                  </button>
+                );
+              })
+            ) : (
+              <div
+                style={{
+                  padding: 14,
+                  borderRadius: 14,
+                  background: "rgba(255,255,255,0.035)",
+                  color: "rgba(255,255,255,0.58)",
+                  fontSize: 13,
+                }}
+              >
+                {currentLanguage === "es"
+                  ? "No hay ingredientes para preparar."
+                  : "No ingredients to prep."}
+              </div>
+            )}
+          </div>
+
+          <button
+            type="button"
+            onClick={handleStartCooking}
+            style={{
+              ...primaryCookButton,
+              padding: "16px 18px",
+              marginTop: 2,
+            }}
+          >
+            <ChefHat size={19} />
+            {currentLanguage === "es"
+              ? "Comenzar a cocinar"
+              : "Start Cooking"}
+            <ChevronRight size={18} />
+          </button>
+        </div>
+      )}
+
+      {cookMode && cookStage === "steps" ? (
   <div
     onTouchStart={handleTouchStart}
     onTouchMove={handleTouchMove}
@@ -2784,7 +3035,7 @@ function resetSideDrafts() {
       </button>
     </div>
   </div>
-) : (
+) : !cookMode ? (
   <>
     <div
       style={{
@@ -3473,7 +3724,7 @@ function resetSideDrafts() {
       </div>
     </div>
   </>
-)}
+) : null}
 
       {!cookMode && hasMoreInstructions && (
   <button
