@@ -32,6 +32,10 @@ import TipsModal from "../components/TipsModal";
 import { t, getStoredLanguage } from "../i18n";
 import { getLocalizedMeal } from "../core/localizedMeal";
 import { Capacitor } from "@capacitor/core";
+import {
+  cancelCookTimerAlert,
+  scheduleCookTimerAlert,
+} from "../core/cookTimerNotifications";
 import { API_BASE } from "../core/api";
 import { usePlusAccess } from "../plus/usePlusAccess";
 import {
@@ -631,43 +635,12 @@ function ingredientMatchesStep(ingredient: string, step: string) {
 
 function playTimerDoneSound() {
   try {
-    const AudioCtx =
-      window.AudioContext ||
-      (window as typeof window & {
-        webkitAudioContext?: typeof AudioContext;
-      }).webkitAudioContext;
+    const audio = new Audio("/audio/diner_order_up.wav");
+    audio.volume = 1;
 
-    if (!AudioCtx) return;
-
-    const ctx = new AudioCtx();
-
-    const oscillator1 = ctx.createOscillator();
-    const gain1 = ctx.createGain();
-
-    oscillator1.type = "sine";
-    oscillator1.frequency.setValueAtTime(880, ctx.currentTime);
-    gain1.gain.setValueAtTime(0.0001, ctx.currentTime);
-    gain1.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + 0.02);
-    gain1.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.22);
-
-    oscillator1.connect(gain1);
-    gain1.connect(ctx.destination);
-    oscillator1.start();
-    oscillator1.stop(ctx.currentTime + 0.22);
-
-    const oscillator2 = ctx.createOscillator();
-    const gain2 = ctx.createGain();
-
-    oscillator2.type = "sine";
-    oscillator2.frequency.setValueAtTime(1174, ctx.currentTime + 0.25);
-    gain2.gain.setValueAtTime(0.0001, ctx.currentTime + 0.22);
-    gain2.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + 0.28);
-    gain2.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.65);
-
-    oscillator2.connect(gain2);
-    gain2.connect(ctx.destination);
-    oscillator2.start(ctx.currentTime + 0.22);
-    oscillator2.stop(ctx.currentTime + 0.65);
+    void audio.play().catch(() => {
+      // Native notification still handles locked-device alerts.
+    });
   } catch {
     // ignore audio failures
   }
@@ -837,6 +810,8 @@ useEffect(() => {
   >({});
   const [timerSeconds, setTimerSeconds] = useState<number | null>(null);
   const [timerRunning, setTimerRunning] = useState(false);
+  const [timerEndsAt, setTimerEndsAt] = useState<number | null>(null);
+  const [timerFinished, setTimerFinished] = useState(false);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchEndX, setTouchEndX] = useState<number | null>(null);
   const [keepAwake, setKeepAwake] = useState(false);
@@ -865,6 +840,10 @@ const [nutritionError, setNutritionError] =
 
   const wakeLockRef = useRef<any>(null);
   const recipeNoteKey = sourceRecipe?.slug || sourceRecipe?.name || "";
+
+  useEffect(() => {
+    setTimerFinished(false);
+  }, [slug]);
   const safeRecipe =
   getLocalizedMeal(sourceRecipe, getStoredLanguage()) ||
   sourceRecipe || {
@@ -1123,6 +1102,7 @@ async function analyzeNutrition() {
   setCheckedDesserts({});
   setTimerSeconds(null);
   setTimerRunning(false);
+  setTimerEndsAt(null);
   setSaveMessage("");
   setFinishMessage("");
 }, [slug]);
@@ -1153,32 +1133,43 @@ async function analyzeNutrition() {
   }, [savedState]);
 
   useEffect(() => {
-    if (!timerRunning || timerSeconds === null) return;
+    if (!timerRunning || timerEndsAt === null) return;
 
-    const intervalId = window.setInterval(() => {
-      setTimerSeconds((prev) => {
-        if (prev === null) return null;
+    let completed = false;
 
-        if (prev <= 1) {
-          window.clearInterval(intervalId);
-          setTimerRunning(false);
-          setTimerSeconds(null);
-          setSaveMessage(t("cookMode.timerDone", "⏱️ Timer done!"));
-          playTimerDoneSound();
+    const syncTimer = () => {
+      const remaining = Math.max(
+        0,
+        Math.ceil((timerEndsAt - Date.now()) / 1000)
+      );
 
-          if ("vibrate" in navigator) {
-            navigator.vibrate?.([200, 100, 200, 100, 300]);
-          }
+      if (remaining <= 0) {
+        if (completed) return;
+        completed = true;
 
-          return null;
+        setTimerRunning(false);
+        setTimerEndsAt(null);
+        setTimerSeconds(null);
+        setTimerFinished(true);
+        setSaveMessage(t("cookMode.timerDone", "⏱️ Timer done!"));
+        playTimerDoneSound();
+
+        if ("vibrate" in navigator) {
+          navigator.vibrate?.([200, 100, 200, 100, 300]);
         }
 
-        return prev - 1;
-      });
-    }, 1000);
+        return;
+      }
+
+      setTimerSeconds(remaining);
+    };
+
+    syncTimer();
+
+    const intervalId = window.setInterval(syncTimer, 250);
 
     return () => window.clearInterval(intervalId);
-  }, [timerRunning, timerSeconds]);
+  }, [timerRunning, timerEndsAt]);
 
   useEffect(() => {
     let cancelled = false;
@@ -1522,19 +1513,72 @@ const handleAddDessertsToShoppingList = () => {
 
   const handleStartTimer = () => {
     if (!detectedTimerSeconds) return;
+
+    const endsAt =
+      Date.now() + detectedTimerSeconds * 1000;
+
     setTimerSeconds(detectedTimerSeconds);
+    setTimerEndsAt(endsAt);
+    setTimerFinished(false);
     setTimerRunning(true);
-    setSaveMessage(t("cookMode.timerStarted", "Timer started"));
+    setSaveMessage(
+      t("cookMode.timerStarted", "Timer started")
+    );
+
+    void scheduleCookTimerAlert({
+      endsAt,
+      recipeName: safeRecipe.name,
+      language:
+        currentLanguage === "es" ? "es" : "en",
+    }).then((result) => {
+      if (result.permissionDenied) {
+        setSaveMessage(
+          currentLanguage === "es"
+            ? "Temporizador iniciado · Activa las notificaciones para recibir alertas."
+            : "Timer started · Enable notifications to receive timer alerts."
+        );
+      }
+    });
   };
 
   const handlePauseResumeTimer = () => {
     if (timerSeconds === null) return;
-    setTimerRunning((prev) => !prev);
+
+    if (timerRunning) {
+      const remaining =
+        timerEndsAt !== null
+          ? Math.max(0, Math.ceil((timerEndsAt - Date.now()) / 1000))
+          : timerSeconds;
+
+      setTimerSeconds(remaining);
+      setTimerEndsAt(null);
+      setTimerRunning(false);
+      void cancelCookTimerAlert();
+      return;
+    }
+
+    if (timerSeconds <= 0) return;
+
+    const endsAt =
+      Date.now() + timerSeconds * 1000;
+
+    setTimerEndsAt(endsAt);
+    setTimerRunning(true);
+
+    void scheduleCookTimerAlert({
+      endsAt,
+      recipeName: safeRecipe.name,
+      language:
+        currentLanguage === "es" ? "es" : "en",
+    });
   };
 
   const handleClearTimer = () => {
     setTimerRunning(false);
+    setTimerEndsAt(null);
     setTimerSeconds(null);
+    setTimerFinished(false);
+    void cancelCookTimerAlert();
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -2541,7 +2585,9 @@ function resetSideDrafts() {
         {t("cookMode.step", "Step")} {instructions.length ? stepIndex + 1 : 0} {t("cookMode.of", "of")} {instructions.length}
       </div>
 
-      {detectedTimerSeconds && timerSeconds === null && (
+      {detectedTimerSeconds &&
+        timerSeconds === null &&
+        !timerFinished && (
         <div style={{ fontSize: 12, opacity: 0.5, fontWeight: 700 }}>
           {t("cookMode.timerDetected", "Timer detected for this step")}
         </div>
@@ -2660,7 +2706,9 @@ function resetSideDrafts() {
         </div>
 
         <div style={{ fontSize: 28, fontWeight: 1000 }}>
-          {timerSeconds !== null
+          {timerFinished
+            ? "0:00"
+            : timerSeconds !== null
             ? formatTimer(timerSeconds)
             : detectedTimerSeconds
             ? formatTimer(detectedTimerSeconds)
@@ -2671,7 +2719,11 @@ function resetSideDrafts() {
           {timerSeconds === null && detectedTimerSeconds && (
             <button onClick={handleStartTimer} style={topBtn}>
               <Timer size={16} />
-              {t("cookMode.startTimer")}
+              {timerFinished
+                ? currentLanguage === "es"
+                  ? "Iniciar de nuevo"
+                  : "Start Again"
+                : t("cookMode.startTimer")}
             </button>
           )}
 
