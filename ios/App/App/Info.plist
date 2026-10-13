@@ -37,6 +37,10 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Simple Dinners uses the microphone to listen for hands-free Cook Mode commands.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Simple Dinners uses speech recognition so you can navigate Cook Mode hands-free.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -13,6 +13,8 @@ import {
   CheckCircle2,
   BookOpen,
   Timer,
+  Mic,
+  MicOff,
   Moon,
   ChefHat,
   Pin,
@@ -32,6 +34,8 @@ import TipsModal from "../components/TipsModal";
 import { t, getStoredLanguage } from "../i18n";
 import { getLocalizedMeal } from "../core/localizedMeal";
 import { Capacitor } from "@capacitor/core";
+import { SpeechRecognition } from "@capgo/capacitor-speech-recognition";
+import { TextToSpeech } from "@capacitor-community/text-to-speech";
 import {
   cancelCookTimerAlert,
   scheduleCookTimerAlert,
@@ -802,6 +806,9 @@ useEffect(() => {
   const [prepCheckedIngredients, setPrepCheckedIngredients] = useState<
     Record<number, boolean>
   >({});
+  const [handsFreeEnabled, setHandsFreeEnabled] = useState(false);
+  const [handsFreeListening, setHandsFreeListening] = useState(false);
+  const [handsFreeStatus, setHandsFreeStatus] = useState("");
   const [stepIndex, setStepIndex] = useState(0);
   const [historyCount, setHistoryCount] = useState(0);
   const [savedState, setSavedState] = useState<"idle" | "saved" | "already">(
@@ -843,6 +850,13 @@ const [nutritionError, setNutritionError] =
   useState("");
 
   const wakeLockRef = useRef<any>(null);
+
+  const handsFreeEnabledRef = useRef(false);
+  const handsFreeSpeakingRef = useRef(false);
+  const handsFreeCommandAtRef = useRef(0);
+  const currentCookStepRef = useRef("");
+  const cookInstructionCountRef = useRef(0);
+
   const recipeNoteKey = sourceRecipe?.slug || sourceRecipe?.name || "";
 
   useEffect(() => {
@@ -1043,6 +1057,10 @@ async function analyzeNutrition() {
 
   const photoUrl = normalizePhotoUrl(sourceRecipe?.photoUrl);
   const currentStep = instructions[stepIndex] || "";
+
+  currentCookStepRef.current = currentStep;
+  cookInstructionCountRef.current = instructions.length;
+
   const detectedTimerSeconds = extractTimerSeconds(currentStep);
   const isLastStep =
     instructions.length > 0 && stepIndex >= instructions.length - 1;
@@ -1138,6 +1156,112 @@ async function analyzeNutrition() {
       setStepIndex(0);
     }
   }, [cookMode, stepIndex, instructions.length]);
+
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform()) {
+      return;
+    }
+
+    let disposed = false;
+    let partialHandle: any = null;
+    let listeningHandle: any = null;
+    let errorHandle: any = null;
+
+    void (async () => {
+      partialHandle =
+        await SpeechRecognition.addListener(
+          "partialResults",
+          (event) => {
+            const transcript =
+              event.matches?.[0] || "";
+
+            if (transcript) {
+              void handleHandsFreeTranscript(
+                transcript
+              );
+            }
+          }
+        );
+
+      if (disposed) {
+        await partialHandle.remove();
+        return;
+      }
+
+      listeningHandle =
+        await SpeechRecognition.addListener(
+          "listeningState",
+          (event) => {
+            if (
+              event.state === "started" ||
+              event.status === "started"
+            ) {
+              setHandsFreeListening(true);
+            }
+
+            if (
+              event.state === "stopped" ||
+              event.status === "stopped"
+            ) {
+              setHandsFreeListening(false);
+            }
+          }
+        );
+
+      if (disposed) {
+        await listeningHandle.remove();
+        return;
+      }
+
+      errorHandle =
+        await SpeechRecognition.addListener(
+          "error",
+          () => {
+            if (
+              handsFreeEnabledRef.current &&
+              !handsFreeSpeakingRef.current
+            ) {
+              setHandsFreeStatus(
+                getStoredLanguage() === "es"
+                  ? "No entendí eso. Sigo escuchando…"
+                  : "Didn't catch that. Still listening…"
+              );
+            }
+          }
+        );
+
+      if (disposed) {
+        await errorHandle.remove();
+      }
+    })();
+
+    return () => {
+      disposed = true;
+
+      handsFreeEnabledRef.current = false;
+
+      if (partialHandle) {
+        void partialHandle.remove();
+      }
+
+      if (listeningHandle) {
+        void listeningHandle.remove();
+      }
+
+      if (errorHandle) {
+        void errorHandle.remove();
+      }
+
+      void SpeechRecognition.setPTTState({
+        held: false,
+        mute: true,
+      }).catch(() => {});
+
+      void SpeechRecognition.forceStop({
+        timeout: 800,
+      }).catch(() => {});
+    };
+  }, []);
 
   useEffect(() => {
     if (!saveMessage) return;
@@ -1450,6 +1574,398 @@ const handleCloseNoteModal = () => {
     setCookStage("steps");
   };
 
+  function normalizeHandsFreeText(value: string) {
+    return String(value || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function getHandsFreeCommand(value: string) {
+    const text = normalizeHandsFreeText(value);
+
+    const nextCommands = new Set([
+      "next",
+      "next step",
+      "continue",
+      "go forward",
+      "siguiente",
+      "siguiente paso",
+      "continuar",
+    ]);
+
+    const previousCommands = new Set([
+      "previous",
+      "previous step",
+      "back",
+      "go back",
+      "anterior",
+      "paso anterior",
+      "atras",
+      "regresa",
+    ]);
+
+    const repeatCommands = new Set([
+      "repeat",
+      "repeat step",
+      "repeat that",
+      "say that again",
+      "read step",
+      "read the step",
+      "read it again",
+      "repite",
+      "repetir",
+      "repite el paso",
+      "lee el paso",
+      "leelo de nuevo",
+    ]);
+
+    if (nextCommands.has(text)) return "next";
+    if (previousCommands.has(text)) return "previous";
+    if (repeatCommands.has(text)) return "repeat";
+
+    return null;
+  }
+
+  async function pauseHandsFreeRecognition() {
+    try {
+      await SpeechRecognition.setPTTState({
+        held: false,
+        mute: true,
+      });
+    } catch {
+      // ignore
+    }
+
+    try {
+      await SpeechRecognition.forceStop({
+        timeout: 800,
+      });
+    } catch {
+      // ignore
+    }
+
+    setHandsFreeListening(false);
+  }
+
+  async function beginHandsFreeRecognition() {
+    if (
+      !handsFreeEnabledRef.current ||
+      handsFreeSpeakingRef.current
+    ) {
+      return;
+    }
+
+    try {
+      const current =
+        await SpeechRecognition.isListening();
+
+      if (current.listening) {
+        setHandsFreeListening(true);
+        return;
+      }
+    } catch {
+      // continue and attempt to start
+    }
+
+    const language =
+      getStoredLanguage() === "es"
+        ? "es-US"
+        : "en-US";
+
+    await SpeechRecognition.setPTTState({
+      held: true,
+      mute: true,
+    });
+
+    await SpeechRecognition.start({
+      language,
+      maxResults: 3,
+      partialResults: true,
+      popup: false,
+      continuousPTT: true,
+      muteRecognizerBeep: true,
+      allowForSilence: 1400,
+      contextualStrings:
+        language === "es-US"
+          ? [
+              "siguiente paso",
+              "paso anterior",
+              "repite el paso",
+            ]
+          : [
+              "next step",
+              "previous step",
+              "repeat step",
+            ],
+    });
+
+    await SpeechRecognition.setPTTState({
+      held: true,
+      mute: true,
+    });
+
+    setHandsFreeListening(true);
+    setHandsFreeStatus(
+      getStoredLanguage() === "es"
+        ? 'Escuchando… Di "siguiente paso".'
+        : 'Listening… Say "next step".'
+    );
+  }
+
+  async function startHandsFreeMode() {
+    if (!Capacitor.isNativePlatform()) {
+      setHandsFreeStatus(
+        getStoredLanguage() === "es"
+          ? "El modo manos libres está disponible en la aplicación móvil."
+          : "Hands-Free Mode is available in the mobile app."
+      );
+      return;
+    }
+
+    try {
+      const availability =
+        await SpeechRecognition.available();
+
+      if (!availability.available) {
+        setHandsFreeStatus(
+          getStoredLanguage() === "es"
+            ? "El reconocimiento de voz no está disponible en este dispositivo."
+            : "Speech recognition is not available on this device."
+        );
+        return;
+      }
+
+      let permission =
+        await SpeechRecognition.checkPermissions();
+
+      if (
+        permission.speechRecognition !== "granted"
+      ) {
+        permission =
+          await SpeechRecognition.requestPermissions();
+      }
+
+      if (
+        permission.speechRecognition !== "granted"
+      ) {
+        setHandsFreeStatus(
+          getStoredLanguage() === "es"
+            ? "Permite el acceso al micrófono para usar el modo manos libres."
+            : "Allow microphone access to use Hands-Free Mode."
+        );
+        return;
+      }
+
+      handsFreeEnabledRef.current = true;
+      setHandsFreeEnabled(true);
+
+      await beginHandsFreeRecognition();
+    } catch (error) {
+      console.warn(
+        "Hands-Free Mode could not start:",
+        error
+      );
+
+      handsFreeEnabledRef.current = false;
+      setHandsFreeEnabled(false);
+      setHandsFreeListening(false);
+
+      setHandsFreeStatus(
+        getStoredLanguage() === "es"
+          ? "No se pudo iniciar el modo manos libres."
+          : "Hands-Free Mode could not start."
+      );
+    }
+  }
+
+  async function stopHandsFreeMode() {
+    handsFreeEnabledRef.current = false;
+    handsFreeSpeakingRef.current = false;
+
+    setHandsFreeEnabled(false);
+    setHandsFreeListening(false);
+    setHandsFreeStatus("");
+
+    if (!Capacitor.isNativePlatform()) return;
+
+    try {
+      await SpeechRecognition.setPTTState({
+        held: false,
+        mute: true,
+      });
+    } catch {
+      // ignore
+    }
+
+    try {
+      await SpeechRecognition.forceStop({
+        timeout: 800,
+      });
+    } catch {
+      // ignore
+    }
+
+    try {
+      await TextToSpeech.stop();
+    } catch {
+      // ignore
+    }
+  }
+
+  async function speakCurrentCookStep() {
+    const step = currentCookStepRef.current.trim();
+
+    if (!step) return;
+
+    handsFreeSpeakingRef.current = true;
+
+    setHandsFreeStatus(
+      getStoredLanguage() === "es"
+        ? "Leyendo el paso…"
+        : "Reading the step…"
+    );
+
+    await pauseHandsFreeRecognition();
+
+    try {
+      await TextToSpeech.stop();
+    } catch {
+      // ignore
+    }
+
+    const words = step
+      .split(/\s+/)
+      .filter(Boolean).length;
+
+    const expectedSpeechMs = Math.min(
+      12000,
+      Math.max(1400, words * 360)
+    );
+
+    const speechStartedAt = Date.now();
+
+    try {
+      await TextToSpeech.speak({
+        text: step,
+        lang:
+          getStoredLanguage() === "es"
+            ? "es-US"
+            : "en-US",
+        rate: 0.92,
+        pitch: 1,
+        volume: 1,
+        category: "ambient",
+        queueStrategy: 0,
+      });
+    } catch (error) {
+      console.warn(
+        "Cook Mode speech failed:",
+        error
+      );
+    }
+
+    const elapsed =
+      Date.now() - speechStartedAt;
+
+    const remainingWait =
+      expectedSpeechMs - elapsed;
+
+    if (remainingWait > 0) {
+      await new Promise((resolve) =>
+        window.setTimeout(
+          resolve,
+          remainingWait
+        )
+      );
+    }
+
+    handsFreeSpeakingRef.current = false;
+
+    if (handsFreeEnabledRef.current) {
+      try {
+        await beginHandsFreeRecognition();
+      } catch (error) {
+        console.warn(
+          "Hands-Free Mode could not resume:",
+          error
+        );
+      }
+    }
+  }
+
+  async function handleHandsFreeTranscript(
+    transcript: string
+  ) {
+    if (
+      !handsFreeEnabledRef.current ||
+      handsFreeSpeakingRef.current
+    ) {
+      return;
+    }
+
+    const command =
+      getHandsFreeCommand(transcript);
+
+    if (!command) return;
+
+    const now = Date.now();
+
+    if (
+      now - handsFreeCommandAtRef.current <
+      1800
+    ) {
+      return;
+    }
+
+    handsFreeCommandAtRef.current = now;
+
+    const isSpanish =
+      getStoredLanguage() === "es";
+
+    if (command === "next") {
+      setStepIndex((prev) =>
+        Math.min(
+          cookInstructionCountRef.current - 1,
+          prev + 1
+        )
+      );
+
+      setHandsFreeStatus(
+        isSpanish
+          ? "✓ Siguiente paso"
+          : "✓ Next step"
+      );
+      return;
+    }
+
+    if (command === "previous") {
+      setStepIndex((prev) =>
+        Math.max(0, prev - 1)
+      );
+
+      setHandsFreeStatus(
+        isSpanish
+          ? "✓ Paso anterior"
+          : "✓ Previous step"
+      );
+      return;
+    }
+
+    if (command === "repeat") {
+      setHandsFreeStatus(
+        isSpanish
+          ? "✓ Repitiendo paso"
+          : "✓ Repeating step"
+      );
+
+      await speakCurrentCookStep();
+    }
+  };
+
   const toggleSide = (side: string) => {
   setCheckedSides((prev) => ({
     ...prev,
@@ -1542,6 +2058,8 @@ const handleAddDessertsToShoppingList = () => {
   };
 
   const handleFinishCooking = () => {
+    void stopHandsFreeMode();
+
     if (safeRecipe.slug) {
       recordCook(safeRecipe.slug);
       const history = getCookHistoryFor(safeRecipe.slug);
@@ -2120,6 +2638,7 @@ function resetSideDrafts() {
       <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
         <button
           onClick={() => {
+            void stopHandsFreeMode();
             setCookMode(false);
             setCookStage("prep");
           }}
@@ -2146,11 +2665,107 @@ function resetSideDrafts() {
           {keepAwake ? t("cookMode.screenAwakeOn") : t("cookMode.keepScreenAwake")}
         </button>
 
+        {cookStage === "steps" && (
+          <button
+            type="button"
+            onClick={() => {
+              if (handsFreeEnabled) {
+                void stopHandsFreeMode();
+              } else {
+                void startHandsFreeMode();
+              }
+            }}
+            style={{
+              ...cookChipBtn,
+              border: handsFreeEnabled
+                ? "1px solid rgba(34,197,94,0.45)"
+                : cookChipBtn.border,
+              background: handsFreeEnabled
+                ? "rgba(34,197,94,0.12)"
+                : cookChipBtn.background,
+              color: handsFreeEnabled
+                ? "#86efac"
+                : "white",
+            }}
+          >
+            {handsFreeEnabled ? (
+              <MicOff size={15} />
+            ) : (
+              <Mic size={15} />
+            )}
+
+            {handsFreeEnabled
+              ? currentLanguage === "es"
+                ? "Manos libres: ON"
+                : "Hands-Free: ON"
+              : currentLanguage === "es"
+              ? "Manos libres"
+              : "Hands-Free"}
+          </button>
+        )}
+
         <TipsModal tips={cookTips} />
       </div>
     </div>
 
     {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
+
+    {cookStage === "steps" &&
+      (handsFreeEnabled || handsFreeStatus) && (
+        <div
+          style={{
+            padding: "12px 14px",
+            borderRadius: 16,
+            background: handsFreeEnabled
+              ? "rgba(34,197,94,0.08)"
+              : "rgba(255,255,255,0.04)",
+            border: handsFreeEnabled
+              ? "1px solid rgba(34,197,94,0.22)"
+              : "1px solid rgba(255,255,255,0.08)",
+            display: "grid",
+            gap: 5,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              fontWeight: 1000,
+              color: handsFreeEnabled
+                ? "#86efac"
+                : "rgba(255,255,255,0.78)",
+            }}
+          >
+            <Mic size={16} />
+
+            {handsFreeEnabled
+              ? handsFreeListening
+                ? currentLanguage === "es"
+                  ? "Escuchando"
+                  : "Listening"
+                : currentLanguage === "es"
+                ? "Manos libres activo"
+                : "Hands-Free active"
+              : currentLanguage === "es"
+              ? "Manos libres"
+              : "Hands-Free"}
+          </div>
+
+          <div
+            style={{
+              fontSize: 12,
+              lineHeight: 1.45,
+              color: "rgba(255,255,255,0.62)",
+            }}
+          >
+            {handsFreeStatus ||
+              (currentLanguage === "es"
+                ? 'Di "siguiente paso", "paso anterior" o "repite el paso".'
+                : 'Say "next step", "previous step", or "repeat step".')}
+          </div>
+        </div>
+      )}
 
     {finishMessage && (
       <div
