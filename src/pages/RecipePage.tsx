@@ -832,6 +832,7 @@ const [draftUserNote, setDraftUserNote] = useState("");
   const [noteDraft, setNoteDraft] = useState<string>("");
   const [noteModalOpen, setNoteModalOpen] = useState(false);
   const [showAllIngredients, setShowAllIngredients] = useState(false);
+  const [showCookAllIngredients, setShowCookAllIngredients] = useState(false);
 const [showAllInstructions, setShowAllInstructions] = useState(false);
 const [editSidesOpen, setEditSidesOpen] = useState(false);
 const [sideDraft, setSideDraft] = useState("");
@@ -1140,6 +1141,7 @@ async function analyzeNutrition() {
   setStepIndex(0);
   setCookStage("prep");
   setPrepCheckedIngredients({});
+  setShowCookAllIngredients(false);
   setCheckedIngredients({});
   setCheckedSides({});
   setCheckedDesserts({});
@@ -3607,6 +3609,157 @@ function resetSideDrafts() {
         </div>
       </div>
     )}
+
+    <div
+      style={{
+        borderRadius: 16,
+        border: "1px solid rgba(255,255,255,0.08)",
+        background: "rgba(255,255,255,0.025)",
+        overflow: "hidden",
+      }}
+    >
+      <button
+        type="button"
+        onClick={() =>
+          setShowCookAllIngredients((prev) => !prev)
+        }
+        aria-expanded={showCookAllIngredients}
+        style={{
+          width: "100%",
+          border: "none",
+          background: "transparent",
+          color: "white",
+          padding: "13px 14px",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 12,
+          textAlign: "left",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 9,
+            minWidth: 0,
+          }}
+        >
+          <ShoppingCart
+            size={16}
+            style={{ color: "#86efac", flexShrink: 0 }}
+          />
+
+          <span
+            style={{
+              fontSize: 14,
+              fontWeight: 1000,
+            }}
+          >
+            {currentLanguage === "es"
+              ? "Todos los ingredientes"
+              : "All ingredients"}
+          </span>
+
+          <span
+            style={{
+              fontSize: 11,
+              fontWeight: 900,
+              padding: "3px 7px",
+              borderRadius: 999,
+              background: "rgba(34,197,94,0.10)",
+              color: "#86efac",
+            }}
+          >
+            {prepIngredientItems.length}
+          </span>
+        </div>
+
+        <ChevronRight
+          size={17}
+          style={{
+            flexShrink: 0,
+            opacity: 0.65,
+            transform: showCookAllIngredients
+              ? "rotate(90deg)"
+              : "rotate(0deg)",
+            transition: "transform 0.18s ease",
+          }}
+        />
+      </button>
+
+      {showCookAllIngredients && (
+        <div
+          style={{
+            borderTop:
+              "1px solid rgba(255,255,255,0.07)",
+            padding: "6px 14px 14px",
+            display: "grid",
+            gap: 0,
+          }}
+        >
+          {ingredients.map((ingredient, index) => {
+            const isHeader =
+              isIngredientHeader(ingredient) ||
+              ingredient.trim().endsWith(":");
+
+            if (isHeader) {
+              return (
+                <div
+                  key={`${ingredient}-${index}`}
+                  style={{
+                    padding: "12px 0 5px",
+                    fontSize: 11,
+                    fontWeight: 1000,
+                    letterSpacing: 0.7,
+                    textTransform: "uppercase",
+                    color: "#86efac",
+                  }}
+                >
+                  {ingredient.replace(/:$/, "")}
+                </div>
+              );
+            }
+
+            return (
+              <div
+                key={`${ingredient}-${index}`}
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: 9,
+                  padding: "8px 0",
+                  borderBottom:
+                    index === ingredients.length - 1
+                      ? "none"
+                      : "1px solid rgba(255,255,255,0.045)",
+                }}
+              >
+                <CheckCircle2
+                  size={14}
+                  style={{
+                    marginTop: 2,
+                    flexShrink: 0,
+                    color: "rgba(255,255,255,0.28)",
+                  }}
+                />
+
+                <span
+                  style={{
+                    fontSize: 13,
+                    lineHeight: 1.45,
+                    color: "rgba(255,255,255,0.78)",
+                  }}
+                >
+                  {formatIngredientDisplay(ingredient)}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
 
     <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
       <button
