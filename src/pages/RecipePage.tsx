@@ -229,27 +229,7 @@ function getIngredientKeywords(ingredient: string) {
 }
 
 function getCookModeIngredientLabel(text: string) {
-  return cleanIngredientText(text)
-    .replace(/\([^)]*\)/g, "")
-
-    // Remove common measurements, including metric
-    .replace(/\b\d+(?:[\/.]\d+)?\b/g, "")
-    .replace(
-      /\b(cup|cups|tablespoon|tablespoons|tbsp|teaspoon|teaspoons|tsp|pound|pounds|lb|lbs|ounce|ounces|oz|gram|grams|g|kilogram|kilograms|kg|milliliter|milliliters|ml|liter|liters|l|clove|cloves|can|cans|package|packages|pkg|slice|slices)\b/gi,
-      ""
-    )
-
-    // Remove approximate measurement words that can be left behind
-    .replace(/\b(about|approx|approximately|around|roughly)\b/gi, "")
-
-    // Remove prep descriptors
-    .replace(
-      /\b(large|small|medium|fresh|boneless|skinless|lean|halved|diced|chopped|minced|sliced|shredded|softened|melted|beaten|dried|finely)\b/gi,
-      ""
-    )
-
-    .replace(/\s{2,}/g, " ")
-    .trim();
+  return cleanIngredientText(text);
 }
 
 function normalizePhotoUrl(url?: string) {
@@ -2644,9 +2624,13 @@ function resetSideDrafts() {
             setCookMode(false);
             setCookStage("prep");
           }}
-          style={topBtn}
+          style={{
+            ...topBtn,
+            padding: "9px 12px",
+            fontSize: 13,
+          }}
         >
-          <ArrowLeft size={16} />
+          <ArrowLeft size={15} />
           {t("cookMode.exit")}
         </button>
 
@@ -2654,6 +2638,8 @@ function resetSideDrafts() {
           onClick={() => setKeepAwake((prev) => !prev)}
           style={{
             ...cookChipBtn,
+            padding: "9px 12px",
+            fontSize: 13,
             border: keepAwake
               ? "1px solid rgba(34,197,94,0.45)"
               : cookChipBtn.border,
@@ -2664,7 +2650,9 @@ function resetSideDrafts() {
           }}
         >
           <Moon size={15} />
-          {keepAwake ? t("cookMode.screenAwakeOn") : t("cookMode.keepScreenAwake")}
+          {currentLanguage === "es"
+            ? "Pantalla activa"
+            : "Screen Awake"}
         </button>
 
         {cookStage === "steps" && (
@@ -2679,6 +2667,8 @@ function resetSideDrafts() {
             }}
             style={{
               ...cookChipBtn,
+              padding: "9px 12px",
+              fontSize: 13,
               border: handsFreeEnabled
                 ? "1px solid rgba(34,197,94,0.45)"
                 : cookChipBtn.border,
@@ -3449,17 +3439,22 @@ function resetSideDrafts() {
         flexWrap: "wrap",
       }}
     >
-      <div style={{ fontSize: 14, opacity: 0.75, fontWeight: 900 }}>
-        {t("cookMode.step", "Step")} {instructions.length ? stepIndex + 1 : 0} {t("cookMode.of", "of")} {instructions.length}
+      <div
+        style={{
+          width: "fit-content",
+          padding: "6px 10px",
+          borderRadius: 999,
+          background: "rgba(34,197,94,0.10)",
+          border: "1px solid rgba(34,197,94,0.20)",
+          color: "#86efac",
+          fontSize: 12,
+          fontWeight: 1000,
+        }}
+      >
+        {t("cookMode.step", "Step")}{" "}
+        {instructions.length ? stepIndex + 1 : 0}{" "}
+        {t("cookMode.of", "of")} {instructions.length}
       </div>
-
-      {detectedTimerSeconds &&
-        timerSeconds === null &&
-        !timerFinished && (
-        <div style={{ fontSize: 12, opacity: 0.5, fontWeight: 700 }}>
-          {t("cookMode.timerDetected", "Timer detected for this step")}
-        </div>
-      )}
     </div>
 
     <div
@@ -3472,82 +3467,115 @@ function resetSideDrafts() {
       {currentStep || t("cookMode.noInstructions", "No instructions available.")}
     </div>
 
-    <div
-      style={{
-        padding: 14,
-        borderRadius: 16,
-        background: "rgba(255,255,255,0.02)",
-        border: "1px solid rgba(255,255,255,0.08)",
-        display: "grid",
-        gap: 14,
-      }}
-    >
-      <div style={{ display: "grid", gap: 8 }}>
-        <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 800 }}>
-          {t("cookMode.ingredientsInStep")}
-        </div>
-
-        {stepIngredients.length ? (
-          stepIngredients.map((ingredient, index) => (
-            <div
-              key={`${ingredient}-${index}`}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                opacity: 0.8,
-              }}
-            >
-              <CheckCircle2 size={14} style={{ opacity: 0.4 }} />
-              <span style={{ fontSize: 13 }}>
-                {formatIngredientDisplay(getCookModeIngredientLabel(ingredient))}
-              </span>
-            </div>
-          ))
-        ) : (
-          <div style={{ fontSize: 13, opacity: 0.5 }}>
-            {t("cookMode.noIngredientsDetected")}
-          </div>
-        )}
-      </div>
-
+    {stepIngredients.length > 0 && (
       <div
         style={{
-          paddingTop: 8,
-          borderTop: "1px solid rgba(255,255,255,0.04)",
+          padding: 14,
+          borderRadius: 16,
+          background: "rgba(255,255,255,0.02)",
+          border: "1px solid rgba(255,255,255,0.08)",
           display: "grid",
-          gap: 6,
+          gap: 9,
         }}
       >
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: 10,
-            flexWrap: "wrap",
+            fontSize: 12,
+            opacity: 0.62,
+            fontWeight: 900,
           }}
         >
-          <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 800 }}>
-            {t("cookMode.myNotes")}
-          </div>
+          {t("cookMode.ingredientsInStep")}
+        </div>
 
-          <button onClick={handleEditUserNote} style={cookChipBtn}>
-            {t("cookMode.editNote")}
-          </button>
+        {stepIngredients.map((ingredient, index) => (
+          <div
+            key={`${ingredient}-${index}`}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              color: "rgba(255,255,255,0.78)",
+            }}
+          >
+            <CheckCircle2
+              size={14}
+              style={{
+                color: "#86efac",
+                opacity: 0.65,
+                flexShrink: 0,
+              }}
+            />
+
+            <span
+              style={{
+                fontSize: 13,
+                lineHeight: 1.4,
+              }}
+            >
+              {formatIngredientDisplay(
+                getCookModeIngredientLabel(ingredient)
+              )}
+            </span>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <div
+      style={{
+        padding: "11px 13px",
+        borderRadius: 16,
+        background: "rgba(255,255,255,0.025)",
+        border: "1px solid rgba(255,255,255,0.07)",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        gap: 12,
+      }}
+    >
+      <div
+        style={{
+          minWidth: 0,
+          display: "grid",
+          gap: 3,
+        }}
+      >
+        <div
+          style={{
+            fontSize: 12,
+            opacity: 0.62,
+            fontWeight: 900,
+          }}
+        >
+          {t("cookMode.myNotes")}
         </div>
 
         <div
           style={{
-            fontSize: 13,
-            lineHeight: 1.45,
-            opacity: userNote.trim() ? 0.9 : 0.5,
+            fontSize: 12,
+            lineHeight: 1.4,
+            opacity: userNote.trim() ? 0.82 : 0.46,
             whiteSpace: "pre-wrap",
           }}
         >
-          {userNote.trim() ? userNote : t("cookMode.addPersonalNote")}
+          {userNote.trim()
+            ? userNote
+            : t("cookMode.addPersonalNote")}
         </div>
       </div>
+
+      <button
+        onClick={handleEditUserNote}
+        style={{
+          ...cookChipBtn,
+          padding: "8px 11px",
+          fontSize: 12,
+          flexShrink: 0,
+        }}
+      >
+        {t("cookMode.editNote")}
+      </button>
     </div>
 
     {(detectedTimerSeconds || timerSeconds !== null) && (
