@@ -6,13 +6,14 @@ import {
   ArrowLeft,
   ShoppingCart,
   Play,
-  History,
   Share2,
   ChevronRight,
   ChevronLeft,
   CheckCircle2,
   BookOpen,
   Timer,
+  Mic,
+  MicOff,
   Moon,
   ChefHat,
   Pin,
@@ -32,6 +33,12 @@ import TipsModal from "../components/TipsModal";
 import { t, getStoredLanguage } from "../i18n";
 import { getLocalizedMeal } from "../core/localizedMeal";
 import { Capacitor } from "@capacitor/core";
+import { SpeechRecognition } from "@capgo/capacitor-speech-recognition";
+import { TextToSpeech } from "@capacitor-community/text-to-speech";
+import {
+  cancelCookTimerAlert,
+  scheduleCookTimerAlert,
+} from "../core/cookTimerNotifications";
 import { API_BASE } from "../core/api";
 import { usePlusAccess } from "../plus/usePlusAccess";
 import {
@@ -221,27 +228,7 @@ function getIngredientKeywords(ingredient: string) {
 }
 
 function getCookModeIngredientLabel(text: string) {
-  return cleanIngredientText(text)
-    .replace(/\([^)]*\)/g, "")
-
-    // Remove common measurements, including metric
-    .replace(/\b\d+(?:[\/.]\d+)?\b/g, "")
-    .replace(
-      /\b(cup|cups|tablespoon|tablespoons|tbsp|teaspoon|teaspoons|tsp|pound|pounds|lb|lbs|ounce|ounces|oz|gram|grams|g|kilogram|kilograms|kg|milliliter|milliliters|ml|liter|liters|l|clove|cloves|can|cans|package|packages|pkg|slice|slices)\b/gi,
-      ""
-    )
-
-    // Remove approximate measurement words that can be left behind
-    .replace(/\b(about|approx|approximately|around|roughly)\b/gi, "")
-
-    // Remove prep descriptors
-    .replace(
-      /\b(large|small|medium|fresh|boneless|skinless|lean|halved|diced|chopped|minced|sliced|shredded|softened|melted|beaten|dried|finely)\b/gi,
-      ""
-    )
-
-    .replace(/\s{2,}/g, " ")
-    .trim();
+  return cleanIngredientText(text);
 }
 
 function normalizePhotoUrl(url?: string) {
@@ -631,56 +618,25 @@ function ingredientMatchesStep(ingredient: string, step: string) {
 
 function playTimerDoneSound() {
   try {
-    const AudioCtx =
-      window.AudioContext ||
-      (window as typeof window & {
-        webkitAudioContext?: typeof AudioContext;
-      }).webkitAudioContext;
+    const audio = new Audio("/audio/diner_order_up.wav");
+    audio.volume = 1;
 
-    if (!AudioCtx) return;
-
-    const ctx = new AudioCtx();
-
-    const oscillator1 = ctx.createOscillator();
-    const gain1 = ctx.createGain();
-
-    oscillator1.type = "sine";
-    oscillator1.frequency.setValueAtTime(880, ctx.currentTime);
-    gain1.gain.setValueAtTime(0.0001, ctx.currentTime);
-    gain1.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + 0.02);
-    gain1.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.22);
-
-    oscillator1.connect(gain1);
-    gain1.connect(ctx.destination);
-    oscillator1.start();
-    oscillator1.stop(ctx.currentTime + 0.22);
-
-    const oscillator2 = ctx.createOscillator();
-    const gain2 = ctx.createGain();
-
-    oscillator2.type = "sine";
-    oscillator2.frequency.setValueAtTime(1174, ctx.currentTime + 0.25);
-    gain2.gain.setValueAtTime(0.0001, ctx.currentTime + 0.22);
-    gain2.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + 0.28);
-    gain2.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.65);
-
-    oscillator2.connect(gain2);
-    gain2.connect(ctx.destination);
-    oscillator2.start(ctx.currentTime + 0.22);
-    oscillator2.stop(ctx.currentTime + 0.65);
+    void audio.play().catch(() => {
+      // Native notification still handles locked-device alerts.
+    });
   } catch {
     // ignore audio failures
   }
 }
 
 const FINISH_MESSAGES = [
-  t("recipe.finishMessages.dinnerReady"),
-  t("recipe.finishMessages.smellsAmazing"),
-  t("recipe.finishMessages.kitchenWin"),
-  t("recipe.finishMessages.platesUp"),
-  t("recipe.finishMessages.nicelyDone"),
-  t("recipe.finishMessages.dinnerHandled"),
-  t("recipe.finishMessages.nailedIt"),
+  t("recipe.finishMessages.dinnerReady", "Dinner is ready!"),
+  t("recipe.finishMessages.smellsAmazing", "Smells amazing!"),
+  t("recipe.finishMessages.kitchenWin", "Kitchen win!"),
+  t("recipe.finishMessages.platesUp", "Plates up!"),
+  t("recipe.finishMessages.nicelyDone", "Nicely done!"),
+  t("recipe.finishMessages.dinnerHandled", "Dinner handled!"),
+  t("recipe.finishMessages.nailedIt", "Nailed it!"),
 ];
 
 
@@ -825,6 +781,13 @@ useEffect(() => {
   // =====================================================
 
   const [cookMode, setCookMode] = useState(startInCookMode);
+  const [cookStage, setCookStage] = useState<"prep" | "steps">("prep");
+  const [prepCheckedIngredients, setPrepCheckedIngredients] = useState<
+    Record<number, boolean>
+  >({});
+  const [handsFreeEnabled, setHandsFreeEnabled] = useState(false);
+  const [handsFreeListening, setHandsFreeListening] = useState(false);
+  const [handsFreeStatus, setHandsFreeStatus] = useState("");
   const [stepIndex, setStepIndex] = useState(0);
   const [historyCount, setHistoryCount] = useState(0);
   const [savedState, setSavedState] = useState<"idle" | "saved" | "already">(
@@ -837,6 +800,8 @@ useEffect(() => {
   >({});
   const [timerSeconds, setTimerSeconds] = useState<number | null>(null);
   const [timerRunning, setTimerRunning] = useState(false);
+  const [timerEndsAt, setTimerEndsAt] = useState<number | null>(null);
+  const [timerFinished, setTimerFinished] = useState(false);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchEndX, setTouchEndX] = useState<number | null>(null);
   const [keepAwake, setKeepAwake] = useState(false);
@@ -846,6 +811,7 @@ const [draftUserNote, setDraftUserNote] = useState("");
   const [noteDraft, setNoteDraft] = useState<string>("");
   const [noteModalOpen, setNoteModalOpen] = useState(false);
   const [showAllIngredients, setShowAllIngredients] = useState(false);
+  const [showCookAllIngredients, setShowCookAllIngredients] = useState(false);
 const [showAllInstructions, setShowAllInstructions] = useState(false);
 const [editSidesOpen, setEditSidesOpen] = useState(false);
 const [sideDraft, setSideDraft] = useState("");
@@ -864,7 +830,18 @@ const [nutritionError, setNutritionError] =
   useState("");
 
   const wakeLockRef = useRef<any>(null);
+
+  const handsFreeEnabledRef = useRef(false);
+  const handsFreeSpeakingRef = useRef(false);
+  const handsFreeCommandAtRef = useRef(0);
+  const currentCookStepRef = useRef("");
+  const cookInstructionCountRef = useRef(0);
+
   const recipeNoteKey = sourceRecipe?.slug || sourceRecipe?.name || "";
+
+  useEffect(() => {
+    setTimerFinished(false);
+  }, [slug]);
   const safeRecipe =
   getLocalizedMeal(sourceRecipe, getStoredLanguage()) ||
   sourceRecipe || {
@@ -920,6 +897,25 @@ const visibleInstructions = showAllInstructions
 
 const hasMoreIngredients = ingredients.length > 5;
 const hasMoreInstructions = instructions.length > 5;
+
+const prepIngredientItems = useMemo(
+  () =>
+    ingredients
+      .map((ingredient, index) => ({
+        ingredient,
+        index,
+      }))
+      .filter(
+        ({ ingredient }) =>
+          !isIngredientHeader(ingredient) &&
+          !ingredient.trim().endsWith(":")
+      ),
+  [ingredients]
+);
+
+const prepReadyCount = prepIngredientItems.filter(
+  ({ index }) => prepCheckedIngredients[index]
+).length;
 
 async function analyzeNutrition() {
   if (
@@ -1041,6 +1037,10 @@ async function analyzeNutrition() {
 
   const photoUrl = normalizePhotoUrl(sourceRecipe?.photoUrl);
   const currentStep = instructions[stepIndex] || "";
+
+  currentCookStepRef.current = currentStep;
+  cookInstructionCountRef.current = instructions.length;
+
   const detectedTimerSeconds = extractTimerSeconds(currentStep);
   const isLastStep =
     instructions.length > 0 && stepIndex >= instructions.length - 1;
@@ -1118,11 +1118,15 @@ async function analyzeNutrition() {
 
   useEffect(() => {
   setStepIndex(0);
+  setCookStage("prep");
+  setPrepCheckedIngredients({});
+  setShowCookAllIngredients(false);
   setCheckedIngredients({});
   setCheckedSides({});
   setCheckedDesserts({});
   setTimerSeconds(null);
   setTimerRunning(false);
+  setTimerEndsAt(null);
   setSaveMessage("");
   setFinishMessage("");
 }, [slug]);
@@ -1133,6 +1137,112 @@ async function analyzeNutrition() {
       setStepIndex(0);
     }
   }, [cookMode, stepIndex, instructions.length]);
+
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform()) {
+      return;
+    }
+
+    let disposed = false;
+    let partialHandle: any = null;
+    let listeningHandle: any = null;
+    let errorHandle: any = null;
+
+    void (async () => {
+      partialHandle =
+        await SpeechRecognition.addListener(
+          "partialResults",
+          (event) => {
+            const transcript =
+              event.matches?.[0] || "";
+
+            if (transcript) {
+              void handleHandsFreeTranscript(
+                transcript
+              );
+            }
+          }
+        );
+
+      if (disposed) {
+        await partialHandle.remove();
+        return;
+      }
+
+      listeningHandle =
+        await SpeechRecognition.addListener(
+          "listeningState",
+          (event) => {
+            if (
+              event.state === "started" ||
+              event.status === "started"
+            ) {
+              setHandsFreeListening(true);
+            }
+
+            if (
+              event.state === "stopped" ||
+              event.status === "stopped"
+            ) {
+              setHandsFreeListening(false);
+            }
+          }
+        );
+
+      if (disposed) {
+        await listeningHandle.remove();
+        return;
+      }
+
+      errorHandle =
+        await SpeechRecognition.addListener(
+          "error",
+          () => {
+            if (
+              handsFreeEnabledRef.current &&
+              !handsFreeSpeakingRef.current
+            ) {
+              setHandsFreeStatus(
+                getStoredLanguage() === "es"
+                  ? "No entendí eso. Sigo escuchando…"
+                  : "Didn't catch that. Still listening…"
+              );
+            }
+          }
+        );
+
+      if (disposed) {
+        await errorHandle.remove();
+      }
+    })();
+
+    return () => {
+      disposed = true;
+
+      handsFreeEnabledRef.current = false;
+
+      if (partialHandle) {
+        void partialHandle.remove();
+      }
+
+      if (listeningHandle) {
+        void listeningHandle.remove();
+      }
+
+      if (errorHandle) {
+        void errorHandle.remove();
+      }
+
+      void SpeechRecognition.setPTTState({
+        held: false,
+        mute: true,
+      }).catch(() => {});
+
+      void SpeechRecognition.forceStop({
+        timeout: 800,
+      }).catch(() => {});
+    };
+  }, []);
 
   useEffect(() => {
     if (!saveMessage) return;
@@ -1153,32 +1263,43 @@ async function analyzeNutrition() {
   }, [savedState]);
 
   useEffect(() => {
-    if (!timerRunning || timerSeconds === null) return;
+    if (!timerRunning || timerEndsAt === null) return;
 
-    const intervalId = window.setInterval(() => {
-      setTimerSeconds((prev) => {
-        if (prev === null) return null;
+    let completed = false;
 
-        if (prev <= 1) {
-          window.clearInterval(intervalId);
-          setTimerRunning(false);
-          setTimerSeconds(null);
-          setSaveMessage(t("cookMode.timerDone", "⏱️ Timer done!"));
-          playTimerDoneSound();
+    const syncTimer = () => {
+      const remaining = Math.max(
+        0,
+        Math.ceil((timerEndsAt - Date.now()) / 1000)
+      );
 
-          if ("vibrate" in navigator) {
-            navigator.vibrate?.([200, 100, 200, 100, 300]);
-          }
+      if (remaining <= 0) {
+        if (completed) return;
+        completed = true;
 
-          return null;
+        setTimerRunning(false);
+        setTimerEndsAt(null);
+        setTimerSeconds(null);
+        setTimerFinished(true);
+        setSaveMessage(t("cookMode.timerDone", "⏱️ Timer done!"));
+        playTimerDoneSound();
+
+        if ("vibrate" in navigator) {
+          navigator.vibrate?.([200, 100, 200, 100, 300]);
         }
 
-        return prev - 1;
-      });
-    }, 1000);
+        return;
+      }
+
+      setTimerSeconds(remaining);
+    };
+
+    syncTimer();
+
+    const intervalId = window.setInterval(syncTimer, 250);
 
     return () => window.clearInterval(intervalId);
-  }, [timerRunning, timerSeconds]);
+  }, [timerRunning, timerEndsAt]);
 
   useEffect(() => {
     let cancelled = false;
@@ -1415,6 +1536,417 @@ const handleCloseNoteModal = () => {
     }));
   };
 
+  const togglePrepIngredient = (index: number) => {
+    setPrepCheckedIngredients((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
+
+  const handleEnterCookMode = () => {
+    setStepIndex(0);
+    setCookStage("prep");
+    setPrepCheckedIngredients({});
+    setCookMode(true);
+  };
+
+  const handleStartCooking = () => {
+    setStepIndex(0);
+    setCookStage("steps");
+  };
+
+  function normalizeHandsFreeText(value: string) {
+    return String(value || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function getHandsFreeCommand(value: string) {
+    const text = normalizeHandsFreeText(value);
+
+    const nextCommands = new Set([
+      "next",
+      "next step",
+      "continue",
+      "go forward",
+      "siguiente",
+      "siguiente paso",
+      "continuar",
+    ]);
+
+    const previousCommands = new Set([
+      "previous",
+      "previous step",
+      "back",
+      "go back",
+      "anterior",
+      "paso anterior",
+      "atras",
+      "regresa",
+    ]);
+
+    const repeatCommands = new Set([
+      "repeat",
+      "repeat step",
+      "repeat that",
+      "say that again",
+      "read step",
+      "read the step",
+      "read it again",
+      "repite",
+      "repetir",
+      "repite el paso",
+      "lee el paso",
+      "leelo de nuevo",
+    ]);
+
+    if (nextCommands.has(text)) return "next";
+    if (previousCommands.has(text)) return "previous";
+    if (repeatCommands.has(text)) return "repeat";
+
+    return null;
+  }
+
+  async function pauseHandsFreeRecognition() {
+    try {
+      await SpeechRecognition.setPTTState({
+        held: false,
+        mute: true,
+      });
+    } catch {
+      // ignore
+    }
+
+    try {
+      await SpeechRecognition.forceStop({
+        timeout: 800,
+      });
+    } catch {
+      // ignore
+    }
+
+    setHandsFreeListening(false);
+  }
+
+  async function beginHandsFreeRecognition() {
+    if (
+      !handsFreeEnabledRef.current ||
+      handsFreeSpeakingRef.current
+    ) {
+      return;
+    }
+
+    try {
+      const current =
+        await SpeechRecognition.isListening();
+
+      if (current.listening) {
+        setHandsFreeListening(true);
+        return;
+      }
+    } catch {
+      // continue and attempt to start
+    }
+
+    const language =
+      getStoredLanguage() === "es"
+        ? "es-US"
+        : "en-US";
+
+    await SpeechRecognition.setPTTState({
+      held: true,
+      mute: true,
+    });
+
+    await SpeechRecognition.start({
+      language,
+      maxResults: 3,
+      partialResults: true,
+      popup: false,
+      continuousPTT: true,
+      muteRecognizerBeep: true,
+      allowForSilence: 1400,
+      contextualStrings:
+        language === "es-US"
+          ? [
+              "siguiente paso",
+              "paso anterior",
+              "repite el paso",
+            ]
+          : [
+              "next step",
+              "previous step",
+              "repeat step",
+            ],
+    });
+
+    await SpeechRecognition.setPTTState({
+      held: true,
+      mute: true,
+    });
+
+    setHandsFreeListening(true);
+    setHandsFreeStatus(
+      getStoredLanguage() === "es"
+        ? 'Escuchando… Di "siguiente paso".'
+        : 'Listening… Say "next step".'
+    );
+  }
+
+  async function startHandsFreeMode() {
+    if (!Capacitor.isNativePlatform()) {
+      setHandsFreeStatus(
+        getStoredLanguage() === "es"
+          ? "El modo manos libres está disponible en la aplicación móvil."
+          : "Hands-Free Mode is available in the mobile app."
+      );
+      return;
+    }
+
+    try {
+      const availability =
+        await SpeechRecognition.available();
+
+      if (!availability.available) {
+        setHandsFreeStatus(
+          getStoredLanguage() === "es"
+            ? "El reconocimiento de voz no está disponible en este dispositivo."
+            : "Speech recognition is not available on this device."
+        );
+        return;
+      }
+
+      let permission =
+        await SpeechRecognition.checkPermissions();
+
+      if (
+        permission.speechRecognition !== "granted"
+      ) {
+        permission =
+          await SpeechRecognition.requestPermissions();
+      }
+
+      if (
+        permission.speechRecognition !== "granted"
+      ) {
+        setHandsFreeStatus(
+          getStoredLanguage() === "es"
+            ? "Permite el acceso al micrófono para usar el modo manos libres."
+            : "Allow microphone access to use Hands-Free Mode."
+        );
+        return;
+      }
+
+      handsFreeEnabledRef.current = true;
+      setHandsFreeEnabled(true);
+
+      await beginHandsFreeRecognition();
+    } catch (error) {
+      console.warn(
+        "Hands-Free Mode could not start:",
+        error
+      );
+
+      handsFreeEnabledRef.current = false;
+      setHandsFreeEnabled(false);
+      setHandsFreeListening(false);
+
+      setHandsFreeStatus(
+        getStoredLanguage() === "es"
+          ? "No se pudo iniciar el modo manos libres."
+          : "Hands-Free Mode could not start."
+      );
+    }
+  }
+
+  async function stopHandsFreeMode() {
+    handsFreeEnabledRef.current = false;
+    handsFreeSpeakingRef.current = false;
+
+    setHandsFreeEnabled(false);
+    setHandsFreeListening(false);
+    setHandsFreeStatus("");
+
+    if (!Capacitor.isNativePlatform()) return;
+
+    try {
+      await SpeechRecognition.setPTTState({
+        held: false,
+        mute: true,
+      });
+    } catch {
+      // ignore
+    }
+
+    try {
+      await SpeechRecognition.forceStop({
+        timeout: 800,
+      });
+    } catch {
+      // ignore
+    }
+
+    try {
+      await TextToSpeech.stop();
+    } catch {
+      // ignore
+    }
+  }
+
+  async function speakCurrentCookStep() {
+    const step = currentCookStepRef.current.trim();
+
+    if (!step) return;
+
+    handsFreeSpeakingRef.current = true;
+
+    setHandsFreeStatus(
+      getStoredLanguage() === "es"
+        ? "Leyendo el paso…"
+        : "Reading the step…"
+    );
+
+    await pauseHandsFreeRecognition();
+
+    try {
+      await TextToSpeech.stop();
+    } catch {
+      // ignore
+    }
+
+    const words = step
+      .split(/\s+/)
+      .filter(Boolean).length;
+
+    const expectedSpeechMs = Math.min(
+      12000,
+      Math.max(1400, words * 360)
+    );
+
+    const speechStartedAt = Date.now();
+
+    try {
+      await TextToSpeech.speak({
+        text: step,
+        lang:
+          getStoredLanguage() === "es"
+            ? "es-US"
+            : "en-US",
+        rate: 0.92,
+        pitch: 1,
+        volume: 1,
+        category: "ambient",
+        queueStrategy: 0,
+      });
+    } catch (error) {
+      console.warn(
+        "Cook Mode speech failed:",
+        error
+      );
+    }
+
+    const elapsed =
+      Date.now() - speechStartedAt;
+
+    const remainingWait =
+      expectedSpeechMs - elapsed;
+
+    if (remainingWait > 0) {
+      await new Promise((resolve) =>
+        window.setTimeout(
+          resolve,
+          remainingWait
+        )
+      );
+    }
+
+    handsFreeSpeakingRef.current = false;
+
+    if (handsFreeEnabledRef.current) {
+      try {
+        await beginHandsFreeRecognition();
+      } catch (error) {
+        console.warn(
+          "Hands-Free Mode could not resume:",
+          error
+        );
+      }
+    }
+  }
+
+  async function handleHandsFreeTranscript(
+    transcript: string
+  ) {
+    if (
+      !handsFreeEnabledRef.current ||
+      handsFreeSpeakingRef.current
+    ) {
+      return;
+    }
+
+    const command =
+      getHandsFreeCommand(transcript);
+
+    if (!command) return;
+
+    const now = Date.now();
+
+    if (
+      now - handsFreeCommandAtRef.current <
+      1800
+    ) {
+      return;
+    }
+
+    handsFreeCommandAtRef.current = now;
+
+    const isSpanish =
+      getStoredLanguage() === "es";
+
+    if (command === "next") {
+      setStepIndex((prev) =>
+        Math.min(
+          cookInstructionCountRef.current - 1,
+          prev + 1
+        )
+      );
+
+      setHandsFreeStatus(
+        isSpanish
+          ? "✓ Siguiente paso"
+          : "✓ Next step"
+      );
+      return;
+    }
+
+    if (command === "previous") {
+      setStepIndex((prev) =>
+        Math.max(0, prev - 1)
+      );
+
+      setHandsFreeStatus(
+        isSpanish
+          ? "✓ Paso anterior"
+          : "✓ Previous step"
+      );
+      return;
+    }
+
+    if (command === "repeat") {
+      setHandsFreeStatus(
+        isSpanish
+          ? "✓ Repitiendo paso"
+          : "✓ Repeating step"
+      );
+
+      await speakCurrentCookStep();
+    }
+  };
+
   const toggleSide = (side: string) => {
   setCheckedSides((prev) => ({
     ...prev,
@@ -1497,16 +2029,9 @@ const handleAddDessertsToShoppingList = () => {
   );
 };
 
-  const handleCooked = () => {
-    if (!safeRecipe.slug) return;
-
-    recordCook(safeRecipe.slug);
-    const history = getCookHistoryFor(safeRecipe.slug);
-    setHistoryCount(history?.timesCooked ?? 0);
-    setSaveMessage(t("recipe.cookRecorded", "Cook recorded ✓"));
-  };
-
   const handleFinishCooking = () => {
+    void stopHandsFreeMode();
+
     if (safeRecipe.slug) {
       recordCook(safeRecipe.slug);
       const history = getCookHistoryFor(safeRecipe.slug);
@@ -1522,19 +2047,72 @@ const handleAddDessertsToShoppingList = () => {
 
   const handleStartTimer = () => {
     if (!detectedTimerSeconds) return;
+
+    const endsAt =
+      Date.now() + detectedTimerSeconds * 1000;
+
     setTimerSeconds(detectedTimerSeconds);
+    setTimerEndsAt(endsAt);
+    setTimerFinished(false);
     setTimerRunning(true);
-    setSaveMessage(t("cookMode.timerStarted", "Timer started"));
+    setSaveMessage(
+      t("cookMode.timerStarted", "Timer started")
+    );
+
+    void scheduleCookTimerAlert({
+      endsAt,
+      recipeName: safeRecipe.name,
+      language:
+        currentLanguage === "es" ? "es" : "en",
+    }).then((result) => {
+      if (result.permissionDenied) {
+        setSaveMessage(
+          currentLanguage === "es"
+            ? "Temporizador iniciado · Activa las notificaciones para recibir alertas."
+            : "Timer started · Enable notifications to receive timer alerts."
+        );
+      }
+    });
   };
 
   const handlePauseResumeTimer = () => {
     if (timerSeconds === null) return;
-    setTimerRunning((prev) => !prev);
+
+    if (timerRunning) {
+      const remaining =
+        timerEndsAt !== null
+          ? Math.max(0, Math.ceil((timerEndsAt - Date.now()) / 1000))
+          : timerSeconds;
+
+      setTimerSeconds(remaining);
+      setTimerEndsAt(null);
+      setTimerRunning(false);
+      void cancelCookTimerAlert();
+      return;
+    }
+
+    if (timerSeconds <= 0) return;
+
+    const endsAt =
+      Date.now() + timerSeconds * 1000;
+
+    setTimerEndsAt(endsAt);
+    setTimerRunning(true);
+
+    void scheduleCookTimerAlert({
+      endsAt,
+      recipeName: safeRecipe.name,
+      language:
+        currentLanguage === "es" ? "es" : "en",
+    });
   };
 
   const handleClearTimer = () => {
     setTimerRunning(false);
+    setTimerEndsAt(null);
     setTimerSeconds(null);
+    setTimerFinished(false);
+    void cancelCookTimerAlert();
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -1828,7 +2406,7 @@ function resetSideDrafts() {
   <TipsModal tips={recipeTips} />
 </div>
 
-            <button onClick={() => setCookMode(true)} style={primaryCookButton}>
+            <button onClick={handleEnterCookMode} style={primaryCookButton}>
               <Play size={18} />
               {t("recipe.startCookMode")}
             </button>
@@ -2030,8 +2608,19 @@ function resetSideDrafts() {
       }}
     >
       <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-        <button onClick={() => setCookMode(false)} style={topBtn}>
-          <ArrowLeft size={16} />
+        <button
+          onClick={() => {
+            void stopHandsFreeMode();
+            setCookMode(false);
+            setCookStage("prep");
+          }}
+          style={{
+            ...topBtn,
+            padding: "9px 12px",
+            fontSize: 13,
+          }}
+        >
+          <ArrowLeft size={15} />
           {t("cookMode.exit")}
         </button>
 
@@ -2039,6 +2628,8 @@ function resetSideDrafts() {
           onClick={() => setKeepAwake((prev) => !prev)}
           style={{
             ...cookChipBtn,
+            padding: "9px 12px",
+            fontSize: 13,
             border: keepAwake
               ? "1px solid rgba(34,197,94,0.45)"
               : cookChipBtn.border,
@@ -2049,14 +2640,114 @@ function resetSideDrafts() {
           }}
         >
           <Moon size={15} />
-          {keepAwake ? t("cookMode.screenAwakeOn") : t("cookMode.keepScreenAwake")}
+          {currentLanguage === "es"
+            ? "Pantalla activa"
+            : "Screen Awake"}
         </button>
+
+        {cookStage === "steps" && (
+          <button
+            type="button"
+            onClick={() => {
+              if (handsFreeEnabled) {
+                void stopHandsFreeMode();
+              } else {
+                void startHandsFreeMode();
+              }
+            }}
+            style={{
+              ...cookChipBtn,
+              padding: "9px 12px",
+              fontSize: 13,
+              border: handsFreeEnabled
+                ? "1px solid rgba(34,197,94,0.45)"
+                : cookChipBtn.border,
+              background: handsFreeEnabled
+                ? "rgba(34,197,94,0.12)"
+                : cookChipBtn.background,
+              color: handsFreeEnabled
+                ? "#86efac"
+                : "white",
+            }}
+          >
+            {handsFreeEnabled ? (
+              <MicOff size={15} />
+            ) : (
+              <Mic size={15} />
+            )}
+
+            {handsFreeEnabled
+              ? currentLanguage === "es"
+                ? "Manos libres: ON"
+                : "Hands-Free: ON"
+              : currentLanguage === "es"
+              ? "Manos libres"
+              : "Hands-Free"}
+          </button>
+        )}
 
         <TipsModal tips={cookTips} />
       </div>
     </div>
 
     {saveMessage && <div style={messageStyle}>{saveMessage}</div>}
+
+    {cookStage === "steps" &&
+      (handsFreeEnabled || handsFreeStatus) && (
+        <div
+          style={{
+            padding: "12px 14px",
+            borderRadius: 16,
+            background: handsFreeEnabled
+              ? "rgba(34,197,94,0.08)"
+              : "rgba(255,255,255,0.04)",
+            border: handsFreeEnabled
+              ? "1px solid rgba(34,197,94,0.22)"
+              : "1px solid rgba(255,255,255,0.08)",
+            display: "grid",
+            gap: 5,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              fontWeight: 1000,
+              color: handsFreeEnabled
+                ? "#86efac"
+                : "rgba(255,255,255,0.78)",
+            }}
+          >
+            <Mic size={16} />
+
+            {handsFreeEnabled
+              ? handsFreeListening
+                ? currentLanguage === "es"
+                  ? "Escuchando"
+                  : "Listening"
+                : currentLanguage === "es"
+                ? "Manos libres activo"
+                : "Hands-Free active"
+              : currentLanguage === "es"
+              ? "Manos libres"
+              : "Hands-Free"}
+          </div>
+
+          <div
+            style={{
+              fontSize: 12,
+              lineHeight: 1.45,
+              color: "rgba(255,255,255,0.62)",
+            }}
+          >
+            {handsFreeStatus ||
+              (currentLanguage === "es"
+                ? 'Di "siguiente paso", "paso anterior" o "repite el paso".'
+                : 'Say "next step", "previous step", or "repeat step".')}
+          </div>
+        </div>
+      )}
 
     {finishMessage && (
       <div
@@ -2514,7 +3205,208 @@ function resetSideDrafts() {
         </div>
       )}
 
-      {cookMode ? (
+      {cookMode && cookStage === "prep" && (
+        <div
+          style={{
+            padding: 20,
+            borderRadius: 24,
+            border: "1px solid rgba(34,197,94,0.22)",
+            background:
+              "linear-gradient(180deg, rgba(34,197,94,0.08), rgba(255,255,255,0.035))",
+            display: "grid",
+            gap: 18,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: 14,
+              alignItems: "flex-start",
+              flexWrap: "wrap",
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  fontSize: 12,
+                  fontWeight: 1000,
+                  letterSpacing: 0.7,
+                  textTransform: "uppercase",
+                  color: "#86efac",
+                  marginBottom: 5,
+                }}
+              >
+                {currentLanguage === "es"
+                  ? "Preparación"
+                  : "Prep"}
+              </div>
+
+              <h2
+                style={{
+                  margin: 0,
+                  fontSize: 28,
+                  lineHeight: 1.1,
+                  fontWeight: 1000,
+                }}
+              >
+                {currentLanguage === "es"
+                  ? "Ten todo listo"
+                  : "Get everything ready"}
+              </h2>
+
+              <div
+                style={{
+                  marginTop: 7,
+                  fontSize: 13,
+                  lineHeight: 1.45,
+                  color: "rgba(255,255,255,0.60)",
+                }}
+              >
+                {currentLanguage === "es"
+                  ? "Reúne los ingredientes antes de comenzar. Puedes empezar cuando quieras."
+                  : "Gather your ingredients before you begin. Start cooking whenever you're ready."}
+              </div>
+            </div>
+
+            <div
+              style={{
+                borderRadius: 999,
+                padding: "7px 11px",
+                background: "rgba(34,197,94,0.12)",
+                border: "1px solid rgba(34,197,94,0.24)",
+                color: "#86efac",
+                fontSize: 12,
+                fontWeight: 1000,
+                whiteSpace: "nowrap",
+              }}
+            >
+              {prepReadyCount} {currentLanguage === "es" ? "de" : "of"}{" "}
+              {prepIngredientItems.length}{" "}
+              {currentLanguage === "es" ? "listos" : "ready"}
+            </div>
+          </div>
+
+          {scaledServings !== null && (
+            <div
+              style={{
+                padding: "10px 12px",
+                borderRadius: 14,
+                background: "rgba(255,255,255,0.035)",
+                border: "1px solid rgba(255,255,255,0.07)",
+                fontSize: 13,
+                fontWeight: 900,
+                color: "rgba(255,255,255,0.76)",
+              }}
+            >
+              {currentLanguage === "es"
+                ? `Preparando ${scaledServings} ${
+                    scaledServings === 1 ? "porción" : "porciones"
+                  }`
+                : `Preparing ${scaledServings} ${
+                    scaledServings === 1 ? "serving" : "servings"
+                  }`}
+            </div>
+          )}
+
+          <div
+            style={{
+              display: "grid",
+              gap: 8,
+            }}
+          >
+            {prepIngredientItems.length ? (
+              prepIngredientItems.map(({ ingredient, index }) => {
+                const ready = !!prepCheckedIngredients[index];
+
+                return (
+                  <button
+                    key={`${ingredient}-${index}`}
+                    type="button"
+                    onClick={() => togglePrepIngredient(index)}
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: 11,
+                      textAlign: "left",
+                      padding: "11px 12px",
+                      borderRadius: 15,
+                      cursor: "pointer",
+                      color: ready
+                        ? "#bbf7d0"
+                        : "rgba(255,255,255,0.90)",
+                      background: ready
+                        ? "rgba(34,197,94,0.10)"
+                        : "rgba(255,255,255,0.035)",
+                      border: ready
+                        ? "1px solid rgba(34,197,94,0.28)"
+                        : "1px solid rgba(255,255,255,0.07)",
+                    }}
+                  >
+                    <CheckCircle2
+                      size={18}
+                      style={{
+                        marginTop: 1,
+                        flexShrink: 0,
+                        color: ready
+                          ? "#22c55e"
+                          : "rgba(255,255,255,0.28)",
+                      }}
+                    />
+
+                    <span
+                      style={{
+                        lineHeight: 1.45,
+                        fontSize: 14,
+                        fontWeight: 750,
+                        textDecoration: ready
+                          ? "line-through"
+                          : "none",
+                        opacity: ready ? 0.72 : 1,
+                      }}
+                    >
+                      {formatIngredientDisplay(ingredient)}
+                    </span>
+                  </button>
+                );
+              })
+            ) : (
+              <div
+                style={{
+                  padding: 14,
+                  borderRadius: 14,
+                  background: "rgba(255,255,255,0.035)",
+                  color: "rgba(255,255,255,0.58)",
+                  fontSize: 13,
+                }}
+              >
+                {currentLanguage === "es"
+                  ? "No hay ingredientes para preparar."
+                  : "No ingredients to prep."}
+              </div>
+            )}
+          </div>
+
+          <button
+            type="button"
+            onClick={handleStartCooking}
+            style={{
+              ...primaryCookButton,
+              padding: "16px 18px",
+              marginTop: 2,
+            }}
+          >
+            <ChefHat size={19} />
+            {currentLanguage === "es"
+              ? "Comenzar a cocinar"
+              : "Start Cooking"}
+            <ChevronRight size={18} />
+          </button>
+        </div>
+      )}
+
+      {cookMode && cookStage === "steps" ? (
   <div
     onTouchStart={handleTouchStart}
     onTouchMove={handleTouchMove}
@@ -2537,15 +3429,22 @@ function resetSideDrafts() {
         flexWrap: "wrap",
       }}
     >
-      <div style={{ fontSize: 14, opacity: 0.75, fontWeight: 900 }}>
-        {t("cookMode.step", "Step")} {instructions.length ? stepIndex + 1 : 0} {t("cookMode.of", "of")} {instructions.length}
+      <div
+        style={{
+          width: "fit-content",
+          padding: "6px 10px",
+          borderRadius: 999,
+          background: "rgba(34,197,94,0.10)",
+          border: "1px solid rgba(34,197,94,0.20)",
+          color: "#86efac",
+          fontSize: 12,
+          fontWeight: 1000,
+        }}
+      >
+        {t("cookMode.step", "Step")}{" "}
+        {instructions.length ? stepIndex + 1 : 0}{" "}
+        {t("cookMode.of", "of")} {instructions.length}
       </div>
-
-      {detectedTimerSeconds && timerSeconds === null && (
-        <div style={{ fontSize: 12, opacity: 0.5, fontWeight: 700 }}>
-          {t("cookMode.timerDetected", "Timer detected for this step")}
-        </div>
-      )}
     </div>
 
     <div
@@ -2558,82 +3457,115 @@ function resetSideDrafts() {
       {currentStep || t("cookMode.noInstructions", "No instructions available.")}
     </div>
 
-    <div
-      style={{
-        padding: 14,
-        borderRadius: 16,
-        background: "rgba(255,255,255,0.02)",
-        border: "1px solid rgba(255,255,255,0.08)",
-        display: "grid",
-        gap: 14,
-      }}
-    >
-      <div style={{ display: "grid", gap: 8 }}>
-        <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 800 }}>
-          {t("cookMode.ingredientsInStep")}
-        </div>
-
-        {stepIngredients.length ? (
-          stepIngredients.map((ingredient, index) => (
-            <div
-              key={`${ingredient}-${index}`}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                opacity: 0.8,
-              }}
-            >
-              <CheckCircle2 size={14} style={{ opacity: 0.4 }} />
-              <span style={{ fontSize: 13 }}>
-                {formatIngredientDisplay(getCookModeIngredientLabel(ingredient))}
-              </span>
-            </div>
-          ))
-        ) : (
-          <div style={{ fontSize: 13, opacity: 0.5 }}>
-            {t("cookMode.noIngredientsDetected")}
-          </div>
-        )}
-      </div>
-
+    {stepIngredients.length > 0 && (
       <div
         style={{
-          paddingTop: 8,
-          borderTop: "1px solid rgba(255,255,255,0.04)",
+          padding: 14,
+          borderRadius: 16,
+          background: "rgba(255,255,255,0.02)",
+          border: "1px solid rgba(255,255,255,0.08)",
           display: "grid",
-          gap: 6,
+          gap: 9,
         }}
       >
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: 10,
-            flexWrap: "wrap",
+            fontSize: 12,
+            opacity: 0.62,
+            fontWeight: 900,
           }}
         >
-          <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 800 }}>
-            {t("cookMode.myNotes")}
-          </div>
+          {t("cookMode.ingredientsInStep")}
+        </div>
 
-          <button onClick={handleEditUserNote} style={cookChipBtn}>
-            {t("cookMode.editNote")}
-          </button>
+        {stepIngredients.map((ingredient, index) => (
+          <div
+            key={`${ingredient}-${index}`}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              color: "rgba(255,255,255,0.78)",
+            }}
+          >
+            <CheckCircle2
+              size={14}
+              style={{
+                color: "#86efac",
+                opacity: 0.65,
+                flexShrink: 0,
+              }}
+            />
+
+            <span
+              style={{
+                fontSize: 13,
+                lineHeight: 1.4,
+              }}
+            >
+              {formatIngredientDisplay(
+                getCookModeIngredientLabel(ingredient)
+              )}
+            </span>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <div
+      style={{
+        padding: "11px 13px",
+        borderRadius: 16,
+        background: "rgba(255,255,255,0.025)",
+        border: "1px solid rgba(255,255,255,0.07)",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        gap: 12,
+      }}
+    >
+      <div
+        style={{
+          minWidth: 0,
+          display: "grid",
+          gap: 3,
+        }}
+      >
+        <div
+          style={{
+            fontSize: 12,
+            opacity: 0.62,
+            fontWeight: 900,
+          }}
+        >
+          {t("cookMode.myNotes")}
         </div>
 
         <div
           style={{
-            fontSize: 13,
-            lineHeight: 1.45,
-            opacity: userNote.trim() ? 0.9 : 0.5,
+            fontSize: 12,
+            lineHeight: 1.4,
+            opacity: userNote.trim() ? 0.82 : 0.46,
             whiteSpace: "pre-wrap",
           }}
         >
-          {userNote.trim() ? userNote : t("cookMode.addPersonalNote")}
+          {userNote.trim()
+            ? userNote
+            : t("cookMode.addPersonalNote")}
         </div>
       </div>
+
+      <button
+        onClick={handleEditUserNote}
+        style={{
+          ...cookChipBtn,
+          padding: "8px 11px",
+          fontSize: 12,
+          flexShrink: 0,
+        }}
+      >
+        {t("cookMode.editNote")}
+      </button>
     </div>
 
     {(detectedTimerSeconds || timerSeconds !== null) && (
@@ -2660,7 +3592,9 @@ function resetSideDrafts() {
         </div>
 
         <div style={{ fontSize: 28, fontWeight: 1000 }}>
-          {timerSeconds !== null
+          {timerFinished
+            ? "0:00"
+            : timerSeconds !== null
             ? formatTimer(timerSeconds)
             : detectedTimerSeconds
             ? formatTimer(detectedTimerSeconds)
@@ -2671,7 +3605,11 @@ function resetSideDrafts() {
           {timerSeconds === null && detectedTimerSeconds && (
             <button onClick={handleStartTimer} style={topBtn}>
               <Timer size={16} />
-              {t("cookMode.startTimer")}
+              {timerFinished
+                ? currentLanguage === "es"
+                  ? "Iniciar de nuevo"
+                  : "Start Again"
+                : t("cookMode.startTimer")}
             </button>
           )}
 
@@ -2690,10 +3628,165 @@ function resetSideDrafts() {
       </div>
     )}
 
+    <div
+      style={{
+        borderRadius: 16,
+        border: "1px solid rgba(255,255,255,0.08)",
+        background: "rgba(255,255,255,0.025)",
+        overflow: "hidden",
+      }}
+    >
+      <button
+        type="button"
+        onClick={() =>
+          setShowCookAllIngredients((prev) => !prev)
+        }
+        aria-expanded={showCookAllIngredients}
+        style={{
+          width: "100%",
+          border: "none",
+          background: "transparent",
+          color: "white",
+          padding: "13px 14px",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 12,
+          textAlign: "left",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 9,
+            minWidth: 0,
+          }}
+        >
+          <ShoppingCart
+            size={16}
+            style={{ color: "#86efac", flexShrink: 0 }}
+          />
+
+          <span
+            style={{
+              fontSize: 14,
+              fontWeight: 1000,
+            }}
+          >
+            {currentLanguage === "es"
+              ? "Todos los ingredientes"
+              : "All ingredients"}
+          </span>
+
+          <span
+            style={{
+              fontSize: 11,
+              fontWeight: 900,
+              padding: "3px 7px",
+              borderRadius: 999,
+              background: "rgba(34,197,94,0.10)",
+              color: "#86efac",
+            }}
+          >
+            {prepIngredientItems.length}
+          </span>
+        </div>
+
+        <ChevronRight
+          size={17}
+          style={{
+            flexShrink: 0,
+            opacity: 0.65,
+            transform: showCookAllIngredients
+              ? "rotate(90deg)"
+              : "rotate(0deg)",
+            transition: "transform 0.18s ease",
+          }}
+        />
+      </button>
+
+      {showCookAllIngredients && (
+        <div
+          style={{
+            borderTop:
+              "1px solid rgba(255,255,255,0.07)",
+            padding: "6px 14px 14px",
+            display: "grid",
+            gap: 0,
+          }}
+        >
+          {ingredients.map((ingredient, index) => {
+            const isHeader =
+              isIngredientHeader(ingredient) ||
+              ingredient.trim().endsWith(":");
+
+            if (isHeader) {
+              return (
+                <div
+                  key={`${ingredient}-${index}`}
+                  style={{
+                    padding: "12px 0 5px",
+                    fontSize: 11,
+                    fontWeight: 1000,
+                    letterSpacing: 0.7,
+                    textTransform: "uppercase",
+                    color: "#86efac",
+                  }}
+                >
+                  {ingredient.replace(/:$/, "")}
+                </div>
+              );
+            }
+
+            return (
+              <div
+                key={`${ingredient}-${index}`}
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: 9,
+                  padding: "8px 0",
+                  borderBottom:
+                    index === ingredients.length - 1
+                      ? "none"
+                      : "1px solid rgba(255,255,255,0.045)",
+                }}
+              >
+                <CheckCircle2
+                  size={14}
+                  style={{
+                    marginTop: 2,
+                    flexShrink: 0,
+                    color: "rgba(255,255,255,0.28)",
+                  }}
+                />
+
+                <span
+                  style={{
+                    fontSize: 13,
+                    lineHeight: 1.45,
+                    color: "rgba(255,255,255,0.78)",
+                  }}
+                >
+                  {formatIngredientDisplay(ingredient)}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+
     <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
       <button
         onClick={() => setStepIndex((prev) => Math.max(0, prev - 1))}
-        style={topBtn}
+        style={{
+          ...topBtn,
+          opacity: stepIndex <= 0 ? 0.32 : 1,
+          cursor: stepIndex <= 0 ? "default" : "pointer",
+        }}
         disabled={stepIndex <= 0}
       >
         <ChevronLeft size={16} />
@@ -2705,7 +3798,12 @@ function resetSideDrafts() {
           onClick={() =>
             setStepIndex((prev) => Math.min(instructions.length - 1, prev + 1))
           }
-          style={topBtn}
+          style={{
+            ...topBtn,
+            border: "1px solid rgba(34,197,94,0.45)",
+            background: "rgba(34,197,94,0.12)",
+            color: "#86efac",
+          }}
           disabled={stepIndex >= instructions.length - 1}
         >
           {t("cookMode.next")}
@@ -2726,13 +3824,9 @@ function resetSideDrafts() {
         </button>
       )}
 
-      <button onClick={handleCooked} style={topBtn}>
-        <History size={16} />
-        {t("cookMode.markCooked")}
-      </button>
     </div>
   </div>
-) : (
+) : !cookMode ? (
   <>
     <div
       style={{
@@ -3421,7 +4515,7 @@ function resetSideDrafts() {
       </div>
     </div>
   </>
-)}
+) : null}
 
       {!cookMode && hasMoreInstructions && (
   <button

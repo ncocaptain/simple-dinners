@@ -27,13 +27,16 @@
     "serialize-javascript": "7.0.3"
   },
   "dependencies": {
+    "@capacitor-community/text-to-speech": "^8.0.2",
     "@capacitor/android": "^8.5.2",
     "@capacitor/app": "^8.0.0",
     "@capacitor/core": "^8.5.2",
     "@capacitor/filesystem": "^8.0.0",
     "@capacitor/ios": "^8.5.2",
+    "@capacitor/local-notifications": "^8.3.1",
     "@capacitor/share": "^8.0.0",
     "@capacitor/splash-screen": "^8.0.0",
+    "@capgo/capacitor-speech-recognition": "^8.4.2",
     "@maplibre/maplibre-gl-leaflet": "^0.1.4",
     "@revenuecat/purchases-capacitor": "^13.2.4",
     "@supabase/supabase-js": "^2.110.7",
