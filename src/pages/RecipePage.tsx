@@ -6,7 +6,6 @@ import {
   ArrowLeft,
   ShoppingCart,
   Play,
-  History,
   Share2,
   ChevronRight,
   ChevronLeft,
@@ -631,13 +630,13 @@ function playTimerDoneSound() {
 }
 
 const FINISH_MESSAGES = [
-  t("recipe.finishMessages.dinnerReady"),
-  t("recipe.finishMessages.smellsAmazing"),
-  t("recipe.finishMessages.kitchenWin"),
-  t("recipe.finishMessages.platesUp"),
-  t("recipe.finishMessages.nicelyDone"),
-  t("recipe.finishMessages.dinnerHandled"),
-  t("recipe.finishMessages.nailedIt"),
+  t("recipe.finishMessages.dinnerReady", "Dinner is ready!"),
+  t("recipe.finishMessages.smellsAmazing", "Smells amazing!"),
+  t("recipe.finishMessages.kitchenWin", "Kitchen win!"),
+  t("recipe.finishMessages.platesUp", "Plates up!"),
+  t("recipe.finishMessages.nicelyDone", "Nicely done!"),
+  t("recipe.finishMessages.dinnerHandled", "Dinner handled!"),
+  t("recipe.finishMessages.nailedIt", "Nailed it!"),
 ];
 
 
@@ -2029,15 +2028,6 @@ const handleAddDessertsToShoppingList = () => {
       : t("recipe.allDessertsAdded", "All desserts added ✓")
   );
 };
-
-  const handleCooked = () => {
-    if (!safeRecipe.slug) return;
-
-    recordCook(safeRecipe.slug);
-    const history = getCookHistoryFor(safeRecipe.slug);
-    setHistoryCount(history?.timesCooked ?? 0);
-    setSaveMessage(t("recipe.cookRecorded", "Cook recorded ✓"));
-  };
 
   const handleFinishCooking = () => {
     void stopHandsFreeMode();
@@ -3792,7 +3782,11 @@ function resetSideDrafts() {
     <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
       <button
         onClick={() => setStepIndex((prev) => Math.max(0, prev - 1))}
-        style={topBtn}
+        style={{
+          ...topBtn,
+          opacity: stepIndex <= 0 ? 0.32 : 1,
+          cursor: stepIndex <= 0 ? "default" : "pointer",
+        }}
         disabled={stepIndex <= 0}
       >
         <ChevronLeft size={16} />
@@ -3804,7 +3798,12 @@ function resetSideDrafts() {
           onClick={() =>
             setStepIndex((prev) => Math.min(instructions.length - 1, prev + 1))
           }
-          style={topBtn}
+          style={{
+            ...topBtn,
+            border: "1px solid rgba(34,197,94,0.45)",
+            background: "rgba(34,197,94,0.12)",
+            color: "#86efac",
+          }}
           disabled={stepIndex >= instructions.length - 1}
         >
           {t("cookMode.next")}
@@ -3825,10 +3824,6 @@ function resetSideDrafts() {
         </button>
       )}
 
-      <button onClick={handleCooked} style={topBtn}>
-        <History size={16} />
-        {t("cookMode.markCooked")}
-      </button>
     </div>
   </div>
 ) : !cookMode ? (
