@@ -1632,6 +1632,38 @@ const handleCloseNoteModal = () => {
     setHandsFreeListening(false);
   }
 
+  async function rearmHandsFreeRecognitionAfterCommand() {
+    if (
+      Capacitor.getPlatform() !== "ios" ||
+      !handsFreeEnabledRef.current ||
+      handsFreeSpeakingRef.current
+    ) {
+      return;
+    }
+
+    await pauseHandsFreeRecognition();
+
+    await new Promise((resolve) =>
+      window.setTimeout(resolve, 250)
+    );
+
+    if (
+      !handsFreeEnabledRef.current ||
+      handsFreeSpeakingRef.current
+    ) {
+      return;
+    }
+
+    try {
+      await beginHandsFreeRecognition();
+    } catch (error) {
+      console.warn(
+        "Hands-Free Mode could not re-arm on iOS:",
+        error
+      );
+    }
+  }
+
   async function beginHandsFreeRecognition() {
     if (
       !handsFreeEnabledRef.current ||
@@ -1920,6 +1952,11 @@ const handleCloseNoteModal = () => {
           ? "✓ Siguiente paso"
           : "✓ Next step"
       );
+
+      if (Capacitor.getPlatform() === "ios") {
+        await rearmHandsFreeRecognitionAfterCommand();
+      }
+
       return;
     }
 
@@ -1933,6 +1970,11 @@ const handleCloseNoteModal = () => {
           ? "✓ Paso anterior"
           : "✓ Previous step"
       );
+
+      if (Capacitor.getPlatform() === "ios") {
+        await rearmHandsFreeRecognitionAfterCommand();
+      }
+
       return;
     }
 
