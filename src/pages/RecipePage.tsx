@@ -1147,7 +1147,6 @@ async function analyzeNutrition() {
     let partialHandle: any = null;
     let listeningHandle: any = null;
     let errorHandle: any = null;
-    let readyHandle: any = null;
 
     void (async () => {
       partialHandle =
@@ -1195,43 +1194,6 @@ async function analyzeNutrition() {
         return;
       }
 
-      readyHandle =
-        await SpeechRecognition.addListener(
-          "readyForNextSession",
-          () => {
-            if (
-              Capacitor.getPlatform() !== "ios" ||
-              !handsFreeEnabledRef.current ||
-              handsFreeSpeakingRef.current
-            ) {
-              return;
-            }
-
-            window.setTimeout(() => {
-              if (
-                !handsFreeEnabledRef.current ||
-                handsFreeSpeakingRef.current
-              ) {
-                return;
-              }
-
-              void beginHandsFreeRecognition().catch(
-                (error) => {
-                  console.warn(
-                    "Hands-Free Mode could not restart on iOS:",
-                    error
-                  );
-                }
-              );
-            }, 250);
-          }
-        );
-
-      if (disposed) {
-        await readyHandle.remove();
-        return;
-      }
-
       errorHandle =
         await SpeechRecognition.addListener(
           "error",
@@ -1269,10 +1231,6 @@ async function analyzeNutrition() {
 
       if (errorHandle) {
         void errorHandle.remove();
-      }
-
-      if (readyHandle) {
-        void readyHandle.remove();
       }
 
       void SpeechRecognition.setPTTState({
@@ -1674,6 +1632,38 @@ const handleCloseNoteModal = () => {
     setHandsFreeListening(false);
   }
 
+  async function rearmHandsFreeRecognitionAfterCommand() {
+    if (
+      Capacitor.getPlatform() !== "ios" ||
+      !handsFreeEnabledRef.current ||
+      handsFreeSpeakingRef.current
+    ) {
+      return;
+    }
+
+    await pauseHandsFreeRecognition();
+
+    await new Promise((resolve) =>
+      window.setTimeout(resolve, 250)
+    );
+
+    if (
+      !handsFreeEnabledRef.current ||
+      handsFreeSpeakingRef.current
+    ) {
+      return;
+    }
+
+    try {
+      await beginHandsFreeRecognition();
+    } catch (error) {
+      console.warn(
+        "Hands-Free Mode could not re-arm on iOS:",
+        error
+      );
+    }
+  }
+
   async function beginHandsFreeRecognition() {
     if (
       !handsFreeEnabledRef.current ||
@@ -1962,6 +1952,11 @@ const handleCloseNoteModal = () => {
           ? "✓ Siguiente paso"
           : "✓ Next step"
       );
+
+      if (Capacitor.getPlatform() === "ios") {
+        await rearmHandsFreeRecognitionAfterCommand();
+      }
+
       return;
     }
 
@@ -1975,6 +1970,11 @@ const handleCloseNoteModal = () => {
           ? "✓ Paso anterior"
           : "✓ Previous step"
       );
+
+      if (Capacitor.getPlatform() === "ios") {
+        await rearmHandsFreeRecognitionAfterCommand();
+      }
+
       return;
     }
 
