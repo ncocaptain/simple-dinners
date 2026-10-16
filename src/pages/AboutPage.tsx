@@ -155,9 +155,9 @@ export default function AboutPage() {
         primaryCta: "Abrir la app",
         playStore: "Google Play",
         appStore: "App Store",
-        updateTitle: "Import 2.0 ya está aquí",
+        updateTitle: "El Modo Cocina acaba de mejorar",
         updateText:
-          "Guarda recetas desde Instagram, TikTok, Facebook y YouTube con detección más inteligente, mejores opciones cuando faltan detalles y el mismo flujo si pegas un enlace o lo compartes directamente con Simple Dinners.",
+          "Empieza con una lista de preparación, mantén a mano los ingredientes ajustados a tus porciones, avanza con comandos de voz como “siguiente”, “anterior” o “repetir”, y usa temporizadores más confiables que siguen siendo precisos en segundo plano y te avisan cuando están listos.",
         socialProof: "Gracias por ayudar a crecer Simple Dinners.",
         ratingsTitle: "Calificaciones de la app",
         ratingsSubtitle:
@@ -214,7 +214,7 @@ export default function AboutPage() {
           },
           {
             "title": "Modo Cocina",
-            "text": "Sigue instrucciones paso a paso mientras cocinas."
+            "text": "Prepárate con una lista de ingredientes, cocina paso a paso, consulta los ingredientes del paso o de la receta completa, usa Manos Libres y mantén tus temporizadores funcionando con precisión incluso en segundo plano."
           },
           {
             "title": "Guarda recetas",
@@ -238,9 +238,9 @@ export default function AboutPage() {
         primaryCta: "Open the app",
         playStore: "Google Play",
         appStore: "App Store",
-        updateTitle: "Import 2.0 is here",
+        updateTitle: "Cook Mode just got a major upgrade",
         updateText:
-          "Save recipes from Instagram, TikTok, Facebook, and YouTube with smarter recipe detection, better options when details are missing, and the same flow whether you paste a link or share it straight to Simple Dinners.",
+          "Start with a prep checklist, keep scaled ingredients close at hand, move through steps with Hands-Free commands like “next,” “previous,” and “repeat,” and rely on timers that stay accurate in the background and alert you when they’re done.",
         socialProof: "Thank you for helping Simple Dinners grow.",
         ratingsTitle: "App ratings",
         ratingsSubtitle:
@@ -296,8 +296,8 @@ export default function AboutPage() {
             "text": "Send ingredients, sides, and desserts to one clean list."
           },
           {
-            "title": "Cook step by step",
-            "text": "Use Cook Mode to follow recipes one step at a time."
+            "title": "Cook Mode",
+            "text": "Prep your ingredients, cook step by step, see ingredients for the current step or the full recipe, use Hands-Free voice controls, and keep timers accurate even when the app is in the background."
           },
           {
             "title": "Save recipes",
