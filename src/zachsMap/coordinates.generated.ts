@@ -87,5 +87,33 @@ export const ZACHS_MAP_COORDINATES = {
   "kalm-bistro": {
     "latitude": 36.4129642221,
     "longitude": -82.47193283545
+  },
+  "momma-ds-kingsport": {
+    "latitude": 36.545587,
+    "longitude": -82.559537
+  },
+  "kernelcopia-kingsport": {
+    "latitude": 36.5466725,
+    "longitude": -82.560839
+  },
+  "bellafina-chocolates": {
+    "latitude": 36.544351,
+    "longitude": -82.559421
+  },
+  "center-street-grill-smokehouse": {
+    "latitude": 36.5486136,
+    "longitude": -82.5625241
+  },
+  "mustard-seed-cafe": {
+    "latitude": 36.5462461,
+    "longitude": -82.5599245
+  },
+  "chefs-pizzeria": {
+    "latitude": 36.5494422,
+    "longitude": -82.561038
+  },
+  "two-dads-cafe": {
+    "latitude": 36.547434,
+    "longitude": -82.556569
   }
 } as const;
