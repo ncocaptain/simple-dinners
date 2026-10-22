@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AccountModal } from "./AccountModal";
 import { useAuth } from "./AuthContext";
 import "./AccountButton.css";
 
 export function AccountButton() {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { isSignedIn, loading, user } = useAuth();
 
@@ -19,7 +21,14 @@ export function AccountButton() {
         type="button"
         className={`sd-account-button ${isSignedIn ? "is-signed-in" : ""
           }`}
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => {
+          if (!loading && !isSignedIn) {
+            navigate("/plus");
+            return;
+          }
+
+          setIsModalOpen(true);
+        }}
         aria-label={
           isSignedIn
             ? "Open Simple Dinners account"

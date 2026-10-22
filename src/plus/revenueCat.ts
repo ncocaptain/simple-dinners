@@ -143,8 +143,21 @@ export function customerHasPlus(
   );
 }
 
-export async function configureRevenueCat(
-  appUserID: string,
+// Serialize SDK identity changes: guest catalog requests and sign-in can overlap.
+let configurationQueue: Promise<unknown> = Promise.resolve();
+
+export function configureRevenueCat(
+  appUserID?: string,
+): Promise<RevenueCatSetupResult> {
+  const request = configurationQueue.then(() =>
+    configureRevenueCatIdentity(appUserID),
+  );
+  configurationQueue = request.catch(() => undefined);
+  return request;
+}
+
+async function configureRevenueCatIdentity(
+  appUserID?: string,
 ): Promise<RevenueCatSetupResult> {
   /*
    * Purchases only run inside the native iOS
@@ -168,16 +181,7 @@ export async function configureRevenueCat(
     };
   }
 
-  const normalizedUserID =
-    appUserID.trim();
-
-  if (!normalizedUserID) {
-    return {
-      configured: false,
-      error:
-        "RevenueCat requires a signed-in user.",
-    };
-  }
+  const normalizedUserID = appUserID?.trim();
 
   try {
     if (import.meta.env.DEV) {
@@ -192,9 +196,11 @@ export async function configureRevenueCat(
     if (!configuration.isConfigured) {
       await Purchases.configure({
         apiKey,
-        appUserID: normalizedUserID,
+        ...(normalizedUserID
+          ? { appUserID: normalizedUserID }
+          : {}),
       });
-    } else {
+    } else if (normalizedUserID) {
       const currentUser =
         await Purchases.getAppUserID();
 
@@ -205,6 +211,12 @@ export async function configureRevenueCat(
         await Purchases.logIn({
           appUserID: normalizedUserID,
         });
+      }
+    } else {
+      // A signed-out catalog must not keep the previous account's SDK identity.
+      const { isAnonymous } = await Purchases.isAnonymous();
+      if (!isAnonymous) {
+        await Purchases.logOut();
       }
     }
 

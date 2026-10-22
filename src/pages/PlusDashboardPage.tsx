@@ -712,9 +712,7 @@ export default function PlusDashboardPage() {
         </section>
       )}
 
-      {isSignedIn && (
-        <PlusUpgradePanel />
-      )}
+      <PlusUpgradePanel />
 
       {hasPlus && isSignedIn && (
         <section

@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type PropsWithChildren,
 } from "react";
@@ -137,6 +138,13 @@ export function PlusEntitlementProvider({
     householdId,
   } = useAuth();
 
+  const currentUserId = useRef(user?.id);
+  useEffect(() => {
+    currentUserId.current = user?.id;
+  }, [user?.id]);
+
+  const [entitlementUserId, setEntitlementUserId] = useState<string | null>(null);
+
   const [plusStatus, setPlusStatus] =
     useState<PlusStatus>(
       PLUS_BETA_ENABLED
@@ -190,6 +198,8 @@ export function PlusEntitlementProvider({
 
   const applyBetaFallback =
     useCallback(() => {
+      if (currentUserId.current !== user?.id) return;
+      setEntitlementUserId(null);
       setSubscriptionManagementURL(null);
 
       setPlusStatus(
@@ -203,13 +213,14 @@ export function PlusEntitlementProvider({
           ? "beta"
           : "none",
       );
-    }, []);
+    }, [user?.id]);
 
   const applyCustomerInfo =
     useCallback(
       (
         customerInfo: CustomerInfo,
       ): boolean => {
+        if (!user?.id || currentUserId.current !== user.id) return false;
         const hasPersonalPlus =
           customerHasPlus(customerInfo);
 
@@ -224,13 +235,14 @@ export function PlusEntitlementProvider({
         }
 
         setPlusStatus("active");
+        setEntitlementUserId(user.id);
         setPlusSource(
           getPlusSource(customerInfo),
         );
 
         return true;
       },
-      [],
+      [user?.id],
     );
 
   const checkHouseholdPlus =
@@ -244,6 +256,8 @@ export function PlusEntitlementProvider({
       try {
         const result =
           await getHouseholdPlusStatus();
+
+        if (currentUserId.current !== user.id) return false;
 
         if (result.error || !result.data) {
           if (result.error) {
@@ -262,6 +276,7 @@ export function PlusEntitlementProvider({
 
         setSubscriptionManagementURL(null);
         setPlusStatus("active");
+        setEntitlementUserId(user.id);
 
         setPlusSource(
           result.data.source === "household"
@@ -284,9 +299,9 @@ export function PlusEntitlementProvider({
 
   const refreshPlusPackages =
     useCallback(async () => {
+      if (currentUserId.current !== user?.id) return;
       if (
         authLoading ||
-        !user?.id ||
         !isRevenueCatNativePlatform()
       ) {
         setPackages(EMPTY_PACKAGES);
@@ -298,10 +313,14 @@ export function PlusEntitlementProvider({
       }
 
       setPackagesLoading(true);
+      setPackages(EMPTY_PACKAGES);
+      setTrialAvailability(EMPTY_TRIAL_AVAILABILITY);
 
       try {
         const setupResult =
-          await configureRevenueCat(user.id);
+          await configureRevenueCat(user?.id);
+
+        if (currentUserId.current !== user?.id) return;
 
         if (!setupResult.configured) {
           if (setupResult.error) {
@@ -321,6 +340,8 @@ export function PlusEntitlementProvider({
         const nextPackages =
           await getRevenueCatPackages();
 
+        if (currentUserId.current !== user?.id) return;
+
         setPackages(nextPackages);
 
         try {
@@ -329,10 +350,13 @@ export function PlusEntitlementProvider({
               nextPackages,
             );
 
+          if (currentUserId.current !== user?.id) return;
+
           setTrialAvailability(
             nextTrialAvailability,
           );
         } catch (error) {
+          if (currentUserId.current !== user?.id) return;
           console.error(
             "Unable to determine Plus trial availability:",
             error,
@@ -343,6 +367,7 @@ export function PlusEntitlementProvider({
           );
         }
       } catch (error) {
+        if (currentUserId.current !== user?.id) return;
         console.error(
           "Unable to load RevenueCat packages:",
           error,
@@ -353,7 +378,9 @@ export function PlusEntitlementProvider({
           EMPTY_TRIAL_AVAILABILITY,
         );
       } finally {
-        setPackagesLoading(false);
+        if (currentUserId.current === user?.id) {
+          setPackagesLoading(false);
+        }
       }
     }, [
       authLoading,
@@ -394,6 +421,8 @@ export function PlusEntitlementProvider({
 
       const setupResult =
         await configureRevenueCat(user.id);
+
+      if (currentUserId.current !== user.id) return;
 
       if (!setupResult.configured) {
         if (setupResult.error) {
@@ -490,24 +519,17 @@ export function PlusEntitlementProvider({
             };
           }
 
-          let availablePackages = packages;
+          // Re-fetch after login so checkout uses this account's offering.
+          const availablePackages = await getRevenueCatPackages();
+          if (currentUserId.current !== user.id) {
+            return { success: false, cancelled: true, error: null };
+          }
+          setPackages(availablePackages);
 
-          let packageToPurchase =
+          const packageToPurchase =
             plan === "monthly"
               ? availablePackages.monthly
               : availablePackages.annual;
-
-          if (!packageToPurchase) {
-            availablePackages =
-              await getRevenueCatPackages();
-
-            setPackages(availablePackages);
-
-            packageToPurchase =
-              plan === "monthly"
-                ? availablePackages.monthly
-                : availablePackages.annual;
-          }
 
           if (!packageToPurchase) {
             return {
@@ -574,7 +596,6 @@ export function PlusEntitlementProvider({
       [
         authLoading,
         user?.id,
-        packages,
         applyCustomerInfo,
       ],
     );
@@ -668,6 +689,7 @@ export function PlusEntitlementProvider({
 
     async function startRevenueCat() {
       await refreshPlusEntitlement();
+      if (cancelled) return;
       await refreshPlusPackages();
 
       if (
@@ -767,7 +789,8 @@ export function PlusEntitlementProvider({
     useMemo<PlusEntitlementContextValue>(
       () => ({
         hasPlus:
-          plusStatus === "active",
+          plusStatus === "active" && Boolean(user?.id) &&
+          (PLUS_BETA_ENABLED || entitlementUserId === user?.id),
 
         plusStatus,
         plusSource,
@@ -804,6 +827,8 @@ export function PlusEntitlementProvider({
         restorePlusPurchases,
       }),
       [
+        user?.id,
+        entitlementUserId,
         plusStatus,
         plusSource,
         householdPlusLoading,

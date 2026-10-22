@@ -173,6 +173,16 @@
   background: rgba(96, 210, 255, 0.09);
 }
 
+.sd-plus-purchase-option.is-selected,
+.sd-plus-purchase-option:focus-visible {
+  outline: 2px solid #7dd3fc;
+  outline-offset: 3px;
+}
+
+.sd-plus-purchase-note p {
+  margin: 0 0 12px;
+}
+
 .sd-plus-purchase-option.is-annual {
   padding-top: 24px;
   border-color: rgba(96, 210, 255, 0.3);

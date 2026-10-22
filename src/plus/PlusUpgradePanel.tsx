@@ -1,4 +1,6 @@
 import {
+  useEffect,
+  useRef,
   useState,
 } from "react";
 import {
@@ -6,6 +8,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useAuth } from "../auth/AuthContext";
+import { AccountModal } from "../auth/AccountModal";
 import { getStoredLanguage } from "../i18n";
 import {
   usePlusEntitlement,
@@ -68,7 +71,13 @@ const UPGRADE_COPY = {
       then: "then",
       loadingPlans: "Loading subscription options…",
       signInNote:
-        "Sign in before subscribing or restoring purchases.",
+        "Choose a plan, then sign in or create an account to continue. You will review your plan before subscribing.",
+      signIn: "Sign in or create account",
+      selectedPlan: "Selected plan",
+      reviewPlan: "Review the price and trial terms below, then tap your plan to continue to the store.",
+      plansUnavailable: "Some subscription options could not be loaded. Please try again.",
+      retry: "Reload prices",
+      trialTerms: "Free trials are available to eligible accounts. Your store confirms eligibility and billing terms before you subscribe.",
       mobileOnly:
         "Plus subscriptions are available in the Simple Dinners iOS and Android apps.",
       activeTitle:
@@ -148,7 +157,13 @@ const UPGRADE_COPY = {
       loadingPlans:
         "Cargando opciones de suscripción…",
       signInNote:
-        "Inicia sesión antes de suscribirte o restaurar compras.",
+        "Elige un plan y luego inicia sesión o crea una cuenta para continuar. Podrás revisar tu plan antes de suscribirte.",
+      signIn: "Iniciar sesión o crear cuenta",
+      selectedPlan: "Plan seleccionado",
+      reviewPlan: "Revisa el precio y las condiciones de la prueba abajo y toca tu plan para continuar a la tienda.",
+      plansUnavailable: "No se pudieron cargar algunas opciones de suscripción. Inténtalo de nuevo.",
+      retry: "Volver a cargar precios",
+      trialTerms: "Las pruebas gratis están disponibles para cuentas que cumplan los requisitos. La tienda confirma los requisitos y las condiciones de facturación antes de suscribirte.",
       mobileOnly:
         "Las suscripciones de Plus están disponibles en las aplicaciones de Simple Dinners para iOS y Android.",
       activeTitle:
@@ -192,10 +207,12 @@ export function PlusUpgradePanel() {
 
   const {
     isSignedIn,
+    loading: authLoading,
   } = useAuth();
 
   const {
     hasPlus,
+    plusLoading,
     plusSource,
     subscriptionManagementURL,
     monthlyPrice,
@@ -208,16 +225,29 @@ export function PlusUpgradePanel() {
     restoreLoading,
     purchasePlus,
     restorePlusPurchases,
+    refreshPlusPackages,
   } = usePlusEntitlement();
 
   const [actionMessage, setActionMessage] =
     useState<ActionMessage | null>(null);
+  const [showAccount, setShowAccount] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<PlusPlan | null>(null);
+  const purchaseOptionsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isSignedIn) {
+      setShowAccount(false);
+      if (selectedPlan && !packagesLoading && !plusLoading) {
+        purchaseOptionsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }, [isSignedIn, selectedPlan, packagesLoading, plusLoading]);
 
   const isNative =
     isRevenueCatNativePlatform();
 
   const isBusy =
-    purchaseLoading || restoreLoading;
+    authLoading || plusLoading || purchaseLoading || restoreLoading;
 
   const hasHouseholdPlus =
     plusSource === "household";
@@ -226,6 +256,12 @@ export function PlusUpgradePanel() {
     plan: PlusPlan,
   ) {
     setActionMessage(null);
+    setSelectedPlan(plan);
+
+    if (!isSignedIn) {
+      setShowAccount(true);
+      return;
+    }
 
     const result =
       await purchasePlus(plan);
@@ -295,35 +331,6 @@ export function PlusUpgradePanel() {
       </div>
 
       <div className="sd-plus-plan-grid">
-        <article className="sd-plus-plan-card">
-          <span className="sd-plus-plan-badge is-free">
-            {copy.free.badge}
-          </span>
-
-          <h3>{copy.free.title}</h3>
-
-          <p className="sd-plus-plan-subtitle">
-            {copy.free.subtitle}
-          </p>
-
-          <div className="sd-plus-plan-list">
-            {copy.free.items.map((item) => (
-              <div key={item}>
-                <CheckCircle2
-                  size={17}
-                  aria-hidden="true"
-                />
-
-                <span>{item}</span>
-              </div>
-            ))}
-          </div>
-
-          <p className="sd-plus-plan-footer">
-            {copy.free.footer}
-          </p>
-        </article>
-
         <article className="sd-plus-plan-card is-plus">
           <div className="sd-plus-plan-icon">
             <Sparkles
@@ -428,19 +435,22 @@ export function PlusUpgradePanel() {
             <div className="sd-plus-purchase-note">
               {copy.plus.mobileOnly}
             </div>
-          ) : !isSignedIn ? (
-            <div className="sd-plus-purchase-note">
-              {copy.plus.signInNote}
-            </div>
-          ) : packagesLoading ? (
+          ) : packagesLoading || authLoading || plusLoading ? (
             <div className="sd-plus-purchase-note">
               {copy.plus.loadingPlans}
             </div>
           ) : (
-            <div className="sd-plus-purchase-options">
+            <div className="sd-plus-purchase-options" ref={purchaseOptionsRef}>
+              {selectedPlan && isSignedIn && (
+                <div className="sd-plus-purchase-note" role="status">
+                  <strong>{copy.plus.selectedPlan}: {selectedPlan === "monthly" ? copy.plus.monthly : copy.plus.annual}</strong>
+                  <br />{copy.plus.reviewPlan}
+                </div>
+              )}
               <button
                 type="button"
-                className="sd-plus-purchase-option"
+                className={`sd-plus-purchase-option ${selectedPlan === "monthly" ? "is-selected" : ""}`}
+                aria-pressed={selectedPlan === "monthly"}
                 disabled={
                   isBusy ||
                   !monthlyPrice
@@ -468,7 +478,8 @@ export function PlusUpgradePanel() {
 
               <button
                 type="button"
-                className="sd-plus-purchase-option is-annual"
+                className={`sd-plus-purchase-option is-annual ${selectedPlan === "annual" ? "is-selected" : ""}`}
+                aria-pressed={selectedPlan === "annual"}
                 disabled={
                   isBusy ||
                   !annualPrice
@@ -500,7 +511,7 @@ export function PlusUpgradePanel() {
                 </span>
               </button>
 
-              <button
+              {isSignedIn && <button
                 type="button"
                 className="sd-plus-restore-button"
                 disabled={isBusy}
@@ -511,9 +522,29 @@ export function PlusUpgradePanel() {
                 {restoreLoading
                   ? copy.plus.restoring
                   : copy.plus.restore}
+              </button>}
+            </div>
+          )}
+
+          {!hasPlus && isNative && !packagesLoading && !authLoading && !plusLoading && (!monthlyPrice || !annualPrice) && (
+            <div className="sd-plus-purchase-note" role="status">
+              <p>{copy.plus.plansUnavailable}</p>
+              <button type="button" className="sd-plus-purchase-option" disabled={isBusy} onClick={() => void refreshPlusPackages()}>
+                {copy.plus.retry}
               </button>
             </div>
           )}
+
+          {!hasPlus && !isSignedIn && (
+            <div className="sd-plus-purchase-note">
+              <p>{copy.plus.signInNote}</p>
+              <button type="button" className="sd-plus-purchase-option" disabled={isBusy} onClick={() => setShowAccount(true)}>
+                {copy.plus.signIn}
+              </button>
+            </div>
+          )}
+
+          {!hasPlus && isNative && <p className="sd-plus-plan-footer">{copy.plus.trialTerms}</p>}
 
           {actionMessage && (
             <div
@@ -558,7 +589,40 @@ export function PlusUpgradePanel() {
             </a>
           </div>
         </article>
+
+        <article className="sd-plus-plan-card">
+          <span className="sd-plus-plan-badge is-free">
+            {copy.free.badge}
+          </span>
+
+          <h3>{copy.free.title}</h3>
+
+          <p className="sd-plus-plan-subtitle">
+            {copy.free.subtitle}
+          </p>
+
+          <div className="sd-plus-plan-list">
+            {copy.free.items.map((item) => (
+              <div key={item}>
+                <CheckCircle2
+                  size={17}
+                  aria-hidden="true"
+                />
+
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+
+          <p className="sd-plus-plan-footer">
+            {copy.free.footer}
+          </p>
+        </article>
       </div>
+      <AccountModal
+        isOpen={showAccount && !isSignedIn}
+        onClose={() => setShowAccount(false)}
+      />
     </section>
   );
 }
