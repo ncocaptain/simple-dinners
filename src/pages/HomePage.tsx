@@ -169,8 +169,8 @@ const tomorrowMeal = getLocalizedMeal(rawTomorrowMeal, language);
           </div>
           <div style={{ color: "#cbd5e1", fontSize: 13, marginTop: 3 }}>
             {language === "es"
-              ? "Mealime cierra el 21 de octubre. Lee nuestra guía para importar enlaces públicos."
-              : "Mealime closes October 21. Follow our public recipe import guide."}
+              ? "Mealime cerró el 21 de octubre. Lee nuestra guía para importar enlaces públicos que sigan disponibles."
+              : "Mealime closed October 21. Follow our guide to importing public recipe links that are still available."}
           </div>
         </a>
         {todayHasMeal && todayMeal ? (

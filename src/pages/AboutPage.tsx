@@ -455,8 +455,8 @@ export default function AboutPage() {
           }}
         >
           {isSpanish
-            ? "¿Usabas Mealime? Cierra el 21 de octubre. Descubre cómo guardar tus recetas públicas →"
-            : "Moving from Mealime? It closes October 21. Learn how to save public recipe links →"}
+            ? "¿Usabas Mealime? Cerró el 21 de octubre. Descubre cómo guardar enlaces públicos de recetas que sigan disponibles →"
+            : "Moving from Mealime? It closed October 21. Learn how to save public recipe links that are still available →"}
         </a>
 
         <Card title={copy.updateTitle} subtitle="">
