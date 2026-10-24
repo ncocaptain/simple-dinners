@@ -128,6 +128,25 @@ export const en = {
     of: "of",
     timerDetected: "Timer detected for this step",
     noInstructions: "No instructions available.",
+    pantryReviewTitle: "Update Pantry?",
+    pantryReviewSubtitle:
+      "Simple Dinners matched ingredients from this meal to items already in your Pantry. Confirm what you actually used.",
+    pantryUse: "Use",
+    pantryKeep: "Keep",
+    pantryUsedUp: "Used up",
+    pantryKeepStaple: "Staple • Keep",
+    pantryReviewManually: "Keep",
+    pantryHave: "Pantry",
+    pantryRecipeUses: "Recipe",
+    pantryInStock: "In stock",
+    pantryAmountUnclear: "Amount unclear",
+    pantryUnitMismatch:
+      "The amounts use different units, so Simple Dinners can't calculate a partial deduction. Choose Used up if you finished what was in the Pantry.",
+    pantryAmountUnclearHelp:
+      "There isn't a stored Pantry amount to subtract from. Choose Used up if you finished what was in the Pantry.",
+    pantryNotNow: "Not now",
+    pantryUpdateButton: "Update Pantry",
+    pantryUpdated: "Pantry updated ✓",
   },
 
   plan: {
