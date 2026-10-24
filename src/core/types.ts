@@ -42,6 +42,7 @@ export type PantryItem = {
   category?: GroceryCategory;
   packageSize?: string;
   isStaple?: boolean;
+  isLow?: boolean;
   expiresAt?: number | null;
   updatedAt?: number;
 };

@@ -125,6 +125,7 @@ type CombinedItem = {
   packageSize: string;
   pantryName: string;
   pantryCoverage: PantryCoverage;
+  pantryRestock: boolean;
   recipeCount: number;
   recipeCountLabel: string;
   recipeNames: string[];
@@ -3250,6 +3251,11 @@ export default function ShoppingListPage() {
           ...existing,
         };
 
+        if (updated.isLow) {
+          updated.isLow = false;
+          changed = true;
+        }
+
         if (
           !updated.category &&
           group.category
@@ -4331,6 +4337,38 @@ export default function ShoppingListPage() {
           value.category
         );
 
+      const sourceShoppingItems =
+        value.sourceIds
+          .map((sourceId) =>
+            shoppingItems.find(
+              (item) =>
+                item.id ===
+                sourceId
+            )
+          )
+          .filter(
+            (
+              item
+            ): item is ShoppingItem =>
+              Boolean(item)
+          );
+
+      const forceBuy =
+        sourceShoppingItems.some(
+          (item) =>
+            Boolean(
+              item.forceBuy
+            )
+        );
+
+      const pantryRestock =
+        sourceShoppingItems.some(
+          (item) =>
+            Boolean(
+              item.pantryRestock
+            )
+        );
+
       const pantryName =
         cleanIngredientName(
           value.name
@@ -4363,7 +4401,10 @@ export default function ShoppingListPage() {
       let pantryCoverage:
         PantryCoverage = "none";
 
-      if (pantryMatch) {
+      if (
+        !forceBuy &&
+        pantryMatch
+      ) {
         const pantryQuantity =
           typeof pantryMatch.quantity ===
           "number"
@@ -4444,6 +4485,7 @@ export default function ShoppingListPage() {
           value.packageSize,
         pantryName,
         pantryCoverage,
+        pantryRestock,
         recipeCount,
         recipeCountLabel: recipeCount > 1 ? `(${recipeCount} recipes)` : "",
         recipeNames,
@@ -5317,6 +5359,32 @@ export default function ShoppingListPage() {
                             }}
                           >
                             {item.recipeCountLabel}
+                          </span>
+                        ) : null}
+
+                        {item.pantryRestock ? (
+                          <span
+                            style={{
+                              marginLeft: 8,
+                              padding:
+                                "3px 7px",
+                              borderRadius:
+                                999,
+                              background:
+                                "rgba(34,197,94,0.12)",
+                              border:
+                                "1px solid rgba(34,197,94,0.22)",
+                              color:
+                                "#86efac",
+                              fontSize:
+                                11,
+                              fontWeight:
+                                900,
+                            }}
+                          >
+                            {t(
+                              "shopping.restock"
+                            )}
                           </span>
                         ) : null}
 

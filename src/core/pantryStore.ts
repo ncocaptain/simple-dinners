@@ -104,6 +104,13 @@ function normalizePantryItem(
       raw.isStaple;
   }
 
+  if (
+    typeof raw.isLow === "boolean"
+  ) {
+    item.isLow =
+      raw.isLow;
+  }
+
   if (raw.expiresAt === null) {
     item.expiresAt = null;
   } else {
