@@ -55,6 +55,12 @@ import {
 } from "../plus/usePlusAccess";
 import { ALL_RECIPES } from "../core/data";
 import { getCookbook } from "../core/cookbookStore";
+import type { PantryItem } from "../core/types";
+import {
+  loadPantryItems,
+  makePantryId,
+  savePantryItems,
+} from "../core/pantryStore";
 
 // =====================================================
 // ShoppingListPage map
@@ -108,6 +114,9 @@ type CombinedItem = {
   category: GroceryCategory;
   sourceIds: string[];
   count: number;
+  quantity: number | null;
+  unit: string | null;
+  packageSize: string;
   recipeCount: number;
   recipeCountLabel: string;
   recipeNames: string[];
@@ -2472,41 +2481,6 @@ function formatRecipeBreakdownAmount(
 }
 
 // =====================================================
-// Pantry helpers
-// =====================================================
-type PantryItem = {
-  id: string;
-  name: string;
-  createdAt: number;
-};
-
-const PANTRY_STORAGE_KEY = "pantry";
-
-function makePantryId(text: string) {
-  return `pantry-${text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "")}-${Date.now()}`;
-}
-
-function loadPantryItems(): PantryItem[] {
-  try {
-    const parsed = JSON.parse(localStorage.getItem(PANTRY_STORAGE_KEY) || "[]");
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
-
-function savePantryItems(items: PantryItem[]) {
-  localStorage.setItem(PANTRY_STORAGE_KEY, JSON.stringify(items));
-  window.dispatchEvent(new Event("simple-dinners:pantry-updated"));
-}
-
-
-
-
-// =====================================================
 // Manual item id helper
 // =====================================================
 function makeManualId(text: string) {
@@ -3096,18 +3070,32 @@ export default function ShoppingListPage() {
   };
 
   const addCheckedItemsToPantry = () => {
-    const checkedGroups = combinedItems.filter((item) => item.checked);
-    if (checkedGroups.length === 0) return;
-
-
-
-    const existingPantry = loadPantryItems();
-
-    const existingNames = new Set(
-      existingPantry.map((item) => cleanIngredientName(item.name).toLowerCase())
+    const checkedGroups = combinedItems.filter(
+      (item) => item.checked
     );
 
-    const newPantryItems: PantryItem[] = [];
+    if (checkedGroups.length === 0) return;
+
+    const existingPantry =
+      loadPantryItems();
+
+    const nextPantry =
+      [...existingPantry];
+
+    const existingIndexByName =
+      new Map(
+        nextPantry.map(
+          (item, index) => [
+            cleanIngredientName(
+              item.name
+            ).toLowerCase(),
+            index,
+          ]
+        )
+      );
+
+    let addedCount = 0;
+    let updatedCount = 0;
 
     for (const group of checkedGroups) {
       let pantryName = group.displayText;
@@ -3116,44 +3104,213 @@ export default function ShoppingListPage() {
       // "10 cloves Garlic" -> "Garlic"
       // "2 Avocados" -> "Avocado"
       pantryName = pantryName
-        .replace(/^\d+(\.\d+)?\s+(clove|cloves)\s+/i, "")
-        .replace(/^\d+(\.\d+)?\s+/i, "")
+        .replace(
+          /^\d+(\.\d+)?\s+(clove|cloves)\s+/i,
+          ""
+        )
+        .replace(
+          /^\d+(\.\d+)?\s+/i,
+          ""
+        )
         .trim();
 
-      pantryName = cleanIngredientName(pantryName);
+      pantryName =
+        cleanIngredientName(pantryName);
 
       // Extra safety fixes
-      if (pantryName.includes("garlic")) pantryName = "garlic";
-      if (pantryName.includes("cilantro")) pantryName = "cilantro";
+      if (pantryName.includes("garlic")) {
+        pantryName = "garlic";
+      }
 
-      if (!pantryName || shouldHideShoppingItem(pantryName)) continue;
+      if (pantryName.includes("cilantro")) {
+        pantryName = "cilantro";
+      }
 
-      const key = cleanIngredientName(pantryName).toLowerCase();
-      if (existingNames.has(key)) continue;
+      if (
+        !pantryName ||
+        shouldHideShoppingItem(pantryName)
+      ) {
+        continue;
+      }
 
-      existingNames.add(key);
+      const key =
+        cleanIngredientName(
+          pantryName
+        ).toLowerCase();
 
-      newPantryItems.push({
+      const existingIndex =
+        existingIndexByName.get(key);
+
+      if (existingIndex !== undefined) {
+        const existing =
+          nextPantry[existingIndex];
+
+        const incomingQuantity =
+          group.quantity ?? null;
+
+        const existingQuantity =
+          typeof existing.quantity === "number"
+            ? existing.quantity
+            : null;
+
+        const incomingUnit =
+          group.unit ?? null;
+
+        const existingUnit =
+          existing.unit ?? null;
+
+        const unitsMatch =
+          existingQuantity === null ||
+          existingUnit === incomingUnit;
+
+        const incomingPackageSize =
+          group.packageSize || "";
+
+        const existingPackageSize =
+          existing.packageSize || "";
+
+        const packageSizesMatch =
+          !incomingUnit ||
+          !isPackageSizeSensitiveUnit(
+            incomingUnit
+          ) ||
+          !incomingPackageSize ||
+          !existingPackageSize ||
+          incomingPackageSize ===
+            existingPackageSize;
+
+        const canMergeQuantity =
+          incomingQuantity !== null &&
+          unitsMatch &&
+          packageSizesMatch;
+
+        let changed = false;
+
+        const updated: PantryItem = {
+          ...existing,
+        };
+
+        if (
+          !updated.category &&
+          group.category
+        ) {
+          updated.category =
+            group.category;
+          changed = true;
+        }
+
+        if (
+          !updated.packageSize &&
+          incomingPackageSize
+        ) {
+          updated.packageSize =
+            incomingPackageSize;
+          changed = true;
+        }
+
+        if (canMergeQuantity) {
+          updated.quantity =
+            existingQuantity === null
+              ? incomingQuantity
+              : existingQuantity +
+                incomingQuantity;
+
+          updated.unit =
+            incomingUnit;
+
+          changed = true;
+        }
+
+        if (changed) {
+          updated.updatedAt =
+            Date.now();
+
+          nextPantry[existingIndex] =
+            updated;
+
+          updatedCount += 1;
+        }
+
+        continue;
+      }
+
+      const newItem: PantryItem = {
         id: makePantryId(pantryName),
-        name: formatDisplayName(pantryName),
+        name:
+          formatDisplayName(pantryName),
         createdAt: Date.now(),
-      });
+        quantity:
+          group.quantity ?? undefined,
+        unit:
+          group.unit ?? undefined,
+        category:
+          group.category,
+        packageSize:
+          group.packageSize || undefined,
+      };
+
+      nextPantry.push(newItem);
+
+      existingIndexByName.set(
+        key,
+        nextPantry.length - 1
+      );
+
+      addedCount += 1;
     }
 
-    if (newPantryItems.length === 0) {
-      setPantryMessage("Those items are already in your Pantry.");
-      setTimeout(() => setPantryMessage(""), 2500);
+    if (
+      addedCount === 0 &&
+      updatedCount === 0
+    ) {
+      setPantryMessage(
+        "Those items are already in your Pantry."
+      );
+
+      setTimeout(
+        () => setPantryMessage(""),
+        2500
+      );
+
       return;
     }
 
-    savePantryItems([...existingPantry, ...newPantryItems]);
+    savePantryItems(nextPantry);
+
+    const parts: string[] = [];
+
+    if (addedCount > 0) {
+      parts.push(
+        `Added ${addedCount} ${
+          addedCount === 1
+            ? "item"
+            : "items"
+        }`
+      );
+    }
+
+    if (updatedCount > 0) {
+      parts.push(
+        `updated ${updatedCount} ${
+          updatedCount === 1
+            ? "item"
+            : "items"
+        }`
+      );
+    }
+
+    const message =
+      `${parts.join(" and ")} in Pantry`;
 
     setPantryMessage(
-      `Added ${newPantryItems.length} ${newPantryItems.length === 1 ? "item" : "items"
-      } to Pantry`
+      message.charAt(0).toUpperCase() +
+        message.slice(1)
     );
 
-    setTimeout(() => setPantryMessage(""), 2500);
+    setTimeout(
+      () => setPantryMessage(""),
+      2500
+    );
   };
 
   const checkedCount = shoppingItems.filter((item) => item.checked).length;
@@ -4109,6 +4266,18 @@ export default function ShoppingListPage() {
         category: value.category,
         sourceIds: value.sourceIds,
         count: value.count,
+        quantity:
+          !value.mixedUnits &&
+          value.totalQuantity > 0
+            ? value.totalQuantity
+            : null,
+        unit:
+          value.isCountable ||
+          value.unit === "__count__"
+            ? null
+            : value.unit,
+        packageSize:
+          value.packageSize,
         recipeCount,
         recipeCountLabel: recipeCount > 1 ? `(${recipeCount} recipes)` : "",
         recipeNames,

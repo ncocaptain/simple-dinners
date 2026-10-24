@@ -1,3 +1,5 @@
+import type { GroceryCategory } from "./groceryCategories";
+
 export type Effort = "quick" | "normal" | "big" | "takeout";
 
 export interface Meal {
@@ -32,6 +34,16 @@ export type PantryItem = {
   id: string;
   name: string;
   createdAt: number;
+
+  // Pantry 2.0 metadata. Optional so existing saved
+  // pantry entries continue to load without migration pain.
+  quantity?: number;
+  unit?: string | null;
+  category?: GroceryCategory;
+  packageSize?: string;
+  isStaple?: boolean;
+  expiresAt?: number | null;
+  updatedAt?: number;
 };
 
 export type Recipe = {

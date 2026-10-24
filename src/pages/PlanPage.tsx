@@ -16,6 +16,9 @@ import { days } from "../core/data";
 import { ALLERGENS } from "../core/planner";
 import type { Effort, PantryItem } from "../core/types";
 import {
+  mergePantryNamesWithExisting,
+} from "../core/pantryStore";
+import {
   getLanguageLabel,
   getStoredLanguage,
   saveStoredLanguage,
@@ -134,20 +137,12 @@ export default function PlanPage({
   // =====================================================
 
   const commitPantry = () => {
-    const unique = Array.from(
-      new Map(
-        pantryItems.map((name) => [
-          name.toLowerCase(),
-          {
-            id: name.toLowerCase().replace(/\s+/g, "-"),
-            name,
-            createdAt: Date.now(),
-          },
-        ])
-      ).values()
+    setPantry(
+      mergePantryNamesWithExisting(
+        pantryItems,
+        pantry
+      )
     );
-
-    setPantry(unique);
   };
 
   const updatePrefs = (updatedFields: any) => {
@@ -167,11 +162,10 @@ export default function PlanPage({
     setPantryText(nextText);
 
     setPantry(
-      nextItems.map((name) => ({
-        id: name.toLowerCase().replace(/\s+/g, "-"),
-        name,
-        createdAt: Date.now(),
-      }))
+      mergePantryNamesWithExisting(
+        nextItems,
+        pantry
+      )
     );
   };
 
