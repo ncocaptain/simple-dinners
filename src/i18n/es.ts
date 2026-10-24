@@ -50,6 +50,7 @@ export const es = {
     generatedWith: "Generado con Simple Dinners",
     editItem: "Editar artículo",
     editItemSubtitle: "Actualiza el nombre o la cantidad.",
+    restock: "Reponer",
     pantryCoveredTitle: "Ya está en la despensa",
     pantryCoveredSubtitle:
       "Simple Dinners encontró estos artículos en casa, así que no están incluidos entre lo que necesitas comprar.",
@@ -170,7 +171,14 @@ export const es = {
     pantryAddPlaceholder: "Agregar a la despensa...",
     pantryAddButton: "Agregar",
     pantryHelper:
-      "Controla las cantidades con + y −, marca los artículos habituales como básicos o toca Se acabó cuando ya no quede.",
+      "Controla las cantidades con + y −, marca los artículos habituales como básicos o señala Bajo cuando necesites reponer algo.",
+    pantryLow: "Bajo",
+    pantryLowStock: "Queda poco",
+    pantryMarkLow: "Marcar bajo",
+    pantryUnmarkLow: "Marcar repuesto",
+    pantryRestock: "Reponer",
+    pantryRestockAdded: "Agregado a la lista de compras ✓",
+    pantryRestockAlready: "Ya está en la lista de compras",
     pantryDecrease: "Usar un poco",
     pantryIncrease: "Agregar más",
     pantryStaple: "Básico",

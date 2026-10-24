@@ -50,6 +50,7 @@ export const en = {
     generatedWith: "Generated with Simple Dinners",
     editItem: "Edit Item",
     editItemSubtitle: "Update the item name or quantity.",
+    restock: "Restock",
     pantryCoveredTitle: "Already in Pantry",
     pantryCoveredSubtitle:
       "Simple Dinners found these at home, so they aren't included in what you need to buy.",
@@ -167,7 +168,14 @@ export const en = {
     pantryAddPlaceholder: "Add a pantry item...",
     pantryAddButton: "Add",
     pantryHelper:
-      "Track amounts with + and −, mark everyday items as staples, or tap Used up when you're out.",
+      "Track amounts with + and −, mark everyday items as staples, or flag something Low when it needs replacing.",
+    pantryLow: "Low",
+    pantryLowStock: "Low stock",
+    pantryMarkLow: "Mark low",
+    pantryUnmarkLow: "Mark stocked",
+    pantryRestock: "Restock",
+    pantryRestockAdded: "Added to Shopping List ✓",
+    pantryRestockAlready: "Already on Shopping List",
     pantryDecrease: "Use some",
     pantryIncrease: "Add more",
     pantryStaple: "Staple",

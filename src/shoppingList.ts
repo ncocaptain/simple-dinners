@@ -22,6 +22,11 @@ export type ShoppingItem = {
   displayText?: string;
   grocerySearchName?: string;
   groceryNotes?: string;
+
+  // Explicit restock items should remain on the shopping
+  // list even when the same item is still present in Pantry.
+  forceBuy?: boolean;
+  pantryRestock?: boolean;
 };
 
 const KEY = "simple-dinners.shoppingList.v1";
@@ -2464,6 +2469,142 @@ export function replaceShoppingListFromCloud(
   items: ShoppingItem[],
 ) {
   saveShoppingList(items, "cloud");
+}
+
+export function addPantryRestockToList(
+  name: string
+): {
+  items: ShoppingItem[];
+  added: boolean;
+} {
+  const raw =
+    normalizeManualShoppingName(
+      name
+    );
+
+  const parsed =
+    parseManualShoppingParts(
+      raw
+    );
+
+  if (
+    !parsed.normalizedName ||
+    shouldHideShoppingItem(
+      parsed.normalizedName
+    )
+  ) {
+    return {
+      items:
+        safeParse(
+          localStorage.getItem(KEY)
+        ),
+      added: false,
+    };
+  }
+
+  const existing =
+    safeParse(
+      localStorage.getItem(KEY)
+    );
+
+  const pantryKey =
+    parsed.normalizedName
+      .trim()
+      .toLowerCase();
+
+  const existingIndex =
+    existing.findIndex(
+      (item) => {
+        if (item.checked) {
+          return false;
+        }
+
+        const existingName =
+          normalizeManualShoppingName(
+            String(
+              item.normalizedName ||
+              item.text ||
+              ""
+            )
+          )
+            .trim()
+            .toLowerCase();
+
+        return (
+          existingName ===
+          pantryKey
+        );
+      }
+    );
+
+  if (
+    existingIndex !== -1
+  ) {
+    const next =
+      existing.map(
+        (item, index) =>
+          index === existingIndex
+            ? {
+                ...item,
+                forceBuy: true,
+                pantryRestock: true,
+              }
+            : item
+      );
+
+    saveShoppingList(next);
+
+    return {
+      items: next,
+      added: false,
+    };
+  }
+
+  const now = Date.now();
+
+  const added: ShoppingItem = {
+    id:
+      `${makeId(
+        parsed.normalizedName
+      )}-pantry-restock-${now}`,
+    text:
+      preserveManualShoppingName(
+        raw
+      ) ||
+      parsed.normalizedName,
+    checked: false,
+    addedAt: now,
+    category:
+      resolveShoppingCategoryForItem(
+        parsed.normalizedName,
+        parsed.unit,
+        parsed.packageSize
+      ),
+    sourceRecipe: "",
+    normalizedName:
+      parsed.normalizedName,
+    quantity:
+      parsed.quantity,
+    unit:
+      parsed.unit || undefined,
+    packageSize:
+      parsed.packageSize ||
+      undefined,
+    forceBuy: true,
+    pantryRestock: true,
+  };
+
+  const next = [
+    ...existing,
+    added,
+  ];
+
+  saveShoppingList(next);
+
+  return {
+    items: next,
+    added: true,
+  };
 }
 
 export function addSidesToList(

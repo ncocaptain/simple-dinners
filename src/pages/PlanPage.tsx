@@ -6,6 +6,7 @@ import {
   Info,
   Leaf,
   Refrigerator,
+  ShoppingCart,
   Sparkles,
   Utensils,
 } from "lucide-react";
@@ -21,6 +22,9 @@ import type { Effort, PantryItem } from "../core/types";
 import {
   makePantryId,
 } from "../core/pantryStore";
+import {
+  addPantryRestockToList,
+} from "../shoppingList";
 import {
   getLanguageLabel,
   getStoredLanguage,
@@ -65,6 +69,11 @@ export default function PlanPage({
 
   const [newPantryItem, setNewPantryItem] =
     useState("");
+
+  const [
+    pantryActionMessage,
+    setPantryActionMessage,
+  ] = useState("");
 
   const [language, setLanguage] = useState<LanguageCode>(() =>
     getStoredLanguage()
@@ -206,6 +215,51 @@ export default function PlanPage({
             }
           : item
       )
+    );
+  };
+
+  const togglePantryLow = (
+    id: string
+  ) => {
+    setPantry((current) =>
+      current.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              isLow:
+                !item.isLow,
+              updatedAt:
+                Date.now(),
+            }
+          : item
+      )
+    );
+  };
+
+  const handlePantryRestock = (
+    item: PantryItem
+  ) => {
+    const result =
+      addPantryRestockToList(
+        item.name
+      );
+
+    setPantryActionMessage(
+      result.added
+        ? t(
+            "plan.pantryRestockAdded"
+          )
+        : t(
+            "plan.pantryRestockAlready"
+          )
+    );
+
+    window.setTimeout(
+      () =>
+        setPantryActionMessage(
+          ""
+        ),
+      2500
     );
   };
 
@@ -746,6 +800,26 @@ export default function PlanPage({
                 {t("plan.kitchenSubtitle")}
               </p>
 
+              {pantryActionMessage && (
+                <div
+                  style={{
+                    marginBottom: 12,
+                    padding: "10px 12px",
+                    borderRadius: 14,
+                    background:
+                      "rgba(34,197,94,0.10)",
+                    border:
+                      "1px solid rgba(34,197,94,0.20)",
+                    color: "#86efac",
+                    fontSize: 12,
+                    fontWeight: 900,
+                    textAlign: "center",
+                  }}
+                >
+                  {pantryActionMessage}
+                </div>
+              )}
+
               {pantry.length === 0 ? (
                 <div
                   style={{
@@ -784,9 +858,47 @@ export default function PlanPage({
                           }}
                         >
                           <div
-                            style={pantryNameStyle}
+                            style={{
+                              display: "flex",
+                              alignItems:
+                                "center",
+                              gap: 7,
+                              flexWrap:
+                                "wrap",
+                            }}
                           >
-                            {item.name}
+                            <div
+                              style={
+                                pantryNameStyle
+                              }
+                            >
+                              {item.name}
+                            </div>
+
+                            {item.isLow && (
+                              <span
+                                style={{
+                                  padding:
+                                    "3px 7px",
+                                  borderRadius:
+                                    999,
+                                  background:
+                                    "rgba(245,158,11,0.12)",
+                                  border:
+                                    "1px solid rgba(245,158,11,0.24)",
+                                  color:
+                                    "#fcd34d",
+                                  fontSize:
+                                    10,
+                                  fontWeight:
+                                    900,
+                                }}
+                              >
+                                {t(
+                                  "plan.pantryLowStock"
+                                )}
+                              </span>
+                            )}
                           </div>
 
                           <div
@@ -808,6 +920,44 @@ export default function PlanPage({
                             pantryControlsStyle
                           }
                         >
+                          <button
+                            type="button"
+                            onClick={() =>
+                              togglePantryLow(
+                                item.id
+                              )
+                            }
+                            title={t(
+                              item.isLow
+                                ? "plan.pantryUnmarkLow"
+                                : "plan.pantryMarkLow"
+                            )}
+                            aria-label={t(
+                              item.isLow
+                                ? "plan.pantryUnmarkLow"
+                                : "plan.pantryMarkLow"
+                            )}
+                            style={{
+                              ...pantryStapleButton,
+                              border:
+                                item.isLow
+                                  ? "1px solid rgba(245,158,11,0.34)"
+                                  : "1px solid rgba(255,255,255,0.1)",
+                              background:
+                                item.isLow
+                                  ? "rgba(245,158,11,0.14)"
+                                  : "rgba(255,255,255,0.06)",
+                              color:
+                                item.isLow
+                                  ? "#fcd34d"
+                                  : "rgba(255,255,255,0.75)",
+                            }}
+                          >
+                            {t(
+                              "plan.pantryLow"
+                            )}
+                          </button>
+
                           <button
                             type="button"
                             onClick={() =>
@@ -901,6 +1051,49 @@ export default function PlanPage({
                                 +
                               </button>
                             </>
+                          )}
+
+                          {item.isLow && (
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handlePantryRestock(
+                                  item
+                                )
+                              }
+                              style={{
+                                minHeight:
+                                  36,
+                                padding:
+                                  "8px 10px",
+                                borderRadius:
+                                  12,
+                                border:
+                                  "1px solid rgba(34,197,94,0.28)",
+                                background:
+                                  "rgba(34,197,94,0.12)",
+                                color:
+                                  "#86efac",
+                                fontSize:
+                                  12,
+                                fontWeight:
+                                  900,
+                                cursor:
+                                  "pointer",
+                                display:
+                                  "inline-flex",
+                                alignItems:
+                                  "center",
+                                gap: 5,
+                              }}
+                            >
+                              <ShoppingCart
+                                size={13}
+                              />
+                              {t(
+                                "plan.pantryRestock"
+                              )}
+                            </button>
                           )}
 
                           <button
