@@ -50,6 +50,11 @@ export const en = {
     generatedWith: "Generated with Simple Dinners",
     editItem: "Edit Item",
     editItemSubtitle: "Update the item name or quantity.",
+    pantryCoveredTitle: "Already in Pantry",
+    pantryCoveredSubtitle:
+      "Simple Dinners found these at home, so they aren't included in what you need to buy.",
+    pantryHaveSome: "Have some",
+    pantryBuyAnyway: "Buy anyway",
 
     tips: {
       addItems: "Add groceries or household items",
@@ -136,6 +141,21 @@ export const en = {
     kitchenPlaceholder: "Chicken, spinach, rice, pasta sauce...",
     separateItems: "Separate items with commas or new lines.",
     itemCount: "items",
+    itemCountSingular: "item",
+    pantryInStock: "In stock",
+    pantryEmpty:
+      "Your pantry is empty. Add something you already have at home.",
+    pantryAddPlaceholder: "Add a pantry item...",
+    pantryAddButton: "Add",
+    pantryHelper:
+      "Track amounts with + and −, mark everyday items as staples, or tap Used up when you're out.",
+    pantryDecrease: "Use some",
+    pantryIncrease: "Add more",
+    pantryStaple: "Staple",
+    pantryStapleInStock: "Staple • In stock",
+    pantryMarkStaple: "Mark as staple",
+    pantryUnmarkStaple: "Remove staple status",
+    pantryUsedUp: "Used up",
 
     dietaryPreferences: "Dietary Preferences",
     vegetarianMode: "Vegetarian Mode",

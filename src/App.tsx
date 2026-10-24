@@ -46,6 +46,10 @@ import type {
   SmartWeekDraft,
 } from "./core/types";
 import { generatePlan } from "./core/planner";
+import {
+  loadPantryItems,
+  writePantryItems,
+} from "./core/pantryStore";
 import { applySmartWeekDraft } from "./core/smartWeek";
 import { days, ALL_RECIPES } from "./core/data";
 import {
@@ -642,13 +646,9 @@ function AppContent() {
     }
   });
 
-  const [pantry, setPantry] = useState<PantryItem[]>(() => {
-    try {
-      return JSON.parse(localStorage.getItem("pantry") || "[]");
-    } catch {
-      return [];
-    }
-  });
+  const [pantry, setPantry] = useState<PantryItem[]>(() =>
+    loadPantryItems()
+  );
 
   const [prefs, setPrefs] = useState<Preferences>(() => {
     try {
@@ -830,10 +830,7 @@ function AppContent() {
     hasSavedInitialWeeklyPlanRef.current =
       true;
 
-    localStorage.setItem(
-      "pantry",
-      JSON.stringify(pantry),
-    );
+    writePantryItems(pantry);
 
     localStorage.setItem(
       "app-version",
@@ -855,12 +852,7 @@ function AppContent() {
 
   useEffect(() => {
     const refreshPantry = () => {
-      try {
-        const saved = JSON.parse(localStorage.getItem("pantry") || "[]");
-        setPantry(Array.isArray(saved) ? saved : []);
-      } catch {
-        setPantry([]);
-      }
+      setPantry(loadPantryItems());
     };
 
     window.addEventListener("simple-dinners:pantry-updated", refreshPantry);

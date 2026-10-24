@@ -50,6 +50,11 @@ export const es = {
     generatedWith: "Generado con Simple Dinners",
     editItem: "Editar artículo",
     editItemSubtitle: "Actualiza el nombre o la cantidad.",
+    pantryCoveredTitle: "Ya está en la despensa",
+    pantryCoveredSubtitle:
+      "Simple Dinners encontró estos artículos en casa, así que no están incluidos entre lo que necesitas comprar.",
+    pantryHaveSome: "Tienes un poco",
+    pantryBuyAnyway: "Comprar de todos modos",
 
     tips: {
       addItems: "Agrega comida o artículos del hogar",
@@ -139,6 +144,21 @@ export const es = {
     kitchenPlaceholder: "Pollo, espinaca, arroz, salsa para pasta...",
     separateItems: "Separa los artículos con comas o líneas nuevas.",
     itemCount: "artículos",
+    itemCountSingular: "artículo",
+    pantryInStock: "Disponible",
+    pantryEmpty:
+      "Tu despensa está vacía. Agrega algo que ya tengas en casa.",
+    pantryAddPlaceholder: "Agregar a la despensa...",
+    pantryAddButton: "Agregar",
+    pantryHelper:
+      "Controla las cantidades con + y −, marca los artículos habituales como básicos o toca Se acabó cuando ya no quede.",
+    pantryDecrease: "Usar un poco",
+    pantryIncrease: "Agregar más",
+    pantryStaple: "Básico",
+    pantryStapleInStock: "Básico • Disponible",
+    pantryMarkStaple: "Marcar como básico",
+    pantryUnmarkStaple: "Quitar como básico",
+    pantryUsedUp: "Se acabó",
 
     dietaryPreferences: "Preferencias alimentarias",
     vegetarianMode: "Modo vegetariano",

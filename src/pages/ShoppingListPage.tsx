@@ -55,6 +55,13 @@ import {
 } from "../plus/usePlusAccess";
 import { ALL_RECIPES } from "../core/data";
 import { getCookbook } from "../core/cookbookStore";
+import type { PantryItem } from "../core/types";
+import {
+  loadPantryItems,
+  makePantryId,
+  PANTRY_UPDATED_EVENT,
+  savePantryItems,
+} from "../core/pantryStore";
 
 // =====================================================
 // ShoppingListPage map
@@ -102,12 +109,22 @@ type ShoppingItemWithSmartMeta = ShoppingItem & {
   packageSize?: string;
 };
 
+type PantryCoverage =
+  | "none"
+  | "partial"
+  | "covered";
+
 type CombinedItem = {
   id: string;
   checked: boolean;
   category: GroceryCategory;
   sourceIds: string[];
   count: number;
+  quantity: number | null;
+  unit: string | null;
+  packageSize: string;
+  pantryName: string;
+  pantryCoverage: PantryCoverage;
   recipeCount: number;
   recipeCountLabel: string;
   recipeNames: string[];
@@ -2472,41 +2489,6 @@ function formatRecipeBreakdownAmount(
 }
 
 // =====================================================
-// Pantry helpers
-// =====================================================
-type PantryItem = {
-  id: string;
-  name: string;
-  createdAt: number;
-};
-
-const PANTRY_STORAGE_KEY = "pantry";
-
-function makePantryId(text: string) {
-  return `pantry-${text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "")}-${Date.now()}`;
-}
-
-function loadPantryItems(): PantryItem[] {
-  try {
-    const parsed = JSON.parse(localStorage.getItem(PANTRY_STORAGE_KEY) || "[]");
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
-
-function savePantryItems(items: PantryItem[]) {
-  localStorage.setItem(PANTRY_STORAGE_KEY, JSON.stringify(items));
-  window.dispatchEvent(new Event("simple-dinners:pantry-updated"));
-}
-
-
-
-
-// =====================================================
 // Manual item id helper
 // =====================================================
 function makeManualId(text: string) {
@@ -2755,6 +2737,16 @@ export default function ShoppingListPage() {
   const [editingGroup, setEditingGroup] = useState<CombinedItem | null>(null);
   const [sourceModalGroup, setSourceModalGroup] = useState<CombinedItem | null>(null);
   const [pantryMessage, setPantryMessage] = useState("");
+  const [pantryItems, setPantryItems] =
+    useState<PantryItem[]>(() =>
+      loadPantryItems()
+    );
+  const [
+    pantryBuyAnywayIds,
+    setPantryBuyAnywayIds,
+  ] = useState<Set<string>>(
+    () => new Set()
+  );
 
   // =====================================================
   // Refresh list when returning to page
@@ -2834,6 +2826,48 @@ export default function ShoppingListPage() {
       window.removeEventListener(
         "storage",
         refreshSmartShoppingPreferences
+      );
+    };
+  }, []);
+
+  useEffect(() => {
+    const refreshPantry = () => {
+      setPantryItems(
+        loadPantryItems()
+      );
+    };
+
+    refreshPantry();
+
+    window.addEventListener(
+      PANTRY_UPDATED_EVENT,
+      refreshPantry
+    );
+
+    window.addEventListener(
+      "storage",
+      refreshPantry
+    );
+
+    window.addEventListener(
+      "focus",
+      refreshPantry
+    );
+
+    return () => {
+      window.removeEventListener(
+        PANTRY_UPDATED_EVENT,
+        refreshPantry
+      );
+
+      window.removeEventListener(
+        "storage",
+        refreshPantry
+      );
+
+      window.removeEventListener(
+        "focus",
+        refreshPantry
       );
     };
   }, []);
@@ -3096,18 +3130,32 @@ export default function ShoppingListPage() {
   };
 
   const addCheckedItemsToPantry = () => {
-    const checkedGroups = combinedItems.filter((item) => item.checked);
-    if (checkedGroups.length === 0) return;
-
-
-
-    const existingPantry = loadPantryItems();
-
-    const existingNames = new Set(
-      existingPantry.map((item) => cleanIngredientName(item.name).toLowerCase())
+    const checkedGroups = combinedItems.filter(
+      (item) => item.checked
     );
 
-    const newPantryItems: PantryItem[] = [];
+    if (checkedGroups.length === 0) return;
+
+    const existingPantry =
+      loadPantryItems();
+
+    const nextPantry =
+      [...existingPantry];
+
+    const existingIndexByName =
+      new Map(
+        nextPantry.map(
+          (item, index) => [
+            cleanIngredientName(
+              item.name
+            ).toLowerCase(),
+            index,
+          ]
+        )
+      );
+
+    let addedCount = 0;
+    let updatedCount = 0;
 
     for (const group of checkedGroups) {
       let pantryName = group.displayText;
@@ -3116,50 +3164,230 @@ export default function ShoppingListPage() {
       // "10 cloves Garlic" -> "Garlic"
       // "2 Avocados" -> "Avocado"
       pantryName = pantryName
-        .replace(/^\d+(\.\d+)?\s+(clove|cloves)\s+/i, "")
-        .replace(/^\d+(\.\d+)?\s+/i, "")
+        .replace(
+          /^\d+(\.\d+)?\s+(clove|cloves)\s+/i,
+          ""
+        )
+        .replace(
+          /^\d+(\.\d+)?\s+/i,
+          ""
+        )
         .trim();
 
-      pantryName = cleanIngredientName(pantryName);
+      pantryName =
+        cleanIngredientName(pantryName);
 
       // Extra safety fixes
-      if (pantryName.includes("garlic")) pantryName = "garlic";
-      if (pantryName.includes("cilantro")) pantryName = "cilantro";
+      if (pantryName.includes("garlic")) {
+        pantryName = "garlic";
+      }
 
-      if (!pantryName || shouldHideShoppingItem(pantryName)) continue;
+      if (pantryName.includes("cilantro")) {
+        pantryName = "cilantro";
+      }
 
-      const key = cleanIngredientName(pantryName).toLowerCase();
-      if (existingNames.has(key)) continue;
+      if (
+        !pantryName ||
+        shouldHideShoppingItem(pantryName)
+      ) {
+        continue;
+      }
 
-      existingNames.add(key);
+      const key =
+        cleanIngredientName(
+          pantryName
+        ).toLowerCase();
 
-      newPantryItems.push({
+      const existingIndex =
+        existingIndexByName.get(key);
+
+      if (existingIndex !== undefined) {
+        const existing =
+          nextPantry[existingIndex];
+
+        const incomingQuantity =
+          group.quantity ?? null;
+
+        const existingQuantity =
+          typeof existing.quantity === "number"
+            ? existing.quantity
+            : null;
+
+        const incomingUnit =
+          group.unit ?? null;
+
+        const existingUnit =
+          existing.unit ?? null;
+
+        const unitsMatch =
+          existingQuantity === null ||
+          existingUnit === incomingUnit;
+
+        const incomingPackageSize =
+          group.packageSize || "";
+
+        const existingPackageSize =
+          existing.packageSize || "";
+
+        const packageSizesMatch =
+          !incomingUnit ||
+          !isPackageSizeSensitiveUnit(
+            incomingUnit
+          ) ||
+          !incomingPackageSize ||
+          !existingPackageSize ||
+          incomingPackageSize ===
+            existingPackageSize;
+
+        const canMergeQuantity =
+          incomingQuantity !== null &&
+          unitsMatch &&
+          packageSizesMatch;
+
+        let changed = false;
+
+        const updated: PantryItem = {
+          ...existing,
+        };
+
+        if (
+          !updated.category &&
+          group.category
+        ) {
+          updated.category =
+            group.category;
+          changed = true;
+        }
+
+        if (
+          !updated.packageSize &&
+          incomingPackageSize
+        ) {
+          updated.packageSize =
+            incomingPackageSize;
+          changed = true;
+        }
+
+        if (canMergeQuantity) {
+          updated.quantity =
+            existingQuantity === null
+              ? incomingQuantity
+              : existingQuantity +
+                incomingQuantity;
+
+          updated.unit =
+            incomingUnit;
+
+          changed = true;
+        }
+
+        if (changed) {
+          updated.updatedAt =
+            Date.now();
+
+          nextPantry[existingIndex] =
+            updated;
+
+          updatedCount += 1;
+        }
+
+        continue;
+      }
+
+      const newItem: PantryItem = {
         id: makePantryId(pantryName),
-        name: formatDisplayName(pantryName),
+        name:
+          formatDisplayName(pantryName),
         createdAt: Date.now(),
-      });
+        quantity:
+          group.quantity ?? undefined,
+        unit:
+          group.unit ?? undefined,
+        category:
+          group.category,
+        packageSize:
+          group.packageSize || undefined,
+      };
+
+      nextPantry.push(newItem);
+
+      existingIndexByName.set(
+        key,
+        nextPantry.length - 1
+      );
+
+      addedCount += 1;
     }
 
-    if (newPantryItems.length === 0) {
-      setPantryMessage("Those items are already in your Pantry.");
-      setTimeout(() => setPantryMessage(""), 2500);
+    if (
+      addedCount === 0 &&
+      updatedCount === 0
+    ) {
+      setPantryMessage(
+        "Those items are already in your Pantry."
+      );
+
+      setTimeout(
+        () => setPantryMessage(""),
+        2500
+      );
+
       return;
     }
 
-    savePantryItems([...existingPantry, ...newPantryItems]);
+    savePantryItems(nextPantry);
+
+    const parts: string[] = [];
+
+    if (addedCount > 0) {
+      parts.push(
+        `Added ${addedCount} ${
+          addedCount === 1
+            ? "item"
+            : "items"
+        }`
+      );
+    }
+
+    if (updatedCount > 0) {
+      parts.push(
+        `updated ${updatedCount} ${
+          updatedCount === 1
+            ? "item"
+            : "items"
+        }`
+      );
+    }
+
+    const message =
+      `${parts.join(" and ")} in Pantry`;
 
     setPantryMessage(
-      `Added ${newPantryItems.length} ${newPantryItems.length === 1 ? "item" : "items"
-      } to Pantry`
+      message.charAt(0).toUpperCase() +
+        message.slice(1)
     );
 
-    setTimeout(() => setPantryMessage(""), 2500);
+    setTimeout(
+      () => setPantryMessage(""),
+      2500
+    );
   };
 
   const checkedCount = shoppingItems.filter((item) => item.checked).length;
 
   const shareShoppingList = async () => {
-    const itemsToShare = combinedItems.filter((item) => !item.checked);
+    const itemsToShare =
+      combinedItems.filter(
+        (item) =>
+          !item.checked &&
+          (
+            item.pantryCoverage !==
+              "covered" ||
+            pantryBuyAnywayIds.has(
+              item.id
+            )
+          )
+      );
 
     if (itemsToShare.length === 0) {
       alert(t("shopping.noItemsToShare"));
@@ -4103,12 +4331,119 @@ export default function ShoppingListPage() {
           value.category
         );
 
+      const pantryName =
+        cleanIngredientName(
+          value.name
+        );
+
+      const pantryKey =
+        pantryName.toLowerCase();
+
+      const pantryMatch =
+        pantryItems.find(
+          (item) =>
+            cleanIngredientName(
+              item.name
+            ).toLowerCase() ===
+            pantryKey
+        );
+
+      const requiredQuantity =
+        !value.mixedUnits &&
+        value.totalQuantity > 0
+          ? value.totalQuantity
+          : null;
+
+      const requiredUnit =
+        value.isCountable ||
+        value.unit === "__count__"
+          ? null
+          : value.unit;
+
+      let pantryCoverage:
+        PantryCoverage = "none";
+
+      if (pantryMatch) {
+        const pantryQuantity =
+          typeof pantryMatch.quantity ===
+          "number"
+            ? pantryMatch.quantity
+            : null;
+
+        const pantryUnit =
+          pantryMatch.unit ?? null;
+
+        const requiredPackageSize =
+          value.packageSize || "";
+
+        const pantryPackageSize =
+          pantryMatch.packageSize || "";
+
+        const packageSizesMatch =
+          !requiredUnit ||
+          !isPackageSizeSensitiveUnit(
+            requiredUnit
+          ) ||
+          !requiredPackageSize ||
+          !pantryPackageSize ||
+          requiredPackageSize ===
+            pantryPackageSize;
+
+        const unitsMatch =
+          requiredUnit === pantryUnit;
+
+        if (pantryMatch.isStaple) {
+          pantryCoverage =
+            "covered";
+        } else if (
+          pantryQuantity === null
+        ) {
+          pantryCoverage =
+            "covered";
+        } else if (
+          pantryQuantity <= 0
+        ) {
+          pantryCoverage =
+            "none";
+        } else if (
+          requiredQuantity === null
+        ) {
+          pantryCoverage =
+            "covered";
+        } else if (
+          unitsMatch &&
+          packageSizesMatch &&
+          pantryQuantity >=
+            requiredQuantity
+        ) {
+          pantryCoverage =
+            "covered";
+        } else {
+          pantryCoverage =
+            "partial";
+        }
+      }
+
       return {
         id: key,
         checked: value.checked,
         category: value.category,
         sourceIds: value.sourceIds,
         count: value.count,
+        quantity:
+          !value.mixedUnits &&
+          value.totalQuantity > 0
+            ? value.totalQuantity
+            : null,
+        unit:
+          value.isCountable ||
+          value.unit === "__count__"
+            ? null
+            : value.unit,
+        packageSize:
+          value.packageSize,
+        pantryName,
+        pantryCoverage,
         recipeCount,
         recipeCountLabel: recipeCount > 1 ? `(${recipeCount} recipes)` : "",
         recipeNames,
@@ -4119,21 +4454,81 @@ export default function ShoppingListPage() {
         displayText,
       } satisfies CombinedItem;
     });
-  }, [shoppingItems]);
+  }, [
+    shoppingItems,
+    pantryItems,
+  ]);
 
   // =====================================================
   // Group items by grocery section
   // =====================================================
-  const grouped = useMemo(() => {
-    const visibleItems = hideChecked
-      ? combinedItems.filter((item) => !item.checked)
-      : combinedItems;
+  const pantryCoveredItems =
+    useMemo(
+      () =>
+        combinedItems.filter(
+          (item) =>
+            !item.checked &&
+            item.pantryCoverage ===
+              "covered" &&
+            !pantryBuyAnywayIds.has(
+              item.id
+            )
+        ),
+      [
+        combinedItems,
+        pantryBuyAnywayIds,
+      ]
+    );
 
-    return GROCERY_CATEGORY_ORDER.map((section) => ({
-      section,
-      items: visibleItems.filter((item) => item.category === section),
-    })).filter((group) => group.items.length > 0);
-  }, [combinedItems, hideChecked]);
+  const grouped = useMemo(() => {
+    const visibleItems = (
+      hideChecked
+        ? combinedItems.filter(
+            (item) => !item.checked
+          )
+        : combinedItems
+    ).filter(
+      (item) =>
+        item.checked ||
+        item.pantryCoverage !==
+          "covered" ||
+        pantryBuyAnywayIds.has(
+          item.id
+        )
+    );
+
+    return GROCERY_CATEGORY_ORDER.map(
+      (section) => ({
+        section,
+        items: visibleItems.filter(
+          (item) =>
+            item.category === section
+        ),
+      })
+    ).filter(
+      (group) =>
+        group.items.length > 0
+    );
+  }, [
+    combinedItems,
+    hideChecked,
+    pantryBuyAnywayIds,
+  ]);
+
+  const buyPantryItemAnyway = (
+    id: string
+  ) => {
+    setPantryBuyAnywayIds(
+      (current) => {
+        const next =
+          new Set(current);
+
+        next.add(id);
+
+        return next;
+      }
+    );
+  };
 
   const openEditItem = (group: CombinedItem) => {
     setEditingGroup(group);
@@ -4632,6 +5027,121 @@ export default function ShoppingListPage() {
           </div>
         )}
 
+        {pantryCoveredItems.length >
+          0 && (
+          <div
+            style={{
+              marginBottom: 24,
+              padding: 14,
+              borderRadius: 16,
+              background:
+                "rgba(34,197,94,0.08)",
+              border:
+                "1px solid rgba(34,197,94,0.18)",
+            }}
+          >
+            <div
+              style={{
+                fontWeight: 900,
+                color: "#86efac",
+                marginBottom: 4,
+              }}
+            >
+              {t(
+                "shopping.pantryCoveredTitle"
+              )}
+            </div>
+
+            <div
+              style={{
+                fontSize: 12,
+                opacity: 0.62,
+                marginBottom: 12,
+                lineHeight: 1.4,
+              }}
+            >
+              {t(
+                "shopping.pantryCoveredSubtitle"
+              )}
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gap: 8,
+              }}
+            >
+              {pantryCoveredItems.map(
+                (item) => (
+                  <div
+                    key={item.id}
+                    style={{
+                      display: "flex",
+                      alignItems:
+                        "center",
+                      justifyContent:
+                        "space-between",
+                      gap: 10,
+                      padding:
+                        "10px 11px",
+                      borderRadius:
+                        12,
+                      background:
+                        "rgba(255,255,255,0.035)",
+                    }}
+                  >
+                    <div
+                      style={{
+                        minWidth: 0,
+                        fontSize: 13,
+                        fontWeight: 800,
+                        overflow:
+                          "hidden",
+                        textOverflow:
+                          "ellipsis",
+                        whiteSpace:
+                          "nowrap",
+                      }}
+                    >
+                      {item.displayText}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        buyPantryItemAnyway(
+                          item.id
+                        )
+                      }
+                      style={{
+                        flexShrink: 0,
+                        padding:
+                          "7px 9px",
+                        borderRadius:
+                          10,
+                        border:
+                          "1px solid rgba(255,255,255,0.1)",
+                        background:
+                          "rgba(255,255,255,0.06)",
+                        color:
+                          "rgba(255,255,255,0.82)",
+                        fontSize: 11,
+                        fontWeight: 900,
+                        cursor:
+                          "pointer",
+                      }}
+                    >
+                      {t(
+                        "shopping.pantryBuyAnyway"
+                      )}
+                    </button>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+        )}
+
         {grouped.map((group) => (
           <div key={group.section} style={{ marginBottom: 28 }}>
             <div
@@ -4809,6 +5319,33 @@ export default function ShoppingListPage() {
                             {item.recipeCountLabel}
                           </span>
                         ) : null}
+
+                        {item.pantryCoverage ===
+                        "partial" ? (
+                          <span
+                            style={{
+                              marginLeft: 8,
+                              padding:
+                                "3px 7px",
+                              borderRadius:
+                                999,
+                              background:
+                                "rgba(245,158,11,0.12)",
+                              border:
+                                "1px solid rgba(245,158,11,0.22)",
+                              color:
+                                "#fcd34d",
+                              fontSize:
+                                11,
+                              fontWeight:
+                                900,
+                            }}
+                          >
+                            {t(
+                              "shopping.pantryHaveSome"
+                            )}
+                          </span>
+                        ) : null}
                       </span>
                     </button>
                   </div>
@@ -4877,7 +5414,9 @@ export default function ShoppingListPage() {
           </div>
         ))}
 
-        {grouped.length === 0 && (
+        {grouped.length === 0 &&
+          pantryCoveredItems.length ===
+            0 && (
           <div style={{ textAlign: "center", padding: 80, opacity: 0.2 }}>
             <ShoppingCart size={48} style={{ marginBottom: 16 }} />
             <div style={{ fontWeight: 800 }}>
