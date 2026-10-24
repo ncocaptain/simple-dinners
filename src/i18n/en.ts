@@ -50,6 +50,11 @@ export const en = {
     generatedWith: "Generated with Simple Dinners",
     editItem: "Edit Item",
     editItemSubtitle: "Update the item name or quantity.",
+    pantryCoveredTitle: "Already in Pantry",
+    pantryCoveredSubtitle:
+      "Simple Dinners found these at home, so they aren't included in what you need to buy.",
+    pantryHaveSome: "Have some",
+    pantryBuyAnyway: "Buy anyway",
 
     tips: {
       addItems: "Add groceries or household items",
