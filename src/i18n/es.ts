@@ -131,6 +131,25 @@ export const es = {
     of: "de",
     timerDetected: "Temporizador detectado para este paso",
     noInstructions: "No hay instrucciones disponibles.",
+    pantryReviewTitle: "¿Actualizar la despensa?",
+    pantryReviewSubtitle:
+      "Simple Dinners encontró ingredientes de esta comida que coinciden con artículos de tu despensa. Confirma lo que realmente usaste.",
+    pantryUse: "Usar",
+    pantryKeep: "Conservar",
+    pantryUsedUp: "Se terminó",
+    pantryKeepStaple: "Básico • Conservar",
+    pantryReviewManually: "Conservar",
+    pantryHave: "Despensa",
+    pantryRecipeUses: "Receta",
+    pantryInStock: "Disponible",
+    pantryAmountUnclear: "Cantidad no clara",
+    pantryUnitMismatch:
+      "Las cantidades usan unidades diferentes, así que Simple Dinners no puede calcular una reducción parcial. Elige Se terminó si usaste todo lo que había en la despensa.",
+    pantryAmountUnclearHelp:
+      "No hay una cantidad guardada en la despensa para restar. Elige Se terminó si usaste todo lo que había en la despensa.",
+    pantryNotNow: "Ahora no",
+    pantryUpdateButton: "Actualizar despensa",
+    pantryUpdated: "Despensa actualizada ✓",
   },
 
   plan: {

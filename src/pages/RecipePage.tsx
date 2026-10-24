@@ -19,6 +19,7 @@ import {
   Pin,
   X,
   HeartPulse,
+  Refrigerator,
 } from "lucide-react";
 
 import { getRecipeBySlug } from "../core/recipes";
@@ -59,6 +60,16 @@ import {
   scaleInstructionLines,
   type RecipeScale,
 } from "../core/recipeScaling";
+import {
+  loadPantryItems,
+  savePantryItems,
+} from "../core/pantryStore";
+import {
+  applyPantryUsage,
+  buildPantryUsageSuggestions,
+  formatPantryUsageAmount,
+  type PantryUsageSuggestion,
+} from "../core/pantryUsage";
 
 
 
@@ -819,6 +830,21 @@ const [sideDraftList, setSideDraftList] = useState<string[]>([]);
 const [checkedSides, setCheckedSides] = useState<Record<string, boolean>>({});
 const [checkedDesserts, setCheckedDesserts] = useState<Record<string, boolean>>({});
 const [recipeScale, setRecipeScale] = useState<RecipeScale>(1);
+
+const [
+  pantryReviewOpen,
+  setPantryReviewOpen,
+] = useState(false);
+
+const [
+  pantryReviewItems,
+  setPantryReviewItems,
+] = useState<PantryUsageSuggestion[]>([]);
+
+const [
+  pantryReviewSelected,
+  setPantryReviewSelected,
+] = useState<Record<string, boolean>>({});
 
 const [nutrition, setNutrition] =
   useState<RecipeNutritionAnalysis | null>(null);
@@ -2076,15 +2102,146 @@ const handleAddDessertsToShoppingList = () => {
 
     if (safeRecipe.slug) {
       recordCook(safeRecipe.slug);
-      const history = getCookHistoryFor(safeRecipe.slug);
-      setHistoryCount(history?.timesCooked ?? 0);
+
+      const history =
+        getCookHistoryFor(
+          safeRecipe.slug
+        );
+
+      setHistoryCount(
+        history?.timesCooked ?? 0
+      );
     }
 
     const randomMessage =
-      FINISH_MESSAGES[Math.floor(Math.random() * FINISH_MESSAGES.length)];
+      FINISH_MESSAGES[
+        Math.floor(
+          Math.random() *
+            FINISH_MESSAGES.length
+        )
+      ];
 
-    setFinishMessage(randomMessage);
-    setSaveMessage(t("recipe.finished", "Recipe finished ✓"));
+    setFinishMessage(
+      randomMessage
+    );
+
+    setSaveMessage(
+      t(
+        "recipe.finished",
+        "Recipe finished ✓"
+      )
+    );
+
+    const currentPantry =
+      loadPantryItems();
+
+    const suggestions =
+      buildPantryUsageSuggestions(
+        ingredients,
+        currentPantry
+      );
+
+    if (
+      suggestions.length === 0
+    ) {
+      return;
+    }
+
+    const selected:
+      Record<string, boolean> =
+        {};
+
+    for (
+      const suggestion
+      of suggestions
+    ) {
+      selected[
+        suggestion.pantryId
+      ] =
+        suggestion.canDeduct &&
+        !suggestion.isStaple;
+    }
+
+    setPantryReviewItems(
+      suggestions
+    );
+
+    setPantryReviewSelected(
+      selected
+    );
+
+    window.setTimeout(
+      () => {
+        setPantryReviewOpen(
+          true
+        );
+      },
+      900
+    );
+  };
+
+  const togglePantryReviewItem = (
+    suggestion:
+      PantryUsageSuggestion
+  ) => {
+    if (
+      suggestion.isStaple
+    ) {
+      return;
+    }
+
+    setPantryReviewSelected(
+      (current) => ({
+        ...current,
+        [suggestion.pantryId]:
+          !current[
+            suggestion.pantryId
+          ],
+      })
+    );
+  };
+
+  const closePantryReview = () => {
+    setPantryReviewOpen(false);
+    setPantryReviewItems([]);
+    setPantryReviewSelected({});
+  };
+
+  const applyPantryReview = () => {
+    const selectedIds =
+      new Set(
+        Object.entries(
+          pantryReviewSelected
+        )
+          .filter(
+            ([, selected]) =>
+              selected
+          )
+          .map(([id]) => id)
+      );
+
+    const currentPantry =
+      loadPantryItems();
+
+    const nextPantry =
+      applyPantryUsage(
+        currentPantry,
+        pantryReviewItems,
+        selectedIds
+      );
+
+    savePantryItems(
+      nextPantry
+    );
+
+    closePantryReview();
+
+    setSaveMessage(
+      t(
+        "cookMode.pantryUpdated",
+        "Pantry updated ✓"
+      )
+    );
   };
 
   const handleStartTimer = () => {
@@ -4807,6 +4964,426 @@ function resetSideDrafts() {
           </div>
         </div>
       )}
+      {pantryReviewOpen && !printMode && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 1100,
+            background: "rgba(0,0,0,0.68)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 18,
+          }}
+          onClick={closePantryReview}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 520,
+              maxHeight: "82vh",
+              overflowY: "auto",
+              borderRadius: 24,
+              border:
+                "1px solid rgba(255,255,255,0.12)",
+              background:
+                "rgba(12,18,28,0.98)",
+              boxShadow:
+                "0 24px 80px rgba(0,0,0,0.6)",
+              color: "white",
+              padding: 18,
+              display: "grid",
+              gap: 14,
+            }}
+            onClick={(event) =>
+              event.stopPropagation()
+            }
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems:
+                  "flex-start",
+                justifyContent:
+                  "space-between",
+                gap: 12,
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems:
+                      "center",
+                    gap: 8,
+                    fontWeight: 1000,
+                    fontSize: 18,
+                  }}
+                >
+                  <Refrigerator
+                    size={18}
+                  />
+                  {t(
+                    "cookMode.pantryReviewTitle",
+                    "Update Pantry?"
+                  )}
+                </div>
+
+                <div
+                  style={{
+                    marginTop: 5,
+                    fontSize: 12,
+                    lineHeight: 1.45,
+                    opacity: 0.62,
+                  }}
+                >
+                  {t(
+                    "cookMode.pantryReviewSubtitle",
+                    "Simple Dinners matched ingredients from this meal to items already in your Pantry. Confirm what you actually used."
+                  )}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={
+                  closePantryReview
+                }
+                style={{
+                  width: 34,
+                  height: 34,
+                  borderRadius: 999,
+                  border:
+                    "1px solid rgba(255,255,255,0.1)",
+                  background:
+                    "rgba(255,255,255,0.05)",
+                  color: "white",
+                  display: "flex",
+                  alignItems:
+                    "center",
+                  justifyContent:
+                    "center",
+                  padding: 0,
+                  flexShrink: 0,
+                  cursor: "pointer",
+                }}
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gap: 9,
+              }}
+            >
+              {pantryReviewItems.map(
+                (suggestion) => {
+                  const selected =
+                    Boolean(
+                      pantryReviewSelected[
+                        suggestion
+                          .pantryId
+                      ]
+                    );
+
+                  const pantryAmount =
+                    formatPantryUsageAmount(
+                      suggestion
+                        .pantryQuantity,
+                      suggestion
+                        .pantryUnit
+                    );
+
+                  const recipeAmount =
+                    formatPantryUsageAmount(
+                      suggestion
+                        .recipeQuantity,
+                      suggestion
+                        .recipeUnit
+                    );
+
+                  return (
+                    <div
+                      key={
+                        suggestion.pantryId
+                      }
+                      style={{
+                        padding: 12,
+                        borderRadius: 16,
+                        background:
+                          selected
+                            ? "rgba(34,197,94,0.10)"
+                            : "rgba(255,255,255,0.04)",
+                        border:
+                          selected
+                            ? "1px solid rgba(34,197,94,0.24)"
+                            : "1px solid rgba(255,255,255,0.08)",
+                        display:
+                          "grid",
+                        gap: 8,
+                      }}
+                    >
+                      <div
+                        style={{
+                          display:
+                            "flex",
+                          justifyContent:
+                            "space-between",
+                          alignItems:
+                            "center",
+                          gap: 10,
+                        }}
+                      >
+                        <div
+                          style={{
+                            minWidth: 0,
+                          }}
+                        >
+                          <div
+                            style={{
+                              fontWeight:
+                                900,
+                              fontSize:
+                                14,
+                            }}
+                          >
+                            {
+                              suggestion
+                                .pantryName
+                            }
+                          </div>
+
+                          <div
+                            style={{
+                              marginTop:
+                                3,
+                              fontSize:
+                                11,
+                              lineHeight:
+                                1.35,
+                              opacity:
+                                0.56,
+                            }}
+                          >
+                            {
+                              suggestion
+                                .ingredientText
+                            }
+                          </div>
+                        </div>
+
+                        <button
+                          type="button"
+                          disabled={
+                            suggestion
+                              .isStaple
+                          }
+                          onClick={() =>
+                            togglePantryReviewItem(
+                              suggestion
+                            )
+                          }
+                          style={{
+                            flexShrink:
+                              0,
+                            padding:
+                              "8px 10px",
+                            borderRadius:
+                              11,
+                            border:
+                              selected
+                                ? "1px solid rgba(34,197,94,0.32)"
+                                : "1px solid rgba(255,255,255,0.1)",
+                            background:
+                              selected
+                                ? "rgba(34,197,94,0.16)"
+                                : "rgba(255,255,255,0.05)",
+                            color:
+                              selected
+                                ? "#86efac"
+                                : "rgba(255,255,255,0.68)",
+                            fontSize:
+                              11,
+                            fontWeight:
+                              900,
+                            opacity:
+                              suggestion
+                                .isStaple
+                                ? 0.7
+                                : 1,
+                            cursor:
+                              suggestion
+                                .isStaple
+                                ? "default"
+                                : "pointer",
+                          }}
+                        >
+                          {suggestion.isStaple
+                            ? t(
+                                "cookMode.pantryKeepStaple",
+                                "Staple • Keep"
+                              )
+                            : suggestion.canDeduct
+                              ? selected
+                                ? t(
+                                    "cookMode.pantryUse",
+                                    "Use"
+                                  )
+                                : t(
+                                    "cookMode.pantryKeep",
+                                    "Keep"
+                                  )
+                              : selected
+                                ? t(
+                                    "cookMode.pantryUsedUp",
+                                    "Used up"
+                                  )
+                                : t(
+                                    "cookMode.pantryKeep",
+                                    "Keep"
+                                  )}
+                        </button>
+                      </div>
+
+                      <div
+                        style={{
+                          display:
+                            "flex",
+                          gap: 8,
+                          flexWrap:
+                            "wrap",
+                          fontSize:
+                            11,
+                          opacity:
+                            0.7,
+                        }}
+                      >
+                        <span>
+                          {t(
+                            "cookMode.pantryHave",
+                            "Pantry"
+                          )}
+                          :{" "}
+                          {pantryAmount ||
+                            t(
+                              "cookMode.pantryInStock",
+                              "In stock"
+                            )}
+                        </span>
+
+                        <span>
+                          •
+                        </span>
+
+                        <span>
+                          {t(
+                            "cookMode.pantryRecipeUses",
+                            "Recipe"
+                          )}
+                          :{" "}
+                          {recipeAmount ||
+                            t(
+                              "cookMode.pantryAmountUnclear",
+                              "Amount unclear"
+                            )}
+                        </span>
+                      </div>
+
+                      {!suggestion.canDeduct &&
+                        !suggestion.isStaple && (
+                          <div
+                            style={{
+                              fontSize:
+                                11,
+                              lineHeight:
+                                1.4,
+                              color:
+                                "#fcd34d",
+                            }}
+                          >
+                            {suggestion.reason ===
+                            "unit-mismatch"
+                              ? t(
+                                  "cookMode.pantryUnitMismatch",
+                                  "The amounts use different units, so Simple Dinners can't calculate a partial deduction. Choose Used up if you finished what was in the Pantry."
+                                )
+                              : t(
+                                  "cookMode.pantryAmountUnclearHelp",
+                                  "There isn't a stored Pantry amount to subtract from. Choose Used up if you finished what was in the Pantry."
+                                )}
+                          </div>
+                        )}
+                    </div>
+                  );
+                }
+              )}
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns:
+                  "1fr 1fr",
+                gap: 10,
+                marginTop: 2,
+              }}
+            >
+              <button
+                type="button"
+                onClick={
+                  closePantryReview
+                }
+                style={{
+                  minHeight: 44,
+                  borderRadius: 14,
+                  border:
+                    "1px solid rgba(255,255,255,0.1)",
+                  background:
+                    "rgba(255,255,255,0.04)",
+                  color:
+                    "rgba(255,255,255,0.78)",
+                  fontWeight: 900,
+                  cursor: "pointer",
+                }}
+              >
+                {t(
+                  "cookMode.pantryNotNow",
+                  "Not now"
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={
+                  applyPantryReview
+                }
+                style={{
+                  minHeight: 44,
+                  borderRadius: 14,
+                  border:
+                    "1px solid rgba(34,197,94,0.32)",
+                  background:
+                    "rgba(34,197,94,0.16)",
+                  color: "#86efac",
+                  fontWeight: 900,
+                  cursor: "pointer",
+                }}
+              >
+                {t(
+                  "cookMode.pantryUpdateButton",
+                  "Update Pantry"
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {noteModalOpen && !printMode && (
         <div
           role="dialog"
