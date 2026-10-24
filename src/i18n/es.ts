@@ -139,6 +139,17 @@ export const es = {
     kitchenPlaceholder: "Pollo, espinaca, arroz, salsa para pasta...",
     separateItems: "Separa los artículos con comas o líneas nuevas.",
     itemCount: "artículos",
+    itemCountSingular: "artículo",
+    pantryInStock: "Disponible",
+    pantryEmpty:
+      "Tu despensa está vacía. Agrega algo que ya tengas en casa.",
+    pantryAddPlaceholder: "Agregar a la despensa...",
+    pantryAddButton: "Agregar",
+    pantryHelper:
+      "Usa + y − para mantener las cantidades al día, o marca un artículo como agotado.",
+    pantryDecrease: "Usar un poco",
+    pantryIncrease: "Agregar más",
+    pantryUsedUp: "Se acabó",
 
     dietaryPreferences: "Preferencias alimentarias",
     vegetarianMode: "Modo vegetariano",

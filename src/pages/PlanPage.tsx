@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   AlertCircle,
@@ -14,9 +14,12 @@ import Button from "../components/Button";
 import Card from "../components/Card";
 import { days } from "../core/data";
 import { ALLERGENS } from "../core/planner";
+import {
+  categorizeGroceryItem,
+} from "../core/groceryCategories";
 import type { Effort, PantryItem } from "../core/types";
 import {
-  mergePantryNamesWithExisting,
+  makePantryId,
 } from "../core/pantryStore";
 import {
   getLanguageLabel,
@@ -60,9 +63,8 @@ export default function PlanPage({
   // State
   // =====================================================
 
-  const [pantryText, setPantryText] = useState(
-    pantry.map((p) => p.name).join(", ")
-  );
+  const [newPantryItem, setNewPantryItem] =
+    useState("");
 
   const [language, setLanguage] = useState<LanguageCode>(() =>
     getStoredLanguage()
@@ -71,10 +73,6 @@ export default function PlanPage({
   // =====================================================
   // Effects
   // =====================================================
-
-  useEffect(() => {
-    setPantryText(pantry.map((p) => p.name).join(", "));
-  }, [pantry]);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -87,13 +85,6 @@ export default function PlanPage({
   // =====================================================
   // Derived data
   // =====================================================
-
-  const pantryItems = useMemo(() => {
-    return pantryText
-      .split(/[\n,]/g)
-      .map((item) => item.trim())
-      .filter(Boolean);
-  }, [pantryText]);
 
   const effortOptions: { key: Effort; label: string }[] = [
     { key: "quick", label: t("plan.effort.quick") },
@@ -136,37 +127,166 @@ export default function PlanPage({
   // Actions
   // =====================================================
 
-  const commitPantry = () => {
-    setPantry(
-      mergePantryNamesWithExisting(
-        pantryItems,
-        pantry
-      )
-    );
-  };
-
   const updatePrefs = (updatedFields: any) => {
-    const nextPrefs = { ...prefs, ...updatedFields };
+    const nextPrefs = {
+      ...prefs,
+      ...updatedFields,
+    };
 
     setPrefs(nextPrefs);
-    localStorage.setItem("prefs", JSON.stringify(nextPrefs));
+
+    localStorage.setItem(
+      "prefs",
+      JSON.stringify(nextPrefs)
+    );
   };
 
-  const removePantryItem = (nameToRemove: string) => {
-    const nextItems = pantryItems.filter(
-      (item) => item.toLowerCase() !== nameToRemove.toLowerCase()
-    );
+  const handleAddPantryItem = (
+    event: React.FormEvent
+  ) => {
+    event.preventDefault();
 
-    const nextText = nextItems.join(", ");
+    const name = newPantryItem
+      .replace(/\s+/g, " ")
+      .trim();
 
-    setPantryText(nextText);
+    if (!name) return;
 
-    setPantry(
-      mergePantryNamesWithExisting(
-        nextItems,
-        pantry
+    setPantry((current) => {
+      const exists = current.some(
+        (item) =>
+          item.name.trim().toLowerCase() ===
+          name.toLowerCase()
+      );
+
+      if (exists) {
+        return current;
+      }
+
+      const now = Date.now();
+
+      return [
+        ...current,
+        {
+          id: makePantryId(name),
+          name,
+          createdAt: now,
+          updatedAt: now,
+          category:
+            categorizeGroceryItem(name),
+        },
+      ];
+    });
+
+    setNewPantryItem("");
+  };
+
+  const removePantryItem = (
+    id: string
+  ) => {
+    setPantry((current) =>
+      current.filter(
+        (item) => item.id !== id
       )
     );
+  };
+
+  const getPantryQuantityStep = (
+    item: PantryItem
+  ) => {
+    const unit = String(
+      item.unit || ""
+    ).toLowerCase();
+
+    if (
+      unit === "cup" ||
+      unit === "cups" ||
+      unit === "lb" ||
+      unit === "lbs" ||
+      unit === "pound" ||
+      unit === "pounds"
+    ) {
+      return 0.25;
+    }
+
+    return 1;
+  };
+
+  const adjustPantryQuantity = (
+    item: PantryItem,
+    direction: -1 | 1
+  ) => {
+    setPantry((current) =>
+      current.flatMap((currentItem) => {
+        if (
+          currentItem.id !== item.id
+        ) {
+          return [currentItem];
+        }
+
+        const existingQuantity =
+          typeof currentItem.quantity ===
+          "number"
+            ? currentItem.quantity
+            : null;
+
+        if (
+          direction === -1 &&
+          existingQuantity === null
+        ) {
+          return [currentItem];
+        }
+
+        const step =
+          getPantryQuantityStep(
+            currentItem
+          );
+
+        const nextQuantity =
+          Math.round(
+            (
+              (existingQuantity ?? 0) +
+              step * direction
+            ) * 1000
+          ) / 1000;
+
+        if (nextQuantity <= 0) {
+          return [];
+        }
+
+        return [
+          {
+            ...currentItem,
+            quantity: nextQuantity,
+            updatedAt: Date.now(),
+          },
+        ];
+      })
+    );
+  };
+
+  const formatPantryQuantity = (
+    item: PantryItem
+  ) => {
+    if (
+      typeof item.quantity !== "number"
+    ) {
+      return t("plan.pantryInStock");
+    }
+
+    const quantity =
+      Number.isInteger(item.quantity)
+        ? String(item.quantity)
+        : item.quantity
+            .toFixed(2)
+            .replace(/0+$/, "")
+            .replace(/\.$/, "");
+
+    if (!item.unit) {
+      return quantity;
+    }
+
+    return `${quantity} ${item.unit}`;
   };
 
   const handleLanguageChange = (nextLanguage: LanguageCode) => {
@@ -194,20 +314,14 @@ export default function PlanPage({
   };
 
   const handleGenerate = () => {
-    commitPantry();
     generateDinnerPlan(true);
   };
+
   const handleSmartWeek = () => {
-    /*
-     * Save any pantry text currently being edited before
-     * opening Smart Week so the draft uses the latest items.
-     */
-    commitPantry();
     navigate("/smart-week");
   };
 
   const handleBackToWeek = () => {
-    commitPantry();
     navigate("/week");
   };
 
@@ -340,6 +454,92 @@ export default function PlanPage({
     fontSize: 12,
     fontWeight: 800,
     whiteSpace: "nowrap",
+  };
+
+  // =====================================================
+  // Pantry 2.0 styles
+  // =====================================================
+
+  const pantryListStyle: React.CSSProperties = {
+    display: "grid",
+    gap: 10,
+    marginBottom: 12,
+  };
+
+  const pantryRowStyle: React.CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 12,
+    flexWrap: "wrap",
+    padding: 12,
+    borderRadius: 16,
+    background: "rgba(255,255,255,0.04)",
+    border: "1px solid rgba(255,255,255,0.08)",
+  };
+
+  const pantryNameStyle: React.CSSProperties = {
+    fontSize: 15,
+    fontWeight: 900,
+    lineHeight: 1.2,
+    overflowWrap: "anywhere",
+  };
+
+  const pantryAmountStyle: React.CSSProperties = {
+    marginTop: 4,
+    fontSize: 12,
+    opacity: 0.62,
+  };
+
+  const pantryControlsStyle: React.CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    gap: 6,
+    flexWrap: "wrap",
+  };
+
+  const pantryStepButton: React.CSSProperties = {
+    width: 36,
+    height: 36,
+    padding: 0,
+    borderRadius: 12,
+    border: "1px solid rgba(255,255,255,0.1)",
+    background: "rgba(255,255,255,0.06)",
+    color: "white",
+    fontSize: 20,
+    fontWeight: 900,
+    lineHeight: 1,
+    cursor: "pointer",
+  };
+
+  const pantryUsedUpButton: React.CSSProperties = {
+    minHeight: 36,
+    padding: "8px 10px",
+    borderRadius: 12,
+    border: "1px solid rgba(248,113,113,0.2)",
+    background: "rgba(248,113,113,0.08)",
+    color: "#fca5a5",
+    fontSize: 12,
+    fontWeight: 900,
+    cursor: "pointer",
+  };
+
+  const pantryAddRow: React.CSSProperties = {
+    display: "grid",
+    gridTemplateColumns: "minmax(0, 1fr) auto",
+    gap: 8,
+    alignItems: "stretch",
+  };
+
+  const pantryAddButton: React.CSSProperties = {
+    padding: "0 16px",
+    borderRadius: 16,
+    border: "1px solid rgba(34,197,94,0.25)",
+    background: "rgba(34,197,94,0.14)",
+    color: "#86efac",
+    fontWeight: 900,
+    cursor: "pointer",
   };
 
   // =====================================================
@@ -509,52 +709,207 @@ export default function PlanPage({
                 t("plan.kitchenTitle")
               )}
 
-              <p style={sectionDescription}>{t("plan.kitchenSubtitle")}</p>
+              <p style={sectionDescription}>
+                {t("plan.kitchenSubtitle")}
+              </p>
 
-              {!!pantryItems.length && (
+              {pantry.length === 0 ? (
                 <div
                   style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: 8,
+                    padding: "16px",
                     marginBottom: 12,
+                    borderRadius: 16,
+                    background:
+                      "rgba(255,255,255,0.025)",
+                    border:
+                      "1px dashed rgba(255,255,255,0.1)",
+                    fontSize: 13,
+                    lineHeight: 1.45,
+                    opacity: 0.62,
+                    textAlign: "center",
                   }}
                 >
-                  {pantryItems.map((item) => (
-                    <button
-                      key={item}
-                      type="button"
-                      onClick={() => removePantryItem(item)}
-                      style={{
-                        border: "none",
-                        borderRadius: 999,
-                        padding: "8px 12px",
-                        background: "rgba(34,197,94,0.14)",
-                        color: "#86efac",
-                        fontSize: 13,
-                        fontWeight: 800,
-                        cursor: "pointer",
-                      }}
-                      title="Remove item"
-                    >
-                      {item} ×
-                    </button>
-                  ))}
+                  {t("plan.pantryEmpty")}
+                </div>
+              ) : (
+                <div style={pantryListStyle}>
+                  {pantry.map((item) => {
+                    const canDecrease =
+                      typeof item.quantity ===
+                        "number" &&
+                      item.quantity > 0;
+
+                    return (
+                      <div
+                        key={item.id}
+                        style={pantryRowStyle}
+                      >
+                        <div
+                          style={{
+                            minWidth: 0,
+                            flex: "1 1 150px",
+                          }}
+                        >
+                          <div
+                            style={pantryNameStyle}
+                          >
+                            {item.name}
+                          </div>
+
+                          <div
+                            style={
+                              pantryAmountStyle
+                            }
+                          >
+                            {formatPantryQuantity(
+                              item
+                            )}
+                            {item.packageSize
+                              ? ` • ${item.packageSize}`
+                              : ""}
+                          </div>
+                        </div>
+
+                        <div
+                          style={
+                            pantryControlsStyle
+                          }
+                        >
+                          <button
+                            type="button"
+                            onClick={() =>
+                              adjustPantryQuantity(
+                                item,
+                                -1
+                              )
+                            }
+                            disabled={
+                              !canDecrease
+                            }
+                            title={t(
+                              "plan.pantryDecrease"
+                            )}
+                            aria-label={t(
+                              "plan.pantryDecrease"
+                            )}
+                            style={{
+                              ...pantryStepButton,
+                              opacity:
+                                canDecrease
+                                  ? 1
+                                  : 0.35,
+                              cursor:
+                                canDecrease
+                                  ? "pointer"
+                                  : "default",
+                            }}
+                          >
+                            −
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              adjustPantryQuantity(
+                                item,
+                                1
+                              )
+                            }
+                            title={t(
+                              "plan.pantryIncrease"
+                            )}
+                            aria-label={t(
+                              "plan.pantryIncrease"
+                            )}
+                            style={
+                              pantryStepButton
+                            }
+                          >
+                            +
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              removePantryItem(
+                                item.id
+                              )
+                            }
+                            style={
+                              pantryUsedUpButton
+                            }
+                          >
+                            {t(
+                              "plan.pantryUsedUp"
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
 
-              <textarea
-                placeholder={t("plan.kitchenPlaceholder")}
-                value={pantryText}
-                onChange={(e) => setPantryText(e.target.value)}
-                onBlur={commitPantry}
-                style={{ ...inputBase, minHeight: 96 }}
-              />
+              <form
+                onSubmit={
+                  handleAddPantryItem
+                }
+                style={pantryAddRow}
+              >
+                <input
+                  type="text"
+                  value={newPantryItem}
+                  onChange={(event) =>
+                    setNewPantryItem(
+                      event.target.value
+                    )
+                  }
+                  placeholder={t(
+                    "plan.pantryAddPlaceholder"
+                  )}
+                  style={{
+                    ...inputBase,
+                    minWidth: 0,
+                  }}
+                />
+
+                <button
+                  type="submit"
+                  disabled={
+                    !newPantryItem.trim()
+                  }
+                  style={{
+                    ...pantryAddButton,
+                    opacity:
+                      newPantryItem.trim()
+                        ? 1
+                        : 0.45,
+                    cursor:
+                      newPantryItem.trim()
+                        ? "pointer"
+                        : "default",
+                  }}
+                >
+                  {t(
+                    "plan.pantryAddButton"
+                  )}
+                </button>
+              </form>
 
               <div style={helperRow}>
-                <span style={helperText}>{t("plan.separateItems")}</span>
+                <span style={helperText}>
+                  {t(
+                    "plan.pantryHelper"
+                  )}
+                </span>
+
                 <span style={countPill}>
-                  {pantryItems.length} {t("plan.itemCount")}
+                  {pantry.length}{" "}
+                  {t(
+                    pantry.length === 1
+                      ? "plan.itemCountSingular"
+                      : "plan.itemCount"
+                  )}
                 </span>
               </div>
             </section>

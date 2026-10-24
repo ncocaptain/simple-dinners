@@ -136,6 +136,17 @@ export const en = {
     kitchenPlaceholder: "Chicken, spinach, rice, pasta sauce...",
     separateItems: "Separate items with commas or new lines.",
     itemCount: "items",
+    itemCountSingular: "item",
+    pantryInStock: "In stock",
+    pantryEmpty:
+      "Your pantry is empty. Add something you already have at home.",
+    pantryAddPlaceholder: "Add a pantry item...",
+    pantryAddButton: "Add",
+    pantryHelper:
+      "Use + and − to keep amounts current, or mark an item used up.",
+    pantryDecrease: "Use some",
+    pantryIncrease: "Add more",
+    pantryUsedUp: "Used up",
 
     dietaryPreferences: "Dietary Preferences",
     vegetarianMode: "Vegetarian Mode",
