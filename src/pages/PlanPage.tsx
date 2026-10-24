@@ -191,6 +191,24 @@ export default function PlanPage({
     );
   };
 
+  const togglePantryStaple = (
+    id: string
+  ) => {
+    setPantry((current) =>
+      current.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              isStaple:
+                !item.isStaple,
+              updatedAt:
+                Date.now(),
+            }
+          : item
+      )
+    );
+  };
+
   const getPantryQuantityStep = (
     item: PantryItem
   ) => {
@@ -268,6 +286,12 @@ export default function PlanPage({
   const formatPantryQuantity = (
     item: PantryItem
   ) => {
+    if (item.isStaple) {
+      return t(
+        "plan.pantryStapleInStock"
+      );
+    }
+
     if (
       typeof item.quantity !== "number"
     ) {
@@ -510,6 +534,15 @@ export default function PlanPage({
     fontSize: 20,
     fontWeight: 900,
     lineHeight: 1,
+    cursor: "pointer",
+  };
+
+  const pantryStapleButton: React.CSSProperties = {
+    minHeight: 36,
+    padding: "8px 10px",
+    borderRadius: 12,
+    fontSize: 12,
+    fontWeight: 900,
     cursor: "pointer",
   };
 
@@ -778,55 +811,97 @@ export default function PlanPage({
                           <button
                             type="button"
                             onClick={() =>
-                              adjustPantryQuantity(
-                                item,
-                                -1
+                              togglePantryStaple(
+                                item.id
                               )
                             }
-                            disabled={
-                              !canDecrease
-                            }
                             title={t(
-                              "plan.pantryDecrease"
+                              item.isStaple
+                                ? "plan.pantryUnmarkStaple"
+                                : "plan.pantryMarkStaple"
                             )}
                             aria-label={t(
-                              "plan.pantryDecrease"
+                              item.isStaple
+                                ? "plan.pantryUnmarkStaple"
+                                : "plan.pantryMarkStaple"
                             )}
                             style={{
-                              ...pantryStepButton,
-                              opacity:
-                                canDecrease
-                                  ? 1
-                                  : 0.35,
-                              cursor:
-                                canDecrease
-                                  ? "pointer"
-                                  : "default",
+                              ...pantryStapleButton,
+                              border:
+                                item.isStaple
+                                  ? "1px solid rgba(34,197,94,0.35)"
+                                  : "1px solid rgba(255,255,255,0.1)",
+                              background:
+                                item.isStaple
+                                  ? "rgba(34,197,94,0.16)"
+                                  : "rgba(255,255,255,0.06)",
+                              color:
+                                item.isStaple
+                                  ? "#86efac"
+                                  : "rgba(255,255,255,0.75)",
                             }}
                           >
-                            −
+                            {t(
+                              "plan.pantryStaple"
+                            )}
                           </button>
 
-                          <button
-                            type="button"
-                            onClick={() =>
-                              adjustPantryQuantity(
-                                item,
-                                1
-                              )
-                            }
-                            title={t(
-                              "plan.pantryIncrease"
-                            )}
-                            aria-label={t(
-                              "plan.pantryIncrease"
-                            )}
-                            style={
-                              pantryStepButton
-                            }
-                          >
-                            +
-                          </button>
+                          {!item.isStaple && (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  adjustPantryQuantity(
+                                    item,
+                                    -1
+                                  )
+                                }
+                                disabled={
+                                  !canDecrease
+                                }
+                                title={t(
+                                  "plan.pantryDecrease"
+                                )}
+                                aria-label={t(
+                                  "plan.pantryDecrease"
+                                )}
+                                style={{
+                                  ...pantryStepButton,
+                                  opacity:
+                                    canDecrease
+                                      ? 1
+                                      : 0.35,
+                                  cursor:
+                                    canDecrease
+                                      ? "pointer"
+                                      : "default",
+                                }}
+                              >
+                                −
+                              </button>
+
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  adjustPantryQuantity(
+                                    item,
+                                    1
+                                  )
+                                }
+                                title={t(
+                                  "plan.pantryIncrease"
+                                )}
+                                aria-label={t(
+                                  "plan.pantryIncrease"
+                                )}
+                                style={
+                                  pantryStepButton
+                                }
+                              >
+                                +
+                              </button>
+                            </>
+                          )}
 
                           <button
                             type="button"

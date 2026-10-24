@@ -146,9 +146,13 @@ export const es = {
     pantryAddPlaceholder: "Agregar a la despensa...",
     pantryAddButton: "Agregar",
     pantryHelper:
-      "Usa + y − para mantener las cantidades al día, o marca un artículo como agotado.",
+      "Controla las cantidades con + y −, marca los artículos habituales como básicos o toca Se acabó cuando ya no quede.",
     pantryDecrease: "Usar un poco",
     pantryIncrease: "Agregar más",
+    pantryStaple: "Básico",
+    pantryStapleInStock: "Básico • Disponible",
+    pantryMarkStaple: "Marcar como básico",
+    pantryUnmarkStaple: "Quitar como básico",
     pantryUsedUp: "Se acabó",
 
     dietaryPreferences: "Preferencias alimentarias",

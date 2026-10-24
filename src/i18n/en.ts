@@ -143,9 +143,13 @@ export const en = {
     pantryAddPlaceholder: "Add a pantry item...",
     pantryAddButton: "Add",
     pantryHelper:
-      "Use + and − to keep amounts current, or mark an item used up.",
+      "Track amounts with + and −, mark everyday items as staples, or tap Used up when you're out.",
     pantryDecrease: "Use some",
     pantryIncrease: "Add more",
+    pantryStaple: "Staple",
+    pantryStapleInStock: "Staple • In stock",
+    pantryMarkStaple: "Mark as staple",
+    pantryUnmarkStaple: "Remove staple status",
     pantryUsedUp: "Used up",
 
     dietaryPreferences: "Dietary Preferences",
