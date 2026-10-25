@@ -489,6 +489,7 @@ export const en = {
     useSoon: "Use soon",
     pantryMatches: "pantry matches",
     resultsTitle: "Recipe Results",
+    filters: "Filters",
 
     browse: {
       favoritesTitle: "Family Favorites",
