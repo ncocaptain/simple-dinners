@@ -137,6 +137,11 @@ function getReasonText(
         "smartWeek.reasons.pantryMatch",
       );
 
+    case "use-soon":
+      return t(
+        "smartWeek.reasons.useSoon",
+      );
+
     case "cookbook-pick":
       return t(
         "smartWeek.reasons.cookbookPick",

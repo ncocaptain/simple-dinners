@@ -66,6 +66,10 @@ export const en = {
   },
 
   recipe: {
+    favorite: "Favorite",
+    removeFavorite: "Remove Favorite",
+    addedFavorite: "Added to Favorites",
+    removedFavorite: "Removed from Favorites",
     ingredients: "Ingredients",
     instructions: "Instructions",
     goesWellWith: "Goes well with",
@@ -183,6 +187,12 @@ export const en = {
     pantryMarkStaple: "Mark as staple",
     pantryUnmarkStaple: "Remove staple status",
     pantryUsedUp: "Used up",
+    pantryBestBy: "Best by",
+    pantryAddBestBy: "Add best-by date",
+    pantryClearDate: "Clear",
+    pantryUseSoon: "Use soon",
+    pantryPastDate: "Past date — check first",
+    pantryPastDateShort: "Past date",
     useWhatIHave: "Use What I Have",
     useWhatIHaveSubtitle:
       "Find dinners that make the most of what's already here.",
@@ -254,6 +264,7 @@ export const en = {
     pantryItem: "Pantry item ready to work",
     pantryItems: "Pantry items ready to work",
     bestMatch: "Best match",
+    useSoon: "Use soon",
     youHave: "You have",
     of: "of",
     ingredients: "ingredients",
@@ -352,6 +363,7 @@ export const en = {
       existingFreezer: "Your existing Freezer Night was preserved.",
       effortMatch: "This dinner matches the effort you selected for this day.",
       pantryMatch: "This recipe uses ingredients already in your kitchen.",
+      useSoon: "Uses an ingredient that should be used soon.",
       cookbookPick: "A recipe from your Cookbook was prioritized.",
       variety: "This dinner helps create more variety across the week.",
       takeoutNight: "A night off from cooking fits this day’s setting.",
@@ -463,6 +475,7 @@ export const en = {
     categoriesLabel: "Categories",
     allEfforts: "All Efforts",
     inCookbook: "In Cookbook",
+    favorites: "Favorites",
     vegetarian: "Vegetarian",
     salads: "Salads",
     grilling: "Grilling",
@@ -508,6 +521,10 @@ export const en = {
 
   cookbook: {
     title: "Cookbook",
+    allRecipes: "All",
+    favorites: "Favorites",
+    noFavorites:
+      "No favorite recipes yet. Tap a heart on a recipe to add one.",
     selectingRecipeFor: "Selecting recipe for",
     pasteRecipeLink: "Paste recipe or social link...",
     import: "Find Recipe",

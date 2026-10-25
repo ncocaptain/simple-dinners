@@ -67,6 +67,10 @@ export const es = {
   },
 
   recipe: {
+    favorite: "Favorito",
+    removeFavorite: "Quitar de favoritos",
+    addedFavorite: "Agregado a favoritos",
+    removedFavorite: "Eliminado de favoritos",
     ingredients: "Ingredientes",
     instructions: "Instrucciones",
     goesWellWith: "Va bien con",
@@ -186,6 +190,12 @@ export const es = {
     pantryMarkStaple: "Marcar como básico",
     pantryUnmarkStaple: "Quitar como básico",
     pantryUsedUp: "Se acabó",
+    pantryBestBy: "Consumir preferentemente antes de",
+    pantryAddBestBy: "Agregar fecha preferente",
+    pantryClearDate: "Quitar",
+    pantryUseSoon: "Usar pronto",
+    pantryPastDate: "Fecha pasada — revisar primero",
+    pantryPastDateShort: "Fecha pasada",
     useWhatIHave: "Usar lo que tengo",
     useWhatIHaveSubtitle:
       "Encuentra cenas que aprovechen lo que ya tienes en casa.",
@@ -261,6 +271,7 @@ export const es = {
     pantryItem: "artículo de despensa listo para usar",
     pantryItems: "artículos de despensa listos para usar",
     bestMatch: "Mejor opción",
+    useSoon: "Usar pronto",
     youHave: "Tienes",
     of: "de",
     ingredients: "ingredientes",
@@ -359,6 +370,7 @@ export const es = {
       existingFreezer: "Se conservó tu Noche de congelador.",
       effortMatch: "Esta cena coincide con el esfuerzo seleccionado para este día.",
       pantryMatch: "Esta receta usa ingredientes que ya tienes en tu cocina.",
+      useSoon: "Usa un ingrediente que conviene usar pronto.",
       cookbookPick: "Se dio prioridad a una receta de tu recetario.",
       variety: "Esta cena ayuda a crear más variedad durante la semana.",
       takeoutNight: "Una noche sin cocinar coincide con la configuración de este día.",
@@ -470,6 +482,7 @@ export const es = {
     categoriesLabel: "Categorías",
     allEfforts: "Todos",
     inCookbook: "En recetario",
+    favorites: "Favoritas",
     vegetarian: "Vegetariano",
     salads: "Ensaladas",
     grilling: "Parrilla",
@@ -515,6 +528,10 @@ export const es = {
 
   cookbook: {
     title: "Recetario",
+    allRecipes: "Todas",
+    favorites: "Favoritas",
+    noFavorites:
+      "Todavía no tienes recetas favoritas. Toca el corazón de una receta para agregarla.",
     selectingRecipeFor: "Seleccionando receta para",
     pasteRecipeLink: "Pega un enlace de receta o red social...",
     import: "Buscar receta",

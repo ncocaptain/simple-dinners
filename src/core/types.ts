@@ -90,6 +90,7 @@ export type SmartWeekReasonCode =
   | "existing-freezer"
   | "effort-match"
   | "pantry-match"
+  | "use-soon"
   | "cookbook-pick"
   | "variety"
   | "takeout-night"

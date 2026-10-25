@@ -22,6 +22,7 @@ import {
   Image as ImageIcon,
   ExternalLink,
   FileText,
+  Heart,
 } from "lucide-react";
 
 import Card from "../components/Card";
@@ -30,6 +31,10 @@ import { t, getStoredLanguage } from "../i18n";
 import { ShareRecipeExtractor } from "../plugins/shareRecipeExtractor";
 import type { Meal } from "../core/types";
 import { getLocalizedMeal } from "../core/localizedMeal";
+import {
+  getFavorites,
+  toggleFavorite,
+} from "../core/favoritesStore";
 import { Capacitor } from "@capacitor/core";
 import {
   CookbookSyncStatus,
@@ -873,6 +878,18 @@ export default function CookbookPage({
   const [hasImportedDraft, setHasImportedDraft] = useState(false);
   const [highlightSlug, setHighlightSlug] = useState<string | null>(null);
 
+  const [
+    favoritesOnly,
+    setFavoritesOnly,
+  ] = useState(false);
+
+  const [
+    favoriteMap,
+    setFavoriteMap,
+  ] = useState(
+    () => getFavorites()
+  );
+
   const [manualRecipe, setManualRecipe] =
     useState<ManualRecipeDraft>(EMPTY_MANUAL_RECIPE);
 
@@ -888,6 +905,37 @@ export default function CookbookPage({
       })),
     [cookbook, language]
   );
+
+  const visibleCookbook =
+    useMemo(
+      () => {
+        if (!favoritesOnly) {
+          return localizedCookbook;
+        }
+
+        return localizedCookbook.filter(
+          ({ raw }) => {
+            const key =
+              String(
+                raw.slug ||
+                raw.id ||
+                raw.name ||
+                ""
+              ).trim();
+
+            return (
+              !!key &&
+              !!favoriteMap[key]
+            );
+          }
+        );
+      },
+      [
+        localizedCookbook,
+        favoritesOnly,
+        favoriteMap,
+      ]
+    );
 
   // =========================================================
   // EFFECTS
@@ -2721,6 +2769,33 @@ export default function CookbookPage({
     );
 
     closeManualModal();
+  };
+
+  const handleToggleFavorite = (
+    event: MouseEvent<HTMLButtonElement>,
+    recipe: CookbookRecipe,
+  ) => {
+    event.stopPropagation();
+
+    const key =
+      String(
+        recipe.slug ||
+        recipe.id ||
+        recipe.name ||
+        ""
+      ).trim();
+
+    if (!key) {
+      return;
+    }
+
+    toggleFavorite(
+      key
+    );
+
+    setFavoriteMap(
+      getFavorites()
+    );
   };
 
   // =========================================================
@@ -4684,8 +4759,126 @@ export default function CookbookPage({
               COOKBOOK LIST
           ========================================================= */}
 
+          <div
+            style={{
+              display:
+                "flex",
+              gap: 8,
+              marginBottom: 14,
+            }}
+          >
+            <button
+              type="button"
+              onClick={() =>
+                setFavoritesOnly(
+                  false
+                )
+              }
+              style={{
+                padding:
+                  "8px 12px",
+                borderRadius:
+                  999,
+                cursor:
+                  "pointer",
+                fontWeight:
+                  800,
+                fontSize: 12,
+                border:
+                  !favoritesOnly
+                    ? "1px solid rgba(96,165,250,0.45)"
+                    : "1px solid rgba(255,255,255,0.10)",
+                background:
+                  !favoritesOnly
+                    ? "rgba(59,130,246,0.14)"
+                    : "rgba(255,255,255,0.04)",
+                color:
+                  !favoritesOnly
+                    ? "#93c5fd"
+                    : "rgba(255,255,255,0.78)",
+              }}
+            >
+              {t(
+                "cookbook.allRecipes"
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={() =>
+                setFavoritesOnly(
+                  true
+                )
+              }
+              style={{
+                padding:
+                  "8px 12px",
+                borderRadius:
+                  999,
+                cursor:
+                  "pointer",
+                fontWeight:
+                  800,
+                fontSize: 12,
+                display:
+                  "inline-flex",
+                alignItems:
+                  "center",
+                gap: 6,
+                border:
+                  favoritesOnly
+                    ? "1px solid rgba(244,63,94,0.45)"
+                    : "1px solid rgba(255,255,255,0.10)",
+                background:
+                  favoritesOnly
+                    ? "rgba(244,63,94,0.14)"
+                    : "rgba(255,255,255,0.04)",
+                color:
+                  favoritesOnly
+                    ? "#fb7185"
+                    : "rgba(255,255,255,0.78)",
+              }}
+            >
+              <Heart
+                size={14}
+                fill={
+                  favoritesOnly
+                    ? "currentColor"
+                    : "none"
+                }
+              />
+
+              {t(
+                "cookbook.favorites"
+              )}
+            </button>
+          </div>
+
+          {favoritesOnly &&
+            visibleCookbook.length ===
+              0 && (
+              <Card
+                style={{
+                  padding: 18,
+                  marginBottom:
+                    14,
+                  textAlign:
+                    "center",
+                  fontSize: 13,
+                  lineHeight:
+                    1.5,
+                  color:
+                    "rgba(255,255,255,0.68)",
+                }}
+              >
+                {t(
+                  "cookbook.noFavorites"
+                )}
+              </Card>
+            )}
+
           <div style={{ display: "grid", gap: 14 }}>
-            {localizedCookbook.map(({ raw, display }, index) => {
+            {visibleCookbook.map(({ raw, display }, index) => {
               const status = getRecipeStatus(raw);
               const ingredientCount = splitLines(display?.ingredients).length;
               const stepCount =
@@ -4698,6 +4891,20 @@ export default function CookbookPage({
                 raw.slug || `${slugify(raw.name || "recipe")}-${index}`;
 
               const recipePhotoUrl = normalizePhotoUrl(display?.photoUrl || raw?.photoUrl);
+
+              const favoriteKey =
+                String(
+                  raw.slug ||
+                  raw.id ||
+                  raw.name ||
+                  ""
+                ).trim();
+
+              const favorite =
+                !!favoriteKey &&
+                !!favoriteMap[
+                  favoriteKey
+                ];
 
               return (
                 <div
@@ -4816,6 +5023,51 @@ export default function CookbookPage({
                           padding: 12,
                         }}
                       >
+                        <button
+                          onClick={(e) =>
+                            handleToggleFavorite(
+                              e,
+                              raw,
+                            )
+                          }
+                          style={{
+                            ...actionBtnStyle,
+                            background:
+                              favorite
+                                ? "rgba(244,63,94,0.14)"
+                                : "rgba(255,255,255,0.05)",
+                            border:
+                              favorite
+                                ? "1px solid rgba(244,63,94,0.40)"
+                                : "1px solid rgba(255,255,255,0.10)",
+                            color:
+                              favorite
+                                ? "#fb7185"
+                                : "white",
+                          }}
+                          title={
+                            favorite
+                              ? t(
+                                  "recipe.removeFavorite"
+                                )
+                              : t(
+                                  "recipe.favorite"
+                                )
+                          }
+                          aria-pressed={
+                            favorite
+                          }
+                        >
+                          <Heart
+                            size={16}
+                            fill={
+                              favorite
+                                ? "currentColor"
+                                : "none"
+                            }
+                          />
+                        </button>
+
                         <button
                           onClick={(e) => {
                             e.stopPropagation();

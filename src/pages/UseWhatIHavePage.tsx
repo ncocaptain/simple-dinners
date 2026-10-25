@@ -542,6 +542,52 @@ export default function UseWhatIHavePage({
                           </div>
                         )}
 
+                        {match.useSoonMatchedCount >
+                          0 && (
+                          <div
+                            style={{
+                              display:
+                                "inline-flex",
+                              alignItems:
+                                "center",
+                              gap: 5,
+                              marginBottom:
+                                6,
+                              marginLeft:
+                                index ===
+                                0
+                                  ? 6
+                                  : 0,
+                              padding:
+                                "4px 8px",
+                              borderRadius:
+                                999,
+                              background:
+                                "rgba(245,158,11,0.12)",
+                              border:
+                                "1px solid rgba(245,158,11,0.24)",
+                              color:
+                                "#fcd34d",
+                              fontSize:
+                                10,
+                              fontWeight:
+                                900,
+                              textTransform:
+                                "uppercase",
+                              letterSpacing:
+                                0.4,
+                            }}
+                          >
+                            {t(
+                              "usePantry.useSoon"
+                            )}{" "}
+                            ×
+                            {
+                              match.useSoonMatchedCount
+                            }
+                          </div>
+                        )}
+
                         <div
                           style={{
                             fontSize: 18,

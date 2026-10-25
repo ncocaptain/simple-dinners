@@ -4,6 +4,12 @@ import {
   mealMatchesPrimaryProteinKeyword,
   mealMatchesRequestKeyword,
 } from "./planner";
+import {
+  matchRecipeToPantry,
+} from "./pantryRecipeMatch";
+import {
+  getPantryFreshness,
+} from "./pantryFreshness";
 import type {
   Effort,
   Meal,
@@ -216,11 +222,22 @@ function getGeneratedDayReason(
   meal: Meal | null,
   requestedEffort: Effort | undefined,
   pantryNames: string[],
+  pantryItems: PantryItem[],
 ): SmartWeekDraftDay["reason"] {
   if (!meal) return undefined;
 
   if (isTakeoutMeal(meal)) {
     return "takeout-night";
+  }
+
+  if (
+    pantryItems.length > 0 &&
+    matchRecipeToPantry(
+      meal,
+      pantryItems,
+    ).useSoonMatchedCount > 0
+  ) {
+    return "use-soon";
   }
 
   if (mealUsesPantry(meal, pantryNames)) {
@@ -411,6 +428,7 @@ function buildTargetedDraftDay({
   keyword,
   cookbook,
   pantryNames,
+  pantryItems,
   effectiveDaySettings,
   preferences,
   requestConstraints,
@@ -423,6 +441,7 @@ function buildTargetedDraftDay({
   keyword: string;
   cookbook: Meal[];
   pantryNames: string[];
+  pantryItems: PantryItem[];
   effectiveDaySettings: Partial<
     Record<Day, Effort>
   >;
@@ -477,6 +496,7 @@ function buildTargetedDraftDay({
   const generatedMeals = generatePlan({
     cookbook,
     pantry: pantryNames,
+    pantryItems,
     daySettings:
       effectiveDaySettings,
     lockedMeals,
@@ -537,6 +557,7 @@ function buildNonTargetedDraftDay({
   avoidKeywords = [],
   cookbook,
   pantryNames,
+  pantryItems,
   effectiveDaySettings,
   preferences,
   requestConstraints,
@@ -550,6 +571,7 @@ function buildNonTargetedDraftDay({
   avoidKeywords?: string[];
   cookbook: Meal[];
   pantryNames: string[];
+  pantryItems: PantryItem[];
   effectiveDaySettings: Partial<
     Record<Day, Effort>
   >;
@@ -624,6 +646,7 @@ function buildNonTargetedDraftDay({
   const generatedMeals = generatePlan({
     cookbook,
     pantry: pantryNames,
+    pantryItems,
     daySettings:
       effectiveDaySettings,
     lockedMeals,
@@ -688,6 +711,7 @@ function buildNonTargetedDraftDay({
         replacementMeal,
         effectiveDaySettings[day],
         pantryNames,
+        pantryItems,
       ),
     preserved: false,
   };
@@ -697,6 +721,7 @@ function coordinateSmartWeekTargets({
   draftDays,
   cookbook,
   pantryNames,
+  pantryItems,
   effectiveDaySettings,
   preferences,
   requestConstraints,
@@ -707,6 +732,7 @@ function coordinateSmartWeekTargets({
   >;
   cookbook: Meal[];
   pantryNames: string[];
+  pantryItems: PantryItem[];
   effectiveDaySettings: Partial<
     Record<Day, Effort>
   >;
@@ -830,6 +856,7 @@ function coordinateSmartWeekTargets({
               target.keyword,
             cookbook,
             pantryNames,
+            pantryItems,
             effectiveDaySettings,
             preferences,
             requestConstraints,
@@ -974,6 +1001,7 @@ function coordinateSmartWeekTargets({
               target.keyword,
             cookbook,
             pantryNames,
+            pantryItems,
             effectiveDaySettings,
             preferences,
             requestConstraints,
@@ -1197,6 +1225,7 @@ function reconcileExactSmartWeekTargets({
   draftDays,
   cookbook,
   pantryNames,
+  pantryItems,
   effectiveDaySettings,
   preferences,
   requestConstraints,
@@ -1207,6 +1236,7 @@ function reconcileExactSmartWeekTargets({
   >;
   cookbook: Meal[];
   pantryNames: string[];
+  pantryItems: PantryItem[];
   effectiveDaySettings: Partial<
     Record<Day, Effort>
   >;
@@ -1347,6 +1377,7 @@ function reconcileExactSmartWeekTargets({
             avoidKeywords,
             cookbook,
             pantryNames,
+            pantryItems,
             effectiveDaySettings,
             preferences,
             requestConstraints,
@@ -1382,7 +1413,16 @@ export function buildSmartWeekDraft({
   request = "",
   requestConstraints,
 }: BuildSmartWeekDraftOptions): SmartWeekDraft {
+  const pantryItems = pantry;
+
   const pantryNames = pantry
+    .filter(
+      (item) =>
+        getPantryFreshness(
+          item.expiresAt
+        ).status !==
+        "past-date"
+    )
     .map((item) => normalizeText(item.name))
     .filter(Boolean);
 
@@ -1417,6 +1457,7 @@ export function buildSmartWeekDraft({
   const generatedMeals = generatePlan({
     cookbook,
     pantry: pantryNames,
+    pantryItems,
     daySettings: effectiveDaySettings,
     lockedMeals,
     preferences,
@@ -1492,6 +1533,7 @@ export function buildSmartWeekDraft({
         generatedMeal,
         effectiveDaySettings[day],
         pantryNames,
+        pantryItems,
       ),
       preserved: false,
     };
@@ -1517,6 +1559,7 @@ export function buildSmartWeekDraft({
           finalizedDraftDays,
         cookbook,
         pantryNames,
+        pantryItems,
         effectiveDaySettings,
         preferences,
         requestConstraints,
@@ -1528,6 +1571,7 @@ export function buildSmartWeekDraft({
           coordinatedDraftDays,
         cookbook,
         pantryNames,
+        pantryItems,
         effectiveDaySettings,
         preferences,
         requestConstraints,
@@ -1644,7 +1688,16 @@ export function replaceSmartWeekDraftDay({
     return draft;
   }
 
+  const pantryItems = pantry;
+
   const pantryNames = pantry
+    .filter(
+      (item) =>
+        getPantryFreshness(
+          item.expiresAt
+        ).status !==
+        "past-date"
+    )
     .map((item) => normalizeText(item.name))
     .filter(Boolean);
 
@@ -1718,6 +1771,7 @@ export function replaceSmartWeekDraftDay({
   const generatedMeals = generatePlan({
     cookbook,
     pantry: pantryNames,
+    pantryItems,
     daySettings: effectiveDaySettings,
     lockedMeals,
     preferences,
@@ -1747,6 +1801,7 @@ export function replaceSmartWeekDraftDay({
           replacementMeal,
           effectiveDaySettings[day],
           pantryNames,
+          pantryItems,
         ),
         preserved: false,
       },
