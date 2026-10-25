@@ -474,9 +474,9 @@ export const es = {
   },
 
   recipes: {
-    title: "Recetario principal",
+    title: "Recetas",
     subtitle:
-      "Busca en tu biblioteca de recetas como si fuera un diccionario de cenas. Explora recetas incluidas, ensaladas, favoritas para asar y todo lo guardado en tu recetario.",
+      "¿Qué se te antoja? Explora ideas para la cena, aprovecha lo que ya tienes o busca en toda la biblioteca de Simple Dinners."
     searchPlaceholder: "Buscar recetas, ingredientes, etiquetas...",
     effortLabel: "Esfuerzo",
     categoriesLabel: "Categorías",
@@ -486,6 +486,40 @@ export const es = {
     vegetarian: "Vegetariano",
     salads: "Ensaladas",
     grilling: "Parrilla",
+    dinner: "Cena",
+    sides: "Acompañamientos",
+    breakfast: "Desayuno",
+    lunch: "Almuerzo",
+    desserts: "Postres",
+    surpriseMe: "Sorpréndeme",
+    viewAll: "Ver todo",
+    useSoon: "Usar pronto",
+    pantryMatches: "coincidencias con la despensa",
+    resultsTitle: "Resultados de recetas",
+
+    browse: {
+      favoritesTitle: "Favoritas de la familia",
+      favoritesSubtitle: "Las recetas que ya sabes que les encantan.",
+      dinnerTitle: "Cena para hoy",
+      dinnerSubtitle: "Empieza con algo que realmente se sienta como cena.",
+      quickTitle: "Rápido y fácil",
+      quickSubtitle: "¿Noche ocupada? Mantén la cena en movimiento.",
+      pantryTitle: "Usa lo que tienes",
+      pantrySubtitle:
+        "Ideas para la cena que coinciden con lo que ya tienes en tu despensa.",
+      sidesTitle: "Acompañamientos",
+      sidesSubtitle: "Completa el plato con algo rico.",
+      dessertTitle: "Algo dulce",
+      dessertSubtitle:
+        "Porque la cena no siempre tiene que ser el final.",
+      vegetarianTitle: "Vegetariano",
+      vegetarianSubtitle:
+        "Cenas a base de plantas que merecen estar en la rotación.",
+      grillTitle: "A la parrilla",
+      grillSubtitle: "Enciende la parrilla cuando la cena pide estar afuera.",
+      allTitle: "Todas las recetas",
+      allSubtitle: "La biblioteca completa de recetas de Simple Dinners.",
+    },
     clearExtras: "Borrar extras",
     defaultNote: "Una receta deliciosa lista para tu planificador.",
     openRecipe: "Abrir receta",
