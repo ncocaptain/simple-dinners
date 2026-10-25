@@ -476,7 +476,7 @@ export const es = {
   recipes: {
     title: "Recetas",
     subtitle:
-      "¿Qué se te antoja? Explora ideas para la cena, aprovecha lo que ya tienes o busca en toda la biblioteca de Simple Dinners."
+      "¿Qué se te antoja? Explora ideas para la cena, aprovecha lo que ya tienes o busca en toda la biblioteca de Simple Dinners.",
     searchPlaceholder: "Buscar recetas, ingredientes, etiquetas...",
     effortLabel: "Esfuerzo",
     categoriesLabel: "Categorías",
