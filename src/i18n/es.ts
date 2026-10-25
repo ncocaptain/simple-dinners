@@ -496,6 +496,7 @@ export const es = {
     useSoon: "Usar pronto",
     pantryMatches: "coincidencias con la despensa",
     resultsTitle: "Resultados de recetas",
+    filters: "Filtros",
 
     browse: {
       favoritesTitle: "Favoritas de la familia",
