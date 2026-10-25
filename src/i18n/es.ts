@@ -67,6 +67,10 @@ export const es = {
   },
 
   recipe: {
+    favorite: "Favorito",
+    removeFavorite: "Quitar de favoritos",
+    addedFavorite: "Agregado a favoritos",
+    removedFavorite: "Eliminado de favoritos",
     ingredients: "Ingredientes",
     instructions: "Instrucciones",
     goesWellWith: "Va bien con",
@@ -478,6 +482,7 @@ export const es = {
     categoriesLabel: "Categorías",
     allEfforts: "Todos",
     inCookbook: "En recetario",
+    favorites: "Favoritas",
     vegetarian: "Vegetariano",
     salads: "Ensaladas",
     grilling: "Parrilla",
@@ -523,6 +528,10 @@ export const es = {
 
   cookbook: {
     title: "Recetario",
+    allRecipes: "Todas",
+    favorites: "Favoritas",
+    noFavorites:
+      "Todavía no tienes recetas favoritas. Toca el corazón de una receta para agregarla.",
     selectingRecipeFor: "Seleccionando receta para",
     pasteRecipeLink: "Pega un enlace de receta o red social...",
     import: "Buscar receta",

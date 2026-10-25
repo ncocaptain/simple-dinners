@@ -13,11 +13,15 @@ import {
   CakeSlice,
   Coffee,
   Sandwich,
+  Heart,
 } from "lucide-react";
 import Card from "../components/Card";
 import type { Meal, Effort } from "../core/types";
 import { ALL_RECIPES, days } from "../core/data";
 import { getCookbook } from "../core/cookbookStore";
+import {
+  getFavorites,
+} from "../core/favoritesStore";
 import { t, getStoredLanguage, type LanguageCode } from "../i18n";
 import { getLocalizedMeal } from "../core/localizedMeal";
 import { Capacitor } from "@capacitor/core";
@@ -34,6 +38,7 @@ type RecipesPageProps = {
 
 type CategoryFilter =
   | "cookbook"
+  | "favorites"
   | "vegetarian"
   | "dinner"
   | "side"
@@ -143,6 +148,19 @@ export default function RecipesPage({
   const [effort, setEffort] = useState<"all" | Effort>("all");
   const [activeCategories, setActiveCategories] = useState<CategoryFilter[]>([]);
   const [cookbook, setCookbook] = useState<Meal[]>(() => getCookbook() as Meal[]);
+
+  const favoriteKeys = useMemo(
+    () =>
+      new Set(
+        Object.keys(
+          getFavorites()
+        ).map(
+          normalizeText
+        )
+      ),
+    []
+  );
+
   const [justAddedSlug, setJustAddedSlug] = useState<string | null>(null);
   const [saveMessage, setSaveMessage] = useState("");
   const [dayPickerOpen, setDayPickerOpen] = useState(false);
@@ -163,11 +181,17 @@ function recipeMatchesCategory(
   raw: Meal,
   recipeKey: string,
   category: CategoryFilter,
-  cookbookKeys: Set<string>
+  cookbookKeys: Set<string>,
+  favoriteKeys: Set<string>
 ) {
   const tags = normalizeTags(raw.tags);
 
   if (category === "cookbook") return cookbookKeys.has(recipeKey);
+
+  if (category === "favorites") {
+    return favoriteKeys.has(recipeKey);
+  }
+
   if (category === "vegetarian") {
     return raw.isVegetarian === true || tags.includes("vegetarian");
   }
@@ -223,6 +247,7 @@ function recipeMatchesCategory(
     saved.activeCategories.filter((item: string) =>
       [
         "cookbook",
+        "favorites",
         "vegetarian",
         "dinner",
         "side",
@@ -374,7 +399,13 @@ const localizedRecipes = useMemo(
     if (
   activeCategories.length > 0 &&
   !activeCategories.every((category) =>
-    recipeMatchesCategory(raw, recipeKey, category, cookbookKeys)
+    recipeMatchesCategory(
+      raw,
+      recipeKey,
+      category,
+      cookbookKeys,
+      favoriteKeys
+    )
   )
 ) {
   return false;
@@ -388,6 +419,7 @@ const localizedRecipes = useMemo(
   effort,
   activeCategories,
   cookbookKeys,
+  favoriteKeys,
 ]);
 
   function getRecipeDayLabel(day: string) {
@@ -736,6 +768,11 @@ const localizedRecipes = useMemo(
                 key: "cookbook",
                 label: t("recipes.inCookbook"),
                 icon: <BookOpen size={14} />,
+              },
+              {
+                key: "favorites",
+                label: t("recipes.favorites"),
+                icon: <Heart size={14} />,
               },
               {
                 key: "vegetarian",

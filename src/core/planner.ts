@@ -6,6 +6,9 @@ import type {
 } from "./types";
 import { PLANNER_RECIPES, SIDE_DISHES, DESSERTS, days } from "./data";
 import {
+  getFavorites,
+} from "./favoritesStore";
+import {
   matchRecipeToPantry,
 } from "./pantryRecipeMatch";
 import {
@@ -703,7 +706,8 @@ export function getPlannerScore(
 
 
   const nameKey = normalizeText(meal.name);
-  const idKey = normalizeText(meal.id || meal.slug || meal.name);
+  const idKey = normalizeText(meal.id);
+  const slugKey = normalizeText(meal.slug);
   const tags = normalizeTags(meal.tags);
   const category = getMealCategory(meal);
 
@@ -722,7 +726,11 @@ export function getPlannerScore(
     score += 2;
   }
 
-  if (favorites.includes(nameKey) || favorites.includes(idKey)) {
+  if (
+    favorites.includes(nameKey) ||
+    favorites.includes(idKey) ||
+    favorites.includes(slugKey)
+  ) {
     score += 8;
   }
 
@@ -876,7 +884,8 @@ export function generatePlan(opts: {
     daySettings = {},
     lockedMeals = {},
     preferences,
-    favorites = [],
+    favorites =
+      Object.keys(getFavorites()),
     cookedRecently = [],
     excludeMeals = [],
     requestConstraints,

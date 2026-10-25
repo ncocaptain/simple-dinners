@@ -18,11 +18,16 @@ import {
   ChefHat,
   Pin,
   X,
+  Heart,
   HeartPulse,
   Refrigerator,
 } from "lucide-react";
 
 import { getRecipeBySlug } from "../core/recipes";
+import {
+  isFavorite,
+  toggleFavorite,
+} from "../core/favoritesStore";
 import {
   ALL_RECIPES,
   getSuggestedDessertsForRecipe,
@@ -882,6 +887,32 @@ const [nutritionError, setNutritionError] =
     instructions: "",
   };
 
+  const favoriteKey =
+    String(
+      safeRecipe.slug ||
+      safeRecipe.id ||
+      safeRecipe.name ||
+      ""
+    ).trim();
+
+  const [
+    favorite,
+    setFavorite,
+  ] = useState(
+    () =>
+      isFavorite(
+        favoriteKey
+      )
+  );
+
+  useEffect(() => {
+    setFavorite(
+      isFavorite(
+        favoriteKey
+      )
+    );
+  }, [favoriteKey]);
+
   // =====================================================
   // Builder: derived recipe data
   // =====================================================
@@ -1519,6 +1550,31 @@ const handleCloseNoteModal = () => {
     setNoteModalOpen(false);
     setSaveMessage(t("recipe.personalNoteCleared", "Personal note cleared"));
   }
+
+  const handleToggleFavorite = () => {
+    if (!favoriteKey) {
+      return;
+    }
+
+    const nextFavorite =
+      toggleFavorite(
+        favoriteKey
+      );
+
+    setFavorite(
+      nextFavorite
+    );
+
+    setSaveMessage(
+      nextFavorite
+        ? t(
+            "recipe.addedFavorite"
+          )
+        : t(
+            "recipe.removedFavorite"
+          )
+    );
+  };
 
   const handleAddToCookbook = () => {
     if (!safeRecipe.slug) {
@@ -2601,6 +2657,62 @@ function resetSideDrafts() {
   >
     {safeRecipe.name}
   </h1>
+
+  <button
+    type="button"
+    onClick={
+      handleToggleFavorite
+    }
+    aria-pressed={
+      favorite
+    }
+    title={
+      favorite
+        ? t(
+            "recipe.removeFavorite"
+          )
+        : t(
+            "recipe.favorite"
+          )
+    }
+    style={{
+      width: 34,
+      height: 34,
+      flexShrink: 0,
+      borderRadius: 999,
+      display:
+        "inline-flex",
+      alignItems:
+        "center",
+      justifyContent:
+        "center",
+      cursor:
+        "pointer",
+      border:
+        favorite
+          ? "1px solid rgba(244,63,94,0.45)"
+          : "1px solid rgba(255,255,255,0.12)",
+      background:
+        favorite
+          ? "rgba(244,63,94,0.14)"
+          : "rgba(255,255,255,0.05)",
+      color:
+        favorite
+          ? "#fb7185"
+          : "rgba(255,255,255,0.78)",
+      transition:
+        "all 0.18s ease",
+    }}
+  >
+    <Heart
+      size={17}
+      fill={
+        favorite
+          ? "currentColor"
+          : "none"
+      }
+    />
+  </button>
 
   <TipsModal tips={recipeTips} />
 </div>
