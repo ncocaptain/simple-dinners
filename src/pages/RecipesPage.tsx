@@ -1214,6 +1214,89 @@ const activeFilterCount =
             />
           </div>
 
+          {isMobileRecipeLayout && (
+            <button
+              type="button"
+              onClick={() =>
+                setFiltersOpen(
+                  (open) => !open
+                )
+              }
+              style={{
+                ...btnStyle,
+                width: "100%",
+                justifyContent:
+                  "space-between",
+                padding: "12px 14px",
+                background:
+                  filtersOpen ||
+                  activeFilterCount > 0
+                    ? "rgba(34,197,94,0.10)"
+                    : "rgba(255,255,255,0.04)",
+                border:
+                  filtersOpen ||
+                  activeFilterCount > 0
+                    ? "1px solid rgba(34,197,94,0.30)"
+                    : btnStyle.border,
+                color:
+                  filtersOpen ||
+                  activeFilterCount > 0
+                    ? "#86efac"
+                    : "white",
+              }}
+            >
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                }}
+              >
+                <SlidersHorizontal
+                  size={16}
+                />
+                {t(
+                  "recipes.filters",
+                  "Filters"
+                )}
+                {activeFilterCount >
+                  0 && (
+                  <span
+                    style={{
+                      minWidth: 22,
+                      height: 22,
+                      padding: "0 7px",
+                      borderRadius: 999,
+                      display:
+                        "inline-flex",
+                      alignItems:
+                        "center",
+                      justifyContent:
+                        "center",
+                      background:
+                        "rgba(34,197,94,0.16)",
+                      fontSize: 11,
+                      fontWeight: 900,
+                    }}
+                  >
+                    {activeFilterCount}
+                  </span>
+                )}
+              </span>
+
+              {filtersOpen ? (
+                <ChevronUp size={16} />
+              ) : (
+                <ChevronDown
+                  size={16}
+                />
+              )}
+            </button>
+          )}
+
+          {(!isMobileRecipeLayout ||
+            filtersOpen) && (
+            <>
           <div style={sectionLabel}>
             {t("recipes.effortLabel").toUpperCase()}
           </div>
@@ -1365,6 +1448,9 @@ const activeFilterCount =
               {t("recipes.resetFilters", "Reset Filters")}
             </button>
           </div>
+
+            </>
+          )}
 
           <div style={statsRow}>
             <span style={statStyle}>
