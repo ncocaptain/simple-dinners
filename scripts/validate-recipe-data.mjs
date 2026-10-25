@@ -29,7 +29,11 @@ for (const block of blocks) {
     const line = rawLine.trim();
     if (!line) continue;
 
-    if (/\b(?:tablespoons?|teaspoons?|ounces?|pounds?|lbs|tbsps?|pkgs?)\b/i.test(line)) {
+    const hasNoncanonicalUnit =
+      /\b(?:tablespoons?|teaspoons?|ounces?|pounds?|lbs|pkgs?)\b/i.test(line) ||
+      /\btbsps?\b/.test(line);
+
+    if (hasNoncanonicalUnit) {
       addIssue(
         "noncanonical-unit",
         line,
