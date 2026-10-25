@@ -1,9 +1,181 @@
 import type { PantryItem } from "./types";
 import type { GroceryCategory } from "./groceryCategories";
+import {
+  normalizeIngredientUnit,
+} from "./ingredientParser";
 
 export const PANTRY_STORAGE_KEY = "pantry";
 export const PANTRY_UPDATED_EVENT =
   "simple-dinners:pantry-updated";
+
+const PANTRY_UNIT_PREFIXES: Record<
+  string,
+  string[]
+> = {
+  cup: ["cup", "cups"],
+  tbsp: [
+    "tbsp",
+    "tablespoon",
+    "tablespoons",
+  ],
+  tsp: [
+    "tsp",
+    "teaspoon",
+    "teaspoons",
+  ],
+  oz: [
+    "oz",
+    "ounce",
+    "ounces",
+  ],
+  lb: [
+    "lb",
+    "lbs",
+    "pound",
+    "pounds",
+  ],
+  g: ["g", "gram", "grams"],
+  kg: [
+    "kg",
+    "kilogram",
+    "kilograms",
+  ],
+  ml: [
+    "ml",
+    "milliliter",
+    "milliliters",
+  ],
+  l: ["l", "liter", "liters"],
+  clove: ["clove", "cloves"],
+  can: ["can", "cans"],
+  package: [
+    "package",
+    "packages",
+    "pkg",
+    "pkgs",
+  ],
+  box: ["box", "boxes"],
+  strip: ["strip", "strips"],
+  slice: ["slice", "slices"],
+  stick: ["stick", "sticks"],
+  bunch: ["bunch", "bunches"],
+  head: ["head", "heads"],
+  jar: ["jar", "jars"],
+  carton: ["carton", "cartons"],
+  bag: ["bag", "bags"],
+  tube: ["tube", "tubes"],
+  packet: ["packet", "packets"],
+  loaf: ["loaf", "loaves"],
+  piece: ["piece", "pieces"],
+};
+
+function escapeRegExp(
+  value: string
+) {
+  return value.replace(
+    /[.*+?^$()|[\]{}\\]/g,
+    "\\export const PANTRY_UPDATED_EVENT =
+  "simple-dinners:pantry-updated";
+"
+  );
+}
+
+export function cleanPantryItemName(
+  value: string,
+  unit?: string | null
+) {
+  const original =
+    String(value || "")
+      .replace(/\s+/g, " ")
+      .trim();
+
+  if (!original) {
+    return "";
+  }
+
+  const normalizedUnit =
+    String(
+      normalizeIngredientUnit(
+        unit
+      ) || ""
+    ).toLowerCase();
+
+  if (!normalizedUnit) {
+    return original;
+  }
+
+  const aliases =
+    PANTRY_UNIT_PREFIXES[
+      normalizedUnit
+    ] || [normalizedUnit];
+
+  const prefixPattern =
+    new RegExp(
+      "^(?:" +
+        aliases
+          .map(escapeRegExp)
+          .join("|") +
+        ")\\b[\\s:–—-]*",
+      "i"
+    );
+
+  const cleaned =
+    original
+      .replace(
+        prefixPattern,
+        ""
+      )
+      .replace(/\s+/g, " ")
+      .trim();
+
+  return cleaned || original;
+}
+
+export function formatPantryUnitLabel(
+  unit: string | null | undefined,
+  quantity: number | null | undefined
+) {
+  const normalized =
+    normalizeIngredientUnit(unit);
+
+  if (!normalized) {
+    return "";
+  }
+
+  const shouldPluralize =
+    typeof quantity === "number" &&
+    quantity > 1;
+
+  if (!shouldPluralize) {
+    return normalized;
+  }
+
+  const plurals:
+    Record<string, string> = {
+      cup: "cups",
+      clove: "cloves",
+      can: "cans",
+      package: "packages",
+      box: "boxes",
+      strip: "strips",
+      slice: "slices",
+      stick: "sticks",
+      bunch: "bunches",
+      head: "heads",
+      jar: "jars",
+      carton: "cartons",
+      bag: "bags",
+      tube: "tubes",
+      packet: "packets",
+      loaf: "loaves",
+      piece: "pieces",
+    };
+
+  return (
+    plurals[normalized] ||
+    normalized
+  );
+}
 
 function finiteNumber(value: unknown) {
   return typeof value === "number" &&
@@ -80,6 +252,12 @@ function normalizePantryItem(
       item.unit = unit;
     }
   }
+
+  item.name =
+    cleanPantryItemName(
+      item.name,
+      item.unit
+    );
 
   if (
     typeof raw.category === "string" &&
