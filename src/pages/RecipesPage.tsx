@@ -611,6 +611,24 @@ const isBrowseMode =
     navigate(`/recipe/${recipe.slug}?from=%2Frecipes`);
   };
 
+  const handleSurpriseMe = () => {
+    if (browseDinnerRecipes.length === 0) return;
+
+    const index = Math.floor(
+      Math.random() *
+        browseDinnerRecipes.length
+    );
+
+    const pick =
+      browseDinnerRecipes[index];
+
+    if (pick?.raw) {
+      handleOpenRecipe(
+        pick.raw
+      );
+    }
+  };
+
   const handleAddToCookbook = (recipe: Meal) => {
     saveRecipesPageState();
 
@@ -833,6 +851,247 @@ const isBrowseMode =
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
+  };
+
+  const browseSectionStyle: React.CSSProperties = {
+    display: "grid",
+    gap: 12,
+  };
+
+  const browseSectionHeaderStyle: React.CSSProperties = {
+    display: "flex",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+    gap: 12,
+  };
+
+  const browseSectionTitleStyle: React.CSSProperties = {
+    margin: 0,
+    fontSize: 21,
+    fontWeight: 950,
+    lineHeight: 1.1,
+  };
+
+  const browseSectionSubtitleStyle: React.CSSProperties = {
+    margin: "4px 0 0 0",
+    fontSize: 13,
+    opacity: 0.62,
+    lineHeight: 1.35,
+  };
+
+  const browseRowStyle: React.CSSProperties = {
+    display: "flex",
+    gap: 12,
+    overflowX: "auto",
+    paddingBottom: 6,
+    scrollSnapType: "x proximity",
+  };
+
+  const browseCardStyle: React.CSSProperties = {
+    flex: "0 0 min(72vw, 230px)",
+    minWidth: 0,
+    borderRadius: 18,
+    overflow: "hidden",
+    border: "1px solid rgba(255,255,255,0.08)",
+    background: "rgba(255,255,255,0.035)",
+    cursor: "pointer",
+    scrollSnapAlign: "start",
+  };
+
+  const browsePhotoStyle: React.CSSProperties = {
+    width: "100%",
+    aspectRatio: "16 / 10",
+    objectFit: "cover",
+    display: "block",
+    background: "rgba(255,255,255,0.05)",
+  };
+
+  const renderBrowseSection = ({
+    icon,
+    title,
+    subtitle,
+    items,
+    onViewAll,
+  }: {
+    icon: React.ReactNode;
+    title: string;
+    subtitle: string;
+    items: Array<{
+      raw: Meal;
+      display: Meal;
+      pantryMatch?: {
+        matchedCount: number;
+        useSoonMatchedCount: number;
+      };
+    }>;
+    onViewAll?: () => void;
+  }) => {
+    if (items.length === 0) return null;
+
+    return (
+      <section style={browseSectionStyle}>
+        <div style={browseSectionHeaderStyle}>
+          <div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              {icon}
+              <h2 style={browseSectionTitleStyle}>
+                {title}
+              </h2>
+            </div>
+
+            <p style={browseSectionSubtitleStyle}>
+              {subtitle}
+            </p>
+          </div>
+
+          {onViewAll && (
+            <button
+              type="button"
+              onClick={onViewAll}
+              style={{
+                ...btnStyle,
+                padding: "8px 10px",
+                flexShrink: 0,
+              }}
+            >
+              {t("recipes.viewAll", "View all")}
+              <ChevronRight size={14} />
+            </button>
+          )}
+        </div>
+
+        <div style={browseRowStyle}>
+          {items.slice(0, 7).map(
+            ({
+              raw,
+              display,
+              pantryMatch,
+            }) => {
+              const key =
+                getRecipeKey(raw);
+
+              const photo =
+                normalizePhotoUrl(
+                  display.photoUrl ||
+                    raw.photoUrl
+                );
+
+              return (
+                <article
+                  key={key}
+                  style={browseCardStyle}
+                  onClick={() =>
+                    handleOpenRecipe(raw)
+                  }
+                >
+                  {photo ? (
+                    <img
+                      src={photo}
+                      alt={
+                        display.name ||
+                        raw.name
+                      }
+                      style={browsePhotoStyle}
+                      onError={(event) => {
+                        const target =
+                          event.currentTarget;
+                        target.onerror =
+                          null;
+                        target.style.display =
+                          "none";
+                      }}
+                    />
+                  ) : (
+                    <div
+                      style={browsePhotoStyle}
+                    />
+                  )}
+
+                  <div
+                    style={{
+                      padding: 12,
+                      display: "grid",
+                      gap: 7,
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: 15,
+                        fontWeight: 900,
+                        lineHeight: 1.2,
+                      }}
+                    >
+                      {display.name ||
+                        raw.name}
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: 6,
+                        flexWrap: "wrap",
+                      }}
+                    >
+                      <span
+                        style={{
+                          ...tagStyle,
+                          padding: "4px 7px",
+                          fontSize: 10,
+                        }}
+                      >
+                        {effortLabel(
+                          raw.effort
+                        )}
+                      </span>
+
+                      {pantryMatch && (
+                        <span
+                          style={{
+                            ...tagStyle,
+                            padding: "4px 7px",
+                            fontSize: 10,
+                            background:
+                              pantryMatch
+                                .useSoonMatchedCount >
+                              0
+                                ? "rgba(245,158,11,0.12)"
+                                : "rgba(34,197,94,0.10)",
+                            color:
+                              pantryMatch
+                                .useSoonMatchedCount >
+                              0
+                                ? "#fcd34d"
+                                : "#86efac",
+                          }}
+                        >
+                          {pantryMatch
+                            .useSoonMatchedCount >
+                          0
+                            ? `${t(
+                                "recipes.useSoon",
+                                "Use soon"
+                              )} • ${pantryMatch.matchedCount}`
+                            : `${pantryMatch.matchedCount} ${t(
+                                "recipes.pantryMatches",
+                                "pantry matches"
+                              )}`}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              );
+            }
+          )}
+        </div>
+      </section>
+    );
   };
 
   // =====================================================
