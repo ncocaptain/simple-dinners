@@ -228,33 +228,74 @@ function singularizeWord(
 function normalizeIngredientName(
   text: string
 ) {
-  return String(text || "")
-    .normalize("NFD")
-    .replace(
-      /[\u0300-\u036f]/g,
-      ""
+  const source =
+    String(text || "")
+      .normalize("NFD")
+      .replace(
+        /[\u0300-\u036f]/g,
+        ""
+      )
+      .toLowerCase();
+
+  /*
+   * Pantry identity needs to preserve product form when
+   * that form changes what the ingredient actually is.
+   *
+   * "tomatoes, diced" = fresh tomatoes that need prep.
+   * "diced tomatoes" = canned/prepared diced tomatoes.
+   *
+   * "garlic, minced" = a clove that needs prep.
+   * "minced garlic" = prepared/jarred minced garlic.
+   */
+  const preservedForm =
+    /\bfire[- ]roasted\s+diced\s+tomatoes?\b/.test(
+      source
     )
-    .toLowerCase()
-    .replace(/\([^)]*\)/g, " ")
-    .replace(
-      /[^a-z0-9\s]/g,
-      " "
-    )
-    .split(/\s+/)
-    .map((word) => word.trim())
-    .filter(Boolean)
-    .filter(
-      (word) =>
-        !DESCRIPTORS.has(word)
-    )
-    .filter(
-      (word) =>
-        !UNIT_ALIASES[word]
-    )
-    .map(singularizeWord)
-    .join(" ")
-    .replace(/\s+/g, " ")
-    .trim();
+      ? "fire-roasted-diced"
+      : /\bdiced\s+tomatoes?\b/.test(
+          source
+        )
+        ? "diced"
+        : /\bminced\s+garlic\b/.test(
+            source
+          )
+          ? "minced"
+          : "";
+
+  const normalized =
+    source
+      .replace(/\([^)]*\)/g, " ")
+      .replace(
+        /[^a-z0-9\s]/g,
+        " "
+      )
+      .split(/\s+/)
+      .map((word) =>
+        word.trim()
+      )
+      .filter(Boolean)
+      .filter(
+        (word) =>
+          !DESCRIPTORS.has(
+            word
+          )
+      )
+      .filter(
+        (word) =>
+          !UNIT_ALIASES[word]
+      )
+      .map(singularizeWord)
+      .join(" ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+  if (!normalized) {
+    return "";
+  }
+
+  return preservedForm
+    ? `${preservedForm} ${normalized}`
+    : normalized;
 }
 
 function parseIngredientLine(
@@ -331,10 +372,26 @@ function parseIngredientLine(
   };
 }
 
+export function getPantryComparableName(
+  value: string
+) {
+  return normalizeIngredientName(
+    value
+  );
+}
+
+export function getPantryComparableIngredientName(
+  ingredient: string
+) {
+  return parseIngredientLine(
+    ingredient
+  ).name;
+}
+
 function getPantryMatchKey(
   item: PantryItem
 ) {
-  return normalizeIngredientName(
+  return getPantryComparableName(
     item.name
   );
 }

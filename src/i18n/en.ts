@@ -183,6 +183,9 @@ export const en = {
     pantryMarkStaple: "Mark as staple",
     pantryUnmarkStaple: "Remove staple status",
     pantryUsedUp: "Used up",
+    useWhatIHave: "Use What I Have",
+    useWhatIHaveSubtitle:
+      "Find dinners that make the most of what's already here.",
 
     dietaryPreferences: "Dietary Preferences",
     vegetarianMode: "Vegetarian Mode",
@@ -241,6 +244,29 @@ export const en = {
         "Choose easier meals for busy nights and bigger meals when you have more time.",
       notes: "Use notes for picky eaters, dislikes, or softer preferences.",
     },
+  },
+
+  usePantry: {
+    title: "Use What I Have",
+    subtitle:
+      "Simple Dinners ranked these meals by how much of the recipe is already in your Pantry.",
+    backToPantry: "Back to Pantry",
+    pantryItem: "Pantry item ready to work",
+    pantryItems: "Pantry items ready to work",
+    bestMatch: "Best match",
+    youHave: "You have",
+    of: "of",
+    ingredients: "ingredients",
+    missing: "missing",
+    openRecipe: "Open Recipe",
+    addMissing: "Add Missing to List",
+    haveEverything: "You have everything you need",
+    noPantryTitle: "Your Pantry needs a few ingredients first",
+    noPantrySubtitle:
+      "Add what you already have at home, then Simple Dinners can find meals that use it.",
+    noMatchesTitle: "No strong Pantry matches yet",
+    noMatchesSubtitle:
+      "Add a few more ingredients to Pantry and the dinner matches will get better.",
   },
 
   smartWeek: {
