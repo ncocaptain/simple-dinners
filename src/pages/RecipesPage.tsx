@@ -201,6 +201,8 @@ export default function RecipesPage({
         ? !window.matchMedia("(max-width: 720px)").matches
         : true
     );
+  const [categoriesOpen, setCategoriesOpen] =
+    useState(false);
   const [cookbook, setCookbook] = useState<Meal[]>(() => getCookbook() as Meal[]);
   const [pantryItems, setPantryItems] =
     useState(() => loadPantryItems());
@@ -740,6 +742,60 @@ const activeFilterCount =
   const clearExtraFilters = () => {
   setActiveCategories([]);
 };
+
+  const categoryOptions = [
+    {
+      key: "cookbook" as CategoryFilter,
+      label: t("recipes.inCookbook"),
+      icon: <BookOpen size={14} />,
+    },
+    {
+      key: "favorites" as CategoryFilter,
+      label: t("recipes.favorites"),
+      icon: <Heart size={14} />,
+    },
+    {
+      key: "vegetarian" as CategoryFilter,
+      label: t("recipes.vegetarian"),
+      icon: <Leaf size={14} />,
+    },
+    {
+      key: "dinner" as CategoryFilter,
+      label: t("recipes.dinner", "Dinner"),
+      icon: <Utensils size={14} />,
+    },
+    {
+      key: "side" as CategoryFilter,
+      label: t("recipes.sides", "Sides"),
+      icon: <Plus size={14} />,
+    },
+    {
+      key: "breakfast" as CategoryFilter,
+      label: t("recipes.breakfast", "Breakfast"),
+      icon: <Coffee size={14} />,
+    },
+    {
+      key: "lunch" as CategoryFilter,
+      label: t("recipes.lunch", "Lunch"),
+      icon: <Sandwich size={14} />,
+    },
+    {
+      key: "dessert" as CategoryFilter,
+      label: t("recipes.desserts", "Desserts"),
+      icon: <CakeSlice size={14} />,
+    },
+    {
+      key: "salads" as CategoryFilter,
+      label: t("recipes.salads"),
+      icon: <Salad size={14} />,
+    },
+    {
+      key: "grilling" as CategoryFilter,
+      label: t("recipes.grilling"),
+      icon: <Flame size={14} />,
+      grilling: true,
+    },
+  ];
 
   // =====================================================
   // Builder: shared styles
