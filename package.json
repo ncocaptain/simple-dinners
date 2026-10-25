@@ -19,7 +19,8 @@
     "convert-images": "node scripts/convert-images.js",
     "update-photo-urls": "node scripts/update-photo-urls.js",
     "optimize-images": "node scripts/optimize-images.js",
-    "convert-webp-to-jpg": "node scripts/convert-webp-to-jpg-and-update-refs.cjs"
+    "convert-webp-to-jpg": "node scripts/convert-webp-to-jpg-and-update-refs.cjs",
+    "validate:recipes": "node scripts/validate-recipe-data.mjs"
   },
   "overrides": {
     "ajv": "8.18.0",
