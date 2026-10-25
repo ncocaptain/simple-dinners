@@ -8,6 +8,10 @@ import {
   getPantryComparableName,
 } from "./pantryUsage";
 
+import {
+  getPantryFreshness,
+} from "./pantryFreshness";
+
 export type PantryRecipeMatch = {
   recipe: Meal;
   matchedCount: number;
@@ -16,6 +20,8 @@ export type PantryRecipeMatch = {
   coverage: number;
   score: number;
   matchedIngredients: string[];
+  useSoonMatchedCount: number;
+  useSoonMatchedIngredients: string[];
 };
 
 function isSectionHeader(line: string) {
@@ -61,6 +67,24 @@ export function matchRecipeToPantry(
       .filter(Boolean)
   );
 
+  const useSoonPantryNames =
+    new Set(
+      pantryItems
+        .filter(
+          (item) =>
+            getPantryFreshness(
+              item.expiresAt
+            ).status ===
+            "use-soon"
+        )
+        .map((item) =>
+          getPantryComparableName(
+            item.name
+          )
+        )
+        .filter(Boolean)
+    );
+
   const uniqueIngredients =
     new Set<string>();
 
@@ -94,6 +118,17 @@ export function matchRecipeToPantry(
         )
     );
 
+  const useSoonMatchedIngredients =
+    matchedIngredients.filter(
+      (ingredientName) =>
+        useSoonPantryNames.has(
+          ingredientName
+        )
+    );
+
+  const useSoonMatchedCount =
+    useSoonMatchedIngredients.length;
+
   const totalCount =
     ingredientNames.length;
 
@@ -115,7 +150,12 @@ export function matchRecipeToPantry(
 
   const score =
     coverage * 100 +
-    matchedCount * 20;
+    matchedCount * 20 +
+    Math.min(
+      useSoonMatchedCount,
+      3
+    ) *
+      15;
 
   return {
     recipe,
@@ -125,6 +165,8 @@ export function matchRecipeToPantry(
     coverage,
     score,
     matchedIngredients,
+    useSoonMatchedCount,
+    useSoonMatchedIngredients,
   };
 }
 

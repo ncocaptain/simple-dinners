@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   AlertCircle,
+  CalendarDays,
   ChevronRight,
   Info,
   Leaf,
@@ -22,6 +23,12 @@ import type { Effort, PantryItem } from "../core/types";
 import {
   makePantryId,
 } from "../core/pantryStore";
+import {
+  formatPantryBestBy,
+  formatPantryDateInput,
+  getPantryFreshness,
+  parsePantryDateInput,
+} from "../core/pantryFreshness";
 import {
   addPantryRestockToList,
 } from "../shoppingList";
@@ -74,6 +81,13 @@ export default function PlanPage({
     pantryActionMessage,
     setPantryActionMessage,
   ] = useState("");
+
+  const [
+    pantryDateEditorId,
+    setPantryDateEditorId,
+  ] = useState<string | null>(
+    null
+  );
 
   const [language, setLanguage] = useState<LanguageCode>(() =>
     getStoredLanguage()
@@ -263,6 +277,54 @@ export default function PlanPage({
     );
   };
 
+  const handlePantryBestByChange = (
+    id: string,
+    value: string
+  ) => {
+    const expiresAt =
+      parsePantryDateInput(
+        value
+      );
+
+    setPantry((current) =>
+      current.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              expiresAt,
+              updatedAt:
+                Date.now(),
+            }
+          : item
+      )
+    );
+
+    setPantryDateEditorId(
+      null
+    );
+  };
+
+  const clearPantryBestBy = (
+    id: string
+  ) => {
+    setPantry((current) =>
+      current.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              expiresAt: null,
+              updatedAt:
+                Date.now(),
+            }
+          : item
+      )
+    );
+
+    setPantryDateEditorId(
+      null
+    );
+  };
+
   const getPantryQuantityStep = (
     item: PantryItem
   ) => {
@@ -366,6 +428,24 @@ export default function PlanPage({
 
     return `${quantity} ${item.unit}`;
   };
+
+  const pantryUseSoonCount =
+    pantry.filter(
+      (item) =>
+        getPantryFreshness(
+          item.expiresAt
+        ).status ===
+        "use-soon"
+    ).length;
+
+  const pantryPastDateCount =
+    pantry.filter(
+      (item) =>
+        getPantryFreshness(
+          item.expiresAt
+        ).status ===
+        "past-date"
+    ).length;
 
   const handleLanguageChange = (nextLanguage: LanguageCode) => {
     if (nextLanguage === language) return;
@@ -820,6 +900,87 @@ export default function PlanPage({
                 </div>
               )}
 
+              {(pantryUseSoonCount >
+                0 ||
+                pantryPastDateCount >
+                  0) && (
+                <div
+                  style={{
+                    marginBottom:
+                      12,
+                    padding:
+                      "10px 12px",
+                    borderRadius:
+                      14,
+                    display:
+                      "flex",
+                    alignItems:
+                      "center",
+                    gap: 9,
+                    background:
+                      pantryPastDateCount >
+                      0
+                        ? "rgba(248,113,113,0.08)"
+                        : "rgba(245,158,11,0.08)",
+                    border:
+                      pantryPastDateCount >
+                      0
+                        ? "1px solid rgba(248,113,113,0.20)"
+                        : "1px solid rgba(245,158,11,0.20)",
+                    fontSize: 12,
+                    fontWeight:
+                      900,
+                  }}
+                >
+                  <CalendarDays
+                    size={16}
+                    style={{
+                      flexShrink:
+                        0,
+                      color:
+                        pantryPastDateCount >
+                        0
+                          ? "#fca5a5"
+                          : "#fcd34d",
+                    }}
+                  />
+
+                  <span>
+                    {pantryUseSoonCount >
+                      0 && (
+                      <>
+                        {t(
+                          "plan.pantryUseSoon"
+                        )}
+                        :{" "}
+                        {
+                          pantryUseSoonCount
+                        }
+                      </>
+                    )}
+
+                    {pantryUseSoonCount >
+                      0 &&
+                      pantryPastDateCount >
+                        0 &&
+                      " • "}
+
+                    {pantryPastDateCount >
+                      0 && (
+                      <>
+                        {t(
+                          "plan.pantryPastDateShort"
+                        )}
+                        :{" "}
+                        {
+                          pantryPastDateCount
+                        }
+                      </>
+                    )}
+                  </span>
+                </div>
+              )}
+
               {pantry.length === 0 ? (
                 <div
                   style={{
@@ -845,6 +1006,15 @@ export default function PlanPage({
                       typeof item.quantity ===
                         "number" &&
                       item.quantity > 0;
+
+                    const freshness =
+                      getPantryFreshness(
+                        item.expiresAt
+                      );
+
+                    const editingBestBy =
+                      pantryDateEditorId ===
+                      item.id;
 
                     return (
                       <div
@@ -913,6 +1083,216 @@ export default function PlanPage({
                               ? ` • ${item.packageSize}`
                               : ""}
                           </div>
+
+                          <div
+                            style={{
+                              marginTop:
+                                7,
+                              display:
+                                "flex",
+                              alignItems:
+                                "center",
+                              gap: 6,
+                              flexWrap:
+                                "wrap",
+                            }}
+                          >
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setPantryDateEditorId(
+                                  (
+                                    current
+                                  ) =>
+                                    current ===
+                                    item.id
+                                      ? null
+                                      : item.id
+                                )
+                              }
+                              style={{
+                                minHeight:
+                                  28,
+                                padding:
+                                  "5px 8px",
+                                borderRadius:
+                                  10,
+                                border:
+                                  "1px solid rgba(255,255,255,0.09)",
+                                background:
+                                  "rgba(255,255,255,0.045)",
+                                color:
+                                  "rgba(255,255,255,0.72)",
+                                display:
+                                  "inline-flex",
+                                alignItems:
+                                  "center",
+                                gap: 5,
+                                fontSize:
+                                  10,
+                                fontWeight:
+                                  800,
+                                cursor:
+                                  "pointer",
+                              }}
+                            >
+                              <CalendarDays
+                                size={12}
+                              />
+
+                              {item.expiresAt
+                                ? `${t(
+                                    "plan.pantryBestBy"
+                                  )} ${formatPantryBestBy(
+                                    item.expiresAt,
+                                    language ===
+                                      "es"
+                                      ? "es"
+                                      : "en-US"
+                                  )}`
+                                : t(
+                                    "plan.pantryAddBestBy"
+                                  )}
+                            </button>
+
+                            {freshness.status ===
+                              "use-soon" && (
+                              <span
+                                style={{
+                                  padding:
+                                    "3px 7px",
+                                  borderRadius:
+                                    999,
+                                  background:
+                                    "rgba(245,158,11,0.12)",
+                                  border:
+                                    "1px solid rgba(245,158,11,0.24)",
+                                  color:
+                                    "#fcd34d",
+                                  fontSize:
+                                    10,
+                                  fontWeight:
+                                    900,
+                                }}
+                              >
+                                {t(
+                                  "plan.pantryUseSoon"
+                                )}
+                              </span>
+                            )}
+
+                            {freshness.status ===
+                              "past-date" && (
+                              <span
+                                style={{
+                                  padding:
+                                    "3px 7px",
+                                  borderRadius:
+                                    999,
+                                  background:
+                                    "rgba(248,113,113,0.12)",
+                                  border:
+                                    "1px solid rgba(248,113,113,0.24)",
+                                  color:
+                                    "#fca5a5",
+                                  fontSize:
+                                    10,
+                                  fontWeight:
+                                    900,
+                                }}
+                              >
+                                {t(
+                                  "plan.pantryPastDate"
+                                )}
+                              </span>
+                            )}
+                          </div>
+
+                          {editingBestBy && (
+                            <div
+                              style={{
+                                marginTop:
+                                  8,
+                                display:
+                                  "flex",
+                                alignItems:
+                                  "center",
+                                gap: 6,
+                                flexWrap:
+                                  "wrap",
+                              }}
+                            >
+                              <input
+                                type="date"
+                                value={formatPantryDateInput(
+                                  item.expiresAt
+                                )}
+                                onChange={(
+                                  event
+                                ) =>
+                                  handlePantryBestByChange(
+                                    item.id,
+                                    event
+                                      .target
+                                      .value
+                                  )
+                                }
+                                style={{
+                                  minHeight:
+                                    34,
+                                  padding:
+                                    "6px 8px",
+                                  borderRadius:
+                                    10,
+                                  border:
+                                    "1px solid rgba(255,255,255,0.12)",
+                                  background:
+                                    "rgba(255,255,255,0.06)",
+                                  color:
+                                    "white",
+                                  colorScheme:
+                                    "dark",
+                                  fontSize:
+                                    12,
+                                }}
+                              />
+
+                              {item.expiresAt && (
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    clearPantryBestBy(
+                                      item.id
+                                    )
+                                  }
+                                  style={{
+                                    minHeight:
+                                      34,
+                                    padding:
+                                      "6px 9px",
+                                    borderRadius:
+                                      10,
+                                    border:
+                                      "1px solid rgba(255,255,255,0.10)",
+                                    background:
+                                      "rgba(255,255,255,0.045)",
+                                    color:
+                                      "rgba(255,255,255,0.72)",
+                                    fontSize:
+                                      11,
+                                    fontWeight:
+                                      800,
+                                    cursor:
+                                      "pointer",
+                                  }}
+                                >
+                                  {t(
+                                    "plan.pantryClearDate"
+                                  )}
+                                </button>
+                              )}
+                            </div>
+                          )}
                         </div>
 
                         <div
