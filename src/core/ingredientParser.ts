@@ -263,6 +263,23 @@ export function normalizeIngredientIdentity(value: string) {
 
   if (!normalized) return "";
 
+  // Culinary shorthand such as "pepper", "ground pepper",
+  // and "freshly ground black pepper" all refer to the same
+  // pantry staple. Keep actual pepper products such as bell
+  // pepper, cayenne pepper, red pepper flakes, and lemon
+  // pepper seasoning distinct by only canonicalizing an exact
+  // black-pepper-style identity.
+  if (
+    /^(?:(?:freshly|coarsely|finely)\s+)?(?:ground\s+)?(?:black\s+)?pepper$/.test(
+      normalized
+    ) ||
+    /^(?:cracked\s+)?black\s+pepper$/.test(
+      normalized
+    )
+  ) {
+    return "black pepper";
+  }
+
   return preservedForm ? `${preservedForm} ${normalized}` : normalized;
 }
 
