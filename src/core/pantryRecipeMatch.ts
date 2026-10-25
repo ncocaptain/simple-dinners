@@ -61,6 +61,13 @@ export function matchRecipeToPantry(
 ): PantryRecipeMatch {
   const pantryNames = new Set(
     pantryItems
+      .filter(
+        (item) =>
+          getPantryFreshness(
+            item.expiresAt
+          ).status !==
+          "past-date"
+      )
       .map((item) =>
         getPantryComparableName(item.name)
       )

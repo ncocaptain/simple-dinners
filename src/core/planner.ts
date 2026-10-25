@@ -1,9 +1,16 @@
 import type {
   Meal,
   Effort,
+  PantryItem,
   SmartWeekRequestConstraints,
 } from "./types";
 import { PLANNER_RECIPES, SIDE_DISHES, DESSERTS, days } from "./data";
+import {
+  matchRecipeToPantry,
+} from "./pantryRecipeMatch";
+import {
+  getPantryFreshness,
+} from "./pantryFreshness";
 
 // =====================================================
 // Planner types
@@ -634,6 +641,34 @@ function scoreMealAgainstPantry(
   return score;
 }
 
+function scoreMealAgainstUseSoonPantry(
+  meal: Meal,
+  pantryItems: PantryItem[] = [],
+) {
+  if (pantryItems.length === 0) {
+    return 0;
+  }
+
+  const match =
+    matchRecipeToPantry(
+      meal,
+      pantryItems,
+    );
+
+  /*
+   * Freshness nudges an otherwise-good planner choice.
+   * Cap it after two Use Soon ingredients so dietary
+   * rules, effort, cookbook picks, and variety still
+   * have plenty of influence.
+   */
+  return (
+    Math.min(
+      match.useSoonMatchedCount,
+      2,
+    ) * 10
+  );
+}
+
 function hashString(value: string) {
   let hash = 0;
   for (let i = 0; i < value.length; i += 1) {
@@ -651,6 +686,7 @@ export function getPlannerScore(
   meal: Meal,
   opts?: {
     pantry?: string[];
+    pantryItems?: PantryItem[];
     favorites?: string[];
     cookedRecently?: string[];
     isFirstRun?: boolean;
@@ -658,6 +694,8 @@ export function getPlannerScore(
   }
 ) {
   const pantry = opts?.pantry ?? [];
+  const pantryItems =
+    opts?.pantryItems ?? [];
   const favorites = (opts?.favorites ?? []).map(normalizeText);
   const cookedRecently = (opts?.cookedRecently ?? []).map(normalizeText);
   const isFirstRun = !!opts?.isFirstRun;
@@ -672,6 +710,12 @@ export function getPlannerScore(
   let score = 0;
 
   score += scoreMealAgainstPantry(meal, pantry, { isFirstRun });
+
+  score +=
+    scoreMealAgainstUseSoonPantry(
+      meal,
+      pantryItems,
+    );
 
   // 🔥 Small bonus if meal uses ANY pantry items
   if (pantry.length > 0 && score > 0) {
@@ -808,6 +852,7 @@ function getAllergenSelections(preferences: {
 export function generatePlan(opts: {
   cookbook?: Meal[];
   pantry?: string[];
+  pantryItems?: PantryItem[];
   daySettings?: Partial<Record<Day, Effort>>;
   lockedMeals?: Partial<Record<Day, Meal | null>>;
   preferences: {
@@ -827,6 +872,7 @@ export function generatePlan(opts: {
   const {
     cookbook = [],
     pantry = [],
+    pantryItems = [],
     daySettings = {},
     lockedMeals = {},
     preferences,
@@ -838,6 +884,21 @@ export function generatePlan(opts: {
     requiredPrimaryProteinKeywords = [],
     markFirstPlanGenerated = true,
   } = opts;
+
+  const planningPantry =
+    pantryItems.length > 0
+      ? pantryItems
+          .filter(
+            (item) =>
+              getPantryFreshness(
+                item.expiresAt
+              ).status !==
+              "past-date"
+          )
+          .map((item) =>
+            item.name
+          )
+      : pantry;
 
   const isFirstRun =
     localStorage.getItem("simple-dinners.hasGeneratedFirstPlan") !== "true";
@@ -1007,7 +1068,8 @@ export function generatePlan(opts: {
     const ranked = [...candidates].sort((a, b) => {
       const aScore =
         getPlannerScore(a, {
-          pantry,
+          pantry: planningPantry,
+          pantryItems,
           favorites,
           cookedRecently,
           isFirstRun,
@@ -1016,12 +1078,13 @@ export function generatePlan(opts: {
         getSmartWeekRequestScore(
           a,
           requestConstraints,
-          pantry,
+          planningPantry,
         );
 
       const bScore =
         getPlannerScore(b, {
-          pantry,
+          pantry: planningPantry,
+          pantryItems,
           favorites,
           cookedRecently,
           isFirstRun,
@@ -1030,7 +1093,7 @@ export function generatePlan(opts: {
         getSmartWeekRequestScore(
           b,
           requestConstraints,
-          pantry,
+          planningPantry,
         );
 
       return bScore - aScore;

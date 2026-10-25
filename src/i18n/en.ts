@@ -359,6 +359,7 @@ export const en = {
       existingFreezer: "Your existing Freezer Night was preserved.",
       effortMatch: "This dinner matches the effort you selected for this day.",
       pantryMatch: "This recipe uses ingredients already in your kitchen.",
+      useSoon: "Uses an ingredient that should be used soon.",
       cookbookPick: "A recipe from your Cookbook was prioritized.",
       variety: "This dinner helps create more variety across the week.",
       takeoutNight: "A night off from cooking fits this day’s setting.",

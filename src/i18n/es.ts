@@ -366,6 +366,7 @@ export const es = {
       existingFreezer: "Se conservó tu Noche de congelador.",
       effortMatch: "Esta cena coincide con el esfuerzo seleccionado para este día.",
       pantryMatch: "Esta receta usa ingredientes que ya tienes en tu cocina.",
+      useSoon: "Usa un ingrediente que conviene usar pronto.",
       cookbookPick: "Se dio prioridad a una receta de tu recetario.",
       variety: "Esta cena ayuda a crear más variedad durante la semana.",
       takeoutNight: "Una noche sin cocinar coincide con la configuración de este día.",

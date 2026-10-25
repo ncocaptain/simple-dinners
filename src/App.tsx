@@ -952,6 +952,7 @@ function AppContent() {
     const next = generatePlan({
       cookbook,
       pantry: pantry.map((item) => item.name),
+      pantryItems: pantry,
       daySettings,
       lockedMeals: force ? lockedMeals : lockedMeals,
       preferences: prefs,
