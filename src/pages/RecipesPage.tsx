@@ -711,13 +711,13 @@ const isBrowseMode =
   const heroCard: React.CSSProperties = {
     overflow: "hidden",
     background:
-      "linear-gradient(180deg, rgba(26,39,61,0.72), rgba(18,30,48,0.62))",
-    backdropFilter: "blur(16px) saturate(125%)",
-    WebkitBackdropFilter: "blur(16px) saturate(125%)",
+      "linear-gradient(180deg, rgba(24,34,51,0.54), rgba(14,23,36,0.48))",
+    backdropFilter: "blur(18px) saturate(130%)",
+    WebkitBackdropFilter: "blur(18px) saturate(130%)",
     border:
-      "1px solid rgba(255,255,255,0.10)",
+      "1px solid rgba(255,255,255,0.14)",
     boxShadow:
-      "0 12px 30px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.035)",
+      "0 10px 26px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.055)",
   };
 
   const searchWrap: React.CSSProperties = {
