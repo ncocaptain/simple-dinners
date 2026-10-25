@@ -62,6 +62,10 @@ import {
   PANTRY_UPDATED_EVENT,
   savePantryItems,
 } from "../core/pantryStore";
+import {
+  getPantryComparableIngredientName,
+  getPantryComparableName,
+} from "../core/pantryUsage";
 
 // =====================================================
 // ShoppingListPage map
@@ -124,6 +128,7 @@ type CombinedItem = {
   unit: string | null;
   packageSize: string;
   pantryName: string;
+  pantryKey: string;
   pantryCoverage: PantryCoverage;
   pantryRestock: boolean;
   recipeCount: number;
@@ -4374,17 +4379,72 @@ export default function ShoppingListPage() {
           value.name
         );
 
+      /*
+       * Recipe rows retain recipeIngredientText on their
+       * raw ShoppingItem, so use that before the shopper-
+       * friendly cleanup strips words like diced/minced.
+       *
+       * If a merged shopping row contains multiple product
+       * forms, stay conservative and do not auto-cover it.
+       */
+      const pantryKeys =
+        new Set(
+          sourceShoppingItems
+            .map((item) => {
+              const recipeKey =
+                item.recipeIngredientText
+                  ? getPantryComparableIngredientName(
+                      item.recipeIngredientText
+                    )
+                  : "";
+
+              if (recipeKey) {
+                return recipeKey;
+              }
+
+              return getPantryComparableName(
+                String(
+                  item.normalizedName ||
+                    item.text ||
+                    value.name ||
+                    ""
+                )
+              );
+            })
+            .filter(Boolean)
+        );
+
+      if (
+        pantryKeys.size === 0
+      ) {
+        const fallbackKey =
+          getPantryComparableName(
+            value.name
+          );
+
+        if (fallbackKey) {
+          pantryKeys.add(
+            fallbackKey
+          );
+        }
+      }
+
       const pantryKey =
-        pantryName.toLowerCase();
+        pantryKeys.size === 1
+          ? Array.from(
+              pantryKeys
+            )[0]
+          : "";
 
       const pantryMatch =
-        pantryItems.find(
-          (item) =>
-            cleanIngredientName(
-              item.name
-            ).toLowerCase() ===
-            pantryKey
-        );
+        pantryKey
+          ? pantryItems.find(
+              (item) =>
+                getPantryComparableName(
+                  item.name
+                ) === pantryKey
+            )
+          : undefined;
 
       const requiredQuantity =
         !value.mixedUnits &&
@@ -4484,6 +4544,7 @@ export default function ShoppingListPage() {
         packageSize:
           value.packageSize,
         pantryName,
+        pantryKey,
         pantryCoverage,
         pantryRestock,
         recipeCount,
@@ -4504,6 +4565,31 @@ export default function ShoppingListPage() {
   // =====================================================
   // Group items by grocery section
   // =====================================================
+
+  /*
+   * If an item was explicitly marked Low -> Restock,
+   * that shopping need wins over a recipe row that would
+   * otherwise appear under Already in Pantry.
+   */
+  const pantryRestockKeys =
+    useMemo(
+      () =>
+        new Set(
+          combinedItems
+            .filter(
+              (item) =>
+                !item.checked &&
+                item.pantryRestock &&
+                item.pantryKey
+            )
+            .map(
+              (item) =>
+                item.pantryKey
+            )
+        ),
+      [combinedItems]
+    );
+
   const pantryCoveredItems =
     useMemo(
       () =>
@@ -4514,11 +4600,15 @@ export default function ShoppingListPage() {
               "covered" &&
             !pantryBuyAnywayIds.has(
               item.id
+            ) &&
+            !pantryRestockKeys.has(
+              item.pantryKey
             )
         ),
       [
         combinedItems,
         pantryBuyAnywayIds,
+        pantryRestockKeys,
       ]
     );
 

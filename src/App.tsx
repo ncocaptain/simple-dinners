@@ -12,6 +12,7 @@ import { App as CapacitorApp } from "@capacitor/app";
 import WeekPage from "./pages/WeekPage";
 import CookbookPage from "./pages/CookbookPage";
 import PlanPage from "./pages/PlanPage";
+import UseWhatIHavePage from "./pages/UseWhatIHavePage";
 import ShoppingListPage from "./pages/ShoppingListPage";
 import OnboardingPage from "./pages/OnboardingPage";
 import RecipePage from "./pages/RecipePage";
@@ -1068,6 +1069,16 @@ function AppContent() {
               prefs={prefs}
               setPrefs={setPrefs}
               generateDinnerPlan={generateDinnerPlan}
+            />
+          )}
+        />
+
+        <Route
+          path="/use-what-i-have"
+          element={requireOnboarding(
+            <UseWhatIHavePage
+              pantry={pantry}
+              prefs={prefs}
             />
           )}
         />

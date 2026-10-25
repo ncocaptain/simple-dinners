@@ -1180,6 +1180,88 @@ export default function PlanPage({
                   )}
                 </span>
               </div>
+
+              <button
+                type="button"
+                onClick={() =>
+                  navigate(
+                    "/use-what-i-have"
+                  )
+                }
+                style={{
+                  width: "100%",
+                  marginTop: 12,
+                  minHeight: 48,
+                  padding:
+                    "11px 14px",
+                  borderRadius: 15,
+                  border:
+                    "1px solid rgba(34,197,94,0.28)",
+                  background:
+                    "rgba(34,197,94,0.12)",
+                  color: "#86efac",
+                  display: "flex",
+                  alignItems:
+                    "center",
+                  justifyContent:
+                    "space-between",
+                  gap: 10,
+                  cursor: "pointer",
+                  textAlign: "left",
+                }}
+              >
+                <span
+                  style={{
+                    display: "flex",
+                    alignItems:
+                      "center",
+                    gap: 9,
+                  }}
+                >
+                  <Utensils
+                    size={18}
+                  />
+
+                  <span>
+                    <span
+                      style={{
+                        display:
+                          "block",
+                        fontWeight:
+                          900,
+                        fontSize: 14,
+                      }}
+                    >
+                      {t(
+                        "plan.useWhatIHave"
+                      )}
+                    </span>
+
+                    <span
+                      style={{
+                        display:
+                          "block",
+                        marginTop: 2,
+                        fontSize: 11,
+                        opacity: 0.72,
+                        lineHeight:
+                          1.3,
+                      }}
+                    >
+                      {t(
+                        "plan.useWhatIHaveSubtitle"
+                      )}
+                    </span>
+                  </span>
+                </span>
+
+                <ChevronRight
+                  size={18}
+                  style={{
+                    flexShrink: 0,
+                  }}
+                />
+              </button>
             </section>
 
             {/* =====================================================

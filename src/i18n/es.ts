@@ -186,6 +186,9 @@ export const es = {
     pantryMarkStaple: "Marcar como básico",
     pantryUnmarkStaple: "Quitar como básico",
     pantryUsedUp: "Se acabó",
+    useWhatIHave: "Usar lo que tengo",
+    useWhatIHaveSubtitle:
+      "Encuentra cenas que aprovechen lo que ya tienes en casa.",
 
     dietaryPreferences: "Preferencias alimentarias",
     vegetarianMode: "Modo vegetariano",
@@ -248,6 +251,29 @@ export const es = {
       notes:
         "Usa las notas para gustos, niños selectivos o preferencias suaves.",
     },
+  },
+
+  usePantry: {
+    title: "Usar lo que tengo",
+    subtitle:
+      "Simple Dinners ordenó estas comidas según cuánto de la receta ya tienes en tu despensa.",
+    backToPantry: "Volver a la despensa",
+    pantryItem: "artículo de despensa listo para usar",
+    pantryItems: "artículos de despensa listos para usar",
+    bestMatch: "Mejor opción",
+    youHave: "Tienes",
+    of: "de",
+    ingredients: "ingredientes",
+    missing: "faltan",
+    openRecipe: "Abrir receta",
+    addMissing: "Agregar lo que falta",
+    haveEverything: "Tienes todo lo que necesitas",
+    noPantryTitle: "Primero agrega algunos ingredientes a tu despensa",
+    noPantrySubtitle:
+      "Agrega lo que ya tienes en casa y Simple Dinners podrá encontrar comidas que lo aprovechen.",
+    noMatchesTitle: "Aún no hay buenas coincidencias",
+    noMatchesSubtitle:
+      "Agrega algunos ingredientes más a tu despensa y las sugerencias mejorarán.",
   },
 
   smartWeek: {
