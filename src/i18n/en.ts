@@ -469,7 +469,7 @@ export const en = {
   recipes: {
     title: "Recipes",
     subtitle:
-      "What sounds good? Browse dinner ideas, use what you already have, or search the full Simple Dinners library."
+      "What sounds good? Browse dinner ideas, use what you already have, or search the full Simple Dinners library.",
     searchPlaceholder: "Search recipes, ingredients, tags...",
     effortLabel: "Effort",
     categoriesLabel: "Categories",
