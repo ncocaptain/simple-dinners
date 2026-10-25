@@ -18,6 +18,9 @@ import {
   ChevronRight,
   Refrigerator,
   Sparkles,
+  SlidersHorizontal,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import Card from "../components/Card";
 import type { Meal, Effort } from "../core/types";
@@ -186,6 +189,18 @@ export default function RecipesPage({
   const [query, setQuery] = useState("");
   const [effort, setEffort] = useState<"all" | Effort>("all");
   const [activeCategories, setActiveCategories] = useState<CategoryFilter[]>([]);
+  const [isMobileRecipeLayout, setIsMobileRecipeLayout] =
+    useState(() =>
+      typeof window !== "undefined"
+        ? window.matchMedia("(max-width: 720px)").matches
+        : false
+    );
+  const [filtersOpen, setFiltersOpen] =
+    useState(() =>
+      typeof window !== "undefined"
+        ? !window.matchMedia("(max-width: 720px)").matches
+        : true
+    );
   const [cookbook, setCookbook] = useState<Meal[]>(() => getCookbook() as Meal[]);
   const [pantryItems, setPantryItems] =
     useState(() => loadPantryItems());
@@ -361,6 +376,39 @@ function recipeMatchesCategory(
     activeCategories,
   ]);
 
+  useEffect(() => {
+    const media = window.matchMedia(
+      "(max-width: 720px)"
+    );
+
+    const handleLayoutChange = (
+      event: MediaQueryListEvent
+    ) => {
+      setIsMobileRecipeLayout(
+        event.matches
+      );
+      setFiltersOpen(
+        !event.matches
+      );
+    };
+
+    setIsMobileRecipeLayout(
+      media.matches
+    );
+
+    media.addEventListener(
+      "change",
+      handleLayoutChange
+    );
+
+    return () => {
+      media.removeEventListener(
+        "change",
+        handleLayoutChange
+      );
+    };
+  }, []);
+
   // =====================================================
   // Builder: cookbook data
   // =====================================================
@@ -521,6 +569,10 @@ const isBrowseMode =
   !query.trim() &&
   effort === "all" &&
   activeCategories.length === 0;
+
+const activeFilterCount =
+  activeCategories.length +
+  (effort === "all" ? 0 : 1);
 
 
   // =====================================================
