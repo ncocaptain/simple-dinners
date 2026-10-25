@@ -9,6 +9,10 @@ import {
 } from "./pantryUsage";
 
 import {
+  splitIngredientLines,
+} from "./ingredientParser";
+
+import {
   getPantryFreshness,
 } from "./pantryFreshness";
 
@@ -23,37 +27,6 @@ export type PantryRecipeMatch = {
   useSoonMatchedCount: number;
   useSoonMatchedIngredients: string[];
 };
-
-function isSectionHeader(line: string) {
-  const value = String(line || "").trim();
-
-  if (!value) return true;
-
-  return (
-    value.endsWith(":") &&
-    !/\d/.test(value)
-  );
-}
-
-function isOptionalIngredient(line: string) {
-  return /\boptional\b/i.test(
-    String(line || "")
-  );
-}
-
-function ingredientLines(ingredients: string) {
-  return String(ingredients || "")
-    .replace(/\r/g, "\n")
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .filter(
-      (line) => !isSectionHeader(line)
-    )
-    .filter(
-      (line) => !isOptionalIngredient(line)
-    );
-}
 
 export function matchRecipeToPantry(
   recipe: Meal,
@@ -96,8 +69,11 @@ export function matchRecipeToPantry(
     new Set<string>();
 
   for (
-    const line of ingredientLines(
-      recipe.ingredients
+    const line of splitIngredientLines(
+      recipe.ingredients,
+      {
+        includeOptional: false,
+      }
     )
   ) {
     const normalized =

@@ -14,6 +14,13 @@ import {
   Coffee,
   Sandwich,
   Heart,
+  Shuffle,
+  ChevronRight,
+  Refrigerator,
+  Sparkles,
+  SlidersHorizontal,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import Card from "../components/Card";
 import type { Meal, Effort } from "../core/types";
@@ -25,6 +32,13 @@ import {
 import { t, getStoredLanguage, type LanguageCode } from "../i18n";
 import { getLocalizedMeal } from "../core/localizedMeal";
 import { Capacitor } from "@capacitor/core";
+import {
+  loadPantryItems,
+  PANTRY_UPDATED_EVENT,
+} from "../core/pantryStore";
+import {
+  rankRecipesByPantry,
+} from "../core/pantryRecipeMatch";
 
 type RecipesPageProps = {
   recipes?: Meal[];
@@ -57,6 +71,14 @@ const RECIPES_PAGE_STATE_KEY = "simple-dinners:recipes-page-state";
 
 function normalizeText(value?: string) {
   return String(value ?? "").trim().toLowerCase();
+}
+
+function getRecipeKey(meal: Meal) {
+  return normalizeText(
+    meal.slug ||
+      meal.id ||
+      meal.name
+  );
 }
 
 function normalizeTags(tags?: string[]) {
@@ -140,6 +162,26 @@ export default function RecipesPage({
     };
   }, []);
 
+  useEffect(() => {
+    const refreshPantry = () => {
+      setPantryItems(
+        loadPantryItems()
+      );
+    };
+
+    window.addEventListener(
+      PANTRY_UPDATED_EVENT,
+      refreshPantry
+    );
+
+    return () => {
+      window.removeEventListener(
+        PANTRY_UPDATED_EVENT,
+        refreshPantry
+      );
+    };
+  }, []);
+
   // =====================================================
   // Builder: state
   // =====================================================
@@ -147,7 +189,23 @@ export default function RecipesPage({
   const [query, setQuery] = useState("");
   const [effort, setEffort] = useState<"all" | Effort>("all");
   const [activeCategories, setActiveCategories] = useState<CategoryFilter[]>([]);
+  const [isMobileRecipeLayout, setIsMobileRecipeLayout] =
+    useState(() =>
+      typeof window !== "undefined"
+        ? window.matchMedia("(max-width: 720px)").matches
+        : false
+    );
+  const [filtersOpen, setFiltersOpen] =
+    useState(() =>
+      typeof window !== "undefined"
+        ? !window.matchMedia("(max-width: 720px)").matches
+        : true
+    );
+  const [categoriesOpen, setCategoriesOpen] =
+    useState(false);
   const [cookbook, setCookbook] = useState<Meal[]>(() => getCookbook() as Meal[]);
+  const [pantryItems, setPantryItems] =
+    useState(() => loadPantryItems());
 
   const favoriteKeys = useMemo(
     () =>
@@ -320,6 +378,39 @@ function recipeMatchesCategory(
     activeCategories,
   ]);
 
+  useEffect(() => {
+    const media = window.matchMedia(
+      "(max-width: 720px)"
+    );
+
+    const handleLayoutChange = (
+      event: MediaQueryListEvent
+    ) => {
+      setIsMobileRecipeLayout(
+        event.matches
+      );
+      setFiltersOpen(
+        !event.matches
+      );
+    };
+
+    setIsMobileRecipeLayout(
+      media.matches
+    );
+
+    media.addEventListener(
+      "change",
+      handleLayoutChange
+    );
+
+    return () => {
+      media.removeEventListener(
+        "change",
+        handleLayoutChange
+      );
+    };
+  }, []);
+
   // =====================================================
   // Builder: cookbook data
   // =====================================================
@@ -367,6 +458,124 @@ const localizedRecipes = useMemo(
     })),
   [mergedRecipes, language]
 );
+
+const localizedByKey = useMemo(
+  () =>
+    new Map(
+      localizedRecipes.map(
+        (item) => [
+          getRecipeKey(item.raw),
+          item,
+        ]
+      )
+    ),
+  [localizedRecipes]
+);
+
+const browseDinnerRecipes = useMemo(
+  () =>
+    localizedRecipes.filter(
+      ({ raw }) => hasTag(raw, "dinner")
+    ),
+  [localizedRecipes]
+);
+
+const browseQuickRecipes = useMemo(
+  () =>
+    browseDinnerRecipes.filter(
+      ({ raw }) => raw.effort === "quick"
+    ),
+  [browseDinnerRecipes]
+);
+
+const browseFavoriteRecipes = useMemo(
+  () =>
+    localizedRecipes.filter(
+      ({ raw }) =>
+        favoriteKeys.has(
+          getRecipeKey(raw)
+        )
+    ),
+  [localizedRecipes, favoriteKeys]
+);
+
+const browsePantryRecipes = useMemo(() => {
+  if (pantryItems.length === 0) return [];
+
+  return rankRecipesByPantry(
+    browseDinnerRecipes.map(({ raw }) => raw),
+    pantryItems
+  )
+    .filter((match) => match.matchedCount > 0)
+    .map((match) => {
+      const localized = localizedByKey.get(
+        getRecipeKey(match.recipe)
+      );
+
+      if (!localized) return null;
+
+      return {
+        ...localized,
+        pantryMatch: match,
+      };
+    })
+    .filter(
+      (
+        item
+      ): item is NonNullable<typeof item> =>
+        item !== null
+    );
+}, [
+  browseDinnerRecipes,
+  pantryItems,
+  localizedByKey,
+]);
+
+const browseSideRecipes = useMemo(
+  () =>
+    localizedRecipes.filter(
+      ({ raw }) => hasTag(raw, "side")
+    ),
+  [localizedRecipes]
+);
+
+const browseDessertRecipes = useMemo(
+  () =>
+    localizedRecipes.filter(
+      ({ raw }) => hasTag(raw, "dessert")
+    ),
+  [localizedRecipes]
+);
+
+const browseVegetarianRecipes = useMemo(
+  () =>
+    browseDinnerRecipes.filter(
+      ({ raw }) =>
+        raw.isVegetarian === true ||
+        hasTag(raw, "vegetarian")
+    ),
+  [browseDinnerRecipes]
+);
+
+const browseGrillingRecipes = useMemo(
+  () =>
+    localizedRecipes.filter(
+      ({ raw }) =>
+        hasTag(raw, "grilling") ||
+        hasTag(raw, "grill")
+    ),
+  [localizedRecipes]
+);
+
+const isBrowseMode =
+  !query.trim() &&
+  effort === "all" &&
+  activeCategories.length === 0;
+
+const activeFilterCount =
+  activeCategories.length +
+  (effort === "all" ? 0 : 1);
+
 
   // =====================================================
   // Builder: filtering
@@ -456,6 +665,24 @@ const localizedRecipes = useMemo(
     navigate(`/recipe/${recipe.slug}?from=%2Frecipes`);
   };
 
+  const handleSurpriseMe = () => {
+    if (browseDinnerRecipes.length === 0) return;
+
+    const index = Math.floor(
+      Math.random() *
+        browseDinnerRecipes.length
+    );
+
+    const pick =
+      browseDinnerRecipes[index];
+
+    if (pick?.raw) {
+      handleOpenRecipe(
+        pick.raw
+      );
+    }
+  };
+
   const handleAddToCookbook = (recipe: Meal) => {
     saveRecipesPageState();
 
@@ -516,6 +743,60 @@ const localizedRecipes = useMemo(
   setActiveCategories([]);
 };
 
+  const categoryOptions = [
+    {
+      key: "cookbook" as CategoryFilter,
+      label: t("recipes.inCookbook"),
+      icon: <BookOpen size={14} />,
+    },
+    {
+      key: "favorites" as CategoryFilter,
+      label: t("recipes.favorites"),
+      icon: <Heart size={14} />,
+    },
+    {
+      key: "vegetarian" as CategoryFilter,
+      label: t("recipes.vegetarian"),
+      icon: <Leaf size={14} />,
+    },
+    {
+      key: "dinner" as CategoryFilter,
+      label: t("recipes.dinner", "Dinner"),
+      icon: <Utensils size={14} />,
+    },
+    {
+      key: "side" as CategoryFilter,
+      label: t("recipes.sides", "Sides"),
+      icon: <Plus size={14} />,
+    },
+    {
+      key: "breakfast" as CategoryFilter,
+      label: t("recipes.breakfast", "Breakfast"),
+      icon: <Coffee size={14} />,
+    },
+    {
+      key: "lunch" as CategoryFilter,
+      label: t("recipes.lunch", "Lunch"),
+      icon: <Sandwich size={14} />,
+    },
+    {
+      key: "dessert" as CategoryFilter,
+      label: t("recipes.desserts", "Desserts"),
+      icon: <CakeSlice size={14} />,
+    },
+    {
+      key: "salads" as CategoryFilter,
+      label: t("recipes.salads"),
+      icon: <Salad size={14} />,
+    },
+    {
+      key: "grilling" as CategoryFilter,
+      label: t("recipes.grilling"),
+      icon: <Flame size={14} />,
+      grilling: true,
+    },
+  ];
+
   // =====================================================
   // Builder: shared styles
   // =====================================================
@@ -537,6 +818,14 @@ const localizedRecipes = useMemo(
 
   const heroCard: React.CSSProperties = {
     overflow: "hidden",
+    background:
+      "linear-gradient(180deg, rgba(24,34,51,0.54), rgba(14,23,36,0.48))",
+    backdropFilter: "blur(18px) saturate(130%)",
+    WebkitBackdropFilter: "blur(18px) saturate(130%)",
+    border:
+      "1px solid rgba(255,255,255,0.14)",
+    boxShadow:
+      "0 10px 26px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.055)",
   };
 
   const searchWrap: React.CSSProperties = {
@@ -680,6 +969,247 @@ const localizedRecipes = useMemo(
     gap: 8,
   };
 
+  const browseSectionStyle: React.CSSProperties = {
+    display: "grid",
+    gap: 12,
+  };
+
+  const browseSectionHeaderStyle: React.CSSProperties = {
+    display: "flex",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+    gap: 12,
+  };
+
+  const browseSectionTitleStyle: React.CSSProperties = {
+    margin: 0,
+    fontSize: 21,
+    fontWeight: 950,
+    lineHeight: 1.1,
+  };
+
+  const browseSectionSubtitleStyle: React.CSSProperties = {
+    margin: "4px 0 0 0",
+    fontSize: 13,
+    opacity: 0.62,
+    lineHeight: 1.35,
+  };
+
+  const browseRowStyle: React.CSSProperties = {
+    display: "flex",
+    gap: 12,
+    overflowX: "auto",
+    paddingBottom: 6,
+    scrollSnapType: "x proximity",
+  };
+
+  const browseCardStyle: React.CSSProperties = {
+    flex: "0 0 min(72vw, 230px)",
+    minWidth: 0,
+    borderRadius: 18,
+    overflow: "hidden",
+    border: "1px solid rgba(255,255,255,0.08)",
+    background: "rgba(255,255,255,0.035)",
+    cursor: "pointer",
+    scrollSnapAlign: "start",
+  };
+
+  const browsePhotoStyle: React.CSSProperties = {
+    width: "100%",
+    aspectRatio: "16 / 10",
+    objectFit: "cover",
+    display: "block",
+    background: "rgba(255,255,255,0.05)",
+  };
+
+  const renderBrowseSection = ({
+    icon,
+    title,
+    subtitle,
+    items,
+    onViewAll,
+  }: {
+    icon: React.ReactNode;
+    title: string;
+    subtitle: string;
+    items: Array<{
+      raw: Meal;
+      display: Meal;
+      pantryMatch?: {
+        matchedCount: number;
+        useSoonMatchedCount: number;
+      };
+    }>;
+    onViewAll?: () => void;
+  }) => {
+    if (items.length === 0) return null;
+
+    return (
+      <section style={browseSectionStyle}>
+        <div style={browseSectionHeaderStyle}>
+          <div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              {icon}
+              <h2 style={browseSectionTitleStyle}>
+                {title}
+              </h2>
+            </div>
+
+            <p style={browseSectionSubtitleStyle}>
+              {subtitle}
+            </p>
+          </div>
+
+          {onViewAll && (
+            <button
+              type="button"
+              onClick={onViewAll}
+              style={{
+                ...btnStyle,
+                padding: "8px 10px",
+                flexShrink: 0,
+              }}
+            >
+              {t("recipes.viewAll", "View all")}
+              <ChevronRight size={14} />
+            </button>
+          )}
+        </div>
+
+        <div style={browseRowStyle}>
+          {items.slice(0, 7).map(
+            ({
+              raw,
+              display,
+              pantryMatch,
+            }) => {
+              const key =
+                getRecipeKey(raw);
+
+              const photo =
+                normalizePhotoUrl(
+                  display.photoUrl ||
+                    raw.photoUrl
+                );
+
+              return (
+                <article
+                  key={key}
+                  style={browseCardStyle}
+                  onClick={() =>
+                    handleOpenRecipe(raw)
+                  }
+                >
+                  {photo ? (
+                    <img
+                      src={photo}
+                      alt={
+                        display.name ||
+                        raw.name
+                      }
+                      style={browsePhotoStyle}
+                      onError={(event) => {
+                        const target =
+                          event.currentTarget;
+                        target.onerror =
+                          null;
+                        target.style.display =
+                          "none";
+                      }}
+                    />
+                  ) : (
+                    <div
+                      style={browsePhotoStyle}
+                    />
+                  )}
+
+                  <div
+                    style={{
+                      padding: 12,
+                      display: "grid",
+                      gap: 7,
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: 15,
+                        fontWeight: 900,
+                        lineHeight: 1.2,
+                      }}
+                    >
+                      {display.name ||
+                        raw.name}
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: 6,
+                        flexWrap: "wrap",
+                      }}
+                    >
+                      <span
+                        style={{
+                          ...tagStyle,
+                          padding: "4px 7px",
+                          fontSize: 10,
+                        }}
+                      >
+                        {effortLabel(
+                          raw.effort
+                        )}
+                      </span>
+
+                      {pantryMatch && (
+                        <span
+                          style={{
+                            ...tagStyle,
+                            padding: "4px 7px",
+                            fontSize: 10,
+                            background:
+                              pantryMatch
+                                .useSoonMatchedCount >
+                              0
+                                ? "rgba(245,158,11,0.12)"
+                                : "rgba(34,197,94,0.10)",
+                            color:
+                              pantryMatch
+                                .useSoonMatchedCount >
+                              0
+                                ? "#fcd34d"
+                                : "#86efac",
+                          }}
+                        >
+                          {pantryMatch
+                            .useSoonMatchedCount >
+                          0
+                            ? `${t(
+                                "recipes.useSoon",
+                                "Use soon"
+                              )} • ${pantryMatch.matchedCount}`
+                            : `${pantryMatch.matchedCount} ${t(
+                                "recipes.pantryMatches",
+                                "pantry matches"
+                              )}`}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              );
+            }
+          )}
+        </div>
+      </section>
+    );
+  };
+
   // =====================================================
   // Builder: render
   // =====================================================
@@ -707,7 +1237,28 @@ const localizedRecipes = useMemo(
             >
               {t("recipes.subtitle")}
             </p>
-          </div>
+          
+
+            <div>
+              <button
+                type="button"
+                onClick={handleSurpriseMe}
+                style={{
+                  ...btnStyle,
+                  background:
+                    "rgba(34,197,94,0.11)",
+                  border:
+                    "1px solid rgba(34,197,94,0.28)",
+                  color: "#86efac",
+                }}
+              >
+                <Shuffle size={15} />
+                {t(
+                  "recipes.surpriseMe",
+                  "Surprise Me"
+                )}
+              </button>
+            </div></div>
 
           <div style={searchWrap}>
             <Search size={18} />
@@ -719,6 +1270,89 @@ const localizedRecipes = useMemo(
             />
           </div>
 
+          {isMobileRecipeLayout && (
+            <button
+              type="button"
+              onClick={() =>
+                setFiltersOpen(
+                  (open) => !open
+                )
+              }
+              style={{
+                ...btnStyle,
+                width: "100%",
+                justifyContent:
+                  "space-between",
+                padding: "12px 14px",
+                background:
+                  filtersOpen ||
+                  activeFilterCount > 0
+                    ? "rgba(34,197,94,0.10)"
+                    : "rgba(255,255,255,0.04)",
+                border:
+                  filtersOpen ||
+                  activeFilterCount > 0
+                    ? "1px solid rgba(34,197,94,0.30)"
+                    : btnStyle.border,
+                color:
+                  filtersOpen ||
+                  activeFilterCount > 0
+                    ? "#86efac"
+                    : "white",
+              }}
+            >
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                }}
+              >
+                <SlidersHorizontal
+                  size={16}
+                />
+                {t(
+                  "recipes.filters",
+                  "Filters"
+                )}
+                {activeFilterCount >
+                  0 && (
+                  <span
+                    style={{
+                      minWidth: 22,
+                      height: 22,
+                      padding: "0 7px",
+                      borderRadius: 999,
+                      display:
+                        "inline-flex",
+                      alignItems:
+                        "center",
+                      justifyContent:
+                        "center",
+                      background:
+                        "rgba(34,197,94,0.16)",
+                      fontSize: 11,
+                      fontWeight: 900,
+                    }}
+                  >
+                    {activeFilterCount}
+                  </span>
+                )}
+              </span>
+
+              {filtersOpen ? (
+                <ChevronUp size={16} />
+              ) : (
+                <ChevronDown
+                  size={16}
+                />
+              )}
+            </button>
+          )}
+
+          {(!isMobileRecipeLayout ||
+            filtersOpen) && (
+            <>
           <div style={sectionLabel}>
             {t("recipes.effortLabel").toUpperCase()}
           </div>
@@ -762,114 +1396,266 @@ const localizedRecipes = useMemo(
             {t("recipes.categoriesLabel").toUpperCase()}
           </div>
 
-          <div style={chipRow}>
-            {[
-              {
-                key: "cookbook",
-                label: t("recipes.inCookbook"),
-                icon: <BookOpen size={14} />,
-              },
-              {
-                key: "favorites",
-                label: t("recipes.favorites"),
-                icon: <Heart size={14} />,
-              },
-              {
-                key: "vegetarian",
-                label: t("recipes.vegetarian"),
-                icon: <Leaf size={14} />,
-              },
-              {
-                key: "dinner",
-                label: t("recipes.dinner", "Dinner"),
-                icon: <Utensils size={14} />,
-              },
-              {
-                key: "side",
-                label: t("recipes.sides", "Sides"),
-                icon: <Plus size={14} />,
-              },
-              {
-                key: "breakfast",
-                label: t("recipes.breakfast", "Breakfast"),
-                icon: <Coffee size={14} />,
-              },
-              {
-                key: "lunch",
-                label: t("recipes.lunch", "Lunch"),
-                icon: <Sandwich size={14} />,
-              },
-              {
-                key: "dessert",
-                label: t("recipes.desserts", "Desserts"),
-                icon: <CakeSlice size={14} />,
-              },
-              {
-                key: "salads",
-                label: t("recipes.salads"),
-                icon: <Salad size={14} />,
-              },
-              {
-                key: "grilling",
-                label: t("recipes.grilling"),
-                icon: <Flame size={14} />,
-                grilling: true,
-              },
-            ].map((category) => {
-              const key = category.key as CategoryFilter;
-              const active = activeCategories.includes(key);
-
-              return (
-                <button
-                  key={key}
-                  type="button"
-                  onClick={() => toggleCategory(key)}
-                  style={{
-                    ...chipBase,
-                    background: active
-                      ? category.grilling
-                        ? "rgba(250,204,21,0.15)"
-                        : "rgba(34,197,94,0.12)"
-                      : chipBase.background,
-                    border: active
-                      ? category.grilling
-                        ? "1px solid rgba(250,204,21,0.35)"
-                        : "1px solid rgba(34,197,94,0.45)"
-                      : chipBase.border,
-                    color: active
-                      ? category.grilling
-                        ? "#fde68a"
-                        : "#86efac"
-                      : chipBase.color,
-                  }}
-                >
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 8,
-                    }}
-                  >
-                    {category.icon}
-                    {category.label}
-                  </span>
-                </button>
-              );
-            })}
-
-            <button
-              type="button"
-              onClick={clearExtraFilters}
+          {isMobileRecipeLayout ? (
+            <div
               style={{
-                ...chipBase,
-                background: "transparent",
-                border: "1px dashed rgba(255,255,255,0.25)",
-                color: "rgba(255,255,255,0.6)",
+                display: "grid",
+                gap: 8,
               }}
             >
-              {t("recipes.resetFilters", "Reset Filters")}
-            </button>
-          </div>
+              <button
+                type="button"
+                onClick={() =>
+                  setCategoriesOpen(
+                    (open) => !open
+                  )
+                }
+                style={{
+                  ...btnStyle,
+                  width: "100%",
+                  justifyContent:
+                    "space-between",
+                  padding: "12px 14px",
+                  background:
+                    activeCategories.length > 0
+                      ? "rgba(34,197,94,0.10)"
+                      : "rgba(255,255,255,0.04)",
+                  border:
+                    activeCategories.length > 0
+                      ? "1px solid rgba(34,197,94,0.30)"
+                      : btnStyle.border,
+                  color:
+                    activeCategories.length > 0
+                      ? "#86efac"
+                      : "white",
+                }}
+              >
+                <span>
+                  {activeCategories.length === 0
+                    ? t(
+                        "recipes.allCategories",
+                        "All categories"
+                      )
+                    : t(
+                        "recipes.categoriesSelected",
+                        "{{count}} selected"
+                      ).replace(
+                        "{{count}}",
+                        String(
+                          activeCategories.length
+                        )
+                      )}
+                </span>
+
+                {categoriesOpen ? (
+                  <ChevronUp size={16} />
+                ) : (
+                  <ChevronDown size={16} />
+                )}
+              </button>
+
+              {categoriesOpen && (
+                <div
+                  style={{
+                    display: "grid",
+                    gap: 6,
+                    padding: 8,
+                    borderRadius: 14,
+                    background:
+                      "rgba(8,15,25,0.88)",
+                    border:
+                      "1px solid rgba(255,255,255,0.10)",
+                    boxShadow:
+                      "0 12px 30px rgba(0,0,0,0.24)",
+                    backdropFilter:
+                      "blur(16px)",
+                    WebkitBackdropFilter:
+                      "blur(16px)",
+                  }}
+                >
+                  {categoryOptions.map(
+                    (category) => {
+                      const active =
+                        activeCategories.includes(
+                          category.key
+                        );
+
+                      return (
+                        <button
+                          key={category.key}
+                          type="button"
+                          onClick={() =>
+                            toggleCategory(
+                              category.key
+                            )
+                          }
+                          style={{
+                            border: "none",
+                            background: active
+                              ? category.grilling
+                                ? "rgba(250,204,21,0.12)"
+                                : "rgba(34,197,94,0.12)"
+                              : "transparent",
+                            color: active
+                              ? category.grilling
+                                ? "#fde68a"
+                                : "#86efac"
+                              : "rgba(255,255,255,0.82)",
+                            borderRadius: 10,
+                            padding:
+                              "10px 11px",
+                            display: "flex",
+                            alignItems:
+                              "center",
+                            justifyContent:
+                              "space-between",
+                            gap: 12,
+                            cursor:
+                              "pointer",
+                            fontWeight: 800,
+                            fontSize: 13,
+                            textAlign: "left",
+                          }}
+                        >
+                          <span
+                            style={{
+                              display:
+                                "inline-flex",
+                              alignItems:
+                                "center",
+                              gap: 9,
+                            }}
+                          >
+                            {category.icon}
+                            {category.label}
+                          </span>
+
+                          <span
+                            style={{
+                              width: 20,
+                              textAlign:
+                                "center",
+                              opacity: active
+                                ? 1
+                                : 0.28,
+                            }}
+                          >
+                            {active
+                              ? "✓"
+                              : "○"}
+                          </span>
+                        </button>
+                      );
+                    }
+                  )}
+
+                  {activeCategories.length >
+                    0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        clearExtraFilters();
+                        setCategoriesOpen(
+                          false
+                        );
+                      }}
+                      style={{
+                        ...btnStyle,
+                        marginTop: 2,
+                        background:
+                          "transparent",
+                        border:
+                          "1px dashed rgba(255,255,255,0.22)",
+                        color:
+                          "rgba(255,255,255,0.64)",
+                      }}
+                    >
+                      {t(
+                        "recipes.resetCategories",
+                        "Clear categories"
+                      )}
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div style={chipRow}>
+              {categoryOptions.map(
+                (category) => {
+                  const active =
+                    activeCategories.includes(
+                      category.key
+                    );
+
+                  return (
+                    <button
+                      key={category.key}
+                      type="button"
+                      onClick={() =>
+                        toggleCategory(
+                          category.key
+                        )
+                      }
+                      style={{
+                        ...chipBase,
+                        background: active
+                          ? category.grilling
+                            ? "rgba(250,204,21,0.15)"
+                            : "rgba(34,197,94,0.12)"
+                          : chipBase.background,
+                        border: active
+                          ? category.grilling
+                            ? "1px solid rgba(250,204,21,0.35)"
+                            : "1px solid rgba(34,197,94,0.45)"
+                          : chipBase.border,
+                        color: active
+                          ? category.grilling
+                            ? "#fde68a"
+                            : "#86efac"
+                          : chipBase.color,
+                      }}
+                    >
+                      <span
+                        style={{
+                          display:
+                            "inline-flex",
+                          alignItems:
+                            "center",
+                          gap: 8,
+                        }}
+                      >
+                        {category.icon}
+                        {category.label}
+                      </span>
+                    </button>
+                  );
+                }
+              )}
+
+              <button
+                type="button"
+                onClick={clearExtraFilters}
+                style={{
+                  ...chipBase,
+                  background:
+                    "transparent",
+                  border:
+                    "1px dashed rgba(255,255,255,0.25)",
+                  color:
+                    "rgba(255,255,255,0.6)",
+                }}
+              >
+                {t(
+                  "recipes.resetFilters",
+                  "Reset Filters"
+                )}
+              </button>
+            </div>
+          )}
+
+            </>
+          )}
 
           <div style={statsRow}>
             <span style={statStyle}>
@@ -902,6 +1688,150 @@ const localizedRecipes = useMemo(
           )}
         </div>
       </Card>
+
+      {isBrowseMode && (
+        <>
+          {renderBrowseSection({
+            icon: <Heart size={19} />,
+            title: t("recipes.browse.favoritesTitle", "Family Favorites"),
+            subtitle: t(
+              "recipes.browse.favoritesSubtitle",
+              "The recipes you already know you love."
+            ),
+            items: browseFavoriteRecipes,
+            onViewAll: () =>
+              setActiveCategories(["favorites"]),
+          })}
+
+          {renderBrowseSection({
+            icon: <Utensils size={19} />,
+            title: t("recipes.browse.dinnerTitle", "Dinner Tonight"),
+            subtitle: t(
+              "recipes.browse.dinnerSubtitle",
+              "Start with something that feels like dinner."
+            ),
+            items: browseDinnerRecipes,
+            onViewAll: () =>
+              setActiveCategories(["dinner"]),
+          })}
+
+          {renderBrowseSection({
+            icon: <Sparkles size={19} />,
+            title: t("recipes.browse.quickTitle", "Quick & Easy"),
+            subtitle: t(
+              "recipes.browse.quickSubtitle",
+              "Busy night? Keep dinner moving."
+            ),
+            items: browseQuickRecipes,
+            onViewAll: () => {
+              setEffort("quick");
+              setActiveCategories(["dinner"]);
+            },
+          })}
+
+          {renderBrowseSection({
+            icon: <Refrigerator size={19} />,
+            title: t("recipes.browse.pantryTitle", "Use What You Have"),
+            subtitle: t(
+              "recipes.browse.pantrySubtitle",
+              "Dinner ideas matched to what's already in your Pantry."
+            ),
+            items: browsePantryRecipes,
+          })}
+
+          {renderBrowseSection({
+            icon: <Salad size={19} />,
+            title: t("recipes.browse.sidesTitle", "Sides"),
+            subtitle: t(
+              "recipes.browse.sidesSubtitle",
+              "Finish the plate with something good."
+            ),
+            items: browseSideRecipes,
+            onViewAll: () =>
+              setActiveCategories(["side"]),
+          })}
+
+          {renderBrowseSection({
+            icon: <CakeSlice size={19} />,
+            title: t("recipes.browse.dessertTitle", "Something Sweet"),
+            subtitle: t(
+              "recipes.browse.dessertSubtitle",
+              "Because dinner doesn't always have to be the ending."
+            ),
+            items: browseDessertRecipes,
+            onViewAll: () =>
+              setActiveCategories(["dessert"]),
+          })}
+
+          {renderBrowseSection({
+            icon: <Leaf size={19} />,
+            title: t("recipes.browse.vegetarianTitle", "Vegetarian"),
+            subtitle: t(
+              "recipes.browse.vegetarianSubtitle",
+              "Plant-forward dinners worth putting in the rotation."
+            ),
+            items: browseVegetarianRecipes,
+            onViewAll: () =>
+              setActiveCategories(["vegetarian", "dinner"]),
+          })}
+
+          {renderBrowseSection({
+            icon: <Flame size={19} />,
+            title: t("recipes.browse.grillTitle", "From the Grill"),
+            subtitle: t(
+              "recipes.browse.grillSubtitle",
+              "Fire it up when dinner belongs outside."
+            ),
+            items: browseGrillingRecipes,
+            onViewAll: () =>
+              setActiveCategories(["grilling"]),
+          })}
+
+          <section
+            style={{
+              display: "grid",
+              gap: 5,
+              paddingTop: 4,
+            }}
+          >
+            <h2
+              style={{
+                margin: 0,
+                fontSize: 23,
+                fontWeight: 950,
+              }}
+            >
+              {t("recipes.browse.allTitle", "All Recipes")}
+            </h2>
+            <p
+              style={{
+                margin: 0,
+                fontSize: 13,
+                opacity: 0.62,
+              }}
+            >
+              {t(
+                "recipes.browse.allSubtitle",
+                "The full Simple Dinners recipe library."
+              )}
+            </p>
+          </section>
+        </>
+      )}
+
+      {!isBrowseMode && (
+        <section style={{ display: "grid", gap: 5 }}>
+          <h2
+            style={{
+              margin: 0,
+              fontSize: 23,
+              fontWeight: 950,
+            }}
+          >
+            {t("recipes.resultsTitle", "Recipe Results")}
+          </h2>
+        </section>
+      )}
 
       <div style={gridStyle}>
         {filteredRecipes.map(({ raw, display }) => {

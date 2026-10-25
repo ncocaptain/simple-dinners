@@ -1,5 +1,11 @@
 import type { PantryItem } from "./types";
 
+import {
+  normalizeIngredientIdentity,
+  normalizeIngredientUnit,
+  parseIngredientLine as parseSharedIngredientLine,
+} from "./ingredientParser";
+
 export type PantryUsageReason =
   | "ready"
   | "staple"
@@ -19,363 +25,10 @@ export type PantryUsageSuggestion = {
   reason: PantryUsageReason;
 };
 
-const UNICODE_FRACTIONS: Record<string, number> = {
-  "¼": 0.25,
-  "½": 0.5,
-  "¾": 0.75,
-  "⅓": 1 / 3,
-  "⅔": 2 / 3,
-  "⅛": 0.125,
-  "⅜": 0.375,
-  "⅝": 0.625,
-  "⅞": 0.875,
-};
-
-const UNIT_ALIASES: Record<string, string> = {
-  cup: "cup",
-  cups: "cup",
-
-  tbsp: "tbsp",
-  tablespoon: "tbsp",
-  tablespoons: "tbsp",
-
-  tsp: "tsp",
-  teaspoon: "tsp",
-  teaspoons: "tsp",
-
-  oz: "oz",
-  ounce: "oz",
-  ounces: "oz",
-
-  lb: "lb",
-  lbs: "lb",
-  pound: "lb",
-  pounds: "lb",
-
-  g: "g",
-  gram: "g",
-  grams: "g",
-
-  kg: "kg",
-  kilogram: "kg",
-  kilograms: "kg",
-
-  ml: "ml",
-  milliliter: "ml",
-  milliliters: "ml",
-
-  l: "l",
-  liter: "l",
-  liters: "l",
-
-  can: "can",
-  cans: "can",
-
-  package: "package",
-  packages: "package",
-  pkg: "package",
-  pkgs: "package",
-
-  bag: "bag",
-  bags: "bag",
-
-  jar: "jar",
-  jars: "jar",
-
-  carton: "carton",
-  cartons: "carton",
-
-  clove: "clove",
-  cloves: "clove",
-
-  slice: "slice",
-  slices: "slice",
-
-  piece: "piece",
-  pieces: "piece",
-};
-
-const DESCRIPTORS = new Set([
-  "fresh",
-  "large",
-  "small",
-  "medium",
-  "extra",
-  "virgin",
-  "boneless",
-  "skinless",
-  "lean",
-  "halved",
-  "diced",
-  "chopped",
-  "minced",
-  "sliced",
-  "shredded",
-  "softened",
-  "melted",
-  "beaten",
-  "drained",
-  "rinsed",
-  "divided",
-  "optional",
-  "unsalted",
-  "salted",
-  "cooked",
-  "uncooked",
-]);
-
-function parseQuantity(
-  raw: string
-): number | null {
-  const value = raw.trim();
-
-  if (!value) return null;
-
-  if (
-    UNICODE_FRACTIONS[value] !==
-    undefined
-  ) {
-    return UNICODE_FRACTIONS[value];
-  }
-
-  const mixed = value.match(
-    /^(\d+)\s+(\d+)\/(\d+)$/
-  );
-
-  if (mixed) {
-    const whole = Number(mixed[1]);
-    const numerator = Number(mixed[2]);
-    const denominator = Number(mixed[3]);
-
-    if (!denominator) return null;
-
-    return (
-      whole +
-      numerator / denominator
-    );
-  }
-
-  const fraction = value.match(
-    /^(\d+)\/(\d+)$/
-  );
-
-  if (fraction) {
-    const numerator =
-      Number(fraction[1]);
-    const denominator =
-      Number(fraction[2]);
-
-    if (!denominator) return null;
-
-    return numerator / denominator;
-  }
-
-  const numberValue =
-    Number(value);
-
-  return Number.isFinite(numberValue)
-    ? numberValue
-    : null;
-}
-
-function normalizeUnit(
-  value: string | null | undefined
-) {
-  if (!value) return null;
-
-  return (
-    UNIT_ALIASES[
-      value.toLowerCase().trim()
-    ] || value.toLowerCase().trim()
-  );
-}
-
-function singularizeWord(
-  word: string
-) {
-  if (
-    word.endsWith("ies") &&
-    word.length > 4
-  ) {
-    return `${word.slice(0, -3)}y`;
-  }
-
-  if (
-    word.endsWith("oes") &&
-    word.length > 4
-  ) {
-    return word.slice(0, -2);
-  }
-
-  if (
-    word.endsWith("ses") &&
-    word.length > 4
-  ) {
-    return word.slice(0, -1);
-  }
-
-  if (
-    word.endsWith("s") &&
-    !word.endsWith("ss") &&
-    word.length > 3
-  ) {
-    return word.slice(0, -1);
-  }
-
-  return word;
-}
-
-function normalizeIngredientName(
-  text: string
-) {
-  const source =
-    String(text || "")
-      .normalize("NFD")
-      .replace(
-        /[\u0300-\u036f]/g,
-        ""
-      )
-      .toLowerCase();
-
-  /*
-   * Pantry identity needs to preserve product form when
-   * that form changes what the ingredient actually is.
-   *
-   * "tomatoes, diced" = fresh tomatoes that need prep.
-   * "diced tomatoes" = canned/prepared diced tomatoes.
-   *
-   * "garlic, minced" = a clove that needs prep.
-   * "minced garlic" = prepared/jarred minced garlic.
-   */
-  const preservedForm =
-    /\bfire[- ]roasted\s+diced\s+tomatoes?\b/.test(
-      source
-    )
-      ? "fire-roasted-diced"
-      : /\bdiced\s+tomatoes?\b/.test(
-          source
-        )
-        ? "diced"
-        : /\bminced\s+garlic\b/.test(
-            source
-          )
-          ? "minced"
-          : "";
-
-  const normalized =
-    source
-      .replace(/\([^)]*\)/g, " ")
-      .replace(
-        /[^a-z0-9\s]/g,
-        " "
-      )
-      .split(/\s+/)
-      .map((word) =>
-        word.trim()
-      )
-      .filter(Boolean)
-      .filter(
-        (word) =>
-          !DESCRIPTORS.has(
-            word
-          )
-      )
-      .filter(
-        (word) =>
-          !UNIT_ALIASES[word]
-      )
-      .map(singularizeWord)
-      .join(" ")
-      .replace(/\s+/g, " ")
-      .trim();
-
-  if (!normalized) {
-    return "";
-  }
-
-  return preservedForm
-    ? `${preservedForm} ${normalized}`
-    : normalized;
-}
-
-function parseIngredientLine(
-  ingredient: string
-) {
-  let text = String(
-    ingredient || ""
-  )
-    .replace(
-      /,?\s*to taste/gi,
-      ""
-    )
-    .replace(
-      /,?\s*optional/gi,
-      ""
-    )
-    .replace(
-      /,?\s*divided/gi,
-      ""
-    )
-    .trim();
-
-  const quantityPattern =
-    /^((?:\d+\s+\d+\/\d+)|(?:\d+\/\d+)|(?:\d+(?:\.\d+)?)|[¼½¾⅓⅔⅛⅜⅝⅞])(?=\s|\(|$)/;
-
-  const quantityMatch =
-    text.match(quantityPattern);
-
-  let quantity: number | null =
-    null;
-
-  if (quantityMatch) {
-    quantity =
-      parseQuantity(
-        quantityMatch[1]
-      );
-
-    text = text
-      .slice(
-        quantityMatch[0].length
-      )
-      .trim();
-  }
-
-  const unitPattern =
-    /^(cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|gram|grams|kg|kilogram|kilograms|ml|milliliter|milliliters|l|liter|liters|can|cans|package|packages|pkg|pkgs|bag|bags|jar|jars|carton|cartons|clove|cloves|slice|slices|piece|pieces)\b/i;
-
-  const unitMatch =
-    text.match(unitPattern);
-
-  let unit: string | null =
-    null;
-
-  if (unitMatch) {
-    unit =
-      normalizeUnit(
-        unitMatch[1]
-      );
-
-    text = text
-      .slice(
-        unitMatch[0].length
-      )
-      .trim();
-  }
-
-  return {
-    quantity,
-    unit,
-    name:
-      normalizeIngredientName(
-        text
-      ),
-  };
-}
-
 export function getPantryComparableName(
   value: string
 ) {
-  return normalizeIngredientName(
+  return normalizeIngredientIdentity(
     value
   );
 }
@@ -383,9 +36,9 @@ export function getPantryComparableName(
 export function getPantryComparableIngredientName(
   ingredient: string
 ) {
-  return parseIngredientLine(
+  return parseSharedIngredientLine(
     ingredient
-  ).name;
+  ).normalizedName;
 }
 
 function getPantryMatchKey(
@@ -401,8 +54,8 @@ function unitsMatch(
   recipeUnit: string | null
 ) {
   return (
-    normalizeUnit(pantryUnit) ===
-    normalizeUnit(recipeUnit)
+    normalizeIngredientUnit(pantryUnit) ===
+    normalizeIngredientUnit(recipeUnit)
   );
 }
 
@@ -436,17 +89,17 @@ export function buildPantryUsageSuggestions(
     of ingredientLines
   ) {
     const parsed =
-      parseIngredientLine(
+      parseSharedIngredientLine(
         ingredientText
       );
 
-    if (!parsed.name) {
+    if (!parsed.normalizedName) {
       continue;
     }
 
     const pantryItem =
       pantryByName.get(
-        parsed.name
+        parsed.normalizedName
       );
 
     if (!pantryItem) {
@@ -460,12 +113,12 @@ export function buildPantryUsageSuggestions(
         : null;
 
     const pantryUnit =
-      normalizeUnit(
+      normalizeIngredientUnit(
         pantryItem.unit
       );
 
     const recipeUnit =
-      normalizeUnit(
+      normalizeIngredientUnit(
         parsed.unit
       );
 

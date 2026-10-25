@@ -1,4 +1,9 @@
 import { categorizeGroceryItem, type GroceryCategory } from "./core/groceryCategories";
+import {
+  INGREDIENT_QUANTITY_PATTERN,
+  INGREDIENT_UNIT_PATTERN,
+  isIngredientSectionHeader,
+} from "./core/ingredientParser";
 
 // =====================================================
 // Builder: shopping list item type
@@ -384,10 +389,10 @@ function pluralizeUnit(unit: string, quantity: number | null | undefined) {
 }
 
 const UNIT_PATTERN =
-  "cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|kg|ml|loaf|loaves|l|clove|cloves|can|cans|package|packages|pkg|pkgs|box|boxes|strip|strips|slice|slices|stick|sticks|bunch|bunches|jar|jars|carton|cartons|bag|bags|tube|tubes|packet|packets|head|heads";
+  INGREDIENT_UNIT_PATTERN;
 
 const QUANTITY_PATTERN =
-  "\\d+\\s+\\d+\\/\\d+|\\d+\\/\\d+|\\d+\\.\\d+|\\d+|½|¼|¾|⅓|⅔|⅛";
+  INGREDIENT_QUANTITY_PATTERN;
 
 // =====================================================
 // Builder: normalization helpers
@@ -635,25 +640,8 @@ function preserveManualShoppingName(text: string) {
 }
 
 
-const SECTION_HEADER_PATTERNS = [
-  /seasoning:?$/,
-  /^sauce:?$/,
-  /glaze:?$/,
-  /topping:?$/,
-  /toppings:?$/,
-  /marinade:?$/,
-  /dressing:?$/,
-  /filling:?$/,
-  /quick chili topping:?$/,
-  /^for .+:?$/,
-];
-
-function isSectionHeader(text: string) {
-  const cleaned = cleanupSpacing(normalizeAscii(text));
-  if (!cleaned) return true;
-  if (String(text).trim().endsWith(":")) return true;
-  return SECTION_HEADER_PATTERNS.some((pattern) => pattern.test(cleaned));
-}
+const isSectionHeader =
+  isIngredientSectionHeader;
 
 const RECIPE_STYLE_PHRASES = [
   "to taste",

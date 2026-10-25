@@ -1,4 +1,17 @@
-import type { Meal, PantryItem } from "./types";
+import type {
+  Meal,
+  PantryItem,
+} from "./types";
+
+import {
+  normalizeIngredientIdentity,
+  parseIngredientLine,
+  splitIngredientLines,
+} from "./ingredientParser";
+
+import {
+  getPantryFreshness,
+} from "./pantryFreshness";
 
 type CookNowMeal = Meal & {
   favorite?: boolean;
@@ -11,89 +24,187 @@ type CookNowResult = {
   missing: string[];
 };
 
-function normalize(s: string) {
-  return s.toLowerCase().trim();
+function normalize(value: string) {
+  return String(value || "")
+    .toLowerCase()
+    .trim();
 }
 
-function splitIngredients(text?: string): string[] {
-  return (text ?? "")
-    .split("\n")
-    .map((x) => x.trim())
-    .filter(Boolean)
-    .map((line) => {
-      return line
-        .toLowerCase()
-        .replace(/^\d+(\s*\/\s*\d+)?\s*/, "")
-        .replace(/\b(cup|cups|Tbsp|tsp|lb|lbs|oz|clove|cloves|can|cans|package|packages)\b/g, "")
-        .replace(/[(),.-]/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
-    })
+function splitIngredients(
+  text?: string
+): string[] {
+  const unique =
+    new Set<string>();
+
+  for (
+    const line of splitIngredientLines(
+      text ?? "",
+      {
+        includeOptional: false,
+      }
+    )
+  ) {
+    const parsed =
+      parseIngredientLine(line);
+
+    if (parsed.normalizedName) {
+      unique.add(
+        parsed.normalizedName
+      );
+    }
+  }
+
+  return Array.from(unique);
+}
+
+function pantryNames(
+  pantry: PantryItem[]
+): string[] {
+  return pantry
+    .filter(
+      (item) =>
+        getPantryFreshness(
+          item.expiresAt
+        ).status !== "past-date"
+    )
+    .map((item) =>
+      normalizeIngredientIdentity(
+        item.name
+      )
+    )
     .filter(Boolean);
 }
 
-function pantryNames(pantry: PantryItem[]): string[] {
-  return pantry.map((p) => normalize(p.name));
+function ingredientMatchesPantry(
+  ingredient: string,
+  pantry: string[]
+) {
+  return pantry.some(
+    (pantryName) =>
+      ingredient.includes(
+        pantryName
+      ) ||
+      pantryName.includes(
+        ingredient
+      )
+  );
 }
 
-function ingredientMatchesPantry(ingredient: string, pantry: string[]) {
-  return pantry.some((p) => ingredient.includes(p) || p.includes(ingredient));
-}
+export function rankCookNowMeals(
+  args: {
+    meals: CookNowMeal[];
+    pantry: PantryItem[];
+    favorites?: string[];
+  }
+): CookNowResult[] {
+  const {
+    meals,
+    pantry,
+    favorites = [],
+  } = args;
 
-export function rankCookNowMeals(args: {
-  meals: CookNowMeal[];
-  pantry: PantryItem[];
-  favorites?: string[];
-}): CookNowResult[] {
-  const { meals, pantry, favorites = [] } = args;
-  const pantryList = pantryNames(pantry);
-  const favSet = new Set(favorites.map(normalize));
+  const pantryList =
+    pantryNames(pantry);
 
-  const results: CookNowResult[] = meals.map((meal) => {
-    const ingredients = splitIngredients(meal.ingredients);
-
-    const matched = ingredients.filter((ing) =>
-      ingredientMatchesPantry(ing, pantryList)
+  const favSet =
+    new Set(
+      favorites.map(normalize)
     );
 
-    const missing = ingredients.filter(
-      (ing) => !ingredientMatchesPantry(ing, pantryList)
-    );
+  const results:
+    CookNowResult[] =
+      meals.map((meal) => {
+        const ingredients =
+          splitIngredients(
+            meal.ingredients
+          );
 
-    let score = 0;
+        const matched =
+          ingredients.filter(
+            (ingredient) =>
+              ingredientMatchesPantry(
+                ingredient,
+                pantryList
+              )
+          );
 
-    score += matched.length * 12;
-    const pantryBasics = [
-  "Salt",
-  "Pepper",
-  "Olive Oil",
-  "oil",
-  "Butter",
-  "Garlic",
-  "sugar"
-];
+        const missing =
+          ingredients.filter(
+            (ingredient) =>
+              !ingredientMatchesPantry(
+                ingredient,
+                pantryList
+              )
+          );
 
-const realMissing = missing.filter(
-  (m) => !pantryBasics.some((b) => m.includes(b))
-);
+        let score = 0;
 
-score -= realMissing.length * 6;
+        score +=
+          matched.length * 12;
 
-    if (meal.effort === "quick") score += 12;
-    if (meal.effort === "normal") score += 6;
+        const pantryBasics = [
+          "salt",
+          "pepper",
+          "olive oil",
+          "oil",
+          "butter",
+          "garlic",
+          "sugar",
+        ];
 
-    if (favSet.has(normalize(meal.name))) score += 15;
-    if (meal.favorite) score += 15;
+        const realMissing =
+          missing.filter(
+            (ingredient) =>
+              !pantryBasics.some(
+                (basic) =>
+                  ingredient.includes(
+                    basic
+                  )
+              )
+          );
 
-    score -= Math.max(0, ingredients.length - 6);
+        score -=
+          realMissing.length * 6;
 
-    return {
-      meal,
-      score,
-      matched,
-      missing,
-    };
-  });
+        if (
+          meal.effort === "quick"
+        ) {
+          score += 12;
+        }
 
-  return results.sort((a, b) => b.score - a.score);
+        if (
+          meal.effort === "normal"
+        ) {
+          score += 6;
+        }
+
+        if (
+          favSet.has(
+            normalize(meal.name)
+          )
+        ) {
+          score += 15;
+        }
+
+        if (meal.favorite) {
+          score += 15;
+        }
+
+        score -= Math.max(
+          0,
+          ingredients.length - 6
+        );
+
+        return {
+          meal,
+          score,
+          matched,
+          missing,
+        };
+      });
+
+  return results.sort(
+    (a, b) =>
+      b.score - a.score
+  );
 }

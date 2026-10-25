@@ -57,6 +57,7 @@ import { ALL_RECIPES } from "../core/data";
 import { getCookbook } from "../core/cookbookStore";
 import type { PantryItem } from "../core/types";
 import {
+  cleanPantryItemName,
   loadPantryItems,
   makePantryId,
   PANTRY_UPDATED_EVENT,
@@ -3152,8 +3153,9 @@ export default function ShoppingListPage() {
       new Map(
         nextPantry.map(
           (item, index) => [
-            cleanIngredientName(
-              item.name
+            cleanPantryItemName(
+              item.name,
+              item.unit
             ).toLowerCase(),
             index,
           ]
@@ -3164,7 +3166,7 @@ export default function ShoppingListPage() {
     let updatedCount = 0;
 
     for (const group of checkedGroups) {
-      let pantryName = group.displayText;
+      let pantryName = group.pantryName || group.displayText;
 
       // Remove leading amounts from grouped display names:
       // "10 cloves Garlic" -> "Garlic"
@@ -3181,7 +3183,12 @@ export default function ShoppingListPage() {
         .trim();
 
       pantryName =
-        cleanIngredientName(pantryName);
+        cleanPantryItemName(
+          cleanIngredientName(
+            pantryName
+          ),
+          group.unit
+        );
 
       // Extra safety fixes
       if (pantryName.includes("garlic")) {
@@ -3308,7 +3315,12 @@ export default function ShoppingListPage() {
       const newItem: PantryItem = {
         id: makePantryId(pantryName),
         name:
-          formatDisplayName(pantryName),
+          formatDisplayName(
+            cleanPantryItemName(
+              pantryName,
+              group.unit
+            )
+          ),
         createdAt: Date.now(),
         quantity:
           group.quantity ?? undefined,
@@ -5427,25 +5439,39 @@ export default function ShoppingListPage() {
                     >
                       <span
                         style={{
-                          fontWeight: 600,
-                          textDecoration: item.checked ? "line-through" : "none",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          display: "block",
-                          whiteSpace: "nowrap",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 8,
                           minWidth: 0,
                           maxWidth: "100%",
+                          overflow: "hidden",
                         }}
                       >
-                        {item.displayText}
+                        <span
+                          style={{
+                            fontWeight: 600,
+                            textDecoration: item.checked
+                              ? "line-through"
+                              : "none",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                            minWidth: 0,
+                            flex: "1 1 auto",
+                          }}
+                        >
+                          {item.displayText}
+                        </span>
+
                         {item.recipeCountLabel ? (
                           <span
                             style={{
-                              marginLeft: 8,
                               fontSize: 12,
                               opacity: 0.85,
                               fontWeight: 900,
                               color: "#86efac",
+                              flexShrink: 0,
+                              whiteSpace: "nowrap",
                             }}
                           >
                             {item.recipeCountLabel}
@@ -5455,21 +5481,17 @@ export default function ShoppingListPage() {
                         {item.pantryRestock ? (
                           <span
                             style={{
-                              marginLeft: 8,
-                              padding:
-                                "3px 7px",
-                              borderRadius:
-                                999,
+                              padding: "3px 7px",
+                              borderRadius: 999,
                               background:
                                 "rgba(34,197,94,0.12)",
                               border:
                                 "1px solid rgba(34,197,94,0.22)",
-                              color:
-                                "#86efac",
-                              fontSize:
-                                11,
-                              fontWeight:
-                                900,
+                              color: "#86efac",
+                              fontSize: 11,
+                              fontWeight: 900,
+                              flexShrink: 0,
+                              whiteSpace: "nowrap",
                             }}
                           >
                             {t(
@@ -5482,21 +5504,17 @@ export default function ShoppingListPage() {
                         "partial" ? (
                           <span
                             style={{
-                              marginLeft: 8,
-                              padding:
-                                "3px 7px",
-                              borderRadius:
-                                999,
+                              padding: "3px 7px",
+                              borderRadius: 999,
                               background:
                                 "rgba(245,158,11,0.12)",
                               border:
                                 "1px solid rgba(245,158,11,0.22)",
-                              color:
-                                "#fcd34d",
-                              fontSize:
-                                11,
-                              fontWeight:
-                                900,
+                              color: "#fcd34d",
+                              fontSize: 11,
+                              fontWeight: 900,
+                              flexShrink: 0,
+                              whiteSpace: "nowrap",
                             }}
                           >
                             {t(

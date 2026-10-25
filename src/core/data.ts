@@ -1275,11 +1275,11 @@ export const NEW_BUILTIN_RECIPES: Meal[] = [
     notes:
       "A hearty, no-fuss chili that is easy to throw together and even better the next day.",
     ingredients: `1 lb ground beef
-2 (14.5 oz) cans fire-roasted diced tomatoes
-1 (28 oz) can diced tomatoes
-1 (15.5 oz) can chili beans (do not drain)
-1 (15 oz) can corn, drained
-1 (15 oz) can black beans, drained and rinsed
+2 cans (14.5 oz) fire-roasted diced tomatoes
+1 can (28 oz) diced tomatoes
+1 can (15.5 oz) chili beans (do not drain)
+1 can (15 oz) corn, drained
+1 can (15 oz) black beans, drained and rinsed
 1 packet chili seasoning
 shredded cheese
 sour cream
@@ -1354,8 +1354,8 @@ Sirve caliente y agrega queso rallado, crema agria y jalapeños encima.`,
     notes: "A creamy baked chicken dinner that works well for cozy weeknights and reheats nicely.",
     ingredients: `4 skinless chicken breasts
 8 oz baby bella mushrooms, sliced
-2 (10.5 oz) cans cream of mushroom soup
-1 (14.5 oz) can green beans, drained
+2 cans (10.5 oz) cream of mushroom soup
+1 can (14.5 oz) green beans, drained
 1 Tbsp garlic, minced
 2 Tbsp butter
 1 cup white rice
@@ -1874,7 +1874,7 @@ Sirve caliente.`,
 1 lb prepared pizza dough
 1 lb mild ground Italian sausage
 3 Tbsp Italian seasoning
-1 (13 oz) jar pizza sauce
+1 jar (13 oz) pizza sauce
 4 cups shredded mozzarella cheese`,
     instructions: `Preheat oven to 400°F.
 Drizzle 3 Tbsp olive oil onto a half sheet pan and brush to coat evenly.
@@ -1971,7 +1971,7 @@ Sirve caliente.`,
     ],
     suggestedDesserts: ["Apple Crisp", "Campfire Banana Boats", "Chocolate Chip Cookies",],
     notes: "A big-flavor BBQ dinner that is fun for weekends, cookouts, or game day.",
-    ingredients: `2 (8 oz) boxes manicotti shells (uncooked)
+    ingredients: `2 boxes (8 oz) manicotti shells (uncooked)
 1 1/2 lb ground beef
 1 lb hot Italian sausage
 1 medium red onion, finely diced
@@ -1982,7 +1982,7 @@ Sirve caliente.`,
 2 tsp garlic powder
 2 tsp pepper
 1 tsp red pepper flakes
-3 (12 oz) packages bacon
+3 packages (12 oz) bacon
 1/2 cup barbecue sauce (plus extra for brushing)`,
     instructions: `Preheat oven to 300°F.
 Line a baking sheet with aluminum foil and place a wire rack on top.
@@ -2060,22 +2060,22 @@ Sirve caliente.`,
     name: "Cajun Shrimp and Sausage Potato Bake",
     servings: 6,
     ingredients: `Main Dish:
-3 lbs red potatoes, cubed
+3 lb red potatoes, cubed
 4 jalapeño smoked sausages, sliced into medallions
 1 lb shrimp, peeled and deveined
-1 (14 oz) can corn, drained
+1 can (14 oz) corn, drained
 1 green bell pepper, diced
 1 red bell pepper, diced
 1 yellow onion, diced
-4 tbsp butter, divided
-2 tbsp garlic, minced
-1 tbsp olive oil
+4 Tbsp butter, divided
+2 Tbsp garlic, minced
+1 Tbsp olive oil
 
 Seasonings:
 1 tsp paprika
-1 tbsp Italian seasoning
-1 tbsp dried rosemary
-1 tbsp dried thyme
+1 Tbsp Italian seasoning
+1 Tbsp dried rosemary
+1 Tbsp dried thyme
 1/2 tsp cayenne pepper`,
     instructions: `Preheat oven to 400°F.
 
@@ -2220,7 +2220,7 @@ Sirve caliente.`,
     suggestedDesserts: ["Classic Brownies", "Apple Crisp", "Chocolate Chip Cookies",],
     isVegetarian: false,
     notes: "Juicy, tender meatloaf with a sweet and tangy glaze. For extra flavor, sauté the onions and garlic before mixing. Great served with mashed potatoes and green beans.",
-    ingredients: `1 1/2 lbs ground beef
+    ingredients: `1 1/2 lb ground beef
 1 cup breadcrumbs (or crushed crackers)
 1/2 cup milk
 1 small yellow onion, finely diced
@@ -2275,7 +2275,7 @@ Let rest for 10 minutes before slicing and serving.`,
           "Panecillos",
         ],
         suggestedDesserts: ["Brownies Clásicos", "Crumble de Manzana", "Galletas con Chispas de Chocolate",],
-        ingredients: `1 1/2 lbs de carne molida de res
+        ingredients: `1 1/2 lb de carne molida de res
 1 cup de pan molido o galletas saladas trituradas
 1/2 cup de leche
 1 cebolla amarilla pequeña, finamente picada
@@ -2428,11 +2428,11 @@ Abre los paquetes con cuidado. El vapor estará caliente. Retira del aluminio an
       "Mexican street corn",
     ],
     notes: "An easy crockpot dinner that is filling, cheesy, and great for busy evenings.",
-    ingredients: `1 1/2 lbs lean ground beef
+    ingredients: `1 1/2 lb lean ground beef
 1 packet taco seasoning
-1 (15 oz) can black beans, drained and rinsed
-1 (28 oz) jar enchilada sauce
-1 (4 oz) can green chiles
+1 can (15 oz) black beans, drained and rinsed
+1 jar (28 oz) enchilada sauce
+1 can (4 oz) green chiles
 1 white onion, diced
 10 (6-inch) corn tortillas, cut into wedges
 1 1/2 cups shredded Mexican cheese blend
@@ -2473,7 +2473,7 @@ Garnish with chopped cilantro, pico de gallo, and sour cream before serving.`,
           "Totopos con salsa",
           "Elote estilo mexicano",
         ],
-        ingredients: `1 1/2 lbs de carne molida de res magra
+        ingredients: `1 1/2 lb de carne molida de res magra
 1 paquete de sazonador para tacos
 1 lata (15 oz) de frijoles negros, escurridos y enjuagados
 1 frasco (28 oz) de salsa para enchiladas
@@ -2518,11 +2518,11 @@ Decora con cilantro picado, pico de gallo y crema agria antes de servir.`,
       "Roasted carrots",
     ],
     notes: "A warm, classic comfort meal that feels right at home on chilly nights.",
-    ingredients: `1 1/2 to 2 lbs potatoes (about 3 large), peeled and quartered
+    ingredients: `1 1/2 to 2 lb potatoes (about 3 large), peeled and quartered
 8 Tbsp butter (1 stick), divided
 1 medium yellow onion, chopped
 2 cups mixed vegetables (diced carrots, corn, peas)
-1 1/2 lbs ground beef
+1 1/2 lb ground beef
 1/2 cup beef broth
 1 tsp worcestershire sauce
 salt
@@ -2565,11 +2565,11 @@ Bake about 30 minutes until browned and bubbling.`,
           "Ensalada verde sencilla",
           "Zanahorias rostizadas",
         ],
-        ingredients: `1 1/2 a 2 lbs de papas (aprox. 3 grandes), peladas y cortadas en cuartos
+        ingredients: `1 1/2 a 2 lb de papas (aprox. 3 grandes), peladas y cortadas en cuartos
 8 Tbsp de mantequilla (1 barra), dividida
 1 cebolla amarilla mediana, picada
 2 cups de verduras mixtas (zanahorias en cubitos, maíz, chícharos)
-1 1/2 lbs de carne molida de res
+1 1/2 lb de carne molida de res
 1/2 cup de caldo de res
 1 tsp de salsa worcestershire
 sal
@@ -2614,7 +2614,7 @@ Hornea unos 30 minutos, hasta que esté dorado y burbujeante.`,
     notes: "A solid weeknight baked dinner that is filling without being too fussy.",
     ingredients: `1 lb Italian sausage
 2 tsp olive oil
-1 (14.5 oz) can fire-roasted diced tomatoes
+1 can (14.5 oz) fire-roasted diced tomatoes
 2 tsp garlic powder
 2 tsp onion powder
 2 tsp Italian seasoning
@@ -2718,8 +2718,8 @@ Deja enfriar de 1 a 2 minutos. Agrega albahaca fresca y hojuelas de chile rojo s
       "Chocolate Mug Cake",
     ],
     notes: "Fast and flavorful honey garlic chicken with a sticky, glossy sauce. Great served over rice with steamed broccoli or stir-fried vegetables.",
-    ingredients: `1 1/2 lbs boneless, skinless chicken breast
-2 Tbsp cornstarch (optional)
+    ingredients: `1 1/2 lb boneless, skinless chicken breast
+2 Tbsp cornstarch, optional
 1 Tbsp olive oil
 1/2 tsp salt
 1/2 tsp pepper
@@ -2728,10 +2728,10 @@ Deja enfriar de 1 a 2 minutos. Agrega albahaca fresca y hojuelas de chile rojo s
 4 cloves garlic, minced
 1 Tbsp fresh ginger, grated (or 1/2 tsp ground ginger)
 1 Tbsp rice vinegar (or apple cider vinegar)
-1 tsp sesame oil (optional)
+1 tsp sesame oil, optional
 1 tsp cornstarch + 2 Tbsp water (for slurry)
 2 green onions, sliced
-1 tsp sesame seeds (optional)`,
+1 tsp sesame seeds, optional`,
     instructions: `Pat 1 1/2 lbs boneless, skinless chicken breast dry and cut into bite-sized pieces. Season with 1/2 tsp salt and 1/2 tsp pepper, then toss lightly with 2 Tbsp cornstarch if using.
 
 Heat 1 Tbsp olive oil in a large skillet or cast iron pan over medium-high heat. Add chicken in a single layer and cook for 4 to 5 minutes without moving, until a deep golden-brown crust forms. Flip and cook another 3 to 4 minutes until nearly cooked through.
@@ -2771,7 +2771,7 @@ Garnish with 2 sliced green onions and 1 tsp sesame seeds before serving.`,
           "Vasitos de Cheesecake Sin Horno",
           "Pastel de Chocolate en Taza",
         ],
-        ingredients: `1 1/2 lbs de pechuga de pollo sin hueso y sin piel
+        ingredients: `1 1/2 lb de pechuga de pollo sin hueso y sin piel
 2 Tbsp de maicena, opcional
 1 Tbsp de aceite de oliva
 1/2 tsp de sal
@@ -3010,7 +3010,7 @@ Retira del fuego, espolvorea 2 cebollines rebanados y sirve de inmediato.`,
 1 cup mozzarella cheese, shredded
 1/2 cup smoked gouda or cheddar cheese (optional, for more flavor)
 1 Tbsp olive oil
-1 Tbsp fresh cilantro, chopped (optional)
+1 Tbsp fresh cilantro, chopped, optional
 1/2 tsp garlic powder`,
     instructions: `Preheat oven to 400°F. Place 2 flatbreads on a baking sheet and lightly brush the edges with 1 Tbsp olive oil.
 
@@ -3097,7 +3097,7 @@ Corta y sirve de inmediato.`,
     notes: "A hearty, cheesy baked pasta layered with rich meat sauce. Perfect for feeding a crowd and excellent for leftovers—flavors deepen even more the next day.",
     ingredients: `1 lb ziti pasta
 1 lb ground beef (or Italian sausage for more flavor)
-1 (24 oz) jar marinara sauce
+1 jar (24 oz) marinara sauce
 1/2 cup water (or reserved pasta water)
 1 cup ricotta cheese
 2 cups mozzarella cheese, shredded
@@ -3108,7 +3108,7 @@ Corta y sirve de inmediato.`,
 1 tsp Italian seasoning
 1/2 tsp salt
 1/2 tsp pepper
-1/4 cup fresh parsley, chopped (optional)`,
+1/4 cup fresh parsley, chopped, optional`,
     instructions: `Preheat oven to 375°F. Lightly grease a 9x13 baking dish.
 
 Bring a large pot of salted water to a boil. Cook 1 lb ziti pasta until just al dente, about 1 to 2 minutes less than package directions. Drain and set aside.
@@ -3210,14 +3210,14 @@ Deja reposar 10 minutos antes de servir. Decora con 1/4 cup de perejil fresco pi
 1 Tbsp olive oil
 1/2 tsp salt
 1/2 tsp pepper
-1/2 tsp garlic powder (optional)
+1/2 tsp garlic powder, optional
 1/2 cup (1 stick) unsalted butter
 3 cloves garlic, minced
 1 cup heavy cream
 1 cup freshly grated Parmesan cheese
 1/2 cup reserved pasta water
 1/4 tsp pepper (for sauce)
-1/4 cup fresh parsley, chopped (optional)`,
+1/4 cup fresh parsley, chopped, optional`,
     instructions: `Bring a large pot of salted water to a boil. Cook 12 oz fettuccine according to package directions until al dente. Reserve 1/2 cup pasta water, then drain.
 
 Season 2 sliced chicken breasts with 1/2 tsp salt, 1/2 tsp pepper, and 1/2 tsp garlic powder.
@@ -3317,7 +3317,7 @@ Prueba y ajusta sal y pimienta si es necesario. Retira del fuego y decora con 1/
 1/2 tsp salt (plus more to taste)
 1/2 tsp pepper
 8 oz egg noodles
-1/4 cup fresh parsley, chopped (optional)`,
+1/4 cup fresh parsley, chopped, optional`,
     instructions: `Cook 8 oz egg noodles in a large pot of salted boiling water according to package directions. Drain and set aside.
 
 Heat 1 Tbsp olive oil in a large skillet over medium-high heat. Add 1 lb thinly sliced beef sirloin in a single layer and sear for 2 to 3 minutes until browned. Season with 1/2 tsp salt and 1/2 tsp pepper. Do not overcrowd the pan. Remove and set aside.
@@ -3423,7 +3423,7 @@ Sirve sobre los fideos de huevo cocidos y decora con 1/4 cup de perejil fresco s
 2 cloves garlic, minced
 1/2 tsp salt (plus more to taste)
 1/2 tsp pepper
-1/2 tsp dried thyme (optional)
+1/2 tsp dried thyme, optional
 1 refrigerated pie crust
 1 egg, beaten (optional, for egg wash)`,
     instructions: `Preheat oven to 400°F. Lightly grease a baking dish or pie dish.
@@ -3529,7 +3529,7 @@ Deja reposar 10 minutos antes de servir para que el relleno se asiente.`,
 1 Tbsp olive oil
 1 small yellow onion, diced
 2 cloves garlic, minced
-1 (14.5 oz) can diced tomatoes (with juices)
+1 can (14.5 oz) diced tomatoes (with juices)
 1 cup beef broth
 1 cup cheddar cheese, shredded
 1/2 cup Monterey Jack cheese (optional, for extra melt)
@@ -3657,7 +3657,7 @@ Retira del fuego y sirve caliente.`,
 1 Tbsp lemon juice
 1/2 tsp salt (plus more to taste)
 1/2 tsp pepper
-1 Tbsp fresh parsley, chopped (optional)`,
+1 Tbsp fresh parsley, chopped, optional`,
     instructions: `In a saucepan, keep 3 cups chicken stock warm over low heat.
 
 In a large skillet or sauté pan, melt 1 Tbsp butter with 1 Tbsp olive oil over medium heat. Add 1 finely diced small shallot and cook for 2 to 3 minutes until softened.
@@ -3862,7 +3862,7 @@ Retira del horno y sirve de inmediato.`,
 1/2 cup beef broth (or water)
 1 tsp cornstarch + 2 Tbsp water (for slurry)
 1/2 tsp pepper
-2 green onions, sliced (optional)`,
+2 green onions, sliced, optional`,
     instructions: `In a small bowl, whisk together 2 Tbsp soy sauce, 1 Tbsp oyster sauce if using, 1 tsp grated ginger, 2 cloves minced garlic, 1 Tbsp brown sugar, and 1/2 cup beef broth. Set aside.
 
 Heat a wok or large skillet over high heat. Add 1 Tbsp vegetable oil.
@@ -4044,7 +4044,7 @@ Sirve con queso parmesano rallado y tocino en trocitos encima si deseas.`,
       "Dinner rolls",
     ],
     notes: "A moist, flavorful meatloaf packed with hidden vegetables. Squeezing moisture from the zucchini is key to preventing a soggy texture. Perfect with mashed potatoes and great for leftovers.",
-    ingredients: `1 1/2 lbs ground beef (80/20 preferred)
+    ingredients: `1 1/2 lb ground beef (80/20 preferred)
 1 medium zucchini, peeled and finely grated
 2 carrots, peeled and finely grated
 1/2 small yellow onion, finely minced or grated
@@ -4055,7 +4055,7 @@ Sirve con queso parmesano rallado y tocino en trocitos encima si deseas.`,
 1 Tbsp worcestershire sauce
 1 Tbsp ketchup
 1 tsp garlic powder
-1/2 tsp dried Italian seasoning (optional)
+1/2 tsp dried Italian seasoning, optional
 1 tsp salt
 1/2 tsp pepper
 
@@ -4103,7 +4103,7 @@ Let rest for 10 minutes before slicing and serving.`,
           "Ejotes",
           "Panecillos",
         ],
-        ingredients: `1 1/2 lbs de carne molida de res, preferiblemente 80/20
+        ingredients: `1 1/2 lb de carne molida de res, preferiblemente 80/20
 1 zucchini mediano, pelado y finamente rallado
 2 zanahorias, peladas y finamente ralladas
 1/2 cebolla amarilla pequeña, finamente picada o rallada
@@ -4165,9 +4165,9 @@ Deja reposar 10 minutos antes de cortar y servir.`,
     ingredients: `1 box angel hair pasta
 1 lb ground beef
 1 green bell pepper, diced
-1 (28 oz) can diced tomatoes
-1 (16 oz) can tomato sauce
-1 (6 oz) can tomato paste
+1 can (28 oz) diced tomatoes
+1 can (16 oz) tomato sauce
+1 can (6 oz) tomato paste
 2 tsp dried thyme
 4 Tbsp Italian seasoning, divided
 1 tsp salt
@@ -4250,11 +4250,11 @@ Opcional: acompaña con ensalada César y pan de ajo.`,
       "Caesar salad",
     ],
     notes: "Light, buttery, and full of flavor. Great over angel hair pasta for an easy restaurant-style dinner at home.",
-    ingredients: `1 1/2 lbs large shrimp, peeled and deveined
+    ingredients: `1 1/2 lb large shrimp, peeled and deveined
 2 Tbsp butter
 2 Tbsp olive oil
 4 garlic cloves, minced
-1/4 tsp red pepper flakes (optional)
+1/4 tsp red pepper flakes, optional
 1/2 cup dry white wine or low-sodium chicken broth
 1 1/2 Tbsp lemon juice
 1 lemon, cut into wedges
@@ -4301,7 +4301,7 @@ Optional: Pair with angel hair pasta.`,
           "Pan de ajo",
           "Ensalada César",
         ],
-        ingredients: `1 1/2 lbs de camarones grandes, pelados y desvenados
+        ingredients: `1 1/2 lb de camarones grandes, pelados y desvenados
 2 Tbsp de mantequilla
 2 Tbsp de aceite de oliva
 4 dientes de ajo, picados
@@ -4453,11 +4453,11 @@ Sirve con gajos de 1 limón y la salsa cóctel o tártara que prefieras.`,
 2 tsp worcestershire sauce
 1 Tbsp fresh thyme, minced
 1 Tbsp fresh rosemary, minced
-2 1/2 lbs small Yukon gold potatoes, left whole
+2 1/2 lb small Yukon gold potatoes, left whole
 2 cups baby carrots
 2 cups celery, cut into 1-inch pieces
-1 (8 oz) package baby bella mushrooms
-2 1/2 Tbsp cornstarch mixed with 3 Tbsp beef broth (optional)
+1 package (8 oz) baby bella mushrooms
+2 1/2 Tbsp cornstarch mixed with 3 Tbsp beef broth, optional
 2 Tbsp fresh parsley, chopped`,
     instructions: `Heat 1 Tbsp olive oil in a large pot over medium-high heat.
 
@@ -4511,7 +4511,7 @@ Serve the roast and vegetables topped with gravy and sprinkled with 2 Tbsp fresh
 2 tsp de salsa worcestershire
 1 Tbsp de tomillo fresco, picado
 1 Tbsp de romero fresco, picado
-2 1/2 lbs de papas Yukon gold pequeñas, enteras
+2 1/2 lb de papas Yukon gold pequeñas, enteras
 2 cups de zanahorias baby
 2 cups de apio, cortado en trozos de 1 inch
 1 paquete (8 oz) de champiñones baby bella
@@ -4560,14 +4560,14 @@ Sirve el asado y las verduras cubiertos con gravy y espolvoreados con 2 Tbsp de 
       "Dinner rolls",
     ],
     notes: "Creamy, hearty potato soup made easy in the slow cooker. Mashing some of the potatoes creates a thicker, more comforting texture without extra effort.",
-    ingredients: `1 (30 oz) bag frozen diced hash brown potatoes
+    ingredients: `1 bag (30 oz) frozen diced hash brown potatoes
 1 (32 oz) chicken broth
-1 (10.75 oz) can cream of chicken soup
+1 can (10.75 oz) cream of chicken soup
 1/2 cup yellow onion, finely chopped
 2 cloves garlic, minced
 1/2 tsp pepper
 1/2 tsp salt (plus more to taste)
-1 tsp dried parsley (optional)
+1 tsp dried parsley, optional
 1/2 tsp smoked paprika (optional, for depth)
 1 (8 oz) cream cheese, softened and cubed
 1/2 cup sour cream (optional, for extra creaminess)
@@ -4657,14 +4657,14 @@ Sirve caliente y cubre con queso cheddar rallado, tocino en trocitos y cebolline
       "French fries",
     ],
     notes: "Ultra crispy, restaurant-style wings made at home. Drying the wings thoroughly and frying at the correct temperature are the keys to achieving that perfect crunch.",
-    ingredients: `2 to 3 lbs chicken wings (flats and drums, separated)
+    ingredients: `2 to 3 lb chicken wings (flats and drums, separated)
 vegetable oil (for frying)
 1 Tbsp beef tallow (optional, for extra flavor)
 1/2 cup cornstarch
 1 tsp salt
 1/2 tsp pepper
 1/2 tsp garlic powder
-1/2 tsp paprika (optional)
+1/2 tsp paprika, optional
 
 Buffalo Sauce:
 1/2 cup Frank’s RedHot
@@ -4711,7 +4711,7 @@ Serve immediately with celery sticks, carrot sticks, and ranch or blue cheese dr
           "Palitos de zanahoria",
           "Papas fritas",
         ],
-        ingredients: `2 a 3 lbs de alitas de pollo, flats y drums separados
+        ingredients: `2 a 3 lb de alitas de pollo, flats y drums separados
 aceite vegetal para freír
 1 Tbsp de sebo de res, opcional para más sabor
 1/2 cup de maicena
@@ -4848,7 +4848,7 @@ Deja reposar 5 minutos antes de servir.`,
 1 Tbsp olive oil
 1 tsp salt
 1/2 tsp pepper
-1/2 tsp garlic powder (optional)
+1/2 tsp garlic powder, optional
 1 Tbsp butter (optional, for finishing)`,
     instructions: `Preheat grill to high heat, about 450°F to 500°F.
 
@@ -5017,7 +5017,7 @@ juice of 1 lemon
 1/2 tsp salt
 1/2 tsp pepper
 1/2 tsp paprika (optional, for color and mild flavor)
-1 Tbsp fresh parsley, chopped (optional)`,
+1 Tbsp fresh parsley, chopped, optional`,
     instructions: `Preheat grill to medium-high heat, about 400°F to 425°F.
 
 If using wooden skewers, soak them in water for at least 20 minutes to prevent burning.
@@ -5097,13 +5097,13 @@ Retira de la parrilla y espolvorea con 1 Tbsp de perejil fresco picado si deseas
       "Coleslaw",
     ],
     notes: "A quick, flavorful grilling classic with smoky sausage and tender peppers. Adding a splash of balsamic at the end brings a subtle sweetness that elevates the dish.",
-    ingredients: `1 (12 to 14 oz) package smoked sausage or Italian sausage
+    ingredients: `1 package (12 to 14 oz) smoked sausage or Italian sausage
 2 bell peppers (any color), sliced
 1 large yellow onion, sliced
 1 Tbsp olive oil
 1/2 tsp salt
 1/2 tsp pepper
-1/2 tsp Italian seasoning (optional)
+1/2 tsp Italian seasoning, optional
 1/2 tsp garlic powder
 1 Tbsp balsamic vinegar (optional, for finishing)
 hoagie rolls or buns (optional, for serving)`,
@@ -5262,7 +5262,7 @@ Sirve caliente.`,
       "Watermelon slices",
     ],
     notes: "A classic backyard burger with juicy patties, melted cheese, and all your favorite toppings.",
-    ingredients: `2 lbs ground beef (80/20)
+    ingredients: `2 lb ground beef (80/20)
 1 1/2 tsp salt
 1 tsp pepper
 1/2 tsp garlic powder
@@ -5313,7 +5313,7 @@ Assemble burgers with lettuce, sliced tomato, and pickles, and serve with chips 
           "Ensalada de col",
           "Rebanadas de sandía",
         ],
-        ingredients: `2 lbs de carne molida de res (80/20)
+        ingredients: `2 lb de carne molida de res (80/20)
 1 1/2 tsp de sal
 1 tsp de pimienta
 1/2 tsp de ajo en polvo
@@ -5442,7 +5442,7 @@ Opcional: sirve con sopa de tomate caliente.`,
 1 Tbsp olive oil or butter
 1/2 tsp garlic powder
 1/2 tsp Italian seasoning
-fresh basil or parsley (optional)`,
+fresh basil or parsley, optional`,
     instructions: `Preheat oven to 400°F or set broiler to high.
 
 Slice 4 sandwich rolls and lightly brush the cut sides with 1 Tbsp olive oil or butter. Place on a baking sheet and toast for 3 to 4 minutes until lightly golden.
@@ -5643,7 +5643,7 @@ Sirve de inmediato con toppings opcionales como crema agria, cebollines rebanado
 1 Tbsp fresh lemon juice
 1 lemon, sliced
 1 Tbsp butter (optional, for finishing)
-1 Tbsp fresh parsley, chopped (optional)`,
+1 Tbsp fresh parsley, chopped, optional`,
     instructions: `Pat 4 tilapia fillets dry with paper towels to help achieve a light sear.
 
 Season both sides with 1 tsp lemon pepper seasoning, 1/2 tsp garlic powder, 1/2 tsp paprika if using, and 1/2 tsp salt.
@@ -6141,11 +6141,11 @@ Deja reposar al menos 15 minutos antes de cortar.`,
     ingredients: `8 hot dogs
 8 hot dog buns
 1 cup cheddar cheese, shredded
-1/2 small white onion, finely diced (optional)
+1/2 small white onion, finely diced, optional
 
 Quick Chili Topping:
 1 lb ground beef
-1 (8 oz) can tomato sauce
+1 can (8 oz) tomato sauce
 1/2 cup water
 1 Tbsp chili powder
 1 tsp cumin
@@ -6238,8 +6238,8 @@ Sirve de inmediato mientras estén calientes.`,
 1 Tbsp olive oil
 1 small yellow onion, chopped
 2 cloves garlic, minced
-2 (15 oz) cans white beans, drained and rinsed
-1 (4 oz) can green chiles
+2 cans (15 oz) white beans, drained and rinsed
+1 can (4 oz) green chiles
 4 cups chicken broth
 4 oz cream cheese, softened and cubed
 1/2 cup sour cream (optional, for extra creaminess)
@@ -6253,7 +6253,7 @@ White Chili Seasoning:
 1/2 tsp onion powder
 1/2 tsp salt
 1/4 tsp pepper
-1/4 tsp cayenne pepper (optional)
+1/4 tsp cayenne pepper, optional
 
 Optional toppings:
 shredded cheese
@@ -6367,10 +6367,10 @@ Sirve caliente con toppings como queso rallado, cilantro, cebollines y totopos.`
 1 Tbsp olive oil
 1 small yellow onion, chopped
 2 cloves garlic, minced
-1 (15 oz) can corn, drained
-1 (15 oz) can black beans, drained and rinsed
-1 (14.5 oz) can diced tomatoes (with juices)
-1 (10 oz) can Rotel
+1 can (15 oz) corn, drained
+1 can (15 oz) black beans, drained and rinsed
+1 can (14.5 oz) diced tomatoes (with juices)
+1 can (10 oz) Rotel
 2 cups beef broth
 1 Tbsp tomato paste (optional, for deeper flavor)
 
@@ -6482,7 +6482,7 @@ Sirve caliente con toppings como queso rallado, crema agria, totopos y cebolline
       "Refried beans",
     ],
     notes: "Easy, colorful sheet pan fajitas with bold seasoning and roasted flavor. Spreading everything in a single layer and using high heat helps achieve those slightly charred, restaurant-style edges.",
-    ingredients: `1 1/2 lbs chicken breast, sliced into strips
+    ingredients: `1 1/2 lb chicken breast, sliced into strips
 2 bell peppers (any color), sliced
 1 large yellow onion, sliced
 2 Tbsp olive oil
@@ -6496,13 +6496,13 @@ Fajita Seasoning:
 1/2 tsp onion powder
 1/2 tsp salt
 1/4 tsp pepper
-1/4 tsp cayenne pepper (optional)
+1/4 tsp cayenne pepper, optional
 
 For serving:
 tortillas
 sour cream
 shredded cheese
-guacamole (optional)`,
+guacamole, optional`,
     instructions: `Preheat oven to 425°F. Line a large sheet pan with parchment paper or foil.
 
 Spread 1 1/2 lbs sliced chicken breast, 2 sliced bell peppers, and 1 large sliced yellow onion evenly across the sheet pan in a single layer. Avoid overcrowding to ensure proper roasting.
@@ -6537,7 +6537,7 @@ Remove from oven and serve immediately in warm tortillas with sour cream, shredd
           "Totopos con salsa",
           "Frijoles refritos",
         ],
-        ingredients: `1 1/2 lbs de pechuga de pollo, rebanada en tiras
+        ingredients: `1 1/2 lb de pechuga de pollo, rebanada en tiras
 2 pimientos, de cualquier color, rebanados
 1 cebolla amarilla grande, rebanada
 2 Tbsp de aceite de oliva
@@ -6593,7 +6593,7 @@ Retira del horno y sirve de inmediato en tortillas calientes con crema agria, qu
       "Fruit salad",
     ],
     notes: "Crispy, golden chicken tenders made in the air fryer. Using panko breadcrumbs and spraying lightly with oil helps achieve that extra crunch without deep frying.",
-    ingredients: `1 1/2 lbs chicken tenders
+    ingredients: `1 1/2 lb chicken tenders
 1/2 cup all-purpose flour
 2 large eggs, beaten
 1 cup breadcrumbs (panko preferred for extra crunch)
@@ -6641,7 +6641,7 @@ Serve hot with your favorite dipping sauces.`,
           "Palitos de zanahoria con ranch",
           "Ensalada de frutas",
         ],
-        ingredients: `1 1/2 lbs de tiras de pollo
+        ingredients: `1 1/2 lb de tiras de pollo
 1/2 cup de harina de todo uso
 2 huevos grandes, batidos
 1 cup de pan molido, preferiblemente panko para más crujiente
@@ -7063,7 +7063,7 @@ Sirve caliente con más salsa BBQ si deseas.`,
 1/2 cup fresh cilantro, chopped
 2 avocados, sliced
 2 fresh jalapeños, sliced
-lime wedges (optional)`,
+lime wedges, optional`,
     instructions: `Warm 8 tortillas in a skillet over medium heat or directly over a flame until soft and slightly charred.
 
 Fill each tortilla with a generous portion of prepared pulled pork (see Smoked Pulled Pork recipe).
@@ -7128,7 +7128,7 @@ Sirve de inmediato.`,
     slug: "roasted-tomato-basil-soup",
     name: "Roasted Tomato Basil Soup",
     servings: 6,
-    ingredients: `3 lbs tomatoes, halved
+    ingredients: `3 lb tomatoes, halved
 1 sweet onion, cut into thick wedges
 3 Tbsp olive oil
 1 tsp salt
@@ -7191,7 +7191,7 @@ Serve warm.`,
           "Pan de ajo",
           "Ensalada sencilla",
         ],
-        ingredients: `3 lbs de tomates, cortados por la mitad
+        ingredients: `3 lb de tomates, cortados por la mitad
 1 cebolla dulce, cortada en gajos gruesos
 3 Tbsp de aceite de oliva
 1 tsp de sal
@@ -7234,7 +7234,7 @@ Sirve caliente.`,
     slug: "slow-cooker-beef-stew",
     name: "Slow Cooker Beef Stew",
     servings: 6,
-    ingredients: `2 lbs beef stew meat
+    ingredients: `2 lb beef stew meat
 2 Tbsp olive oil
 1 yellow onion, chopped
 1 lb baby potatoes, cubed
@@ -7302,7 +7302,7 @@ Serve warm.`,
           "Ensalada sencilla",
           "Pan de maíz",
         ],
-        ingredients: `2 lbs de carne de res para estofado
+        ingredients: `2 lb de carne de res para estofado
 2 Tbsp de aceite de oliva
 1 cebolla amarilla, picada
 1 lb de papas baby, cortadas en cubitos
@@ -7356,7 +7356,7 @@ Sirve caliente.`,
 16 oz refrigerated crescent rolls
 1 cup cheddar cheese, shredded
 2 Tbsp olive oil
-1 Tbsp red pepper flakes (optional)
+1 Tbsp red pepper flakes, optional
 
 Cilantro Lime Rice:
 10 oz cooked rice
@@ -7572,9 +7572,9 @@ Deja reposar de 2 a 3 minutos antes de cortar y servir.`,
     name: "Homemade Fried Chicken",
     servings: 6,
     ingredients: `Chicken:
-3 lbs bone-in chicken pieces (legs, thighs, breasts, wings)
+3 lb bone-in chicken pieces (legs, thighs, breasts, wings)
 2 cups buttermilk
-1 Tbsp hot sauce (optional)
+1 Tbsp hot sauce, optional
 1 tsp salt
 1/2 tsp black pepper
 
@@ -7585,7 +7585,7 @@ Flour Coating:
 1 tsp onion powder
 1 tsp salt
 1/2 tsp black pepper
-1/2 tsp cayenne pepper (optional)
+1/2 tsp cayenne pepper, optional
 
 For Frying:
 vegetable oil (enough for 2 to 3 inches in a skillet or pot)`,
@@ -7639,7 +7639,7 @@ Let rest for 5 minutes before serving.`,
           "Biscuits",
         ],
         ingredients: `Pollo:
-3 lbs de piezas de pollo con hueso, piernas, muslos, pechugas o alitas
+3 lb de piezas de pollo con hueso, piernas, muslos, pechugas o alitas
 2 cups de buttermilk
 1 Tbsp de salsa picante, opcional
 1 tsp de sal
@@ -7705,17 +7705,17 @@ Deja reposar 5 minutos antes de servir.`,
     notes:
       "Skirt steak cooks quickly and develops incredible flavor over high heat. Always slice against the grain to keep the steak tender, and let the chimichurri sit a few minutes before serving so the flavors meld together.",
     ingredients: `Steak:
-1 1/2 lbs skirt steak
-1 tbsp olive oil
+1 1/2 lb skirt steak
+1 Tbsp olive oil
 1 tsp salt
 1/2 tsp black pepper
 1/2 tsp smoked paprika
 
 Chimichurri Sauce:
 1 cup fresh parsley, finely chopped
-2 tbsp fresh cilantro, chopped
+2 Tbsp fresh cilantro, chopped
 3 cloves garlic, minced
-2 tbsp red wine vinegar
+2 Tbsp red wine vinegar
 1/2 cup olive oil
 1/2 tsp red pepper flakes
 1/2 tsp salt
@@ -7770,7 +7770,7 @@ Serve with lime wedges and cotija cheese if desired.`,
           "Ensalada sencilla",
         ],
         ingredients: `Carne:
-1 1/2 lbs de arrachera
+1 1/2 lb de arrachera
 1 Tbsp de aceite de oliva
 1 tsp de sal
 1/2 tsp de pimienta negra
@@ -7852,12 +7852,12 @@ Sirve con limón y queso cotija si lo deseas.`,
 1/2 tsp black pepper
 1 tsp garlic powder
 1 tsp dried oregano
-1 tbsp Worcestershire sauce
+1 Tbsp Worcestershire sauce
 
 Herb Sauce:
 1/2 cup Greek yogurt
-1 tbsp lemon juice
-1 tbsp fresh parsley, chopped
+1 Tbsp lemon juice
+1 Tbsp fresh parsley, chopped
 1 clove garlic, minced
 1/4 tsp salt
 
@@ -7865,8 +7865,8 @@ Assembly:
 4 brioche burger buns
 1/2 cup red onion, thinly sliced
 1 cup arugula or lettuce
-4 slices feta cheese (optional)
-1 tbsp butter, softened`,
+4 slices feta cheese, optional
+1 Tbsp butter, softened`,
     instructions: `In a large bowl, combine 1 lb ground beef, 1 lb ground lamb, 1 tsp salt, 1/2 tsp black pepper, 1 tsp garlic powder, 1 tsp oregano, and 1 tbsp Worcestershire sauce.
 
 Mix gently until just combined, being careful not to overwork the meat.
@@ -7928,7 +7928,7 @@ Montaje:
 4 panes brioche para hamburguesa
 1/2 cup de cebolla morada, en rodajas finas
 1 cup de arúgula o lechuga
-4 rebanadas de queso feta (opcional)
+4 rebanadas de queso feta, opcional
 1 Tbsp de mantequilla, suave`,
         instructions: `En un tazón grande, mezcla 1 lb de carne molida de res, 1 lb de carne molida de cordero, 1 tsp de sal, 1/2 tsp de pimienta negra, 1 tsp de ajo en polvo, 1 tsp de orégano y 1 Tbsp de salsa Worcestershire.
 
@@ -8104,7 +8104,7 @@ Sirve calientes con crema agria, guacamole, pico de gallo, cilantro y limón si 
       "Keeping the sauce light helps prevent soggy pizza pockets. Sealing the edges tightly is the key to keeping the cheese and fillings from leaking while baking.",
     ingredients: `Dough:
 1 lb pizza dough (store-bought or homemade)
-1 tbsp flour (for rolling)
+1 Tbsp flour (for rolling)
 
 Filling:
 1 cup marinara sauce
@@ -8114,8 +8114,8 @@ Filling:
 1/4 tsp garlic powder
 
 Finish:
-1 tbsp olive oil
-1 tbsp parmesan cheese, grated
+1 Tbsp olive oil
+1 Tbsp parmesan cheese, grated
 
 Optional:
 pizza toppings of choice (sausage, mushrooms, peppers, olives)`,
@@ -8232,7 +8232,7 @@ Deja enfriar 5 minutos antes de servir porque el relleno estará muy caliente.`,
       "Baking potatoes directly on the oven rack helps create crisp skins while keeping the inside fluffy. Setting up a topping bar makes this perfect for family dinners or casual gatherings.",
     ingredients: `Potatoes:
 6 large russet potatoes
-2 tbsp olive oil
+2 Tbsp olive oil
 1 tsp salt
 1/2 tsp black pepper
 
@@ -8241,7 +8241,7 @@ Classic Toppings:
 1/2 cup sour cream
 1/2 cup bacon bits
 1/4 cup green onions, sliced
-2 tbsp butter
+2 Tbsp butter
 
 Optional Toppings:
 broccoli florets, steamed
@@ -8357,7 +8357,7 @@ Sirve caliente.`,
     notes:
       "Small pasta shapes cook quickly and make this soup especially family-friendly. Stir occasionally while simmering so the pasta cooks evenly and doesn’t stick to the bottom of the pot.",
     ingredients: `Soup Base:
-1 tbsp olive oil
+1 Tbsp olive oil
 1 small onion, diced
 2 carrots, diced
 2 celery stalks, diced
@@ -8365,7 +8365,7 @@ Sirve caliente.`,
 
 Soup:
 6 cups chicken broth (or vegetable broth for vegetarian)
-1 (14 oz) can diced tomatoes
+1 can (14 oz) diced tomatoes
 1 tsp Italian seasoning
 1/2 tsp salt
 1/4 tsp black pepper
@@ -8375,7 +8375,7 @@ Pasta:
 
 Optional:
 1 cup cooked shredded chicken
-2 tbsp fresh parsley, chopped
+2 Tbsp fresh parsley, chopped
 parmesan cheese for serving`,
     instructions: `Heat 1 tbsp olive oil in a large pot over medium heat.
 
@@ -8489,7 +8489,7 @@ Sirve caliente con perejil fresco y queso parmesano si deseas.`,
     notes:
       "A super simple slow cooker classic with rich, tangy flavor. The butter and seasoning create a savory sauce while the pepperoncini adds a mild kick without being too spicy.",
     ingredients: `Chicken:
-2 to 3 lbs boneless skinless chicken breasts (or thighs)
+2 to 3 lb boneless skinless chicken breasts (or thighs)
 
 Seasoning:
 1 packet ranch seasoning mix
@@ -8530,7 +8530,7 @@ Serve warm.`,
           "Panecillos",
         ],
         ingredients: `Pollo:
-2 a 3 lbs de pechugas de pollo sin hueso y sin piel (o muslos)
+2 a 3 lb de pechugas de pollo sin hueso y sin piel (o muslos)
 
 Sazonadores:
 1 paquete de mezcla ranch
@@ -8582,7 +8582,7 @@ Sirve caliente.`,
       "Searing the pork before roasting builds a flavorful crust while keeping the inside juicy. Letting the pork rest before slicing helps retain moisture and keeps the meat tender.",
     ingredients: `Pork:
 3 to 4 lb pork loin
-1 tbsp olive oil
+1 Tbsp olive oil
 
 Seasoning Rub:
 1 tsp salt
@@ -8593,12 +8593,12 @@ Seasoning Rub:
 1 tsp smoked paprika (or regular paprika for a milder flavor)
 
 Pan Sauce:
-2 tbsp butter
+2 Tbsp butter
 3 cloves garlic, minced
 1 cup chicken broth
-1 tbsp Dijon mustard
+1 Tbsp Dijon mustard
 1 tsp Worcestershire sauce
-1 tbsp fresh parsley, chopped`,
+1 Tbsp fresh parsley, chopped`,
     instructions: `Preheat oven to 375°F.
 
 Pat 3 to 4 lb pork loin completely dry with paper towels. Rub all sides with 1 tbsp olive oil.
@@ -8722,16 +8722,16 @@ Decora con 1 Tbsp de perejil fresco y sirve caliente.`,
     notes:
       "High heat and pressing the burgers immediately are the keys to classic smashburger texture. Beef tallow helps create deeply crisped, flavorful edges similar to diner-style burgers.",
     ingredients: `Burgers:
-2 lbs ground beef (80/20 recommended)
-1 tbsp beef tallow
+2 lb ground beef (80/20 recommended)
+1 Tbsp beef tallow
 1 tsp salt
 1/2 tsp black pepper
 
 Burger Sauce:
 1/2 cup mayonnaise
-2 tbsp ketchup
-1 tbsp mustard
-1 tbsp pickle relish
+2 Tbsp ketchup
+1 Tbsp mustard
+1 Tbsp pickle relish
 1/2 tsp garlic powder
 1/4 tsp black pepper
 
@@ -8740,8 +8740,8 @@ Assembly:
 4 slices American cheese
 1/2 cup onion, thinly sliced
 pickle slices
-lettuce (optional)
-2 tbsp butter, softened`,
+lettuce, optional
+2 Tbsp butter, softened`,
     instructions: `Divide 2 lbs ground beef into 8 loosely packed balls, about 4 oz each. Do not overwork the meat.
 
 In a small bowl, whisk together 1/2 cup mayonnaise, 2 tbsp ketchup, 1 tbsp mustard, 1 tbsp pickle relish, 1/2 tsp garlic powder, and 1/4 tsp black pepper. Refrigerate until ready to use.
@@ -8790,7 +8790,7 @@ Serve immediately while hot and crispy.`,
           "Ensalada de col",
         ],
         ingredients: `Hamburguesas:
-2 lbs de carne molida de res (80/20 recomendado)
+2 lb de carne molida de res (80/20 recomendado)
 1 Tbsp de sebo de res
 1 tsp de sal
 1/2 tsp de pimienta negra
@@ -8808,7 +8808,7 @@ Montaje:
 4 rebanadas de queso americano
 1/2 cup de cebolla, en rodajas finas
 rodajas de pepinillo
-lechuga (opcional)
+lechuga, opcional
 2 Tbsp de mantequilla, suave`,
         instructions: `Divide 2 lbs de carne molida en 8 bolas sueltas de aproximadamente 4 oz cada una. No trabajes demasiado la carne.
 
@@ -8868,8 +8868,8 @@ Sirve inmediatamente mientras estén calientes y crujientes.`,
     notes:
       "Slow cooking creates deeply flavorful, fall-apart beef while dipping the tortillas into the broth gives the tacos their signature crispy red exterior. Skim excess grease from the broth if desired before serving.",
     ingredients: `Beef:
-3 lbs beef chuck roast, cut into large chunks
-1 tbsp olive oil
+3 lb beef chuck roast, cut into large chunks
+1 Tbsp olive oil
 1 tsp salt
 1/2 tsp black pepper
 
@@ -8879,12 +8879,12 @@ Chile Sauce:
 1 chipotle pepper in adobo
 1 small onion, roughly chopped
 4 cloves garlic
-1 (14 oz) can fire-roasted tomatoes
+1 can (14 oz) fire-roasted tomatoes
 2 cups beef broth
-2 tbsp apple cider vinegar
+2 Tbsp apple cider vinegar
 
 Seasoning:
-1 tbsp chili powder
+1 Tbsp chili powder
 1 tsp cumin
 1 tsp oregano
 1/2 tsp smoked paprika
@@ -8955,7 +8955,7 @@ Serve topped with diced onion and cilantro alongside small bowls of warm birria 
           "Arroz con cilantro y lima",
         ],
         ingredients: `Carne:
-3 lbs de chuck roast de res, cortado en trozos grandes
+3 lb de chuck roast de res, cortado en trozos grandes
 1 Tbsp de aceite de oliva
 1 tsp de sal
 1/2 tsp de pimienta negra
@@ -9053,11 +9053,11 @@ Sirve con cebolla picada y cilantro, acompañado de pequeños tazones de caldo c
       "Low-and-slow smoking creates tender ribs while the hot honey glaze adds a sweet heat finish with beautiful caramelization. Avoid over-smoking early on so the glaze flavor still shines through.",
     ingredients: `Ribs:
 2 racks baby back ribs
-2 tbsp yellow mustard
+2 Tbsp yellow mustard
 
 Dry Rub:
-2 tbsp brown sugar
-1 tbsp smoked paprika
+2 Tbsp brown sugar
+1 Tbsp smoked paprika
 1 tsp garlic powder
 1 tsp onion powder
 1 tsp salt
@@ -9066,8 +9066,8 @@ Dry Rub:
 
 Hot Honey Glaze:
 1/2 cup honey
-2 tbsp hot sauce
-1 tbsp butter
+2 Tbsp hot sauce
+1 Tbsp butter
 1 tsp apple cider vinegar
 
 Optional:
@@ -9195,8 +9195,8 @@ Sirve calientes con más salsa picante si lo deseas.`,
     notes:
       "Spatchcocking helps the chicken cook more evenly and quickly while the butter bath keeps the meat juicy and flavorful. Drying the skin thoroughly before roasting is the key to maximum crispiness.",
     ingredients: `Chicken:
-1 whole chicken (4 to 5 lbs)
-2 tbsp olive oil
+1 whole chicken (4 to 5 lb)
+2 Tbsp olive oil
 
 Seasoning:
 1 tsp salt
@@ -9257,7 +9257,7 @@ Spoon some of the buttery pan juices over the chicken before serving.`,
           "Ensalada verde sencilla",
         ],
         ingredients: `Pollo:
-1 pollo entero (4 a 5 lbs)
+1 pollo entero (4 a 5 lb)
 2 Tbsp de aceite de oliva
 
 Sazonadores:
@@ -9334,7 +9334,7 @@ Sirve el pollo con un poco de los jugos de mantequilla por encima.`,
 1/4 cup yellow onion, finely grated
 2 cloves garlic, minced
 1 green onion, finely sliced
-1 tbsp soy sauce
+1 Tbsp soy sauce
 1 tsp sesame oil
 1/2 tsp salt
 1/4 tsp black pepper
@@ -9347,15 +9347,15 @@ Coating:
 1 large egg, beaten
 
 For Cooking:
-2 tbsp neutral oil (vegetable or avocado oil)
+2 Tbsp neutral oil (vegetable or avocado oil)
 
 Optional Garnish:
 sesame seeds
 green onions, sliced
 
 Dipping Sauce:
-2 tbsp soy sauce
-1 tbsp rice vinegar
+2 Tbsp soy sauce
+1 Tbsp rice vinegar
 1 tsp sesame oil
 1 tsp honey or brown sugar`,
     instructions: `In a large bowl, combine 1 lb ground beef, 1/4 cup grated onion, 2 cloves garlic, 1 sliced green onion, 1 tbsp soy sauce, 1 tsp sesame oil, 1/2 tsp salt, 1/4 tsp black pepper, 1/4 tsp ginger, 1/3 cup panko breadcrumbs, and 1 egg.
@@ -9473,7 +9473,7 @@ Sirve las tortitas calientes con la salsa y decora con semillas de ajonjolí y c
       "Slow braising renders duck legs incredibly tender while crisping the shredded meat afterward creates classic carnitas texture. Rendering the duck skin first builds deep flavor into the entire dish.",
     ingredients: `Duck:
 4 duck legs
-1 tbsp salt
+1 Tbsp salt
 1/2 tsp black pepper
 1 tsp cumin
 1 tsp smoked paprika
@@ -9647,17 +9647,17 @@ Sirve inmediatamente con gajos de limón.`,
 1/2 cup yellow onion, finely diced
 4 cloves garlic, minced
 1/2 cup parmesan cheese, grated
-2 tbsp Worcestershire sauce
-2 tbsp ketchup
-1 tbsp fresh parsley, chopped
+2 Tbsp Worcestershire sauce
+2 Tbsp ketchup
+1 Tbsp fresh parsley, chopped
 1 tsp salt
 1/2 tsp black pepper
 1/2 tsp smoked paprika
 
 Glaze:
 1/2 cup ketchup
-2 tbsp brown sugar
-1 tbsp Dijon mustard
+2 Tbsp brown sugar
+1 Tbsp Dijon mustard
 1 tsp Worcestershire sauce`,
     instructions: `Preheat oven to 350°F.
 
@@ -9780,17 +9780,17 @@ Jerk Marinade:
 4 scallions, trimmed
 1/4 cup soy sauce
 1/4 cup apple cider vinegar
-2 tbsp olive oil
+2 Tbsp olive oil
 3/4 cup orange juice
 juice from 1/2 lime
-1 tbsp fresh ginger, grated
-2 tbsp brown sugar
+1 Tbsp fresh ginger, grated
+2 Tbsp brown sugar
 1 tsp nutmeg
 1 tsp allspice
 1 tsp cinnamon
 1 tsp dried thyme
 1 tsp salt
-1 tbsp black pepper`,
+1 Tbsp black pepper`,
     instructions: `Add 4 chopped habanero peppers, 1 chopped red onion, 4 chopped garlic cloves, 4 scallions, 1/4 cup soy sauce, 1/4 cup apple cider vinegar, 2 tbsp olive oil, 3/4 cup orange juice, juice from 1/2 lime, 1 tbsp grated ginger, 2 tbsp brown sugar, 1 tsp nutmeg, 1 tsp allspice, 1 tsp cinnamon, 1 tsp dried thyme, 1 tsp salt, and 1 tbsp black pepper to a food processor or blender.
 
 Blend until the marinade is completely smooth.
@@ -9903,7 +9903,7 @@ Sirve caliente con arroz, verduras a la parrilla o una ensalada fresca.`,
   notes:
     "A Simple Dinners tribute to the Southern chicken and dumplins' associated with Dolly Parton, featuring tender chicken, rich broth, and old-fashioned rolled flat dumplings.",
   ingredients: `Chicken and Broth:
-2 1/2 lbs boneless skinless chicken thighs or breasts
+2 1/2 lb boneless skinless chicken thighs or breasts
 8 cups chicken broth
 1 medium yellow onion, diced
 2 celery stalks, diced
@@ -9975,7 +9975,7 @@ Serve hot with plenty of the rich broth.`,
         "Ensalada Verde Sencilla",
       ],
       ingredients: `Pollo y Caldo:
-2 1/2 lbs de muslos o pechugas de pollo sin hueso y sin piel
+2 1/2 lb de muslos o pechugas de pollo sin hueso y sin piel
 8 cups de caldo de pollo
 1 cebolla amarilla mediana, picada
 2 tallos de apio, picados
@@ -10056,7 +10056,7 @@ Sirve caliente con abundante caldo.`,
   notes:
     "A comforting slow-roasted pork dinner inspired by classic Southern entertaining, with tender pork and a savory gravy made from the flavorful pan drippings.",
   ingredients: `Pork:
-4 lbs boneless pork shoulder or pork butt
+4 lb boneless pork shoulder or pork butt
 2 Tbsp olive oil
 
 Seasoning:
@@ -10129,7 +10129,7 @@ Serve warm with the pan gravy spooned generously over the pork.`,
         "Panecillos Suaves para la Cena",
       ],
       ingredients: `Cerdo:
-4 lbs de paleta de cerdo sin hueso
+4 lb de paleta de cerdo sin hueso
 2 Tbsp de aceite de oliva
 
 Sazonadores:
@@ -10212,9 +10212,9 @@ Sirve caliente con abundante gravy por encima.`,
     "An old-fashioned layered casserole inspired by simple Southern family cooking, with potatoes, seasoned beef, onions, tomatoes, and sweet peas baked together in one dish.",
   ingredients: `Casserole:
 3 medium russet potatoes, peeled and thinly sliced
-1 1/2 lbs ground beef
+1 1/2 lb ground beef
 1 medium yellow onion, thinly sliced
-1 (14.5 oz) can diced tomatoes, undrained
+1 can (14.5 oz) diced tomatoes, undrained
 1 1/2 cups frozen sweet peas
 1/2 cup beef broth
 2 Tbsp butter, cut into small pieces
@@ -10269,7 +10269,7 @@ Spoon through all five layers when serving and serve warm.`,
       ],
       ingredients: `Cazuela:
 3 papas russet medianas, peladas y cortadas en rodajas finas
-1 1/2 lbs de carne molida de res
+1 1/2 lb de carne molida de res
 1 cebolla amarilla mediana, en rodajas finas
 1 lata (14.5 oz) de tomates cortados en cubitos, sin escurrir
 1 1/2 cups de chícharos dulces congelados
@@ -10334,7 +10334,7 @@ Sirve procurando incluir las cinco capas en cada porción.`,
   notes:
     "A hearty Simple Dinners tribute inspired by the Parton family's Stone Soup story, filled with tender beef, potatoes, cabbage, and humble vegetables simmered together into a comforting family meal.",
   ingredients: `Beef:
-1 1/2 lbs beef chuck, cut into 1-inch pieces
+1 1/2 lb beef chuck, cut into 1-inch pieces
 1 Tbsp vegetable oil
 1 tsp salt
 1/2 tsp black pepper
@@ -10348,7 +10348,7 @@ Soup:
 2 medium russet potatoes, peeled and cut into chunks
 1 medium turnip, peeled and cut into chunks
 2 cups green cabbage, roughly chopped
-1 (14.5 oz) can diced tomatoes, undrained
+1 can (14.5 oz) diced tomatoes, undrained
 1 tsp dried thyme
 1/2 tsp dried rosemary
 1 bay leaf
@@ -10409,7 +10409,7 @@ Ladle the Stone Soup into deep bowls and serve hot with cornbread or warm dinner
         "Ensalada Verde Sencilla",
       ],
       ingredients: `Carne:
-1 1/2 lbs de carne de res tipo chuck, cortada en trozos de 1 pulgada
+1 1/2 lb de carne de res tipo chuck, cortada en trozos de 1 pulgada
 1 Tbsp de aceite vegetal
 1 tsp de sal
 1/2 tsp de pimienta negra
@@ -10492,7 +10492,7 @@ Sirve la Sopa de Piedra caliente en tazones hondos acompañada de pan de maíz o
   notes:
     "A classic Southern-style meatloaf inspired by the Parton family's comforting home cooking, made with seasoned ground beef and finished with a sweet and tangy tomato glaze.",
   ingredients: `Meatloaf:
-2 lbs ground beef
+2 lb ground beef
 1 cup plain breadcrumbs
 1 medium yellow onion, finely diced
 2 large eggs
@@ -10551,7 +10551,7 @@ Serve warm with mashed potatoes, green beans, and extra pan juices spooned over 
         "Panecillos Suaves para la Cena",
       ],
       ingredients: `Pastel de Carne:
-2 lbs de carne molida de res
+2 lb de carne molida de res
 1 cup de pan rallado
 1 cebolla amarilla mediana, finamente picada
 2 huevos grandes
@@ -10619,7 +10619,7 @@ Sirve caliente con puré de papas, ejotes y, si deseas, los jugos de cocción po
   notes:
     "A Simple Dinners tribute to classic Southern country-fried chicken, with buttermilk-soaked bone-in chicken, a crisp seasoned coating, and peppery white cream gravy.",
   ingredients: `Chicken:
-3 lbs bone-in, skin-on chicken pieces
+3 lb bone-in, skin-on chicken pieces
 2 cups buttermilk
 1 Tbsp hot sauce
 2 tsp salt
@@ -10706,7 +10706,7 @@ Serve the crispy fried chicken hot with the peppery white cream gravy spooned ov
         "Pan de Maíz con Buttermilk en Sartén de Hierro",
       ],
       ingredients: `Pollo:
-3 lbs de piezas de pollo con hueso y piel
+3 lb de piezas de pollo con hueso y piel
 2 cups de buttermilk
 1 Tbsp de salsa picante
 2 tsp de sal
@@ -11532,7 +11532,7 @@ Dobla y sirve caliente.`,
   notes:
     "Crispy garlic-butter smashed potatoes become the base for seasoned chicken, melted Cheddar, sour cream, and fresh green onions in a hearty family-friendly dinner bowl.",
   ingredients: `Smashed Potatoes:
-1 1/2 lbs baby Yukon gold potatoes
+1 1/2 lb baby Yukon gold potatoes
 3 Tbsp butter, melted
 1 Tbsp olive oil
 3 cloves garlic, minced
@@ -11608,7 +11608,7 @@ Serve immediately while the potatoes are crisp and the cheese is melted.`,
         "Zanahorias Glaseadas",
       ],
       ingredients: `Papas Aplastadas:
-1 1/2 lbs de papas baby Yukon gold
+1 1/2 lb de papas baby Yukon gold
 3 Tbsp de mantequilla, derretida
 1 Tbsp de aceite de oliva
 3 dientes de ajo, picados
@@ -11842,7 +11842,7 @@ export const CAMPFIRE_RECIPES: Meal[] = [
 2 cups baby potatoes, thinly sliced
 1 cup carrots, sliced
 1/2 onion, sliced
-2 tbsp butter
+2 Tbsp butter
 1 tsp garlic powder
 1 tsp salt
 1/2 tsp black pepper
@@ -11938,13 +11938,13 @@ Abre cuidadosamente los paquetes porque saldrá vapor caliente. Sirve directamen
 1 small onion, diced
 1 packet taco seasoning
 2/3 cup water
-1 (10 oz) can Rotel
+1 can (10 oz) Rotel
 6 small flour tortillas
 2 cups cheddar cheese, shredded
 1 cup tortilla chips, lightly crushed
 1/2 cup sour cream
 1/4 cup green onions, sliced
-1 tbsp olive oil`,
+1 Tbsp olive oil`,
     instructions: `Preheat a Dutch oven over a campfire grate or hot coals using medium heat.
 
 Add 1 tbsp olive oil and 1 diced onion. Cook 3 to 4 minutes until softened.
@@ -12045,10 +12045,10 @@ Agrega crema agria y cebollines antes de servir.`,
     ingredients: `1 lb ground beef
 1 small onion, diced
 2 cloves garlic, minced
-1 tbsp olive oil
+1 Tbsp olive oil
 1 packet chili seasoning
-1 (14 oz) can diced tomatoes
-1 (15 oz) can kidney beans, drained
+1 can (14 oz) diced tomatoes
+1 can (15 oz) kidney beans, drained
 3 cups beef broth
 2 cups elbow macaroni
 2 cups cheddar cheese, shredded
@@ -12148,7 +12148,7 @@ Retira del fuego y deja reposar 5 minutos antes de servir.`,
 1 bell pepper, chopped into large pieces
 1 small red onion, cut into chunks
 1 zucchini, sliced into thick rounds
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 tsp garlic powder
 1/2 tsp salt
 1/4 tsp black pepper
@@ -12237,7 +12237,7 @@ Sirve caliente directamente en las brochetas.`,
     notes:
       "A nostalgic campfire favorite with crispy toasted bread and melty fillings cooked inside a pie iron over the fire.",
     ingredients: `8 slices sandwich bread
-2 tbsp butter, softened
+2 Tbsp butter, softened
 1 cup pizza sauce
 1 cup mozzarella cheese, shredded
 1/2 cup pepperoni slices
@@ -12525,8 +12525,8 @@ Retira y deja reposar unos minutos antes de servir.`,
 1/2 tsp salt
 1 Tbsp olive oil (or cooking spray)
 1 to 2 Tbsp butter (depending on potato size)
-shredded cheese (optional)
-sour cream (optional)`,
+shredded cheese, optional
+sour cream, optional`,
     instructions: `Rinse 1 large russet potato and dry completely.
 Pierce the potato with a fork in 4 to 6 spots.
 Coat the potato evenly with 1 Tbsp olive oil or cooking spray.
@@ -12573,7 +12573,7 @@ Corta por el centro, esponja el interior con un tenedor y agrega 1 a 2 Tbsp de m
     tags: ["side", "roasted", "vegetarian", "comfort", "oven"],
     isVegetarian: true,
     notes: "Crispy, simple potatoes that work with almost any main dish.",
-    ingredients: `3 lbs small red or white potatoes
+    ingredients: `3 lb small red or white potatoes
 1/4 cup olive oil
 1 1/2 tsp salt
 1 tsp pepper
@@ -12600,7 +12600,7 @@ Remove from oven, toss with 2 Tbsp minced fresh parsley, season to taste, and se
           "comida reconfortante",
           "horno",
         ],
-        ingredients: `3 lbs de papas rojas o blancas pequeñas
+        ingredients: `3 lb de papas rojas o blancas pequeñas
 1/4 cup de aceite de oliva
 1 1/2 tsp de sal
 1 tsp de pimienta
@@ -12624,20 +12624,20 @@ Retira del horno, mezcla con 2 Tbsp de perejil fresco picado, sazona al gusto y 
     slug: "buffalo-chicken-tots",
     name: "Buffalo Chicken Tots",
     servings: 6,
-    ingredients: `1 (32 oz) bag frozen tater tots
+    ingredients: `1 bag (32 oz) frozen tater tots
 1 Tbsp olive oil
 
 2 cups cooked chicken, shredded
 1/2 cup buffalo sauce (plus more for drizzle)
 
 1 cup cheddar cheese, shredded
-1/2 cup mozzarella cheese, shredded (optional)
+1/2 cup mozzarella cheese, shredded, optional
 
-1/2 cup blue cheese crumbles (optional)
+1/2 cup blue cheese crumbles, optional
 1/2 cup ranch or blue cheese dressing
 
 2 green onions, sliced
-1 jalapeño or chili pepper, thinly sliced (optional)`,
+1 jalapeño or chili pepper, thinly sliced, optional`,
     instructions: `Preheat oven to 400°F.
 
 Toss 1 (32 oz) bag tater tots with 1 Tbsp olive oil and spread in a single layer on a baking sheet.
@@ -12729,7 +12729,7 @@ Decora con cebollines rebanados y sirve de inmediato.`,
     slug: "classic-potato-salad",
     name: "Classic Potato Salad",
     servings: 6,
-    ingredients: `2 lbs Yukon Gold or red potatoes, cut into 1-inch chunks
+    ingredients: `2 lb Yukon Gold or red potatoes, cut into 1-inch chunks
 1 tsp salt (for boiling water)
 3 large eggs
 
@@ -12780,7 +12780,7 @@ Before serving, taste and adjust salt and pepper if needed. Sprinkle with additi
           "familiar",
           "parrillada",
         ],
-        ingredients: `2 lbs de papas Yukon Gold o rojas, cortadas en trozos de 1 inch
+        ingredients: `2 lb de papas Yukon Gold o rojas, cortadas en trozos de 1 inch
 1 tsp de sal para el agua de cocción
 3 huevos grandes
 
@@ -12828,11 +12828,11 @@ Antes de servir, prueba y ajusta sal y pimienta si es necesario. Espolvorea con 
     isVegetarian: true,
     notes: "A simple, flexible side that can be steamed, sautéed, or roasted with garlic.",
     ingredients: `1 lb fresh green beans, trimmed
-1 tbsp olive oil or butter
+1 Tbsp olive oil or butter
 2 cloves garlic, minced
 1/2 tsp salt
 1/4 tsp black pepper
-1 tbsp lemon juice (optional)`,
+1 Tbsp lemon juice, optional`,
     instructions: `Heat 1 tbsp olive oil or butter in a large skillet over medium heat.
 
 Add 1 lb green beans and cook for 5 to 7 minutes, stirring occasionally, until bright green and tender-crisp.
@@ -12852,7 +12852,7 @@ Finish with 1 tbsp lemon juice if desired and serve warm.`,
 2 dientes de ajo, picados
 1/2 tsp de sal
 1/4 tsp de pimienta negra
-1 Tbsp de jugo de limón (opcional)`,
+1 Tbsp de jugo de limón, opcional`,
         instructions: `Calienta 1 Tbsp de aceite de oliva o mantequilla en una sartén grande a fuego medio.
 
 Agrega 1 lb de ejotes y cocina de 5 a 7 minutos, revolviendo ocasionalmente, hasta que estén verdes brillantes y tiernos pero crujientes.
@@ -12877,11 +12877,11 @@ Termina con 1 Tbsp de jugo de limón si deseas y sirve caliente.`,
     isVegetarian: true,
     notes: "High heat gives broccoli crispy edges while lemon keeps it bright and fresh.",
     ingredients: `1 large head broccoli, cut into florets
-2 tbsp olive oil
+2 Tbsp olive oil
 1/2 tsp salt
 1/4 tsp black pepper
-1 tbsp lemon juice
-1/4 cup parmesan cheese, grated (optional)`,
+1 Tbsp lemon juice
+1/4 cup parmesan cheese, grated, optional`,
     instructions: `Preheat oven to 425°F.
 
 Toss broccoli with 2 tbsp olive oil, 1/2 tsp salt, and 1/4 tsp black pepper.
@@ -12901,7 +12901,7 @@ Finish with 1 tbsp lemon juice and parmesan if desired.`,
 1/2 tsp de sal
 1/4 tsp de pimienta negra
 1 Tbsp de jugo de limón
-1/4 cup de queso parmesano rallado (opcional)`,
+1/4 cup de queso parmesano rallado, opcional`,
         instructions: `Precalienta el horno a 425°F.
 
 Mezcla el brócoli con 2 Tbsp de aceite de oliva, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
@@ -12926,11 +12926,11 @@ Termina con 1 Tbsp de jugo de limón y parmesano si deseas.`,
     isVegetarian: true,
     notes: "Tender carrots simmered with butter and honey for a simple sweet-savory side.",
     ingredients: `1 lb carrots, sliced
-2 tbsp butter
-1 tbsp honey or brown sugar
+2 Tbsp butter
+1 Tbsp honey or brown sugar
 1/2 tsp salt
 1/4 tsp black pepper
-1 tbsp fresh parsley, chopped (optional)`,
+1 Tbsp fresh parsley, chopped, optional`,
     instructions: `Place 1 lb sliced carrots in a skillet with enough water to barely cover the bottom.
 
 Cover and simmer over medium heat for 6 to 8 minutes until tender.
@@ -12952,7 +12952,7 @@ Garnish with parsley if desired and serve warm.`,
 1 Tbsp de miel o azúcar morena
 1/2 tsp de sal
 1/4 tsp de pimienta negra
-1 Tbsp de perejil fresco, picado (opcional)`,
+1 Tbsp de perejil fresco, picado, opcional`,
         instructions: `Coloca 1 lb de zanahorias en una sartén con suficiente agua para cubrir apenas el fondo.
 
 Cubre y cocina a fuego medio de 6 a 8 minutos hasta que estén tiernas.
@@ -12987,12 +12987,12 @@ Decora con perejil si deseas y sirve caliente.`,
     notes:
       "A quick and elegant side dish that pairs well with chicken, steak, pork, or seafood. Cooking over medium-high heat keeps the asparagus tender-crisp.",
     ingredients: `1 lb asparagus, trimmed
-1 tbsp butter
-1 tbsp olive oil
+1 Tbsp butter
+1 Tbsp olive oil
 2 cloves garlic, minced
 1/2 tsp salt
 1/4 tsp black pepper
-1 tbsp lemon juice (optional)`,
+1 Tbsp lemon juice, optional`,
     instructions: `Heat 1 tbsp butter and 1 tbsp olive oil in a large skillet over medium-high heat.
 
 Add 1 lb asparagus and cook for 4 to 6 minutes, stirring occasionally, until bright green and tender-crisp.
@@ -13023,7 +13023,7 @@ Serve immediately while warm.`,
 2 dientes de ajo, picados
 1/2 tsp de sal
 1/4 tsp de pimienta negra
-1 Tbsp de jugo de limón (opcional)`,
+1 Tbsp de jugo de limón, opcional`,
         instructions: `Calienta 1 Tbsp de mantequilla y 1 Tbsp de aceite de oliva en una sartén grande a fuego medio-alto.
 
 Agrega 1 lb de espárragos y cocina de 4 a 6 minutos, revolviendo ocasionalmente, hasta que estén verdes brillantes y tiernos pero crujientes.
@@ -13057,12 +13057,12 @@ Sirve inmediatamente.`,
     isVegetarian: true,
     notes:
       "Roasting Brussels sprouts at high heat creates crispy caramelized edges and a tender center. A drizzle of balsamic glaze adds the perfect finishing touch.",
-    ingredients: `1 1/2 lbs Brussels sprouts, halved
-2 tbsp olive oil
+    ingredients: `1 1/2 lb Brussels sprouts, halved
+2 Tbsp olive oil
 1/2 tsp salt
 1/4 tsp black pepper
-1 tbsp balsamic glaze (optional)
-2 tbsp parmesan cheese, grated (optional)`,
+1 Tbsp balsamic glaze, optional
+2 Tbsp parmesan cheese, grated, optional`,
     instructions: `Preheat oven to 425°F.
 
 Toss 1 1/2 lbs Brussels sprouts with 2 tbsp olive oil, 1/2 tsp salt, and 1/4 tsp black pepper.
@@ -13089,12 +13089,12 @@ Serve warm.`,
           "rostizado",
           "saludable",
         ],
-        ingredients: `1 1/2 lbs de coles de Bruselas, partidas a la mitad
+        ingredients: `1 1/2 lb de coles de Bruselas, partidas a la mitad
 2 Tbsp de aceite de oliva
 1/2 tsp de sal
 1/4 tsp de pimienta negra
-1 Tbsp de glaseado balsámico (opcional)
-2 Tbsp de queso parmesano rallado (opcional)`,
+1 Tbsp de glaseado balsámico, opcional
+2 Tbsp de queso parmesano rallado, opcional`,
         instructions: `Precalienta el horno a 425°F.
 
 Mezcla 1 1/2 lbs de coles de Bruselas con 2 Tbsp de aceite de oliva, 1/2 tsp de sal y 1/4 tsp de pimienta negra.
@@ -13131,7 +13131,7 @@ Sirve caliente.`,
     notes:
       "A classic cookout favorite. Sweet corn and melted butter are hard to beat, and this side works with almost any grilled meal.",
     ingredients: `6 ears corn, husked
-4 tbsp butter
+4 Tbsp butter
 1/2 tsp salt
 1/4 tsp black pepper
 
@@ -13209,13 +13209,13 @@ Sirve inmediatamente.`,
     isVegetarian: true,
     notes:
       "A rich and creamy classic side dish that pairs beautifully with barbecue, roasted meats, and holiday meals.",
-    ingredients: `2 tbsp butter
+    ingredients: `2 Tbsp butter
 3 cups corn kernels (fresh, frozen, or canned)
 1 cup heavy cream
 2 oz cream cheese, softened
 1/2 tsp salt
 1/4 tsp black pepper
-1 tsp sugar (optional)`,
+1 tsp sugar, optional`,
     instructions: `Melt 2 tbsp butter in a medium saucepan over medium heat.
 
 Add 3 cups corn kernels and cook for 3 to 4 minutes until heated through.
@@ -13248,7 +13248,7 @@ Serve warm.`,
 2 oz de queso crema, suavizado
 1/2 tsp de sal
 1/4 tsp de pimienta negra
-1 tsp de azúcar (opcional)`,
+1 tsp de azúcar, opcional`,
         instructions: `Derrite 2 Tbsp de mantequilla en una cacerola a fuego medio.
 
 Agrega 3 cups de maíz y cocina de 3 a 4 minutos hasta que esté caliente.
@@ -13285,14 +13285,14 @@ Sirve caliente.`,
     notes:
       "Roasting transforms cauliflower into a sweet, nutty side dish with crispy golden edges and incredible flavor.",
     ingredients: `1 large head cauliflower, cut into florets
-2 tbsp olive oil
+2 Tbsp olive oil
 1/2 tsp salt
 1/4 tsp black pepper
 1/2 tsp garlic powder
 
 Optional:
-2 tbsp parmesan cheese
-1 tbsp lemon juice`,
+2 Tbsp parmesan cheese
+1 Tbsp lemon juice`,
     instructions: `Preheat oven to 425°F.
 
 Toss cauliflower florets with 2 tbsp olive oil, 1/2 tsp salt, 1/4 tsp black pepper, and 1/2 tsp garlic powder.
@@ -13362,8 +13362,8 @@ Sirve caliente.`,
     ingredients: `1 zucchini, sliced
 1 yellow squash, sliced
 1/2 onion, sliced
-1 tbsp olive oil
-1 tbsp butter
+1 Tbsp olive oil
+1 Tbsp butter
 1/2 tsp salt
 1/4 tsp black pepper
 1/2 tsp garlic powder`,
@@ -13432,15 +13432,15 @@ Cocina 1 minuto más y sirve caliente.`,
 1 lb fresh spinach
 
 Sauce:
-2 tbsp butter
+2 Tbsp butter
 2 cloves garlic, minced
-2 tbsp flour
+2 Tbsp flour
 1 cup whole milk
 1/2 cup parmesan cheese, grated
 2 oz cream cheese, softened
 1/2 tsp salt
 1/4 tsp black pepper
-1/8 tsp nutmeg (optional)`,
+1/8 tsp nutmeg, optional`,
     instructions: `Bring a large pot of water to a boil.
 
 Add 1 lb spinach and cook for 30 seconds until wilted.
@@ -13487,7 +13487,7 @@ Salsa:
 2 oz de queso crema, suavizado
 1/2 tsp de sal
 1/4 tsp de pimienta negra
-1/8 tsp de nuez moscada (opcional)`,
+1/8 tsp de nuez moscada, opcional`,
         instructions: `Hierve una olla grande con agua.
 
 Agrega 1 lb de espinacas y cocina durante 30 segundos hasta que se marchiten.
@@ -13533,10 +13533,10 @@ Sirve caliente.`,
       "A colorful and simple side dish that's quick to prepare and pairs well with almost any dinner.",
     ingredients: `2 cups frozen peas
 2 cups carrots, diced
-2 tbsp butter
+2 Tbsp butter
 1/2 tsp salt
 1/4 tsp black pepper
-1 tsp honey (optional)`,
+1 tsp honey, optional`,
     instructions: `Bring a medium saucepan of water to a boil.
 
 Add 2 cups carrots and cook for 5 minutes.
@@ -13570,7 +13570,7 @@ Serve warm.`,
 2 Tbsp de mantequilla
 1/2 tsp de sal
 1/4 tsp de pimienta negra
-1 tsp de miel (opcional)`,
+1 tsp de miel, opcional`,
         instructions: `Hierve una cacerola mediana con agua.
 
 Agrega 2 cups de zanahorias y cocina durante 5 minutos.
@@ -13611,13 +13611,13 @@ Sirve caliente.`,
     ingredients: `2 carrots, peeled and chopped
 2 parsnips, peeled and chopped
 2 medium beets, peeled and chopped
-2 tbsp olive oil
+2 Tbsp olive oil
 1 tsp salt
 1/2 tsp black pepper
 1 tsp dried thyme
 
 Optional:
-1 tbsp balsamic glaze
+1 Tbsp balsamic glaze
 fresh parsley for garnish`,
     instructions: `Preheat oven to 425°F.
 
@@ -13696,8 +13696,8 @@ Sirve caliente.`,
     isVegetarian: true,
     notes:
       "Rich, buttery mashed potatoes that pair perfectly with gravy, roasted meats, or holiday dinners.",
-    ingredients: `2 lbs russet potatoes, peeled and cubed
-4 tbsp butter
+    ingredients: `2 lb russet potatoes, peeled and cubed
+4 Tbsp butter
 1/2 cup whole milk
 1/2 cup sour cream
 1 tsp salt
@@ -13732,7 +13732,7 @@ Serve warm with gravy or fresh chives if desired.`,
           "festivo",
           "familiar",
         ],
-        ingredients: `2 lbs de papas russet, peladas y en cubos
+        ingredients: `2 lb de papas russet, peladas y en cubos
 4 Tbsp de mantequilla
 1/2 cup de leche entera
 1/2 cup de crema agria
@@ -13778,7 +13778,7 @@ Sirve caliente con gravy o cebollín fresco si lo deseas.`,
     notes:
       "Crispy fries with simple seasoning. Works great with shoestring, waffle, curly, or steak fries.",
     ingredients: `1 lb frozen fries
-1 tbsp olive oil
+1 Tbsp olive oil
 1 tsp seasoned salt
 1/2 tsp garlic powder
 1/4 tsp black pepper
@@ -13850,15 +13850,15 @@ Sirve inmediatamente con tu salsa favorita.`,
     isVegetarian: true,
     notes:
       "Crispy on the outside and fluffy inside, these roasted red potatoes pair well with almost any main dish.",
-    ingredients: `2 lbs red potatoes, cut into bite-size pieces
-2 tbsp olive oil
+    ingredients: `2 lb red potatoes, cut into bite-size pieces
+2 Tbsp olive oil
 3 cloves garlic, minced
 1 tsp dried rosemary
 1 tsp salt
 1/2 tsp black pepper
 
 Optional:
-2 tbsp parmesan cheese
+2 Tbsp parmesan cheese
 fresh parsley`,
     instructions: `Preheat oven to 425°F.
 
@@ -13888,7 +13888,7 @@ Serve warm.`,
           "saludable",
           "familiar",
         ],
-        ingredients: `2 lbs de papas rojas, cortadas en trozos
+        ingredients: `2 lb de papas rojas, cortadas en trozos
 2 Tbsp de aceite de oliva
 3 dientes de ajo, picados
 1 tsp de romero seco
@@ -13927,15 +13927,15 @@ Sirve caliente.`,
     tags: ["side", "vegetarian", "potatoes", "crispy", "roasted", "comfort", "family-friendly"],
     isVegetarian: true,
     notes: "Boiling the potatoes first creates a fluffy inside while roasting them after smashing gives them ultra-crispy edges.",
-    ingredients: `2 lbs baby potatoes
-2 tbsp olive oil
+    ingredients: `2 lb baby potatoes
+2 Tbsp olive oil
 1 tsp garlic powder
 1 tsp salt
 1/2 tsp black pepper
 
 Optional:
-2 tbsp parmesan cheese
-1 tbsp fresh parsley, chopped
+2 Tbsp parmesan cheese
+1 Tbsp fresh parsley, chopped
 sour cream for serving`,
     instructions: `Preheat oven to 425°F.
 
@@ -13963,7 +13963,7 @@ Serve warm with sour cream if desired.`,
         name: "Papas Aplastadas Crujientes",
         notes: "Hervir las papas primero crea un interior suave, mientras que rostizarlas después de aplastarlas les da bordes ultra crujientes.",
         tags: ["acompañamiento", "vegetariano", "papas", "crujiente", "rostizado", "comfort", "familiar"],
-        ingredients: `2 lbs de papas pequeñas
+        ingredients: `2 lb de papas pequeñas
 2 Tbsp de aceite de oliva
 1 tsp de ajo en polvo
 1 tsp de sal
@@ -14009,17 +14009,17 @@ Sirve caliente con crema agria si deseas.`,
     isVegetarian: true,
     notes: "Classic scalloped potatoes are baked in a rich cream sauce until tender, bubbly, and lightly golden on top.",
     ingredients: `Potatoes:
-2 lbs Yukon Gold potatoes, thinly sliced
+2 lb Yukon Gold potatoes, thinly sliced
 
 Cream Sauce:
-3 tbsp butter
-3 tbsp flour
+3 Tbsp butter
+3 Tbsp flour
 2 cups whole milk
 1 cup heavy cream
 1 tsp salt
 1/2 tsp black pepper
 1/2 tsp garlic powder
-1/4 tsp nutmeg (optional)
+1/4 tsp nutmeg, optional
 
 Optional:
 fresh parsley for garnish`,
@@ -14056,7 +14056,7 @@ Garnish with parsley if desired.`,
         notes: "Las papas scalloped clásicas se hornean en una salsa cremosa hasta quedar tiernas, burbujeantes y ligeramente doradas por encima.",
         tags: ["acompañamiento", "vegetariano", "papas", "comfort", "festivo", "cacerola", "cremoso"],
         ingredients: `Papas:
-2 lbs de papas Yukon Gold, en rodajas finas
+2 lb de papas Yukon Gold, en rodajas finas
 
 Salsa Cremosa:
 3 Tbsp de mantequilla
@@ -14066,7 +14066,7 @@ Salsa Cremosa:
 1 tsp de sal
 1/2 tsp de pimienta negra
 1/2 tsp de ajo en polvo
-1/4 tsp de nuez moscada (opcional)
+1/4 tsp de nuez moscada, opcional
 
 Opcional:
 perejil fresco para decorar`,
@@ -14112,13 +14112,13 @@ Decora con perejil si deseas.`,
     isVegetarian: true,
     notes: "Simple baked sweet potatoes with a fluffy center and naturally sweet flavor. Perfect with butter, cinnamon, or a drizzle of honey.",
     ingredients: `4 medium sweet potatoes
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 tsp salt
 
 Optional:
-2 tbsp butter
+2 Tbsp butter
 1/2 tsp cinnamon
-1 tbsp honey or maple syrup`,
+1 Tbsp honey or maple syrup`,
     instructions: `Preheat oven to 425°F.
 
 Scrub 4 sweet potatoes clean and dry thoroughly.
@@ -14176,13 +14176,13 @@ Sirve caliente.`,
     tags: ["side", "vegetarian", "sweet-potatoes", "roasted", "healthy", "meal-prep"],
     isVegetarian: true,
     notes: "Roasting sweet potato cubes at high heat brings out their natural sweetness and creates caramelized edges.",
-    ingredients: `2 lbs sweet potatoes, peeled and cubed
-2 tbsp olive oil
+    ingredients: `2 lb sweet potatoes, peeled and cubed
+2 Tbsp olive oil
 1 tsp salt
 1/2 tsp black pepper
 1/2 tsp garlic powder
 1/2 tsp smoked paprika
-1/4 tsp cinnamon (optional)`,
+1/4 tsp cinnamon, optional`,
     instructions: `Preheat oven to 425°F.
 
 Place 2 lbs cubed sweet potatoes on a large baking sheet.
@@ -14201,13 +14201,13 @@ Serve warm.`,
         name: "Cubos de Batata Rostizados",
         notes: "Rostizar cubos de batata a temperatura alta resalta su dulzura natural y crea bordes caramelizados.",
         tags: ["acompañamiento", "vegetariano", "batatas", "rostizado", "saludable", "meal-prep"],
-        ingredients: `2 lbs de batatas, peladas y en cubos
+        ingredients: `2 lb de batatas, peladas y en cubos
 2 Tbsp de aceite de oliva
 1 tsp de sal
 1/2 tsp de pimienta negra
 1/2 tsp de ajo en polvo
 1/2 tsp de paprika ahumada
-1/4 tsp de canela (opcional)`,
+1/4 tsp de canela, opcional`,
         instructions: `Precalienta el horno a 425°F.
 
 Coloca 2 lbs de batatas en cubos sobre una bandeja grande.
@@ -14236,8 +14236,8 @@ Sirve caliente.`,
     isVegetarian: true,
     notes: "A sweet and savory alternative to regular fries with crispy edges and tender centers.",
     ingredients: `2 large sweet potatoes, cut into fries
-2 tbsp olive oil
-1 tbsp cornstarch
+2 Tbsp olive oil
+1 Tbsp cornstarch
 1 tsp salt
 1/2 tsp garlic powder
 1/2 tsp smoked paprika
@@ -14309,8 +14309,8 @@ Sirve con tu salsa favorita.`,
     isVegetarian: true,
     notes: "A classic holiday-style casserole with creamy mashed sweet potatoes and a sweet, crunchy topping.",
     ingredients: `Sweet Potatoes:
-3 lbs sweet potatoes, peeled and cubed
-4 tbsp butter
+3 lb sweet potatoes, peeled and cubed
+4 Tbsp butter
 1/2 cup brown sugar
 1/2 cup milk
 2 large eggs
@@ -14322,7 +14322,7 @@ Topping:
 1 cup chopped pecans
 1/2 cup brown sugar
 1/4 cup flour
-3 tbsp butter, melted
+3 Tbsp butter, melted
 
 Optional:
 2 cups mini marshmallows`,
@@ -14353,7 +14353,7 @@ Let rest for 5 minutes before serving.`,
         notes: "Una cacerola clásica de estilo festivo con batatas cremosas y una cobertura dulce y crujiente.",
         tags: ["acompañamiento", "vegetariano", "batatas", "cacerola", "festivo", "comfort"],
         ingredients: `Batatas:
-3 lbs de batatas, peladas y en cubos
+3 lb de batatas, peladas y en cubos
 4 Tbsp de mantequilla
 1/2 cup de azúcar morena
 1/2 cup de leche
@@ -14407,7 +14407,7 @@ Deja reposar 5 minutos antes de servir.`,
     notes: "Perfectly fluffy white rice is one of the most versatile side dishes and pairs with nearly any main course.",
     ingredients: `1 cup long-grain white rice or jasmine rice
 2 cups water
-1 tbsp butter
+1 Tbsp butter
 1/2 tsp salt`,
     instructions: `Rinse 1 cup rice under cold water until the water runs mostly clear.
 
@@ -14456,7 +14456,7 @@ Esponja suavemente con un tenedor antes de servir.`,
     notes: "Brown rice offers a nutty flavor and heartier texture while providing more fiber than traditional white rice.",
     ingredients: `1 cup brown rice
 2 1/2 cups water
-1 tbsp butter or olive oil
+1 Tbsp butter or olive oil
 1/2 tsp salt`,
     instructions: `Rinse 1 cup brown rice under cold water.
 
@@ -14505,11 +14505,11 @@ Esponja con un tenedor y sirve caliente.`,
     notes: "Toasting the rice before cooking adds depth of flavor while broth and herbs make this side dish extra flavorful.",
     ingredients: `1 cup long-grain white rice
 1/4 cup broken spaghetti or orzo
-2 tbsp butter
+2 Tbsp butter
 2 cups vegetable broth
 1/2 tsp salt
 1/4 tsp black pepper
-1 tbsp fresh parsley, chopped`,
+1 Tbsp fresh parsley, chopped`,
     instructions: `Melt 2 tbsp butter in a saucepan over medium heat.
 
 Add 1 cup rice and 1/4 cup broken spaghetti or orzo.
@@ -14571,13 +14571,13 @@ Esponja con un tenedor y agrega el perejil antes de servir.`,
     isVegetarian: true,
     notes: "Day-old rice works best because it stays firm and creates the classic fried rice texture.",
     ingredients: `3 cups cooked cold rice
-1 tbsp sesame oil
-1 tbsp vegetable oil
+1 Tbsp sesame oil
+1 Tbsp vegetable oil
 2 eggs, beaten
 1 cup frozen peas and carrots
 3 green onions, sliced
 2 cloves garlic, minced
-3 tbsp soy sauce
+3 Tbsp soy sauce
 1 tsp sesame oil
 
 Optional:
@@ -14657,10 +14657,10 @@ Decora con semillas de ajonjolí si lo deseas y sirve caliente.`,
       "Cooking quinoa in broth instead of water adds extra flavor while fresh herbs keep it bright and versatile.",
     ingredients: `1 cup quinoa, rinsed
 2 cups vegetable broth
-1 tbsp olive oil
-2 tbsp fresh parsley, chopped
-1 tbsp fresh cilantro, chopped
-1 tbsp lemon juice
+1 Tbsp olive oil
+2 Tbsp fresh parsley, chopped
+1 Tbsp fresh cilantro, chopped
+1 Tbsp lemon juice
 1/2 tsp salt
 1/4 tsp black pepper`,
     instructions: `Rinse 1 cup quinoa thoroughly under cold water.
@@ -14738,9 +14738,9 @@ Sirve caliente o fría.`,
       "Couscous cooks in minutes, making it one of the fastest side dishes for busy weeknights.",
     ingredients: `1 cup couscous
 1 cup vegetable broth
-1 tbsp olive oil
-1 tbsp lemon juice
-2 tbsp fresh parsley, chopped
+1 Tbsp olive oil
+1 Tbsp lemon juice
+2 Tbsp fresh parsley, chopped
 1/2 tsp salt
 1/4 tsp black pepper`,
     instructions: `Bring 1 cup vegetable broth to a boil in a small saucepan.
@@ -14809,13 +14809,13 @@ Sirve caliente.`,
       "Bright, fresh, and citrusy, this rice pairs perfectly with tacos, burritos, fajitas, and grilled meats.",
     ingredients: `1 cup long-grain white rice
 2 cups water
-1 tbsp butter
+1 Tbsp butter
 1/2 tsp salt
 
 Finish:
 1 lime, juiced
 1/4 cup fresh cilantro, chopped
-1/2 tsp lime zest (optional)`,
+1/2 tsp lime zest, optional`,
     instructions: `Rinse 1 cup rice under cold water.
 
 Combine rice, 2 cups water, 1 tbsp butter, and 1/2 tsp salt in a saucepan.
@@ -14852,7 +14852,7 @@ Serve warm.`,
 Final:
 1 limón verde, exprimido
 1/4 cup de cilantro fresco picado
-1/2 tsp de ralladura de limón (opcional)`,
+1/2 tsp de ralladura de limón, opcional`,
         instructions: `Enjuaga 1 cup de arroz bajo agua fría.
 
 Combina el arroz, 2 cups de agua, 1 Tbsp de mantequilla y 1/2 tsp de sal en una cacerola.
@@ -14895,8 +14895,8 @@ Sirve caliente.`,
 12 oz elbow macaroni
 
 Cheese Sauce:
-2 tbsp butter
-2 tbsp flour
+2 Tbsp butter
+2 Tbsp flour
 2 cups whole milk
 2 cups cheddar cheese, shredded
 1/2 tsp salt
@@ -15077,10 +15077,10 @@ Refrigera durante al menos 30 minutos antes de servir para obtener mejor sabor.`
     notes:
       "Simple buttered noodles are a timeless comfort side dish that pairs well with chicken, beef, pork, and countless family meals.",
     ingredients: `12 oz egg noodles
-4 tbsp butter
+4 Tbsp butter
 1/2 tsp salt
 1/4 tsp black pepper
-2 tbsp fresh parsley, chopped
+2 Tbsp fresh parsley, chopped
 
 Optional:
 1/4 cup parmesan cheese`,
@@ -15163,11 +15163,11 @@ Sirve caliente.`,
     notes:
       "Warm, fluffy dinner rolls are the perfect addition to holiday meals, soups, and comfort food dinners.",
     ingredients: `1 package refrigerated dinner rolls (12 count)
-2 tbsp butter, melted
+2 Tbsp butter, melted
 
 Optional:
 1 tsp honey
-1 tbsp fresh parsley, chopped`,
+1 Tbsp fresh parsley, chopped`,
     instructions: `Preheat oven according to package directions.
 
 Arrange dinner rolls on a baking sheet or in a baking dish.
@@ -15236,7 +15236,7 @@ Sirve caliente.`,
     ingredients: `1 loaf French bread or Italian bread
 1/2 cup butter, softened
 3 cloves garlic, minced
-1 tbsp fresh parsley, chopped
+1 Tbsp fresh parsley, chopped
 1/4 tsp salt
 
 Optional:
@@ -15319,7 +15319,7 @@ Corta en rebanadas y sirve caliente.`,
     ingredients: `1 cup cornmeal
 1 cup all-purpose flour
 1/4 cup sugar
-1 tbsp baking powder
+1 Tbsp baking powder
 1/2 tsp salt
 1 cup milk
 1/3 cup vegetable oil
@@ -15400,13 +15400,13 @@ Deja enfriar ligeramente antes de servir.`,
     notes:
       "Flaky, buttery biscuits with tender layers. Perfect for breakfast, dinner, or alongside soups and stews.",
     ingredients: `2 cups all-purpose flour
-1 tbsp baking powder
+1 Tbsp baking powder
 1/2 tsp salt
-6 tbsp cold butter, cubed
+6 Tbsp cold butter, cubed
 3/4 cup milk
 
 Optional:
-2 tbsp melted butter for brushing`,
+2 Tbsp melted butter for brushing`,
     instructions: `Preheat oven to 425°F.
 
 In a large bowl, whisk together flour, baking powder, and salt.
@@ -15478,7 +15478,7 @@ Barniza con mantequilla derretida y sirve caliente.`,
     isVegetarian: false,
     notes: "Sweet, savory, and smoky baked beans with brown sugar, bacon, and molasses. Perfect for barbecue, cookouts, and potlucks.",
     ingredients: `Beans:
-2 (28 oz) cans baked beans
+2 cans (28 oz) baked beans
 6 slices bacon, chopped
 1/2 onion, diced
 
@@ -15486,8 +15486,8 @@ Sauce:
 1/2 cup brown sugar
 1/4 cup molasses
 1/4 cup ketchup
-1 tbsp yellow mustard
-1 tbsp Worcestershire sauce
+1 Tbsp yellow mustard
+1 Tbsp Worcestershire sauce
 1/2 tsp black pepper`,
     instructions: `Preheat oven to 350°F.
 
@@ -15547,8 +15547,8 @@ Deja reposar 5 minutos antes de servir.`,
     isVegetarian: true,
     notes: "Simple black beans seasoned with garlic, onion, and cumin. Great next to tacos, rice bowls, enchiladas, or grilled meats.",
     ingredients: `Beans:
-2 (15 oz) cans black beans, drained and rinsed
-1 tbsp olive oil
+2 cans (15 oz) black beans, drained and rinsed
+1 Tbsp olive oil
 1/2 onion, diced
 2 cloves garlic, minced
 
@@ -15559,8 +15559,8 @@ Seasoning:
 1/2 cup vegetable broth or water
 
 Optional:
-1 tbsp lime juice
-2 tbsp fresh cilantro, chopped`,
+1 Tbsp lime juice
+2 Tbsp fresh cilantro, chopped`,
     instructions: `Heat 1 tbsp olive oil in a saucepan over medium heat.
 
 Add 1/2 diced onion and cook for 3 to 4 minutes until softened.
@@ -15622,8 +15622,8 @@ Sirve caliente.`,
     isVegetarian: true,
     notes: "Creamy mashed pinto beans with simple seasoning. A classic side for tacos, burritos, enchiladas, and rice plates.",
     ingredients: `Beans:
-2 (15 oz) cans pinto beans, drained and rinsed
-1 tbsp olive oil or butter
+2 cans (15 oz) pinto beans, drained and rinsed
+1 Tbsp olive oil or butter
 1/2 onion, diced
 2 cloves garlic, minced
 
@@ -15635,7 +15635,7 @@ Seasoning:
 
 Optional:
 1/2 cup cheddar cheese, shredded
-2 tbsp cilantro, chopped`,
+2 Tbsp cilantro, chopped`,
     instructions: `Heat 1 tbsp olive oil or butter in a skillet over medium heat.
 
 Add 1/2 diced onion and cook for 3 to 4 minutes until softened.
@@ -15710,7 +15710,7 @@ Decora con cilantro y sirve caliente.`,
     notes:
       "These Greek-style lemon potatoes are roasted until tender with bright citrus flavor, garlic, and herbs. They're especially delicious alongside chicken, lamb, or grilled seafood.",
     ingredients: `Potatoes:
-2 lbs Yukon Gold potatoes, cut into wedges
+2 lb Yukon Gold potatoes, cut into wedges
 
 Seasoning:
 1/4 cup olive oil
@@ -15722,7 +15722,7 @@ Seasoning:
 1/2 tsp black pepper
 
 Optional:
-1 tbsp fresh parsley, chopped
+1 Tbsp fresh parsley, chopped
 lemon wedges for serving`,
     instructions: `Preheat oven to 425°F.
 
@@ -15754,7 +15754,7 @@ Garnish with parsley and serve with lemon wedges if desired.`,
           "familiar",
         ],
         ingredients: `Papas:
-2 lbs de papas Yukon Gold, cortadas en gajos
+2 lb de papas Yukon Gold, cortadas en gajos
 
 Sazonadores:
 1/4 cup de aceite de oliva
@@ -15889,13 +15889,13 @@ Sirve inmediatamente mientras esté fresca y crujiente.`,
     isVegetarian: true,
     notes: "A cool, creamy, crunchy side that pairs perfectly with barbecue, fried chicken, burgers, and sandwiches.",
     ingredients: `Slaw:
-1 (14 oz) bag coleslaw mix
+1 bag (14 oz) coleslaw mix
 1/4 cup red onion, thinly sliced
 
 Dressing:
 1/2 cup mayonnaise
-2 tbsp apple cider vinegar
-1 tbsp sugar
+2 Tbsp apple cider vinegar
+1 Tbsp sugar
 1 tsp Dijon mustard
 1/2 tsp salt
 1/4 tsp black pepper`,
@@ -15966,13 +15966,13 @@ Revuelve nuevamente antes de servir.`,
 Brine:
 1 cup water
 1 cup white vinegar
-1 tbsp kosher salt
-1 tbsp sugar
+1 Tbsp kosher salt
+1 Tbsp sugar
 
 Flavorings:
 2 cloves garlic, smashed
 1 tsp dill seed
-2 tbsp fresh dill
+2 Tbsp fresh dill
 1/2 tsp black peppercorns
 
 Optional:
@@ -16071,8 +16071,8 @@ Para obtener el mejor sabor, deja reposar los pepinillos de 2 a 3 días antes de
 1 cup cherry tomatoes, halved
 
 Vinaigrette:
-2 tbsp olive oil
-1 tbsp red wine vinegar
+2 Tbsp olive oil
+1 Tbsp red wine vinegar
 1/2 tsp Dijon mustard
 1/4 tsp salt
 1/4 tsp black pepper
@@ -16159,12 +16159,12 @@ Sirve inmediatamente mientras esté fresca y crujiente.`,
     notes:
       "Simple avocado slices add creamy texture and fresh flavor to tacos, grilled meats, sandwiches, rice bowls, and salads.",
     ingredients: `2 ripe avocados
-1 tbsp lime juice
+1 Tbsp lime juice
 1/4 tsp salt
 1/8 tsp black pepper
 
 Optional:
-1 tbsp cilantro, chopped
+1 Tbsp cilantro, chopped
 pinch of chili powder`,
     instructions: `Cut 2 ripe avocados in half and remove the pits.
 
@@ -16238,7 +16238,7 @@ Sirve inmediatamente.`,
     notes:
       "Simple golden toast with melted butter. A classic side for breakfast, soups, eggs, and comfort-food meals.",
     ingredients: `4 slices sandwich bread
-2 tbsp butter, softened
+2 Tbsp butter, softened
 
 Optional:
 jam
@@ -16309,10 +16309,10 @@ Sirve inmediatamente mientras esté caliente.`,
     notes:
       "Smooth, comforting tomato soup that's perfect with grilled cheese sandwiches, crackers, or crusty bread. A timeless family favorite.",
     ingredients: `Soup:
-2 tbsp butter
+2 Tbsp butter
 1 small onion, diced
 2 cloves garlic, minced
-1 (28 oz) can crushed tomatoes
+1 can (28 oz) crushed tomatoes
 2 cups vegetable broth
 
 Seasoning:
@@ -16424,11 +16424,11 @@ Sirve caliente con albahaca, crutones o queso parmesano si lo deseas.`,
     notes:
       "Fresh apple slices are a simple, naturally sweet side that pairs well with sandwiches, pork dishes, lunch boxes, and snacks.",
     ingredients: `2 apples (Honeycrisp, Gala, Fuji, or Granny Smith)
-1 tbsp lemon juice
+1 Tbsp lemon juice
 
 Optional:
-1 tbsp peanut butter
-1 tbsp caramel dip
+1 Tbsp peanut butter
+1 Tbsp caramel dip
 1/4 tsp cinnamon`,
     instructions: `Wash and dry 2 apples thoroughly.
 
@@ -16660,11 +16660,11 @@ Sirve solos o con aderezo ranch, hummus o mantequilla de cacahuate para acompañ
 2 oranges, peeled and segmented
 
 Dressing:
-1 tbsp honey
-1 tbsp lime juice
+1 Tbsp honey
+1 Tbsp lime juice
 
 Optional:
-1 tbsp fresh mint, chopped`,
+1 Tbsp fresh mint, chopped`,
     instructions: `Wash all fruit thoroughly.
 
 Slice 2 cups strawberries, halve 1 cup grapes, dice 2 apples, and segment 2 oranges.
@@ -16750,8 +16750,8 @@ Sirve inmediatamente o refrigera hasta el momento de servir.`,
 1/2 tsp salt
 
 Optional:
-1 tbsp butter
-1 tbsp fresh parsley, chopped`,
+1 Tbsp butter
+1 Tbsp fresh parsley, chopped`,
     instructions: `Rinse 1 cup rice under cold water until the water runs mostly clear.
 
 Combine rice, 2 cups water, and 1/2 tsp salt in a medium saucepan.
@@ -16831,15 +16831,15 @@ Sirve caliente.`,
 1/4 red onion, thinly sliced
 
 Dressing:
-3 tbsp apple cider vinegar
-1 tbsp olive oil
+3 Tbsp apple cider vinegar
+1 Tbsp olive oil
 1 tsp sugar
 1/2 tsp salt
 1/4 tsp black pepper
 
 Optional:
-1 tbsp fresh dill, chopped
-1 tbsp fresh parsley, chopped`,
+1 Tbsp fresh dill, chopped
+1 Tbsp fresh parsley, chopped`,
     instructions: `Wash and thinly slice 2 cucumbers.
 
 Thinly slice 1/4 red onion.
@@ -17094,14 +17094,14 @@ Sirve fríos.`,
     notes:
       "Simple roasted zucchini becomes tender and lightly caramelized in the oven. A quick and healthy side dish that pairs well with chicken, fish, pasta, and grilled meats.",
     ingredients: `2 medium zucchini, sliced into half-moons
-2 tbsp olive oil
+2 Tbsp olive oil
 1 tsp garlic powder
 1/2 tsp salt
 1/4 tsp black pepper
 
 Optional:
-2 tbsp parmesan cheese
-1 tbsp fresh parsley, chopped
+2 Tbsp parmesan cheese
+1 Tbsp fresh parsley, chopped
 1 tsp lemon juice`,
     instructions: `Preheat oven to 425°F.
 
@@ -17272,8 +17272,8 @@ Sirve inmediatamente con gajos de limón si lo deseas.`,
     ingredients: `1 small seedless watermelon
 
 Optional:
-1 tbsp lime juice
-1 tbsp fresh mint, chopped
+1 Tbsp lime juice
+1 Tbsp fresh mint, chopped
 pinch of sea salt`,
     instructions: `Wash the outside of the watermelon thoroughly.
 
@@ -17353,8 +17353,8 @@ Sirve bien fría.`,
 1/4 cup feta cheese, crumbled
 
 Dressing:
-2 tbsp olive oil
-1 tbsp red wine vinegar
+2 Tbsp olive oil
+1 Tbsp red wine vinegar
 1/2 tsp dried oregano
 1/4 tsp salt
 1/4 tsp black pepper
@@ -17444,12 +17444,12 @@ Topping:
 1/4 cup mayonnaise
 1/4 cup sour cream
 1/2 cup cotija cheese, crumbled
-1 tbsp lime juice
+1 Tbsp lime juice
 1 tsp chili powder
 1/2 tsp garlic powder
 
 Finish:
-2 tbsp fresh cilantro, chopped
+2 Tbsp fresh cilantro, chopped
 lime wedges for serving`,
     instructions: `Preheat a grill to medium-high heat or heat a grill pan.
 
@@ -18295,7 +18295,7 @@ Sirve y disfruta.`,
     ingredients: `Apple Filling:
 6 apples, peeled and sliced
 1/4 cup brown sugar
-1 tbsp lemon juice
+1 Tbsp lemon juice
 1 tsp cinnamon
 1/4 tsp nutmeg
 
@@ -18393,7 +18393,7 @@ Sirve caliente.`,
     notes:
       "A creamy Southern classic layered with bananas, vanilla pudding, and vanilla wafers. Easy to make ahead and always a crowd favorite.",
     ingredients: `Pudding:
-2 (3.4 oz) boxes instant vanilla pudding
+2 boxes (3.4 oz) instant vanilla pudding
 3 cups cold milk
 
 Layers:
@@ -18484,7 +18484,7 @@ Sirve frío.`,
     ingredients: `Treats:
 6 cups crispy rice cereal
 10 oz mini marshmallows
-3 tbsp butter
+3 Tbsp butter
 
 Optional:
 1/2 cup chocolate chips
@@ -18657,7 +18657,7 @@ Sirve inmediatamente.`,
     ingredients: `Peach Filling:
 6 cups peaches, sliced
 1/2 cup sugar
-1 tbsp lemon juice
+1 Tbsp lemon juice
 1 tsp cinnamon
 
 Cobbler Topping:
@@ -18861,7 +18861,7 @@ Sirve frío o a temperatura ambiente.`,
       "Creamy cheesecake filling layered with graham cracker crumbs and topped with fresh fruit. An easy make-ahead dessert that's always a hit.",
     ingredients: `Crust:
 1 cup graham cracker crumbs
-3 tbsp butter, melted
+3 Tbsp butter, melted
 
 Cheesecake Filling:
 8 oz cream cheese, softened
@@ -18960,18 +18960,18 @@ Sirve frío.`,
     notes:
       "A rich chocolate cake made in a mug in just minutes. Perfect when you want dessert fast without baking an entire cake.",
     ingredients: `Dry Ingredients:
-4 tbsp all-purpose flour
-2 tbsp sugar
-1 tbsp cocoa powder
+4 Tbsp all-purpose flour
+2 Tbsp sugar
+1 Tbsp cocoa powder
 1/4 tsp baking powder
 
 Wet Ingredients:
-3 tbsp milk
-2 tbsp vegetable oil
+3 Tbsp milk
+2 Tbsp vegetable oil
 1/4 tsp vanilla extract
 
 Optional:
-1 tbsp chocolate chips
+1 Tbsp chocolate chips
 whipped cream
 vanilla ice cream`,
     instructions: `In a large microwave-safe mug, combine 4 tbsp flour, 2 tbsp sugar, 1 tbsp cocoa powder, and 1/4 tsp baking powder.
@@ -19223,7 +19223,7 @@ Sirve inmediatamente mientras estén calientes y suaves.`,
     notes:
       "Creamy chocolate pudding layered with crushed Oreo cookies. A fun, nostalgic dessert that's always a hit with kids and adults.",
     ingredients: `Pudding:
-2 (3.9 oz) boxes instant chocolate pudding
+2 boxes (3.9 oz) instant chocolate pudding
 3 cups cold milk
 
 Layers:
@@ -19333,7 +19333,7 @@ Sirve frío.`,
 1/4 tsp salt
 
 Cinnamon Sugar:
-2 tbsp sugar
+2 Tbsp sugar
 1 tsp cinnamon`,
     instructions: `Preheat oven to 375°F.
 
@@ -19619,8 +19619,8 @@ Deja enfriar durante 5 minutos antes de servir.`,
     ingredients: `Blueberry Filling:
 6 cups blueberries
 1/2 cup sugar
-1 tbsp lemon juice
-2 tbsp cornstarch
+1 Tbsp lemon juice
+2 Tbsp cornstarch
 
 Crisp Topping:
 1 cup old-fashioned oats
@@ -19720,7 +19720,7 @@ Sirve caliente.`,
     notes:
       "One of the easiest desserts you'll ever make. Cherry pie filling, cake mix, and butter bake into a warm, sweet dessert with almost no prep work.",
     ingredients: `Fruit Layer:
-2 (21 oz) cans cherry pie filling
+2 cans (21 oz) cherry pie filling
 
 Cake Layer:
 1 box yellow cake mix
@@ -19811,8 +19811,8 @@ Sirve caliente con helado de vainilla o crema batida si lo deseas.`,
     notes:
       "Flaky pastry layered with sweet cream cheese and topped with cinnamon sugar. These bars are simple to make and always disappear quickly.",
     ingredients: `Bars:
-2 (8 oz) cans crescent roll dough
-2 (8 oz) packages cream cheese, softened
+2 cans (8 oz) crescent roll dough
+2 packages (8 oz) cream cheese, softened
 1 cup granulated sugar
 1 tsp vanilla extract
 
@@ -19916,11 +19916,11 @@ Sirve a temperatura ambiente o frío.`,
     ingredients: `Pudding:
 1/2 cup sugar
 1/4 cup cocoa powder
-3 tbsp cornstarch
+3 Tbsp cornstarch
 1/4 tsp salt
 2 3/4 cups whole milk
 1 tsp vanilla extract
-2 tbsp butter
+2 Tbsp butter
 
 Optional:
 whipped cream
@@ -20014,7 +20014,7 @@ Sirve frío.`,
       "Creamy individual cheesecakes with a buttery graham cracker crust. Perfect for parties, holidays, or whenever you want an easy make-ahead dessert.",
     ingredients: `Crust:
 1 cup graham cracker crumbs
-3 tbsp butter, melted
+3 Tbsp butter, melted
 
 Cheesecake Filling:
 16 oz cream cheese, softened
@@ -20237,7 +20237,7 @@ Pecan Filling:
 3 large eggs
 1 cup light corn syrup
 3/4 cup brown sugar
-2 tbsp butter, melted
+2 Tbsp butter, melted
 1 tsp vanilla extract
 1/4 tsp salt
 2 cups pecans, chopped`,
@@ -20441,7 +20441,7 @@ export const EXTRA_RECIPES: Meal[] = [
 3 Tbsp chopped fresh cilantro
 2 Roma tomatoes, diced
 1 tsp garlic, minced
-pinch of cayenne pepper (optional)`,
+pinch of cayenne pepper, optional`,
     instructions: `In a medium bowl, mash 3 peeled and pitted ripe avocados with the juice of 1 lime and 1 tsp salt until your desired consistency, slightly chunky is usually best.
 Stir in 1/2 cup diced white onion, 3 Tbsp chopped fresh cilantro, 2 diced Roma tomatoes, and 1 tsp minced garlic.
 Add a pinch of cayenne pepper if desired and mix well.
@@ -20604,14 +20604,14 @@ Chicken Salad:
 1/4 tsp salt (plus more to taste)
 1/4 tsp black pepper
 1/2 cup celery, finely diced
-1/3 cup red grapes, halved (optional)
-1/4 cup sliced almonds or pecans (optional)
+1/3 cup red grapes, halved, optional
+1/4 cup sliced almonds or pecans, optional
 2 Tbsp fresh parsley, chopped
 
 Assembly:
 4 croissants, sliced
-lettuce leaves (optional)
-tomato slices (optional)`,
+lettuce leaves, optional
+tomato slices, optional`,
     instructions: `Preheat a skillet over medium heat. Add 1 Tbsp olive oil.
 
 Season 1 lb chicken breasts with 1/2 tsp salt and 1/4 tsp black pepper.
@@ -20800,8 +20800,8 @@ Hornea durante 20 minutos o hasta que los muffins estén firmes y ligeramente do
 1 tsp ground cinnamon
 1/4 tsp salt
 1 stick unsalted butter, cut into pieces
-fresh blueberries (optional)
-fresh strawberries (optional)`,
+fresh blueberries, optional
+fresh strawberries, optional`,
     instructions: `Preheat oven to 350°F.
 
 Cut 1 loaf sourdough bread into cubes and place in a greased 9x13 baking dish.
@@ -21187,8 +21187,8 @@ Cubre con los cebollines restantes y semillas de sésamo, y sirve de inmediato.`
 8 oz lo mein noodles (or spaghetti as a substitute)
 
 Vegetables:
-1 tbsp sesame oil
-1 tbsp olive oil
+1 Tbsp sesame oil
+1 Tbsp olive oil
 1 cup mushrooms, sliced
 1 cup carrots, shredded
 1 bell pepper, sliced
@@ -21199,11 +21199,11 @@ Vegetables:
 
 Sauce:
 1/4 cup soy sauce
-2 tbsp hoisin sauce
-1 tbsp brown sugar
+2 Tbsp hoisin sauce
+1 Tbsp brown sugar
 1 tsp sesame oil
-1 tbsp rice vinegar
-1/4 tsp red pepper flakes (optional)
+1 Tbsp rice vinegar
+1/4 tsp red pepper flakes, optional
 
 Optional:
 sesame seeds for garnish`,
@@ -21263,7 +21263,7 @@ Salsa:
 1 Tbsp de azúcar morena
 1 tsp de aceite de ajonjolí
 1 Tbsp de vinagre de arroz
-1/4 tsp de hojuelas de chile rojo (opcional)
+1/4 tsp de hojuelas de chile rojo, opcional
 
 Opcional:
 semillas de ajonjolí para decorar`,
@@ -21315,24 +21315,24 @@ Sirve caliente y decora con semillas de ajonjolí si deseas.`,
     notes:
       "Roasting shelf-stable gnocchi directly on the sheet pan gives it crispy edges and a soft center without boiling. Spread everything into a single layer so the vegetables roast instead of steam.",
     ingredients: `Sheet Pan:
-1 (16 oz) package shelf-stable potato gnocchi
+1 package (16 oz) shelf-stable potato gnocchi
 1 zucchini, sliced
 1 bell pepper, chopped
 1 small red onion, sliced
 1 cup cherry tomatoes
-3 tbsp olive oil
+3 Tbsp olive oil
 
 Seasoning:
 1 tsp garlic powder
 1 tsp Italian seasoning
 1/2 tsp salt
 1/4 tsp black pepper
-1/4 tsp red pepper flakes (optional)
+1/4 tsp red pepper flakes, optional
 
 Finish:
 1/4 cup parmesan cheese, grated
-2 tbsp fresh basil, chopped
-1 tbsp balsamic glaze (optional)`,
+2 Tbsp fresh basil, chopped
+1 Tbsp balsamic glaze, optional`,
     instructions: `Preheat oven to 425°F.
 
 Line a large sheet pan with parchment paper.
@@ -21383,12 +21383,12 @@ Sazonadores:
 1 tsp de sazón italiana
 1/2 tsp de sal
 1/4 tsp de pimienta negra
-1/4 tsp de hojuelas de chile rojo (opcional)
+1/4 tsp de hojuelas de chile rojo, opcional
 
 Final:
 1/4 cup de queso parmesano rallado
 2 Tbsp de albahaca fresca, picada
-1 Tbsp de glaseado balsámico (opcional)`,
+1 Tbsp de glaseado balsámico, opcional`,
         instructions: `Precalienta el horno a 425°F.
 
 Cubre una charola grande con papel para hornear.
@@ -21440,7 +21440,7 @@ Rocía con glaseado balsámico si deseas y sirve caliente.`,
 1 cup frozen peas
 
 Sauce:
-2 tbsp butter
+2 Tbsp butter
 3 cloves garlic, minced
 1 cup heavy cream (or half-and-half for lighter)
 3/4 cup parmesan cheese, grated
@@ -21450,7 +21450,7 @@ Sauce:
 
 Finish:
 1/4 cup reserved pasta water
-2 tbsp fresh parsley, chopped (optional)`,
+2 Tbsp fresh parsley, chopped, optional`,
     instructions: `Bring a large pot of salted water to a boil.
 
 Cook 12 oz pasta shells according to package directions.
@@ -21508,7 +21508,7 @@ Salsa:
 
 Final:
 1/4 cup de agua reservada de la pasta
-2 Tbsp de perejil fresco, picado (opcional)`,
+2 Tbsp de perejil fresco, picado, opcional`,
         instructions: `Hierve una olla grande con agua y sal.
 
 Cocina 12 oz de pasta tipo conchas según las instrucciones del paquete.
@@ -21562,7 +21562,7 @@ Decora con perejil si deseas y sirve inmediatamente.`,
     notes:
       "Cooking quesadillas over medium heat allows the tortillas to crisp properly while giving the cheese time to melt completely. A light layer of butter or oil helps create a golden, restaurant-style finish.",
     ingredients: `Filling:
-1 (15 oz) can black beans, drained and rinsed
+1 can (15 oz) black beans, drained and rinsed
 1 cup corn kernels
 1 cup cheddar cheese, shredded
 1/2 tsp chili powder
@@ -21572,7 +21572,7 @@ Decora con perejil si deseas y sirve inmediatamente.`,
 
 Quesadillas:
 4 large flour tortillas
-1 tbsp butter or olive oil
+1 Tbsp butter or olive oil
 
 Optional Toppings:
 sour cream
@@ -21678,14 +21678,14 @@ Corta en triángulos y sirve caliente con los toppings deseados.`,
     notes:
       "Lentils create a hearty texture that works perfectly in sloppy joes while soaking up bold taco-style flavors. Letting the mixture simmer helps it thicken into a rich, scoopable filling.",
     ingredients: `Lentil Filling:
-1 tbsp olive oil
+1 Tbsp olive oil
 1/2 onion, diced
 1 bell pepper, diced
 2 cloves garlic, minced
 1 cup cooked lentils
 1/2 cup tomato sauce
 1/4 cup salsa
-1 tbsp tomato paste
+1 Tbsp tomato paste
 
 Seasoning:
 1 tsp chili powder
@@ -21810,7 +21810,7 @@ Añade los toppings deseados y sirve caliente.`,
 1/2 red bell pepper, chopped
 1/2 green bell pepper, chopped
 1 carrot, peeled and chopped
-1 (14 oz) can crushed tomatoes
+1 can (14 oz) crushed tomatoes
 2 Tbsp soy sauce (or tamari)
 1 tsp smoked paprika (or regular paprika)
 1 tsp ground cumin
@@ -21820,11 +21820,11 @@ Añade los toppings deseados y sirve caliente.`,
 1 tsp onion powder
 1/2 tsp salt
 1/4 tsp pepper
-1/8 tsp cayenne pepper (optional)
+1/8 tsp cayenne pepper, optional
 1 cup uncooked white rice
 3 cups vegetable stock
-1 (15 oz) can chickpeas, drained and rinsed
-1 (15 oz) can kidney beans, drained and rinsed
+1 can (15 oz) chickpeas, drained and rinsed
+1 can (15 oz) kidney beans, drained and rinsed
 1 Tbsp tomato paste (optional, for deeper flavor)
 1 Tbsp lemon juice (optional, for brightness)
 
@@ -21935,7 +21935,7 @@ Decora con perejil fresco picado si deseas y sirve caliente.`,
     notes: "Quick and satisfying quesadillas with creamy black beans and melted cheese. Mashing some of the beans helps everything hold together and creates a better texture.",
     ingredients: `4 small flour tortillas
 1 cup cheddar cheese, shredded
-1 (15 oz) can black beans, drained and rinsed
+1 can (15 oz) black beans, drained and rinsed
 1/2 cup salsa (plus extra for serving)
 1 Tbsp olive oil or butter
 1/2 tsp cumin (optional, for extra flavor)
@@ -22026,9 +22026,9 @@ Corta y sirve caliente con más salsa.`,
 1 cup mozzarella cheese, shredded
 1/2 cup cherry tomatoes, halved
 1 Tbsp olive oil
-1/4 cup Parmesan cheese, grated (optional)
+1/4 cup Parmesan cheese, grated, optional
 1/2 tsp garlic powder
-1 Tbsp fresh basil, chopped (optional)`,
+1 Tbsp fresh basil, chopped, optional`,
     instructions: `Preheat oven to 400°F. Place 2 naan breads on a baking sheet.
 
 Lightly brush the edges of the naan with 1 Tbsp olive oil for a crispier crust.
@@ -22205,7 +22205,7 @@ Sirve caliente.`,
 1 small yellow onion, diced
 2 cloves garlic, minced
 1 Tbsp tomato paste (optional, for depth)
-1 tsp dried thyme (optional)
+1 tsp dried thyme, optional
 1/2 tsp salt (plus more to taste)
 1/2 tsp pepper
 1/2 cup shredded cheddar cheese (optional, for topping)`,
@@ -22312,7 +22312,7 @@ Deja reposar de 5 a 10 minutos antes de servir.`,
       "Roasted broccoli",
     ],
     notes: "Creamy, comforting tortellini with a smooth Parmesan sauce. Adding pasta water helps create a silky texture that clings perfectly to the pasta.",
-    ingredients: `1 (20 oz) package cheese tortellini
+    ingredients: `1 package (20 oz) cheese tortellini
 1 Tbsp olive oil or butter
 2 cloves garlic, minced
 1 cup heavy cream
@@ -22321,7 +22321,7 @@ Deja reposar de 5 a 10 minutos antes de servir.`,
 1/2 cup reserved pasta water
 1/2 tsp salt (plus more to taste)
 1/4 tsp pepper
-1/4 tsp red pepper flakes (optional)
+1/4 tsp red pepper flakes, optional
 1 Tbsp lemon juice (optional, for brightness)`,
     instructions: `Bring a large pot of salted water to a boil. Cook 1 package cheese tortellini according to package directions. Reserve 1/2 cup pasta water, then drain.
 
@@ -22413,7 +22413,7 @@ Retira del fuego e incorpora 1 Tbsp de jugo de limón si deseas. Sirve de inmedi
 2 cloves garlic, minced
 1/2 tsp salt
 1/2 tsp pepper
-1/2 tsp dried Italian seasoning (optional)`,
+1/2 tsp dried Italian seasoning, optional`,
     instructions: `Preheat oven to 375°F. Lightly grease a 9x13 baking dish.
 
 Bring a large pot of salted water to a boil. Cook 1 box jumbo pasta shells until al dente, about 1 to 2 minutes less than package directions. Drain and set aside to cool slightly.
@@ -22499,7 +22499,7 @@ Deja reposar de 5 a 10 minutos antes de servir.`,
       "Cucumber yogurt salad",
     ],
     notes: "Creamy, warmly spiced chickpea curry with a tomato-coconut sauce. Great with basmati rice, naan, or a simple cucumber yogurt salad.",
-    ingredients: `2 (15 oz) cans chickpeas, drained and rinsed
+    ingredients: `2 cans (15 oz) chickpeas, drained and rinsed
 1 Tbsp olive oil
 1 small yellow onion, finely diced
 3 cloves garlic, minced
@@ -22511,10 +22511,10 @@ Deja reposar de 5 a 10 minutos antes de servir.`,
 1/2 tsp smoked paprika
 1/2 tsp chili powder
 1 tsp salt, to taste
-1 (14 oz) can crushed tomatoes
-1 (13.5 oz) can full-fat coconut milk
+1 can (14 oz) crushed tomatoes
+1 can (13.5 oz) full-fat coconut milk
 1/2 cup vegetable broth
-1 tsp sugar (optional)
+1 tsp sugar, optional
 juice of 1/2 lemon
 1/4 cup fresh cilantro, chopped
 cooked basmati rice`,
@@ -22616,8 +22616,8 @@ Sirve caliente sobre arroz basmati cocido o con naan caliente.`,
 1/2 tsp salt (plus more to taste)
 1/2 tsp pepper
 1 Tbsp soy sauce (optional, for depth)
-1/2 tsp smoked paprika (optional)
-1 Tbsp fresh parsley, chopped (optional)`,
+1/2 tsp smoked paprika, optional
+1 Tbsp fresh parsley, chopped, optional`,
     instructions: `Heat 1 Tbsp olive oil in a large skillet over medium-high heat.
 
 Add 2 cups diced potatoes in a single layer and cook for 10 to 12 minutes, stirring occasionally, until golden, crispy on the edges, and tender inside. Season lightly with 1/2 tsp salt and 1/2 tsp pepper.
@@ -22708,7 +22708,7 @@ Retira del fuego, decora con 1 Tbsp de perejil fresco picado si deseas y sirve c
 1/2 cup mozzarella pearls
 1/4 cup fresh basil, torn
 2 Tbsp olive oil
-1 clove garlic, minced (optional)
+1 clove garlic, minced, optional
 1 Tbsp balsamic glaze (optional, for finishing)
 1/4 cup reserved pasta water
 1/2 tsp salt (plus more to taste)
@@ -22805,7 +22805,7 @@ Sirve de inmediato.`,
 1/2 tsp salt (plus more to taste)
 1/4 tsp pepper
 1 Tbsp lemon juice
-1/4 cup fresh parsley, chopped (optional)`,
+1/4 cup fresh parsley, chopped, optional`,
     instructions: `Preheat oven to 375°F. Lightly grease a baking dish.
 
 Place 4 prepared bell peppers upright in the dish. Add a small amount of water to the bottom of the dish to help steam the peppers.
@@ -23018,7 +23018,7 @@ Sirve de inmediato con gajos de lima y, si deseas, más cacahuates o cilantro.`,
 2 cloves garlic, minced
 1/2 tsp salt (plus more to taste)
 1/2 tsp pepper
-1/2 tsp dried thyme (optional)
+1/2 tsp dried thyme, optional
 1 Tbsp balsamic vinegar (optional, for depth)
 1 Tbsp breadcrumbs (optional, to prevent sogginess)`,
     instructions: `Preheat oven to 400°F. Line a baking sheet with parchment paper.
@@ -23120,7 +23120,7 @@ Deja reposar de 5 a 10 minutos antes de cortar y servir.`,
       "Side salad",
     ],
     notes: "A hearty homemade black bean burger dinner with crispy sweet potato fries. Letting the patties rest before cooking helps them hold together better, while high heat gives them a nicely browned crust.",
-    ingredients: `2 (15 oz) cans black beans, drained and rinsed
+    ingredients: `2 cans (15 oz) black beans, drained and rinsed
 2 large sweet potatoes, cut into wedges
 1/2 cup breadcrumbs
 1/2 small red onion, finely diced
@@ -23235,7 +23235,7 @@ Sirve las tortitas en los panes con tus toppings favoritos, como lechuga, tomate
     ],
     notes: "Hearty vegetarian enchiladas with a perfect balance of sweet and savory flavors. Roasting the sweet potatoes instead of boiling adds depth and prevents the filling from becoming watery.",
     ingredients: `2 large sweet potatoes, peeled and cubed
-1 (15 oz) can black beans, drained and rinsed
+1 can (15 oz) black beans, drained and rinsed
 8 corn tortillas
 2 cups enchilada sauce
 1 1/2 cups Monterey Jack cheese, shredded
@@ -23345,14 +23345,14 @@ Decora con 1/4 cup de cilantro fresco picado antes de servir.`,
 1 can Loma Linda Fri-Chik & Gravy
 2 eggs, beaten
 2 1/2 Tbsp McKay's Chicken Seasoning
-1 (10.5 oz) can cream of mushroom soup
+1 can (10.5 oz) cream of mushroom soup
 1 cup milk
 1 (8 oz) block sharp cheddar cheese, shredded
 1 (8 oz) baby bella mushrooms, sliced
 2 Tbsp butter
 1 Tbsp olive oil
 1 Tbsp garlic, minced
-1 (4 to 7 oz) can green chiles (optional)
+1 can (4 to 7 oz) green chiles, optional
 salt
 pepper`,
     instructions: `Preheat oven to 350°F.
@@ -23542,7 +23542,7 @@ Rocía el glaseado balsámico sobre los champiñones, cubre con albahaca fresca 
       "Side salad",
     ],
     notes: "A good breakfast-for-dinner or meal-prep option with lots of savory flavor.",
-    ingredients: `1 (10 oz) bag spinach
+    ingredients: `1 bag (10 oz) spinach
 8 oz baby bella mushrooms, sliced
 1 clove garlic, minced
 1/8 tsp salt
@@ -23646,7 +23646,7 @@ Deja reposar un poco para que se asiente antes de cortar y servir.`,
 1/2 cup reserved pasta water
 1/2 tsp salt (plus more to taste)
 1/4 tsp pepper
-1/4 tsp red pepper flakes (optional)
+1/4 tsp red pepper flakes, optional
 1 tsp lemon juice (optional, for brightness)`,
     instructions: `Bring a large pot of salted water to a boil. Cook 12 oz pasta according to package directions until al dente. Reserve 1/2 cup pasta water, then drain.
 
@@ -23912,7 +23912,7 @@ Agrega los fideos y mezcla para cubrirlos. Sirve caliente.`,
 BBQ Sauce:
 1/2 cup barbecue sauce
 1 Tbsp apple cider vinegar
-1 tsp honey or maple syrup (optional)
+1 tsp honey or maple syrup, optional
 
 Assembly:
 8 small tortillas
@@ -24139,7 +24139,7 @@ Sirve sobre arroz y decora con semillas de sésamo y cebollines si deseas.`,
 2 cloves garlic, minced
 1 tsp fresh ginger, grated
 2 Tbsp red curry paste
-1 (13.5 oz) can coconut milk
+1 can (13.5 oz) coconut milk
 3 cups vegetable broth
 1 Tbsp soy sauce
 1 tsp brown sugar
@@ -24496,9 +24496,9 @@ Agrega huevos, semillas de sésamo y cebollines si deseas. Sirve de inmediato.`,
 
 Chili:
 2 cups sweet potatoes, peeled and cubed
-1 (15 oz) can black beans, drained
-1 (15 oz) can kidney beans, drained
-1 (14 oz) can diced tomatoes
+1 can (15 oz) black beans, drained
+1 can (15 oz) kidney beans, drained
+1 can (14 oz) diced tomatoes
 2 cups vegetable broth
 2 cups kale, chopped
 
@@ -24619,7 +24619,7 @@ Sirve caliente.`,
 
 Orzo Bake:
 1 cup uncooked orzo
-1 (14 oz) can diced tomatoes
+1 can (14 oz) diced tomatoes
 2 cups vegetable broth
 1/2 cup kalamata olives, sliced
 1 tsp dried oregano
@@ -24748,7 +24748,7 @@ Sauce:
 
 Finish:
 1 Tbsp butter
-1 Tbsp fresh parsley, chopped (optional)`,
+1 Tbsp fresh parsley, chopped, optional`,
     instructions: `Bring a large pot of salted water to a boil and cook 12 oz tagliatelle according to package directions. Reserve 1/2 cup pasta water before draining.
 
 Heat 2 Tbsp olive oil and 1 Tbsp butter in a large skillet over medium-high heat.
@@ -24849,7 +24849,7 @@ Decora con perejil si lo usas y sirve de inmediato.`,
     ingredients: `Filling:
 1 Tbsp olive oil
 1/2 onion, diced
-1 (15 oz) can black beans, drained and rinsed
+1 can (15 oz) black beans, drained and rinsed
 1 tsp chili powder
 1/2 tsp cumin
 1/2 tsp paprika
@@ -24973,7 +24973,7 @@ Sirve caliente.`,
     name: "Cauliflower Gnocchi with Mushroom Alfredo",
     servings: 3,
     ingredients: `Gnocchi:
-1 (12 oz) package cauliflower gnocchi
+1 package (12 oz) cauliflower gnocchi
 1 Tbsp olive oil
 
 Mushrooms:
@@ -24994,7 +24994,7 @@ Alfredo Sauce:
 
 Finish:
 1 Tbsp butter
-2 Tbsp fresh parsley, chopped (optional)`,
+2 Tbsp fresh parsley, chopped, optional`,
     instructions: `Heat 1 Tbsp olive oil in a large skillet over medium-high heat.
 
 Add 1 (12 oz) cauliflower gnocchi in a single layer and cook 4 to 5 minutes without stirring until golden and crisp. Flip and cook another 3 to 4 minutes. Remove and set aside.
@@ -25194,7 +25194,7 @@ Sirve de inmediato.`,
 1/4 tsp pepper
 1 tsp chili powder
 1/2 tsp cumin
-1 (15 oz) can black beans, drained
+1 can (15 oz) black beans, drained
 8 tortillas
 1/2 cup avocado, sliced
 1/4 cup cilantro, chopped`,
@@ -25267,7 +25267,7 @@ Cubre con aguacate y cilantro. Sirve caliente.`,
     slug: "chickpea-salad-sandwich",
     name: "Chickpea Salad Sandwich",
     servings: 2,
-    ingredients: `1 (15 oz) can chickpeas, drained
+    ingredients: `1 can (15 oz) chickpeas, drained
 1/3 cup mayonnaise
 1 Tbsp Dijon mustard
 1 Tbsp lemon juice
@@ -25333,7 +25333,7 @@ Extiende sobre 4 rebanadas de pan y arma los sándwiches. Sirve de inmediato.`,
     name: "Mediterranean Chickpea Bowl",
     servings: 4,
     ingredients: `2 cups cooked rice or quinoa
-1 (15 oz) can chickpeas, drained
+1 can (15 oz) chickpeas, drained
 1 cup cucumber, diced
 1 cup cherry tomatoes, halved
 1/2 cup feta cheese
@@ -25468,10 +25468,10 @@ Hornea durante 20 minutos, hasta que esté burbujeante. Sirve caliente.`,
 2 Tbsp butter, melted
 1 Tbsp olive oil
 1/2 tsp salt (plus more to taste)
-1/4 tsp pepper (optional)
-1/2 tsp garlic powder (optional)
-1 Tbsp fresh parsley or cilantro, chopped (optional)
-lime wedges (optional)`,
+1/4 tsp pepper, optional
+1/2 tsp garlic powder, optional
+1 Tbsp fresh parsley or cilantro, chopped, optional
+lime wedges, optional`,
     instructions: `Preheat grill to medium heat, about 375°F to 400°F.
 
 Brush 4 husked ears of corn lightly with 1 Tbsp olive oil to help prevent sticking and promote even charring.
@@ -25541,7 +25541,7 @@ Decora con 1 Tbsp de perejil fresco o cilantro picado, y sirve con gajos de lima
 1/2 tsp salt (plus more to taste)
 1/4 tsp pepper
 1/2 tsp garlic powder
-1/2 tsp dried Italian seasoning (optional)
+1/2 tsp dried Italian seasoning, optional
 1 Tbsp balsamic vinegar or lemon juice (optional, for finishing)`,
     instructions: `Preheat grill to medium heat, about 375°F to 400°F.
 
@@ -25623,7 +25623,7 @@ export const VEGETARIAN_EXTRAS: Meal[] = [
 2 Tbsp fresh cilantro, chopped
 1/4 tsp salt (plus more to taste)
 1/4 tsp pepper
-1/4 tsp garlic powder (optional)
+1/4 tsp garlic powder, optional
 2 large whole wheat tortillas
 1/4 cup shredded carrots
 1/2 cup fresh spinach leaves
@@ -25713,7 +25713,7 @@ Corta por la mitad y sirve de inmediato.`,
 1/2 tsp salt (plus more to taste)
 1/4 tsp pepper
 2 eggs
-1 Tbsp fresh parsley or green onions, chopped (optional)`,
+1 Tbsp fresh parsley or green onions, chopped, optional`,
     instructions: `Bring a pot of salted water to a boil. Add 2 large diced russet potatoes and parboil for 5 minutes, then drain and let them dry slightly.
 
 Heat 2 Tbsp olive oil in a large, heavy skillet over medium-high heat.

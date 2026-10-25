@@ -21,6 +21,8 @@ import {
 } from "../core/groceryCategories";
 import type { Effort, PantryItem } from "../core/types";
 import {
+  cleanPantryItemName,
+  formatPantryUnitLabel,
   makePantryId,
 } from "../core/pantryStore";
 import {
@@ -426,7 +428,15 @@ export default function PlanPage({
       return quantity;
     }
 
-    return `${quantity} ${item.unit}`;
+    const unitLabel =
+      formatPantryUnitLabel(
+        item.unit,
+        item.quantity
+      );
+
+    return unitLabel
+      ? `${quantity} ${unitLabel}`
+      : quantity;
   };
 
   const pantryUseSoonCount =
@@ -1042,7 +1052,10 @@ export default function PlanPage({
                                 pantryNameStyle
                               }
                             >
-                              {item.name}
+                              {cleanPantryItemName(
+                                item.name,
+                                item.unit
+                              )}
                             </div>
 
                             {item.isLow && (
