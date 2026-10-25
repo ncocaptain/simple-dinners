@@ -69,14 +69,6 @@ const PANTRY_UNIT_PREFIXES: Record<
   piece: ["piece", "pieces"],
 };
 
-function escapeRegExp(
-  value: string
-) {
-  return value.replace(
-    /[.*+?^$()|[\]{}\\]/g,
-    "\\$&"
-  );
-}
 export function cleanPantryItemName(
   value: string,
   unit?: string | null
@@ -110,7 +102,6 @@ export function cleanPantryItemName(
     new RegExp(
       "^(?:" +
         aliases
-          .map(escapeRegExp)
           .join("|") +
         ")\\b[\\s:–—-]*",
       "i"
