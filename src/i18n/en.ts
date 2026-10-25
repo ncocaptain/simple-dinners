@@ -490,6 +490,9 @@ export const en = {
     pantryMatches: "pantry matches",
     resultsTitle: "Recipe Results",
     filters: "Filters",
+    allCategories: "All categories",
+    categoriesSelected: "{{count}} selected",
+    resetCategories: "Clear categories",
 
     browse: {
       favoritesTitle: "Family Favorites",
