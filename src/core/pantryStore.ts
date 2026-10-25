@@ -74,12 +74,9 @@ function escapeRegExp(
 ) {
   return value.replace(
     /[.*+?^$()|[\]{}\\]/g,
-    "\\export const PANTRY_UPDATED_EVENT =
-  "simple-dinners:pantry-updated";
-"
+    "\\$&"
   );
 }
-
 export function cleanPantryItemName(
   value: string,
   unit?: string | null
