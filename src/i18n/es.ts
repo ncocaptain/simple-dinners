@@ -497,6 +497,9 @@ export const es = {
     pantryMatches: "coincidencias con la despensa",
     resultsTitle: "Resultados de recetas",
     filters: "Filtros",
+    allCategories: "Todas las categorías",
+    categoriesSelected: "{{count}} seleccionadas",
+    resetCategories: "Borrar categorías",
 
     browse: {
       favoritesTitle: "Favoritas de la familia",
