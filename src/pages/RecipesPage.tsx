@@ -1396,114 +1396,263 @@ const activeFilterCount =
             {t("recipes.categoriesLabel").toUpperCase()}
           </div>
 
-          <div style={chipRow}>
-            {[
-              {
-                key: "cookbook",
-                label: t("recipes.inCookbook"),
-                icon: <BookOpen size={14} />,
-              },
-              {
-                key: "favorites",
-                label: t("recipes.favorites"),
-                icon: <Heart size={14} />,
-              },
-              {
-                key: "vegetarian",
-                label: t("recipes.vegetarian"),
-                icon: <Leaf size={14} />,
-              },
-              {
-                key: "dinner",
-                label: t("recipes.dinner", "Dinner"),
-                icon: <Utensils size={14} />,
-              },
-              {
-                key: "side",
-                label: t("recipes.sides", "Sides"),
-                icon: <Plus size={14} />,
-              },
-              {
-                key: "breakfast",
-                label: t("recipes.breakfast", "Breakfast"),
-                icon: <Coffee size={14} />,
-              },
-              {
-                key: "lunch",
-                label: t("recipes.lunch", "Lunch"),
-                icon: <Sandwich size={14} />,
-              },
-              {
-                key: "dessert",
-                label: t("recipes.desserts", "Desserts"),
-                icon: <CakeSlice size={14} />,
-              },
-              {
-                key: "salads",
-                label: t("recipes.salads"),
-                icon: <Salad size={14} />,
-              },
-              {
-                key: "grilling",
-                label: t("recipes.grilling"),
-                icon: <Flame size={14} />,
-                grilling: true,
-              },
-            ].map((category) => {
-              const key = category.key as CategoryFilter;
-              const active = activeCategories.includes(key);
-
-              return (
-                <button
-                  key={key}
-                  type="button"
-                  onClick={() => toggleCategory(key)}
-                  style={{
-                    ...chipBase,
-                    background: active
-                      ? category.grilling
-                        ? "rgba(250,204,21,0.15)"
-                        : "rgba(34,197,94,0.12)"
-                      : chipBase.background,
-                    border: active
-                      ? category.grilling
-                        ? "1px solid rgba(250,204,21,0.35)"
-                        : "1px solid rgba(34,197,94,0.45)"
-                      : chipBase.border,
-                    color: active
-                      ? category.grilling
-                        ? "#fde68a"
-                        : "#86efac"
-                      : chipBase.color,
-                  }}
-                >
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 8,
-                    }}
-                  >
-                    {category.icon}
-                    {category.label}
-                  </span>
-                </button>
-              );
-            })}
-
-            <button
-              type="button"
-              onClick={clearExtraFilters}
+          {isMobileRecipeLayout ? (
+            <div
               style={{
-                ...chipBase,
-                background: "transparent",
-                border: "1px dashed rgba(255,255,255,0.25)",
-                color: "rgba(255,255,255,0.6)",
+                display: "grid",
+                gap: 8,
               }}
             >
-              {t("recipes.resetFilters", "Reset Filters")}
-            </button>
-          </div>
+              <button
+                type="button"
+                onClick={() =>
+                  setCategoriesOpen(
+                    (open) => !open
+                  )
+                }
+                style={{
+                  ...btnStyle,
+                  width: "100%",
+                  justifyContent:
+                    "space-between",
+                  padding: "12px 14px",
+                  background:
+                    activeCategories.length > 0
+                      ? "rgba(34,197,94,0.10)"
+                      : "rgba(255,255,255,0.04)",
+                  border:
+                    activeCategories.length > 0
+                      ? "1px solid rgba(34,197,94,0.30)"
+                      : btnStyle.border,
+                  color:
+                    activeCategories.length > 0
+                      ? "#86efac"
+                      : "white",
+                }}
+              >
+                <span>
+                  {activeCategories.length === 0
+                    ? t(
+                        "recipes.allCategories",
+                        "All categories"
+                      )
+                    : t(
+                        "recipes.categoriesSelected",
+                        "{{count}} selected"
+                      ).replace(
+                        "{{count}}",
+                        String(
+                          activeCategories.length
+                        )
+                      )}
+                </span>
+
+                {categoriesOpen ? (
+                  <ChevronUp size={16} />
+                ) : (
+                  <ChevronDown size={16} />
+                )}
+              </button>
+
+              {categoriesOpen && (
+                <div
+                  style={{
+                    display: "grid",
+                    gap: 6,
+                    padding: 8,
+                    borderRadius: 14,
+                    background:
+                      "rgba(8,15,25,0.88)",
+                    border:
+                      "1px solid rgba(255,255,255,0.10)",
+                    boxShadow:
+                      "0 12px 30px rgba(0,0,0,0.24)",
+                    backdropFilter:
+                      "blur(16px)",
+                    WebkitBackdropFilter:
+                      "blur(16px)",
+                  }}
+                >
+                  {categoryOptions.map(
+                    (category) => {
+                      const active =
+                        activeCategories.includes(
+                          category.key
+                        );
+
+                      return (
+                        <button
+                          key={category.key}
+                          type="button"
+                          onClick={() =>
+                            toggleCategory(
+                              category.key
+                            )
+                          }
+                          style={{
+                            border: "none",
+                            background: active
+                              ? category.grilling
+                                ? "rgba(250,204,21,0.12)"
+                                : "rgba(34,197,94,0.12)"
+                              : "transparent",
+                            color: active
+                              ? category.grilling
+                                ? "#fde68a"
+                                : "#86efac"
+                              : "rgba(255,255,255,0.82)",
+                            borderRadius: 10,
+                            padding:
+                              "10px 11px",
+                            display: "flex",
+                            alignItems:
+                              "center",
+                            justifyContent:
+                              "space-between",
+                            gap: 12,
+                            cursor:
+                              "pointer",
+                            fontWeight: 800,
+                            fontSize: 13,
+                            textAlign: "left",
+                          }}
+                        >
+                          <span
+                            style={{
+                              display:
+                                "inline-flex",
+                              alignItems:
+                                "center",
+                              gap: 9,
+                            }}
+                          >
+                            {category.icon}
+                            {category.label}
+                          </span>
+
+                          <span
+                            style={{
+                              width: 20,
+                              textAlign:
+                                "center",
+                              opacity: active
+                                ? 1
+                                : 0.28,
+                            }}
+                          >
+                            {active
+                              ? "✓"
+                              : "○"}
+                          </span>
+                        </button>
+                      );
+                    }
+                  )}
+
+                  {activeCategories.length >
+                    0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        clearExtraFilters();
+                        setCategoriesOpen(
+                          false
+                        );
+                      }}
+                      style={{
+                        ...btnStyle,
+                        marginTop: 2,
+                        background:
+                          "transparent",
+                        border:
+                          "1px dashed rgba(255,255,255,0.22)",
+                        color:
+                          "rgba(255,255,255,0.64)",
+                      }}
+                    >
+                      {t(
+                        "recipes.resetCategories",
+                        "Clear categories"
+                      )}
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div style={chipRow}>
+              {categoryOptions.map(
+                (category) => {
+                  const active =
+                    activeCategories.includes(
+                      category.key
+                    );
+
+                  return (
+                    <button
+                      key={category.key}
+                      type="button"
+                      onClick={() =>
+                        toggleCategory(
+                          category.key
+                        )
+                      }
+                      style={{
+                        ...chipBase,
+                        background: active
+                          ? category.grilling
+                            ? "rgba(250,204,21,0.15)"
+                            : "rgba(34,197,94,0.12)"
+                          : chipBase.background,
+                        border: active
+                          ? category.grilling
+                            ? "1px solid rgba(250,204,21,0.35)"
+                            : "1px solid rgba(34,197,94,0.45)"
+                          : chipBase.border,
+                        color: active
+                          ? category.grilling
+                            ? "#fde68a"
+                            : "#86efac"
+                          : chipBase.color,
+                      }}
+                    >
+                      <span
+                        style={{
+                          display:
+                            "inline-flex",
+                          alignItems:
+                            "center",
+                          gap: 8,
+                        }}
+                      >
+                        {category.icon}
+                        {category.label}
+                      </span>
+                    </button>
+                  );
+                }
+              )}
+
+              <button
+                type="button"
+                onClick={clearExtraFilters}
+                style={{
+                  ...chipBase,
+                  background:
+                    "transparent",
+                  border:
+                    "1px dashed rgba(255,255,255,0.25)",
+                  color:
+                    "rgba(255,255,255,0.6)",
+                }}
+              >
+                {t(
+                  "recipes.resetFilters",
+                  "Reset Filters"
+                )}
+              </button>
+            </div>
+          )}
 
             </>
           )}
