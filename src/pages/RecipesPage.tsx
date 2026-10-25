@@ -1121,7 +1121,28 @@ const isBrowseMode =
             >
               {t("recipes.subtitle")}
             </p>
-          </div>
+          
+
+            <div>
+              <button
+                type="button"
+                onClick={handleSurpriseMe}
+                style={{
+                  ...btnStyle,
+                  background:
+                    "rgba(34,197,94,0.11)",
+                  border:
+                    "1px solid rgba(34,197,94,0.28)",
+                  color: "#86efac",
+                }}
+              >
+                <Shuffle size={15} />
+                {t(
+                  "recipes.surpriseMe",
+                  "Surprise Me"
+                )}
+              </button>
+            </div></div>
 
           <div style={searchWrap}>
             <Search size={18} />
@@ -1316,6 +1337,150 @@ const isBrowseMode =
           )}
         </div>
       </Card>
+
+      {isBrowseMode && (
+        <>
+          {renderBrowseSection({
+            icon: <Heart size={19} />,
+            title: t("recipes.browse.favoritesTitle", "Family Favorites"),
+            subtitle: t(
+              "recipes.browse.favoritesSubtitle",
+              "The recipes you already know you love."
+            ),
+            items: browseFavoriteRecipes,
+            onViewAll: () =>
+              setActiveCategories(["favorites"]),
+          })}
+
+          {renderBrowseSection({
+            icon: <Utensils size={19} />,
+            title: t("recipes.browse.dinnerTitle", "Dinner Tonight"),
+            subtitle: t(
+              "recipes.browse.dinnerSubtitle",
+              "Start with something that feels like dinner."
+            ),
+            items: browseDinnerRecipes,
+            onViewAll: () =>
+              setActiveCategories(["dinner"]),
+          })}
+
+          {renderBrowseSection({
+            icon: <Sparkles size={19} />,
+            title: t("recipes.browse.quickTitle", "Quick & Easy"),
+            subtitle: t(
+              "recipes.browse.quickSubtitle",
+              "Busy night? Keep dinner moving."
+            ),
+            items: browseQuickRecipes,
+            onViewAll: () => {
+              setEffort("quick");
+              setActiveCategories(["dinner"]);
+            },
+          })}
+
+          {renderBrowseSection({
+            icon: <Refrigerator size={19} />,
+            title: t("recipes.browse.pantryTitle", "Use What You Have"),
+            subtitle: t(
+              "recipes.browse.pantrySubtitle",
+              "Dinner ideas matched to what's already in your Pantry."
+            ),
+            items: browsePantryRecipes,
+          })}
+
+          {renderBrowseSection({
+            icon: <Salad size={19} />,
+            title: t("recipes.browse.sidesTitle", "Sides"),
+            subtitle: t(
+              "recipes.browse.sidesSubtitle",
+              "Finish the plate with something good."
+            ),
+            items: browseSideRecipes,
+            onViewAll: () =>
+              setActiveCategories(["side"]),
+          })}
+
+          {renderBrowseSection({
+            icon: <CakeSlice size={19} />,
+            title: t("recipes.browse.dessertTitle", "Something Sweet"),
+            subtitle: t(
+              "recipes.browse.dessertSubtitle",
+              "Because dinner doesn't always have to be the ending."
+            ),
+            items: browseDessertRecipes,
+            onViewAll: () =>
+              setActiveCategories(["dessert"]),
+          })}
+
+          {renderBrowseSection({
+            icon: <Leaf size={19} />,
+            title: t("recipes.browse.vegetarianTitle", "Vegetarian"),
+            subtitle: t(
+              "recipes.browse.vegetarianSubtitle",
+              "Plant-forward dinners worth putting in the rotation."
+            ),
+            items: browseVegetarianRecipes,
+            onViewAll: () =>
+              setActiveCategories(["vegetarian", "dinner"]),
+          })}
+
+          {renderBrowseSection({
+            icon: <Flame size={19} />,
+            title: t("recipes.browse.grillTitle", "From the Grill"),
+            subtitle: t(
+              "recipes.browse.grillSubtitle",
+              "Fire it up when dinner belongs outside."
+            ),
+            items: browseGrillingRecipes,
+            onViewAll: () =>
+              setActiveCategories(["grilling"]),
+          })}
+
+          <section
+            style={{
+              display: "grid",
+              gap: 5,
+              paddingTop: 4,
+            }}
+          >
+            <h2
+              style={{
+                margin: 0,
+                fontSize: 23,
+                fontWeight: 950,
+              }}
+            >
+              {t("recipes.browse.allTitle", "All Recipes")}
+            </h2>
+            <p
+              style={{
+                margin: 0,
+                fontSize: 13,
+                opacity: 0.62,
+              }}
+            >
+              {t(
+                "recipes.browse.allSubtitle",
+                "The full Simple Dinners recipe library."
+              )}
+            </p>
+          </section>
+        </>
+      )}
+
+      {!isBrowseMode && (
+        <section style={{ display: "grid", gap: 5 }}>
+          <h2
+            style={{
+              margin: 0,
+              fontSize: 23,
+              fontWeight: 950,
+            }}
+          >
+            {t("recipes.resultsTitle", "Recipe Results")}
+          </h2>
+        </section>
+      )}
 
       <div style={gridStyle}>
         {filteredRecipes.map(({ raw, display }) => {
