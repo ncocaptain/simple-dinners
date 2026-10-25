@@ -14,6 +14,10 @@ import {
   Coffee,
   Sandwich,
   Heart,
+  Shuffle,
+  ChevronRight,
+  Refrigerator,
+  Sparkles,
 } from "lucide-react";
 import Card from "../components/Card";
 import type { Meal, Effort } from "../core/types";
@@ -25,6 +29,13 @@ import {
 import { t, getStoredLanguage, type LanguageCode } from "../i18n";
 import { getLocalizedMeal } from "../core/localizedMeal";
 import { Capacitor } from "@capacitor/core";
+import {
+  loadPantryItems,
+  PANTRY_UPDATED_EVENT,
+} from "../core/pantryStore";
+import {
+  rankRecipesByPantry,
+} from "../core/pantryRecipeMatch";
 
 type RecipesPageProps = {
   recipes?: Meal[];
@@ -57,6 +68,14 @@ const RECIPES_PAGE_STATE_KEY = "simple-dinners:recipes-page-state";
 
 function normalizeText(value?: string) {
   return String(value ?? "").trim().toLowerCase();
+}
+
+function getRecipeKey(meal: Meal) {
+  return normalizeText(
+    meal.slug ||
+      meal.id ||
+      meal.name
+  );
 }
 
 function normalizeTags(tags?: string[]) {
@@ -140,6 +159,26 @@ export default function RecipesPage({
     };
   }, []);
 
+  useEffect(() => {
+    const refreshPantry = () => {
+      setPantryItems(
+        loadPantryItems()
+      );
+    };
+
+    window.addEventListener(
+      PANTRY_UPDATED_EVENT,
+      refreshPantry
+    );
+
+    return () => {
+      window.removeEventListener(
+        PANTRY_UPDATED_EVENT,
+        refreshPantry
+      );
+    };
+  }, []);
+
   // =====================================================
   // Builder: state
   // =====================================================
@@ -148,6 +187,8 @@ export default function RecipesPage({
   const [effort, setEffort] = useState<"all" | Effort>("all");
   const [activeCategories, setActiveCategories] = useState<CategoryFilter[]>([]);
   const [cookbook, setCookbook] = useState<Meal[]>(() => getCookbook() as Meal[]);
+  const [pantryItems, setPantryItems] =
+    useState(() => loadPantryItems());
 
   const favoriteKeys = useMemo(
     () =>
