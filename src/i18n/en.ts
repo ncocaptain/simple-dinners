@@ -467,9 +467,9 @@ export const en = {
   },
 
   recipes: {
-    title: "Master Recipe Book",
+    title: "Recipes",
     subtitle:
-      "Search your recipe library like a dinner dictionary. Browse built-ins, salads, grilling favorites, and anything saved to your cookbook.",
+      "What sounds good? Browse dinner ideas, use what you already have, or search the full Simple Dinners library."
     searchPlaceholder: "Search recipes, ingredients, tags...",
     effortLabel: "Effort",
     categoriesLabel: "Categories",
@@ -479,6 +479,40 @@ export const en = {
     vegetarian: "Vegetarian",
     salads: "Salads",
     grilling: "Grilling",
+    dinner: "Dinner",
+    sides: "Sides",
+    breakfast: "Breakfast",
+    lunch: "Lunch",
+    desserts: "Desserts",
+    surpriseMe: "Surprise Me",
+    viewAll: "View all",
+    useSoon: "Use soon",
+    pantryMatches: "pantry matches",
+    resultsTitle: "Recipe Results",
+
+    browse: {
+      favoritesTitle: "Family Favorites",
+      favoritesSubtitle: "The recipes you already know you love.",
+      dinnerTitle: "Dinner Tonight",
+      dinnerSubtitle: "Start with something that feels like dinner.",
+      quickTitle: "Quick & Easy",
+      quickSubtitle: "Busy night? Keep dinner moving.",
+      pantryTitle: "Use What You Have",
+      pantrySubtitle:
+        "Dinner ideas matched to what's already in your Pantry.",
+      sidesTitle: "Sides",
+      sidesSubtitle: "Finish the plate with something good.",
+      dessertTitle: "Something Sweet",
+      dessertSubtitle:
+        "Because dinner doesn't always have to be the ending.",
+      vegetarianTitle: "Vegetarian",
+      vegetarianSubtitle:
+        "Plant-forward dinners worth putting in the rotation.",
+      grillTitle: "From the Grill",
+      grillSubtitle: "Fire it up when dinner belongs outside.",
+      allTitle: "All Recipes",
+      allSubtitle: "The full Simple Dinners recipe library.",
+    },
     clearExtras: "Clear Extras",
     defaultNote: "A delicious recipe ready for your planner.",
     openRecipe: "Open Recipe",
