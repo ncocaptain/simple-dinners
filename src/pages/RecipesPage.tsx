@@ -409,6 +409,120 @@ const localizedRecipes = useMemo(
   [mergedRecipes, language]
 );
 
+const localizedByKey = useMemo(
+  () =>
+    new Map(
+      localizedRecipes.map(
+        (item) => [
+          getRecipeKey(item.raw),
+          item,
+        ]
+      )
+    ),
+  [localizedRecipes]
+);
+
+const browseDinnerRecipes = useMemo(
+  () =>
+    localizedRecipes.filter(
+      ({ raw }) => hasTag(raw, "dinner")
+    ),
+  [localizedRecipes]
+);
+
+const browseQuickRecipes = useMemo(
+  () =>
+    browseDinnerRecipes.filter(
+      ({ raw }) => raw.effort === "quick"
+    ),
+  [browseDinnerRecipes]
+);
+
+const browseFavoriteRecipes = useMemo(
+  () =>
+    localizedRecipes.filter(
+      ({ raw }) =>
+        favoriteKeys.has(
+          getRecipeKey(raw)
+        )
+    ),
+  [localizedRecipes, favoriteKeys]
+);
+
+const browsePantryRecipes = useMemo(() => {
+  if (pantryItems.length === 0) return [];
+
+  return rankRecipesByPantry(
+    browseDinnerRecipes.map(({ raw }) => raw),
+    pantryItems
+  )
+    .filter((match) => match.matchedCount > 0)
+    .map((match) => {
+      const localized = localizedByKey.get(
+        getRecipeKey(match.recipe)
+      );
+
+      if (!localized) return null;
+
+      return {
+        ...localized,
+        pantryMatch: match,
+      };
+    })
+    .filter(
+      (
+        item
+      ): item is NonNullable<typeof item> =>
+        item !== null
+    );
+}, [
+  browseDinnerRecipes,
+  pantryItems,
+  localizedByKey,
+]);
+
+const browseSideRecipes = useMemo(
+  () =>
+    localizedRecipes.filter(
+      ({ raw }) => hasTag(raw, "side")
+    ),
+  [localizedRecipes]
+);
+
+const browseDessertRecipes = useMemo(
+  () =>
+    localizedRecipes.filter(
+      ({ raw }) => hasTag(raw, "dessert")
+    ),
+  [localizedRecipes]
+);
+
+const browseVegetarianRecipes = useMemo(
+  () =>
+    browseDinnerRecipes.filter(
+      ({ raw }) =>
+        raw.isVegetarian === true ||
+        hasTag(raw, "vegetarian")
+    ),
+  [browseDinnerRecipes]
+);
+
+const browseGrillingRecipes = useMemo(
+  () =>
+    localizedRecipes.filter(
+      ({ raw }) =>
+        hasTag(raw, "grilling") ||
+        hasTag(raw, "grill")
+    ),
+  [localizedRecipes]
+);
+
+const isBrowseMode =
+  !query.trim() &&
+  effort === "all" &&
+  activeCategories.length === 0;
+
+
   // =====================================================
   // Builder: filtering
   // =====================================================
