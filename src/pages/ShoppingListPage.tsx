@@ -57,6 +57,7 @@ import { ALL_RECIPES } from "../core/data";
 import { getCookbook } from "../core/cookbookStore";
 import type { PantryItem } from "../core/types";
 import {
+  cleanPantryItemName,
   loadPantryItems,
   makePantryId,
   PANTRY_UPDATED_EVENT,
@@ -3152,8 +3153,9 @@ export default function ShoppingListPage() {
       new Map(
         nextPantry.map(
           (item, index) => [
-            cleanIngredientName(
-              item.name
+            cleanPantryItemName(
+              item.name,
+              item.unit
             ).toLowerCase(),
             index,
           ]
@@ -3164,7 +3166,7 @@ export default function ShoppingListPage() {
     let updatedCount = 0;
 
     for (const group of checkedGroups) {
-      let pantryName = group.displayText;
+      let pantryName = group.pantryName || group.displayText;
 
       // Remove leading amounts from grouped display names:
       // "10 cloves Garlic" -> "Garlic"
@@ -3181,7 +3183,12 @@ export default function ShoppingListPage() {
         .trim();
 
       pantryName =
-        cleanIngredientName(pantryName);
+        cleanPantryItemName(
+          cleanIngredientName(
+            pantryName
+          ),
+          group.unit
+        );
 
       // Extra safety fixes
       if (pantryName.includes("garlic")) {
@@ -3308,7 +3315,12 @@ export default function ShoppingListPage() {
       const newItem: PantryItem = {
         id: makePantryId(pantryName),
         name:
-          formatDisplayName(pantryName),
+          formatDisplayName(
+            cleanPantryItemName(
+              pantryName,
+              group.unit
+            )
+          ),
         createdAt: Date.now(),
         quantity:
           group.quantity ?? undefined,
