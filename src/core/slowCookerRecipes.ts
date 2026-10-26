@@ -4,6 +4,7 @@ export const SLOW_COOKER_RECIPES: Meal[] = [
   {
     "id": "slow-cooker-honey-garlic-chicken",
     "slug": "slow-cooker-honey-garlic-chicken",
+    "photoUrl": "/images/slow-cooker-honey-garlic-chicken.jpg",
     "name": "Slow Cooker Honey Garlic Chicken",
     "servings": 6,
     "effort": "quick",
@@ -60,6 +61,7 @@ export const SLOW_COOKER_RECIPES: Meal[] = [
   {
     "id": "slow-cooker-salsa-chicken-tacos",
     "slug": "slow-cooker-salsa-chicken-tacos",
+    "photoUrl": "/images/slow-cooker-salsa-chicken-tacos.jpg",
     "name": "Slow Cooker Salsa Chicken Tacos",
     "servings": 6,
     "effort": "quick",
@@ -116,6 +118,7 @@ export const SLOW_COOKER_RECIPES: Meal[] = [
   {
     "id": "slow-cooker-bbq-pulled-chicken",
     "slug": "slow-cooker-bbq-pulled-chicken",
+    "photoUrl": "/images/slow-cooker-bbq-pulled-chicken.jpg",
     "name": "Slow Cooker BBQ Pulled Chicken",
     "servings": 6,
     "effort": "quick",
@@ -174,6 +177,7 @@ export const SLOW_COOKER_RECIPES: Meal[] = [
   {
     "id": "slow-cooker-sausage-peppers",
     "slug": "slow-cooker-sausage-peppers",
+    "photoUrl": "/images/slow-cooker-sausage-peppers.jpg",
     "name": "Slow Cooker Sausage & Peppers",
     "servings": 6,
     "effort": "quick",
@@ -232,6 +236,7 @@ export const SLOW_COOKER_RECIPES: Meal[] = [
   {
     "id": "slow-cooker-chicken-tortilla-soup",
     "slug": "slow-cooker-chicken-tortilla-soup",
+    "photoUrl": "/images/slow-cooker-chicken-tortilla-soup.jpg",
     "name": "Slow Cooker Chicken Tortilla Soup",
     "servings": 6,
     "effort": "quick",
@@ -290,6 +295,7 @@ export const SLOW_COOKER_RECIPES: Meal[] = [
   {
     "id": "slow-cooker-creamy-ranch-chicken-potatoes",
     "slug": "slow-cooker-creamy-ranch-chicken-potatoes",
+    "photoUrl": "/images/slow-cooker-creamy-ranch-chicken-potatoes.jpg",
     "name": "Slow Cooker Creamy Ranch Chicken & Potatoes",
     "servings": 6,
     "effort": "quick",
@@ -348,6 +354,7 @@ export const SLOW_COOKER_RECIPES: Meal[] = [
   {
     "id": "slow-cooker-turkey-chili",
     "slug": "slow-cooker-turkey-chili",
+    "photoUrl": "/images/slow-cooker-turkey-chili.jpg",
     "name": "Slow Cooker Turkey Chili",
     "servings": 6,
     "effort": "quick",
@@ -406,6 +413,7 @@ export const SLOW_COOKER_RECIPES: Meal[] = [
   {
     "id": "slow-cooker-meatball-subs",
     "slug": "slow-cooker-meatball-subs",
+    "photoUrl": "/images/slow-cooker-meatball-subs.jpg",
     "name": "Slow Cooker Meatball Subs",
     "servings": 6,
     "effort": "quick",
@@ -464,6 +472,7 @@ export const SLOW_COOKER_RECIPES: Meal[] = [
   {
     "id": "slow-cooker-lemon-garlic-chicken-green-beans",
     "slug": "slow-cooker-lemon-garlic-chicken-green-beans",
+    "photoUrl": "/images/slow-cooker-lemon-garlic-chicken-green-beans.jpg",
     "name": "Slow Cooker Lemon Garlic Chicken & Green Beans",
     "servings": 6,
     "effort": "quick",
@@ -522,6 +531,7 @@ export const SLOW_COOKER_RECIPES: Meal[] = [
   {
     "id": "slow-cooker-chicken-noodle-soup",
     "slug": "slow-cooker-chicken-noodle-soup",
+    "photoUrl": "/images/slow-cooker-chicken-noodle-soup.jpg",
     "name": "Slow Cooker Chicken Noodle Soup",
     "servings": 6,
     "effort": "quick",
