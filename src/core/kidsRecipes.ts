@@ -4,6 +4,7 @@ export const KIDS_RECIPES: Meal[] = [
   {
     id: "kids-build-your-own-taco-bar",
     slug: "kids-build-your-own-taco-bar",
+    photoUrl: "/images/kids-build-your-own-taco-bar.png",
     name: "Build-Your-Own Taco Bar",
     servings: 4,
     effort: "quick",
@@ -52,6 +53,7 @@ Coloca la carne sazonada, las tortillas y todos los ingredientes en la mesa para
   {
     id: "kids-spaghetti-meatballs",
     slug: "kids-spaghetti-meatballs",
+    photoUrl: "/images/kids-spaghetti-meatballs.png",
     name: "Kid-Friendly Spaghetti & Meatballs",
     servings: 6,
     effort: "quick",
@@ -94,6 +96,7 @@ Agrega hasta 1/4 taza de queso parmesano rallado sobre las porciones si lo desea
   {
     id: "kids-stovetop-mac-cheese",
     slug: "kids-stovetop-mac-cheese",
+    photoUrl: "/images/kids-stovetop-mac-cheese.png",
     name: "Easy Stovetop Mac & Cheese",
     servings: 4,
     effort: "quick",
@@ -143,6 +146,7 @@ Si usas chícharos, agrega 1 taza de chícharos congelados y cocina de 2 a 3 min
   {
     id: "kids-baked-chicken-tenders-fries",
     slug: "kids-baked-chicken-tenders-fries",
+    photoUrl: "/images/kids-baked-chicken-tenders-fries.png",
     name: "Crispy Chicken Tenders & Fries",
     servings: 4,
     effort: "normal",
@@ -199,6 +203,7 @@ Sirve las tiras de pollo con las papas y kétchup, ranch o mostaza con miel para
   {
     id: "kids-easy-quesadillas",
     slug: "kids-easy-quesadillas",
+    photoUrl: "/images/kids-easy-quesadillas.png",
     name: "Easy Kid-Friendly Quesadillas",
     servings: 4,
     effort: "quick",
@@ -243,6 +248,7 @@ Corta las 4 quesadillas en triángulos y sirve con 1/2 taza de salsa y 1/2 taza 
   {
     id: "kids-breakfast-for-dinner",
     slug: "kids-breakfast-for-dinner",
+    photoUrl: "/images/kids-breakfast-for-dinner.png",
     name: "Breakfast for Dinner",
     servings: 4,
     effort: "normal",
@@ -291,6 +297,7 @@ Sirve los panqueques con jarabe de arce, los huevos revueltos, las 8 rebanadas d
   {
     id: "kids-rotisserie-chicken-rice-veggies",
     slug: "kids-rotisserie-chicken-rice-veggies",
+    photoUrl: "/images/kids-rotisserie-chicken-rice-veggies.png",
     name: "Rotisserie Chicken, Rice & Veggies",
     servings: 4,
     effort: "quick",
@@ -333,6 +340,7 @@ Divide las 2 tazas de arroz, el pollo rostizado deshebrado y las verduras sazona
   {
     id: "kids-sheet-pan-chicken-potatoes-carrots",
     slug: "kids-sheet-pan-chicken-potatoes-carrots",
+    photoUrl: "/images/kids-sheet-pan-chicken-potatoes-carrots.png",
     name: "Sheet-Pan Chicken, Potatoes & Carrots",
     servings: 4,
     effort: "normal",
@@ -381,6 +389,7 @@ Hornea todo junto durante otros 20 a 25 minutos, revolviendo las verduras una ve
   {
     id: "kids-build-your-own-pizza-night",
     slug: "kids-build-your-own-pizza-night",
+    photoUrl: "/images/kids-build-your-own-pizza-night.png",
     name: "Build-Your-Own Pizza Night",
     servings: 4,
     effort: "quick",
@@ -421,6 +430,7 @@ Deja enfriar durante 2 a 3 minutos antes de cortar y servir.`,
   {
     id: "kids-grilled-cheese-tomato-soup",
     slug: "kids-grilled-cheese-tomato-soup",
+    photoUrl: "/images/kids-grilled-cheese-tomato-soup.png",
     name: "Grilled Cheese & Tomato Soup",
     servings: 4,
     effort: "quick",
