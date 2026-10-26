@@ -1,6 +1,8 @@
 import type { Meal } from "./types";
 import { SEASONAL_RECIPES } from "./seasonalRecipes";
 import { KIDS_RECIPES } from "./kidsRecipes";
+import { MEAL_PREP_RECIPES } from "./mealPrepRecipes";
+import { SLOW_COOKER_RECIPES } from "./slowCookerRecipes";
 
 
 export const days = [
