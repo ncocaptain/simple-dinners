@@ -326,11 +326,40 @@ export function normalizePantryItems(
     );
 }
 
+function canonicalize(
+  value: unknown
+): unknown {
+  if (Array.isArray(value)) {
+    return value.map(canonicalize);
+  }
+
+  if (
+    value &&
+    typeof value === "object"
+  ) {
+    const record =
+      value as Record<string, unknown>;
+
+    return Object.fromEntries(
+      Object.keys(record)
+        .sort()
+        .map((key) => [
+          key,
+          canonicalize(record[key]),
+        ])
+    );
+  }
+
+  return value;
+}
+
 export function pantrySignature(
   items: PantryItem[]
 ) {
   return JSON.stringify(
-    normalizePantryItems(items)
+    canonicalize(
+      normalizePantryItems(items)
+    )
   );
 }
 
