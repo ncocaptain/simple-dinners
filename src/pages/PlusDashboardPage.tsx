@@ -28,6 +28,9 @@ import {
 import {
   useCookbookSyncStatus,
 } from "../cloud/cookbookSyncState";
+import {
+  usePantrySyncStatus,
+} from "../cloud/pantrySyncState";
 import "./PlusDashboardPage.css";
 import {
   getHouseholdMembers,
@@ -63,6 +66,7 @@ const PLUS_COPY = {
     weeklyPlan: "Weekly Plan",
     shoppingList: "Shopping List",
     cookbook: "Cookbook",
+    pantry: "Pantry",
     householdMembers: "Household members",
     memberSingular: "member",
     memberPlural: "members",
@@ -153,6 +157,7 @@ const PLUS_COPY = {
     weeklyPlan: "Plan semanal",
     shoppingList: "Lista de compras",
     cookbook: "Recetario",
+    pantry: "Despensa",
     householdMembers: "Miembros del hogar",
     memberSingular: "miembro",
     memberPlural: "miembros",
@@ -511,6 +516,9 @@ export default function PlusDashboardPage() {
   const cookbookSync =
     useCookbookSyncStatus();
 
+  const pantrySync =
+    usePantrySyncStatus();
+
   const [
     householdMembers,
     setHouseholdMembers,
@@ -768,6 +776,12 @@ export default function PlusDashboardPage() {
               <SyncItem
                 label={copy.cookbook}
                 status={cookbookSync.status}
+                isSpanish={isSpanish}
+              />
+
+              <SyncItem
+                label={copy.pantry}
+                status={pantrySync.status}
                 isSpanish={isSpanish}
               />
             </div>
