@@ -675,6 +675,7 @@ function AppContent() {
 
   usePantrySync(
     applyCloudPantry,
+    hasPlus && !plusLoading,
   );
 
   const [prefs, setPrefs] = useState<Preferences>(() => {
