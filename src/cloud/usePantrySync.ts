@@ -65,6 +65,7 @@ function saveBackup(
 
 export function usePantrySync(
   applyCloudPantry: ApplyCloudPantry,
+  enabled = true,
 ) {
   const {
     isSignedIn,
@@ -73,6 +74,14 @@ export function usePantrySync(
   } = useAuth();
 
   useEffect(() => {
+    if (!enabled) {
+      publishPantrySyncState({
+        status: "local",
+        error: null,
+      });
+      return;
+    }
+
     if (!isSignedIn) {
       publishPantrySyncState({
         status: "local",
@@ -703,6 +712,7 @@ export function usePantrySync(
     };
   }, [
     applyCloudPantry,
+    enabled,
     householdId,
     householdLoading,
     isSignedIn,
