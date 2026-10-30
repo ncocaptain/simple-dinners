@@ -49,7 +49,9 @@ import type {
 import { generatePlan } from "./core/planner";
 import {
   loadPantryItems,
-  writePantryItems,
+  replacePantryFromCloud,
+  savePantryItems,
+  type PantryChangeSource,
 } from "./core/pantryStore";
 import { applySmartWeekDraft } from "./core/smartWeek";
 import { days, ALL_RECIPES } from "./core/data";
@@ -76,6 +78,9 @@ import {
 import {
   useCookbookSync,
 } from "./cloud/useCookbookSync";
+import {
+  usePantrySync,
+} from "./cloud/usePantrySync";
 import {
   PlusFeatureGate,
 } from "./plus/PlusFeatureGate";
@@ -651,6 +656,27 @@ function AppContent() {
     loadPantryItems()
   );
 
+  const pantryChangeSourceRef =
+    useRef<PantryChangeSource>("local");
+
+  const hasSavedInitialPantryRef =
+    useRef(false);
+
+  const applyCloudPantry = useCallback(
+    (items: PantryItem[]) => {
+      pantryChangeSourceRef.current =
+        "cloud";
+
+      replacePantryFromCloud(items);
+      setPantry(items);
+    },
+    [],
+  );
+
+  usePantrySync(
+    applyCloudPantry,
+  );
+
   const [prefs, setPrefs] = useState<Preferences>(() => {
     try {
       const saved = localStorage.getItem("prefs");
@@ -831,7 +857,21 @@ function AppContent() {
     hasSavedInitialWeeklyPlanRef.current =
       true;
 
-    writePantryItems(pantry);
+    const pantryChangeSource =
+      hasSavedInitialPantryRef.current
+        ? pantryChangeSourceRef.current
+        : "cloud";
+
+    savePantryItems(
+      pantry,
+      pantryChangeSource,
+    );
+
+    hasSavedInitialPantryRef.current =
+      true;
+
+    pantryChangeSourceRef.current =
+      "local";
 
     localStorage.setItem(
       "app-version",
