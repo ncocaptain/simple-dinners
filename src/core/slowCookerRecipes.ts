@@ -586,63 +586,6 @@ export const SLOW_COOKER_RECIPES: Meal[] = [
         "instructions": "Coloca 1 1/2 lb de pechugas de pollo, 3 zanahorias rebanadas, 3 tallos de apio rebanados y 1 cebolla pequeña picada en la olla lenta.\nAgrega 8 tazas de caldo de pollo, 1 tsp de tomillo seco, 1 tsp de perejil seco, 1 tsp de sal y 1/2 tsp de pimienta negra.\nTapa y cocina en LOW durante 6 horas o en HIGH durante 3 horas, hasta que el pollo alcance 165°F.\nRetira el pollo, deshébralo con 2 tenedores y regrésalo a la olla lenta.\nAgrega 8 oz de fideos de huevo, tapa y cocina en HIGH durante 20 a 30 minutos hasta que estén tiernos.\nRevuelve bien y sirve caliente."
       }
     }
-  },
-  {
-    "id": "slow-cooker-chicken-broccoli-cheddar-rice",
-    "slug": "slow-cooker-chicken-broccoli-cheddar-rice",
-    "name": "Slow Cooker Chicken, Broccoli & Cheddar Rice",
-    "servings": 6,
-    "effort": "normal",
-    "tags": [
-      "dinner",
-      "slow-cooker",
-      "chicken",
-      "rice",
-      "broccoli",
-      "cheesy",
-      "family-friendly",
-      "comfort"
-    ],
-    "suggestedSides": [
-      "Dinner rolls",
-      "Side salad",
-      "Apple slices"
-    ],
-    "suggestedDesserts": [
-      "Classic Brownies",
-      "Chocolate Pudding",
-      "Chocolate Chip Cookies"
-    ],
-    "notes": "A creamy chicken, broccoli, and cheddar dinner finished with cooked rice for a family-friendly one-bowl meal.",
-    "ingredients": "1 1/2 lb boneless skinless chicken breasts\n1 can (10.5 oz) cream of chicken soup\n1 1/2 cups chicken broth\n1 tsp garlic powder\n1/2 tsp salt\n1/4 tsp black pepper\n3 cups broccoli florets\n3 cups cooked white rice\n2 cups shredded cheddar cheese",
-    "instructions": "Place 1 1/2 lb chicken breasts in the slow cooker.\nWhisk together 1 can (10.5 oz) cream of chicken soup, 1 1/2 cups chicken broth, 1 tsp garlic powder, 1/2 tsp salt, and 1/4 tsp black pepper, then pour over the chicken.\nCover and cook on LOW for 5 hours or HIGH for 2 1/2 hours, until the chicken reaches 165°F.\nShred the chicken directly in the slow cooker and stir in 3 cups broccoli florets.\nCover and cook on HIGH for 20 to 30 minutes until the broccoli is tender.\nStir in 3 cups cooked white rice and 2 cups shredded cheddar cheese. Cover for 10 minutes, then stir again until creamy and the cheese is melted.",
-    "translations": {
-      "es": {
-        "name": "Pollo con Brócoli, Cheddar y Arroz en Olla Lenta",
-        "notes": "Una cena cremosa de pollo, brócoli y cheddar terminada con arroz cocido para un plato familiar completo.",
-        "tags": [
-          "cena",
-          "olla lenta",
-          "pollo",
-          "arroz",
-          "brócoli",
-          "con queso",
-          "familiar",
-          "comida reconfortante"
-        ],
-        "suggestedSides": [
-          "Panecillos",
-          "Ensalada sencilla",
-          "Rebanadas de manzana"
-        ],
-        "suggestedDesserts": [
-          "Brownies Clásicos",
-          "Pudín de Chocolate",
-          "Galletas con Chispas de Chocolate"
-        ],
-        "ingredients": "1 1/2 lb de pechugas de pollo deshuesadas y sin piel\n1 lata (10.5 oz) de crema de pollo\n1 1/2 tazas de caldo de pollo\n1 tsp de ajo en polvo\n1/2 tsp de sal\n1/4 tsp de pimienta negra\n3 tazas de floretes de brócoli\n3 tazas de arroz blanco cocido\n2 tazas de queso cheddar rallado",
-        "instructions": "Coloca 1 1/2 lb de pechugas de pollo en la olla lenta.\nBate 1 lata (10.5 oz) de crema de pollo, 1 1/2 tazas de caldo de pollo, 1 tsp de ajo en polvo, 1/2 tsp de sal y 1/4 tsp de pimienta negra, y vierte sobre el pollo.\nTapa y cocina en LOW durante 5 horas o en HIGH durante 2 1/2 horas, hasta que el pollo alcance 165°F.\nDeshebra el pollo directamente en la olla lenta y agrega 3 tazas de floretes de brócoli.\nTapa y cocina en HIGH durante 20 a 30 minutos hasta que el brócoli esté tierno.\nAgrega 3 tazas de arroz blanco cocido y 2 tazas de queso cheddar rallado. Tapa durante 10 minutos y después revuelve hasta que quede cremoso y el queso se derrita."
-      }
-    }
   }
+
 ];
