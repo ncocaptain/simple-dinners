@@ -4,6 +4,7 @@ export const MEAL_PREP_RECIPES: Meal[] = [
   {
     "id": "meal-prep-chicken-burrito-bowls",
     "slug": "meal-prep-chicken-burrito-bowls",
+    "photoUrl": "/images/meal-prep-chicken-burrito-bowls.jpg",
     "name": "Meal Prep Chicken Burrito Bowls",
     "servings": 5,
     "effort": "normal",
@@ -60,6 +61,7 @@ export const MEAL_PREP_RECIPES: Meal[] = [
   {
     "id": "meal-prep-teriyaki-chicken-rice-bowls",
     "slug": "meal-prep-teriyaki-chicken-rice-bowls",
+    "photoUrl": "/images/meal-prep-teriyaki-chicken-rice-bowls.jpg",
     "name": "Meal Prep Teriyaki Chicken Rice Bowls",
     "servings": 5,
     "effort": "normal",
@@ -116,6 +118,7 @@ export const MEAL_PREP_RECIPES: Meal[] = [
   {
     "id": "meal-prep-baked-ziti",
     "slug": "meal-prep-baked-ziti",
+    "photoUrl": "/images/meal-prep-baked-ziti.jpg",
     "name": "Meal Prep Baked Ziti",
     "servings": 6,
     "effort": "normal",
@@ -174,6 +177,7 @@ export const MEAL_PREP_RECIPES: Meal[] = [
   {
     "id": "meal-prep-turkey-meatloaf-mashed-potatoes",
     "slug": "meal-prep-turkey-meatloaf-mashed-potatoes",
+    "photoUrl": "/images/meal-prep-turkey-meatloaf-mashed-potatoes.jpg",
     "name": "Meal Prep Turkey Meatloaf & Mashed Potatoes",
     "servings": 5,
     "effort": "big",
@@ -230,6 +234,7 @@ export const MEAL_PREP_RECIPES: Meal[] = [
   {
     "id": "meal-prep-chicken-rice-casserole",
     "slug": "meal-prep-chicken-rice-casserole",
+    "photoUrl": "/images/meal-prep-chicken-rice-casserole.jpg",
     "name": "Meal Prep Chicken & Rice Casserole",
     "servings": 6,
     "effort": "normal",
@@ -288,6 +293,7 @@ export const MEAL_PREP_RECIPES: Meal[] = [
   {
     "id": "meal-prep-taco-bowls",
     "slug": "meal-prep-taco-bowls",
+    "photoUrl": "/images/meal-prep-taco-bowls.jpg",
     "name": "Meal Prep Taco Bowls",
     "servings": 5,
     "effort": "quick",
@@ -344,6 +350,7 @@ export const MEAL_PREP_RECIPES: Meal[] = [
   {
     "id": "meal-prep-sheet-pan-chicken-veggies",
     "slug": "meal-prep-sheet-pan-chicken-veggies",
+    "photoUrl": "/images/meal-prep-sheet-pan-chicken-veggies.jpg",
     "name": "Meal Prep Sheet-Pan Chicken & Veggies",
     "servings": 5,
     "effort": "normal",
@@ -400,6 +407,7 @@ export const MEAL_PREP_RECIPES: Meal[] = [
   {
     "id": "meal-prep-lasagna-roll-ups",
     "slug": "meal-prep-lasagna-roll-ups",
+    "photoUrl": "/images/meal-prep-lasagna-roll-ups.jpg",
     "name": "Meal Prep Lasagna Roll-Ups",
     "servings": 6,
     "effort": "big",
@@ -456,6 +464,7 @@ export const MEAL_PREP_RECIPES: Meal[] = [
   {
     "id": "meal-prep-beef-broccoli-rice",
     "slug": "meal-prep-beef-broccoli-rice",
+    "photoUrl": "/images/meal-prep-beef-broccoli-rice.jpg",
     "name": "Meal Prep Beef & Broccoli Rice Bowls",
     "servings": 5,
     "effort": "normal",
@@ -512,6 +521,7 @@ export const MEAL_PREP_RECIPES: Meal[] = [
   {
     "id": "meal-prep-freezer-breakfast-burritos",
     "slug": "meal-prep-freezer-breakfast-burritos",
+    "photoUrl": "/images/meal-prep-freezer-breakfast-burritos.jpg",
     "name": "Freezer Breakfast Burritos",
     "servings": 8,
     "effort": "normal",
