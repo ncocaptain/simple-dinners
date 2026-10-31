@@ -1,5 +1,8 @@
 import type { Meal } from "./types";
 import { SEASONAL_RECIPES } from "./seasonalRecipes";
+import { KIDS_RECIPES } from "./kidsRecipes";
+import { MEAL_PREP_RECIPES } from "./mealPrepRecipes";
+import { SLOW_COOKER_RECIPES } from "./slowCookerRecipes";
 
 
 export const days = [
@@ -26664,6 +26667,9 @@ export const VEGGIE_POOL = NEW_VEGETARIAN_RECIPES.map((meal) => ({
 
 export const DINNER_RECIPES: Meal[] = [
   ...NEW_BUILTIN_RECIPES,
+  ...KIDS_RECIPES,
+  ...SLOW_COOKER_RECIPES,
+  ...MEAL_PREP_RECIPES,
   ...CAMPFIRE_RECIPES,
   ...NEW_VEGETARIAN_RECIPES,
   ...EXTRA_RECIPES,
