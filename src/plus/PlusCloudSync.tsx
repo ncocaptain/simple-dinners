@@ -10,6 +10,9 @@ import {
   CookbookConflictModal,
 } from "../cloud/CookbookConflictModal";
 import {
+  PantryConflictModal,
+} from "../cloud/PantryConflictModal";
+import {
   usePlusEntitlement,
 } from "./PlusEntitlementContext";
 
@@ -33,6 +36,7 @@ export function PlusCloudSync() {
       <ShoppingListConflictModal />
       <WeeklyPlanConflictModal />
       <CookbookConflictModal />
+      <PantryConflictModal />
     </>
   );
 }

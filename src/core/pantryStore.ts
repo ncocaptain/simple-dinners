@@ -8,6 +8,15 @@ export const PANTRY_STORAGE_KEY = "pantry";
 export const PANTRY_UPDATED_EVENT =
   "simple-dinners:pantry-updated";
 
+export type PantryChangeSource =
+  | "local"
+  | "cloud";
+
+export type PantryChangedDetail = {
+  items: PantryItem[];
+  source: PantryChangeSource;
+};
+
 const PANTRY_UNIT_PREFIXES: Record<
   string,
   string[]
@@ -300,6 +309,60 @@ function normalizePantryItem(
   return item;
 }
 
+export function normalizePantryItems(
+  value: unknown
+): PantryItem[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map(normalizePantryItem)
+    .filter(
+      (
+        item
+      ): item is PantryItem =>
+        item !== null
+    );
+}
+
+function canonicalize(
+  value: unknown
+): unknown {
+  if (Array.isArray(value)) {
+    return value.map(canonicalize);
+  }
+
+  if (
+    value &&
+    typeof value === "object"
+  ) {
+    const record =
+      value as Record<string, unknown>;
+
+    return Object.fromEntries(
+      Object.keys(record)
+        .sort()
+        .map((key) => [
+          key,
+          canonicalize(record[key]),
+        ])
+    );
+  }
+
+  return value;
+}
+
+export function pantrySignature(
+  items: PantryItem[]
+) {
+  return JSON.stringify(
+    canonicalize(
+      normalizePantryItems(items)
+    )
+  );
+}
+
 export function loadPantryItems(): PantryItem[] {
   try {
     const parsed = JSON.parse(
@@ -308,18 +371,9 @@ export function loadPantryItems(): PantryItem[] {
       ) || "[]"
     );
 
-    if (!Array.isArray(parsed)) {
-      return [];
-    }
-
-    return parsed
-      .map(normalizePantryItem)
-      .filter(
-        (
-          item
-        ): item is PantryItem =>
-          item !== null
-      );
+    return normalizePantryItems(
+      parsed
+    );
   } catch {
     return [];
   }
@@ -328,14 +382,8 @@ export function loadPantryItems(): PantryItem[] {
 export function writePantryItems(
   items: PantryItem[]
 ) {
-  const normalized = items
-    .map(normalizePantryItem)
-    .filter(
-      (
-        item
-      ): item is PantryItem =>
-        item !== null
-    );
+  const normalized =
+    normalizePantryItems(items);
 
   localStorage.setItem(
     PANTRY_STORAGE_KEY,
@@ -346,16 +394,48 @@ export function writePantryItems(
 }
 
 export function savePantryItems(
-  items: PantryItem[]
+  items: PantryItem[],
+  source: PantryChangeSource = "local"
 ) {
+  const previous =
+    loadPantryItems();
+
   const normalized =
     writePantryItems(items);
 
-  window.dispatchEvent(
-    new Event(PANTRY_UPDATED_EVENT)
-  );
+  if (
+    pantrySignature(previous) ===
+    pantrySignature(normalized)
+  ) {
+    return normalized;
+  }
+
+  if (
+    typeof window !== "undefined"
+  ) {
+    window.dispatchEvent(
+      new CustomEvent<PantryChangedDetail>(
+        PANTRY_UPDATED_EVENT,
+        {
+          detail: {
+            items: normalized,
+            source,
+          },
+        },
+      ),
+    );
+  }
 
   return normalized;
+}
+
+export function replacePantryFromCloud(
+  items: PantryItem[]
+) {
+  return savePantryItems(
+    items,
+    "cloud"
+  );
 }
 
 export function mergePantryNamesWithExisting(
