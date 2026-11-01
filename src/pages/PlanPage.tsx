@@ -3,10 +3,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   AlertCircle,
   CalendarDays,
+  ChevronDown,
   ChevronRight,
   Info,
   Leaf,
   Refrigerator,
+  Search,
   ShoppingCart,
   Sparkles,
   Utensils,
@@ -18,6 +20,7 @@ import { days } from "../core/data";
 import { ALLERGENS } from "../core/planner";
 import {
   categorizeGroceryItem,
+  type GroceryCategory,
 } from "../core/groceryCategories";
 import type { Effort, PantryItem } from "../core/types";
 import {
@@ -45,6 +48,12 @@ import {
 // =====================================================
 // PlanPage: types
 // =====================================================
+
+type PantryFilter =
+  | "all"
+  | "low"
+  | "use-soon"
+  | "staples";
 
 type PlanPageProps = {
   daySettings: Record<string, Effort>;
@@ -78,6 +87,17 @@ export default function PlanPage({
 
   const [newPantryItem, setNewPantryItem] =
     useState("");
+
+  const [pantrySearch, setPantrySearch] =
+    useState("");
+
+  const [pantryFilter, setPantryFilter] =
+    useState<PantryFilter>("all");
+
+  const [
+    collapsedPantryCategories,
+    setCollapsedPantryCategories,
+  ] = useState<Record<string, boolean>>({});
 
   const [
     pantryActionMessage,
@@ -456,6 +476,194 @@ export default function PlanPage({
         ).status ===
         "past-date"
     ).length;
+
+  const pantryLowCount =
+    pantry.filter(
+      (item) => item.isLow
+    ).length;
+
+  const pantryStapleCount =
+    pantry.filter(
+      (item) => item.isStaple
+    ).length;
+
+  const pantryCategoryOrder:
+    GroceryCategory[] = [
+      "Produce",
+      "Meat / Seafood",
+      "Dairy / Eggs",
+      "Deli / Refrigerated",
+      "Pantry",
+      "Frozen",
+      "Spices / Seasonings",
+      "Bakery",
+      "Beverages",
+      "Household",
+      "Cleaning",
+      "Paper Goods",
+      "Personal Care",
+      "Pharmacy",
+      "Pet",
+      "Other",
+    ];
+
+  const pantryCategoryLabels:
+    Record<GroceryCategory, string> = {
+      Produce: t("plan.pantryCategories.produce"),
+      "Meat / Seafood": t("plan.pantryCategories.meatSeafood"),
+      "Dairy / Eggs": t("plan.pantryCategories.dairyEggs"),
+      "Deli / Refrigerated": t("plan.pantryCategories.deliRefrigerated"),
+      Pantry: t("plan.pantryCategories.dryGoods"),
+      Frozen: t("plan.pantryCategories.frozen"),
+      "Spices / Seasonings": t("plan.pantryCategories.spicesSeasonings"),
+      Bakery: t("plan.pantryCategories.bakery"),
+      Beverages: t("plan.pantryCategories.beverages"),
+      Household: t("plan.pantryCategories.household"),
+      Cleaning: t("plan.pantryCategories.cleaning"),
+      "Paper Goods": t("plan.pantryCategories.paperGoods"),
+      "Personal Care": t("plan.pantryCategories.personalCare"),
+      Pharmacy: t("plan.pantryCategories.pharmacy"),
+      Pet: t("plan.pantryCategories.pet"),
+      Other: t("plan.pantryCategories.other"),
+    };
+
+  const normalizedPantrySearch =
+    pantrySearch.trim().toLowerCase();
+
+  const filteredPantry =
+    pantry
+      .filter((item) => {
+        if (
+          pantryFilter === "low" &&
+          !item.isLow
+        ) {
+          return false;
+        }
+
+        if (
+          pantryFilter === "staples" &&
+          !item.isStaple
+        ) {
+          return false;
+        }
+
+        if (
+          pantryFilter === "use-soon" &&
+          getPantryFreshness(
+            item.expiresAt
+          ).status !== "use-soon"
+        ) {
+          return false;
+        }
+
+        if (normalizedPantrySearch) {
+          const category =
+            item.category ||
+            categorizeGroceryItem(
+              item.name
+            );
+
+          const searchable = [
+            cleanPantryItemName(
+              item.name,
+              item.unit
+            ),
+            item.packageSize || "",
+            pantryCategoryLabels[
+              category
+            ] || "",
+          ]
+            .join(" ")
+            .toLowerCase();
+
+          if (
+            !searchable.includes(
+              normalizedPantrySearch
+            )
+          ) {
+            return false;
+          }
+        }
+
+        return true;
+      })
+      .sort((first, second) =>
+        cleanPantryItemName(
+          first.name,
+          first.unit
+        ).localeCompare(
+          cleanPantryItemName(
+            second.name,
+            second.unit
+          )
+        )
+      );
+
+  const pantryGroups =
+    pantryCategoryOrder
+      .map((category) => [
+        category,
+        filteredPantry.filter(
+          (item) =>
+            (
+              item.category ||
+              categorizeGroceryItem(
+                item.name
+              )
+            ) === category
+        ),
+      ] as const)
+      .filter(
+        ([, items]) =>
+          items.length > 0
+      );
+
+  const pantryFilters: Array<{
+    key: PantryFilter;
+    label: string;
+    count: number;
+  }> = [
+    {
+      key: "all",
+      label: t("plan.pantryFilterAll"),
+      count: pantry.length,
+    },
+    {
+      key: "low",
+      label: t("plan.pantryFilterLow"),
+      count: pantryLowCount,
+    },
+    {
+      key: "use-soon",
+      label: t("plan.pantryFilterUseSoon"),
+      count: pantryUseSoonCount,
+    },
+    {
+      key: "staples",
+      label: t("plan.pantryFilterStaples"),
+      count: pantryStapleCount,
+    },
+  ];
+
+  const pantryFiltering =
+    Boolean(normalizedPantrySearch) ||
+    pantryFilter !== "all";
+
+  const togglePantryCategory = (
+    category: GroceryCategory,
+    defaultCollapsed: boolean
+  ) => {
+    setCollapsedPantryCategories(
+      (current) => ({
+        ...current,
+        [category]:
+          !(
+            current[category] ??
+            defaultCollapsed
+          ),
+      })
+    );
+  };
 
   const handleLanguageChange = (nextLanguage: LanguageCode) => {
     if (nextLanguage === language) return;
@@ -991,6 +1199,102 @@ export default function PlanPage({
                 </div>
               )}
 
+              {pantry.length > 0 && (
+                <div
+                  style={{
+                    display: "grid",
+                    gap: 10,
+                    marginBottom: 12,
+                  }}
+                >
+                  <div style={{ position: "relative" }}>
+                    <Search
+                      size={16}
+                      aria-hidden="true"
+                      style={{
+                        position: "absolute",
+                        left: 12,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        opacity: 0.48,
+                        pointerEvents: "none",
+                      }}
+                    />
+
+                    <input
+                      type="search"
+                      value={pantrySearch}
+                      onChange={(event) =>
+                        setPantrySearch(
+                          event.target.value
+                        )
+                      }
+                      placeholder={t(
+                        "plan.pantrySearchPlaceholder"
+                      )}
+                      style={{
+                        ...inputBase,
+                        width: "100%",
+                        paddingLeft: 38,
+                        boxSizing: "border-box",
+                      }}
+                    />
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: 7,
+                      overflowX: "auto",
+                      paddingBottom: 2,
+                      scrollbarWidth: "none",
+                    }}
+                  >
+                    {pantryFilters.map(
+                      (filter) => {
+                        const active =
+                          pantryFilter ===
+                          filter.key;
+
+                        return (
+                          <button
+                            key={filter.key}
+                            type="button"
+                            onClick={() =>
+                              setPantryFilter(
+                                filter.key
+                              )
+                            }
+                            style={{
+                              flex: "0 0 auto",
+                              minHeight: 34,
+                              padding: "7px 10px",
+                              borderRadius: 999,
+                              border: active
+                                ? "1px solid rgba(34,197,94,0.38)"
+                                : "1px solid rgba(255,255,255,0.09)",
+                              background: active
+                                ? "rgba(34,197,94,0.14)"
+                                : "rgba(255,255,255,0.04)",
+                              color: active
+                                ? "#86efac"
+                                : "rgba(255,255,255,0.72)",
+                              fontSize: 11,
+                              fontWeight: 900,
+                              cursor: "pointer",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {filter.label}{" "}
+                            {filter.count}
+                          </button>
+                        );
+                      }
+                    )}
+                  </div>
+                </div>
+              )}
+
               {pantry.length === 0 ? (
                 <div
                   style={{
@@ -1011,7 +1315,123 @@ export default function PlanPage({
                 </div>
               ) : (
                 <div style={pantryListStyle}>
-                  {pantry.map((item) => {
+                  {pantryGroups.map(
+                    (
+                      [category, items],
+                      groupIndex
+                    ) => {
+                      const defaultCollapsed =
+                        groupIndex > 0;
+
+                      const isCollapsed =
+                        pantryFiltering
+                          ? false
+                          : collapsedPantryCategories[
+                              category
+                            ] ??
+                            defaultCollapsed;
+
+                      return (
+                        <div
+                          key={category}
+                          style={{
+                            display: "grid",
+                            gap: 8,
+                          }}
+                        >
+                          <button
+                            type="button"
+                            onClick={() =>
+                              togglePantryCategory(
+                                category,
+                                defaultCollapsed
+                              )
+                            }
+                            style={{
+                              width: "100%",
+                              minHeight: 42,
+                              padding: "9px 11px",
+                              borderRadius: 14,
+                              border:
+                                "1px solid rgba(255,255,255,0.08)",
+                              background:
+                                "rgba(255,255,255,0.035)",
+                              color: "white",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent:
+                                "space-between",
+                              gap: 10,
+                              cursor: "pointer",
+                              textAlign: "left",
+                            }}
+                          >
+                            <span
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 8,
+                                minWidth: 0,
+                              }}
+                            >
+                              {isCollapsed ? (
+                                <ChevronRight
+                                  size={16}
+                                  style={{
+                                    opacity: 0.55,
+                                    flexShrink: 0,
+                                  }}
+                                />
+                              ) : (
+                                <ChevronDown
+                                  size={16}
+                                  style={{
+                                    opacity: 0.55,
+                                    flexShrink: 0,
+                                  }}
+                                />
+                              )}
+
+                              <span
+                                style={{
+                                  fontSize: 13,
+                                  fontWeight: 900,
+                                }}
+                              >
+                                {
+                                  pantryCategoryLabels[
+                                    category
+                                  ]
+                                }
+                              </span>
+                            </span>
+
+                            <span
+                              style={{
+                                minWidth: 28,
+                                padding: "3px 7px",
+                                borderRadius: 999,
+                                background:
+                                  "rgba(255,255,255,0.06)",
+                                color:
+                                  "rgba(255,255,255,0.62)",
+                                fontSize: 10,
+                                fontWeight: 900,
+                                textAlign: "center",
+                              }}
+                            >
+                              {items.length}
+                            </span>
+                          </button>
+
+                          {!isCollapsed && (
+                            <div
+                              style={{
+                                display: "grid",
+                                gap: 8,
+                              }}
+                            >
+                              {items.map((item) => {
                     const canDecrease =
                       typeof item.quantity ===
                         "number" &&
@@ -1507,7 +1927,34 @@ export default function PlanPage({
                         </div>
                       </div>
                     );
-                  })}
+                              })}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    }
+                  )}
+
+                  {pantryGroups.length === 0 && (
+                    <div
+                      style={{
+                        padding: "16px",
+                        borderRadius: 16,
+                        background:
+                          "rgba(255,255,255,0.025)",
+                        border:
+                          "1px dashed rgba(255,255,255,0.1)",
+                        fontSize: 13,
+                        lineHeight: 1.45,
+                        opacity: 0.62,
+                        textAlign: "center",
+                      }}
+                    >
+                      {t(
+                        "plan.pantryNoMatches"
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
 
