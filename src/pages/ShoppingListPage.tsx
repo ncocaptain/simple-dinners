@@ -2107,6 +2107,16 @@ function resolveShoppingCategoryForItem(
   const rawBrandName = normalizeManualText(name).toLowerCase();
   const cleaned = cleanIngredientName(name).toLowerCase();
 
+  // Preserve the shopper identity of fresh herbs before recipe cleanup
+  // strips "fresh" and broad spice matching sees only "basil", "thyme", etc.
+  if (
+    /^fresh\s+(?:basil|dill|thyme|rosemary|sage|mint|chives|parsley|cilantro)$/.test(
+      rawBrandName
+    )
+  ) {
+    return "Produce";
+  }
+
   // Recognizable beverage brands must win before broad Pantry matches.
   // Example: "Sprite Zero Sugar" should not match "sugar" -> Pantry.
   if (
