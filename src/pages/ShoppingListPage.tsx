@@ -2078,6 +2078,10 @@ function resolveShoppingCategory(name: string): GroceryCategory {
   if (isBakeryBreadItem(cleaned)) return "Bakery";
   if (isFrozenVegetableItem(cleaned)) return "Frozen";
 
+  if (cleaned.includes("pesto")) {
+    return "Pantry";
+  }
+
   if (
     isSalsaPantryItem(cleaned) ||
     isCornstarchPantryItem(cleaned) ||
@@ -3687,13 +3691,28 @@ export default function ShoppingListPage() {
       // Recipe ingredient path
       // =====================================================
       const smartItem = item as ShoppingItemWithSmartMeta;
-      const recipeIngredientText = String(
-        smartItem.recipeIngredientText || item.text || ""
-      );
+
+      const preservedRecipeIngredientText = String(
+        smartItem.recipeIngredientText || ""
+      ).trim();
+
+      const recipeIngredientText =
+        preservedRecipeIngredientText ||
+        String(item.text || "");
+
       const cleanedRaw = cleanIngredientName(recipeIngredientText);
       const parsed = parseIngredient(recipeIngredientText);
       const savedName = String(smartItem.normalizedName || "").trim().toLowerCase();
       const parsedName = parsed.name || cleanedRaw;
+
+      // Untouched recipe rows retain recipeIngredientText. Treat that preserved
+      // source as authoritative so older saved rows pick up newer cleanup rules.
+      // Pencil edits are converted to manual rows, so user wording is protected.
+      const shouldRefreshFromRecipeText =
+        Boolean(
+          preservedRecipeIngredientText &&
+          parsedName
+        );
 
       // Prefer the freshly parsed name when an older saved item only kept a
       // vague name like "cheese". This lets updated cleanup rules fix existing
@@ -3720,13 +3739,15 @@ export default function ShoppingListPage() {
 
       const cleanedName = preferLegacyCrushedRedPepper
         ? "red pepper flakes"
-        : savedName &&
-            savedName !== "cheese" &&
-            !savedName.startsWith("about ") &&
-            !preferParsedSalmonFillet &&
-            !preferParsedCitrusJuice
-          ? savedName
-          : parsedName || savedName;
+        : shouldRefreshFromRecipeText
+          ? parsedName || savedName
+          : savedName &&
+              savedName !== "cheese" &&
+              !savedName.startsWith("about ") &&
+              !preferParsedSalmonFillet &&
+              !preferParsedCitrusJuice
+            ? savedName
+            : parsedName || savedName;
 
       if (shouldHideShoppingItem(cleanedName)) continue;
 
@@ -3734,7 +3755,9 @@ export default function ShoppingListPage() {
       // original recipe text has a real measurement such as "10 oz".
       // Only prefer the saved unit when it actually contains a value.
       const savedUnit = String(smartItem.unit ?? "").trim();
-      let parsedUnit = savedUnit || parsed.unit;
+      let parsedUnit = shouldRefreshFromRecipeText
+        ? parsed.unit
+        : savedUnit || parsed.unit;
 
       if (parsedUnit === "__count__") {
         parsedUnit = null;
@@ -3743,13 +3766,17 @@ export default function ShoppingListPage() {
       parsedUnit = normalizeUnit(parsedUnit);
 
       let parsedQuantity =
-        typeof smartItem.quantity === "number"
-          ? smartItem.quantity
-          : parsed.quantity ?? null;
+        shouldRefreshFromRecipeText
+          ? parsed.quantity ?? null
+          : typeof smartItem.quantity === "number"
+            ? smartItem.quantity
+            : parsed.quantity ?? null;
 
       let packageSize =
-        normalizePackageSize(smartItem.packageSize) ||
-        normalizePackageSize(parsed.packageSize);
+        shouldRefreshFromRecipeText
+          ? normalizePackageSize(parsed.packageSize)
+          : normalizePackageSize(smartItem.packageSize) ||
+            normalizePackageSize(parsed.packageSize);
 
       const preNormalizedName = cleanIngredientName(cleanedName)
         .toLowerCase()
