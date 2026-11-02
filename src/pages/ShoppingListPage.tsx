@@ -4424,7 +4424,22 @@ export default function ShoppingListPage() {
         shouldShowMeasuredTotal(value.name, value.unit, value.totalQuantity) &&
         !shouldHideMainRowAmount(value.name, value.unit)
       ) {
-        const formattedName = formatDisplayName(value.name);
+        const weightedCutNames = new Set([
+          "chicken breast",
+          "chicken thigh",
+          "drumstick",
+          "pork chop",
+          "salmon fillet",
+          "lobster tail",
+        ]);
+
+        const measuredDisplayName =
+          (value.unit === "lb" || value.unit === "oz") &&
+          weightedCutNames.has(value.name)
+            ? pluralizeCountable(value.name, 2)
+            : value.name;
+
+        const formattedName = formatDisplayName(measuredDisplayName);
 
         const packageText =
           value.packageSize && isPackageSizeSensitiveUnit(value.unit)
