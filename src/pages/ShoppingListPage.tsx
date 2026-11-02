@@ -3816,10 +3816,6 @@ export default function ShoppingListPage() {
         safeName = "diced tomatoes";
       }
 
-      const cookedRiceSource = /\bcooked\s+(?:white\s+|brown\s+)?rice\b/i.test(
-        preservedRecipeIngredientText
-      );
-
       if (safeName === "cooked white rice") {
         safeName = "white rice";
       } else if (safeName === "cooked brown rice") {
