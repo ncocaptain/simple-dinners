@@ -111,6 +111,16 @@ const CATEGORY_KEYWORDS: Array<{
       "sweet potato",
       "sweet potatoes",
       "fresh herbs",
+      "bean sprouts",
+      "beets",
+      "fresh fruit",
+      "fresh kale",
+      "kale",
+      "fresh sage",
+      "parsnip",
+      "parsnips",
+      "peach",
+      "peaches",
     ],
   },
   {
@@ -154,6 +164,11 @@ const CATEGORY_KEYWORDS: Array<{
       "sea scallop",
       "sea scallops",
       "ground chicken",
+      "brisket",
+      "duck legs",
+      "duck leg",
+      "ground chuck",
+      "ground lamb",
     ],
   },
   {
@@ -203,6 +218,8 @@ const CATEGORY_KEYWORDS: Array<{
       "pizza dough",
       "prepared pizza dough",
       "dough",
+      "croissant",
+      "croissants",
     ],
   },
   {
@@ -278,6 +295,53 @@ const CATEGORY_KEYWORDS: Array<{
       "beef broth",
       "chicken seasoning",
       "prepared sauce",
+      "baking powder",
+      "chocolate chips",
+      "semi-sweet chocolate chips",
+      "semisweet chocolate chips",
+      "kalamata olives",
+      "black olives",
+      "olives",
+      "pickle relish",
+      "relish",
+      "sprinkles",
+      "active dry yeast",
+      "yeast",
+      "balsamic vinaigrette",
+      "vinaigrette",
+      "bisquick",
+      "burger sauce",
+      "peanuts",
+      "walnuts",
+      "caramel dip",
+      "chocolate sauce",
+      "chocolate syrup",
+      "chocolate shavings",
+      "complete pancake mix",
+      "pancake mix",
+      "cookies",
+      "couscous",
+      "dark chocolate",
+      "dark chocolate baking chips",
+      "fettuccine",
+      "frank s redhot",
+      "franks redhot",
+      "dried ancho chiles",
+      "dried ancho chile",
+      "dried guajillo chiles",
+      "dried guajillo chile",
+      "fry sauce",
+      "gravy",
+      "gummy worms",
+      "hoisin sauce",
+      "jam",
+      "maraschino cherries",
+      "marshmallows",
+      "molasses",
+      "orzo",
+      "oyster sauce",
+      "pad thai sauce",
+      "pickle slices",
     ],
   },
   {
@@ -307,6 +371,10 @@ const CATEGORY_KEYWORDS: Array<{
       "smoked paprika",
       "seasoned salt",
       "chicken seasoning",
+      "bay leaf",
+      "bay leaves",
+      "chipotle powder",
+      "ground cloves",
     ],
   },
   {
@@ -502,6 +570,8 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
     normalized === "oreos" ||
     normalized.startsWith("oreo ") ||
     normalized.startsWith("oreos ") ||
+    normalized.endsWith(" oreo") ||
+    normalized.endsWith(" oreos") ||
     normalized === "doritos" ||
     normalized.startsWith("doritos ") ||
     normalized === "lays" ||
@@ -531,9 +601,17 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
   // Refrigerated deli items.
   if (
     normalized === "hummus" ||
+    normalized === "kimchi" ||
     normalized === "guacamole" ||
     normalized === "fresh guacamole" ||
-    normalized === "prepared guacamole"
+    normalized === "prepared guacamole" ||
+    normalized === "tofu" ||
+    normalized === "firm tofu" ||
+    normalized === "extra-firm tofu" ||
+    normalized === "extra firm tofu" ||
+    normalized === "block firm tofu" ||
+    normalized === "block extra-firm tofu" ||
+    normalized === "block extra firm tofu"
   ) {
     return "Deli / Refrigerated";
   }
