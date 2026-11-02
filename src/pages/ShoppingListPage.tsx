@@ -4109,6 +4109,7 @@ export default function ShoppingListPage() {
             safeName
           )
         );
+
       const isMeasured = !forceCountable && parsedUnit !== null;
       const isCountable =
         forceCountable || (!isMeasured && isCountableIngredient(safeName));
