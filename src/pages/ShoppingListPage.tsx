@@ -4101,12 +4101,18 @@ export default function ShoppingListPage() {
         packageSize = "";
       }
 
-      const forceCountable =
-        FORCE_COUNTABLE_RECIPE_ITEMS.has(safeName) ||
-        SMART_SHOPPING_FORCE_COUNTABLE_ITEMS.has(
-          safeName
-        );
+      const hasPurchaseWeight =
+        parsedUnit === "lb" ||
+        parsedUnit === "oz";
 
+      const forceCountable =
+        !hasPurchaseWeight &&
+        (
+          FORCE_COUNTABLE_RECIPE_ITEMS.has(safeName) ||
+          SMART_SHOPPING_FORCE_COUNTABLE_ITEMS.has(
+            safeName
+          )
+        );
       const isMeasured = !forceCountable && parsedUnit !== null;
       const isCountable =
         forceCountable || (!isMeasured && isCountableIngredient(safeName));
