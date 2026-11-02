@@ -180,10 +180,6 @@ const CATEGORY_KEYWORDS: Array<{
       "swiss",
       "cream cheese",
       "cottage cheese",
-      "tofu",
-      "firm tofu",
-      "extra-firm tofu",
-      "extra firm tofu",
     ],
   },
   {
@@ -560,7 +556,14 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
     normalized === "hummus" ||
     normalized === "guacamole" ||
     normalized === "fresh guacamole" ||
-    normalized === "prepared guacamole"
+    normalized === "prepared guacamole" ||
+    normalized === "tofu" ||
+    normalized === "firm tofu" ||
+    normalized === "extra-firm tofu" ||
+    normalized === "extra firm tofu" ||
+    normalized === "block firm tofu" ||
+    normalized === "block extra-firm tofu" ||
+    normalized === "block extra firm tofu"
   ) {
     return "Deli / Refrigerated";
   }
