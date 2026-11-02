@@ -955,6 +955,14 @@ export const INGREDIENT_REGISTRY: CanonicalIngredient[] = [
     grocerySearchName: "fresh dill",
     mergePolicy: "same-package",
   },
+  {
+    id: "basil-pesto",
+    canonicalName: "Basil Pesto",
+    category: "Pantry",
+    grocerySearchName: "basil pesto",
+    aliases: ["pesto"],
+    mergePolicy: "same-package",
+  },
 ];
 
 function normalizeRegistryKey(

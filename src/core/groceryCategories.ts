@@ -590,6 +590,11 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
     return "Pantry";
   }
 
+  // Pesto is a prepared sauce/spread, not a dried seasoning.
+  if (normalized.includes("pesto")) {
+    return "Pantry";
+  }
+
   // Frozen branded breakfast items must win before generic "egg" matching.
   if (
     normalized === "eggo" ||
