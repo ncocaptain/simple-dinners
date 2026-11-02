@@ -2107,8 +2107,7 @@ function resolveShoppingCategoryForItem(
   const rawBrandName = normalizeManualText(name).toLowerCase();
   const cleaned = cleanIngredientName(name).toLowerCase();
 
-  // Preserve the shopper identity of fresh herbs before recipe cleanup
-  // strips "fresh" and broad spice matching sees only "basil", "thyme", etc.
+  // Preserve fresh-herb identity before cleanup strips "fresh".
   if (
     /^fresh\s+(?:basil|dill|thyme|rosemary|sage|mint|chives|parsley|cilantro)$/.test(
       rawBrandName
