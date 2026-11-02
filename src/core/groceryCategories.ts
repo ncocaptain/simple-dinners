@@ -288,6 +288,7 @@ const CATEGORY_KEYWORDS: Array<{
       "pizza sauce",
       "jar pizza sauce",
       "stir fry sauce",
+      "teriyaki sauce",
       "worcestershire sauce",
       "sesame seeds",
       "pickles",

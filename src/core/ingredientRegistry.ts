@@ -963,6 +963,25 @@ export const INGREDIENT_REGISTRY: CanonicalIngredient[] = [
     aliases: ["pesto"],
     mergePolicy: "same-package",
   },
+  {
+    id: "teriyaki-sauce",
+    canonicalName: "Teriyaki Sauce",
+    category: "Pantry",
+    grocerySearchName: "teriyaki sauce",
+    mergePolicy: "same-unit",
+  },
+  {
+    id: "extra-firm-tofu",
+    canonicalName: "Extra-Firm Tofu",
+    category: "Deli / Refrigerated",
+    grocerySearchName: "extra firm tofu",
+    aliases: [
+      "extra-firm tofu",
+      "block extra-firm tofu",
+      "block extra firm tofu",
+    ],
+    mergePolicy: "same-package",
+  },
 ];
 
 function normalizeRegistryKey(

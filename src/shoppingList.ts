@@ -332,6 +332,8 @@ function normalizeUnit(unit?: string) {
     cans: "can",
     package: "package",
     packages: "package",
+    block: "block",
+    blocks: "block",
     pkg: "package",
     pkgs: "package",
     box: "box",
@@ -381,6 +383,7 @@ function pluralizeUnit(unit: string, quantity: number | null | undefined) {
     clove: "cloves",
     can: "cans",
     package: "packages",
+    block: "blocks",
     box: "boxes",
     strip: "strips",
     slice: "slices",
@@ -1165,6 +1168,20 @@ function normalizeIngredientCore(text: string) {
   next = next.replace(/\b(and|or|with)$/g, "").trim();
   next = cleanupSpacing(next);
 
+  const originalIngredientTextForIdentity = normalizeAscii(text);
+
+  if (/\bextra[- ]firm tofu\b/.test(originalIngredientTextForIdentity)) {
+    next = "extra-firm tofu";
+  }
+
+  if (/\bcooked white rice\b/.test(originalIngredientTextForIdentity)) {
+    next = "white rice";
+  } else if (/\bcooked brown rice\b/.test(originalIngredientTextForIdentity)) {
+    next = "brown rice";
+  } else if (/\bcooked rice\b/.test(originalIngredientTextForIdentity)) {
+    next = "rice";
+  }
+
   if (!next || next.length < 2) return "";
   if (/^[^a-z]+$/i.test(next)) return "";
 
@@ -1404,12 +1421,48 @@ if (baconRangeMatch) {
   if (normalizedName === "baby bella mushrooms") {
     const packageOz = getOzFromPackageSize(packageSize);
 
-    if (packageOz && (!unit || unit === "oz")) {
+    if (packageOz && unit === "package") {
+      const packageCount = quantity ?? 1;
+      unit = "oz";
+      quantity = packageCount * packageOz;
+      packageSize = "";
+    } else if (packageOz && (!unit || unit === "oz")) {
       unit = "oz";
       quantity = packageOz;
+      packageSize = "";
     } else if (!unit || unit === "cup" || unit === "Tbsp" || unit === "tsp") {
       unit = "oz";
       quantity = 8;
+      packageSize = "";
+    }
+  }
+
+  const packageWeightMatch = packageSize.match(
+    /^(\d+(?:\.\d+)?)\s*(lb|oz)$/i
+  );
+
+  if (
+    packageWeightMatch &&
+    !unit &&
+    [
+      "chicken breast",
+      "chicken thigh",
+      "drumstick",
+      "pork chop",
+      "bone-in pork chop",
+      "chuck roast",
+      "salmon fillet",
+      "lobster tail",
+    ].includes(normalizedName)
+  ) {
+    const packageWeight = Number(packageWeightMatch[1]);
+    const packageWeightUnit = normalizeUnit(packageWeightMatch[2]);
+    const itemCount = quantity ?? 1;
+
+    if (Number.isFinite(packageWeight) && packageWeightUnit) {
+      unit = packageWeightUnit;
+      quantity = itemCount * packageWeight;
+      packageSize = "";
     }
   }
 
@@ -1683,6 +1736,7 @@ const PANTRY_CATEGORY_KEYWORDS = [
   "buffalo sauce",
   "bbq sauce",
   "barbecue sauce",
+  "teriyaki sauce",
   "french fried onion",
   "fried onion",
   "tortilla chips",
