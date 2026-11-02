@@ -256,6 +256,12 @@ function main() {
   const unmappedCounts =
     new Map();
 
+  const otherIdentityCounts =
+    new Map();
+
+  const noiseIdentityCounts =
+    new Map();
+
   const categoryByIdentity =
     new Map();
 
@@ -367,6 +373,11 @@ function main() {
         preview.category ===
         "Other"
       ) {
+        addCount(
+          otherIdentityCounts,
+          identity
+        );
+
         otherCategory.push({
           recipe: recipeName,
           raw: line,
@@ -386,6 +397,11 @@ function main() {
           noisyText
         )
       ) {
+        addCount(
+          noiseIdentityCounts,
+          identity
+        );
+
         suspiciousNoise.push({
           recipe: recipeName,
           raw: line,
@@ -578,6 +594,16 @@ function main() {
         unmappedCounts,
         40
       ),
+    topOtherCategory:
+      topEntries(
+        otherIdentityCounts,
+        30
+      ),
+    topRecipeNoise:
+      topEntries(
+        noiseIdentityCounts,
+        30
+      ),
     otherCategory:
       otherCategory.slice(
         0,
@@ -684,6 +710,79 @@ function main() {
         item.count
       ).padStart(3)}  ${item.name}`
     );
+  }
+
+  console.log(
+    "\nMost common items landing in Other:"
+  );
+
+  if (
+    report.topOtherCategory.length ===
+    0
+  ) {
+    console.log("  None");
+  } else {
+    for (
+      const item of
+      report.topOtherCategory.slice(
+        0,
+        20
+      )
+    ) {
+      console.log(
+        `  ${String(
+          item.count
+        ).padStart(3)}  ${item.name}`
+      );
+    }
+  }
+
+  console.log(
+    "\nRecipe-noise warnings:"
+  );
+
+  if (
+    report.suspiciousNoise.length ===
+    0
+  ) {
+    console.log("  None");
+  } else {
+    for (
+      const item of
+      report.suspiciousNoise.slice(
+        0,
+        20
+      )
+    ) {
+      console.log(
+        `  [${item.recipe}] ${item.raw} -> ${item.display}`
+      );
+    }
+  }
+
+  console.log(
+    "\nCategory conflicts:"
+  );
+
+  if (
+    report.categoryConflicts.length ===
+    0
+  ) {
+    console.log("  None");
+  } else {
+    for (
+      const item of
+      report.categoryConflicts.slice(
+        0,
+        20
+      )
+    ) {
+      console.log(
+        `  ${item.identity}: ${item.categories.join(
+          " / "
+        )} (${item.occurrences})`
+      );
+    }
   }
 
   console.log(
