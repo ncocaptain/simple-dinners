@@ -2081,7 +2081,6 @@ function resolveShoppingCategory(name: string): GroceryCategory {
   if (cleaned.includes("pesto")) {
     return "Pantry";
   }
-
   if (
     isSalsaPantryItem(cleaned) ||
     isCornstarchPantryItem(cleaned) ||
@@ -3511,186 +3510,6 @@ export default function ShoppingListPage() {
       // =====================================================
       if (isManualItem) {
         const smartItem = item as ShoppingItemWithSmartMeta;
-        const manual = parseManualShoppingItem(
-          String(item.text || smartItem.normalizedName || "")
-        );
-
-        if (shouldHideManualShoppingItem(manual.name)) continue;
-
-        const unit = normalizeUnit(
-          smartItem.unit !== undefined && smartItem.unit !== null
-            ? smartItem.unit
-            : manual.unit
-        );
-
-        const quantity =
-          typeof smartItem.quantity === "number"
-            ? smartItem.quantity
-            : manual.quantity;
-
-        const packageSize =
-          normalizePackageSize(smartItem.packageSize) ||
-          normalizePackageSize(manual.packageSize);
-
-        const approvedSmartName =
-          canonicalizeSmartShoppingName(
-            String(
-              smartItem.grocerySearchName ||
-              smartItem.normalizedName ||
-              ""
-            )
-          );
-
-        const hasApprovedSmartIdentity =
-          approvedSmartName.length > 0;
-
-        // Once approved, the Smart Shopping identity takes
-        // priority over descriptive variations in the raw text.
-        const mergeName =
-          hasApprovedSmartIdentity
-            ? approvedSmartName
-            : quantity !== null
-              ? singularizeManualPhrase(
-                manual.name
-              )
-              : normalizeManualText(
-                manual.name
-              ).toLowerCase();
-
-        // A plain manual countable item such as "white onion"
-        // reasonably means one item and may merge with a matching
-        // recipe ingredient. Non-countable manual entries remain
-        // protected unless the user supplied a real quantity.
-        const manualLooksCountable =
-          !unit &&
-          (
-            FORCE_COUNTABLE_RECIPE_ITEMS.has(
-              mergeName
-            ) ||
-            SMART_SHOPPING_FORCE_COUNTABLE_ITEMS.has(
-              mergeName
-            ) ||
-            isCountableIngredient(mergeName)
-          );
-
-        const effectiveQuantity =
-          quantity !== null
-            ? quantity
-            : manualLooksCountable
-              ? 1
-              : null;
-
-        const canMergeWithRecipe =
-          effectiveQuantity !== null &&
-          (hasApprovedSmartIdentity || manualLooksCountable);
-
-        const manualIsCountable =
-          canMergeWithRecipe &&
-          manualLooksCountable;
-
-        const mergeUnit =
-          manualIsCountable
-            ? "__count__"
-            : unit;
-
-        // Keep the shopper-entered name authoritative for category.
-        // Smart Shopping identity still controls merging separately.
-        const categoryName = manual.name;
-
-        const category =
-          resolveShoppingCategoryForItem(
-            categoryName,
-            mergeUnit,
-            packageSize
-          );
-
-        const packageKey =
-          packageSize &&
-            isPackageSizeSensitiveUnit(mergeUnit)
-            ? packageSize
-            : "";
-
-        const key = canMergeWithRecipe
-          ? `recipe::${category}::${mergeName}::${mergeUnit || ""}::${packageKey}`
-          : quantity !== null ||
-            hasApprovedSmartIdentity
-            ? `manual::${category}::${mergeName}::${unit || ""}::${packageSize}`
-            : `manual::${category}::${mergeName}::${item.id}`;
-
-        const quantityToAdd =
-          effectiveQuantity !== null
-            ? manualIsCountable
-              ? Math.ceil(effectiveQuantity)
-              : effectiveQuantity
-            : 0;
-
-        const existing = map.get(key);
-
-        if (existing) {
-          existing.sourceIds.push(item.id);
-          existing.count += 1;
-          existing.checked = existing.checked && item.checked;
-
-          if (quantityToAdd > 0) {
-            existing.totalQuantity += quantityToAdd;
-            existing.minQuantity += quantityToAdd;
-            existing.maxQuantity += quantityToAdd;
-          }
-
-          if (
-            existing.unit !== mergeUnit ||
-            existing.packageSize !== packageSize
-          ) {
-            if (
-              existing.unit !== null ||
-              mergeUnit !== null ||
-              existing.packageSize ||
-              packageSize
-            ) {
-              existing.mixedUnits = true;
-            }
-          }
-        } else {
-          map.set(key, {
-            checked: item.checked,
-            category,
-            sourceIds: [item.id],
-            count: 1,
-
-            name:
-              canMergeWithRecipe ||
-                quantity !== null ||
-                hasApprovedSmartIdentity
-                ? mergeName
-                : manual.name,
-
-            // An approved, measured manual item uses the same
-            // shopper-facing formatting as compatible recipe items.
-            // It remains a separate raw row underneath.
-            isManual: !canMergeWithRecipe,
-            isCountable: manualIsCountable,
-
-            totalQuantity: quantityToAdd,
-            minQuantity: quantityToAdd,
-            maxQuantity: quantityToAdd,
-
-            unit: mergeUnit ?? null,
-            packageSize,
-            mixedUnits: false,
-
-            // Manual rows do not pretend to be recipes.
-            recipeNames: new Set(),
-            recipeBreakdown: new Map(),
-          });
-        }
-
-        continue;
-      }
-
-      // =====================================================
-      // Recipe ingredient path
-      // =====================================================
-      const smartItem = item as ShoppingItemWithSmartMeta;
 
       const preservedRecipeIngredientText = String(
         smartItem.recipeIngredientText || ""
@@ -3713,7 +3532,6 @@ export default function ShoppingListPage() {
           preservedRecipeIngredientText &&
           parsedName
         );
-
       // Prefer the freshly parsed name when an older saved item only kept a
       // vague name like "cheese". This lets updated cleanup rules fix existing
       // list items such as "shredded cheese" -> "cheddar cheese".
@@ -3748,7 +3566,6 @@ export default function ShoppingListPage() {
               !preferParsedCitrusJuice
             ? savedName
             : parsedName || savedName;
-
       if (shouldHideShoppingItem(cleanedName)) continue;
 
       // An older saved row may contain an empty unit even when the
@@ -3758,7 +3575,6 @@ export default function ShoppingListPage() {
       let parsedUnit = shouldRefreshFromRecipeText
         ? parsed.unit
         : savedUnit || parsed.unit;
-
       if (parsedUnit === "__count__") {
         parsedUnit = null;
       }
@@ -3777,7 +3593,6 @@ export default function ShoppingListPage() {
           ? normalizePackageSize(parsed.packageSize)
           : normalizePackageSize(smartItem.packageSize) ||
             normalizePackageSize(parsed.packageSize);
-
       const preNormalizedName = cleanIngredientName(cleanedName)
         .toLowerCase()
         .replace(/\bbone-in pork chops?\b/g, "pork chop");
