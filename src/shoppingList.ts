@@ -2657,6 +2657,109 @@ export function addSidesToList(
 }
 
 // =====================================================
+// Builder: preview one recipe ingredient through the
+// exact Shopping List normalization path.
+// =====================================================
+export type ShoppingIngredientPreview = {
+  kind: "ingredient" | "prepared-side";
+  displayText: string;
+  grocerySearchName: string;
+  category: GroceryCategory;
+  normalizedName: string;
+  quantity: number | null;
+  unit: string;
+  packageSize: string;
+};
+
+export function previewRecipeIngredientForShopping(
+  line: string
+): ShoppingIngredientPreview | null {
+  const looksLikeMeasuredIngredient = new RegExp(
+    `^\\s*(?:${QUANTITY_PATTERN})\\s+(?:${UNIT_PATTERN})\\b`,
+    "i"
+  ).test(line);
+
+  const sideName = looksLikeMeasuredIngredient
+    ? ""
+    : normalizeSideSuggestionText(line);
+
+  if (
+    sideName &&
+    isPreparedSideName(sideName)
+  ) {
+    const displayText =
+      formatSmartName(sideName);
+
+    return {
+      kind: "prepared-side",
+      displayText,
+      grocerySearchName:
+        buildGrocerySearchName(
+          sideName
+        ),
+      category:
+        resolveShoppingCategory(
+          sideName
+        ),
+      normalizedName:
+        sideName,
+      quantity: null,
+      unit: "",
+      packageSize: "",
+    };
+  }
+
+  const parsed =
+    parseIngredientParts(line);
+
+  if (
+    !parsed.normalizedName ||
+    shouldHideShoppingItem(
+      parsed.normalizedName
+    )
+  ) {
+    return null;
+  }
+
+  const safeNormalizedName =
+    normalizeContainerIngredientName(
+      parsed.normalizedName,
+      parsed.unit
+    );
+
+  const displayText =
+    buildDisplayText(
+      safeNormalizedName,
+      parsed.quantity,
+      parsed.unit,
+      parsed.packageSize
+    );
+
+  return {
+    kind: "ingredient",
+    displayText,
+    grocerySearchName:
+      buildGrocerySearchName(
+        safeNormalizedName
+      ),
+    category:
+      resolveShoppingCategoryForItem(
+        safeNormalizedName,
+        parsed.unit,
+        parsed.packageSize
+      ),
+    normalizedName:
+      safeNormalizedName,
+    quantity:
+      parsed.quantity,
+    unit:
+      parsed.unit,
+    packageSize:
+      parsed.packageSize,
+  };
+}
+
+// =====================================================
 // Builder: add recipe ingredients to shopping list
 // =====================================================
 export function addIngredientsToList(
@@ -2673,83 +2776,53 @@ export function addIngredientsToList(
   const newItems: ShoppingItem[] = [];
 
   for (const line of lines) {
-    const looksLikeMeasuredIngredient = new RegExp(
-      `^\\s*(?:${QUANTITY_PATTERN})\\s+(?:${UNIT_PATTERN})\\b`,
-      "i"
-    ).test(line);
-
-    const sideName = looksLikeMeasuredIngredient
-      ? ""
-      : normalizeSideSuggestionText(line);
-
-    if (sideName && isPreparedSideName(sideName)) {
-      const id = `${makeId(sideName)}-${makeId(recipeName || "recipe")}-${makeId(
+    const preview =
+      previewRecipeIngredientForShopping(
         line
-      )}-${now}-${newItems.length}`;
+      );
 
-      const displayText = formatSmartName(sideName);
-
-      newItems.push({
-        id,
-        text: displayText,
-        displayText,
-        grocerySearchName: buildGrocerySearchName(sideName),
-        checked: false,
-        addedAt: now,
-        category: resolveShoppingCategory(sideName),
-        sourceRecipe: recipeName
-  ? `${recipeName} sides`
-  : "Suggested sides",
-        normalizedName: sideName,
-        quantity: null,
-        unit: "",
-        packageSize: "",
-      });
-
+    if (!preview) {
       continue;
     }
 
-    const parsed = parseIngredientParts(line);
-
-    if (!parsed.normalizedName || shouldHideShoppingItem(parsed.normalizedName)) {
-      continue;
-    }
-
-    const safeNormalizedName = normalizeContainerIngredientName(
-      parsed.normalizedName,
-      parsed.unit
-    );
-
-    // keep items separate per recipe/line so UI can merge/count later
-    const id = `${makeId(safeNormalizedName)}-${makeId(recipeName || "recipe")}-${makeId(
-      line
-    )}-${now}-${newItems.length}`;
-
-    const text = buildDisplayText(
-      safeNormalizedName,
-      parsed.quantity,
-      parsed.unit,
-      parsed.packageSize
-    );
+    const id = `${makeId(
+      preview.normalizedName
+    )}-${makeId(
+      recipeName || "recipe"
+    )}-${makeId(line)}-${now}-${newItems.length}`;
 
     newItems.push({
       id,
-      text,
-      displayText: text,
-      grocerySearchName: buildGrocerySearchName(safeNormalizedName),
+      text:
+        preview.displayText,
+      displayText:
+        preview.displayText,
+      grocerySearchName:
+        preview.grocerySearchName,
       checked: false,
       addedAt: now,
-      category: resolveShoppingCategoryForItem(
-        safeNormalizedName,
-        parsed.unit,
-        parsed.packageSize
-      ),
-      sourceRecipe: recipeName || "",
-      recipeIngredientText: line,
-      normalizedName: safeNormalizedName,
-      quantity: parsed.quantity,
-      unit: parsed.unit,
-      packageSize: parsed.packageSize,
+      category:
+        preview.category,
+      sourceRecipe:
+        preview.kind ===
+        "prepared-side"
+          ? recipeName
+            ? `${recipeName} sides`
+            : "Suggested sides"
+          : recipeName || "",
+      recipeIngredientText:
+        preview.kind ===
+        "ingredient"
+          ? line
+          : undefined,
+      normalizedName:
+        preview.normalizedName,
+      quantity:
+        preview.quantity,
+      unit:
+        preview.unit,
+      packageSize:
+        preview.packageSize,
     });
   }
 
