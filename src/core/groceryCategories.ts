@@ -113,6 +113,9 @@ const CATEGORY_KEYWORDS: Array<{
       "fresh herbs",
       "bean sprouts",
       "beets",
+      "fresh fruit",
+      "fresh kale",
+      "kale",
     ],
   },
   {
@@ -157,6 +160,8 @@ const CATEGORY_KEYWORDS: Array<{
       "sea scallops",
       "ground chicken",
       "brisket",
+      "duck legs",
+      "duck leg",
     ],
   },
   {
@@ -206,6 +211,8 @@ const CATEGORY_KEYWORDS: Array<{
       "pizza dough",
       "prepared pizza dough",
       "dough",
+      "croissant",
+      "croissants",
     ],
   },
   {
@@ -299,6 +306,23 @@ const CATEGORY_KEYWORDS: Array<{
       "burger sauce",
       "peanuts",
       "walnuts",
+      "caramel dip",
+      "chocolate sauce",
+      "chocolate syrup",
+      "chocolate shavings",
+      "complete pancake mix",
+      "pancake mix",
+      "cookies",
+      "couscous",
+      "dark chocolate",
+      "dark chocolate baking chips",
+      "fettuccine",
+      "frank s redhot",
+      "franks redhot",
+      "dried ancho chiles",
+      "dried ancho chile",
+      "dried guajillo chiles",
+      "dried guajillo chile",
     ],
   },
   {
@@ -330,6 +354,7 @@ const CATEGORY_KEYWORDS: Array<{
       "chicken seasoning",
       "bay leaf",
       "bay leaves",
+      "chipotle powder",
     ],
   },
   {
@@ -525,6 +550,8 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
     normalized === "oreos" ||
     normalized.startsWith("oreo ") ||
     normalized.startsWith("oreos ") ||
+    normalized.endsWith(" oreo") ||
+    normalized.endsWith(" oreos") ||
     normalized === "doritos" ||
     normalized.startsWith("doritos ") ||
     normalized === "lays" ||
