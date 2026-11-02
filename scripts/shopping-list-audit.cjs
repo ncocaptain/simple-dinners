@@ -761,6 +761,29 @@ function main() {
   }
 
   console.log(
+    "\nRegistry/category mismatches:"
+  );
+
+  if (
+    report.registryCategoryMismatch.length ===
+    0
+  ) {
+    console.log("  None");
+  } else {
+    for (
+      const item of
+      report.registryCategoryMismatch.slice(
+        0,
+        30
+      )
+    ) {
+      console.log(
+        `  [${item.recipe}] ${item.identity}: Shopping=${item.shoppingCategory} / Registry=${item.registryCategory}`
+      );
+    }
+  }
+
+  console.log(
     "\nCategory conflicts:"
   );
 
