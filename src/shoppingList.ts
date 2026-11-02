@@ -1861,7 +1861,8 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     lower.includes("baking soda") ||
     lower.includes("vanilla extract") ||
     lower.includes("marinara sauce") ||
-    lower.includes("cream of chicken soup")
+    lower.includes("cream of chicken soup") ||
+    lower.includes("pesto")
   ) {
     return "Pantry";
   }
@@ -2077,7 +2078,8 @@ function resolveShoppingCategoryForItem(
     lower.includes("baking soda") ||
     lower.includes("vanilla extract") ||
     lower.includes("marinara sauce") ||
-    lower.includes("cream of chicken soup")
+    lower.includes("cream of chicken soup") ||
+    lower.includes("pesto")
   ) {
     return "Pantry";
   }
@@ -2392,16 +2394,38 @@ export function loadShoppingList(): ShoppingItem[] {
         } as ShoppingItem;
       }
 
-      const parsed = parseIngredientParts(item.text || "");
-      const savedNormalizedName = normalizeIngredientName(item.normalizedName || "");
+      const preservedRecipeText = String(
+        item.recipeIngredientText || ""
+      ).trim();
 
-      // Older saved entries may have collapsed "shredded cheese" into generic
-      // "cheese". Prefer the original line parse when it gives us a more
-      // shopper-useful cheese name like "shredded cheddar cheese".
+      const parsed = parseIngredientParts(
+        preservedRecipeText ||
+        item.text ||
+        ""
+      );
+
+      const savedNormalizedName = normalizeIngredientName(
+        item.normalizedName || ""
+      );
+
+      // Untouched recipe rows keep their original recipeIngredientText.
+      // Reparse that preserved source so older Shopping List rows benefit
+      // from newer cleanup/category rules. Pencil-edited rows are converted
+      // to manual items (sourceRecipe = ""), so user edits remain untouched.
+      const shouldRefreshFromRecipeText =
+        Boolean(
+          preservedRecipeText &&
+          parsed.normalizedName
+        );
+
       const shouldPreferParsedName =
         Boolean(parsed.normalizedName) &&
-        ((savedNormalizedName === "cheese" && parsed.normalizedName !== "cheese") ||
-          savedNormalizedName.startsWith("about "));
+        (
+          shouldRefreshFromRecipeText ||
+          (savedNormalizedName === "cheese" &&
+            parsed.normalizedName !== "cheese") ||
+          savedNormalizedName.startsWith("about ")
+        );
 
       const normalizedName = shouldPreferParsedName
         ? parsed.normalizedName
@@ -2412,9 +2436,23 @@ export function loadShoppingList(): ShoppingItem[] {
       if (!normalizedName || shouldHideShoppingItem(normalizedName)) return null;
 
       const quantity =
-        typeof item.quantity === "number" ? item.quantity : parsed.quantity;
-      const unit = normalizeUnit(item.unit || parsed.unit || "");
-      const packageSize = normalizePackageSize(item.packageSize || parsed.packageSize || "");
+        shouldRefreshFromRecipeText
+          ? parsed.quantity
+          : typeof item.quantity === "number"
+            ? item.quantity
+            : parsed.quantity;
+
+      const unit = normalizeUnit(
+        shouldRefreshFromRecipeText
+          ? parsed.unit || ""
+          : item.unit || parsed.unit || ""
+      );
+
+      const packageSize = normalizePackageSize(
+        shouldRefreshFromRecipeText
+          ? parsed.packageSize || ""
+          : item.packageSize || parsed.packageSize || ""
+      );
 
       const safeNormalizedName = normalizeContainerIngredientName(
         normalizedName,
