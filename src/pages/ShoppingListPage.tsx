@@ -3782,9 +3782,8 @@ export default function ShoppingListPage() {
         .replace(/\s+/g, " ")
         .trim();
 
-      // cleanIngredientName intentionally removes many recipe descriptors,
-      // but "fresh" changes the actual grocery identity for herbs. Recover
-      // that distinction from the preserved recipe source before grouping.
+      // Recipe cleanup removes many descriptors, but "fresh" changes the
+      // actual grocery identity for herbs. Recover that from the raw source.
       const freshHerbSourceMatch =
         preservedRecipeIngredientText.match(
           /\bfresh\s+(basil|dill|thyme|rosemary|sage|mint|chives)\b/i
@@ -3794,7 +3793,6 @@ export default function ShoppingListPage() {
         safeName =
           `fresh ${freshHerbSourceMatch[1].toLowerCase()}`;
       }
-
       // Repair older saved wording such as "hot dogs buns".
       if (/\bhot dogs?\s+buns?\b/.test(safeName)) {
         safeName = "hot dog bun";
