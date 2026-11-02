@@ -116,6 +116,11 @@ const CATEGORY_KEYWORDS: Array<{
       "fresh fruit",
       "fresh kale",
       "kale",
+      "fresh sage",
+      "parsnip",
+      "parsnips",
+      "peach",
+      "peaches",
     ],
   },
   {
@@ -162,6 +167,8 @@ const CATEGORY_KEYWORDS: Array<{
       "brisket",
       "duck legs",
       "duck leg",
+      "ground chuck",
+      "ground lamb",
     ],
   },
   {
@@ -323,6 +330,18 @@ const CATEGORY_KEYWORDS: Array<{
       "dried ancho chile",
       "dried guajillo chiles",
       "dried guajillo chile",
+      "fry sauce",
+      "gravy",
+      "gummy worms",
+      "hoisin sauce",
+      "jam",
+      "maraschino cherries",
+      "marshmallows",
+      "molasses",
+      "orzo",
+      "oyster sauce",
+      "pad thai sauce",
+      "pickle slices",
     ],
   },
   {
@@ -355,6 +374,7 @@ const CATEGORY_KEYWORDS: Array<{
       "bay leaf",
       "bay leaves",
       "chipotle powder",
+      "ground cloves",
     ],
   },
   {
@@ -581,6 +601,7 @@ export function categorizeGroceryItem(name: string): GroceryCategory {
   // Refrigerated deli items.
   if (
     normalized === "hummus" ||
+    normalized === "kimchi" ||
     normalized === "guacamole" ||
     normalized === "fresh guacamole" ||
     normalized === "prepared guacamole" ||
