@@ -293,7 +293,11 @@ export const INGREDIENT_REGISTRY: CanonicalIngredient[] = [
     canonicalName: "Shredded Cheddar Cheese",
     category: "Dairy / Eggs",
     grocerySearchName: "shredded cheddar cheese",
-    aliases: ["shredded cheddar"],
+    aliases: [
+      "shredded cheddar",
+      "cheddar cheese, shredded",
+      "cheddar cheese shredded",
+    ],
     mergePolicy: "same-package",
   },
   {
@@ -434,7 +438,6 @@ export const INGREDIENT_REGISTRY: CanonicalIngredient[] = [
     canonicalName: "Dried Thyme",
     category: "Spices / Seasonings",
     grocerySearchName: "dried thyme",
-    aliases: ["thyme"],
     mergePolicy: "same-unit",
   },
   {
@@ -452,17 +455,6 @@ export const INGREDIENT_REGISTRY: CanonicalIngredient[] = [
     grocerySearchName: "tomatoes",
     aliases: ["tomatoes"],
     mergePolicy: "count",
-  },
-  {
-    id: "shredded-cheddar-cheese-common",
-    canonicalName: "Shredded Cheddar Cheese",
-    category: "Dairy / Eggs",
-    grocerySearchName: "shredded cheddar cheese",
-    aliases: [
-      "cheddar cheese, shredded",
-      "cheddar cheese shredded",
-    ],
-    mergePolicy: "same-package",
   },
   {
     id: "chili-powder",
@@ -547,7 +539,6 @@ export const INGREDIENT_REGISTRY: CanonicalIngredient[] = [
     canonicalName: "Sesame Oil",
     category: "Pantry",
     grocerySearchName: "sesame oil",
-    aliases: ["toasted sesame oil"],
     mergePolicy: "same-unit",
   },
 ];
