@@ -510,6 +510,7 @@ function normalizeUnit(unit: string | null): string | null {
   if (["tsp", "teaspoon", "teaspoons"].includes(u)) return "tsp";
   if (["can", "cans"].includes(u)) return "can";
   if (["package", "packages", "pkg", "pkgs"].includes(u)) return "package";
+  if (["block", "blocks"].includes(u)) return "block";
   if (["clove", "cloves"].includes(u)) return "clove";
   if (["box", "boxes"].includes(u)) return "box";
   if (["jar", "jars"].includes(u)) return "jar";
@@ -534,6 +535,7 @@ function pluralizeUnit(unit: string, quantity: number): string {
     if (unit === "tsp") return "tsp";
     if (unit === "can") return "can";
     if (unit === "package") return "package";
+    if (unit === "block") return "block";
     if (unit === "slice") {
       return quantity === 1 ? "slice" : "slices";
     }
@@ -551,6 +553,7 @@ function pluralizeUnit(unit: string, quantity: number): string {
   if (unit === "tsp") return "tsp";
   if (unit === "can") return "cans";
   if (unit === "package") return "packages";
+  if (unit === "block") return "blocks";
   if (unit === "clove") return "cloves";
   if (unit === "box") return quantity === 1 ? "box" : "boxes";
   if (unit === "jar") return quantity === 1 ? "jar" : "jars";
@@ -1314,6 +1317,7 @@ function isPackageSizeSensitiveUnit(unit: string | null) {
   return (
     unit === "can" ||
     unit === "package" ||
+    unit === "block" ||
     unit === "box" ||
     unit === "jar" ||
     unit === "carton" ||
@@ -1374,7 +1378,7 @@ function parseIngredient(line: string): ParsedIngredient {
   }
 
   const measuredRangeMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:-|–|to)\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|box|boxes|clove|cloves|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices|head|heads)\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:-|–|to)\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|box|boxes|clove|cloves|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices|head|heads|block|blocks)\s+(.*)$/i
   );
 
   if (measuredRangeMatch) {
@@ -1411,7 +1415,7 @@ function parseIngredient(line: string): ParsedIngredient {
   }
 
   const measuredMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices|head|heads)\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices|head|heads|block|blocks)\s+(.*)$/i
   );
 
   if (measuredMatch) {
@@ -1506,6 +1510,7 @@ function shouldHideMainRowAmount(name: string, unit: string | null) {
       "oz",
       "can",
       "package",
+      "block",
       "box",
       "jar",
       "carton",
@@ -1586,6 +1591,7 @@ function shouldShowMeasuredTotal(
       "oz",
       "can",
       "package",
+      "block",
       "box",
       "jar",
       "carton",
@@ -1792,6 +1798,7 @@ function isCondimentOilOrVinegarPantryItem(cleaned: string) {
     cleaned === "buffalo sauce" ||
     cleaned === "bbq sauce" ||
     cleaned === "barbecue sauce" ||
+    cleaned === "teriyaki sauce" ||
     cleaned.includes("honey") ||
     cleaned.includes("sesame oil") ||
     cleaned.includes("toasted sesame oil") ||
@@ -2650,7 +2657,7 @@ function parseManualShoppingItem(raw: string): {
       rest = quantityMatch[2].trim();
 
       const unitMatch = rest.match(
-        /^(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags|tube|tubes|packet|packets|strip|strips|slice|slices|head|heads)\s+(.+)$/i
+        /^(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags|tube|tubes|packet|packets|strip|strips|slice|slices|head|heads|block|blocks)\s+(.+)$/i
       );
 
       if (unitMatch) {
@@ -3802,6 +3809,25 @@ export default function ShoppingListPage() {
         safeName =
           `fresh ${freshHerbSourceMatch[1].toLowerCase()}`;
       }
+      // Preserve retailer-important product forms from the raw recipe source.
+      if (/\bfire[- ]roasted diced tomatoes?\b/i.test(preservedRecipeIngredientText)) {
+        safeName = "fire-roasted diced tomatoes";
+      } else if (/\bdiced tomatoes?\b/i.test(preservedRecipeIngredientText)) {
+        safeName = "diced tomatoes";
+      }
+
+      const cookedRiceSource = /\bcooked\s+(?:white\s+|brown\s+)?rice\b/i.test(
+        preservedRecipeIngredientText
+      );
+
+      if (safeName === "cooked white rice") {
+        safeName = "white rice";
+      } else if (safeName === "cooked brown rice") {
+        safeName = "brown rice";
+      } else if (safeName === "cooked rice") {
+        safeName = "rice";
+      }
+
       // Repair older saved wording such as "hot dogs buns".
       if (/\bhot dogs?\s+buns?\b/.test(safeName)) {
         safeName = "hot dog bun";
@@ -4006,14 +4032,51 @@ export default function ShoppingListPage() {
         }
       }
 
-      // Treat loose or cup-measured baby bella mushrooms as the common 8 oz package.
-      // Preserve real package/weight amounts if the recipe already gives oz/lb/package.
+      // A parenthetical meat weight is the purchase amount, not a count.
+      // Example: "1 (3 lb) chuck roast" -> "3 lb Chuck Roast".
+      const packageWeightMatch = packageSize.match(
+        /^(\d+(?:\.\d+)?)\s*(lb|oz)$/i
+      );
+
+      if (
+        packageWeightMatch &&
+        (parsedUnit === "__count__" || !parsedUnit) &&
+        FORCE_COUNTABLE_RECIPE_ITEMS.has(safeName) &&
+        safeName !== "garlic"
+      ) {
+        const packageWeight = Number(packageWeightMatch[1]);
+        const packageWeightUnit = normalizeUnit(packageWeightMatch[2]);
+        const itemCount = parsedQuantity ?? 1;
+
+        if (Number.isFinite(packageWeight) && packageWeightUnit) {
+          parsedUnit = packageWeightUnit;
+          parsedQuantity = itemCount * packageWeight;
+          parsed.minQuantity =
+            (parsed.minQuantity ?? itemCount) * packageWeight;
+          parsed.maxQuantity =
+            (parsed.maxQuantity ?? itemCount) * packageWeight;
+          packageSize = "";
+        }
+      }
+
+      // Treat loose/cup-measured or packaged baby bella mushrooms as weight.
+      // "1 package (8 oz)" and "8 oz" should become the same shopping identity.
       if (safeName === "baby bella mushrooms") {
         const packageOz = getOzFromPackageSize(packageSize);
 
-        if (packageOz && (!parsedUnit || parsedUnit === "oz")) {
+        if (packageOz && parsedUnit === "package") {
+          const packageCount = parsedQuantity ?? 1;
+          parsedUnit = "oz";
+          parsedQuantity = packageCount * packageOz;
+          parsed.minQuantity =
+            (parsed.minQuantity ?? packageCount) * packageOz;
+          parsed.maxQuantity =
+            (parsed.maxQuantity ?? packageCount) * packageOz;
+          packageSize = "";
+        } else if (packageOz && (!parsedUnit || parsedUnit === "oz")) {
           parsedUnit = "oz";
           parsedQuantity = packageOz;
+          packageSize = "";
         } else if (
           !parsedUnit ||
           parsedUnit === "cup" ||
@@ -4022,6 +4085,7 @@ export default function ShoppingListPage() {
         ) {
           parsedUnit = "oz";
           parsedQuantity = 8;
+          packageSize = "";
         }
       }
 
