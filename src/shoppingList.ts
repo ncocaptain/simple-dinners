@@ -188,6 +188,16 @@ function normalizeContainerIngredientName(name: string, unit: string) {
     return "corn";
   }
 
+  // Keep fresh tomatoes distinct from canned generic tomatoes so
+  // retailer search/category logic does not collapse the two products.
+  if (
+    unit === "can" &&
+    (cleaned === "tomato" ||
+      cleaned === "tomatoes")
+  ) {
+    return "canned tomatoes";
+  }
+
   return name;
 }
 
@@ -1109,12 +1119,12 @@ function normalizeIngredientCore(text: string) {
 
   next = preparedSide;
 
-  const protectedManualName = preserveManualShoppingName(next);
-  if (protectedManualName) return protectedManualName;
-
   if (isSectionHeader(next)) return "";
 
+  // Recipe-only notes should never become part of a grocery identity.
+  // Manual Shopping List entries use their own parser and remain untouched.
   next = removeRecipeStylePhrases(next);
+  next = cleanupSpacing(next);
   next = next.replace(/^\s*up to\s+/i, "");
   next = next.replace(/^\s*to\s+/i, "");
   next = normalizePantryAndSeasonings(next);
@@ -2120,6 +2130,28 @@ if (lower.includes("tortilla chips")) {
   }
   const normalizedUnit = normalizeUnit(unit || "");
   const normalizedPackageSize = normalizePackageSize(packageSize || "");
+
+  // Fresh/refrigerated foods can still be sold in bags or packages.
+  // These identities should beat the generic packaged-item Pantry rule.
+  if (
+    lower === "baby bella mushrooms" ||
+    lower === "mushroom" ||
+    lower === "mushrooms" ||
+    lower === "baby spinach" ||
+    lower === "spinach" ||
+    lower === "tomato" ||
+    lower === "tomatoes" ||
+    lower === "cherry tomatoes"
+  ) {
+    return "Produce";
+  }
+
+  if (
+    lower === "cream cheese" ||
+    lower.startsWith("cream cheese ")
+  ) {
+    return "Dairy / Eggs";
+  }
 
   // Bacon stays Meat / Seafood even when recipes specify a package size.
   if (lower === "bacon") {
