@@ -11,6 +11,7 @@ import {
   Flame,
   Utensils,
   CakeSlice,
+  ChefHat,
   Coffee,
   Sandwich,
   Heart,
