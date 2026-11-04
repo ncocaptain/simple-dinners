@@ -112,14 +112,14 @@ const IDENTITY_DESCRIPTORS = new Set([
 ]);
 
 const SECTION_HEADER_PATTERNS = [
-  /seasoning:?$/i,
+  /^seasoning:?$/i,
   /^sauce:?$/i,
-  /glaze:?$/i,
-  /topping:?$/i,
-  /toppings:?$/i,
-  /marinade:?$/i,
-  /dressing:?$/i,
-  /filling:?$/i,
+  /^glaze:?$/i,
+  /^topping:?$/i,
+  /^toppings:?$/i,
+  /^marinade:?$/i,
+  /^dressing:?$/i,
+  /^filling:?$/i,
   /quick chili topping:?$/i,
   /^for .+:?$/i,
   /^main(?: dish)?:?$/i,
