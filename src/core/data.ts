@@ -1,6 +1,7 @@
 import type { Meal } from "./types";
 import { SEASONAL_RECIPES } from "./seasonalRecipes";
 import { KIDS_RECIPES } from "./kidsRecipes";
+import { LITTLE_CHEFS_RECIPES } from "./littleChefsRecipes";
 import { MEAL_PREP_RECIPES } from "./mealPrepRecipes";
 import { SLOW_COOKER_RECIPES } from "./slowCookerRecipes";
 
@@ -26686,4 +26687,5 @@ export const ALL_RECIPES: Meal[] = [
   ...SEASONAL_RECIPES,
   ...SIDE_DISHES,
   ...DESSERTS,
+  ...LITTLE_CHEFS_RECIPES,
 ];
