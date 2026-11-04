@@ -54,6 +54,7 @@ import {
   usePlusAccess,
 } from "../plus/usePlusAccess";
 import { ALL_RECIPES } from "../core/data";
+import { isIngredientSectionHeader } from "../core/ingredientParser";
 import { getCookbook } from "../core/cookbookStore";
 import type { PantryItem } from "../core/types";
 import {
@@ -647,17 +648,6 @@ function pluralizeCountable(name: string, quantity: number): string {
 // This is where recipe-style ingredient lines get cleaned
 // into shopper-friendly names
 // =====================================================
-const SECTION_HEADER_PATTERNS = [
-  /seasoning:?$/,
-  /^sauce:?$/,
-  /glaze:?$/,
-  /topping:?$/,
-  /toppings:?$/,
-  /marinade:?$/,
-  /dressing:?$/,
-  /filling:?$/,
-];
-
 const RECIPE_STYLE_PHRASES = [
   "to taste",
   "as needed",
@@ -719,13 +709,6 @@ function cleanupSpacing(text: string) {
     .replace(/\s+/g, " ")
     .trim()
     .replace(/[:]+$/, "");
-}
-
-function isSectionHeader(text: string) {
-  const cleaned = cleanupSpacing(text.toLowerCase());
-  if (!cleaned) return true;
-  if (text.trim().endsWith(":")) return true;
-  return SECTION_HEADER_PATTERNS.some((pattern) => pattern.test(cleaned));
 }
 
 function removeRecipeStylePhrases(text: string) {
@@ -1232,7 +1215,7 @@ function cleanIngredientName(line: string) {
     .replace(/\bsalsa or taco sauce\b/g, "salsa");
   text = text.replace(/^(and|or|with)\s+/g, "").trim();
 
-  if (isSectionHeader(text)) return "";
+  if (isIngredientSectionHeader(text)) return "";
 
   text = removeRecipeStylePhrases(text);
   text = text.replace(/^\s*up to\s+/i, "");
