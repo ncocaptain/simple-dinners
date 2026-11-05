@@ -321,6 +321,8 @@ const CATEGORY_KEYWORDS: Array<{
       "complete pancake mix",
       "pancake mix",
       "cookies",
+      "pudding snack cups",
+      "pudding cups",
       "couscous",
       "dark chocolate",
       "dark chocolate baking chips",
