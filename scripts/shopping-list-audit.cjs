@@ -440,12 +440,78 @@ function main() {
       )
     );
 
+  // FULFILLMENT_CHOICE_AUDIT_V1
+  const choiceTs = require("typescript");
+
+  const choiceSourcePath = path.join(
+    __dirname,
+    "../src/core/groceryChoiceResolver.ts"
+  );
+
+  const choiceCompiledPath = path.join(
+    tempDir,
+    "src/core/groceryChoiceResolver.js"
+  );
+
+  fs.writeFileSync(
+    choiceCompiledPath,
+    choiceTs.transpileModule(
+      fs.readFileSync(choiceSourcePath, "utf8"),
+      {
+        compilerOptions: {
+          module: choiceTs.ModuleKind.CommonJS,
+          target: choiceTs.ScriptTarget.ES2020
+        }
+      }
+    ).outputText
+  );
+
+  const { resolveGroceryChoice, assessGroceryDeliveryReadiness } =
+    require(choiceCompiledPath);
+
   const recipes =
     Array.isArray(
       data.ALL_RECIPES
     )
       ? data.ALL_RECIPES
       : data.DINNER_RECIPES;
+
+
+  // COOKING_SPRAY_REGRESSION_V1
+  // Cooking sprays are purchasable groceries.
+  for (const line of [
+    "Cooking spray",
+    "cooking spray",
+    "nonstick spray"
+  ]) {
+    const item =
+      shopping.previewRecipeIngredientForShopping(line);
+
+    if (
+      !item ||
+      !String(item.normalizedName || "").includes("spray")
+    ) {
+      throw new Error(
+        "Cooking spray missing from Shopping List: " + line
+      );
+    }
+  }
+
+  // Keep ordinary water and preparation ice excluded.
+  for (const line of [
+    "2 cups water",
+    "1/2 cup reserved pasta water",
+    "crushed ice"
+  ]) {
+    const item =
+      shopping.previewRecipeIngredientForShopping(line);
+
+    if (item !== null) {
+      throw new Error(
+        "Non-shopping ingredient unexpectedly included: " + line
+      );
+    }
+  }
 
   // Regression: comma-separated prep adjectives MUST NOT erase chicken.
   // The prior audit's zero add failures did not catch these omissions.
@@ -496,6 +562,9 @@ function main() {
   const suspiciousNoise = [];
   const ignoredIngredientLines = [];
   const ambiguousRetailerProducts = [];
+  const fulfillmentChoiceFindings = [];
+  const deliveryReadinessCounts = {};
+  const alternativeQuantityReviews = [];
   const registryCategoryMismatch =
     [];
 
@@ -541,6 +610,47 @@ function main() {
       }
 
       shoppingItems += 1;
+
+      const choice = resolveGroceryChoice({
+        normalizedName: preview.normalizedName,
+        recipeIngredientText: line,
+        grocerySearchName: preview.grocerySearchName
+      });
+
+      const readiness = assessGroceryDeliveryReadiness({
+        normalizedName: preview.normalizedName,
+        recipeIngredientText: line,
+        grocerySearchName: preview.grocerySearchName,
+        quantity: preview.quantity,
+        unit: preview.unit,
+        packageSize: preview.packageSize
+      });
+
+      deliveryReadinessCounts[readiness.state] =
+        (deliveryReadinessCounts[readiness.state] || 0) + 1;
+
+      if (readiness.needsQuantityRecalculation) {
+        alternativeQuantityReviews.push({
+          recipe: recipeName,
+          raw: line,
+          identity: preview.normalizedName,
+          originalQuantity: preview.quantity,
+          originalUnit: preview.unit,
+          quantityOptions: readiness.quantityOptions
+        });
+      }
+
+      if (choice.status !== "ready") {
+        fulfillmentChoiceFindings.push({
+          recipe: recipeName,
+          raw: line,
+          identity: preview.normalizedName,
+          search: preview.grocerySearchName,
+          reason: choice.reason,
+          status: choice.status,
+          requiresSelection: choice.requiresSelection
+        });
+      }
 
       const identity =
         String(
@@ -879,6 +989,25 @@ function main() {
       os.tmpdir(),
       "simple-dinners-shopping-list-audit.json"
     );
+
+  report.summary.fulfillmentChoices =
+    fulfillmentChoiceFindings.length;
+
+  report.summary.fulfillmentSelectionsNeeded =
+    fulfillmentChoiceFindings.filter(
+      item => item.requiresSelection
+    ).length;
+
+  report.deliveryReadiness = {
+    statusCounts: deliveryReadinessCounts,
+    alternativeQuantityReviews
+  };
+
+  report.summary.alternativeQuantityReviews =
+    alternativeQuantityReviews.length;
+
+  report.fulfillmentChoiceFindings =
+    fulfillmentChoiceFindings;
 
   fs.writeFileSync(
     outputPath,

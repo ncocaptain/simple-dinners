@@ -1087,8 +1087,6 @@ function removeNonShoppingItems(text: string) {
     "reserved pasta water",
     "ice",
     "crushed ice",
-    "cooking spray",
-    "nonstick spray",
   ]);
 
   if (nonShoppingExactItems.has(cleaned)) {
@@ -1145,6 +1143,13 @@ function normalizeIngredientCore(text: string) {
   next = normalizeDairyAndCheese(next);
   next = normalizeMushrooms(next);
   next = removeNonShoppingItems(next);
+  // Preserve "boneless, skinless chicken breasts": the comma separates
+  // preparation adjectives, not two different grocery ingredients.
+  // Without this normalization, splitting at the first comma drops chicken.
+  next = next.replace(
+    /\b(boneless|skinless|bone-in|skin-on)\s*,\s*(?=(?:boneless|skinless|bone-in|skin-on)\b)/g,
+    "$1 "
+  );
   next = removePrepWords(next);
 
   next = next.replace(/\bcans?\s+of\s+/g, " ");
@@ -1164,13 +1169,6 @@ function normalizeIngredientCore(text: string) {
   );
   next = normalizeSideSuggestionText(next);
   next = protectRealPeppers(next);
-  // Preserve "boneless, skinless chicken breasts": the comma separates
-  // preparation adjectives, not two different grocery ingredients.
-  // Without this normalization, splitting at the first comma drops chicken.
-  next = next.replace(
-    /\b(boneless|skinless|bone-in|skin-on)\s*,\s*(?=(?:boneless|skinless|bone-in|skin-on)\b)/g,
-    "$1 "
-  );
   next = next.split(",")[0];
   next = cleanupSpacing(next);
 
@@ -1699,8 +1697,6 @@ const HIDDEN_ITEMS = new Set([
   "water",
   "ice",
   "crushed ice",
-  "cooking spray",
-  "nonstick spray",
   "cup",
   "cups",
   "tbsp",
