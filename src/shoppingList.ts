@@ -1164,6 +1164,13 @@ function normalizeIngredientCore(text: string) {
   );
   next = normalizeSideSuggestionText(next);
   next = protectRealPeppers(next);
+  // Preserve "boneless, skinless chicken breasts": the comma separates
+  // preparation adjectives, not two different grocery ingredients.
+  // Without this normalization, splitting at the first comma drops chicken.
+  next = next.replace(
+    /\b(boneless|skinless|bone-in|skin-on)\s*,\s*(?=(?:boneless|skinless|bone-in|skin-on)\b)/g,
+    "$1 "
+  );
   next = next.split(",")[0];
   next = cleanupSpacing(next);
 
