@@ -107,10 +107,23 @@ export function formatGroceryPurchaseLabel(
 
   const { quantity, unit, packageSize = "", mixedUnits = false, isCountable = false } = amount;
   const hasQuantity = Number.isFinite(quantity) && quantity > 0;
-  const cleanQty = (value: number) =>
-    Number.isInteger(value)
-      ? String(value)
-      : String(Number(value.toFixed(2)));
+  const cleanQty = (value: number) => {
+    if (Number.isInteger(value)) return String(value);
+    const whole = Math.floor(value);
+    const remainder = value - whole;
+    const fractions: Array<[number, string]> = [
+      [0.25, "¼"],
+      [0.5, "½"],
+      [0.75, "¾"],
+      [1 / 3, "⅓"],
+      [2 / 3, "⅔"],
+    ];
+    const fraction = fractions.find(([decimal]) =>
+      Math.abs(remainder - decimal) < 0.015
+    )?.[1];
+    if (fraction) return whole > 0 ? whole + " " + fraction : fraction;
+    return String(Number(value.toFixed(2)));
+  };
 
   if (
     match.showRecipeVolume &&
