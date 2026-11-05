@@ -94,26 +94,34 @@ const {
   formatGroceryPurchaseLabel,
 } = loadPureTsModule("src/core/groceryProductIdentity.ts");
 
+
 const groceryCases = [
-  ["strawberries", { quantity: 3, unit: "cup" }, "Fresh Strawberries · 3 cups needed", "Fresh Strawberries"],
-  ["blueberries", { quantity: 1, unit: "cup" }, "Fresh Blueberries · 1 cup needed", "Fresh Blueberries"],
-  ["whipped cream", { quantity: 3, unit: "cup" }, "Whipped Cream · 3 cups needed", "Whipped Cream"],
-  ["corn chips", { quantity: 2, unit: "cup" }, "Corn Chips · 2 cups needed", "Corn Chips"],
-  ["granola", { quantity: 0.5, unit: "cup" }, "Granola · ½ cup needed", "Granola"],
-  ["vanilla yogurt", { quantity: 2, unit: "cup" }, "Vanilla Yogurt · 2 cups needed", "Vanilla Yogurt"],
-  ["graham cracker sheets", { quantity: 4, unit: null }, "Graham Crackers", "Graham Crackers"],
-  ["ready-to-eat pound cake", { quantity: 1, unit: "package", packageSize: "10 oz" }, "1 package (10 oz) Pound Cake", "Pound Cake"],
-  ["ready-to-eat apple pie filling", { quantity: 1, unit: "can", packageSize: "21 oz" }, "1 can (21 oz) Apple Pie Filling", "Apple Pie Filling"],
-  ["ready-to-eat chocolate pudding snack cups", { quantity: 4, unit: null, isCountable: true }, "4 Chocolate Pudding Snack Cups", "Chocolate Pudding Snack Cups"],
-  ["ready-to-eat vanilla pudding snack cups", { quantity: 4, unit: null, isCountable: true }, "4 Vanilla Pudding Snack Cups", "Vanilla Pudding Snack Cups"],
+  ["strawberries", "Fresh Strawberries"],
+  ["blueberries", "Fresh Blueberries"],
+  ["whipped cream", "Whipped Cream"],
+  ["corn chips", "Corn Chips"],
+  ["granola", "Granola"],
+  ["vanilla yogurt", "Vanilla Yogurt"],
+  ["graham cracker sheets", "Graham Crackers"],
+  ["ready-to-eat pound cake", "Pound Cake"],
+  ["ready-to-eat apple pie filling", "Apple Pie Filling"],
+  ["ready-to-eat chocolate pudding snack cups", "Chocolate Pudding Snack Cups"],
+  ["ready-to-eat vanilla pudding snack cups", "Vanilla Pudding Snack Cups"],
 ];
-for (const [name, amount, expectedLabel, expectedSearch] of groceryCases) {
-  assert.equal(formatGroceryPurchaseLabel(name, amount), expectedLabel);
-  assert.equal(getGroceryProductIdentity(name)?.searchName, expectedSearch);
+for (const [name, expectedProduct] of groceryCases) {
+  const label = formatGroceryPurchaseLabel(name);
+  assert.equal(label, expectedProduct);
+  assert.equal(getGroceryProductIdentity(name)?.searchName, expectedProduct);
+  assert.doesNotMatch(label, /\\b(?:cups?|tbsp|tsp|needed|\\d+\\s+(?:cans?|packages?|boxes?))\\b/i);
 }
 assert.equal(getGroceryProductIdentity("ground beef"), null);
-assert.equal(formatGroceryPurchaseLabel("ground beef", { quantity: 1, unit: "lb" }), null);
-assert.match(shoppingPage, /formatGroceryPurchaseLabel\(value.name/);
-assert.match(shoppingSource, /getGroceryProductIdentity\(normalizedName\)/);
+assert.equal(formatGroceryPurchaseLabel("ground beef"), null);
+
+// Fallback names must also be amount-free, while manual rows preserve
+// the amounts the user personally entered.
+assert.match(shoppingPage, /if \\(!value\\.isManual\\) \\{\\s*displayText =\\s*formatGroceryPurchaseLabel\\(value\\.name\\) \\?\\?\\s*formatDisplayName\\(value\\.name\\)/);
+assert.match(shoppingPage, /const recipeBreakdown = recipeNames\\.map/);
+assert.match(shoppingPage, /formatRecipeBreakdownAmount\\(/);
+assert.match(shoppingSource, /getGroceryProductIdentity\\(normalizedName\\)/);
 
 console.log("Little Chefs grocery names, categories, and ingredient regression checks passed.");
