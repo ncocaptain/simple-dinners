@@ -286,6 +286,7 @@ const ALWAYS_SHOW_MEASURED_TOTALS = new Set([
 ]);
 
 const HIDE_MEASURED_TOTALS = new Set([
+  "corn chips",
   "salt",
   "black pepper",
   "garlic powder",
