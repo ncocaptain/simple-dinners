@@ -1,4 +1,5 @@
 import { categorizeGroceryItem, getSpecificGroceryCategory, type GroceryCategory } from "./core/groceryCategories";
+import { getGroceryProductIdentity } from "./core/groceryProductIdentity";
 import {
   INGREDIENT_QUANTITY_PATTERN,
   INGREDIENT_UNIT_PATTERN,
@@ -458,6 +459,10 @@ function cleanupSpacing(text: string) {
 }
 
 function buildGrocerySearchName(normalizedName: string) {
+  // Search for an actual grocery product, never a recipe volume or prep note.
+  const matchedProduct = getGroceryProductIdentity(normalizedName);
+  if (matchedProduct) return matchedProduct.searchName;
+
   return cleanupSpacing(
     normalizeAscii(normalizedName)
       .replace(/\b\d+\b/g, "")
