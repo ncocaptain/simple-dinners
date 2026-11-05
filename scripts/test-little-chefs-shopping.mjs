@@ -92,6 +92,14 @@ const catalogAuditCategoryCases = [
   ["refrigerated pie crust", "Deli / Refrigerated"],
   ["sheet puff pastry", "Frozen"],
   ["shortcake biscuits or dessert biscuits", "Bakery"],
+  ["southwest ranch dressing", "Pantry"],
+  ["sunflower seeds", "Pantry"],
+  ["sweet chili sauce", "Pantry"],
+  ["tagliatelle", "Pantry"],
+  ["turnip", "Produce"],
+  ["tzatziki sauce", "Deli / Refrigerated"],
+  ["wasabi", "Pantry"],
+  ["whole cloves", "Spices / Seasonings"],
 ];
 for (const [name, expected] of catalogAuditCategoryCases) {
   assert.equal(categorizeGroceryItem(name), expected, "Wrong category for " + name);
