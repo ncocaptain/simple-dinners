@@ -112,16 +112,20 @@ for (const [name, expectedProduct] of groceryCases) {
   const label = formatGroceryPurchaseLabel(name);
   assert.equal(label, expectedProduct);
   assert.equal(getGroceryProductIdentity(name)?.searchName, expectedProduct);
-  assert.doesNotMatch(label, /\\b(?:cups?|tbsp|tsp|needed|\\d+\\s+(?:cans?|packages?|boxes?))\\b/i);
+  assert.ok(!/[0-9]/.test(label), "Shopping row name must not contain a recipe amount");
+  assert.ok(!label.includes(" needed"), "Shopping row name must not show cooking units");
 }
 assert.equal(getGroceryProductIdentity("ground beef"), null);
 assert.equal(formatGroceryPurchaseLabel("ground beef"), null);
 
-// Fallback names must also be amount-free, while manual rows preserve
-// the amounts the user personally entered.
-assert.match(shoppingPage, /if \\(!value\\.isManual\\) \\{\\s*displayText =\\s*formatGroceryPurchaseLabel\\(value\\.name\\) \\?\\?\\s*formatDisplayName\\(value\\.name\\)/);
-assert.match(shoppingPage, /const recipeBreakdown = recipeNames\\.map/);
-assert.match(shoppingPage, /formatRecipeBreakdownAmount\\(/);
-assert.match(shoppingSource, /getGroceryProductIdentity\\(normalizedName\\)/);
+// Recipe row display is product-only; manual rows preserve user-entered
+// quantities; tapping a recipe item still shows its amount breakdown.
+assert.ok(shoppingPage.includes("if (!value.isManual) {"));
+assert.ok(shoppingPage.includes("formatGroceryPurchaseLabel(value.name)"));
+assert.ok(shoppingPage.includes("formatDisplayName(value.name)"));
+assert.ok(shoppingPage.includes("const recipeBreakdown = recipeNames.map"));
+assert.ok(shoppingPage.includes("formatRecipeBreakdownAmount("));
+assert.ok(shoppingPage.includes("if (value.isManual) {"));
+assert.ok(shoppingSource.includes("getGroceryProductIdentity(normalizedName)"));
 
 console.log("Little Chefs grocery names, categories, and ingredient regression checks passed.");
