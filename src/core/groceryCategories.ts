@@ -545,6 +545,8 @@ export function getSpecificGroceryCategory(name: string): GroceryCategory | null
   if (/\bgraham crackers?\b/.test(normalized)) return "Pantry";
   if (/\bcorn chips\b/.test(normalized)) return "Pantry";
   if (/\bgranola\b/.test(normalized)) return "Pantry";
+  // A packet is packaging, not a reason to classify taco seasoning as Pantry.
+  if (/\btaco seasoning\b/.test(normalized)) return "Spices / Seasonings";
   if (/\bpound cake\b/.test(normalized) && !/\b(?:mix|batter)\b/.test(normalized)) {
     return "Bakery";
   }
