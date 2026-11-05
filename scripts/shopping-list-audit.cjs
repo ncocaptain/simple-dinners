@@ -367,6 +367,7 @@ function simulateCompleteShoppingList(shopping, recipes) {
         rawSavedRows: raw.length,
         mergedRows: merged.length,
         rowsLostDuringSave: Math.max(0, addedCount - raw.length),
+        mergeFailed: Boolean(mergeError),
         addFailures: failures.length,
         zeroItemRecipes: zeroItemRecipes.length,
         missingAfterMergeCandidates: missingAfterMerge.length,
@@ -380,6 +381,7 @@ function simulateCompleteShoppingList(shopping, recipes) {
         [...categoryCounts.entries()].sort((a, b) => b[1] - a[1])
       ),
       failures,
+      mergeError,
       zeroItemRecipes: zeroItemRecipes.slice(0, 200),
       missingAfterMergeCandidates: missingAfterMerge.slice(0, 250),
       uncategorizedRows: other.slice(0, 250),
