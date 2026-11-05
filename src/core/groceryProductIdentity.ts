@@ -83,77 +83,16 @@ export function getGroceryProductIdentity(
   return null;
 }
 
-export type GroceryPurchaseAmount = {
-  quantity: number;
-  unit: string | null;
-  packageSize?: string;
-  mixedUnits?: boolean;
-  isCountable?: boolean;
-};
-
 /**
- * Format a purchase-oriented label, while leaving the actual recipe
- * quantity and original ingredient text unchanged in ShoppingItem.
+ * Main shopping-list rows show the product only. Recipe quantities and
+ * original ingredient text remain in the source recipe breakdown and raw
+ * ShoppingItem, so a shopper can tap the item to see exact amounts.
  *
- * "3 cups strawberries" -> "Fresh Strawberries · 3 cups needed"
- * No speculative package conversion or product SKU is implied.
+ * Retailer product searches use getGroceryProductIdentity().searchName,
+ * while matching and purchasing quantities remain independent.
  */
 export function formatGroceryPurchaseLabel(
   ingredientName: string,
-  amount: GroceryPurchaseAmount,
 ): string | null {
-  const match = getGroceryProductIdentity(ingredientName);
-  if (!match) return null;
-
-  const { quantity, unit, packageSize = "", mixedUnits = false, isCountable = false } = amount;
-  const hasQuantity = Number.isFinite(quantity) && quantity > 0;
-  const cleanQty = (value: number) => {
-    if (Number.isInteger(value)) return String(value);
-    const whole = Math.floor(value);
-    const remainder = value - whole;
-    const fractions: Array<[number, string]> = [
-      [0.25, "¼"],
-      [0.5, "½"],
-      [0.75, "¾"],
-      [1 / 3, "⅓"],
-      [2 / 3, "⅔"],
-    ];
-    const fraction = fractions.find(([decimal]) =>
-      Math.abs(remainder - decimal) < 0.015
-    )?.[1];
-    if (fraction) return whole > 0 ? whole + " " + fraction : fraction;
-    return String(Number(value.toFixed(2)));
-  };
-
-  if (
-    match.showRecipeVolume &&
-    hasQuantity &&
-    !mixedUnits &&
-    (unit === "cup" || unit === "Tbsp" || unit === "tsp")
-  ) {
-    const unitLabel =
-      unit === "cup"
-        ? quantity <= 1 ? "cup" : "cups"
-        : unit;
-    return match.displayName + " · " + cleanQty(quantity) + " " +
-      unitLabel + " needed";
-  }
-
-  if (isCountable && hasQuantity && !mixedUnits) {
-    return cleanQty(quantity) + " " + match.displayName;
-  }
-
-  if (
-    hasQuantity && !mixedUnits && unit &&
-    ["can", "package", "box", "jar", "carton", "bag", "packet"].includes(unit)
-  ) {
-    const plural = quantity === 1
-      ? unit
-      : unit === "box" ? "boxes" : unit + "s";
-    const size = packageSize ? " (" + packageSize + ")" : "";
-    return cleanQty(quantity) + " " + plural + size + " " +
-      match.displayName;
-  }
-
-  return match.displayName;
+  return getGroceryProductIdentity(ingredientName)?.displayName ?? null;
 }
