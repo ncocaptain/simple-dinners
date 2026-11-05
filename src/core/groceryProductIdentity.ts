@@ -120,7 +120,7 @@ export function formatGroceryPurchaseLabel(
   ) {
     const unitLabel =
       unit === "cup"
-        ? quantity === 1 ? "cup" : "cups"
+        ? quantity <= 1 ? "cup" : "cups"
         : unit;
     return match.displayName + " · " + cleanQty(quantity) + " " +
       unitLabel + " needed";
