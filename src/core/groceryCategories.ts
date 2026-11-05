@@ -538,10 +538,28 @@ function isRecognizedBrandBeverage(normalized: string) {
 // Builder: category matcher
 // Smarter priority rules first, then keyword fallback.
 // =====================================================
+// Specific grocery identities must outrank broad substring matches.
+// For example, "graham" contains "ham" and corn chips contain "corn".
+export function getSpecificGroceryCategory(name: string): GroceryCategory | null {
+  const normalized = normalize(name);
+  if (/\bgraham crackers?\b/.test(normalized)) return "Pantry";
+  if (/\bcorn chips\b/.test(normalized)) return "Pantry";
+  if (/\bgranola\b/.test(normalized)) return "Pantry";
+  if (/\bpound cake\b/.test(normalized) && !/\b(?:mix|batter)\b/.test(normalized)) {
+    return "Bakery";
+  }
+  if (/\bfrozen yogurt\b/.test(normalized)) return "Frozen";
+  if (/\byogurt\b/.test(normalized)) return "Dairy / Eggs";
+  return null;
+}
+
 export function categorizeGroceryItem(name: string): GroceryCategory {
   const normalized = normalize(name);
 
   if (!normalized) return "Other";
+
+  const specificCategory = getSpecificGroceryCategory(normalized);
+  if (specificCategory) return specificCategory;
 
   // Recognizable beverage brands should win before broad Pantry words.
   // Example: "Sprite Zero Sugar" must not match "sugar" -> Pantry.
