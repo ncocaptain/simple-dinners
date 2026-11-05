@@ -122,7 +122,8 @@ assert.equal(formatGroceryPurchaseLabel("ground beef"), null);
 // quantities; tapping a recipe item still shows its amount breakdown.
 assert.ok(shoppingPage.includes("if (!value.isManual) {"));
 assert.ok(shoppingPage.includes("formatGroceryPurchaseLabel(value.name)"));
-assert.ok(shoppingPage.includes("formatDisplayName(value.name)"));
+assert.ok(shoppingPage.includes("formatDisplayName(simpleName)"));
+assert.ok(shoppingPage.includes("pluralizeCountable(value.name, value.totalQuantity)"));
 assert.ok(shoppingPage.includes("const recipeBreakdown = recipeNames.map"));
 assert.ok(shoppingPage.includes("formatRecipeBreakdownAmount("));
 assert.ok(shoppingPage.includes("if (value.isManual) {"));
