@@ -4443,19 +4443,15 @@ export default function ShoppingListPage() {
         )}${packageText} ${formattedName}`;
       }
 
-      // The shopping row is a product to buy, not a cooking instruction.
-      // Preserve sourceRecipe/recipeIngredientText, quantity, and units for
-      // recipe breakdown, pantry coverage, scaling, and future retailer matching.
-      // Never rewrite the user's own manually added items.
+      // Only the product name belongs on the main list for recipe items.
+      // All ingredient amounts, units, and package sizes remain in
+      // recipeBreakdown (shown when the shopper taps the row), and in the
+      // original ShoppingItem for pantry matching and future retailer carts.
+      // Manual shopping entries keep exactly the quantities users entered.
       if (!value.isManual) {
-        const groceryDisplay = formatGroceryPurchaseLabel(value.name, {
-          quantity: value.totalQuantity,
-          unit: value.unit,
-          packageSize: value.packageSize,
-          mixedUnits: value.mixedUnits,
-          isCountable: value.isCountable,
-        });
-        if (groceryDisplay) displayText = groceryDisplay;
+        displayText =
+          formatGroceryPurchaseLabel(value.name) ??
+          formatDisplayName(value.name);
       }
 
       // Each sourceRecipe value is one recipe title. Commas inside titles
