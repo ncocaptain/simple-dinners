@@ -1469,6 +1469,10 @@ function isCountableIngredient(name: string): boolean {
   const normalized = normalizeCountableName(name);
   const cleaned = cleanIngredientName(name).toLowerCase();
 
+  // Ready-to-eat pudding is sold as individual snack cups.
+  // Keep the number of cups visible on the grocery list.
+  if (/\bpudding snack cups?$/.test(cleaned)) return true;
+
   if (normalized !== cleaned) return true;
 
   const words = normalized.split(" ").filter(Boolean);
