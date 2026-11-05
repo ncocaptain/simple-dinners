@@ -474,6 +474,7 @@ function main() {
   const otherCategory = [];
   const missingSearch = [];
   const suspiciousNoise = [];
+  const ambiguousRetailerProducts = [];
   const registryCategoryMismatch =
     [];
 
@@ -524,6 +525,18 @@ function main() {
           preview.normalizedName ||
             ""
         ).trim();
+
+      // A retailer cannot reliably search for "of choice" or a
+      // disjunction such as "ranch or italian dressing". Flag those
+      // for a human decision instead of silently choosing a product.
+      if (/\b(?:of choice|or [a-z][a-z -]+)\b/i.test(preview.normalizedName || "")) {
+        ambiguousRetailerProducts.push({
+          recipe: recipeName,
+          raw: line,
+          identity: String(preview.normalizedName || ""),
+        });
+      }
+
 
       const search =
         String(
@@ -768,6 +781,7 @@ function main() {
           : 0,
       otherCategory:
         otherCategory.length,
+      ambiguousRetailerProducts: ambiguousRetailerProducts.length,
       missingSearch:
         missingSearch.length,
       suspiciousNoise:
@@ -807,6 +821,7 @@ function main() {
         noiseIdentityCounts,
         30
       ),
+    ambiguousRetailerProducts: ambiguousRetailerProducts.slice(0, 250),
     otherCategory:
       otherCategory.slice(
         0,
@@ -878,6 +893,7 @@ function main() {
   console.log(
     `Other category: ${report.summary.otherCategory}`
   );
+  console.log(`Ambiguous grocery products: ${report.summary.ambiguousRetailerProducts}`);
   console.log(
     `Missing grocery search term: ${report.summary.missingSearch}`
   );
