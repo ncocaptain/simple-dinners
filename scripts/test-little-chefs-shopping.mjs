@@ -51,4 +51,38 @@ const shoppingPage = readFileSync(
   "utf8"
 );
 assert.match(shoppingPage, /pudding snack cups\?\$/);
-console.log("Little Chefs pudding shopping checks passed.");
+const categoryExpectations = new Map([
+  ["graham cracker sheets", "Pantry"],
+  ["corn chips", "Pantry"],
+  ["vanilla yogurt", "Dairy / Eggs"],
+  ["granola", "Pantry"],
+  ["ready-to-eat pound cake", "Bakery"],
+  ["frozen yogurt", "Frozen"],
+  ["taco seasoning", "Spices / Seasonings"],
+  ["ready-to-eat chocolate pudding snack cups", "Pantry"],
+]);
+for (const [product, category] of categoryExpectations) {
+  assert.equal(
+    categorizeGroceryItem(product),
+    category,
+    "Wrong grocery category for " + product,
+  );
+}
+
+const shortcake = LITTLE_CHEFS_RECIPES.find(
+  (recipe) => recipe.slug === "little-chefs-strawberry-shortcake-cups"
+);
+assert.ok(shortcake);
+assert.match(shortcake.ingredients, /1 package \(10 oz\) ready-to-eat pound cake/);
+
+const shoppingSource = readFileSync("src/shoppingList.ts", "utf8");
+assert.match(shoppingSource, /getSpecificGroceryCategory\(lower\)/);
+assert.match(shoppingPage, /getSpecificGroceryCategory\(cleaned\)/);
+
+const parseStart = shoppingPage.indexOf("function parseIngredient(line:");
+const parseEnd = shoppingPage.indexOf("function normalizeCountableName", parseStart);
+assert.ok(parseStart > 0 && parseEnd > parseStart);
+const recipeIngredientParser = shoppingPage.slice(parseStart, parseEnd);
+assert.match(recipeIngredientParser, /block\|blocks\|packet\|packets/);
+assert.match(shoppingPage, /"corn chips",/);
+console.log("Little Chefs shopping category and ingredient regression checks passed.");
