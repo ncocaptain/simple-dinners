@@ -99,7 +99,7 @@ const groceryCases = [
   ["blueberries", { quantity: 1, unit: "cup" }, "Fresh Blueberries · 1 cup needed", "Fresh Blueberries"],
   ["whipped cream", { quantity: 3, unit: "cup" }, "Whipped Cream · 3 cups needed", "Whipped Cream"],
   ["corn chips", { quantity: 2, unit: "cup" }, "Corn Chips · 2 cups needed", "Corn Chips"],
-  ["granola", { quantity: 0.5, unit: "cup" }, "Granola · 0.5 cup needed", "Granola"],
+  ["granola", { quantity: 0.5, unit: "cup" }, "Granola · ½ cup needed", "Granola"],
   ["vanilla yogurt", { quantity: 2, unit: "cup" }, "Vanilla Yogurt · 2 cups needed", "Vanilla Yogurt"],
   ["graham cracker sheets", { quantity: 4, unit: null }, "Graham Crackers", "Graham Crackers"],
   ["ready-to-eat pound cake", { quantity: 1, unit: "package", packageSize: "10 oz" }, "1 package (10 oz) Pound Cake", "Pound Cake"],
