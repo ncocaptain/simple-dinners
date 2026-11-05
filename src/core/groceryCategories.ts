@@ -567,6 +567,15 @@ export function getSpecificGroceryCategory(name: string): GroceryCategory | null
   if (/^sheet puff pastry$/.test(normalized)) return "Frozen";
   if (/^shortcake biscuits or dessert biscuits$/.test(normalized)) return "Bakery";
 
+  // Full-catalog audit follow-up: specific shelf identities.
+  if (/^(?:southwest ranch dressing|sweet chili sauce|sunflower seeds|tagliatelle|wasabi)$/.test(normalized)) {
+    return "Pantry";
+  }
+  if (normalized === "turnip") return "Produce";
+  if (normalized === "tzatziki sauce") return "Deli / Refrigerated";
+  if (normalized === "whole cloves") return "Spices / Seasonings";
+
+
   if (/\bpound cake\b/.test(normalized) && !/\b(?:mix|batter)\b/.test(normalized)) {
     return "Bakery";
   }
