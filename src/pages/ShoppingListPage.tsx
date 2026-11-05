@@ -4449,9 +4449,13 @@ export default function ShoppingListPage() {
       // original ShoppingItem for pantry matching and future retailer carts.
       // Manual shopping entries keep exactly the quantities users entered.
       if (!value.isManual) {
+        const simpleName =
+          value.isCountable && value.totalQuantity > 1
+            ? pluralizeCountable(value.name, value.totalQuantity)
+            : value.name;
         displayText =
           formatGroceryPurchaseLabel(value.name) ??
-          formatDisplayName(value.name);
+          formatDisplayName(simpleName);
       }
 
       // Each sourceRecipe value is one recipe title. Commas inside titles
