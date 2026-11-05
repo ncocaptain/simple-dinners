@@ -38,13 +38,13 @@ export const LITTLE_CHEFS_RECIPES: Meal[] = [
     effort: "quick",
     tags: ["little-chefs","kids","kid-friendly","quick","dessert","no-bake","vegetarian","strawberry"],
     isVegetarian: true,
-    ingredients: "2 cups ready-to-eat pound cake, cubed\n2 cups strawberries, washed and diced\n1 cup whipped cream",
+    ingredients: "1 package (10 oz) ready-to-eat pound cake\n2 cups strawberries, washed and diced\n1 cup whipped cream",
     instructions: "Grown-up: Wash, hull, and dice the strawberries into small pieces. Cut the pound cake into bite-size cubes.\nLittle chef: Put a few cake cubes in the bottom of each of 4 cups.\nLittle chef: Add a layer of strawberries and a spoonful of whipped cream.\nLittle chef: Repeat the layers and finish with a few strawberries on top.\nServe right away or refrigerate until dessert time.",
     notes: "An easy, no-bake dessert for kids to stack and decorate. Grown-ups handle knives and fruit preparation.",
     translations: {
       es: {
         name: "Vasitos de pastel con fresas",
-        ingredients: "2 tazas de panqué listo para comer, cortado en cubos\n2 tazas de fresas lavadas y picadas\n1 taza de crema batida",
+        ingredients: "1 paquete (10 oz) de panqué listo para comer\n2 tazas de fresas lavadas y picadas\n1 taza de crema batida",
         instructions: "Adulto: Lava, limpia y corta las fresas en trozos pequeños. Corta el panqué en cubitos.\nPequeño chef: Coloca unos cubitos de panqué en el fondo de cada uno de los 4 vasitos.\nPequeño chef: Agrega una capa de fresas y una cucharada de crema batida.\nPequeño chef: Repite las capas y termina con unas fresas encima.\nSirve de inmediato o refrigera hasta la hora del postre.",
         notes: "Un postre sin hornear, fácil de formar por capas y decorar. Los adultos se encargan del cuchillo y de preparar la fruta.",
         tags: ["pequeños chefs","niños","apto para niños","postre","rápido"],
