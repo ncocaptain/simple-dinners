@@ -474,6 +474,7 @@ function main() {
   const otherCategory = [];
   const missingSearch = [];
   const suspiciousNoise = [];
+  const ignoredIngredientLines = [];
   const ambiguousRetailerProducts = [];
   const registryCategoryMismatch =
     [];
@@ -515,6 +516,7 @@ function main() {
 
       if (!preview) {
         ignoredLines += 1;
+        ignoredIngredientLines.push({ recipe: recipeName, raw: line });
         continue;
       }
 
@@ -821,6 +823,7 @@ function main() {
         noiseIdentityCounts,
         30
       ),
+    ignoredIngredientLines,
     ambiguousRetailerProducts: ambiguousRetailerProducts.slice(0, 250),
     otherCategory:
       otherCategory.slice(
@@ -884,6 +887,12 @@ function main() {
   console.log(
     `Hidden/ignored: ${report.summary.ignoredLines}`
   );
+  if (ignoredIngredientLines.length) {
+    console.log("First skipped recipe ingredients:");
+    for (const row of ignoredIngredientLines.slice(0, 15)) {
+      console.log("  [" + row.recipe + "] " + row.raw);
+    }
+  }
   console.log(
     `Distinct identities: ${report.summary.distinctShoppingIdentities}`
   );
