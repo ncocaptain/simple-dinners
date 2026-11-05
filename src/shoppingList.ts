@@ -1,4 +1,4 @@
-import { categorizeGroceryItem, type GroceryCategory } from "./core/groceryCategories";
+import { categorizeGroceryItem, getSpecificGroceryCategory, type GroceryCategory } from "./core/groceryCategories";
 import {
   INGREDIENT_QUANTITY_PATTERN,
   INGREDIENT_UNIT_PATTERN,
@@ -1864,6 +1864,8 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     cleanIngredientForCategory(name);
 
   const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
+  const specificCategory = getSpecificGroceryCategory(lower);
+  if (specificCategory) return specificCategory;
   // Audit-discovered category protections.
   if (lower.includes("cream of mushroom soup")) {
     return "Pantry";
@@ -2081,6 +2083,8 @@ function resolveShoppingCategoryForItem(
     cleanIngredientForCategory(name);
 
   const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
+  const specificCategory = getSpecificGroceryCategory(lower);
+  if (specificCategory) return specificCategory;
   // Audit-discovered category protections.
   if (lower.includes("cream of mushroom soup")) {
     return "Pantry";
