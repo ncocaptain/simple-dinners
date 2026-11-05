@@ -31,6 +31,7 @@ import {
 } from "../shoppingList";
 import {
   categorizeGroceryItem,
+  getSpecificGroceryCategory,
   type GroceryCategory,
   GROCERY_CATEGORY_ORDER,
 } from "../core/groceryCategories";
@@ -1964,6 +1965,8 @@ function isForcedSpice(cleaned: string) {
 
 function resolveShoppingCategory(name: string): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
+  const specificCategory = getSpecificGroceryCategory(cleaned);
+  if (specificCategory) return specificCategory;
   // Audit-discovered category protections.
   if (cleaned.includes("cream of mushroom soup")) {
     return "Pantry";
@@ -2100,6 +2103,8 @@ function resolveShoppingCategoryForItem(
 ): GroceryCategory {
   const rawBrandName = normalizeManualText(name).toLowerCase();
   const cleaned = cleanIngredientName(name).toLowerCase();
+  const specificCategory = getSpecificGroceryCategory(cleaned);
+  if (specificCategory) return specificCategory;
 
   // Preserve fresh-herb identity before cleanup strips "fresh".
   if (
