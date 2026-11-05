@@ -72,6 +72,32 @@ for (const [product, category] of categoryExpectations) {
 
 assert.equal(getSpecificGroceryCategory("taco seasoning"), "Spices / Seasonings");
 
+const catalogAuditCategoryCases = [
+  ["ranch dressing", "Pantry"],
+  ["balsamic glaze", "Pantry"],
+  ["caesar dressing", "Pantry"],
+  ["cherry pie filling", "Pantry"],
+  ["italian dressing", "Pantry"],
+  ["poppy seed dressing", "Pantry"],
+  ["ranch or italian dressing", "Pantry"],
+  ["ranch seasoning", "Spices / Seasonings"],
+  ["whipped topping", "Frozen"],
+  ["poppy seeds", "Spices / Seasonings"],
+  ["raisins", "Pantry"],
+  ["sliced almonds", "Pantry"],
+  ["simple syrup", "Pantry"],
+  ["red curry paste", "Pantry"],
+  ["pie iron cooker", "Household"],
+  ["racks baby back ribs", "Meat / Seafood"],
+  ["refrigerated pie crust", "Deli / Refrigerated"],
+  ["sheet puff pastry", "Frozen"],
+  ["shortcake biscuits or dessert biscuits", "Bakery"],
+];
+for (const [name, expected] of catalogAuditCategoryCases) {
+  assert.equal(categorizeGroceryItem(name), expected, "Wrong category for " + name);
+}
+
+
 const shortcake = LITTLE_CHEFS_RECIPES.find(
   (recipe) => recipe.slug === "little-chefs-strawberry-shortcake-cups"
 );
