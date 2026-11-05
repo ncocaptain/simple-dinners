@@ -56,6 +56,7 @@ import {
 } from "../plus/usePlusAccess";
 import { ALL_RECIPES } from "../core/data";
 import { isIngredientSectionHeader } from "../core/ingredientParser";
+import { formatGroceryPurchaseLabel } from "../core/groceryProductIdentity";
 import { getCookbook } from "../core/cookbookStore";
 import type { PantryItem } from "../core/types";
 import {
@@ -4440,6 +4441,21 @@ export default function ShoppingListPage() {
           value.unit,
           value.totalQuantity
         )}${packageText} ${formattedName}`;
+      }
+
+      // The shopping row is a product to buy, not a cooking instruction.
+      // Preserve sourceRecipe/recipeIngredientText, quantity, and units for
+      // recipe breakdown, pantry coverage, scaling, and future retailer matching.
+      // Never rewrite the user's own manually added items.
+      if (!value.isManual) {
+        const groceryDisplay = formatGroceryPurchaseLabel(value.name, {
+          quantity: value.totalQuantity,
+          unit: value.unit,
+          packageSize: value.packageSize,
+          mixedUnits: value.mixedUnits,
+          isCountable: value.isCountable,
+        });
+        if (groceryDisplay) displayText = groceryDisplay;
       }
 
       // Each sourceRecipe value is one recipe title. Commas inside titles
