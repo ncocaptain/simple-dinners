@@ -447,6 +447,26 @@ function main() {
       ? data.ALL_RECIPES
       : data.DINNER_RECIPES;
 
+  // Regression: comma-separated prep adjectives MUST NOT erase chicken.
+  // The prior audit's zero add failures did not catch these omissions.
+  for (const line of [
+    "1 1/2 lb boneless, skinless chicken breast",
+    "2 boneless, skinless chicken breasts, sliced",
+    "4 boneless, skinless chicken breasts",
+    "1 can (21 oz) ready-to-eat apple pie filling",
+  ]) {
+    const ingredient = shopping.previewRecipeIngredientForShopping(line);
+    const expectedName = line.includes("chicken") ? "chicken breast" : "apple pie filling";
+    if (!ingredient ||
+        !String(ingredient.normalizedName || "").includes(expectedName)) {
+      throw new Error(
+        "Critical shopping ingredient disappeared: " + line +
+        " -> " + JSON.stringify(ingredient)
+      );
+    }
+  }
+
+
   const categoryCounts =
     new Map();
 
@@ -938,6 +958,17 @@ function main() {
     for (const missing of fullListSimulation.missingAfterMergeCandidates.slice(0, 15)) {
       console.log("  " + missing.recipe + " -> " + missing.ingredient);
     }
+  }
+
+  console.log("\nSuspicious retailer search terms (first 10):");
+  for (const item of fullListSimulation.suspiciousRetailerSearchTerms.slice(0, 10)) {
+    console.log(
+      "  [" + item.recipe + "] " + item.ingredient + " -> " + item.searchName
+    );
+  }
+  console.log("\nAmbiguous grocery choices (first 15):");
+  for (const item of ambiguousRetailerProducts.slice(0, 15)) {
+    console.log("  [" + item.recipe + "] " + item.raw + " -> " + item.identity);
   }
 
   console.log(
