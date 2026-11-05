@@ -22,7 +22,7 @@ function loadPureTsModule(filename) {
 const { LITTLE_CHEFS_RECIPES } = loadPureTsModule(
   "src/core/littleChefsRecipes.ts"
 );
-const { categorizeGroceryItem } = loadPureTsModule(
+const { categorizeGroceryItem, getSpecificGroceryCategory } = loadPureTsModule(
   "src/core/groceryCategories.ts"
 );
 const { parseIngredientLine, isIngredientSectionHeader } = loadPureTsModule(
@@ -59,6 +59,7 @@ const categoryExpectations = new Map([
   ["ready-to-eat pound cake", "Bakery"],
   ["frozen yogurt", "Frozen"],
   ["taco seasoning", "Spices / Seasonings"],
+  ["1 packet taco seasoning", "Spices / Seasonings"],
   ["ready-to-eat chocolate pudding snack cups", "Pantry"],
 ]);
 for (const [product, category] of categoryExpectations) {
@@ -68,6 +69,8 @@ for (const [product, category] of categoryExpectations) {
     "Wrong grocery category for " + product,
   );
 }
+
+assert.equal(getSpecificGroceryCategory("taco seasoning"), "Spices / Seasonings");
 
 const shortcake = LITTLE_CHEFS_RECIPES.find(
   (recipe) => recipe.slug === "little-chefs-strawberry-shortcake-cups"
