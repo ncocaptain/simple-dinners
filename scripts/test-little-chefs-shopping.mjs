@@ -88,4 +88,32 @@ assert.ok(parseStart > 0 && parseEnd > parseStart);
 const recipeIngredientParser = shoppingPage.slice(parseStart, parseEnd);
 assert.match(recipeIngredientParser, /block\|blocks\|packet\|packets/);
 assert.match(shoppingPage, /"corn chips",/);
-console.log("Little Chefs shopping category and ingredient regression checks passed.");
+
+const {
+  getGroceryProductIdentity,
+  formatGroceryPurchaseLabel,
+} = loadPureTsModule("src/core/groceryProductIdentity.ts");
+
+const groceryCases = [
+  ["strawberries", { quantity: 3, unit: "cup" }, "Fresh Strawberries · 3 cups needed", "Fresh Strawberries"],
+  ["blueberries", { quantity: 1, unit: "cup" }, "Fresh Blueberries · 1 cup needed", "Fresh Blueberries"],
+  ["whipped cream", { quantity: 3, unit: "cup" }, "Whipped Cream · 3 cups needed", "Whipped Cream"],
+  ["corn chips", { quantity: 2, unit: "cup" }, "Corn Chips · 2 cups needed", "Corn Chips"],
+  ["granola", { quantity: 0.5, unit: "cup" }, "Granola · 0.5 cups needed", "Granola"],
+  ["vanilla yogurt", { quantity: 2, unit: "cup" }, "Vanilla Yogurt · 2 cups needed", "Vanilla Yogurt"],
+  ["graham cracker sheets", { quantity: 4, unit: null }, "Graham Crackers", "Graham Crackers"],
+  ["ready-to-eat pound cake", { quantity: 1, unit: "package", packageSize: "10 oz" }, "1 package (10 oz) Pound Cake", "Pound Cake"],
+  ["ready-to-eat apple pie filling", { quantity: 1, unit: "can", packageSize: "21 oz" }, "1 can (21 oz) Apple Pie Filling", "Apple Pie Filling"],
+  ["ready-to-eat chocolate pudding snack cups", { quantity: 4, unit: null, isCountable: true }, "4 Chocolate Pudding Snack Cups", "Chocolate Pudding Snack Cups"],
+  ["ready-to-eat vanilla pudding snack cups", { quantity: 4, unit: null, isCountable: true }, "4 Vanilla Pudding Snack Cups", "Vanilla Pudding Snack Cups"],
+];
+for (const [name, amount, expectedLabel, expectedSearch] of groceryCases) {
+  assert.equal(formatGroceryPurchaseLabel(name, amount), expectedLabel);
+  assert.equal(getGroceryProductIdentity(name)?.searchName, expectedSearch);
+}
+assert.equal(getGroceryProductIdentity("ground beef"), null);
+assert.equal(formatGroceryPurchaseLabel("ground beef", { quantity: 1, unit: "lb" }), null);
+assert.match(shoppingPage, /formatGroceryPurchaseLabel\(value.name/);
+assert.match(shoppingSource, /getGroceryProductIdentity\(normalizedName\)/);
+
+console.log("Little Chefs grocery names, categories, and ingredient regression checks passed.");
