@@ -31,6 +31,7 @@ import {
 } from "../shoppingList";
 import {
   categorizeGroceryItem,
+  getSpecificGroceryCategory,
   type GroceryCategory,
   GROCERY_CATEGORY_ORDER,
 } from "../core/groceryCategories";
@@ -54,6 +55,8 @@ import {
   usePlusAccess,
 } from "../plus/usePlusAccess";
 import { ALL_RECIPES } from "../core/data";
+import { isIngredientSectionHeader } from "../core/ingredientParser";
+import { formatGroceryPurchaseLabel } from "../core/groceryProductIdentity";
 import { getCookbook } from "../core/cookbookStore";
 import type { PantryItem } from "../core/types";
 import {
@@ -284,6 +287,7 @@ const ALWAYS_SHOW_MEASURED_TOTALS = new Set([
 ]);
 
 const HIDE_MEASURED_TOTALS = new Set([
+  "corn chips",
   "salt",
   "black pepper",
   "garlic powder",
@@ -647,17 +651,6 @@ function pluralizeCountable(name: string, quantity: number): string {
 // This is where recipe-style ingredient lines get cleaned
 // into shopper-friendly names
 // =====================================================
-const SECTION_HEADER_PATTERNS = [
-  /seasoning:?$/,
-  /^sauce:?$/,
-  /glaze:?$/,
-  /topping:?$/,
-  /toppings:?$/,
-  /marinade:?$/,
-  /dressing:?$/,
-  /filling:?$/,
-];
-
 const RECIPE_STYLE_PHRASES = [
   "to taste",
   "as needed",
@@ -719,13 +712,6 @@ function cleanupSpacing(text: string) {
     .replace(/\s+/g, " ")
     .trim()
     .replace(/[:]+$/, "");
-}
-
-function isSectionHeader(text: string) {
-  const cleaned = cleanupSpacing(text.toLowerCase());
-  if (!cleaned) return true;
-  if (text.trim().endsWith(":")) return true;
-  return SECTION_HEADER_PATTERNS.some((pattern) => pattern.test(cleaned));
 }
 
 function removeRecipeStylePhrases(text: string) {
@@ -1232,7 +1218,7 @@ function cleanIngredientName(line: string) {
     .replace(/\bsalsa or taco sauce\b/g, "salsa");
   text = text.replace(/^(and|or|with)\s+/g, "").trim();
 
-  if (isSectionHeader(text)) return "";
+  if (isIngredientSectionHeader(text)) return "";
 
   text = removeRecipeStylePhrases(text);
   text = text.replace(/^\s*up to\s+/i, "");
@@ -1378,7 +1364,7 @@ function parseIngredient(line: string): ParsedIngredient {
   }
 
   const measuredRangeMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:-|–|to)\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|box|boxes|clove|cloves|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices|head|heads|block|blocks)\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:-|–|to)\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|box|boxes|clove|cloves|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices|head|heads|block|blocks|packet|packets)\s+(.*)$/i
   );
 
   if (measuredRangeMatch) {
@@ -1415,7 +1401,7 @@ function parseIngredient(line: string): ParsedIngredient {
   }
 
   const measuredMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices|head|heads|block|blocks)\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices|head|heads|block|blocks|packet|packets)\s+(.*)$/i
   );
 
   if (measuredMatch) {
@@ -1485,6 +1471,10 @@ function normalizeCountableName(name: string): string {
 function isCountableIngredient(name: string): boolean {
   const normalized = normalizeCountableName(name);
   const cleaned = cleanIngredientName(name).toLowerCase();
+
+  // Ready-to-eat pudding is sold as individual snack cups.
+  // Keep the number of cups visible on the grocery list.
+  if (/\bpudding snack cups?$/.test(cleaned)) return true;
 
   if (normalized !== cleaned) return true;
 
@@ -1977,6 +1967,8 @@ function isForcedSpice(cleaned: string) {
 
 function resolveShoppingCategory(name: string): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
+  const specificCategory = getSpecificGroceryCategory(cleaned);
+  if (specificCategory) return specificCategory;
   // Audit-discovered category protections.
   if (cleaned.includes("cream of mushroom soup")) {
     return "Pantry";
@@ -2113,6 +2105,8 @@ function resolveShoppingCategoryForItem(
 ): GroceryCategory {
   const rawBrandName = normalizeManualText(name).toLowerCase();
   const cleaned = cleanIngredientName(name).toLowerCase();
+  const specificCategory = getSpecificGroceryCategory(cleaned);
+  if (specificCategory) return specificCategory;
 
   // Preserve fresh-herb identity before cleanup strips "fresh".
   if (
@@ -4447,6 +4441,21 @@ export default function ShoppingListPage() {
           value.unit,
           value.totalQuantity
         )}${packageText} ${formattedName}`;
+      }
+
+      // Only the product name belongs on the main list for recipe items.
+      // All ingredient amounts, units, and package sizes remain in
+      // recipeBreakdown (shown when the shopper taps the row), and in the
+      // original ShoppingItem for pantry matching and future retailer carts.
+      // Manual shopping entries keep exactly the quantities users entered.
+      if (!value.isManual) {
+        const simpleName =
+          value.isCountable && value.totalQuantity > 1
+            ? pluralizeCountable(value.name, value.totalQuantity)
+            : value.name;
+        displayText =
+          formatGroceryPurchaseLabel(value.name) ??
+          formatDisplayName(simpleName);
       }
 
       // Each sourceRecipe value is one recipe title. Commas inside titles

@@ -1,4 +1,5 @@
-import { categorizeGroceryItem, type GroceryCategory } from "./core/groceryCategories";
+import { categorizeGroceryItem, getSpecificGroceryCategory, type GroceryCategory } from "./core/groceryCategories";
+import { getGroceryProductIdentity } from "./core/groceryProductIdentity";
 import {
   INGREDIENT_QUANTITY_PATTERN,
   INGREDIENT_UNIT_PATTERN,
@@ -458,6 +459,10 @@ function cleanupSpacing(text: string) {
 }
 
 function buildGrocerySearchName(normalizedName: string) {
+  // Search for an actual grocery product, never a recipe volume or prep note.
+  const matchedProduct = getGroceryProductIdentity(normalizedName);
+  if (matchedProduct) return matchedProduct.searchName;
+
   return cleanupSpacing(
     normalizeAscii(normalizedName)
       .replace(/\b\d+\b/g, "")
@@ -1159,6 +1164,13 @@ function normalizeIngredientCore(text: string) {
   );
   next = normalizeSideSuggestionText(next);
   next = protectRealPeppers(next);
+  // Preserve "boneless, skinless chicken breasts": the comma separates
+  // preparation adjectives, not two different grocery ingredients.
+  // Without this normalization, splitting at the first comma drops chicken.
+  next = next.replace(
+    /\b(boneless|skinless|bone-in|skin-on)\s*,\s*(?=(?:boneless|skinless|bone-in|skin-on)\b)/g,
+    "$1 "
+  );
   next = next.split(",")[0];
   next = cleanupSpacing(next);
 
@@ -1864,6 +1876,8 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     cleanIngredientForCategory(name);
 
   const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
+  const specificCategory = getSpecificGroceryCategory(lower);
+  if (specificCategory) return specificCategory;
   // Audit-discovered category protections.
   if (lower.includes("cream of mushroom soup")) {
     return "Pantry";
@@ -2081,6 +2095,8 @@ function resolveShoppingCategoryForItem(
     cleanIngredientForCategory(name);
 
   const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
+  const specificCategory = getSpecificGroceryCategory(lower);
+  if (specificCategory) return specificCategory;
   // Audit-discovered category protections.
   if (lower.includes("cream of mushroom soup")) {
     return "Pantry";
