@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import type { GroceryRequirementGroup } from "../fulfillment/groceryRequirementSummary";
 import { buildRetailerMatchPreview } from "../fulfillment/groceryRetailerMatch";
+import { useState } from "react";
 import type { GroceryHandoffHold } from "../fulfillment/groceryHandoffFromShopping";
 
 type ReviewItem = {
@@ -137,6 +138,77 @@ export default function GroceryDeliveryPreviewPage() {
   const retailerPreview = snapshot
     ? buildRetailerMatchPreview(snapshot.requirements)
     : null;
+
+  const [instacartLoading, setInstacartLoading] =
+    useState(false);
+  const [instacartMessage, setInstacartMessage] =
+    useState("");
+
+  const openInstacartShoppingList = async () => {
+    if (!snapshot || instacartLoading) return;
+
+    setInstacartLoading(true);
+    setInstacartMessage("");
+
+    try {
+      const response = await fetch(
+        "/api/instacart-shopping-list",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            requirements: snapshot.requirements,
+            linkBackUrl:
+              window.location.origin +
+              "/shopping-list",
+          }),
+        }
+      );
+
+      const data = await response
+        .json()
+        .catch(() => null);
+
+      if (!response.ok) {
+        if (
+          data?.error ===
+          "INSTACART_NOT_CONFIGURED"
+        ) {
+          setInstacartMessage(
+            "Instacart is wired up, but a development API key still needs to be added."
+          );
+          return;
+        }
+
+        throw new Error(
+          data?.message ||
+          "Unable to create the Instacart shopping list."
+        );
+      }
+
+      if (!data?.url) {
+        throw new Error(
+          "Instacart did not return a shopping list link."
+        );
+      }
+
+      window.open(
+        data.url,
+        "_blank",
+        "noopener,noreferrer"
+      );
+    } catch (error) {
+      setInstacartMessage(
+        error instanceof Error
+          ? error.message
+          : "Unable to create the Instacart shopping list."
+      );
+    } finally {
+      setInstacartLoading(false);
+    }
+  };
 
   const panelStyle = {
     padding: 18,
@@ -468,19 +540,59 @@ export default function GroceryDeliveryPreviewPage() {
               </p>
               <button
                 type="button"
-                disabled
+                onClick={openInstacartShoppingList}
+                disabled={instacartLoading}
                 style={{
                   width: "100%",
                   padding: 13,
                   borderRadius: 12,
-                  border: 0,
-                  background: "#334155",
-                  color: "#cbd5e1",
-                  cursor: "not-allowed",
+                  border: "1px solid rgba(34,197,94,0.35)",
+                  background: instacartLoading
+                    ? "#334155"
+                    : "rgba(34,197,94,0.14)",
+                  color: instacartLoading
+                    ? "#cbd5e1"
+                    : "#bbf7d0",
+                  cursor: instacartLoading
+                    ? "wait"
+                    : "pointer",
+                  fontWeight: 800,
                 }}
               >
-                Choose Grocery Provider — Coming Soon
+                {instacartLoading
+                  ? "Preparing Instacart List…"
+                  : "Shop with Instacart"}
               </button>
+
+              <div
+                style={{
+                  marginTop: 8,
+                  fontSize: 11,
+                  opacity: 0.58,
+                }}
+              >
+                You will review the matched products and
+                choose your store on Instacart before checkout.
+              </div>
+
+              {instacartMessage && (
+                <div
+                  style={{
+                    marginTop: 12,
+                    padding: "10px 12px",
+                    borderRadius: 10,
+                    background:
+                      "rgba(245,158,11,0.08)",
+                    border:
+                      "1px solid rgba(245,158,11,0.22)",
+                    color: "#fde68a",
+                    fontSize: 12,
+                    lineHeight: 1.45,
+                  }}
+                >
+                  {instacartMessage}
+                </div>
+              )}
             </section>
           </>
         )}
