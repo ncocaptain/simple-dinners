@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import type { GroceryRequirementGroup } from "../fulfillment/groceryRequirementSummary";\nimport { buildRetailerMatchPreview } from "../fulfillment/groceryRetailerMatch";
+import type { GroceryRequirementGroup } from "../fulfillment/groceryRequirementSummary";
+import { buildRetailerMatchPreview } from "../fulfillment/groceryRetailerMatch";
 import type { GroceryHandoffHold } from "../fulfillment/groceryHandoffFromShopping";
 
 type ReviewItem = {
