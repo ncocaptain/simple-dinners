@@ -167,9 +167,17 @@ export default function GroceryDeliveryPreviewPage() {
         }
       );
 
-      const data = await response
-        .json()
-        .catch(() => null);
+      const contentType =
+        response.headers.get("content-type") || "";
+
+      if (!contentType.includes("application/json")) {
+        setInstacartMessage(
+          "The Instacart server route is not running under Vite dev. Once a development API key is added, run the app with Vercel dev to test the live handoff locally."
+        );
+        return;
+      }
+
+      const data = await response.json();
 
       if (!response.ok) {
         if (
