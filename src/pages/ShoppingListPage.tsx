@@ -1,3 +1,8 @@
+import { useNavigate as useGroceryPreviewNavigate } from "react-router-dom";
+import { selectCompatiblePantryItem } from "../core/pantryShoppingCompatibility";
+import { summarizeGroceryRequirements } from "../fulfillment/groceryRequirementSummary";
+import { buildGroceryHandoffFromShopping } from "../fulfillment/groceryHandoffFromShopping";
+import { useEffect as useGroceryPreviewEffect } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -4581,15 +4586,23 @@ export default function ShoppingListPage() {
             )[0]
           : "";
 
-      const pantryMatch =
-        pantryKey
-          ? pantryItems.find(
-              (item) =>
-                getPantryComparableName(
-                  item.name
-                ) === pantryKey
-            )
-          : undefined;
+      // PANTRY_FRESH_VS_CANNED_V1
+      // Match the product AND its compatible unit.
+      const matchingPantryItems = pantryKey
+        ? pantryItems.filter(
+            (item) =>
+              getPantryComparableName(item.name) === pantryKey
+          )
+        : [];
+
+      const requiresIndividualCount =
+        value.isCountable || value.unit === "__count__";
+
+      const pantryMatch = selectCompatiblePantryItem(
+        matchingPantryItems,
+        requiresIndividualCount ? null : value.unit,
+        Boolean(requiresIndividualCount)
+      );
 
       const requiredQuantity =
         !value.mixedUnits &&
@@ -4734,6 +4747,103 @@ export default function ShoppingListPage() {
         ),
       [combinedItems]
     );
+
+  // GROCERY_HANDOFF_LIVE_PROBE_V1
+  // Development-only, read-only grocery handoff diagnostic.
+  useGroceryPreviewEffect(() => {
+    if (!import.meta.env.DEV) return;
+
+    const preview = buildGroceryHandoffFromShopping(
+      shoppingItems,
+      combinedItems,
+      pantryBuyAnywayIds
+    );
+
+    const requirements =
+    summarizeGroceryRequirements(preview.lines);
+
+  const reviewReasons = requirements.reviews.reduce<
+    Record<string, number>
+  >((counts, review) => {
+    counts[review.reason] =
+      (counts[review.reason] || 0) + 1;
+    return counts;
+  }, {});
+
+  const holdReasons = preview.holds.reduce<Record<string, number>>(
+      (counts, hold) => {
+        counts[hold.reason] = (counts[hold.reason] || 0) + 1;
+        return counts;
+      },
+      {}
+    );
+
+    console.info("[Simple Dinners Grocery Preview]", {
+      rawItems: shoppingItems.length,
+      mergedRows: preview.totalMergedRows,
+      handoffLines: preview.lines.length,
+    consolidatedRequirements: requirements.groups.length,
+    requirementsHeldForReview: requirements.reviews.length,
+    requirementReviewReasons: reviewReasons,
+    // GROCERY_HANDOFF_REVIEW_DETAILS_V1
+    reviewDetails: requirements.reviews.map((review) => {
+      const line = preview.lines.find(
+        (entry) => entry.itemId === review.itemId
+      );
+
+      return {
+        reason: review.reason,
+        product: line?.shoppingName,
+        originalIngredient: line?.originalIngredient,
+        quantity: line?.quantity,
+        unit: line?.unit,
+        packageSize: line?.packageSize,
+        recipe: line?.sourceRecipe,
+      };
+    }),
+    // GROCERY_PARTIAL_PANTRY_DIAGNOSTIC_V1
+    pantryPartialDetails: combinedItems
+      .filter(
+        (row) =>
+          !row.checked &&
+          row.pantryCoverage === "partial"
+      )
+      .map((row) => {
+        const pantry = pantryItems.find(
+          (entry) =>
+            getPantryComparableName(entry.name) === row.pantryKey
+        );
+
+        return {
+          product: row.displayText,
+          requiredQuantity: row.quantity,
+          requiredUnit: row.unit,
+          requiredPackageSize: row.packageSize,
+          pantryQuantity: pantry?.quantity ?? null,
+          pantryUnit: pantry?.unit ?? null,
+          pantryPackageSize: pantry?.packageSize ?? "",
+          pantryIsStaple: pantry?.isStaple ?? false,
+        };
+      }),
+    pantryHoldDetails: preview.holds,
+    totalHeldForReview:
+      requirements.reviews.length + preview.holds.length,
+    requirementExamples: requirements.groups
+      .slice(0, 12)
+      .map((group) => ({
+        product: group.shoppingName,
+        quantity: group.quantity,
+        unit: group.unit,
+        packageSize: group.packageSize,
+        sourceCount: group.sourceLines.length,
+      })),
+      excludedCheckedRows: preview.excludedCheckedRows,
+      excludedCoveredRows: preview.excludedCoveredRows,
+      needsAttention: preview.requiresAttention,
+      holdReasons,
+      canAutoAddToCart: preview.canAutoAddToCart,
+    });
+  }, [shoppingItems, combinedItems, pantryBuyAnywayIds]);
 
   const pantryCoveredItems =
     useMemo(
@@ -4883,6 +4993,45 @@ export default function ShoppingListPage() {
   // =====================================================
   // Render
   // =====================================================
+
+  const groceryPreviewNavigate = useGroceryPreviewNavigate();
+
+  const openGroceryPreview = () => {
+    const handoff = buildGroceryHandoffFromShopping(
+      shoppingItems,
+      combinedItems,
+      pantryBuyAnywayIds
+    );
+
+    const requirements = summarizeGroceryRequirements(
+      handoff.lines
+    );
+
+    groceryPreviewNavigate("/grocery-preview", {
+      state: {
+        version: 1,
+        createdAt: Date.now(),
+        rawItems: shoppingItems.length,
+        mergedRows: handoff.totalMergedRows,
+        excludedCheckedRows: handoff.excludedCheckedRows,
+        excludedCoveredRows: handoff.excludedCoveredRows,
+        requirements: requirements.groups,
+        reviews: requirements.reviews.map((review) => {
+          const line = handoff.lines.find(
+            (item) => item.itemId === review.itemId
+          );
+          return {
+            itemId: review.itemId,
+            reason: review.reason,
+            shoppingName: line?.shoppingName ?? "",
+            originalIngredient: line?.originalIngredient ?? "",
+          };
+        }),
+        holds: handoff.holds,
+      },
+    });
+  };
+
   return (
     <div
       style={{
@@ -4895,6 +5044,69 @@ export default function ShoppingListPage() {
         overflowX: "hidden",
       }}
     >
+      {import.meta.env.DEV && (
+        <div
+          style={{
+            width: "100%",
+            maxWidth: 650,
+            margin: "0 auto",
+            padding: "0 16px 18px",
+            boxSizing: "border-box",
+          }}
+        >
+          <button
+            type="button"
+            onClick={openGroceryPreview}
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 14,
+              padding: "13px 15px",
+              borderRadius: 14,
+              border: "1px solid rgba(96,165,250,0.28)",
+              background: "rgba(59,130,246,0.10)",
+              color: "#dbeafe",
+              cursor: "pointer",
+              textAlign: "left",
+            }}
+          >
+            <span>
+              <span
+                style={{
+                  display: "block",
+                  fontWeight: 800,
+                  fontSize: 14,
+                }}
+              >
+                Grocery Delivery Preview
+              </span>
+              <span
+                style={{
+                  display: "block",
+                  marginTop: 3,
+                  fontSize: 11,
+                  opacity: 0.65,
+                }}
+              >
+                Review what your recipes need
+              </span>
+            </span>
+
+            <span
+              aria-hidden="true"
+              style={{
+                fontSize: 18,
+                opacity: 0.7,
+              }}
+            >
+              ›
+            </span>
+          </button>
+        </div>
+      )}
+
       <div
         style={{
           maxWidth: "550px",
