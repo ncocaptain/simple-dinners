@@ -505,6 +505,7 @@ function main() {
 
   const {
     assessRetailerRequirement,
+    assessRetailerSearchOnlyRequirement,
   } = loadTranspiledModule(
     "src/fulfillment/groceryRetailerMatch.ts",
     "src/fulfillment/groceryRetailerMatch.js"
@@ -742,6 +743,17 @@ function main() {
                 packageSize: preview.packageSize,
               });
             }
+          }
+        } else if (requirementSummary.searchOnly.length) {
+          for (const requirement of requirementSummary.searchOnly) {
+            const retailer =
+              assessRetailerSearchOnlyRequirement(requirement);
+
+            retailerCatalogCounts[retailer.status] =
+              (retailerCatalogCounts[retailer.status] || 0) + 1;
+
+            retailerModeCounts[retailer.mode] =
+              (retailerModeCounts[retailer.mode] || 0) + 1;
           }
         } else {
           for (const requirement of requirementSummary.groups) {
@@ -1147,6 +1159,8 @@ function main() {
     retailerCatalogCounts["search-ready"] || 0;
   report.summary.retailerPackageMatchNeeded =
     retailerCatalogCounts["package-match-needed"] || 0;
+  report.summary.retailerSearchOnly =
+    retailerCatalogCounts["search-only"] || 0;
   report.summary.retailerRequirementReviews =
     retailerCatalogCounts["needs-requirement-review"] || 0;
   report.summary.retailerChoiceBlocked =
@@ -1231,6 +1245,10 @@ function main() {
   console.log(
     "  Package match needed: " +
       report.summary.retailerPackageMatchNeeded
+  );
+  console.log(
+    "  Search only (quantity unspecified): " +
+      report.summary.retailerSearchOnly
   );
   console.log(
     "  Requirement review: " +

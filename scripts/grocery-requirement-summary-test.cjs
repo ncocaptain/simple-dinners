@@ -58,6 +58,10 @@ const items = [
     { packageSize: "15 oz" }),
   line("spray", "cooking spray", null, "",
     "cooking spray"),
+  line("salt", "salt", null, "",
+    "salt to taste"),
+  line("lostqty", "green onions", null, "",
+    "2 Tbsp green onions, sliced"),
   line("ginger", "ginger", 1, "Tbsp",
     "1 Tbsp fresh ginger or 1/2 tsp ground ginger",
     { status: "needs-choice" }),
@@ -66,9 +70,22 @@ const items = [
 const before = JSON.stringify(items);
 const result = summarize(items);
 
-assert.equal(result.originalLines, 8);
+assert.equal(result.originalLines, 10);
 assert.equal(result.groups.length, 5);
+assert.equal(result.searchOnly.length, 2);
 assert.equal(result.reviews.length, 2);
+
+assert.deepEqual(
+  result.searchOnly.map(item => item.itemId).sort(),
+  ["salt", "spray"]
+);
+
+assert.equal(
+  result.searchOnly.every(
+    item => item.canAutoAddToCart === false
+  ),
+  true
+);
 
 const combined = result.groups.find(
   group => group.sourceLines.length === 2
@@ -98,6 +115,7 @@ assert.equal(result.canAutoAddToCart, false);
 console.log("=== GROCERY REQUIREMENT SUMMARY ===");
 console.log("Original lines:", result.originalLines);
 console.log("Safe groups:", result.groups.length);
+console.log("Search-only requirements:", result.searchOnly.length);
 console.log("Held for review:", result.reviews.length);
 
 for (const group of result.groups) {
@@ -107,7 +125,10 @@ for (const group of result.groups) {
   );
 }
 
-console.log("\nPASS: Compatible quantities consolidated");
+console.log("\nPASS: Unspecified recipe quantities remain searchable");
+console.log("PASS: Numeric-source quantity loss remains under review");
+console.log("PASS: Search-only items cannot auto-add to cart");
+console.log("PASS: Compatible quantities consolidated");
 console.log("PASS: Different units remain separate");
 console.log("PASS: Different package sizes remain separate");
 console.log("PASS: Bone-in and boneless remain separate");

@@ -1,4 +1,7 @@
-import type { GroceryRequirementGroup } from "./groceryRequirementSummary";
+import type {
+  GroceryRequirementGroup,
+  GrocerySearchOnlyRequirement,
+} from "./groceryRequirementSummary";
 
 export type RetailerRequirementStatus =
   | "search-ready"
@@ -185,6 +188,23 @@ export function assessRetailerRequirement(
     reason:
       "A retailer-specific package or selling unit is still required.",
     canAutoAddToCart: false,
+  };
+}
+
+export function assessRetailerSearchOnlyRequirement(
+  requirement: GrocerySearchOnlyRequirement
+) {
+  return {
+    requirement,
+    status: "search-only" as const,
+    mode: "quantity-unspecified" as const,
+    searchName:
+      requirement.searchCandidate.trim() ||
+      requirement.shoppingName.trim(),
+    purchaseTarget: "Quantity not specified",
+    reason:
+      "The recipe names the grocery but does not specify an amount. Product search is safe, but package quantity must be chosen by the shopper.",
+    canAutoAddToCart: false as const,
   };
 }
 

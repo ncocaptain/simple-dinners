@@ -24,6 +24,21 @@ export type GroceryRequirementReview = {
     | "missing-search";
 };
 
+export type GrocerySearchOnlyRequirement = {
+  itemId: string;
+  shoppingName: string;
+  searchCandidate: string;
+  sourceRecipe: string | null;
+  originalIngredient: string;
+  reason: "quantity-unspecified";
+  canAutoAddToCart: false;
+};
+
+const startsWithRecipeAmount = (value: string) =>
+  /^\s*(?:\d|[¼½¾⅓⅔⅛])/.test(
+    String(value || "")
+  );
+
 const normalized = (value: string) =>
   value.toLowerCase().replace(/\s+/g, " ").trim();
 
@@ -154,6 +169,7 @@ export function summarizeGroceryRequirements(
 ) {
   const groups = new Map<string, GroceryRequirementGroup>();
   const reviews: GroceryRequirementReview[] = [];
+  const searchOnly: GrocerySearchOnlyRequirement[] = [];
 
   for (const line of lines) {
     const requirementUnit = resolveRequirementUnit(line);
@@ -169,6 +185,23 @@ export function summarizeGroceryRequirements(
       !Number.isFinite(line.quantity) ||
       line.quantity <= 0
     ) {
+      // A named grocery without a recipe amount is still safe to search.
+      // Do not invent a quantity/package, and never auto-add it to a cart.
+      // If the raw recipe *did* start with a numeric amount, keep it as a
+      // true parser/data review instead of masking a lost quantity.
+      if (!startsWithRecipeAmount(line.originalIngredient)) {
+        searchOnly.push({
+          itemId: line.itemId,
+          shoppingName: line.shoppingName,
+          searchCandidate: line.searchCandidate,
+          sourceRecipe: line.sourceRecipe,
+          originalIngredient: line.originalIngredient,
+          reason: "quantity-unspecified",
+          canAutoAddToCart: false,
+        });
+        continue;
+      }
+
       reason = "missing-quantity";
     } else if (!requirementUnit) {
       // Do not guess whether an unspecified unit
@@ -223,6 +256,7 @@ export function summarizeGroceryRequirements(
   return {
     originalLines: lines.length,
     groups: Array.from(groups.values()),
+    searchOnly,
     reviews,
     canAutoAddToCart: false as const,
   };
