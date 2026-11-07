@@ -197,7 +197,7 @@ console.log(
   "PASS: explicit count packages are supported"
 );
 console.log(
-  "PASS: candidate ranking minimizes excess"
+  "PASS: candidate ranking prefers fewer packages, then less excess"
 );
 console.log(
   "PASS: automatic cart addition remains disabled"
