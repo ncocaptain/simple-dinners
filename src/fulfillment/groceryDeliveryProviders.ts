@@ -5,10 +5,11 @@ export type GroceryDeliveryProviderStatus =
   | "planned";
 
 export type GroceryDeliveryProvider = {
-  id: "instacart" | "uber";
+  id: "kroger" | "instacart" | "uber";
   name: string;
   status: GroceryDeliveryProviderStatus;
   adapter:
+    | "kroger-public-api"
     | "instacart-products-link"
     | "uber-consumer-delivery";
   description: string;
@@ -19,6 +20,17 @@ export type GroceryDeliveryProvider = {
 
 export const GROCERY_DELIVERY_PROVIDERS:
   readonly GroceryDeliveryProvider[] = [
+  {
+    id: "kroger",
+    name: "Kroger",
+    status: "setup-required",
+    adapter: "kroger-public-api",
+    description:
+      "Public API access is registered in Certification. Simple Dinners is validating locations, products, and package matching before customer cart authorization.",
+    shopperReviewRequired: true,
+    supportsGroceryListHandoff: true,
+    canAutoCheckout: false,
+  },
   {
     id: "instacart",
     name: "Instacart",
@@ -65,6 +77,10 @@ export function getGroceryDeliveryProviderSummary() {
     blocked: GROCERY_DELIVERY_PROVIDERS.filter(
       (provider) =>
         provider.status === "application-closed"
+    ).length,
+    setupRequired: GROCERY_DELIVERY_PROVIDERS.filter(
+      (provider) =>
+        provider.status === "setup-required"
     ).length,
     canAutoCheckout: false as const,
   };
