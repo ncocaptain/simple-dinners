@@ -64,10 +64,19 @@ const result = summarizeGroceryRequirements([
   line("lime", "lime", 0.5, "", "juice from 1/2 lime"),
   line("chicken", "chicken breast", 4, "", "4 boneless, skinless chicken breasts"),
   line("corn", "corn on the cob", 4, "ear", "4 ears corn, husked"),
+  line("sweet-potato", "sweet potato", 2, "", "2 large sweet potatoes, cut into wedges"),
+  line("naan", "naan", 4, "", "4 naan flatbreads"),
+  line("pita", "pita bread", 4, "", "4 soft Greek pita flatbreads"),
+  line("green-onion-unspecified", "green onion", 1, "", "green onions, sliced"),
 ]);
 
 assert.equal(result.reviews.length, 0);
-assert.equal(result.groups.length, 6);
+assert.equal(result.groups.length, 9);
+assert.equal(result.searchOnly.length, 1);
+assert.equal(
+  result.searchOnly[0].itemId,
+  "green-onion-unspecified"
+);
 assert.equal(
   result.groups.filter(group => group.shoppingName !== "corn on the cob")
     .every(group => group.unit === "count"),
@@ -92,3 +101,6 @@ console.log("PASS: fractional produce counts resolve");
 console.log("PASS: citrus juice wording resolves to fruit count");
 console.log("PASS: ears of corn are recognized as a unit");
 console.log("PASS: size-described containers can preserve bag/package units");
+console.log("PASS: sweet potato plurals resolve as counts");
+console.log("PASS: numbered naan and pita resolve as counts");
+console.log("PASS: unmeasured onion defaults become search-only");
