@@ -86,7 +86,7 @@ function comparableCountPhrase(value: string) {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/\([^)]*\)/g, " ")
-    .replace(/,.*/g, " ")
+    .replace(/,/g, " ")
     .replace(COUNT_DESCRIPTORS, " ")
     .replace(/[^a-z0-9\s-]/g, " ")
     .split(/\s+/)
