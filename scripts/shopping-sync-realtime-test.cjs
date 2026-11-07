@@ -8,26 +8,26 @@ const source = fs.readFileSync(
 
 assert.match(
   source,
-  /table:\s*"shopping_items"/,
-  "Realtime must listen to shopping_items"
+  /table:\s*"households"/,
+  "Realtime must listen for the completed household snapshot signal"
 );
 
 assert.match(
   source,
-  /event:\s*"\*"/,
-  "Realtime must react to insert, update, and delete changes"
+  /event:\s*"UPDATE"/,
+  "Realtime must react to the snapshot-complete household update"
 );
 
 assert.match(
   source,
-  /household_id=eq\.\$\{activeHouseholdId\}/,
+  /id=eq\.\$\{activeHouseholdId\}/,
   "Realtime must stay scoped to the active household"
 );
 
-assert.doesNotMatch(
+assert.match(
   source,
-  /table:\s*"households"/,
-  "Shopping sync must not depend on household row updates"
+  /replace_shopping_items updates the household row only after/,
+  "The listener should document the completed-snapshot contract"
 );
 
 const subscribedBlock = source.match(
@@ -64,8 +64,8 @@ assert.match(
 );
 
 console.log("=== SHOPPING SYNC REALTIME TEST ===");
-console.log("PASS: listens to shopping_items");
+console.log("PASS: listens for completed shopping snapshots");
 console.log("PASS: scoped to active household");
-console.log("PASS: all row changes trigger reconciliation");
+console.log("PASS: completed snapshot triggers reconciliation");
 console.log("PASS: Realtime connection alone does not claim Synced");
 console.log("PASS: foreground resume self-heals missed events");
