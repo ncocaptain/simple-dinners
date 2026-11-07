@@ -106,6 +106,11 @@ const cases = [
     "individual-count",
   ],
   [
+    requirement("cucumbers", 2, "count"),
+    "search-ready",
+    "individual-count",
+  ],
+  [
     requirement(
       "ready-to-eat vanilla pudding snack cups",
       4,
@@ -146,8 +151,8 @@ const preview = buildRetailerMatchPreview(
   cases.map(([input]) => input)
 );
 
-assert.equal(preview.items.length, 15);
-assert.equal(preview.searchReady, 12);
+assert.equal(preview.items.length, 16);
+assert.equal(preview.searchReady, 13);
 assert.equal(preview.packageMatchNeeded, 3);
 assert.equal(preview.canAutoAddToCart, false);
 
