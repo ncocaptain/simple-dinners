@@ -81,6 +81,31 @@ const cases = [
     "individual-count",
   ],
   [
+    requirement("carrot", 3, "count"),
+    "search-ready",
+    "individual-count",
+  ],
+  [
+    requirement("bell peppers", 2, "count"),
+    "search-ready",
+    "individual-count",
+  ],
+  [
+    requirement("russet potatoes", 4, "count"),
+    "search-ready",
+    "individual-count",
+  ],
+  [
+    requirement("ripe avocado", 2, "count"),
+    "search-ready",
+    "individual-count",
+  ],
+  [
+    requirement("roma tomatoes", 3, "count"),
+    "search-ready",
+    "individual-count",
+  ],
+  [
     requirement(
       "ready-to-eat vanilla pudding snack cups",
       4,
@@ -121,8 +146,8 @@ const preview = buildRetailerMatchPreview(
   cases.map(([input]) => input)
 );
 
-assert.equal(preview.items.length, 10);
-assert.equal(preview.searchReady, 7);
+assert.equal(preview.items.length, 15);
+assert.equal(preview.searchReady, 12);
 assert.equal(preview.packageMatchNeeded, 3);
 assert.equal(preview.canAutoAddToCart, false);
 
@@ -142,6 +167,7 @@ console.log("PASS: Weight requirements are search-ready");
 console.log("PASS: Exact recipe package sizes are preserved");
 console.log("PASS: Individual produce counts are search-ready");
 console.log("PASS: Onions, citrus, and potatoes stay out of package matching");
+console.log("PASS: Common counted produce variants stay search-ready");
 console.log("PASS: Multipack/count products require package matching");
 console.log("PASS: Recipe volumes never guess retailer package sizes");
 console.log("PASS: Automatic cart additions remain disabled");
