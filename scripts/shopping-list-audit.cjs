@@ -469,6 +469,47 @@ function main() {
   const { resolveGroceryChoice, assessGroceryDeliveryReadiness } =
     require(choiceCompiledPath);
 
+  // RETAILER_CATALOG_AUDIT_V1
+  // Reuse the same requirement consolidation and retailer classification
+  // modules as the Grocery Delivery Preview so audit and UI stay aligned.
+  function loadTranspiledModule(relativePath, outputRelativePath) {
+    const sourcePath = path.join(projectRoot, relativePath);
+    const compiledPath = path.join(tempDir, outputRelativePath);
+
+    fs.mkdirSync(path.dirname(compiledPath), {
+      recursive: true,
+    });
+
+    fs.writeFileSync(
+      compiledPath,
+      choiceTs.transpileModule(
+        fs.readFileSync(sourcePath, "utf8"),
+        {
+          compilerOptions: {
+            module: choiceTs.ModuleKind.CommonJS,
+            target: choiceTs.ScriptTarget.ES2020,
+          },
+        }
+      ).outputText
+    );
+
+    return require(compiledPath);
+  }
+
+  const {
+    summarizeGroceryRequirements,
+  } = loadTranspiledModule(
+    "src/fulfillment/groceryRequirementSummary.ts",
+    "src/fulfillment/groceryRequirementSummary.js"
+  );
+
+  const {
+    assessRetailerRequirement,
+  } = loadTranspiledModule(
+    "src/fulfillment/groceryRetailerMatch.ts",
+    "src/fulfillment/groceryRetailerMatch.js"
+  );
+
   const recipes =
     Array.isArray(
       data.ALL_RECIPES
@@ -565,6 +606,14 @@ function main() {
   const fulfillmentChoiceFindings = [];
   const deliveryReadinessCounts = {};
   const alternativeQuantityReviews = [];
+
+  // Full-catalog retailer/package readiness.
+  const retailerCatalogCounts = {};
+  const retailerModeCounts = {};
+  const retailerRequirementReviewCounts = {};
+  const retailerRequirementReviews = [];
+  const retailerPackageMatchIdentityCounts = new Map();
+
   const registryCategoryMismatch =
     [];
 
@@ -638,6 +687,83 @@ function main() {
           originalUnit: preview.unit,
           quantityOptions: readiness.quantityOptions
         });
+      }
+
+      // Classify the same ingredient through the same requirement-summary
+      // and retailer-readiness modules used by Grocery Delivery Preview.
+      // Shopper choices and preparation-only notes remain explicit blockers.
+      if (choice.requiresSelection) {
+        retailerCatalogCounts["needs-choice"] =
+          (retailerCatalogCounts["needs-choice"] || 0) + 1;
+      } else if (choice.status === "preparation-note") {
+        retailerCatalogCounts["needs-product-review"] =
+          (retailerCatalogCounts["needs-product-review"] || 0) + 1;
+      } else {
+        const requirementSummary = summarizeGroceryRequirements([
+          {
+            itemId:
+              "catalog::" +
+              recipeName +
+              "::" +
+              line,
+            shoppingName:
+              String(preview.normalizedName || ""),
+            searchCandidate:
+              String(preview.grocerySearchName || ""),
+            sourceRecipe: recipeName,
+            originalIngredient: line,
+            quantity: preview.quantity,
+            unit: preview.unit || "",
+            packageSize: preview.packageSize || "",
+            status: "search-candidate",
+            quantityOptions: null,
+            needsQuantityRecalculation: false,
+            canAutoAddToCart: false,
+          },
+        ]);
+
+        if (requirementSummary.reviews.length) {
+          retailerCatalogCounts["needs-requirement-review"] =
+            (retailerCatalogCounts["needs-requirement-review"] || 0) + 1;
+
+          for (const review of requirementSummary.reviews) {
+            retailerRequirementReviewCounts[review.reason] =
+              (retailerRequirementReviewCounts[review.reason] || 0) + 1;
+
+            if (retailerRequirementReviews.length < 250) {
+              retailerRequirementReviews.push({
+                recipe: recipeName,
+                raw: line,
+                identity: preview.normalizedName,
+                search: preview.grocerySearchName,
+                reason: review.reason,
+                quantity: preview.quantity,
+                unit: preview.unit,
+                packageSize: preview.packageSize,
+              });
+            }
+          }
+        } else {
+          for (const requirement of requirementSummary.groups) {
+            const retailer =
+              assessRetailerRequirement(requirement);
+
+            retailerCatalogCounts[retailer.status] =
+              (retailerCatalogCounts[retailer.status] || 0) + 1;
+
+            retailerModeCounts[retailer.mode] =
+              (retailerModeCounts[retailer.mode] || 0) + 1;
+
+            if (retailer.status === "package-match-needed") {
+              addCount(
+                retailerPackageMatchIdentityCounts,
+                String(
+                  requirement.shoppingName || ""
+                ).trim().toLowerCase()
+              );
+            }
+          }
+        }
       }
 
       if (choice.status !== "ready") {
@@ -1003,6 +1129,31 @@ function main() {
     alternativeQuantityReviews
   };
 
+  report.retailerCatalogReadiness = {
+    statusCounts: retailerCatalogCounts,
+    modeCounts: retailerModeCounts,
+    requirementReviewCounts:
+      retailerRequirementReviewCounts,
+    topPackageMatchIdentities:
+      topEntries(
+        retailerPackageMatchIdentityCounts,
+        40
+      ),
+    requirementReviews:
+      retailerRequirementReviews,
+  };
+
+  report.summary.retailerSearchReady =
+    retailerCatalogCounts["search-ready"] || 0;
+  report.summary.retailerPackageMatchNeeded =
+    retailerCatalogCounts["package-match-needed"] || 0;
+  report.summary.retailerRequirementReviews =
+    retailerCatalogCounts["needs-requirement-review"] || 0;
+  report.summary.retailerChoiceBlocked =
+    retailerCatalogCounts["needs-choice"] || 0;
+  report.summary.retailerProductReview =
+    retailerCatalogCounts["needs-product-review"] || 0;
+
   report.summary.alternativeQuantityReviews =
     alternativeQuantityReviews.length;
 
@@ -1070,6 +1221,73 @@ function main() {
   console.log(
     `Possible alias groups: ${report.summary.aliasCandidateGroups}`
   );
+
+  console.log("\nFull-catalog retailer readiness");
+  console.log("--------------------------------");
+  console.log(
+    "  Search ready: " +
+      report.summary.retailerSearchReady
+  );
+  console.log(
+    "  Package match needed: " +
+      report.summary.retailerPackageMatchNeeded
+  );
+  console.log(
+    "  Requirement review: " +
+      report.summary.retailerRequirementReviews
+  );
+  console.log(
+    "  Choice blocked: " +
+      report.summary.retailerChoiceBlocked
+  );
+  console.log(
+    "  Product/preparation review: " +
+      report.summary.retailerProductReview
+  );
+  console.log(
+    "  Retailer modes: " +
+      JSON.stringify(retailerModeCounts)
+  );
+  console.log(
+    "  Requirement review reasons: " +
+      JSON.stringify(retailerRequirementReviewCounts)
+  );
+
+  const topPackageMatches =
+    report.retailerCatalogReadiness
+      .topPackageMatchIdentities;
+
+  if (topPackageMatches.length) {
+    console.log(
+      "\nMost common package-match requirements:"
+    );
+    for (const item of topPackageMatches.slice(0, 20)) {
+      console.log(
+        "  " +
+          String(item.count).padStart(3) +
+          "  " +
+          item.name
+      );
+    }
+  }
+
+  if (retailerRequirementReviews.length) {
+    console.log(
+      "\nFirst retailer requirement reviews:"
+    );
+    for (
+      const item of retailerRequirementReviews.slice(0, 20)
+    ) {
+      console.log(
+        "  [" +
+          item.recipe +
+          "] " +
+          item.raw +
+          " -> " +
+          item.reason
+      );
+    }
+  }
 
   console.log("\nEnd-to-end isolated Shopping List simulation");
   console.log("----------------------------------------");
