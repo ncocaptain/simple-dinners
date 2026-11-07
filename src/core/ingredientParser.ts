@@ -2,7 +2,7 @@ export const INGREDIENT_QUANTITY_PATTERN =
   "\\d+\\s+\\d+\\/\\d+|\\d+\\/\\d+|\\d+\\.\\d+|\\d+|½|¼|¾|⅓|⅔|⅛|⅜|⅝|⅞";
 
 export const INGREDIENT_UNIT_PATTERN =
-  "cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|gram|grams|kg|kilogram|kilograms|ml|milliliter|milliliters|l|liter|liters|clove|cloves|can|cans|package|packages|pkg|pkgs|box|boxes|strip|strips|slice|slices|stick|sticks|bunch|bunches|head|heads|jar|jars|carton|cartons|bag|bags|tube|tubes|packet|packets|loaf|loaves|piece|pieces|block|blocks";
+  "cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|oz|ounce|ounces|lb|lbs|pound|pounds|g|gram|grams|kg|kilogram|kilograms|ml|milliliter|milliliters|l|liter|liters|clove|cloves|can|cans|package|packages|pkg|pkgs|box|boxes|strip|strips|slice|slices|stick|sticks|bunch|bunches|head|heads|jar|jars|carton|cartons|bag|bags|tube|tubes|packet|packets|loaf|loaves|piece|pieces|block|blocks|ear|ears";
 
 const UNICODE_FRACTIONS: Record<string, number> = {
   "¼": 0.25,
