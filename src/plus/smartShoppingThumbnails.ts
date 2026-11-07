@@ -644,6 +644,14 @@ const BROAD_THUMBNAIL_RULES: Array<{
 }> = [
     {
       matches: (name) =>
+        /\bapples?\b/.test(name) &&
+        !/\b(?:apple juice|apple cider|apple cider vinegar|apple pie filling|apple filling|applesauce|apple sauce|apple butter|dried apples?|apple chips?|canned apples?)\b/.test(
+          name
+        ),
+      thumbnailKey: "apple",
+    },
+    {
+      matches: (name) =>
         name.includes("onion") &&
         !name.includes("onion powder") &&
         !name.includes("fried onion"),
