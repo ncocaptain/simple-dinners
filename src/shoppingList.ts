@@ -1412,6 +1412,11 @@ if (baconRangeMatch) {
     parsedUnitForName
   );
 
+  // Fresh ears of corn are a different grocery identity from canned corn.
+  if (unit === "ear" && normalizedName === "corn") {
+    normalizedName = "corn on the cob";
+  }
+
   // Smart defaults stored as real metadata so ShoppingListPage can merge correctly.
   if (normalizedName === "garlic") {
     unit = "clove";
