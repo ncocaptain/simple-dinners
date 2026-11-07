@@ -1264,13 +1264,19 @@ function parseIngredientParts(line: string): {
   }
 
   const looksLikeMeasuredIngredient = new RegExp(
-  `^\\s*(?:${QUANTITY_PATTERN})\\s+(?:${UNIT_PATTERN})\\b`,
-  "i"
-).test(text);
+    `^\\s*(?:${QUANTITY_PATTERN})\\s+(?:${UNIT_PATTERN})\\b`,
+    "i"
+  ).test(text);
 
-  const preparedSideName = looksLikeMeasuredIngredient
-    ? ""
-    : normalizeSideSuggestionText(text);
+  const startsWithQuantity = new RegExp(
+    `^\\s*(?:${QUANTITY_PATTERN})(?=\\s|\\(|$)`,
+    "i"
+  ).test(text);
+
+  const preparedSideName =
+    looksLikeMeasuredIngredient || startsWithQuantity
+      ? ""
+      : normalizeSideSuggestionText(text);
 
   if (preparedSideName && isPreparedSideName(preparedSideName)) {
     return {
@@ -1333,20 +1339,49 @@ if (baconRangeMatch) {
   // Remove parenthetical size after capturing so quantity + unit parsing still works.
   text = text.replace(/\([^)]*\)/g, " ").replace(/\s+/g, " ").trim();
 
-  const quantityMatch = text.match(
-    new RegExp(`^(${QUANTITY_PATTERN})\\b`, "i")
+  const measuredRangeMatch = text.match(
+    new RegExp(
+      `^(${QUANTITY_PATTERN})\\s*(?:-|–|—|to)\\s*(${QUANTITY_PATTERN})\\s+(${UNIT_PATTERN})\\b`,
+      "i"
+    )
   );
 
-  if (quantityMatch) {
-    quantity = parseFraction(quantityMatch[1]);
-    text = text.slice(quantityMatch[0].length).trim();
-  }
+  if (measuredRangeMatch) {
+    quantity = parseFraction(measuredRangeMatch[1]);
+    unit = normalizeUnit(measuredRangeMatch[3]);
+    text = text.slice(measuredRangeMatch[0].length).trim();
+  } else {
+    const quantityMatch = text.match(
+      new RegExp(`^(${QUANTITY_PATTERN})\\b`, "i")
+    );
 
-  const unitMatch = text.match(new RegExp(`^(${UNIT_PATTERN})\\b`, "i"));
+    if (quantityMatch) {
+      quantity = parseFraction(quantityMatch[1]);
+      text = text.slice(quantityMatch[0].length).trim();
+    }
 
-  if (unitMatch) {
-    unit = normalizeUnit(unitMatch[1]);
-    text = text.slice(unitMatch[0].length).trim();
+    const unitMatch = text.match(
+      new RegExp(`^(${UNIT_PATTERN})\\b`, "i")
+    );
+
+    if (unitMatch) {
+      unit = normalizeUnit(unitMatch[1]);
+      text = text.slice(unitMatch[0].length).trim();
+    } else {
+      const describedContainerMatch = text.match(
+        new RegExp(
+          `^(?:small|medium|large)\\s+(${UNIT_PATTERN})\\b`,
+          "i"
+        )
+      );
+
+      if (describedContainerMatch) {
+        unit = normalizeUnit(describedContainerMatch[1]);
+        text = text
+          .slice(describedContainerMatch[0].length)
+          .trim();
+      }
+    }
   }
 
   const parsedUnitForName = unit;
@@ -1378,12 +1413,7 @@ if (baconRangeMatch) {
   }
 
   if (normalizedName === "cilantro" || normalizedName === "parsley") {
-    if (
-      !parsedUnitForName ||
-      parsedUnitForName === "tsp" ||
-      parsedUnitForName === "Tbsp" ||
-      parsedUnitForName === "cup"
-    ) {
+    if (!parsedUnitForName) {
       unit = "bunch";
       quantity = 1;
     }
@@ -1396,8 +1426,10 @@ if (baconRangeMatch) {
     normalizedName === "red onion" ||
     normalizedName === "green onion"
   ) {
-    unit = "";
-    if (quantity === null) quantity = 1;
+    if (!parsedUnitForName) {
+      unit = "";
+      if (quantity === null) quantity = 1;
+    }
   }
 
   if (
@@ -2815,9 +2847,15 @@ export function previewRecipeIngredientForShopping(
     "i"
   ).test(line);
 
-  const sideName = looksLikeMeasuredIngredient
-    ? ""
-    : normalizeSideSuggestionText(line);
+  const startsWithQuantity = new RegExp(
+    `^\\s*(?:${QUANTITY_PATTERN})(?=\\s|\\(|$)`,
+    "i"
+  ).test(line);
+
+  const sideName =
+    looksLikeMeasuredIngredient || startsWithQuantity
+      ? ""
+      : normalizeSideSuggestionText(line);
 
   if (
     sideName &&
