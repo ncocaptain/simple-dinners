@@ -228,9 +228,9 @@ export function rankRetailerPackageCandidates(
     )
     .sort(
       (first, second) =>
-        first.excess - second.excess ||
         first.packagesNeeded -
           second.packagesNeeded ||
+        first.excess - second.excess ||
         first.candidate.productName.localeCompare(
           second.candidate.productName
         )
