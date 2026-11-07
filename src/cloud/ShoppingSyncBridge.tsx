@@ -442,15 +442,16 @@ export function ShoppingSyncBridge() {
         .on(
           "postgres_changes",
           {
-            event: "*",
+            event: "UPDATE",
             schema: "public",
-            table: "shopping_items",
+            table: "households",
             filter:
-              `household_id=eq.${activeHouseholdId}`,
+              `id=eq.${activeHouseholdId}`,
           },
           () => {
-            // The replace RPC can emit several row changes in quick
-            // succession. Debounce them into one authoritative pull.
+            // replace_shopping_items updates the household row only after
+            // the complete shopping snapshot has been replaced. Treat that
+            // single update as the authoritative "snapshot ready" signal.
             scheduleCloudPull();
           },
         )
