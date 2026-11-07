@@ -102,22 +102,55 @@ function resolveRequirementUnit(
   const explicitUnit = line.unit.trim();
   if (explicitUnit) return explicitUnit;
 
+  const source = String(
+    line.originalIngredient || ""
+  ).trim();
+
   if (
-    !Number.isInteger(line.quantity) ||
-    (line.quantity ?? 0) <= 0
+    typeof line.quantity === "number" &&
+    line.quantity > 0 &&
+    /^juice\s+(?:of|from)\s+(?:\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(?:lemons?|limes?|oranges?)\b/i.test(
+      source
+    )
+  ) {
+    return "count";
+  }
+
+  if (
+    typeof line.quantity !== "number" ||
+    !Number.isFinite(line.quantity) ||
+    line.quantity <= 0
   ) {
     return "";
   }
 
-  const match = String(
-    line.originalIngredient || ""
-  )
-    .trim()
-    .match(/^(\d+)\s+(.+)$/);
+  const match = source.match(
+    /^(\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(.+)$/
+  );
+
+  if (!match) {
+    return "";
+  }
+
+  const rawQuantity = match[1];
+  const parsedQuantity = (() => {
+    if (/^\d+\s+\d+\/\d+$/.test(rawQuantity)) {
+      const [whole, fraction] = rawQuantity.split(/\s+/);
+      const [num, den] = fraction.split("/").map(Number);
+      return den ? Number(whole) + num / den : NaN;
+    }
+
+    if (/^\d+\/\d+$/.test(rawQuantity)) {
+      const [num, den] = rawQuantity.split("/").map(Number);
+      return den ? num / den : NaN;
+    }
+
+    return Number(rawQuantity);
+  })();
 
   if (
-    !match ||
-    Number(match[1]) !== line.quantity
+    !Number.isFinite(parsedQuantity) ||
+    Math.abs(parsedQuantity - line.quantity) > 0.0001
   ) {
     return "";
   }

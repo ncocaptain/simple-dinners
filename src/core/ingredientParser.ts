@@ -80,6 +80,8 @@ const UNIT_ALIASES: Record<string, string> = {
   loaves: "loaf",
   piece: "piece",
   pieces: "piece",
+  ear: "ear",
+  ears: "ear",
 };
 
 const IDENTITY_DESCRIPTORS = new Set([
