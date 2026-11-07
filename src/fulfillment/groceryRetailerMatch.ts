@@ -44,6 +44,7 @@ const INDIVIDUAL_COUNT_PRODUCTS = new Set([
   "apples",
   "avocado",
   "cucumber",
+  "cucumbers",
   "zucchini",
   "jalapeno",
   "fresno pepper",
