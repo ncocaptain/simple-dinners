@@ -614,6 +614,8 @@ function main() {
   const retailerRequirementReviewCounts = {};
   const retailerRequirementReviews = [];
   const retailerPackageMatchIdentityCounts = new Map();
+  const retailerPackageMatchUnitCounts = new Map();
+  const retailerPackageMatchModeIdentityCounts = new Map();
 
   const registryCategoryMismatch =
     [];
@@ -767,11 +769,45 @@ function main() {
               (retailerModeCounts[retailer.mode] || 0) + 1;
 
             if (retailer.status === "package-match-needed") {
-              addCount(
-                retailerPackageMatchIdentityCounts,
+              const packageMatchIdentity =
                 String(
                   requirement.shoppingName || ""
-                ).trim().toLowerCase()
+                ).trim().toLowerCase();
+
+              const packageMatchUnit =
+                String(
+                  requirement.unit || "(none)"
+                ).trim() || "(none)";
+
+              addCount(
+                retailerPackageMatchIdentityCounts,
+                packageMatchIdentity
+              );
+
+              addCount(
+                retailerPackageMatchUnitCounts,
+                packageMatchUnit
+              );
+
+              const modeKey =
+                String(retailer.mode || "unknown");
+
+              if (
+                !retailerPackageMatchModeIdentityCounts.has(
+                  modeKey
+                )
+              ) {
+                retailerPackageMatchModeIdentityCounts.set(
+                  modeKey,
+                  new Map()
+                );
+              }
+
+              addCount(
+                retailerPackageMatchModeIdentityCounts.get(
+                  modeKey
+                ),
+                packageMatchIdentity
               );
             }
           }
@@ -1151,6 +1187,22 @@ function main() {
         retailerPackageMatchIdentityCounts,
         40
       ),
+    packageMatchUnits:
+      topEntries(
+        retailerPackageMatchUnitCounts,
+        20
+      ),
+    packageMatchByMode:
+      Object.fromEntries(
+        [
+          ...retailerPackageMatchModeIdentityCounts.entries(),
+        ].map(
+          ([mode, counts]) => [
+            mode,
+            topEntries(counts, 20),
+          ]
+        )
+      ),
     requirementReviews:
       retailerRequirementReviews,
   };
@@ -1283,6 +1335,49 @@ function main() {
       console.log(
         "  " +
           String(item.count).padStart(3) +
+          "  " +
+          item.name
+      );
+    }
+  }
+
+  const packageMatchUnits =
+    report.retailerCatalogReadiness
+      .packageMatchUnits;
+
+  if (packageMatchUnits.length) {
+    console.log(
+      "\nPackage-match requirements by unit:"
+    );
+    for (const item of packageMatchUnits) {
+      console.log(
+        "  " +
+          String(item.count).padStart(4) +
+          "  " +
+          item.name
+      );
+    }
+  }
+
+  const packageMatchByMode =
+    report.retailerCatalogReadiness
+      .packageMatchByMode;
+
+  for (const [mode, items] of Object.entries(
+    packageMatchByMode
+  )) {
+    if (!items.length) continue;
+
+    console.log(
+      "\nTop package-match identities · " +
+        mode +
+        ":"
+    );
+
+    for (const item of items.slice(0, 15)) {
+      console.log(
+        "  " +
+          String(item.count).padStart(4) +
           "  " +
           item.name
       );
