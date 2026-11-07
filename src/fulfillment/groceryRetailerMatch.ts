@@ -125,6 +125,19 @@ export function assessRetailerRequirement(
     };
   }
 
+  if (unit === "ear") {
+    return {
+      requirement,
+      status: "search-ready",
+      mode: "individual-count",
+      searchName,
+      purchaseTarget: `${quantity} ${quantity === "1" ? "ear" : "ears"}`,
+      reason:
+        "Corn ears are individual produce units, so the retailer can search against the required count.",
+      canAutoAddToCart: false,
+    };
+  }
+
   if (unit === "count") {
     if (INDIVIDUAL_COUNT_PRODUCTS.has(name)) {
       return {
