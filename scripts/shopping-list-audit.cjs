@@ -1305,6 +1305,58 @@ function main() {
           item.reason
       );
     }
+
+    const quantityReviews =
+      retailerRequirementReviews.filter(
+        item => item.reason === "missing-quantity"
+      );
+
+    const unitReviews =
+      retailerRequirementReviews.filter(
+        item => item.reason === "missing-unit"
+      );
+
+    console.log(
+      "\nRemaining missing-quantity reviews (" +
+        quantityReviews.length +
+        "):"
+    );
+    for (const item of quantityReviews) {
+      console.log(
+        "  [" +
+          item.recipe +
+          "] " +
+          item.raw +
+          " | parsed=" +
+          JSON.stringify({
+            identity: item.identity,
+            quantity: item.quantity,
+            unit: item.unit,
+            packageSize: item.packageSize,
+          })
+      );
+    }
+
+    console.log(
+      "\nFirst missing-unit reviews (" +
+        unitReviews.length +
+        " total):"
+    );
+    for (const item of unitReviews.slice(0, 40)) {
+      console.log(
+        "  [" +
+          item.recipe +
+          "] " +
+          item.raw +
+          " | parsed=" +
+          JSON.stringify({
+            identity: item.identity,
+            quantity: item.quantity,
+            unit: item.unit,
+            packageSize: item.packageSize,
+          })
+      );
+    }
   }
 
   console.log("\nEnd-to-end isolated Shopping List simulation");
