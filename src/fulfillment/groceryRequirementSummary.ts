@@ -40,20 +40,44 @@ function sourceFingerprint(value: string) {
     .trim();
 }
 
-// GROCERY_COUNTABLE_REQUIREMENTS_V1
-// These are individual recipe counts, not retailer pack sizes.
-// Only infer counts for explicitly recognized products.
-const COUNTABLE_REQUIREMENT_NAMES = new Set([
-  "graham cracker sheets",
-  "ready-to-eat vanilla pudding snack cups",
-  "ripe bananas",
-  "tomato",
-  "tomatoes",
-  "vanilla wafer cookies",
-  "ready-to-eat chocolate pudding snack cups",
-  "chocolate sandwich cookies",
-  "gummy worms",
-]);
+// GROCERY_COUNTABLE_REQUIREMENTS_V2
+// Infer individual counts conservatively from the original recipe wording.
+// This is a recipe requirement count, never a retailer package count.
+
+const LEADING_NON_COUNT_UNITS =
+  /^(?:cups?|tbsp|tablespoons?|tsp|teaspoons?|lb|lbs|pounds?|oz|ounces?|ml|milliliters?|l|liters?|cans?|packages?|packets?|jars?|boxes?|bags?|bottles?|cartons?|bunches?|heads?|cloves?)\b/i;
+
+const COUNT_DESCRIPTORS =
+  /\b(?:fresh|ripe|small|medium|large|extra[- ]large|roma|boneless|bone[- ]in|skinless|skin[- ]on|cooked|uncooked|raw|whole|thin|thick|lean|yellow|white|red|green)\b/g;
+
+function singularizeCountToken(value: string) {
+  if (/ies$/.test(value)) {
+    return value.replace(/ies$/, "y");
+  }
+
+  if (/(?:ches|shes|xes|zes|ses)$/.test(value)) {
+    return value.replace(/es$/, "");
+  }
+
+  if (/s$/.test(value) && !/ss$/.test(value)) {
+    return value.slice(0, -1);
+  }
+
+  return value;
+}
+
+function comparableCountPhrase(value: string) {
+  return normalized(value)
+    .replace(/\([^)]*\)/g, " ")
+    .replace(/,.*/g, " ")
+    .replace(COUNT_DESCRIPTORS, " ")
+    .replace(/[^a-z0-9\s-]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean)
+    .map(singularizeCountToken)
+    .join(" ")
+    .trim();
+}
 
 function resolveRequirementUnit(
   line: GroceryHandoffLine
@@ -63,36 +87,58 @@ function resolveRequirementUnit(
 
   if (
     !Number.isInteger(line.quantity) ||
-    (line.quantity ?? 0) <= 0 ||
-    !COUNTABLE_REQUIREMENT_NAMES.has(
-      normalized(line.shoppingName)
-    )
+    (line.quantity ?? 0) <= 0
   ) {
     return "";
   }
 
   const match = String(
     line.originalIngredient || ""
-  ).trim().match(/^(\d+)\s+(.+)$/);
-
-  const sourceName = normalized(match?.[2] ?? "");
-
-  // A recipe can say "1 tomato" or "1 medium tomato".
-  // Never interpret "1 can tomatoes" as an individual tomato.
-  const individualTomato =
-    ["tomato", "tomatoes"].includes(
-      normalized(line.shoppingName)
-    ) &&
-    /^(?:(?:fresh|ripe|small|medium|large|roma)\s+)*tomato(?:es)?\b/.test(
-      sourceName
-    );
+  )
+    .trim()
+    .match(/^(\d+)\s+(.+)$/);
 
   if (
     !match ||
-    Number(match[1]) !== line.quantity ||
-    !(
-      sourceName.startsWith(normalized(line.shoppingName)) ||
-      individualTomato
+    Number(match[1]) !== line.quantity
+  ) {
+    return "";
+  }
+
+  const rawRemainder = match[2].trim();
+
+  // Never reinterpret a lost measurement/container unit as a count.
+  // Examples that must stay under review:
+  // "1 Tbsp green onions", "2 cans tomatoes", "4 oz cheese".
+  if (LEADING_NON_COUNT_UNITS.test(rawRemainder)) {
+    return "";
+  }
+
+  const sourcePhrase =
+    comparableCountPhrase(rawRemainder);
+
+  const shoppingPhrase =
+    comparableCountPhrase(line.shoppingName);
+
+  if (!sourcePhrase || !shoppingPhrase) {
+    return "";
+  }
+
+  const sourceTokens = new Set(
+    sourcePhrase.split(/\s+/).filter(Boolean)
+  );
+
+  const shoppingTokens =
+    shoppingPhrase.split(/\s+/).filter(Boolean);
+
+  // Every meaningful shopping-name token must appear in the original
+  // count phrase. This handles "4 skinless chicken breasts",
+  // "2 ahi tuna steaks", "1 large egg", and "6 cherry peppers"
+  // while refusing unrelated or measurement-led wording.
+  if (
+    !shoppingTokens.length ||
+    !shoppingTokens.every(
+      (token) => sourceTokens.has(token)
     )
   ) {
     return "";
