@@ -68,6 +68,8 @@ function singularizeCountToken(value: string) {
 
 function comparableCountPhrase(value: string) {
   return normalized(value)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
     .replace(/\([^)]*\)/g, " ")
     .replace(/,.*/g, " ")
     .replace(COUNT_DESCRIPTORS, " ")
