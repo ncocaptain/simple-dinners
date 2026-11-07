@@ -113,6 +113,15 @@ function resolveRequirementUnit(
   if (
     typeof line.quantity === "number" &&
     line.quantity > 0 &&
+    normalized(line.shoppingName) === "chipotle pepper in adobo" &&
+    /^\d+(?:\.\d+)?\s+chipotle peppers? in adobo\b/i.test(source)
+  ) {
+    return "count";
+  }
+
+  if (
+    typeof line.quantity === "number" &&
+    line.quantity > 0 &&
     (
       (
         normalized(line.shoppingName) === "naan" &&
