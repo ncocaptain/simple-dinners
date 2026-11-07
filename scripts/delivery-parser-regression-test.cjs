@@ -94,6 +94,10 @@ const parserSource = fs.readFileSync(
   "utf8"
 );
 assert.match(parserSource, /ear\|ears/);
+assert.match(
+  parserSource,
+  /block\|blocks\|ear\|ears/
+);
 assert.match(parserSource, /ears: "ear"/);
 
 console.log("=== DELIVERY PARSER REGRESSION ===");
