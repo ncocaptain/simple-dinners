@@ -540,8 +540,23 @@ function isRecognizedBrandBeverage(normalized: string) {
 // =====================================================
 // Specific grocery identities must outrank broad substring matches.
 // For example, "graham" contains "ham" and corn chips contain "corn".
+function isFreshAppleVariety(normalized: string) {
+  if (!/\bapples?\b/.test(normalized)) {
+    return false;
+  }
+
+  // Preserve real fresh apple varieties such as Honeycrisp, Gala,
+  // Fuji, Granny Smith, Pink Lady, Cosmic Crisp, Ambrosia, etc.
+  // Processed apple products belong in their normal pantry/beverage
+  // categories and must not be swept into Produce.
+  return !/\b(?:apple juice|apple cider|apple cider vinegar|apple pie filling|apple filling|applesauce|apple sauce|apple butter|dried apples?|apple chips?|canned apples?)\b/.test(
+    normalized
+  );
+}
+
 export function getSpecificGroceryCategory(name: string): GroceryCategory | null {
   const normalized = normalize(name);
+  if (isFreshAppleVariety(normalized)) return "Produce";
   if (/\bgraham crackers?\b/.test(normalized)) return "Pantry";
   if (/\bcorn chips\b/.test(normalized)) return "Pantry";
   if (/\bgranola\b/.test(normalized)) return "Pantry";
