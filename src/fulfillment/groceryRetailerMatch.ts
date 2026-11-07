@@ -54,6 +54,15 @@ const INDIVIDUAL_COUNT_PRODUCTS = new Set([
   "bell pepper",
   "potato",
   "sweet potato",
+  "carrot",
+  "carrots",
+  "bell peppers",
+  "russet potato",
+  "russet potatoes",
+  "ripe avocado",
+  "ripe avocados",
+  "roma tomato",
+  "roma tomatoes",
 ]);
 
 const PACKAGE_DEPENDENT_COUNTS = new Set([
