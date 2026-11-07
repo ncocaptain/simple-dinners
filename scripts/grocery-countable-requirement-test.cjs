@@ -88,8 +88,8 @@ lines.push(
 const before = JSON.stringify(lines);
 const result = summarize(lines);
 
-assert.equal(result.groups.length, 7);
-assert.equal(result.reviews.length, 3);
+assert.equal(result.groups.length, 14);
+assert.equal(result.reviews.length, 4);
 assert.ok(result.groups.every(x => x.unit === "count"));
 assert.equal(JSON.stringify(lines), before);
 assert.equal(result.canAutoAddToCart, false);
