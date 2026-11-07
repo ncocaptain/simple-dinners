@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import type { GroceryRequirementGroup } from "../fulfillment/groceryRequirementSummary";
 import { buildRetailerMatchPreview } from "../fulfillment/groceryRetailerMatch";
-import { useState } from "react";
+import { GROCERY_DELIVERY_PROVIDERS, getGroceryDeliveryProviderSummary } from "../fulfillment/groceryDeliveryProviders";
 import type { GroceryHandoffHold } from "../fulfillment/groceryHandoffFromShopping";
 
 type ReviewItem = {
@@ -139,84 +139,8 @@ export default function GroceryDeliveryPreviewPage() {
     ? buildRetailerMatchPreview(snapshot.requirements)
     : null;
 
-  const [instacartLoading, setInstacartLoading] =
-    useState(false);
-  const [instacartMessage, setInstacartMessage] =
-    useState("");
-
-  const openInstacartShoppingList = async () => {
-    if (!snapshot || instacartLoading) return;
-
-    setInstacartLoading(true);
-    setInstacartMessage("");
-
-    try {
-      const response = await fetch(
-        "/api/instacart-shopping-list",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            requirements: snapshot.requirements,
-            linkBackUrl:
-              window.location.origin +
-              "/shopping-list",
-          }),
-        }
-      );
-
-      const contentType =
-        response.headers.get("content-type") || "";
-
-      if (!contentType.includes("application/json")) {
-        setInstacartMessage(
-          "The Instacart server route is not running under Vite dev. Once a development API key is added, run the app with Vercel dev to test the live handoff locally."
-        );
-        return;
-      }
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        if (
-          data?.error ===
-          "INSTACART_NOT_CONFIGURED"
-        ) {
-          setInstacartMessage(
-            "Instacart is wired up, but a development API key still needs to be added."
-          );
-          return;
-        }
-
-        throw new Error(
-          data?.message ||
-          "Unable to create the Instacart shopping list."
-        );
-      }
-
-      if (!data?.url) {
-        throw new Error(
-          "Instacart did not return a shopping list link."
-        );
-      }
-
-      window.open(
-        data.url,
-        "_blank",
-        "noopener,noreferrer"
-      );
-    } catch (error) {
-      setInstacartMessage(
-        error instanceof Error
-          ? error.message
-          : "Unable to create the Instacart shopping list."
-      );
-    } finally {
-      setInstacartLoading(false);
-    }
-  };
+  const deliveryProviderSummary =
+    getGroceryDeliveryProviderSummary();
 
   const panelStyle = {
     padding: 18,
@@ -533,74 +457,101 @@ export default function GroceryDeliveryPreviewPage() {
               style={{
                 ...panelStyle,
                 marginTop: 30,
-                textAlign: "center",
               }}
             >
-              <h2 style={{ fontSize: 18 }}>
-                Grocery Ordering
+              <h2 style={{ fontSize: 18, marginBottom: 8 }}>
+                Delivery Partner Readiness
               </h2>
-              <p style={{ fontSize: 13, opacity: 0.75 }}>
-                Your grocery requirements are classified.{" "}
-                {retailerPreview?.searchReady ?? 0} can move directly
-                into retailer product search, while{" "}
-                {retailerPreview?.packageMatchNeeded ?? 0} still need
-                a real store package match before checkout.
-              </p>
-              <button
-                type="button"
-                onClick={openInstacartShoppingList}
-                disabled={instacartLoading}
+
+              <p
                 style={{
-                  width: "100%",
-                  padding: 13,
-                  borderRadius: 12,
-                  border: "1px solid rgba(34,197,94,0.35)",
-                  background: instacartLoading
-                    ? "#334155"
-                    : "rgba(34,197,94,0.14)",
-                  color: instacartLoading
-                    ? "#cbd5e1"
-                    : "#bbf7d0",
-                  cursor: instacartLoading
-                    ? "wait"
-                    : "pointer",
-                  fontWeight: 800,
+                  fontSize: 13,
+                  opacity: 0.75,
+                  lineHeight: 1.55,
+                  marginTop: 0,
                 }}
               >
-                {instacartLoading
-                  ? "Preparing Instacart List…"
-                  : "Shop with Instacart"}
-              </button>
+                The grocery handoff is ready for a delivery
+                partner. Right now, partner developer access
+                is the blocker — not the Simple Dinners
+                shopping data.
+              </p>
 
               <div
                 style={{
-                  marginTop: 8,
-                  fontSize: 11,
-                  opacity: 0.58,
+                  display: "grid",
+                  gap: 10,
+                  marginTop: 14,
                 }}
               >
-                You will review the matched products and
-                choose your store on Instacart before checkout.
+                {GROCERY_DELIVERY_PROVIDERS.map(
+                  (provider) => (
+                    <div
+                      key={provider.id}
+                      style={{
+                        padding: "12px 14px",
+                        borderRadius: 12,
+                        border:
+                          "1px solid rgba(255,255,255,0.08)",
+                        background:
+                          "rgba(255,255,255,0.025)",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          gap: 12,
+                          alignItems: "center",
+                        }}
+                      >
+                        <strong>{provider.name}</strong>
+
+                        <span
+                          style={{
+                            fontSize: 10,
+                            fontWeight: 800,
+                            letterSpacing: "0.04em",
+                            color: "#fcd34d",
+                          }}
+                        >
+                          ACCESS PENDING
+                        </span>
+                      </div>
+
+                      <div
+                        style={{
+                          marginTop: 5,
+                          fontSize: 11,
+                          opacity: 0.62,
+                          lineHeight: 1.45,
+                        }}
+                      >
+                        {provider.description}
+                      </div>
+                    </div>
+                  )
+                )}
               </div>
 
-              {instacartMessage && (
-                <div
-                  style={{
-                    marginTop: 12,
-                    padding: "10px 12px",
-                    borderRadius: 10,
-                    background:
-                      "rgba(245,158,11,0.08)",
-                    border:
-                      "1px solid rgba(245,158,11,0.22)",
-                    color: "#fde68a",
-                    fontSize: 12,
-                    lineHeight: 1.45,
-                  }}
-                >
-                  {instacartMessage}
-                </div>
-              )}
+              <div
+                style={{
+                  marginTop: 14,
+                  padding: "10px 12px",
+                  borderRadius: 10,
+                  background: "rgba(59,130,246,0.07)",
+                  border:
+                    "1px solid rgba(59,130,246,0.18)",
+                  fontSize: 11,
+                  lineHeight: 1.5,
+                  opacity: 0.78,
+                }}
+              >
+                {deliveryProviderSummary.available} delivery
+                providers are available right now. The
+                provider layer remains ready to activate when
+                access opens.
+              </div>
             </section>
           </>
         )}
