@@ -70,6 +70,10 @@ function singularizeCountToken(value: string) {
     return value.replace(/ies$/, "y");
   }
 
+  if (/oes$/.test(value)) {
+    return value.replace(/oes$/, "o");
+  }
+
   if (/(?:ches|shes|xes|zes|ses)$/.test(value)) {
     return value.replace(/es$/, "");
   }
@@ -105,6 +109,23 @@ function resolveRequirementUnit(
   const source = String(
     line.originalIngredient || ""
   ).trim();
+
+  if (
+    typeof line.quantity === "number" &&
+    line.quantity > 0 &&
+    (
+      (
+        normalized(line.shoppingName) === "naan" &&
+        /\bnaan(?:\s+(?:flat)?breads?)?\b/i.test(source)
+      ) ||
+      (
+        normalized(line.shoppingName) === "pita bread" &&
+        /\bpita(?:\s+(?:flat)?breads?)?\b/i.test(source)
+      )
+    )
+  ) {
+    return "count";
+  }
 
   if (
     typeof line.quantity === "number" &&
@@ -236,6 +257,20 @@ export function summarizeGroceryRequirements(
       }
 
       reason = "missing-quantity";
+    } else if (
+      !requirementUnit &&
+      !startsWithRecipeAmount(line.originalIngredient)
+    ) {
+      searchOnly.push({
+        itemId: line.itemId,
+        shoppingName: line.shoppingName,
+        searchCandidate: line.searchCandidate,
+        sourceRecipe: line.sourceRecipe,
+        originalIngredient: line.originalIngredient,
+        reason: "quantity-unspecified",
+        canAutoAddToCart: false,
+      });
+      continue;
     } else if (!requirementUnit) {
       // Do not guess whether an unspecified unit
       // represents count, weight, or volume.
