@@ -361,6 +361,8 @@ strips: "strip",
     packets: "packet",
     loaf: "loaf",
     loaves: "loaf",
+    ear: "ear",
+    ears: "ear",
   };
 
   return map[value] || value;
@@ -397,6 +399,7 @@ function pluralizeUnit(unit: string, quantity: number | null | undefined) {
     tube: "tubes",
     packet: "packets",
     loaf: "loaves",
+    ear: "ears",
   };
 
   return pluralMap[unit] || unit;
@@ -761,6 +764,7 @@ function protectRealPeppers(text: string) {
     .replace(/\bred bell black pepper\b/g, "red bell pepper")
     .replace(/\byellow bell black pepper\b/g, "yellow bell pepper")
     .replace(/\bcayenne black pepper\b/g, "cayenne pepper")
+    .replace(/\bchipotle black pepper\b/g, "chipotle pepper")
     .replace(/\bred black pepper flakes\b/g, "red pepper flakes");
 }
 
@@ -793,6 +797,7 @@ function normalizePantryAndSeasonings(text: string) {
         before.endsWith("yellow") ||
         before.endsWith("cayenne") ||
         before.endsWith("habanero") ||
+        before.endsWith("chipotle") ||
         after.startsWith("flakes")
       ) {
         return match;
@@ -838,6 +843,7 @@ function normalizeProduce(text: string) {
     .replace(/\bjalapeno peppers?\b/g, "jalapenos")
     .replace(/\bfresno peppers?\b/g, "fresno pepper")
     .replace(/\bhabanero peppers?\b/g, "habanero pepper")
+    .replace(/\bchipotle peppers? in adobo\b/g, "chipotle pepper in adobo")
     .replace(/\bmild red chilis?\b/g, "mild red chili")
     .replace(/\bmild red chiles?\b/g, "mild red chili")
     .replace(/\bred chilis?\b/g, "red chili")
