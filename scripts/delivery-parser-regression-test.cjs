@@ -63,13 +63,19 @@ const result = summarizeGroceryRequirements([
   line("lemon", "lemon", 1, "", "juice of 1 lemon"),
   line("lime", "lime", 0.5, "", "juice from 1/2 lime"),
   line("chicken", "chicken breast", 4, "", "4 boneless, skinless chicken breasts"),
+  line("corn", "corn on the cob", 4, "ear", "4 ears corn, husked"),
 ]);
 
 assert.equal(result.reviews.length, 0);
-assert.equal(result.groups.length, 5);
+assert.equal(result.groups.length, 6);
 assert.equal(
-  result.groups.every(group => group.unit === "count"),
+  result.groups.filter(group => group.shoppingName !== "corn on the cob")
+    .every(group => group.unit === "count"),
   true
+);
+assert.equal(
+  result.groups.find(group => group.shoppingName === "corn on the cob")?.unit,
+  "ear"
 );
 
 const parserSource = fs.readFileSync(
