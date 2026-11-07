@@ -557,7 +557,23 @@ function isFreshAppleVariety(normalized: string) {
 export function getSpecificGroceryCategory(name: string): GroceryCategory | null {
   const normalized = normalize(name);
 
-  // Apple product forms must be decided before the broad "apple" Produce
+  
+  if (
+    normalized === "cooking spray" ||
+    normalized === "nonstick cooking spray" ||
+    normalized === "non-stick cooking spray"
+  ) {
+    return "Pantry";
+  }
+
+  if (
+    normalized === "tostada shell" ||
+    normalized === "tostada shells"
+  ) {
+    return "Pantry";
+  }
+
+// Apple product forms must be decided before the broad "apple" Produce
   // keyword. Fresh varieties stay Produce; processed forms keep their aisle.
   if (/\bapple cider vinegar\b/.test(normalized)) return "Pantry";
   if (/\b(?:apple juice|apple cider)\b/.test(normalized)) return "Beverages";
