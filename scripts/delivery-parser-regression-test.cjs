@@ -15,6 +15,8 @@ assert.match(
   shoppingSource,
   /describedContainerMatch/
 );
+assert.match(shoppingSource, /ears: "ear"/);
+assert.match(shoppingSource, /before\.endsWith\("chipotle"\)/);
 assert.doesNotMatch(
   shoppingSource,
   /parsedUnitForName === "Tbsp"[\s\S]{0,120}unit = "bunch"/
@@ -100,6 +102,8 @@ console.log("PASS: explicit onion and herb units stay intact");
 console.log("PASS: fractional produce counts resolve");
 console.log("PASS: citrus juice wording resolves to fruit count");
 console.log("PASS: ears of corn are recognized as a unit");
+console.log("PASS: shopping parser preserves ear/ears");
+console.log("PASS: chipotle pepper stays a pepper product, not black pepper");
 console.log("PASS: size-described containers can preserve bag/package units");
 console.log("PASS: sweet potato plurals resolve as counts");
 console.log("PASS: numbered naan and pita resolve as counts");
