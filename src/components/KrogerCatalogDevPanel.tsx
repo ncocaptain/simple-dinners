@@ -551,10 +551,14 @@ export default function KrogerCatalogDevPanel({
           style={{
             fontSize: 10,
             fontWeight: 800,
-            color: "#86efac",
+            color: krogerConnected
+              ? "#86efac"
+              : "rgba(248,250,252,0.55)",
           }}
         >
-          CONNECTED
+          {krogerConnected
+            ? "CONNECTED"
+            : "NOT CONNECTED"}
         </span>
       </div>
 
