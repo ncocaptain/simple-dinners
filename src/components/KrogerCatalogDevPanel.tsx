@@ -438,7 +438,7 @@ export default function KrogerCatalogDevPanel({
             {krogerEnvironment ===
             "production"
               ? "Kroger"
-              : "Kroger Certification"}
+              : "Kroger"}
           </h2>
         </div>
 
@@ -461,7 +461,7 @@ export default function KrogerCatalogDevPanel({
         }}
       >
         Test a real Simple Dinners grocery
-        requirement against Kroger Certification
+        requirement against Kroger
         products and the package solver.
       </p>
 
@@ -717,7 +717,7 @@ export default function KrogerCatalogDevPanel({
                 ? krogerEnvironment ===
                   "production"
                   ? "Connected to your Kroger account."
-                  : "Connected for Certification cart testing."
+                  : "Connected to your Kroger account."
                 : "Connect before sending selected products to the Kroger cart."}
             </div>
           </div>
