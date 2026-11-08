@@ -92,7 +92,10 @@ export async function startKrogerConnection() {
     "/api/kroger-oauth-start",
     {
       method: "POST",
-      body: "{}",
+      body: JSON.stringify({
+        native:
+          Capacitor.isNativePlatform(),
+      }),
     }
   ) as Promise<{
     url: string;
