@@ -23,10 +23,10 @@ export const GROCERY_DELIVERY_PROVIDERS:
   {
     id: "kroger",
     name: "Kroger",
-    status: "setup-required",
+    status: "available",
     adapter: "kroger-public-api",
     description:
-      "Public API access is registered in Certification. Simple Dinners is validating locations, products, and package matching before customer cart authorization.",
+      "Production integration is available. Simple Dinners can match shopping-list requirements to Kroger products and add shopper-approved selections to the customer cart.",
     shopperReviewRequired: true,
     supportsGroceryListHandoff: true,
     canAutoCheckout: false,
