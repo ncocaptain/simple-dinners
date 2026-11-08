@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import type { GroceryRequirementGroup } from "../fulfillment/groceryRequirementSummary";
+import type {
+  GroceryRequirementGroup,
+  GrocerySearchOnlyRequirement,
+} from "../fulfillment/groceryRequirementSummary";
 import {
   buildKrogerManualPackageChoices,
   relevantKrogerProductsToRetailerPackageCandidates,
@@ -24,6 +27,7 @@ import {
 
 type Props = {
   requirements: GroceryRequirementGroup[];
+  searchOnly?: GrocerySearchOnlyRequirement[];
 };
 
 type LocationResponse = {
@@ -40,6 +44,7 @@ type ProductResponse = {
 
 export default function KrogerCatalogDevPanel({
   requirements,
+  searchOnly = [],
 }: Props) {
   const [zip, setZip] = useState("37660");
   const [locations, setLocations] = useState<KrogerLocation[]>([]);
@@ -65,12 +70,38 @@ export default function KrogerCatalogDevPanel({
   const [lastAddedSignature, setLastAddedSignature] =
     useState("");
 
+  const searchableRequirements = useMemo(
+    () => [
+      ...requirements.map((item) => ({
+        kind: "measured" as const,
+        item,
+      })),
+      ...searchOnly.map((item) => ({
+        kind: "search-only" as const,
+        item,
+      })),
+    ],
+    [requirements, searchOnly]
+  );
+
+  const selectedSearch =
+    searchableRequirements[requirementIndex] ?? null;
+
   const requirement =
-    requirements[requirementIndex] ?? null;
+    selectedSearch?.kind === "measured"
+      ? selectedSearch.item
+      : null;
+
+  const searchOnlyRequirement =
+    selectedSearch?.kind === "search-only"
+      ? selectedSearch.item
+      : null;
 
   const searchTerm =
     requirement?.searchCandidate ||
+    searchOnlyRequirement?.searchCandidate ||
     requirement?.shoppingName ||
+    searchOnlyRequirement?.shoppingName ||
     "";
 
   const ranked = useMemo(() => {
