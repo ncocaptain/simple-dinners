@@ -7,6 +7,13 @@ import {
   type KrogerProduct,
 } from "../fulfillment/krogerCatalog";
 import { rankRetailerPackageCandidates } from "../fulfillment/retailerPackageSolver";
+import {
+  buildCalculatedKrogerCartSelection,
+  buildKrogerCartPreview,
+  buildManualKrogerCartSelection,
+  groceryRequirementKey,
+  type KrogerCartSelection,
+} from "../fulfillment/krogerCartPlan";
 
 type Props = {
   requirements: GroceryRequirementGroup[];
@@ -37,6 +44,9 @@ export default function KrogerCatalogDevPanel({
   const [error, setError] = useState("");
   const [manualProductId, setManualProductId] =
     useState("");
+  const [selections, setSelections] = useState<
+    Record<string, KrogerCartSelection>
+  >({});
 
   const requirement =
     requirements[requirementIndex] ?? null;
@@ -75,6 +85,71 @@ export default function KrogerCatalogDevPanel({
       (choice) =>
         choice.productId === manualProductId
     ) ?? null;
+
+  const requirementKey = requirement
+    ? groceryRequirementKey(requirement)
+    : "";
+
+  const savedSelection =
+    requirementKey
+      ? selections[requirementKey] ?? null
+      : null;
+
+  const cartPreview = buildKrogerCartPreview(
+    Object.values(selections)
+  );
+
+  const saveCalculatedSelection = (
+    index: number
+  ) => {
+    if (!requirement) return;
+
+    const solution = ranked[index];
+    if (!solution) return;
+
+    const selection =
+      buildCalculatedKrogerCartSelection(
+        requirement,
+        solution,
+        products
+      );
+
+    if (!selection) return;
+
+    setSelections((current) => ({
+      ...current,
+      [selection.requirementKey]:
+        selection,
+    }));
+  };
+
+  const saveManualSelection = (
+    productId: string
+  ) => {
+    if (!requirement) return;
+
+    const product = products.find(
+      (item) =>
+        item.productId === productId
+    );
+
+    if (!product) return;
+
+    const selection =
+      buildManualKrogerCartSelection(
+        requirement,
+        product
+      );
+
+    if (!selection) return;
+
+    setManualProductId(productId);
+    setSelections((current) => ({
+      ...current,
+      [selection.requirementKey]:
+        selection,
+    }));
+  };
 
   if (!import.meta.env.DEV) {
     return null;
@@ -306,11 +381,29 @@ export default function KrogerCatalogDevPanel({
           <select
             value={requirementIndex}
             onChange={(event) => {
-              setRequirementIndex(
-                Number(event.target.value)
+              const nextIndex = Number(
+                event.target.value
               );
+              setRequirementIndex(nextIndex);
               setProducts([]);
-              setManualProductId("");
+              const nextRequirement =
+                requirements[nextIndex];
+              const nextKey =
+                nextRequirement
+                  ? groceryRequirementKey(
+                      nextRequirement
+                    )
+                  : "";
+              const nextSelection =
+                nextKey
+                  ? selections[nextKey]
+                  : null;
+              setManualProductId(
+                nextSelection?.selectionMode ===
+                  "manual-package-choice"
+                  ? nextSelection.productId
+                  : ""
+              );
             }}
             style={{
               padding: "11px 12px",
@@ -413,6 +506,45 @@ export default function KrogerCatalogDevPanel({
         </div>
       )}
 
+      {Object.keys(selections).length > 0 && (
+        <div
+          style={{
+            marginTop: 16,
+            padding: "12px 14px",
+            borderRadius: 12,
+            border:
+              "1px solid rgba(34,197,94,0.22)",
+            background:
+              "rgba(34,197,94,0.06)",
+          }}
+        >
+          <div
+            style={{
+              fontSize: 12,
+              fontWeight: 800,
+              color: "#86efac",
+            }}
+          >
+            KROGER CART PLAN ·{" "}
+            {cartPreview.selectionCount} selected
+          </div>
+          <div
+            style={{
+              marginTop: 5,
+              fontSize: 11,
+              opacity: 0.75,
+              lineHeight: 1.5,
+            }}
+          >
+            Selections are retained while you
+            switch ingredients. Each selected
+            product now has a Kroger UPC and
+            package quantity ready for the future
+            authenticated Cart API call.
+          </div>
+        </div>
+      )}
+
       {products.length > 0 && (
         <div
           style={{
@@ -476,9 +608,42 @@ export default function KrogerCatalogDevPanel({
                   {result.packagesNeeded}
                   {product?.regularPrice !== null &&
                   product?.regularPrice !== undefined
-                    ? ` · $${product.regularPrice.toFixed(2)}`
+                    ? ` · ${product.regularPrice.toFixed(2)}`
                     : ""}
                 </div>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    saveCalculatedSelection(
+                      index
+                    )
+                  }
+                  style={{
+                    marginTop: 8,
+                    padding: "8px 10px",
+                    borderRadius: 8,
+                    border:
+                      savedSelection?.productId ===
+                        result.candidate.id
+                        ? "1px solid rgba(34,197,94,0.45)"
+                        : "1px solid rgba(96,165,250,0.3)",
+                    background:
+                      savedSelection?.productId ===
+                        result.candidate.id
+                        ? "rgba(34,197,94,0.12)"
+                        : "rgba(59,130,246,0.14)",
+                    color: "#f8fafc",
+                    fontWeight: 800,
+                    cursor: "pointer",
+                    fontSize: 11,
+                  }}
+                >
+                  {savedSelection?.productId ===
+                  result.candidate.id
+                    ? "Selected for Kroger"
+                    : "Use this match"}
+                </button>
               </div>
             );
           })}
@@ -543,7 +708,7 @@ export default function KrogerCatalogDevPanel({
                           key={choice.productId}
                           type="button"
                           onClick={() =>
-                            setManualProductId(
+                            saveManualSelection(
                               choice.productId
                             )
                           }
