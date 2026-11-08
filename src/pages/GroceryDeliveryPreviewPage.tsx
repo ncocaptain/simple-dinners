@@ -3,8 +3,6 @@ import type {
   GroceryRequirementGroup,
   GrocerySearchOnlyRequirement,
 } from "../fulfillment/groceryRequirementSummary";
-import { buildRetailerMatchPreview } from "../fulfillment/groceryRetailerMatch";
-import { GROCERY_DELIVERY_PROVIDERS, getGroceryDeliveryProviderSummary } from "../fulfillment/groceryDeliveryProviders";
 import type { GroceryHandoffHold } from "../fulfillment/groceryHandoffFromShopping";
 import KrogerCatalogDevPanel from "../components/KrogerCatalogDevPanel";
 
@@ -174,13 +172,6 @@ export default function GroceryDeliveryPreviewPage() {
     routedSnapshot ??
     readSavedGroceryPreviewSnapshot();
 
-  const retailerPreview = snapshot
-    ? buildRetailerMatchPreview(snapshot.requirements)
-    : null;
-
-  const deliveryProviderSummary =
-    getGroceryDeliveryProviderSummary();
-
   const panelStyle = {
     padding: 18,
     borderRadius: 16,
@@ -214,96 +205,80 @@ export default function GroceryDeliveryPreviewPage() {
         </button>
 
         <h1 style={{ fontSize: 26, marginBottom: 8 }}>
-          Grocery Delivery Preview
+          Shop with Kroger
         </h1>
 
         <p style={{ opacity: 0.75, lineHeight: 1.6 }}>
-          Review what your recipes need before
-          choosing a grocery provider.
+          Match your Simple Dinners shopping list to
+          Kroger products, choose the items you want,
+          and send them to your Kroger cart.
         </p>
 
         {!snapshot ? (
           <section style={{ ...panelStyle, marginTop: 24 }}>
             <h2>Return to your Shopping List</h2>
             <p>
-              This preview uses the current Shopping List
-              and Pantry decisions. Return to Shopping List
-              to generate a fresh snapshot.
+              Open Shop with Kroger from your Shopping List
+              to build a fresh grocery selection.
             </p>
           </section>
         ) : (
           <>
             <p style={{ opacity: 0.55, fontSize: 12 }}>
-              Snapshot created{" "}
+              Shopping list updated{" "}
               {new Date(snapshot.createdAt).toLocaleString()}.
-              Return to Shopping List to refresh it.
+              Return to Shopping List any time to refresh these items.
             </p>
 
-            <div
+            <section
               style={{
-                display: "grid",
-                gridTemplateColumns:
-                  "repeat(auto-fit, minmax(155px, 1fr))",
-                gap: 12,
+                ...panelStyle,
                 margin: "24px 0",
               }}
             >
-              <div style={panelStyle}>
-                <div style={{ fontSize: 30, fontWeight: 800 }}>
-                  {snapshot.requirements.length}
-                </div>
-                <div style={{ opacity: 0.7, fontSize: 13 }}>
-                  Grocery requirements
-                </div>
-              </div>
-
-              <div style={panelStyle}>
-                <div style={{ fontSize: 30, fontWeight: 800 }}>
-                  {snapshot.reviews.length + snapshot.holds.length}
-                </div>
-                <div style={{ opacity: 0.7, fontSize: 13 }}>
-                  Needs review
-                </div>
-              </div>
-
-              <div style={panelStyle}>
-                <div style={{ fontSize: 30, fontWeight: 800 }}>
-                  {snapshot.excludedCoveredRows}
-                </div>
-                <div style={{ opacity: 0.7, fontSize: 13 }}>
-                  Covered by Pantry
-                </div>
-              </div>
-
-              <div style={panelStyle}>
-                <div style={{ fontSize: 30, fontWeight: 800 }}>
-                  {retailerPreview?.searchReady ?? 0}
-                </div>
-                <div style={{ opacity: 0.7, fontSize: 13 }}>
-                  Ready for retailer search
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: 16,
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                }}
+              >
+                <div>
+                  <div
+                    style={{
+                      fontSize: 18,
+                      fontWeight: 800,
+                    }}
+                  >
+                    Your Kroger shopping list
+                  </div>
+                  <div
+                    style={{
+                      marginTop: 5,
+                      fontSize: 12,
+                      opacity: 0.7,
+                    }}
+                  >
+                    {snapshot.requirements.length +
+                      snapshot.searchOnly.length} items ready to shop
+                    {snapshot.excludedCoveredRows > 0
+                      ? ` · ${snapshot.excludedCoveredRows} covered by Pantry`
+                      : ""}
+                  </div>
                 </div>
               </div>
-
-              <div style={panelStyle}>
-                <div style={{ fontSize: 30, fontWeight: 800 }}>
-                  {retailerPreview?.packageMatchNeeded ?? 0}
-                </div>
-                <div style={{ opacity: 0.7, fontSize: 13 }}>
-                  Need package match
-                </div>
-              </div>
-            </div>
+            </section>
 
             <section>
               <h2 style={{ fontSize: 19, marginBottom: 14 }}>
-                Grocery Requirements
+                Shopping list details
               </h2>
 
               <p style={{ opacity: 0.7, fontSize: 13 }}>
-                Recipe amounts are shown here so you can
-                review what is needed. Store package sizes
-                will be matched when a grocery provider is
-                connected.
+                Simple Dinners keeps the recipe amounts here
+                while Kroger handles the real products and package sizes.
               </p>
 
               <div
@@ -470,7 +445,13 @@ export default function GroceryDeliveryPreviewPage() {
                       {item.originalIngredient}
                     </div>
                     <div style={{ fontSize: 12, opacity: 0.7 }}>
-                      Reason: {item.reason}
+                      {item.reason === "missing-search"
+                        ? "Choose the Kroger product you want."
+                        : item.reason === "missing-quantity"
+                          ? "Confirm the product and package that works for you."
+                          : item.reason === "missing-unit"
+                            ? "Choose the Kroger package that best fits this item."
+                            : "Review this item before adding it to your Kroger cart."}
                     </div>
                   </div>
                 ))}
@@ -497,108 +478,7 @@ export default function GroceryDeliveryPreviewPage() {
               searchOnly={snapshot.searchOnly}
             />
 
-            <section
-              style={{
-                ...panelStyle,
-                marginTop: 30,
-              }}
-            >
-              <h2 style={{ fontSize: 18, marginBottom: 8 }}>
-                Delivery Partner Readiness
-              </h2>
 
-              <p
-                style={{
-                  fontSize: 13,
-                  opacity: 0.75,
-                  lineHeight: 1.55,
-                  marginTop: 0,
-                }}
-              >
-                The grocery handoff is ready for a delivery
-                partner. Right now, partner developer access
-                is the blocker — not the Simple Dinners
-                shopping data.
-              </p>
-
-              <div
-                style={{
-                  display: "grid",
-                  gap: 10,
-                  marginTop: 14,
-                }}
-              >
-                {GROCERY_DELIVERY_PROVIDERS.map(
-                  (provider) => (
-                    <div
-                      key={provider.id}
-                      style={{
-                        padding: "12px 14px",
-                        borderRadius: 12,
-                        border:
-                          "1px solid rgba(255,255,255,0.08)",
-                        background:
-                          "rgba(255,255,255,0.025)",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          gap: 12,
-                          alignItems: "center",
-                        }}
-                      >
-                        <strong>{provider.name}</strong>
-
-                        <span
-                          style={{
-                            fontSize: 10,
-                            fontWeight: 800,
-                            letterSpacing: "0.04em",
-                            color: "#fcd34d",
-                          }}
-                        >
-                          {provider.status === "setup-required"
-                            ? "CERTIFICATION"
-                            : "ACCESS PENDING"}
-                        </span>
-                      </div>
-
-                      <div
-                        style={{
-                          marginTop: 5,
-                          fontSize: 11,
-                          opacity: 0.62,
-                          lineHeight: 1.45,
-                        }}
-                      >
-                        {provider.description}
-                      </div>
-                    </div>
-                  )
-                )}
-              </div>
-
-              <div
-                style={{
-                  marginTop: 14,
-                  padding: "10px 12px",
-                  borderRadius: 10,
-                  background: "rgba(59,130,246,0.07)",
-                  border:
-                    "1px solid rgba(59,130,246,0.18)",
-                  fontSize: 11,
-                  lineHeight: 1.5,
-                  opacity: 0.78,
-                }}
-              >
-                {deliveryProviderSummary.available} providers are live and{" "}
-                {deliveryProviderSummary.setupRequired} are in setup/testing.
-                Kroger Certification is now connected; customer cart authorization
-                remains intentionally disabled during validation.
-              </div>
-            </section>
           </>
         )}
       </div>
