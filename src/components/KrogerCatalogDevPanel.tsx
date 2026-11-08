@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import type { GroceryRequirementGroup } from "../fulfillment/groceryRequirementSummary";
 import {
   krogerProductsToRetailerPackageCandidates,
+  relevantKrogerProducts,
   type KrogerLocation,
   type KrogerProduct,
 } from "../fulfillment/krogerCatalog";
@@ -41,9 +42,19 @@ export default function KrogerCatalogDevPanel({
   const ranked = useMemo(() => {
     if (!requirement) return [];
 
+    const term =
+      requirement.searchCandidate ||
+      requirement.shoppingName;
+
+    const relevantProducts =
+      relevantKrogerProducts(
+        term,
+        products
+      );
+
     const candidates =
       krogerProductsToRetailerPackageCandidates(
-        products
+        relevantProducts
       );
 
     return rankRetailerPackageCandidates(
@@ -400,7 +411,7 @@ export default function KrogerCatalogDevPanel({
               fontWeight: 800,
             }}
           >
-            Safe package matches · {ranked.length}
+            Relevant safe package matches · {ranked.length}
           </div>
 
           {ranked.slice(0, 5).map((result, index) => {
@@ -464,8 +475,9 @@ export default function KrogerCatalogDevPanel({
               }}
             >
               Kroger returned products, but none
-              can be safely compared to this
-              requirement yet.
+              passed both grocery relevance and
+              safe package matching for this
+              requirement.
             </div>
           )}
         </div>
