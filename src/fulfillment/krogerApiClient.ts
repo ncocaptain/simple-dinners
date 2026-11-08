@@ -84,6 +84,12 @@ export async function getKrogerConnectionStatus() {
   ) as Promise<{
     connected: boolean;
     environment?: string;
+    tokenHealth?: {
+      accessTokenDecrypts: boolean;
+      refreshTokenDecrypts:
+        boolean | null;
+      error?: string;
+    } | null;
   }>;
 }
 
