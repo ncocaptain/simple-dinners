@@ -448,6 +448,33 @@ function AppContent() {
               parsed.hash.replace(/^#/, ""),
             );
 
+          const isKrogerReturn =
+            parsed.protocol === "simpledinners:" &&
+            parsed.hostname === "kroger-connected";
+
+          if (isKrogerReturn) {
+            navigate(
+              "/grocery-preview",
+              { replace: true },
+            );
+
+            window.setTimeout(() => {
+              window.dispatchEvent(
+                new CustomEvent(
+                  "simple-dinners:kroger-oauth-complete",
+                  {
+                    detail: {
+                      connected:
+                        parsed.searchParams.get("connected") === "1",
+                    },
+                  },
+                ),
+              );
+            }, 100);
+
+            return;
+          }
+
           const recoveryType =
             hashParams.get("type") ??
             parsed.searchParams.get("type");
