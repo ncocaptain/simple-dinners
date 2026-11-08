@@ -1,8 +1,7 @@
 import { useMemo, useState } from "react";
 import type { GroceryRequirementGroup } from "../fulfillment/groceryRequirementSummary";
 import {
-  krogerProductsToRetailerPackageCandidates,
-  relevantKrogerProducts,
+  relevantKrogerProductsToRetailerPackageCandidates,
   type KrogerLocation,
   type KrogerProduct,
 } from "../fulfillment/krogerCatalog";
@@ -46,15 +45,10 @@ export default function KrogerCatalogDevPanel({
       requirement.searchCandidate ||
       requirement.shoppingName;
 
-    const relevantProducts =
-      relevantKrogerProducts(
+    const candidates =
+      relevantKrogerProductsToRetailerPackageCandidates(
         term,
         products
-      );
-
-    const candidates =
-      krogerProductsToRetailerPackageCandidates(
-        relevantProducts
       );
 
     return rankRetailerPackageCandidates(
