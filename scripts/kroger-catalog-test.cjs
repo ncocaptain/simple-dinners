@@ -26,6 +26,7 @@ const {
   krogerProductToRetailerPackageCandidate,
   assessKrogerProductRelevance,
   rankRelevantKrogerProducts,
+  relevantKrogerProductsToRetailerPackageCandidates,
 } = mod.exports;
 
 const locations =
@@ -216,4 +217,24 @@ console.log(
 );
 console.log(
   "PASS: multi-word grocery searches require all meaningful terms"
+);
+
+
+const guardedCandidates =
+  relevantKrogerProductsToRetailerPackageCandidates(
+    "blueberries",
+    [blueberryPouch, freshBlueberries]
+  );
+
+assert.equal(
+  guardedCandidates.length,
+  1
+);
+assert.equal(
+  guardedCandidates[0].id,
+  "blueberries-fresh"
+);
+
+console.log(
+  "PASS: raw Kroger mismatches cannot enter the guarded package-candidate pipeline"
 );
