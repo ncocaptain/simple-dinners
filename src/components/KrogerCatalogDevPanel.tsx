@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import type { GroceryRequirementGroup } from "../fulfillment/groceryRequirementSummary";
 import {
+  buildKrogerManualPackageChoices,
   relevantKrogerProductsToRetailerPackageCandidates,
   type KrogerLocation,
   type KrogerProduct,
@@ -34,20 +35,23 @@ export default function KrogerCatalogDevPanel({
   const [warning, setWarning] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [manualProductId, setManualProductId] =
+    useState("");
 
   const requirement =
     requirements[requirementIndex] ?? null;
 
+  const searchTerm =
+    requirement?.searchCandidate ||
+    requirement?.shoppingName ||
+    "";
+
   const ranked = useMemo(() => {
     if (!requirement) return [];
 
-    const term =
-      requirement.searchCandidate ||
-      requirement.shoppingName;
-
     const candidates =
       relevantKrogerProductsToRetailerPackageCandidates(
-        term,
+        searchTerm,
         products
       );
 
@@ -55,7 +59,22 @@ export default function KrogerCatalogDevPanel({
       requirement,
       candidates
     );
-  }, [products, requirement]);
+  }, [products, requirement, searchTerm]);
+
+  const manualChoices = useMemo(
+    () =>
+      buildKrogerManualPackageChoices(
+        searchTerm,
+        products
+      ),
+    [products, searchTerm]
+  );
+
+  const selectedManualChoice =
+    manualChoices.find(
+      (choice) =>
+        choice.productId === manualProductId
+    ) ?? null;
 
   if (!import.meta.env.DEV) {
     return null;
@@ -66,6 +85,8 @@ export default function KrogerCatalogDevPanel({
     setError("");
     setProducts([]);
     setWarning("");
+    setManualProductId("");
+    setManualProductId("");
 
     try {
       const response = await fetch(
@@ -289,6 +310,7 @@ export default function KrogerCatalogDevPanel({
                 Number(event.target.value)
               );
               setProducts([]);
+              setManualProductId("");
             }}
             style={{
               padding: "11px 12px",
@@ -461,7 +483,142 @@ export default function KrogerCatalogDevPanel({
             );
           })}
 
-          {ranked.length === 0 && (
+          {ranked.length === 0 &&
+            manualChoices.length > 0 && (
+              <div
+                style={{
+                  marginTop: 4,
+                  padding: "12px",
+                  borderRadius: 12,
+                  border:
+                    "1px solid rgba(245,158,11,0.24)",
+                  background:
+                    "rgba(245,158,11,0.06)",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 800,
+                    color: "#fcd34d",
+                  }}
+                >
+                  CHOOSE A PACKAGE
+                </div>
+
+                <div
+                  style={{
+                    marginTop: 5,
+                    fontSize: 11,
+                    lineHeight: 1.5,
+                    opacity: 0.78,
+                  }}
+                >
+                  Kroger has relevant products, but
+                  the recipe amount cannot be safely
+                  converted to the store package unit.
+                  Pick the package you want to buy.
+                </div>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gap: 8,
+                    marginTop: 10,
+                  }}
+                >
+                  {manualChoices
+                    .slice(0, 5)
+                    .map((choice) => {
+                      const selected =
+                        choice.productId ===
+                        manualProductId;
+
+                      const displayPrice =
+                        choice.promoPrice ??
+                        choice.regularPrice;
+
+                      return (
+                        <button
+                          key={choice.productId}
+                          type="button"
+                          onClick={() =>
+                            setManualProductId(
+                              choice.productId
+                            )
+                          }
+                          style={{
+                            textAlign: "left",
+                            padding: "10px 12px",
+                            borderRadius: 10,
+                            border: selected
+                              ? "1px solid rgba(34,197,94,0.45)"
+                              : "1px solid rgba(255,255,255,0.09)",
+                            background: selected
+                              ? "rgba(34,197,94,0.09)"
+                              : "rgba(255,255,255,0.03)",
+                            color: "#f8fafc",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <div
+                            style={{
+                              fontSize: 12,
+                              fontWeight: 800,
+                            }}
+                          >
+                            {selected
+                              ? "SELECTED · "
+                              : ""}
+                            {choice.description}
+                          </div>
+
+                          <div
+                            style={{
+                              marginTop: 4,
+                              fontSize: 11,
+                              opacity: 0.72,
+                            }}
+                          >
+                            {choice.size ||
+                              "Package size unavailable"}
+                            {displayPrice !== null
+                              ? ` · ${displayPrice.toFixed(2)}`
+                              : ""}
+                          </div>
+                        </button>
+                      );
+                    })}
+                </div>
+
+                {selectedManualChoice && (
+                  <div
+                    style={{
+                      marginTop: 10,
+                      padding: "9px 10px",
+                      borderRadius: 9,
+                      background:
+                        "rgba(34,197,94,0.08)",
+                      border:
+                        "1px solid rgba(34,197,94,0.2)",
+                      fontSize: 11,
+                      lineHeight: 1.45,
+                    }}
+                  >
+                    Package selected for future cart
+                    handoff:{" "}
+                    <strong>
+                      {selectedManualChoice.description}
+                    </strong>
+                    . This is a user-selected package,
+                    not a calculated quantity match.
+                  </div>
+                )}
+              </div>
+            )}
+
+          {ranked.length === 0 &&
+            manualChoices.length === 0 && (
             <div
               style={{
                 fontSize: 11,
