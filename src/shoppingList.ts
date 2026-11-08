@@ -1,4 +1,5 @@
-import { categorizeGroceryItem, type GroceryCategory } from "./core/groceryCategories";
+import { categorizeGroceryItem, getSpecificGroceryCategory, type GroceryCategory } from "./core/groceryCategories";
+import { getGroceryProductIdentity } from "./core/groceryProductIdentity";
 import {
   INGREDIENT_QUANTITY_PATTERN,
   INGREDIENT_UNIT_PATTERN,
@@ -360,6 +361,8 @@ strips: "strip",
     packets: "packet",
     loaf: "loaf",
     loaves: "loaf",
+    ear: "ear",
+    ears: "ear",
   };
 
   return map[value] || value;
@@ -396,6 +399,7 @@ function pluralizeUnit(unit: string, quantity: number | null | undefined) {
     tube: "tubes",
     packet: "packets",
     loaf: "loaves",
+    ear: "ears",
   };
 
   return pluralMap[unit] || unit;
@@ -458,6 +462,10 @@ function cleanupSpacing(text: string) {
 }
 
 function buildGrocerySearchName(normalizedName: string) {
+  // Search for an actual grocery product, never a recipe volume or prep note.
+  const matchedProduct = getGroceryProductIdentity(normalizedName);
+  if (matchedProduct) return matchedProduct.searchName;
+
   return cleanupSpacing(
     normalizeAscii(normalizedName)
       .replace(/\b\d+\b/g, "")
@@ -756,6 +764,7 @@ function protectRealPeppers(text: string) {
     .replace(/\bred bell black pepper\b/g, "red bell pepper")
     .replace(/\byellow bell black pepper\b/g, "yellow bell pepper")
     .replace(/\bcayenne black pepper\b/g, "cayenne pepper")
+    .replace(/\bchipotle black pepper\b/g, "chipotle pepper")
     .replace(/\bred black pepper flakes\b/g, "red pepper flakes");
 }
 
@@ -788,6 +797,7 @@ function normalizePantryAndSeasonings(text: string) {
         before.endsWith("yellow") ||
         before.endsWith("cayenne") ||
         before.endsWith("habanero") ||
+        before.endsWith("chipotle") ||
         after.startsWith("flakes")
       ) {
         return match;
@@ -833,6 +843,7 @@ function normalizeProduce(text: string) {
     .replace(/\bjalapeno peppers?\b/g, "jalapenos")
     .replace(/\bfresno peppers?\b/g, "fresno pepper")
     .replace(/\bhabanero peppers?\b/g, "habanero pepper")
+    .replace(/\bchipotle peppers? in adobo\b/g, "chipotle pepper in adobo")
     .replace(/\bmild red chilis?\b/g, "mild red chili")
     .replace(/\bmild red chiles?\b/g, "mild red chili")
     .replace(/\bred chilis?\b/g, "red chili")
@@ -1082,8 +1093,6 @@ function removeNonShoppingItems(text: string) {
     "reserved pasta water",
     "ice",
     "crushed ice",
-    "cooking spray",
-    "nonstick spray",
   ]);
 
   if (nonShoppingExactItems.has(cleaned)) {
@@ -1140,6 +1149,13 @@ function normalizeIngredientCore(text: string) {
   next = normalizeDairyAndCheese(next);
   next = normalizeMushrooms(next);
   next = removeNonShoppingItems(next);
+  // Preserve "boneless, skinless chicken breasts": the comma separates
+  // preparation adjectives, not two different grocery ingredients.
+  // Without this normalization, splitting at the first comma drops chicken.
+  next = next.replace(
+    /\b(boneless|skinless|bone-in|skin-on)\s*,\s*(?=(?:boneless|skinless|bone-in|skin-on)\b)/g,
+    "$1 "
+  );
   next = removePrepWords(next);
 
   next = next.replace(/\bcans?\s+of\s+/g, " ");
@@ -1254,13 +1270,19 @@ function parseIngredientParts(line: string): {
   }
 
   const looksLikeMeasuredIngredient = new RegExp(
-  `^\\s*(?:${QUANTITY_PATTERN})\\s+(?:${UNIT_PATTERN})\\b`,
-  "i"
-).test(text);
+    `^\\s*(?:${QUANTITY_PATTERN})\\s+(?:${UNIT_PATTERN})\\b`,
+    "i"
+  ).test(text);
 
-  const preparedSideName = looksLikeMeasuredIngredient
-    ? ""
-    : normalizeSideSuggestionText(text);
+  const startsWithQuantity = new RegExp(
+    `^\\s*(?:${QUANTITY_PATTERN})(?=\\s|\\(|$)`,
+    "i"
+  ).test(text);
+
+  const preparedSideName =
+    looksLikeMeasuredIngredient || startsWithQuantity
+      ? ""
+      : normalizeSideSuggestionText(text);
 
   if (preparedSideName && isPreparedSideName(preparedSideName)) {
     return {
@@ -1323,20 +1345,49 @@ if (baconRangeMatch) {
   // Remove parenthetical size after capturing so quantity + unit parsing still works.
   text = text.replace(/\([^)]*\)/g, " ").replace(/\s+/g, " ").trim();
 
-  const quantityMatch = text.match(
-    new RegExp(`^(${QUANTITY_PATTERN})\\b`, "i")
+  const measuredRangeMatch = text.match(
+    new RegExp(
+      `^(${QUANTITY_PATTERN})\\s*(?:-|–|—|to)\\s*(${QUANTITY_PATTERN})\\s+(${UNIT_PATTERN})\\b`,
+      "i"
+    )
   );
 
-  if (quantityMatch) {
-    quantity = parseFraction(quantityMatch[1]);
-    text = text.slice(quantityMatch[0].length).trim();
-  }
+  if (measuredRangeMatch) {
+    quantity = parseFraction(measuredRangeMatch[1]);
+    unit = normalizeUnit(measuredRangeMatch[3]);
+    text = text.slice(measuredRangeMatch[0].length).trim();
+  } else {
+    const quantityMatch = text.match(
+      new RegExp(`^(${QUANTITY_PATTERN})\\b`, "i")
+    );
 
-  const unitMatch = text.match(new RegExp(`^(${UNIT_PATTERN})\\b`, "i"));
+    if (quantityMatch) {
+      quantity = parseFraction(quantityMatch[1]);
+      text = text.slice(quantityMatch[0].length).trim();
+    }
 
-  if (unitMatch) {
-    unit = normalizeUnit(unitMatch[1]);
-    text = text.slice(unitMatch[0].length).trim();
+    const unitMatch = text.match(
+      new RegExp(`^(${UNIT_PATTERN})\\b`, "i")
+    );
+
+    if (unitMatch) {
+      unit = normalizeUnit(unitMatch[1]);
+      text = text.slice(unitMatch[0].length).trim();
+    } else {
+      const describedContainerMatch = text.match(
+        new RegExp(
+          `^(?:small|medium|large)\\s+(${UNIT_PATTERN})\\b`,
+          "i"
+        )
+      );
+
+      if (describedContainerMatch) {
+        unit = normalizeUnit(describedContainerMatch[1]);
+        text = text
+          .slice(describedContainerMatch[0].length)
+          .trim();
+      }
+    }
   }
 
   const parsedUnitForName = unit;
@@ -1361,6 +1412,11 @@ if (baconRangeMatch) {
     parsedUnitForName
   );
 
+  // Fresh ears of corn are a different grocery identity from canned corn.
+  if (unit === "ear" && normalizedName === "corn") {
+    normalizedName = "corn on the cob";
+  }
+
   // Smart defaults stored as real metadata so ShoppingListPage can merge correctly.
   if (normalizedName === "garlic") {
     unit = "clove";
@@ -1368,12 +1424,7 @@ if (baconRangeMatch) {
   }
 
   if (normalizedName === "cilantro" || normalizedName === "parsley") {
-    if (
-      !parsedUnitForName ||
-      parsedUnitForName === "tsp" ||
-      parsedUnitForName === "Tbsp" ||
-      parsedUnitForName === "cup"
-    ) {
+    if (!parsedUnitForName) {
       unit = "bunch";
       quantity = 1;
     }
@@ -1386,8 +1437,10 @@ if (baconRangeMatch) {
     normalizedName === "red onion" ||
     normalizedName === "green onion"
   ) {
-    unit = "";
-    if (quantity === null) quantity = 1;
+    if (!parsedUnitForName) {
+      unit = "";
+      if (quantity === null) quantity = 1;
+    }
   }
 
   if (
@@ -1687,8 +1740,6 @@ const HIDDEN_ITEMS = new Set([
   "water",
   "ice",
   "crushed ice",
-  "cooking spray",
-  "nonstick spray",
   "cup",
   "cups",
   "tbsp",
@@ -1864,6 +1915,8 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     cleanIngredientForCategory(name);
 
   const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
+  const specificCategory = getSpecificGroceryCategory(lower);
+  if (specificCategory) return specificCategory;
   // Audit-discovered category protections.
   if (lower.includes("cream of mushroom soup")) {
     return "Pantry";
@@ -2081,6 +2134,8 @@ function resolveShoppingCategoryForItem(
     cleanIngredientForCategory(name);
 
   const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
+  const specificCategory = getSpecificGroceryCategory(lower);
+  if (specificCategory) return specificCategory;
   // Audit-discovered category protections.
   if (lower.includes("cream of mushroom soup")) {
     return "Pantry";
@@ -2803,9 +2858,15 @@ export function previewRecipeIngredientForShopping(
     "i"
   ).test(line);
 
-  const sideName = looksLikeMeasuredIngredient
-    ? ""
-    : normalizeSideSuggestionText(line);
+  const startsWithQuantity = new RegExp(
+    `^\\s*(?:${QUANTITY_PATTERN})(?=\\s|\\(|$)`,
+    "i"
+  ).test(line);
+
+  const sideName =
+    looksLikeMeasuredIngredient || startsWithQuantity
+      ? ""
+      : normalizeSideSuggestionText(line);
 
   if (
     sideName &&

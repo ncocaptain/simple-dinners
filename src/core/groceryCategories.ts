@@ -321,6 +321,8 @@ const CATEGORY_KEYWORDS: Array<{
       "complete pancake mix",
       "pancake mix",
       "cookies",
+      "pudding snack cups",
+      "pudding cups",
       "couscous",
       "dark chocolate",
       "dark chocolate baking chips",
@@ -536,10 +538,102 @@ function isRecognizedBrandBeverage(normalized: string) {
 // Builder: category matcher
 // Smarter priority rules first, then keyword fallback.
 // =====================================================
+// Specific grocery identities must outrank broad substring matches.
+// For example, "graham" contains "ham" and corn chips contain "corn".
+function isFreshAppleVariety(normalized: string) {
+  if (!/\bapples?\b/.test(normalized)) {
+    return false;
+  }
+
+  // Preserve real fresh apple varieties such as Honeycrisp, Gala,
+  // Fuji, Granny Smith, Pink Lady, Cosmic Crisp, Ambrosia, etc.
+  // Processed apple products belong in their normal pantry/beverage
+  // categories and must not be swept into Produce.
+  return !/\b(?:apple juice|apple cider|apple cider vinegar|apple pie filling|apple filling|applesauce|apple sauce|apple butter|dried apples?|apple chips?|canned apples?)\b/.test(
+    normalized
+  );
+}
+
+export function getSpecificGroceryCategory(name: string): GroceryCategory | null {
+  const normalized = normalize(name);
+
+  
+  if (
+    normalized === "cooking spray" ||
+    normalized === "nonstick cooking spray" ||
+    normalized === "non-stick cooking spray"
+  ) {
+    return "Pantry";
+  }
+
+  if (
+    normalized === "tostada shell" ||
+    normalized === "tostada shells"
+  ) {
+    return "Pantry";
+  }
+
+// Apple product forms must be decided before the broad "apple" Produce
+  // keyword. Fresh varieties stay Produce; processed forms keep their aisle.
+  if (/\bapple cider vinegar\b/.test(normalized)) return "Pantry";
+  if (/\b(?:apple juice|apple cider)\b/.test(normalized)) return "Beverages";
+  if (
+    /\b(?:apple pie filling|apple filling|applesauce|apple sauce|apple butter|dried apples?|apple chips?|canned apples?)\b/.test(
+      normalized
+    )
+  ) {
+    return "Pantry";
+  }
+  if (isFreshAppleVariety(normalized)) return "Produce";
+  if (/\bgraham crackers?\b/.test(normalized)) return "Pantry";
+  if (/\bcorn chips\b/.test(normalized)) return "Pantry";
+  if (/\bgranola\b/.test(normalized)) return "Pantry";
+  // A packet is packaging, not a reason to classify taco seasoning as Pantry.
+  if (/\btaco seasoning\b/.test(normalized)) return "Spices / Seasonings";
+
+  // Exact grocery items surfaced in the full-catalog audit. Keep product
+  // identity tests narrowly scoped to avoid substring category collisions.
+  if (/^(?:ranch|caesar|italian|poppy seed|ranch or italian) dressing$/.test(normalized)) {
+    return "Pantry";
+  }
+  if (/^balsamic glaze$/.test(normalized)) return "Pantry";
+  if (/^cherry pie filling$/.test(normalized)) return "Pantry";
+  if (/^ranch seasoning$/.test(normalized)) return "Spices / Seasonings";
+  if (/^whipped topping$/.test(normalized)) return "Frozen";
+  if (/^poppy seeds?$/.test(normalized)) return "Spices / Seasonings";
+  if (/^(?:raisins|sliced almonds|simple syrup|red curry paste)$/.test(normalized)) {
+    return "Pantry";
+  }
+  if (/^pie iron cooker$/.test(normalized)) return "Household";
+  if (/^racks? baby back ribs$/.test(normalized)) return "Meat / Seafood";
+  if (/^refrigerated pie crust$/.test(normalized)) return "Deli / Refrigerated";
+  if (/^sheet puff pastry$/.test(normalized)) return "Frozen";
+  if (/^shortcake biscuits or dessert biscuits$/.test(normalized)) return "Bakery";
+
+  // Full-catalog audit follow-up: specific shelf identities.
+  if (/^(?:southwest ranch dressing|sweet chili sauce|sunflower seeds|tagliatelle|wasabi)$/.test(normalized)) {
+    return "Pantry";
+  }
+  if (normalized === "turnip") return "Produce";
+  if (normalized === "tzatziki sauce") return "Deli / Refrigerated";
+  if (normalized === "whole cloves") return "Spices / Seasonings";
+
+
+  if (/\bpound cake\b/.test(normalized) && !/\b(?:mix|batter)\b/.test(normalized)) {
+    return "Bakery";
+  }
+  if (/\bfrozen yogurt\b/.test(normalized)) return "Frozen";
+  if (/\byogurt\b/.test(normalized)) return "Dairy / Eggs";
+  return null;
+}
+
 export function categorizeGroceryItem(name: string): GroceryCategory {
   const normalized = normalize(name);
 
   if (!normalized) return "Other";
+
+  const specificCategory = getSpecificGroceryCategory(normalized);
+  if (specificCategory) return specificCategory;
 
   // Recognizable beverage brands should win before broad Pantry words.
   // Example: "Sprite Zero Sugar" must not match "sugar" -> Pantry.

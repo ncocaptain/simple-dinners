@@ -1,3 +1,8 @@
+import { useNavigate as useGroceryPreviewNavigate } from "react-router-dom";
+import { selectCompatiblePantryItem } from "../core/pantryShoppingCompatibility";
+import { summarizeGroceryRequirements } from "../fulfillment/groceryRequirementSummary";
+import { buildGroceryHandoffFromShopping } from "../fulfillment/groceryHandoffFromShopping";
+import { useEffect as useGroceryPreviewEffect } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -31,6 +36,7 @@ import {
 } from "../shoppingList";
 import {
   categorizeGroceryItem,
+  getSpecificGroceryCategory,
   type GroceryCategory,
   GROCERY_CATEGORY_ORDER,
 } from "../core/groceryCategories";
@@ -54,6 +60,8 @@ import {
   usePlusAccess,
 } from "../plus/usePlusAccess";
 import { ALL_RECIPES } from "../core/data";
+import { isIngredientSectionHeader } from "../core/ingredientParser";
+import { formatGroceryPurchaseLabel } from "../core/groceryProductIdentity";
 import { getCookbook } from "../core/cookbookStore";
 import type { PantryItem } from "../core/types";
 import {
@@ -284,6 +292,7 @@ const ALWAYS_SHOW_MEASURED_TOTALS = new Set([
 ]);
 
 const HIDE_MEASURED_TOTALS = new Set([
+  "corn chips",
   "salt",
   "black pepper",
   "garlic powder",
@@ -647,17 +656,6 @@ function pluralizeCountable(name: string, quantity: number): string {
 // This is where recipe-style ingredient lines get cleaned
 // into shopper-friendly names
 // =====================================================
-const SECTION_HEADER_PATTERNS = [
-  /seasoning:?$/,
-  /^sauce:?$/,
-  /glaze:?$/,
-  /topping:?$/,
-  /toppings:?$/,
-  /marinade:?$/,
-  /dressing:?$/,
-  /filling:?$/,
-];
-
 const RECIPE_STYLE_PHRASES = [
   "to taste",
   "as needed",
@@ -719,13 +717,6 @@ function cleanupSpacing(text: string) {
     .replace(/\s+/g, " ")
     .trim()
     .replace(/[:]+$/, "");
-}
-
-function isSectionHeader(text: string) {
-  const cleaned = cleanupSpacing(text.toLowerCase());
-  if (!cleaned) return true;
-  if (text.trim().endsWith(":")) return true;
-  return SECTION_HEADER_PATTERNS.some((pattern) => pattern.test(cleaned));
 }
 
 function removeRecipeStylePhrases(text: string) {
@@ -1232,7 +1223,7 @@ function cleanIngredientName(line: string) {
     .replace(/\bsalsa or taco sauce\b/g, "salsa");
   text = text.replace(/^(and|or|with)\s+/g, "").trim();
 
-  if (isSectionHeader(text)) return "";
+  if (isIngredientSectionHeader(text)) return "";
 
   text = removeRecipeStylePhrases(text);
   text = text.replace(/^\s*up to\s+/i, "");
@@ -1378,7 +1369,7 @@ function parseIngredient(line: string): ParsedIngredient {
   }
 
   const measuredRangeMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:-|–|to)\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|box|boxes|clove|cloves|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices|head|heads|block|blocks)\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s*(?:-|–|to)\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|box|boxes|clove|cloves|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices|head|heads|block|blocks|packet|packets)\s+(.*)$/i
   );
 
   if (measuredRangeMatch) {
@@ -1415,7 +1406,7 @@ function parseIngredient(line: string): ParsedIngredient {
   }
 
   const measuredMatch = raw.match(
-    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices|head|heads|block|blocks)\s+(.*)$/i
+    /^\s*(\d+\s\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)\s+(lb|lbs|pound|pounds|oz|ounce|ounces|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|can|cans|package|packages|pkg|pkgs|clove|cloves|box|boxes|jar|jars|carton|cartons|bag|bags|strip|strips|slice|slices|head|heads|block|blocks|packet|packets)\s+(.*)$/i
   );
 
   if (measuredMatch) {
@@ -1485,6 +1476,10 @@ function normalizeCountableName(name: string): string {
 function isCountableIngredient(name: string): boolean {
   const normalized = normalizeCountableName(name);
   const cleaned = cleanIngredientName(name).toLowerCase();
+
+  // Ready-to-eat pudding is sold as individual snack cups.
+  // Keep the number of cups visible on the grocery list.
+  if (/\bpudding snack cups?$/.test(cleaned)) return true;
 
   if (normalized !== cleaned) return true;
 
@@ -1977,6 +1972,8 @@ function isForcedSpice(cleaned: string) {
 
 function resolveShoppingCategory(name: string): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
+  const specificCategory = getSpecificGroceryCategory(cleaned);
+  if (specificCategory) return specificCategory;
   // Audit-discovered category protections.
   if (cleaned.includes("cream of mushroom soup")) {
     return "Pantry";
@@ -2113,6 +2110,8 @@ function resolveShoppingCategoryForItem(
 ): GroceryCategory {
   const rawBrandName = normalizeManualText(name).toLowerCase();
   const cleaned = cleanIngredientName(name).toLowerCase();
+  const specificCategory = getSpecificGroceryCategory(cleaned);
+  if (specificCategory) return specificCategory;
 
   // Preserve fresh-herb identity before cleanup strips "fresh".
   if (
@@ -4449,6 +4448,21 @@ export default function ShoppingListPage() {
         )}${packageText} ${formattedName}`;
       }
 
+      // Only the product name belongs on the main list for recipe items.
+      // All ingredient amounts, units, and package sizes remain in
+      // recipeBreakdown (shown when the shopper taps the row), and in the
+      // original ShoppingItem for pantry matching and future retailer carts.
+      // Manual shopping entries keep exactly the quantities users entered.
+      if (!value.isManual) {
+        const simpleName =
+          value.isCountable && value.totalQuantity > 1
+            ? pluralizeCountable(value.name, value.totalQuantity)
+            : value.name;
+        displayText =
+          formatGroceryPurchaseLabel(value.name) ??
+          formatDisplayName(simpleName);
+      }
+
       // Each sourceRecipe value is one recipe title. Commas inside titles
       // are punctuation, not separators between multiple recipes.
       const recipeNames = Array.from(value.recipeNames)
@@ -4572,15 +4586,23 @@ export default function ShoppingListPage() {
             )[0]
           : "";
 
-      const pantryMatch =
-        pantryKey
-          ? pantryItems.find(
-              (item) =>
-                getPantryComparableName(
-                  item.name
-                ) === pantryKey
-            )
-          : undefined;
+      // PANTRY_FRESH_VS_CANNED_V1
+      // Match the product AND its compatible unit.
+      const matchingPantryItems = pantryKey
+        ? pantryItems.filter(
+            (item) =>
+              getPantryComparableName(item.name) === pantryKey
+          )
+        : [];
+
+      const requiresIndividualCount =
+        value.isCountable || value.unit === "__count__";
+
+      const pantryMatch = selectCompatiblePantryItem(
+        matchingPantryItems,
+        requiresIndividualCount ? null : value.unit,
+        Boolean(requiresIndividualCount)
+      );
 
       const requiredQuantity =
         !value.mixedUnits &&
@@ -4725,6 +4747,103 @@ export default function ShoppingListPage() {
         ),
       [combinedItems]
     );
+
+  // GROCERY_HANDOFF_LIVE_PROBE_V1
+  // Development-only, read-only grocery handoff diagnostic.
+  useGroceryPreviewEffect(() => {
+    if (!import.meta.env.DEV) return;
+
+    const preview = buildGroceryHandoffFromShopping(
+      shoppingItems,
+      combinedItems,
+      pantryBuyAnywayIds
+    );
+
+    const requirements =
+    summarizeGroceryRequirements(preview.lines);
+
+  const reviewReasons = requirements.reviews.reduce<
+    Record<string, number>
+  >((counts, review) => {
+    counts[review.reason] =
+      (counts[review.reason] || 0) + 1;
+    return counts;
+  }, {});
+
+  const holdReasons = preview.holds.reduce<Record<string, number>>(
+      (counts, hold) => {
+        counts[hold.reason] = (counts[hold.reason] || 0) + 1;
+        return counts;
+      },
+      {}
+    );
+
+    console.info("[Simple Dinners Grocery Preview]", {
+      rawItems: shoppingItems.length,
+      mergedRows: preview.totalMergedRows,
+      handoffLines: preview.lines.length,
+    consolidatedRequirements: requirements.groups.length,
+    requirementsHeldForReview: requirements.reviews.length,
+    requirementReviewReasons: reviewReasons,
+    // GROCERY_HANDOFF_REVIEW_DETAILS_V1
+    reviewDetails: requirements.reviews.map((review) => {
+      const line = preview.lines.find(
+        (entry) => entry.itemId === review.itemId
+      );
+
+      return {
+        reason: review.reason,
+        product: line?.shoppingName,
+        originalIngredient: line?.originalIngredient,
+        quantity: line?.quantity,
+        unit: line?.unit,
+        packageSize: line?.packageSize,
+        recipe: line?.sourceRecipe,
+      };
+    }),
+    // GROCERY_PARTIAL_PANTRY_DIAGNOSTIC_V1
+    pantryPartialDetails: combinedItems
+      .filter(
+        (row) =>
+          !row.checked &&
+          row.pantryCoverage === "partial"
+      )
+      .map((row) => {
+        const pantry = pantryItems.find(
+          (entry) =>
+            getPantryComparableName(entry.name) === row.pantryKey
+        );
+
+        return {
+          product: row.displayText,
+          requiredQuantity: row.quantity,
+          requiredUnit: row.unit,
+          requiredPackageSize: row.packageSize,
+          pantryQuantity: pantry?.quantity ?? null,
+          pantryUnit: pantry?.unit ?? null,
+          pantryPackageSize: pantry?.packageSize ?? "",
+          pantryIsStaple: pantry?.isStaple ?? false,
+        };
+      }),
+    pantryHoldDetails: preview.holds,
+    totalHeldForReview:
+      requirements.reviews.length + preview.holds.length,
+    requirementExamples: requirements.groups
+      .slice(0, 12)
+      .map((group) => ({
+        product: group.shoppingName,
+        quantity: group.quantity,
+        unit: group.unit,
+        packageSize: group.packageSize,
+        sourceCount: group.sourceLines.length,
+      })),
+      excludedCheckedRows: preview.excludedCheckedRows,
+      excludedCoveredRows: preview.excludedCoveredRows,
+      needsAttention: preview.requiresAttention,
+      holdReasons,
+      canAutoAddToCart: preview.canAutoAddToCart,
+    });
+  }, [shoppingItems, combinedItems, pantryBuyAnywayIds]);
 
   const pantryCoveredItems =
     useMemo(
@@ -4874,6 +4993,45 @@ export default function ShoppingListPage() {
   // =====================================================
   // Render
   // =====================================================
+
+  const groceryPreviewNavigate = useGroceryPreviewNavigate();
+
+  const openGroceryPreview = () => {
+    const handoff = buildGroceryHandoffFromShopping(
+      shoppingItems,
+      combinedItems,
+      pantryBuyAnywayIds
+    );
+
+    const requirements = summarizeGroceryRequirements(
+      handoff.lines
+    );
+
+    groceryPreviewNavigate("/grocery-preview", {
+      state: {
+        version: 1,
+        createdAt: Date.now(),
+        rawItems: shoppingItems.length,
+        mergedRows: handoff.totalMergedRows,
+        excludedCheckedRows: handoff.excludedCheckedRows,
+        excludedCoveredRows: handoff.excludedCoveredRows,
+        requirements: requirements.groups,
+        reviews: requirements.reviews.map((review) => {
+          const line = handoff.lines.find(
+            (item) => item.itemId === review.itemId
+          );
+          return {
+            itemId: review.itemId,
+            reason: review.reason,
+            shoppingName: line?.shoppingName ?? "",
+            originalIngredient: line?.originalIngredient ?? "",
+          };
+        }),
+        holds: handoff.holds,
+      },
+    });
+  };
+
   return (
     <div
       style={{
@@ -4886,6 +5044,69 @@ export default function ShoppingListPage() {
         overflowX: "hidden",
       }}
     >
+      {import.meta.env.DEV && (
+        <div
+          style={{
+            width: "100%",
+            maxWidth: 650,
+            margin: "0 auto",
+            padding: "0 16px 18px",
+            boxSizing: "border-box",
+          }}
+        >
+          <button
+            type="button"
+            onClick={openGroceryPreview}
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 14,
+              padding: "13px 15px",
+              borderRadius: 14,
+              border: "1px solid rgba(96,165,250,0.28)",
+              background: "rgba(59,130,246,0.10)",
+              color: "#dbeafe",
+              cursor: "pointer",
+              textAlign: "left",
+            }}
+          >
+            <span>
+              <span
+                style={{
+                  display: "block",
+                  fontWeight: 800,
+                  fontSize: 14,
+                }}
+              >
+                Grocery Delivery Preview
+              </span>
+              <span
+                style={{
+                  display: "block",
+                  marginTop: 3,
+                  fontSize: 11,
+                  opacity: 0.65,
+                }}
+              >
+                Review what your recipes need
+              </span>
+            </span>
+
+            <span
+              aria-hidden="true"
+              style={{
+                fontSize: 18,
+                opacity: 0.7,
+              }}
+            >
+              ›
+            </span>
+          </button>
+        </div>
+      )}
+
       <div
         style={{
           maxWidth: "550px",

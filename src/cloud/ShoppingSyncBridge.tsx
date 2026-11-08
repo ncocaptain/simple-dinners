@@ -449,17 +449,17 @@ export function ShoppingSyncBridge() {
               `id=eq.${activeHouseholdId}`,
           },
           () => {
+            // replace_shopping_items updates the household row only after
+            // the complete shopping snapshot has been replaced. Treat that
+            // single update as the authoritative "snapshot ready" signal.
             scheduleCloudPull();
           },
         )
         .subscribe((status, error) => {
           if (status === "SUBSCRIBED") {
-            publishShoppingSyncState({
-              status: "synced",
-              error: null,
-              lastSyncedAt: Date.now(),
-            });
-
+            // A connected Realtime socket is not the same thing as a
+            // synchronized list. Pull and compare before showing Synced.
+            scheduleCloudPull(0);
             return;
           }
 
@@ -632,12 +632,8 @@ export function ShoppingSyncBridge() {
         syncReady = true;
         startRealtime();
 
-        publishShoppingSyncState({
-          status: "synced",
-          error: null,
-          lastSyncedAt: Date.now(),
-        });
-
+        // startRealtime() performs one confirming cloud pull after the
+        // subscription is established. Only that pull may mark us Synced.
         if (pendingItems) {
           const latestItems = pendingItems;
           pendingItems = null;
@@ -687,6 +683,26 @@ export function ShoppingSyncBridge() {
       markOffline();
     }
 
+    function handleForeground() {
+      if (
+        cancelled ||
+        !syncReady ||
+        !navigator.onLine
+      ) {
+        return;
+      }
+
+      // Reconcile after tab/app resume in case the device slept through a
+      // Realtime event. Pending local edits still take priority in pullCloudSnapshot().
+      scheduleCloudPull(0);
+    }
+
+    function handleVisibilityChange() {
+      if (document.visibilityState === "visible") {
+        handleForeground();
+      }
+    }
+
     window.addEventListener(
       SHOPPING_LIST_CHANGED_EVENT,
       handleShoppingListChanged,
@@ -705,6 +721,16 @@ export function ShoppingSyncBridge() {
     window.addEventListener(
       "offline",
       handleOffline,
+    );
+
+    window.addEventListener(
+      "focus",
+      handleForeground,
+    );
+
+    document.addEventListener(
+      "visibilitychange",
+      handleVisibilityChange,
     );
 
     void initializeSync();
@@ -731,6 +757,16 @@ export function ShoppingSyncBridge() {
       window.removeEventListener(
         "offline",
         handleOffline,
+      );
+
+      window.removeEventListener(
+        "focus",
+        handleForeground,
+      );
+
+      document.removeEventListener(
+        "visibilitychange",
+        handleVisibilityChange,
       );
 
       if (uploadTimer !== null) {

@@ -14,6 +14,7 @@ import CookbookPage from "./pages/CookbookPage";
 import PlanPage from "./pages/PlanPage";
 import UseWhatIHavePage from "./pages/UseWhatIHavePage";
 import ShoppingListPage from "./pages/ShoppingListPage";
+import GroceryDeliveryPreviewPage from "./pages/GroceryDeliveryPreviewPage";
 import OnboardingPage from "./pages/OnboardingPage";
 import RecipePage from "./pages/RecipePage";
 import SmartWeekPage from "./pages/SmartWeekPage";
@@ -1202,6 +1203,15 @@ function AppContent() {
           element={requireOnboarding(<ShoppingListPage />)}
         />
 
+
+        <Route
+          path="/grocery-preview"
+          element={
+            import.meta.env.DEV
+              ? requireOnboarding(<GroceryDeliveryPreviewPage />)
+              : <Navigate to="/shopping-list" replace />
+          }
+        />
         <Route path="/settings" element={<Navigate to="/plan" replace />} />
         <Route path="/guide" element={<TestersGuidePage />} />
         <Route path="/feedback" element={<FeedbackForm />} />

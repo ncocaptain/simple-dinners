@@ -11,6 +11,7 @@ import {
   Flame,
   Utensils,
   CakeSlice,
+  ChefHat,
   Coffee,
   Sandwich,
   Heart,
@@ -59,6 +60,7 @@ type CategoryFilter =
   | "breakfast"
   | "lunch"
   | "dessert"
+  | "little-chefs"
   | "salads"
   | "grilling";
 
@@ -260,6 +262,7 @@ function recipeMatchesCategory(
   }
   if (category === "lunch") return tags.includes("lunch");
   if (category === "dessert") return tags.includes("dessert");
+  if (category === "little-chefs") return tags.includes("little-chefs");
   if (category === "salads") {
     return tags.includes("salad") || tags.includes("salads");
   }
@@ -312,6 +315,7 @@ function recipeMatchesCategory(
         "breakfast",
         "lunch",
         "dessert",
+        "little-chefs",
         "salads",
         "grilling",
       ].includes(item)
@@ -536,6 +540,11 @@ const browseSideRecipes = useMemo(
     localizedRecipes.filter(
       ({ raw }) => hasTag(raw, "side")
     ),
+  [localizedRecipes]
+);
+
+const browseLittleChefsRecipes = useMemo(
+  () => localizedRecipes.filter(({ raw }) => hasTag(raw, "little-chefs")),
   [localizedRecipes]
 );
 
@@ -783,6 +792,11 @@ const activeFilterCount =
       key: "dessert" as CategoryFilter,
       label: t("recipes.desserts", "Desserts"),
       icon: <CakeSlice size={14} />,
+    },
+    {
+      key: "little-chefs" as CategoryFilter,
+      label: language === "es" ? "Pequeños chefs" : "Little Chefs",
+      icon: <ChefHat size={14} />,
     },
     {
       key: "salads" as CategoryFilter,
@@ -1750,6 +1764,17 @@ const activeFilterCount =
             onViewAll: () =>
               setActiveCategories(["side"]),
           })}
+          {renderBrowseSection({
+            icon: <ChefHat size={19} />,
+            title: language === "es" ? "Pequeños chefs" : "Little Chefs",
+            subtitle:
+              language === "es"
+                ? "Recetas pequeñas. Manitas creativas. Grandes recuerdos."
+                : "Small recipes. Little hands. Big memories.",
+            items: browseLittleChefsRecipes,
+            onViewAll: () => setActiveCategories(["little-chefs"]),
+          })}
+
 
           {renderBrowseSection({
             icon: <CakeSlice size={19} />,
