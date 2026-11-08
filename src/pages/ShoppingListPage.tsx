@@ -4997,6 +4997,14 @@ export default function ShoppingListPage() {
   const groceryPreviewNavigate = useGroceryPreviewNavigate();
 
   const openGroceryPreview = () => {
+    if (
+      !requirePlus({
+        feature: "kroger-shopping",
+      })
+    ) {
+      return;
+    }
+
     const handoff = buildGroceryHandoffFromShopping(
       shoppingItems,
       combinedItems,

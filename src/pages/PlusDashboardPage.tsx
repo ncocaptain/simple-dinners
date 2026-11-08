@@ -1,5 +1,6 @@
 import {
   BookOpen,
+  Boxes,
   CalendarDays,
   Camera,
   CheckCircle2,
@@ -10,6 +11,7 @@ import {
   Share2,
   ShoppingCart,
   Sparkles,
+  Store,
   Users,
 } from "lucide-react";
 import { getStoredLanguage } from "../i18n";
@@ -55,9 +57,9 @@ const ACCOUNT_DELETION_URL =
 
 const PLUS_COPY = {
   en: {
-    heroTitle: "Shared planning for busy families.",
+    heroTitle: "More connected. Less dinner work.",
     heroDescription:
-      "Plan together, save recipes faster, and make the weekly dinner routine feel a little more simple.",
+      "Plan together, keep your pantry in sync, save recipes faster, and turn your shopping list into a Kroger cart.",
     householdEyebrow: "Your household",
     loading: "Loading…",
     setUpHousehold: "Set up your household",
@@ -112,6 +114,16 @@ const PLUS_COPY = {
         description:
           "Turn your dinner plan into a cleaner, smarter, easier grocery trip.",
       },
+      pantrySync: {
+        title: "Pantry Sync",
+        description:
+          "Keep your household pantry synced across devices so everyone knows what you already have and what needs restocking.",
+      },
+      krogerShopping: {
+        title: "Shop with Kroger",
+        description:
+          "Match your Simple Dinners shopping list to real Kroger products and send your selections directly to your Kroger cart.",
+      },
       socialImport: {
         title: "Instagram & TikTok Import",
         description:
@@ -146,9 +158,9 @@ const PLUS_COPY = {
   },
   es: {
     heroTitle:
-      "Planificación compartida para familias ocupadas.",
+      "Más conectado. Menos trabajo para la cena.",
     heroDescription:
-      "Planifiquen juntos, guarden recetas más rápido y hagan que la rutina semanal de la cena sea un poco más simple.",
+      "Planifiquen juntos, mantengan la despensa sincronizada, guarden recetas más rápido y conviertan la lista de compras en un carrito de Kroger.",
     householdEyebrow: "Tu hogar",
     loading: "Cargando…",
     setUpHousehold: "Configura tu hogar",
@@ -208,6 +220,16 @@ const PLUS_COPY = {
         description:
           "Convierte tu plan de cenas en una compra más organizada, inteligente y sencilla.",
       },
+      pantrySync: {
+        title: "Despensa sincronizada",
+        description:
+          "Mantén la despensa de tu hogar sincronizada entre dispositivos para que todos sepan lo que ya tienen y lo que hace falta comprar.",
+      },
+      krogerShopping: {
+        title: "Compra con Kroger",
+        description:
+          "Relaciona tu lista de compras de Simple Dinners con productos reales de Kroger y envía tus selecciones directamente a tu carrito de Kroger.",
+      },
       socialImport: {
         title: "Importar desde Instagram y TikTok",
         description:
@@ -245,6 +267,8 @@ const PLUS_COPY = {
 type PlusFeatureId =
   | "smart-week"
   | "smart-shopping"
+  | "pantry-sync"
+  | "kroger-shopping"
   | "screenshot-import"
   | "social-recipe-import"
   | "household-sharing";
@@ -265,6 +289,16 @@ const PLUS_FOCUS_COPY = {
       title: "Smart Shopping is included in Plus",
       description:
         "Organize and clean up your list while the everyday shopping-list basics remain free.",
+    },
+    "pantry-sync": {
+      title: "Pantry Sync is included in Plus",
+      description:
+        "Keep pantry items synced across your household and devices so your shopping list starts with what you actually need.",
+    },
+    "kroger-shopping": {
+      title: "Shop with Kroger is included in Plus",
+      description:
+        "Match your Simple Dinners list to Kroger products and send selected items directly to your Kroger cart.",
     },
     "screenshot-import": {
       title: "Screenshot Import is included in Plus",
@@ -294,6 +328,16 @@ const PLUS_FOCUS_COPY = {
       description:
         "Organiza y limpia tu lista mientras las funciones básicas de la lista de compras siguen siendo gratuitas.",
     },
+    "pantry-sync": {
+      title: "La despensa sincronizada está incluida en Plus",
+      description:
+        "Mantén los artículos de la despensa sincronizados entre tu hogar y tus dispositivos para comprar solamente lo que realmente necesitas.",
+    },
+    "kroger-shopping": {
+      title: "Compra con Kroger está incluida en Plus",
+      description:
+        "Relaciona tu lista de Simple Dinners con productos de Kroger y envía los artículos seleccionados directamente a tu carrito.",
+    },
     "screenshot-import": {
       title: "Importar capturas está incluido en Plus",
       description:
@@ -319,6 +363,8 @@ const PLUS_FOCUS_ICONS: Record<
 > = {
   "smart-week": CalendarDays,
   "smart-shopping": ShoppingCart,
+  "pantry-sync": Boxes,
+  "kroger-shopping": Store,
   "screenshot-import": Camera,
   "social-recipe-import": Share2,
   "household-sharing": Users,
@@ -1017,6 +1063,25 @@ export default function PlusDashboardPage() {
             }
             to="/shopping-list"
             icon={ShoppingCart}
+          />
+
+          <FeatureCard
+            title={copy.features.pantrySync.title}
+            description={
+              copy.features.pantrySync.description
+            }
+            to="/plus#household"
+            icon={Boxes}
+            onClick={scrollToHousehold}
+          />
+
+          <FeatureCard
+            title={copy.features.krogerShopping.title}
+            description={
+              copy.features.krogerShopping.description
+            }
+            to="/grocery-preview"
+            icon={Store}
           />
 
           <FeatureCard

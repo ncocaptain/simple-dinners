@@ -7,6 +7,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { App as CapacitorApp } from "@capacitor/app";
+import { Browser } from "@capacitor/browser";
 
 // Pages & Components
 import WeekPage from "./pages/WeekPage";
@@ -453,6 +454,16 @@ function AppContent() {
             parsed.hostname === "kroger-connected";
 
           if (isKrogerReturn) {
+            if (
+              Capacitor.getPlatform() === "ios"
+            ) {
+              try {
+                await Browser.close();
+              } catch {
+                // Browser may already be closed.
+              }
+            }
+
             sessionStorage.setItem(
               "simple-dinners:kroger-oauth-return",
               JSON.stringify({
@@ -1231,7 +1242,11 @@ function AppContent() {
           element={
             import.meta.env.DEV ||
             import.meta.env.VITE_KROGER_ENABLED === "true"
-              ? requireOnboarding(<GroceryDeliveryPreviewPage />)
+              ? requireOnboarding(
+                  <PlusFeatureGate feature="kroger-shopping">
+                    <GroceryDeliveryPreviewPage />
+                  </PlusFeatureGate>,
+                )
               : <Navigate to="/shopping-list" replace />
           }
         />

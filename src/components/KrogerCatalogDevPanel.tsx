@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
+import { Capacitor } from "@capacitor/core";
+import { Browser } from "@capacitor/browser";
 import type {
   GroceryRequirementGroup,
   GrocerySearchOnlyRequirement,
@@ -17,6 +19,7 @@ import {
   groceryRequirementKey,
   type KrogerCartSelection,
 } from "../fulfillment/krogerCartPlan";
+import { useAuth } from "../auth/AuthContext";
 import {
   addItemsToKrogerCart,
   disconnectKroger,
@@ -46,6 +49,9 @@ export default function KrogerCatalogDevPanel({
   requirements,
   searchOnly = [],
 }: Props) {
+  const {
+    isSignedIn,
+  } = useAuth();
   const [zip, setZip] = useState("37660");
   const [locations, setLocations] = useState<KrogerLocation[]>([]);
   const [locationId, setLocationId] = useState("");
@@ -354,20 +360,40 @@ export default function KrogerCatalogDevPanel({
   const connectKroger = async () => {
     setCartMessage("");
 
+    if (!isSignedIn) {
+      setCartMessage(
+        "Sign in to Simple Dinners first, then connect your Kroger account."
+      );
+      return;
+    }
+
     try {
       const data =
         await startKrogerConnection();
 
-      window.open(
-        data.url,
-        "simple-dinners-kroger-oauth",
-        "popup=yes,width=520,height=720"
-      );
+      if (Capacitor.isNativePlatform()) {
+        await Browser.open({
+          url: data.url,
+          presentationStyle: "fullscreen",
+        });
+      } else {
+        window.open(
+          data.url,
+          "simple-dinners-kroger-oauth",
+          "popup=yes,width=520,height=720"
+        );
+      }
     } catch (nextError) {
-      setCartMessage(
+      const message =
         nextError instanceof Error
           ? nextError.message
-          : "Unable to start Kroger connection."
+          : "Unable to start Kroger connection.";
+
+      setCartMessage(
+        message ===
+          "SIMPLE_DINNERS_AUTH_REQUIRED"
+          ? "Sign in to Simple Dinners first, then connect your Kroger account."
+          : message
       );
     }
   };
@@ -868,11 +894,10 @@ export default function KrogerCatalogDevPanel({
               }}
             >
               {krogerConnected
-                ? krogerEnvironment ===
-                  "production"
-                  ? "Connected to your Kroger account."
-                  : "Connected to your Kroger account."
-                : "Connect before sending selected products to the Kroger cart."}
+                ? "Connected to your Kroger account."
+                : !isSignedIn
+                  ? "Sign in to Simple Dinners to connect your Kroger account."
+                  : "Connect before sending selected products to the Kroger cart."}
             </div>
           </div>
 
@@ -905,7 +930,9 @@ export default function KrogerCatalogDevPanel({
           >
             {krogerConnected
               ? "Reconnect Kroger"
-              : "Connect Kroger Account"}
+              : !isSignedIn
+                ? "Sign In to Connect Kroger"
+                : "Connect Kroger Account"}
           </button>
 
           {krogerConnected && (
