@@ -23,6 +23,7 @@ new Function("module", "exports", output)(
 const {
   normalizeKrogerLocations,
   normalizeKrogerProducts,
+  krogerProductToRetailerPackageCandidate,
 } = mod.exports;
 
 const locations =
@@ -112,4 +113,20 @@ console.log(
 );
 console.log(
   "PASS: Kroger products normalize with UPC, size, image, and price"
+);
+
+const candidate =
+  krogerProductToRetailerPackageCandidate(
+    products[0]
+  );
+
+assert.deepEqual(candidate, {
+  id: "0001111000001",
+  productName: "Chicken Broth",
+  packageQuantity: 32,
+  packageUnit: "fl oz",
+});
+
+console.log(
+  "PASS: Kroger package sizes map to retailer package candidates"
 );
