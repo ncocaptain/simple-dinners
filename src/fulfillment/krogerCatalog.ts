@@ -350,6 +350,7 @@ function looksLikeSimpleProduceSearch(
     "apple",
     "avocado",
     "banana",
+    "blackberry",
     "blueberry",
     "carrot",
     "celery",
@@ -366,6 +367,7 @@ function looksLikeSimpleProduceSearch(
     "pear",
     "pepper",
     "potato",
+    "raspberry",
     "spinach",
     "strawberry",
     "tomato",
@@ -438,6 +440,56 @@ export function assessKrogerProductRelevance(
         rejected: true,
         reason:
           "Prepared product does not match a simple produce requirement.",
+      };
+    }
+
+    const queryProduce =
+      meaningfulSearchTokens(
+        searchTerm
+      )[0];
+
+    const produceTerms = new Set([
+      "apple",
+      "avocado",
+      "banana",
+      "blackberry",
+      "blueberry",
+      "carrot",
+      "celery",
+      "cucumber",
+      "garlic",
+      "grape",
+      "jalapeno",
+      "lemon",
+      "lime",
+      "mushroom",
+      "onion",
+      "orange",
+      "peach",
+      "pear",
+      "pepper",
+      "potato",
+      "raspberry",
+      "spinach",
+      "strawberry",
+      "tomato",
+      "zucchini",
+    ]);
+
+    const otherProduce =
+      titleTokens.filter(
+        (token) =>
+          produceTerms.has(token) &&
+          token !== queryProduce
+      );
+
+    if (otherProduce.length > 0) {
+      return {
+        product,
+        score: -100,
+        rejected: true,
+        reason:
+          "Mixed produce product does not match a single-produce requirement.",
       };
     }
   }
