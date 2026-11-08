@@ -15,6 +15,12 @@ export default async function handler(
   req: VercelRequest,
   res: VercelResponse
 ) {
+  applyKrogerCors(req, res, "GET, DELETE, OPTIONS");
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   try {
     const {
       user,
