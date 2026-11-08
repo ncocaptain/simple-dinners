@@ -6,7 +6,7 @@ import {
   normalizeKrogerLocations,
   normalizeKrogerProducts,
   type KrogerEnvironment,
-} from "../src/fulfillment/krogerCatalog";
+} from "../src/fulfillment/krogerCatalog.js";
 
 const allowedOrigins = new Set([
   "https://dinners.ncocaptain.com",
