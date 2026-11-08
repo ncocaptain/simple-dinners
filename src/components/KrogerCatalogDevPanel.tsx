@@ -64,6 +64,8 @@ export default function KrogerCatalogDevPanel({
     useState("certification");
   const [lastAddedSignature, setLastAddedSignature] =
     useState("");
+  const [tokenHealthMessage, setTokenHealthMessage] =
+    useState("");
 
   const requirement =
     requirements[requirementIndex] ?? null;
@@ -193,6 +195,33 @@ export default function KrogerCatalogDevPanel({
           data?.environment ||
             "certification"
         );
+
+        if (data?.tokenHealth) {
+          const access =
+            data.tokenHealth
+              .accessTokenDecrypts
+              ? "access ✓"
+              : "access ✕";
+          const refresh =
+            data.tokenHealth
+              .refreshTokenDecrypts ===
+            null
+              ? "refresh n/a"
+              : data.tokenHealth
+                  .refreshTokenDecrypts
+                ? "refresh ✓"
+                : "refresh ✕";
+
+          setTokenHealthMessage(
+            `${access} · ${refresh}${
+              data.tokenHealth.error
+                ? ` · ${data.tokenHealth.error}`
+                : ""
+            }`
+          );
+        } else {
+          setTokenHealthMessage("");
+        }
       } catch {
         setKrogerConnected(false);
       }
@@ -718,6 +747,19 @@ export default function KrogerCatalogDevPanel({
                   ? "Connected to your Kroger account."
                   : "Connected for Certification cart testing."
                 : "Connect before sending selected products to the Kroger cart."}
+              {tokenHealthMessage && (
+                <>
+                  <br />
+                  <span
+                    style={{
+                      opacity: 0.9,
+                    }}
+                  >
+                    Token health:{" "}
+                    {tokenHealthMessage}
+                  </span>
+                </>
+              )}
             </div>
           </div>
 
