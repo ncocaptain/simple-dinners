@@ -14,6 +14,12 @@ import {
   groceryRequirementKey,
   type KrogerCartSelection,
 } from "../fulfillment/krogerCartPlan";
+import {
+  addItemsToKrogerCart,
+  disconnectKroger,
+  getKrogerConnectionStatus,
+  startKrogerConnection,
+} from "../fulfillment/krogerApiClient";
 
 type Props = {
   requirements: GroceryRequirementGroup[];
@@ -52,6 +58,10 @@ export default function KrogerCatalogDevPanel({
   const [cartLoading, setCartLoading] =
     useState(false);
   const [cartMessage, setCartMessage] =
+    useState("");
+  const [krogerEnvironment, setKrogerEnvironment] =
+    useState("certification");
+  const [lastAddedSignature, setLastAddedSignature] =
     useState("");
 
   const requirement =
@@ -161,19 +171,26 @@ export default function KrogerCatalogDevPanel({
     }));
   };
 
-  if (!import.meta.env.DEV) {
-    return null;
-  }
+  const featureEnabled =
+    import.meta.env.DEV ||
+    import.meta.env.VITE_KROGER_ENABLED ===
+      "true";
 
   useEffect(() => {
+    if (!featureEnabled) {
+      return;
+    }
+
     const refreshStatus = async () => {
       try {
-        const response = await fetch(
-          "/api/kroger-oauth?action=status"
-        );
-        const data = await response.json();
+        const data =
+          await getKrogerConnectionStatus();
         setKrogerConnected(
           Boolean(data?.connected)
+        );
+        setKrogerEnvironment(
+          data?.environment ||
+            "certification"
         );
       } catch {
         setKrogerConnected(false);
@@ -183,9 +200,16 @@ export default function KrogerCatalogDevPanel({
     const handleMessage = (
       event: MessageEvent
     ) => {
+      const allowedOrigins =
+        new Set([
+          window.location.origin,
+          "http://localhost:8787",
+        ]);
+
       if (
-        event.origin !==
-          "http://localhost:8787" ||
+        !allowedOrigins.has(
+          event.origin
+        ) ||
         event.data?.type !==
           "simple-dinners-kroger-oauth"
       ) {
@@ -212,17 +236,49 @@ export default function KrogerCatalogDevPanel({
         handleMessage
       );
     };
-  }, []);
+  }, [featureEnabled]);
 
-  const connectKroger = () => {
+  if (!featureEnabled) {
+    return null;
+  }
+
+  const connectKroger = async () => {
     setCartMessage("");
 
-    window.open(
-      "/api/kroger-oauth?action=start",
-      "simple-dinners-kroger-oauth",
-      "popup=yes,width=520,height=720"
-    );
+    try {
+      const data =
+        await startKrogerConnection();
+
+      window.open(
+        data.url,
+        "simple-dinners-kroger-oauth",
+        "popup=yes,width=520,height=720"
+      );
+    } catch (nextError) {
+      setCartMessage(
+        nextError instanceof Error
+          ? nextError.message
+          : "Unable to start Kroger connection."
+      );
+    }
   };
+
+  const disconnectKrogerAccount =
+    async () => {
+      try {
+        await disconnectKroger();
+        setKrogerConnected(false);
+        setCartMessage(
+          "Kroger account disconnected."
+        );
+      } catch (nextError) {
+        setCartMessage(
+          nextError instanceof Error
+            ? nextError.message
+            : "Unable to disconnect Kroger."
+        );
+      }
+    };
 
   const addSelectedToKrogerCart =
     async () => {
@@ -234,30 +290,16 @@ export default function KrogerCatalogDevPanel({
       setCartMessage("");
 
       try {
-        const response = await fetch(
-          "/api/kroger-cart",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
-            body: JSON.stringify({
-              items: cartPreview.items,
-            }),
-          }
-        );
-
-        const data = await response
-          .json()
-          .catch(() => null);
-
-        if (!response.ok) {
-          throw new Error(
-            data?.error ||
-              "Kroger cart add failed"
+        const data =
+          await addItemsToKrogerCart(
+            cartPreview.items
           );
-        }
+
+        setLastAddedSignature(
+          JSON.stringify(
+            cartPreview.items
+          )
+        );
 
         setCartMessage(
           `${data.added} selected item${data.added === 1 ? "" : "s"} added to the Kroger cart.`
@@ -381,7 +423,9 @@ export default function KrogerCatalogDevPanel({
               letterSpacing: "0.05em",
             }}
           >
-            DEV ONLY
+            {import.meta.env.DEV
+              ? "DEV ONLY"
+              : "KROGER"}
           </div>
           <h2
             style={{
@@ -389,7 +433,10 @@ export default function KrogerCatalogDevPanel({
               margin: "4px 0 0",
             }}
           >
-            Kroger Certification
+            {krogerEnvironment ===
+            "production"
+              ? "Kroger"
+              : "Kroger Certification"}
           </h2>
         </div>
 
@@ -665,11 +712,21 @@ export default function KrogerCatalogDevPanel({
               }}
             >
               {krogerConnected
-                ? "Connected for Certification cart testing."
+                ? krogerEnvironment ===
+                  "production"
+                  ? "Connected to your Kroger account."
+                  : "Connected for Certification cart testing."
                 : "Connect before sending selected products to the Kroger cart."}
             </div>
           </div>
 
+          <div
+            style={{
+              display: "flex",
+              gap: 8,
+              flexWrap: "wrap",
+            }}
+          >
           <button
             type="button"
             onClick={connectKroger}
@@ -694,6 +751,30 @@ export default function KrogerCatalogDevPanel({
               ? "Reconnect Kroger"
               : "Connect Kroger Account"}
           </button>
+
+          {krogerConnected && (
+            <button
+              type="button"
+              onClick={
+                disconnectKrogerAccount
+              }
+              style={{
+                padding: "9px 12px",
+                borderRadius: 9,
+                border:
+                  "1px solid rgba(248,113,113,0.28)",
+                background:
+                  "rgba(127,29,29,0.18)",
+                color: "#fecaca",
+                fontWeight: 800,
+                cursor: "pointer",
+                fontSize: 11,
+              }}
+            >
+              Disconnect
+            </button>
+          )}
+          </div>
         </div>
       </div>
 
@@ -727,11 +808,47 @@ export default function KrogerCatalogDevPanel({
               lineHeight: 1.5,
             }}
           >
-            Selections are retained while you
-            switch ingredients. Each selected
-            product now has a Kroger UPC and
-            package quantity ready for the future
-            authenticated Cart API call.
+            Review these selections before
+            sending them to Kroger.
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gap: 6,
+              marginTop: 10,
+            }}
+          >
+            {Object.values(
+              selections
+            ).map((selection) => (
+              <div
+                key={
+                  selection.requirementKey
+                }
+                style={{
+                  display: "flex",
+                  justifyContent:
+                    "space-between",
+                  gap: 12,
+                  fontSize: 11,
+                  padding: "7px 9px",
+                  borderRadius: 8,
+                  background:
+                    "rgba(255,255,255,0.035)",
+                }}
+              >
+                <span>
+                  {selection.description}
+                  {selection.size
+                    ? ` · ${selection.size}`
+                    : ""}
+                </span>
+                <strong>
+                  × {selection.quantity}
+                </strong>
+              </div>
+            ))}
           </div>
 
           <button
@@ -739,7 +856,11 @@ export default function KrogerCatalogDevPanel({
             disabled={
               !krogerConnected ||
               cartLoading ||
-              cartPreview.selectionCount === 0
+              cartPreview.selectionCount === 0 ||
+              lastAddedSignature ===
+                JSON.stringify(
+                cartPreview.items
+              )
             }
             onClick={
               addSelectedToKrogerCart
@@ -753,26 +874,66 @@ export default function KrogerCatalogDevPanel({
                 "1px solid rgba(34,197,94,0.32)",
               background:
                 !krogerConnected ||
-                cartLoading
+                cartLoading ||
+                lastAddedSignature ===
+                  JSON.stringify(
+                cartPreview.items
+              )
                   ? "rgba(34,197,94,0.08)"
                   : "rgba(34,197,94,0.2)",
               color:
                 !krogerConnected ||
-                cartLoading
+                cartLoading ||
+                lastAddedSignature ===
+                  JSON.stringify(
+                cartPreview.items
+              )
                   ? "rgba(220,252,231,0.5)"
                   : "#dcfce7",
               fontWeight: 800,
               cursor:
                 !krogerConnected ||
-                cartLoading
+                cartLoading ||
+                lastAddedSignature ===
+                  JSON.stringify(
+                cartPreview.items
+              )
                   ? "default"
                   : "pointer",
             }}
           >
             {cartLoading
               ? "Adding to Kroger Cart..."
-              : `Add ${cartPreview.selectionCount} Selected Item${cartPreview.selectionCount === 1 ? "" : "s"} to Kroger Cart`}
+              : lastAddedSignature ===
+                  JSON.stringify(
+                cartPreview.items
+              )
+                ? "Already Added to Kroger Cart"
+                : `Add ${cartPreview.selectionCount} Selected Item${cartPreview.selectionCount === 1 ? "" : "s"} to Kroger Cart`}
           </button>
+
+          {lastAddedSignature ===
+            JSON.stringify(
+                cartPreview.items
+              ) && (
+              <button
+                type="button"
+                onClick={() =>
+                  setLastAddedSignature("")
+                }
+                style={{
+                  marginTop: 8,
+                  background: "transparent",
+                  border: 0,
+                  padding: 0,
+                  color: "#93c5fd",
+                  cursor: "pointer",
+                  fontSize: 11,
+                }}
+              >
+                I want to add these items again
+              </button>
+            )}
 
           {cartMessage && (
             <div
