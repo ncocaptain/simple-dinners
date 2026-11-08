@@ -42,8 +42,10 @@ export default async function handler(
 
     const verifier =
       randomUrlSafe(48);
+    const nativeReturn =
+      req.body?.native === true;
     const state =
-      randomUrlSafe(32);
+      `${randomUrlSafe(32)}${nativeReturn ? ".native" : ""}`;
     const redirectUri =
       krogerRedirectUri();
 
