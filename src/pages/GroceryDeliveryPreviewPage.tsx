@@ -28,6 +28,35 @@ type GroceryPreviewSnapshot = {
   holds: GroceryHandoffHold[];
 };
 
+const GROCERY_PREVIEW_SNAPSHOT_KEY =
+  "simple-dinners:grocery-preview-snapshot";
+
+function readSavedGroceryPreviewSnapshot():
+  | GroceryPreviewSnapshot
+  | null {
+  try {
+    const raw = sessionStorage.getItem(
+      GROCERY_PREVIEW_SNAPSHOT_KEY
+    );
+
+    if (!raw) return null;
+
+    const parsed = JSON.parse(raw) as
+      | GroceryPreviewSnapshot
+      | null;
+
+    return parsed?.version === 1 &&
+      Array.isArray(parsed.requirements) &&
+      Array.isArray(parsed.searchOnly) &&
+      Array.isArray(parsed.reviews) &&
+      Array.isArray(parsed.holds)
+      ? parsed
+      : null;
+  } catch {
+    return null;
+  }
+}
+
 function formatFriendlyQuantity(value: number) {
   const whole = Math.floor(value);
   const fraction = Math.round((value - whole) * 100) / 100;
@@ -132,7 +161,7 @@ export default function GroceryDeliveryPreviewPage() {
     | GroceryPreviewSnapshot
     | null;
 
-  const snapshot =
+  const routedSnapshot =
     candidate?.version === 1 &&
     Array.isArray(candidate.requirements) &&
     Array.isArray(candidate.searchOnly) &&
@@ -140,6 +169,10 @@ export default function GroceryDeliveryPreviewPage() {
     Array.isArray(candidate.holds)
       ? candidate
       : null;
+
+  const snapshot =
+    routedSnapshot ??
+    readSavedGroceryPreviewSnapshot();
 
   const retailerPreview = snapshot
     ? buildRetailerMatchPreview(snapshot.requirements)
@@ -191,7 +224,7 @@ export default function GroceryDeliveryPreviewPage() {
 
         {!snapshot ? (
           <section style={{ ...panelStyle, marginTop: 24 }}>
-            <h2>Open your Shopping List first</h2>
+            <h2>Return to your Shopping List</h2>
             <p>
               This preview uses the current Shopping List
               and Pantry decisions. Return to Shopping List
