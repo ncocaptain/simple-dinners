@@ -3,6 +3,7 @@ import type {
   VercelResponse,
 } from "@vercel/node";
 import {
+  applyKrogerCors,
   authErrorStatus,
   getKrogerUserAccessToken,
   krogerBaseUrl,
