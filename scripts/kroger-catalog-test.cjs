@@ -272,3 +272,47 @@ console.log(
 console.log(
   "PASS: manual package choices stay non-automatic for cart handoff"
 );
+
+
+const mixedBerryPack = {
+  productId: "mixed-berry-pack",
+  upc: "4",
+  description:
+    "Driscoll's Rainbow Pack Blackberries Blueberries & Raspberries",
+  brand: "Driscoll's",
+  size: "7 oz",
+  imageUrl: "",
+  regularPrice: null,
+  promoPrice: null,
+};
+
+assert.equal(
+  assessKrogerProductRelevance(
+    "blueberries",
+    mixedBerryPack
+  ).rejected,
+  true
+);
+
+const blueberryChoices =
+  buildKrogerManualPackageChoices(
+    "blueberries",
+    [
+      blueberryPouch,
+      freshBlueberries,
+      mixedBerryPack,
+    ]
+  );
+
+assert.equal(
+  blueberryChoices.length,
+  1
+);
+assert.equal(
+  blueberryChoices[0].productId,
+  "blueberries-fresh"
+);
+
+console.log(
+  "PASS: mixed-berry packs are rejected for single-blueberry searches"
+);
