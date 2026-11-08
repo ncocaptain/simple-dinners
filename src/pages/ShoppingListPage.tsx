@@ -5044,7 +5044,8 @@ export default function ShoppingListPage() {
         overflowX: "hidden",
       }}
     >
-      {import.meta.env.DEV && (
+      {(import.meta.env.DEV ||
+        import.meta.env.VITE_KROGER_ENABLED === "true") && (
         <div
           style={{
             width: "100%",
@@ -5080,7 +5081,7 @@ export default function ShoppingListPage() {
                   fontSize: 14,
                 }}
               >
-                Grocery Delivery Preview
+                Shop with Kroger
               </span>
               <span
                 style={{
@@ -5090,7 +5091,7 @@ export default function ShoppingListPage() {
                   opacity: 0.65,
                 }}
               >
-                Review what your recipes need
+                Match your shopping list to Kroger products
               </span>
             </span>
 
