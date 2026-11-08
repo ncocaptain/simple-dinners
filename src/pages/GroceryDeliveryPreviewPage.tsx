@@ -289,9 +289,6 @@ export default function GroceryDeliveryPreviewPage() {
                 }}
               >
                 {snapshot.requirements.map((group, index) => {
-                  const retailerMatch =
-                    retailerPreview?.items[index];
-
                   return (
                   <article
                     key={index}
@@ -326,60 +323,6 @@ export default function GroceryDeliveryPreviewPage() {
                         </div>
                       </div>
                     </div>
-
-                    {retailerMatch && (
-                      <div
-                        style={{
-                          marginTop: 12,
-                          padding: "10px 12px",
-                          borderRadius: 12,
-                          background:
-                            retailerMatch.status === "search-ready"
-                              ? "rgba(34,197,94,0.08)"
-                              : "rgba(245,158,11,0.08)",
-                          border:
-                            retailerMatch.status === "search-ready"
-                              ? "1px solid rgba(34,197,94,0.22)"
-                              : "1px solid rgba(245,158,11,0.22)",
-                        }}
-                      >
-                        <div
-                          style={{
-                            fontSize: 11,
-                            fontWeight: 800,
-                            color:
-                              retailerMatch.status === "search-ready"
-                                ? "#86efac"
-                                : "#fcd34d",
-                          }}
-                        >
-                          {retailerMatch.status === "search-ready"
-                            ? "READY TO SHOP"
-                            : "PACKAGE MATCH NEEDED"}
-                        </div>
-
-                        <div
-                          style={{
-                            fontSize: 12,
-                            marginTop: 4,
-                            opacity: 0.82,
-                          }}
-                        >
-                          {retailerMatch.purchaseTarget}
-                        </div>
-
-                        <div
-                          style={{
-                            fontSize: 11,
-                            marginTop: 4,
-                            opacity: 0.58,
-                            lineHeight: 1.45,
-                          }}
-                        >
-                          {retailerMatch.reason}
-                        </div>
-                      </div>
-                    )}
 
                     <details style={{ marginTop: 12 }}>
                       <summary
