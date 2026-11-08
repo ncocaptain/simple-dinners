@@ -453,24 +453,19 @@ function AppContent() {
             parsed.hostname === "kroger-connected";
 
           if (isKrogerReturn) {
+            sessionStorage.setItem(
+              "simple-dinners:kroger-oauth-return",
+              JSON.stringify({
+                connected:
+                  parsed.searchParams.get("connected") === "1",
+                at: Date.now(),
+              }),
+            );
+
             navigate(
               "/grocery-preview",
               { replace: true },
             );
-
-            window.setTimeout(() => {
-              window.dispatchEvent(
-                new CustomEvent(
-                  "simple-dinners:kroger-oauth-complete",
-                  {
-                    detail: {
-                      connected:
-                        parsed.searchParams.get("connected") === "1",
-                    },
-                  },
-                ),
-              );
-            }, 100);
 
             return;
           }
