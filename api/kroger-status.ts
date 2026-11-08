@@ -4,7 +4,6 @@ import type {
 } from "@vercel/node";
 import {
   deleteKrogerConnection,
-  decryptSecret,
   krogerEnvironment,
   loadKrogerConnection,
   requireSimpleDinnersUser,
@@ -30,67 +29,12 @@ export default async function handler(
           user.id
         );
 
-      let tokenHealth:
-        | {
-            accessTokenDecrypts: boolean;
-            refreshTokenDecrypts:
-              boolean | null;
-            error?: string;
-          }
-        | null = null;
-
-      if (connection) {
-        try {
-          const accessToken =
-            decryptSecret(
-              connection
-                .access_token_encrypted
-            );
-
-          let refreshTokenDecrypts:
-            boolean | null = null;
-
-          if (
-            connection
-              .refresh_token_encrypted
-          ) {
-            refreshTokenDecrypts =
-              Boolean(
-                decryptSecret(
-                  connection
-                    .refresh_token_encrypted
-                )
-              );
-          }
-
-          tokenHealth = {
-            accessTokenDecrypts:
-              Boolean(accessToken),
-            refreshTokenDecrypts,
-          };
-        } catch (tokenError) {
-          tokenHealth = {
-            accessTokenDecrypts: false,
-            refreshTokenDecrypts:
-              connection
-                .refresh_token_encrypted
-                ? false
-                : null,
-            error:
-              tokenError instanceof Error
-                ? tokenError.message
-                : "UNKNOWN_TOKEN_ERROR",
-          };
-        }
-      }
-
       return res.status(200).json({
         connected:
           Boolean(connection),
         environment:
           connection?.environment ??
           krogerEnvironment(),
-        tokenHealth,
       });
     }
 
