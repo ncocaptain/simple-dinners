@@ -510,3 +510,16 @@ export function relevantKrogerProducts(
     products
   ).map((result) => result.product);
 }
+
+
+export function relevantKrogerProductsToRetailerPackageCandidates(
+  searchTerm: string,
+  products: readonly KrogerProduct[]
+) {
+  return krogerProductsToRetailerPackageCandidates(
+    relevantKrogerProducts(
+      searchTerm,
+      products
+    )
+  );
+}
