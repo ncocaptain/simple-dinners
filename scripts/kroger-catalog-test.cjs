@@ -24,6 +24,8 @@ const {
   normalizeKrogerLocations,
   normalizeKrogerProducts,
   krogerProductToRetailerPackageCandidate,
+  assessKrogerProductRelevance,
+  rankRelevantKrogerProducts,
 } = mod.exports;
 
 const locations =
@@ -129,4 +131,89 @@ assert.deepEqual(candidate, {
 
 console.log(
   "PASS: Kroger package sizes map to retailer package candidates"
+);
+
+
+const freshBlueberries = {
+  productId: "blueberries-fresh",
+  upc: "1",
+  description: "Fresh Blueberries",
+  brand: "Kroger",
+  size: "6 oz",
+  imageUrl: "",
+  regularPrice: 3.49,
+  promoPrice: null,
+};
+
+const blueberryPouch = {
+  productId: "blueberries-pouch",
+  upc: "2",
+  description:
+    "Happy Tot Stage 4 Organic Bananas Blueberries Yogurt & Oats + Super Chia Pouch",
+  brand: "Happy Tot",
+  size: "4 fl oz",
+  imageUrl: "",
+  regularPrice: 1.99,
+  promoPrice: null,
+};
+
+const brothRelevant = {
+  productId: "broth-relevant",
+  upc: "3",
+  description:
+    "Kroger Less Sodium Chicken Broth",
+  brand: "Kroger",
+  size: "32 oz",
+  imageUrl: "",
+  regularPrice: 2.19,
+  promoPrice: null,
+};
+
+assert.equal(
+  assessKrogerProductRelevance(
+    "blueberries",
+    blueberryPouch
+  ).rejected,
+  true
+);
+
+assert.equal(
+  assessKrogerProductRelevance(
+    "blueberries",
+    freshBlueberries
+  ).rejected,
+  false
+);
+
+const blueberryRanked =
+  rankRelevantKrogerProducts(
+    "blueberries",
+    [blueberryPouch, freshBlueberries]
+  );
+
+assert.equal(
+  blueberryRanked.length,
+  1
+);
+assert.equal(
+  blueberryRanked[0].product.productId,
+  "blueberries-fresh"
+);
+
+assert.equal(
+  assessKrogerProductRelevance(
+    "chicken broth",
+    brothRelevant
+  ).rejected,
+  false
+);
+
+console.log(
+  "PASS: prepared blueberry pouches are rejected for fresh blueberry searches"
+);
+console.log(
+  "PASS: fresh blueberry products remain eligible"
+);
+console.log(
+  "PASS: multi-word grocery searches require all meaningful terms"
 );
