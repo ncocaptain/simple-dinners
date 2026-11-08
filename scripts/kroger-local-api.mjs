@@ -1,4 +1,5 @@
 import http from "node:http";
+import crypto from "node:crypto";
 
 const clientId =
   process.env.KROGER_CLIENT_ID?.trim();
@@ -24,6 +25,153 @@ const host =
 const basic = Buffer.from(
   `${clientId}:${clientSecret}`
 ).toString("base64");
+
+const redirectUri =
+  process.env.KROGER_REDIRECT_URI?.trim() ||
+  "http://localhost:8787/api/kroger-oauth/callback";
+
+let pendingOAuth = null;
+let userToken = null;
+
+const base64Url = (buffer) =>
+  buffer
+    .toString("base64")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/g, "");
+
+function createPkce() {
+  const verifier = base64Url(
+    crypto.randomBytes(48)
+  );
+  const challenge = base64Url(
+    crypto
+      .createHash("sha256")
+      .update(verifier)
+      .digest()
+  );
+
+  return { verifier, challenge };
+}
+
+function tokenIsUsable() {
+  return Boolean(
+    userToken?.access_token &&
+      typeof userToken.expires_at === "number" &&
+      userToken.expires_at >
+        Date.now() + 30_000
+  );
+}
+
+async function exchangeAuthorizationCode(
+  code,
+  verifier
+) {
+  const response = await fetch(
+    `${host}/connect/oauth2/token`,
+    {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Basic ${basic}`,
+        "Content-Type":
+          "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        grant_type: "authorization_code",
+        code,
+        redirect_uri: redirectUri,
+        code_verifier: verifier,
+      }),
+    }
+  );
+
+  const data = await response
+    .json()
+    .catch(() => null);
+
+  if (!response.ok || !data?.access_token) {
+    console.error(
+      "Kroger authorization-code exchange failed:",
+      response.status
+    );
+    throw new Error(
+      "KROGER_USER_TOKEN_FAILED"
+    );
+  }
+
+  userToken = {
+    ...data,
+    expires_at:
+      Date.now() +
+      Math.max(
+        0,
+        Number(data.expires_in || 1800)
+      ) *
+        1000,
+  };
+}
+
+async function refreshUserToken() {
+  if (!userToken?.refresh_token) {
+    throw new Error(
+      "KROGER_USER_NOT_CONNECTED"
+    );
+  }
+
+  const response = await fetch(
+    `${host}/connect/oauth2/token`,
+    {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Basic ${basic}`,
+        "Content-Type":
+          "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        grant_type: "refresh_token",
+        refresh_token:
+          userToken.refresh_token,
+      }),
+    }
+  );
+
+  const data = await response
+    .json()
+    .catch(() => null);
+
+  if (!response.ok || !data?.access_token) {
+    userToken = null;
+    throw new Error(
+      "KROGER_REFRESH_FAILED"
+    );
+  }
+
+  userToken = {
+    ...userToken,
+    ...data,
+    refresh_token:
+      data.refresh_token ||
+      userToken.refresh_token,
+    expires_at:
+      Date.now() +
+      Math.max(
+        0,
+        Number(data.expires_in || 1800)
+      ) *
+        1000,
+  };
+}
+
+async function getUserAccessToken() {
+  if (tokenIsUsable()) {
+    return userToken.access_token;
+  }
+
+  await refreshUserToken();
+  return userToken.access_token;
+}
 
 async function token() {
   const response = await fetch(
@@ -72,6 +220,293 @@ const server = http.createServer(async (req, res) => {
     req.url || "/",
     "http://localhost"
   );
+
+  if (
+    url.pathname ===
+    "/api/kroger-oauth/callback"
+  ) {
+    try {
+      const code =
+        url.searchParams.get("code") || "";
+      const state =
+        url.searchParams.get("state") || "";
+
+      if (
+        !pendingOAuth ||
+        !code ||
+        !state ||
+        state !== pendingOAuth.state
+      ) {
+        throw new Error(
+          "KROGER_OAUTH_STATE_MISMATCH"
+        );
+      }
+
+      const verifier =
+        pendingOAuth.verifier;
+      pendingOAuth = null;
+
+      await exchangeAuthorizationCode(
+        code,
+        verifier
+      );
+
+      res.writeHead(200, {
+        "Content-Type":
+          "text/html; charset=utf-8",
+      });
+      res.end(`<!doctype html>
+<html>
+  <body style="font-family:system-ui;padding:32px;background:#09111f;color:#f8fafc">
+    <h2>Kroger connected</h2>
+    <p>You can return to Simple Dinners.</p>
+    <script>
+      if (window.opener) {
+        window.opener.postMessage(
+          { type: "simple-dinners-kroger-oauth", connected: true },
+          "http://localhost:5173"
+        );
+      }
+      setTimeout(() => window.close(), 900);
+    </script>
+  </body>
+</html>`);
+    } catch (error) {
+      res.writeHead(400, {
+        "Content-Type":
+          "text/html; charset=utf-8",
+      });
+      res.end(`<!doctype html>
+<html>
+  <body style="font-family:system-ui;padding:32px">
+    <h2>Kroger connection failed</h2>
+    <p>${error instanceof Error ? error.message : "OAuth error"}</p>
+  </body>
+</html>`);
+    }
+    return;
+  }
+
+  if (
+    url.pathname ===
+    "/api/kroger-oauth"
+  ) {
+    const action =
+      url.searchParams.get("action") ||
+      "status";
+
+    if (action === "status") {
+      res.writeHead(200, {
+        "Content-Type": "application/json",
+      });
+      res.end(
+        JSON.stringify({
+          connected:
+            Boolean(userToken),
+          tokenUsable:
+            tokenIsUsable(),
+          environment,
+        })
+      );
+      return;
+    }
+
+    if (action === "start") {
+      const { verifier, challenge } =
+        createPkce();
+      const state = base64Url(
+        crypto.randomBytes(24)
+      );
+
+      pendingOAuth = {
+        verifier,
+        state,
+        createdAt: Date.now(),
+      };
+
+      const authorizeUrl = new URL(
+        `${host}/connect/oauth2/authorize`
+      );
+
+      authorizeUrl.searchParams.set(
+        "client_id",
+        clientId
+      );
+      authorizeUrl.searchParams.set(
+        "redirect_uri",
+        redirectUri
+      );
+      authorizeUrl.searchParams.set(
+        "response_type",
+        "code"
+      );
+      authorizeUrl.searchParams.set(
+        "scope",
+        "cart.basic:write profile.compact"
+      );
+      authorizeUrl.searchParams.set(
+        "state",
+        state
+      );
+      authorizeUrl.searchParams.set(
+        "code_challenge",
+        challenge
+      );
+      authorizeUrl.searchParams.set(
+        "code_challenge_method",
+        "S256"
+      );
+
+      res.writeHead(302, {
+        Location: authorizeUrl.toString(),
+      });
+      res.end();
+      return;
+    }
+
+    res.writeHead(400, {
+      "Content-Type": "application/json",
+    });
+    res.end(
+      JSON.stringify({
+        error: "INVALID_OAUTH_ACTION",
+      })
+    );
+    return;
+  }
+
+  if (
+    url.pathname === "/api/kroger-cart"
+  ) {
+    if (req.method !== "POST") {
+      res.writeHead(405, {
+        "Content-Type": "application/json",
+      });
+      res.end(
+        JSON.stringify({
+          error: "POST_ONLY",
+        })
+      );
+      return;
+    }
+
+    let rawBody = "";
+    for await (const chunk of req) {
+      rawBody += chunk;
+    }
+
+    let body = null;
+    try {
+      body = JSON.parse(
+        rawBody || "{}"
+      );
+    } catch {
+      body = null;
+    }
+
+    const items =
+      Array.isArray(body?.items)
+        ? body.items
+        : [];
+
+    const safeItems = items
+      .map((item) => ({
+        upc:
+          typeof item?.upc === "string"
+            ? item.upc.trim()
+            : "",
+        quantity:
+          Number.isFinite(
+            Number(item?.quantity)
+          )
+            ? Math.max(
+                1,
+                Math.floor(
+                  Number(item.quantity)
+                )
+              )
+            : 0,
+      }))
+      .filter(
+        (item) =>
+          /^\d{8,14}$/.test(item.upc) &&
+          item.quantity > 0
+      );
+
+    if (
+      !safeItems.length ||
+      safeItems.length !== items.length
+    ) {
+      res.writeHead(400, {
+        "Content-Type": "application/json",
+      });
+      res.end(
+        JSON.stringify({
+          error:
+            "INVALID_CART_ITEMS",
+        })
+      );
+      return;
+    }
+
+    try {
+      const accessToken =
+        await getUserAccessToken();
+
+      const response = await fetch(
+        `${host}/cart/add`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            Authorization:
+              `Bearer ${accessToken}`,
+            "Content-Type":
+              "application/json",
+          },
+          body: JSON.stringify({
+            items: safeItems,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorText =
+          await response.text();
+        console.error(
+          "Kroger cart add failed:",
+          response.status,
+          errorText.slice(0, 300)
+        );
+        throw new Error(
+          "KROGER_CART_ADD_FAILED"
+        );
+      }
+
+      res.writeHead(200, {
+        "Content-Type": "application/json",
+      });
+      res.end(
+        JSON.stringify({
+          added: safeItems.length,
+          environment,
+        })
+      );
+    } catch (error) {
+      res.writeHead(500, {
+        "Content-Type": "application/json",
+      });
+      res.end(
+        JSON.stringify({
+          error:
+            error instanceof Error
+              ? error.message
+              : "KROGER_CART_ERROR",
+        })
+      );
+    }
+    return;
+  }
 
   if (url.pathname !== "/api/kroger-catalog") {
     res.writeHead(404);
