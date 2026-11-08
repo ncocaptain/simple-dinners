@@ -341,7 +341,7 @@ export default function GroceryDeliveryPreviewPage() {
                           }}
                         >
                           {retailerMatch.status === "search-ready"
-                            ? "READY FOR RETAILER SEARCH"
+                            ? "READY TO SHOP"
                             : "PACKAGE MATCH NEEDED"}
                         </div>
 
@@ -376,7 +376,7 @@ export default function GroceryDeliveryPreviewPage() {
                           fontSize: 12,
                         }}
                       >
-                        Recipe requirements
+                        Shopping details
                         {" · "}
                         {group.sourceLines.length}
                       </summary>
@@ -414,7 +414,7 @@ export default function GroceryDeliveryPreviewPage() {
               snapshot.holds.length > 0) && (
               <section style={{ marginTop: 30 }}>
                 <h2 style={{ fontSize: 19 }}>
-                  Needs Your Review
+                  A Few Items Need Your Choice
                 </h2>
 
                 {snapshot.reviews.map((item, index) => (
