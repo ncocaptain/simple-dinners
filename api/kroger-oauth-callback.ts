@@ -8,6 +8,7 @@ import {
   krogerClientCredentials,
   saveKrogerConnection,
   sha256,
+  simpleDinnersAppOrigin,
   supabaseAdmin,
 } from "./_krogerServer";
 
@@ -17,6 +18,10 @@ function responsePage(
 ) {
   const safeMessage =
     JSON.stringify(message);
+  const targetOrigin =
+    JSON.stringify(
+      simpleDinnersAppOrigin()
+    );
 
   return `<!doctype html>
 <html>
@@ -35,7 +40,7 @@ function responsePage(
           connected: ${connected ? "true" : "false"},
           message: ${safeMessage}
         },
-        "*"
+        ${targetOrigin}
       );
     }
     setTimeout(() => window.close(), 1000);
