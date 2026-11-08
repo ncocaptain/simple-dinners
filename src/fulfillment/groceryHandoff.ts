@@ -61,11 +61,7 @@ export function buildGroceryHandoffPreview(
       packageSize: item.packageSize,
     });
 
-    const status =
-      readiness.state === "search-candidate" &&
-      readiness.quantityNeedsReview
-        ? "needs-quantity-review"
-        : readiness.state;
+    const status = readiness.state;
 
     lines.push({
       itemId: item.id,
