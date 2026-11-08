@@ -136,34 +136,40 @@ export function decryptSecret(
     );
   }
 
-  const decipher =
-    crypto.createDecipheriv(
-      "aes-256-gcm",
-      encryptionKey(),
+  try {
+    const decipher =
+      crypto.createDecipheriv(
+        "aes-256-gcm",
+        encryptionKey(),
+        Buffer.from(
+          ivValue,
+          "base64url"
+        )
+      );
+
+    decipher.setAuthTag(
       Buffer.from(
-        ivValue,
+        tagValue,
         "base64url"
       )
     );
 
-  decipher.setAuthTag(
-    Buffer.from(
-      tagValue,
-      "base64url"
-    )
-  );
+    const decrypted = Buffer.concat([
+      decipher.update(
+        Buffer.from(
+          encryptedValue,
+          "base64url"
+        )
+      ),
+      decipher.final(),
+    ]);
 
-  const decrypted = Buffer.concat([
-    decipher.update(
-      Buffer.from(
-        encryptedValue,
-        "base64url"
-      )
-    ),
-    decipher.final(),
-  ]);
-
-  return decrypted.toString("utf8");
+    return decrypted.toString("utf8");
+  } catch {
+    throw new Error(
+      "KROGER_TOKEN_DECRYPT_FAILED"
+    );
+  }
 }
 
 export function randomUrlSafe(
@@ -532,6 +538,15 @@ export function authErrorStatus(
       "KROGER_NOT_CONNECTED"
   ) {
     return 409;
+  }
+
+  if (
+    message ===
+      "KROGER_TOKEN_DECRYPT_FAILED" ||
+    message ===
+      "INVALID_KROGER_TOKEN_ENCRYPTION_KEY"
+  ) {
+    return 500;
   }
 
   return 500;
