@@ -673,20 +673,28 @@ export default function KrogerCatalogDevPanel({
           >
             {searchableRequirements.map(
               (entry, index) => {
+                if (entry.kind === "measured") {
+                  const item = entry.item;
+
+                  return (
+                    <option
+                      key={`${item.shoppingName}-${index}`}
+                      value={index}
+                    >
+                      {item.shoppingName} · {item.quantity}{" "}
+                      {item.unit}
+                    </option>
+                  );
+                }
+
                 const item = entry.item;
 
                 return (
                   <option
-                    key={
-                      entry.kind === "measured"
-                        ? `${item.shoppingName}-${index}`
-                        : `search-only-${item.itemId}`
-                    }
+                    key={`search-only-${item.itemId}`}
                     value={index}
                   >
-                    {entry.kind === "measured"
-                      ? `${item.shoppingName} · ${item.quantity} ${item.unit}`
-                      : `${item.shoppingName} · choose product`}
+                    {item.shoppingName} · choose product
                   </option>
                 );
               }
