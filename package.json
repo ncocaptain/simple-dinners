@@ -21,7 +21,9 @@
     "optimize-images": "node scripts/optimize-images.js",
     "convert-webp-to-jpg": "node scripts/convert-webp-to-jpg-and-update-refs.cjs",
     "validate:recipes": "node scripts/validate-recipe-data.mjs",
-    "audit:shopping": "node scripts/shopping-list-audit.cjs"
+    "audit:shopping": "node scripts/shopping-list-audit.cjs",
+    "dev:kroger-api": "node --env-file=.env.local scripts/kroger-local-api.mjs",
+    "dev:kroger": "VITE_API_PROXY_TARGET=http://127.0.0.1:8787 vite"
   },
   "overrides": {
     "ajv": "8.18.0",

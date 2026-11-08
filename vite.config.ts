@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://dinners.ncocaptain.com",
+        target: process.env.VITE_API_PROXY_TARGET || "https://dinners.ncocaptain.com",
         changeOrigin: true,
         secure: true,
       },

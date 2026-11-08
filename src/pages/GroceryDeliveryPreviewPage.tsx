@@ -3,6 +3,7 @@ import type { GroceryRequirementGroup } from "../fulfillment/groceryRequirementS
 import { buildRetailerMatchPreview } from "../fulfillment/groceryRetailerMatch";
 import { GROCERY_DELIVERY_PROVIDERS, getGroceryDeliveryProviderSummary } from "../fulfillment/groceryDeliveryProviders";
 import type { GroceryHandoffHold } from "../fulfillment/groceryHandoffFromShopping";
+import KrogerCatalogDevPanel from "../components/KrogerCatalogDevPanel";
 
 type ReviewItem = {
   itemId: string;
@@ -453,6 +454,10 @@ export default function GroceryDeliveryPreviewPage() {
               </section>
             )}
 
+            <KrogerCatalogDevPanel
+              requirements={snapshot.requirements}
+            />
+
             <section
               style={{
                 ...panelStyle,
@@ -515,7 +520,9 @@ export default function GroceryDeliveryPreviewPage() {
                             color: "#fcd34d",
                           }}
                         >
-                          ACCESS PENDING
+                          {provider.status === "setup-required"
+                            ? "CERTIFICATION"
+                            : "ACCESS PENDING"}
                         </span>
                       </div>
 
@@ -547,10 +554,10 @@ export default function GroceryDeliveryPreviewPage() {
                   opacity: 0.78,
                 }}
               >
-                {deliveryProviderSummary.available} delivery
-                providers are available right now. The
-                provider layer remains ready to activate when
-                access opens.
+                {deliveryProviderSummary.available} providers are live and{" "}
+                {deliveryProviderSummary.setupRequired} are in setup/testing.
+                Kroger Certification is now connected; customer cart authorization
+                remains intentionally disabled during validation.
               </div>
             </section>
           </>
