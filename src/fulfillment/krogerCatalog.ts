@@ -523,3 +523,34 @@ export function relevantKrogerProductsToRetailerPackageCandidates(
     )
   );
 }
+
+
+export type KrogerManualPackageChoice = {
+  productId: string;
+  upc: string;
+  description: string;
+  size: string;
+  regularPrice: number | null;
+  promoPrice: number | null;
+  selectionMode: "manual-package-choice";
+  canAutoAddToCart: false;
+};
+
+export function buildKrogerManualPackageChoices(
+  searchTerm: string,
+  products: readonly KrogerProduct[]
+): KrogerManualPackageChoice[] {
+  return relevantKrogerProducts(
+    searchTerm,
+    products
+  ).map((product) => ({
+    productId: product.productId,
+    upc: product.upc,
+    description: product.description,
+    size: product.size,
+    regularPrice: product.regularPrice,
+    promoPrice: product.promoPrice,
+    selectionMode: "manual-package-choice",
+    canAutoAddToCart: false,
+  }));
+}
