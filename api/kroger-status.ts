@@ -8,6 +8,7 @@ import {
   loadKrogerConnection,
   requireSimpleDinnersUser,
   authErrorStatus,
+  applyKrogerCors,
 } from "./_krogerServer";
 
 export default async function handler(
