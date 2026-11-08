@@ -86,7 +86,6 @@ export default function KrogerCatalogDevPanel({
     setProducts([]);
     setWarning("");
     setManualProductId("");
-    setManualProductId("");
 
     try {
       const response = await fetch(
@@ -124,6 +123,7 @@ export default function KrogerCatalogDevPanel({
     setError("");
     setProducts([]);
     setWarning("");
+    setManualProductId("");
 
     try {
       const term =
