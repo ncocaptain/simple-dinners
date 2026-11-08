@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
-import type { VercelRequest } from "@vercel/node";
+import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 export type KrogerEnvironment =
   | "certification"
@@ -535,4 +535,58 @@ export function authErrorStatus(
   }
 
   return 500;
+}
+
+
+const KROGER_ALLOWED_ORIGINS =
+  new Set([
+    "https://dinners.ncocaptain.com",
+    "capacitor://localhost",
+    "http://localhost",
+    "https://localhost",
+    "http://localhost:5173",
+  ]);
+
+export function applyKrogerCors(
+  req: VercelRequest,
+  res: VercelResponse,
+  methods: string
+) {
+  const origin =
+    String(
+      req.headers.origin || ""
+    );
+
+  if (
+    KROGER_ALLOWED_ORIGINS.has(
+      origin
+    )
+  ) {
+    res.setHeader(
+      "Access-Control-Allow-Origin",
+      origin
+    );
+  }
+
+  res.setHeader(
+    "Vary",
+    "Origin"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    methods
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Authorization, Content-Type"
+  );
+}
+
+export function simpleDinnersAppOrigin() {
+  return (
+    process.env
+      .SIMPLE_DINNERS_APP_ORIGIN
+      ?.trim() ||
+    "https://dinners.ncocaptain.com"
+  );
 }
