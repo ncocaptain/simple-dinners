@@ -5007,28 +5007,36 @@ export default function ShoppingListPage() {
       handoff.lines
     );
 
+    const snapshot = {
+      version: 1 as const,
+      createdAt: Date.now(),
+      rawItems: shoppingItems.length,
+      mergedRows: handoff.totalMergedRows,
+      excludedCheckedRows: handoff.excludedCheckedRows,
+      excludedCoveredRows: handoff.excludedCoveredRows,
+      requirements: requirements.groups,
+      searchOnly: requirements.searchOnly,
+      reviews: requirements.reviews.map((review) => {
+        const line = handoff.lines.find(
+          (item) => item.itemId === review.itemId
+        );
+        return {
+          itemId: review.itemId,
+          reason: review.reason,
+          shoppingName: line?.shoppingName ?? "",
+          originalIngredient: line?.originalIngredient ?? "",
+        };
+      }),
+      holds: handoff.holds,
+    };
+
+    sessionStorage.setItem(
+      "simple-dinners:grocery-preview-snapshot",
+      JSON.stringify(snapshot)
+    );
+
     groceryPreviewNavigate("/grocery-preview", {
-      state: {
-        version: 1,
-        createdAt: Date.now(),
-        rawItems: shoppingItems.length,
-        mergedRows: handoff.totalMergedRows,
-        excludedCheckedRows: handoff.excludedCheckedRows,
-        excludedCoveredRows: handoff.excludedCoveredRows,
-        requirements: requirements.groups,
-        reviews: requirements.reviews.map((review) => {
-          const line = handoff.lines.find(
-            (item) => item.itemId === review.itemId
-          );
-          return {
-            itemId: review.itemId,
-            reason: review.reason,
-            shoppingName: line?.shoppingName ?? "",
-            originalIngredient: line?.originalIngredient ?? "",
-          };
-        }),
-        holds: handoff.holds,
-      },
+      state: snapshot,
     });
   };
 
