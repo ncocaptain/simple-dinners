@@ -185,7 +185,7 @@ export default function KrogerCatalogDevPanel({
     ) => {
       if (
         event.origin !==
-          window.location.origin ||
+          "http://localhost:8787" ||
         event.data?.type !==
           "simple-dinners-kroger-oauth"
       ) {
