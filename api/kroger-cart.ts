@@ -8,7 +8,7 @@ import {
   getKrogerUserAccessToken,
   krogerBaseUrl,
   requireSimpleDinnersUser,
-} from "./_krogerServer";
+} from "./_krogerServer.js";
 
 type CartItem = {
   upc: string;
