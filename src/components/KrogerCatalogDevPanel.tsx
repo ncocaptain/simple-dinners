@@ -80,12 +80,6 @@ export default function KrogerCatalogDevPanel({
     [products, searchTerm]
   );
 
-  const selectedManualChoice =
-    manualChoices.find(
-      (choice) =>
-        choice.productId === manualProductId
-    ) ?? null;
-
   const requirementKey = requirement
     ? groceryRequirementKey(requirement)
     : "";
@@ -94,6 +88,16 @@ export default function KrogerCatalogDevPanel({
     requirementKey
       ? selections[requirementKey] ?? null
       : null;
+
+  const selectedManualChoice =
+    manualChoices.find(
+      (choice) =>
+        choice.productId ===
+        (savedSelection?.selectionMode ===
+        "manual-package-choice"
+          ? savedSelection.productId
+          : manualProductId)
+    ) ?? null;
 
   const cartPreview = buildKrogerCartPreview(
     Object.values(selections)
@@ -161,6 +165,7 @@ export default function KrogerCatalogDevPanel({
     setProducts([]);
     setWarning("");
     setManualProductId("");
+    setSelections({});
 
     try {
       const response = await fetch(
@@ -355,9 +360,12 @@ export default function KrogerCatalogDevPanel({
         >
           <select
             value={locationId}
-            onChange={(event) =>
-              setLocationId(event.target.value)
-            }
+            onChange={(event) => {
+              setLocationId(event.target.value);
+              setProducts([]);
+              setManualProductId("");
+              setSelections({});
+            }}
             style={{
               padding: "11px 12px",
               borderRadius: 10,
@@ -696,8 +704,8 @@ export default function KrogerCatalogDevPanel({
                     .slice(0, 5)
                     .map((choice) => {
                       const selected =
-                        choice.productId ===
-                        manualProductId;
+                        savedSelection?.productId ===
+                        choice.productId;
 
                       const displayPrice =
                         choice.promoPrice ??
