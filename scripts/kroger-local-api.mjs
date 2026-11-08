@@ -118,9 +118,28 @@ const server = http.createServer(async (req, res) => {
           "Content-Type": "application/json",
         }
       );
+      const locations = Array.isArray(
+        result.data?.data
+      )
+        ? result.data.data.map((location) => ({
+            locationId:
+              location?.locationId || "",
+            name: location?.name || "",
+            chain: location?.chain || "",
+            addressLine1:
+              location?.address?.addressLine1 || "",
+            city:
+              location?.address?.city || "",
+            state:
+              location?.address?.state || "",
+            zipCode:
+              location?.address?.zipCode || "",
+          }))
+        : [];
+
       res.end(
         JSON.stringify({
-          locations: result.data?.data ?? [],
+          locations,
         })
       );
       return;
@@ -157,9 +176,64 @@ const server = http.createServer(async (req, res) => {
           "Content-Type": "application/json",
         }
       );
+      const products = Array.isArray(
+        result.data?.data
+      )
+        ? result.data.data.map((product) => {
+            const item = Array.isArray(
+              product?.items
+            )
+              ? product.items[0]
+              : null;
+
+            const image =
+              Array.isArray(product?.images)
+                ? product.images[0]
+                : null;
+            const sizes =
+              Array.isArray(image?.sizes)
+                ? image.sizes
+                : [];
+            const imageSize =
+              sizes.find(
+                (entry) =>
+                  entry?.size === "medium"
+              ) || sizes[0];
+
+            return {
+              productId:
+                product?.productId || "",
+              upc:
+                item?.upc ||
+                product?.upc ||
+                "",
+              description:
+                product?.description || "",
+              brand:
+                product?.brand || "",
+              size:
+                item?.size ||
+                product?.size ||
+                "",
+              imageUrl:
+                imageSize?.url || "",
+              regularPrice:
+                typeof item?.price?.regular ===
+                "number"
+                  ? item.price.regular
+                  : null,
+              promoPrice:
+                typeof item?.price?.promo ===
+                "number"
+                  ? item.price.promo
+                  : null,
+            };
+          })
+        : [];
+
       res.end(
         JSON.stringify({
-          products: result.data?.data ?? [],
+          products,
           storeFilterApplied:
             Boolean(locationId),
           warning: "",
