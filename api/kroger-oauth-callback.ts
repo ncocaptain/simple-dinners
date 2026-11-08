@@ -14,13 +14,19 @@ import {
 
 function responsePage(
   connected: boolean,
-  message: string
+  message: string,
+  nativeReturn = false
 ) {
   const safeMessage =
     JSON.stringify(message);
   const targetOrigin =
     JSON.stringify(
       simpleDinnersAppOrigin()
+    );
+  const nativeUrl =
+    JSON.stringify(
+      "simpledinners://kroger-connected?connected=" +
+        (connected ? "1" : "0")
     );
 
   return `<!doctype html>
@@ -32,8 +38,18 @@ function responsePage(
 <body style="font-family:system-ui;padding:32px;background:#09111f;color:#f8fafc">
   <h2>${connected ? "Kroger connected" : "Kroger connection failed"}</h2>
   <p>${message}</p>
+  <p id="return-link" style="display:none">
+    <a href="simpledinners://kroger-connected?connected=${connected ? "1" : "0"}" style="color:#93c5fd">
+      Return to Simple Dinners
+    </a>
+  </p>
   <script>
-    if (window.opener) {
+    if (${nativeReturn ? "true" : "false"}) {
+      document.getElementById("return-link").style.display = "block";
+      setTimeout(() => {
+        window.location.replace(${nativeUrl});
+      }, 250);
+    } else if (window.opener) {
       window.opener.postMessage(
         {
           type: "simple-dinners-kroger-oauth",
@@ -42,8 +58,8 @@ function responsePage(
         },
         ${targetOrigin}
       );
+      setTimeout(() => window.close(), 1000);
     }
-    setTimeout(() => window.close(), 1000);
   </script>
 </body>
 </html>`;
@@ -68,13 +84,17 @@ export default async function handler(
       req.query.state || ""
     ).trim();
 
+  const nativeReturn =
+    state.endsWith(".native");
+
   if (!code || !state) {
     return res
       .status(400)
       .send(
         responsePage(
           false,
-          "Missing Kroger authorization response."
+          "Missing Kroger authorization response.",
+          nativeReturn
         )
       );
   }
@@ -106,7 +126,8 @@ export default async function handler(
       .send(
         responsePage(
           false,
-          "The Kroger connection request expired or was invalid."
+          "The Kroger connection request expired or was invalid.",
+          nativeReturn
         )
       );
   }
@@ -179,7 +200,8 @@ export default async function handler(
       .send(
         responsePage(
           true,
-          "You can return to Simple Dinners."
+          "Returning to Simple Dinners…",
+          nativeReturn
         )
       );
   } catch (error) {
@@ -197,7 +219,8 @@ export default async function handler(
           false,
           error instanceof Error
             ? error.message
-            : "Kroger connection failed."
+            : "Kroger connection failed.",
+          nativeReturn
         )
       );
   }
