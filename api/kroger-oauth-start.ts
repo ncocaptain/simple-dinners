@@ -14,7 +14,7 @@ import {
   supabaseAdmin,
   authErrorStatus,
   applyKrogerCors,
-} from "./_krogerServer";
+} from "./_krogerServer.js";
 
 export default async function handler(
   req: VercelRequest,
