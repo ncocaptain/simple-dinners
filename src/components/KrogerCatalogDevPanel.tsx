@@ -128,9 +128,40 @@ export default function KrogerCatalogDevPanel({
     [products, searchTerm]
   );
 
-  const requirementKey = requirement
-    ? groceryRequirementKey(requirement)
-    : "";
+  const manualSelectionRequirement:
+    | GroceryRequirementGroup
+    | null =
+    requirement ??
+    (searchOnlyRequirement
+      ? {
+          shoppingName:
+            searchOnlyRequirement.shoppingName,
+          searchCandidate:
+            searchOnlyRequirement.searchCandidate,
+          quantity: 1,
+          unit: "package",
+          packageSize: "",
+          sourceLines: [
+            {
+              itemId:
+                searchOnlyRequirement.itemId,
+              sourceRecipe:
+                searchOnlyRequirement.sourceRecipe,
+              originalIngredient:
+                searchOnlyRequirement.originalIngredient,
+              quantity: 1,
+            },
+          ],
+          canAutoAddToCart: false,
+        }
+      : null);
+
+  const requirementKey =
+    manualSelectionRequirement
+      ? groceryRequirementKey(
+          manualSelectionRequirement
+        )
+      : "";
 
   const savedSelection =
     requirementKey
@@ -178,7 +209,7 @@ export default function KrogerCatalogDevPanel({
   const saveManualSelection = (
     productId: string
   ) => {
-    if (!requirement) return;
+    if (!manualSelectionRequirement) return;
 
     const product = products.find(
       (item) =>
@@ -189,7 +220,7 @@ export default function KrogerCatalogDevPanel({
 
     const selection =
       buildManualKrogerCartSelection(
-        requirement,
+        manualSelectionRequirement,
         product
       );
 
@@ -386,7 +417,7 @@ export default function KrogerCatalogDevPanel({
   };
 
   const searchProducts = async () => {
-    if (!requirement || !locationId) return;
+    if (!selectedSearch || !locationId) return;
 
     setLoading(true);
     setError("");
@@ -395,9 +426,7 @@ export default function KrogerCatalogDevPanel({
     setManualProductId("");
 
     try {
-      const term =
-        requirement.searchCandidate ||
-        requirement.shoppingName;
+      const term = searchTerm;
 
       const response = await fetch(
         krogerApiUrl(`/api/kroger-catalog?action=products&locationId=${encodeURIComponent(locationId)}&term=${encodeURIComponent(term)}`)
@@ -491,9 +520,8 @@ export default function KrogerCatalogDevPanel({
           lineHeight: 1.5,
         }}
       >
-        Test a real Simple Dinners grocery
-        requirement against Kroger
-        products and the package solver.
+        Match your Simple Dinners shopping
+        list to products available at Kroger.
       </p>
 
       <div
@@ -588,8 +616,35 @@ export default function KrogerCatalogDevPanel({
               );
               setRequirementIndex(nextIndex);
               setProducts([]);
+              const nextEntry =
+                searchableRequirements[nextIndex];
               const nextRequirement =
-                requirements[nextIndex];
+                nextEntry?.kind === "measured"
+                  ? nextEntry.item
+                  : nextEntry?.kind === "search-only"
+                    ? {
+                        shoppingName:
+                          nextEntry.item.shoppingName,
+                        searchCandidate:
+                          nextEntry.item.searchCandidate,
+                        quantity: 1,
+                        unit: "package",
+                        packageSize: "",
+                        sourceLines: [
+                          {
+                            itemId:
+                              nextEntry.item.itemId,
+                            sourceRecipe:
+                              nextEntry.item.sourceRecipe,
+                            originalIngredient:
+                              nextEntry.item.originalIngredient,
+                            quantity: 1,
+                          },
+                        ],
+                        canAutoAddToCart:
+                          false as const,
+                      }
+                    : null;
               const nextKey =
                 nextRequirement
                   ? groceryRequirementKey(
@@ -616,15 +671,26 @@ export default function KrogerCatalogDevPanel({
                 "1px solid rgba(255,255,255,0.14)",
             }}
           >
-            {requirements.map((item, index) => (
-              <option
-                key={`${item.shoppingName}-${index}`}
-                value={index}
-              >
-                {item.shoppingName} · {item.quantity}{" "}
-                {item.unit}
-              </option>
-            ))}
+            {searchableRequirements.map(
+              (entry, index) => {
+                const item = entry.item;
+
+                return (
+                  <option
+                    key={
+                      entry.kind === "measured"
+                        ? `${item.shoppingName}-${index}`
+                        : `search-only-${item.itemId}`
+                    }
+                    value={index}
+                  >
+                    {entry.kind === "measured"
+                      ? `${item.shoppingName} · ${item.quantity} ${item.unit}`
+                      : `${item.shoppingName} · choose product`}
+                  </option>
+                );
+              }
+            )}
           </select>
 
           <button
@@ -632,7 +698,7 @@ export default function KrogerCatalogDevPanel({
             disabled={
               loading ||
               !locationId ||
-              !requirement
+              !selectedSearch
             }
             onClick={searchProducts}
             style={{
@@ -642,26 +708,26 @@ export default function KrogerCatalogDevPanel({
               background:
                 loading ||
                 !locationId ||
-                !requirement
+                !selectedSearch
                   ? "rgba(59,130,246,0.16)"
                   : "rgba(59,130,246,0.92)",
               color:
                 loading ||
                 !locationId ||
-                !requirement
+                !selectedSearch
                   ? "rgba(219,234,254,0.55)"
                   : "#ffffff",
               cursor:
                 loading ||
                 !locationId ||
-                !requirement
+                !selectedSearch
                   ? "default"
                   : "pointer",
               fontWeight: 800,
               opacity:
                 loading ||
                 !locationId ||
-                !requirement
+                !selectedSearch
                   ? 0.75
                   : 1,
             }}
@@ -1117,10 +1183,8 @@ export default function KrogerCatalogDevPanel({
                     opacity: 0.78,
                   }}
                 >
-                  Kroger has relevant products, but
-                  the recipe amount cannot be safely
-                  converted to the store package unit.
-                  Pick the package you want to buy.
+                  Choose the Kroger product and
+                  package size you want to buy.
                 </div>
 
                 <div
@@ -1208,13 +1272,11 @@ export default function KrogerCatalogDevPanel({
                       lineHeight: 1.45,
                     }}
                   >
-                    Package selected for future cart
-                    handoff:{" "}
+                    Selected for your Kroger cart:{" "}
                     <strong>
                       {selectedManualChoice.description}
                     </strong>
-                    . This is a user-selected package,
-                    not a calculated quantity match.
+                    .
                   </div>
                 )}
               </div>
