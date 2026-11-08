@@ -1207,7 +1207,8 @@ function AppContent() {
         <Route
           path="/grocery-preview"
           element={
-            import.meta.env.DEV
+            import.meta.env.DEV ||
+            import.meta.env.VITE_KROGER_ENABLED === "true"
               ? requireOnboarding(<GroceryDeliveryPreviewPage />)
               : <Navigate to="/shopping-list" replace />
           }
