@@ -228,9 +228,16 @@ export default function KrogerCatalogDevPanel({
           style={{
             padding: "11px 12px",
             borderRadius: 10,
-            border: 0,
-            cursor: "pointer",
+            border: "1px solid rgba(96,165,250,0.45)",
+            background: loading
+              ? "rgba(59,130,246,0.16)"
+              : "rgba(59,130,246,0.92)",
+            color: loading
+              ? "rgba(219,234,254,0.55)"
+              : "#ffffff",
+            cursor: loading ? "default" : "pointer",
             fontWeight: 800,
+            opacity: loading ? 0.75 : 1,
           }}
         >
           Find Kroger Stores
@@ -309,9 +316,32 @@ export default function KrogerCatalogDevPanel({
             style={{
               padding: "11px 12px",
               borderRadius: 10,
-              border: 0,
-              cursor: "pointer",
+              border: "1px solid rgba(96,165,250,0.45)",
+              background:
+                loading ||
+                !locationId ||
+                !requirement
+                  ? "rgba(59,130,246,0.16)"
+                  : "rgba(59,130,246,0.92)",
+              color:
+                loading ||
+                !locationId ||
+                !requirement
+                  ? "rgba(219,234,254,0.55)"
+                  : "#ffffff",
+              cursor:
+                loading ||
+                !locationId ||
+                !requirement
+                  ? "default"
+                  : "pointer",
               fontWeight: 800,
+              opacity:
+                loading ||
+                !locationId ||
+                !requirement
+                  ? 0.75
+                  : 1,
             }}
           >
             Search Kroger for This Requirement
