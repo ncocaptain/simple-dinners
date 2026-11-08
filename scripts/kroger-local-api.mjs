@@ -223,6 +223,123 @@ const server = http.createServer(async (req, res) => {
 
   if (
     url.pathname ===
+    "/api/kroger-status"
+  ) {
+    if (req.method === "GET") {
+      res.writeHead(200, {
+        "Content-Type": "application/json",
+      });
+      res.end(
+        JSON.stringify({
+          connected:
+            Boolean(userToken),
+          tokenUsable:
+            tokenIsUsable(),
+          environment,
+        })
+      );
+      return;
+    }
+
+    if (req.method === "DELETE") {
+      userToken = null;
+      pendingOAuth = null;
+      res.writeHead(200, {
+        "Content-Type": "application/json",
+      });
+      res.end(
+        JSON.stringify({
+          connected: false,
+        })
+      );
+      return;
+    }
+
+    res.writeHead(405, {
+      "Content-Type": "application/json",
+    });
+    res.end(
+      JSON.stringify({
+        error: "GET_OR_DELETE_ONLY",
+      })
+    );
+    return;
+  }
+
+  if (
+    url.pathname ===
+    "/api/kroger-oauth-start"
+  ) {
+    if (req.method !== "POST") {
+      res.writeHead(405, {
+        "Content-Type": "application/json",
+      });
+      res.end(
+        JSON.stringify({
+          error: "POST_ONLY",
+        })
+      );
+      return;
+    }
+
+    const { verifier, challenge } =
+      createPkce();
+    const state = base64Url(
+      crypto.randomBytes(24)
+    );
+
+    pendingOAuth = {
+      verifier,
+      state,
+      createdAt: Date.now(),
+    };
+
+    const authorizeUrl = new URL(
+      `${host}/connect/oauth2/authorize`
+    );
+
+    authorizeUrl.searchParams.set(
+      "client_id",
+      clientId
+    );
+    authorizeUrl.searchParams.set(
+      "redirect_uri",
+      redirectUri
+    );
+    authorizeUrl.searchParams.set(
+      "response_type",
+      "code"
+    );
+    authorizeUrl.searchParams.set(
+      "scope",
+      "cart.basic:write profile.compact"
+    );
+    authorizeUrl.searchParams.set(
+      "state",
+      state
+    );
+    authorizeUrl.searchParams.set(
+      "code_challenge",
+      challenge
+    );
+    authorizeUrl.searchParams.set(
+      "code_challenge_method",
+      "S256"
+    );
+
+    res.writeHead(200, {
+      "Content-Type": "application/json",
+    });
+    res.end(
+      JSON.stringify({
+        url: authorizeUrl.toString(),
+      })
+    );
+    return;
+  }
+
+  if (
+    url.pathname ===
     "/api/kroger-oauth/callback"
   ) {
     try {
