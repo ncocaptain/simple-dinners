@@ -1,4 +1,18 @@
+import { Capacitor } from "@capacitor/core";
 import { supabase } from "../lib/supabase";
+
+export function krogerApiUrl(path: string) {
+  const explicit =
+    import.meta.env.VITE_API_BASE_URL?.trim();
+
+  const base =
+    explicit ||
+    (Capacitor.isNativePlatform()
+      ? "https://dinners.ncocaptain.com"
+      : "");
+
+  return `${base}${path}`;
+}
 
 async function authHeaders() {
   if (!supabase) {
@@ -33,7 +47,7 @@ async function jsonRequest(
     await authHeaders();
 
   const response =
-    await fetch(url, {
+    await fetch(krogerApiUrl(url), {
       ...options,
       headers: {
         ...headers,
