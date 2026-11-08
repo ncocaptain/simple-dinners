@@ -27,6 +27,7 @@ const {
   assessKrogerProductRelevance,
   rankRelevantKrogerProducts,
   relevantKrogerProductsToRetailerPackageCandidates,
+  buildKrogerManualPackageChoices,
 } = mod.exports;
 
 const locations =
@@ -237,4 +238,37 @@ assert.equal(
 
 console.log(
   "PASS: raw Kroger mismatches cannot enter the guarded package-candidate pipeline"
+);
+
+
+const manualChoices =
+  buildKrogerManualPackageChoices(
+    "blueberries",
+    [blueberryPouch, freshBlueberries]
+  );
+
+assert.equal(
+  manualChoices.length,
+  1
+);
+assert.deepEqual(
+  manualChoices[0],
+  {
+    productId: "blueberries-fresh",
+    upc: "1",
+    description: "Fresh Blueberries",
+    size: "6 oz",
+    regularPrice: 3.49,
+    promoPrice: null,
+    selectionMode:
+      "manual-package-choice",
+    canAutoAddToCart: false,
+  }
+);
+
+console.log(
+  "PASS: relevant incompatible-unit products remain available for manual package choice"
+);
+console.log(
+  "PASS: manual package choices stay non-automatic for cart handoff"
 );
