@@ -248,16 +248,21 @@ export default function KrogerCatalogDevPanel({
       try {
         const data =
           await getKrogerConnectionStatus();
+        const connected =
+          Boolean(data?.connected);
+
         setKrogerConnected(
-          Boolean(data?.connected)
+          connected
         );
         setKrogerEnvironment(
           data?.environment ||
             "certification"
         );
 
+        return connected;
       } catch {
         setKrogerConnected(false);
+        return false;
       }
     };
 
@@ -288,16 +293,36 @@ export default function KrogerCatalogDevPanel({
       }
     };
 
+    const handleNativeOAuthComplete =
+      async () => {
+        const connected =
+          await refreshStatus();
+
+        setCartMessage(
+          connected
+            ? "Kroger account connected."
+            : "Kroger connection was not completed. Try connecting again."
+        );
+      };
+
     void refreshStatus();
     window.addEventListener(
       "message",
       handleMessage
+    );
+    window.addEventListener(
+      "simple-dinners:kroger-oauth-complete",
+      handleNativeOAuthComplete
     );
 
     return () => {
       window.removeEventListener(
         "message",
         handleMessage
+      );
+      window.removeEventListener(
+        "simple-dinners:kroger-oauth-complete",
+        handleNativeOAuthComplete
       );
     };
   }, [featureEnabled]);
