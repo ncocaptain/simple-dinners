@@ -1,5 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import type { GroceryRequirementGroup } from "../fulfillment/groceryRequirementSummary";
+import type {
+  GroceryRequirementGroup,
+  GrocerySearchOnlyRequirement,
+} from "../fulfillment/groceryRequirementSummary";
 import { buildRetailerMatchPreview } from "../fulfillment/groceryRetailerMatch";
 import { GROCERY_DELIVERY_PROVIDERS, getGroceryDeliveryProviderSummary } from "../fulfillment/groceryDeliveryProviders";
 import type { GroceryHandoffHold } from "../fulfillment/groceryHandoffFromShopping";
@@ -20,6 +23,7 @@ type GroceryPreviewSnapshot = {
   excludedCheckedRows: number;
   excludedCoveredRows: number;
   requirements: GroceryRequirementGroup[];
+  searchOnly: GrocerySearchOnlyRequirement[];
   reviews: ReviewItem[];
   holds: GroceryHandoffHold[];
 };
@@ -131,6 +135,7 @@ export default function GroceryDeliveryPreviewPage() {
   const snapshot =
     candidate?.version === 1 &&
     Array.isArray(candidate.requirements) &&
+    Array.isArray(candidate.searchOnly) &&
     Array.isArray(candidate.reviews) &&
     Array.isArray(candidate.holds)
       ? candidate
@@ -456,6 +461,7 @@ export default function GroceryDeliveryPreviewPage() {
 
             <KrogerCatalogDevPanel
               requirements={snapshot.requirements}
+              searchOnly={snapshot.searchOnly}
             />
 
             <section
