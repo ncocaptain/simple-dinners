@@ -10,7 +10,7 @@ import {
   sha256,
   simpleDinnersAppOrigin,
   supabaseAdmin,
-} from "./_krogerServer";
+} from "./_krogerServer.js";
 
 function responsePage(
   connected: boolean,
