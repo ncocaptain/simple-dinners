@@ -293,8 +293,21 @@ export default function KrogerCatalogDevPanel({
       }
     };
 
-    const handleNativeOAuthComplete =
+    const handleNativeOAuthReturn =
       async () => {
+        const raw =
+          sessionStorage.getItem(
+            "simple-dinners:kroger-oauth-return"
+          );
+
+        if (!raw) {
+          return;
+        }
+
+        sessionStorage.removeItem(
+          "simple-dinners:kroger-oauth-return"
+        );
+
         const connected =
           await refreshStatus();
 
@@ -306,13 +319,20 @@ export default function KrogerCatalogDevPanel({
       };
 
     void refreshStatus();
+    void handleNativeOAuthReturn();
+
     window.addEventListener(
       "message",
       handleMessage
     );
+
+    const handleFocus = () => {
+      void handleNativeOAuthReturn();
+    };
+
     window.addEventListener(
-      "simple-dinners:kroger-oauth-complete",
-      handleNativeOAuthComplete
+      "focus",
+      handleFocus
     );
 
     return () => {
@@ -321,8 +341,8 @@ export default function KrogerCatalogDevPanel({
         handleMessage
       );
       window.removeEventListener(
-        "simple-dinners:kroger-oauth-complete",
-        handleNativeOAuthComplete
+        "focus",
+        handleFocus
       );
     };
   }, [featureEnabled]);
