@@ -61,9 +61,17 @@ async function jsonRequest(
       .catch(() => null);
 
   if (!response.ok) {
-    throw new Error(
+    const label =
       data?.error ||
-        `Request failed (${response.status})`
+      `Request failed (${response.status})`;
+    const detail =
+      data?.detail &&
+      data.detail !== data.error
+        ? ` · ${data.detail}`
+        : "";
+
+    throw new Error(
+      `${label}${detail}`
     );
   }
 
