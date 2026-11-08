@@ -19,6 +19,7 @@ import {
   disconnectKroger,
   getKrogerConnectionStatus,
   startKrogerConnection,
+  krogerApiUrl,
 } from "../fulfillment/krogerApiClient";
 
 type Props = {
@@ -325,7 +326,7 @@ export default function KrogerCatalogDevPanel({
 
     try {
       const response = await fetch(
-        `/api/kroger-catalog?action=locations&zip=${encodeURIComponent(zip)}`
+        krogerApiUrl(`/api/kroger-catalog?action=locations&zip=${encodeURIComponent(zip)}`)
       );
       const data =
         (await response.json()) as LocationResponse;
@@ -367,7 +368,7 @@ export default function KrogerCatalogDevPanel({
         requirement.shoppingName;
 
       const response = await fetch(
-        `/api/kroger-catalog?action=products&locationId=${encodeURIComponent(locationId)}&term=${encodeURIComponent(term)}`
+        krogerApiUrl(`/api/kroger-catalog?action=products&locationId=${encodeURIComponent(locationId)}&term=${encodeURIComponent(term)}`)
       );
       const data =
         (await response.json()) as ProductResponse;
