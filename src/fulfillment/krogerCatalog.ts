@@ -256,3 +256,257 @@ export function krogerProductsToRetailerPackageCandidates(
         Boolean(candidate)
     );
 }
+
+
+const RELEVANCE_STOP_WORDS = new Set([
+  "fresh",
+  "organic",
+  "ripe",
+  "large",
+  "small",
+  "medium",
+  "whole",
+  "sliced",
+  "chopped",
+  "diced",
+]);
+
+const PREPARED_PRODUCT_TERMS = new Set([
+  "baby",
+  "pouch",
+  "pouches",
+  "stage",
+  "yogurt",
+  "smoothie",
+  "juice",
+  "drink",
+  "beverage",
+  "jam",
+  "jelly",
+  "preserves",
+  "pie",
+  "filling",
+  "muffin",
+  "muffins",
+  "cereal",
+  "bar",
+  "bars",
+  "candy",
+  "cookies",
+  "cookie",
+  "sauce",
+  "syrup",
+  "snack",
+  "snacks",
+]);
+
+function relevanceTokens(value: string) {
+  return String(value || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .split(/\s+/)
+    .filter(Boolean);
+}
+
+function singularToken(value: string) {
+  if (/ies$/.test(value)) {
+    return value.replace(/ies$/, "y");
+  }
+
+  if (/oes$/.test(value)) {
+    return value.replace(/oes$/, "o");
+  }
+
+  if (/s$/.test(value) && !/ss$/.test(value)) {
+    return value.slice(0, -1);
+  }
+
+  return value;
+}
+
+function meaningfulSearchTokens(value: string) {
+  return relevanceTokens(value)
+    .filter(
+      (token) =>
+        !RELEVANCE_STOP_WORDS.has(token)
+    )
+    .map(singularToken);
+}
+
+function looksLikeSimpleProduceSearch(
+  searchTerm: string
+) {
+  const tokens = meaningfulSearchTokens(
+    searchTerm
+  );
+
+  if (tokens.length !== 1) {
+    return false;
+  }
+
+  const produce = new Set([
+    "apple",
+    "avocado",
+    "banana",
+    "blueberry",
+    "carrot",
+    "celery",
+    "cucumber",
+    "garlic",
+    "grape",
+    "jalapeno",
+    "lemon",
+    "lime",
+    "mushroom",
+    "onion",
+    "orange",
+    "peach",
+    "pear",
+    "pepper",
+    "potato",
+    "spinach",
+    "strawberry",
+    "tomato",
+    "zucchini",
+  ]);
+
+  return produce.has(tokens[0]);
+}
+
+export type KrogerProductRelevance = {
+  product: KrogerProduct;
+  score: number;
+  rejected: boolean;
+  reason: string;
+};
+
+export function assessKrogerProductRelevance(
+  searchTerm: string,
+  product: KrogerProduct
+): KrogerProductRelevance {
+  const queryTokens =
+    meaningfulSearchTokens(searchTerm);
+  const titleTokens =
+    relevanceTokens(product.description).map(
+      singularToken
+    );
+  const titleSet = new Set(titleTokens);
+
+  if (!queryTokens.length) {
+    return {
+      product,
+      score: 0,
+      rejected: false,
+      reason: "No meaningful search tokens.",
+    };
+  }
+
+  const matchedTokens =
+    queryTokens.filter((token) =>
+      titleSet.has(token)
+    );
+
+  if (
+    matchedTokens.length !==
+    queryTokens.length
+  ) {
+    return {
+      product,
+      score: -100,
+      rejected: true,
+      reason:
+        "Product title does not contain all grocery search terms.",
+    };
+  }
+
+  if (
+    looksLikeSimpleProduceSearch(
+      searchTerm
+    )
+  ) {
+    const preparedHits =
+      titleTokens.filter((token) =>
+        PREPARED_PRODUCT_TERMS.has(token)
+      );
+
+    if (preparedHits.length > 0) {
+      return {
+        product,
+        score: -100,
+        rejected: true,
+        reason:
+          "Prepared product does not match a simple produce requirement.",
+      };
+    }
+  }
+
+  const normalizedQuery =
+    meaningfulSearchTokens(searchTerm).join(
+      " "
+    );
+  const normalizedTitle =
+    titleTokens.join(" ");
+
+  let score = matchedTokens.length * 20;
+
+  if (
+    normalizedTitle === normalizedQuery
+  ) {
+    score += 100;
+  } else if (
+    normalizedTitle.startsWith(
+      normalizedQuery
+    )
+  ) {
+    score += 50;
+  }
+
+  const extraTokens = Math.max(
+    0,
+    titleTokens.length -
+      queryTokens.length
+  );
+
+  score -= Math.min(extraTokens, 12);
+
+  return {
+    product,
+    score,
+    rejected: false,
+    reason:
+      "Product title matches the grocery search terms.",
+  };
+}
+
+export function rankRelevantKrogerProducts(
+  searchTerm: string,
+  products: readonly KrogerProduct[]
+) {
+  return products
+    .map((product) =>
+      assessKrogerProductRelevance(
+        searchTerm,
+        product
+      )
+    )
+    .filter((result) => !result.rejected)
+    .sort(
+      (first, second) =>
+        second.score - first.score ||
+        first.product.description.localeCompare(
+          second.product.description
+        )
+    );
+}
+
+export function relevantKrogerProducts(
+  searchTerm: string,
+  products: readonly KrogerProduct[]
+) {
+  return rankRelevantKrogerProducts(
+    searchTerm,
+    products
+  ).map((result) => result.product);
+}
