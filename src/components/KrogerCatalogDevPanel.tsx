@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { GroceryRequirementGroup } from "../fulfillment/groceryRequirementSummary";
 import {
   buildKrogerManualPackageChoices,
@@ -47,6 +47,12 @@ export default function KrogerCatalogDevPanel({
   const [selections, setSelections] = useState<
     Record<string, KrogerCartSelection>
   >({});
+  const [krogerConnected, setKrogerConnected] =
+    useState(false);
+  const [cartLoading, setCartLoading] =
+    useState(false);
+  const [cartMessage, setCartMessage] =
+    useState("");
 
   const requirement =
     requirements[requirementIndex] ?? null;
@@ -158,6 +164,114 @@ export default function KrogerCatalogDevPanel({
   if (!import.meta.env.DEV) {
     return null;
   }
+
+  useEffect(() => {
+    const refreshStatus = async () => {
+      try {
+        const response = await fetch(
+          "/api/kroger-oauth?action=status"
+        );
+        const data = await response.json();
+        setKrogerConnected(
+          Boolean(data?.connected)
+        );
+      } catch {
+        setKrogerConnected(false);
+      }
+    };
+
+    const handleMessage = (
+      event: MessageEvent
+    ) => {
+      if (
+        event.origin !==
+          window.location.origin ||
+        event.data?.type !==
+          "simple-dinners-kroger-oauth"
+      ) {
+        return;
+      }
+
+      if (event.data?.connected) {
+        setKrogerConnected(true);
+        setCartMessage(
+          "Kroger account connected."
+        );
+      }
+    };
+
+    void refreshStatus();
+    window.addEventListener(
+      "message",
+      handleMessage
+    );
+
+    return () => {
+      window.removeEventListener(
+        "message",
+        handleMessage
+      );
+    };
+  }, []);
+
+  const connectKroger = () => {
+    setCartMessage("");
+
+    window.open(
+      "/api/kroger-oauth?action=start",
+      "simple-dinners-kroger-oauth",
+      "popup=yes,width=520,height=720"
+    );
+  };
+
+  const addSelectedToKrogerCart =
+    async () => {
+      if (!cartPreview.items.length) {
+        return;
+      }
+
+      setCartLoading(true);
+      setCartMessage("");
+
+      try {
+        const response = await fetch(
+          "/api/kroger-cart",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+            body: JSON.stringify({
+              items: cartPreview.items,
+            }),
+          }
+        );
+
+        const data = await response
+          .json()
+          .catch(() => null);
+
+        if (!response.ok) {
+          throw new Error(
+            data?.error ||
+              "Kroger cart add failed"
+          );
+        }
+
+        setCartMessage(
+          `${data.added} selected item${data.added === 1 ? "" : "s"} added to the Kroger cart.`
+        );
+      } catch (nextError) {
+        setCartMessage(
+          nextError instanceof Error
+            ? nextError.message
+            : "Kroger cart add failed"
+        );
+      } finally {
+        setCartLoading(false);
+      }
+    };
 
   const loadLocations = async () => {
     setLoading(true);
@@ -514,6 +628,75 @@ export default function KrogerCatalogDevPanel({
         </div>
       )}
 
+      <div
+        style={{
+          marginTop: 14,
+          padding: "12px",
+          borderRadius: 12,
+          border:
+            "1px solid rgba(96,165,250,0.22)",
+          background:
+            "rgba(15,23,42,0.55)",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: 10,
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
+        >
+          <div>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 800,
+              }}
+            >
+              Kroger Account
+            </div>
+            <div
+              style={{
+                marginTop: 3,
+                fontSize: 11,
+                opacity: 0.68,
+              }}
+            >
+              {krogerConnected
+                ? "Connected for Certification cart testing."
+                : "Connect before sending selected products to the Kroger cart."}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={connectKroger}
+            style={{
+              padding: "9px 12px",
+              borderRadius: 9,
+              border:
+                krogerConnected
+                  ? "1px solid rgba(34,197,94,0.35)"
+                  : "1px solid rgba(96,165,250,0.4)",
+              background:
+                krogerConnected
+                  ? "rgba(34,197,94,0.1)"
+                  : "rgba(59,130,246,0.18)",
+              color: "#f8fafc",
+              fontWeight: 800,
+              cursor: "pointer",
+              fontSize: 11,
+            }}
+          >
+            {krogerConnected
+              ? "Reconnect Kroger"
+              : "Connect Kroger Account"}
+          </button>
+        </div>
+      </div>
+
       {Object.keys(selections).length > 0 && (
         <div
           style={{
@@ -550,6 +733,59 @@ export default function KrogerCatalogDevPanel({
             package quantity ready for the future
             authenticated Cart API call.
           </div>
+
+          <button
+            type="button"
+            disabled={
+              !krogerConnected ||
+              cartLoading ||
+              cartPreview.selectionCount === 0
+            }
+            onClick={
+              addSelectedToKrogerCart
+            }
+            style={{
+              marginTop: 10,
+              width: "100%",
+              padding: "10px 12px",
+              borderRadius: 9,
+              border:
+                "1px solid rgba(34,197,94,0.32)",
+              background:
+                !krogerConnected ||
+                cartLoading
+                  ? "rgba(34,197,94,0.08)"
+                  : "rgba(34,197,94,0.2)",
+              color:
+                !krogerConnected ||
+                cartLoading
+                  ? "rgba(220,252,231,0.5)"
+                  : "#dcfce7",
+              fontWeight: 800,
+              cursor:
+                !krogerConnected ||
+                cartLoading
+                  ? "default"
+                  : "pointer",
+            }}
+          >
+            {cartLoading
+              ? "Adding to Kroger Cart..."
+              : `Add ${cartPreview.selectionCount} Selected Item${cartPreview.selectionCount === 1 ? "" : "s"} to Kroger Cart`}
+          </button>
+
+          {cartMessage && (
+            <div
+              style={{
+                marginTop: 8,
+                fontSize: 11,
+                lineHeight: 1.45,
+                opacity: 0.82,
+              }}
+            >
+              {cartMessage}
+            </div>
+          )}
         </div>
       )}
 
