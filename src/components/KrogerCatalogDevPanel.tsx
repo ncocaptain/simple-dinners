@@ -509,7 +509,7 @@ export default function KrogerCatalogDevPanel({
             opacity: loading ? 0.75 : 1,
           }}
         >
-          Find Kroger Stores
+          Find My Kroger Store
         </button>
       </div>
 
@@ -635,7 +635,7 @@ export default function KrogerCatalogDevPanel({
                   : 1,
             }}
           >
-            Search Kroger for This Requirement
+            Find Kroger Products
           </button>
         </div>
       )}
@@ -799,7 +799,7 @@ export default function KrogerCatalogDevPanel({
               color: "#86efac",
             }}
           >
-            KROGER CART PLAN ·{" "}
+            YOUR KROGER CART ·{" "}
             {cartPreview.selectionCount} selected
           </div>
           <div
@@ -966,7 +966,7 @@ export default function KrogerCatalogDevPanel({
               fontWeight: 800,
             }}
           >
-            Relevant safe package matches · {ranked.length}
+            Recommended package matches · {ranked.length}
           </div>
 
           {ranked.slice(0, 5).map((result, index) => {
@@ -1075,7 +1075,7 @@ export default function KrogerCatalogDevPanel({
                     color: "#fcd34d",
                   }}
                 >
-                  CHOOSE A PACKAGE
+                  CHOOSE YOUR PRODUCT
                 </div>
 
                 <div
