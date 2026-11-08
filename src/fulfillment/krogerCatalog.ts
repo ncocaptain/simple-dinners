@@ -1,3 +1,5 @@
+import type { RetailerPackageCandidate } from "./retailerPackageSolver";
+
 export type KrogerEnvironment =
   | "certification"
   | "production";
@@ -160,5 +162,97 @@ export function normalizeKrogerProducts(
     .filter(
       (product) =>
         Boolean(product.productId)
+    );
+}
+
+
+function parseKrogerPackageSize(
+  size: string
+): Pick<
+  RetailerPackageCandidate,
+  "packageQuantity" | "packageUnit" | "packageCount"
+> | null {
+  const normalized = String(size || "")
+    .trim()
+    .toLowerCase();
+
+  if (!normalized) return null;
+
+  const countPack = normalized.match(
+    /^(\d+(?:\.\d+)?)\s*(?:ct|count|pk|pack)$/
+  );
+
+  if (countPack) {
+    const count = Number(countPack[1]);
+
+    if (!Number.isFinite(count) || count <= 0) {
+      return null;
+    }
+
+    return {
+      packageQuantity: 1,
+      packageUnit: "count",
+      packageCount: count,
+    };
+  }
+
+  const amount = normalized.match(
+    /^(\d+(?:\.\d+)?)\s*(fl\s*oz|oz|lb|lbs|g|kg|ml|l)$/
+  );
+
+  if (!amount) return null;
+
+  const quantity = Number(amount[1]);
+  const rawUnit = amount[2]
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!Number.isFinite(quantity) || quantity <= 0) {
+    return null;
+  }
+
+  const unit =
+    rawUnit === "lbs"
+      ? "lb"
+      : rawUnit === "fl oz"
+        ? "fl oz"
+        : rawUnit;
+
+  return {
+    packageQuantity: quantity,
+    packageUnit: unit,
+  };
+}
+
+export function krogerProductToRetailerPackageCandidate(
+  product: KrogerProduct
+): RetailerPackageCandidate | null {
+  const parsed = parseKrogerPackageSize(
+    product.size
+  );
+
+  if (!parsed) return null;
+
+  return {
+    id: product.productId,
+    productName: product.description,
+    ...parsed,
+  };
+}
+
+export function krogerProductsToRetailerPackageCandidates(
+  products: readonly KrogerProduct[]
+) {
+  return products
+    .map((product) =>
+      krogerProductToRetailerPackageCandidate(
+        product
+      )
+    )
+    .filter(
+      (
+        candidate
+      ): candidate is RetailerPackageCandidate =>
+        Boolean(candidate)
     );
 }
