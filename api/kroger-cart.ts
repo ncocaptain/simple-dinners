@@ -109,10 +109,32 @@ export default async function handler(
         });
     }
 
-    const accessToken =
-      await getKrogerUserAccessToken(
-        user.id
+    let accessToken: string;
+
+    try {
+      accessToken =
+        await getKrogerUserAccessToken(
+          user.id
+        );
+    } catch (tokenError) {
+      const detail =
+        tokenError instanceof Error
+          ? tokenError.message
+          : "UNKNOWN_TOKEN_ERROR";
+
+      console.error(
+        "[Kroger] connection token failed",
+        { detail }
       );
+
+      return res.status(
+        authErrorStatus(tokenError)
+      ).json({
+        error:
+          "KROGER_CONNECTION_TOKEN_FAILED",
+        detail,
+      });
+    }
 
     const response =
       await fetch(
@@ -154,6 +176,8 @@ export default async function handler(
         .json({
           error:
             "KROGER_CART_ADD_FAILED",
+          detail:
+            `Kroger returned HTTP ${response.status}`,
           status:
             response.status,
         });
