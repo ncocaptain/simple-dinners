@@ -586,6 +586,42 @@ export function getSpecificGroceryCategory(name: string): GroceryCategory | null
   }
   if (isFreshAppleVariety(normalized)) return "Produce";
   if (/\bgraham crackers?\b/.test(normalized)) return "Pantry";
+
+  if (/^(?:kiwi|kiwis|kiwi fruit)$/.test(normalized)) {
+    return "Produce";
+  }
+
+  if (
+    /^(?:spring mix|baby spring mix|spring greens|mixed salad greens)$/.test(
+      normalized
+    )
+  ) {
+    return "Produce";
+  }
+
+  if (
+    /^(?:mini cokes?|coke minis?|coca cola minis?|coca cola mini cans?)$/.test(
+      normalized
+    )
+  ) {
+    return "Beverages";
+  }
+
+  if (
+    /^cream of (?:mushroom|chicken|celery) soup$/.test(
+      normalized
+    )
+  ) {
+    return "Pantry";
+  }
+
+  if (/^(?:fire roasted tomatoes|fire-roasted tomatoes)$/.test(normalized)) {
+    return "Pantry";
+  }
+
+  if (/^minced garlic$/.test(normalized)) {
+    return "Pantry";
+  }
   if (/\bcorn chips\b/.test(normalized)) return "Pantry";
   if (/\bgranola\b/.test(normalized)) return "Pantry";
   // A packet is packaging, not a reason to classify taco seasoning as Pantry.
