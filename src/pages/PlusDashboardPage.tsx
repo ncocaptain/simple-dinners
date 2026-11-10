@@ -120,9 +120,9 @@ const PLUS_COPY = {
           "Keep your household pantry synced across devices so everyone knows what you already have and what needs restocking.",
       },
       krogerShopping: {
-        title: "Shop with Kroger",
+        title: "Shop with Kroger Family Stores",
         description:
-          "Match your Simple Dinners shopping list to real Kroger products and send your selections directly to your Kroger cart.",
+          "Match your Simple Dinners list to products at participating Kroger Family stores and send your selections directly to your cart.",
       },
       socialImport: {
         title: "Instagram & TikTok Import",
@@ -226,7 +226,7 @@ const PLUS_COPY = {
           "Mantén la despensa de tu hogar sincronizada entre dispositivos para que todos sepan lo que ya tienen y lo que hace falta comprar.",
       },
       krogerShopping: {
-        title: "Compra con Kroger",
+        title: "Compra con tiendas de la familia Kroger",
         description:
           "Relaciona tu lista de compras de Simple Dinners con productos reales de Kroger y envía tus selecciones directamente a tu carrito de Kroger.",
       },
@@ -296,9 +296,9 @@ const PLUS_FOCUS_COPY = {
         "Keep pantry items synced across your household and devices so your shopping list starts with what you actually need.",
     },
     "kroger-shopping": {
-      title: "Shop with Kroger is included in Plus",
+      title: "Kroger Family Stores shopping is included in Plus",
       description:
-        "Match your Simple Dinners list to Kroger products and send selected items directly to your Kroger cart.",
+        "Match your Simple Dinners list to products at participating Kroger Family stores and send selected items directly to your cart.",
     },
     "screenshot-import": {
       title: "Screenshot Import is included in Plus",

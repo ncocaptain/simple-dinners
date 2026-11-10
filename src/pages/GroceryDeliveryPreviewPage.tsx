@@ -5,6 +5,7 @@ import type {
 } from "../fulfillment/groceryRequirementSummary";
 import type { GroceryHandoffHold } from "../fulfillment/groceryHandoffFromShopping";
 import KrogerCatalogDevPanel from "../components/KrogerCatalogDevPanel";
+import { getGroceryProvider } from "../fulfillment/groceryProviders";
 
 type ReviewItem = {
   itemId: string;
@@ -155,6 +156,9 @@ export default function GroceryDeliveryPreviewPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const krogerProvider =
+    getGroceryProvider("kroger");
+
   const candidate = location.state as
     | GroceryPreviewSnapshot
     | null;
@@ -205,13 +209,13 @@ export default function GroceryDeliveryPreviewPage() {
         </button>
 
         <h1 style={{ fontSize: 26, marginBottom: 8 }}>
-          Shop with Kroger
+          {krogerProvider?.headline ??
+            "Shop with Kroger Family Stores"}
         </h1>
 
         <p style={{ opacity: 0.75, lineHeight: 1.6 }}>
-          Match your Simple Dinners shopping list to
-          Kroger products, choose the items you want,
-          and send them to your Kroger cart.
+          {krogerProvider?.description ??
+            "Match your Simple Dinners shopping list to products at participating Kroger Family stores."}
         </p>
 
         {!snapshot ? (
@@ -252,7 +256,7 @@ export default function GroceryDeliveryPreviewPage() {
                       fontWeight: 800,
                     }}
                   >
-                    Your Kroger shopping list
+                    Your Kroger Family Stores shopping list
                   </div>
                   <div
                     style={{
@@ -278,7 +282,8 @@ export default function GroceryDeliveryPreviewPage() {
 
               <p style={{ opacity: 0.7, fontSize: 13 }}>
                 Simple Dinners keeps the recipe amounts here
-                while Kroger handles the real products and package sizes.
+                while your selected Kroger Family store handles
+                the real products and package sizes.
               </p>
 
               <div

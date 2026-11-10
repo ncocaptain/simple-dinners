@@ -5097,7 +5097,7 @@ export default function ShoppingListPage() {
                   fontSize: 14,
                 }}
               >
-                Shop with Kroger
+                Shop with Kroger Family Stores
               </span>
               <span
                 style={{
@@ -5107,7 +5107,7 @@ export default function ShoppingListPage() {
                   opacity: 0.65,
                 }}
               >
-                Match your shopping list to Kroger products
+                Match your list to Kroger Family store products
               </span>
             </span>
 
