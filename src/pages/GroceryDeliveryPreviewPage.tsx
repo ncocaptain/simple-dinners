@@ -5,6 +5,7 @@ import type {
 } from "../fulfillment/groceryRequirementSummary";
 import type { GroceryHandoffHold } from "../fulfillment/groceryHandoffFromShopping";
 import KrogerCatalogDevPanel from "../components/KrogerCatalogDevPanel";
+import WalmartCatalogDevPanel from "../components/WalmartCatalogDevPanel";
 import { getGroceryProvider } from "../fulfillment/groceryProviders";
 
 type ReviewItem = {
@@ -422,6 +423,11 @@ export default function GroceryDeliveryPreviewPage() {
             )}
 
             <KrogerCatalogDevPanel
+              requirements={snapshot.requirements}
+              searchOnly={snapshot.searchOnly}
+            />
+
+            <WalmartCatalogDevPanel
               requirements={snapshot.requirements}
               searchOnly={snapshot.searchOnly}
             />

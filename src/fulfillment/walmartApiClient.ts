@@ -15,6 +15,7 @@ export function walmartApiUrl(
   path: string,
 ) {
   const explicit =
+    import.meta.env.VITE_WALMART_API_BASE_URL?.trim() ||
     import.meta.env.VITE_API_BASE_URL?.trim();
 
   const base =
@@ -106,4 +107,110 @@ export function buildWalmartSearchIntents(
     ...measured,
     ...unmeasured,
   ];
+}
+
+
+async function walmartJsonRequest(
+  path: string,
+  options: RequestInit = {},
+) {
+  const response =
+    await fetch(
+      walmartApiUrl(path),
+      options,
+    );
+
+  const data =
+    await response
+      .json()
+      .catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(
+      data?.error ||
+      `Walmart request failed (${response.status})`,
+    );
+  }
+
+  return data;
+}
+
+export async function getWalmartStatus() {
+  return walmartJsonRequest(
+    WALMART_API_ROUTES.status,
+  ) as Promise<{
+    provider: "walmart";
+    mode:
+      | "disabled"
+      | "mock"
+      | "live";
+    configured: boolean;
+    live: boolean;
+  }>;
+}
+
+export async function findWalmartStores(
+  zip: string,
+) {
+  return walmartJsonRequest(
+    `${WALMART_API_ROUTES.catalog}?action=stores&zip=${encodeURIComponent(zip)}`,
+  ) as Promise<{
+    provider: "walmart";
+    mode: string;
+    stores: WalmartStore[];
+  }>;
+}
+
+export async function searchWalmartProducts(
+  term: string,
+  storeId?: string,
+) {
+  const params =
+    new URLSearchParams({
+      action: "products",
+      term,
+    });
+
+  if (storeId) {
+    params.set(
+      "storeId",
+      storeId,
+    );
+  }
+
+  return walmartJsonRequest(
+    `${WALMART_API_ROUTES.catalog}?${params.toString()}`,
+  ) as Promise<{
+    provider: "walmart";
+    mode: string;
+    storeId?: string | null;
+    products: WalmartProduct[];
+  }>;
+}
+
+export async function buildWalmartCart(
+  items: readonly {
+    productId: string;
+    quantity: number;
+  }[],
+) {
+  return walmartJsonRequest(
+    WALMART_API_ROUTES.cart,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type":
+          "application/json",
+      },
+      body:
+        JSON.stringify({
+          items,
+        }),
+    },
+  ) as Promise<{
+    provider: "walmart";
+    mode: string;
+    itemCount: number;
+    cartUrl: string;
+  }>;
 }
