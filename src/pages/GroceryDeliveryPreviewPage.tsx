@@ -4,9 +4,7 @@ import type {
   GrocerySearchOnlyRequirement,
 } from "../fulfillment/groceryRequirementSummary";
 import type { GroceryHandoffHold } from "../fulfillment/groceryHandoffFromShopping";
-import KrogerCatalogDevPanel from "../components/KrogerCatalogDevPanel";
-import WalmartCatalogDevPanel from "../components/WalmartCatalogDevPanel";
-import { getGroceryProvider } from "../fulfillment/groceryProviders";
+import GroceryProviderWorkspace from "../components/GroceryProviderWorkspace";
 
 type ReviewItem = {
   itemId: string;
@@ -157,9 +155,6 @@ export default function GroceryDeliveryPreviewPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const krogerProvider =
-    getGroceryProvider("kroger");
-
   const candidate = location.state as
     | GroceryPreviewSnapshot
     | null;
@@ -210,21 +205,20 @@ export default function GroceryDeliveryPreviewPage() {
         </button>
 
         <h1 style={{ fontSize: 26, marginBottom: 8 }}>
-          {krogerProvider?.headline ??
-            "Shop with Kroger Family Stores"}
+          Shop Your Grocery List
         </h1>
 
         <p style={{ opacity: 0.75, lineHeight: 1.6 }}>
-          {krogerProvider?.description ??
-            "Match your Simple Dinners shopping list to products at participating Kroger Family stores."}
+          Start with the grocery list Simple Dinners already built,
+          then choose where you want to shop.
         </p>
 
         {!snapshot ? (
           <section style={{ ...panelStyle, marginTop: 24 }}>
             <h2>Return to your Shopping List</h2>
             <p>
-              Open Shop with Kroger from your Shopping List
-              to build a fresh grocery selection.
+              Open grocery shopping from your Shopping List
+              to build a fresh retailer-ready selection.
             </p>
           </section>
         ) : (
@@ -257,7 +251,7 @@ export default function GroceryDeliveryPreviewPage() {
                       fontWeight: 800,
                     }}
                   >
-                    Your Kroger Family Stores shopping list
+                    Your grocery shopping list
                   </div>
                   <div
                     style={{
@@ -283,8 +277,8 @@ export default function GroceryDeliveryPreviewPage() {
 
               <p style={{ opacity: 0.7, fontSize: 13 }}>
                 Simple Dinners keeps the recipe amounts here
-                while your selected Kroger Family store handles
-                the real products and package sizes.
+                while your selected grocery provider handles
+                real products and package sizes.
               </p>
 
               <div
@@ -395,12 +389,12 @@ export default function GroceryDeliveryPreviewPage() {
                     </div>
                     <div style={{ fontSize: 12, opacity: 0.7 }}>
                       {item.reason === "missing-search"
-                        ? "Choose the Kroger product you want."
+                        ? "Choose the grocery product you want."
                         : item.reason === "missing-quantity"
                           ? "Confirm the product and package that works for you."
                           : item.reason === "missing-unit"
-                            ? "Choose the Kroger package that best fits this item."
-                            : "Review this item before adding it to your Kroger cart."}
+                            ? "Choose the package that best fits this item."
+                            : "Review this item before sending it to your selected grocery provider."}
                     </div>
                   </div>
                 ))}
@@ -422,12 +416,7 @@ export default function GroceryDeliveryPreviewPage() {
               </section>
             )}
 
-            <KrogerCatalogDevPanel
-              requirements={snapshot.requirements}
-              searchOnly={snapshot.searchOnly}
-            />
-
-            <WalmartCatalogDevPanel
+            <GroceryProviderWorkspace
               requirements={snapshot.requirements}
               searchOnly={snapshot.searchOnly}
             />
