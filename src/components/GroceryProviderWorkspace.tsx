@@ -209,23 +209,6 @@ export default function GroceryProviderWorkspace({
                     }}
                   >
                     {item.name}
-
-                    {item.status ===
-                      "scaffold" &&
-                      import.meta.env.DEV && (
-                        <span
-                          style={{
-                            display:
-                              "block",
-                            marginTop: 3,
-                            fontSize: 9,
-                            color:
-                              "#fcd34d",
-                          }}
-                        >
-                          DEV
-                        </span>
-                      )}
                   </button>
                 );
               },
@@ -281,16 +264,14 @@ export default function GroceryProviderWorkspace({
 
       {provider.id ===
         "walmart" && (
-        <>
-          <WalmartHandoffPanel
-            requirements={
-              requirements
-            }
-            searchOnly={
-              searchOnly
-            }
-          />
-        </>
+        <WalmartHandoffPanel
+          requirements={
+            requirements
+          }
+          searchOnly={
+            searchOnly
+          }
+        />
       )}
     </section>
   );
