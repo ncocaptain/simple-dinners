@@ -35,7 +35,7 @@ export const GROCERY_PROVIDERS:
     shortName: "Walmart",
     enabled: walmartEnabled,
     requiresPlus: true,
-    status: "scaffold",
+    status: "live",
     capabilities: [
       "search-handoff",
     ],
