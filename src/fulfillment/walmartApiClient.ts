@@ -6,7 +6,6 @@ import type {
 } from "./groceryRequirementSummary";
 
 export const WALMART_API_ROUTES = {
-  status: "/api/walmart-status",
   catalog: "/api/walmart-catalog",
   cart: "/api/walmart-cart",
 } as const;
@@ -133,20 +132,6 @@ async function walmartJsonRequest(
   }
 
   return data;
-}
-
-export async function getWalmartStatus() {
-  return walmartJsonRequest(
-    WALMART_API_ROUTES.status,
-  ) as Promise<{
-    provider: "walmart";
-    mode:
-      | "disabled"
-      | "mock"
-      | "live";
-    configured: boolean;
-    live: boolean;
-  }>;
 }
 
 export async function findWalmartStores(
