@@ -454,3 +454,34 @@
   opacity: 0.55;
   cursor: default;
 }
+
+
+.sd-biometric-signin-button {
+  margin-top: -2px;
+  border-color: #c7d2fe;
+  background: #eef2ff;
+  color: #3730a3;
+}
+
+.sd-biometric-remember {
+  display: flex !important;
+  grid-template-columns: none;
+  align-items: center;
+  gap: 10px !important;
+  padding: 11px 12px;
+  border: 1px solid #dbe4ef;
+  border-radius: 12px;
+  background: #f8fafc;
+  color: #475569 !important;
+  font-size: 0.84rem !important;
+  line-height: 1.35;
+}
+
+.sd-biometric-remember input {
+  width: 18px !important;
+  min-height: 18px !important;
+  height: 18px;
+  flex: 0 0 auto;
+  padding: 0 !important;
+  accent-color: #f59e0b;
+}
