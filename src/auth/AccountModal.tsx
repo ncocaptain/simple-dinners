@@ -15,6 +15,12 @@ import {
   usePlusAccess,
 } from "../plus/usePlusAccess";
 import { useAuth } from "./AuthContext";
+import {
+  deleteBiometricLogin,
+  getBiometricLogin,
+  getBiometricLoginStatus,
+  saveBiometricLogin,
+} from "./biometricLogin";
 import "./AccountModal.css";
 
 type AccountModalProps = {
@@ -127,6 +133,17 @@ export function AccountModal({
         "Código del hogar copiado.",
       unableToCopy:
         "No se pudo copiar el código del hogar.",
+      biometricSignIn: "Iniciar sesión con biometría",
+      biometricRemember:
+        "Usar biometría para iniciar sesión la próxima vez",
+      biometricRemove:
+        "Eliminar inicio de sesión biométrico",
+      biometricRemoved:
+        "El inicio de sesión biométrico fue eliminado.",
+      biometricSaveFailed:
+        "Iniciaste sesión, pero no se pudo guardar el acceso biométrico.",
+      biometricSignInFailed:
+        "No se pudo iniciar sesión con biometría. Usa tu contraseña.",
     }
     : {
       closeLabel: "Close account window",
@@ -209,6 +226,17 @@ export function AccountModal({
         "Household code copied.",
       unableToCopy:
         "Unable to copy the household code.",
+      biometricSignIn: "Sign in with biometrics",
+      biometricRemember:
+        "Use biometrics to sign in next time",
+      biometricRemove:
+        "Remove biometric sign-in",
+      biometricRemoved:
+        "Biometric sign-in was removed.",
+      biometricSaveFailed:
+        "You are signed in, but biometric sign-in could not be saved.",
+      biometricSignInFailed:
+        "Biometric sign-in failed. Use your password instead.",
     };
 
   function openPlusDashboard() {
@@ -247,6 +275,46 @@ export function AccountModal({
 
   const [error, setError] =
     useState<string | null>(null);
+
+  const [biometricAvailable, setBiometricAvailable] =
+    useState(false);
+  const [biometricSaved, setBiometricSaved] =
+    useState(false);
+  const [biometricLabel, setBiometricLabel] =
+    useState("biometrics");
+  const [rememberWithBiometrics, setRememberWithBiometrics] =
+    useState(false);
+  const [biometricBusy, setBiometricBusy] =
+    useState(false);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    let active = true;
+
+    void getBiometricLoginStatus()
+      .then((status) => {
+        if (!active) {
+          return;
+        }
+
+        setBiometricAvailable(
+          status.available,
+        );
+        setBiometricSaved(
+          status.saved,
+        );
+        setBiometricLabel(
+          status.label,
+        );
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [isOpen, isSignedIn]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -375,10 +443,76 @@ export function AccountModal({
         return;
       }
 
+      if (
+        rememberWithBiometrics &&
+        biometricAvailable
+      ) {
+        try {
+          await saveBiometricLogin(
+            normalizedEmail,
+            password,
+          );
+          setBiometricSaved(true);
+        } catch {
+          setMessage(
+            copy.biometricSaveFailed,
+          );
+        }
+      }
+
       setPassword("");
-      setMessage(copy.signedInMessage);
+
+      if (!message) {
+        setMessage(copy.signedInMessage);
+      }
     } finally {
       setIsSubmitting(false);
+    }
+  }
+
+  async function handleBiometricSignIn() {
+    setMessage(null);
+    setError(null);
+    setBiometricBusy(true);
+
+    try {
+      const credentials =
+        await getBiometricLogin();
+
+      const result = await signIn(
+        credentials.username,
+        credentials.password,
+      );
+
+      if (result.error) {
+        setError(result.error);
+        return;
+      }
+
+      setEmail(credentials.username);
+      setPassword("");
+      setMessage(copy.signedInMessage);
+    } catch {
+      setError(copy.biometricSignInFailed);
+    } finally {
+      setBiometricBusy(false);
+    }
+  }
+
+  async function handleRemoveBiometricLogin() {
+    setMessage(null);
+    setError(null);
+    setBiometricBusy(true);
+
+    try {
+      await deleteBiometricLogin();
+      setBiometricSaved(false);
+      setRememberWithBiometrics(false);
+      setMessage(copy.biometricRemoved);
+    } catch {
+      setError(copy.biometricSignInFailed);
+    } finally {
+      setBiometricBusy(false);
     }
   }
 
@@ -800,6 +934,21 @@ export function AccountModal({
               </div>
             )}
 
+            {biometricSaved && (
+              <button
+                type="button"
+                className="sd-account-secondary-button"
+                onClick={() =>
+                  void handleRemoveBiometricLogin()
+                }
+                disabled={biometricBusy}
+              >
+                {biometricBusy
+                  ? copy.pleaseWait
+                  : copy.biometricRemove}
+              </button>
+            )}
+
             <button
               type="button"
               className="sd-account-primary-button"
@@ -953,6 +1102,54 @@ export function AccountModal({
               )}
 
 
+
+              {mode === "sign-in" &&
+                biometricAvailable &&
+                biometricSaved && (
+                  <button
+                    type="button"
+                    className="sd-account-secondary-button sd-biometric-signin-button"
+                    onClick={() =>
+                      void handleBiometricSignIn()
+                    }
+                    disabled={
+                      isSubmitting ||
+                      biometricBusy
+                    }
+                  >
+                    {biometricBusy
+                      ? copy.pleaseWait
+                      : `${copy.biometricSignIn} · ${biometricLabel}`}
+                  </button>
+                )}
+
+              {mode === "sign-in" &&
+                biometricAvailable &&
+                !biometricSaved && (
+                  <label className="sd-biometric-remember">
+                    <input
+                      type="checkbox"
+                      checked={
+                        rememberWithBiometrics
+                      }
+                      onChange={(event) =>
+                        setRememberWithBiometrics(
+                          event.target.checked,
+                        )
+                      }
+                      disabled={
+                        isSubmitting ||
+                        biometricBusy
+                      }
+                    />
+
+                    <span>
+                      {copy.biometricRemember}
+                      {" · "}
+                      {biometricLabel}
+                    </span>
+                  </label>
+                )}
 
               {mode === "sign-in" && (
                 <button
