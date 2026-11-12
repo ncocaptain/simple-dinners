@@ -6,6 +6,39 @@ import {
 } from "@capgo/capacitor-native-biometric";
 
 const SERVER = "dinners.ncocaptain.com";
+const SAVED_LOGIN_KEY =
+  "simple-dinners:biometric-login-saved";
+
+function hasSavedLoginMarker() {
+  try {
+    return (
+      localStorage.getItem(
+        SAVED_LOGIN_KEY,
+      ) === "true"
+    );
+  } catch {
+    return false;
+  }
+}
+
+function setSavedLoginMarker(
+  saved: boolean,
+) {
+  try {
+    if (saved) {
+      localStorage.setItem(
+        SAVED_LOGIN_KEY,
+        "true",
+      );
+    } else {
+      localStorage.removeItem(
+        SAVED_LOGIN_KEY,
+      );
+    }
+  } catch {
+    // The secure credential remains authoritative.
+  }
+}
 
 export type BiometricLoginStatus = {
   available: boolean;
@@ -41,22 +74,17 @@ export async function getBiometricLoginStatus():
   }
 
   try {
-    const [availability, credentials] =
-      await Promise.all([
-        NativeBiometric.isAvailable(),
-        NativeBiometric.isCredentialsSaved({
-          server: SERVER,
-        }).catch(() => ({
-          isSaved: false,
-        })),
-      ]);
+    const availability =
+      await NativeBiometric.isAvailable();
 
     return {
       available: availability.isAvailable,
       label: labelFor(
         availability.biometryType,
       ),
-      saved: credentials.isSaved,
+      saved:
+        availability.isAvailable &&
+        hasSavedLoginMarker(),
     };
   } catch {
     return {
@@ -81,16 +109,28 @@ export async function saveBiometricLogin(
       "Save Simple Dinners sign-in",
     negativeButtonText: "Cancel",
   });
+
+  setSavedLoginMarker(true);
 }
 
 export async function getBiometricLogin() {
-  return NativeBiometric.getSecureCredentials({
-    server: SERVER,
-  });
+  try {
+    return await NativeBiometric.getSecureCredentials({
+      server: SERVER,
+    });
+  } catch (error) {
+    throw error;
+  }
 }
 
 export async function deleteBiometricLogin() {
   await NativeBiometric.deleteCredentials({
     server: SERVER,
   });
+
+  setSavedLoginMarker(false);
+}
+
+export function clearBiometricLoginMarker() {
+  setSavedLoginMarker(false);
 }
