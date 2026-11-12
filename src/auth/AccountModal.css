@@ -454,3 +454,29 @@
   opacity: 0.55;
   cursor: default;
 }
+
+
+.sd-biometric-card {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #dbe4ef;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+
+.sd-biometric-card strong {
+  display: block;
+  margin-top: 2px;
+  color: #172033;
+  font-size: 1rem;
+}
+
+.sd-biometric-card .sd-account-description {
+  margin-top: 7px;
+  font-size: 0.84rem;
+}
+
+.sd-biometric-card .sd-account-secondary-button {
+  min-height: 44px;
+}
