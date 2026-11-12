@@ -15,6 +15,12 @@ import {
   usePlusAccess,
 } from "../plus/usePlusAccess";
 import { useAuth } from "./AuthContext";
+import {
+  getBiometricAvailability,
+  isBiometricUnlockEnabled,
+  setBiometricUnlockEnabled,
+  verifyBiometricUnlock,
+} from "./biometricUnlock";
 import "./AccountModal.css";
 
 type AccountModalProps = {
@@ -127,6 +133,17 @@ export function AccountModal({
         "Código del hogar copiado.",
       unableToCopy:
         "No se pudo copiar el código del hogar.",
+      biometricUnlock: "Desbloqueo biométrico",
+      biometricDescription:
+        "Usa Face ID, Touch ID o la biometría de tu dispositivo para desbloquear Simple Dinners. Tu contraseña no se guarda.",
+      biometricEnable: "Activar",
+      biometricDisable: "Desactivar",
+      biometricUnavailable:
+        "La biometría no está disponible o no está configurada en este dispositivo.",
+      biometricEnabled:
+        "El desbloqueo biométrico está activado.",
+      biometricDisabled:
+        "El desbloqueo biométrico está desactivado.",
     }
     : {
       closeLabel: "Close account window",
@@ -209,6 +226,17 @@ export function AccountModal({
         "Household code copied.",
       unableToCopy:
         "Unable to copy the household code.",
+      biometricUnlock: "Biometric unlock",
+      biometricDescription:
+        "Use Face ID, Touch ID, or your device biometrics to unlock Simple Dinners. Your password is not stored.",
+      biometricEnable: "Enable",
+      biometricDisable: "Disable",
+      biometricUnavailable:
+        "Biometrics are unavailable or not set up on this device.",
+      biometricEnabled:
+        "Biometric unlock is enabled.",
+      biometricDisabled:
+        "Biometric unlock is disabled.",
     };
 
   function openPlusDashboard() {
@@ -247,6 +275,44 @@ export function AccountModal({
 
   const [error, setError] =
     useState<string | null>(null);
+
+  const [biometricAvailable, setBiometricAvailable] =
+    useState(false);
+  const [biometricLabel, setBiometricLabel] =
+    useState("biometrics");
+  const [biometricEnabled, setBiometricEnabled] =
+    useState(() => isBiometricUnlockEnabled());
+  const [biometricBusy, setBiometricBusy] =
+    useState(false);
+
+  useEffect(() => {
+    if (!isOpen || !isSignedIn) {
+      return;
+    }
+
+    let active = true;
+
+    void getBiometricAvailability()
+      .then((availability) => {
+        if (!active) {
+          return;
+        }
+
+        setBiometricAvailable(
+          availability.available,
+        );
+        setBiometricLabel(
+          availability.label,
+        );
+        setBiometricEnabled(
+          isBiometricUnlockEnabled(),
+        );
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [isOpen, isSignedIn]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -477,12 +543,47 @@ export function AccountModal({
     }
   }
 
+  async function handleBiometricToggle() {
+    setMessage(null);
+    setError(null);
+
+    if (biometricEnabled) {
+      setBiometricUnlockEnabled(false);
+      setBiometricEnabled(false);
+      setMessage(copy.biometricDisabled);
+      return;
+    }
+
+    if (!biometricAvailable) {
+      setError(copy.biometricUnavailable);
+      return;
+    }
+
+    setBiometricBusy(true);
+
+    try {
+      await verifyBiometricUnlock(
+        "Confirm biometric unlock for Simple Dinners",
+      );
+      setBiometricUnlockEnabled(true);
+      setBiometricEnabled(true);
+      setMessage(copy.biometricEnabled);
+    } catch {
+      setError(copy.biometricUnavailable);
+    } finally {
+      setBiometricBusy(false);
+    }
+  }
+
   async function handleSignOut() {
     setMessage(null);
     setError(null);
     setIsSubmitting(true);
 
     try {
+      setBiometricUnlockEnabled(false);
+      setBiometricEnabled(false);
+
       const result = await signOut();
 
       if (result.error) {
@@ -799,6 +900,41 @@ export function AccountModal({
                   copy.unableToLoadHousehold}
               </div>
             )}
+
+            <div className="sd-biometric-card">
+              <div>
+                <span className="sd-household-label">
+                  {copy.biometricUnlock}
+                </span>
+
+                <strong>
+                  {biometricAvailable
+                    ? biometricLabel
+                    : copy.biometricUnavailable}
+                </strong>
+
+                <p className="sd-account-description">
+                  {copy.biometricDescription}
+                </p>
+              </div>
+
+              {biometricAvailable && (
+                <button
+                  type="button"
+                  className="sd-account-secondary-button"
+                  onClick={() =>
+                    void handleBiometricToggle()
+                  }
+                  disabled={biometricBusy}
+                >
+                  {biometricBusy
+                    ? copy.pleaseWait
+                    : biometricEnabled
+                      ? copy.biometricDisable
+                      : copy.biometricEnable}
+                </button>
+              )}
+            </div>
 
             <button
               type="button"
