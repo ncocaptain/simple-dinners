@@ -8,7 +8,7 @@ const krogerEnabled =
   import.meta.env.VITE_KROGER_ENABLED === "true";
 
 const walmartEnabled =
-  import.meta.env.VITE_WALMART_ENABLED === "true";
+  import.meta.env.VITE_WALMART_ENABLED !== "false";
 
 export const GROCERY_PROVIDERS:
   readonly GroceryProvider[] = [
