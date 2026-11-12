@@ -1,7 +1,7 @@
 import type {
   GroceryRequirementGroup,
   GrocerySearchOnlyRequirement,
-} from "./groceryRequirementSummary";
+} from "./groceryRequirementSummary.js";
 
 export type RetailerRequirementStatus =
   | "search-ready"

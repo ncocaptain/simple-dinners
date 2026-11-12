@@ -4,10 +4,10 @@ import type {
 } from "@vercel/node";
 import {
   buildInstacartShoppingListPayload,
-} from "../src/fulfillment/instacartShoppingList";
+} from "../src/fulfillment/instacartShoppingList.js";
 import type {
   GroceryRequirementGroup,
-} from "../src/fulfillment/groceryRequirementSummary";
+} from "../src/fulfillment/groceryRequirementSummary.js";
 
 const allowedOrigins = new Set([
   "https://dinners.ncocaptain.com",

@@ -1,8 +1,8 @@
-import type { GroceryRequirementGroup } from "./groceryRequirementSummary";
+import type { GroceryRequirementGroup } from "./groceryRequirementSummary.js";
 import {
   assessRetailerRequirement,
   type GroceryRetailerMatch,
-} from "./groceryRetailerMatch";
+} from "./groceryRetailerMatch.js";
 
 export type InstacartMeasurement = {
   quantity: number;

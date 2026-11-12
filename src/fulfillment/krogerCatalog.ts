@@ -1,4 +1,4 @@
-import type { RetailerPackageCandidate } from "./retailerPackageSolver";
+import type { RetailerPackageCandidate } from "./retailerPackageSolver.js";
 
 export type KrogerEnvironment =
   | "certification"
@@ -221,6 +221,7 @@ function parseKrogerPackageSize(
   return {
     packageQuantity: quantity,
     packageUnit: unit,
+    packageCount: 1,
   };
 }
 
