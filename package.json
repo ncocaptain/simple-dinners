@@ -44,6 +44,7 @@
     "@capacitor/local-notifications": "^8.3.1",
     "@capacitor/share": "^8.0.0",
     "@capacitor/splash-screen": "^8.0.0",
+    "@capgo/capacitor-native-biometric": "^8.9.3",
     "@capgo/capacitor-speech-recognition": "^8.4.2",
     "@maplibre/maplibre-gl-leaflet": "^0.1.4",
     "@revenuecat/purchases-capacitor": "^13.2.4",
