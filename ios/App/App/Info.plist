@@ -37,6 +37,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Simple Dinners uses Face ID to unlock your signed-in account without storing your password.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Simple Dinners uses the microphone to listen for hands-free Cook Mode commands.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
