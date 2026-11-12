@@ -486,7 +486,12 @@ export function AccountModal({
       );
 
       if (result.error) {
-        setError(result.error);
+        await deleteBiometricLogin()
+          .catch(() => undefined);
+        setBiometricSaved(false);
+        setError(
+          copy.biometricSignInFailed,
+        );
         return;
       }
 
@@ -494,6 +499,9 @@ export function AccountModal({
       setPassword("");
       setMessage(copy.signedInMessage);
     } catch {
+      await deleteBiometricLogin()
+        .catch(() => undefined);
+      setBiometricSaved(false);
       setError(copy.biometricSignInFailed);
     } finally {
       setBiometricBusy(false);
