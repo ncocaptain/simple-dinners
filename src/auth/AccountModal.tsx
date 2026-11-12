@@ -314,7 +314,7 @@ export function AccountModal({
     return () => {
       active = false;
     };
-  }, [isOpen, isSignedIn]);
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -476,10 +476,19 @@ export function AccountModal({
     setError(null);
     setBiometricBusy(true);
 
-    try {
-      const credentials =
-        await getBiometricLogin();
+    let credentials:
+      Awaited<ReturnType<typeof getBiometricLogin>>;
 
+    try {
+      credentials =
+        await getBiometricLogin();
+    } catch {
+      setError(copy.biometricSignInFailed);
+      setBiometricBusy(false);
+      return;
+    }
+
+    try {
       const result = await signIn(
         credentials.username,
         credentials.password,
@@ -498,11 +507,6 @@ export function AccountModal({
       setEmail(credentials.username);
       setPassword("");
       setMessage(copy.signedInMessage);
-    } catch {
-      await deleteBiometricLogin()
-        .catch(() => undefined);
-      setBiometricSaved(false);
-      setError(copy.biometricSignInFailed);
     } finally {
       setBiometricBusy(false);
     }
