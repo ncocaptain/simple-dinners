@@ -443,6 +443,8 @@ export function AccountModal({
         return;
       }
 
+      let biometricSaveFailed = false;
+
       if (
         rememberWithBiometrics &&
         biometricAvailable
@@ -454,17 +456,16 @@ export function AccountModal({
           );
           setBiometricSaved(true);
         } catch {
-          setMessage(
-            copy.biometricSaveFailed,
-          );
+          biometricSaveFailed = true;
         }
       }
 
       setPassword("");
-
-      if (!message) {
-        setMessage(copy.signedInMessage);
-      }
+      setMessage(
+        biometricSaveFailed
+          ? copy.biometricSaveFailed
+          : copy.signedInMessage,
+      );
     } finally {
       setIsSubmitting(false);
     }
