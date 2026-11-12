@@ -79,10 +79,6 @@ export async function saveBiometricLogin(
       AccessControl.BIOMETRY_CURRENT_SET,
     title:
       "Save Simple Dinners sign-in",
-    subtitle:
-      "Protect this login with your biometrics.",
-    description:
-      "Your password stays in your device Keychain or Keystore.",
     negativeButtonText: "Cancel",
   });
 }
