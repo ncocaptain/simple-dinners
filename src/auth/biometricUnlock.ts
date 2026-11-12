@@ -7,6 +7,9 @@ import {
 const BIOMETRIC_UNLOCK_KEY =
   "simple-dinners:biometric-unlock-enabled";
 
+let activeVerification:
+  Promise<void> | null = null;
+
 export type BiometricAvailability = {
   available: boolean;
   label: string;
@@ -105,16 +108,23 @@ export async function getBiometricAvailability():
 export async function verifyBiometricUnlock(
   reason = "Unlock Simple Dinners",
 ) {
-  await NativeBiometric.verifyIdentity({
-    reason,
-    title: "Unlock Simple Dinners",
-    subtitle:
-      "Use your device security to continue.",
-    description:
-      "Simple Dinners does not store your account password.",
-    negativeButtonText: "Cancel",
-    useFallback: true,
-    fallbackTitle: "Use device passcode",
-    maxAttempts: 3,
-  });
+  if (!activeVerification) {
+    activeVerification =
+      NativeBiometric.verifyIdentity({
+        reason,
+        title: "Unlock Simple Dinners",
+        subtitle:
+          "Use your device security to continue.",
+        description:
+          "Simple Dinners does not store your account password.",
+        negativeButtonText: "Cancel",
+        useFallback: true,
+        fallbackTitle: "Use device passcode",
+        maxAttempts: 3,
+      }).finally(() => {
+        activeVerification = null;
+      });
+  }
+
+  return activeVerification;
 }
