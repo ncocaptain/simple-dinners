@@ -11,7 +11,8 @@ export type GroceryProviderCapability =
   | "catalog-search"
   | "account-link"
   | "cart-write"
-  | "cart-handoff";
+  | "cart-handoff"
+  | "search-handoff";
 
 export type GroceryProvider = {
   id: GroceryProviderId;

@@ -19,6 +19,7 @@ import {
 
 import KrogerCatalogDevPanel from "./KrogerCatalogDevPanel";
 import WalmartCatalogDevPanel from "./WalmartCatalogDevPanel";
+import WalmartHandoffPanel from "./WalmartHandoffPanel";
 
 type Props = {
   requirements:
@@ -281,14 +282,27 @@ export default function GroceryProviderWorkspace({
 
       {provider.id ===
         "walmart" && (
-        <WalmartCatalogDevPanel
-          requirements={
-            requirements
-          }
-          searchOnly={
-            searchOnly
-          }
-        />
+        <>
+          <WalmartHandoffPanel
+            requirements={
+              requirements
+            }
+            searchOnly={
+              searchOnly
+            }
+          />
+
+          {import.meta.env.DEV && (
+            <WalmartCatalogDevPanel
+              requirements={
+                requirements
+              }
+              searchOnly={
+                searchOnly
+              }
+            />
+          )}
+        </>
       )}
     </section>
   );

@@ -37,13 +37,11 @@ export const GROCERY_PROVIDERS:
     requiresPlus: true,
     status: "scaffold",
     capabilities: [
-      "store-locator",
-      "catalog-search",
-      "cart-handoff",
+      "search-handoff",
     ],
     headline: "Shop with Walmart",
     description:
-      "Match your Simple Dinners shopping list to Walmart products and hand your selected items off to a Walmart cart.",
+      "Open your Simple Dinners grocery items on Walmart to choose products and complete checkout directly with Walmart.",
   },
 ];
 
