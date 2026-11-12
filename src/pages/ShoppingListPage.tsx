@@ -1,6 +1,7 @@
 import { useNavigate as useGroceryPreviewNavigate } from "react-router-dom";
 import { selectCompatiblePantryItem } from "../core/pantryShoppingCompatibility";
 import { summarizeGroceryRequirements } from "../fulfillment/groceryRequirementSummary";
+import { getEnabledGroceryProviders } from "../fulfillment/groceryProviders";
 import { buildGroceryHandoffFromShopping } from "../fulfillment/groceryHandoffFromShopping";
 import { useEffect as useGroceryPreviewEffect } from "react";
 import { useEffect, useMemo, useState } from "react";
@@ -5060,8 +5061,7 @@ export default function ShoppingListPage() {
         overflowX: "hidden",
       }}
     >
-      {(import.meta.env.DEV ||
-        import.meta.env.VITE_KROGER_ENABLED === "true") && (
+      {getEnabledGroceryProviders().length > 0 && (
         <div
           style={{
             width: "100%",
@@ -5097,7 +5097,7 @@ export default function ShoppingListPage() {
                   fontSize: 14,
                 }}
               >
-                Shop with Kroger Family Stores
+                Shop Your Grocery List
               </span>
               <span
                 style={{
@@ -5107,7 +5107,7 @@ export default function ShoppingListPage() {
                   opacity: 0.65,
                 }}
               >
-                Match your list to Kroger Family store products
+                Choose Kroger Family Stores or Walmart
               </span>
             </span>
 
