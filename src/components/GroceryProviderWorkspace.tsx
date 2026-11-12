@@ -18,7 +18,6 @@ import {
 } from "../fulfillment/groceryProviders";
 
 import KrogerCatalogDevPanel from "./KrogerCatalogDevPanel";
-import WalmartCatalogDevPanel from "./WalmartCatalogDevPanel";
 import WalmartHandoffPanel from "./WalmartHandoffPanel";
 
 type Props = {
@@ -291,17 +290,6 @@ export default function GroceryProviderWorkspace({
               searchOnly
             }
           />
-
-          {import.meta.env.DEV && (
-            <WalmartCatalogDevPanel
-              requirements={
-                requirements
-              }
-              searchOnly={
-                searchOnly
-              }
-            />
-          )}
         </>
       )}
     </section>
