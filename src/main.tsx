@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 import { AuthProvider } from "./auth/AuthContext";
+import { BiometricUnlockGate } from "./auth/BiometricUnlockGate";
 import {
   PlusEntitlementProvider,
 } from "./plus/PlusEntitlementContext";
@@ -16,7 +17,8 @@ ReactDOM.createRoot(
 ).render(
   <React.StrictMode>
     <AuthProvider>
-      <PlusEntitlementProvider>
+      <BiometricUnlockGate>
+        <PlusEntitlementProvider>
         <PlusCloudSync />
 
         <BrowserRouter>
@@ -24,7 +26,8 @@ ReactDOM.createRoot(
             <App />
           </div>
         </BrowserRouter>
-      </PlusEntitlementProvider>
+        </PlusEntitlementProvider>
+      </BiometricUnlockGate>
     </AuthProvider>
   </React.StrictMode>,
 );
