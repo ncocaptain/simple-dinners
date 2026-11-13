@@ -993,7 +993,7 @@ const PREPARED_SIDE_NAMES = new Set([
 ]);
 
 function normalizeSideSuggestionText(text: string) {
-  let cleaned = cleanupSpacing(String(text || "").toLowerCase());
+  const cleaned = cleanupSpacing(String(text || "").toLowerCase());
 
   if (!cleaned) return "";
 
