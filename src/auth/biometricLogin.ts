@@ -114,13 +114,9 @@ export async function saveBiometricLogin(
 }
 
 export async function getBiometricLogin() {
-  try {
-    return await NativeBiometric.getSecureCredentials({
-      server: SERVER,
-    });
-  } catch (error) {
-    throw error;
-  }
+  return NativeBiometric.getSecureCredentials({
+    server: SERVER,
+  });
 }
 
 export async function deleteBiometricLogin() {
