@@ -205,7 +205,7 @@ function normalizeCookText(text: string) {
 function getIngredientCoreText(ingredient: string) {
   return normalizeCookText(
     cleanIngredientText(ingredient)
-      .replace(/\b\d+(?:[\/.]\d+)?\b/g, " ")
+      .replace(/\b\d+(?:[/.]\d+)?\b/g, " ")
       .replace(
         /\b(cup|cups|tablespoon|tablespoons|tbsp|teaspoon|teaspoons|tsp|pound|pounds|lb|lbs|ounce|ounces|oz|clove|cloves|can|cans|package|packages|pkg|slice|slices)\b/g,
         " "
