@@ -1,4 +1,4 @@
-# Deals domain (Phases 1–3)
+# Deals domain (Phases 1–4)
 
 The purchase and comparison foundations have no persistence, provider networking,
 entitlement, or database behavior. Phase 3 adds an isolated development-only UI.
@@ -164,3 +164,127 @@ node scripts/deals-ui-test.cjs
 
 These tests render the actual React page and exercise fixture calculations,
 review decisions and navigation payloads without a browser or network service.
+
+
+## Provider/session foundation (Phase 4)
+
+The visible Phase 3 workspace is intentionally unchanged. Its fixed, development-
+only fixtures remain separate from this reusable orchestration layer so lifecycle
+work cannot change the validated preview UX or existing fulfillment paths. Nothing
+in application code registers or calls the new fake provider or hook.
+
+`provider.ts` defines an injected retailer-neutral interface, six explicit
+capabilities, normalized store/search/price requests and results, per-item failures,
+source scope, pricing audience (public/personalized/unknown), attribution,
+pagination cursor and retry metadata. No provider SDK,
+credentials or transport is included. `providerRegistry.ts` accepts explicit
+instances; there is no automatic live registration. Failure codes are unsupported,
+unauthorized, unavailable, rate-limited, invalid-request, malformed-response and
+cancelled. Future transports must normalize their responses to these contracts.
+
+Runtime Zod validation strips unknown fields before provider values reach results
+or the cache. Invalid envelopes are rejected; invalid individual records become
+failures while valid siblings may continue. Store-local quote scope, selected
+retailer/store/channel, currency, product IDs and validity windows are checked.
+Catalog-only discovery is usable descriptive metadata, but catalog prices cannot
+substantiate a local basket. Unsupported providers fail without being called.
+Pagination metadata is exposed and partial pages are marked partial; this phase
+does not automatically walk pages or claim a market-wide optimum.
+
+`DealsCoordinator.run` takes the immutable Phase 1 snapshot, selected provider/store
+contexts, explicit Phase 2 comparison basis and cache privacy context. Comparison
+basis is never inferred from registry package defaults or supplied by a provider.
+Only canonical identities already marked matched and requirements not held for
+review enter provider discovery. Held/unresolved/unquantified needs remain in
+basket completeness as appropriate. Providers see opaque query IDs, search terms,
+canonical identity, original product constraints and requested store/channel—not
+raw shopping rows, source IDs, recipe titles, or the private snapshot signature.
+
+The default concurrency bound is three jobs (overrideable from 1–20). Each job
+searches one need at a store and retrieves prices in bounded batches. This does
+not require a provider to support batch search. Partial progress can be observed.
+No new winner/savings math exists here: all comparisons and basket winners still
+come from the Phase 2 functions. Source attribution and sanitized errors are
+retained. Accept/reject choices are local and cannot override hard mismatches,
+unknown package contents, stale/inapplicable prices or quantity uncertainty.
+
+Cancellation races the transport promise with AbortSignal. Superseding runs abort
+old work and increment a generation; late responses cannot publish or populate the
+cache. Non-cooperative transports may physically finish after cancellation, but
+their results are discarded. The concurrency bound applies to current jobs; a
+transport must honor cancellation to stop its underlying activity. Rate-limit
+retry windows are retained and respected on subsequent explicit requests; there
+are no automatic retries, background refresh, polling or notification tasks.
+
+`session.ts` provides a framework-independent state model. `useDealsSession.ts`
+subscribes through React's useSyncExternalStore. Input identity covers snapshot
+version/signature, provider/store/channel/currency, eligibility, comparison basis
+and privacy context. Changed inputs cancel pending work, clear comparisons and
+reset decisions. The hook masks results from old inputs immediately, before its
+effect performs cancellation. Unmount cancels work. Privacy-owner changes also
+clear the local cache. Each session requires its own coordinator instance.
+
+Nothing fetches on hook mount or input change. Call `refresh(false)` explicitly to
+allow cache reuse; `refresh()` bypasses cache but still respects retry windows.
+Loading, refresh, partial/error, cancelled and stale states are exposed. Expiry is
+checked on session reads/renders, not by a background timer. Once expired, the
+stored result and its winner claims are removed; freshness is also rechecked at
+every comparison and cache read. Future UI consumers must read current state before
+using a result, rather than retaining an old result object indefinitely. Snapshot
+and input equality tokens are private local data and must never enter logs,
+analytics, URLs, provider payloads or shared/external cache keys.
+
+### Local cache
+
+`cache.ts` uses only an injectable synchronous storage interface and an in-memory
+implementation (256 entries by default, FIFO eviction, overrideable). No browser,
+cloud or database persistence is added. Storage failures degrade to misses/fresh
+work, and clear() is safe even when storage is unavailable. Cache values are
+validated normalized records, copied on read/write; arbitrary provider payloads
+and credentials are not stored.
+
+Keys include kind, provider/environment, retailer/store/channel, currency, search
+and product constraints, requested products, pagination/store-discovery query,
+eligibility, personalization and privacy owner. The raw snapshot signature is not
+accepted as a cache key. These are local keys that may contain shopping/location
+text; do not export or log them. Store-directory entries require postal-code query
+context. Personalized, unknown-audience, coupon and loyalty prices cannot enter public
+entries (including prices with no explicit membership condition), and
+private entries require an owner key and are isolated by owner and eligibility.
+
+Initial maximum-age defaults (overrideable for stricter provider terms):
+
+| Kind | Default |
+| --- | --- |
+| Store directory | 7 days |
+| Product metadata | 24 hours |
+| Price observations | 1 hour |
+| Availability | 5 minutes |
+| Negative search | 5 minutes |
+
+Every entry is also capped by source expiry and observation age. Stricter policies
+are rechecked on cache reads, including entries written under an older policy. Current comparisons require both a
+fresh price and fresh availability record. Cached hits never renew their TTL.
+Session result expiry is capped by product metadata, quotes, configured maximum
+ages and remaining availability freshness. Zero TTL disables storage without
+inventing a new quote-validity window. Failed/partial searches are not treated as definitive negative results.
+Explicit refresh bypasses both positive and negative caches. This is not a remote
+cache design or approval to retain a future provider's data under these defaults.
+
+### Deterministic verification
+
+`testing/fakeProvider.ts` is explicitly test/development-only and is not imported
+by the application. It supports successful/empty/partial results, rate limits,
+unavailability, malformed envelopes, store/channel mismatch, cancellation and
+manually gated delayed/non-cooperative replies. Tests supply fake clocks and
+manual gates instead of waiting on real timers. No request performs networking.
+
+```sh
+node scripts/deals-session-test.cjs
+```
+
+Tests exercise the real snapshot builder, comparison engine, cache, coordinator,
+session and React hook. Phase 1–3 contracts and all existing UI remain unchanged.
+Before a real provider or UI is connected, review licensing/retention overrides,
+product-constraint verification, eligibility/owner identity, timeout handling in
+the eventual transport, and localization of future provider/error presentation.
