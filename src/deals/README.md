@@ -1,7 +1,7 @@
-# Deals domain (Phases 1–2)
+# Deals domain (Phases 1–3)
 
-This domain is not wired into the app. It has no UI, persistence, provider,
-network, entitlement, or database behavior. Phase 2 adds pure price math only.
+The purchase and comparison foundations have no persistence, provider networking,
+entitlement, or database behavior. Phase 3 adds an isolated development-only UI.
 
 `buildShoppingPurchaseSnapshot` accepts raw saved ShoppingItems, the existing
 ShoppingListPage combined rows (including sourceIds and calculated Pantry
@@ -117,3 +117,50 @@ node scripts/deals-comparison-test.cjs
 
 The synthetic fixtures live in `scripts/fixtures/deals-comparison.cjs`. They use
 Phase 1 snapshots and real fulfillment helpers without any provider calls.
+
+
+## Development-only workspace (Phase 3)
+
+In `import.meta.env.DEV` only, the Shopping List header offers Find Deals. The
+independent `/shopping-deals` route uses normal onboarding, with no Plus/Kroger
+gate. Production builds omit the entry and redirect that route to Shopping List.
+The existing grocery-preview route and Walmart/Kroger handoffs are unchanged.
+
+The entry calls `createDealsRouteSnapshot` with the page's existing raw rows,
+combined rows, coverage and Buy Anyway IDs. This delegates to Phase 1 and sends
+only needs, named holds and exclusion counts through router navigation state.
+Raw rows and the signature are omitted. Direct navigation without that payload
+shows a return-to-list prompt; it does not reconstruct Pantry eligibility or
+read a saved deals session. Router history carries navigation state, with no new
+localStorage/sessionStorage writes, cache, background refresh or persistence API.
+
+`fixturePreview.ts` contains explicit synthetic specifications for a small catalog
+(chicken breast, rice, milk, black beans and eggs) at two sample stores. Missing
+catalog coverage stays unmatched. Only strict, matched canonical identities can
+receive fixture candidates; ambiguous choices remain unresolved. Product sizes
+are explicit sample specifications, never registry-derived package assumptions.
+All comparisons and basket winners come from Phase 2. Sample prices use a fixed
+synthetic clock; the scenario selector can expire them or make them inapplicable.
+These prices are not assertions about actual stores, availability or current costs.
+
+Accept/reject choices live in React component state and reset when the workspace
+is remounted. Reject removes eligibility for comparisons; accept can confirm a
+compatible sample candidate, but does not supply unknown contents, a missing
+quantity, or valid price evidence. A mismatched product form cannot be accepted.
+No choice writes to the list, Pantry, registry, cloud or retailer. Reopen from the
+Shopping List to take another snapshot; live invalidation belongs to Phase 4.
+The Shopping List's existing transient state follows its normal route-unmount
+lifecycle, while saved rows, checked state, amounts and Pantry data are untouched.
+
+The responsive UI has English/Spanish copy, two-column store cards on desktop,
+one column on phones, native details/summary controls, labeled buttons and visible
+keyboard focus. Measurements and package calculations stay within Deals details.
+Merchandise subtotals show priced counts/missing needs and never imply tax, fees,
+travel or checkout totals. Unresolved holds participate in basket completeness.
+
+```sh
+node scripts/deals-ui-test.cjs
+```
+
+These tests render the actual React page and exercise fixture calculations,
+review decisions and navigation payloads without a browser or network service.

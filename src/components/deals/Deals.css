@@ -1,0 +1,22 @@
+.deals-workspace { max-width: 720px; margin: 0 auto; padding: 12px 20px 120px; color: inherit; overflow-wrap: anywhere; }
+.deals-workspace p { line-height: 1.5; }
+.deals-workspace h1 { font-size: 1.7rem; }
+.deals-workspace h2 { font-size: 1.15rem; margin: 0 0 8px; }
+.deals-workspace h3 { font-size: 1rem; margin: 0 0 6px; }
+.deals-card { min-width: 0; padding: 16px; margin: 14px 0; border: 1px solid rgba(160,180,210,.4); border-radius: 14px; background: rgba(128,150,180,.07); }
+.deals-preview-note { padding: 14px; border: 1px solid #829bc1; border-radius: 12px; font-weight: 600; }
+.deals-workspace .deals-status { font-weight: 700; }
+.deals-workspace details > summary { cursor: pointer; padding: 10px 0; min-height: 44px; box-sizing: border-box; }
+.deals-product { padding: 14px 0; border-top: 1px solid rgba(160,180,210,.4); }
+.deals-store-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+.deals-choice { display: flex; align-items: center; gap: 12px; min-height: 44px; flex-wrap: wrap; }
+.deals-choice input { width: 20px; height: 20px; }
+.deals-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.deals-workspace button, .deals-workspace select { min-height: 44px; max-width: 100%; padding: 10px 12px; border: 1px solid #829bc1; border-radius: 10px; background: #203752; color: #fff; font: inherit; }
+.deals-workspace button[aria-pressed=true] { border: 2px solid #a4e4c4; }
+.deals-workspace button:disabled { opacity: .55; cursor: not-allowed; }
+.deals-back { display: inline-block; min-height: 44px; padding: 10px 0; color: inherit; }
+.deals-workspace :is(button,a,summary,input,select):focus-visible, .deals-entry:focus-visible { outline: 3px solid #ffce71; outline-offset: 4px; }
+.deals-entry { background: none; border: 1px solid rgba(160,180,210,.45); border-radius: 10px; padding: 10px 14px; min-height: 44px; color: inherit; font: inherit; cursor: pointer; margin: 8px 0; }
+.deals-comparisons { padding-left: 20px; }
+@media (max-width: 520px) { .deals-store-grid { grid-template-columns: 1fr; gap: 0; } .deals-workspace { padding: 12px 16px 120px; } }

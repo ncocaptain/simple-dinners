@@ -15,6 +15,7 @@ import CookbookPage from "./pages/CookbookPage";
 import PlanPage from "./pages/PlanPage";
 import UseWhatIHavePage from "./pages/UseWhatIHavePage";
 import ShoppingListPage from "./pages/ShoppingListPage";
+import ShoppingDealsPage from "./pages/ShoppingDealsPage";
 import GroceryDeliveryPreviewPage from "./pages/GroceryDeliveryPreviewPage";
 import OnboardingPage from "./pages/OnboardingPage";
 import RecipePage from "./pages/RecipePage";
@@ -1236,6 +1237,13 @@ function AppContent() {
           element={requireOnboarding(<ShoppingListPage />)}
         />
 
+
+        <Route
+          path="/shopping-deals"
+          element={import.meta.env.DEV
+            ? requireOnboarding(<ShoppingDealsPage />)
+            : <Navigate to="/shopping-list" replace />}
+        />
 
         <Route
           path="/grocery-preview"
