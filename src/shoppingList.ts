@@ -543,7 +543,7 @@ function normalizeManualShoppingName(text: string) {
     normalizeAscii(text)
       .replace(/<[^>]+>/g, " ")
       .replace(/^[-•*]+\s*/, "")
-      .replace(/ /g, " ")
+      .replace(/\u00a0/g, " ")
       .replace(/\s+/g, " ")
       .trim()
   );
