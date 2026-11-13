@@ -94,6 +94,14 @@ npx cap sync ios
 
 Native sync is not a substitute for a real-device test when the feature depends on native hardware or OS behavior (for example biometrics, share extensions, purchases, or platform-specific permissions).
 
+## Known lint baseline
+
+The repository currently has 7 known `react-hooks/exhaustive-deps` warnings and 0 lint errors. These warnings are behavior-sensitive and should not be auto-fixed as part of unrelated work.
+
+- Do not introduce new lint errors.
+- Do not increase the warning count without explicitly documenting why.
+- Only change the existing hook dependency warnings in a dedicated, tested task.
+
 ## Release discipline
 
 A feature is not release-ready merely because TypeScript compiles.
