@@ -1,0 +1,49 @@
+name: Simple Dinners CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches:
+      - main
+      - codex-setup
+      - "codex/**"
+      - "feature/**"
+      - "fix/**"
+
+concurrency:
+  group: simple-dinners-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Validate recipe data
+        run: npm run validate:recipes
+
+      - name: Audit shopping list
+        run: npm run audit:shopping
+
+      - name: Test Plus upgrade flow
+        run: npm run test:plus

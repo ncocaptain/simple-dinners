@@ -44,7 +44,7 @@ Pantry: ${pantry}
     try {
       await navigator.clipboard.writeText(data);
       toast("Debug data copied to clipboard!", "success");
-    } catch (err) {
+    } catch {
       toast("Failed to copy data.", "error");
     }
   };

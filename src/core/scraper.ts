@@ -38,7 +38,7 @@ export async function scrapeRecipe(url: string) {
             photoUrl: Array.isArray(recipeData.image) ? recipeData.image[0] : recipeData.image?.url || recipeData.image
           };
         }
-      } catch (e) { /* Regex match failed, moving to DOM parser */ }
+      } catch { /* Regex match failed, moving to DOM parser */ }
     }
 
     // --- 2. SLOW FALLBACK (Full DOM Parser) ---
@@ -59,7 +59,7 @@ export async function scrapeRecipe(url: string) {
         if (found) {
           fallbackData = found["@type"] === "Recipe" ? found : found["@graph"].find((inner: any) => inner["@type"] === "Recipe");
         }
-      } catch (e) { /* ignore */ }
+      } catch { /* ignore */ }
     });
 
     if (fallbackData) {
