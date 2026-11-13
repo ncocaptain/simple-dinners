@@ -1,7 +1,7 @@
-# Deals purchase foundation (Phase 1)
+# Deals domain (Phases 1–2)
 
 This domain is not wired into the app. It has no UI, persistence, provider,
-network, pricing, entitlement, or database behavior.
+network, entitlement, or database behavior. Phase 2 adds pure price math only.
 
 `buildShoppingPurchaseSnapshot` accepts raw saved ShoppingItems, the existing
 ShoppingListPage combined rows (including sourceIds and calculated Pantry
@@ -51,3 +51,69 @@ node scripts/deals-foundation-test.cjs
 
 The test loads real TypeScript modules and exercises generated recipe, side and
 restock rows using in-memory storage, without calling providers or cloud services.
+
+
+## Comparison math (Phase 2)
+
+`packageComparability.ts` normalizes supported US customary and metric measures
+into grams, millilitres, or each. Mass ounces and fluid ounces remain separate.
+Exact US factors are used before reusing `solveRetailerPackageCandidate` with
+base units, avoiding its rounded conversion constants. Existing fulfillment code
+is unchanged. `assessRetailerRequirement` identifies container requirements;
+only an explicit simple size such as `15 oz` can supply their contents. Unknown
+containers, yields, density and count-to-weight conversions remain unsupported.
+The solver's existing absolute 1e-9 base-unit ceiling tolerance is retained.
+
+Single packs require a known size; multipacks require both a positive integer
+pack count and known inner contents. Net, drained and count bases must agree.
+Package comparisons also require the same nonempty product-form equivalence key.
+This key and `compatibility: verified` are caller-supplied evidence against the
+ShoppingNeed's original constraints, not conclusions of this math layer or of a
+registry hit. Future callers must establish that evidence before making claims.
+
+`savings.ts` takes explicit clock, store, retailer, channel and currency context.
+Money is nonnegative integer minor units, with safe-integer overflow checks.
+Null prices stay absent; a real zero price is supported. Regular and sale prices
+are fields of one observation sharing product, store, channel and selling basis;
+they must not be assembled from unrelated quotes. A missing regular price cannot
+establish sale savings. An equal/higher sale price falls back to regular pricing
+and produces no positive sale savings.
+
+Unresolved/ineligible membership or coupons and unsupported promotions suppress
+an observation, rather than quietly assuming eligibility. The one supported
+promotion is an explicitly stated per-package sale price with an integer minimum
+package count. It is NOT a bundle price, BOGO, tiered price, or coupon stack.
+Requirement cost compares the minimum covering count at its eligible price with
+the known sale-threshold count and picks the lower cost; ties prefer fewer packs.
+`minimumPackagesNeeded`, `packagesNeeded`, `promotionExtraPackages`, and excess
+contents make any cheaper promotion-driven overbuy explicit. No list is edited.
+
+Best-price output separates observed package price, comparable unit price, and
+requirement-covering purchase cost. Unit prices retain integer money per known
+measure as a rational rate, without rounding before ranking. Observed package
+and unit prices use the offer eligible for one pack; quantity-conditioned offers
+may therefore win requirement cost without winning either of those comparisons.
+Measured cross-dimension offers cannot win. Unquantified needs can still have
+observed prices but cannot produce requirement costs. Mixed weight/volume unit
+rates have no unit-price winner. Unknown fixed-package sizes cannot win price
+comparisons. Variable-weight products support a known price/weight rate, but no
+package price or requirement total without actual package-weight evidence.
+
+`basketComparison.ts` compares an explicit common set of targets. Pass unresolved
+snapshot holds explicitly as unique heldNeedIds, e.g. `hold:rowId`; omitting them
+would incorrectly narrow the requested basket. Review/unquantified/unpriced needs
+and holds remain missing items. Every selected store must have a complete basket
+before a cheapest-store claim is returned. Empty, duplicate or mixed-channel
+basket scopes are invalid. Ties are retained. Totals are merchandise subtotals:
+tax, travel and unknown fees are neither inferred nor represented as all-in cost.
+Availability must be in-stock, quotes current, and context applicable. An entirely
+unpriced subtotal is null; a legitimately free complete basket may total zero.
+
+Static scenarios, including three different best-price winners, can be run with:
+
+```sh
+node scripts/deals-comparison-test.cjs
+```
+
+The synthetic fixtures live in `scripts/fixtures/deals-comparison.cjs`. They use
+Phase 1 snapshots and real fulfillment helpers without any provider calls.
