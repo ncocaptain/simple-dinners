@@ -1,3 +1,4 @@
+import { createDealsRouteSnapshot } from "../deals/fixturePreview";
 import { useNavigate as useGroceryPreviewNavigate } from "react-router-dom";
 import { selectCompatiblePantryItem } from "../core/pantryShoppingCompatibility";
 import { summarizeGroceryRequirements } from "../fulfillment/groceryRequirementSummary";
@@ -4997,6 +4998,16 @@ export default function ShoppingListPage() {
 
   const groceryPreviewNavigate = useGroceryPreviewNavigate();
 
+  const openDealsPreview = () => {
+    if (!import.meta.env.DEV) return;
+    const dealsSnapshot = createDealsRouteSnapshot({
+      rawItems: shoppingItems,
+      combinedRows: combinedItems,
+      pantryBuyAnywayIds,
+    });
+    navigate("/shopping-deals", { state: { dealsSnapshot } });
+  };
+
   const openGroceryPreview = () => {
     if (
       !requirePlus({
@@ -5144,6 +5155,11 @@ export default function ShoppingListPage() {
             <TipsModal tips={SHOPPING_TIPS} />
           </div>
           <ShoppingSyncStatus />
+          {import.meta.env.DEV && (
+            <button type="button" className="deals-entry" onClick={openDealsPreview}>
+              {t("deals.findDeals")}
+            </button>
+          )}
         </header>
 
         <Card style={{ marginBottom: 8 }}>
