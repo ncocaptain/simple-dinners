@@ -288,3 +288,149 @@ session and React hook. Phase 1–3 contracts and all existing UI remain unchang
 Before a real provider or UI is connected, review licensing/retention overrides,
 product-constraint verification, eligibility/owner identity, timeout handling in
 the eventual transport, and localization of future provider/error presentation.
+
+## Owned Price Network foundation (Phase 5A)
+
+`providers/simpleDinnersPriceProvider.ts` is an opt-in, read-only Phase 4 adapter.
+Inject the existing `src/lib/supabase.ts` publishable-key client into
+`createSimpleDinnersPriceProvider`, explicitly register it in
+`DealsProviderRegistry`, and run it through `DealsCoordinator`. Nothing registers
+it in the application or exposes it through the Phase 3 preview. The preview is
+unchanged so development does not depend on applying a production migration.
+No UI imports database row shapes.
+
+The owned Price Network is intentionally designed to operate inside the existing
+Simple Dinners Supabase subscription, with no new paid external provider or new
+recurring service. It introduces no scraping, retailer API, bucket, image/raw
+receipt storage, schedule, Edge Function, or duplicate Shopping List snapshot.
+This is a bounded initial design, not a promise of free operation forever;
+retained history, reads and egress must be monitored before scaling coverage.
+
+The repository migration is
+`supabase/migrations/20261114143631_deals_owned_price_network.sql`.
+It proposes three shared curated tables: `price_network_stores`,
+`price_network_products`, and append-only `price_network_observations`.
+Products reuse existing registry IDs and Deals package/form concepts; there is
+no new ingredient registry. A product ID identifies one immutable package/form
+specification, including brand/GTIN when known. Create a new product ID for
+corrections or size/form changes. Store timestamps update through a small invoker
+trigger. Observation timestamps record source observation time separately from
+insertion time; history cannot be updated/deleted through ordinary DML, even by
+an administrator. Future administrative correction/retention work needs an
+explicit reviewed procedure. No contributor identity or private receipt data
+belongs in these public tables.
+
+The three extra indexes are canonical ingredient lookup, store/product/currency/
+channel/newest observation lookup (also handles several product IDs), and the
+product foreign key/reverse ingredient-to-observation path. UUID primary-key
+indexes are automatic. FKs restrict deletes. Checks reject negative/unsafe money,
+invalid timestamp ranges, invalid source/basis/channel/currency values, nonfinite
+package sizes, and inconsistent selling/package fields. Both prices may be null;
+a genuine zero price remains distinct. Conditions are bounded JSON (4 KiB), with
+only Phase 2's allowlisted condition shapes accepted by the adapter. Never put
+raw feed payloads in this field. There are no views or privileged RPCs.
+
+All tables enable RLS. Explicit revokes remove inherited public/anon/authenticated
+table grants; clients receive SELECT only, with no write policies. Active stores,
+products, and observations at active stores are shared catalog reads for both
+anon and authenticated roles. This is intentionally public grocery data rather
+than household-owned data. Trigger functions use invoker security, an empty
+search path, and revoked public execution. Future sources are enum-like text
+values only: manual, receipt-confirmed, user-contributed, approved-feed. This phase
+implements no ingestion, receipt scanning or contribution endpoint. Only reviewed
+administrator SQL may eventually populate the tables.
+
+Matching requires a canonical ID and exact grocery search wording. Each original
+constraint is parsed with the existing ingredient parser; its retained product
+wording must exactly match the curated search name, and the curated form must be
+verified. Otherwise candidates remain unverified; name mismatches yield no result.
+The coordinator independently checks the explicit form key and requirement basis.
+Phase 2 enforces dimensions and package coverage: no fresh/canned, raw/cooked,
+bone-in/boneless, net/drained, mass/volume or count/weight equivalence is inferred.
+The retailer context identifier in v1 is the exact curated retailer name; store
+identifiers are stable UUIDs. There is no retailer discovery UI in this phase.
+
+Price reads isolate product/store/channel/currency and choose the newest valid
+observation, deterministically breaking timestamp ties by UUID. Future, expired
+and older-than-24-hour observations are excluded, including observations without
+an explicit expiry. Expired sales fall back to regular prices from the same row;
+active sale expiry also bounds cache lifetime. Missing latest prices do not revive
+an older known price. Latest unverified or malformed evidence fails closed.
+Availability and offer eligibility still pass through Phase 2. Source type,
+confidence and observation timestamp are retained in Phase 4 attribution, while
+price timestamps remain explicit. There is no background refresh.
+
+Reads are bounded to 20 queries/products per request and 100 rows per lookup.
+A lookup hitting its row cap reports unavailable and contributes no invented
+coverage. One indexed history request per product prevents global-limit starvation;
+partial results remain partial baskets, and Phase 2 alone determines winners.
+Only canonical IDs, product IDs and store/currency/channel/time filters are sent
+to Supabase. Search wording and original constraints are evaluated locally;
+request IDs, eligibility keys and snapshot signatures are never queried or stored.
+
+No safe seed mechanism exists in this repository, so no database seed was added.
+Fictional in-memory fixtures in `scripts/deals-price-network-test.cjs` cover regular,
+sale, multi-store, package sizes, stale/missing/unverified data, and partial/complete
+baskets. Run that test alongside the four existing Deals test scripts. The SQL
+assertions in `supabase/tests/deals_price_network.sql` run inside a rolled-back
+transaction against a disposable local Postgres database with `anon` and
+`authenticated` roles, after applying the proposal locally. They verify actual
+RLS visibility, grants, constraints, immutable package specs and retained history.
+Do not run this test or apply this migration against production.
+
+Storage grows linearly with observations. Typical rows should occupy a few hundred
+bytes plus three B-tree entries (primary key and two secondary indexes), usually
+well under 1 KiB per observation for empty/small conditions. A rough planning
+range is 40–100 MiB for 100,000 typical observations including indexes; this is
+an estimate, not a measured quota guarantee. Conditions may add up to 4 KiB per
+row. No payload blobs or media are stored, and historical rows are not overwritten.
+
+Before any later production application: review public catalog access, curated
+form evidence/registry IDs, freshness policy, GTIN/package specifications, source
+provenance, Data API exposure/grants, query plans and expected observation volume.
+Verify the real Supabase/PostgREST read path in a local or separately authorized
+environment; this phase validates Postgres plus injected transport independently.
+No migration was applied to the existing Supabase project.
+
+Rollback/reversal (review separately; never run automatically): first remove any
+future adapter registration, export history if it must be retained, then drop
+`public.price_network_observations`, `public.price_network_products`, and
+`public.price_network_stores` in that order. Drop the three no-argument functions
+`public.price_network_preserve_history`, `public.price_network_guard_product`,
+and `public.price_network_touch_store`. Table drops remove their indexes, RLS
+policies and triggers. Use a new reversal migration after review rather than
+editing an already applied migration. This removes all Price Network records;
+existing household, Pantry and retailer tables are unaffected.
+
+### Phase 5A validation record
+
+Validated against main `6cff52f` on November 14, 2026:
+
+- `npm install`, `npm run build`, `npm run lint`, `npm run validate:recipes`,
+  `npm run audit:shopping`, and `npm run test:plus` passed. Lint retains the seven
+  documented hook warnings and zero errors; the build reports its existing large
+  chunk advisory. Generated image and dependency-lock output left no changes.
+- Phase 1 foundation, Phase 2 (26 scenarios), Phase 3 (13 scenarios), Phase 4
+  (34 scenarios), and the new Price Network (13 grouped scenarios) passed.
+- Disposable Postgres 17 migration application and
+  `supabase/tests/deals_price_network.sql` passed. Test rows were rolled back.
+  No remote Supabase command or production migration application was performed.
+- Shopping realtime/household sync, Pantry tomato, apple variety, countable and
+  search-only requirements, requirement summary, retailer match, package solver,
+  delivery parser, Kroger cart plan/server security, Shopping List ingredient
+  headers, and Little Chefs shopping tests passed. Phase 3 also verifies the
+  unchanged Walmart search handoff.
+- Five existing scripts failed identically on an untouched detached checkout of
+  current main: `grocery-delivery-provider-test.cjs` (1 vs 0),
+  `grocery-handoff-selection-test.cjs` (4 vs 5),
+  `instacart-shopping-list-test.cjs` (test loader rejects groceryRetailerMatch.js),
+  `kroger-catalog-test.cjs` (unexpected packageCount: 1), and
+  `kroger-release-regression-test.cjs` (production feature-flag assertion).
+  `kroger-package-match-smoke-test.mjs` also fails identically because Kroger
+  credentials are unavailable. These unrelated tests/code were not changed.
+
+Live PostgREST/Supabase reads, production query plans, real retailer handoffs,
+native devices and receipt contribution were not exercised. No app/store version,
+environment values, keys, native project or production UI was changed. No push,
+merge, deployment or publication occurred. Production application and Phase 5B
+remain separate future work.
