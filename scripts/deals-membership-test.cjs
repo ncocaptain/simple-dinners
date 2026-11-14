@@ -75,7 +75,7 @@ test('membership does not bypass stale prices, availability, currency or expired
   assert.equal(effectivePrice(resolveMembershipConditions({...cardPrice,expiresAt:NOW-1},'eligible'),clockContext).reason,'stale-price');
   assert.equal(effectivePrice(resolveMembershipConditions({...cardPrice,availability:'out-of-stock'},'eligible'),clockContext).reason,'unavailable');
   assert.equal(effectivePrice(resolveMembershipConditions(cardPrice,'eligible'),{...clockContext,currency:'CAD'}).reason,'currency-mismatch');
-  const p=pilot();p.s.tables.price_network_observations[0].observed_at=iso(NOW-86400001);p.s.tables.price_network_observations[1].sale_expires_at=iso(NOW-1);
+  const p=pilot();p.s.tables.price_network_observations[0].observed_at=iso(NOW-7*86400000-1);p.s.tables.price_network_observations[1].sale_expires_at=iso(NOW-1);
   const r=await p.run(memberMap(p.stores,'eligible'));assert.equal(r.basket.stores[0].pricedItemCount,0);assert.ok(r.offers.every(o=>o.price.salePrice===null));assert.equal(r.basket.cheapestCompleteStores.length,0);
 });
 test('membership cannot bypass product mismatch, unknown size, basis or dimensions',()=>{

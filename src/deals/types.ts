@@ -90,6 +90,8 @@ export type PriceObservation = Readonly<{
   channel: "in-store" | "pickup" | "delivery";
   /** Optional normalized provenance supplied by a provider, never a raw payload. */
   sourceType?: string;
+  /** Exact explicit observation expiry from the source; never a fallback TTL. */
+  sourceExpiresAt?: number;
   regularPrice: Money | null;
   salePrice: Money | null;
   sellingBasis: Readonly<{ kind: "package" } | { kind: "measure"; measure: Measure }>;

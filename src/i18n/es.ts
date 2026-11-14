@@ -1,5 +1,6 @@
 export const es = {
   deals: {
+    "networkValidThrough": "Válido hasta {date}",
     "membership": "Tarjeta de la tienda / membresía",
     "membershipUnknown": "No estoy seguro",
     "membershipEligible": "Sí, la tengo",

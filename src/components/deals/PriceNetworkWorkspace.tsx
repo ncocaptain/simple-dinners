@@ -150,6 +150,8 @@ function ConnectedPriceNetwork({ snapshot, client, now }: Required<Props> & { cl
                       : comparison ? reasonText(comparison.packagePrice.reason!) : text("priceUnavailable")}</strong></p>
                 {price && withStoreCard && <p>{text("withStoreCard")}</p>}
                 <p>{text("networkObservedAt")}: {dateLabel(offer.price.observedAt)}</p>
+                {offer.price.sourceExpiresAt !== undefined && offer.price.sourceExpiresAt <= offer.price.expiresAt &&
+                  <p>{text("networkValidThrough").replace("{date}", dateLabel(offer.price.sourceExpiresAt))}</p>}
                 {offer.price.sourceType && <p>{text("networkSource")}: {offer.price.sourceType}</p>}
                 {price && <p>{offer.price.regularPrice && <>{text("regular")}: {money(offer.price.regularPrice)} · </>}
                   {offer.price.salePrice && <>{text("sale")}: {money(offer.price.salePrice)}</>}</p>}
