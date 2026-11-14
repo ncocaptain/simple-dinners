@@ -55,6 +55,7 @@ export default function ShoppingDealsPage() {
   const snapshot = readDealsRouteSnapshot(location.state);
   return <main className="deals-workspace">
     <Link to="/shopping-list" className="deals-back">{text("back")}</Link>
+    <Link to="/shopping-deals/capture" className="deals-back">Private Price Capture · Development</Link>
     <h1>{text("title")}</h1><p className="deals-preview-note" role="note">{text(provider === "synthetic" ? "previewNotice" : "networkNotice")}</p>
     <p>{text("sessionNotice")}</p>
     {snapshot && <label className="deals-choice">{text("provider")}

@@ -9,6 +9,8 @@ import {
 import { App as CapacitorApp } from "@capacitor/app";
 import { Browser } from "@capacitor/browser";
 
+const PriceCapturePage = import.meta.env.DEV ? React.lazy(() => import("./pages/PriceCapturePage")) : null;
+
 // Pages & Components
 import WeekPage from "./pages/WeekPage";
 import CookbookPage from "./pages/CookbookPage";
@@ -1237,6 +1239,10 @@ function AppContent() {
           element={requireOnboarding(<ShoppingListPage />)}
         />
 
+
+        <Route path="/shopping-deals/capture" element={import.meta.env.DEV && PriceCapturePage
+          ? requireOnboarding(<React.Suspense fallback={<p>Loading private Price Capture…</p>}><PriceCapturePage /></React.Suspense>)
+          : <Navigate to="/shopping-list" replace />} />
 
         <Route
           path="/shopping-deals"

@@ -1,4 +1,4 @@
-# Deals domain (Phases 1–5D)
+# Deals domain (Phases 1–5E)
 
 The purchase and comparison foundations have no persistence, provider networking,
 entitlement, or database behavior. Phase 3 adds an isolated development-only UI.
@@ -854,3 +854,227 @@ City observations or exercise the connected pilot in a browser/native device.
 
 No push, merge, deployment, publication, production Supabase modification, version
 change or Phase 5E work was performed.
+
+## Private batch Price Capture (Phase 5E)
+
+Branch: `feat/deals-private-price-capture`, based on current main `6f30c02`.
+The development-only `/shopping-deals/capture` route provides manual batch curation
+for authorized maintainers. The existing Deals preview links to it only inside
+its DEV guard. App lazily imports the page under `import.meta.env.DEV`; production
+navigation omits it and direct navigation redirects to Shopping List. No capture
+page/client-write code is eagerly included in the production client bundle.
+
+### Write and authorization boundary
+
+This phase uses the app's existing Vercel Node API mechanism, not an Edge Function
+or new service. `api/deals-price-capture.ts` is disabled unless all server gates
+hold: `NODE_ENV=development`, `VERCEL_ENV` is absent or `development`, and
+`PRICE_CAPTURE_ENABLED=true`. Production and hosted preview environments return
+404 before client creation, authorization calls or writes. The endpoint accepts
+GET/POST only and returns `Cache-Control: no-store`.
+
+Every request validates the existing app bearer token with Supabase
+`auth.getUser(token)` and checks the returned user UUID against the explicit
+server-only comma-separated `PRICE_CAPTURE_MAINTAINER_IDS` allowlist. Empty/missing
+allowlists deny access. Client booleans, localStorage flags, query parameters,
+user-editable metadata, household admin roles and Plus status confer no authority.
+The browser uses its existing app session token; it never receives privileged keys
+and does not insert, update, delete or invoke a database RPC directly.
+
+Server client configuration reuses the existing project's `SUPABASE_URL` (or
+existing public URL fallback) and `SUPABASE_SERVICE_ROLE_KEY` / `SUPABASE_SECRET_KEY`.
+These are server-only values, never `VITE_` secrets. No environment values, keys,
+project links or `.env` files were created/changed during this phase. Use existing
+app sign-in before opening capture; this tool adds no sign-in or linking flow.
+
+GET loads up to 100 active stores and 500 product specifications through explicit
+server SELECTs, after maintainer authorization. Exceeding either catalog ceiling
+fails closed instead of silently omitting entries. Store name/number and city/state
+come from the table; any active pilot store appears automatically without retailer
+logic. Failed authorization/configuration keeps the editor locked.
+
+### Atomic row writes and idempotency
+
+The repository-only migration
+`supabase/migrations/20261114184350_price_network_private_capture.sql` proposes one
+`public.price_network_capture_row(uuid,uuid,jsonb,uuid,jsonb,boolean)` RPC. It is
+`SECURITY INVOKER`, has an empty search path, revokes EXECUTE from PUBLIC/anon/
+authenticated and grants EXECUTE only to `service_role`. It adds only targeted
+service-role SELECT/INSERT grants on the existing Price Network tables. It does
+not change public read policies, enable app-client writes, add tables/indexes,
+weaken append-only triggers or touch household/Kroger tables. No Edge Function was
+created and the migration was not applied to the live project.
+
+Each browser draft receives a random row UUID that becomes its permanent observation
+ID. The RPC takes a transaction-scoped advisory lock on that UUID, checks for an
+existing observation, and either returns an identical replay or rejects conflicting
+content. JSON record normalization makes ISO/timezone formatting differences
+compare by timestamp values. A second exact-identity lock serializes capture
+product creation across different row IDs. The observation primary key is the
+final duplicate boundary, not button disabling or process-local memory.
+
+Each row is one atomic database transaction: check the active store, reuse/create
+an immutable product, then insert the observation. A failed insert rolls back that
+row's new product. Different rows intentionally have independent outcomes; the API
+returns every selected row's status in order. Partial success is explicit, with
+saved/replayed/invalid/failed statuses, created/reused product IDs and observation
+IDs. Errors do not expose database payloads, credentials or raw infrastructure
+messages.
+
+After the first Save attempt, the reviewed payload is frozen in component state
+and editor controls cannot change its content or row IDs. **Retry unchanged batch**
+reconciles successful rows and safely retries failed rows. If time has since made
+the request stale or its card-only sale expired, the server permits a replay-only
+RPC: an identical already-saved row can be confirmed, but a missing expired row
+cannot be created. Unknown write outcomes therefore do not justify a fresh ID.
+**Capture another batch** explicitly resets rows and IDs. Re-entering facts with
+new IDs is a new observation request; this is request idempotency, not global
+semantic deduplication of all historical observations. Observation request IDs are
+visible in review for later investigation. Closing/reloading discards the draft;
+no batch contents or retry tokens are persisted by this workspace.
+
+### Matching, parser and review
+
+Existing-product suggestions are exact normalized-name candidates to inspect,
+not automatic equivalence claims. Explicit selection copies the immutable stored
+specification into the draft. Automatic reuse requires exact agreement across all
+product identity fields, including brand/GTIN, canonical ID, search name, form and
+verification flag, package kind/basis/quantity/unit/pack count. Any material change
+creates a new immutable product; an explicitly selected ID with a conflicting spec
+is rejected. No existing product or observation is updated.
+
+Structured paste supports `name | price | availability`, including per-weight
+wording such as `$2.99/lb`. It prefills a name, explicitly stated selling measure
+and known availability. A bare price stays **unassigned** until the maintainer
+chooses Regular or Sale. An explicit `regular:` or `sale:` prefix can fill that
+field. It never infers canonical identity, package size, content basis or membership.
+Malformed/extra wording stays flagged for review; paste never saves. Pasting into
+an untouched initial blank row replaces only that blank starter, preserving edited
+rows. Pasted data is bounded to 30,000 characters and 20 rows.
+
+The editor supports active store; product/name, optional brand/GTIN, registry ID,
+search name, form key/verification; package kind/basis/content and multipack count;
+regular/sale price, currency, channel, selling basis/measure; observed/observation-
+expiry/sale-expiry timestamps; availability, source/confidence and card requirement.
+There is no suitable source-note column, so notes/source-reference input was omitted.
+Dates require explicit ISO timestamps with timezone; missing facts remain absent.
+Known registry IDs must be selected/entered explicitly; no alternate normalization
+system or ingredient defaults are introduced.
+
+Review lists each row's store, identity, package, regular/sale prices, selling basis,
+card condition, availability, timestamps, source/confidence and reuse/create result.
+Invalid fields are highlighted and Save stays disabled until every included row
+is valid. Invalid rows may be excluded explicitly. Successful saves display row
+outcomes and IDs without adding to Shopping List, running Deals or navigating away.
+Capture input/textarea styling is scoped so existing Deals checkboxes are unchanged.
+
+### Validation, money, membership and freshness
+
+The same Zod/domain validation runs for review and again server-side. It enforces
+UUIDs, bounded strings/batches, known canonical registry IDs, supported enum values,
+finite package/selling quantities, consistent package/basis fields, valid ISO dates,
+nonnegative safe integer minor-unit money and at least one current usable price.
+Active stores and explicitly selected immutable product identity are checked again
+inside the RPC. Batches are limited to 20 rows and normalized HTTP JSON payloads to 100,000 bytes.
+
+Capture currently accepts the two-decimal currencies USD (default), CAD, EUR and
+GBP. Dollar/decimal strings convert through integer arithmetic (`4.19` -> `419`),
+never floating-point multiplication. Negative, NaN, exponent, extra-precision and
+malformed prices are rejected; blank optional prices become null. Currencies with
+different minor-unit conventions are not guessed. Measured selling prices require
+a variable-weight product and supported weight unit; unknown package contents
+may remain explicitly unknown and cannot gain comparison eligibility.
+
+Card choices are **No membership condition** or **Membership required — eligibility
+unknown**. The only stored condition is `membership: unknown`; the maintainer's
+own Phase 5C membership preference is never read or stored as source eligibility.
+Card-only prices keep regular price null. Form/source verification remains explicit;
+unverified identity/source is warned and remains suppressed by the existing provider.
+
+Phase 5D's central freshness helper validates source windows and rejects future
+observations (zero positive clock skew), expired/unusable new rows, invalid ranges
+and nonfinite dates. A long explicit expiration remains the original source fact,
+with a warning and separate provider-usable-until cutoff when the source maximum
+will cap it. Sale expiry remains independent, and no fallback date is portrayed as
+an advertised expiration. Neither capture nor replay extends source freshness.
+
+### Local validation and later manual setup
+
+Run `node scripts/deals-capture-test.cjs` for mocked API/auth/catalog/RPC and actual
+React editor/review/save tests. In disposable LOCAL Postgres with anon,
+authenticated and BYPASSRLS service_role roles, apply Phase 5A and the proposed
+capture migration locally, then run `supabase/tests/deals_price_network.sql` and
+`supabase/tests/deals_capture.sql` with `psql -v ON_ERROR_STOP=1`. SQL tests roll back
+all test rows and cover actual role grants, duplicate replay, expired replay-only,
+exact reuse, different package creation, active stores and transaction rollback.
+No deployment is needed for those meaningful local checks.
+
+For later browser/server review, first separately review/apply the migration only
+in an approved environment, then configure the local server's existing project
+credentials, explicit enable flag and trusted maintainer UUID allowlist. Use the
+existing `npm run dev:serverless` API workflow in development, and point the Vite
+frontend at that local API through its existing `VITE_API_PROXY_TARGET` support.
+Do not enable a hosted production/preview server or run a pilot Save without the
+separate approval required for modifying live Price Network data. No such setup,
+production application, credential change or live Save was performed here.
+
+Reversal guidance: disable the local server flag first, then use a separately
+reviewed reversal migration to drop only
+`public.price_network_capture_row(uuid,uuid,jsonb,uuid,jsonb,boolean)`. Normal RLS
+and append-only protections remain intact. Do not delete captured history as part
+of reversal; any later data correction needs a separate reviewed procedure.
+
+Changed files: `src/App.tsx`, `src/pages/ShoppingDealsPage.tsx`,
+`src/pages/PriceCapturePage.tsx`, `src/components/deals/PriceCapture.css`,
+`src/deals/capture/model.ts`, `src/deals/capture/draft.ts`,
+`src/deals/capture/client.ts`, `api/_priceCaptureServer.ts`,
+`api/deals-price-capture.ts`, `scripts/deals-capture-test.cjs`, the capture migration,
+`supabase/tests/deals_capture.sql`, and this README.
+
+### Phase 5E validation record
+
+Validated on November 14, 2026 against current main `6f30c02`:
+
+- `npm install`, `npm run build`, `npm run lint`, `npm run validate:recipes`,
+  `npm run audit:shopping`, and `npm run test:plus` passed. Lint remains at zero
+  errors and seven known hook warnings; the build retains its large-chunk advisory.
+  Final TypeScript/Vite rebuilds passed after isolating the capture input styling.
+  The API entry and transitive shared modules also passed a separate strict
+  TypeScript check; targeted server/model/page lint passed after final bounds.
+- All existing Deals Phase 1–5D suites passed. The final capture suite passed 14
+  grouped scenarios, including API authorization, model/parser/money validation,
+  bounded payloads, partial statuses, card-only conditions, cap warnings, production
+  routing and the actual editor/review/save/retry/reset flow with mocked Auth/RPC.
+- Both SQL/security suites passed in a network-isolated disposable Postgres 17
+  container after local application of the unchanged Phase 5A migration and the
+  proposed capture migration. Tests verify actual invoker/role grants, immutable
+  history, product reuse/separation, inactive-store rejection, duplicate replay,
+  replay-only refusal of unsaved expired rows and atomic rollback without orphans.
+  Test rows were rolled back and the container removed. No project migration was
+  applied and no live Auth/catalog/price data was queried for testing.
+- Production client artifact inspection found no capture page chunk, editor title,
+  endpoint string, maintainer allowlist, privileged key variable or RPC name, and
+  no private capture CSS. Direct production page/endpoint guards were also tested.
+- Shopping realtime/household sync, Pantry tomato, apple variety, countable and
+  search-only requirements, requirement summary, retailer matching, package solver,
+  delivery parsing, Kroger cart plan/server security, ingredient headers and
+  Little Chefs shopping tests passed. Phase 3 still verifies Walmart handoff.
+- Five unrelated regressions reproduced with identical output/exit status on an
+  untouched detached checkout of current main: grocery delivery provider (1 vs 0),
+  grocery handoff selection (4 vs 5), Instacart loader (groceryRetailerMatch.js),
+  Kroger catalog (packageCount: 1), and Kroger release regression (feature-flag
+  assertion). The Kroger package-match smoke check also fails identically because
+  credentials are unavailable. Those unrelated files were not changed.
+
+Meaningful local testing was completed without deployment. The split local tests
+exercise server authorization with mocked Supabase Auth, actual RPC SQL in Postgres,
+and the React request/review flow with a mocked transport. A connected Supabase/
+Vercel local-server round trip, real maintainer JWT, responsive browser/keyboard
+layout and native device interaction remain manual checks. Review the service-only
+RPC migration, existing server credential configuration and explicit maintainer IDs
+before any later activation; verify authorized, unauthorized, retry and partial-save
+paths against an approved target without casually creating pilot observations.
+
+There were no new paid services, dependencies, account settings, versions, native
+files, `.env`/certificate changes, production writes, pushes, merges, deployment,
+publication, production migration application or OCR/receipt/screenshot automation.
