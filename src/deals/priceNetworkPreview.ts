@@ -2,6 +2,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import type { DealsRouteSnapshot } from "./fixturePreview";
 import type { DealsCoordinatorInput, ProviderSelection } from "./coordinator";
+import type { MembershipEligibility } from "./provider";
 import type { ShoppingPurchaseSnapshot } from "./types";
 
 const storeSchema = z.object({
@@ -26,12 +27,17 @@ export const priceNetworkStoreLabel = (store: PriceNetworkStore) => [store.retai
   [store.store_name, store.store_number].filter(Boolean).join(" · "),
   [store.city, store.state].filter(Boolean).join(", ")].filter(Boolean).join(" — ");
 
+/** Explicitly store-scoped, including retailer identity; no cross-store sharing. */
+export const priceNetworkMembershipKey = (store: Pick<PriceNetworkStore, "id" | "retailer_name">) =>
+  JSON.stringify([store.retailer_name, store.id]);
+
 /** Phase 1's navigation-safe projection already contains authoritative needs and
  * holds. Fill only unused source fields, without re-running Pantry/Shopping List
  * logic or persisting raw rows. This equality token stays local to the session.
  */
 export function priceNetworkSessionInput(snapshot: DealsRouteSnapshot, stores: readonly PriceNetworkStore[],
-  selectedIds: readonly string[], comparisonBasis: DealsCoordinatorInput["comparisonBasis"]): DealsCoordinatorInput {
+  selectedIds: readonly string[], comparisonBasis: DealsCoordinatorInput["comparisonBasis"],
+  memberships: Readonly<Record<string, MembershipEligibility>> = {}): DealsCoordinatorInput {
   const purchase: ShoppingPurchaseSnapshot = {
     ...structuredClone(snapshot), identityVersion: 1, signature: JSON.stringify(snapshot),
     rawItems: [], combinedRows: [], pantryBuyAnywayIds: [],
@@ -39,6 +45,7 @@ export function priceNetworkSessionInput(snapshot: DealsRouteSnapshot, stores: r
   const selections: ProviderSelection[] = stores.filter((store) => selectedIds.includes(store.id)).map((store) => ({
     providerId: "simple-dinners-price-network", environment: "production", retailerId: store.retailer_name,
     storeId: store.id, channel: "in-store", currency: "USD", eligibilityKey: "public",
+    membershipEligibility: memberships[priceNetworkMembershipKey(store)] ?? "unknown",
   }));
   return { snapshot: purchase, selections, currency: "USD", comparisonBasis,
     cacheAccess: { visibility: "public", ownerKey: null, personalized: false } };

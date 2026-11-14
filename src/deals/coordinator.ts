@@ -1,3 +1,4 @@
+import { resolveMembershipConditions } from "./membership";
 import { DealsCache, type CacheContext } from "./cache";
 import { DealsProviderRegistry } from "./providerRegistry";
 import {
@@ -124,7 +125,8 @@ export class DealsCoordinator {
           issue("registry", { code: "unsupported" }); continue;
         }
         if (!selection.storeId || !selection.retailerId || selection.currency !== input.currency || !/^[A-Z]{3}$/.test(input.currency) ||
-            !["in-store", "pickup", "delivery"].includes(selection.channel)) {
+            !["in-store", "pickup", "delivery"].includes(selection.channel) ||
+            !["eligible", "ineligible", "unknown"].includes(selection.membershipEligibility ?? "unknown")) {
           issue("registry", { code: "invalid-request" }); continue;
         }
         if (need.state === "needs-review" || need.identity.status !== "matched" || !need.identity.canonicalIngredientId) continue;
@@ -132,7 +134,8 @@ export class DealsCoordinator {
         const query: ProductQuery = { requestId, searchName: need.searchName,
           canonicalIngredientId: need.identity.canonicalIngredientId, productConstraints: [...need.originalIngredients] };
         const context: ProviderContext = { retailerId: selection.retailerId, storeId: selection.storeId,
-          channel: selection.channel, currency: selection.currency, eligibilityKey: selection.eligibilityKey };
+          channel: selection.channel, currency: selection.currency, eligibilityKey: selection.eligibilityKey,
+          membershipEligibility: selection.membershipEligibility ?? "unknown" };
         const cacheContext: CacheContext = { ...context, ...input.cacheAccess, providerId: selection.providerId,
           environment: selection.environment, query: { searchName: query.searchName, canonicalIngredientId: query.canonicalIngredientId, productConstraints: query.productConstraints }, productIds: [], storeSearch: null, pageCursor: null };
         const retryKey = JSON.stringify([selection.providerId, selection.environment]);
@@ -222,7 +225,7 @@ export class DealsCoordinator {
               const id = JSON.stringify([selection.providerId, selection.environment, context.retailerId, context.storeId, context.channel, need.id, candidate.productId]);
               const compatible = candidate.productFormKey === target.productFormKey && candidate.requirementBasis === target.requirementBasis && candidate.compatibility !== "mismatch";
               offers.push({ id, needId: need.id, productId: candidate.productId, productFormKey: candidate.productFormKey,
-                packageSize: candidate.packageSize, price: quote.price,
+                packageSize: candidate.packageSize, price: resolveMembershipConditions(quote.price, context.membershipEligibility),
                 compatibility: !compatible ? "mismatch" : decisions[id] === "rejected" ? "unverified"
                   : decisions[id] === "accepted" ? "verified" : candidate.compatibility });
               const freshness = (kind: "availability" | "price-observations" | "product-metadata") => {

@@ -4,8 +4,9 @@ import { supabase } from "../../lib/supabase";
 import { DealsCoordinator, type DealsCoordinatorInput } from "../../deals/coordinator";
 import { DealsProviderRegistry } from "../../deals/providerRegistry";
 import { createSimpleDinnersPriceProvider } from "../../deals/providers/simpleDinnersPriceProvider";
+import type { MembershipEligibility } from "../../deals/provider";
 import { useDealsSession } from "../../deals/useDealsSession";
-import { loadPriceNetworkStores, priceNetworkSessionInput, priceNetworkStoreLabel, type PriceNetworkStore } from "../../deals/priceNetworkPreview";
+import { loadPriceNetworkStores, priceNetworkMembershipKey, priceNetworkSessionInput, priceNetworkStoreLabel, type PriceNetworkStore } from "../../deals/priceNetworkPreview";
 import type { DealsRouteSnapshot } from "../../deals/fixturePreview";
 import { getStoredLanguage } from "../../i18n";
 import { money, number, packageLabel, reasonText, text } from "./presentation";
@@ -22,13 +23,14 @@ function ConnectedPriceNetwork({ snapshot, client, now }: Required<Props> & { cl
   const [storeStatus, setStoreStatus] = useState<"loading" | "ready" | "error">("loading");
   const [storeRevision, setStoreRevision] = useState(0);
   const [selected, setSelected] = useState<readonly string[]>([]);
+  const [memberships, setMemberships] = useState<Readonly<Record<string, MembershipEligibility>>>({});
   const [basis, setBasis] = useState<DealsCoordinatorInput["comparisonBasis"]>({});
   const [formOptions, setFormOptions] = useState<Record<string, readonly string[]>>({});
   const [, invalidateExpiry] = useState(0);
   const coordinator = useMemo(() => new DealsCoordinator(new DealsProviderRegistry([
     createSimpleDinnersPriceProvider(client, now),
   ]), undefined, now), [client, now]);
-  const input = useMemo(() => priceNetworkSessionInput(snapshot, stores, selected, basis), [snapshot, stores, selected, basis]);
+  const input = useMemo(() => priceNetworkSessionInput(snapshot, stores, selected, basis, memberships), [snapshot, stores, selected, basis, memberships]);
   const session = useDealsSession(coordinator, input, now);
   useEffect(() => {
     const controller = new AbortController();
@@ -61,8 +63,24 @@ function ConnectedPriceNetwork({ snapshot, client, now }: Required<Props> & { cl
     {storeStatus === "ready" && !stores.length && <p role="status">{text("networkNoStores")}</p>}
     <button type="button" disabled={storeStatus === "loading"} onClick={() => setStoreRevision((revision) => revision + 1)}>{text("networkReloadStores")}</button>
     {!!stores.length && <fieldset className="deals-card"><legend>{text("stores")}</legend>
-      {stores.map((store) => <label className="deals-choice" key={store.id}><input type="checkbox" checked={selected.includes(store.id)}
-        onChange={(event) => setSelected((previous) => event.target.checked ? [...previous, store.id] : previous.filter((id) => id !== store.id))} />{priceNetworkStoreLabel(store)}</label>)}
+      {stores.map((store) => <div key={store.id}>
+        <label className="deals-choice"><input type="checkbox" checked={selected.includes(store.id)}
+          onChange={(event) => setSelected((previous) => event.target.checked ? [...previous, store.id] : previous.filter((id) => id !== store.id))} />{priceNetworkStoreLabel(store)}</label>
+        {selected.includes(store.id) && <label className="deals-choice">{text("membership")}
+          <select aria-label={`${text("membership")}: ${priceNetworkStoreLabel(store)}`}
+            value={memberships[priceNetworkMembershipKey(store)] ?? "unknown"}
+            onChange={(event) => {
+              const value = event.target.value;
+              if (value === "eligible" || value === "ineligible" || value === "unknown") {
+                setMemberships((previous) => ({ ...previous, [priceNetworkMembershipKey(store)]: value }));
+              }
+            }}>
+            <option value="unknown">{text("membershipUnknown")}</option>
+            <option value="eligible">{text("membershipEligible")}</option>
+            <option value="ineligible">{text("membershipIneligible")}</option>
+          </select>
+        </label>}
+      </div>)}
     </fieldset>}
     {!!stores.length && <div className="deals-actions">
       <button type="button" disabled={!selected.length || session.loading} onClick={() => void session.refresh()}>{text("networkCompare")}</button>
@@ -121,13 +139,16 @@ function ConnectedPriceNetwork({ snapshot, client, now }: Required<Props> & { cl
             {storeOffers.map((offer) => {
               const comparison = result?.comparisons.find((entry) => entry.needId === need.id && entry.storeId === storeId)?.result.offers.find((entry) => entry.offerId === offer.id);
               const price = comparison?.packagePrice.value ?? comparison?.unitPrice.value?.money;
+              const withStoreCard = offer.price.conditions.some((condition) => condition.kind === "membership");
               // Comparison results, not page-owned price-selection logic, decide
               // whether any observed amount is eligible to be shown as a price.
               return <div key={offer.id}>
                 <p>{packageLabel(offer.packageSize)} · {offer.productFormKey} · {offer.packageSize.basis}</p>
                 <p>{text("networkRecentPrice")}: <strong>{comparison?.packagePrice.value ? money(comparison.packagePrice.value)
                   : comparison?.unitPrice.value ? `${money(comparison.unitPrice.value.money)} / ${number(comparison.unitPrice.value.per.quantity)} ${comparison.unitPrice.value.per.unit}`
-                    : comparison ? reasonText(comparison.packagePrice.reason!) : text("priceUnavailable")}</strong></p>
+                    : withStoreCard && comparison?.packagePrice.reason === "ineligible-condition" ? text("priceUnavailable")
+                      : comparison ? reasonText(comparison.packagePrice.reason!) : text("priceUnavailable")}</strong></p>
+                {price && withStoreCard && <p>{text("withStoreCard")}</p>}
                 <p>{text("networkObservedAt")}: {dateLabel(offer.price.observedAt)}</p>
                 {offer.price.sourceType && <p>{text("networkSource")}: {offer.price.sourceType}</p>}
                 {price && <p>{offer.price.regularPrice && <>{text("regular")}: {money(offer.price.regularPrice)} · </>}
