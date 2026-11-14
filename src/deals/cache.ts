@@ -50,7 +50,7 @@ export type CacheRead<T> = Readonly<{ status: "hit"; value: T; expiresAt: number
 export function dealsCacheKey(kind: CacheKind, context: CacheContext): string {
   return JSON.stringify([kind, context.providerId, context.environment, context.retailerId, context.storeId, context.channel,
     context.currency, context.query.searchName, context.query.canonicalIngredientId, [...context.query.productConstraints].sort(),
-    [...context.productIds].sort(), context.storeSearch, context.pageCursor, context.eligibilityKey, context.personalized, context.visibility, context.ownerKey]);
+    [...context.productIds].sort(), context.storeSearch, context.pageCursor, context.eligibilityKey, context.membershipEligibility ?? "unknown", context.personalized, context.visibility, context.ownerKey]);
 }
 const schemas = {
   "store-directory": z.object({ items: z.array(storeSchema), failures: z.tuple([]), metadata: metadataSchema }),

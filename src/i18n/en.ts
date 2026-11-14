@@ -1,5 +1,11 @@
 export const en = {
   deals: {
+    "membership": "Store card / membership",
+    "membershipUnknown": "Not sure",
+    "membershipEligible": "Yes, I have it",
+    "membershipIneligible": "No",
+    "withStoreCard": "With store card",
+
     "provider": "Preview data source",
     "syntheticProvider": "Synthetic Preview",
     "networkProvider": "Simple Dinners Price Network",

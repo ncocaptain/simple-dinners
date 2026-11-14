@@ -1,4 +1,4 @@
-# Deals domain (Phases 1–5B)
+# Deals domain (Phases 1–5C)
 
 The purchase and comparison foundations have no persistence, provider networking,
 entitlement, or database behavior. Phase 3 adds an isolated development-only UI.
@@ -571,3 +571,130 @@ back and confirm the Shopping List is unchanged. Automated tests did not access
 the live project; browser/device operation against that project remains unverified.
 No versions, environment values or secrets changed; no migrations, production
 writes, pushes, merges, deployment, publication or receipt/contribution work.
+
+## Session-local store membership (Phase 5C)
+
+Branch: `feat/deals-membership-eligibility`, based on current main `7122a12`.
+The development Price Network workspace now shows **Store card / membership** next
+to each selected store. Its options are **Yes, I have it**, **No**, and **Not sure**;
+the default is always **Not sure** (`unknown`). Selecting a store never implies
+membership. This control is absent from Synthetic Preview and all production UI.
+English and Spanish translations have matching keys.
+
+`ProviderContext.membershipEligibility` is an optional, retailer-neutral
+`eligible | ineligible | unknown` preference. Omission is normalized to unknown.
+The preview keeps preferences in React component state keyed by the exact
+`[retailer_name, store UUID]` pair. Individual stores have separate preferences,
+even when their retailer is the same. A choice persists while toggling that store
+within the same workspace, but resets when leaving Price Network mode, navigating
+away or recreating the route session. There is no account setting, browser storage,
+Supabase persistence, sign-in/linking, card number or retailer credential.
+
+`priceNetworkSessionInput` adds the preference to each explicit selection. Phase
+4 session equality already includes selections, so a preference change masks old
+results immediately, cancels pending work and resets session decisions. Use
+**Compare recent observations** again to obtain the comparison for the new choice.
+The coordinator validates the preference, passes it in the neutral provider context
+and includes it in cache partitioning. Price Network's database queries remain
+unchanged; the preference is not a Supabase query parameter or persisted field.
+
+`membership.ts` implements a pure `resolveMembershipConditions` function. After
+validating a provider quote and caching its original normalized observation, the
+coordinator creates an offer copy with only membership-condition eligibility
+resolved from the current selection. It does this on both fresh and cached paths.
+The stored observation owns the fact that membership is required; the session owns
+whether this user says they have it. Original rows, cached observations, amounts,
+source timestamps and non-membership conditions remain untouched. Existing public
+cache restrictions on membership/coupon observations remain in place; private
+cached raw observations stay unresolved until the current selection is applied.
+
+An eligible membership allows Phase 2 to consider a conditioned offer, subject to
+all its existing protections. Ineligible membership yields `ineligible-condition`;
+unknown yields `unresolved-condition`. There is no generic membership override for
+coupon eligibility, minimum quantities, unsupported promotions, availability,
+freshness, currency, product form, package contents or net/drained/count basis.
+The Phase 2 engine itself is unchanged and contains no retailer-specific logic.
+
+A displayed membership-conditioned amount is labeled **With store card**. An
+ineligible offer displays **Price unavailable** instead of the card amount. Unknown
+eligibility retains the existing unresolved-condition explanation. Unknown regular
+prices remain null, sale/card prices are never converted to regular prices, and
+no savings are inferred without both valid regular and sale amounts. Partial or
+unpriced baskets cannot claim a winner. Expired observations/sales still follow
+the provider and session freshness rules. Variable-weight ground beef retains a
+known unit rate when available, but unknown package weight cannot produce a
+package price, requirement cost or complete basket.
+
+Changed implementation files:
+
+- `src/deals/provider.ts`: neutral eligibility type and optional context field.
+- `src/deals/membership.ts`: immutable membership-only condition resolution.
+- `src/deals/coordinator.ts`: validation, context propagation and offer-copy resolution.
+- `src/deals/cache.ts`: eligibility partition in local cache keys.
+- `src/deals/priceNetworkPreview.ts`: explicit retailer/store scope and selections.
+- `src/components/deals/PriceNetworkWorkspace.tsx`: compact selected-store controls
+  and card-price/unavailable labels.
+- `src/i18n/en.ts`, `src/i18n/es.ts`: membership copy.
+- `scripts/deals-membership-test.cjs`: new Phase 5C coverage.
+- `scripts/fixtures/deals-preview-harness.cjs`, `scripts/deals-live-preview-test.cjs`:
+  shared existing mock/React harness; all Phase 5B scenarios remain intact.
+- This README: model, propagation, scope, behavior and validation notes.
+
+Run the new scenarios with:
+
+```sh
+node scripts/deals-membership-test.cjs
+```
+
+The synthetic milk/egg-style observations use card-only 419/199 minor units and
+null regular prices to reproduce the reported eligibility case. They are mocked
+records, not assertions about current retail prices. Tests cover defaults,
+eligible/ineligible/unknown outcomes, effective/package/requirement/basket math,
+unknown regular-price savings suppression, source immutability, cache isolation,
+retailer/store separation, local session resets, stale/expired/unavailable data,
+coupon/quantity/promotion protections, form/package/dimension safeguards,
+non-membership prices, unknown-weight beef and production routing isolation.
+
+No live project data was accessed or modified. Existing pilot milk, eggs and beef
+observations, their condition records and price values were not changed. There are
+no new migrations, schema changes, persistent settings, dependencies, credentials,
+paid services, version changes, native changes or receipt/contribution features.
+
+### Phase 5C validation record
+
+Validated on November 14, 2026 against current main `7122a12`:
+
+- `npm install`, `npm run build`, `npm run lint`, `npm run validate:recipes`,
+  `npm run audit:shopping`, and `npm run test:plus` passed. A final TypeScript/Vite
+  rebuild also passed after narrowing unavailable-label handling to card offers.
+  Lint remains at zero errors and seven known hook warnings; the build retains
+  its existing large-chunk advisory. No generated images or lockfile changes remain.
+- All Deals Phase 1–5B suites and 14 new Phase 5C scenarios passed. The unchanged
+  Phase 5A SQL security/constraint suite passed in network-isolated disposable
+  Postgres 17 using the repository migration locally only. Test rows were rolled
+  back and the container was removed. No live Supabase migration/query was run.
+- Shopping realtime/household sync, Pantry tomato, apple variety, countable and
+  search-only requirements, requirement summary, retailer matching, package solver,
+  delivery parsing, Kroger cart plan/server security, ingredient headers and
+  Little Chefs shopping tests passed. Phase 3 continues to verify Walmart handoff.
+- Five unrelated regressions reproduced with identical output/exit status on an
+  untouched detached checkout of current main: grocery delivery provider (1 vs 0),
+  grocery handoff selection (4 vs 5), Instacart test loader (groceryRetailerMatch.js),
+  Kroger catalog (packageCount: 1), and Kroger release regression (feature-flag
+  assertion). The Kroger package-match smoke check also fails identically because
+  credentials are unavailable. Those unrelated files were not changed.
+- Production artifact inspection found no Price Network workspace chunk, table
+  identifiers, provider identity or `membershipEligibility` code. The existing
+  DEV Find Deals entry and production redirect are unchanged. Common translation
+  dictionaries retain labels, without exposing a production membership control.
+
+Manual browser/device checks remain: open the DEV route with the existing app
+client, select pilot stores, confirm form/content basis as required by Phase 5B,
+and verify **Not sure / Yes / No** transitions for milk/egg card-only offers. Verify
+**With store card**, no invented regular-price/savings display, unchanged beef
+unknown-weight behavior, store isolation, expiry, and reset after leaving/reopening
+the preview. Automated tests do not depend on pilot data and did not inspect the
+live observations. No native code changed; real-device behavior was not exercised.
+
+No push, merge, deployment, publication, production Supabase modification, version
+change or persistent membership setting was performed.

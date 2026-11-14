@@ -26,10 +26,13 @@ export type ProviderResult<T> = Readonly<{
   items: readonly T[]; failures: readonly ProviderFailure[]; metadata: ProviderMetadata;
 }>;
 export type ProviderStore = Readonly<{ retailerId: string; storeId: string; name: string }>;
+export type MembershipEligibility = "eligible" | "ineligible" | "unknown";
 export type ProviderContext = Readonly<{
   retailerId: string; storeId: string; channel: PriceObservation["channel"]; currency: string;
   // An opaque eligibility preference, never an access token or credential.
   eligibilityKey: string;
+  /** Local selection preference; omission means unknown, never proof of access. */
+  membershipEligibility?: MembershipEligibility;
 }>;
 export type ProductQuery = Readonly<{
   requestId: string; searchName: string; canonicalIngredientId: string;
