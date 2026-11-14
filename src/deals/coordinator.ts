@@ -230,7 +230,7 @@ export class DealsCoordinator {
                   : decisions[id] === "accepted" ? "verified" : candidate.compatibility });
               const freshness = (kind: "availability" | "price-observations" | "product-metadata") => {
                 const maxAge = this.cache.maxAge(kind);
-                return maxAge > 0 ? Math.min(quoted.metadata.observedAt, quote.price.observedAt) + maxAge : Infinity; // zero disables storage, not the source quote
+                return maxAge > 0 ? quoted.metadata.observedAt + maxAge : Infinity; // zero disables storage, not the source quote
               };
               expiries.set(id, Math.min(
                 quoted.metadata.expiresAt, quote.price.expiresAt, searched.metadata.expiresAt,

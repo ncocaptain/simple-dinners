@@ -59,6 +59,8 @@ const schemas = {
   availability: z.object({ items: z.array(providerPriceSchema), failures: z.tuple([]), metadata: metadataSchema }),
   negative: z.object({ empty: z.literal(true) }),
 };
+/** Reuse age starts at response retrieval/storage; source validity is bounded by
+ * each normalized price.expiresAt. Reading a copy never renews either boundary. */
 export class DealsCache {
   private readonly storage: DealsCacheStorage;
   private readonly now: () => number;
@@ -90,13 +92,13 @@ export class DealsCache {
           data.metadata.observedAt > this.now() || data.metadata.observedAt + this.maxAge(kind) <= this.now() || data.metadata.expiresAt <= this.now())) return { status: "miss", value: null };
       const prices = "items" in data && (kind === "price-observations" || kind === "availability")
         ? (data as ProviderResult<ProviderPrice>).items : [];
-      if ((prices.length && "metadata" in data && data.metadata.sourceScope !== "store") || prices.some((item) => item.price.observedAt > this.now() || item.price.observedAt + this.maxAge(kind) <= this.now() || item.price.expiresAt <= this.now() ||
+      if ((prices.length && "metadata" in data && data.metadata.sourceScope !== "store") || prices.some((item) => item.price.observedAt > this.now() || item.price.expiresAt <= this.now() ||
           item.price.storeId !== context.storeId || item.price.retailerId !== context.retailerId || item.price.channel !== context.channel ||
           [item.price.regularPrice, item.price.salePrice].some((money) => money !== null && money.currency !== context.currency) ||
           (context.visibility === "public" && item.price.conditions.some((condition) => condition.kind === "membership" || condition.kind === "coupon")))) return { status: "miss", value: null };
       const expiresAt = Math.min(raw.expiresAt, raw.storedAt + this.maxAge(kind),
         "metadata" in data ? Math.min(data.metadata.expiresAt, data.metadata.observedAt + this.maxAge(kind)) : Infinity,
-        ...prices.flatMap((item) => [item.price.expiresAt, item.price.observedAt + this.maxAge(kind)]));
+        ...prices.map((item) => item.price.expiresAt));
       return { status: "hit", value: structuredClone(data) as CacheData[K], expiresAt };
     } catch { return { status: "unavailable", value: null }; }
   }
@@ -110,14 +112,14 @@ export class DealsCache {
       if (metadata && ((context.visibility === "public" && metadata.audience !== "public") || metadata.providerId !== context.providerId || metadata.environment !== context.environment || metadata.observedAt > this.now() || metadata.expiresAt <= this.now())) return false;
       const prices = "items" in normalized && (kind === "price-observations" || kind === "availability")
         ? (normalized as ProviderResult<ProviderPrice>).items : [];
-      if (prices.length && (metadata?.sourceScope !== "store" || prices.some((item) => item.price.observedAt > this.now() || item.price.observedAt + this.maxAge(kind) <= this.now() || item.price.expiresAt <= this.now() ||
+      if (prices.length && (metadata?.sourceScope !== "store" || prices.some((item) => item.price.observedAt > this.now() || item.price.expiresAt <= this.now() ||
           item.price.storeId !== context.storeId || item.price.retailerId !== context.retailerId || item.price.channel !== context.channel ||
           [item.price.regularPrice, item.price.salePrice].some((money) => money !== null && money.currency !== context.currency)))) return false;
       if (context.visibility === "public" && prices.some((item) => item.price.conditions.some((condition) => condition.kind === "membership" || condition.kind === "coupon"))) return false;
       const ttl = this.ttls[kind] ?? DEFAULT_DEALS_TTLS[kind];
       const expiresAt = Math.min(this.now() + ttl, sourceExpiresAt, metadata?.expiresAt ?? Infinity,
         metadata ? metadata.observedAt + ttl : Infinity,
-        ...prices.flatMap((item) => [item.price.expiresAt, item.price.observedAt + ttl]));
+        ...prices.map((item) => item.price.expiresAt));
       if (!Number.isFinite(ttl) || ttl <= 0 || !Number.isFinite(expiresAt) || expiresAt <= this.now()) return false;
       this.storage.set(dealsCacheKey(kind, context), { storedAt: this.now(), expiresAt, data: normalized }); return true;
     } catch { return false; }

@@ -19,6 +19,7 @@ export type ProviderFailure = Readonly<{
 export type ProviderMetadata = Readonly<{
   audience: "public" | "personalized" | "unknown";
   providerId: string; environment: ProviderEnvironment; sourceScope: "store" | "retailer" | "catalog";
+  /** Time this normalized response was obtained/validated, not source price age. */
   observedAt: number; expiresAt: number; attribution: string | null;
   nextCursor: string | null;
 }>;
@@ -68,6 +69,7 @@ export const priceSchema = z.object({
   productId: identifier, retailerId: identifier, storeId: identifier,
   channel: z.enum(["in-store", "pickup", "delivery"]),
   sourceType: z.string().min(1).max(100).optional(),
+  sourceExpiresAt: timestamp.optional(),
   regularPrice: money.nullable(), salePrice: money.nullable(),
   sellingBasis: z.discriminatedUnion("kind", [z.object({ kind: z.literal("package") }), z.object({ kind: z.literal("measure"), measure })]),
   conditions: z.array(z.discriminatedUnion("kind", [
@@ -78,7 +80,8 @@ export const priceSchema = z.object({
   ])).max(100),
   observedAt: timestamp, expiresAt: timestamp,
   availability: z.enum(["in-stock", "out-of-stock", "unknown"]),
-}).refine((value) => value.expiresAt > value.observedAt);
+}).refine((value) => value.expiresAt > value.observedAt &&
+  (value.sourceExpiresAt === undefined || (value.sourceExpiresAt > value.observedAt && value.expiresAt <= value.sourceExpiresAt)));
 export const storeSchema = z.object({ retailerId: identifier, storeId: identifier, name: identifier });
 export const candidateSchema = z.object({
   requestId: identifier, productId: identifier, title: identifier, canonicalIngredientId: identifier,

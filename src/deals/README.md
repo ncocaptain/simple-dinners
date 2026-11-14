@@ -1,4 +1,4 @@
-# Deals domain (Phases 1–5C)
+# Deals domain (Phases 1–5D)
 
 The purchase and comparison foundations have no persistence, provider networking,
 entitlement, or database behavior. Phase 3 adds an isolated development-only UI.
@@ -698,3 +698,159 @@ live observations. No native code changed; real-device behavior was not exercise
 
 No push, merge, deployment, publication, production Supabase modification, version
 change or persistent membership setting was performed.
+
+## Source-aware observation freshness (Phase 5D)
+
+Branch: `feat/deals-source-aware-freshness`, based on current main `791ae08`.
+This section supersedes the blanket 24-hour Price Network freshness descriptions
+in earlier phase notes. The existing migration/column comments are historical and
+unchanged; no live schema or observation updates are needed for this code policy.
+
+`src/deals/priceNetworkFreshness.ts` is the single source of Price Network validity
+constants and calculation. All windows start at the original `observed_at`, never
+at retrieval or cache access. Only verified observations admitted by the existing
+provider can participate; an explicit timestamp does not upgrade source confidence.
+
+| Source | No explicit expiration: fallback | Explicit expiration: maximum age |
+| --- | --- | --- |
+| manual | 7 days | 14 days |
+| receipt-confirmed | 7 days | 7 days |
+| user-contributed | 3 days | 3 days |
+| approved-feed | 24 hours | 7 days |
+
+The manual explicit ceiling allows a bounded two-week circular validity window;
+the shorter seven-day fallback does not infer that any circular exists. Approved
+verified feeds may use their explicit source date for up to seven days. Receipt
+and contribution ceilings remain conservative. None of these rules depends on
+retailer, store name or membership eligibility.
+
+For an explicit observation expiration, validity ends at
+`min(expires_at, observed_at + source maximum)`. The source date is never extended.
+Without an explicit date, validity ends at `observed_at + source fallback`.
+At the exact boundary the observation is stale. A derived maximum lookback covers
+all source ceilings while retaining bounded indexed reads and the existing row
+caps. Old history remains stored. The metadata-only history probe still separates
+stale history from absent history; it never supplies old amounts as current prices.
+
+Future observations are suppressed. Nonfinite dates or observation/sale expirations
+at or before `observed_at` are malformed. A malformed newest row fails closed and
+does not revive an older cheap quote. Unknown source types and unverified confidence
+remain ineligible. The source policy does not change product identity, package
+contents, selling basis, location/currency, availability or any eligibility rules.
+
+Observation and sale validity remain separate. While a sale is active, the usable
+quote ends at the earlier observation/sale boundary. When `sale_expires_at` passes,
+a new provider read removes the sale and its sale-specific conditions; a known
+regular price from that same still-valid observation may remain usable. If regular
+price is null, it stays null and the price may be unavailable. Active membership
+conditions continue through the Phase 5C scoped preference resolver unchanged.
+No regular prices or savings are invented.
+
+`getPrices` metadata now expires at the earliest usable quote expiry actually
+returned, rather than starting from a one-minute limit or a 24-hour source cap.
+Empty/search responses retain their existing short response-metadata expiry.
+Normalized prices optionally carry `sourceExpiresAt`, the exact explicit source
+observation timestamp; it is never populated from a fallback. Runtime validation
+requires a normalized price not to outlive that explicit source timestamp.
+
+Phase 4 now distinguishes source validity from cached-copy age. `price.expiresAt`
+remains the source/active-sale boundary; response metadata `observedAt` denotes
+when the normalized response was obtained/validated. Copy reuse is bounded by
+storage/retrieval time plus cache TTL, the source boundary, and any stricter caller
+ceiling. Reading a cache entry never renews those timestamps. The coordinator uses
+response retrieval time when applying cache/availability ceilings, instead of
+mistaking the original multi-day observation age for the age of the cached copy.
+
+Default cache limits are unchanged: one hour for price copies and five minutes for
+availability; the existing short product-response expiry may end a displayed
+session sooner. A source valid for days therefore still needs fresh reads on the
+normal cache/session schedule. Future metadata, expired copies, invalid context,
+public-cache restrictions on membership/coupons, private-owner isolation and Phase
+5C preference partitioning remain intact. Original provider rows are still cached
+before membership resolution and never rewritten by the session.
+
+The DEV UI retains **Recent observed price**, observation timestamp and source.
+It adds **Valid through {date/time}** only when an explicit observation date governs
+the current quote. It omits that label for fallback-only validity, a source date
+beyond the policy maximum, or an earlier active-sale boundary. This avoids labeling
+a policy cutoff as an advertised expiration or displaying a validity date later
+than the current price can be used. The original explicit timestamp remains in the
+normalized provenance. Existing expiry-driven display invalidation still removes
+prices/winners without background queries. No “live price” claim is introduced.
+
+Changed files:
+
+- `src/deals/priceNetworkFreshness.ts`: centralized source policy and validation.
+- `src/deals/providers/simpleDinnersPriceProvider.ts`: policy-derived read window,
+  validity selection, malformed-range handling, explicit provenance and price metadata.
+- `src/deals/provider.ts`, `src/deals/types.ts`: optional normalized explicit expiry
+  and clarified response-retrieval timestamp contract.
+- `src/deals/cache.ts`, `src/deals/coordinator.ts`: cached-copy/source age separation.
+- `src/components/deals/PriceNetworkWorkspace.tsx`, `src/i18n/en.ts`, `src/i18n/es.ts`:
+  conditional explicit validity-date display.
+- `scripts/deals-freshness-test.cjs`: new Phase 5D scenarios.
+- `scripts/deals-price-network-test.cjs`, `scripts/deals-live-preview-test.cjs`,
+  `scripts/deals-membership-test.cjs`: stale manual fixtures now exceed seven days,
+  matching the intentionally changed policy; their other expectations are unchanged.
+- This README: source policy, precedence, metadata/cache behavior and validation.
+
+Run new scenarios with:
+
+```sh
+node scripts/deals-freshness-test.cjs
+```
+
+The sixteen grouped scenarios use mocked Price Network rows and fake clocks. They
+cover all fallback TTLs, multi-day manual/circular validity, explicit caps and early
+expiry, approved-feed confidence, future/expired/malformed dates, sale boundaries,
+null regular prices, metadata minima, membership-conditioned weekly-style offers,
+cache reuse without renewal, short availability ceilings, explicit-only UI dates
+and production isolation. Existing Phase 4 cache tests retain their expectations.
+
+No live project was queried or modified. Prices, conditions, store/product/package
+records, migrations, schema, credentials, dependencies, versions and native files
+are unchanged. This phase adds no scheduled work, uploads, receipt features or
+Phase 5E behavior.
+
+### Phase 5D validation record
+
+Validated on November 14, 2026 against current main `791ae08`:
+
+- `npm install`, `npm run build`, `npm run lint`, `npm run validate:recipes`,
+  `npm run audit:shopping`, and `npm run test:plus` passed. Lint remains at zero
+  errors and seven known hook warnings. The build retains its large-chunk advisory.
+  Generated images, the dependency lockfile, app/store versions and native files
+  have no changes.
+- All Deals Phase 1–5C suites and sixteen new Phase 5D scenarios passed. The three
+  existing stale manual examples were moved beyond seven days because a 24-hour
+  example is no longer stale under the requested policy. Existing cache/session
+  assertions passed without changing their expected ceilings or isolation behavior.
+- Local SQL/security checks passed by applying only the unchanged repository
+  migration in network-isolated disposable Postgres 17 and running the existing
+  rolled-back SQL assertions. The container was removed. No production database
+  migration or query was performed.
+- Shopping realtime/household sync, Pantry tomato, apple variety, countable and
+  search-only requirements, requirement summary, retailer matching, package solver,
+  delivery parsing, Kroger cart plan/server security, ingredient headers and
+  Little Chefs shopping tests passed. Phase 3 still checks Walmart handoff/routing.
+- Five unrelated regressions reproduced with identical output and exit status in
+  an untouched detached checkout of current main: grocery delivery provider (1 vs
+  0), grocery handoff selection (4 vs 5), Instacart test loader (groceryRetailerMatch.js),
+  Kroger catalog (packageCount: 1), and Kroger release regression (feature-flag
+  assertion). The Kroger package-match smoke check also fails identically because
+  credentials are unavailable. Those unrelated files were not changed.
+- Production JS artifact inspection found no Price Network table identifiers,
+  provider identity, membership preference code, explicit-source-expiry code or
+  workspace chunk. The existing DEV entry/route guards remain unchanged. Common
+  translation dictionaries retain labels without exposing production controls.
+
+Manual browser/device review remains: in DEV with the existing app client, inspect
+weekly-style observations older than 24 hours, their explicit validity dates and
+source labels, confirm membership/form/basis as required by prior phases, and check
+sale-expiry fallback and stale-session removal. Review the chosen manual 14-day
+and approved-feed seven-day explicit ceilings before broadening pilot coverage.
+Automated tests mock all Price Network data; they did not inspect current Food
+City observations or exercise the connected pilot in a browser/native device.
+
+No push, merge, deployment, publication, production Supabase modification, version
+change or Phase 5E work was performed.

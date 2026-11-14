@@ -1,5 +1,6 @@
 export const en = {
   deals: {
+    "networkValidThrough": "Valid through {date}",
     "membership": "Store card / membership",
     "membershipUnknown": "Not sure",
     "membershipEligible": "Yes, I have it",

@@ -4,7 +4,7 @@ import { parseIngredientLine } from "../../core/ingredientParser";
 import { candidateSchema, packageSchema, priceSchema, type DealsProvider, type ProductCandidate,
   type ProviderMetadata, type ProviderResult, type ProviderPrice, type ProviderFailure } from "../provider";
 
-const MAX_AGE_MS = 24 * 60 * 60 * 1000;
+import { PRICE_NETWORK_LOOKBACK_MS, priceNetworkFreshness } from "../priceNetworkFreshness";
 const LIMIT = 100; // Bounded reads; truncation is an explicit failure, never complete coverage.
 const text = z.string().min(1).max(500);
 const time = z.string().datetime({ offset: true });
@@ -96,7 +96,7 @@ export function createSimpleDinnersPriceProvider(client: Pick<SupabaseClient, "f
       try {
         if (!await validStore(context, signal)) return result([]);
         const items: ProviderPrice[] = []; const failures: ProviderFailure[] = []; const provenance: string[] = [];
-        let expiresAt = now() + 60000;
+        let expiresAt = Infinity;
         // One bounded indexed history read per product prevents a busy product's
         // history from crowding another out of a global row limit.
         for (const productId of productIds) {
@@ -104,7 +104,7 @@ export function createSimpleDinnersPriceProvider(client: Pick<SupabaseClient, "f
           const { data, error } = await client.from("price_network_observations")
             .select("id,product_id,store_id,currency,channel,regular_price_minor,sale_price_minor,selling_basis,selling_quantity,selling_unit,observed_at,expires_at,sale_expires_at,availability,conditions,source_type,source_confidence")
             .eq("store_id", context.storeId).eq("product_id", productId).eq("currency", context.currency).eq("channel", context.channel)
-            .gte("observed_at", new Date(clock - MAX_AGE_MS).toISOString()).lte("observed_at", new Date(clock).toISOString())
+            .gte("observed_at", new Date(clock - PRICE_NETWORK_LOOKBACK_MS).toISOString()).lte("observed_at", new Date(clock).toISOString())
             .order("observed_at", { ascending: false }).order("id", { ascending: false }).limit(LIMIT).abortSignal(signal);
           if (error || data?.length === LIMIT) { failures.push({ code: "unavailable", requestId: productId }); continue; }
           let inactive = false;
@@ -113,17 +113,21 @@ export function createSimpleDinnersPriceProvider(client: Pick<SupabaseClient, "f
             // Do not resurrect an older price behind malformed newer evidence.
             if (!parsed.success) { failures.push({ code: "malformed-response", requestId: productId }); break; }
             const o = parsed.data; const observedAt = Date.parse(o.observed_at);
-            const expiry = Math.min(observedAt + MAX_AGE_MS, o.expires_at ? Date.parse(o.expires_at) : Infinity);
-            if (o.store_id !== context.storeId || o.product_id !== productId || o.currency !== context.currency || o.channel !== context.channel || observedAt > clock || expiry <= clock) { inactive = true; continue; }
+            const validity = priceNetworkFreshness({ sourceType: o.source_type, observedAt,
+              expiresAt: o.expires_at === null ? null : Date.parse(o.expires_at),
+              saleExpiresAt: o.sale_expires_at === null ? null : Date.parse(o.sale_expires_at),
+              hasSalePrice: o.sale_price_minor !== null }, clock);
+            if (validity.status === "malformed") { failures.push({ code: "malformed-response", requestId: productId }); break; }
+            if (o.store_id !== context.storeId || o.product_id !== productId || o.currency !== context.currency || o.channel !== context.channel || validity.status !== "valid") { inactive = true; continue; }
             // Unverified latest evidence must not revive an older verified quote.
             if (o.source_confidence !== "verified") break;
-            const saleCurrent = o.sale_price_minor !== null && (!o.sale_expires_at || Date.parse(o.sale_expires_at) > clock);
+            const saleCurrent = validity.saleCurrent;
             const money = (amountMinor: number | null) => amountMinor === null ? null : { amountMinor, currency: o.currency };
             const price = priceSchema.safeParse({ productId, retailerId: context.retailerId, storeId: o.store_id, channel: o.channel,
-              sourceType: o.source_type, regularPrice: money(o.regular_price_minor), salePrice: saleCurrent ? money(o.sale_price_minor) : null,
+              sourceType: o.source_type, ...(o.expires_at === null ? {} : { sourceExpiresAt: Date.parse(o.expires_at) }), regularPrice: money(o.regular_price_minor), salePrice: saleCurrent ? money(o.sale_price_minor) : null,
               sellingBasis: o.selling_basis === "package" ? { kind: "package" } : { kind: "measure", measure: { quantity: o.selling_quantity, unit: o.selling_unit } },
               conditions: saleCurrent ? o.conditions : [], observedAt,
-              expiresAt: saleCurrent && o.sale_expires_at ? Math.min(expiry, Date.parse(o.sale_expires_at)) : expiry,
+              expiresAt: validity.priceExpiresAt,
               availability: o.availability });
             if (!price.success) { failures.push({ code: "malformed-response", requestId: productId }); break; }
             items.push({ productId, price: price.data }); expiresAt = Math.min(expiresAt, price.data.expiresAt);
@@ -143,7 +147,7 @@ export function createSimpleDinnersPriceProvider(client: Pick<SupabaseClient, "f
             }
           }
         }
-        return result(items, failures, expiresAt, provenance.join("; ").slice(0, 1000) || null);
+        return result(items, failures, items.length ? expiresAt : undefined, provenance.join("; ").slice(0, 1000) || null);
       } catch { return result([], [{ code: signal.aborted ? "cancelled" : "unavailable" }]); }
     },
   };

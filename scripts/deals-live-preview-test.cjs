@@ -28,7 +28,7 @@ test('real provider/coordinator/session renders recent observation and provenanc
   await confirmForms(h);await compare(h);assert.match(content(h.root),/Recent observed price.*\$5\.00/);assert.match(content(h.root),/Observed.*2026/);assert.match(content(h.root),/Source.*manual/);assert.match(content(h.root),/Lowest estimated subtotal among selected stores/);await close(h);
 });
 test('no observation, stale observation and missing price remain distinct',async()=>{
-  for(const [obs,expected]of [[[],/No observation has been recorded/],[[observation({observed_at:iso(NOW-86400001)})],/Stale\/unavailable observation/],[[observation({regular_price_minor:null})],/Price unavailable/]]){
+  for(const [obs,expected]of [[[],/No observation has been recorded/],[[observation({observed_at:iso(NOW-7*86400000-1)})],/Stale\/unavailable observation/],[[observation({regular_price_minor:null})],/Price unavailable/]]){
     const h=await live(await render(mock(undefined,undefined,obs)));await selectStores(h);await compare(h);if(h.root.root.findAllByType('select').some(s=>s.props['aria-label']?.startsWith('Confirm product form'))){await confirmForms(h);await compare(h);}
     assert.match(content(h.root),expected);assert.doesNotMatch(content(h.root),/\$5\.00|Lowest estimated subtotal among selected stores/);await close(h);
   }

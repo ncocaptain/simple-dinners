@@ -72,7 +72,7 @@ test('newest valid observation wins, append-only history input remains intact',a
   const before=JSON.stringify(history);assert.equal((await prices(setup(undefined,history))).items[0].price.regularPrice.amountMinor,800);assert.equal(JSON.stringify(history),before);
 });
 test('stale, future and expired observations are excluded',async()=>{
-  for(const o of [observation({observed_at:iso(NOW-86400001)}),observation({observed_at:iso(NOW+1)}),observation({expires_at:iso(NOW-1)})])assert.equal((await prices(setup(undefined,[o]))).items.length,0);
+  for(const o of [observation({observed_at:iso(NOW-7*86400000-1)}),observation({observed_at:iso(NOW+1)}),observation({expires_at:iso(NOW-1)})])assert.equal((await prices(setup(undefined,[o]))).items.length,0);
 });
 test('expired sales fall back to regular and active sales expire the quote',async()=>{
   const expired=await prices(setup(undefined,[observation({sale_price_minor:200,sale_expires_at:iso(NOW-1),conditions:[{kind:'coupon',eligibility:'unknown'}]})]));
