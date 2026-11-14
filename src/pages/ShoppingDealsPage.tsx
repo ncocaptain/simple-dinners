@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { lazy, Suspense, useMemo, useState } from "react";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import {
   buildFixturePreview, FIXTURE_STORES, readDealsRouteSnapshot,
   type DealsRouteSnapshot, type FixtureScenario, type MatchDecisions,
@@ -7,6 +7,9 @@ import {
 import DealsNeedCard from "../components/deals/DealsNeedCard";
 import { money, number, text } from "../components/deals/presentation";
 import "../components/deals/Deals.css";
+
+const PriceNetworkWorkspace = import.meta.env.DEV
+  ? lazy(() => import("../components/deals/PriceNetworkWorkspace")) : null;
 
 export function DealsWorkspace({ snapshot }: { snapshot: DealsRouteSnapshot }) {
   const [decisions, setDecisions] = useState<MatchDecisions>({});
@@ -47,11 +50,21 @@ export function DealsWorkspace({ snapshot }: { snapshot: DealsRouteSnapshot }) {
 
 export default function ShoppingDealsPage() {
   const location = useLocation();
+  const [provider, setProvider] = useState("synthetic");
+  if (!import.meta.env.DEV) return <Navigate to="/shopping-list" replace />;
   const snapshot = readDealsRouteSnapshot(location.state);
   return <main className="deals-workspace">
     <Link to="/shopping-list" className="deals-back">{text("back")}</Link>
-    <h1>{text("title")}</h1><p className="deals-preview-note" role="note">{text("previewNotice")}</p>
+    <h1>{text("title")}</h1><p className="deals-preview-note" role="note">{text(provider === "synthetic" ? "previewNotice" : "networkNotice")}</p>
     <p>{text("sessionNotice")}</p>
-    {snapshot ? <DealsWorkspace key={location.key} snapshot={snapshot} /> : <p className="deals-card">{text("startFromList")}</p>}
+    {snapshot && <label className="deals-choice">{text("provider")}
+      <select aria-label={text("provider")} value={provider} onChange={(event) => setProvider(event.target.value)}>
+        <option value="synthetic">{text("syntheticProvider")}</option><option value="network">{text("networkProvider")}</option>
+      </select>
+    </label>}
+    {snapshot ? provider === "synthetic" ? <DealsWorkspace key={location.key} snapshot={snapshot} />
+      : PriceNetworkWorkspace && <Suspense fallback={<p role="status">{text("networkLoadingStores")}</p>}>
+        <PriceNetworkWorkspace key={location.key} snapshot={snapshot} />
+      </Suspense> : <p className="deals-card">{text("startFromList")}</p>}
   </main>;
 }

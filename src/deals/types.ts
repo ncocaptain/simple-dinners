@@ -88,6 +88,8 @@ export type PriceObservation = Readonly<{
   retailerId: string;
   storeId: string;
   channel: "in-store" | "pickup" | "delivery";
+  /** Optional normalized provenance supplied by a provider, never a raw payload. */
+  sourceType?: string;
   regularPrice: Money | null;
   salePrice: Money | null;
   sellingBasis: Readonly<{ kind: "package" } | { kind: "measure"; measure: Measure }>;

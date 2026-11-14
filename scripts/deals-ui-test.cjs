@@ -11,7 +11,7 @@ function load(file) {
   const filename = path.resolve(file);
   if (modules.has(filename)) return modules.get(filename).exports;
   const mod = { exports: {} }; modules.set(filename, mod);
-  const output = ts.transpileModule(fs.readFileSync(filename, "utf8"), {
+  const output = ts.transpileModule(fs.readFileSync(filename, "utf8").replaceAll("import.meta.env.DEV", "true"), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
   }).outputText;
   new Function("require", "module", "exports", output)((name) => {
@@ -122,7 +122,7 @@ test("accept cannot override unknown size or preparation mismatch", () => {
 test("stale/inapplicable prices show unavailable messaging and no winner", () => {
   for (const scenario of ["stale", "inapplicable"]) {
     const root = render(measuredSnapshot);
-    renderer.act(() => root.root.findByType("select").props.onChange({ target: { value: scenario } }));
+    renderer.act(() => root.root.findAllByType("select").find((select) => select.props.value === "standard").props.onChange({ target: { value: scenario } }));
     assert.match(text(root), /Price unavailable/);
     assert.match(text(root), scenario === "stale" ? /sample price has expired/ : /sample price does not apply/);
     assert.doesNotMatch(text(root), /Lowest estimated subtotal among selected sample stores/); close(root);

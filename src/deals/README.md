@@ -1,4 +1,4 @@
-# Deals domain (Phases 1–4)
+# Deals domain (Phases 1–5B)
 
 The purchase and comparison foundations have no persistence, provider networking,
 entitlement, or database behavior. Phase 3 adds an isolated development-only UI.
@@ -434,3 +434,140 @@ native devices and receipt contribution were not exercised. No app/store version
 environment values, keys, native project or production UI was changed. No push,
 merge, deployment or publication occurred. Production application and Phase 5B
 remain separate future work.
+
+## Development Price Network integration (Phase 5B)
+
+The development-only `/shopping-deals` workspace now defaults to **Synthetic
+Preview** and offers **Simple Dinners Price Network** as a separate mode. Fixture
+behavior and its fixed clock are unchanged. Switching modes unmounts the previous
+workspace, cancels in-flight work, and discards its session; Price Network never
+fills gaps with sample prices. English and Spanish strings have matching keys.
+No Shopping List, Pantry, retailer handoff, entitlement, or native behavior changes.
+
+`ShoppingDealsPage.tsx` gates its lazy Price Network import with
+`import.meta.env.DEV` and independently redirects in production. The existing
+App route and Find Deals entry guards remain intact. The existing
+`src/lib/supabase.ts` publishable-key client is imported only within the lazy
+workspace. No credentials or environment values were added. No provider is
+instantiated on the production preview route or in fixture mode.
+
+`priceNetworkPreview.ts` loads only active readable stores with an explicit
+SELECT, active filter, runtime validation and a 100-store ceiling (a 101st row
+reports unavailable instead of silently hiding coverage). Store labels include
+retailer, store name/number and city/state when present. Users select one or more
+stores; price comparisons run only on **Compare recent observations**. An empty
+catalog says “No Price Network stores have been added yet.” Store-loading errors
+and an unconfigured client have separate messages and no synthetic fallback.
+There is no geolocation, store mutation or admin interface.
+
+The navigation-safe Phase 1 projection is retained: raw rows and the original
+private signature never enter router history. `priceNetworkSessionInput` supplies
+that projection's existing needs, holds and exclusion counts to Phase 4, with
+empty unused raw-source collections and a deterministic, local-only projection
+equality token. It does not rebuild Shopping List eligibility or Pantry coverage.
+Neither equality token, recipe wording nor snapshot data is sent in Supabase
+queries. The existing provider continues to send only canonical/product IDs and
+store/channel/currency/time filters. The preview uses USD and in-store context.
+
+The connected workspace creates an explicit provider registry and coordinator,
+then uses `useDealsSession`/`DealsSession` for input invalidation, refresh,
+cancellation and current results. Only the provider reads observation rows; the
+UI consumes normalized offers, issues, comparisons and baskets. All price and
+basket eligibility decisions come from Phase 2 through the coordinator.
+
+Phase 4 requires explicit comparison form/basis evidence. This preview therefore
+first exposes the returned product form and net/drained/count basis for review.
+Select **Confirm product form and content basis** for each applicable need, then
+compare again. The selection is an explicit confirmation that those properties
+match the ingredient; a canonical ID/name hit is never treated as that evidence.
+There is no automatic form/basis inference and no accept override for an
+unverified product. Unknown dimensions, unquantified requirements and incompatible
+forms still cannot produce basket totals. Confirmation is session-local, survives
+store selection changes, and is discarded when leaving Price Network mode.
+
+Normalized prices now carry optional allowlisted `sourceType` provenance through
+the existing price schema. Optional `ProviderFailure.reason` distinguishes
+`no-observation` and `stale-observation` within the existing unavailable failure
+code; old providers/contracts remain compatible. If the normal recent-history
+read returns no rows, the provider performs one additional indexed, context-
+scoped SELECT of only the newest observation timestamp. This distinguishes old
+history from absent history without fetching stale amounts into current results.
+No data-model or schema changes were needed.
+
+Current eligible results use **Recent observed price**, with observed date/time,
+source type, store and valid regular/sale fields. Source expiry and the existing
+24-hour ceiling still apply; expired sales fall back to regular prices from the
+same observation. Missing prices remain null. No products means **No reliable
+match**; absent observations, stale observations and other price unavailability
+have separate messages. A display-only expiry timer prompts the session to remove
+expired results and winners while the page remains open. It performs no network
+request or background refresh. Changing stores or comparison evidence immediately
+clears results until the next explicit comparison. No complete-basket winner is
+shown while any selected store lacks coverage.
+
+The already-applied live schema was not modified or queried during implementation.
+There are no new migrations, seed rows, database writes, scheduled work, uploads,
+receipt features, paid services or contribution flows. The Phase 5A schema files
+are unchanged. Before later use, manually review readable store labels, realistic
+form/basis confirmations, existing-client connectivity and empty/populated behavior
+in the development route. Real project data and real-device behavior are separate
+manual checks; automated tests use mocked Supabase responses only.
+
+Run the new integration scenarios with:
+
+```sh
+node scripts/deals-live-preview-test.cjs
+```
+
+They exercise the actual page, provider, coordinator and session with mock SELECTs,
+including mode isolation, cancellation, back navigation, timer-driven expiry and
+complete/partial store baskets. The Phase 3 test loader now substitutes the DEV
+constant and locates its existing scenario selector independently of the new
+provider selector. No fixture expectations or fulfillment behavior were changed.
+
+### Phase 5B validation record
+
+Validated on November 14, 2026 against current main `75234b7`:
+
+- `npm install`, `npm run build`, `npm run lint`, `npm run validate:recipes`,
+  `npm run audit:shopping`, and `npm run test:plus` passed. Lint has zero errors
+  and the same seven documented hook warnings. Build retains its large-chunk
+  advisory. Generated images and the dependency lockfile have no final changes.
+- Phase 1, Phase 2 (26), Phase 3 (13), Phase 4 (34), Phase 5A (13), and the new
+  Phase 5B (13 grouped scenarios) passed. Phase 5B drives the real components and
+  coordinator/session with mocked Supabase responses. A fake display timer also
+  verifies expiry clears prices/winners without new queries.
+- The unchanged Phase 5A SQL security/constraint suite also passed after applying
+  the existing migration only to a disposable, network-isolated local Postgres 17
+  container. Test rows were rolled back and the container was removed. No remote
+  Supabase migration or query was run.
+- Production JS artifact inspection found no `price_network_stores`,
+  `price_network_observations`, provider identity, or Price Network workspace
+  chunk. Common translation dictionaries retain the labels; the guarded route
+  cannot display or instantiate the feature in production.
+- Shopping realtime/household sync, Pantry tomato, apple variety, countable and
+  search-only requirements, requirement summary, retailer matching, package
+  solver, delivery parser, Kroger cart plan/server security, ingredient headers,
+  and Little Chefs shopping tests passed. Phase 3 still verifies Walmart handoff.
+- Five unrelated regressions reproduced with identical output and exit status
+  in an untouched detached checkout of current main: grocery delivery provider
+  (1 vs 0), grocery handoff selection (4 vs 5), Instacart shopping test loader
+  (groceryRetailerMatch.js dependency), Kroger catalog (packageCount: 1), and
+  Kroger release regression (production feature-flag assertion). The Kroger
+  package-match smoke check also fails identically due to missing credentials.
+  None of those unrelated files were changed.
+
+Changed files: `src/pages/ShoppingDealsPage.tsx`,
+`src/components/deals/PriceNetworkWorkspace.tsx`, `src/deals/priceNetworkPreview.ts`,
+`src/deals/providers/simpleDinnersPriceProvider.ts`, `src/deals/provider.ts`,
+`src/deals/types.ts`, `src/i18n/en.ts`, `src/i18n/es.ts`,
+`scripts/deals-live-preview-test.cjs`, `scripts/deals-ui-test.cjs`, and this README.
+The feature branch is `feat/deals-live-price-network-preview`.
+
+Manual review remains: use the development route with the app's existing client,
+check empty and populated store labels, confirm product form/content basis before
+comparing, inspect observation/source labels and partial baskets, then navigate
+back and confirm the Shopping List is unchanged. Automated tests did not access
+the live project; browser/device operation against that project remains unverified.
+No versions, environment values or secrets changed; no migrations, production
+writes, pushes, merges, deployment, publication or receipt/contribution work.

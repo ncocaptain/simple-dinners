@@ -14,6 +14,7 @@ export type ProviderFailureCode = "unsupported" | "unauthorized" | "unavailable"
   | "invalid-request" | "malformed-response" | "cancelled";
 export type ProviderFailure = Readonly<{
   code: ProviderFailureCode; requestId?: string; retryAfterMs?: number;
+  reason?: "no-observation" | "stale-observation";
 }>;
 export type ProviderMetadata = Readonly<{
   audience: "public" | "personalized" | "unknown";
@@ -63,6 +64,7 @@ const money = z.object({ amountMinor: z.number().int().nonnegative().safe(), cur
 export const priceSchema = z.object({
   productId: identifier, retailerId: identifier, storeId: identifier,
   channel: z.enum(["in-store", "pickup", "delivery"]),
+  sourceType: z.string().min(1).max(100).optional(),
   regularPrice: money.nullable(), salePrice: money.nullable(),
   sellingBasis: z.discriminatedUnion("kind", [z.object({ kind: z.literal("package") }), z.object({ kind: z.literal("measure"), measure })]),
   conditions: z.array(z.discriminatedUnion("kind", [
@@ -89,6 +91,7 @@ export const metadataSchema = z.object({
   attribution: z.string().max(1000).nullable(), nextCursor: z.string().max(500).nullable(),
 }).refine((value) => value.expiresAt > value.observedAt);
 const failureSchema = z.object({
+  reason: z.enum(["no-observation", "stale-observation"]).optional(),
   code: z.enum(["unsupported", "unauthorized", "unavailable", "rate-limited", "invalid-request", "malformed-response", "cancelled"]),
   requestId: identifier.optional(), retryAfterMs: z.number().finite().nonnegative().max(86400000).optional(),
 });
