@@ -57,7 +57,7 @@ for (const { recipeIndex, recipe, locale } of variants) {
     if (!keyMatched && !requiresReview && !parsed.optional) flag('Pantry mismatch', 'Canonical/Shopping inventory identity does not match the recipe parser key');
     if (category !== item.category || (canonical && canonical.category !== item.category)) flag('category mismatch', `Pantry ${category}; Shopping ${item.category}; registry ${canonical?.category || '(missing)'}`);
     if (!item.grocerySearchName || /\b(?:to taste|as needed|optional|divided|for serving)\b/i.test(item.grocerySearchName) || /^\d/.test(item.grocerySearchName)) flag('bad grocery search name', 'Search name is missing or contains quantity/instructional wording');
-    const thumbnail = thumbs.resolveSmartShoppingThumbnail(item.normalizedName, item.category, { unit: item.unit });
+    const thumbnail = thumbs.resolveSmartShoppingThumbnail(item.normalizedName, item.category, { unit: item.unit, ingredientText: raw });
     const src = thumbs.getLocalSmartShoppingThumbnailSrc(thumbnail.thumbnailKey);
     const local = thumbs.hasLocalSmartShoppingThumbnail(thumbnail.thumbnailKey) && fs.existsSync(path.join(sourceRoot, 'public', src));
     // Coverage deliberately excludes generic category placeholders and optional

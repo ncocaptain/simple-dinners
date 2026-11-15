@@ -1,0 +1,1818 @@
+{
+  "aliases": [
+    {
+      "alias": "sal",
+      "englishName": "salt",
+      "canonicalId": "salt",
+      "recipe": "Pollo al horno con ejotes y champiñones",
+      "recipeIndex": 1,
+      "line": 10,
+      "raw": "sal"
+    },
+    {
+      "alias": "pimienta negra",
+      "englishName": "black pepper",
+      "canonicalId": "black-pepper",
+      "recipe": "Atún ahi sellado",
+      "recipeIndex": 2,
+      "line": 5,
+      "raw": "1/4 tsp de pimienta negra"
+    },
+    {
+      "alias": "pimienta",
+      "englishName": "black pepper",
+      "canonicalId": "black-pepper",
+      "recipe": "Pollo al horno con ejotes y champiñones",
+      "recipeIndex": 1,
+      "line": 11,
+      "raw": "pimienta"
+    },
+    {
+      "alias": "aceite de oliva",
+      "englishName": "olive oil",
+      "canonicalId": "olive-oil",
+      "recipe": "Atún ahi sellado",
+      "recipeIndex": 2,
+      "line": 3,
+      "raw": "1 Tbsp de aceite de sésamo o aceite de oliva"
+    },
+    {
+      "alias": "ajo",
+      "englishName": "garlic",
+      "canonicalId": "garlic",
+      "recipe": "Pollo al horno con ejotes y champiñones",
+      "recipeIndex": 1,
+      "line": 5,
+      "raw": "1 Tbsp de ajo, picado"
+    },
+    {
+      "alias": "ajo en polvo",
+      "englishName": "garlic powder",
+      "canonicalId": "garlic-powder",
+      "recipe": "Conchas rellenas envueltas en tocino",
+      "recipeIndex": 7,
+      "line": 9,
+      "raw": "2 tsp de ajo en polvo"
+    },
+    {
+      "alias": "cebolla en polvo",
+      "englishName": "onion powder",
+      "canonicalId": "onion-powder",
+      "recipe": "Filetes Salisbury con gravy de champiñones",
+      "recipeIndex": 3,
+      "line": 12,
+      "raw": "1/2 tsp de cebolla en polvo"
+    },
+    {
+      "alias": "cebolla",
+      "englishName": "onion",
+      "canonicalId": "onion",
+      "recipe": "Filetes Salisbury con gravy de champiñones",
+      "recipeIndex": 3,
+      "line": 12,
+      "raw": "1/2 tsp de cebolla en polvo"
+    },
+    {
+      "alias": "cebollas",
+      "englishName": "onion",
+      "canonicalId": "onion",
+      "recipe": "Tacos de Carnitas de Pato",
+      "recipeIndex": 77,
+      "line": 23,
+      "raw": "cebollas moradas encurtidas"
+    },
+    {
+      "alias": "cebolla amarilla",
+      "englishName": "yellow onion",
+      "canonicalId": "yellow-onion",
+      "recipe": "Sliders de champiñones y queso suizo",
+      "recipeIndex": 5,
+      "line": 6,
+      "raw": "1/2 cup de cebolla amarilla, picada en cubitos"
+    },
+    {
+      "alias": "cebollas amarillas",
+      "englishName": "yellow onion",
+      "canonicalId": "yellow-onion",
+      "recipe": "Cena de brisket con papas para Pésaj",
+      "recipeIndex": 212,
+      "line": 3,
+      "raw": "2 cebollas amarillas grandes, en rebanadas"
+    },
+    {
+      "alias": "cebolla roja",
+      "englishName": "red onion",
+      "canonicalId": "red-onion",
+      "recipe": "Conchas rellenas envueltas en tocino",
+      "recipeIndex": 7,
+      "line": 4,
+      "raw": "1 cebolla roja mediana, finamente picada"
+    },
+    {
+      "alias": "cebolla morada",
+      "englishName": "red onion",
+      "canonicalId": "red-onion",
+      "recipe": "Bowls de Arrachera con Chimichurri",
+      "recipeIndex": 64,
+      "line": 23,
+      "raw": "1/2 cup de cebolla morada, en rodajas finas"
+    },
+    {
+      "alias": "cebolla blanca",
+      "englishName": "white onion",
+      "canonicalId": "white-onion",
+      "recipe": "Cazuela de enchiladas de res en olla lenta",
+      "recipeIndex": 11,
+      "line": 6,
+      "raw": "1 cebolla blanca, picada en cubitos"
+    },
+    {
+      "alias": "cebollin",
+      "englishName": "green onion",
+      "canonicalId": "green-onion",
+      "recipe": "Mini Tortitas de Res al Estilo Coreano (Wanja Jeon)",
+      "recipeIndex": 76,
+      "line": 5,
+      "raw": "1 cebollín, en rodajas finas"
+    },
+    {
+      "alias": "cebollines",
+      "englishName": "green onion",
+      "canonicalId": "green-onion",
+      "recipe": "Atún ahi sellado",
+      "recipeIndex": 2,
+      "line": 19,
+      "raw": "1 Tbsp de cebollines, rebanados"
+    },
+    {
+      "alias": "tomate",
+      "englishName": "tomato",
+      "canonicalId": "tomato",
+      "recipe": "Espagueti de Tom",
+      "recipeIndex": 28,
+      "line": 5,
+      "raw": "1 lata (16 oz) de salsa de tomate"
+    },
+    {
+      "alias": "tomates",
+      "englishName": "tomato",
+      "canonicalId": "tomato",
+      "recipe": "Chili casero",
+      "recipeIndex": 0,
+      "line": 2,
+      "raw": "2 latas (14.5 oz) de tomates asados en cubitos"
+    },
+    {
+      "alias": "tomates cherry",
+      "englishName": "cherry tomatoes",
+      "canonicalId": "cherry-tomatoes",
+      "recipe": "Bowls de Arrachera con Chimichurri",
+      "recipeIndex": 64,
+      "line": 20,
+      "raw": "1 cup de tomates cherry, partidos a la mitad"
+    },
+    {
+      "alias": "tomates en cubitos",
+      "englishName": "diced tomatoes",
+      "canonicalId": "diced-tomatoes",
+      "recipe": "Chili casero",
+      "recipeIndex": 0,
+      "line": 3,
+      "raw": "1 lata (28 oz) de tomates en cubitos"
+    },
+    {
+      "alias": "tomates cortados en cubitos",
+      "englishName": "diced tomatoes",
+      "canonicalId": "diced-tomatoes",
+      "recipe": "Cazuela de Cena de 5 Capas Inspirada en Dolly",
+      "recipeIndex": 82,
+      "line": 5,
+      "raw": "1 lata (14.5 oz) de tomates cortados en cubitos, sin escurrir"
+    },
+    {
+      "alias": "tomates asados en cubitos",
+      "englishName": "fire roasted diced tomatoes",
+      "canonicalId": "fire-roasted-diced-tomatoes",
+      "recipe": "Chili casero",
+      "recipeIndex": 0,
+      "line": 2,
+      "raw": "2 latas (14.5 oz) de tomates asados en cubitos"
+    },
+    {
+      "alias": "tomates triturados",
+      "englishName": "crushed tomatoes",
+      "canonicalId": null,
+      "recipe": "Chili de Pavo en Olla Lenta",
+      "recipeIndex": 109,
+      "line": 6,
+      "raw": "1 lata (28 oz) de tomates triturados"
+    },
+    {
+      "alias": "salsa de tomate",
+      "englishName": "tomato sauce",
+      "canonicalId": "tomato-sauce",
+      "recipe": "Espagueti de Tom",
+      "recipeIndex": 28,
+      "line": 5,
+      "raw": "1 lata (16 oz) de salsa de tomate"
+    },
+    {
+      "alias": "pasta de tomate",
+      "englishName": "tomato paste",
+      "canonicalId": "tomato-paste",
+      "recipe": "Espagueti de Tom",
+      "recipeIndex": 28,
+      "line": 6,
+      "raw": "1 lata (6 oz) de pasta de tomate"
+    },
+    {
+      "alias": "maiz",
+      "englishName": "corn",
+      "canonicalId": "corn",
+      "recipe": "Chili casero",
+      "recipeIndex": 0,
+      "line": 5,
+      "raw": "1 lata (15 oz) de maíz, escurrido"
+    },
+    {
+      "alias": "leche",
+      "englishName": "milk",
+      "canonicalId": "milk",
+      "recipe": "Camarones estilo Wild West",
+      "recipeIndex": 4,
+      "line": 5,
+      "raw": "1 cup de leche"
+    },
+    {
+      "alias": "leche entera",
+      "englishName": "whole milk",
+      "canonicalId": "whole-milk",
+      "recipe": "Pastel de Carne con Mezcla Wagyu",
+      "recipeIndex": 78,
+      "line": 5,
+      "raw": "1/2 cup de leche entera"
+    },
+    {
+      "alias": "mantequilla",
+      "englishName": "butter",
+      "canonicalId": "butter",
+      "recipe": "Pollo al horno con ejotes y champiñones",
+      "recipeIndex": 1,
+      "line": 6,
+      "raw": "2 Tbsp de mantequilla"
+    },
+    {
+      "alias": "crema espesa",
+      "englishName": "heavy cream",
+      "canonicalId": "heavy-cream",
+      "recipe": "Pollo Alfredo",
+      "recipeIndex": 19,
+      "line": 9,
+      "raw": "1 cup de crema espesa"
+    },
+    {
+      "alias": "crema para batir",
+      "englishName": "heavy cream",
+      "canonicalId": "heavy-cream",
+      "recipe": "Pollo Toscano Marry Me con Orzo en Una Sola Sartén",
+      "recipeIndex": 88,
+      "line": 16,
+      "raw": "1/2 cup de crema para batir"
+    },
+    {
+      "alias": "crema agria",
+      "englishName": "sour cream",
+      "canonicalId": "sour-cream",
+      "recipe": "Chili casero",
+      "recipeIndex": 0,
+      "line": 9,
+      "raw": "crema agria"
+    },
+    {
+      "alias": "queso crema",
+      "englishName": "cream cheese",
+      "canonicalId": "cream-cheese",
+      "recipe": "Conchas rellenas envueltas en tocino",
+      "recipeIndex": 7,
+      "line": 6,
+      "raw": "6 oz de queso crema, suavizado"
+    },
+    {
+      "alias": "queso cheddar",
+      "englishName": "cheddar cheese",
+      "canonicalId": null,
+      "recipe": "Pasta de taco con queso",
+      "recipeIndex": 22,
+      "line": 8,
+      "raw": "1 cup de queso cheddar rallado"
+    },
+    {
+      "alias": "queso cheddar rallado",
+      "englishName": "shredded cheddar cheese",
+      "canonicalId": "shredded-cheddar-cheese",
+      "recipe": "Pasta de taco con queso",
+      "recipeIndex": 22,
+      "line": 8,
+      "raw": "1 cup de queso cheddar rallado"
+    },
+    {
+      "alias": "queso mozzarella rallado",
+      "englishName": "shredded mozzarella cheese",
+      "canonicalId": "shredded-mozzarella-cheese",
+      "recipe": "Pollo al horno con ejotes y champiñones",
+      "recipeIndex": 1,
+      "line": 9,
+      "raw": "1/2 cup de queso mozzarella rallado"
+    },
+    {
+      "alias": "queso mozzarella",
+      "englishName": "mozzarella cheese",
+      "canonicalId": null,
+      "recipe": "Pollo al horno con ejotes y champiñones",
+      "recipeIndex": 1,
+      "line": 9,
+      "raw": "1/2 cup de queso mozzarella rallado"
+    },
+    {
+      "alias": "queso parmesano rallado",
+      "englishName": "grated parmesan cheese",
+      "canonicalId": "grated-parmesan-cheese",
+      "recipe": "Pimientos rellenos de salchicha italiana",
+      "recipeIndex": 13,
+      "line": 10,
+      "raw": "1/4 cup de queso parmesano rallado"
+    },
+    {
+      "alias": "queso parmesano recien rallado",
+      "englishName": "grated parmesan cheese",
+      "canonicalId": "grated-parmesan-cheese",
+      "recipe": "Pollo Alfredo",
+      "recipeIndex": 19,
+      "line": 10,
+      "raw": "1 cup de queso parmesano recién rallado"
+    },
+    {
+      "alias": "queso parmesano",
+      "englishName": "parmesan cheese",
+      "canonicalId": "parmesan-cheese",
+      "recipe": "Pimientos rellenos de salchicha italiana",
+      "recipeIndex": 13,
+      "line": 10,
+      "raw": "1/4 cup de queso parmesano rallado"
+    },
+    {
+      "alias": "queso feta",
+      "englishName": "feta cheese",
+      "canonicalId": "feta-cheese",
+      "recipe": "Hamburguesas Mixtas de Cordero y Res",
+      "recipeIndex": 65,
+      "line": 21,
+      "raw": "4 rebanadas de queso feta, opcional"
+    },
+    {
+      "alias": "queso ricotta",
+      "englishName": "ricotta cheese",
+      "canonicalId": "ricotta-cheese",
+      "recipe": "Ziti al horno",
+      "recipeIndex": 18,
+      "line": 5,
+      "raw": "1 cup de queso ricotta"
+    },
+    {
+      "alias": "huevo",
+      "englishName": "egg",
+      "canonicalId": "egg",
+      "recipe": "Filetes Salisbury con gravy de champiñones",
+      "recipeIndex": 3,
+      "line": 3,
+      "raw": "1 huevo grande, batido"
+    },
+    {
+      "alias": "huevos",
+      "englishName": "egg",
+      "canonicalId": "egg",
+      "recipe": "Pastel de carne clásico",
+      "recipeIndex": 9,
+      "line": 6,
+      "raw": "2 huevos grandes"
+    },
+    {
+      "alias": "arroz",
+      "englishName": "rice",
+      "canonicalId": "rice",
+      "recipe": "Pollo al horno con ejotes y champiñones",
+      "recipeIndex": 1,
+      "line": 7,
+      "raw": "1 cup de arroz blanco"
+    },
+    {
+      "alias": "arroz blanco",
+      "englishName": "white rice",
+      "canonicalId": "white-rice",
+      "recipe": "Pollo al horno con ejotes y champiñones",
+      "recipeIndex": 1,
+      "line": 7,
+      "raw": "1 cup de arroz blanco"
+    },
+    {
+      "alias": "arroz integral",
+      "englishName": "brown rice",
+      "canonicalId": null,
+      "recipe": "Pollo y Verduras en Bandeja para Meal Prep",
+      "recipeIndex": 119,
+      "line": 11,
+      "raw": "3 tazas de arroz integral o quinoa cocida"
+    },
+    {
+      "alias": "fideos de huevo",
+      "englishName": "egg noodles",
+      "canonicalId": "egg-noodles",
+      "recipe": "Stroganoff de res",
+      "recipeIndex": 20,
+      "line": 13,
+      "raw": "8 oz de fideos de huevo"
+    },
+    {
+      "alias": "caldo de pollo",
+      "englishName": "chicken broth",
+      "canonicalId": "chicken-broth",
+      "recipe": "Pimientos rellenos de salchicha italiana",
+      "recipeIndex": 13,
+      "line": 9,
+      "raw": "1/4 cup de caldo de pollo"
+    },
+    {
+      "alias": "caldo de res",
+      "englishName": "beef broth",
+      "canonicalId": "beef-broth",
+      "recipe": "Filetes Salisbury con gravy de champiñones",
+      "recipeIndex": 3,
+      "line": 10,
+      "raw": "1 1/2 cups de caldo de res"
+    },
+    {
+      "alias": "caldo de verduras",
+      "englishName": "vegetable broth",
+      "canonicalId": "vegetable-broth",
+      "recipe": "Sopa de Pasta de Letras o Estrellitas",
+      "recipeIndex": 69,
+      "line": 9,
+      "raw": "6 cups de caldo de pollo (o caldo de verduras para versión vegetariana)"
+    },
+    {
+      "alias": "frijoles negros",
+      "englishName": "black beans",
+      "canonicalId": "black-beans",
+      "recipe": "Chili casero",
+      "recipeIndex": 0,
+      "line": 6,
+      "raw": "1 lata (15 oz) de frijoles negros, escurridos y enjuagados"
+    },
+    {
+      "alias": "frijoles pintos",
+      "englishName": "pinto beans",
+      "canonicalId": "pinto-beans",
+      "recipe": "Frijoles Refritos",
+      "recipeIndex": 290,
+      "line": 2,
+      "raw": "2 latas (15 oz) de frijoles pintos, escurridos y enjuagados"
+    },
+    {
+      "alias": "frijoles rojos",
+      "englishName": "kidney beans",
+      "canonicalId": "kidney-beans",
+      "recipe": "Chili de Pavo en Olla Lenta",
+      "recipeIndex": 109,
+      "line": 4,
+      "raw": "2 latas (15 oz cada una) de frijoles rojos, escurridos y enjuagados"
+    },
+    {
+      "alias": "garbanzos",
+      "englishName": "chickpeas",
+      "canonicalId": "chickpeas",
+      "recipe": "Jambalaya vegana",
+      "recipeIndex": 134,
+      "line": 20,
+      "raw": "1 lata (15 oz) de garbanzos, escurridos y enjuagados"
+    },
+    {
+      "alias": "pechuga de pollo",
+      "englishName": "chicken breast",
+      "canonicalId": "chicken-breast",
+      "recipe": "Pollo con miel y ajo",
+      "recipeIndex": 14,
+      "line": 1,
+      "raw": "1 1/2 lb de pechuga de pollo sin hueso y sin piel"
+    },
+    {
+      "alias": "pechugas de pollo",
+      "englishName": "chicken breast",
+      "canonicalId": "chicken-breast",
+      "recipe": "Pollo al horno con ejotes y champiñones",
+      "recipeIndex": 1,
+      "line": 1,
+      "raw": "4 pechugas de pollo sin piel"
+    },
+    {
+      "alias": "muslos de pollo",
+      "englishName": "chicken thigh",
+      "canonicalId": "chicken-thigh",
+      "recipe": "Muslos de pollo BBQ a la parrilla",
+      "recipeIndex": 34,
+      "line": 1,
+      "raw": "6 muslos de pollo con hueso y piel"
+    },
+    {
+      "alias": "carne molida de res",
+      "englishName": "ground beef",
+      "canonicalId": "ground-beef",
+      "recipe": "Chili casero",
+      "recipeIndex": 0,
+      "line": 1,
+      "raw": "1 lb de carne molida de res"
+    },
+    {
+      "alias": "pavo molido",
+      "englishName": "ground turkey",
+      "canonicalId": null,
+      "recipe": "Chili de Pavo en Olla Lenta",
+      "recipeIndex": 109,
+      "line": 1,
+      "raw": "1 1/2 lb de pavo molido"
+    },
+    {
+      "alias": "tocino",
+      "englishName": "bacon",
+      "canonicalId": "bacon",
+      "recipe": "Conchas rellenas envueltas en tocino",
+      "recipeIndex": 7,
+      "line": 12,
+      "raw": "3 paquetes (12 oz) de tocino"
+    },
+    {
+      "alias": "papa",
+      "englishName": "potato",
+      "canonicalId": null,
+      "recipe": "Gnocchi Crujiente en Charola con Verduras Rostizadas",
+      "recipeIndex": 130,
+      "line": 2,
+      "raw": "1 paquete (16 oz) de gnocchi de papa estable en estante"
+    },
+    {
+      "alias": "papas",
+      "englishName": "potato",
+      "canonicalId": null,
+      "recipe": "Horneado Cajún de Camarones, Salchicha y Papas",
+      "recipeIndex": 8,
+      "line": 2,
+      "raw": "3 libras de papas rojas en cubos"
+    },
+    {
+      "alias": "papas baby",
+      "englishName": "baby potatoes",
+      "canonicalId": "baby-potatoes",
+      "recipe": "Estofado de res en olla lenta",
+      "recipeIndex": 60,
+      "line": 4,
+      "raw": "1 lb de papas baby, cortadas en cubitos"
+    },
+    {
+      "alias": "camote",
+      "englishName": "sweet potato",
+      "canonicalId": "sweet-potato",
+      "recipe": "Wellington de verduras asadas",
+      "recipeIndex": 146,
+      "line": 2,
+      "raw": "1 camote grande, pelado y rebanado en rodajas"
+    },
+    {
+      "alias": "camotes",
+      "englishName": "sweet potato",
+      "canonicalId": "sweet-potato",
+      "recipe": "Hamburguesas de frijol negro con papas de camote",
+      "recipeIndex": 147,
+      "line": 2,
+      "raw": "2 camotes grandes, cortados en gajos"
+    },
+    {
+      "alias": "zanahoria",
+      "englishName": "carrot",
+      "canonicalId": "carrot",
+      "recipe": "Alitas de pollo crujientes",
+      "recipeIndex": 33,
+      "line": 16,
+      "raw": "palitos de zanahoria"
+    },
+    {
+      "alias": "zanahorias",
+      "englishName": "carrot",
+      "canonicalId": "carrot",
+      "recipe": "Pastel de carne con puré",
+      "recipeIndex": 12,
+      "line": 4,
+      "raw": "2 cups de verduras mixtas (zanahorias en cubitos, maíz, chícharos)"
+    },
+    {
+      "alias": "pimiento rojo",
+      "englishName": "red bell pepper",
+      "canonicalId": "red-bell-pepper",
+      "recipe": "Horneado Cajún de Camarones, Salchicha y Papas",
+      "recipeIndex": 8,
+      "line": 7,
+      "raw": "1 pimiento rojo picado"
+    },
+    {
+      "alias": "pimiento verde",
+      "englishName": "green bell pepper",
+      "canonicalId": "green-bell-pepper",
+      "recipe": "Horneado Cajún de Camarones, Salchicha y Papas",
+      "recipeIndex": 8,
+      "line": 6,
+      "raw": "1 pimiento verde picado"
+    },
+    {
+      "alias": "pimiento amarillo",
+      "englishName": "yellow bell pepper",
+      "canonicalId": null,
+      "recipe": "Salteado de verduras",
+      "recipeIndex": 128,
+      "line": 3,
+      "raw": "1 pimiento amarillo, rebanado"
+    },
+    {
+      "alias": "pepino",
+      "englishName": "cucumber",
+      "canonicalId": "cucumber",
+      "recipe": "Bowls de Salmón con Miel Picante y Arroz",
+      "recipeIndex": 89,
+      "line": 17,
+      "raw": "1 pepino persa, cortado en rodajas finas"
+    },
+    {
+      "alias": "lechuga romana",
+      "englishName": "romaine lettuce",
+      "canonicalId": "romaine-lettuce",
+      "recipe": "Ensalada clásica de jardín",
+      "recipeIndex": 183,
+      "line": 1,
+      "raw": "1 cabeza de lechuga romana, picada"
+    },
+    {
+      "alias": "espinaca fresca",
+      "englishName": "fresh spinach",
+      "canonicalId": "fresh-spinach",
+      "recipe": "Pastel de carne con verduras escondidas",
+      "recipeIndex": 27,
+      "line": 5,
+      "raw": "1/2 cup de espinaca fresca, finamente picada"
+    },
+    {
+      "alias": "cilantro fresco",
+      "englishName": "cilantro",
+      "canonicalId": "cilantro",
+      "recipe": "Pan plano con pollo BBQ",
+      "recipeIndex": 17,
+      "line": 8,
+      "raw": "1 Tbsp de cilantro fresco, picado, opcional"
+    },
+    {
+      "alias": "perejil",
+      "englishName": "parsley",
+      "canonicalId": "parsley",
+      "recipe": "Pastel de carne clásico",
+      "recipeIndex": 9,
+      "line": 13,
+      "raw": "1/2 tsp de perejil seco"
+    },
+    {
+      "alias": "perejil fresco",
+      "englishName": "parsley",
+      "canonicalId": "parsley",
+      "recipe": "Salmón con mantequilla y limón",
+      "recipeIndex": 15,
+      "line": 9,
+      "raw": "1 Tbsp de perejil fresco"
+    },
+    {
+      "alias": "perejil seco",
+      "englishName": "dried parsley",
+      "canonicalId": "dried-parsley",
+      "recipe": "Pastel de carne clásico",
+      "recipeIndex": 9,
+      "line": 13,
+      "raw": "1/2 tsp de perejil seco"
+    },
+    {
+      "alias": "tomillo seco",
+      "englishName": "dried thyme",
+      "canonicalId": "dried-thyme",
+      "recipe": "Horneado Cajún de Camarones, Salchicha y Papas",
+      "recipeIndex": 8,
+      "line": 17,
+      "raw": "1 cucharada de tomillo seco"
+    },
+    {
+      "alias": "romero seco",
+      "englishName": "dried rosemary",
+      "canonicalId": "dried-rosemary",
+      "recipe": "Horneado Cajún de Camarones, Salchicha y Papas",
+      "recipeIndex": 8,
+      "line": 16,
+      "raw": "1 cucharada de romero seco"
+    },
+    {
+      "alias": "oregano seco",
+      "englishName": "dried oregano",
+      "canonicalId": "dried-oregano",
+      "recipe": "Filetes Salisbury con gravy de champiñones",
+      "recipeIndex": 3,
+      "line": 6,
+      "raw": "1/2 tsp de orégano seco"
+    },
+    {
+      "alias": "jengibre fresco",
+      "englishName": "fresh ginger",
+      "canonicalId": "fresh-ginger",
+      "recipe": "Pollo con miel y ajo",
+      "recipeIndex": 14,
+      "line": 9,
+      "raw": "1 Tbsp de jengibre fresco, rallado, o 1/2 tsp de jengibre molido"
+    },
+    {
+      "alias": "comino",
+      "englishName": "ground cumin",
+      "canonicalId": "cumin",
+      "recipe": "Pasta de taco con queso",
+      "recipeIndex": 22,
+      "line": 14,
+      "raw": "1 tsp de comino"
+    },
+    {
+      "alias": "comino molido",
+      "englishName": "ground cumin",
+      "canonicalId": "cumin",
+      "recipe": "Gyros en Bandeja con Papel Pergamino",
+      "recipeIndex": 90,
+      "line": 6,
+      "raw": "1 tsp de comino molido"
+    },
+    {
+      "alias": "canela",
+      "englishName": "cinnamon",
+      "canonicalId": "cinnamon",
+      "recipe": "Tacos de Birria Cocidos Lentamente",
+      "recipeIndex": 73,
+      "line": 22,
+      "raw": "1/2 tsp de canela"
+    },
+    {
+      "alias": "canela molida",
+      "englishName": "cinnamon",
+      "canonicalId": "cinnamon",
+      "recipe": "Sazonador casero para chili",
+      "recipeIndex": 173,
+      "line": 8,
+      "raw": "una pizca pequeña de canela molida"
+    },
+    {
+      "alias": "paprika ahumada",
+      "englishName": "smoked paprika",
+      "canonicalId": "smoked-paprika",
+      "recipe": "Pastel de carne clásico",
+      "recipeIndex": 9,
+      "line": 11,
+      "raw": "1 tsp de paprika ahumada"
+    },
+    {
+      "alias": "chile en polvo",
+      "englishName": "chili powder",
+      "canonicalId": "chili-powder",
+      "recipe": "Pasta de taco con queso",
+      "recipeIndex": 22,
+      "line": 13,
+      "raw": "1 Tbsp de chile en polvo"
+    },
+    {
+      "alias": "hojuelas de chile rojo",
+      "englishName": "red pepper flakes",
+      "canonicalId": "red-pepper-flakes",
+      "recipe": "Conchas rellenas envueltas en tocino",
+      "recipeIndex": 7,
+      "line": 11,
+      "raw": "1 tsp de hojuelas de chile rojo"
+    },
+    {
+      "alias": "pimienta de cayena",
+      "englishName": "cayenne pepper",
+      "canonicalId": "cayenne-pepper",
+      "recipe": "Horneado Cajún de Camarones, Salchicha y Papas",
+      "recipeIndex": 8,
+      "line": 18,
+      "raw": "1/2 cucharadita de pimienta de cayena"
+    },
+    {
+      "alias": "sazonador italiano",
+      "englishName": "italian seasoning",
+      "canonicalId": "italian-seasoning",
+      "recipe": "Pizza escolar",
+      "recipeIndex": 6,
+      "line": 5,
+      "raw": "3 Tbsp de sazonador italiano"
+    },
+    {
+      "alias": "condimento italiano",
+      "englishName": "italian seasoning",
+      "canonicalId": "italian-seasoning",
+      "recipe": "Horneado Cajún de Camarones, Salchicha y Papas",
+      "recipeIndex": 8,
+      "line": 15,
+      "raw": "1 cucharada de condimento italiano"
+    },
+    {
+      "alias": "sazonador para tacos",
+      "englishName": "taco seasoning",
+      "canonicalId": "taco-seasoning",
+      "recipe": "Cazuela de enchiladas de res en olla lenta",
+      "recipeIndex": 11,
+      "line": 2,
+      "raw": "1 paquete de sazonador para tacos"
+    },
+    {
+      "alias": "harina",
+      "englishName": "flour",
+      "canonicalId": "flour",
+      "recipe": "Filetes Salisbury con gravy de champiñones",
+      "recipeIndex": 3,
+      "line": 9,
+      "raw": "2 Tbsp de harina"
+    },
+    {
+      "alias": "harina para todo uso",
+      "englishName": "flour",
+      "canonicalId": "flour",
+      "recipe": "Macarrones con Queso Fáciles",
+      "recipeIndex": 95,
+      "line": 3,
+      "raw": "2 Tbsp de harina para todo uso"
+    },
+    {
+      "alias": "azucar",
+      "englishName": "sugar",
+      "canonicalId": "sugar",
+      "recipe": "Pastel de carne clásico",
+      "recipeIndex": 9,
+      "line": 18,
+      "raw": "2 Tbsp de azúcar morena"
+    },
+    {
+      "alias": "azucar morena",
+      "englishName": "brown sugar",
+      "canonicalId": "brown-sugar",
+      "recipe": "Pastel de carne clásico",
+      "recipeIndex": 9,
+      "line": 18,
+      "raw": "2 Tbsp de azúcar morena"
+    },
+    {
+      "alias": "maicena",
+      "englishName": "cornstarch",
+      "canonicalId": "cornstarch",
+      "recipe": "Pollo con miel y ajo",
+      "recipeIndex": 14,
+      "line": 2,
+      "raw": "2 Tbsp de maicena, opcional"
+    },
+    {
+      "alias": "miel",
+      "englishName": "honey",
+      "canonicalId": "honey",
+      "recipe": "Atún ahi sellado",
+      "recipeIndex": 2,
+      "line": 14,
+      "raw": "1 tsp de miel"
+    },
+    {
+      "alias": "salsa de soya",
+      "englishName": "soy sauce",
+      "canonicalId": "soy-sauce",
+      "recipe": "Atún ahi sellado",
+      "recipeIndex": 2,
+      "line": 9,
+      "raw": "1 tsp de salsa de soya"
+    },
+    {
+      "alias": "salsa worcestershire",
+      "englishName": "worcestershire sauce",
+      "canonicalId": "worcestershire-sauce",
+      "recipe": "Filetes Salisbury con gravy de champiñones",
+      "recipeIndex": 3,
+      "line": 11,
+      "raw": "1 tsp de salsa worcestershire"
+    },
+    {
+      "alias": "salsa barbecue",
+      "englishName": "bbq sauce",
+      "canonicalId": "bbq-sauce",
+      "recipe": "Conchas rellenas envueltas en tocino",
+      "recipeIndex": 7,
+      "line": 13,
+      "raw": "1/2 cup de salsa barbecue, más extra para barnizar"
+    },
+    {
+      "alias": "vinagre de manzana",
+      "englishName": "apple cider vinegar",
+      "canonicalId": "apple-cider-vinegar",
+      "recipe": "Pollo con miel y ajo",
+      "recipeIndex": 14,
+      "line": 10,
+      "raw": "1 Tbsp de vinagre de arroz o vinagre de manzana"
+    },
+    {
+      "alias": "vinagre de arroz",
+      "englishName": "rice vinegar",
+      "canonicalId": "rice-vinegar",
+      "recipe": "Atún ahi sellado",
+      "recipeIndex": 2,
+      "line": 13,
+      "raw": "1 Tbsp de vinagre de arroz"
+    },
+    {
+      "alias": "aceite de sesamo",
+      "englishName": "sesame oil",
+      "canonicalId": "sesame-oil",
+      "recipe": "Atún ahi sellado",
+      "recipeIndex": 2,
+      "line": 3,
+      "raw": "1 Tbsp de aceite de sésamo o aceite de oliva"
+    },
+    {
+      "alias": "aceite de ajonjoli",
+      "englishName": "sesame oil",
+      "canonicalId": "sesame-oil",
+      "recipe": "Mini Tortitas de Res al Estilo Coreano (Wanja Jeon)",
+      "recipeIndex": 76,
+      "line": 7,
+      "raw": "1 tsp de aceite de ajonjolí"
+    },
+    {
+      "alias": "aceite vegetal",
+      "englishName": "vegetable oil",
+      "canonicalId": "vegetable-oil",
+      "recipe": "Arroz frito con pollo",
+      "recipeIndex": 16,
+      "line": 7,
+      "raw": "1 Tbsp de aceite vegetal"
+    },
+    {
+      "alias": "semillas de sesamo",
+      "englishName": "sesame seeds",
+      "canonicalId": "sesame-seeds",
+      "recipe": "Atún ahi sellado",
+      "recipeIndex": 2,
+      "line": 8,
+      "raw": "2 Tbsp de semillas de sésamo blancas o mixtas"
+    },
+    {
+      "alias": "mayonesa",
+      "englishName": "mayonnaise",
+      "canonicalId": "mayonnaise",
+      "recipe": "Pastelitos de cangrejo estilo Maryland",
+      "recipeIndex": 30,
+      "line": 3,
+      "raw": "1/4 cup de mayonesa"
+    },
+    {
+      "alias": "mostaza amarilla",
+      "englishName": "yellow mustard",
+      "canonicalId": "yellow-mustard",
+      "recipe": "Pastel de carne con verduras escondidas",
+      "recipeIndex": 27,
+      "line": 19,
+      "raw": "1 tsp de mostaza amarilla"
+    },
+    {
+      "alias": "mostaza dijon",
+      "englishName": "dijon mustard",
+      "canonicalId": "dijon-mustard",
+      "recipe": "Filetes Salisbury con gravy de champiñones",
+      "recipeIndex": 3,
+      "line": 5,
+      "raw": "1 tsp de mostaza dijon"
+    },
+    {
+      "alias": "extracto de vainilla",
+      "englishName": "vanilla extract",
+      "canonicalId": "vanilla-extract",
+      "recipe": "Cazuela de pan francés",
+      "recipeIndex": 177,
+      "line": 5,
+      "raw": "1 Tbsp de extracto de vainilla"
+    },
+    {
+      "alias": "polvo para hornear",
+      "englishName": "baking powder",
+      "canonicalId": "baking-powder",
+      "recipe": "Muslos de pollo al horno",
+      "recipeIndex": 54,
+      "line": 11,
+      "raw": "1/2 tsp de polvo para hornear, opcional para piel extra crujiente"
+    },
+    {
+      "alias": "bicarbonato de sodio",
+      "englishName": "baking soda",
+      "canonicalId": "baking-soda",
+      "recipe": "Pan de Maíz con Buttermilk en Sartén de Hierro Inspirado en Dolly",
+      "recipeIndex": 247,
+      "line": 6,
+      "raw": "1/2 tsp de bicarbonato de sodio"
+    },
+    {
+      "alias": "salsa marinara",
+      "englishName": "marinara sauce",
+      "canonicalId": "marinara-sauce",
+      "recipe": "Ziti al horno",
+      "recipeIndex": 18,
+      "line": 3,
+      "raw": "1 frasco (24 oz) de salsa marinara"
+    },
+    {
+      "alias": "crema de pollo",
+      "englishName": "cream of chicken soup",
+      "canonicalId": "cream-of-chicken-soup",
+      "recipe": "Sopa de papa en olla lenta",
+      "recipeIndex": 32,
+      "line": 3,
+      "raw": "1 lata (10.75 oz) de crema de pollo"
+    },
+    {
+      "alias": "champinones",
+      "englishName": "mushrooms",
+      "canonicalId": "mushrooms",
+      "recipe": "Pollo al horno con ejotes y champiñones",
+      "recipeIndex": 1,
+      "line": 2,
+      "raw": "8 oz de champiñones baby bella, rebanados"
+    },
+    {
+      "alias": "champinones baby bella",
+      "englishName": "baby bella mushrooms",
+      "canonicalId": "baby-bella-mushrooms",
+      "recipe": "Pollo al horno con ejotes y champiñones",
+      "recipeIndex": 1,
+      "line": 2,
+      "raw": "8 oz de champiñones baby bella, rebanados"
+    },
+    {
+      "alias": "glaseado balsamico",
+      "englishName": "balsamic glaze",
+      "canonicalId": "balsamic-glaze",
+      "recipe": "Gnocchi Crujiente en Charola con Verduras Rostizadas",
+      "recipeIndex": 130,
+      "line": 19,
+      "raw": "1 Tbsp de glaseado balsámico, opcional"
+    },
+    {
+      "alias": "tortillas de harina",
+      "englishName": "flour tortillas",
+      "canonicalId": "flour-tortillas",
+      "recipe": "Quesadillas de frijoles negros",
+      "recipeIndex": 135,
+      "line": 1,
+      "raw": "4 tortillas de harina pequeñas"
+    },
+    {
+      "alias": "tortillas de maiz",
+      "englishName": "corn tortillas",
+      "canonicalId": "corn-tortillas",
+      "recipe": "Cazuela de enchiladas de res en olla lenta",
+      "recipeIndex": 11,
+      "line": 7,
+      "raw": "10 tortillas de maíz (6-inch), cortadas en triángulos"
+    },
+    {
+      "alias": "aguacate",
+      "englishName": "avocado",
+      "canonicalId": "avocado",
+      "recipe": "Bowls de Arrachera con Chimichurri",
+      "recipeIndex": 64,
+      "line": 21,
+      "raw": "1 aguacate, en rebanadas"
+    },
+    {
+      "alias": "apio",
+      "englishName": "celery",
+      "canonicalId": "celery-stalk",
+      "recipe": "Carne asada en olla lenta",
+      "recipeIndex": 31,
+      "line": 13,
+      "raw": "2 cups de apio, cortado en trozos de 1 inch"
+    },
+    {
+      "alias": "tallos de apio",
+      "englishName": "celery stalk",
+      "canonicalId": "celery-stalk",
+      "recipe": "Sopa de Pasta de Letras o Estrellitas",
+      "recipeIndex": 69,
+      "line": 5,
+      "raw": "2 tallos de apio, picados"
+    },
+    {
+      "alias": "crema de champinones",
+      "englishName": "cream of mushroom soup",
+      "canonicalId": null,
+      "recipe": "Pollo al horno con ejotes y champiñones",
+      "recipeIndex": 1,
+      "line": 3,
+      "raw": "2 latas (10.5 oz) de crema de champiñones"
+    },
+    {
+      "alias": "chiles verdes",
+      "englishName": "green chiles",
+      "canonicalId": null,
+      "recipe": "Cazuela de enchiladas de res en olla lenta",
+      "recipeIndex": 11,
+      "line": 5,
+      "raw": "1 lata (4 oz) de chiles verdes"
+    },
+    {
+      "alias": "sazonador para chili",
+      "englishName": "chili seasoning",
+      "canonicalId": null,
+      "recipe": "Chili casero",
+      "recipeIndex": 0,
+      "line": 7,
+      "raw": "1 paquete de sazonador para chili"
+    },
+    {
+      "alias": "frijoles para chili",
+      "englishName": "chili beans",
+      "canonicalId": null,
+      "recipe": "Chili casero",
+      "recipeIndex": 0,
+      "line": 4,
+      "raw": "1 lata (15.5 oz) de frijoles para chili, sin escurrir"
+    },
+    {
+      "alias": "verduras mixtas congeladas",
+      "englishName": "frozen mixed vegetables",
+      "canonicalId": "frozen-mixed-vegetables",
+      "recipe": "Arroz frito con pollo",
+      "recipeIndex": 16,
+      "line": 4,
+      "raw": "1 cup de verduras mixtas congeladas"
+    },
+    {
+      "alias": "chicharos congelados",
+      "englishName": "frozen peas",
+      "canonicalId": "frozen-peas",
+      "recipe": "Estofado de res en olla lenta",
+      "recipeIndex": 60,
+      "line": 14,
+      "raw": "1 1/2 cups de chícharos congelados"
+    },
+    {
+      "alias": "brocoli",
+      "englishName": "broccoli",
+      "canonicalId": null,
+      "recipe": "Salteado de res con brócoli",
+      "recipeIndex": 25,
+      "line": 2,
+      "raw": "3 cups de floretes de brócoli"
+    },
+    {
+      "alias": "floretes de brocoli",
+      "englishName": "broccoli",
+      "canonicalId": null,
+      "recipe": "Salteado de res con brócoli",
+      "recipeIndex": 25,
+      "line": 2,
+      "raw": "3 cups de floretes de brócoli"
+    },
+    {
+      "alias": "calabacin",
+      "englishName": "zucchini",
+      "canonicalId": "zucchini",
+      "recipe": "Pollo y Verduras en Bandeja para Meal Prep",
+      "recipeIndex": 119,
+      "line": 3,
+      "raw": "1 calabacín grande, picado"
+    },
+    {
+      "alias": "crutones",
+      "englishName": "croutons",
+      "canonicalId": "croutons",
+      "recipe": "Ensalada clásica de jardín",
+      "recipeIndex": 183,
+      "line": 6,
+      "raw": "1/2 cup de crutones"
+    },
+    {
+      "alias": "biscuits refrigerados",
+      "englishName": "refrigerated biscuits",
+      "canonicalId": null,
+      "recipe": "Sartén de chicken pot pie para lluvias de abril",
+      "recipeIndex": 214,
+      "line": 12,
+      "raw": "1 lata de biscuits refrigerados"
+    },
+    {
+      "alias": "masa refrigerada para crescent rolls",
+      "englishName": "crescent roll dough",
+      "canonicalId": null,
+      "recipe": "Rosca de taco cargada con arroz de cilantro y lima",
+      "recipeIndex": 61,
+      "line": 6,
+      "raw": "16 oz de masa refrigerada para crescent rolls"
+    },
+    {
+      "alias": "panes para hamburguesa",
+      "englishName": "hamburger buns",
+      "canonicalId": "hamburger-bun",
+      "recipe": "Hamburguesas a la parrilla",
+      "recipeIndex": 40,
+      "line": 6,
+      "raw": "4 a 6 panes para hamburguesa"
+    },
+    {
+      "alias": "panes para hot dog",
+      "englishName": "hot dog buns",
+      "canonicalId": null,
+      "recipe": "Hot dogs con chili y queso",
+      "recipeIndex": 49,
+      "line": 2,
+      "raw": "8 panes para hot dog"
+    },
+    {
+      "alias": "ejotes",
+      "englishName": "green beans",
+      "canonicalId": null,
+      "recipe": "Pollo al horno con ejotes y champiñones",
+      "recipeIndex": 1,
+      "line": 4,
+      "raw": "1 lata (14.5 oz) de ejotes, escurridos"
+    },
+    {
+      "alias": "ejotes frescos",
+      "englishName": "fresh green beans",
+      "canonicalId": null,
+      "recipe": "Pollo con Limón, Ajo y Ejotes en Olla Lenta",
+      "recipeIndex": 111,
+      "line": 2,
+      "raw": "1 lb de ejotes frescos, limpios"
+    },
+    {
+      "alias": "carne molida de cerdo",
+      "englishName": "ground pork",
+      "canonicalId": null,
+      "recipe": "Pastel de carne ahumado",
+      "recipeIndex": 57,
+      "line": 4,
+      "raw": "1 lb de carne molida de cerdo"
+    },
+    {
+      "alias": "carne molida de cordero",
+      "englishName": "ground lamb",
+      "canonicalId": null,
+      "recipe": "Hamburguesas Mixtas de Cordero y Res",
+      "recipeIndex": 65,
+      "line": 3,
+      "raw": "1 lb de carne molida de cordero"
+    },
+    {
+      "alias": "pollo",
+      "englishName": "chicken",
+      "canonicalId": null,
+      "recipe": "Pollo al horno con ejotes y champiñones",
+      "recipeIndex": 1,
+      "line": 1,
+      "raw": "4 pechugas de pollo sin piel"
+    },
+    {
+      "alias": "pollo cocido",
+      "englishName": "cooked chicken",
+      "canonicalId": null,
+      "recipe": "Arroz frito con pollo",
+      "recipeIndex": 16,
+      "line": 2,
+      "raw": "1 lb de pollo cocido, cortado en cubitos, o pollo rostizado"
+    },
+    {
+      "alias": "pollo cocido deshebrado",
+      "englishName": "cooked shredded chicken",
+      "canonicalId": null,
+      "recipe": "Quesadillas Fáciles para Niños",
+      "recipeIndex": 97,
+      "line": 3,
+      "raw": "1 taza de pollo cocido deshebrado o 1 lata (15 oz) de frijoles negros, escurridos y enjuagados, opcional"
+    },
+    {
+      "alias": "maiz congelado",
+      "englishName": "frozen corn",
+      "canonicalId": null,
+      "recipe": "Sopa de Piedra de Mamá Inspirada en Dolly",
+      "recipeIndex": 83,
+      "line": 22,
+      "raw": "1 cup de maíz congelado"
+    },
+    {
+      "alias": "lima",
+      "englishName": "lime",
+      "canonicalId": "lime",
+      "recipe": "Chili blanco de pollo",
+      "recipeIndex": 50,
+      "line": 10,
+      "raw": "1 Tbsp de jugo de lima"
+    },
+    {
+      "alias": "jugo de lima",
+      "englishName": "lime juice",
+      "canonicalId": null,
+      "recipe": "Chili blanco de pollo",
+      "recipeIndex": 50,
+      "line": 10,
+      "raw": "1 Tbsp de jugo de lima"
+    },
+    {
+      "alias": "gochujang",
+      "englishName": "gochujang",
+      "canonicalId": null,
+      "recipe": "Fideos Cremosos con Chili Crisp y Gochujang en 10 Minutos",
+      "recipeIndex": 92,
+      "line": 5,
+      "raw": "Salsa Cremosa de Gochujang:"
+    },
+    {
+      "alias": "agua mineral con gas",
+      "englishName": "sparkling water",
+      "canonicalId": null,
+      "recipe": "Nojito de menta y lima",
+      "recipeIndex": 180,
+      "line": 5,
+      "raw": "2 oz de agua mineral con gas"
+    },
+    {
+      "alias": "pimiento morron",
+      "englishName": "bell pepper",
+      "canonicalId": "bell-pepper",
+      "recipe": "Brochetas de Pulpo de Hot Dog y Verduras",
+      "recipeIndex": 126,
+      "line": 2,
+      "raw": "1 pimiento morrón, cortado en trozos grandes"
+    },
+    {
+      "alias": "pimientos",
+      "englishName": "bell pepper",
+      "canonicalId": "bell-pepper",
+      "recipe": "Pimientos rellenos de salchicha italiana",
+      "recipeIndex": 13,
+      "line": 12,
+      "raw": "3 pimientos grandes"
+    },
+    {
+      "alias": "arroz blanco de grano largo",
+      "englishName": "long grain white rice",
+      "canonicalId": null,
+      "recipe": "Sartén de salchicha y arroz para Mardi Gras",
+      "recipeIndex": 206,
+      "line": 7,
+      "raw": "1 1/2 cups de arroz blanco de grano largo"
+    },
+    {
+      "alias": "frijoles blancos",
+      "englishName": "white beans",
+      "canonicalId": null,
+      "recipe": "Chili blanco de pollo",
+      "recipeIndex": 50,
+      "line": 5,
+      "raw": "2 latas (15 oz) de frijoles blancos, escurridos y enjuagados"
+    },
+    {
+      "alias": "tomates rostizados",
+      "englishName": "fire-roasted tomatoes",
+      "canonicalId": "fire-roasted-diced-tomatoes",
+      "recipe": "Tacos de Birria Cocidos Lentamente",
+      "recipeIndex": 73,
+      "line": 13,
+      "raw": "1 lata (14 oz) de tomates rostizados"
+    },
+    {
+      "alias": "tomates en cubitos con chiles verdes",
+      "englishName": "diced tomatoes with green chiles",
+      "canonicalId": "tomatoes-with-green-chiles",
+      "recipe": "Sopa de Tortilla con Pollo en Olla Lenta",
+      "recipeIndex": 107,
+      "line": 5,
+      "raw": "1 lata (10 oz) de tomates en cubitos con chiles verdes"
+    },
+    {
+      "alias": "leche de coco",
+      "englishName": "coconut milk",
+      "canonicalId": "coconut-milk",
+      "recipe": "Curry de garbanzos",
+      "recipeIndex": 141,
+      "line": 14,
+      "raw": "1 lata (13.5 oz) de leche de coco entera"
+    },
+    {
+      "alias": "leche de coco entera",
+      "englishName": "full-fat coconut milk",
+      "canonicalId": null,
+      "recipe": "Curry de garbanzos",
+      "recipeIndex": 141,
+      "line": 14,
+      "raw": "1 lata (13.5 oz) de leche de coco entera"
+    },
+    {
+      "alias": "mezcla ranch",
+      "englishName": "ranch seasoning mix",
+      "canonicalId": null,
+      "recipe": "Pollo Mississippi",
+      "recipeIndex": 70,
+      "line": 5,
+      "raw": "1 paquete de mezcla ranch"
+    },
+    {
+      "alias": "sazonador ranch",
+      "englishName": "ranch seasoning mix",
+      "canonicalId": null,
+      "recipe": "Pollo Cremoso Ranch con Papas en Olla Lenta",
+      "recipeIndex": 108,
+      "line": 3,
+      "raw": "1 paquete de sazonador ranch"
+    },
+    {
+      "alias": "tortellini de queso",
+      "englishName": "cheese tortellini",
+      "canonicalId": null,
+      "recipe": "Tortellini cremoso con espinaca",
+      "recipeIndex": 139,
+      "line": 1,
+      "raw": "1 paquete (20 oz) de tortellini de queso"
+    },
+    {
+      "alias": "gnocchi de papa estable en estante",
+      "englishName": "shelf-stable potato gnocchi",
+      "canonicalId": null,
+      "recipe": "Gnocchi Crujiente en Charola con Verduras Rostizadas",
+      "recipeIndex": 130,
+      "line": 2,
+      "raw": "1 paquete (16 oz) de gnocchi de papa estable en estante"
+    },
+    {
+      "alias": "albondigas congeladas completamente cocidas",
+      "englishName": "frozen fully cooked meatballs",
+      "canonicalId": null,
+      "recipe": "Espagueti con Albóndigas para Niños",
+      "recipeIndex": 94,
+      "line": 3,
+      "raw": "1 bolsa (20 oz) de albóndigas congeladas completamente cocidas"
+    },
+    {
+      "alias": "papas hash brown congeladas en cubitos",
+      "englishName": "frozen diced hash brown potatoes",
+      "canonicalId": null,
+      "recipe": "Sopa de papa en olla lenta",
+      "recipeIndex": 32,
+      "line": 1,
+      "raw": "1 bolsa (30 oz) de papas hash brown congeladas en cubitos"
+    },
+    {
+      "alias": "sopa de tomate condensada",
+      "englishName": "condensed tomato soup",
+      "canonicalId": null,
+      "recipe": "Sándwich de Queso a la Plancha con Sopa de Tomate",
+      "recipeIndex": 102,
+      "line": 4,
+      "raw": "2 latas (10.75 oz cada una) de sopa de tomate condensada"
+    },
+    {
+      "alias": "huevos fritos",
+      "englishName": "fried eggs",
+      "canonicalId": null,
+      "recipe": "Fideos Cremosos con Chili Crisp y Gochujang en 10 Minutos",
+      "recipeIndex": 92,
+      "line": 15,
+      "raw": "2 huevos fritos"
+    },
+    {
+      "alias": "huevos pasados por agua",
+      "englishName": "soft-boiled eggs",
+      "canonicalId": null,
+      "recipe": "Ramen de curry con coco",
+      "recipeIndex": 157,
+      "line": 20,
+      "raw": "2 huevos pasados por agua"
+    }
+  ],
+  "units": [
+    {
+      "alias": "taza",
+      "englishUnit": "cup",
+      "recipe": "Barra de Tacos para Armar",
+      "recipeIndex": 93,
+      "line": 3,
+      "raw": "2/3 taza de agua"
+    },
+    {
+      "alias": "tazas",
+      "englishUnit": "cups",
+      "recipe": "Macarrones con Queso Fáciles",
+      "recipeIndex": 95,
+      "line": 4,
+      "raw": "1 1/2 tazas de leche"
+    },
+    {
+      "alias": "cucharada",
+      "englishUnit": "Tbsp",
+      "recipe": "Horneado Cajún de Camarones, Salchicha y Papas",
+      "recipeIndex": 8,
+      "line": 11,
+      "raw": "1 cucharada de aceite de oliva"
+    },
+    {
+      "alias": "cucharadas",
+      "englishUnit": "Tbsp",
+      "recipe": "Horneado Cajún de Camarones, Salchicha y Papas",
+      "recipeIndex": 8,
+      "line": 9,
+      "raw": "4 cucharadas de mantequilla, divididas"
+    },
+    {
+      "alias": "cucharadita",
+      "englishUnit": "tsp",
+      "recipe": "Horneado Cajún de Camarones, Salchicha y Papas",
+      "recipeIndex": 8,
+      "line": 14,
+      "raw": "1 cucharadita de paprika"
+    },
+    {
+      "alias": "diente",
+      "englishUnit": "clove",
+      "recipe": "Hamburguesas Mixtas de Cordero y Res",
+      "recipeIndex": 65,
+      "line": 14,
+      "raw": "1 diente de ajo, picado"
+    },
+    {
+      "alias": "dientes",
+      "englishUnit": "cloves",
+      "recipe": "Pastel de carne clásico",
+      "recipeIndex": 9,
+      "line": 5,
+      "raw": "2 dientes de ajo, picados"
+    },
+    {
+      "alias": "lata",
+      "englishUnit": "can",
+      "recipe": "Chili casero",
+      "recipeIndex": 0,
+      "line": 3,
+      "raw": "1 lata (28 oz) de tomates en cubitos"
+    },
+    {
+      "alias": "latas",
+      "englishUnit": "cans",
+      "recipe": "Chili casero",
+      "recipeIndex": 0,
+      "line": 2,
+      "raw": "2 latas (14.5 oz) de tomates asados en cubitos"
+    },
+    {
+      "alias": "paquete",
+      "englishUnit": "package",
+      "recipe": "Chili casero",
+      "recipeIndex": 0,
+      "line": 7,
+      "raw": "1 paquete de sazonador para chili"
+    },
+    {
+      "alias": "paquetes",
+      "englishUnit": "packages",
+      "recipe": "Conchas rellenas envueltas en tocino",
+      "recipeIndex": 7,
+      "line": 12,
+      "raw": "3 paquetes (12 oz) de tocino"
+    },
+    {
+      "alias": "frasco",
+      "englishUnit": "jar",
+      "recipe": "Pizza escolar",
+      "recipeIndex": 6,
+      "line": 6,
+      "raw": "1 frasco (13 oz) de salsa para pizza"
+    },
+    {
+      "alias": "frascos",
+      "englishUnit": "jars",
+      "recipe": "Sándwiches de Albóndigas en Olla Lenta",
+      "recipeIndex": 110,
+      "line": 2,
+      "raw": "2 frascos (24 oz cada uno) de salsa marinara"
+    },
+    {
+      "alias": "cabeza",
+      "englishUnit": "head",
+      "recipe": "Ensalada clásica de jardín",
+      "recipeIndex": 183,
+      "line": 1,
+      "raw": "1 cabeza de lechuga romana, picada"
+    },
+    {
+      "alias": "rebanada",
+      "englishUnit": "slice",
+      "recipe": "Pan plano con pollo BBQ",
+      "recipeIndex": 17,
+      "line": 4,
+      "raw": "1/2 cebolla roja pequeña, rebanada finamente"
+    },
+    {
+      "alias": "rebanadas",
+      "englishUnit": "slices",
+      "recipe": "Sliders de champiñones y queso suizo",
+      "recipeIndex": 5,
+      "line": 18,
+      "raw": "12 rebanadas de queso suizo"
+    },
+    {
+      "alias": "tiras",
+      "englishUnit": "strips",
+      "recipe": "Fajitas en bandeja",
+      "recipeIndex": 52,
+      "line": 1,
+      "raw": "1 1/2 lb de pechuga de pollo, rebanada en tiras"
+    },
+    {
+      "alias": "manojo",
+      "englishUnit": "bunch",
+      "recipe": "Paquetes de tilapia y espárragos en aluminio",
+      "recipeIndex": 10,
+      "line": 1,
+      "raw": "1 manojo de espárragos"
+    },
+    {
+      "alias": "bolsa",
+      "englishUnit": "bag",
+      "recipe": "Sopa de papa en olla lenta",
+      "recipeIndex": 32,
+      "line": 1,
+      "raw": "1 bolsa (30 oz) de papas hash brown congeladas en cubitos"
+    },
+    {
+      "alias": "bolsas",
+      "englishUnit": "bags",
+      "recipe": "Noche de tacos caminantes de campamento",
+      "recipeIndex": 226,
+      "line": 4,
+      "raw": "6 bolsas pequeñas de chips de maíz"
+    }
+  ],
+  "rules": [
+    {
+      "rule": "connector",
+      "recipe": "Atún ahi sellado",
+      "recipeIndex": 2,
+      "line": 4,
+      "raw": "1/2 tsp de sal"
+    },
+    {
+      "rule": "size",
+      "recipe": "Pastel de carne clásico",
+      "recipeIndex": 9,
+      "line": 4,
+      "raw": "1 cebolla amarilla pequeña, finamente picada"
+    },
+    {
+      "rule": "trailing-preparation",
+      "recipe": "Cena de fideos salteados para el Año Nuevo Lunar",
+      "recipeIndex": 202,
+      "line": 13,
+      "raw": "2 cebollines, en rebanadas"
+    },
+    {
+      "rule": "preparation-suffix",
+      "recipe": "Cena de mini hamburguesas para el gran partido",
+      "recipeIndex": 204,
+      "line": 9,
+      "raw": "3 Tbsp de mantequilla derretida"
+    },
+    {
+      "rule": "boneless-skinless",
+      "recipe": "Pollo Alfredo",
+      "recipeIndex": 19,
+      "line": 1,
+      "raw": "2 pechugas de pollo sin hueso y sin piel, rebanadas"
+    },
+    {
+      "rule": "optional",
+      "recipe": "Curry de garbanzos",
+      "recipeIndex": 141,
+      "line": 16,
+      "raw": "1 tsp de azúcar, opcional"
+    },
+    {
+      "rule": "taste",
+      "recipe": "Stroganoff de res",
+      "recipeIndex": 20,
+      "line": 11,
+      "raw": "1/2 tsp de sal, más al gusto"
+    },
+    {
+      "rule": "package-size",
+      "recipe": "Chili casero",
+      "recipeIndex": 0,
+      "line": 6,
+      "raw": "1 lata (15 oz) de frijoles negros, escurridos y enjuagados"
+    },
+    {
+      "rule": "range",
+      "recipe": "Pastel de carne con puré",
+      "recipeIndex": 12,
+      "line": 1,
+      "raw": "1 1/2 a 2 lb de papas (aprox. 3 grandes), peladas y cortadas en cuartos"
+    },
+    {
+      "rule": "alternative",
+      "recipe": "Sándwiches de pollo parmesano gratinados",
+      "recipeIndex": 42,
+      "line": 6,
+      "raw": "1 Tbsp de aceite de oliva o mantequilla"
+    },
+    {
+      "rule": "preparation-choice",
+      "recipe": "Pastel de carne con verduras escondidas",
+      "recipeIndex": 27,
+      "line": 4,
+      "raw": "1/2 cebolla amarilla pequeña, finamente picada o rallada"
+    },
+    {
+      "rule": "process-water",
+      "recipe": "Ziti al horno",
+      "recipeIndex": 18,
+      "line": 4,
+      "raw": "1/2 cup de agua o agua reservada de la pasta"
+    },
+    {
+      "rule": "warm-water",
+      "recipe": "Pan de Canela Inspirado en Dollywood",
+      "recipeIndex": 312,
+      "line": 7,
+      "raw": "1/4 cup de agua tibia"
+    },
+    {
+      "rule": "quart-water",
+      "recipe": "Té tropical de piña",
+      "recipeIndex": 178,
+      "line": 1,
+      "raw": "1 quart de agua caliente"
+    },
+    {
+      "rule": "water-only-alternative",
+      "recipe": "Ziti al horno",
+      "recipeIndex": 18,
+      "line": 4,
+      "raw": "1/2 cup de agua o agua reservada de la pasta"
+    },
+    {
+      "rule": "beverage-preserved",
+      "recipe": "Nojito de menta y lima",
+      "recipeIndex": 180,
+      "line": 5,
+      "raw": "2 oz de agua mineral con gas"
+    },
+    {
+      "rule": "explicit-lime",
+      "recipe": "Chili blanco de pollo",
+      "recipeIndex": 50,
+      "line": 10,
+      "raw": "1 Tbsp de jugo de lima"
+    },
+    {
+      "recipe": "Horneado Cajún de Camarones, Salchicha y Papas",
+      "recipeIndex": 8,
+      "line": 2,
+      "raw": "3 libras de papas rojas en cubos",
+      "rule": "cube-word-form"
+    },
+    {
+      "recipe": "Atún ahi sellado",
+      "recipeIndex": 2,
+      "line": 19,
+      "raw": "1 Tbsp de cebollines, rebanados",
+      "rule": "regular-noun-inflection"
+    },
+    {
+      "recipe": "Horneado Cajún de Camarones, Salchicha y Papas",
+      "recipeIndex": 8,
+      "line": 14,
+      "raw": "1 cucharadita de paprika",
+      "rule": "regular-unit-inflection"
+    },
+    {
+      "rule": "Accented Spanish words are not English alternative separators",
+      "recipeIndex": 3,
+      "recipe": "Filetes Salisbury con gravy de champiñones",
+      "line": 6,
+      "raw": "1/2 tsp de orégano seco"
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import { hasSpanishIngredientChoice, normalizeSpanishKey } from "./spanishIngredients";
 /**
  * Grocery fulfillment choice classification.
  *
@@ -47,6 +48,7 @@ export function resolveGroceryChoice(
   // Remove known cooking/preparation phrases from
   // choice detection, not from the original ingredient.
   const preparationPatterns = [
+    /\b(?:picad[oa]s?|rebanad[oa]s?)\s+o\s+(?:rallad[oa]s?|picad[oa]s?)\b/gi,
     /\btails?\s+on\s+or\s+off\b/gi,
     /\b(?:finely\s+)?minced\s+or\s+grated\b/gi,
     /\bskillet\s+or\s+pot\b/gi,
@@ -84,7 +86,7 @@ export function resolveGroceryChoice(
     return result("needs-selection", "make-or-buy");
   }
 
-  if (/\bor\b/i.test(candidate)) {
+  if (/\bor\b/i.test(normalizeSpanishKey(candidate)) || hasSpanishIngredientChoice(candidate)) {
     return result("needs-selection", "alternative");
   }
 

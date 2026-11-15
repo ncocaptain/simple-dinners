@@ -31,7 +31,8 @@ function load(file, dependencies = {}) {
 }
 
 const resolver = load(
-  "src/core/groceryChoiceResolver.ts"
+  "src/core/groceryChoiceResolver.ts",
+  { "./spanishIngredients": load("src/core/spanishIngredients.ts") }
 );
 
 const handoff = load(

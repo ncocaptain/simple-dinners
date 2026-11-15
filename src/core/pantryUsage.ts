@@ -1,3 +1,4 @@
+import { hasSpanishIngredientChoice, spanishUnitForMatching } from "./spanishIngredients";
 import type { PantryItem } from "./types";
 
 import {
@@ -29,6 +30,7 @@ export function getPantryComparableName(
   value: string,
   unit?: string | null
 ) {
+  if (hasSpanishIngredientChoice(value)) return "";
   return normalizeIngredientIdentity(
     value, unit
   );
@@ -55,8 +57,8 @@ function unitsMatch(
   recipeUnit: string | null
 ) {
   return (
-    normalizeIngredientUnit(pantryUnit) ===
-    normalizeIngredientUnit(recipeUnit)
+    normalizeIngredientUnit(spanishUnitForMatching(pantryUnit)) ===
+    normalizeIngredientUnit(spanishUnitForMatching(recipeUnit))
   );
 }
 
@@ -115,7 +117,7 @@ export function buildPantryUsageSuggestions(
 
     const pantryUnit =
       normalizeIngredientUnit(
-        pantryItem.unit
+        spanishUnitForMatching(pantryItem.unit)
       );
 
     const recipeUnit =
