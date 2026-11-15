@@ -33,9 +33,9 @@ const TERMS_OF_USE_URL =
 const UPGRADE_COPY = {
   en: {
     eyebrow: "Simple Dinners plans",
-    title: "Dinner help that fits your family.",
+    title: "Save time every week with Simple Dinners Plus.",
     description:
-      "Simple Dinners stays genuinely useful for free. Plus adds smarter tools and household convenience.",
+      "Keep the free planning tools you already use. Plus helps your household plan faster, stay in sync, save recipes quickly, and simplify shopping.",
     free: {
       badge: "FREE",
       title: "Simple Dinners",
@@ -52,17 +52,17 @@ const UPGRADE_COPY = {
       badge: "PLUS",
       title: "Simple Dinners Plus",
       subtitle:
-        "Extra convenience for busy households.",
+        "Less dinner work for your whole household.",
       items: [
-        "Smart Week personalized planning",
-        "Smart Shopping organization",
-        "Instagram and TikTok recipe import",
-        "AI screenshot recipe import",
-        "Shared plans, lists, and Cookbook",
+        "Plan your whole week faster with Smart Week",
+        "Keep plans, Pantry, shopping lists, and Cookbook synced",
+        "Save recipes from Instagram, TikTok, and screenshots",
+        "Get smarter shopping organization",
+        "One Plus subscription can cover your household",
       ],
       monthly: "Monthly",
       annual: "Yearly",
-      bestValue: "BEST VALUE",
+      bestValue: "SAVE WITH YEARLY",
       perMonth: "per month",
       billedYearly: "billed yearly",
       chooseMonthly: "Choose monthly",
@@ -116,9 +116,9 @@ const UPGRADE_COPY = {
   es: {
     eyebrow: "Planes de Simple Dinners",
     title:
-      "Ayuda con la cena que se adapta a tu familia.",
+      "Ahorra tiempo cada semana con Simple Dinners Plus.",
     description:
-      "Simple Dinners seguirá siendo realmente útil gratis. Plus añade herramientas más inteligentes y comodidad para el hogar.",
+      "Conserva las herramientas gratuitas que ya usas. Plus ayuda a tu hogar a planificar más rápido, mantenerse sincronizado, guardar recetas y simplificar las compras.",
     free: {
       badge: "GRATIS",
       title: "Simple Dinners",
@@ -137,17 +137,17 @@ const UPGRADE_COPY = {
       badge: "PLUS",
       title: "Simple Dinners Plus",
       subtitle:
-        "Más comodidad para hogares ocupados.",
+        "Menos trabajo para la cena en todo tu hogar.",
       items: [
-        "Planificación personalizada con Semana Inteligente",
-        "Organización con Compras Inteligentes",
-        "Importación desde Instagram y TikTok",
-        "Importación de recetas desde capturas con IA",
-        "Planes, listas y recetario compartidos",
+        "Planifica toda la semana más rápido con Semana Inteligente",
+        "Sincroniza planes, despensa, compras y recetario",
+        "Guarda recetas desde Instagram, TikTok y capturas",
+        "Organiza mejor las compras",
+        "Una suscripción Plus puede cubrir tu hogar",
       ],
       monthly: "Mensual",
       annual: "Anual",
-      bestValue: "MEJOR VALOR",
+      bestValue: "AHORRA CON ANUAL",
       perMonth: "al mes",
       billedYearly: "facturado anualmente",
       chooseMonthly: "Elegir mensual",
