@@ -23,14 +23,15 @@ const PLUS_DISCOVERY_COPY = {
     standardTitle:
       "Discover Simple Dinners Plus",
     trialDescription:
-      "Get seven days to explore the extra tools built to make dinner planning even easier.",
+      "See how much time Plus can save your household—from planning the week to saving recipes and shopping.",
     standardDescription:
-      "Unlock extra tools built to save time from planning through shopping.",
+      "Save time every week with smarter planning, shared household tools, faster recipe saving, and better-organized shopping.",
     features: [
-      "Import recipes from Instagram and TikTok",
-      "Plan smarter with Smart Week",
-      "Organize faster with Smart Shopping",
-      "Share plans, lists, and your Cookbook",
+      "Build your week faster with Smart Week",
+      "Keep plans, Pantry, shopping lists, and Cookbook in sync",
+      "Save recipes from Instagram, TikTok, and screenshots",
+      "Get smarter shopping organization",
+      "One Plus subscription can cover your household",
     ],
     trialAction: "See Trial Options",
     standardAction: "Explore Plus",
@@ -46,14 +47,15 @@ const PLUS_DISCOVERY_COPY = {
     standardTitle:
       "Descubre Simple Dinners Plus",
     trialDescription:
-      "Tienes siete días para explorar herramientas adicionales que hacen aún más fácil planificar la cena.",
+      "Descubre cuánto tiempo puede ahorrar Plus a tu hogar, desde planificar la semana hasta guardar recetas y hacer las compras.",
     standardDescription:
-      "Desbloquea herramientas adicionales para ahorrar tiempo desde la planificación hasta las compras.",
+      "Ahorra tiempo cada semana con planificación más inteligente, herramientas compartidas, recetas guardadas más rápido y compras mejor organizadas.",
     features: [
-      "Importa recetas desde Instagram y TikTok",
-      "Planifica mejor con Semana Inteligente",
-      "Organiza más rápido con Compras Inteligentes",
-      "Comparte planes, listas y tu recetario",
+      "Crea tu semana más rápido con Semana Inteligente",
+      "Sincroniza planes, despensa, compras y recetario",
+      "Guarda recetas desde Instagram, TikTok y capturas",
+      "Organiza mejor las compras",
+      "Una suscripción Plus puede cubrir tu hogar",
     ],
     trialAction: "Ver Opciones de Prueba",
     standardAction: "Explorar Plus",
