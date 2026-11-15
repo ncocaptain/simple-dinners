@@ -33,6 +33,7 @@ import {
 import {
   loadRawShoppingList,
   saveShoppingList,
+  previewRecipeIngredientForShopping,
   SHOPPING_LIST_CHANGED_EVENT,
   type ShoppingItem,
 } from "../shoppingList";
@@ -1974,7 +1975,7 @@ function isForcedSpice(cleaned: string) {
 
 function resolveShoppingCategory(name: string): GroceryCategory {
   const cleaned = cleanIngredientName(name).toLowerCase();
-  const specificCategory = getSpecificGroceryCategory(cleaned);
+  const specificCategory = getSpecificGroceryCategory(name) || getSpecificGroceryCategory(cleaned);
   if (specificCategory) return specificCategory;
   // Audit-discovered category protections.
   if (cleaned.includes("cream of mushroom soup")) {
@@ -2112,7 +2113,7 @@ function resolveShoppingCategoryForItem(
 ): GroceryCategory {
   const rawBrandName = normalizeManualText(name).toLowerCase();
   const cleaned = cleanIngredientName(name).toLowerCase();
-  const specificCategory = getSpecificGroceryCategory(cleaned);
+  const specificCategory = getSpecificGroceryCategory(name) || getSpecificGroceryCategory(cleaned);
   if (specificCategory) return specificCategory;
 
   // Preserve fresh-herb identity before cleanup strips "fresh".
@@ -3810,11 +3811,15 @@ export default function ShoppingListPage() {
         safeName =
           `fresh ${freshHerbSourceMatch[1].toLowerCase()}`;
       }
-      // Preserve retailer-important product forms from the raw recipe source.
-      if (/\bfire[- ]roasted diced tomatoes?\b/i.test(preservedRecipeIngredientText)) {
-        safeName = "fire-roasted diced tomatoes";
-      } else if (/\bdiced tomatoes?\b/i.test(preservedRecipeIngredientText)) {
-        safeName = "diced tomatoes";
+      // Reuse the production preview for forms that generic row cleanup strips.
+      // Do not change source quantities or resolve a shopper's alternatives.
+      if (/\b(?:tomato|tomatoes|paprika)\b/i.test(preservedRecipeIngredientText)) {
+        const sourceProduct = previewRecipeIngredientForShopping(preservedRecipeIngredientText);
+        if (sourceProduct?.category === "Pantry" && /^(?:(?:fire[- ]roasted|italian[- ]style) )?(?:diced|crushed|stewed)?\s*tomatoes?(?: with green chiles)?$/.test(sourceProduct.normalizedName)) {
+          safeName = sourceProduct.normalizedName;
+        } else if (sourceProduct?.normalizedName === "smoked paprika") {
+          safeName = "smoked paprika";
+        }
       }
 
       if (safeName === "cooked white rice") {
@@ -4491,7 +4496,8 @@ export default function ShoppingListPage() {
       const thumbnail =
         resolveSmartShoppingThumbnail(
           value.name,
-          value.category
+          value.category,
+          { unit: value.unit }
         );
 
       const sourceShoppingItems =
@@ -4560,7 +4566,8 @@ export default function ShoppingListPage() {
                     item.text ||
                     value.name ||
                     ""
-                )
+                ),
+                item.unit
               );
             })
             .filter(Boolean)
@@ -4571,7 +4578,7 @@ export default function ShoppingListPage() {
       ) {
         const fallbackKey =
           getPantryComparableName(
-            value.name
+            value.name, value.unit
           );
 
         if (fallbackKey) {
@@ -4593,7 +4600,7 @@ export default function ShoppingListPage() {
       const matchingPantryItems = pantryKey
         ? pantryItems.filter(
             (item) =>
-              getPantryComparableName(item.name) === pantryKey
+              getPantryComparableName(item.name, item.unit) === pantryKey
           )
         : [];
 
@@ -4813,7 +4820,7 @@ export default function ShoppingListPage() {
       .map((row) => {
         const pantry = pantryItems.find(
           (entry) =>
-            getPantryComparableName(entry.name) === row.pantryKey
+            getPantryComparableName(entry.name, entry.unit) === row.pantryKey
         );
 
         return {

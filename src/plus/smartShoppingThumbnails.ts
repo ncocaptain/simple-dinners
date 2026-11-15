@@ -1,3 +1,4 @@
+import { findCanonicalIngredient } from "../core/ingredientRegistry";
 import type { GroceryCategory } from "../core/groceryCategories";
 
 export type SmartShoppingThumbnailMatchType =
@@ -12,6 +13,33 @@ export type SmartShoppingThumbnailMatch = {
 };
 
 const EXACT_THUMBNAIL_KEYS: Record<string, string> = {
+  "mild salsa": "salsa",
+  "tomato slices": "tomato",
+  "pint cherry tomatoes": "tomato",
+  "vanilla yogurt": "yogurt",
+  "natural peanut butter": "peanut-butter",
+  "fresh baby spinach": "spinach",
+  "fresh cracked black pepper": "black-pepper",
+  "grated fresh ginger": "ginger",
+  "sliced avocado": "avocado",
+  "persian cucumber": "cucumber",
+  "carrot sticks": "carrot",
+  "celery sticks": "celery",
+  "refrigerated crescent rolls": "crescent-roll-dough",
+  "whole wheat tortillas": "tortillas",
+  "street taco-sized flour tortillas": "tortillas",
+  "toasted sesame seeds": "sesame-seeds",
+  "butter for brushing": "butter",
+  "powdered sugar for dusting": "powdered-sugar",
+
+  // Catalog audit aliases: reuse only the same food/form's existing asset.
+  "dried italian seasoning": "italian-seasoning",
+  "fire roasted tomatoes": "diced-tomatoes",
+  "fire-roasted tomatoes": "diced-tomatoes",
+  "fire-roasted diced tomatoes": "diced-tomatoes",
+  "italian style diced tomatoes": "diced-tomatoes",
+  "italian-style diced tomatoes": "diced-tomatoes",
+
   // Produce
   onion: "onion",
   "yellow onion": "yellow-onion",
@@ -659,7 +687,7 @@ const BROAD_THUMBNAIL_RULES: Array<{
     },
     {
       matches: (name) =>
-        name.includes("potato"),
+        name.includes("potato") && !/\b(?:chips|gnocchi|starch|flakes|flour|fries|hash)\b/.test(name),
       thumbnailKey: "potato",
     },
     {
@@ -669,7 +697,7 @@ const BROAD_THUMBNAIL_RULES: Array<{
     },
     {
       matches: (name) =>
-        name.includes("tomato"),
+        /^(?:(?:fresh|cherry|grape|roma|plum|beefsteak) )?tomato(?:es)?$/.test(name),
       thumbnailKey: "tomato",
     },
     {
@@ -728,7 +756,7 @@ const BROAD_THUMBNAIL_RULES: Array<{
     {
       matches: (name) =>
         name.includes("milk") &&
-        !name.includes("almond"),
+        !/\b(?:almond|coconut|oat|soy|buttermilk|condensed|evaporated)\b/.test(name),
       thumbnailKey: "milk",
     },
   ];
@@ -1046,12 +1074,24 @@ export function getLocalSmartShoppingThumbnailSrc(
 export function resolveSmartShoppingThumbnail(
   productName: unknown,
   category: GroceryCategory,
+  context: { unit?: string | null } = {},
 ): SmartShoppingThumbnailMatch {
-  const normalizedName =
-    normalizeThumbnailName(productName);
+  let normalizedName = normalizeThumbnailName(productName);
+  if (/^cans?$/.test(context.unit || "") && normalizedName === "corn") {
+    normalizedName = "canned corn";
+  }
+  if (/^cans?$/.test(context.unit || "") && /^(?:tomato|tomatoes)$/.test(normalizedName)) {
+    normalizedName = "canned tomatoes";
+  }
+  const canonical = findCanonicalIngredient(normalizedName);
 
   const exactThumbnailKey =
-    EXACT_THUMBNAIL_KEYS[normalizedName];
+    EXACT_THUMBNAIL_KEYS[normalizedName] ||
+    EXACT_THUMBNAIL_KEYS[normalizedName.replace(/-/g, " ")] ||
+    (canonical && (
+      EXACT_THUMBNAIL_KEYS[normalizeThumbnailName(canonical.canonicalName)] ||
+      EXACT_THUMBNAIL_KEYS[normalizeThumbnailName(canonical.grocerySearchName)]
+    ));
 
   if (exactThumbnailKey) {
     return {

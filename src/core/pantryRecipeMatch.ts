@@ -42,7 +42,7 @@ export function matchRecipeToPantry(
           "past-date"
       )
       .map((item) =>
-        getPantryComparableName(item.name)
+        getPantryComparableName(item.name, item.unit)
       )
       .filter(Boolean)
   );
@@ -59,7 +59,7 @@ export function matchRecipeToPantry(
         )
         .map((item) =>
           getPantryComparableName(
-            item.name
+            item.name, item.unit
           )
         )
         .filter(Boolean)

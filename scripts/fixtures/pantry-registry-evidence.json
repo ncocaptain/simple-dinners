@@ -1,0 +1,149 @@
+[
+  {
+    "id": "smoked-paprika",
+    "kind": "identity",
+    "lookup": "smoked paprika",
+    "recipe": "Classic Meatloaf",
+    "raw": "1 tsp smoked paprika"
+  },
+  {
+    "id": "hot-dogs",
+    "kind": "identity",
+    "lookup": "hot dogs",
+    "recipe": "Chili Cheese Dogs",
+    "raw": "8 hot dogs"
+  },
+  {
+    "id": "red-wine-vinegar",
+    "kind": "identity",
+    "lookup": "red wine vinegar",
+    "recipe": "Chimichurri Skirt Steak Bowls",
+    "raw": "2 Tbsp red wine vinegar"
+  },
+  {
+    "id": "panko-breadcrumbs",
+    "kind": "identity",
+    "lookup": "panko breadcrumbs",
+    "recipe": "Salisbury Steak with Mushroom Gravy",
+    "raw": "1/4 cup panko breadcrumbs"
+  },
+  {
+    "id": "buttermilk",
+    "kind": "identity",
+    "lookup": "buttermilk",
+    "recipe": "Homemade Fried Chicken",
+    "raw": "2 cups buttermilk"
+  },
+  {
+    "id": "elbow-macaroni",
+    "kind": "identity",
+    "lookup": "elbow macaroni",
+    "recipe": "Easy Stovetop Mac & Cheese",
+    "raw": "8 oz elbow macaroni"
+  },
+  {
+    "id": "frozen-peas",
+    "kind": "identity",
+    "lookup": "frozen peas",
+    "recipe": "Slow Cooker Beef Stew",
+    "raw": "1 1/2 cups frozen peas"
+  },
+  {
+    "id": "nutmeg",
+    "kind": "identity",
+    "lookup": "nutmeg",
+    "recipe": "Jamaican Jerk Chicken",
+    "raw": "1 tsp nutmeg"
+  },
+  {
+    "id": "kalamata-olives",
+    "kind": "identity",
+    "lookup": "kalamata olives",
+    "recipe": "Mediterranean Stuffed Bell Peppers",
+    "raw": "1/4 cup Kalamata olives, chopped"
+  },
+  {
+    "id": "monterey-jack-cheese",
+    "kind": "identity",
+    "lookup": "monterey jack cheese",
+    "recipe": "Cheesy Taco Pasta",
+    "raw": "1/2 cup Monterey Jack cheese (optional, for extra melt)"
+  },
+  {
+    "id": "penne-pasta",
+    "kind": "identity",
+    "lookup": "penne pasta",
+    "recipe": "Meal Prep Baked Ziti",
+    "raw": "1 lb ziti or penne pasta"
+  },
+  {
+    "id": "peanut-butter",
+    "kind": "identity",
+    "lookup": "peanut butter",
+    "recipe": "Buttered Toast",
+    "raw": "peanut butter"
+  },
+  {
+    "id": "asparagus",
+    "kind": "identity",
+    "lookup": "asparagus",
+    "recipe": "Tilapia & Asparagus Foil Packets",
+    "raw": "1 bunch asparagus"
+  },
+  {
+    "id": "balsamic-vinegar",
+    "kind": "identity",
+    "lookup": "balsamic vinegar",
+    "recipe": "Grilled Sausage and Peppers",
+    "raw": "1 Tbsp balsamic vinegar (optional, for finishing)"
+  },
+  {
+    "id": "cornmeal",
+    "kind": "identity",
+    "lookup": "cornmeal",
+    "recipe": "School Pizza",
+    "raw": "3 Tbsp cornmeal"
+  },
+  {
+    "id": "coconut-milk",
+    "kind": "identity",
+    "lookup": "coconut milk",
+    "recipe": "Chickpea Curry",
+    "raw": "1 can (13.5 oz) full-fat coconut milk"
+  },
+  {
+    "id": "chicken-broth",
+    "kind": "alias",
+    "lookup": "chicken stock",
+    "recipe": "Pan-Seared Scallops with Lemon Risotto",
+    "raw": "3 cups chicken stock (kept warm)"
+  },
+  {
+    "id": "beef-broth",
+    "kind": "alias",
+    "lookup": "beef stock",
+    "recipe": "Salisbury Steak with Mushroom Gravy",
+    "raw": "1 1/2 cups beef stock"
+  },
+  {
+    "id": "vegetable-broth",
+    "kind": "alias",
+    "lookup": "vegetable stock",
+    "recipe": "Vegan Jambalaya",
+    "raw": "3 cups vegetable stock"
+  },
+  {
+    "id": "breadcrumbs",
+    "kind": "alias",
+    "lookup": "plain breadcrumbs",
+    "recipe": "Dolly-Inspired Parton Family Meatloaf",
+    "raw": "1 cup plain breadcrumbs"
+  },
+  {
+    "id": "tomatoes-with-green-chiles",
+    "kind": "identity",
+    "lookup": "rotel",
+    "recipe": "Taco Soup",
+    "raw": "1 can (10 oz) Rotel"
+  }
+]

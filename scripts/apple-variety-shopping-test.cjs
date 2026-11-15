@@ -1,24 +1,6 @@
 const assert = require("node:assert/strict");
-const fs = require("fs");
-const ts = require("typescript");
-
-function load(file) {
-  const source = fs.readFileSync(file, "utf8");
-  const output = ts.transpileModule(source, {
-    compilerOptions: {
-      module: ts.ModuleKind.CommonJS,
-      target: ts.ScriptTarget.ES2020,
-    },
-  }).outputText;
-
-  const mod = { exports: {} };
-  new Function("module", "exports", "require", output)(
-    mod,
-    mod.exports,
-    () => ({})
-  );
-  return mod.exports;
-}
+const { createTypeScriptLoader } = require("./lib/load-typescript.cjs");
+const load = createTypeScriptLoader();
 
 const categories = load(
   "src/core/groceryCategories.ts"

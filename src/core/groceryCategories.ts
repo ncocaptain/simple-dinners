@@ -556,6 +556,18 @@ function isFreshAppleVariety(normalized: string) {
 
 export function getSpecificGroceryCategory(name: string): GroceryCategory | null {
   const normalized = normalize(name);
+  if (/^(?:(?:fire[- ]roasted|italian[- ]style) )?(?:diced|crushed|stewed) tomatoes?$/.test(normalized)) return "Pantry";
+  if (/^(?:refrigerated )?crescent roll dough$/.test(normalized)) return "Deli / Refrigerated";
+  if (normalized === "peanut butter") return "Pantry";
+  if (/^cocktail sausages?$/.test(normalized)) return "Meat / Seafood";
+
+  // Built-in catalog audit: explicit frozen and seasoning products outrank
+  // packaging and broad dairy/meat keywords in every caller.
+  if (/\bfrozen\b/.test(normalized) || /^(?:vanilla|chocolate|strawberry)?\s*ice cream$/.test(normalized)) return "Frozen";
+  if (/^(?:chili|ranch|fajita) seasoning(?: mix)?$/.test(normalized) || /^mckays? chicken seasoning$/.test(normalized)) return "Spices / Seasonings";
+  if (/^corned beef brisket(?: with seasoning packet)?$/.test(normalized)) return "Meat / Seafood";
+  if (/^(?:hard boiled|soft boiled|hard-boiled|soft-boiled|fried or soft-boiled) eggs?$/.test(normalized)) return "Dairy / Eggs";
+
 
   
   if (

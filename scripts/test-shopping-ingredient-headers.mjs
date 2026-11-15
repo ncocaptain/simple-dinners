@@ -1,24 +1,9 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { runInNewContext } from "node:vm";
-import ts from "typescript";
+import loader from "./lib/load-typescript.cjs";
 
-// The ingredient parser has no runtime imports, so we can transpile and test it
-// without requiring tsx or a browser-like DOM.
-const source = readFileSync("src/core/ingredientParser.ts", "utf8");
-const { outputText } = ts.transpileModule(source, {
-  compilerOptions: {
-    module: ts.ModuleKind.CommonJS,
-    target: ts.ScriptTarget.ES2022,
-  },
-});
-
-const moduleObject = { exports: {} };
-runInNewContext(outputText, {
-  exports: moduleObject.exports,
-  module: moduleObject,
-});
-const { isIngredientSectionHeader } = moduleObject.exports;
+const load = loader.createTypeScriptLoader();
+const { isIngredientSectionHeader } = load("src/core/ingredientParser.ts");
 assert.equal(typeof isIngredientSectionHeader, "function");
 
 for (const value of [

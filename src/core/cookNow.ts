@@ -69,7 +69,7 @@ function pantryNames(
     )
     .map((item) =>
       normalizeIngredientIdentity(
-        item.name
+        item.name, item.unit
       )
     )
     .filter(Boolean);
@@ -79,15 +79,7 @@ function ingredientMatchesPantry(
   ingredient: string,
   pantry: string[]
 ) {
-  return pantry.some(
-    (pantryName) =>
-      ingredient.includes(
-        pantryName
-      ) ||
-      pantryName.includes(
-        ingredient
-      )
-  );
+  return pantry.includes(ingredient);
 }
 
 export function rankCookNowMeals(

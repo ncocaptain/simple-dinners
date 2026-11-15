@@ -126,6 +126,7 @@ export const INGREDIENT_REGISTRY: CanonicalIngredient[] = [
     canonicalName: "Chicken Broth",
     category: "Pantry",
     grocerySearchName: "chicken broth",
+    aliases: ["chicken stock"],
     mergePolicy: "same-unit",
   },
   {
@@ -133,6 +134,7 @@ export const INGREDIENT_REGISTRY: CanonicalIngredient[] = [
     canonicalName: "Beef Broth",
     category: "Pantry",
     grocerySearchName: "beef broth",
+    aliases: ["beef stock"],
     mergePolicy: "same-unit",
   },
   {
@@ -632,6 +634,7 @@ export const INGREDIENT_REGISTRY: CanonicalIngredient[] = [
     canonicalName: "Vegetable Broth",
     category: "Pantry",
     grocerySearchName: "vegetable broth",
+    aliases: ["vegetable stock"],
     mergePolicy: "same-unit",
   },
   {
@@ -773,7 +776,7 @@ export const INGREDIENT_REGISTRY: CanonicalIngredient[] = [
     canonicalName: "Breadcrumbs",
     category: "Pantry",
     grocerySearchName: "breadcrumbs",
-    aliases: ["bread crumbs"],
+    aliases: ["plain breadcrumbs", "bread crumbs"],
     mergePolicy: "same-unit",
   },
   {
@@ -1045,6 +1048,161 @@ export const INGREDIENT_REGISTRY: CanonicalIngredient[] = [
     grocerySearchName: "powdered sugar",
     mergePolicy: "same-unit",
   },
+  // Built-in evidence: Classic Meatloaf: 1 tsp smoked paprika
+  {
+      "id": "smoked-paprika",
+      "canonicalName": "Smoked Paprika",
+      "category": "Spices / Seasonings",
+      "grocerySearchName": "smoked paprika",
+      "mergePolicy": "same-unit"
+  },
+  // Built-in evidence: Chili Cheese Dogs: 8 hot dogs
+  {
+      "id": "hot-dogs",
+      "canonicalName": "Hot Dogs",
+      "category": "Meat / Seafood",
+      "grocerySearchName": "hot dogs",
+      "aliases": [
+          "hot dog"
+      ],
+      "mergePolicy": "same-unit"
+  },
+  // Built-in evidence: Chimichurri Skirt Steak Bowls: 2 Tbsp red wine vinegar
+  {
+      "id": "red-wine-vinegar",
+      "canonicalName": "Red Wine Vinegar",
+      "category": "Pantry",
+      "grocerySearchName": "red wine vinegar",
+      "mergePolicy": "same-unit"
+  },
+  // Built-in evidence: Salisbury Steak with Mushroom Gravy: 1/4 cup panko breadcrumbs
+  {
+      "id": "panko-breadcrumbs",
+      "canonicalName": "Panko Breadcrumbs",
+      "category": "Pantry",
+      "grocerySearchName": "panko breadcrumbs",
+      "aliases": [
+          "panko bread crumbs"
+      ],
+      "mergePolicy": "same-unit"
+  },
+  // Built-in evidence: Homemade Fried Chicken: 2 cups buttermilk
+  {
+      "id": "buttermilk",
+      "canonicalName": "Buttermilk",
+      "category": "Dairy / Eggs",
+      "grocerySearchName": "buttermilk",
+      "mergePolicy": "same-unit"
+  },
+  // Built-in evidence: Easy Stovetop Mac & Cheese: 8 oz elbow macaroni
+  {
+      "id": "elbow-macaroni",
+      "canonicalName": "Elbow Macaroni",
+      "category": "Pantry",
+      "grocerySearchName": "elbow macaroni",
+      "mergePolicy": "same-unit"
+  },
+  // Built-in evidence: Slow Cooker Beef Stew: 1 1/2 cups frozen peas
+  {
+      "id": "frozen-peas",
+      "canonicalName": "Frozen Peas",
+      "category": "Frozen",
+      "grocerySearchName": "frozen peas",
+      "mergePolicy": "same-unit"
+  },
+  // Built-in evidence: Jamaican Jerk Chicken: 1 tsp nutmeg
+  {
+      "id": "nutmeg",
+      "canonicalName": "Nutmeg",
+      "category": "Spices / Seasonings",
+      "grocerySearchName": "nutmeg",
+      "aliases": [
+          "ground nutmeg"
+      ],
+      "mergePolicy": "same-unit"
+  },
+  // Built-in evidence: Mediterranean Stuffed Bell Peppers: 1/4 cup Kalamata olives, chopped
+  {
+      "id": "kalamata-olives",
+      "canonicalName": "Kalamata Olives",
+      "category": "Pantry",
+      "grocerySearchName": "kalamata olives",
+      "mergePolicy": "same-unit"
+  },
+  // Built-in evidence: Cheesy Taco Pasta: 1/2 cup Monterey Jack cheese (optional, for extra melt)
+  {
+      "id": "monterey-jack-cheese",
+      "canonicalName": "Monterey Jack Cheese",
+      "category": "Dairy / Eggs",
+      "grocerySearchName": "monterey jack cheese",
+      "mergePolicy": "same-unit"
+  },
+  // Built-in evidence: Meal Prep Baked Ziti: 1 lb ziti or penne pasta
+  {
+      "id": "penne-pasta",
+      "canonicalName": "Penne Pasta",
+      "category": "Pantry",
+      "grocerySearchName": "penne pasta",
+      "aliases": [
+          "penne"
+      ],
+      "mergePolicy": "same-unit"
+  },
+  // Built-in evidence: Buttered Toast: peanut butter
+  {
+      "id": "peanut-butter",
+      "canonicalName": "Peanut Butter",
+      "category": "Pantry",
+      "grocerySearchName": "peanut butter",
+      "mergePolicy": "same-unit"
+  },
+  // Built-in evidence: Tilapia & Asparagus Foil Packets: 1 bunch asparagus
+  {
+      "id": "asparagus",
+      "canonicalName": "Asparagus",
+      "category": "Produce",
+      "grocerySearchName": "asparagus",
+      "mergePolicy": "same-unit"
+  },
+  // Built-in evidence: Grilled Sausage and Peppers: 1 Tbsp balsamic vinegar (optional, for finishing)
+  {
+      "id": "balsamic-vinegar",
+      "canonicalName": "Balsamic Vinegar",
+      "category": "Pantry",
+      "grocerySearchName": "balsamic vinegar",
+      "mergePolicy": "same-unit"
+  },
+  // Built-in evidence: School Pizza: 3 Tbsp cornmeal
+  {
+      "id": "cornmeal",
+      "canonicalName": "Cornmeal",
+      "category": "Pantry",
+      "grocerySearchName": "cornmeal",
+      "aliases": [
+          "yellow cornmeal"
+      ],
+      "mergePolicy": "same-unit"
+  },
+  // Built-in evidence: Chickpea Curry: 1 can (13.5 oz) full-fat coconut milk
+  {
+      "id": "coconut-milk",
+      "canonicalName": "Coconut Milk",
+      "category": "Pantry",
+      "grocerySearchName": "coconut milk",
+      "mergePolicy": "same-unit"
+  },
+  // Taco Soup: 1 can (10 oz) Rotel; Slow Cooker Chicken Tortilla Soup:
+  // 1 can (10 oz) diced tomatoes with green chiles.
+  {
+    id: "tomatoes-with-green-chiles",
+    canonicalName: "Diced Tomatoes with Green Chiles",
+    category: "Pantry",
+    grocerySearchName: "diced tomatoes with green chiles",
+    aliases: ["tomatoes with green chiles", "rotel", "ro-tel"],
+    defaultUnit: "can",
+    mergePolicy: "same-package",
+  },
+
 ];
 
 function normalizeRegistryKey(
