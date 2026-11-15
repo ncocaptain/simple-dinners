@@ -26,10 +26,11 @@ export type PantryUsageSuggestion = {
 };
 
 export function getPantryComparableName(
-  value: string
+  value: string,
+  unit?: string | null
 ) {
   return normalizeIngredientIdentity(
-    value
+    value, unit
   );
 }
 
@@ -45,7 +46,7 @@ function getPantryMatchKey(
   item: PantryItem
 ) {
   return getPantryComparableName(
-    item.name
+    item.name, item.unit
   );
 }
 

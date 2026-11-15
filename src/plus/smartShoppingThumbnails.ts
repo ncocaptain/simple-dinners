@@ -1,3 +1,4 @@
+import { findCanonicalIngredient } from "../core/ingredientRegistry";
 import type { GroceryCategory } from "../core/groceryCategories";
 
 export type SmartShoppingThumbnailMatchType =
@@ -12,6 +13,63 @@ export type SmartShoppingThumbnailMatch = {
 };
 
 const EXACT_THUMBNAIL_KEYS: Record<string, string> = {
+  // Audited 20-asset pack: exact products/forms only; brands keep their own keys.
+  "taco seasoning": "taco-seasoning",
+  "tomato sauce": "tomato-sauce",
+  "tomato paste": "tomato-paste",
+  "ranch dressing": "ranch-dressing",
+  "balsamic glaze": "balsamic-glaze",
+  "buttermilk": "buttermilk",
+  "crushed tomatoes": "crushed-tomatoes",
+  "canned crushed tomatoes": "crushed-tomatoes",
+  "naan": "naan",
+  "naan bread": "naan",
+  "naan breads": "naan",
+  "naan flatbread": "naan",
+  "naan flatbreads": "naan",
+  "caesar dressing": "caesar-dressing",
+  "cherry pie filling": "cherry-pie-filling",
+  "chili seasoning": "chili-seasoning",
+  "green cabbage": "green-cabbage",
+  "green chiles": "green-chiles",
+  "diced green chiles": "green-chiles",
+  "canned green chiles": "green-chiles",
+  "maple syrup": "maple-syrup",
+  "old bay seasoning": "old-bay-seasoning",
+  "pizza sauce": "pizza-sauce",
+  "pulled pork": "pulled-pork",
+  "diced tomatoes with green chiles": "tomatoes-with-green-chiles",
+  "tomatoes with green chiles": "tomatoes-with-green-chiles",
+  "beef stew meat": "beef-stew-meat",
+  "beef tallow": "beef-tallow",
+
+  "mild salsa": "salsa",
+  "tomato slices": "tomato",
+  "pint cherry tomatoes": "tomato",
+  "vanilla yogurt": "yogurt",
+  "natural peanut butter": "peanut-butter",
+  "fresh baby spinach": "spinach",
+  "fresh cracked black pepper": "black-pepper",
+  "grated fresh ginger": "ginger",
+  "sliced avocado": "avocado",
+  "persian cucumber": "cucumber",
+  "carrot sticks": "carrot",
+  "celery sticks": "celery",
+  "refrigerated crescent rolls": "crescent-roll-dough",
+  "whole wheat tortillas": "tortillas",
+  "street taco-sized flour tortillas": "tortillas",
+  "toasted sesame seeds": "sesame-seeds",
+  "butter for brushing": "butter",
+  "powdered sugar for dusting": "powdered-sugar",
+
+  // Catalog audit aliases: reuse only the same food/form's existing asset.
+  "dried italian seasoning": "italian-seasoning",
+  "fire roasted tomatoes": "diced-tomatoes",
+  "fire-roasted tomatoes": "diced-tomatoes",
+  "fire-roasted diced tomatoes": "diced-tomatoes",
+  "italian style diced tomatoes": "diced-tomatoes",
+  "italian-style diced tomatoes": "diced-tomatoes",
+
   // Produce
   onion: "onion",
   "yellow onion": "yellow-onion",
@@ -659,7 +717,7 @@ const BROAD_THUMBNAIL_RULES: Array<{
     },
     {
       matches: (name) =>
-        name.includes("potato"),
+        name.includes("potato") && !/\b(?:chips|gnocchi|starch|flakes|flour|fries|hash)\b/.test(name),
       thumbnailKey: "potato",
     },
     {
@@ -669,7 +727,7 @@ const BROAD_THUMBNAIL_RULES: Array<{
     },
     {
       matches: (name) =>
-        name.includes("tomato"),
+        /^(?:(?:fresh|cherry|grape|roma|plum|beefsteak) )?tomato(?:es)?$/.test(name),
       thumbnailKey: "tomato",
     },
     {
@@ -728,7 +786,7 @@ const BROAD_THUMBNAIL_RULES: Array<{
     {
       matches: (name) =>
         name.includes("milk") &&
-        !name.includes("almond"),
+        !/\b(?:almond|coconut|oat|soy|buttermilk|condensed|evaporated)\b/.test(name),
       thumbnailKey: "milk",
     },
   ];
@@ -810,6 +868,27 @@ function getCategoryThumbnailKey(
 
 const AVAILABLE_LOCAL_THUMBNAIL_KEYS =
   new Set<string>([
+    // Audited local WebP pack
+    "taco-seasoning",
+    "tomato-sauce",
+    "tomato-paste",
+    "ranch-dressing",
+    "balsamic-glaze",
+    "buttermilk",
+    "crushed-tomatoes",
+    "naan",
+    "caesar-dressing",
+    "cherry-pie-filling",
+    "chili-seasoning",
+    "green-cabbage",
+    "green-chiles",
+    "maple-syrup",
+    "old-bay-seasoning",
+    "pizza-sauce",
+    "pulled-pork",
+    "tomatoes-with-green-chiles",
+    "beef-stew-meat",
+    "beef-tallow",
     "yellow-onion",
     "red-potato",
     "green-bell-pepper",
@@ -1046,12 +1125,24 @@ export function getLocalSmartShoppingThumbnailSrc(
 export function resolveSmartShoppingThumbnail(
   productName: unknown,
   category: GroceryCategory,
+  context: { unit?: string | null } = {},
 ): SmartShoppingThumbnailMatch {
-  const normalizedName =
-    normalizeThumbnailName(productName);
+  let normalizedName = normalizeThumbnailName(productName);
+  if (/^cans?$/.test(context.unit || "") && normalizedName === "corn") {
+    normalizedName = "canned corn";
+  }
+  if (/^cans?$/.test(context.unit || "") && /^(?:tomato|tomatoes)$/.test(normalizedName)) {
+    normalizedName = "canned tomatoes";
+  }
+  const canonical = findCanonicalIngredient(normalizedName);
 
   const exactThumbnailKey =
-    EXACT_THUMBNAIL_KEYS[normalizedName];
+    EXACT_THUMBNAIL_KEYS[normalizedName] ||
+    EXACT_THUMBNAIL_KEYS[normalizedName.replace(/-/g, " ")] ||
+    (canonical && (
+      EXACT_THUMBNAIL_KEYS[normalizeThumbnailName(canonical.canonicalName)] ||
+      EXACT_THUMBNAIL_KEYS[normalizeThumbnailName(canonical.grocerySearchName)]
+    ));
 
   if (exactThumbnailKey) {
     return {

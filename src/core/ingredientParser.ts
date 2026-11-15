@@ -1,3 +1,5 @@
+import { findCanonicalIngredient } from "./ingredientRegistry";
+
 export const INGREDIENT_QUANTITY_PATTERN =
   "\\d+\\s+\\d+\\/\\d+|\\d+\\/\\d+|\\d+\\.\\d+|\\d+|½|¼|¾|⅓|⅔|⅛|⅜|⅝|⅞";
 
@@ -140,6 +142,8 @@ function normalizeAscii(value: string) {
 }
 
 function singularizeWord(word: string) {
+  if (["asparagus", "couscous", "hummus", "molasses"].includes(word)) return word;
+  if (word === "leaves") return "leaf";
   if (word.endsWith("ies") && word.length > 4) {
     return `${word.slice(0, -3)}y`;
   }
@@ -239,52 +243,60 @@ function normalizePackageSize(value: string) {
     : "";
 }
 
-export function normalizeIngredientIdentity(value: string) {
-  const source = normalizeAscii(value);
-
-  const preservedForm =
-    /\bfire[- ]roasted\s+diced\s+tomatoes?\b/.test(source)
-      ? "fire-roasted-diced"
-      : /\bdiced\s+tomatoes?\b/.test(source)
-        ? "diced"
-        : /\bminced\s+garlic\b/.test(source)
-          ? "minced"
-          : "";
-
-  const normalized = source
+export function normalizeIngredientIdentity(value: string, unit?: string | null) {
+  // Remove only recognized trailing preparation clauses, never split an
+  // arbitrary comma ("boneless, skinless chicken" is still one ingredient).
+  const source = normalizeAscii(value)
+    .replace(/-/g, " ")
     .replace(/\([^)]*\)/g, " ")
-    .replace(/,?\s*(?:to taste|as needed|optional|opcional|divided)\b.*$/i, " ")
-    .replace(/[^a-z0-9\s-]/g, " ")
-    .split(/\s+/)
-    .map((word) => word.trim())
-    .filter(Boolean)
-    .filter((word) => !IDENTITY_DESCRIPTORS.has(word))
-    .filter((word) => !UNIT_ALIASES[word])
-    .map(singularizeWord)
-    .join(" ")
-    .replace(/\s+/g, " ")
-    .trim();
+    .replace(/,\s*(?:(?:finely|thinly|roughly|coarsely|freshly)\s+)*(?:chopped|diced|sliced|grated|crumbled|drained|rinsed|peeled|trimmed|smashed|husked|juiced|cut|cubed|softened|melted|beaten|undrained|cooked|washed|pressed|thawed)\b.*$/i, " ")
+    .replace(/,?\s*(?:to taste|as needed|optional|opcional|divided|for serving|for garnish|for topping|plus more)\b.*$/i, " ")
+    .replace(/\s+/g, " ").trim();
 
+  // Preserve the existing jarred/minced product vs fresh-clove distinction.
+  if (/^(?:jarred )?minced garlic$/.test(source)) return "minced garlic";
+
+  const freshTomato = /\bfresh\b/.test(source) && /\btomato(?:es)?\b/.test(source);
+  const canned = normalizeIngredientUnit(unit) === "can" || /\bcanned\b/.test(source);
+  // Diced tomatoes denote a canned product only when not explicitly fresh.
+  // Trailing "tomato, diced" prep has already been removed above.
+  let tomatoForm = freshTomato ? "" :
+    /\bfire roasted(?: diced)? tomato(?:es)?\b/.test(source) ? "fire roasted diced" :
+    /\bitalian style diced tomato(?:es)?\b/.test(source) ? "italian style diced" :
+    /\bdiced tomato(?:es)?\b/.test(source) ? "diced" :
+    /\bcrushed tomato(?:es)?\b/.test(source) ? "crushed" :
+    /\bstewed tomato(?:es)?\b/.test(source) ? "stewed" : "";
+
+  let cleaned = source.replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/).filter(Boolean)
+    .filter(word => !IDENTITY_DESCRIPTORS.has(word) && !UNIT_ALIASES[word])
+    .join(" ").trim();
+  cleaned = cleaned.replace(/\b(?:grated|crumbled)\b/g, " ").replace(/\s+/g, " ").trim();
+  // Exact registry knowledge (including aliases) wins over generic morphology.
+  // Unresolved alternatives do not receive a single canonical identity.
+  // Canned bean inventory names can include a form word that the recipe
+  // expresses as a unit. Limit this alias to existing canned bean identities.
+  const bean = /^canned (?:black beans?|pinto beans?|kidney beans?|chickpeas?)$/.test(cleaned)
+    ? findCanonicalIngredient(cleaned.replace(/^canned /, "")) : null;
+  const canonical = /\b(?:or|and)\b/.test(cleaned) ? null :
+    findCanonicalIngredient(source) || findCanonicalIngredient(cleaned) || bean;
+  if (canonical) {
+    if (canonical.id === "tomatoes-with-green-chiles") tomatoForm = "diced";
+    cleaned = normalizeAscii(canonical.canonicalName).replace(/-/g, " ")
+      .split(/\s+/).filter(word => !IDENTITY_DESCRIPTORS.has(word) && !UNIT_ALIASES[word] && !["grated", "crumbled"].includes(word)).join(" ");
+  }
+  let normalized = cleaned.split(/\s+/).map(singularizeWord).join(" ").trim();
   if (!normalized) return "";
 
-  // Culinary shorthand such as "pepper", "ground pepper",
-  // and "freshly ground black pepper" all refer to the same
-  // pantry staple. Keep actual pepper products such as bell
-  // pepper, cayenne pepper, red pepper flakes, and lemon
-  // pepper seasoning distinct by only canonicalizing an exact
-  // black-pepper-style identity.
-  if (
-    /^(?:(?:freshly|coarsely|finely)\s+)?(?:ground\s+)?(?:black\s+)?pepper$/.test(
-      normalized
-    ) ||
-    /^(?:cracked\s+)?black\s+pepper$/.test(
-      normalized
-    )
-  ) {
-    return "black pepper";
+  if (/^(?:(?:freshly|coarsely|finely)\s+)?(?:ground\s+)?(?:black\s+)?pepper$/.test(normalized) || /^(?:cracked\s+)?black\s+pepper$/.test(normalized)) return "black pepper";
+  if (tomatoForm && /\btomato\b/.test(normalized)) {
+    normalized = normalized.replace(/\b(?:fire roasted|italian style|crushed|stewed|canned)\s*/g, "").trim();
+    return `${tomatoForm} ${normalized}`;
   }
-
-  return preservedForm ? `${preservedForm} ${normalized}` : normalized;
+  if (canned && /^(?:canned )?(?:corn|tomato|green bean|pineapple ring)$/.test(normalized)) return `canned ${normalized.replace(/^canned /, "")}`;
+  if ((normalizeIngredientUnit(unit) === "ear" || /\bcorn on the cob\b/.test(source)) && /\bcorn\b/.test(source)) return "fresh corn";
+  if (/\bfresh corn\b/.test(source)) return "fresh corn";
+  return normalized;
 }
 
 export type ParsedIngredientLine = {
@@ -386,7 +398,7 @@ export function parseIngredientLine(value: string): ParsedIngredientLine {
     unit,
     packageSize,
     nameText,
-    normalizedName: normalizeIngredientIdentity(nameText),
+    normalizedName: normalizeIngredientIdentity(nameText, unit),
     optional,
     sectionHeader,
   };

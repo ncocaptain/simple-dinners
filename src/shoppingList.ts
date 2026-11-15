@@ -1412,6 +1412,17 @@ if (baconRangeMatch) {
     parsedUnitForName
   );
 
+  // Preserve canned tomato product forms that generic prep cleanup strips.
+  // The raw recipe line stays authoritative for alternatives and quantities.
+  if (parsedUnitForName === "can" && !/\bor\b/.test(text)) {
+    const tomato = text.match(/^(?:(fire[- ]roasted|italian[- ]style)\s+)?(diced|crushed|stewed)?\s*tomato(?:es)?(?:\s+(with green chil(?:e|i)s))?(?=\s*(?:,|$))/);
+    if (tomato) {
+      normalizedName = [tomato[1]?.replace(/-/g, " "), tomato[2], "tomatoes", tomato[3]].filter(Boolean).join(" ");
+      if (normalizedName === "tomatoes") normalizedName = "canned tomatoes";
+    }
+  }
+  if (/^smoked paprika\b/.test(text) && !/\bor\b/.test(text)) normalizedName = "smoked paprika";
+
   // Fresh ears of corn are a different grocery identity from canned corn.
   if (unit === "ear" && normalizedName === "corn") {
     normalizedName = "corn on the cob";
@@ -1915,7 +1926,7 @@ function resolveShoppingCategory(name: string): GroceryCategory {
     cleanIngredientForCategory(name);
 
   const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
-  const specificCategory = getSpecificGroceryCategory(lower);
+  const specificCategory = getSpecificGroceryCategory(name) || getSpecificGroceryCategory(lower);
   if (specificCategory) return specificCategory;
   // Audit-discovered category protections.
   if (lower.includes("cream of mushroom soup")) {
@@ -2134,7 +2145,7 @@ function resolveShoppingCategoryForItem(
     cleanIngredientForCategory(name);
 
   const lower = normalizeChoiceIngredient(cleaned).toLowerCase();
-  const specificCategory = getSpecificGroceryCategory(lower);
+  const specificCategory = getSpecificGroceryCategory(name) || getSpecificGroceryCategory(lower);
   if (specificCategory) return specificCategory;
   // Audit-discovered category protections.
   if (lower.includes("cream of mushroom soup")) {

@@ -1,23 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { runInNewContext } from "node:vm";
-import ts from "typescript";
+import loader from "./lib/load-typescript.cjs";
 
-function loadPureTsModule(filename) {
-  const source = readFileSync(filename, "utf8");
-  const { outputText } = ts.transpileModule(source, {
-    compilerOptions: {
-      module: ts.ModuleKind.CommonJS,
-      target: ts.ScriptTarget.ES2022,
-    },
-  });
-  const moduleObject = { exports: {} };
-  runInNewContext(outputText, {
-    exports: moduleObject.exports,
-    module: moduleObject,
-  });
-  return moduleObject.exports;
-}
+const loadPureTsModule = loader.createTypeScriptLoader();
 
 const { LITTLE_CHEFS_RECIPES } = loadPureTsModule(
   "src/core/littleChefsRecipes.ts"
