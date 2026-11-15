@@ -1,3 +1,4 @@
+import { spanishGroceryName, hasSpanishIngredientChoice } from "../core/spanishIngredients";
 import { findCanonicalIngredient } from "../core/ingredientRegistry";
 import type { GroceryCategory } from "../core/groceryCategories";
 
@@ -1125,9 +1126,11 @@ export function getLocalSmartShoppingThumbnailSrc(
 export function resolveSmartShoppingThumbnail(
   productName: unknown,
   category: GroceryCategory,
-  context: { unit?: string | null } = {},
+  context: { unit?: string | null; ingredientText?: string } = {},
 ): SmartShoppingThumbnailMatch {
   let normalizedName = normalizeThumbnailName(productName);
+  if (hasSpanishIngredientChoice(context.ingredientText || normalizedName)) return { thumbnailKey: getCategoryThumbnailKey(category), matchType: "category", altText: normalizedName || String(category) };
+  normalizedName = spanishGroceryName(normalizedName) || normalizedName;
   if (/^cans?$/.test(context.unit || "") && normalizedName === "corn") {
     normalizedName = "canned corn";
   }

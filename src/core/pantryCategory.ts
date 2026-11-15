@@ -1,9 +1,12 @@
+import { hasSpanishIngredientChoice } from "./spanishIngredients";
 import { categorizeGroceryItem, type GroceryCategory } from "./groceryCategories";
-import { findCanonicalIngredient } from "./ingredientRegistry";
+import { findCanonicalIngredient, normalizeSpanishIngredientLine } from "./ingredientRegistry";
 
 // Pantry names have already had packaging prefixes removed. Prefer product
 // identity over loose grocery keywords; never infer or store an inventory amount.
 export function categorizePantryItem(name: string, unit?: string | null): GroceryCategory {
+  if (hasSpanishIngredientChoice(name)) return "Other";
+  name = normalizeSpanishIngredientLine(name).text;
   const normalized = name.toLowerCase().replace(/-/g, " ").replace(/\s+/g, " ").trim();
   if (/\b(?:hand warmers?|colace)\b/.test(normalized)) return "Other";
   if (/\bfrozen\b/.test(normalized)) return "Frozen";

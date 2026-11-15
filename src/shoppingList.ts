@@ -1,3 +1,5 @@
+import { findCanonicalIngredient, normalizeSpanishIngredientLine } from "./core/ingredientRegistry";
+import { hasSpanishIngredientChoice } from "./core/spanishIngredients";
 import { categorizeGroceryItem, getSpecificGroceryCategory, type GroceryCategory } from "./core/groceryCategories";
 import { getGroceryProductIdentity } from "./core/groceryProductIdentity";
 import {
@@ -202,10 +204,10 @@ function normalizeContainerIngredientName(name: string, unit: string) {
   return name;
 }
 
-function formatSmartName(value: string) {
+function formatSmartName(value: string, usePurchaseDefaults = true) {
   const cleaned = cleanupSpacing(String(value || "").toLowerCase());
 
-  if (DEFAULT_BUY_DISPLAY[cleaned]) {
+  if (usePurchaseDefaults && DEFAULT_BUY_DISPLAY[cleaned]) {
     return DEFAULT_BUY_DISPLAY[cleaned];
   }
 
@@ -1106,7 +1108,7 @@ function removeNonShoppingItems(text: string) {
 }
 
 function normalizeIngredientCore(text: string) {
-  let next = normalizeAscii(text);
+  let next = normalizeAscii(normalizeSpanishIngredientLine(text).text);
   next = normalizeChoiceIngredient(next);
 
 
@@ -1247,7 +1249,8 @@ function parseIngredientParts(line: string): {
   unit: string;
   packageSize: string;
 } {
-  let text = normalizeAscii(line);
+  const spanish = normalizeSpanishIngredientLine(line);
+  let text = normalizeAscii(spanish.text);
 
   text = text.replace(/<[^>]+>/g, " ");
   text = text.replace(/^[-•*]\s*/, "");
@@ -1391,6 +1394,8 @@ if (baconRangeMatch) {
   }
 
   const parsedUnitForName = unit;
+  const sourceQuantity = quantity;
+  const sourcePackageSize = packageSize;
   // Shopping identity should describe the food, not preparation descriptors.
   // Example: "6 bone-in, skin-on chicken thighs" -> "chicken thighs".
   text = text
@@ -1544,11 +1549,18 @@ if (baconRangeMatch) {
     }
   }
 
+  // Keep the full unresolved product choice, even when legacy English prep
+  // cleanup would otherwise retain only its first comma-separated operand.
+  if (hasSpanishIngredientChoice(line)) {
+    normalizedName = normalizeAscii(spanish.productName || line);
+  }
+
+  // Recognizing Spanish names must not introduce English purchase defaults.
   return {
     normalizedName,
-    quantity,
-    unit,
-    packageSize,
+    quantity: spanish.recognized ? sourceQuantity : quantity,
+    unit: spanish.recognized ? parsedUnitForName : unit,
+    packageSize: spanish.recognized ? sourcePackageSize : packageSize,
   };
 }
 
@@ -1920,6 +1932,7 @@ function isCornstarchPantryItem(cleaned: string) {
 }
 
 function resolveShoppingCategory(name: string): GroceryCategory {
+  if (hasSpanishIngredientChoice(name)) return "Other";
   const cleaned =
     preserveManualShoppingName(name) ||
     normalizeIngredientName(name) ||
@@ -2139,6 +2152,7 @@ function resolveShoppingCategoryForItem(
   unit: string,
   packageSize?: string
 ): GroceryCategory {
+  if (hasSpanishIngredientChoice(name)) return "Other";
   const cleaned =
     preserveManualShoppingName(name) ||
     normalizeIngredientName(name) ||
@@ -2518,6 +2532,7 @@ export function loadShoppingList(): ShoppingItem[] {
         item.recipeIngredientText || ""
       ).trim();
 
+      if (normalizeSpanishIngredientLine(preservedRecipeText).processWater) return null;
       const parsed = parseIngredientParts(
         preservedRecipeText ||
         item.text ||
@@ -2864,6 +2879,8 @@ export type ShoppingIngredientPreview = {
 export function previewRecipeIngredientForShopping(
   line: string
 ): ShoppingIngredientPreview | null {
+  const spanish = normalizeSpanishIngredientLine(line);
+  if (spanish.processWater) return null;
   const looksLikeMeasuredIngredient = new RegExp(
     `^\\s*(?:${QUANTITY_PATTERN})\\s+(?:${UNIT_PATTERN})\\b`,
     "i"
@@ -2923,8 +2940,8 @@ export function previewRecipeIngredientForShopping(
       parsed.unit
     );
 
-  const displayText =
-    buildDisplayText(
+  const displayText = spanish.recognized
+    ? formatSmartName(safeNormalizedName, false) : buildDisplayText(
       safeNormalizedName,
       parsed.quantity,
       parsed.unit,
@@ -2939,7 +2956,9 @@ export function previewRecipeIngredientForShopping(
         safeNormalizedName
       ),
     category:
-      resolveShoppingCategoryForItem(
+      hasSpanishIngredientChoice(line) ? "Other" :
+      spanish.recognized && !spanish.knownProduct ? categorizeGroceryItem(safeNormalizedName) :
+      (spanish.recognized ? findCanonicalIngredient(safeNormalizedName)?.category : null) || resolveShoppingCategoryForItem(
         safeNormalizedName,
         parsed.unit,
         parsed.packageSize

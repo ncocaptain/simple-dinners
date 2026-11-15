@@ -1,3 +1,5 @@
+import { normalizeSpanishIngredientLine } from "../core/ingredientRegistry";
+import { hasSpanishIngredientChoice } from "../core/spanishIngredients";
 import { createDealsRouteSnapshot } from "../deals/fixturePreview";
 import { useNavigate as useGroceryPreviewNavigate } from "react-router-dom";
 import { selectCompatiblePantryItem } from "../core/pantryShoppingCompatibility";
@@ -1207,6 +1209,7 @@ function cleanIngredientName(line: string) {
     .replace(/[\u0300-\u036f]/g, "")
     .trim();
 
+  text = normalizeSpanishIngredientLine(text).text;
   text = text.replace(/^[/\\\-–—]+\s*/, "");
   text = text.replace(/\([^)]*\)/g, " ");
   text = cleanupSpacing(text);
@@ -1339,7 +1342,7 @@ function normalizeContainerIngredientName(name: string, unit: string | null) {
 // and supports ranges like "4 to 6 hamburger buns"
 // =====================================================
 function parseIngredient(line: string): ParsedIngredient {
-  const originalRaw = String(line || "")
+  const originalRaw = normalizeSpanishIngredientLine(String(line || "")).text
     .trim()
     .replace(/\s+/g, " ");
 
@@ -1974,6 +1977,7 @@ function isForcedSpice(cleaned: string) {
 }
 
 function resolveShoppingCategory(name: string): GroceryCategory {
+  if (hasSpanishIngredientChoice(name)) return "Other";
   const cleaned = cleanIngredientName(name).toLowerCase();
   const specificCategory = getSpecificGroceryCategory(name) || getSpecificGroceryCategory(cleaned);
   if (specificCategory) return specificCategory;
@@ -2111,6 +2115,7 @@ function resolveShoppingCategoryForItem(
   unit: string | null,
   packageSize?: string
 ): GroceryCategory {
+  if (hasSpanishIngredientChoice(name)) return "Other";
   const rawBrandName = normalizeManualText(name).toLowerCase();
   const cleaned = cleanIngredientName(name).toLowerCase();
   const specificCategory = getSpecificGroceryCategory(name) || getSpecificGroceryCategory(cleaned);
@@ -3717,6 +3722,8 @@ export default function ShoppingListPage() {
         preservedRecipeIngredientText ||
         String(item.text || "");
 
+      const spanishSource = normalizeSpanishIngredientLine(recipeIngredientText);
+      if (spanishSource.processWater) continue;
       const cleanedRaw = cleanIngredientName(recipeIngredientText);
       const parsed = parseIngredient(recipeIngredientText);
       const savedName = String(smartItem.normalizedName || "").trim().toLowerCase();
@@ -4103,11 +4110,24 @@ export default function ShoppingListPage() {
         packageSize = "";
       }
 
+      if (hasSpanishIngredientChoice(recipeIngredientText) ||
+        (spanishSource.recognized && spanishSource.productName === "sparkling water")) {
+        safeName = String(spanishSource.productName || recipeIngredientText).toLowerCase();
+      }
+
+      // Keep explicit source measures separate from English purchase defaults.
+      if (spanishSource.recognized || hasSpanishIngredientChoice(recipeIngredientText)) {
+        parsedUnit = normalizeUnit(parsed.unit);
+        parsedQuantity = parsed.quantity ?? null;
+        packageSize = normalizePackageSize(parsed.packageSize);
+      }
+
       const hasPurchaseWeight =
         parsedUnit === "lb" ||
         parsedUnit === "oz";
 
       const forceCountable =
+        (!spanishSource.recognized || parsedUnit === null) &&
         !hasPurchaseWeight &&
         (
           FORCE_COUNTABLE_RECIPE_ITEMS.has(safeName) ||
@@ -4149,7 +4169,9 @@ export default function ShoppingListPage() {
       const groupedUnit = hideMainMeasurement ? null : mergeUnit;
       const groupedPackageSize = hideMainMeasurement ? "" : packageSize;
 
-      const category = resolveShoppingCategoryForItem(
+      const category = hasSpanishIngredientChoice(recipeIngredientText) ? "Other" :
+        spanishSource.recognized && !spanishSource.knownProduct ? categorizeGroceryItem(normalizedName) :
+        resolveShoppingCategoryForItem(
         normalizedName,
         mergeUnit,
         packageSize
@@ -4493,13 +4515,6 @@ export default function ShoppingListPage() {
         return { recipeName, amountText };
       });
 
-      const thumbnail =
-        resolveSmartShoppingThumbnail(
-          value.name,
-          value.category,
-          { unit: value.unit }
-        );
-
       const sourceShoppingItems =
         value.sourceIds
           .map((sourceId) =>
@@ -4522,6 +4537,13 @@ export default function ShoppingListPage() {
             Boolean(
               item.forceBuy
             )
+        );
+
+      const thumbnail =
+        resolveSmartShoppingThumbnail(
+          value.name,
+          value.category,
+          { unit: value.unit, ingredientText: sourceShoppingItems.map(item => item.recipeIngredientText || "").join("\n") }
         );
 
       const pantryRestock =

@@ -1,3 +1,4 @@
+import { SPANISH_GROCERY_ALIASES, spanishNameCandidates, normalizeSpanishIngredientLine as normalizeSpanishSyntax } from "./spanishIngredients";
 import type {
   GroceryCategory,
 } from "./groceryCategories";
@@ -1251,6 +1252,13 @@ for (const ingredient of INGREDIENT_REGISTRY) {
   }
 }
 
+// Resolve aliases to existing English records; no Spanish-only canonical IDs.
+for (const entry of SPANISH_GROCERY_ALIASES) {
+  const canonical = REGISTRY_INDEX.get(normalizeRegistryKey(entry.englishName));
+  if (!canonical) continue;
+  for (const alias of entry.aliases) REGISTRY_INDEX.set(normalizeRegistryKey(alias), canonical);
+}
+
 export function findCanonicalIngredient(
   value: string
 ) {
@@ -1261,11 +1269,13 @@ export function findCanonicalIngredient(
 
   if (!key) return null;
 
-  return (
-    REGISTRY_INDEX.get(
-      key
-    ) || null
-  );
+  const exact = REGISTRY_INDEX.get(key);
+  if (exact) return exact;
+  for (const candidate of spanishNameCandidates(value)) {
+    const canonical = REGISTRY_INDEX.get(normalizeRegistryKey(candidate));
+    if (canonical) return canonical;
+  }
+  return null;
 }
 
 export function hasCanonicalIngredient(
@@ -1276,4 +1286,9 @@ export function hasCanonicalIngredient(
       value
     )
   );
+}
+
+export function normalizeSpanishIngredientLine(value: string) {
+  return normalizeSpanishSyntax(value, name =>
+    REGISTRY_INDEX.get(normalizeRegistryKey(name))?.canonicalName || null);
 }

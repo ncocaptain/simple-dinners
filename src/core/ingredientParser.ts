@@ -1,4 +1,5 @@
-import { findCanonicalIngredient } from "./ingredientRegistry";
+import { hasSpanishIngredientChoice, spanishUnitForMatching } from "./spanishIngredients";
+import { findCanonicalIngredient, normalizeSpanishIngredientLine } from "./ingredientRegistry";
 
 export const INGREDIENT_QUANTITY_PATTERN =
   "\\d+\\s+\\d+\\/\\d+|\\d+\\/\\d+|\\d+\\.\\d+|\\d+|½|¼|¾|⅓|⅔|⅛|⅜|⅝|⅞";
@@ -244,6 +245,9 @@ function normalizePackageSize(value: string) {
 }
 
 export function normalizeIngredientIdentity(value: string, unit?: string | null) {
+  if (hasSpanishIngredientChoice(value)) return normalizeAscii(value);
+  value = normalizeSpanishIngredientLine(value).text;
+  unit = spanishUnitForMatching(unit);
   // Remove only recognized trailing preparation clauses, never split an
   // arbitrary comma ("boneless, skinless chicken" is still one ingredient).
   const source = normalizeAscii(value)
@@ -332,7 +336,7 @@ export function parseIngredientLine(value: string): ParsedIngredientLine {
     };
   }
 
-  let text = normalizeAscii(raw)
+  let text = normalizeAscii(normalizeSpanishIngredientLine(raw).text)
     .replace(/^[-•*]+\s*/, "")
     .replace(/^[/\\\-–—]+\s*/, "")
     .replace(/^about\s+/i, "")
