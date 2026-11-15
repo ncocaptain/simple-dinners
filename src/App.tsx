@@ -108,10 +108,17 @@ const APP_VERSION = "22.0.7";
 const PLUS_DISCOVERY_STORAGE_KEY =
   "simple-dinners.plus-discovery.v1";
 
-const PLUS_DISCOVERY_COOLDOWN_MS =
-  7 * 24 * 60 * 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;
 
-const PLUS_DISCOVERY_MAX_IMPRESSIONS = 3;
+const PLUS_DISCOVERY_COOLDOWN_BY_IMPRESSION_MS = [
+  0,
+  3 * DAY_MS,
+  6 * DAY_MS,
+  11 * DAY_MS,
+] as const;
+
+const PLUS_DISCOVERY_MAX_IMPRESSIONS =
+  PLUS_DISCOVERY_COOLDOWN_BY_IMPRESSION_MS.length;
 
 // =====================================================
 // Builder: helpers
@@ -595,10 +602,15 @@ function AppContent() {
       return;
     }
 
+    const requiredCooldown =
+      PLUS_DISCOVERY_COOLDOWN_BY_IMPRESSION_MS[
+        impressions
+      ] ?? Number.POSITIVE_INFINITY;
+
     if (
       lastShownAt > 0 &&
       Date.now() - lastShownAt <
-        PLUS_DISCOVERY_COOLDOWN_MS
+        requiredCooldown
     ) {
       plusDiscoveryScheduledRef.current = true;
       return;
