@@ -290,6 +290,7 @@ const tomorrowMeal = getLocalizedMeal(rawTomorrowMeal, language);
           <Card title={t("home.noPlanFound")} subtitle={t("home.noPlanSubtitle")}>
             <Button onClick={() => navigate("/plan")}>{t("home.planMyWeek")}</Button>
           </Card>
+        )}
         {!plusLoading && !hasPlus && (
           <button
             type="button"
@@ -364,7 +365,6 @@ const tomorrowMeal = getLocalizedMeal(rawTomorrowMeal, language);
               ›
             </span>
           </button>
-        )}
         )}
       </div>
     </div>
