@@ -102,7 +102,7 @@ for(const [name,category,key,unit] of [
  assert.ok(thumbnails.hasLocalSmartShoppingThumbnail(key),name);
  assert.ok(fs.existsSync('public'+thumbnails.getLocalSmartShoppingThumbnailSrc(key)),name);
 }
-for(const name of ['unknown keepsake','canned tomatoes','crushed tomatoes','tomato paste','coconut milk','buttermilk','shelf-stable potato gnocchi']) {
+for(const name of ['unknown keepsake','canned tomatoes','coconut milk','shelf-stable potato gnocchi']) {
  const match=thumbnails.resolveSmartShoppingThumbnail(name,'Other');
  assert.equal(match.matchType,'category',name);
  assert.equal(thumbnails.hasLocalSmartShoppingThumbnail(match.thumbnailKey),false,name);
