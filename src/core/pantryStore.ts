@@ -1,5 +1,5 @@
 import type { PantryItem } from "./types";
-import { categorizeGroceryItem } from "./groceryCategories";
+import { categorizePantryItem } from "./pantryCategory";
 import {
   normalizeIngredientUnit,
 } from "./ingredientParser";
@@ -259,7 +259,7 @@ function normalizePantryItem(
   // Pantry categories are generated from the item name.
   // Recalculate so older saved/cloud items benefit from newer rules.
   item.category =
-    categorizeGroceryItem(item.name);
+    categorizePantryItem(item.name, item.unit);
 
   if (
     typeof raw.packageSize === "string" &&

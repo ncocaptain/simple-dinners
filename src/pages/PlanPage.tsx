@@ -19,13 +19,13 @@ import Card from "../components/Card";
 import { days } from "../core/data";
 import { ALLERGENS } from "../core/planner";
 import {
-  categorizeGroceryItem,
   type GroceryCategory,
 } from "../core/groceryCategories";
+import { canDecreasePantryQuantity, formatPantryQuantity } from "../core/pantryPresentation";
+import { categorizePantryItem } from "../core/pantryCategory";
 import type { Effort, PantryItem } from "../core/types";
 import {
   cleanPantryItemName,
-  formatPantryUnitLabel,
   makePantryId,
 } from "../core/pantryStore";
 import {
@@ -218,7 +218,7 @@ export default function PlanPage({
           createdAt: now,
           updatedAt: now,
           category:
-            categorizeGroceryItem(name),
+            categorizePantryItem(name),
         },
       ];
     });
@@ -421,44 +421,6 @@ export default function PlanPage({
     );
   };
 
-  const formatPantryQuantity = (
-    item: PantryItem
-  ) => {
-    if (item.isStaple) {
-      return t(
-        "plan.pantryStapleInStock"
-      );
-    }
-
-    if (
-      typeof item.quantity !== "number"
-    ) {
-      return t("plan.pantryInStock");
-    }
-
-    const quantity =
-      Number.isInteger(item.quantity)
-        ? String(item.quantity)
-        : item.quantity
-            .toFixed(2)
-            .replace(/0+$/, "")
-            .replace(/\.$/, "");
-
-    if (!item.unit) {
-      return quantity;
-    }
-
-    const unitLabel =
-      formatPantryUnitLabel(
-        item.unit,
-        item.quantity
-      );
-
-    return unitLabel
-      ? `${quantity} ${unitLabel}`
-      : quantity;
-  };
-
   const pantryUseSoonCount =
     pantry.filter(
       (item) =>
@@ -559,7 +521,7 @@ export default function PlanPage({
         if (normalizedPantrySearch) {
           const category =
             item.category ||
-            categorizeGroceryItem(
+            categorizePantryItem(
               item.name
             );
 
@@ -607,7 +569,7 @@ export default function PlanPage({
           (item) =>
             (
               item.category ||
-              categorizeGroceryItem(
+              categorizePantryItem(
                 item.name
               )
             ) === category
@@ -715,7 +677,9 @@ export default function PlanPage({
   const contentWrap: React.CSSProperties = {
     maxWidth: "550px",
     width: "100%",
-    padding: "0 20px 120px 20px",
+    padding: "0 20px",
+    paddingBottom: "calc(160px + env(safe-area-inset-bottom, 0px))",
+    boxSizing: "border-box",
     display: "grid",
     gap: 24,
   };
@@ -846,9 +810,9 @@ export default function PlanPage({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: 12,
+    gap: 8,
     flexWrap: "wrap",
-    padding: 12,
+    padding: 10,
     borderRadius: 16,
     background: "rgba(255,255,255,0.04)",
     border: "1px solid rgba(255,255,255,0.08)",
@@ -870,14 +834,15 @@ export default function PlanPage({
   const pantryControlsStyle: React.CSSProperties = {
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-end",
+    justifyContent: "flex-start",
+    width: "100%",
     gap: 6,
     flexWrap: "wrap",
   };
 
   const pantryStepButton: React.CSSProperties = {
-    width: 36,
-    height: 36,
+    width: 44,
+    height: 44,
     padding: 0,
     borderRadius: 12,
     border: "1px solid rgba(255,255,255,0.1)",
@@ -890,7 +855,7 @@ export default function PlanPage({
   };
 
   const pantryStapleButton: React.CSSProperties = {
-    minHeight: 36,
+    minHeight: 44,
     padding: "8px 10px",
     borderRadius: 12,
     fontSize: 12,
@@ -899,7 +864,7 @@ export default function PlanPage({
   };
 
   const pantryUsedUpButton: React.CSSProperties = {
-    minHeight: 36,
+    minHeight: 44,
     padding: "8px 10px",
     borderRadius: 12,
     border: "1px solid rgba(248,113,113,0.2)",
@@ -915,6 +880,7 @@ export default function PlanPage({
     gridTemplateColumns: "minmax(0, 1fr) auto",
     gap: 8,
     alignItems: "stretch",
+    scrollMarginBottom: "calc(140px + env(safe-area-inset-bottom, 0px))",
   };
 
   const pantryAddButton: React.CSSProperties = {
@@ -1433,9 +1399,7 @@ export default function PlanPage({
                             >
                               {items.map((item) => {
                     const canDecrease =
-                      typeof item.quantity ===
-                        "number" &&
-                      item.quantity > 0;
+                      canDecreasePantryQuantity(item);
 
                     const freshness =
                       getPantryFreshness(
@@ -1454,7 +1418,7 @@ export default function PlanPage({
                         <div
                           style={{
                             minWidth: 0,
-                            flex: "1 1 150px",
+                            flex: "1 1 100%",
                           }}
                         >
                           <div
@@ -1504,13 +1468,16 @@ export default function PlanPage({
                             )}
                           </div>
 
+                          <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
                           <div
                             style={
                               pantryAmountStyle
                             }
                           >
                             {formatPantryQuantity(
-                              item
+                              item,
+                              t("plan.pantryInStock"),
+                              t("plan.pantryStapleInStock")
                             )}
                             {item.packageSize
                               ? ` • ${item.packageSize}`
@@ -1520,7 +1487,7 @@ export default function PlanPage({
                           <div
                             style={{
                               marginTop:
-                                7,
+                                0,
                               display:
                                 "flex",
                               alignItems:
@@ -1545,7 +1512,7 @@ export default function PlanPage({
                               }
                               style={{
                                 minHeight:
-                                  28,
+                                  44,
                                 padding:
                                   "5px 8px",
                                 borderRadius:
@@ -1639,6 +1606,8 @@ export default function PlanPage({
                                 )}
                               </span>
                             )}
+                          </div>
+
                           </div>
 
                           {editingBestBy && (
