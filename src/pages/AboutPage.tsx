@@ -176,7 +176,8 @@ export default function AboutPage() {
         finalText:
           "Usa Simple Dinners en la web o descarga la app en tu teléfono.",
         plusTitle: "Más ayuda con Simple Dinners Plus",
-        plusText: "La planificación diaria, tu recetario, la lista de compras y el Modo Cocina siguen siendo gratis. Plus añade importaciones sociales inteligentes, sincronización del hogar, nutrición y más.",
+        plusText: "La planificación diaria, tu recetario, la lista de compras y el Modo Cocina siguen siendo gratis. Plus añade herramientas para ahorrar tiempo, mantener tu hogar sincronizado y guardar recetas con menos trabajo.",
+        plusCta: "Descubre Simple Dinners Plus",
         plusFeatures: [
           {
             "title": "Importación social inteligente",
@@ -259,7 +260,8 @@ export default function AboutPage() {
         finalText:
           "Use Simple Dinners on the web or download the app on your phone.",
         plusTitle: "More help with Simple Dinners Plus",
-        plusText: "Your everyday planning, cookbook, shopping list, and Cook Mode stay free. Plus adds smart social imports, household sharing, nutrition, and more.",
+        plusText: "Your everyday planning, Cookbook, Shopping List, Pantry, and Cook Mode stay free. Plus adds tools that save time, keep your household in sync, and help you save recipes with less work.",
+        plusCta: "Explore Simple Dinners Plus",
         plusFeatures: [
           {
             "title": "Smart social imports",
@@ -746,6 +748,23 @@ export default function AboutPage() {
               </div>
             ))}
           </div>
+
+          <button
+            type="button"
+            onClick={() => navigate("/simple-dinners-plus")}
+            style={{
+              marginTop: 16,
+              border: "1px solid rgba(250,204,21,0.34)",
+              background: "rgba(250,204,21,0.10)",
+              color: "#fde68a",
+              borderRadius: 16,
+              padding: "13px 16px",
+              fontWeight: 1000,
+              cursor: "pointer",
+            }}
+          >
+            {copy.plusCta} →
+          </button>
         </Card>
 
         <Card title={copy.missionTitle} subtitle="">
