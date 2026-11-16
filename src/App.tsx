@@ -28,6 +28,7 @@ import TestersGuidePage from "./pages/TestersGuidePage";
 import FeedbackForm from "./pages/FeedbackForm";
 import RecipesPage from "./pages/RecipesPage";
 import PlusDashboardPage from "./pages/PlusDashboardPage";
+import PlusLandingPage from "./pages/PlusLandingPage";
 import { ToastProvider, useToast } from "./components/Toast";
 import { ThemeProvider } from "./theme";
 import {
@@ -649,6 +650,7 @@ function AppContent() {
   const hideBottomNav =
     isOnboarding ||
     location.pathname === "/about" ||
+    location.pathname === "/simple-dinners-plus" ||
     location.pathname.startsWith("/recipe/");
   const [showTesterPrompt, setShowTesterPrompt] = useState(false);
   const toastApi: any = useToast();
@@ -1274,6 +1276,7 @@ function AppContent() {
         <Route path="/guide" element={<TestersGuidePage />} />
         <Route path="/feedback" element={<FeedbackForm />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/simple-dinners-plus" element={<PlusLandingPage />} />
         <Route path="/share-import" element={<ShareImport />} />
 
         <Route

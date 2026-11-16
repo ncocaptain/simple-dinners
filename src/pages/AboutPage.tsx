@@ -176,7 +176,8 @@ export default function AboutPage() {
         finalText:
           "Usa Simple Dinners en la web o descarga la app en tu teléfono.",
         plusTitle: "Más ayuda con Simple Dinners Plus",
-        plusText: "La planificación diaria, tu recetario, la lista de compras y el Modo Cocina siguen siendo gratis. Plus añade importaciones sociales inteligentes, sincronización del hogar, nutrición y más.",
+        plusText: "La planificación diaria, tu recetario, la lista de compras y el Modo Cocina siguen siendo gratis. Plus añade herramientas para ahorrar tiempo, mantener tu hogar sincronizado y guardar recetas con menos trabajo.",
+        plusCta: "Descubre Simple Dinners Plus",
         plusFeatures: [
           {
             "title": "Importación social inteligente",
@@ -259,7 +260,8 @@ export default function AboutPage() {
         finalText:
           "Use Simple Dinners on the web or download the app on your phone.",
         plusTitle: "More help with Simple Dinners Plus",
-        plusText: "Your everyday planning, cookbook, shopping list, and Cook Mode stay free. Plus adds smart social imports, household sharing, nutrition, and more.",
+        plusText: "Your everyday planning, Cookbook, Shopping List, Pantry, and Cook Mode stay free. Plus adds tools that save time, keep your household in sync, and help you save recipes with less work.",
+        plusCta: "Explore Simple Dinners Plus",
         plusFeatures: [
           {
             "title": "Smart social imports",
@@ -440,24 +442,45 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <a
-          href="/mealime"
+        <button
+          type="button"
+          onClick={() => navigate("/simple-dinners-plus")}
           style={{
-            display: "block",
-            textDecoration: "none",
+            width: "100%",
+            textAlign: "left",
             borderRadius: 18,
-            border: "1px solid rgba(134,239,172,0.32)",
-            padding: "16px 18px",
-            background: "rgba(34,197,94,0.09)",
-            color: "#dcfce7",
-            fontWeight: 800,
-            lineHeight: 1.5,
+            border: "1px solid rgba(250,204,21,0.32)",
+            padding: "17px 18px",
+            background:
+              "linear-gradient(135deg, rgba(250,204,21,0.12), rgba(34,197,94,0.08))",
+            color: "white",
+            cursor: "pointer",
+            display: "grid",
+            gap: 6,
           }}
         >
-          {isSpanish
-            ? "¿Usabas Mealime? Cerró el 21 de octubre. Descubre cómo guardar enlaces públicos de recetas que sigan disponibles →"
-            : "Moving from Mealime? It closed October 21. Learn how to save public recipe links that are still available →"}
-        </a>
+          <span
+            style={{
+              color: "#fde68a",
+              fontSize: 12,
+              fontWeight: 1000,
+              letterSpacing: 0.5,
+              textTransform: "uppercase",
+            }}
+          >
+            Simple Dinners Plus
+          </span>
+          <span style={{ fontSize: 17, fontWeight: 1000 }}>
+            {isSpanish
+              ? "¿Quieres que Simple Dinners haga más del trabajo?"
+              : "Want Simple Dinners to do more of the work?"}
+          </span>
+          <span style={{ opacity: 0.74, fontSize: 14, lineHeight: 1.45 }}>
+            {isSpanish
+              ? "Planifica más rápido, mantén tu hogar sincronizado y guarda recetas con menos trabajo. Descubre Plus →"
+              : "Plan faster, keep your household in sync, and save recipes with less work. Explore Plus →"}
+          </span>
+        </button>
 
         <Card title={copy.updateTitle} subtitle="">
           <div
@@ -746,7 +769,43 @@ export default function AboutPage() {
               </div>
             ))}
           </div>
+
+          <button
+            type="button"
+            onClick={() => navigate("/simple-dinners-plus")}
+            style={{
+              marginTop: 16,
+              border: "1px solid rgba(250,204,21,0.34)",
+              background: "rgba(250,204,21,0.10)",
+              color: "#fde68a",
+              borderRadius: 16,
+              padding: "13px 16px",
+              fontWeight: 1000,
+              cursor: "pointer",
+            }}
+          >
+            {copy.plusCta} →
+          </button>
         </Card>
+
+        <a
+          href="/mealime"
+          style={{
+            display: "block",
+            textDecoration: "none",
+            borderRadius: 18,
+            border: "1px solid rgba(134,239,172,0.32)",
+            padding: "16px 18px",
+            background: "rgba(34,197,94,0.09)",
+            color: "#dcfce7",
+            fontWeight: 800,
+            lineHeight: 1.5,
+          }}
+        >
+          {isSpanish
+            ? "¿Usabas Mealime? Cerró el 21 de octubre. Descubre cómo guardar enlaces públicos de recetas que sigan disponibles →"
+            : "Moving from Mealime? It closed October 21. Learn how to save public recipe links that are still available →"}
+        </a>
 
         <Card title={copy.missionTitle} subtitle="">
           <p
