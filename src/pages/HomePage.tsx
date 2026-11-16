@@ -163,11 +163,13 @@ const tomorrowMeal = getLocalizedMeal(rawTomorrowMeal, language);
               gridTemplateColumns: "44px 1fr auto",
               alignItems: "center",
               gap: 12,
-              padding: "16px",
+              padding: "14px 16px",
               borderRadius: 20,
-              border: "1px solid rgba(34,197,94,0.32)",
+              border: "1px solid transparent",
               background:
-                "linear-gradient(135deg, rgba(34,197,94,0.14), rgba(20,184,166,0.08))",
+                "linear-gradient(135deg, rgba(8,24,18,0.98), rgba(9,24,27,0.96)) padding-box, linear-gradient(135deg, rgba(34,197,94,0.58), rgba(245,158,11,0.34)) border-box",
+              boxShadow:
+                "0 10px 28px rgba(34,197,94,0.08), inset 0 1px 0 rgba(255,255,255,0.03)",
               color: "white",
               textAlign: "left",
               cursor: "pointer",
@@ -181,11 +183,28 @@ const tomorrowMeal = getLocalizedMeal(rawTomorrowMeal, language);
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
-                background: "rgba(34,197,94,0.16)",
+                background:
+                  "radial-gradient(circle at 30% 25%, rgba(134,239,172,0.26), rgba(34,197,94,0.12) 48%, rgba(34,197,94,0.06) 100%)",
                 color: "#86efac",
+                boxShadow:
+                  "0 0 0 1px rgba(134,239,172,0.08), 0 0 22px rgba(34,197,94,0.12)",
+                position: "relative",
               }}
             >
               <Sparkles size={21} aria-hidden="true" />
+              <span
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  top: 5,
+                  right: 5,
+                  width: 6,
+                  height: 6,
+                  borderRadius: "50%",
+                  background: "#fbbf24",
+                  boxShadow: "0 0 10px rgba(251,191,36,0.65)",
+                }}
+              />
             </span>
 
             <span style={{ minWidth: 0 }}>
@@ -218,8 +237,8 @@ const tomorrowMeal = getLocalizedMeal(rawTomorrowMeal, language);
                     ? "Smart Week, sincronización del hogar, importaciones sociales y más ya están disponibles para ti."
                     : "Smart Week, household sync, social imports, and more are already available to you."
                   : language === "es"
-                    ? "Planifica más rápido, mantén a tu hogar sincronizado y guarda recetas desde redes sociales y capturas."
-                    : "Plan faster, keep your household in sync, and save recipes from social posts and screenshots."}
+                    ? "Planifica más rápido, sincroniza tu hogar y guarda recetas desde redes sociales y capturas."
+                    : "Plan faster, sync your household, and save recipes from social posts and screenshots."}
               </span>
             </span>
 
