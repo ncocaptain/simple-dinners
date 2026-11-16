@@ -1,0 +1,156 @@
+[
+  {
+    "alias": "floretes de brocoli",
+    "englishName": "broccoli florets",
+    "canonicalId": "broccoli-florets",
+    "recipe": "Salteado de res con brócoli",
+    "recipeIndex": 25,
+    "line": 2,
+    "raw": "3 cups de floretes de brócoli",
+    "thumbnailKey": "broccoli",
+    "englishRaw": "3 cups broccoli florets"
+  },
+  {
+    "alias": "crema batida",
+    "englishName": "whipped cream",
+    "canonicalId": "whipped-cream",
+    "recipe": "Pastelito de Fresas",
+    "recipeIndex": 323,
+    "line": 9,
+    "raw": "1 cup de crema batida",
+    "thumbnailKey": "whipped-cream",
+    "englishRaw": "1 cup whipped cream"
+  },
+  {
+    "alias": "mezcla de quesos mexicanos rallados",
+    "englishName": "shredded mexican cheese blend",
+    "canonicalId": "shredded-mexican-cheese-blend",
+    "recipe": "Cazuela de enchiladas de res en olla lenta",
+    "recipeIndex": 11,
+    "line": 8,
+    "raw": "1 1/2 cups de mezcla de quesos mexicanos rallados",
+    "thumbnailKey": "cheese",
+    "englishRaw": "1 1/2 cups shredded mexican cheese blend"
+  },
+  {
+    "alias": "aderezo ranch",
+    "englishName": "ranch dressing",
+    "canonicalId": "ranch-dressing",
+    "recipe": "Barra de Papas Horneadas",
+    "recipeIndex": 68,
+    "line": 20,
+    "raw": "aderezo ranch",
+    "thumbnailKey": "ranch-dressing",
+    "englishRaw": "ranch dressing"
+  },
+  {
+    "alias": "azucar granulada",
+    "englishName": "granulated sugar",
+    "canonicalId": "sugar",
+    "recipe": "Limonada de arándanos",
+    "recipeIndex": 179,
+    "line": 2,
+    "raw": "3/4 cup de azúcar granulada",
+    "thumbnailKey": "sugar",
+    "englishRaw": "3/4 cup granulated sugar"
+  },
+  {
+    "alias": "chispas de chocolate",
+    "englishName": "chocolate chips",
+    "canonicalId": "chocolate-chips",
+    "recipe": "Bananas de Fogata",
+    "recipeIndex": 315,
+    "line": 2,
+    "raw": "1/2 cup de chispas de chocolate",
+    "thumbnailKey": "chocolate-chips",
+    "englishRaw": "1/2 cup chocolate chips"
+  },
+  {
+    "alias": "pan molido",
+    "englishName": "breadcrumbs",
+    "canonicalId": "breadcrumbs",
+    "recipe": "Pastel de carne ahumado",
+    "recipeIndex": 57,
+    "line": 1,
+    "raw": "1/2 cup de pan molido",
+    "thumbnailKey": "breadcrumbs",
+    "englishRaw": "1/2 cup breadcrumbs"
+  },
+  {
+    "alias": "pan molido panko",
+    "englishName": "panko breadcrumbs",
+    "canonicalId": "panko-breadcrumbs",
+    "recipe": "Filetes Salisbury con gravy de champiñones",
+    "recipeIndex": 3,
+    "line": 2,
+    "raw": "1/4 cup de pan molido panko",
+    "thumbnailKey": "breadcrumbs",
+    "englishRaw": "1/4 cup panko breadcrumbs"
+  },
+  {
+    "alias": "pechugas de pollo deshuesadas y sin piel",
+    "englishName": "chicken breast",
+    "canonicalId": "chicken-breast",
+    "recipe": "Tacos de Pollo con Salsa en Olla Lenta",
+    "recipeIndex": 104,
+    "line": 1,
+    "raw": "2 lb de pechugas de pollo deshuesadas y sin piel",
+    "thumbnailKey": "chicken-breast",
+    "englishRaw": "2 lb chicken breast"
+  },
+  {
+    "alias": "vinagre de vino tinto",
+    "englishName": "red wine vinegar",
+    "canonicalId": "red-wine-vinegar",
+    "recipe": "Bowls de Arrachera con Chimichurri",
+    "recipeIndex": 64,
+    "line": 12,
+    "raw": "2 Tbsp de vinagre de vino tinto",
+    "thumbnailKey": "red-wine-vinegar",
+    "englishRaw": "2 tbsp red wine vinegar"
+  },
+  {
+    "alias": "muslos de pollo deshuesados y sin piel",
+    "englishName": "chicken thigh",
+    "canonicalId": "chicken-thigh",
+    "recipe": "Pollo con Miel y Ajo en Olla Lenta",
+    "recipeIndex": 103,
+    "line": 1,
+    "raw": "2 lb de muslos de pollo deshuesados y sin piel",
+    "thumbnailKey": "chicken-thigh",
+    "englishRaw": "2 lb chicken thigh"
+  },
+  {
+    "alias": "harina de todo uso",
+    "englishName": "flour",
+    "canonicalId": "flour",
+    "recipe": "Pay de pollo",
+    "recipeIndex": 21,
+    "line": 4,
+    "raw": "1/2 cup de harina de todo uso",
+    "thumbnailKey": "flour",
+    "englishRaw": "1/2 cup flour"
+  },
+  {
+    "alias": "sazon italiana",
+    "englishName": "italian seasoning",
+    "canonicalId": "italian-seasoning",
+    "recipe": "Pizza Pockets Caseros",
+    "recipeIndex": 67,
+    "line": 9,
+    "raw": "1/2 tsp de sazón italiana",
+    "thumbnailKey": "italian-seasoning",
+    "englishRaw": "1/2 tsp italian seasoning"
+  },
+  {
+    "alias": "nuez moscada",
+    "englishName": "nutmeg",
+    "canonicalId": "nutmeg",
+    "recipe": "Pollo Jerk Jamaicano",
+    "recipeIndex": 79,
+    "line": 16,
+    "raw": "1 tsp de nuez moscada",
+    "thumbnailKey": "nutmeg",
+    "englishRaw": "1 tsp nutmeg"
+  }
+]
