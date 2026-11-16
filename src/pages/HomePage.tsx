@@ -152,29 +152,81 @@ const tomorrowMeal = getLocalizedMeal(rawTomorrowMeal, language);
           gap: 20,
         }}
       >
-        <a
-          href="/mealime"
-          style={{
-            display: "block",
-            textDecoration: "none",
-            borderRadius: 18,
-            border: "1px solid rgba(134,239,172,0.32)",
-            background: "rgba(34,197,94,0.11)",
-            padding: "14px 16px",
-            lineHeight: 1.5,
-          }}
-        >
-          <div style={{ fontWeight: 900, color: "#a7f3d0", fontSize: 15 }}>
-            {language === "es"
-              ? "¿Vienes de Mealime? Conserva tus recetas favoritas →"
-              : "Moving from Mealime? Save your favorite recipes →"}
-          </div>
-          <div style={{ color: "#cbd5e1", fontSize: 13, marginTop: 3 }}>
-            {language === "es"
-              ? "Mealime cerró el 21 de octubre. Lee nuestra guía para importar enlaces públicos que sigan disponibles."
-              : "Mealime closed October 21. Follow our guide to importing public recipe links that are still available."}
-          </div>
-        </a>
+        {!plusLoading && !hasPlus && (
+          <button
+            type="button"
+            onClick={() => navigate("/plus")}
+            style={{
+              width: "100%",
+              display: "grid",
+              gridTemplateColumns: "44px 1fr auto",
+              alignItems: "center",
+              gap: 12,
+              padding: "16px",
+              borderRadius: 20,
+              border: "1px solid rgba(34,197,94,0.32)",
+              background:
+                "linear-gradient(135deg, rgba(34,197,94,0.14), rgba(20,184,166,0.08))",
+              color: "white",
+              textAlign: "left",
+              cursor: "pointer",
+            }}
+          >
+            <span
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 15,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "rgba(34,197,94,0.16)",
+                color: "#86efac",
+              }}
+            >
+              <Sparkles size={21} aria-hidden="true" />
+            </span>
+
+            <span style={{ minWidth: 0 }}>
+              <strong
+                style={{
+                  display: "block",
+                  fontSize: 15,
+                  fontWeight: 950,
+                  marginBottom: 3,
+                }}
+              >
+                {language === "es"
+                  ? "Haz que la cena sea más fácil con Plus"
+                  : "Make dinner easier with Plus"}
+              </strong>
+              <span
+                style={{
+                  display: "block",
+                  color: "#cbd5e1",
+                  fontSize: 12.5,
+                  lineHeight: 1.45,
+                }}
+              >
+                {language === "es"
+                  ? "Planifica más rápido, mantén a tu hogar sincronizado y guarda recetas desde redes sociales y capturas."
+                  : "Plan faster, keep your household in sync, and save recipes from social posts and screenshots."}
+              </span>
+            </span>
+
+            <span
+              style={{
+                color: "#86efac",
+                fontSize: 22,
+                fontWeight: 900,
+                lineHeight: 1,
+              }}
+              aria-hidden="true"
+            >
+              ›
+            </span>
+          </button>
+        )}
         {todayHasMeal && todayMeal ? (
           <>
             <Card
@@ -291,81 +343,29 @@ const tomorrowMeal = getLocalizedMeal(rawTomorrowMeal, language);
             <Button onClick={() => navigate("/plan")}>{t("home.planMyWeek")}</Button>
           </Card>
         )}
-        {!plusLoading && !hasPlus && (
-          <button
-            type="button"
-            onClick={() => navigate("/plus")}
-            style={{
-              width: "100%",
-              display: "grid",
-              gridTemplateColumns: "44px 1fr auto",
-              alignItems: "center",
-              gap: 12,
-              padding: "16px",
-              borderRadius: 20,
-              border: "1px solid rgba(34,197,94,0.32)",
-              background:
-                "linear-gradient(135deg, rgba(34,197,94,0.14), rgba(20,184,166,0.08))",
-              color: "white",
-              textAlign: "left",
-              cursor: "pointer",
-            }}
-          >
-            <span
-              style={{
-                width: 44,
-                height: 44,
-                borderRadius: 15,
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: "rgba(34,197,94,0.16)",
-                color: "#86efac",
-              }}
-            >
-              <Sparkles size={21} aria-hidden="true" />
-            </span>
-
-            <span style={{ minWidth: 0 }}>
-              <strong
-                style={{
-                  display: "block",
-                  fontSize: 15,
-                  fontWeight: 950,
-                  marginBottom: 3,
-                }}
-              >
-                {language === "es"
-                  ? "Haz que la cena sea más fácil con Plus"
-                  : "Make dinner easier with Plus"}
-              </strong>
-              <span
-                style={{
-                  display: "block",
-                  color: "#cbd5e1",
-                  fontSize: 12.5,
-                  lineHeight: 1.45,
-                }}
-              >
-                {language === "es"
-                  ? "Planifica más rápido, mantén a tu hogar sincronizado y guarda recetas desde redes sociales y capturas."
-                  : "Plan faster, keep your household in sync, and save recipes from social posts and screenshots."}
-              </span>
-            </span>
-
-            <span
-              style={{
-                color: "#86efac",
-                fontSize: 22,
-                fontWeight: 900,
-                lineHeight: 1,
-              }}
-              aria-hidden="true"
-            >
-              ›
-            </span>
-          </button>
-        )}
+        <a
+          href="/mealime"
+          style={{
+            display: "block",
+            textDecoration: "none",
+            borderRadius: 18,
+            border: "1px solid rgba(134,239,172,0.32)",
+            background: "rgba(34,197,94,0.11)",
+            padding: "14px 16px",
+            lineHeight: 1.5,
+          }}
+        >
+          <div style={{ fontWeight: 900, color: "#a7f3d0", fontSize: 15 }}>
+            {language === "es"
+              ? "¿Vienes de Mealime? Conserva tus recetas favoritas →"
+              : "Moving from Mealime? Save your favorite recipes →"}
+          </div>
+          <div style={{ color: "#cbd5e1", fontSize: 13, marginTop: 3 }}>
+            {language === "es"
+              ? "Mealime cerró el 21 de octubre. Lee nuestra guía para importar enlaces públicos que sigan disponibles."
+              : "Mealime closed October 21. Follow our guide to importing public recipe links that are still available."}
+          </div>
+        </a>
       </div>
     </div>
   );
