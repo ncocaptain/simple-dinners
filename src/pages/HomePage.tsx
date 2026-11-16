@@ -10,6 +10,7 @@ import { useToast } from "../components/Toast";
 import { t, getStoredLanguage } from "../i18n";
 import { getLocalizedMeal } from "../core/localizedMeal";
 import { usePlusEntitlement } from "../plus/PlusEntitlementContext";
+import { Capacitor } from "@capacitor/core";
 
 type Day = (typeof days)[number];
 
@@ -152,7 +153,7 @@ const tomorrowMeal = getLocalizedMeal(rawTomorrowMeal, language);
           gap: 20,
         }}
       >
-        {!plusLoading && !hasPlus && (
+        {!plusLoading && (!hasPlus || !Capacitor.isNativePlatform()) && (
           <button
             type="button"
             onClick={() => navigate("/plus")}
@@ -196,9 +197,13 @@ const tomorrowMeal = getLocalizedMeal(rawTomorrowMeal, language);
                   marginBottom: 3,
                 }}
               >
-                {language === "es"
-                  ? "Haz que la cena sea más fácil con Plus"
-                  : "Make dinner easier with Plus"}
+                {hasPlus && !Capacitor.isNativePlatform()
+                  ? language === "es"
+                    ? "Simple Dinners Plus está activo"
+                    : "Simple Dinners Plus is active"
+                  : language === "es"
+                    ? "Haz que la cena sea más fácil con Plus"
+                    : "Make dinner easier with Plus"}
               </strong>
               <span
                 style={{
@@ -208,9 +213,13 @@ const tomorrowMeal = getLocalizedMeal(rawTomorrowMeal, language);
                   lineHeight: 1.45,
                 }}
               >
-                {language === "es"
-                  ? "Planifica más rápido, mantén a tu hogar sincronizado y guarda recetas desde redes sociales y capturas."
-                  : "Plan faster, keep your household in sync, and save recipes from social posts and screenshots."}
+                {hasPlus && !Capacitor.isNativePlatform()
+                  ? language === "es"
+                    ? "Smart Week, sincronización del hogar, importaciones sociales y más ya están disponibles para ti."
+                    : "Smart Week, household sync, social imports, and more are already available to you."
+                  : language === "es"
+                    ? "Planifica más rápido, mantén a tu hogar sincronizado y guarda recetas desde redes sociales y capturas."
+                    : "Plan faster, keep your household in sync, and save recipes from social posts and screenshots."}
               </span>
             </span>
 
