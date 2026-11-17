@@ -1,3 +1,4 @@
+import { isRecipeSuppliedShoppingIngredient } from "../core/shoppingProcessIngredients";
 import { normalizeSpanishIngredientLine } from "../core/ingredientRegistry";
 import { hasSpanishIngredientChoice } from "../core/spanishIngredients";
 import { createDealsRouteSnapshot } from "../deals/fixturePreview";
@@ -651,9 +652,32 @@ function pluralizeCountable(name: string, quantity: number): string {
     "red bell pepper": "red bell peppers",
     "yellow bell pepper": "yellow bell peppers",
     "bell pepper": "bell peppers",
+    "orange bell pepper": "orange bell peppers",
+    "fresno pepper": "fresno peppers",
+    "habanero pepper": "habanero peppers",
+    shallot: "shallots",
+    scallion: "scallions",
+    "sea scallop": "sea scallops",
+    "salmon fillet": "salmon fillets",
+    "tilapia fillet": "tilapia fillets",
+    "lobster tail": "lobster tails",
+    "chuck roast": "chuck roasts",
+    "fried or soft boiled egg": "fried or soft boiled eggs",
   };
 
-  return irregular[name] || `${name}s`;
+  // Presentation only: never rewrite the grouping name or stored identity.
+  // Inflect a known head word, retaining mass nouns and unknown/choice phrases.
+  const lower = name.toLowerCase();
+  if (irregular[lower]) return irregular[lower];
+  if (/\b(?:or|and|with|of)\b/.test(lower)) return name;
+  const words = lower.split(" ");
+  const last = words[words.length - 1];
+  if (last.endsWith("s")) return name;
+  if (irregular[last]) {
+    words[words.length - 1] = irregular[last];
+    return words.join(" ");
+  }
+  return name;
 }
 
 // =====================================================
@@ -2501,7 +2525,7 @@ function formatRecipeBreakdownAmount(
 
   if (isCountable) {
     const qty = Math.ceil(quantity);
-    const baseName = singularizeWord(name);
+    const baseName = name;
 
     if (baseName === "garlic") {
       return `${qty} ${qty === 1 ? "clove" : "cloves"}`;
@@ -3722,6 +3746,8 @@ export default function ShoppingListPage() {
         preservedRecipeIngredientText ||
         String(item.text || "");
 
+      if (isRecipeSuppliedShoppingIngredient(recipeName, recipeIngredientText)) continue;
+
       const spanishSource = normalizeSpanishIngredientLine(recipeIngredientText);
       if (spanishSource.processWater) continue;
       const cleanedRaw = cleanIngredientName(recipeIngredientText);
@@ -4424,7 +4450,7 @@ export default function ShoppingListPage() {
               ? value.count
               : 1;
 
-        const baseName = singularizeWord(value.name);
+        const baseName = value.name;
 
         const min = Math.ceil(value.minQuantity || qty);
         const max = Math.ceil(value.maxQuantity || qty);

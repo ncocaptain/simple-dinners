@@ -1,3 +1,4 @@
+import { isRecipeSuppliedShoppingIngredient } from "./core/shoppingProcessIngredients";
 import { findCanonicalIngredient, normalizeSpanishIngredientLine } from "./core/ingredientRegistry";
 import { hasSpanishIngredientChoice } from "./core/spanishIngredients";
 import { categorizeGroceryItem, getSpecificGroceryCategory, type GroceryCategory } from "./core/groceryCategories";
@@ -2991,6 +2992,7 @@ export function addIngredientsToList(
   const newItems: ShoppingItem[] = [];
 
   for (const line of lines) {
+    if (isRecipeSuppliedShoppingIngredient(recipeName, line)) continue;
     const preview =
       previewRecipeIngredientForShopping(
         line

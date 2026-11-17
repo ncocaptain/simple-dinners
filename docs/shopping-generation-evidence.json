@@ -1,0 +1,1220 @@
+{
+  "baseline": "643fa15",
+  "evidence": [
+    {
+      "recipe": "Classic Meatloaf",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic",
+      "pantryCoverage": "partial"
+    },
+    {
+      "recipe": "Zuppa Toscana Soup",
+      "raw": "5 yellow potatoes, cut into 1-inch pieces",
+      "before": "Yellow Potatoess",
+      "after": "Yellow Potatoes",
+      "pantryKey": "yellow potato",
+      "pantryCoverage": "covered"
+    },
+    {
+      "recipe": "Chicken Parmesan Melts",
+      "raw": "4 sandwich rolls (hoagie or sub rolls)",
+      "before": "Sandwich Rollss",
+      "after": "Sandwich Rolls",
+      "pantryKey": "sandwich roll",
+      "pantryCoverage": "covered"
+    },
+    {
+      "recipe": "Pork Street Tacos",
+      "raw": "8 small corn or flour tortillas",
+      "before": "Corn or Flour Tortillass",
+      "after": "Corn or Flour Tortillas",
+      "pantryKey": "corn or flour tortilla",
+      "pantryCoverage": "covered"
+    },
+    {
+      "recipe": "Lamb and Beef Gateway Burgers",
+      "raw": "4 brioche burger buns",
+      "before": "Brioche Burger Bunss",
+      "after": "Brioche Burger Buns",
+      "pantryKey": "brioche burger bun",
+      "pantryCoverage": "covered"
+    },
+    {
+      "recipe": "Baked Potato Bar",
+      "raw": "6 large russet potatoes",
+      "before": "Russet Potatoess",
+      "after": "Russet Potatoes",
+      "pantryKey": "russet potato",
+      "pantryCoverage": "covered"
+    },
+    {
+      "recipe": "Smash Burger Tacos",
+      "raw": "4 street taco-sized flour tortillas",
+      "before": "Street Taco Sized Flour Tortillass",
+      "after": "Street Taco Sized Flour Tortillas",
+      "pantryKey": "street taco sized flour tortilla",
+      "pantryCoverage": "covered"
+    },
+    {
+      "recipe": "Summer Pool Day Chicken Caesar Wraps",
+      "raw": "6 large flour tortillas",
+      "before": "Flour Tortillass",
+      "after": "Flour Tortillas",
+      "pantryKey": "flour tortilla",
+      "pantryCoverage": "covered"
+    },
+    {
+      "recipe": "Graduation Party Baked Sandwiches",
+      "raw": "12 Hawaiian rolls or slider buns",
+      "before": "Hawaiian Rolls or Slider Bunss",
+      "after": "Hawaiian Rolls or Slider Buns",
+      "pantryKey": "hawaiian roll or slider bun",
+      "pantryCoverage": "covered"
+    }
+  ],
+  "catalog": {
+    "checked": 7277,
+    "changedLabels": 142,
+    "excludedProcessRows": 2
+  },
+  "catalogChanges": [
+    {
+      "recipe": "Cajun Shrimp and Sausage Potato Bake",
+      "slug": "cajun-shrimp-sausage-potato-bake",
+      "raw": "2 Tbsp garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Classic Meatloaf",
+      "slug": "normal-classic-meatloaf",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Slow Cooker Beef Enchilada Casserole",
+      "slug": "normal-slow-cooker-beef-enchilada-casserole",
+      "raw": "10 (6-inch) corn tortillas, cut into wedges",
+      "before": "Corn Tortillass",
+      "after": "Corn Tortillas",
+      "pantryKey": "corn tortilla"
+    },
+    {
+      "recipe": "Shepherd’s Pie",
+      "slug": "normal-shepherds-pie",
+      "raw": "2 cloves garlic",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Honey Garlic Chicken",
+      "slug": "quick-honey-garlic-chicken",
+      "raw": "4 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Lemon Butter Salmon",
+      "slug": "quick-lemon-butter-salmon",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Chicken Fried Rice",
+      "slug": "quick-chicken-fried-rice",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Baked Ziti",
+      "slug": "normal-baked-ziti",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Chicken Alfredo",
+      "slug": "normal-chicken-alfredo",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Beef Stroganoff",
+      "slug": "normal-beef-stroganoff",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Chicken Pot Pie",
+      "slug": "normal-chicken-pot-pie",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Cheesy Taco Pasta",
+      "slug": "normal-taco-pasta",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Pan-Seared Scallops with Lemon Risotto",
+      "slug": "pan-seared-scallops-lemon-risotto",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Lemon Herb Roasted Salmon",
+      "slug": "lemon-herb-roasted-salmon",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Beef and Broccoli Stir-Fry",
+      "slug": "beef-broccoli-stir-fry",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Zuppa Toscana Soup",
+      "slug": "zuppa-toscana-soup",
+      "raw": "5 yellow potatoes, cut into 1-inch pieces",
+      "before": "Yellow Potatoess",
+      "after": "Yellow Potatoes",
+      "pantryKey": "yellow potato"
+    },
+    {
+      "recipe": "Shrimp Scampi",
+      "slug": "shrimp-scampi",
+      "raw": "4 garlic cloves, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Crock Pot Roast Beef",
+      "slug": "crock-pot-roast-beef",
+      "raw": "5 garlic cloves, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Crock Pot Potato Soup",
+      "slug": "big-crockpot-potato-soup",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Grilled Shrimp Skewers",
+      "slug": "quick-grilled-shrimp-skewers",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Chicken Parmesan Melts",
+      "slug": "quick-chicken-parmesan-melts",
+      "raw": "4 sandwich rolls (hoagie or sub rolls)",
+      "before": "Sandwich Rollss",
+      "after": "Sandwich Rolls",
+      "pantryKey": "sandwich roll"
+    },
+    {
+      "recipe": "Taco Mac Skillet",
+      "slug": "quick-taco-mac-skillet",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Sloppy Joes Sandwich",
+      "slug": "quick-sloppy-joes-sandwich",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Classic Lasagna",
+      "slug": "big-beef-lasagna",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "White Chicken Chili",
+      "slug": "big-white-chicken-chili",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Taco Soup",
+      "slug": "normal-taco-soup",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Smoked Meatloaf",
+      "slug": "big-smoked-meatloaf",
+      "raw": "4 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Pork Street Tacos",
+      "slug": "pork-street-tacos",
+      "raw": "8 small corn or flour tortillas",
+      "before": "Corn or Flour Tortillass",
+      "after": "Corn or Flour Tortillas",
+      "pantryKey": "corn or flour tortilla"
+    },
+    {
+      "recipe": "Slow Cooker Beef Stew",
+      "slug": "slow-cooker-beef-stew",
+      "raw": "3 tsp garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Chimichurri Skirt Steak Bowls",
+      "slug": "chimichurri-skirt-steak-bowls",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Lamb and Beef Gateway Burgers",
+      "slug": "lamb-and-beef-gateway-burgers",
+      "raw": "4 brioche burger buns",
+      "before": "Brioche Burger Bunss",
+      "after": "Brioche Burger Buns",
+      "pantryKey": "brioche burger bun"
+    },
+    {
+      "recipe": "Air Fryer Brisket Taquitos",
+      "slug": "air-fryer-brisket-taquitos",
+      "raw": "10 corn tortillas",
+      "before": "Corn Tortillass",
+      "after": "Corn Tortillas",
+      "pantryKey": "corn tortilla"
+    },
+    {
+      "recipe": "Baked Potato Bar",
+      "slug": "baked-potato-bar",
+      "raw": "6 large russet potatoes",
+      "before": "Russet Potatoess",
+      "after": "Russet Potatoes",
+      "pantryKey": "russet potato"
+    },
+    {
+      "recipe": "Alphabet or Star-Shaped Pasta Soup",
+      "slug": "alphabet-star-pasta-soup",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Garlic Herb Pork Loin",
+      "slug": "garlic-herb-pork-loin",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Smashburgers with Tallow-Crisped Edges",
+      "slug": "smashburgers-with-tallow-crisped-edges",
+      "raw": "4 burger buns",
+      "before": "Burger Bunss",
+      "after": "Burger Buns",
+      "pantryKey": "burger bun"
+    },
+    {
+      "recipe": "Slow-Cooked Birria Tacos",
+      "slug": "slow-cooked-birria-tacos",
+      "raw": "4 cloves garlic",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Slow-Cooked Birria Tacos",
+      "slug": "slow-cooked-birria-tacos",
+      "raw": "12 corn tortillas",
+      "before": "Corn Tortillass",
+      "after": "Corn Tortillas",
+      "pantryKey": "corn tortilla"
+    },
+    {
+      "recipe": "Spatchcocked Butter-Bath Chicken",
+      "slug": "spatchcock-butter-bath-chicken",
+      "raw": "4 cloves garlic, smashed",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Korean-Inspired Mini Beef Patties (Wanja Jeon)",
+      "slug": "korean-inspired-mini-beef-patties",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Duck Carnitas Tacos",
+      "slug": "duck-carnitas-tacos",
+      "raw": "4 cloves garlic, smashed",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Duck Carnitas Tacos",
+      "slug": "duck-carnitas-tacos",
+      "raw": "12 small corn tortillas",
+      "before": "Corn Tortillass",
+      "after": "Corn Tortillas",
+      "pantryKey": "corn tortilla"
+    },
+    {
+      "recipe": "Wagyu-Blend Meatloaf",
+      "slug": "wagyu-blend-meatloaf",
+      "raw": "4 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Jamaican Jerk Chicken",
+      "slug": "big-jamaican-jerk-chicken",
+      "raw": "4 garlic cloves, chopped",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Dolly-Inspired Chicken and Dumplins'",
+      "slug": "big-dolly-inspired-chicken-and-dumplins",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Dolly-Inspired Slow-Roasted Pork with Pan Gravy",
+      "slug": "big-dolly-inspired-slow-roasted-pork-pan-gravy",
+      "raw": "4 cloves garlic, smashed",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Dolly-Inspired 5-Layer Dinner Casserole",
+      "slug": "normal-dolly-inspired-five-layer-dinner-casserole",
+      "raw": "3 medium russet potatoes, peeled and thinly sliced",
+      "before": "Russet Potatoess",
+      "after": "Russet Potatoes",
+      "pantryKey": "russet potato"
+    },
+    {
+      "recipe": "Dolly-Inspired Mama's Stone Soup",
+      "slug": "normal-dolly-inspired-mamas-stone-soup",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Dolly-Inspired Mama's Stone Soup",
+      "slug": "normal-dolly-inspired-mamas-stone-soup",
+      "raw": "2 medium russet potatoes, peeled and cut into chunks",
+      "before": "Russet Potatoess",
+      "after": "Russet Potatoes",
+      "pantryKey": "russet potato"
+    },
+    {
+      "recipe": "Dolly-Inspired Parton Family Meatloaf",
+      "slug": "normal-dolly-inspired-parton-family-meatloaf",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Smash Burger Tacos",
+      "slug": "quick-smash-burger-tacos",
+      "raw": "4 street taco-sized flour tortillas",
+      "before": "Street Taco Sized Flour Tortillass",
+      "after": "Street Taco Sized Flour Tortillas",
+      "pantryKey": "street taco sized flour tortilla"
+    },
+    {
+      "recipe": "One-Pan Marry Me Tuscan Chicken Orzo",
+      "slug": "normal-one-pan-marry-me-tuscan-chicken-orzo",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Parchment Sheet-Pan Gyros",
+      "slug": "normal-parchment-sheet-pan-gyros",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Crispy Garlic Butter Smashed Potato Bowls with Chicken",
+      "slug": "normal-crispy-garlic-butter-smashed-potato-bowls-chicken",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "10-Minute Chili Crisp & Gochujang Creamy Noodles",
+      "slug": "quick-chili-crisp-gochujang-creamy-noodles",
+      "raw": "2 cloves garlic, finely grated",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Build-Your-Own Taco Bar",
+      "slug": "kids-build-your-own-taco-bar",
+      "raw": "8 taco shells or small flour tortillas",
+      "before": "Taco Shells or Flour Tortillass",
+      "after": "Taco Shells or Flour Tortillas",
+      "pantryKey": "taco shell or flour tortilla"
+    },
+    {
+      "recipe": "Easy Kid-Friendly Quesadillas",
+      "slug": "kids-easy-quesadillas",
+      "raw": "8 small flour tortillas",
+      "before": "Flour Tortillass",
+      "after": "Flour Tortillas",
+      "pantryKey": "flour tortilla"
+    },
+    {
+      "recipe": "Slow Cooker Honey Garlic Chicken",
+      "slug": "slow-cooker-honey-garlic-chicken",
+      "raw": "4 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Slow Cooker Salsa Chicken Tacos",
+      "slug": "slow-cooker-salsa-chicken-tacos",
+      "raw": "12 small flour or corn tortillas",
+      "before": "Flour or Corn Tortillass",
+      "after": "Flour or Corn Tortillas",
+      "pantryKey": "flour or corn tortilla"
+    },
+    {
+      "recipe": "Slow Cooker BBQ Pulled Chicken",
+      "slug": "slow-cooker-bbq-pulled-chicken",
+      "raw": "6 sandwich buns",
+      "before": "Sandwich Bunss",
+      "after": "Sandwich Buns",
+      "pantryKey": "sandwich bun"
+    },
+    {
+      "recipe": "Slow Cooker Sausage & Peppers",
+      "slug": "slow-cooker-sausage-peppers",
+      "raw": "6 hoagie rolls",
+      "before": "Hoagie Rollss",
+      "after": "Hoagie Rolls",
+      "pantryKey": "hoagie roll"
+    },
+    {
+      "recipe": "Slow Cooker Meatball Subs",
+      "slug": "slow-cooker-meatball-subs",
+      "raw": "6 hoagie rolls",
+      "before": "Hoagie Rollss",
+      "after": "Hoagie Rolls",
+      "pantryKey": "hoagie roll"
+    },
+    {
+      "recipe": "Slow Cooker Lemon Garlic Chicken & Green Beans",
+      "slug": "slow-cooker-lemon-garlic-chicken-green-beans",
+      "raw": "4 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Meal Prep Beef & Broccoli Rice Bowls",
+      "slug": "meal-prep-beef-broccoli-rice",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Freezer Breakfast Burritos",
+      "slug": "meal-prep-freezer-breakfast-burritos",
+      "raw": "8 large flour tortillas",
+      "before": "Flour Tortillass",
+      "after": "Flour Tortillas",
+      "pantryKey": "flour tortilla"
+    },
+    {
+      "recipe": "Dutch Oven Taco Mountain",
+      "slug": "big-dutch-oven-taco-mountain",
+      "raw": "6 small flour tortillas",
+      "before": "Flour Tortillass",
+      "after": "Flour Tortillas",
+      "pantryKey": "flour tortilla"
+    },
+    {
+      "recipe": "Campfire Chili Mac",
+      "slug": "big-campfire-chili-mac",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Vegetable Stir Fry",
+      "slug": "quick-vegetable-stir-fry",
+      "raw": "2 garlic cloves, grated",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Vegetable Lo Mein Noodles",
+      "slug": "vegetable-lo-mein-noodles",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Creamy Shells with Peas and Parmesan",
+      "slug": "creamy-shells-peas-parmesan",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Black Bean and Corn Quesadillas",
+      "slug": "black-bean-corn-quesadillas",
+      "raw": "4 large flour tortillas",
+      "before": "Flour Tortillass",
+      "after": "Flour Tortillas",
+      "pantryKey": "flour tortilla"
+    },
+    {
+      "recipe": "Taco-Style Lentil Sloppy Joes",
+      "slug": "taco-style-lentil-sloppy-joes",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Vegan Jambalaya",
+      "slug": "normal-vegan-jambalaya",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Black Bean Quesadillas",
+      "slug": "quick-black-bean-quesadillas",
+      "raw": "4 small flour tortillas",
+      "before": "Flour Tortillass",
+      "after": "Flour Tortillas",
+      "pantryKey": "flour tortilla"
+    },
+    {
+      "recipe": "Vegetarian Shepherd’s Pie",
+      "slug": "big-vegetarian-shepherds-pie",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Creamy Spinach Tortellini",
+      "slug": "quick-creamy-tortellini",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Spinach and Ricotta Stuffed Shells",
+      "slug": "big-spinach-ricotta-stuffed-shells",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Chickpea Curry",
+      "slug": "normal-chickpea-curry",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Mediterranean Stuffed Bell Peppers",
+      "slug": "big-mediterranean-stuffed-peppers",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Vegetable Pad Thai",
+      "slug": "quick-vegetable-pad-thai",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Roasted Vegetable Wellington",
+      "slug": "big-roasted-vegetable-wellington",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Black Bean Burgers with Sweet Potato Fries",
+      "slug": "big-black-bean-burgers-sweet-potato-fries",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Black Bean Burgers with Sweet Potato Fries",
+      "slug": "big-black-bean-burgers-sweet-potato-fries",
+      "raw": "4 burger buns",
+      "before": "Burger Bunss",
+      "after": "Burger Buns",
+      "pantryKey": "burger bun"
+    },
+    {
+      "recipe": "Sweet Potato and Black Bean Enchiladas",
+      "slug": "big-sweet-potato-black-bean-enchiladas",
+      "raw": "8 corn tortillas",
+      "before": "Corn Tortillass",
+      "after": "Corn Tortillas",
+      "pantryKey": "corn tortilla"
+    },
+    {
+      "recipe": "Sweet Potato and Black Bean Enchiladas",
+      "slug": "big-sweet-potato-black-bean-enchiladas",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Caprese Stuffed Portobello Mushrooms",
+      "slug": "normal-caprese-stuffed-portobello-mushrooms",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Cream Cheese Spinach Pasta",
+      "slug": "quick-cream-cheese-spinach-pasta",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Creamy Mushroom Stroganoff",
+      "slug": "creamy-mushroom-stroganoff",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Gochujang Tofu Broccoli Stir-Fry",
+      "slug": "gochujang-tofu-broccoli-stir-fry",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Coconut Curry Ramen",
+      "slug": "coconut-curry-ramen",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Sweet Potato and Kale Chili",
+      "slug": "sweet-potato-kale-chili",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Greek-Style Baked Orzo",
+      "slug": "greek-style-baked-orzo",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Mushroom and Sage Tagliatelle",
+      "slug": "mushroom-sage-tagliatelle",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Vegan Crunchwrap Supreme",
+      "slug": "vegan-crunchwrap-supreme",
+      "raw": "4 large flour tortillas",
+      "before": "Flour Tortillass",
+      "after": "Flour Tortillas",
+      "pantryKey": "flour tortilla"
+    },
+    {
+      "recipe": "Cauliflower Gnocchi with Mushroom Alfredo",
+      "slug": "cauliflower-gnocchi-mushroom-alfredo",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Avocado and White Bean Wraps",
+      "slug": "quick-avocado-white-bean-wraps",
+      "raw": "2 large whole wheat tortillas",
+      "before": "Wheat Tortillass",
+      "after": "Wheat Tortillas",
+      "pantryKey": "whole wheat tortilla"
+    },
+    {
+      "recipe": "Spicy Skillet Mushroom and Potato Hash",
+      "slug": "normal-spicy-mushroom-potato-hash",
+      "raw": "2 large russet potatoes, diced (small cubes)",
+      "before": "Russet Potatoess",
+      "after": "Russet Potatoes",
+      "pantryKey": "russet potato"
+    },
+    {
+      "recipe": "New Year's Day Comfort Dinner",
+      "slug": "holiday-new-years-day-comfort-dinner",
+      "raw": "4 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Winter Snow Day Chicken Noodle Soup",
+      "slug": "holiday-winter-snow-day-chicken-noodle-soup",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Game Day Chili Bar Dinner",
+      "slug": "holiday-game-day-chili-bar-dinner",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Three Kings Day Taco Bake Dinner",
+      "slug": "holiday-three-kings-taco-bake-dinner",
+      "raw": "6 flour tortillas, cut into strips",
+      "before": "Flour Tortillass",
+      "after": "Flour Tortillas",
+      "pantryKey": "flour tortilla"
+    },
+    {
+      "recipe": "Lunar New Year Noodle Stir-Fry Dinner",
+      "slug": "holiday-lunar-new-year-noodle-stir-fry-dinner",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Valentine's Family Pasta Bake",
+      "slug": "holiday-valentines-family-pasta-bake",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Big Game Slider Dinner",
+      "slug": "holiday-big-game-slider-dinner",
+      "raw": "12 slider buns",
+      "before": "Slider Bunss",
+      "after": "Slider Buns",
+      "pantryKey": "slider bun"
+    },
+    {
+      "recipe": "Presidents' Day Meatloaf Dinner",
+      "slug": "holiday-presidents-day-meatloaf-dinner",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Mardi Gras Sausage & Rice Skillet",
+      "slug": "holiday-mardi-gras-sausage-rice-skillet",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "St. Patrick's Slow Cooker Corned Beef Dinner",
+      "slug": "holiday-st-patricks-slow-cooker-corned-beef-dinner",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Lenten Fish Taco Dinner",
+      "slug": "holiday-lenten-fish-taco-dinner",
+      "raw": "12 small flour or corn tortillas",
+      "before": "Flour or Corn Tortillass",
+      "after": "Flour or Corn Tortillas",
+      "pantryKey": "flour or corn tortilla"
+    },
+    {
+      "recipe": "Passover Brisket & Potato Dinner",
+      "slug": "holiday-passover-brisket-potato-dinner",
+      "raw": "4 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Earth Day Veggie Pasta Bake",
+      "slug": "holiday-earth-day-veggie-pasta-bake",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "April Showers Chicken Pot Pie Skillet",
+      "slug": "holiday-april-showers-chicken-pot-pie-skillet",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Mother's Day Creamy Lemon Chicken Pasta",
+      "slug": "holiday-mothers-day-creamy-lemon-chicken-pasta",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Graduation Party Baked Sandwiches",
+      "slug": "holiday-graduation-party-baked-sandwiches",
+      "raw": "12 Hawaiian rolls or slider buns",
+      "before": "Hawaiian Rolls or Slider Bunss",
+      "after": "Hawaiian Rolls or Slider Buns",
+      "pantryKey": "hawaiian roll or slider bun"
+    },
+    {
+      "recipe": "Juneteenth BBQ Chicken & Red Rice Dinner",
+      "slug": "holiday-juneteenth-bbq-chicken-red-rice-dinner",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Summer Break Cheeseburger Pasta Skillet",
+      "slug": "holiday-summer-break-cheeseburger-pasta-skillet",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Fourth of July Pulled Pork Sandwich Dinner",
+      "slug": "holiday-fourth-of-july-pulled-pork-sandwich-dinner",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Fourth of July Pulled Pork Sandwich Dinner",
+      "slug": "holiday-fourth-of-july-pulled-pork-sandwich-dinner",
+      "raw": "8 sandwich buns",
+      "before": "Sandwich Bunss",
+      "after": "Sandwich Buns",
+      "pantryKey": "sandwich bun"
+    },
+    {
+      "recipe": "Summer Pool Day Chicken Caesar Wraps",
+      "slug": "holiday-summer-pool-day-chicken-caesar-wraps",
+      "raw": "6 large flour tortillas",
+      "before": "Flour Tortillass",
+      "after": "Flour Tortillas",
+      "pantryKey": "flour tortilla"
+    },
+    {
+      "recipe": "Back-to-School Taco Pasta Skillet",
+      "slug": "holiday-back-to-school-taco-pasta-skillet",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Late Summer Garden Chicken Pasta",
+      "slug": "holiday-late-summer-garden-chicken-pasta",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Football Kickoff Loaded Baked Potato Bar",
+      "slug": "holiday-football-kickoff-loaded-baked-potato-bar",
+      "raw": "6 large russet potatoes",
+      "before": "Russet Potatoess",
+      "after": "Russet Potatoes",
+      "pantryKey": "russet potato"
+    },
+    {
+      "recipe": "Grandparents Day Chicken & Dumplings",
+      "slug": "holiday-grandparents-day-chicken-dumplings",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Pumpkin Patch Turkey Chili",
+      "slug": "holiday-pumpkin-patch-turkey-chili",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Fall Harvest Chicken & Wild Rice Casserole",
+      "slug": "holiday-fall-harvest-chicken-wild-rice-casserole",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Veterans Day Beef Stew Dinner",
+      "slug": "holiday-veterans-day-beef-stew-dinner",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Thanksgiving Turkey Breast Dinner",
+      "slug": "holiday-thanksgiving-turkey-breast-dinner",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Black Friday Leftover Turkey Pot Pie Skillet",
+      "slug": "holiday-black-friday-leftover-turkey-pot-pie-skillet",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Christmas Eve Lasagna Dinner",
+      "slug": "holiday-christmas-eve-lasagna-dinner",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Hanukkah Chicken & Potato Sheet Pan Dinner",
+      "slug": "holiday-hanukkah-chicken-potato-sheet-pan",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Kwanzaa Black-Eyed Pea & Rice Skillet",
+      "slug": "holiday-kwanzaa-black-eyed-pea-rice-skillet",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Garlic Roasted Potatoes",
+      "slug": "quick-garlic-roasted-potatoes",
+      "raw": "2 Tbsp garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Garlic Green Beans",
+      "slug": "quick-garlic-green-beans",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Garlic Butter Asparagus",
+      "slug": "quick-garlic-butter-asparagus",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Creamed Spinach",
+      "slug": "quick-creamed-spinach",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Roasted Red Potatoes",
+      "slug": "quick-roasted-red-potatoes",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Vegetable Fried Rice",
+      "slug": "quick-vegetable-fried-rice",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Garlic Bread",
+      "slug": "quick-garlic-bread",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Seasoned Black Beans",
+      "slug": "quick-seasoned-black-beans",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Refried Beans",
+      "slug": "quick-refried-beans",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Greek Lemon Potatoes",
+      "slug": "quick-greek-lemon-potatoes",
+      "raw": "3 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Classic Dill Pickles",
+      "slug": "quick-classic-dill-pickles",
+      "raw": "2 cloves garlic, smashed",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    },
+    {
+      "recipe": "Classic Tomato Soup",
+      "slug": "quick-classic-tomato-soup",
+      "raw": "2 cloves garlic, minced",
+      "before": "Garlics",
+      "after": "Garlic",
+      "pantryKey": "garlic"
+    }
+  ]
+}
