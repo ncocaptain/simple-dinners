@@ -1,4 +1,7 @@
-import { isRecipeSuppliedShoppingIngredient } from "../core/shoppingProcessIngredients";
+import { editShoppingItemGroup } from "../core/shoppingItemEdit";
+import { protectShoppingDescriptorCommas, getShoppingMozzarellaIdentity, getShoppingDescriptorChickenIdentity } from "../core/shoppingRecipeIdentity";
+import ShoppingItemActions from "../components/ShoppingItemActions";
+import { isLegacyRecipeSuppliedShoppingItem, isRecipeSuppliedShoppingIngredient } from "../core/shoppingProcessIngredients";
 import { normalizeSpanishIngredientLine } from "../core/ingredientRegistry";
 import { hasSpanishIngredientChoice } from "../core/spanishIngredients";
 import { createDealsRouteSnapshot } from "../deals/fixturePreview";
@@ -12,13 +15,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Plus,
-  Trash2,
   ShoppingCart,
   CheckCircle2,
   Circle,
   Eye,
   EyeOff,
-  Pencil,
   X,
   Share2,
   Sparkles,
@@ -1270,7 +1271,7 @@ function cleanIngredientName(line: string) {
   text = text.replace(/\bor\s+(pickled|jarred|canned)\s+[a-z\s]+/g, "");
 
   // final cleanup
-  text = text.split(",")[0];
+  text = protectShoppingDescriptorCommas(text).split(",")[0];
   text = cleanupSpacing(text);
 
   // Remove dangling connector words from messy recipe lines.
@@ -3563,22 +3564,25 @@ export default function ShoppingListPage() {
 
         if (shouldHideManualShoppingItem(manual.name)) continue;
 
+        // Old pencil edits retained recipe provenance. Their typed manual text
+        // is authoritative; source-free Smart Shopping approvals keep their path.
+        const legacyRecipeEdit = Boolean(smartItem.recipeIngredientText);
         const unit = normalizeUnit(
-          smartItem.unit !== undefined && smartItem.unit !== null
+          legacyRecipeEdit ? manual.unit : smartItem.unit !== undefined && smartItem.unit !== null
             ? smartItem.unit
             : manual.unit
         );
 
-        const quantity =
+        const quantity = legacyRecipeEdit ? manual.quantity :
           typeof smartItem.quantity === "number"
             ? smartItem.quantity
             : manual.quantity;
 
-        const packageSize =
+        const packageSize = legacyRecipeEdit ? normalizePackageSize(manual.packageSize) :
           normalizePackageSize(smartItem.packageSize) ||
           normalizePackageSize(manual.packageSize);
 
-        const approvedSmartName =
+        const approvedSmartName = smartItem.recipeIngredientText ? "" :
           canonicalizeSmartShoppingName(
             String(
               smartItem.grocerySearchName ||
@@ -3746,7 +3750,7 @@ export default function ShoppingListPage() {
         preservedRecipeIngredientText ||
         String(item.text || "");
 
-      if (isRecipeSuppliedShoppingIngredient(recipeName, recipeIngredientText)) continue;
+      if (isRecipeSuppliedShoppingIngredient(recipeName, recipeIngredientText) || isLegacyRecipeSuppliedShoppingItem(item)) continue;
 
       const spanishSource = normalizeSpanishIngredientLine(recipeIngredientText);
       if (spanishSource.processWater) continue;
@@ -4147,6 +4151,11 @@ export default function ShoppingListPage() {
         parsedQuantity = parsed.quantity ?? null;
         packageSize = normalizePackageSize(parsed.packageSize);
       }
+
+      const descriptorChicken = getShoppingDescriptorChickenIdentity(recipeIngredientText);
+      if (descriptorChicken) safeName = descriptorChicken;
+      const mozzarellaIdentity = getShoppingMozzarellaIdentity(recipeIngredientText);
+      if (mozzarellaIdentity) safeName = mozzarellaIdentity;
 
       const hasPurchaseWeight =
         parsedUnit === "lb" ||
@@ -4598,7 +4607,7 @@ export default function ShoppingListPage() {
           sourceShoppingItems
             .map((item) => {
               const recipeKey =
-                item.recipeIngredientText
+                item.sourceRecipe?.trim() && item.recipeIngredientText
                   ? getPantryComparableIngredientName(
                       item.recipeIngredientText
                     )
@@ -4608,14 +4617,16 @@ export default function ShoppingListPage() {
                 return recipeKey;
               }
 
+              const legacyManual = !item.sourceRecipe?.trim() && item.recipeIngredientText
+                ? parseManualShoppingItem(item.text) : null;
               return getPantryComparableName(
                 String(
-                  item.normalizedName ||
+                  legacyManual?.name || item.normalizedName ||
                     item.text ||
                     value.name ||
                     ""
                 ),
-                item.unit
+                legacyManual ? legacyManual.unit : item.unit
               );
             })
             .filter(Boolean)
@@ -4990,29 +5001,10 @@ export default function ShoppingListPage() {
 
     if (shouldHideManualShoppingItem(manual.name)) return;
 
-    const updated = shoppingItems.map((item) =>
-      editingGroup.sourceIds.includes(item.id)
-        ? ({
-          ...item,
-          text: manual.rawText,
-          category: resolveShoppingCategoryForItem(
-            manual.name,
-            manual.unit,
-            manual.packageSize
-          ),
-          sourceRecipe: "",
-          normalizedName: manual.name,
-          quantity: manual.quantity ?? undefined,
-          unit: manual.unit ?? undefined,
-          packageSize: manual.packageSize || undefined,
-        } as ShoppingItem & {
-          normalizedName?: string;
-          quantity?: number;
-          unit?: string | null;
-          packageSize?: string;
-        })
-        : item
-    );
+    const updated = editShoppingItemGroup(shoppingItems, editingGroup.sourceIds, {
+      ...manual,
+      category: resolveShoppingCategoryForItem(manual.name, manual.unit, manual.packageSize),
+    });
 
     persistShoppingItems(updated);
     setEditModalOpen(false);
@@ -5768,6 +5760,7 @@ export default function ShoppingListPage() {
               {group.items.map((item) => (
                 <div
                   key={item.id}
+                  data-shopping-row
                   onClick={() => toggleItemGroup(item)}
                   onTouchStart={(e) =>
                     setTouchStartX((prev) => ({
@@ -5796,7 +5789,7 @@ export default function ShoppingListPage() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    gap: 12,
+                    gap: 8,
                     padding: "14px 12px",
                     borderRadius: "14px",
                     width: "100%",
@@ -5817,14 +5810,14 @@ export default function ShoppingListPage() {
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      gap: 12,
+                      gap: 10,
                       minWidth: 0,
                       flex: "1 1 auto",
                       overflow: "hidden",
                     }}
                   >
                     {item.checked ? (
-                      <CheckCircle2 size={18} color="#22c55e" />
+                      <CheckCircle2 size={18} color="#22c55e" style={{ flexShrink: 0 }} />
                     ) : (
                       <Circle size={18} style={{ opacity: 0.2, flexShrink: 0 }} />
                     )}
@@ -5834,7 +5827,7 @@ export default function ShoppingListPage() {
                         thumbnailKey={item.thumbnailKey}
                         altText={item.thumbnailAltText}
                         category={item.category}
-                        size={40}
+                        size={32}
                         variant="list"
                       />
                     )}
@@ -5847,6 +5840,7 @@ export default function ShoppingListPage() {
                         openSourceModal(item);
                       }}
                       style={{
+                        minHeight: 44,
                         flex: "1 1 auto",
                         minWidth: 0,
                         maxWidth: "100%",
@@ -5873,29 +5867,35 @@ export default function ShoppingListPage() {
                       <span
                         style={{
                           display: "flex",
-                          alignItems: "center",
-                          gap: 8,
+                          flexDirection: "column",
+                          alignItems: "flex-start",
+                          gap: 4,
                           minWidth: 0,
                           maxWidth: "100%",
                           overflow: "hidden",
                         }}
                       >
                         <span
+                          data-shopping-name
                           style={{
                             fontWeight: 600,
                             textDecoration: item.checked
                               ? "line-through"
                               : "none",
                             overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
+                            display: "-webkit-box",
+                            WebkitBoxOrient: "vertical",
+                            WebkitLineClamp: 2,
+                            whiteSpace: "normal",
+                            overflowWrap: "anywhere",
                             minWidth: 0,
-                            flex: "1 1 auto",
+                            width: "100%",
                           }}
                         >
                           {item.displayText}
                         </span>
 
+                        {(item.recipeCountLabel || item.pantryRestock || item.pantryCoverage === "partial") ? <span data-shopping-metadata style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center", maxWidth: "100%" }}>
                         {item.recipeCountLabel ? (
                           <span
                             style={{
@@ -5955,68 +5955,16 @@ export default function ShoppingListPage() {
                             )}
                           </span>
                         ) : null}
+                        </span> : null}
                       </span>
                     </button>
                   </div>
 
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 8,
-                      flexShrink: 0,
-                    }}
-                  >
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openEditItem(item);
-                      }}
-                      style={{
-                        width: 32,
-                        height: 32,
-                        borderRadius: 999,
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.08)",
-                        color: "white",
-                        opacity: 0.7,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        padding: 0,
-                        flexShrink: 0,
-                      }}
-                      aria-label={`Edit ${item.displayText}`}
-                      title="Edit item"
-                    >
-                      <Pencil size={15} />
-                    </button>
-
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        deleteItemGroup(item);
-                      }}
-                      style={{
-                        width: 32,
-                        height: 32,
-                        borderRadius: 999,
-                        background: "rgba(239,68,68,0.08)",
-                        border: "1px solid rgba(239,68,68,0.14)",
-                        color: "#ef4444",
-                        opacity: 0.75,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        padding: 0,
-                        flexShrink: 0,
-                      }}
-                      aria-label={`Delete ${item.displayText}`}
-                      title="Delete item"
-                    >
-                      <Trash2 size={15} />
-                    </button>
-                  </div>
+                  <ShoppingItemActions
+                    name={item.displayText}
+                    onEdit={() => openEditItem(item)}
+                    onDelete={() => deleteItemGroup(item)}
+                  />
                 </div>
               ))}
             </div>

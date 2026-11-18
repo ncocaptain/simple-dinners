@@ -1,0 +1,604 @@
+{
+  "baseline": "56581e6",
+  "beforeAfter": [
+    {
+      "recipe": "Dolly-Inspired Country-Fried Crispy Chicken",
+      "raw": "3 lb bone-in, skin-on chicken pieces",
+      "before": "Bone in",
+      "after": "Bone-in Skin-on Chicken Pieces",
+      "quantity": 3,
+      "unit": "lb"
+    },
+    {
+      "recipe": "Grilled BBQ Chicken Thighs",
+      "raw": "6 bone-in, skin-on chicken thighs",
+      "before": "Bone in",
+      "after": "Bone-in Skin-on Chicken Thighs",
+      "quantity": 6,
+      "unit": null
+    },
+    {
+      "recipe": "Baked Chicken Thighs",
+      "raw": "6 bone-in, skin-on chicken thighs",
+      "before": "Bone in",
+      "after": "Bone-in Skin-on Chicken Thighs",
+      "quantity": 6,
+      "unit": null
+    },
+    {
+      "recipe": "Portobellos rellenos estilo caprese",
+      "raw": "5 a 6 bolitas de mozzarella fresca, rebanadas",
+      "before": "A 6 Bolitas de Mozzarella Fresca",
+      "after": "Fresh Mozzarella Balls",
+      "quantity": 6,
+      "unit": null
+    }
+  ],
+  "processEvidence": [
+    {
+      "recipe": "Dolly-Inspired Country-Fried Crispy Chicken",
+      "id": "frying-oil-or-chicken-drippings-dolly-inspired-country-fried-crispy-chicken-1-4-cup-reserved-frying-oil-or-chicken-drippings-1794959476432-13",
+      "intactSourceExcluded": true,
+      "lostSourceExcluded": true
+    },
+    {
+      "recipe": "Pollo Crujiente Frito al Estilo Campestre Inspirado en Dolly",
+      "id": "aceite-de-freir-reservado-o-jugos-del-pollo-pollo-crujiente-frito-al-estilo-campestre-inspirado-en-dolly-1-4-cup-de-aceite-de-fre-r-reservado-o-jugos-del-pollo-1794959476461-13",
+      "intactSourceExcluded": true,
+      "lostSourceExcluded": true
+    }
+  ],
+  "generatedWeek": {
+    "recipes": [
+      "Dolly-Inspired Country-Fried Crispy Chicken",
+      "Chicken Alfredo",
+      "Spinach Mushroom Feta Crustless Quiche",
+      "Build-Your-Own Pizza Night",
+      "Lemon Pepper Tilapia",
+      "Crispy Sheet-Pan Gnocchi with Roasted Veggies",
+      "Black Bean Quesadillas"
+    ],
+    "freshRaw": 77,
+    "legacyRaw": 78,
+    "rows": 46
+  },
+  "smartWeekCases": 3,
+  "catalog": {
+    "checked": 7275,
+    "changed": 59
+  },
+  "catalogChanges": [
+    {
+      "recipe": "Chicken Green Bean Mushroom Bake",
+      "raw": "1/2 cup shredded mozzarella cheese",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Pollo al horno con ejotes y champiñones",
+      "raw": "1/2 cup de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "School Pizza",
+      "raw": "4 cups shredded mozzarella cheese",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Pizza escolar",
+      "raw": "4 cups de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Italian Sausage Stuffed Peppers",
+      "raw": "1 cup mozzarella cheese, grated",
+      "before": "Mozzarella Cheese",
+      "after": "Mozzarella Cheese Grated",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Pimientos rellenos de salchicha italiana",
+      "raw": "1 cup de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "BBQ Chicken Flatbread",
+      "raw": "1 cup mozzarella cheese, shredded",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Pan plano con pollo BBQ",
+      "raw": "1 cup de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Baked Ziti",
+      "raw": "2 cups mozzarella cheese, shredded",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Ziti al horno",
+      "raw": "2 cups de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Grilled BBQ Chicken Thighs",
+      "raw": "6 bone-in, skin-on chicken thighs",
+      "before": "Bone in",
+      "after": "Bone-in Skin-on Chicken Thighs",
+      "pantryBefore": "bone in skin on chicken thigh",
+      "pantryAfter": "bone in skin on chicken thigh"
+    },
+    {
+      "recipe": "Chicken Parmesan Melts",
+      "raw": "1 cup mozzarella cheese, shredded",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Sándwiches de pollo parmesano gratinados",
+      "raw": "1 cup de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Classic Lasagna",
+      "raw": "2 1/2 cups shredded mozzarella cheese",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Classic Lasagna",
+      "raw": "1 1/2 cups shredded mozzarella cheese",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Lasaña clásica",
+      "raw": "2 1/2 cups de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Lasaña clásica",
+      "raw": "1 1/2 cups de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Baked Chicken Thighs",
+      "raw": "6 bone-in, skin-on chicken thighs",
+      "before": "Bone in",
+      "after": "Bone-in Skin-on Chicken Thighs",
+      "pantryBefore": "bone in skin on chicken thigh",
+      "pantryAfter": "bone in skin on chicken thigh"
+    },
+    {
+      "recipe": "Barbecue Chicken Pizza",
+      "raw": "1 1/2 cups mozzarella cheese, shredded",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Pizza de pollo barbecue",
+      "raw": "1 1/2 cups de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Homemade Pizza Pockets",
+      "raw": "1 1/2 cups mozzarella cheese, shredded",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Pizza Pockets Caseros",
+      "raw": "1 1/2 cups de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Slow-Cooked Birria Tacos",
+      "raw": "2 cups Oaxaca or mozzarella cheese, shredded",
+      "before": "Oaxaca or Mozzarella Cheese",
+      "after": "Oaxaca or Mozzarella Cheese, Shredded",
+      "pantryBefore": "oaxaca or mozzarella cheese",
+      "pantryAfter": "oaxaca or mozzarella cheese"
+    },
+    {
+      "recipe": "Tacos de Birria Cocidos Lentamente",
+      "raw": "2 cups de queso Oaxaca o mozzarella rallado",
+      "before": "Queso Oaxaca O Mozzarella Rallado",
+      "after": "Queso Oaxaca O Mozzarella Rallado",
+      "pantryBefore": "de queso oaxaca o mozzarella rallado",
+      "pantryAfter": "de queso oaxaca o mozzarella rallado"
+    },
+    {
+      "recipe": "Dolly-Inspired Country-Fried Crispy Chicken",
+      "raw": "3 lb bone-in, skin-on chicken pieces",
+      "before": "Bone in",
+      "after": "Bone-in Skin-on Chicken Pieces",
+      "pantryBefore": "bone in skin on chicken",
+      "pantryAfter": "bone in skin on chicken"
+    },
+    {
+      "recipe": "Build-Your-Own Pizza Night",
+      "raw": "2 cups shredded mozzarella cheese",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Noche de Pizza para Armar",
+      "raw": "2 tazas de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Slow Cooker Sausage & Peppers",
+      "raw": "1 cup shredded mozzarella cheese, optional",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Salchicha con Pimientos en Olla Lenta",
+      "raw": "1 taza de queso mozzarella rallado, opcional",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Slow Cooker Meatball Subs",
+      "raw": "1 1/2 cups shredded mozzarella cheese",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Sándwiches de Albóndigas en Olla Lenta",
+      "raw": "1 1/2 tazas de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Meal Prep Baked Ziti",
+      "raw": "2 cups shredded mozzarella cheese",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Ziti Horneado para Meal Prep",
+      "raw": "2 tazas de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Meal Prep Lasagna Roll-Ups",
+      "raw": "2 cups shredded mozzarella cheese, divided",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Rollitos de Lasaña para Meal Prep",
+      "raw": "2 tazas de queso mozzarella rallado, divididas",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Pie Iron Pudgie Pies",
+      "raw": "1 cup mozzarella cheese, shredded",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Pudgie Pies en Pie Iron",
+      "raw": "1 cup de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Pesto Naan Pizzas",
+      "raw": "1 cup mozzarella cheese, shredded",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Pizzas de naan con pesto",
+      "raw": "1 cup de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Spinach and Ricotta Stuffed Shells",
+      "raw": "1 cup mozzarella cheese, shredded",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Conchas rellenas de espinaca y ricotta",
+      "raw": "1 cup de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Pasta caprese",
+      "raw": "1/2 cup de perlas de mozzarella",
+      "before": "Perlas de Mozzarella",
+      "after": "Perlas de Mozzarella",
+      "pantryBefore": "de perla de mozzarella",
+      "pantryAfter": "de perla de mozzarella"
+    },
+    {
+      "recipe": "Caprese Stuffed Portobello Mushrooms",
+      "raw": "5 to 6 fresh mozzarella balls, sliced",
+      "before": "Mozzarella Balls",
+      "after": "Fresh Mozzarella Balls",
+      "pantryBefore": "mozzarella ball",
+      "pantryAfter": "mozzarella ball"
+    },
+    {
+      "recipe": "Portobellos rellenos estilo caprese",
+      "raw": "5 a 6 bolitas de mozzarella fresca, rebanadas",
+      "before": "A 6 Bolitas de Mozzarella Fresca",
+      "after": "Fresh Mozzarella Balls",
+      "pantryBefore": "a 6 bolita de mozzarella fresca rebanada",
+      "pantryAfter": "mozzarella ball"
+    },
+    {
+      "recipe": "Spinach Mushroom Feta Crustless Quiche",
+      "raw": "1/2 cup shredded mozzarella",
+      "before": "Mozzarella",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Quiche sin corteza de espinaca, champiñones y feta",
+      "raw": "1/2 cup de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Caprese Grilled Cheese",
+      "raw": "4 oz fresh mozzarella, sliced",
+      "before": "Mozzarella",
+      "after": "Fresh Mozzarella Sliced",
+      "pantryBefore": "mozzarella",
+      "pantryAfter": "mozzarella"
+    },
+    {
+      "recipe": "Sándwich caprese de queso a la plancha",
+      "raw": "4 oz de mozzarella fresca, rebanada",
+      "before": "Mozzarella Fresca",
+      "after": "Mozzarella Fresca Rebanada",
+      "pantryBefore": "de mozzarella fresca rebanada",
+      "pantryAfter": "de mozzarella fresca rebanada"
+    },
+    {
+      "recipe": "Caprese Salad",
+      "raw": "8 oz fresh mozzarella, sliced",
+      "before": "Mozzarella",
+      "after": "Fresh Mozzarella Sliced",
+      "pantryBefore": "mozzarella",
+      "pantryAfter": "mozzarella"
+    },
+    {
+      "recipe": "Ensalada caprese",
+      "raw": "8 oz de mozzarella fresca, rebanada",
+      "before": "Mozzarella Fresca",
+      "after": "Mozzarella Fresca Rebanada",
+      "pantryBefore": "de mozzarella fresca rebanada",
+      "pantryAfter": "de mozzarella fresca rebanada"
+    },
+    {
+      "recipe": "Valentine's Family Pasta Bake",
+      "raw": "2 cups mozzarella cheese, shredded",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Pasta horneada familiar para San Valentín",
+      "raw": "2 cups de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Earth Day Veggie Pasta Bake",
+      "raw": "2 cups mozzarella cheese, shredded",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Pasta vegetariana al horno para el Día de la Tierra",
+      "raw": "2 cups de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Christmas Eve Lasagna Dinner",
+      "raw": "3 cups mozzarella cheese, shredded",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Cena de lasaña para Nochebuena",
+      "raw": "3 cups de queso mozzarella rallado",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Buffalo Chicken Tots",
+      "raw": "1/2 cup mozzarella cheese, shredded, optional",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Tater tots con pollo buffalo",
+      "raw": "1/2 cup de queso mozzarella rallado, opcional",
+      "before": "Mozzarella Cheese",
+      "after": "Shredded Mozzarella Cheese",
+      "pantryBefore": "mozzarella cheese",
+      "pantryAfter": "mozzarella cheese"
+    },
+    {
+      "recipe": "Ensalada de Pasta Clásica",
+      "raw": "1/2 cup de cubos de queso mozzarella",
+      "before": "Cubos de Queso Mozzarella",
+      "after": "Cubos de Queso Mozzarella",
+      "pantryBefore": "de cubo de queso mozzarella",
+      "pantryAfter": "de cubo de queso mozzarella"
+    }
+  ],
+  "browser": {
+    "method": "Chromium real App at local disposable origin, CSS-width iframe; native screenshot/keyboard/click controls",
+    "physicalDevice": "pending",
+    "layout": [
+      {
+        "viewport": 320,
+        "documentWidth": 320,
+        "nameWidth": 132,
+        "nameHeight": 48
+      },
+      {
+        "viewport": 390,
+        "documentWidth": 375,
+        "nameWidth": 187,
+        "nameHeight": 48
+      },
+      {
+        "viewport": 412,
+        "documentWidth": 397,
+        "nameWidth": 209,
+        "nameHeight": 48
+      },
+      {
+        "viewport": 430,
+        "documentWidth": 415,
+        "nameWidth": 227,
+        "nameHeight": 24
+      }
+    ],
+    "baseline412NameWidth": 11.828125,
+    "actionsTarget": {
+      "width": 44,
+      "height": 44
+    },
+    "capturedRuntimeErrors": [],
+    "checks": [
+      "Fresh generated week",
+      "Authentic pre49 generator saved week, intact source",
+      "Exact EN/ES missing-source Dolly IDs: raw records retained, no rendered rows",
+      "Merged Garlic -> 8 flour tortillas via More/Edit: one manual record, metadata reset",
+      "Edited Flour Tortillas appears Already in Pantry with tortilla stock",
+      "2 recipes + Have some retained",
+      "English/Spanish action labels",
+      "Edit initial focus; Shift+Tab wraps to Done; Tab wraps to Edit; Escape closes and returns focus to More",
+      "Explicit Delete removes selected group, opening actions does not check/delete row",
+      "Focused chicken/Spanish balls/shredded alias merge and fresh/sliced/alternative controls separate"
+    ],
+    "screenshots": [
+      "edited-pantry.png",
+      "fresh-week.png",
+      "layout-320.png",
+      "layout-390.png",
+      "layout-412.png",
+      "layout-430.png",
+      "legacy-week.png",
+      "manual-edit.png",
+      "missing-source.png",
+      "spanish-actions.png"
+    ]
+  }
+}

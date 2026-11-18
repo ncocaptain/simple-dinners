@@ -9,6 +9,7 @@ global.localStorage = {
 };
 const load = createTypeScriptLoader();
 const shopping = load('src/shoppingList.ts');
+const {getShoppingMozzarellaIdentity, getShoppingDescriptorChickenIdentity} = load('src/core/shoppingRecipeIdentity.ts');
 const { ALL_RECIPES } = load('src/core/data.ts');
 const { isRecipeSuppliedShoppingIngredient } = load('src/core/shoppingProcessIngredients.ts');
 // Pass a clean baseline page: git show 643fa15:src/pages/ShoppingListPage.tsx > /tmp/shopping-page-baseline.tsx
@@ -145,7 +146,10 @@ for (const recipe of ALL_RECIPES) for (const version of [recipe, recipe.translat
     }
     assert.equal(current.length, old.length, raw);
     if (!current.length) continue;
-    assert.deepEqual(current.map(({displayText, recipeBreakdown, ...r}) => r), old.map(({displayText, recipeBreakdown, ...r}) => r), raw);
+    // TLC now deliberately repairs these source-backed identities; its clean
+    // 56581e6 comparison covers their form/unit/package and Pantry contracts.
+    const tlcIdentity = getShoppingMozzarellaIdentity(raw) || getShoppingDescriptorChickenIdentity(raw);
+    if (!tlcIdentity) assert.deepEqual(current.map(({displayText, recipeBreakdown, ...r}) => r), old.map(({displayText, recipeBreakdown, ...r}) => r), raw);
     if (current[0].displayText !== old[0].displayText) {
       changedLabels++;
       catalogChanges.push({ recipe: version.name, slug: recipe.slug || recipe.id, raw, before: old[0].displayText, after: current[0].displayText, pantryKey: current[0].pantryKey });

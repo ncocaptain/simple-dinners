@@ -1,0 +1,4541 @@
+{
+  "baseline": "56581e6",
+  "legacyGenerator": "643fa15",
+  "counts": {
+    "recipes": 348,
+    "freshCount": 7275,
+    "legacyCount": 7277,
+    "refreshDifferences": 0
+  },
+  "duplicates": [
+    {
+      "recipe": "Seared Ahi Tuna",
+      "language": "en",
+      "label": "Sesame Oil",
+      "rows": [
+        {
+          "id": "recipe::Pantry::sesame oil::Tbsp::",
+          "unit": "Tbsp",
+          "packageSize": "",
+          "quantity": 1,
+          "pantryKey": "sesame oil",
+          "sources": [
+            "1 Tbsp sesame oil (or olive oil)"
+          ]
+        },
+        {
+          "id": "recipe::Pantry::sesame oil::tsp::",
+          "unit": "tsp",
+          "packageSize": "",
+          "quantity": 0.5,
+          "pantryKey": "sesame oil",
+          "sources": [
+            "1/2 tsp sesame oil"
+          ]
+        }
+      ]
+    },
+    {
+      "recipe": "Mushroom Swiss Sliders",
+      "language": "en",
+      "label": "Swiss Cheese",
+      "rows": [
+        {
+          "id": "recipe::Dairy / Eggs::swiss cheese::cup::",
+          "unit": "cup",
+          "packageSize": "",
+          "quantity": 0.5,
+          "pantryKey": "swiss cheese",
+          "sources": [
+            "1/2 cup shredded Swiss cheese"
+          ]
+        },
+        {
+          "id": "recipe::Dairy / Eggs::swiss cheese::slice::",
+          "unit": "slice",
+          "packageSize": "",
+          "quantity": 12,
+          "pantryKey": "swiss cheese",
+          "sources": [
+            "12 slices Swiss cheese"
+          ]
+        }
+      ]
+    },
+    {
+      "recipe": "Vegetable Lo Mein Noodles",
+      "language": "en",
+      "label": "Sesame Oil",
+      "rows": [
+        {
+          "id": "recipe::Pantry::sesame oil::Tbsp::",
+          "unit": "Tbsp",
+          "packageSize": "",
+          "quantity": 1,
+          "pantryKey": "sesame oil",
+          "sources": [
+            "1 Tbsp sesame oil"
+          ]
+        },
+        {
+          "id": "recipe::Pantry::sesame oil::tsp::",
+          "unit": "tsp",
+          "packageSize": "",
+          "quantity": 1,
+          "pantryKey": "sesame oil",
+          "sources": [
+            "1 tsp sesame oil"
+          ]
+        }
+      ]
+    },
+    {
+      "recipe": "Fideos Lo Mein con Verduras",
+      "language": "es",
+      "label": "Sesame Oil",
+      "rows": [
+        {
+          "id": "recipe::Pantry::sesame oil::Tbsp::",
+          "unit": "Tbsp",
+          "packageSize": "",
+          "quantity": 1,
+          "pantryKey": "sesame oil",
+          "sources": [
+            "1 Tbsp de aceite de ajonjolí"
+          ]
+        },
+        {
+          "id": "recipe::Pantry::sesame oil::tsp::",
+          "unit": "tsp",
+          "packageSize": "",
+          "quantity": 1,
+          "pantryKey": "sesame oil",
+          "sources": [
+            "1 tsp de aceite de ajonjolí"
+          ]
+        }
+      ]
+    },
+    {
+      "recipe": "Vegetable Fried Rice",
+      "language": "en",
+      "label": "Sesame Oil",
+      "rows": [
+        {
+          "id": "recipe::Pantry::sesame oil::Tbsp::",
+          "unit": "Tbsp",
+          "packageSize": "",
+          "quantity": 1,
+          "pantryKey": "sesame oil",
+          "sources": [
+            "1 Tbsp sesame oil"
+          ]
+        },
+        {
+          "id": "recipe::Pantry::sesame oil::tsp::",
+          "unit": "tsp",
+          "packageSize": "",
+          "quantity": 1,
+          "pantryKey": "sesame oil",
+          "sources": [
+            "1 tsp sesame oil"
+          ]
+        }
+      ]
+    },
+    {
+      "recipe": "Arroz Frito con Verduras",
+      "language": "es",
+      "label": "Sesame Oil",
+      "rows": [
+        {
+          "id": "recipe::Pantry::sesame oil::Tbsp::",
+          "unit": "Tbsp",
+          "packageSize": "",
+          "quantity": 1,
+          "pantryKey": "sesame oil",
+          "sources": [
+            "1 Tbsp de aceite de ajonjolí"
+          ]
+        },
+        {
+          "id": "recipe::Pantry::sesame oil::tsp::",
+          "unit": "tsp",
+          "packageSize": "",
+          "quantity": 1,
+          "pantryKey": "sesame oil",
+          "sources": [
+            "1 tsp de aceite de ajonjolí"
+          ]
+        }
+      ]
+    }
+  ],
+  "processControls": [
+    {
+      "recipe": "Dolly-Inspired Country-Fried Crispy Chicken",
+      "language": "en",
+      "freshRawPresent": false,
+      "legacyVisible": false,
+      "originalIngredient": "1/4 cup reserved frying oil or chicken drippings",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "1/4 cup Frying Oil or Chicken Drippings",
+        "grocerySearchName": "frying oil or chicken drippings",
+        "category": "Meat / Seafood",
+        "normalizedName": "frying oil or chicken drippings",
+        "quantity": 0.25,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "frying-oil-or-chicken-drippings-dolly-inspired-country-fried-crispy-chicken-1-4-cup-reserved-frying-oil-or-chicken-drippings-1794955089420-13",
+        "text": "1/4 cup Frying Oil or Chicken Drippings",
+        "displayText": "1/4 cup Frying Oil or Chicken Drippings",
+        "grocerySearchName": "frying oil or chicken drippings",
+        "checked": false,
+        "addedAt": 1794955089420,
+        "category": "Meat / Seafood",
+        "sourceRecipe": "Dolly-Inspired Country-Fried Crispy Chicken",
+        "recipeIngredientText": "1/4 cup reserved frying oil or chicken drippings",
+        "normalizedName": "frying oil or chicken drippings",
+        "quantity": 0.25,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "1/4 cup reserved frying oil or chicken drippings",
+      "page": null,
+      "canonical": null,
+      "product": null,
+      "mergeKey": null,
+      "pantryKey": null,
+      "finalLabel": null,
+      "coverage": null
+    },
+    {
+      "recipe": "Pollo Crujiente Frito al Estilo Campestre Inspirado en Dolly",
+      "language": "es",
+      "freshRawPresent": false,
+      "legacyVisible": false,
+      "originalIngredient": "1/4 cup de aceite de freír reservado o jugos del pollo",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "1/4 cup Aceite De Freir Reservado O Jugos Del Pollo",
+        "grocerySearchName": "aceite de freir reservado o jugos del pollo",
+        "category": "Other",
+        "normalizedName": "aceite de freir reservado o jugos del pollo",
+        "quantity": 0.25,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "aceite-de-freir-reservado-o-jugos-del-pollo-pollo-crujiente-frito-al-estilo-campestre-inspirado-en-dolly-1-4-cup-de-aceite-de-fre-r-reservado-o-jugos-del-pollo-1794955089514-13",
+        "text": "1/4 cup Aceite De Freir Reservado O Jugos Del Pollo",
+        "displayText": "1/4 cup Aceite De Freir Reservado O Jugos Del Pollo",
+        "grocerySearchName": "aceite de freir reservado o jugos del pollo",
+        "checked": false,
+        "addedAt": 1794955089514,
+        "category": "Other",
+        "sourceRecipe": "Pollo Crujiente Frito al Estilo Campestre Inspirado en Dolly",
+        "recipeIngredientText": "1/4 cup de aceite de freír reservado o jugos del pollo",
+        "normalizedName": "aceite de freir reservado o jugos del pollo",
+        "quantity": 0.25,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "1/4 cup de aceite de freír reservado o jugos del pollo",
+      "page": null,
+      "canonical": null,
+      "product": null,
+      "mergeKey": null,
+      "pantryKey": null,
+      "finalLabel": null,
+      "coverage": null
+    }
+  ],
+  "localeChecks": [
+    {
+      "locale": "en",
+      "recipe": "Dolly-Inspired Country-Fried Crispy Chicken",
+      "freshRaw": 17,
+      "legacyRaw": 18,
+      "rows": [
+        {
+          "label": "Bone in",
+          "pantryKey": "bone in skin on chicken"
+        },
+        {
+          "label": "Buttermilk",
+          "pantryKey": "buttermilk"
+        },
+        {
+          "label": "Hot Sauce",
+          "pantryKey": "hot sauce"
+        },
+        {
+          "label": "Salt",
+          "pantryKey": "salt"
+        },
+        {
+          "label": "Black Pepper",
+          "pantryKey": "black pepper"
+        },
+        {
+          "label": "All Purpose Flour",
+          "pantryKey": "flour"
+        },
+        {
+          "label": "Paprika",
+          "pantryKey": "paprika"
+        },
+        {
+          "label": "Garlic Powder",
+          "pantryKey": "garlic powder"
+        },
+        {
+          "label": "Onion Powder",
+          "pantryKey": "onion powder"
+        },
+        {
+          "label": "Cayenne Pepper",
+          "pantryKey": "cayenne pepper"
+        },
+        {
+          "label": "Vegetable or Canola Oil",
+          "pantryKey": "vegetable or canola oil or enough for 1 1 2 inche in the skillet"
+        },
+        {
+          "label": "Milk",
+          "pantryKey": "whole milk"
+        }
+      ]
+    },
+    {
+      "locale": "en",
+      "recipe": "Pollo Crujiente Frito al Estilo Campestre Inspirado en Dolly",
+      "freshRaw": 17,
+      "legacyRaw": 18,
+      "rows": [
+        {
+          "label": "Piezas de Pollo con Hueso y Piel",
+          "pantryKey": "de pieza de pollo con hueso y piel"
+        },
+        {
+          "label": "Buttermilk",
+          "pantryKey": "buttermilk"
+        },
+        {
+          "label": "Salsa Picante",
+          "pantryKey": "de salsa picante"
+        },
+        {
+          "label": "Salt",
+          "pantryKey": "salt"
+        },
+        {
+          "label": "Black Pepper",
+          "pantryKey": "black pepper"
+        },
+        {
+          "label": "Flour",
+          "pantryKey": "flour"
+        },
+        {
+          "label": "Paprika",
+          "pantryKey": "paprika"
+        },
+        {
+          "label": "Garlic Powder",
+          "pantryKey": "garlic powder"
+        },
+        {
+          "label": "Onion Powder",
+          "pantryKey": "onion powder"
+        },
+        {
+          "label": "Cayenne Pepper",
+          "pantryKey": "cayenne pepper"
+        },
+        {
+          "label": "Vegetable Oil O de Canola, O Suficiente Para Llenar 1 1/2 Pulgadas de la Sarten",
+          "pantryKey": "vegetable oil o de canola, o suficiente para llenar 1 1/2 pulgadas de la sarten"
+        },
+        {
+          "label": "Milk",
+          "pantryKey": "whole milk"
+        }
+      ]
+    },
+    {
+      "locale": "es",
+      "recipe": "Dolly-Inspired Country-Fried Crispy Chicken",
+      "freshRaw": 17,
+      "legacyRaw": 18,
+      "rows": [
+        {
+          "label": "Bone in",
+          "pantryKey": "bone in skin on chicken"
+        },
+        {
+          "label": "Buttermilk",
+          "pantryKey": "buttermilk"
+        },
+        {
+          "label": "Hot sauce",
+          "pantryKey": "hot sauce"
+        },
+        {
+          "label": "Salt",
+          "pantryKey": "salt"
+        },
+        {
+          "label": "Black pepper",
+          "pantryKey": "black pepper"
+        },
+        {
+          "label": "All purpose flour",
+          "pantryKey": "flour"
+        },
+        {
+          "label": "Paprika",
+          "pantryKey": "paprika"
+        },
+        {
+          "label": "Garlic powder",
+          "pantryKey": "garlic powder"
+        },
+        {
+          "label": "Onion powder",
+          "pantryKey": "onion powder"
+        },
+        {
+          "label": "Cayenne pepper",
+          "pantryKey": "cayenne pepper"
+        },
+        {
+          "label": "Vegetable or canola oil",
+          "pantryKey": "vegetable or canola oil or enough for 1 1 2 inche in the skillet"
+        },
+        {
+          "label": "Milk",
+          "pantryKey": "whole milk"
+        }
+      ]
+    },
+    {
+      "locale": "es",
+      "recipe": "Pollo Crujiente Frito al Estilo Campestre Inspirado en Dolly",
+      "freshRaw": 17,
+      "legacyRaw": 18,
+      "rows": [
+        {
+          "label": "Piezas de pollo con hueso y piel",
+          "pantryKey": "de pieza de pollo con hueso y piel"
+        },
+        {
+          "label": "Buttermilk",
+          "pantryKey": "buttermilk"
+        },
+        {
+          "label": "Salsa picante",
+          "pantryKey": "de salsa picante"
+        },
+        {
+          "label": "Salt",
+          "pantryKey": "salt"
+        },
+        {
+          "label": "Black pepper",
+          "pantryKey": "black pepper"
+        },
+        {
+          "label": "Flour",
+          "pantryKey": "flour"
+        },
+        {
+          "label": "Paprika",
+          "pantryKey": "paprika"
+        },
+        {
+          "label": "Garlic powder",
+          "pantryKey": "garlic powder"
+        },
+        {
+          "label": "Onion powder",
+          "pantryKey": "onion powder"
+        },
+        {
+          "label": "Cayenne pepper",
+          "pantryKey": "cayenne pepper"
+        },
+        {
+          "label": "Vegetable oil o de canola, o suficiente para llenar 1 1/2 pulgadas de la sarten",
+          "pantryKey": "vegetable oil o de canola, o suficiente para llenar 1 1/2 pulgadas de la sarten"
+        },
+        {
+          "label": "Milk",
+          "pantryKey": "whole milk"
+        }
+      ]
+    }
+  ],
+  "refreshControls": [
+    {
+      "name": "authentic old row",
+      "originalIngredient": "2 cloves garlic, minced",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "2 cloves 1 clove Garlic",
+        "grocerySearchName": "garlic",
+        "category": "Produce",
+        "normalizedName": "garlic",
+        "quantity": 2,
+        "unit": "clove",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "garlic-classic-meatloaf-2-cloves-garlic-minced-1794955106763-0",
+        "text": "2 cloves 1 clove Garlic",
+        "displayText": "2 cloves 1 clove Garlic",
+        "grocerySearchName": "garlic",
+        "checked": false,
+        "addedAt": 1794955106763,
+        "category": "Produce",
+        "sourceRecipe": "Classic Meatloaf",
+        "recipeIngredientText": "2 cloves garlic, minced",
+        "normalizedName": "garlic",
+        "quantity": 2,
+        "unit": "clove",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "2 cloves garlic, minced",
+      "page": {
+        "id": "garlic-classic-meatloaf-2-cloves-garlic-minced-1794955106763-0",
+        "recipeName": "Classic Meatloaf",
+        "recipeIngredientText": "2 cloves garlic, minced",
+        "preservedRecipeIngredientText": "2 cloves garlic, minced",
+        "savedName": "garlic",
+        "cleanedRaw": "garlic",
+        "parsed": {
+          "quantity": 2,
+          "minQuantity": 2,
+          "maxQuantity": 2,
+          "unit": "clove",
+          "name": "garlic",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "garlic",
+        "preNormalizedName": "garlic",
+        "safeName": "garlic",
+        "normalizedName": "garlic",
+        "parsedUnit": "clove",
+        "parsedQuantity": 2,
+        "packageSize": "",
+        "mergeUnit": "__count__",
+        "groupedUnit": "__count__",
+        "groupedPackageSize": "",
+        "category": "Produce",
+        "key": "recipe::Produce::garlic::__count__::"
+      },
+      "canonical": {
+        "id": "garlic",
+        "canonicalName": "Garlic",
+        "category": "Produce"
+      },
+      "product": null,
+      "mergeKey": "recipe::Produce::garlic::__count__::",
+      "pantryKey": "garlic",
+      "finalLabel": "Garlic",
+      "coverage": "none"
+    },
+    {
+      "name": "authentic old Dolly oil with preserved source",
+      "originalIngredient": "1/4 cup reserved frying oil or chicken drippings",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "1/4 cup Frying Oil or Chicken Drippings",
+        "grocerySearchName": "frying oil or chicken drippings",
+        "category": "Meat / Seafood",
+        "normalizedName": "frying oil or chicken drippings",
+        "quantity": 0.25,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "frying-oil-or-chicken-drippings-dolly-inspired-country-fried-crispy-chicken-1-4-cup-reserved-frying-oil-or-chicken-drippings-1794955106763-13",
+        "text": "1/4 cup Frying Oil or Chicken Drippings",
+        "displayText": "1/4 cup Frying Oil or Chicken Drippings",
+        "grocerySearchName": "frying oil or chicken drippings",
+        "checked": false,
+        "addedAt": 1794955106763,
+        "category": "Meat / Seafood",
+        "sourceRecipe": "Dolly-Inspired Country-Fried Crispy Chicken",
+        "recipeIngredientText": "1/4 cup reserved frying oil or chicken drippings",
+        "normalizedName": "frying oil or chicken drippings",
+        "quantity": 0.25,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "1/4 cup reserved frying oil or chicken drippings",
+      "page": null,
+      "canonical": null,
+      "product": null,
+      "mergeKey": null,
+      "pantryKey": null,
+      "finalLabel": null,
+      "coverage": null
+    },
+    {
+      "name": "authentic old Dolly chicken with source",
+      "originalIngredient": "3 lb bone-in, skin-on chicken pieces",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "3 lbs Chicken Pieces",
+        "grocerySearchName": "chicken pieces",
+        "category": "Meat / Seafood",
+        "normalizedName": "chicken pieces",
+        "quantity": 3,
+        "unit": "lb",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "chicken-pieces-dolly-inspired-country-fried-crispy-chicken-3-lb-bone-in-skin-on-chicken-pieces-1794955106763-0",
+        "text": "3 lbs Chicken Pieces",
+        "displayText": "3 lbs Chicken Pieces",
+        "grocerySearchName": "chicken pieces",
+        "checked": false,
+        "addedAt": 1794955106763,
+        "category": "Meat / Seafood",
+        "sourceRecipe": "Dolly-Inspired Country-Fried Crispy Chicken",
+        "recipeIngredientText": "3 lb bone-in, skin-on chicken pieces",
+        "normalizedName": "chicken pieces",
+        "quantity": 3,
+        "unit": "lb",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "3 lb bone-in, skin-on chicken pieces",
+      "page": {
+        "id": "chicken-pieces-dolly-inspired-country-fried-crispy-chicken-3-lb-bone-in-skin-on-chicken-pieces-1794955106763-0",
+        "recipeName": "Dolly-Inspired Country-Fried Crispy Chicken",
+        "recipeIngredientText": "3 lb bone-in, skin-on chicken pieces",
+        "preservedRecipeIngredientText": "3 lb bone-in, skin-on chicken pieces",
+        "savedName": "chicken pieces",
+        "cleanedRaw": "3 lb bone-in",
+        "parsed": {
+          "quantity": 3,
+          "minQuantity": 3,
+          "maxQuantity": 3,
+          "unit": "lb",
+          "name": "bone-in",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "bone-in",
+        "preNormalizedName": "bone-in",
+        "safeName": "bone in",
+        "normalizedName": "bone in",
+        "parsedUnit": "lb",
+        "parsedQuantity": 3,
+        "packageSize": "",
+        "mergeUnit": "lb",
+        "groupedUnit": "lb",
+        "groupedPackageSize": "",
+        "category": "Other",
+        "key": "recipe::Other::bone in::lb::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Other::bone in::lb::",
+      "pantryKey": "bone in skin on chicken",
+      "finalLabel": "Bone in",
+      "coverage": "none"
+    },
+    {
+      "name": "degraded old Dolly chicken without source (simulation)",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "3 lbs Chicken Pieces",
+        "grocerySearchName": "chicken pieces",
+        "category": "Meat / Seafood",
+        "normalizedName": "chicken pieces",
+        "quantity": 3,
+        "unit": "lb",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "chicken-pieces-dolly-inspired-country-fried-crispy-chicken-3-lb-bone-in-skin-on-chicken-pieces-1794955106763-0",
+        "text": "3 lbs Chicken Pieces",
+        "displayText": "3 lbs Chicken Pieces",
+        "grocerySearchName": "chicken pieces",
+        "checked": false,
+        "addedAt": 1794955106763,
+        "category": "Meat / Seafood",
+        "sourceRecipe": "Dolly-Inspired Country-Fried Crispy Chicken",
+        "normalizedName": "chicken pieces",
+        "quantity": 3,
+        "unit": "lb",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": null,
+      "page": {
+        "id": "chicken-pieces-dolly-inspired-country-fried-crispy-chicken-3-lb-bone-in-skin-on-chicken-pieces-1794955106763-0",
+        "recipeName": "Dolly-Inspired Country-Fried Crispy Chicken",
+        "recipeIngredientText": "3 lbs Chicken Pieces",
+        "preservedRecipeIngredientText": "",
+        "savedName": "chicken pieces",
+        "cleanedRaw": "3 lbs chicken pieces",
+        "parsed": {
+          "quantity": 3,
+          "minQuantity": 3,
+          "maxQuantity": 3,
+          "unit": "lb",
+          "name": "chicken pieces",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": false,
+        "cleanedName": "chicken pieces",
+        "preNormalizedName": "chicken pieces",
+        "safeName": "chicken pieces",
+        "normalizedName": "chicken pieces",
+        "parsedUnit": "lb",
+        "parsedQuantity": 3,
+        "packageSize": "",
+        "mergeUnit": "lb",
+        "groupedUnit": "lb",
+        "groupedPackageSize": "",
+        "category": "Meat / Seafood",
+        "key": "recipe::Meat / Seafood::chicken pieces::lb::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Meat / Seafood::chicken pieces::lb::",
+      "pantryKey": "chicken",
+      "finalLabel": "Chicken Pieces",
+      "coverage": "none"
+    },
+    {
+      "name": "degraded old Dolly oil without preserved source (simulation)",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "1/4 cup Frying Oil or Chicken Drippings",
+        "grocerySearchName": "frying oil or chicken drippings",
+        "category": "Meat / Seafood",
+        "normalizedName": "frying oil or chicken drippings",
+        "quantity": 0.25,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "frying-oil-or-chicken-drippings-dolly-inspired-country-fried-crispy-chicken-1-4-cup-reserved-frying-oil-or-chicken-drippings-1794955106763-13",
+        "text": "1/4 cup Frying Oil or Chicken Drippings",
+        "displayText": "1/4 cup Frying Oil or Chicken Drippings",
+        "grocerySearchName": "frying oil or chicken drippings",
+        "checked": false,
+        "addedAt": 1794955106763,
+        "category": "Meat / Seafood",
+        "sourceRecipe": "Dolly-Inspired Country-Fried Crispy Chicken",
+        "normalizedName": "frying oil or chicken drippings",
+        "quantity": 0.25,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": null,
+      "page": {
+        "id": "frying-oil-or-chicken-drippings-dolly-inspired-country-fried-crispy-chicken-1-4-cup-reserved-frying-oil-or-chicken-drippings-1794955106763-13",
+        "recipeName": "Dolly-Inspired Country-Fried Crispy Chicken",
+        "recipeIngredientText": "1/4 cup Frying Oil or Chicken Drippings",
+        "preservedRecipeIngredientText": "",
+        "savedName": "frying oil or chicken drippings",
+        "cleanedRaw": "1/4 cup frying oil or chicken drippings",
+        "parsed": {
+          "quantity": 0.25,
+          "minQuantity": 0.25,
+          "maxQuantity": 0.25,
+          "unit": "cup",
+          "name": "frying oil or chicken drippings",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": false,
+        "cleanedName": "frying oil or chicken drippings",
+        "preNormalizedName": "frying oil or chicken drippings",
+        "safeName": "frying oil or chicken drippings",
+        "normalizedName": "frying oil or chicken drippings",
+        "parsedUnit": "cup",
+        "parsedQuantity": 0.25,
+        "packageSize": "",
+        "mergeUnit": "cup",
+        "groupedUnit": "cup",
+        "groupedPackageSize": "",
+        "category": "Meat / Seafood",
+        "key": "recipe::Meat / Seafood::frying oil or chicken drippings::cup::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Meat / Seafood::frying oil or chicken drippings::cup::",
+      "pantryKey": "frying oil or chicken dripping",
+      "finalLabel": "Frying Oil or Chicken Drippings",
+      "coverage": "none"
+    },
+    {
+      "name": "stale tortilla wording without preserved source (simulation)",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "Very Flour Tortillas",
+        "grocerySearchName": "very flour tortillas",
+        "category": "Bakery",
+        "normalizedName": "very flour tortillas",
+        "quantity": null,
+        "unit": "",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "garlic-classic-meatloaf-2-cloves-garlic-minced-1794955106763-0",
+        "text": "Very Flour Tortillas",
+        "displayText": "Very Flour Tortillas",
+        "grocerySearchName": "very flour tortillas",
+        "checked": false,
+        "addedAt": 1794955106763,
+        "category": "Produce",
+        "sourceRecipe": "Classic Meatloaf",
+        "normalizedName": "very flour tortillas",
+        "quantity": 8,
+        "unit": "",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": null,
+      "page": {
+        "id": "garlic-classic-meatloaf-2-cloves-garlic-minced-1794955106763-0",
+        "recipeName": "Classic Meatloaf",
+        "recipeIngredientText": "Very Flour Tortillas",
+        "preservedRecipeIngredientText": "",
+        "savedName": "very flour tortillas",
+        "cleanedRaw": "very flour tortillas",
+        "parsed": {
+          "quantity": null,
+          "minQuantity": null,
+          "maxQuantity": null,
+          "unit": null,
+          "name": "very flour tortillas",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": false,
+        "cleanedName": "very flour tortillas",
+        "preNormalizedName": "very flour tortillas",
+        "safeName": "very flour tortillas",
+        "normalizedName": "very flour tortillas",
+        "parsedUnit": null,
+        "parsedQuantity": 8,
+        "packageSize": "",
+        "mergeUnit": "__count__",
+        "groupedUnit": "__count__",
+        "groupedPackageSize": "",
+        "category": "Bakery",
+        "key": "recipe::Bakery::very flour tortillas::__count__::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Bakery::very flour tortillas::__count__::",
+      "pantryKey": "very flour tortilla",
+      "finalLabel": "Very Flour Tortillas",
+      "coverage": "none"
+    },
+    {
+      "name": "corrupted cached fields, preserved source",
+      "originalIngredient": "2 cloves garlic, minced",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "2 cloves 1 clove Garlic",
+        "grocerySearchName": "garlic",
+        "category": "Produce",
+        "normalizedName": "garlic",
+        "quantity": 2,
+        "unit": "clove",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "garlic-classic-meatloaf-2-cloves-garlic-minced-1794955106763-0",
+        "text": "Garlics",
+        "displayText": "Garlics",
+        "grocerySearchName": "garlic",
+        "checked": false,
+        "addedAt": 1794955106763,
+        "category": "Produce",
+        "sourceRecipe": "Classic Meatloaf",
+        "recipeIngredientText": "2 cloves garlic, minced",
+        "normalizedName": "obsolete garlics",
+        "quantity": 999,
+        "unit": "jar",
+        "packageSize": "99 oz"
+      },
+      "preservedRecipeIngredientText": "2 cloves garlic, minced",
+      "page": {
+        "id": "garlic-classic-meatloaf-2-cloves-garlic-minced-1794955106763-0",
+        "recipeName": "Classic Meatloaf",
+        "recipeIngredientText": "2 cloves garlic, minced",
+        "preservedRecipeIngredientText": "2 cloves garlic, minced",
+        "savedName": "obsolete garlics",
+        "cleanedRaw": "garlic",
+        "parsed": {
+          "quantity": 2,
+          "minQuantity": 2,
+          "maxQuantity": 2,
+          "unit": "clove",
+          "name": "garlic",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "garlic",
+        "preNormalizedName": "garlic",
+        "safeName": "garlic",
+        "normalizedName": "garlic",
+        "parsedUnit": "clove",
+        "parsedQuantity": 2,
+        "packageSize": "",
+        "mergeUnit": "__count__",
+        "groupedUnit": "__count__",
+        "groupedPackageSize": "",
+        "category": "Produce",
+        "key": "recipe::Produce::garlic::__count__::"
+      },
+      "canonical": {
+        "id": "garlic",
+        "canonicalName": "Garlic",
+        "category": "Produce"
+      },
+      "product": null,
+      "mergeKey": "recipe::Produce::garlic::__count__::",
+      "pantryKey": "garlic",
+      "finalLabel": "Garlic",
+      "coverage": "none"
+    },
+    {
+      "name": "no preserved source, corrupted fallback",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "Garlics",
+        "grocerySearchName": "garlics",
+        "category": "Produce",
+        "normalizedName": "garlics",
+        "quantity": null,
+        "unit": "",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "garlic-classic-meatloaf-2-cloves-garlic-minced-1794955106763-0",
+        "text": "Garlics",
+        "displayText": "Garlics",
+        "grocerySearchName": "garlic",
+        "checked": false,
+        "addedAt": 1794955106763,
+        "category": "Produce",
+        "sourceRecipe": "Classic Meatloaf",
+        "normalizedName": "garlics",
+        "quantity": 2,
+        "unit": "clove",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": null,
+      "page": {
+        "id": "garlic-classic-meatloaf-2-cloves-garlic-minced-1794955106763-0",
+        "recipeName": "Classic Meatloaf",
+        "recipeIngredientText": "Garlics",
+        "preservedRecipeIngredientText": "",
+        "savedName": "garlics",
+        "cleanedRaw": "garlics",
+        "parsed": {
+          "quantity": null,
+          "minQuantity": null,
+          "maxQuantity": null,
+          "unit": null,
+          "name": "garlics",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": false,
+        "cleanedName": "garlics",
+        "preNormalizedName": "garlics",
+        "safeName": "garlic",
+        "normalizedName": "garlic",
+        "parsedUnit": "clove",
+        "parsedQuantity": 2,
+        "packageSize": "",
+        "mergeUnit": "__count__",
+        "groupedUnit": "__count__",
+        "groupedPackageSize": "",
+        "category": "Produce",
+        "key": "recipe::Produce::garlic::__count__::"
+      },
+      "canonical": {
+        "id": "garlic",
+        "canonicalName": "Garlic",
+        "category": "Produce"
+      },
+      "product": null,
+      "mergeKey": "recipe::Produce::garlic::__count__::",
+      "pantryKey": "garlic",
+      "finalLabel": "Garlic",
+      "coverage": "none"
+    },
+    {
+      "name": "pencil-edited recipe row retaining old Smart metadata (current handler shape)",
+      "originalIngredient": "2 cloves garlic, minced",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "2 cloves 1 clove Garlic",
+        "grocerySearchName": "garlic",
+        "category": "Produce",
+        "normalizedName": "garlic",
+        "quantity": 2,
+        "unit": "clove",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "edited-recipe",
+        "text": "8 flour tortillas",
+        "displayText": "2 cloves 1 clove Garlic",
+        "grocerySearchName": "garlic",
+        "checked": false,
+        "addedAt": 1794955106763,
+        "category": "Bakery",
+        "sourceRecipe": "",
+        "recipeIngredientText": "2 cloves garlic, minced",
+        "normalizedName": "flour tortillas",
+        "quantity": 8
+      },
+      "preservedRecipeIngredientText": "2 cloves garlic, minced",
+      "page": null,
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Bakery::garlic::__count__::",
+      "pantryKey": "garlic",
+      "finalLabel": "Garlic",
+      "coverage": "none"
+    },
+    {
+      "name": "manual source-free user wording",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "Very Flour Tortillas",
+        "grocerySearchName": "very flour tortillas",
+        "category": "Bakery",
+        "normalizedName": "very flour tortillas",
+        "quantity": null,
+        "unit": "",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "manual-wording",
+        "text": "Very Flour Tortillas",
+        "normalizedName": "very flour tortillas",
+        "sourceRecipe": "",
+        "checked": false,
+        "addedAt": 1,
+        "category": "Bakery"
+      },
+      "preservedRecipeIngredientText": null,
+      "page": null,
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Bakery::very flour tortillas::__count__::",
+      "pantryKey": "very flour tortilla",
+      "finalLabel": "Very Flour Tortillas",
+      "coverage": "none"
+    },
+    {
+      "name": "synthetic imported very large tortillas, not built-in attribution",
+      "originalIngredient": "8 very large flour tortillas",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "8 Very Flour Tortillas",
+        "grocerySearchName": "very flour tortillas",
+        "category": "Bakery",
+        "normalizedName": "very flour tortillas",
+        "quantity": 8,
+        "unit": "",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "synthetic-tortillas",
+        "text": "8 very large flour tortillas",
+        "displayText": "8 Very Flour Tortillas",
+        "grocerySearchName": "very flour tortillas",
+        "checked": false,
+        "addedAt": 1794955106763,
+        "category": "Produce",
+        "sourceRecipe": "Synthetic import control",
+        "recipeIngredientText": "8 very large flour tortillas",
+        "normalizedName": "very flour tortillas",
+        "quantity": 8,
+        "unit": "",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "8 very large flour tortillas",
+      "page": {
+        "id": "synthetic-tortillas",
+        "recipeName": "Synthetic import control",
+        "recipeIngredientText": "8 very large flour tortillas",
+        "preservedRecipeIngredientText": "8 very large flour tortillas",
+        "savedName": "very flour tortillas",
+        "cleanedRaw": "8 very flour tortillas",
+        "parsed": {
+          "quantity": 8,
+          "minQuantity": 8,
+          "maxQuantity": 8,
+          "unit": "__count__",
+          "name": "very flour tortillas",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "very flour tortillas",
+        "preNormalizedName": "very flour tortillas",
+        "safeName": "very flour tortillas",
+        "normalizedName": "very flour tortillas",
+        "parsedUnit": null,
+        "parsedQuantity": 8,
+        "packageSize": "",
+        "mergeUnit": "__count__",
+        "groupedUnit": "__count__",
+        "groupedPackageSize": "",
+        "category": "Bakery",
+        "key": "recipe::Bakery::very flour tortillas::__count__::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Bakery::very flour tortillas::__count__::",
+      "pantryKey": "very flour tortilla",
+      "finalLabel": "Very Flour Tortillas",
+      "coverage": "none"
+    },
+    {
+      "name": "synthetic shaved Parmesan, not built-in attribution",
+      "originalIngredient": "1/4 cup shaved Parmesan cheese",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "1/4 cup Shaved Parmesan Cheese",
+        "grocerySearchName": "shaved parmesan cheese",
+        "category": "Dairy / Eggs",
+        "normalizedName": "shaved parmesan cheese",
+        "quantity": 0.25,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "synthetic-parmesan",
+        "text": "1/4 cup shaved Parmesan cheese",
+        "displayText": "Shaved Parmesan Cheese",
+        "grocerySearchName": "shaved parmesan cheese",
+        "checked": false,
+        "addedAt": 1794955106763,
+        "category": "Produce",
+        "sourceRecipe": "Synthetic import control",
+        "recipeIngredientText": "1/4 cup shaved Parmesan cheese",
+        "normalizedName": "shaved parmesan cheese",
+        "quantity": 0.25,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "1/4 cup shaved Parmesan cheese",
+      "page": {
+        "id": "synthetic-parmesan",
+        "recipeName": "Synthetic import control",
+        "recipeIngredientText": "1/4 cup shaved Parmesan cheese",
+        "preservedRecipeIngredientText": "1/4 cup shaved Parmesan cheese",
+        "savedName": "shaved parmesan cheese",
+        "cleanedRaw": "1/4 cup shaved parmesan cheese",
+        "parsed": {
+          "quantity": 0.25,
+          "minQuantity": 0.25,
+          "maxQuantity": 0.25,
+          "unit": "cup",
+          "name": "shaved parmesan cheese",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "shaved parmesan cheese",
+        "preNormalizedName": "shaved parmesan cheese",
+        "safeName": "shaved parmesan cheese",
+        "normalizedName": "shaved parmesan cheese",
+        "parsedUnit": "cup",
+        "parsedQuantity": 0.25,
+        "packageSize": "",
+        "mergeUnit": "cup",
+        "groupedUnit": "cup",
+        "groupedPackageSize": "",
+        "category": "Dairy / Eggs",
+        "key": "recipe::Dairy / Eggs::shaved parmesan cheese::cup::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Dairy / Eggs::shaved parmesan cheese::cup::",
+      "pantryKey": "shaved parmesan cheese",
+      "finalLabel": "Shaved Parmesan Cheese",
+      "coverage": "none"
+    }
+  ],
+  "compatibility": [
+    {
+      "raws": [
+        "1 cup shredded mozzarella cheese",
+        "1 cup mozzarella cheese, shredded"
+      ],
+      "rows": [
+        {
+          "id": "recipe::Dairy / Eggs::mozzarella cheese::cup::",
+          "checked": false,
+          "category": "Dairy / Eggs",
+          "sourceIds": [
+            "shredded-mozzarella-cheese-compatibility-0-1-cup-shredded-mozzarella-cheese-1794955106816-0",
+            "shredded-mozzarella-cheese-compatibility-1-1-cup-mozzarella-cheese-shredded-1794955106816-0"
+          ],
+          "count": 2,
+          "quantity": 2,
+          "unit": "cup",
+          "packageSize": "",
+          "pantryName": "mozzarella cheese",
+          "pantryKey": "mozzarella cheese",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 2,
+          "recipeCountLabel": "(2 recipes)",
+          "recipeNames": [
+            "Compatibility 0",
+            "Compatibility 1"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 0",
+              "amountText": "1 cup"
+            },
+            {
+              "recipeName": "Compatibility 1",
+              "amountText": "1 cup"
+            }
+          ],
+          "thumbnailKey": "mozzarella-cheese",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "mozzarella cheese",
+          "displayText": "Mozzarella Cheese"
+        }
+      ],
+      "trace": [
+        {
+          "id": "shredded-mozzarella-cheese-compatibility-0-1-cup-shredded-mozzarella-cheese-1794955106816-0",
+          "recipeName": "Compatibility 0",
+          "recipeIngredientText": "1 cup shredded mozzarella cheese",
+          "preservedRecipeIngredientText": "1 cup shredded mozzarella cheese",
+          "savedName": "shredded mozzarella cheese",
+          "cleanedRaw": "1 cup mozzarella cheese",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "cup",
+            "name": "mozzarella cheese",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "mozzarella cheese",
+          "preNormalizedName": "mozzarella cheese",
+          "safeName": "mozzarella cheese",
+          "normalizedName": "mozzarella cheese",
+          "parsedUnit": "cup",
+          "parsedQuantity": 1,
+          "packageSize": "",
+          "mergeUnit": "cup",
+          "groupedUnit": "cup",
+          "groupedPackageSize": "",
+          "category": "Dairy / Eggs",
+          "key": "recipe::Dairy / Eggs::mozzarella cheese::cup::"
+        },
+        {
+          "id": "shredded-mozzarella-cheese-compatibility-1-1-cup-mozzarella-cheese-shredded-1794955106816-0",
+          "recipeName": "Compatibility 1",
+          "recipeIngredientText": "1 cup mozzarella cheese, shredded",
+          "preservedRecipeIngredientText": "1 cup mozzarella cheese, shredded",
+          "savedName": "shredded mozzarella cheese",
+          "cleanedRaw": "1 cup mozzarella cheese",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "cup",
+            "name": "mozzarella cheese",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "mozzarella cheese",
+          "preNormalizedName": "mozzarella cheese",
+          "safeName": "mozzarella cheese",
+          "normalizedName": "mozzarella cheese",
+          "parsedUnit": "cup",
+          "parsedQuantity": 1,
+          "packageSize": "",
+          "mergeUnit": "cup",
+          "groupedUnit": "cup",
+          "groupedPackageSize": "",
+          "category": "Dairy / Eggs",
+          "key": "recipe::Dairy / Eggs::mozzarella cheese::cup::"
+        }
+      ]
+    },
+    {
+      "raws": [
+        "1 cup fresh mozzarella pearls",
+        "1 cup shredded mozzarella cheese"
+      ],
+      "rows": [
+        {
+          "id": "recipe::Dairy / Eggs::mozzarella pearls::cup::",
+          "checked": false,
+          "category": "Dairy / Eggs",
+          "sourceIds": [
+            "fresh-mozzarella-pearls-compatibility-0-1-cup-fresh-mozzarella-pearls-1794955106817-0"
+          ],
+          "count": 1,
+          "quantity": 1,
+          "unit": "cup",
+          "packageSize": "",
+          "pantryName": "mozzarella pearls",
+          "pantryKey": "mozzarella pearl",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 1,
+          "recipeCountLabel": "",
+          "recipeNames": [
+            "Compatibility 0"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 0",
+              "amountText": "1 cup"
+            }
+          ],
+          "thumbnailKey": "category-dairy-eggs",
+          "thumbnailMatchType": "category",
+          "thumbnailAltText": "mozzarella pearls",
+          "displayText": "Mozzarella Pearls"
+        },
+        {
+          "id": "recipe::Dairy / Eggs::mozzarella cheese::cup::",
+          "checked": false,
+          "category": "Dairy / Eggs",
+          "sourceIds": [
+            "shredded-mozzarella-cheese-compatibility-1-1-cup-shredded-mozzarella-cheese-1794955106818-0"
+          ],
+          "count": 1,
+          "quantity": 1,
+          "unit": "cup",
+          "packageSize": "",
+          "pantryName": "mozzarella cheese",
+          "pantryKey": "mozzarella cheese",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 1,
+          "recipeCountLabel": "",
+          "recipeNames": [
+            "Compatibility 1"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 1",
+              "amountText": "1 cup"
+            }
+          ],
+          "thumbnailKey": "mozzarella-cheese",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "mozzarella cheese",
+          "displayText": "Mozzarella Cheese"
+        }
+      ],
+      "trace": [
+        {
+          "id": "fresh-mozzarella-pearls-compatibility-0-1-cup-fresh-mozzarella-pearls-1794955106817-0",
+          "recipeName": "Compatibility 0",
+          "recipeIngredientText": "1 cup fresh mozzarella pearls",
+          "preservedRecipeIngredientText": "1 cup fresh mozzarella pearls",
+          "savedName": "fresh mozzarella pearls",
+          "cleanedRaw": "1 cup mozzarella pearls",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "cup",
+            "name": "mozzarella pearls",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "mozzarella pearls",
+          "preNormalizedName": "mozzarella pearls",
+          "safeName": "mozzarella pearls",
+          "normalizedName": "mozzarella pearls",
+          "parsedUnit": "cup",
+          "parsedQuantity": 1,
+          "packageSize": "",
+          "mergeUnit": "cup",
+          "groupedUnit": "cup",
+          "groupedPackageSize": "",
+          "category": "Dairy / Eggs",
+          "key": "recipe::Dairy / Eggs::mozzarella pearls::cup::"
+        },
+        {
+          "id": "shredded-mozzarella-cheese-compatibility-1-1-cup-shredded-mozzarella-cheese-1794955106818-0",
+          "recipeName": "Compatibility 1",
+          "recipeIngredientText": "1 cup shredded mozzarella cheese",
+          "preservedRecipeIngredientText": "1 cup shredded mozzarella cheese",
+          "savedName": "shredded mozzarella cheese",
+          "cleanedRaw": "1 cup mozzarella cheese",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "cup",
+            "name": "mozzarella cheese",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "mozzarella cheese",
+          "preNormalizedName": "mozzarella cheese",
+          "safeName": "mozzarella cheese",
+          "normalizedName": "mozzarella cheese",
+          "parsedUnit": "cup",
+          "parsedQuantity": 1,
+          "packageSize": "",
+          "mergeUnit": "cup",
+          "groupedUnit": "cup",
+          "groupedPackageSize": "",
+          "category": "Dairy / Eggs",
+          "key": "recipe::Dairy / Eggs::mozzarella cheese::cup::"
+        }
+      ]
+    },
+    {
+      "raws": [
+        "1 cup fresh mozzarella cheese",
+        "1 cup shredded mozzarella cheese"
+      ],
+      "rows": [
+        {
+          "id": "recipe::Dairy / Eggs::mozzarella cheese::cup::",
+          "checked": false,
+          "category": "Dairy / Eggs",
+          "sourceIds": [
+            "fresh-mozzarella-cheese-compatibility-0-1-cup-fresh-mozzarella-cheese-1794955106820-0",
+            "shredded-mozzarella-cheese-compatibility-1-1-cup-shredded-mozzarella-cheese-1794955106820-0"
+          ],
+          "count": 2,
+          "quantity": 2,
+          "unit": "cup",
+          "packageSize": "",
+          "pantryName": "mozzarella cheese",
+          "pantryKey": "mozzarella cheese",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 2,
+          "recipeCountLabel": "(2 recipes)",
+          "recipeNames": [
+            "Compatibility 0",
+            "Compatibility 1"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 0",
+              "amountText": "1 cup"
+            },
+            {
+              "recipeName": "Compatibility 1",
+              "amountText": "1 cup"
+            }
+          ],
+          "thumbnailKey": "mozzarella-cheese",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "mozzarella cheese",
+          "displayText": "Mozzarella Cheese"
+        }
+      ],
+      "trace": [
+        {
+          "id": "fresh-mozzarella-cheese-compatibility-0-1-cup-fresh-mozzarella-cheese-1794955106820-0",
+          "recipeName": "Compatibility 0",
+          "recipeIngredientText": "1 cup fresh mozzarella cheese",
+          "preservedRecipeIngredientText": "1 cup fresh mozzarella cheese",
+          "savedName": "fresh mozzarella cheese",
+          "cleanedRaw": "1 cup mozzarella cheese",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "cup",
+            "name": "mozzarella cheese",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "mozzarella cheese",
+          "preNormalizedName": "mozzarella cheese",
+          "safeName": "mozzarella cheese",
+          "normalizedName": "mozzarella cheese",
+          "parsedUnit": "cup",
+          "parsedQuantity": 1,
+          "packageSize": "",
+          "mergeUnit": "cup",
+          "groupedUnit": "cup",
+          "groupedPackageSize": "",
+          "category": "Dairy / Eggs",
+          "key": "recipe::Dairy / Eggs::mozzarella cheese::cup::"
+        },
+        {
+          "id": "shredded-mozzarella-cheese-compatibility-1-1-cup-shredded-mozzarella-cheese-1794955106820-0",
+          "recipeName": "Compatibility 1",
+          "recipeIngredientText": "1 cup shredded mozzarella cheese",
+          "preservedRecipeIngredientText": "1 cup shredded mozzarella cheese",
+          "savedName": "shredded mozzarella cheese",
+          "cleanedRaw": "1 cup mozzarella cheese",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "cup",
+            "name": "mozzarella cheese",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "mozzarella cheese",
+          "preNormalizedName": "mozzarella cheese",
+          "safeName": "mozzarella cheese",
+          "normalizedName": "mozzarella cheese",
+          "parsedUnit": "cup",
+          "parsedQuantity": 1,
+          "packageSize": "",
+          "mergeUnit": "cup",
+          "groupedUnit": "cup",
+          "groupedPackageSize": "",
+          "category": "Dairy / Eggs",
+          "key": "recipe::Dairy / Eggs::mozzarella cheese::cup::"
+        }
+      ]
+    },
+    {
+      "raws": [
+        "1 cup shredded mozzarella",
+        "1 cup shredded mozzarella cheese"
+      ],
+      "rows": [
+        {
+          "id": "recipe::Dairy / Eggs::mozzarella::cup::",
+          "checked": false,
+          "category": "Dairy / Eggs",
+          "sourceIds": [
+            "shredded-mozzarella-compatibility-0-1-cup-shredded-mozzarella-1794955106822-0"
+          ],
+          "count": 1,
+          "quantity": 1,
+          "unit": "cup",
+          "packageSize": "",
+          "pantryName": "mozzarella",
+          "pantryKey": "mozzarella cheese",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 1,
+          "recipeCountLabel": "",
+          "recipeNames": [
+            "Compatibility 0"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 0",
+              "amountText": "1 cup"
+            }
+          ],
+          "thumbnailKey": "mozzarella-cheese",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "mozzarella",
+          "displayText": "Mozzarella"
+        },
+        {
+          "id": "recipe::Dairy / Eggs::mozzarella cheese::cup::",
+          "checked": false,
+          "category": "Dairy / Eggs",
+          "sourceIds": [
+            "shredded-mozzarella-cheese-compatibility-1-1-cup-shredded-mozzarella-cheese-1794955106822-0"
+          ],
+          "count": 1,
+          "quantity": 1,
+          "unit": "cup",
+          "packageSize": "",
+          "pantryName": "mozzarella cheese",
+          "pantryKey": "mozzarella cheese",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 1,
+          "recipeCountLabel": "",
+          "recipeNames": [
+            "Compatibility 1"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 1",
+              "amountText": "1 cup"
+            }
+          ],
+          "thumbnailKey": "mozzarella-cheese",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "mozzarella cheese",
+          "displayText": "Mozzarella Cheese"
+        }
+      ],
+      "trace": [
+        {
+          "id": "shredded-mozzarella-compatibility-0-1-cup-shredded-mozzarella-1794955106822-0",
+          "recipeName": "Compatibility 0",
+          "recipeIngredientText": "1 cup shredded mozzarella",
+          "preservedRecipeIngredientText": "1 cup shredded mozzarella",
+          "savedName": "shredded mozzarella",
+          "cleanedRaw": "1 cup mozzarella",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "cup",
+            "name": "mozzarella",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "mozzarella",
+          "preNormalizedName": "mozzarella",
+          "safeName": "mozzarella",
+          "normalizedName": "mozzarella",
+          "parsedUnit": "cup",
+          "parsedQuantity": 1,
+          "packageSize": "",
+          "mergeUnit": "cup",
+          "groupedUnit": "cup",
+          "groupedPackageSize": "",
+          "category": "Dairy / Eggs",
+          "key": "recipe::Dairy / Eggs::mozzarella::cup::"
+        },
+        {
+          "id": "shredded-mozzarella-cheese-compatibility-1-1-cup-shredded-mozzarella-cheese-1794955106822-0",
+          "recipeName": "Compatibility 1",
+          "recipeIngredientText": "1 cup shredded mozzarella cheese",
+          "preservedRecipeIngredientText": "1 cup shredded mozzarella cheese",
+          "savedName": "shredded mozzarella cheese",
+          "cleanedRaw": "1 cup mozzarella cheese",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "cup",
+            "name": "mozzarella cheese",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "mozzarella cheese",
+          "preNormalizedName": "mozzarella cheese",
+          "safeName": "mozzarella cheese",
+          "normalizedName": "mozzarella cheese",
+          "parsedUnit": "cup",
+          "parsedQuantity": 1,
+          "packageSize": "",
+          "mergeUnit": "cup",
+          "groupedUnit": "cup",
+          "groupedPackageSize": "",
+          "category": "Dairy / Eggs",
+          "key": "recipe::Dairy / Eggs::mozzarella cheese::cup::"
+        }
+      ]
+    },
+    {
+      "raws": [
+        "1 cup mozzarella or provolone cheese",
+        "1 cup mozzarella cheese"
+      ],
+      "rows": [
+        {
+          "id": "recipe::Dairy / Eggs::mozzarella cheese::cup::",
+          "checked": false,
+          "category": "Dairy / Eggs",
+          "sourceIds": [
+            "mozzarella-cheese-compatibility-0-1-cup-mozzarella-or-provolone-cheese-1794955106824-0",
+            "mozzarella-cheese-compatibility-1-1-cup-mozzarella-cheese-1794955106824-0"
+          ],
+          "count": 2,
+          "quantity": 2,
+          "unit": "cup",
+          "packageSize": "",
+          "pantryName": "mozzarella cheese",
+          "pantryKey": "",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 2,
+          "recipeCountLabel": "(2 recipes)",
+          "recipeNames": [
+            "Compatibility 0",
+            "Compatibility 1"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 0",
+              "amountText": "1 cup"
+            },
+            {
+              "recipeName": "Compatibility 1",
+              "amountText": "1 cup"
+            }
+          ],
+          "thumbnailKey": "mozzarella-cheese",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "mozzarella cheese",
+          "displayText": "Mozzarella Cheese"
+        }
+      ],
+      "trace": [
+        {
+          "id": "mozzarella-cheese-compatibility-0-1-cup-mozzarella-or-provolone-cheese-1794955106824-0",
+          "recipeName": "Compatibility 0",
+          "recipeIngredientText": "1 cup mozzarella or provolone cheese",
+          "preservedRecipeIngredientText": "1 cup mozzarella or provolone cheese",
+          "savedName": "mozzarella cheese",
+          "cleanedRaw": "1 cup mozzarella cheese",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "cup",
+            "name": "mozzarella cheese",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "mozzarella cheese",
+          "preNormalizedName": "mozzarella cheese",
+          "safeName": "mozzarella cheese",
+          "normalizedName": "mozzarella cheese",
+          "parsedUnit": "cup",
+          "parsedQuantity": 1,
+          "packageSize": "",
+          "mergeUnit": "cup",
+          "groupedUnit": "cup",
+          "groupedPackageSize": "",
+          "category": "Dairy / Eggs",
+          "key": "recipe::Dairy / Eggs::mozzarella cheese::cup::"
+        },
+        {
+          "id": "mozzarella-cheese-compatibility-1-1-cup-mozzarella-cheese-1794955106824-0",
+          "recipeName": "Compatibility 1",
+          "recipeIngredientText": "1 cup mozzarella cheese",
+          "preservedRecipeIngredientText": "1 cup mozzarella cheese",
+          "savedName": "mozzarella cheese",
+          "cleanedRaw": "1 cup mozzarella cheese",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "cup",
+            "name": "mozzarella cheese",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "mozzarella cheese",
+          "preNormalizedName": "mozzarella cheese",
+          "safeName": "mozzarella cheese",
+          "normalizedName": "mozzarella cheese",
+          "parsedUnit": "cup",
+          "parsedQuantity": 1,
+          "packageSize": "",
+          "mergeUnit": "cup",
+          "groupedUnit": "cup",
+          "groupedPackageSize": "",
+          "category": "Dairy / Eggs",
+          "key": "recipe::Dairy / Eggs::mozzarella cheese::cup::"
+        }
+      ]
+    },
+    {
+      "raws": [
+        "1 cup sour cream",
+        "2 Tbsp sour cream"
+      ],
+      "rows": [
+        {
+          "id": "recipe::Dairy / Eggs::sour cream::::",
+          "checked": false,
+          "category": "Dairy / Eggs",
+          "sourceIds": [
+            "sour-cream-compatibility-0-1-cup-sour-cream-1794955106826-0",
+            "sour-cream-compatibility-1-2-tbsp-sour-cream-1794955106826-0"
+          ],
+          "count": 2,
+          "quantity": null,
+          "unit": null,
+          "packageSize": "",
+          "pantryName": "sour cream",
+          "pantryKey": "sour cream",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 2,
+          "recipeCountLabel": "(2 recipes)",
+          "recipeNames": [
+            "Compatibility 0",
+            "Compatibility 1"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 0",
+              "amountText": ""
+            },
+            {
+              "recipeName": "Compatibility 1",
+              "amountText": ""
+            }
+          ],
+          "thumbnailKey": "sour-cream",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "sour cream",
+          "displayText": "Sour Cream"
+        }
+      ],
+      "trace": [
+        {
+          "id": "sour-cream-compatibility-0-1-cup-sour-cream-1794955106826-0",
+          "recipeName": "Compatibility 0",
+          "recipeIngredientText": "1 cup sour cream",
+          "preservedRecipeIngredientText": "1 cup sour cream",
+          "savedName": "sour cream",
+          "cleanedRaw": "1 cup sour cream",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "cup",
+            "name": "sour cream",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "sour cream",
+          "preNormalizedName": "sour cream",
+          "safeName": "sour cream",
+          "normalizedName": "sour cream",
+          "parsedUnit": null,
+          "parsedQuantity": null,
+          "packageSize": "",
+          "mergeUnit": null,
+          "groupedUnit": null,
+          "groupedPackageSize": "",
+          "category": "Dairy / Eggs",
+          "key": "recipe::Dairy / Eggs::sour cream::::"
+        },
+        {
+          "id": "sour-cream-compatibility-1-2-tbsp-sour-cream-1794955106826-0",
+          "recipeName": "Compatibility 1",
+          "recipeIngredientText": "2 Tbsp sour cream",
+          "preservedRecipeIngredientText": "2 Tbsp sour cream",
+          "savedName": "sour cream",
+          "cleanedRaw": "2 tbsp sour cream",
+          "parsed": {
+            "quantity": 2,
+            "minQuantity": 2,
+            "maxQuantity": 2,
+            "unit": "Tbsp",
+            "name": "sour cream",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "sour cream",
+          "preNormalizedName": "sour cream",
+          "safeName": "sour cream",
+          "normalizedName": "sour cream",
+          "parsedUnit": null,
+          "parsedQuantity": null,
+          "packageSize": "",
+          "mergeUnit": null,
+          "groupedUnit": null,
+          "groupedPackageSize": "",
+          "category": "Dairy / Eggs",
+          "key": "recipe::Dairy / Eggs::sour cream::::"
+        }
+      ]
+    },
+    {
+      "raws": [
+        "1 lb chicken breast",
+        "1 lb chicken thigh"
+      ],
+      "rows": [
+        {
+          "id": "recipe::Meat / Seafood::chicken breast::lb::",
+          "checked": false,
+          "category": "Meat / Seafood",
+          "sourceIds": [
+            "chicken-breast-compatibility-0-1-lb-chicken-breast-1794955106828-0"
+          ],
+          "count": 1,
+          "quantity": 1,
+          "unit": "lb",
+          "packageSize": "",
+          "pantryName": "chicken breast",
+          "pantryKey": "chicken breast",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 1,
+          "recipeCountLabel": "",
+          "recipeNames": [
+            "Compatibility 0"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 0",
+              "amountText": "1 lb"
+            }
+          ],
+          "thumbnailKey": "chicken-breast",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "chicken breast",
+          "displayText": "Chicken Breast"
+        },
+        {
+          "id": "recipe::Meat / Seafood::chicken thigh::lb::",
+          "checked": false,
+          "category": "Meat / Seafood",
+          "sourceIds": [
+            "chicken-thigh-compatibility-1-1-lb-chicken-thigh-1794955106828-0"
+          ],
+          "count": 1,
+          "quantity": 1,
+          "unit": "lb",
+          "packageSize": "",
+          "pantryName": "chicken thigh",
+          "pantryKey": "chicken thigh",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 1,
+          "recipeCountLabel": "",
+          "recipeNames": [
+            "Compatibility 1"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 1",
+              "amountText": "1 lb"
+            }
+          ],
+          "thumbnailKey": "chicken-thigh",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "chicken thigh",
+          "displayText": "Chicken Thigh"
+        }
+      ],
+      "trace": [
+        {
+          "id": "chicken-breast-compatibility-0-1-lb-chicken-breast-1794955106828-0",
+          "recipeName": "Compatibility 0",
+          "recipeIngredientText": "1 lb chicken breast",
+          "preservedRecipeIngredientText": "1 lb chicken breast",
+          "savedName": "chicken breast",
+          "cleanedRaw": "1 lb chicken breast",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "lb",
+            "name": "chicken breast",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "chicken breast",
+          "preNormalizedName": "chicken breast",
+          "safeName": "chicken breast",
+          "normalizedName": "chicken breast",
+          "parsedUnit": "lb",
+          "parsedQuantity": 1,
+          "packageSize": "",
+          "mergeUnit": "lb",
+          "groupedUnit": "lb",
+          "groupedPackageSize": "",
+          "category": "Meat / Seafood",
+          "key": "recipe::Meat / Seafood::chicken breast::lb::"
+        },
+        {
+          "id": "chicken-thigh-compatibility-1-1-lb-chicken-thigh-1794955106828-0",
+          "recipeName": "Compatibility 1",
+          "recipeIngredientText": "1 lb chicken thigh",
+          "preservedRecipeIngredientText": "1 lb chicken thigh",
+          "savedName": "chicken thigh",
+          "cleanedRaw": "1 lb chicken thigh",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "lb",
+            "name": "chicken thigh",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "chicken thigh",
+          "preNormalizedName": "chicken thigh",
+          "safeName": "chicken thigh",
+          "normalizedName": "chicken thigh",
+          "parsedUnit": "lb",
+          "parsedQuantity": 1,
+          "packageSize": "",
+          "mergeUnit": "lb",
+          "groupedUnit": "lb",
+          "groupedPackageSize": "",
+          "category": "Meat / Seafood",
+          "key": "recipe::Meat / Seafood::chicken thigh::lb::"
+        }
+      ]
+    },
+    {
+      "raws": [
+        "1 lb chicken",
+        "1 lb chicken breast"
+      ],
+      "rows": [
+        {
+          "id": "recipe::Meat / Seafood::chicken::lb::",
+          "checked": false,
+          "category": "Meat / Seafood",
+          "sourceIds": [
+            "chicken-compatibility-0-1-lb-chicken-1794955106830-0"
+          ],
+          "count": 1,
+          "quantity": 1,
+          "unit": "lb",
+          "packageSize": "",
+          "pantryName": "chicken",
+          "pantryKey": "chicken",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 1,
+          "recipeCountLabel": "",
+          "recipeNames": [
+            "Compatibility 0"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 0",
+              "amountText": "1 lb"
+            }
+          ],
+          "thumbnailKey": "chicken-breast",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "chicken",
+          "displayText": "Chicken"
+        },
+        {
+          "id": "recipe::Meat / Seafood::chicken breast::lb::",
+          "checked": false,
+          "category": "Meat / Seafood",
+          "sourceIds": [
+            "chicken-breast-compatibility-1-1-lb-chicken-breast-1794955106830-0"
+          ],
+          "count": 1,
+          "quantity": 1,
+          "unit": "lb",
+          "packageSize": "",
+          "pantryName": "chicken breast",
+          "pantryKey": "chicken breast",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 1,
+          "recipeCountLabel": "",
+          "recipeNames": [
+            "Compatibility 1"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 1",
+              "amountText": "1 lb"
+            }
+          ],
+          "thumbnailKey": "chicken-breast",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "chicken breast",
+          "displayText": "Chicken Breast"
+        }
+      ],
+      "trace": [
+        {
+          "id": "chicken-compatibility-0-1-lb-chicken-1794955106830-0",
+          "recipeName": "Compatibility 0",
+          "recipeIngredientText": "1 lb chicken",
+          "preservedRecipeIngredientText": "1 lb chicken",
+          "savedName": "chicken",
+          "cleanedRaw": "1 lb chicken",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "lb",
+            "name": "chicken",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "chicken",
+          "preNormalizedName": "chicken",
+          "safeName": "chicken",
+          "normalizedName": "chicken",
+          "parsedUnit": "lb",
+          "parsedQuantity": 1,
+          "packageSize": "",
+          "mergeUnit": "lb",
+          "groupedUnit": "lb",
+          "groupedPackageSize": "",
+          "category": "Meat / Seafood",
+          "key": "recipe::Meat / Seafood::chicken::lb::"
+        },
+        {
+          "id": "chicken-breast-compatibility-1-1-lb-chicken-breast-1794955106830-0",
+          "recipeName": "Compatibility 1",
+          "recipeIngredientText": "1 lb chicken breast",
+          "preservedRecipeIngredientText": "1 lb chicken breast",
+          "savedName": "chicken breast",
+          "cleanedRaw": "1 lb chicken breast",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "lb",
+            "name": "chicken breast",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "chicken breast",
+          "preNormalizedName": "chicken breast",
+          "safeName": "chicken breast",
+          "normalizedName": "chicken breast",
+          "parsedUnit": "lb",
+          "parsedQuantity": 1,
+          "packageSize": "",
+          "mergeUnit": "lb",
+          "groupedUnit": "lb",
+          "groupedPackageSize": "",
+          "category": "Meat / Seafood",
+          "key": "recipe::Meat / Seafood::chicken breast::lb::"
+        }
+      ]
+    },
+    {
+      "raws": [
+        "1 tsp toasted sesame oil",
+        "1 tsp sesame oil"
+      ],
+      "rows": [
+        {
+          "id": "recipe::Pantry::toasted sesame oil::tsp::",
+          "checked": false,
+          "category": "Pantry",
+          "sourceIds": [
+            "toasted-sesame-oil-compatibility-0-1-tsp-toasted-sesame-oil-1794955106832-0"
+          ],
+          "count": 1,
+          "quantity": 1,
+          "unit": "tsp",
+          "packageSize": "",
+          "pantryName": "toasted sesame oil",
+          "pantryKey": "toasted sesame oil",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 1,
+          "recipeCountLabel": "",
+          "recipeNames": [
+            "Compatibility 0"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 0",
+              "amountText": "1 tsp"
+            }
+          ],
+          "thumbnailKey": "sesame-oil",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "toasted sesame oil",
+          "displayText": "Toasted Sesame Oil"
+        },
+        {
+          "id": "recipe::Pantry::sesame oil::tsp::",
+          "checked": false,
+          "category": "Pantry",
+          "sourceIds": [
+            "sesame-oil-compatibility-1-1-tsp-sesame-oil-1794955106832-0"
+          ],
+          "count": 1,
+          "quantity": 1,
+          "unit": "tsp",
+          "packageSize": "",
+          "pantryName": "sesame oil",
+          "pantryKey": "sesame oil",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 1,
+          "recipeCountLabel": "",
+          "recipeNames": [
+            "Compatibility 1"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 1",
+              "amountText": "1 tsp"
+            }
+          ],
+          "thumbnailKey": "sesame-oil",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "sesame oil",
+          "displayText": "Sesame Oil"
+        }
+      ],
+      "trace": [
+        {
+          "id": "toasted-sesame-oil-compatibility-0-1-tsp-toasted-sesame-oil-1794955106832-0",
+          "recipeName": "Compatibility 0",
+          "recipeIngredientText": "1 tsp toasted sesame oil",
+          "preservedRecipeIngredientText": "1 tsp toasted sesame oil",
+          "savedName": "toasted sesame oil",
+          "cleanedRaw": "1 tsp toasted sesame oil",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "tsp",
+            "name": "toasted sesame oil",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "toasted sesame oil",
+          "preNormalizedName": "toasted sesame oil",
+          "safeName": "toasted sesame oil",
+          "normalizedName": "toasted sesame oil",
+          "parsedUnit": "tsp",
+          "parsedQuantity": 1,
+          "packageSize": "",
+          "mergeUnit": "tsp",
+          "groupedUnit": "tsp",
+          "groupedPackageSize": "",
+          "category": "Pantry",
+          "key": "recipe::Pantry::toasted sesame oil::tsp::"
+        },
+        {
+          "id": "sesame-oil-compatibility-1-1-tsp-sesame-oil-1794955106832-0",
+          "recipeName": "Compatibility 1",
+          "recipeIngredientText": "1 tsp sesame oil",
+          "preservedRecipeIngredientText": "1 tsp sesame oil",
+          "savedName": "sesame oil",
+          "cleanedRaw": "1 tsp sesame oil",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "tsp",
+            "name": "sesame oil",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "sesame oil",
+          "preNormalizedName": "sesame oil",
+          "safeName": "sesame oil",
+          "normalizedName": "sesame oil",
+          "parsedUnit": "tsp",
+          "parsedQuantity": 1,
+          "packageSize": "",
+          "mergeUnit": "tsp",
+          "groupedUnit": "tsp",
+          "groupedPackageSize": "",
+          "category": "Pantry",
+          "key": "recipe::Pantry::sesame oil::tsp::"
+        }
+      ]
+    },
+    {
+      "raws": [
+        "1 (15 oz) can black beans",
+        "1 (28 oz) can black beans"
+      ],
+      "rows": [
+        {
+          "id": "recipe::Pantry::black beans::can::15 oz",
+          "checked": false,
+          "category": "Pantry",
+          "sourceIds": [
+            "black-beans-compatibility-0-1-15-oz-can-black-beans-1794955106834-0"
+          ],
+          "count": 1,
+          "quantity": 1,
+          "unit": "can",
+          "packageSize": "15 oz",
+          "pantryName": "black beans",
+          "pantryKey": "black bean",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 1,
+          "recipeCountLabel": "",
+          "recipeNames": [
+            "Compatibility 0"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 0",
+              "amountText": "1 can (15 oz)"
+            }
+          ],
+          "thumbnailKey": "black-beans",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "black beans",
+          "displayText": "Black Beans"
+        },
+        {
+          "id": "recipe::Pantry::black beans::can::28 oz",
+          "checked": false,
+          "category": "Pantry",
+          "sourceIds": [
+            "black-beans-compatibility-1-1-28-oz-can-black-beans-1794955106834-0"
+          ],
+          "count": 1,
+          "quantity": 1,
+          "unit": "can",
+          "packageSize": "28 oz",
+          "pantryName": "black beans",
+          "pantryKey": "black bean",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 1,
+          "recipeCountLabel": "",
+          "recipeNames": [
+            "Compatibility 1"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 1",
+              "amountText": "1 can (28 oz)"
+            }
+          ],
+          "thumbnailKey": "black-beans",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "black beans",
+          "displayText": "Black Beans"
+        }
+      ],
+      "trace": [
+        {
+          "id": "black-beans-compatibility-0-1-15-oz-can-black-beans-1794955106834-0",
+          "recipeName": "Compatibility 0",
+          "recipeIngredientText": "1 (15 oz) can black beans",
+          "preservedRecipeIngredientText": "1 (15 oz) can black beans",
+          "savedName": "black beans",
+          "cleanedRaw": "1 can black beans",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "can",
+            "name": "black beans",
+            "packageSize": "15 oz"
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "black beans",
+          "preNormalizedName": "black beans",
+          "safeName": "black beans",
+          "normalizedName": "black beans",
+          "parsedUnit": "can",
+          "parsedQuantity": 1,
+          "packageSize": "15 oz",
+          "mergeUnit": "can",
+          "groupedUnit": "can",
+          "groupedPackageSize": "15 oz",
+          "category": "Pantry",
+          "key": "recipe::Pantry::black beans::can::15 oz"
+        },
+        {
+          "id": "black-beans-compatibility-1-1-28-oz-can-black-beans-1794955106834-0",
+          "recipeName": "Compatibility 1",
+          "recipeIngredientText": "1 (28 oz) can black beans",
+          "preservedRecipeIngredientText": "1 (28 oz) can black beans",
+          "savedName": "black beans",
+          "cleanedRaw": "1 can black beans",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "can",
+            "name": "black beans",
+            "packageSize": "28 oz"
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "black beans",
+          "preNormalizedName": "black beans",
+          "safeName": "black beans",
+          "normalizedName": "black beans",
+          "parsedUnit": "can",
+          "parsedQuantity": 1,
+          "packageSize": "28 oz",
+          "mergeUnit": "can",
+          "groupedUnit": "can",
+          "groupedPackageSize": "28 oz",
+          "category": "Pantry",
+          "key": "recipe::Pantry::black beans::can::28 oz"
+        }
+      ]
+    },
+    {
+      "raws": [
+        "1 cup chicken broth",
+        "8 oz chicken broth"
+      ],
+      "rows": [
+        {
+          "id": "recipe::Pantry::chicken broth::cup::",
+          "checked": false,
+          "category": "Pantry",
+          "sourceIds": [
+            "chicken-broth-compatibility-0-1-cup-chicken-broth-1794955106836-0"
+          ],
+          "count": 1,
+          "quantity": 1,
+          "unit": "cup",
+          "packageSize": "",
+          "pantryName": "chicken broth",
+          "pantryKey": "chicken broth",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 1,
+          "recipeCountLabel": "",
+          "recipeNames": [
+            "Compatibility 0"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 0",
+              "amountText": "1 cup"
+            }
+          ],
+          "thumbnailKey": "chicken-broth",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "chicken broth",
+          "displayText": "Chicken Broth"
+        },
+        {
+          "id": "recipe::Pantry::chicken broth::oz::",
+          "checked": false,
+          "category": "Pantry",
+          "sourceIds": [
+            "chicken-broth-compatibility-1-8-oz-chicken-broth-1794955106836-0"
+          ],
+          "count": 1,
+          "quantity": 8,
+          "unit": "oz",
+          "packageSize": "",
+          "pantryName": "chicken broth",
+          "pantryKey": "chicken broth",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 1,
+          "recipeCountLabel": "",
+          "recipeNames": [
+            "Compatibility 1"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 1",
+              "amountText": "8 oz"
+            }
+          ],
+          "thumbnailKey": "chicken-broth",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "chicken broth",
+          "displayText": "Chicken Broth"
+        }
+      ],
+      "trace": [
+        {
+          "id": "chicken-broth-compatibility-0-1-cup-chicken-broth-1794955106836-0",
+          "recipeName": "Compatibility 0",
+          "recipeIngredientText": "1 cup chicken broth",
+          "preservedRecipeIngredientText": "1 cup chicken broth",
+          "savedName": "chicken broth",
+          "cleanedRaw": "1 cup chicken broth",
+          "parsed": {
+            "quantity": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1,
+            "unit": "cup",
+            "name": "chicken broth",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "chicken broth",
+          "preNormalizedName": "chicken broth",
+          "safeName": "chicken broth",
+          "normalizedName": "chicken broth",
+          "parsedUnit": "cup",
+          "parsedQuantity": 1,
+          "packageSize": "",
+          "mergeUnit": "cup",
+          "groupedUnit": "cup",
+          "groupedPackageSize": "",
+          "category": "Pantry",
+          "key": "recipe::Pantry::chicken broth::cup::"
+        },
+        {
+          "id": "chicken-broth-compatibility-1-8-oz-chicken-broth-1794955106836-0",
+          "recipeName": "Compatibility 1",
+          "recipeIngredientText": "8 oz chicken broth",
+          "preservedRecipeIngredientText": "8 oz chicken broth",
+          "savedName": "chicken broth",
+          "cleanedRaw": "8 oz chicken broth",
+          "parsed": {
+            "quantity": 8,
+            "minQuantity": 8,
+            "maxQuantity": 8,
+            "unit": "oz",
+            "name": "chicken broth",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "chicken broth",
+          "preNormalizedName": "chicken broth",
+          "safeName": "chicken broth",
+          "normalizedName": "chicken broth",
+          "parsedUnit": "oz",
+          "parsedQuantity": 8,
+          "packageSize": "",
+          "mergeUnit": "oz",
+          "groupedUnit": "oz",
+          "groupedPackageSize": "",
+          "category": "Pantry",
+          "key": "recipe::Pantry::chicken broth::oz::"
+        }
+      ]
+    },
+    {
+      "raws": [
+        "8 corn or flour tortillas",
+        "8 flour tortillas"
+      ],
+      "rows": [
+        {
+          "id": "recipe::Bakery::corn or flour tortillas::__count__::",
+          "checked": false,
+          "category": "Bakery",
+          "sourceIds": [
+            "corn-or-flour-tortillas-compatibility-0-8-corn-or-flour-tortillas-1794955106838-0"
+          ],
+          "count": 1,
+          "quantity": 8,
+          "unit": null,
+          "packageSize": "",
+          "pantryName": "corn or flour tortillas",
+          "pantryKey": "corn or flour tortilla",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 1,
+          "recipeCountLabel": "",
+          "recipeNames": [
+            "Compatibility 0"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 0",
+              "amountText": "8 Corn or Flour Tortillas"
+            }
+          ],
+          "thumbnailKey": "category-bakery",
+          "thumbnailMatchType": "category",
+          "thumbnailAltText": "corn or flour tortillas",
+          "displayText": "Corn or Flour Tortillas"
+        },
+        {
+          "id": "recipe::Bakery::flour tortillas::__count__::",
+          "checked": false,
+          "category": "Bakery",
+          "sourceIds": [
+            "flour-tortillas-compatibility-1-8-flour-tortillas-1794955106838-0"
+          ],
+          "count": 1,
+          "quantity": 8,
+          "unit": null,
+          "packageSize": "",
+          "pantryName": "flour tortillas",
+          "pantryKey": "flour tortilla",
+          "pantryCoverage": "none",
+          "pantryRestock": false,
+          "recipeCount": 1,
+          "recipeCountLabel": "",
+          "recipeNames": [
+            "Compatibility 1"
+          ],
+          "recipeBreakdown": [
+            {
+              "recipeName": "Compatibility 1",
+              "amountText": "8 Flour Tortillas"
+            }
+          ],
+          "thumbnailKey": "tortillas",
+          "thumbnailMatchType": "exact",
+          "thumbnailAltText": "flour tortillas",
+          "displayText": "Flour Tortillas"
+        }
+      ],
+      "trace": [
+        {
+          "id": "corn-or-flour-tortillas-compatibility-0-8-corn-or-flour-tortillas-1794955106838-0",
+          "recipeName": "Compatibility 0",
+          "recipeIngredientText": "8 corn or flour tortillas",
+          "preservedRecipeIngredientText": "8 corn or flour tortillas",
+          "savedName": "corn or flour tortillas",
+          "cleanedRaw": "8 corn or flour tortillas",
+          "parsed": {
+            "quantity": 8,
+            "minQuantity": 8,
+            "maxQuantity": 8,
+            "unit": "__count__",
+            "name": "corn or flour tortillas",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "corn or flour tortillas",
+          "preNormalizedName": "corn or flour tortillas",
+          "safeName": "corn or flour tortillas",
+          "normalizedName": "corn or flour tortillas",
+          "parsedUnit": null,
+          "parsedQuantity": 8,
+          "packageSize": "",
+          "mergeUnit": "__count__",
+          "groupedUnit": "__count__",
+          "groupedPackageSize": "",
+          "category": "Bakery",
+          "key": "recipe::Bakery::corn or flour tortillas::__count__::"
+        },
+        {
+          "id": "flour-tortillas-compatibility-1-8-flour-tortillas-1794955106838-0",
+          "recipeName": "Compatibility 1",
+          "recipeIngredientText": "8 flour tortillas",
+          "preservedRecipeIngredientText": "8 flour tortillas",
+          "savedName": "flour tortillas",
+          "cleanedRaw": "8 flour tortillas",
+          "parsed": {
+            "quantity": 8,
+            "minQuantity": 8,
+            "maxQuantity": 8,
+            "unit": "__count__",
+            "name": "flour tortillas",
+            "packageSize": ""
+          },
+          "shouldRefreshFromRecipeText": true,
+          "cleanedName": "flour tortillas",
+          "preNormalizedName": "flour tortillas",
+          "safeName": "flour tortillas",
+          "normalizedName": "flour tortillas",
+          "parsedUnit": null,
+          "parsedQuantity": 8,
+          "packageSize": "",
+          "mergeUnit": "__count__",
+          "groupedUnit": "__count__",
+          "groupedPackageSize": "",
+          "category": "Bakery",
+          "key": "recipe::Bakery::flour tortillas::__count__::"
+        }
+      ]
+    }
+  ],
+  "pantryChecks": [
+    {
+      "language": "en",
+      "raw": "2 cloves garlic, minced",
+      "stock": [],
+      "keys": [
+        "garlic"
+      ],
+      "coverage": [
+        "none"
+      ]
+    },
+    {
+      "language": "en",
+      "raw": "2 cloves garlic, minced",
+      "stock": [
+        {
+          "id": "stock",
+          "name": "garlic",
+          "quantity": 9,
+          "unit": null
+        }
+      ],
+      "keys": [
+        "garlic"
+      ],
+      "coverage": [
+        "covered"
+      ]
+    },
+    {
+      "language": "en",
+      "raw": "2 cloves garlic, minced",
+      "stock": [
+        {
+          "id": "stock",
+          "name": "garlic",
+          "quantity": 1,
+          "unit": null
+        }
+      ],
+      "keys": [
+        "garlic"
+      ],
+      "coverage": [
+        "partial"
+      ]
+    },
+    {
+      "language": "en",
+      "raw": "2 cloves garlic, minced",
+      "stock": [
+        {
+          "id": "stock",
+          "name": "garlic",
+          "quantity": 9,
+          "unit": "jar"
+        }
+      ],
+      "keys": [
+        "garlic"
+      ],
+      "coverage": [
+        "none"
+      ]
+    },
+    {
+      "language": "es",
+      "raw": "2 dientes de ajo, picados",
+      "stock": [],
+      "keys": [
+        "garlic"
+      ],
+      "coverage": [
+        "none"
+      ]
+    },
+    {
+      "language": "es",
+      "raw": "2 dientes de ajo, picados",
+      "stock": [
+        {
+          "id": "stock",
+          "name": "garlic",
+          "quantity": 9,
+          "unit": null
+        }
+      ],
+      "keys": [
+        "garlic"
+      ],
+      "coverage": [
+        "partial"
+      ]
+    },
+    {
+      "language": "es",
+      "raw": "2 dientes de ajo, picados",
+      "stock": [
+        {
+          "id": "stock",
+          "name": "garlic",
+          "quantity": 1,
+          "unit": null
+        }
+      ],
+      "keys": [
+        "garlic"
+      ],
+      "coverage": [
+        "partial"
+      ]
+    },
+    {
+      "language": "es",
+      "raw": "2 dientes de ajo, picados",
+      "stock": [
+        {
+          "id": "stock",
+          "name": "garlic",
+          "quantity": 9,
+          "unit": "jar"
+        }
+      ],
+      "keys": [
+        "garlic"
+      ],
+      "coverage": [
+        "partial"
+      ]
+    }
+  ],
+  "scope": "Real page callbacks; actual generator output for catalog and legacy; degraded/import/manual handler controls explicitly labeled. No production fixes.",
+  "representativePipelines": [
+    {
+      "slug": "quick-beef-chili",
+      "recipe": "Chili",
+      "language": "en",
+      "originalIngredient": "sour cream",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "Sour Cream",
+        "grocerySearchName": "sour cream",
+        "category": "Dairy / Eggs",
+        "normalizedName": "sour cream",
+        "quantity": null,
+        "unit": "",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "sour-cream-chili-sour-cream-1794955080367-8",
+        "text": "Sour Cream",
+        "displayText": "Sour Cream",
+        "grocerySearchName": "sour cream",
+        "checked": false,
+        "addedAt": 1794955080367,
+        "category": "Dairy / Eggs",
+        "sourceRecipe": "Chili",
+        "recipeIngredientText": "sour cream",
+        "normalizedName": "sour cream",
+        "quantity": null,
+        "unit": "",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "sour cream",
+      "page": {
+        "id": "sour-cream-chili-sour-cream-1794955080367-8",
+        "recipeName": "Chili",
+        "recipeIngredientText": "sour cream",
+        "preservedRecipeIngredientText": "sour cream",
+        "savedName": "sour cream",
+        "cleanedRaw": "sour cream",
+        "parsed": {
+          "quantity": null,
+          "minQuantity": null,
+          "maxQuantity": null,
+          "unit": null,
+          "name": "sour cream",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "sour cream",
+        "preNormalizedName": "sour cream",
+        "safeName": "sour cream",
+        "normalizedName": "sour cream",
+        "parsedUnit": null,
+        "parsedQuantity": null,
+        "packageSize": "",
+        "mergeUnit": null,
+        "groupedUnit": null,
+        "groupedPackageSize": "",
+        "category": "Dairy / Eggs",
+        "key": "recipe::Dairy / Eggs::sour cream::::"
+      },
+      "canonical": {
+        "id": "sour-cream",
+        "canonicalName": "Sour Cream",
+        "category": "Dairy / Eggs"
+      },
+      "product": null,
+      "mergeKey": "recipe::Dairy / Eggs::sour cream::::",
+      "pantryKey": "sour cream",
+      "finalLabel": "Sour Cream",
+      "coverage": "none"
+    },
+    {
+      "slug": "normal-chicken-greenbean-mushroom-bake",
+      "recipe": "Chicken Green Bean Mushroom Bake",
+      "language": "en",
+      "originalIngredient": "1/2 cup shredded mozzarella cheese",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "1/2 cup Shredded Mozzarella Cheese",
+        "grocerySearchName": "shredded mozzarella cheese",
+        "category": "Dairy / Eggs",
+        "normalizedName": "shredded mozzarella cheese",
+        "quantity": 0.5,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "shredded-mozzarella-cheese-chicken-green-bean-mushroom-bake-1-2-cup-shredded-mozzarella-cheese-1794955080631-7",
+        "text": "1/2 cup Shredded Mozzarella Cheese",
+        "displayText": "1/2 cup Shredded Mozzarella Cheese",
+        "grocerySearchName": "shredded mozzarella cheese",
+        "checked": false,
+        "addedAt": 1794955080631,
+        "category": "Dairy / Eggs",
+        "sourceRecipe": "Chicken Green Bean Mushroom Bake",
+        "recipeIngredientText": "1/2 cup shredded mozzarella cheese",
+        "normalizedName": "shredded mozzarella cheese",
+        "quantity": 0.5,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "1/2 cup shredded mozzarella cheese",
+      "page": {
+        "id": "shredded-mozzarella-cheese-chicken-green-bean-mushroom-bake-1-2-cup-shredded-mozzarella-cheese-1794955080631-7",
+        "recipeName": "Chicken Green Bean Mushroom Bake",
+        "recipeIngredientText": "1/2 cup shredded mozzarella cheese",
+        "preservedRecipeIngredientText": "1/2 cup shredded mozzarella cheese",
+        "savedName": "shredded mozzarella cheese",
+        "cleanedRaw": "1/2 cup mozzarella cheese",
+        "parsed": {
+          "quantity": 0.5,
+          "minQuantity": 0.5,
+          "maxQuantity": 0.5,
+          "unit": "cup",
+          "name": "mozzarella cheese",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "mozzarella cheese",
+        "preNormalizedName": "mozzarella cheese",
+        "safeName": "mozzarella cheese",
+        "normalizedName": "mozzarella cheese",
+        "parsedUnit": "cup",
+        "parsedQuantity": 0.5,
+        "packageSize": "",
+        "mergeUnit": "cup",
+        "groupedUnit": "cup",
+        "groupedPackageSize": "",
+        "category": "Dairy / Eggs",
+        "key": "recipe::Dairy / Eggs::mozzarella cheese::cup::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Dairy / Eggs::mozzarella cheese::cup::",
+      "pantryKey": "mozzarella cheese",
+      "finalLabel": "Mozzarella Cheese",
+      "coverage": "none"
+    },
+    {
+      "slug": "seared-ahi-tuna",
+      "recipe": "Seared Ahi Tuna",
+      "language": "en",
+      "originalIngredient": "1 Tbsp sesame oil (or olive oil)",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "Sesame Oil",
+        "grocerySearchName": "sesame oil",
+        "category": "Pantry",
+        "normalizedName": "sesame oil",
+        "quantity": 1,
+        "unit": "Tbsp",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "sesame-oil-seared-ahi-tuna-1-tbsp-sesame-oil-or-olive-oil-1794955080715-1",
+        "text": "Sesame Oil",
+        "displayText": "Sesame Oil",
+        "grocerySearchName": "sesame oil",
+        "checked": false,
+        "addedAt": 1794955080715,
+        "category": "Pantry",
+        "sourceRecipe": "Seared Ahi Tuna",
+        "recipeIngredientText": "1 Tbsp sesame oil (or olive oil)",
+        "normalizedName": "sesame oil",
+        "quantity": 1,
+        "unit": "Tbsp",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "1 Tbsp sesame oil (or olive oil)",
+      "page": {
+        "id": "sesame-oil-seared-ahi-tuna-1-tbsp-sesame-oil-or-olive-oil-1794955080715-1",
+        "recipeName": "Seared Ahi Tuna",
+        "recipeIngredientText": "1 Tbsp sesame oil (or olive oil)",
+        "preservedRecipeIngredientText": "1 Tbsp sesame oil (or olive oil)",
+        "savedName": "sesame oil",
+        "cleanedRaw": "1 tbsp sesame oil",
+        "parsed": {
+          "quantity": 1,
+          "minQuantity": 1,
+          "maxQuantity": 1,
+          "unit": "Tbsp",
+          "name": "sesame oil",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "sesame oil",
+        "preNormalizedName": "sesame oil",
+        "safeName": "sesame oil",
+        "normalizedName": "sesame oil",
+        "parsedUnit": "Tbsp",
+        "parsedQuantity": 1,
+        "packageSize": "",
+        "mergeUnit": "Tbsp",
+        "groupedUnit": "Tbsp",
+        "groupedPackageSize": "",
+        "category": "Pantry",
+        "key": "recipe::Pantry::sesame oil::Tbsp::"
+      },
+      "canonical": {
+        "id": "sesame-oil",
+        "canonicalName": "Sesame Oil",
+        "category": "Pantry"
+      },
+      "product": null,
+      "mergeKey": "recipe::Pantry::sesame oil::Tbsp::",
+      "pantryKey": "sesame oil",
+      "finalLabel": "Sesame Oil",
+      "coverage": "none"
+    },
+    {
+      "slug": "normal-wild-west-shrimp",
+      "recipe": "Wild West Shrimp",
+      "language": "en",
+      "originalIngredient": "frying oil (enough for about 2 inches deep)",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "Frying Oil",
+        "grocerySearchName": "frying oil",
+        "category": "Pantry",
+        "normalizedName": "frying oil",
+        "quantity": null,
+        "unit": "",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "frying-oil-wild-west-shrimp-frying-oil-enough-for-about-2-inches-deep-1794955080886-5",
+        "text": "Frying Oil",
+        "displayText": "Frying Oil",
+        "grocerySearchName": "frying oil",
+        "checked": false,
+        "addedAt": 1794955080886,
+        "category": "Pantry",
+        "sourceRecipe": "Wild West Shrimp",
+        "recipeIngredientText": "frying oil (enough for about 2 inches deep)",
+        "normalizedName": "frying oil",
+        "quantity": null,
+        "unit": "",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "frying oil (enough for about 2 inches deep)",
+      "page": {
+        "id": "frying-oil-wild-west-shrimp-frying-oil-enough-for-about-2-inches-deep-1794955080886-5",
+        "recipeName": "Wild West Shrimp",
+        "recipeIngredientText": "frying oil (enough for about 2 inches deep)",
+        "preservedRecipeIngredientText": "frying oil (enough for about 2 inches deep)",
+        "savedName": "frying oil",
+        "cleanedRaw": "frying oil",
+        "parsed": {
+          "quantity": null,
+          "minQuantity": null,
+          "maxQuantity": null,
+          "unit": null,
+          "name": "frying oil",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "frying oil",
+        "preNormalizedName": "frying oil",
+        "safeName": "frying oil",
+        "normalizedName": "frying oil",
+        "parsedUnit": null,
+        "parsedQuantity": null,
+        "packageSize": "",
+        "mergeUnit": null,
+        "groupedUnit": null,
+        "groupedPackageSize": "",
+        "category": "Pantry",
+        "key": "recipe::Pantry::frying oil::::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Pantry::frying oil::::",
+      "pantryKey": "frying oil",
+      "finalLabel": "Frying Oil",
+      "coverage": "none"
+    },
+    {
+      "slug": "normal-italian-sausage-stuffed-peppers",
+      "recipe": "Italian Sausage Stuffed Peppers",
+      "language": "en",
+      "originalIngredient": "1/4 cup grated Parmesan cheese",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "1/4 cup Grated Parmesan Cheese",
+        "grocerySearchName": "grated parmesan cheese",
+        "category": "Dairy / Eggs",
+        "normalizedName": "grated parmesan cheese",
+        "quantity": 0.25,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "grated-parmesan-cheese-italian-sausage-stuffed-peppers-1-4-cup-grated-parmesan-cheese-1794955081731-9",
+        "text": "1/4 cup Grated Parmesan Cheese",
+        "displayText": "1/4 cup Grated Parmesan Cheese",
+        "grocerySearchName": "grated parmesan cheese",
+        "checked": false,
+        "addedAt": 1794955081731,
+        "category": "Dairy / Eggs",
+        "sourceRecipe": "Italian Sausage Stuffed Peppers",
+        "recipeIngredientText": "1/4 cup grated Parmesan cheese",
+        "normalizedName": "grated parmesan cheese",
+        "quantity": 0.25,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "1/4 cup grated Parmesan cheese",
+      "page": {
+        "id": "grated-parmesan-cheese-italian-sausage-stuffed-peppers-1-4-cup-grated-parmesan-cheese-1794955081731-9",
+        "recipeName": "Italian Sausage Stuffed Peppers",
+        "recipeIngredientText": "1/4 cup grated Parmesan cheese",
+        "preservedRecipeIngredientText": "1/4 cup grated Parmesan cheese",
+        "savedName": "grated parmesan cheese",
+        "cleanedRaw": "1/4 cup parmesan cheese",
+        "parsed": {
+          "quantity": 0.25,
+          "minQuantity": 0.25,
+          "maxQuantity": 0.25,
+          "unit": "cup",
+          "name": "parmesan cheese",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "parmesan cheese",
+        "preNormalizedName": "parmesan cheese",
+        "safeName": "parmesan cheese",
+        "normalizedName": "parmesan cheese",
+        "parsedUnit": null,
+        "parsedQuantity": null,
+        "packageSize": "",
+        "mergeUnit": null,
+        "groupedUnit": null,
+        "groupedPackageSize": "",
+        "category": "Dairy / Eggs",
+        "key": "recipe::Dairy / Eggs::parmesan cheese::::"
+      },
+      "canonical": {
+        "id": "parmesan-cheese",
+        "canonicalName": "Parmesan Cheese",
+        "category": "Dairy / Eggs"
+      },
+      "product": null,
+      "mergeKey": "recipe::Dairy / Eggs::parmesan cheese::::",
+      "pantryKey": "parmesan cheese",
+      "finalLabel": "Parmesan Cheese",
+      "coverage": "none"
+    },
+    {
+      "slug": "normal-chicken-alfredo",
+      "recipe": "Chicken Alfredo",
+      "language": "en",
+      "originalIngredient": "1 cup freshly grated Parmesan cheese",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "1 cup Freshly Grated Parmesan Cheese",
+        "grocerySearchName": "freshly grated parmesan cheese",
+        "category": "Dairy / Eggs",
+        "normalizedName": "freshly grated parmesan cheese",
+        "quantity": 1,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "freshly-grated-parmesan-cheese-chicken-alfredo-1-cup-freshly-grated-parmesan-cheese-1794955082277-9",
+        "text": "1 cup Freshly Grated Parmesan Cheese",
+        "displayText": "1 cup Freshly Grated Parmesan Cheese",
+        "grocerySearchName": "freshly grated parmesan cheese",
+        "checked": false,
+        "addedAt": 1794955082277,
+        "category": "Dairy / Eggs",
+        "sourceRecipe": "Chicken Alfredo",
+        "recipeIngredientText": "1 cup freshly grated Parmesan cheese",
+        "normalizedName": "freshly grated parmesan cheese",
+        "quantity": 1,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "1 cup freshly grated Parmesan cheese",
+      "page": {
+        "id": "freshly-grated-parmesan-cheese-chicken-alfredo-1-cup-freshly-grated-parmesan-cheese-1794955082277-9",
+        "recipeName": "Chicken Alfredo",
+        "recipeIngredientText": "1 cup freshly grated Parmesan cheese",
+        "preservedRecipeIngredientText": "1 cup freshly grated Parmesan cheese",
+        "savedName": "freshly grated parmesan cheese",
+        "cleanedRaw": "1 cup parmesan cheese",
+        "parsed": {
+          "quantity": 1,
+          "minQuantity": 1,
+          "maxQuantity": 1,
+          "unit": "cup",
+          "name": "parmesan cheese",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "parmesan cheese",
+        "preNormalizedName": "parmesan cheese",
+        "safeName": "parmesan cheese",
+        "normalizedName": "parmesan cheese",
+        "parsedUnit": null,
+        "parsedQuantity": null,
+        "packageSize": "",
+        "mergeUnit": null,
+        "groupedUnit": null,
+        "groupedPackageSize": "",
+        "category": "Dairy / Eggs",
+        "key": "recipe::Dairy / Eggs::parmesan cheese::::"
+      },
+      "canonical": {
+        "id": "parmesan-cheese",
+        "canonicalName": "Parmesan Cheese",
+        "category": "Dairy / Eggs"
+      },
+      "product": null,
+      "mergeKey": "recipe::Dairy / Eggs::parmesan cheese::::",
+      "pantryKey": "freshly parmesan cheese",
+      "finalLabel": "Parmesan Cheese",
+      "coverage": "none"
+    },
+    {
+      "slug": "normal-grilled-bbq-chicken-thighs",
+      "recipe": "Grilled BBQ Chicken Thighs",
+      "language": "en",
+      "originalIngredient": "6 bone-in, skin-on chicken thighs",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "6 Chicken Thighs",
+        "grocerySearchName": "chicken thigh",
+        "category": "Meat / Seafood",
+        "normalizedName": "chicken thigh",
+        "quantity": 6,
+        "unit": "",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "chicken-thigh-grilled-bbq-chicken-thighs-6-bone-in-skin-on-chicken-thighs-1794955083952-0",
+        "text": "6 Chicken Thighs",
+        "displayText": "6 Chicken Thighs",
+        "grocerySearchName": "chicken thigh",
+        "checked": false,
+        "addedAt": 1794955083952,
+        "category": "Meat / Seafood",
+        "sourceRecipe": "Grilled BBQ Chicken Thighs",
+        "recipeIngredientText": "6 bone-in, skin-on chicken thighs",
+        "normalizedName": "chicken thigh",
+        "quantity": 6,
+        "unit": "",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "6 bone-in, skin-on chicken thighs",
+      "page": {
+        "id": "chicken-thigh-grilled-bbq-chicken-thighs-6-bone-in-skin-on-chicken-thighs-1794955083952-0",
+        "recipeName": "Grilled BBQ Chicken Thighs",
+        "recipeIngredientText": "6 bone-in, skin-on chicken thighs",
+        "preservedRecipeIngredientText": "6 bone-in, skin-on chicken thighs",
+        "savedName": "chicken thigh",
+        "cleanedRaw": "6 bone-in",
+        "parsed": {
+          "quantity": 6,
+          "minQuantity": 6,
+          "maxQuantity": 6,
+          "unit": "__count__",
+          "name": "bone-in",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "bone-in",
+        "preNormalizedName": "bone-in",
+        "safeName": "bone in",
+        "normalizedName": "bone in",
+        "parsedUnit": null,
+        "parsedQuantity": 6,
+        "packageSize": "",
+        "mergeUnit": null,
+        "groupedUnit": null,
+        "groupedPackageSize": "",
+        "category": "Other",
+        "key": "recipe::Other::bone in::::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Other::bone in::::",
+      "pantryKey": "bone in skin on chicken thigh",
+      "finalLabel": "Bone in",
+      "coverage": "none"
+    },
+    {
+      "slug": "homemade-fried-chicken",
+      "recipe": "Homemade Fried Chicken",
+      "language": "en",
+      "originalIngredient": "3 lb bone-in chicken pieces (legs, thighs, breasts, wings)",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "3 lbs Chicken Pieces",
+        "grocerySearchName": "chicken pieces",
+        "category": "Meat / Seafood",
+        "normalizedName": "chicken pieces",
+        "quantity": 3,
+        "unit": "lb",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "chicken-pieces-homemade-fried-chicken-3-lb-bone-in-chicken-pieces-legs-thighs-breasts-wings-1794955086790-0",
+        "text": "3 lbs Chicken Pieces",
+        "displayText": "3 lbs Chicken Pieces",
+        "grocerySearchName": "chicken pieces",
+        "checked": false,
+        "addedAt": 1794955086790,
+        "category": "Meat / Seafood",
+        "sourceRecipe": "Homemade Fried Chicken",
+        "recipeIngredientText": "3 lb bone-in chicken pieces (legs, thighs, breasts, wings)",
+        "normalizedName": "chicken pieces",
+        "quantity": 3,
+        "unit": "lb",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "3 lb bone-in chicken pieces (legs, thighs, breasts, wings)",
+      "page": {
+        "id": "chicken-pieces-homemade-fried-chicken-3-lb-bone-in-chicken-pieces-legs-thighs-breasts-wings-1794955086790-0",
+        "recipeName": "Homemade Fried Chicken",
+        "recipeIngredientText": "3 lb bone-in chicken pieces (legs, thighs, breasts, wings)",
+        "preservedRecipeIngredientText": "3 lb bone-in chicken pieces (legs, thighs, breasts, wings)",
+        "savedName": "chicken pieces",
+        "cleanedRaw": "3 lb bone-in chicken pieces",
+        "parsed": {
+          "quantity": 3,
+          "minQuantity": 3,
+          "maxQuantity": 3,
+          "unit": "lb",
+          "name": "bone-in chicken pieces",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "bone-in chicken pieces",
+        "preNormalizedName": "bone-in chicken pieces",
+        "safeName": "bone in chicken pieces",
+        "normalizedName": "bone in chicken pieces",
+        "parsedUnit": "lb",
+        "parsedQuantity": 3,
+        "packageSize": "",
+        "mergeUnit": "lb",
+        "groupedUnit": "lb",
+        "groupedPackageSize": "",
+        "category": "Meat / Seafood",
+        "key": "recipe::Meat / Seafood::bone in chicken pieces::lb::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Meat / Seafood::bone in chicken pieces::lb::",
+      "pantryKey": "bone in chicken",
+      "finalLabel": "Bone in Chicken Pieces",
+      "coverage": "none"
+    },
+    {
+      "slug": "big-dolly-inspired-country-fried-crispy-chicken",
+      "recipe": "Dolly-Inspired Country-Fried Crispy Chicken",
+      "language": "en",
+      "originalIngredient": "3 lb bone-in, skin-on chicken pieces",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "3 lbs Chicken Pieces",
+        "grocerySearchName": "chicken pieces",
+        "category": "Meat / Seafood",
+        "normalizedName": "chicken pieces",
+        "quantity": 3,
+        "unit": "lb",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "chicken-pieces-dolly-inspired-country-fried-crispy-chicken-3-lb-bone-in-skin-on-chicken-pieces-1794955089411-0",
+        "text": "3 lbs Chicken Pieces",
+        "displayText": "3 lbs Chicken Pieces",
+        "grocerySearchName": "chicken pieces",
+        "checked": false,
+        "addedAt": 1794955089411,
+        "category": "Meat / Seafood",
+        "sourceRecipe": "Dolly-Inspired Country-Fried Crispy Chicken",
+        "recipeIngredientText": "3 lb bone-in, skin-on chicken pieces",
+        "normalizedName": "chicken pieces",
+        "quantity": 3,
+        "unit": "lb",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "3 lb bone-in, skin-on chicken pieces",
+      "page": {
+        "id": "chicken-pieces-dolly-inspired-country-fried-crispy-chicken-3-lb-bone-in-skin-on-chicken-pieces-1794955089411-0",
+        "recipeName": "Dolly-Inspired Country-Fried Crispy Chicken",
+        "recipeIngredientText": "3 lb bone-in, skin-on chicken pieces",
+        "preservedRecipeIngredientText": "3 lb bone-in, skin-on chicken pieces",
+        "savedName": "chicken pieces",
+        "cleanedRaw": "3 lb bone-in",
+        "parsed": {
+          "quantity": 3,
+          "minQuantity": 3,
+          "maxQuantity": 3,
+          "unit": "lb",
+          "name": "bone-in",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "bone-in",
+        "preNormalizedName": "bone-in",
+        "safeName": "bone in",
+        "normalizedName": "bone in",
+        "parsedUnit": "lb",
+        "parsedQuantity": 3,
+        "packageSize": "",
+        "mergeUnit": "lb",
+        "groupedUnit": "lb",
+        "groupedPackageSize": "",
+        "category": "Other",
+        "key": "recipe::Other::bone in::lb::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Other::bone in::lb::",
+      "pantryKey": "bone in skin on chicken",
+      "finalLabel": "Bone in",
+      "coverage": "none"
+    },
+    {
+      "slug": "normal-crispy-garlic-butter-smashed-potato-bowls-chicken",
+      "recipe": "Crispy Garlic Butter Smashed Potato Bowls with Chicken",
+      "language": "en",
+      "originalIngredient": "1/4 cup sour cream or Greek yogurt",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "1/4 cup Sour Cream or Greek Yogurt",
+        "grocerySearchName": "sour cream or greek yogurt",
+        "category": "Dairy / Eggs",
+        "normalizedName": "sour cream or greek yogurt",
+        "quantity": 0.25,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "sour-cream-or-greek-yogurt-crispy-garlic-butter-smashed-potato-bowls-with-chicken-1-4-cup-sour-cream-or-greek-yogurt-1794955090076-13",
+        "text": "1/4 cup Sour Cream or Greek Yogurt",
+        "displayText": "1/4 cup Sour Cream or Greek Yogurt",
+        "grocerySearchName": "sour cream or greek yogurt",
+        "checked": false,
+        "addedAt": 1794955090076,
+        "category": "Dairy / Eggs",
+        "sourceRecipe": "Crispy Garlic Butter Smashed Potato Bowls with Chicken",
+        "recipeIngredientText": "1/4 cup sour cream or Greek yogurt",
+        "normalizedName": "sour cream or greek yogurt",
+        "quantity": 0.25,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "1/4 cup sour cream or Greek yogurt",
+      "page": {
+        "id": "sour-cream-or-greek-yogurt-crispy-garlic-butter-smashed-potato-bowls-with-chicken-1-4-cup-sour-cream-or-greek-yogurt-1794955090076-13",
+        "recipeName": "Crispy Garlic Butter Smashed Potato Bowls with Chicken",
+        "recipeIngredientText": "1/4 cup sour cream or Greek yogurt",
+        "preservedRecipeIngredientText": "1/4 cup sour cream or Greek yogurt",
+        "savedName": "sour cream or greek yogurt",
+        "cleanedRaw": "1/4 cup sour cream or greek yogurt",
+        "parsed": {
+          "quantity": 0.25,
+          "minQuantity": 0.25,
+          "maxQuantity": 0.25,
+          "unit": "cup",
+          "name": "sour cream or greek yogurt",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "sour cream or greek yogurt",
+        "preNormalizedName": "sour cream or greek yogurt",
+        "safeName": "sour cream or greek yogurt",
+        "normalizedName": "sour cream or greek yogurt",
+        "parsedUnit": "cup",
+        "parsedQuantity": 0.25,
+        "packageSize": "",
+        "mergeUnit": "cup",
+        "groupedUnit": "cup",
+        "groupedPackageSize": "",
+        "category": "Dairy / Eggs",
+        "key": "recipe::Dairy / Eggs::sour cream or greek yogurt::cup::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Dairy / Eggs::sour cream or greek yogurt::cup::",
+      "pantryKey": "sour cream or greek yogurt",
+      "finalLabel": "Sour Cream or Greek Yogurt",
+      "coverage": "none"
+    },
+    {
+      "slug": "normal-crispy-garlic-butter-smashed-potato-bowls-chicken",
+      "recipe": "Bowls de Papas Aplastadas con Mantequilla de Ajo y Pollo",
+      "language": "es",
+      "originalIngredient": "1/4 cup de crema agria o yogur griego",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "Sour Cream O Yogur Griego",
+        "grocerySearchName": "sour cream o yogur griego",
+        "category": "Other",
+        "normalizedName": "sour cream o yogur griego",
+        "quantity": 0.25,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "sour-cream-o-yogur-griego-bowls-de-papas-aplastadas-con-mantequilla-de-ajo-y-pollo-1-4-cup-de-crema-agria-o-yogur-griego-1794955090143-13",
+        "text": "Sour Cream O Yogur Griego",
+        "displayText": "Sour Cream O Yogur Griego",
+        "grocerySearchName": "sour cream o yogur griego",
+        "checked": false,
+        "addedAt": 1794955090143,
+        "category": "Other",
+        "sourceRecipe": "Bowls de Papas Aplastadas con Mantequilla de Ajo y Pollo",
+        "recipeIngredientText": "1/4 cup de crema agria o yogur griego",
+        "normalizedName": "sour cream o yogur griego",
+        "quantity": 0.25,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "1/4 cup de crema agria o yogur griego",
+      "page": {
+        "id": "sour-cream-o-yogur-griego-bowls-de-papas-aplastadas-con-mantequilla-de-ajo-y-pollo-1-4-cup-de-crema-agria-o-yogur-griego-1794955090143-13",
+        "recipeName": "Bowls de Papas Aplastadas con Mantequilla de Ajo y Pollo",
+        "recipeIngredientText": "1/4 cup de crema agria o yogur griego",
+        "preservedRecipeIngredientText": "1/4 cup de crema agria o yogur griego",
+        "savedName": "sour cream o yogur griego",
+        "cleanedRaw": "1/4 cup sour cream o yogur griego",
+        "parsed": {
+          "quantity": 0.25,
+          "minQuantity": 0.25,
+          "maxQuantity": 0.25,
+          "unit": "cup",
+          "name": "sour cream o yogur griego",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "sour cream o yogur griego",
+        "preNormalizedName": "sour cream o yogur griego",
+        "safeName": "sour cream o yogur griego",
+        "normalizedName": "sour cream o yogur griego",
+        "parsedUnit": "cup",
+        "parsedQuantity": 0.25,
+        "packageSize": "",
+        "mergeUnit": "cup",
+        "groupedUnit": "cup",
+        "groupedPackageSize": "",
+        "category": "Other",
+        "key": "recipe::Other::sour cream o yogur griego::cup::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Other::sour cream o yogur griego::cup::",
+      "pantryKey": "sour cream o yogur griego",
+      "finalLabel": "Sour Cream O Yogur Griego",
+      "coverage": "none"
+    },
+    {
+      "slug": "quick-caprese-pasta",
+      "recipe": "Caprese Pasta",
+      "language": "en",
+      "originalIngredient": "1/2 cup mozzarella pearls",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "1/2 cup Mozzarella Pearls",
+        "grocerySearchName": "mozzarella pearls",
+        "category": "Dairy / Eggs",
+        "normalizedName": "mozzarella pearls",
+        "quantity": 0.5,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "mozzarella-pearls-caprese-pasta-1-2-cup-mozzarella-pearls-1794955094041-2",
+        "text": "1/2 cup Mozzarella Pearls",
+        "displayText": "1/2 cup Mozzarella Pearls",
+        "grocerySearchName": "mozzarella pearls",
+        "checked": false,
+        "addedAt": 1794955094041,
+        "category": "Dairy / Eggs",
+        "sourceRecipe": "Caprese Pasta",
+        "recipeIngredientText": "1/2 cup mozzarella pearls",
+        "normalizedName": "mozzarella pearls",
+        "quantity": 0.5,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "1/2 cup mozzarella pearls",
+      "page": {
+        "id": "mozzarella-pearls-caprese-pasta-1-2-cup-mozzarella-pearls-1794955094041-2",
+        "recipeName": "Caprese Pasta",
+        "recipeIngredientText": "1/2 cup mozzarella pearls",
+        "preservedRecipeIngredientText": "1/2 cup mozzarella pearls",
+        "savedName": "mozzarella pearls",
+        "cleanedRaw": "1/2 cup mozzarella pearls",
+        "parsed": {
+          "quantity": 0.5,
+          "minQuantity": 0.5,
+          "maxQuantity": 0.5,
+          "unit": "cup",
+          "name": "mozzarella pearls",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "mozzarella pearls",
+        "preNormalizedName": "mozzarella pearls",
+        "safeName": "mozzarella pearls",
+        "normalizedName": "mozzarella pearls",
+        "parsedUnit": "cup",
+        "parsedQuantity": 0.5,
+        "packageSize": "",
+        "mergeUnit": "cup",
+        "groupedUnit": "cup",
+        "groupedPackageSize": "",
+        "category": "Dairy / Eggs",
+        "key": "recipe::Dairy / Eggs::mozzarella pearls::cup::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Dairy / Eggs::mozzarella pearls::cup::",
+      "pantryKey": "mozzarella pearl",
+      "finalLabel": "Mozzarella Pearls",
+      "coverage": "none"
+    },
+    {
+      "slug": "quick-caprese-pasta",
+      "recipe": "Pasta caprese",
+      "language": "es",
+      "originalIngredient": "1/2 cup de perlas de mozzarella",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "1/2 cup De Perlas De Mozzarella",
+        "grocerySearchName": "de perlas de mozzarella",
+        "category": "Dairy / Eggs",
+        "normalizedName": "de perlas de mozzarella",
+        "quantity": 0.5,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "de-perlas-de-mozzarella-pasta-caprese-1-2-cup-de-perlas-de-mozzarella-1794955094070-2",
+        "text": "1/2 cup De Perlas De Mozzarella",
+        "displayText": "1/2 cup De Perlas De Mozzarella",
+        "grocerySearchName": "de perlas de mozzarella",
+        "checked": false,
+        "addedAt": 1794955094070,
+        "category": "Dairy / Eggs",
+        "sourceRecipe": "Pasta caprese",
+        "recipeIngredientText": "1/2 cup de perlas de mozzarella",
+        "normalizedName": "de perlas de mozzarella",
+        "quantity": 0.5,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "1/2 cup de perlas de mozzarella",
+      "page": {
+        "id": "de-perlas-de-mozzarella-pasta-caprese-1-2-cup-de-perlas-de-mozzarella-1794955094070-2",
+        "recipeName": "Pasta caprese",
+        "recipeIngredientText": "1/2 cup de perlas de mozzarella",
+        "preservedRecipeIngredientText": "1/2 cup de perlas de mozzarella",
+        "savedName": "de perlas de mozzarella",
+        "cleanedRaw": "1/2 cup de perlas de mozzarella",
+        "parsed": {
+          "quantity": 0.5,
+          "minQuantity": 0.5,
+          "maxQuantity": 0.5,
+          "unit": "cup",
+          "name": "perlas de mozzarella",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "perlas de mozzarella",
+        "preNormalizedName": "perlas de mozzarella",
+        "safeName": "perlas de mozzarella",
+        "normalizedName": "perlas de mozzarella",
+        "parsedUnit": "cup",
+        "parsedQuantity": 0.5,
+        "packageSize": "",
+        "mergeUnit": "cup",
+        "groupedUnit": "cup",
+        "groupedPackageSize": "",
+        "category": "Dairy / Eggs",
+        "key": "recipe::Dairy / Eggs::perlas de mozzarella::cup::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Dairy / Eggs::perlas de mozzarella::cup::",
+      "pantryKey": "de perla de mozzarella",
+      "finalLabel": "Perlas de Mozzarella",
+      "coverage": "none"
+    },
+    {
+      "slug": "normal-caprese-stuffed-portobello-mushrooms",
+      "recipe": "Caprese Stuffed Portobello Mushrooms",
+      "language": "en",
+      "originalIngredient": "5 to 6 fresh mozzarella balls, sliced",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "5 Fresh Mozzarella Balls",
+        "grocerySearchName": "fresh mozzarella balls",
+        "category": "Dairy / Eggs",
+        "normalizedName": "fresh mozzarella balls",
+        "quantity": 5,
+        "unit": "",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "fresh-mozzarella-balls-caprese-stuffed-portobello-mushrooms-5-to-6-fresh-mozzarella-balls-sliced-1794955094613-4",
+        "text": "5 Fresh Mozzarella Balls",
+        "displayText": "5 Fresh Mozzarella Balls",
+        "grocerySearchName": "fresh mozzarella balls",
+        "checked": false,
+        "addedAt": 1794955094613,
+        "category": "Dairy / Eggs",
+        "sourceRecipe": "Caprese Stuffed Portobello Mushrooms",
+        "recipeIngredientText": "5 to 6 fresh mozzarella balls, sliced",
+        "normalizedName": "fresh mozzarella balls",
+        "quantity": 5,
+        "unit": "",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "5 to 6 fresh mozzarella balls, sliced",
+      "page": {
+        "id": "fresh-mozzarella-balls-caprese-stuffed-portobello-mushrooms-5-to-6-fresh-mozzarella-balls-sliced-1794955094613-4",
+        "recipeName": "Caprese Stuffed Portobello Mushrooms",
+        "recipeIngredientText": "5 to 6 fresh mozzarella balls, sliced",
+        "preservedRecipeIngredientText": "5 to 6 fresh mozzarella balls, sliced",
+        "savedName": "fresh mozzarella balls",
+        "cleanedRaw": "5 to 6 mozzarella balls",
+        "parsed": {
+          "quantity": 6,
+          "minQuantity": 5,
+          "maxQuantity": 6,
+          "unit": "__count__",
+          "name": "mozzarella balls",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "mozzarella balls",
+        "preNormalizedName": "mozzarella balls",
+        "safeName": "mozzarella balls",
+        "normalizedName": "mozzarella balls",
+        "parsedUnit": null,
+        "parsedQuantity": 6,
+        "packageSize": "",
+        "mergeUnit": null,
+        "groupedUnit": null,
+        "groupedPackageSize": "",
+        "category": "Dairy / Eggs",
+        "key": "recipe::Dairy / Eggs::mozzarella balls::::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Dairy / Eggs::mozzarella balls::::",
+      "pantryKey": "mozzarella ball",
+      "finalLabel": "Mozzarella Balls",
+      "coverage": "none"
+    },
+    {
+      "slug": "normal-caprese-stuffed-portobello-mushrooms",
+      "recipe": "Portobellos rellenos estilo caprese",
+      "language": "es",
+      "originalIngredient": "5 a 6 bolitas de mozzarella fresca, rebanadas",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "5 A 6 Bolitas De Mozzarella Fresca",
+        "grocerySearchName": "a bolitas de mozzarella fresca",
+        "category": "Dairy / Eggs",
+        "normalizedName": "a 6 bolitas de mozzarella fresca",
+        "quantity": 5,
+        "unit": "",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "a-6-bolitas-de-mozzarella-fresca-portobellos-rellenos-estilo-caprese-5-a-6-bolitas-de-mozzarella-fresca-rebanadas-1794955094647-4",
+        "text": "5 A 6 Bolitas De Mozzarella Fresca",
+        "displayText": "5 A 6 Bolitas De Mozzarella Fresca",
+        "grocerySearchName": "a bolitas de mozzarella fresca",
+        "checked": false,
+        "addedAt": 1794955094647,
+        "category": "Dairy / Eggs",
+        "sourceRecipe": "Portobellos rellenos estilo caprese",
+        "recipeIngredientText": "5 a 6 bolitas de mozzarella fresca, rebanadas",
+        "normalizedName": "a 6 bolitas de mozzarella fresca",
+        "quantity": 5,
+        "unit": "",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "5 a 6 bolitas de mozzarella fresca, rebanadas",
+      "page": {
+        "id": "a-6-bolitas-de-mozzarella-fresca-portobellos-rellenos-estilo-caprese-5-a-6-bolitas-de-mozzarella-fresca-rebanadas-1794955094647-4",
+        "recipeName": "Portobellos rellenos estilo caprese",
+        "recipeIngredientText": "5 a 6 bolitas de mozzarella fresca, rebanadas",
+        "preservedRecipeIngredientText": "5 a 6 bolitas de mozzarella fresca, rebanadas",
+        "savedName": "a 6 bolitas de mozzarella fresca",
+        "cleanedRaw": "5 a 6 bolitas de mozzarella fresca",
+        "parsed": {
+          "quantity": 5,
+          "minQuantity": 5,
+          "maxQuantity": 5,
+          "unit": "__count__",
+          "name": "a 6 bolitas de mozzarella fresca",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "a 6 bolitas de mozzarella fresca",
+        "preNormalizedName": "a 6 bolitas de mozzarella fresca",
+        "safeName": "a 6 bolitas de mozzarella fresca",
+        "normalizedName": "a 6 bolitas de mozzarella fresca",
+        "parsedUnit": null,
+        "parsedQuantity": 5,
+        "packageSize": "",
+        "mergeUnit": null,
+        "groupedUnit": null,
+        "groupedPackageSize": "",
+        "category": "Dairy / Eggs",
+        "key": "recipe::Dairy / Eggs::a 6 bolitas de mozzarella fresca::::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Dairy / Eggs::a 6 bolitas de mozzarella fresca::::",
+      "pantryKey": "a 6 bolita de mozzarella fresca rebanada",
+      "finalLabel": "A 6 Bolitas de Mozzarella Fresca",
+      "coverage": "none"
+    },
+    {
+      "slug": "normal-spinach-mushroom-feta-crustless-quiche",
+      "recipe": "Spinach Mushroom Feta Crustless Quiche",
+      "language": "en",
+      "originalIngredient": "1/2 cup shredded mozzarella",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "1/2 cup Shredded Mozzarella",
+        "grocerySearchName": "shredded mozzarella",
+        "category": "Dairy / Eggs",
+        "normalizedName": "shredded mozzarella",
+        "quantity": 0.5,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "shredded-mozzarella-spinach-mushroom-feta-crustless-quiche-1-2-cup-shredded-mozzarella-1794955094675-10",
+        "text": "1/2 cup Shredded Mozzarella",
+        "displayText": "1/2 cup Shredded Mozzarella",
+        "grocerySearchName": "shredded mozzarella",
+        "checked": false,
+        "addedAt": 1794955094675,
+        "category": "Dairy / Eggs",
+        "sourceRecipe": "Spinach Mushroom Feta Crustless Quiche",
+        "recipeIngredientText": "1/2 cup shredded mozzarella",
+        "normalizedName": "shredded mozzarella",
+        "quantity": 0.5,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "1/2 cup shredded mozzarella",
+      "page": {
+        "id": "shredded-mozzarella-spinach-mushroom-feta-crustless-quiche-1-2-cup-shredded-mozzarella-1794955094675-10",
+        "recipeName": "Spinach Mushroom Feta Crustless Quiche",
+        "recipeIngredientText": "1/2 cup shredded mozzarella",
+        "preservedRecipeIngredientText": "1/2 cup shredded mozzarella",
+        "savedName": "shredded mozzarella",
+        "cleanedRaw": "1/2 cup mozzarella",
+        "parsed": {
+          "quantity": 0.5,
+          "minQuantity": 0.5,
+          "maxQuantity": 0.5,
+          "unit": "cup",
+          "name": "mozzarella",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "mozzarella",
+        "preNormalizedName": "mozzarella",
+        "safeName": "mozzarella",
+        "normalizedName": "mozzarella",
+        "parsedUnit": "cup",
+        "parsedQuantity": 0.5,
+        "packageSize": "",
+        "mergeUnit": "cup",
+        "groupedUnit": "cup",
+        "groupedPackageSize": "",
+        "category": "Dairy / Eggs",
+        "key": "recipe::Dairy / Eggs::mozzarella::cup::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Dairy / Eggs::mozzarella::cup::",
+      "pantryKey": "mozzarella cheese",
+      "finalLabel": "Mozzarella",
+      "coverage": "none"
+    },
+    {
+      "slug": "vegan-crunchwrap-supreme",
+      "recipe": "Vegan Crunchwrap Supreme",
+      "language": "en",
+      "originalIngredient": "1/2 cup vegan sour cream (or dairy-free yogurt)",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "1/2 cup Vegan Sour Cream",
+        "grocerySearchName": "vegan sour cream",
+        "category": "Dairy / Eggs",
+        "normalizedName": "vegan sour cream",
+        "quantity": 0.5,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "vegan-sour-cream-vegan-crunchwrap-supreme-1-2-cup-vegan-sour-cream-or-dairy-free-yogurt-1794955095656-8",
+        "text": "1/2 cup Vegan Sour Cream",
+        "displayText": "1/2 cup Vegan Sour Cream",
+        "grocerySearchName": "vegan sour cream",
+        "checked": false,
+        "addedAt": 1794955095656,
+        "category": "Dairy / Eggs",
+        "sourceRecipe": "Vegan Crunchwrap Supreme",
+        "recipeIngredientText": "1/2 cup vegan sour cream (or dairy-free yogurt)",
+        "normalizedName": "vegan sour cream",
+        "quantity": 0.5,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "1/2 cup vegan sour cream (or dairy-free yogurt)",
+      "page": {
+        "id": "vegan-sour-cream-vegan-crunchwrap-supreme-1-2-cup-vegan-sour-cream-or-dairy-free-yogurt-1794955095656-8",
+        "recipeName": "Vegan Crunchwrap Supreme",
+        "recipeIngredientText": "1/2 cup vegan sour cream (or dairy-free yogurt)",
+        "preservedRecipeIngredientText": "1/2 cup vegan sour cream (or dairy-free yogurt)",
+        "savedName": "vegan sour cream",
+        "cleanedRaw": "1/2 cup vegan sour cream",
+        "parsed": {
+          "quantity": 0.5,
+          "minQuantity": 0.5,
+          "maxQuantity": 0.5,
+          "unit": "cup",
+          "name": "vegan sour cream",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "vegan sour cream",
+        "preNormalizedName": "vegan sour cream",
+        "safeName": "vegan sour cream",
+        "normalizedName": "vegan sour cream",
+        "parsedUnit": "cup",
+        "parsedQuantity": 0.5,
+        "packageSize": "",
+        "mergeUnit": "cup",
+        "groupedUnit": "cup",
+        "groupedPackageSize": "",
+        "category": "Dairy / Eggs",
+        "key": "recipe::Dairy / Eggs::vegan sour cream::cup::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Dairy / Eggs::vegan sour cream::cup::",
+      "pantryKey": "vegan sour cream",
+      "finalLabel": "Vegan Sour Cream",
+      "coverage": "none"
+    },
+    {
+      "slug": "normal-grilled-chicken-caesar-salad",
+      "recipe": "Grilled Chicken Caesar Salad",
+      "language": "en",
+      "originalIngredient": "1/3 cup Parmesan cheese",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "Parmesan Cheese",
+        "grocerySearchName": "parmesan cheese",
+        "category": "Dairy / Eggs",
+        "normalizedName": "parmesan cheese",
+        "quantity": 0.3333333333333333,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "parmesan-cheese-grilled-chicken-caesar-salad-1-3-cup-parmesan-cheese-1794955097333-7",
+        "text": "Parmesan Cheese",
+        "displayText": "Parmesan Cheese",
+        "grocerySearchName": "parmesan cheese",
+        "checked": false,
+        "addedAt": 1794955097333,
+        "category": "Dairy / Eggs",
+        "sourceRecipe": "Grilled Chicken Caesar Salad",
+        "recipeIngredientText": "1/3 cup Parmesan cheese",
+        "normalizedName": "parmesan cheese",
+        "quantity": 0.3333333333333333,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "1/3 cup Parmesan cheese",
+      "page": {
+        "id": "parmesan-cheese-grilled-chicken-caesar-salad-1-3-cup-parmesan-cheese-1794955097333-7",
+        "recipeName": "Grilled Chicken Caesar Salad",
+        "recipeIngredientText": "1/3 cup Parmesan cheese",
+        "preservedRecipeIngredientText": "1/3 cup Parmesan cheese",
+        "savedName": "parmesan cheese",
+        "cleanedRaw": "1/3 cup parmesan cheese",
+        "parsed": {
+          "quantity": 0.3333333333333333,
+          "minQuantity": 0.3333333333333333,
+          "maxQuantity": 0.3333333333333333,
+          "unit": "cup",
+          "name": "parmesan cheese",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "parmesan cheese",
+        "preNormalizedName": "parmesan cheese",
+        "safeName": "parmesan cheese",
+        "normalizedName": "parmesan cheese",
+        "parsedUnit": null,
+        "parsedQuantity": null,
+        "packageSize": "",
+        "mergeUnit": null,
+        "groupedUnit": null,
+        "groupedPackageSize": "",
+        "category": "Dairy / Eggs",
+        "key": "recipe::Dairy / Eggs::parmesan cheese::::"
+      },
+      "canonical": {
+        "id": "parmesan-cheese",
+        "canonicalName": "Parmesan Cheese",
+        "category": "Dairy / Eggs"
+      },
+      "product": null,
+      "mergeKey": "recipe::Dairy / Eggs::parmesan cheese::::",
+      "pantryKey": "parmesan cheese",
+      "finalLabel": "Parmesan Cheese",
+      "coverage": "none"
+    },
+    {
+      "slug": "quick-classic-pasta-salad",
+      "recipe": "Classic Pasta Salad",
+      "language": "en",
+      "originalIngredient": "1/2 cup mozzarella cheese cubes",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "1/2 cup Mozzarella Cheese Cubes",
+        "grocerySearchName": "mozzarella cheese cubes",
+        "category": "Dairy / Eggs",
+        "normalizedName": "mozzarella cheese cubes",
+        "quantity": 0.5,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "mozzarella-cheese-cubes-classic-pasta-salad-1-2-cup-mozzarella-cheese-cubes-1794955103657-5",
+        "text": "1/2 cup Mozzarella Cheese Cubes",
+        "displayText": "1/2 cup Mozzarella Cheese Cubes",
+        "grocerySearchName": "mozzarella cheese cubes",
+        "checked": false,
+        "addedAt": 1794955103657,
+        "category": "Dairy / Eggs",
+        "sourceRecipe": "Classic Pasta Salad",
+        "recipeIngredientText": "1/2 cup mozzarella cheese cubes",
+        "normalizedName": "mozzarella cheese cubes",
+        "quantity": 0.5,
+        "unit": "cup",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "1/2 cup mozzarella cheese cubes",
+      "page": {
+        "id": "mozzarella-cheese-cubes-classic-pasta-salad-1-2-cup-mozzarella-cheese-cubes-1794955103657-5",
+        "recipeName": "Classic Pasta Salad",
+        "recipeIngredientText": "1/2 cup mozzarella cheese cubes",
+        "preservedRecipeIngredientText": "1/2 cup mozzarella cheese cubes",
+        "savedName": "mozzarella cheese cubes",
+        "cleanedRaw": "1/2 cup mozzarella cheese cubes",
+        "parsed": {
+          "quantity": 0.5,
+          "minQuantity": 0.5,
+          "maxQuantity": 0.5,
+          "unit": "cup",
+          "name": "mozzarella cheese cubes",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "mozzarella cheese cubes",
+        "preNormalizedName": "mozzarella cheese cubes",
+        "safeName": "mozzarella cheese cubes",
+        "normalizedName": "mozzarella cheese cubes",
+        "parsedUnit": "cup",
+        "parsedQuantity": 0.5,
+        "packageSize": "",
+        "mergeUnit": "cup",
+        "groupedUnit": "cup",
+        "groupedPackageSize": "",
+        "category": "Dairy / Eggs",
+        "key": "recipe::Dairy / Eggs::mozzarella cheese cubes::cup::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Dairy / Eggs::mozzarella cheese cubes::cup::",
+      "pantryKey": "mozzarella cheese cube",
+      "finalLabel": "Mozzarella Cheese Cubes",
+      "coverage": "none"
+    },
+    {
+      "slug": "big-baked-chicken-thighs",
+      "recipe": "Baked Chicken Thighs",
+      "language": "en",
+      "originalIngredient": "6 bone-in, skin-on chicken thighs",
+      "preview": {
+        "kind": "ingredient",
+        "displayText": "6 Chicken Thighs",
+        "grocerySearchName": "chicken thigh",
+        "category": "Meat / Seafood",
+        "normalizedName": "chicken thigh",
+        "quantity": 6,
+        "unit": "",
+        "packageSize": ""
+      },
+      "stored": {
+        "id": "chicken-thigh-baked-chicken-thighs-6-bone-in-skin-on-chicken-thighs-1794955085947-0",
+        "text": "6 Chicken Thighs",
+        "displayText": "6 Chicken Thighs",
+        "grocerySearchName": "chicken thigh",
+        "checked": false,
+        "addedAt": 1794955085947,
+        "category": "Meat / Seafood",
+        "sourceRecipe": "Baked Chicken Thighs",
+        "recipeIngredientText": "6 bone-in, skin-on chicken thighs",
+        "normalizedName": "chicken thigh",
+        "quantity": 6,
+        "unit": "",
+        "packageSize": ""
+      },
+      "preservedRecipeIngredientText": "6 bone-in, skin-on chicken thighs",
+      "page": {
+        "id": "chicken-thigh-baked-chicken-thighs-6-bone-in-skin-on-chicken-thighs-1794955085947-0",
+        "recipeName": "Baked Chicken Thighs",
+        "recipeIngredientText": "6 bone-in, skin-on chicken thighs",
+        "preservedRecipeIngredientText": "6 bone-in, skin-on chicken thighs",
+        "savedName": "chicken thigh",
+        "cleanedRaw": "6 bone-in",
+        "parsed": {
+          "quantity": 6,
+          "minQuantity": 6,
+          "maxQuantity": 6,
+          "unit": "__count__",
+          "name": "bone-in",
+          "packageSize": ""
+        },
+        "shouldRefreshFromRecipeText": true,
+        "cleanedName": "bone-in",
+        "preNormalizedName": "bone-in",
+        "safeName": "bone in",
+        "normalizedName": "bone in",
+        "parsedUnit": null,
+        "parsedQuantity": 6,
+        "packageSize": "",
+        "mergeUnit": null,
+        "groupedUnit": null,
+        "groupedPackageSize": "",
+        "category": "Other",
+        "key": "recipe::Other::bone in::::"
+      },
+      "canonical": null,
+      "product": null,
+      "mergeKey": "recipe::Other::bone in::::",
+      "pantryKey": "bone in skin on chicken thigh",
+      "finalLabel": "Bone in",
+      "coverage": "none"
+    }
+  ],
+  "browserGeneratedWeek": {
+    "plan": {
+      "Monday": "Dolly-Inspired Country-Fried Crispy Chicken",
+      "Tuesday": "Chicken Alfredo",
+      "Wednesday": "Wild West Shrimp",
+      "Thursday": "Kid-Friendly Spaghetti & Meatballs",
+      "Friday": "Southwest Chicken Salad",
+      "Saturday": "Creamy Mushroom Stroganoff",
+      "Sunday": "Build-Your-Own Pizza Night"
+    },
+    "freshRaw": 70,
+    "legacyRaw": 71,
+    "freshRows": 47,
+    "legacyRows": 47,
+    "rows": [
+      {
+        "id": "recipe::Other::bone in::lb::",
+        "label": "Bone in",
+        "unit": "lb",
+        "quantity": 3,
+        "package": "",
+        "pantryKey": "bone in skin on chicken"
+      },
+      {
+        "id": "recipe::Dairy / Eggs::buttermilk::cup::",
+        "label": "Buttermilk",
+        "unit": "cup",
+        "quantity": 2,
+        "package": "",
+        "pantryKey": "buttermilk"
+      },
+      {
+        "id": "recipe::Pantry::hot sauce::Tbsp::",
+        "label": "Hot Sauce",
+        "unit": "Tbsp",
+        "quantity": 1,
+        "package": "",
+        "pantryKey": "hot sauce"
+      },
+      {
+        "id": "recipe::Spices / Seasonings::salt::::",
+        "label": "Salt",
+        "unit": null,
+        "quantity": null,
+        "package": "",
+        "pantryKey": "salt"
+      },
+      {
+        "id": "recipe::Spices / Seasonings::black pepper::::",
+        "label": "Black Pepper",
+        "unit": null,
+        "quantity": null,
+        "package": "",
+        "pantryKey": "black pepper"
+      },
+      {
+        "id": "recipe::Pantry::all purpose flour::cup::",
+        "label": "All Purpose Flour",
+        "unit": "cup",
+        "quantity": 2.25,
+        "package": "",
+        "pantryKey": "flour"
+      },
+      {
+        "id": "recipe::Spices / Seasonings::paprika::::",
+        "label": "Paprika",
+        "unit": null,
+        "quantity": null,
+        "package": "",
+        "pantryKey": "paprika"
+      },
+      {
+        "id": "recipe::Spices / Seasonings::garlic powder::::",
+        "label": "Garlic Powder",
+        "unit": null,
+        "quantity": null,
+        "package": "",
+        "pantryKey": "garlic powder"
+      },
+      {
+        "id": "recipe::Spices / Seasonings::onion powder::::",
+        "label": "Onion Powder",
+        "unit": null,
+        "quantity": null,
+        "package": "",
+        "pantryKey": "onion powder"
+      },
+      {
+        "id": "recipe::Spices / Seasonings::cayenne pepper::::",
+        "label": "Cayenne Pepper",
+        "unit": null,
+        "quantity": null,
+        "package": "",
+        "pantryKey": "cayenne pepper"
+      },
+      {
+        "id": "recipe::Pantry::vegetable or canola oil::cup::",
+        "label": "Vegetable or Canola Oil",
+        "unit": "cup",
+        "quantity": 4,
+        "package": "",
+        "pantryKey": "vegetable or canola oil or enough for 1 1 2 inche in the skillet"
+      },
+      {
+        "id": "recipe::Dairy / Eggs::milk::cup::",
+        "label": "Milk",
+        "unit": "cup",
+        "quantity": 3.5,
+        "package": "",
+        "pantryKey": ""
+      },
+      {
+        "id": "recipe::Pantry::fettuccine::oz::",
+        "label": "Fettuccine",
+        "unit": "oz",
+        "quantity": 12,
+        "package": "",
+        "pantryKey": "fettuccine"
+      },
+      {
+        "id": "recipe::Pantry::olive oil::::",
+        "label": "Olive Oil",
+        "unit": null,
+        "quantity": null,
+        "package": "",
+        "pantryKey": "olive oil"
+      },
+      {
+        "id": "recipe::Dairy / Eggs::butter::::",
+        "label": "Butter",
+        "unit": null,
+        "quantity": null,
+        "package": "",
+        "pantryKey": "butter"
+      },
+      {
+        "id": "recipe::Produce::garlic::__count__::",
+        "label": "Garlic",
+        "unit": null,
+        "quantity": 6,
+        "package": "",
+        "pantryKey": "garlic"
+      },
+      {
+        "id": "recipe::Dairy / Eggs::heavy cream::cup::",
+        "label": "Heavy Cream",
+        "unit": "cup",
+        "quantity": 1,
+        "package": "",
+        "pantryKey": "heavy cream"
+      },
+      {
+        "id": "recipe::Dairy / Eggs::parmesan cheese::::",
+        "label": "Parmesan Cheese",
+        "unit": null,
+        "quantity": null,
+        "package": "",
+        "pantryKey": ""
+      },
+      {
+        "id": "recipe::Produce::parsley::bunch::",
+        "label": "Parsley",
+        "unit": "bunch",
+        "quantity": 1,
+        "package": "",
+        "pantryKey": "parsley"
+      },
+      {
+        "id": "recipe::Meat / Seafood::shrimp::::",
+        "label": "Shrimp",
+        "unit": null,
+        "quantity": null,
+        "package": "",
+        "pantryKey": "shrimp"
+      },
+      {
+        "id": "recipe::Pantry::flour::cup::",
+        "label": "Flour",
+        "unit": "cup",
+        "quantity": 1.5,
+        "package": "",
+        "pantryKey": "flour"
+      },
+      {
+        "id": "recipe::Pantry::frying oil::::",
+        "label": "Frying Oil",
+        "unit": null,
+        "quantity": null,
+        "package": "",
+        "pantryKey": "frying oil"
+      },
+      {
+        "id": "recipe::Spices / Seasonings::old bay seasoning::Tbsp::",
+        "label": "Old Bay Seasoning",
+        "unit": "Tbsp",
+        "quantity": 1,
+        "package": "",
+        "pantryKey": "old bay seasoning"
+      },
+      {
+        "id": "recipe::Produce::lemon::__count__::",
+        "label": "Lemon",
+        "unit": null,
+        "quantity": 1,
+        "package": "",
+        "pantryKey": "lemon juice"
+      },
+      {
+        "id": "recipe::Spices / Seasonings::cherry peppers::::",
+        "label": "Cherry Peppers",
+        "unit": null,
+        "quantity": 6,
+        "package": "",
+        "pantryKey": "cherry pepper"
+      },
+      {
+        "id": "recipe::Pantry::spaghetti::lb::",
+        "label": "Spaghetti",
+        "unit": "lb",
+        "quantity": 1,
+        "package": "",
+        "pantryKey": "spaghetti"
+      },
+      {
+        "id": "recipe::Pantry::marinara sauce::jar::24 oz",
+        "label": "Marinara Sauce",
+        "unit": "jar",
+        "quantity": 1,
+        "package": "24 oz",
+        "pantryKey": "marinara sauce"
+      },
+      {
+        "id": "recipe::Frozen::frozen fully cooked meatballs::bag::20 oz",
+        "label": "Frozen Fully Cooked Meatballs",
+        "unit": "bag",
+        "quantity": 1,
+        "package": "20 oz",
+        "pantryKey": "frozen fully meatball"
+      },
+      {
+        "id": "recipe::Meat / Seafood::cooked chicken::cup::",
+        "label": "Cooked Chicken",
+        "unit": "cup",
+        "quantity": 2,
+        "package": "",
+        "pantryKey": "chicken"
+      },
+      {
+        "id": "recipe::Produce::romaine lettuce::head::",
+        "label": "Romaine Lettuce",
+        "unit": "head",
+        "quantity": 1,
+        "package": "",
+        "pantryKey": "romaine lettuce"
+      },
+      {
+        "id": "recipe::Pantry::corn::can::15 oz",
+        "label": "Corn",
+        "unit": "can",
+        "quantity": 1,
+        "package": "15 oz",
+        "pantryKey": "corn"
+      },
+      {
+        "id": "recipe::Pantry::black beans::can::15 oz",
+        "label": "Black Beans",
+        "unit": "can",
+        "quantity": 1,
+        "package": "15 oz",
+        "pantryKey": "black bean"
+      },
+      {
+        "id": "recipe::Produce::cherry tomatoes::::",
+        "label": "Cherry Tomatoes",
+        "unit": null,
+        "quantity": null,
+        "package": "",
+        "pantryKey": "cherry tomato"
+      },
+      {
+        "id": "recipe::Dairy / Eggs::cheddar cheese::::",
+        "label": "Cheddar Cheese",
+        "unit": null,
+        "quantity": null,
+        "package": "",
+        "pantryKey": "cheddar cheese"
+      },
+      {
+        "id": "recipe::Produce::avocado::__count__::",
+        "label": "Avocado",
+        "unit": null,
+        "quantity": 1,
+        "package": "",
+        "pantryKey": "avocado"
+      },
+      {
+        "id": "recipe::Bakery::tortilla strips::cup::",
+        "label": "Tortilla Strips",
+        "unit": "cup",
+        "quantity": 0.25,
+        "package": "",
+        "pantryKey": "tortilla"
+      },
+      {
+        "id": "recipe::Pantry::southwest ranch dressing::cup::",
+        "label": "Southwest Ranch Dressing",
+        "unit": "cup",
+        "quantity": 0.3333333333333333,
+        "package": "",
+        "pantryKey": "southwest ranch dressing"
+      },
+      {
+        "id": "recipe::Pantry::egg noodles::oz::",
+        "label": "Egg Noodles",
+        "unit": "oz",
+        "quantity": 8,
+        "package": "",
+        "pantryKey": "egg noodle"
+      },
+      {
+        "id": "recipe::Produce::mushrooms::oz::",
+        "label": "Mushrooms",
+        "unit": "oz",
+        "quantity": 16,
+        "package": "",
+        "pantryKey": "mushroom"
+      },
+      {
+        "id": "recipe::Produce::onion::__count__::",
+        "label": "Onion",
+        "unit": null,
+        "quantity": 1,
+        "package": "",
+        "pantryKey": "onion"
+      },
+      {
+        "id": "recipe::Pantry::flour::Tbsp::",
+        "label": "Flour",
+        "unit": "Tbsp",
+        "quantity": 1,
+        "package": "",
+        "pantryKey": "flour"
+      },
+      {
+        "id": "recipe::Pantry::vegetable broth::cup::",
+        "label": "Vegetable Broth",
+        "unit": "cup",
+        "quantity": 1.5,
+        "package": "",
+        "pantryKey": "vegetable broth"
+      },
+      {
+        "id": "recipe::Dairy / Eggs::sour cream::::",
+        "label": "Sour Cream",
+        "unit": null,
+        "quantity": null,
+        "package": "",
+        "pantryKey": "sour cream"
+      },
+      {
+        "id": "recipe::Bakery::naan::::",
+        "label": "Naan",
+        "unit": null,
+        "quantity": 4,
+        "package": "",
+        "pantryKey": "naan flatbread"
+      },
+      {
+        "id": "recipe::Pantry::pizza sauce::cup::",
+        "label": "Pizza Sauce",
+        "unit": "cup",
+        "quantity": 1,
+        "package": "",
+        "pantryKey": "pizza sauce"
+      },
+      {
+        "id": "recipe::Dairy / Eggs::mozzarella cheese::cup::",
+        "label": "Mozzarella Cheese",
+        "unit": "cup",
+        "quantity": 2,
+        "package": "",
+        "pantryKey": "mozzarella cheese"
+      },
+      {
+        "id": "recipe::Meat / Seafood::assorted toppings such as pepperoni::cup::",
+        "label": "Assorted Toppings Such As Pepperoni",
+        "unit": "cup",
+        "quantity": 1,
+        "package": "",
+        "pantryKey": "assorted topping such as pepperoni"
+      }
+    ]
+  },
+  "layoutMeasurements": {
+    "viewport412": {
+      "currentNameWidth": 11.828125,
+      "prototypeNameWidth": 193,
+      "documentWidth": 397,
+      "overflow": false,
+      "capturedErrors": 0
+    },
+    "prototype320": {
+      "nameWidth": 124.015625,
+      "documentWidth": 320,
+      "overflow": false,
+      "capturedErrors": 0
+    },
+    "prototypeOnly": true
+  }
+}
