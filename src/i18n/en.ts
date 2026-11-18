@@ -143,6 +143,9 @@ export const en = {
   },
 
   shopping: {
+    moreActionsFor: "More actions for",
+    itemActionsFor: "Actions for",
+    closeItemActions: "Close item actions",
     title: "Shopping List",
     inputPlaceholder: "Add groceries or household items",
     shareList: "Share List",

@@ -34,6 +34,7 @@ export const SPANISH_GROCERY_ALIASES: ReadonlyArray<{
   { englishName: "shredded cheddar cheese", aliases: ["queso cheddar rallado"] },
   { englishName: "shredded mozzarella cheese", aliases: ["queso mozzarella rallado"] },
   { englishName: "mozzarella cheese", aliases: ["queso mozzarella"] },
+  { englishName: "fresh mozzarella balls", aliases: ["bolitas de mozzarella fresca"] },
   { englishName: "grated parmesan cheese", aliases: ["queso parmesano rallado", "queso parmesano recien rallado"] },
   { englishName: "parmesan cheese", aliases: ["queso parmesano"] },
   { englishName: "feta cheese", aliases: ["queso feta"] },
@@ -223,7 +224,11 @@ const AMOUNT_PREFIX = /^(?:\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?|[¼½¾⅓⅔�
 
 export type SpanishIngredientNormalization = { text: string; recognized: boolean; processWater?: boolean; knownProduct?: boolean; productName?: string };
 export function normalizeSpanishIngredientLine(value: string, knownEnglish?: (name: string) => string | null): SpanishIngredientNormalization {
-  const original = String(value || "");
+  // The evidenced fresh-mozzarella ball range must not leave "a 6" in its name.
+  const original = String(value || "").replace(
+    /^(\s*\d+)\s+a\s+(\d+\s+bolitas de mozzarella fresca\b)/i,
+    "$1 to $2",
+  );
   let text = normalizeSpanishKey(original);
   const size = text.match(/\(([^)]*\d[^)]*\b(?:oz|lb|g|kg|ml|l)\b[^)]*)\)/);
   if (size) text = text.replace(size[0], " ").replace(/\s+/g, " ").trim();

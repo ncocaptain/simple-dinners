@@ -143,6 +143,9 @@ export const es = {
   },
 
   shopping: {
+    moreActionsFor: "Más acciones para",
+    itemActionsFor: "Acciones para",
+    closeItemActions: "Cerrar acciones del artículo",
     title: "Lista de compras",
     inputPlaceholder: "Agrega comida o artículos del hogar",
     shareList: "Compartir lista",

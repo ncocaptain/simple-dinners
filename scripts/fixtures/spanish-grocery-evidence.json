@@ -1619,6 +1619,15 @@
       "recipeIndex": 79,
       "line": 16,
       "raw": "1 tsp de nuez moscada"
+    },
+    {
+      "alias": "bolitas de mozzarella fresca",
+      "englishName": "fresh mozzarella balls",
+      "canonicalId": null,
+      "recipe": "Portobellos rellenos estilo caprese",
+      "recipeIndex": 150,
+      "line": 5,
+      "raw": "5 a 6 bolitas de mozzarella fresca, rebanadas"
     }
   ],
   "units": [
