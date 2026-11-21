@@ -63,6 +63,8 @@ const UPGRADE_COPY = {
       monthly: "Monthly",
       annual: "Yearly",
       bestValue: "SAVE WITH YEARLY",
+      blackFriday: "BLACK FRIDAY · 50% OFF",
+      firstYear: "first year",
       perMonth: "per month",
       billedYearly: "billed yearly",
       chooseMonthly: "Choose monthly",
@@ -74,10 +76,10 @@ const UPGRADE_COPY = {
         "Choose a plan, then sign in or create an account to continue. You will review your plan before subscribing.",
       signIn: "Sign in or create account",
       selectedPlan: "Selected plan",
-      reviewPlan: "Review the price and trial terms below, then tap your plan to continue to the store.",
+      reviewPlan: "Review the price and offer terms below, then tap your plan to continue to the store.",
       plansUnavailable: "Some subscription options could not be loaded. Please try again.",
       retry: "Reload prices",
-      trialTerms: "Free trials are available to eligible accounts. Your store confirms eligibility and billing terms before you subscribe.",
+      trialTerms: "Free trials and introductory offers are available to eligible accounts. Your store confirms eligibility and billing terms before you subscribe.",
       mobileOnly:
         "Plus subscriptions are available in the Simple Dinners iOS and Android apps.",
       activeTitle:
@@ -148,6 +150,8 @@ const UPGRADE_COPY = {
       monthly: "Mensual",
       annual: "Anual",
       bestValue: "AHORRA CON ANUAL",
+      blackFriday: "BLACK FRIDAY · 50% DE DESCUENTO",
+      firstYear: "primer año",
       perMonth: "al mes",
       billedYearly: "facturado anualmente",
       chooseMonthly: "Elegir mensual",
@@ -160,10 +164,10 @@ const UPGRADE_COPY = {
         "Elige un plan y luego inicia sesión o crea una cuenta para continuar. Podrás revisar tu plan antes de suscribirte.",
       signIn: "Iniciar sesión o crear cuenta",
       selectedPlan: "Plan seleccionado",
-      reviewPlan: "Revisa el precio y las condiciones de la prueba abajo y toca tu plan para continuar a la tienda.",
+      reviewPlan: "Revisa el precio y las condiciones de la oferta abajo y toca tu plan para continuar a la tienda.",
       plansUnavailable: "No se pudieron cargar algunas opciones de suscripción. Inténtalo de nuevo.",
       retry: "Volver a cargar precios",
-      trialTerms: "Las pruebas gratis están disponibles para cuentas que cumplan los requisitos. La tienda confirma los requisitos y las condiciones de facturación antes de suscribirte.",
+      trialTerms: "Las pruebas gratis y ofertas introductorias están disponibles para cuentas que cumplan los requisitos. La tienda confirma los requisitos y las condiciones de facturación antes de suscribirte.",
       mobileOnly:
         "Las suscripciones de Plus están disponibles en las aplicaciones de Simple Dinners para iOS y Android.",
       activeTitle:
@@ -218,6 +222,7 @@ export function PlusUpgradePanel() {
     monthlyPrice,
     annualPrice,
     annualMonthlyPrice,
+    annualIntroOfferPrice,
     monthlyTrialAvailable,
     annualTrialAvailable,
     packagesLoading,
@@ -489,7 +494,9 @@ export function PlusUpgradePanel() {
                 }
               >
                 <span className="sd-plus-purchase-value-badge">
-                  {copy.plus.bestValue}
+                  {annualIntroOfferPrice
+                    ? copy.plus.blackFriday
+                    : copy.plus.bestValue}
                 </span>
 
                 <span className="sd-plus-purchase-option-copy">
@@ -498,16 +505,18 @@ export function PlusUpgradePanel() {
                   </strong>
 
                   <small>
-                    {annualTrialAvailable && annualPrice
-                      ? `${copy.plus.freeTrial} · ${copy.plus.then} ${annualPrice} ${copy.plus.billedYearly}`
-                      : annualMonthlyPrice
-                        ? `${annualMonthlyPrice} ${copy.plus.perMonth} · ${copy.plus.billedYearly}`
-                        : copy.plus.chooseAnnual}
+                    {annualIntroOfferPrice && annualPrice
+                      ? `${annualIntroOfferPrice} ${copy.plus.firstYear} · ${copy.plus.then} ${annualPrice} ${copy.plus.billedYearly}`
+                      : annualTrialAvailable && annualPrice
+                        ? `${copy.plus.freeTrial} · ${copy.plus.then} ${annualPrice} ${copy.plus.billedYearly}`
+                        : annualMonthlyPrice
+                          ? `${annualMonthlyPrice} ${copy.plus.perMonth} · ${copy.plus.billedYearly}`
+                          : copy.plus.chooseAnnual}
                   </small>
                 </span>
 
                 <span className="sd-plus-purchase-price">
-                  {annualPrice ?? "—"}
+                  {annualIntroOfferPrice ?? annualPrice ?? "—"}
                 </span>
               </button>
 
