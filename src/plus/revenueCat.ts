@@ -31,6 +31,75 @@ export const EMPTY_TRIAL_AVAILABILITY:
     annual: false,
   };
 
+export type RevenueCatAnnualIntroOffer = {
+  priceString: string;
+};
+
+export async function getRevenueCatAnnualIntroOffer(
+  annualPackage: PurchasesPackage | null,
+): Promise<RevenueCatAnnualIntroOffer | null> {
+  if (!annualPackage) {
+    return null;
+  }
+
+  const platform = Capacitor.getPlatform();
+
+  if (platform === "android") {
+    const introPhase =
+      annualPackage.product.defaultOption?.introPhase;
+
+    if (
+      !introPhase ||
+      introPhase.price.amountMicros <= 0
+    ) {
+      return null;
+    }
+
+    return {
+      priceString: introPhase.price.formatted,
+    };
+  }
+
+  if (platform !== "ios") {
+    return null;
+  }
+
+  const introPrice =
+    annualPackage.product.introPrice;
+
+  if (
+    !introPrice ||
+    introPrice.price <= 0
+  ) {
+    return null;
+  }
+
+  const eligibility =
+    await Purchases
+      .checkTrialOrIntroductoryPriceEligibility({
+        productIdentifiers: [
+          annualPackage.product.identifier,
+        ],
+      });
+
+  const productEligibility =
+    eligibility[
+      annualPackage.product.identifier
+    ];
+
+  if (
+    productEligibility?.status !==
+    INTRO_ELIGIBILITY_STATUS
+      .INTRO_ELIGIBILITY_STATUS_ELIGIBLE
+  ) {
+    return null;
+  }
+
+  return {
+    priceString: introPrice.priceString,
+  };
+}
+
 export async function getRevenueCatTrialAvailability(
   packages: RevenueCatPackages,
 ): Promise<RevenueCatTrialAvailability> {
