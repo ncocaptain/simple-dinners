@@ -19,6 +19,7 @@ import {
 import {
   configureRevenueCat,
   customerHasPlus,
+  getRevenueCatAnnualIntroOffer,
   getRevenueCatCustomerInfo,
   getRevenueCatErrorMessage,
   getRevenueCatPackages,
@@ -70,6 +71,7 @@ type PlusEntitlementContextValue = {
   monthlyPrice: string | null;
   annualPrice: string | null;
   annualMonthlyPrice: string | null;
+  annualIntroOfferPrice: string | null;
   monthlyTrialAvailable: boolean;
   annualTrialAvailable: boolean;
 
@@ -180,6 +182,11 @@ export function PlusEntitlementProvider({
   ] = useState<RevenueCatTrialAvailability>(
     EMPTY_TRIAL_AVAILABILITY,
   );
+
+  const [
+    annualIntroOfferPrice,
+    setAnnualIntroOfferPrice,
+  ] = useState<string | null>(null);
 
   const [
     packagesLoading,
@@ -308,6 +315,7 @@ export function PlusEntitlementProvider({
         setTrialAvailability(
           EMPTY_TRIAL_AVAILABILITY,
         );
+        setAnnualIntroOfferPrice(null);
         setPackagesLoading(false);
         return;
       }
@@ -315,6 +323,7 @@ export function PlusEntitlementProvider({
       setPackagesLoading(true);
       setPackages(EMPTY_PACKAGES);
       setTrialAvailability(EMPTY_TRIAL_AVAILABILITY);
+      setAnnualIntroOfferPrice(null);
 
       try {
         const setupResult =
@@ -345,15 +354,25 @@ export function PlusEntitlementProvider({
         setPackages(nextPackages);
 
         try {
-          const nextTrialAvailability =
-            await getRevenueCatTrialAvailability(
+          const [
+            nextTrialAvailability,
+            nextAnnualIntroOffer,
+          ] = await Promise.all([
+            getRevenueCatTrialAvailability(
               nextPackages,
-            );
+            ),
+            getRevenueCatAnnualIntroOffer(
+              nextPackages.annual,
+            ),
+          ]);
 
           if (currentUserId.current !== user?.id) return;
 
           setTrialAvailability(
             nextTrialAvailability,
+          );
+          setAnnualIntroOfferPrice(
+            nextAnnualIntroOffer?.priceString ?? null,
           );
         } catch (error) {
           if (currentUserId.current !== user?.id) return;
@@ -365,6 +384,7 @@ export function PlusEntitlementProvider({
           setTrialAvailability(
             EMPTY_TRIAL_AVAILABILITY,
           );
+          setAnnualIntroOfferPrice(null);
         }
       } catch (error) {
         if (currentUserId.current !== user?.id) return;
@@ -813,6 +833,8 @@ export function PlusEntitlementProvider({
           packages.annual?.product
             .pricePerMonthString ?? null,
 
+        annualIntroOfferPrice,
+
         monthlyTrialAvailable:
           trialAvailability.monthly,
         annualTrialAvailable:
@@ -834,6 +856,7 @@ export function PlusEntitlementProvider({
         householdPlusLoading,
         subscriptionManagementURL,
         packages,
+        annualIntroOfferPrice,
         trialAvailability,
         packagesLoading,
         purchaseLoading,

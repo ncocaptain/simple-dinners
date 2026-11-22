@@ -33,6 +33,7 @@ function fixture({
   unavailable = false,
   household = false,
   language = "en",
+  annualSale = false,
 } = {}) {
   let auth,
     sdkUser = null,
@@ -47,16 +48,46 @@ function fixture({
       ? "https://play.google.com/store/account/subscriptions"
       : null,
   });
-  const pack = (id) => ({
-    identifier: id,
-    product: {
+  const pack = (id) => {
+    const isAnnualSale =
+      id === "annual" && annualSale;
+
+    return {
       identifier: id,
-      priceString: id === "monthly" ? "£4.99" : "£34.99",
-      pricePerMonthString: "£2.92",
-      defaultOption: { freePhase: {} },
-      introPrice: { price: 0 },
-    },
-  });
+      product: {
+        identifier: id,
+        priceString:
+          id === "monthly"
+            ? "£4.99"
+            : "£34.99",
+        pricePerMonthString: "£2.92",
+        defaultOption: isAnnualSale
+          ? {
+              freePhase: null,
+              introPhase: {
+                price: {
+                  formatted: "£17.49",
+                  amountMicros: 17490000,
+                  currencyCode: "GBP",
+                },
+              },
+            }
+          : {
+              freePhase: {},
+              introPhase: null,
+            },
+        introPrice: isAnnualSale
+          ? {
+              price: 17.49,
+              priceString: "£17.49",
+            }
+          : {
+              price: 0,
+              priceString: "£0.00",
+            },
+      },
+    };
+  };
   const sdk = {
     isConfigured: async () => ({ isConfigured: configured }),
     configure: async (c) => {
@@ -327,6 +358,26 @@ function fixture({
   assert.match(f.sdkUser, /^\$RCAnonymousID:/);
   console.log("PASS account switch and logout do not retain Plus access");
   await f.unmount();
+  f = fixture({ annualSale: true });
+  await f.mount();
+  assert.equal(f.state.annualIntroOfferPrice, "£17.49");
+  assert.equal(f.state.annualTrialAvailable, false);
+  assert.ok(f.text().includes("BLACK FRIDAY · 50% OFF"));
+  assert.ok(f.text().includes("£17.49 first year"));
+  await f.unmount();
+  console.log(
+    "PASS Android annual introductory offer replaces the annual trial and renders sale terms",
+  );
+  f = fixture({ platform: "ios", annualSale: true });
+  await f.mount();
+  assert.equal(f.state.annualIntroOfferPrice, "£17.49");
+  assert.equal(f.state.annualTrialAvailable, false);
+  assert.ok(f.text().includes("BLACK FRIDAY · 50% OFF"));
+  assert.ok(f.text().includes("then £34.99 billed yearly"));
+  await f.unmount();
+  console.log(
+    "PASS iOS paid introductory offer renders only for eligible accounts",
+  );
   f = fixture({ unavailable: true });
   await f.mount();
   assert.ok(f.text().includes("Reload prices"));

@@ -15,6 +15,19 @@ const PLAY_STORE_URL =
 const APP_STORE_URL =
   "https://apps.apple.com/us/app/simple-dinners/id6761655374";
 
+const BLACK_FRIDAY_START =
+  Date.parse("2026-11-25T05:00:00Z");
+const BLACK_FRIDAY_END =
+  Date.parse("2026-12-02T05:00:00Z");
+
+function isBlackFridaySaleActive() {
+  const now = Date.now();
+  return (
+    now >= BLACK_FRIDAY_START &&
+    now < BLACK_FRIDAY_END
+  );
+}
+
 export default function PlusLandingPage() {
   const navigate = useNavigate();
   const isSpanish = getStoredLanguage() === "es";
@@ -27,6 +40,8 @@ export default function PlusLandingPage() {
           "Simple Dinners sigue siendo útil gratis. Plus añade herramientas que te ayudan a planificar más rápido, mantener tu hogar sincronizado y guardar recetas con menos trabajo.",
         price: "$3.99/mes o $34.99/año",
         trial: "Prueba gratis de 7 días para cuentas elegibles.",
+        blackFriday:
+          "Black Friday: 50% de descuento en el primer año de Plus Anual, del 25 de noviembre al 1 de diciembre. Para nuevos suscriptores elegibles. Después se renueva al precio anual normal.",
         cta: "Abrir Simple Dinners",
         stores: "Descarga Simple Dinners",
         freeTitle: "Lo esencial sigue siendo gratis",
@@ -54,6 +69,8 @@ export default function PlusLandingPage() {
           "Simple Dinners stays genuinely useful for free. Plus adds tools that help you plan faster, keep your household in sync, and save recipes with less work.",
         price: "$3.99/month or $34.99/year",
         trial: "7-day free trial for eligible accounts.",
+        blackFriday:
+          "Black Friday: 50% off your first year of Plus Annual, November 25–December 1. For eligible new subscribers. Renews at the regular annual price afterward.",
         cta: "Open Simple Dinners",
         stores: "Download Simple Dinners",
         freeTitle: "The essentials stay free",
@@ -76,6 +93,8 @@ export default function PlusLandingPage() {
       };
 
   const icons = [CalendarDays, Users, Sparkles, Camera, ShoppingCart];
+  const showBlackFridaySale =
+    isBlackFridaySaleActive();
 
   return (
     <div
@@ -145,6 +164,22 @@ export default function PlusLandingPage() {
             <span style={{ opacity: 0.5 }}>•</span>
             <span style={{ color: "#bbf7d0" }}>{copy.trial}</span>
           </div>
+
+          {showBlackFridaySale && (
+            <div
+              style={{
+                padding: "14px 16px",
+                borderRadius: 18,
+                border: "1px solid rgba(250,204,21,0.32)",
+                background: "rgba(250,204,21,0.10)",
+                color: "#fef3c7",
+                fontWeight: 850,
+                lineHeight: 1.45,
+              }}
+            >
+              {copy.blackFriday}
+            </div>
+          )}
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
             <button
